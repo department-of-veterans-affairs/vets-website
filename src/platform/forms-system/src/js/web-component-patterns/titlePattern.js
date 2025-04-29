@@ -1,15 +1,66 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useRef } from 'react';
 import { isReactComponent } from '~/platform/utilities/ui';
+import { isMinimalHeaderPath } from '../patterns/minimal-header';
 
-export const Title = ({ title, description, headerLevel = 3, classNames }) => {
+const useHeadingLevels = (userHeaderLevel, userHeaderStyleLevel) => {
+  const isMinimalHeader = useRef(null);
+  if (isMinimalHeader.current === null) {
+    // only call once
+    isMinimalHeader.current = isMinimalHeaderPath();
+  }
+  const headerLevel = userHeaderLevel || (isMinimalHeader.current ? 1 : 3);
+  // Arbitrary decision with design:
+  // When using titleUI with minimal header and we are now using h1s,
+  // the styling is a bit too large for a page title (before it was h3),
+  // so we'll bump the style down to h2
+  const headerStyleLevel =
+    userHeaderStyleLevel || (isMinimalHeader.current ? 2 : undefined);
+
+  return {
+    headerLevel,
+    headerStyleLevel,
+  };
+};
+
+export const Title = ({
+  title,
+  description,
+  headerLevel: userHeaderLevel,
+  headerStyleLevel: userHeaderStyleLevel,
+  classNames,
+}) => {
+  const { headerLevel, headerStyleLevel } = useHeadingLevels(
+    userHeaderLevel,
+    userHeaderStyleLevel,
+  );
+
   const CustomHeader = `h${headerLevel}`;
-  const color = headerLevel === 3 ? 'gray-dark' : 'black';
-  const className = classNames || `vads-u-color--${color} vads-u-margin-top--0`;
+  const style = headerStyleLevel
+    ? ` mobile-lg:vads-u-font-size--h${headerStyleLevel} vads-u-font-size--h${Number(
+        headerStyleLevel,
+      ) + 1}`
+    : '';
+  const color =
+    headerStyleLevel === 3 || (!headerStyleLevel && headerLevel === 3)
+      ? 'gray-dark'
+      : 'black';
+  const className =
+    classNames || `vads-u-color--${color} vads-u-margin-top--0${style}`;
+
+  // If the header is an h1, it's intended to also be the focus
+  const focusHeaderProps =
+    headerLevel === 1
+      ? {
+          tabIndex: '-1',
+        }
+      : {};
 
   return (
     <>
-      <CustomHeader className={className}>{title}</CustomHeader>
+      <CustomHeader className={className} {...focusHeaderProps}>
+        {title}
+      </CustomHeader>
       {description && (
         <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
           {description}
@@ -36,6 +87,7 @@ function isTitleObject(obj) {
  *   title?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element,
  *   description?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element,
  *   headerLevel?: number,
+ *   headerStyleLevel?: number,
  *   classNames?: string,
  * }} TitleObject
  */
@@ -69,9 +121,13 @@ function isTitleObject(obj) {
  * @returns {UISchemaOptions}
  */
 export const titleUI = (titleOption, descriptionOption) => {
-  const { title, description, headerLevel, classNames } = isTitleObject(
-    titleOption,
-  )
+  const {
+    title,
+    description,
+    headerLevel,
+    headerStyleLevel,
+    classNames,
+  } = isTitleObject(titleOption)
     ? titleOption
     : {
         title: titleOption,
@@ -89,6 +145,7 @@ export const titleUI = (titleOption, descriptionOption) => {
               title={isTitleFn ? title(props) : title}
               description={isDescriptionFn ? description(props) : description}
               headerLevel={headerLevel}
+              headerStyleLevel={headerStyleLevel}
               classNames={classNames}
             />
           </legend>
@@ -98,6 +155,7 @@ export const titleUI = (titleOption, descriptionOption) => {
           title={title}
           description={description}
           headerLevel={headerLevel}
+          headerStyleLevel={headerStyleLevel}
           classNames={classNames}
         />
       ),

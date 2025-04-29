@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { buildAddressArray } from '../../../utils/facilityAddress';
+import { buildAddressArray } from 'platform/utilities/facilities-and-mapbox';
 
-function LocationDirectionsLink({ location, from }) {
+function LocationDirectionsLink({ location }) {
   let address = buildAddressArray(location);
 
   if (address.length !== 0) {
@@ -14,23 +14,19 @@ function LocationDirectionsLink({ location, from }) {
   }
 
   return (
-    <div className="vads-u-margin-bottom--1p5">
-      <a
-        href={`https://maps.google.com?saddr=${
-          location.searchString
-        }&daddr=${address}`}
-        rel="noopener noreferrer"
-      >
-        {from === 'FacilityDetail' && <va-icon icon="directions" size="3" />}
-        Get directions on Google Maps{' '}
-        <span className="sr-only">{`to ${location.attributes.name}`}</span>
-      </a>
-    </div>
+    <p>
+      <va-link
+        href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
+        text="Get directions on Google Maps"
+        label={`Get directions on Google Maps to ${location.attributes.name}`}
+      />
+    </p>
   );
 }
 
 LocationDirectionsLink.propTypes = {
   location: PropTypes.object,
+  query: PropTypes.object,
 };
 
 export default LocationDirectionsLink;

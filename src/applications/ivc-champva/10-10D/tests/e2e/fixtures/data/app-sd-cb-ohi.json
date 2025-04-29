@@ -1,5 +1,5 @@
 {
-  "description": "Is applicant, sponsor deceased, child (biological), has OHI",
+  "description": "3rd party signer, sponsor deceased, child (biological), has OHI",
   "data": {
     "applicants": [
       {
@@ -12,9 +12,7 @@
           "state": "AL",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "234234234"
-        },
+        "applicantSSN": "234234234",
         "applicantName": {
           "first": "Applicant",
           "last": "Jones",
@@ -70,7 +68,27 @@
     "ssn": {
       "ssn": "123123123"
     },
-    "certifierRole": "applicant",
+    "certifierRole": "other",
+    "certifierRelationship": {
+      "relationshipToVeteran": {
+        "spouse": true,
+        "child": true,
+        "thirdParty": true
+      }
+    },
+    "certifierPhone": "1231231234",
+    "certifierEmail": "certifier@email.gov",
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Certifier Street",
+      "city": "Citytown",
+      "state": "AL",
+      "postalCode": "12312"
+    },
+    "certifierName": {
+      "first": "Certifier",
+      "last": "Jones"
+    },
     "consentToMailMissingRequiredFiles": true
   }
 }

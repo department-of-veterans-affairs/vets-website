@@ -12,10 +12,10 @@ const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 const StylelintPlugin = require('stylelint-webpack-plugin');
+const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
@@ -68,6 +68,9 @@ function getEntryManifests(entry) {
   let entryManifests = allManifests;
   if (entry) {
     const entryNames = entry.split(',').map(name => name.trim());
+    if (entryNames.indexOf('static-pages') === -1) {
+      entryNames.push('static-pages');
+    }
     entryManifests = allManifests.filter(manifest =>
       entryNames.includes(manifest.entryName),
     );
@@ -224,7 +227,7 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
         'polyfills',
         useLocalStylesAndComponents ? null : 'web-components',
         'vendor',
-        useLocalStylesAndComponents ? null : 'style',
+        'style',
         entryName,
       ],
       filename: path.join(buildPath, rootUrl, 'index.html'),
@@ -429,6 +432,7 @@ module.exports = async (env = {}) => {
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts'],
       fallback: {
+        querystring: require.resolve('querystring-es3'),
         fs: false,
         assert: require.resolve('assert/'),
         buffer: require.resolve('buffer/'),
@@ -438,6 +442,9 @@ module.exports = async (env = {}) => {
         util: require.resolve('util/'),
         zlib: require.resolve('browserify-zlib'),
         'process/browser': require.resolve('process/browser'),
+        os: require.resolve('os-browserify/browser'),
+        http: require.resolve('stream-http'),
+        https: require.resolve('https-browserify'),
       },
       symlinks: false,
     },
@@ -483,6 +490,19 @@ module.exports = async (env = {}) => {
         ),
         'process.env.USE_LOCAL_DIRECTLINE':
           process.env.USE_LOCAL_DIRECTLINE || false,
+        'process.env.DATADOG_APP_NAME': JSON.stringify(
+          process.env.DATADOG_APP_NAME || '',
+        ),
+        'process.env.DATADOG_API_KEY': JSON.stringify(
+          process.env.DATADOG_API_KEY || '',
+        ),
+        'process.env.HOST_NAME': JSON.stringify(process.env.HOST_NAME || ''),
+        'process.env.LOG_LEVEL': JSON.stringify(
+          process.env.LOG_LEVEL || 'info',
+        ),
+        'process.env.DATADOG_TAGS': JSON.stringify(
+          process.env.DATADOG_TAGS || '',
+        ),
       }),
 
       new webpack.ProvidePlugin({
@@ -552,11 +572,10 @@ module.exports = async (env = {}) => {
     baseConfig.devServer.open = { target };
   }
 
-  if (buildOptions.analyzer) {
+  if (buildOptions.statoscope) {
     baseConfig.plugins.push(
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'disabled',
-        generateStatsFile: true,
+      new StatoscopeWebpackPlugin({
+        saveReportTo: `build/${buildtype}/generated/statoscope-report.html`,
       }),
     );
   }

@@ -2,11 +2,13 @@ import {
   generateMedicalCentersSchemas,
   hasVaTreatmentHistory,
 } from './helpers';
+import { showMultiplePageResponse } from '../../../helpers';
 
 export default {
   title: 'VA medical centers',
   path: 'medical/history/va-treatment/medical-centers',
-  depends: hasVaTreatmentHistory,
+  depends: formData =>
+    !showMultiplePageResponse() && hasVaTreatmentHistory(formData),
   ...generateMedicalCentersSchemas(
     'vaMedicalCenters',
     'VA medical centers',

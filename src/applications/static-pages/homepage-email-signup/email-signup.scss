@@ -1,0 +1,10 @@
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+
+.email-signup-form {
+  margin: 0 auto;
+  max-width: 30rem;
+
+  @media screen and (min-width: $medium-screen) {
+    max-width: 34rem;
+  }
+}

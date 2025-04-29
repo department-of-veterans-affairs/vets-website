@@ -25,7 +25,6 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['resolutionComment'],
         properties: {
           resolutionComment: {
             type: 'string',

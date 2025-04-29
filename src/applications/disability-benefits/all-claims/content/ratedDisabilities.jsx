@@ -24,11 +24,6 @@ export const disabilityOption = ({
     (Number.isInteger(ratingPercentage) && ratingPercentage === 100) ||
     (Number.isInteger(maximumRatingPercentage) &&
       maximumRatingPercentage === ratingPercentage);
-  const showMaxRatingMessage =
-    isAtMaxRating &&
-    String(window.sessionStorage.getItem('showDisability526MaximumRating')) ===
-      'true';
-
   return (
     <>
       <h3 className={`vads-u-font-size--h4 ${className}`}>
@@ -41,7 +36,7 @@ export const disabilityOption = ({
           Current rating: <strong>{ratingPercentage}%</strong>
         </p>
       )}
-      {showMaxRatingMessage && (
+      {isAtMaxRating && (
         <p>You’re already at the maximum rating for this disability.</p>
       )}
     </>

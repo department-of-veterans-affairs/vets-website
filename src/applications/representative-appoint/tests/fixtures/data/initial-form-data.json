@@ -1,0 +1,69 @@
+{
+  "titleSchema": {},
+  "profileNotUpdatedNote": {},
+  "applicantName": {},
+  "veteranFullName": {
+    "first": "John",
+    "middle": "E",
+    "last": "Doe",
+    "suffix": "Sr."
+  },
+  "veteranSocialSecurityNumber": "333224444",
+  "vaClaimsHistory": true,
+  "vaFileNumber": "123456789",
+  "veteranDateOfBirth": "1960-01-01",
+  "serviceBranch": {
+    "army": true,
+    "navy": true
+  },
+  "activeServiceDateRange": {
+    "from": "2003-03-02",
+    "to": "2007-03-20"
+  },
+  "serviceNumber": "123456789",
+  "serveUnderOtherNames": true,
+  "previousNames": [
+    {
+      "previousFullName": {
+        "first": "Joseph",
+        "last": "Doe"
+      }
+    }
+  ],
+  "placeOfSeparation": "Northampton, MA",
+  "powStatus": true,
+  "powDateRange": {
+    "from": "1971-02-26",
+    "to": "1973-03-02"
+  },
+
+  "veteranHomeAddress": {
+    "'view:militaryBaseDescription'": {},
+    "country": "USA",
+    "street": "123 8th st",
+    "city": "Hadley",
+    "state": "ME",
+    "postalCode": "01050"
+  },
+  "veteranEmail": "test@example.com",
+  "primaryPhone": "5551234567",
+  "mobilePhone": "5551234567",
+  "internationalPhone": "001-555-123-4567",
+  "homeAddress": {
+    "'view:militaryBaseDescription'": {}
+  },
+  "descriptionSchema": {},
+  "'view:authorizationPolicy'": {},
+  "'view:authorizationNote4'": {},
+  "'view:authorizeRecordsSelect'": {},
+  "authorizeMedicalSelectCheckbox": {},
+  "'view:addressAuthorizationPolicy'": {},
+  "'view:authorizationNote3'": {},
+  "'view:insideVAAuthorizationPolicy'": {},
+  "'view:authorizationNote2'": {},
+  "'view:outsideVAAuthorizationPolicy'": {},
+  "'view:authorizationNote5'": {},
+  "'view:unsureNote'": {},
+  "'view:representativeQueryInput'": "",
+  "'view:representativeSearchResults'": []
+}

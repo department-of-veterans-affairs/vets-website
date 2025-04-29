@@ -11,6 +11,7 @@ export const VetTecAdditionalInformation = ({
         <h3>Institution codes</h3>
         <div aria-live="off">
           <strong>
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
             <button
               id="facilityCode-button"
               type="button"

@@ -146,7 +146,9 @@ describe('Confirmation page', () => {
   it('should focus on H2 inside va-alert', async () => {
     const { container } = render(
       <Provider store={mockStore(getData())}>
-        <ConfirmationDecisionReviews />
+        <main id="main">
+          <ConfirmationDecisionReviews />
+        </main>
       </Provider>,
     );
     const h2 = $('va-alert h2', container);

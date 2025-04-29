@@ -12,6 +12,7 @@ import SubTask, {
 
 import SubTaskContainer from '../../subtask/SubTaskContainer';
 import pages from '../../subtask/pages';
+import { BENEFIT_OFFICES_URL } from '../../constants';
 
 const mockStore = ({ data = {} } = {}) => {
   setStoredSubTask(data);
@@ -139,7 +140,8 @@ describe('the Supplemental Claims Sub-task', () => {
     fireEvent.click($('va-button[continue]', container));
     expect($('va-button[back]', container)).to.exist;
 
-    fireEvent.click($('a[href*="find-address"]', container));
+    const anchor = BENEFIT_OFFICES_URL.split('#')[1];
+    fireEvent.click($(`a[href$="#${anchor}"]`, container));
 
     const event = global.window.dataLayer.slice(-1)[0];
     expect(event).to.deep.equal({

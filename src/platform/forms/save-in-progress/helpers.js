@@ -2,7 +2,7 @@ import {
   createPageList,
   createFormPageList,
 } from 'platform/forms-system/src/js/helpers';
-import { createRoutes } from 'platform/forms-system/src/js/routing';
+import { createRoutes } from 'platform/forms-system/src/js/routing/createRoutes';
 import RoutedSavablePage from './RoutedSavablePage';
 import RoutedSavableReviewPage from './RoutedSavableReviewPage';
 import FormSaved from './FormSaved';
@@ -31,18 +31,17 @@ export function createRoutesWithSaveInProgress(formConfig) {
 
     // rewrite page component
     if (!protectedRoutes.has(route.path)) {
-      newRoute = Object.assign({}, route, {
+      newRoute = {
+        ...route,
         component: RoutedSavablePage,
         formConfig,
-      });
+      };
       newRoutes[index] = newRoute;
     }
 
     // rewrite review page component
     if (route.path === 'review-and-submit') {
-      newRoute = Object.assign({}, route, {
-        component: RoutedSavableReviewPage,
-      });
+      newRoute = { ...route, component: RoutedSavableReviewPage };
       newRoutes[index] = newRoute;
     }
   });

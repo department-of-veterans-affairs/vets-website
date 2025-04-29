@@ -10,6 +10,7 @@ import {
   BLOCKED_MHV_NOTIFICATION_IDS,
   NOTIFICATION_CHANNEL_IDS,
   NOTIFICATION_GROUPS,
+  NOTIFICATION_ITEM_IDS,
 } from '../constants';
 
 // helper function to get the communication preferences entities
@@ -63,12 +64,28 @@ export const useNotificationSettingsUtils = () => {
 
   const loading = useToggleLoadingValue();
 
-  const showEmailNotificationSettings = useToggleValue(
-    TOGGLE_NAMES.profileShowEmailNotificationSettings,
+  const profileShowMhvNotificationSettingsEmailAppointmentReminders = useToggleValue(
+    TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders,
   );
 
-  const showMhvNotificationSettings = useToggleValue(
-    TOGGLE_NAMES.profileShowMhvNotificationSettings,
+  const profileShowMhvNotificationSettingsNewSecureMessaging = useToggleValue(
+    TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging,
+  );
+
+  const profileShowMhvNotificationSettingsEmailRxShipment = useToggleValue(
+    TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment,
+  );
+
+  const profileShowMhvNotificationSettingsMedicalImages = useToggleValue(
+    TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages,
+  );
+
+  const profileShowNewBenefitOverpaymentDebtNotificationSetting = useToggleValue(
+    TOGGLE_NAMES.profileShowNewBenefitOverpaymentDebtNotificationSetting,
+  );
+
+  const profileShowNewHealthCareCopayBillNotificationSetting = useToggleValue(
+    TOGGLE_NAMES.profileShowNewHealthCareCopayBillNotificationSetting,
   );
 
   const showPaymentsNotificationSetting = useToggleValue(
@@ -83,40 +100,61 @@ export const useNotificationSettingsUtils = () => {
     () => {
       return {
         loading,
-        showEmailNotificationSettings,
-        showMhvNotificationSettings,
         showPaymentsNotificationSetting,
         showQuickSubmitNotificationSetting,
+        profileShowMhvNotificationSettingsEmailAppointmentReminders,
+        profileShowMhvNotificationSettingsEmailRxShipment,
+        profileShowMhvNotificationSettingsNewSecureMessaging,
+        profileShowMhvNotificationSettingsMedicalImages,
+        profileShowNewBenefitOverpaymentDebtNotificationSetting,
+        profileShowNewHealthCareCopayBillNotificationSetting,
       };
     },
     [
       loading,
-      showEmailNotificationSettings,
-      showMhvNotificationSettings,
       showPaymentsNotificationSetting,
       showQuickSubmitNotificationSetting,
+      profileShowMhvNotificationSettingsEmailAppointmentReminders,
+      profileShowMhvNotificationSettingsEmailRxShipment,
+      profileShowMhvNotificationSettingsNewSecureMessaging,
+      profileShowMhvNotificationSettingsMedicalImages,
+      profileShowNewBenefitOverpaymentDebtNotificationSetting,
+      profileShowNewHealthCareCopayBillNotificationSetting,
     ],
   );
 
-  const channelsWithContactInfo = useSelector(state => {
+  const showEmail = useMemo(
+    () => {
+      return (
+        toggles.profileShowMhvNotificationSettingsEmailAppointmentReminders ||
+        toggles.profileShowMhvNotificationSettingsEmailRxShipment ||
+        toggles.profileShowMhvNotificationSettingsMedicalImages ||
+        toggles.profileShowMhvNotificationSettingsNewSecureMessaging ||
+        toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting ||
+        toggles.profileShowNewHealthCareCopayBillNotificationSetting
+      );
+    },
+    [toggles],
+  );
+
+  const emailAddress = useSelector(selectVAPEmailAddress);
+  const mobilePhone = useSelector(selectVAPMobilePhone);
+
+  const channelsWithContactInfo = useSelector(() => {
     return [
-      ...(selectVAPEmailAddress(state)
-        ? [parseInt(NOTIFICATION_CHANNEL_IDS.EMAIL, 10)]
-        : []),
-      ...(selectVAPMobilePhone(state)
-        ? [parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10)]
-        : []),
+      ...(emailAddress ? [parseInt(NOTIFICATION_CHANNEL_IDS.EMAIL, 10)] : []),
+      ...(mobilePhone ? [parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10)] : []),
     ];
   });
 
-  const missingChannels = useSelector(state => {
+  const missingChannels = useSelector(() => {
     return [
-      ...(selectVAPEmailAddress(state)
+      ...(emailAddress
         ? []
         : [
             { name: 'email', id: parseInt(NOTIFICATION_CHANNEL_IDS.EMAIL, 10) },
           ]),
-      ...(selectVAPMobilePhone(state)
+      ...(mobilePhone
         ? []
         : [{ name: 'text', id: parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10) }]),
     ];
@@ -128,13 +166,12 @@ export const useNotificationSettingsUtils = () => {
       channelsWithContactInfo,
     ).filter(({ id }) => {
       // these will be removed once the feature toggles are removed
+      // will always hide general and quick submit
       return (
-        (toggles.showQuickSubmitNotificationSetting ||
-          id !== NOTIFICATION_GROUPS.QUICK_SUBMIT) &&
+        id !== NOTIFICATION_GROUPS.QUICK_SUBMIT &&
+        id !== NOTIFICATION_GROUPS.GENERAL &&
         (toggles.showPaymentsNotificationSetting ||
-          id !== NOTIFICATION_GROUPS.PAYMENTS) &&
-        (toggles.showMhvNotificationSettings ||
-          id !== NOTIFICATION_GROUPS.GENERAL)
+          id !== NOTIFICATION_GROUPS.PAYMENTS)
       );
     });
   };
@@ -146,18 +183,28 @@ export const useNotificationSettingsUtils = () => {
     const { groups, items, channels } = getEntities(communicationPreferences);
 
     const excludedGroupIds = [
-      ...(toggles.showQuickSubmitNotificationSetting
-        ? []
-        : [NOTIFICATION_GROUPS.QUICK_SUBMIT]),
+      // Always exclude QUICK_SUBMIT and GENERAL
+      NOTIFICATION_GROUPS.QUICK_SUBMIT,
+      NOTIFICATION_GROUPS.GENERAL,
       ...(toggles.showPaymentsNotificationSetting
         ? []
         : [NOTIFICATION_GROUPS.PAYMENTS]),
     ];
 
     const excludedItemIds = [
-      ...(toggles.showMhvNotificationSettings
+      ...BLOCKED_MHV_NOTIFICATION_IDS,
+      ...(toggles.profileShowMhvNotificationSettingsNewSecureMessaging
         ? []
-        : BLOCKED_MHV_NOTIFICATION_IDS),
+        : [NOTIFICATION_ITEM_IDS.SECURE_MESSAGING]),
+      ...(toggles.profileShowMhvNotificationSettingsMedicalImages
+        ? []
+        : [NOTIFICATION_ITEM_IDS.MEDICAL_IMAGES]),
+      ...(toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting
+        ? []
+        : [NOTIFICATION_ITEM_IDS.BENEFIT_OVERPAYMENT_DEBT]),
+      ...(toggles.profileShowNewHealthCareCopayBillNotificationSetting
+        ? []
+        : [NOTIFICATION_ITEM_IDS.HEALTH_CARE_COPAY_BILL]),
     ];
 
     const itemIds = Object.keys(items);
@@ -183,6 +230,28 @@ export const useNotificationSettingsUtils = () => {
         ) {
           acc.push(item);
         }
+
+        const isItem3 =
+          itemId === NOTIFICATION_ITEM_IDS.HEALTH_APPOINTMENT_REMINDERS;
+        const isItem4 = itemId === NOTIFICATION_ITEM_IDS.PRESCRIPTION_SHIPMENT;
+        if (isItem3) {
+          const noEmail =
+            profileShowMhvNotificationSettingsEmailAppointmentReminders &&
+            !emailAddress;
+          const noPhone = !mobilePhone;
+
+          if ((noEmail || noPhone) && !acc.some(i => i.name === item.name)) {
+            acc.push(item);
+          }
+        } else if (isItem4) {
+          const noEmail =
+            profileShowMhvNotificationSettingsEmailRxShipment && !emailAddress;
+          const noPhone = !mobilePhone;
+
+          if ((noEmail || noPhone) && !acc.some(i => i.name === item.name)) {
+            acc.push(item);
+          }
+        }
       }
 
       return acc;
@@ -192,17 +261,34 @@ export const useNotificationSettingsUtils = () => {
   const useFilteredItemsForMHVNotifications = itemIds =>
     useMemo(
       () => {
-        return toggles.showMhvNotificationSettings
-          ? itemIds
-          : itemIds.filter(itemId => {
-              return !BLOCKED_MHV_NOTIFICATION_IDS.includes(itemId);
-            });
+        return itemIds.filter(itemId => {
+          return (
+            !BLOCKED_MHV_NOTIFICATION_IDS.includes(itemId) &&
+            !(
+              itemId === NOTIFICATION_ITEM_IDS.SECURE_MESSAGING &&
+              !toggles.profileShowMhvNotificationSettingsNewSecureMessaging
+            ) &&
+            !(
+              itemId === NOTIFICATION_ITEM_IDS.MEDICAL_IMAGES &&
+              !toggles.profileShowMhvNotificationSettingsMedicalImages
+            ) &&
+            !(
+              itemId === NOTIFICATION_ITEM_IDS.BENEFIT_OVERPAYMENT_DEBT &&
+              !toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting
+            ) &&
+            !(
+              itemId === NOTIFICATION_ITEM_IDS.HEALTH_CARE_COPAY_BILL &&
+              !toggles.profileShowNewHealthCareCopayBillNotificationSetting
+            )
+          );
+        });
       },
       [itemIds],
     );
 
   return {
     toggles,
+    showEmail,
     communicationPreferences,
     channelsWithContactInfo,
     missingChannels,

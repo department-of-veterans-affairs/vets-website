@@ -2,7 +2,6 @@ import React from 'react';
 
 import {
   titleFormDetails,
-  title995Omb,
   subTitle995,
   title4142Omb,
   subTitle4142Omb,
@@ -10,10 +9,8 @@ import {
 
 const OmbInfo = () => (
   <>
-    <h2 className="vads-u-margin-top--0">{titleFormDetails}</h2>
-    <h3>{title995Omb}</h3>
     <p>{subTitle995}</p>
-    <va-omb-info res-burden="15" omb-number="2900-0886" exp-date="4/30/2024">
+    <va-omb-info res-burden="15" omb-number="2900-0886" exp-date="5/31/2027">
       <p>
         <strong>Respondent Burden:</strong> We need this information to
         determine entitlement to benefits (38 U.S.C. 501). Title 38, United
@@ -65,6 +62,7 @@ const OmbInfo = () => (
       </p>
     </va-omb-info>
 
+    <h2 className="vads-u-margin-y--2">{titleFormDetails}</h2>
     <h3>{title4142Omb}</h3>
     <p>{subTitle4142Omb}</p>
     <va-omb-info res-burden="10" omb-number="2900-0858" exp-date="7/31/2024">

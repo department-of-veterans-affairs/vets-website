@@ -2,6 +2,26 @@ import { isValidPhone } from '~/platform/forms/validations';
 
 import { errorMessages } from '../constants';
 
+import sharedErrorMessages from '../../shared/content/errorMessages';
+
+export const validateConferenceChoice = (errors, _value, formData) => {
+  if (errors) {
+    const choice = formData?.informalConferenceChoice || '';
+    // "yes" option is only available in HLR update choices
+    if (!['yes', 'no'].includes(choice)) {
+      errors.addError?.(sharedErrorMessages.requiredYesNo);
+    }
+  }
+};
+
+export const validateConferenceContactChoice = (errors, values, formData) => {
+  const conference = formData?.informalConference || '';
+  // "yes" option is only available in HLR update choices
+  if (errors && conference !== 'me' && conference !== 'rep') {
+    errors.addError?.(errorMessages.informalConferenceContactChoice);
+  }
+};
+
 export const checkConferenceTimes = (errors, values, formData) => {
   if (
     errors &&
@@ -13,7 +33,7 @@ export const checkConferenceTimes = (errors, values, formData) => {
 };
 
 export const validatePhone = (errors, phone) => {
-  if (errors && (!phone || !isValidPhone(phone || ''))) {
+  if (errors && (!phone || !isValidPhone(phone))) {
     errors.addError?.(errorMessages.informalConferenceContactPhonePattern);
   }
 };

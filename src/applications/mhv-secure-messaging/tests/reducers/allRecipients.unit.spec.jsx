@@ -20,12 +20,12 @@ describe('allRecipients reducers', () => {
       allRecipientsTriageTeams.data.map(recipient => {
         return {
           id: recipient.attributes.triageTeamId,
+          triageTeamId: recipient.attributes.triageTeamId,
           name: recipient.attributes.name,
           stationNumber: recipient.attributes.stationNumber,
           blockedStatus: recipient.attributes.blockedStatus,
           preferredTeam: recipient.attributes.preferredTeam,
           relationshipType: recipient.attributes.relationshipType,
-          signatureRequired: undefined,
           type: 'Care Team',
           status: recipient.attributes.blockedStatus
             ? RecipientStatus.BLOCKED
@@ -39,5 +39,18 @@ describe('allRecipients reducers', () => {
     mockApiRequest({}, false);
     await store.dispatch(getAllTriageTeamRecipients());
     expect(store.getState().error).to.equal(true);
+  });
+
+  it('should not dispatch suggestedNameDisplay to name field if suggestedNameDisplay is null', async () => {
+    const store = mockStore();
+    const recipient = allRecipientsTriageTeams.data[0];
+    recipient.attributes.suggestedNameDisplay = null;
+    const customMockResponse = { ...allRecipientsTriageTeams };
+    customMockResponse.data = [recipient];
+    mockApiRequest(customMockResponse);
+    await store.dispatch(getAllTriageTeamRecipients());
+    expect(store.getState().allRecipients[0].name).to.equal(
+      recipient.attributes.name,
+    );
   });
 });

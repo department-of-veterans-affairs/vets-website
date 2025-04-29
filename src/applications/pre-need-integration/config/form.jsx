@@ -7,12 +7,9 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { fileUploadUi } from '../utils/upload';
-import * as applicantMilitaryHistorySelf from './pages/applicantMilitaryHistorySelf';
-import * as applicantMilitaryHistoryPreparer from './pages/applicantMilitaryHistoryPreparer';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
 import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
 import * as applicantMilitaryNameInformationPreparer from './pages/applicantMilitaryNameInformationPreparer';
-import * as sponsorMilitaryHistory from './pages/sponsorMilitaryHistory';
 import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
 import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
 import * as burialBenefits from './pages/burialBenefits';
@@ -41,6 +38,15 @@ import * as militaryDetailsSelf from './pages/militaryDetailsSelf';
 import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
+import {
+  servicePeriodsPagesVeteran,
+  servicePeriodsPagesNonVeteran,
+  servicePeriodsPagesPreparerVeteran,
+  servicePeriodsPagesPreparerNonVeteran,
+} from './pages/servicePeriodsPages';
+
+import transformForSubmit from './transformForSubmit';
+import prefillTransformer from './prefill-transformer';
 
 import Footer from '../components/Footer';
 
@@ -55,7 +61,6 @@ import manifest from '../manifest.json';
 import {
   isVeteran,
   isAuthorizedAgent,
-  transform,
   isVeteranAndHasServiceName,
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
@@ -101,7 +106,9 @@ import {
   ContactDetailsTitle,
   PreparerDetailsTitle,
 } from '../components/PreparerHelpers';
-import preparerContactDetailsCustom from './pages/preparerContactDetailsCustom';
+import ApplicantSuggestedAddress from './pages/applicantSuggestedAddress';
+import SponsorSuggestedAddress from './pages/sponsorSuggestedAddress';
+import preparerSuggestedAddress from './pages/preparerSuggestedAddress';
 
 const {
   preneedAttachments,
@@ -129,9 +136,9 @@ const formConfig = {
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'preneed-',
-  transformForSubmit: transform,
+  transformForSubmit,
   formId: VA_FORM_IDS.FORM_40_10007,
   saveInProgress: {
     messages: {
@@ -154,6 +161,7 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  prefillTransformer,
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   preSubmitInfo,
@@ -199,16 +207,16 @@ const formConfig = {
           uiSchema: preparerContactDetails.uiSchema,
           schema: preparerContactDetails.schema,
         },
-        validatePreparerContactDetails: {
+        preparerSuggestedAddress: {
           title: 'Validate Address',
-          path: 'validate-preparer-contact-details',
+          path: 'preparer-suggested-address',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: {
             application: {
               applicant: {
-                'view:validateAddress': {
+                'view:preparerSuggestedAddress': {
                   'ui:title': 'Validate Address',
-                  'ui:field': preparerContactDetailsCustom,
+                  'ui:field': preparerSuggestedAddress,
                 },
               },
             },
@@ -222,7 +230,7 @@ const formConfig = {
                   applicant: {
                     type: 'object',
                     properties: {
-                      'view:validateAddress': {
+                      'view:preparerSuggestedAddress': {
                         type: 'object',
                         properties: {},
                       },
@@ -329,6 +337,40 @@ const formConfig = {
           ),
           schema: applicantContactInformation.schema,
         },
+        applicantSuggestedAddress: {
+          title: 'Validate Address',
+          path: 'applicant-suggested-address',
+          depends: formData => !isAuthorizedAgent(formData),
+          uiSchema: {
+            application: {
+              applicant: {
+                'view:applicantSuggestedAddress': {
+                  'ui:title': 'Validate Address',
+                  'ui:field': ApplicantSuggestedAddress,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    properties: {
+                      'view:applicantSuggestedAddress': {
+                        type: 'object',
+                        properties: {},
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         applicantContactInformationPreparer: {
           title: applicantContactInfoPreparerAddressTitle,
           path: 'applicant-contact-information-preparer',
@@ -339,6 +381,40 @@ const formConfig = {
             applicantContactInfoPreparerDescription,
           ),
           schema: applicantContactInformation.schema,
+        },
+        applicantSuggestedAddressPreparer: {
+          title: 'Validate Address',
+          path: 'preparer-suggested-address-preparer',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: {
+            application: {
+              applicant: {
+                'view:applicantSuggestedAddressPreparer': {
+                  'ui:title': 'Validate Address',
+                  'ui:field': ApplicantSuggestedAddress,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    properties: {
+                      'view:applicantSuggestedAddressPreparer': {
+                        type: 'object',
+                        properties: {},
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         applicantDemographics: {
           title: 'Your demographics',
@@ -424,6 +500,45 @@ const formConfig = {
           uiSchema: sponsorContactInformation.uiSchema,
           schema: sponsorContactInformation.schema,
         },
+        sponsorSuggestedAddress: {
+          title: 'Validate Address',
+          path: 'sponsor-suggested-address',
+          depends: formData =>
+            !isVeteran(formData) &&
+            ((!isApplicantTheSponsor(formData) &&
+              !isSponsorDeceased(formData)) ||
+              isApplicantTheSponsor(formData)) &&
+            formData?.application?.veteran?.address.street !== undefined,
+          uiSchema: {
+            application: {
+              applicant: {
+                'view:sponsorSuggestedAddress': {
+                  'ui:title': 'Validate Address',
+                  'ui:field': SponsorSuggestedAddress,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    properties: {
+                      'view:sponsorSuggestedAddress': {
+                        type: 'object',
+                        properties: {},
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         sponsorDemographics: {
           title: 'Sponsor demographics',
           path: 'sponsor-demographics',
@@ -439,7 +554,7 @@ const formConfig = {
         },
       },
     },
-    militaryHistory: {
+    militaryName: {
       title: formData =>
         isVeteran(formData)
           ? 'Applicant military history'
@@ -461,24 +576,21 @@ const formConfig = {
           uiSchema: militaryDetailsPreparer.uiSchema,
           schema: militaryDetailsPreparer.schema,
         },
-        // Two sets of military history pages dependent on
-        // whether the applicant is the veteran or not.
-        // If not, "Sponsor’s" precedes all the field labels.
-        applicantMilitaryHistorySelf: {
-          title: 'Your service period(s)',
-          path: 'applicant-military-history',
+        sponsorMilitaryDetailsSelf: {
+          title: "Sponsor's military details",
+          path: 'sponsor-military-details',
           depends: formData =>
-            isVeteran(formData) && !isAuthorizedAgent(formData),
-          uiSchema: applicantMilitaryHistorySelf.uiSchema,
-          schema: applicantMilitaryHistorySelf.schema,
+            !isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: sponsorMilitaryDetailsSelf.uiSchema,
+          schema: sponsorMilitaryDetailsSelf.schema,
         },
-        applicantMilitaryHistoryPreparer: {
-          title: "Applicant's service period(s)",
-          path: 'applicant-military-history-preparer',
+        sponsorMilitaryDetailsPreparer: {
+          title: "Sponsor's military details",
+          path: 'sponsor-military-details-preparer',
           depends: formData =>
-            isVeteran(formData) && isAuthorizedAgent(formData),
-          uiSchema: applicantMilitaryHistoryPreparer.uiSchema,
-          schema: applicantMilitaryHistoryPreparer.schema,
+            !isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: sponsorMilitaryDetailsPreparer.uiSchema,
+          schema: sponsorMilitaryDetailsPreparer.schema,
         },
         applicantMilitaryNameSelf: {
           path: 'applicant-military-name',
@@ -486,6 +598,7 @@ const formConfig = {
             isVeteran(formData) && !isAuthorizedAgent(formData),
           uiSchema: applicantMilitaryName.uiSchema(
             'Did you serve under another name?',
+            'your service name',
           ),
           schema: applicantMilitaryName.schema,
         },
@@ -495,6 +608,7 @@ const formConfig = {
             isVeteran(formData) && isAuthorizedAgent(formData),
           uiSchema: applicantMilitaryName.uiSchema(
             'Did the applicant serve under another name?',
+            'applicant’s service name',
           ),
           schema: applicantMilitaryName.schema,
         },
@@ -514,29 +628,6 @@ const formConfig = {
             isVeteranAndHasServiceName(formData) && isAuthorizedAgent(formData),
           uiSchema: applicantMilitaryNameInformationPreparer.uiSchema,
           schema: applicantMilitaryNameInformationPreparer.schema,
-        },
-        sponsorMilitaryDetailsSelf: {
-          title: "Sponsor's military details",
-          path: 'sponsor-military-details',
-          depends: formData =>
-            !isVeteran(formData) && !isAuthorizedAgent(formData),
-          uiSchema: sponsorMilitaryDetailsSelf.uiSchema,
-          schema: sponsorMilitaryDetailsSelf.schema,
-        },
-        sponsorMilitaryDetailsPreparer: {
-          title: "Sponsor's military details",
-          path: 'sponsor-military-details-preparer',
-          depends: formData =>
-            !isVeteran(formData) && isAuthorizedAgent(formData),
-          uiSchema: sponsorMilitaryDetailsPreparer.uiSchema,
-          schema: sponsorMilitaryDetailsPreparer.schema,
-        },
-        sponsorMilitaryHistory: {
-          path: 'sponsor-military-history',
-          title: 'Sponsor’s service period(s)',
-          depends: formData => !isVeteran(formData),
-          uiSchema: sponsorMilitaryHistory.uiSchema,
-          schema: sponsorMilitaryHistory.schema,
         },
         sponsorMilitaryName: {
           path: 'sponsor-military-name',
@@ -565,12 +656,43 @@ const formConfig = {
         },
       },
     },
+    militaryHistoryVeteran: {
+      title: 'Applicant service period(s)',
+      pages: servicePeriodsPagesVeteran,
+    },
+    militaryHistoryPreparerVeteran: {
+      title: 'Applicant’s service period(s)',
+      pages: servicePeriodsPagesPreparerVeteran,
+    },
+    militaryHistoryNonVeteran: {
+      title: 'Sponsor service period(s)',
+      pages: servicePeriodsPagesNonVeteran,
+    },
+    militaryHistoryPreparerNonVeteran: {
+      title: 'Sponsor service period(s)',
+      pages: servicePeriodsPagesPreparerNonVeteran,
+    },
     burialBenefits: {
       title: 'Burial benefits',
       pages: {
         burialBenefits: {
           path: 'burial-benefits',
-          uiSchema: burialBenefits.uiSchema,
+          depends: formData =>
+            isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: burialBenefits.uiSchema('decedents'),
+          schema: burialBenefits.schema,
+        },
+        burialBenefitsPreparer: {
+          path: 'burial-benefits-preparer',
+          depends: formData =>
+            isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: burialBenefits.uiSchema('applicant’s cemetery'),
+          schema: burialBenefits.schema,
+        },
+        burialBenefitsSponsor: {
+          path: 'burial-benefits-sponsor',
+          depends: formData => !isVeteran(formData),
+          uiSchema: burialBenefits.uiSchema('sponsor’s cemetery'),
           schema: burialBenefits.schema,
         },
         currentlyBuriedPersons: {

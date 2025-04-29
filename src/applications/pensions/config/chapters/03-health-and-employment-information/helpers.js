@@ -1,4 +1,3 @@
-import moment from 'moment/moment';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
@@ -9,6 +8,7 @@ import {
   numberSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { parseISO, startOfDay, subYears, isBefore } from 'date-fns';
 import ListItemView from '../../../components/ListItemView';
 import { getJobTitleOrType } from '../../../helpers';
 import ArrayDescription from '../../../components/ArrayDescription';
@@ -30,12 +30,12 @@ export function isInNursingHome(formData) {
 }
 
 export function isUnder65(formData, currentDate) {
-  const today = currentDate || moment();
+  const today = currentDate || new Date();
+  const dateToCompare = startOfDay(subYears(today, 65));
+
   return (
-    today
-      .startOf('day')
-      .subtract(65, 'years')
-      .isBefore(formData.veteranDateOfBirth) || !formData.isOver65
+    isBefore(dateToCompare, parseISO(formData.veteranDateOfBirth)) ||
+    !formData.isOver65
   );
 }
 
@@ -45,6 +45,11 @@ export function isEmployedUnder65(formData) {
 
 export function isUnemployedUnder65(formData) {
   return formData.currentEmployment === false && isUnder65(formData);
+}
+
+export function doesNotHaveCurrentEmployers(formData) {
+  const currentEmployers = formData?.currentEmployers;
+  return !currentEmployers || currentEmployers.length === 0;
 }
 
 export function medicaidDoesNotCoverNursingHome(formData) {
@@ -265,3 +270,54 @@ export const generateEmployersSchemas = ({
     }),
   };
 };
+
+export function MedicalConditionDescription() {
+  return (
+    <div>
+      <p>
+        We need to know about any medical conditions that prevent you from
+        working.
+      </p>
+      <p>
+        A medical condition is an illness or injury that affects your mind or
+        body. It doesn't have to be service connected.
+      </p>
+      <va-additional-info
+        trigger="How we define a medical condition that prevents you from working"
+        uswds
+      >
+        <div>
+          <p>
+            If your medical condition prevents you from working, both of these
+            must be true:
+          </p>
+          <ul>
+            <li>
+              Your medical condition is reasonably certain to continue
+              throughout your lifetime, <strong>and</strong>
+            </li>
+            <li>
+              Your medical condition makes it impossible to be gainfully
+              employed
+            </li>
+          </ul>
+        </div>
+      </va-additional-info>
+    </div>
+  );
+}
+
+export function MedicalEvidenceNotice() {
+  return (
+    <div>
+      <p>
+        Based on your answer, you’ll need to submit additional evidence about
+        your medical condition or disability.
+      </p>
+      <p>
+        We’ll give you instructions for submitting your additional evidence at
+        the end of this application.
+      </p>
+    </div>
+  );
+}

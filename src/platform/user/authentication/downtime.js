@@ -3,6 +3,7 @@ import {
   subHours,
   isWithinInterval,
   parseJSON,
+  isValid,
   format,
   differenceInHours,
 } from 'date-fns';
@@ -10,14 +11,16 @@ import { format as fmtTZ } from 'date-fns-tz';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import { SERVICE_PROVIDERS } from './constants';
 
-/* Shared */
-export const AUTH_DEPENDENCIES = [
+export const CSP_DEPENDENCIES = [
   EXTERNAL_SERVICES.idme,
-  EXTERNAL_SERVICES.ssoe,
   EXTERNAL_SERVICES.dslogon,
-  EXTERNAL_SERVICES.mhv,
-  EXTERNAL_SERVICES.mvi,
   EXTERNAL_SERVICES.logingov,
+];
+
+export const AUTH_DEPENDENCIES = [
+  ...CSP_DEPENDENCIES,
+  EXTERNAL_SERVICES.ssoe,
+  EXTERNAL_SERVICES.mvi,
 ];
 
 export const generateCSPBanner = ({ csp }) => {
@@ -25,7 +28,7 @@ export const generateCSPBanner = ({ csp }) => {
     ? {
         headline: `You may have trouble signing in with some of your accounts`,
         status: 'warning',
-        message: `We’re sorry. We’re working to fix some problems with ID.me. If you’d like to sign in to VA.gov with your ID.me, DS Logon, or My HealtheVet accounts, please check back later.`,
+        message: `We’re sorry. We’re working to fix some problems with ID.me, but you can still sign in to VA.gov using your Login.gov account. If you’d like to sign in with your ID.me or DS Logon accounts, please check back later.`,
       }
     : {
         headline: `You may have trouble signing in with ${
@@ -41,7 +44,7 @@ export const generateCSPBanner = ({ csp }) => {
 };
 
 export const DOWNTIME_BANNER_CONFIG = {
-  ...Object.keys(SERVICE_PROVIDERS).reduce(
+  ...CSP_DEPENDENCIES.reduce(
     (acc, cv) => ({
       ...acc,
       [cv]: generateCSPBanner({ csp: cv }),
@@ -109,8 +112,8 @@ export const renderDowntimeBanner = statuses => {
  * @returns An object needed to create the React-node (va-alert) maintenance banner
  */
 export const createMaintenanceBanner = ({
-  start_time: startingTime,
-  end_time: endingTime,
+  startTime: startingTime,
+  endTime: endingTime,
 }) => {
   const { headline, status } = DOWNTIME_BANNER_CONFIG.maintenance;
 
@@ -119,6 +122,10 @@ export const createMaintenanceBanner = ({
   const endTime = parseJSON(endingTime);
   const hours = differenceInHours(endTime, startTime);
   const howLongMaintLasts = `${hours} hour${hours > 1 ? 's' : ''}`;
+
+  if (!isValid(startTime) || !isValid(endTime)) {
+    return null;
+  }
 
   const startsAt = format(startTime, `h:mm bbbb`);
   const endsAt = fmtTZ(endTime, `h:mm bbbb z`);
@@ -148,7 +155,7 @@ export const createMaintenanceBanner = ({
  */
 export const determineMaintenance = maintArray =>
   maintArray.find(maintService =>
-    ['global', ...AUTH_DEPENDENCIES].includes(maintService.external_service),
+    ['global', ...AUTH_DEPENDENCIES].includes(maintService.externalService),
   );
 
 /**
@@ -176,9 +183,10 @@ export const renderMaintenanceWindow = maintArray => {
     return null;
   }
 
-  const maintenanceBanner = createMaintenanceBanner(
-    determineMaintenance(maintArray),
-  );
+  const bannerOptions = determineMaintenance(maintArray);
+  if (!bannerOptions) return null;
+
+  const maintenanceBanner = createMaintenanceBanner(bannerOptions);
 
   return maintenanceBanner &&
     isInMaintenanceWindow(

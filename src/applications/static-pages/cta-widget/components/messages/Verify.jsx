@@ -1,36 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CallToActionAlert from '../CallToActionAlert';
+import { VaAlertSignIn } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { CSP_IDS } from 'platform/user/authentication/constants';
+import {
+  VerifyIdmeButton,
+  VerifyLogingovButton,
+} from 'platform/user/authentication/components/VerifyButton';
 
-const Verify = ({ headerLevel, primaryButtonHandler, serviceDescription }) => {
-  const content = {
-    heading: `Please verify your identity to ${serviceDescription}`,
-    headerLevel,
-    alertText: (
-      <>
-        <p>
-          We need to make sure you’re you — and not someone pretending to be you
-          — before we can give you access to your personal and health-related
-          information. This helps us keep your information safe and prevent
-          fraud and identity theft.
-        </p>
-        <p>
-          <strong>This one-time process takes about 5 to 10 minutes.</strong>
-        </p>
-      </>
-    ),
-    primaryButtonText: 'Verify your identity',
-    primaryButtonHandler,
-    status: 'warning',
-  };
+/**
+ * Alert to show a user that is not verified.
+ * @property {string} signInService user's signin service name
+ * @property {string} headerLevel optional heading level
+ * @property {string} serviceDescription optional description of the service that requires verification
+ */
+const Verify = ({ signInService, headerLevel }) => {
+  const { variant, spanSlot } =
+    {
+      logingov: {
+        variant: 'verifyLoginGov',
+        spanSlot: (
+          <span slot="LoginGovVerifyButton">
+            <VerifyLogingovButton />
+          </span>
+        ),
+      },
+      idme: {
+        variant: 'verifyIdMe',
+        spanSlot: (
+          <span slot="IdMeVerifyButton">
+            <VerifyIdmeButton />
+          </span>
+        ),
+      },
+    }[signInService] || {};
 
-  return <CallToActionAlert {...content} />;
+  return (
+    <VaAlertSignIn variant={variant} visible headingLevel={headerLevel}>
+      {spanSlot}
+    </VaAlertSignIn>
+  );
 };
 
 Verify.propTypes = {
-  primaryButtonHandler: PropTypes.func.isRequired,
-  serviceDescription: PropTypes.string.isRequired,
-  headerLevel: PropTypes.string,
+  headerLevel: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  serviceDescription: PropTypes.string,
+  signInService: PropTypes.oneOf([CSP_IDS.ID_ME, CSP_IDS.LOGIN_GOV]),
 };
 
 export default Verify;

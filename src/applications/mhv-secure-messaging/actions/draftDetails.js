@@ -86,7 +86,10 @@ export const saveReplyDraft = (
     'secure-messaging-save-draft-id': id,
   });
 
-  dispatch({ type: Actions.Thread.DRAFT_SAVE_STARTED });
+  dispatch({
+    type: Actions.Thread.DRAFT_SAVE_STARTED,
+    payload: { messageId: id },
+  });
 
   const response = await sendReplyDraft(replyToId, messageData, id);
   if (response.data) {
@@ -105,6 +108,7 @@ export const saveReplyDraft = (
   if (response.errors) {
     dispatch({
       type: Actions.Draft.SAVE_FAILED,
+      payload: { messageId: id },
       response: response.errors[0],
     });
     throw response.errors[0];

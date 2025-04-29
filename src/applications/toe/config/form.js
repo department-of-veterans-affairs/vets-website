@@ -10,12 +10,11 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
-import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
+import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
 
 import constants from 'vets-json-schema/dist/constants.json';
 import * as BUCKETS from 'site/constants/buckets';
@@ -27,9 +26,9 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
 import ApplicantIdentityView from '../components/ApplicantIdentityView';
-import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
+import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage';
+import CustomEmailField from '../components/CustomEmailField';
 import DirectDepositViewField from '../components/DirectDepositViewField';
-import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
 import FirstSponsorRadioGroup from '../components/FirstSponsorRadioGroup';
 import FirstSponsorReviewPage from '../components/FirstSponsorReviewPage';
@@ -43,35 +42,28 @@ import Sponsors from '../components/Sponsors';
 import SponsorsSelectionHeadings from '../components/SponsorsSelectionHeadings';
 import YesNoReviewField from '../components/YesNoReviewField';
 import preSubmitInfo from '../components/preSubmitInfo';
+import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 
 import {
   addWhitespaceOnlyError,
-  applicantIsChildOfSponsor,
-  hideUnder18Field,
   isOnlyWhitespace,
   prefillTransformer,
+  applicantIsaMinor,
 } from '../helpers';
 
 import { transformTOEForm } from '../utils/form-submit-transform';
 
 import { phoneSchema, phoneUISchema } from '../schema';
 import {
-  isValidGivenName,
-  isValidLastName,
   isValidPhoneField,
-  nameErrorMessage,
   validateAccountNumber,
   validateEmail,
   validateRoutingNumber,
 } from '../utils/validation';
-import {
-  formFields,
-  SPONSOR_RELATIONSHIP,
-  YOUR_PROFILE_URL,
-} from '../constants';
+import { formFields } from '../constants';
 import ObfuscateReviewField from '../ObfuscateReviewField';
 
-const { fullName, date, email } = commonDefinitions;
+const { date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 const checkImageSrc = (() => {
   const bucket = environment.isProduction()
@@ -81,6 +73,28 @@ const checkImageSrc = (() => {
   return `${bucket}/img/check-sample.png`;
 })();
 
+const stateRequiredCountries = new Set(['USA']);
+function customValidateAddress(errors, addressData, formData, currentSchema) {
+  if (
+    stateRequiredCountries.has(addressData.country) &&
+    addressData.state === undefined &&
+    currentSchema.required.length
+  ) {
+    errors.state.addError('Please select a state');
+  }
+  let isValidPostalCode = true;
+  if (addressData.country === 'USA') {
+    isValidPostalCode = isValidUSZipCode(addressData.postalCode);
+  }
+  if (addressData.country === 'CAN') {
+    isValidPostalCode = isValidCanPostalCode(addressData.postalCode);
+  }
+
+  if (addressData.postalCode && !isValidPostalCode) {
+    errors.postalCode.addError('Please provide a valid postal code');
+  }
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -89,6 +103,8 @@ const formConfig = {
   //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   transformForSubmit: transformTOEForm,
   trackingPrefix: 'toe-',
+  // Fix double headers (only show v3)
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_1990EMEB,
@@ -126,107 +142,12 @@ const formConfig = {
           instructions:
             'This is the personal information we have on file for you.',
           uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Review your personal information</h3>
-                  <p>
-                    We have this personal information on file for you. If you
-                    notice any errors, please correct them now. Any updates you
-                    make will change the information for your education benefits
-                    only.
-                  </p>
-                  <p>
-                    <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits,{' '}
-                    <a href={YOUR_PROFILE_URL}>
-                      update your information on your profile
-                    </a>
-                    .
-                  </p>
-                </>
-              ),
-              'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
-              },
-            },
             'view:applicantInformation': {
-              'ui:options': {
-                hideIf: formData =>
-                  !formData.showMebEnhancements06 || !formData.isLOA3,
-              },
               'ui:description': (
                 <>
                   <ApplicantIdentityView />
                 </>
               ),
-            },
-            [formFields.viewUserFullName]: {
-              'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
-              },
-              [formFields.userFullName]: {
-                'ui:options': {
-                  hideIf: formData => formData.showMebEnhancements06,
-                },
-                'ui:required': formData => !formData?.showMebEnhancements06,
-                ...fullNameUI,
-                first: {
-                  ...fullNameUI.first,
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:title': 'Your first name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage(20));
-                      }
-                    },
-                  ],
-                },
-                middle: {
-                  ...fullNameUI.middle,
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:title': 'Your middle name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage(20));
-                      }
-                    },
-                  ],
-                },
-                last: {
-                  ...fullNameUI.last,
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:title': 'Your last name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidLastName(field)) {
-                        errors.addError(nameErrorMessage(26));
-                      }
-                    },
-                  ],
-                },
-              },
-            },
-            [formFields.dateOfBirth]: {
-              'ui:options': {
-                hideIf: formData =>
-                  formData.showMebEnhancements06 && formData.isLOA3,
-              },
-              'ui:required': formData => !formData?.showMebEnhancements06,
-              ...currentOrPastDateUI('Your date of birth'),
             },
             'view:dateOfBirthUnder18Alert': {
               'ui:description': (
@@ -245,82 +166,104 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData => {
-                  if (!formData || !formData[formFields.dateOfBirth]) {
+                  // If formData is empty, hide the alert
+                  if (!formData) {
                     return true;
                   }
 
-                  const dateParts =
-                    formData && formData[formFields.dateOfBirth].split('-');
-
-                  if (!dateParts || dateParts.length !== 3) {
-                    return true;
-                  }
-                  const birthday = new Date(
-                    dateParts[0],
-                    dateParts[1] - 1,
-                    dateParts[2],
-                  );
-                  const today18YearsAgo = new Date(
-                    new Date(
-                      new Date().setFullYear(new Date().getFullYear() - 18),
-                    ).setHours(0, 0, 0, 0),
-                  );
-
-                  return (
-                    !isValidCurrentOrPastDate(
-                      dateParts[2],
-                      dateParts[1],
-                      dateParts[0],
-                    ) || birthday.getTime() <= today18YearsAgo.getTime()
-                  );
+                  // Use applicantIsaMinor to determine if the alert should be hidden
+                  return !applicantIsaMinor(formData);
                 },
               },
             },
             [formFields.parentGuardianSponsor]: {
               'ui:title': 'Parent / Guardian signature',
               'ui:options': {
-                hideIf: formData =>
-                  hideUnder18Field(formData, formFields.dateOfBirth),
+                hideIf: formData => {
+                  // If formData is empty, hide the field
+                  if (!formData) {
+                    return true;
+                  }
+
+                  return !applicantIsaMinor(formData);
+                },
               },
-              'ui:required': formData =>
-                !hideUnder18Field(formData, formFields.dateOfBirth),
+              'ui:required': formData => {
+                // If formData is empty, the field is not required
+                if (!formData) {
+                  return false;
+                }
+
+                return applicantIsaMinor(formData);
+              },
               'ui:validations': [
-                (errors, field) =>
+                (errors, field) => {
                   addWhitespaceOnlyError(
                     field,
                     errors,
                     'Please enter a parent/guardian signature',
-                  ),
+                  );
+                  if (field && field.length > 46) {
+                    errors.addError('Signature must be 46 characters or less');
+                  }
+                },
               ],
               'ui:errorMessages': {
                 required: 'Please enter a parent/guardian signature',
               },
             },
+            [formFields.highSchoolDiploma]: {
+              'ui:options': {
+                hideIf: formData => {
+                  if (!formData || !formData.toeHighSchoolInfoChange) {
+                    return true;
+                  }
+
+                  return !applicantIsaMinor(formData);
+                },
+              },
+              'ui:required': formData => {
+                return (
+                  formData.toeHighSchoolInfoChange &&
+                  applicantIsaMinor(formData)
+                );
+              },
+              'ui:title':
+                'Did you earn a high school diploma or equivalency certificate?',
+              'ui:widget': 'radio',
+            },
+            [formFields.highSchoolDiplomaDate]: {
+              'ui:options': {
+                hideIf: formData => {
+                  if (!formData || !formData.toeHighSchoolInfoChange) {
+                    return true;
+                  }
+
+                  return !(
+                    applicantIsaMinor(formData) &&
+                    formData[formFields.highSchoolDiploma] === 'Yes'
+                  );
+                },
+              },
+              'ui:required': formData => {
+                return (
+                  formData.toeHighSchoolInfoChange &&
+                  applicantIsaMinor(formData) &&
+                  formData[formFields.highSchoolDiploma] === 'Yes'
+                );
+              },
+              ...currentOrPastDateUI(
+                'When did you earn your high school diploma or equivalency certificate?',
+              ),
+            },
           },
           schema: {
             type: 'object',
-            required: [formFields.dateOfBirth],
+            required: [
+              formFields.highSchoolDiploma,
+              formFields.highSchoolDiplomaDate,
+            ],
             properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.viewUserFullName]: {
-                type: 'object',
-                properties: {
-                  [formFields.userFullName]: {
-                    ...fullName,
-                    properties: {
-                      ...fullName.properties,
-                      middle: {
-                        ...fullName.properties.middle,
-                        maxLength: 30,
-                      },
-                    },
-                  },
-                },
-              },
-              [formFields.dateOfBirth]: date,
               'view:dateOfBirthUnder18Alert': {
                 type: 'object',
                 properties: {},
@@ -332,6 +275,11 @@ const formConfig = {
               [formFields.parentGuardianSponsor]: {
                 type: 'string',
               },
+              [formFields.highSchoolDiploma]: {
+                type: 'string',
+                enum: ['Yes', 'No'],
+              },
+              [formFields.highSchoolDiplomaDate]: date,
             },
           },
         },
@@ -405,157 +353,6 @@ const formConfig = {
             },
           },
         },
-        sponsorInformation: {
-          title: 'Enter your sponsor’s information',
-          path: 'sponsor-information',
-          depends: formData =>
-            formData.showMebEnhancements08
-              ? false
-              : !formData.sponsors?.sponsors?.length ||
-                formData.sponsors?.someoneNotListed,
-          uiSchema: {
-            'view:noSponsorWarning': {
-              'ui:description': (
-                <va-alert
-                  class="vads-u-margin-bottom--5"
-                  close-btn-aria-label="Close notification"
-                  status="warning"
-                  visible
-                >
-                  <h3 slot="headline">
-                    We don’t have any sponsor information on file
-                  </h3>
-                  <p>
-                    If you think this is incorrect, reach out to your sponsor so
-                    they can{' '}
-                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
-                      update this information on the DoD milConnect website
-                    </a>
-                    .
-                  </p>
-                  <p>
-                    You may still continue this application and enter your
-                    sponsor’s information manually.
-                  </p>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData => formData.sponsors?.sponsors?.length,
-              },
-            },
-            'view:sponsorNotOnFileWarning': {
-              'ui:description': (
-                <va-alert
-                  class="vads-u-margin-bottom--5"
-                  close-btn-aria-label="Close notification"
-                  status="warning"
-                  visible
-                >
-                  <h3 slot="headline">Your selected sponsor isn’t on file</h3>
-                  <p>
-                    If you think this is incorrect, reach out to your sponsor so
-                    they can{' '}
-                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
-                      update this information on the DoD milConnect website
-                    </a>
-                    .
-                  </p>
-                  <p>
-                    You may still continue this application and enter your
-                    sponsor’s information manually.
-                  </p>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData => !formData.sponsors?.sponsors?.length,
-              },
-            },
-            'view:enterYourSponsorsInformationHeading': {
-              'ui:description': (
-                <h3 className="vads-u-margin-bottom--3">
-                  Enter your sponsor’s information
-                </h3>
-              ),
-            },
-            [formFields.relationshipToServiceMember]: {
-              'ui:title':
-                'What’s your relationship to the Veteran or service member whose benefit has been transferred to you?',
-              'ui:widget': 'radio',
-            },
-            'view:yourSponsorsInformationHeading': {
-              'ui:description': <h4>Your sponsor’s information</h4>,
-            },
-            [formFields.sponsorFullName]: {
-              ...fullNameUI,
-              first: {
-                ...fullNameUI.first,
-                'ui:validations': [
-                  (errors, field) =>
-                    addWhitespaceOnlyError(
-                      field,
-                      errors,
-                      'Please enter a first name',
-                    ),
-                ],
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:validations': [
-                  (errors, field) =>
-                    addWhitespaceOnlyError(
-                      field,
-                      errors,
-                      'Please enter a last name',
-                    ),
-                ],
-              },
-            },
-            [formFields.sponsorDateOfBirth]: {
-              ...currentOrPastDateUI('Date of birth'),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              formFields.relationshipToServiceMember,
-              formFields.sponsorDateOfBirth,
-            ],
-            properties: {
-              'view:noSponsorWarning': {
-                type: 'object',
-                properties: {},
-              },
-              'view:sponsorNotOnFileWarning': {
-                type: 'object',
-                properties: {},
-              },
-              'view:enterYourSponsorsInformationHeading': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.relationshipToServiceMember]: {
-                type: 'string',
-                enum: [SPONSOR_RELATIONSHIP.SPOUSE, SPONSOR_RELATIONSHIP.CHILD],
-              },
-              'view:yourSponsorsInformationHeading': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.sponsorFullName]: {
-                ...fullName,
-                required: ['first', 'last'],
-                properties: {
-                  ...fullName.properties,
-                  middle: {
-                    ...fullName.properties.middle,
-                    maxLength: 30,
-                  },
-                },
-              },
-              [formFields.sponsorDateOfBirth]: date,
-            },
-          },
-        },
         firstSponsorSelection: {
           title: 'Choose your first sponsor',
           path: 'first-sponsor',
@@ -624,7 +421,8 @@ const formConfig = {
         highSchool: {
           title: 'Verify your high school education',
           path: 'high-school',
-          depends: formData => applicantIsChildOfSponsor(formData),
+          depends: formData =>
+            applicantIsaMinor(formData) && !formData.toeHighSchoolInfoChange,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -636,16 +434,15 @@ const formConfig = {
                   >
                     <h3 slot="headline">We need additional information</h3>
                     <div>
-                      Since you indicated that you are the child of your
-                      sponsor, please include information about your high school
-                      education.
+                      Since you are under 18 years old, please include
+                      information about your high school education.
                     </div>
                   </va-alert>
                   <h3>Verify your high school education</h3>
                 </>
               ),
             },
-            [formFields.highSchoolDiploma]: {
+            [formFields.highSchoolDiplomaLegacy]: {
               'ui:title':
                 'Did you earn a high school diploma or equivalency certificate?',
               'ui:widget': 'radio',
@@ -653,13 +450,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.highSchoolDiploma],
+            required: [formFields.highSchoolDiplomaLegacy],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [formFields.highSchoolDiploma]: {
+              [formFields.highSchoolDiplomaLegacy]: {
                 type: 'string',
                 enum: ['Yes', 'No'],
               },
@@ -670,8 +467,9 @@ const formConfig = {
           title: 'Verify your high school graduation date',
           path: 'high-school-completion',
           depends: formData =>
-            applicantIsChildOfSponsor(formData) &&
-            formData[formFields.highSchoolDiploma] === 'Yes',
+            applicantIsaMinor(formData) &&
+            formData[formFields.highSchoolDiplomaLegacy] === 'Yes' &&
+            !formData.toeHighSchoolInfoChange,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -683,16 +481,16 @@ const formConfig = {
                   >
                     <h3 slot="headline">We need additional information</h3>
                     <div>
-                      Since you indicated that you are the child of your
-                      sponsor, please include information about your high school
-                      education.
+                      Since you are under 18 years old and indicated that you
+                      earned a high school diploma, please verify your high
+                      school graduation date.
                     </div>
                   </va-alert>
-                  <h3>Verify your high school education</h3>
+                  <h3>Verify your high school graduation date</h3>
                 </>
               ),
             },
-            [formFields.highSchoolDiplomaDate]: {
+            [formFields.highSchoolDiplomaDateLegacy]: {
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency certificate?',
               ),
@@ -700,13 +498,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.highSchoolDiplomaDate],
+            required: [formFields.highSchoolDiplomaDateLegacy],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [formFields.highSchoolDiplomaDate]: date,
+              [formFields.highSchoolDiplomaDateLegacy]: date,
             },
           },
         },
@@ -771,7 +569,7 @@ const formConfig = {
               email: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
-                'ui:reviewField': EmailReviewField,
+                'ui:widget': CustomEmailField,
               },
               confirmEmail: {
                 ...emailUI('Confirm email address'),
@@ -783,14 +581,18 @@ const formConfig = {
               'ui:validations': [
                 (errors, field) => {
                   if (
-                    field[formFields.email] !== field[formFields.confirmEmail]
+                    field?.email?.toLowerCase() !==
+                    field?.confirmEmail?.toLowerCase()
                   ) {
-                    errors[formFields.confirmEmail].addError(
+                    errors.confirmEmail?.addError(
                       'Sorry, your emails must match',
                     );
                   }
                 },
               ],
+            },
+            'view:confirmDuplicateData': {
+              'ui:description': DuplicateContactInfoModal,
             },
           },
           schema: {
@@ -814,6 +616,10 @@ const formConfig = {
                   email,
                   confirmEmail: email,
                 },
+              },
+              'view:confirmDuplicateData': {
+                type: 'object',
+                properties: {},
               },
             },
           },
@@ -871,6 +677,69 @@ const formConfig = {
               },
               [formFields.address]: {
                 ...address.uiSchema('', false, null, true),
+                'ui:validations': [customValidateAddress],
+                'ui:options': {
+                  updateSchema: (formData, addressSchema) => {
+                    const livesOnMilitaryBase =
+                      formData['view:mailingAddress']?.livesOnMilitaryBase;
+                    const country =
+                      formData['view:mailingAddress']?.address?.country ||
+                      'USA';
+
+                    // Get the current required fields, excluding state
+                    const required = (addressSchema.required || []).filter(
+                      field => field !== 'state',
+                    );
+
+                    // Only add state as required for USA or military base
+                    if (livesOnMilitaryBase || country === 'USA') {
+                      required.push('state');
+                    }
+
+                    if (livesOnMilitaryBase) {
+                      return {
+                        ...addressSchema,
+                        required,
+                        properties: {
+                          ...addressSchema.properties,
+                          state: {
+                            type: 'string',
+                            title: 'AE/AA/AP',
+                            enum: ['AE', 'AA', 'AP'],
+                            enumNames: [
+                              'AE - APO/DPO/FPO',
+                              'AA - APO/DPO/FPO',
+                              'AP - APO/DPO/FPO',
+                            ],
+                          },
+                        },
+                      };
+                    }
+
+                    let stateSchema = {
+                      type: 'string',
+                      title: 'State/County/Province',
+                    };
+
+                    if (country === 'USA') {
+                      stateSchema = {
+                        ...stateSchema,
+                        enum: constants.states.USA.map(state => state.value),
+                        enumNames: constants.states.USA.map(
+                          state => state.label,
+                        ),
+                      };
+                    }
+                    return {
+                      ...addressSchema,
+                      required,
+                      properties: {
+                        ...addressSchema.properties,
+                        state: stateSchema,
+                      },
+                    };
+                  },
+                },
                 country: {
                   'ui:title': 'Country',
                   'ui:required': formData =>
@@ -927,6 +796,24 @@ const formConfig = {
                     },
                   ],
                 },
+                street2: {
+                  'ui:title': 'Street address line 2',
+                  'ui:validations': [
+                    (errors, fieldValue) => {
+                      // Optional check for whitespace
+                      if (fieldValue && !fieldValue.trim().length) {
+                        errors.addError('Address line 2 can’t be only spaces');
+                      }
+                    },
+                  ],
+                  'ui:options': {
+                    // Always set minLength to 0 so an empty string doesn't fail
+                    updateSchema: (_formData, schema) => ({
+                      ...schema,
+                      minLength: 0,
+                    }),
+                  },
+                },
                 city: {
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',
@@ -940,16 +827,27 @@ const formConfig = {
                   ],
                   'ui:options': {
                     replaceSchema: formData => {
-                      if (
-                        formData['view:mailingAddress']?.livesOnMilitaryBase
-                      ) {
+                      const livesOnBase =
+                        formData['view:mailingAddress']?.livesOnMilitaryBase;
+
+                      if (livesOnBase) {
+                        const baseEnum = ['APO', 'FPO'];
+
+                        // Conditionally add DPO if the new flag is on
+                        if (formData?.mebDpoAddressOptionEnabled) {
+                          baseEnum.push('DPO');
+                        }
+
                         return {
                           type: 'string',
-                          title: 'APO/FPO',
-                          enum: ['APO', 'FPO'],
+                          title: formData?.mebDpoAddressOptionEnabled
+                            ? 'APO/FPO/DPO'
+                            : 'APO/FPO',
+                          enum: baseEnum,
                         };
                       }
 
+                      // If the user doesn’t live on a military base, we use a normal city text field
                       return {
                         type: 'string',
                         title: 'City',
@@ -958,9 +856,15 @@ const formConfig = {
                   },
                 },
                 state: {
-                  'ui:required': formData =>
-                    formData['view:mailingAddress']?.livesOnMilitaryBase ||
-                    formData['view:mailingAddress']?.address?.country === 'USA',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (field?.length === 1) {
+                        errors.addError('Must be more than 1 character');
+                      } else if (field?.length > 31) {
+                        errors.addError('Must be less than 31 characters');
+                      }
+                    },
+                  ],
                 },
                 postalCode: {
                   'ui:errorMessages': {
@@ -1064,6 +968,7 @@ const formConfig = {
                       };
                     },
                   );
+
                   return form => filterContactMethods(form);
                 })(),
               },
@@ -1137,6 +1042,7 @@ const formConfig = {
                         }}
                       >
                         <va-button
+                          uswds
                           onClick={() => {}}
                           secondary
                           text="Go back and add a mobile phone number"
@@ -1211,6 +1117,91 @@ const formConfig = {
                   ]?.isInternational,
               },
             },
+            'view:emailOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get email notifications because your
+                    email is on file for another person with education benefits.
+                    You will not be able to take full advantage of VA’s
+                    electronic notifications and enrollment verifications
+                    available. If you cannot, certain electronic services will
+                    be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const isNo = formData[
+                    'view:receiveTextMessages'
+                  ]?.receiveTextMessages
+                    ?.slice(0, 3)
+                    ?.includes('No,');
+                  const noDuplicates = formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false,
+                  );
+
+                  // Return true if isNo is false OR noDuplicates is not false
+                  return (
+                    !formData?.toeDupContactInfoCall || (!isNo || noDuplicates)
+                  );
+                },
+              },
+            },
+            'view:mobilePhoneOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text notifications because your
+                    mobile phone number is on file for another person with
+                    education benefits. You will not be able to take full
+                    advantage of VA’s electronic notifications and enrollment
+                    verifications available. If you cannot, certain electronic
+                    services will be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const isYes = formData[
+                    'view:receiveTextMessages'
+                  ]?.receiveTextMessages
+                    ?.slice(0, 4)
+                    ?.includes('Yes');
+                  const noDuplicates = formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === false,
+                  );
+                  const mobilePhone =
+                    formData[(formFields?.viewPhoneNumbers)]?.[
+                      formFields?.mobilePhoneNumber
+                    ]?.phone;
+
+                  // Return true if isYes is false, noDuplicates is true, or mobilePhone is undefined
+                  return (
+                    !formData?.toeDupContactInfoCall ||
+                    (!isYes || noDuplicates || !mobilePhone)
+                  );
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -1241,6 +1232,18 @@ const formConfig = {
                 },
               },
               'view:internationalTextMessageAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:emailOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:mobilePhoneOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:duplicateEmailAndPhoneAndNoHomePhone': {
                 type: 'object',
                 properties: {},
               },
@@ -1349,7 +1352,7 @@ const formConfig = {
                   },
                   accountType: {
                     type: 'string',
-                    enum: ['checking', 'savings'],
+                    enum: ['Checking', 'Savings'],
                   },
                   routingNumber: {
                     type: 'string',

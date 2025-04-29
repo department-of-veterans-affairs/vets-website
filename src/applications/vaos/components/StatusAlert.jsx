@@ -1,8 +1,10 @@
 import React from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { format, differenceInBusinessDays, isValid } from 'date-fns';
+import FacilityPhone from './FacilityPhone';
 import InfoAlert from './InfoAlert';
 import {
   APPOINTMENT_STATUS,
@@ -12,58 +14,65 @@ import {
 import { startNewAppointmentFlow } from '../appointment-list/redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
-import {
-  selectFeatureAfterVisitSummary,
-  selectFeatureAppointmentDetailsRedesign,
-} from '../redux/selectors';
-import AfterVisitSummary from './AfterVisitSummary';
+import { getFacilityPhone } from '../services/location';
 
-function handleClick(history, dispatch, typeOfCare) {
+function handleClick(dispatch) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(typeOfCare.url);
   };
 }
 
 export default function StatusAlert({ appointment, facility }) {
-  const history = useHistory();
+  const PASS_DUE = 4;
   const dispatch = useDispatch();
 
   const { search } = useLocation();
   const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
-  const featureAfterVisitSummary = useSelector(state =>
-    selectFeatureAfterVisitSummary(state),
-  );
-  const featureAppointmentDetailsRedesign = useSelector(
-    selectFeatureAppointmentDetailsRedesign,
-  );
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const { isPastAppointment, isPendingAppointment } = appointment.vaos;
 
   const canceler = new Map([
     [CANCELLATION_REASONS.patient, 'You'],
     [CANCELLATION_REASONS.provider, `${facility?.name || 'Facility'}`],
   ]);
-  const { status } = appointment;
+  const { status, created } = appointment;
+  const isValidDate = isValid(new Date(created));
 
-  if (
-    featureAfterVisitSummary &&
-    featureAppointmentDetailsRedesign &&
-    APPOINTMENT_STATUS.proposed === status
-  ) {
+  const facilityPhone = getFacilityPhone(facility);
+  const today = new Date().toISOString();
+
+  if (APPOINTMENT_STATUS.proposed === status && isValidDate) {
+    const createdDate = format(new Date(created), 'MMMM dd, yyyy');
+    const businessDays = differenceInBusinessDays(
+      new Date(today),
+      new Date(created),
+    );
+    if (businessDays >= PASS_DUE) {
+      return (
+        <InfoAlert
+          status="warning"
+          headline="We're having trouble scheduling this appointment"
+        >
+          <p>Call your facility to finish scheduling.</p>
+          <FacilityPhone contact={facilityPhone} icon />
+          <p>You requested this appointment on {createdDate}.</p>
+        </InfoAlert>
+      );
+    }
+
     return (
       <InfoAlert backgroundOnly status={showConfirmMsg ? 'success' : 'info'}>
         <p>
           We’ll try to schedule your appointment in the next 2 business days.
           Check back here or call your facility for updates.
         </p>
-        {showConfirmMsg && (
+
+        {showConfirmMsg ? (
           <>
             <div className="vads-u-margin-y--1">
               <va-link
@@ -81,118 +90,50 @@ export default function StatusAlert({ appointment, facility }) {
               <va-link
                 text="Schedule a new appointment"
                 data-testid="schedule-appointment-link"
-                onClick={handleClick(history, dispatch, typeOfCare)}
-                tabindex="0"
+                onClick={handleClick(dispatch)}
+                href={`${root.url}${typeOfCare.url}`}
               />
             </div>
           </>
+        ) : (
+          <p>You requested this appointment on {createdDate}.</p>
         )}
       </InfoAlert>
     );
   }
 
-  if (featureAfterVisitSummary && !featureAppointmentDetailsRedesign) {
-    const who = canceler.get(appointment?.cancelationReason) || 'Facility';
-
-    if (APPOINTMENT_STATUS.booked === status && isPastAppointment) {
-      return (
-        <>
-          <h2 className="vads-u-margin-bottom--0">After visit summary</h2>
-          <AfterVisitSummary data={appointment} /> <br />
-        </>
-      );
-    }
-
-    if (APPOINTMENT_STATUS.proposed === status) {
-      if (isPastAppointment) {
-        return (
-          <InfoAlert backgroundOnly status="info">
-            <p>
-              We’ll try to schedule your appointment in the next 2 business
-              days. Check back here or call your facility for updates.
-            </p>
-          </InfoAlert>
-        );
-      }
-      return (
-        <InfoAlert backgroundOnly status="success">
-          <p>
-            We’ll try to schedule your appointment in the next 2 business days.
-            Check back here or call your facility for updates.
-          </p>
-          <div className="vads-u-margin-y--1">
-            <va-link
-              text="Review your appointments"
-              data-testid="review-appointments-link"
-              href={root.url}
-              onClick={() =>
-                recordEvent({
-                  event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
-                })
-              }
-            />
-          </div>
-          <div>
-            <va-link
-              text="Schedule a new appointment"
-              data-testid="schedule-appointment-link"
-              onClick={handleClick(history, dispatch, typeOfCare)}
-              tabindex="0"
-            />
-          </div>
-        </InfoAlert>
-      );
-    }
-
-    if (APPOINTMENT_STATUS.cancelled === status) {
-      return (
-        <InfoAlert backgroundOnly status="error">
-          <strong>{`${who} canceled this appointment. `}</strong>
-          {isPendingAppointment
-            ? 'If you still need an appointment, call us or request a new appointment online.'
-            : 'If you want to reschedule, call us or schedule a new appointment online.'}
-          <br />
-          <br />
-          <va-link
-            text="Schedule a new appointment"
-            data-testid="schedule-appointment-link"
-            onClick={handleClick(history, dispatch, typeOfCare)}
-            tabindex="0"
-          />
-        </InfoAlert>
-      );
-    }
-  }
-
   if (canceled) {
     const who = canceler.get(appointment?.cancelationReason) || 'Facility';
+    let message;
+    let displayScheduleLink = false;
+    if (appointment.type === 'COMMUNITY_CARE_APPOINTMENT') {
+      message = `${who} canceled this appointment. If you still want this appointment, call your community care provider to schedule.`;
+    } else if (appointment.vaos.isCompAndPenAppointment) {
+      message = `${who} canceled this appointment. If you still want this appointment, call your VA health facility’s compensation and pension office to schedule.`;
+    } else if (appointment.vaos.isPendingAppointment) {
+      message = `${who} canceled this request. If you still want this appointment, call your VA health facility or submit another request online.`;
+      displayScheduleLink = true;
+    } else {
+      message = `${who} canceled this appointment. If you still want this appointment, call your VA health facility to schedule.`;
+    }
     return (
       <>
         <InfoAlert status="error" backgroundOnly>
-          <strong>{who} canceled this appointment. </strong>
-          If you want to reschedule, call us or schedule a new appointment
-          online.
-          {featureAppointmentDetailsRedesign && (
+          {message}
+          {displayScheduleLink && (
             <>
               <br />
               <br />
               <va-link
                 text="Schedule a new appointment"
                 data-testid="schedule-appointment-link"
-                onClick={handleClick(history, dispatch, typeOfCare)}
-                tabindex="0"
+                onClick={handleClick(dispatch)}
+                href={`${root.url}${typeOfCare.url}`}
               />
             </>
           )}
         </InfoAlert>
       </>
-    );
-  }
-  if (isPastAppointment && !featureAppointmentDetailsRedesign) {
-    return (
-      <InfoAlert status="warning" backgroundOnly>
-        This appointment occurred in the past.
-      </InfoAlert>
     );
   }
   if (showConfirmMsg) {
@@ -216,8 +157,8 @@ export default function StatusAlert({ appointment, facility }) {
           <va-link
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
-            onClick={handleClick(history, dispatch, typeOfCare)}
-            tabindex="0"
+            onClick={handleClick(dispatch)}
+            href={`${root.url}${typeOfCare.url}`}
           />
         </div>
       </InfoAlert>
@@ -230,9 +171,12 @@ export default function StatusAlert({ appointment, facility }) {
 StatusAlert.propTypes = {
   appointment: PropTypes.shape({
     status: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     cancelationReason: PropTypes.string,
+    created: PropTypes.string,
     avsPath: PropTypes.string,
     vaos: PropTypes.shape({
+      isCompAndPenAppointment: PropTypes.bool.isRequired,
       isPastAppointment: PropTypes.bool.isRequired,
       isPendingAppointment: PropTypes.bool.isRequired,
     }),

@@ -1,78 +1,102 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Scroll from 'react-scroll';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { connect } from 'react-redux';
+import {
+  QUESTION_MAP,
+  RESPONSES,
+  SHORT_NAME_MAP,
+} from '../../constants/question-data-map';
+import RadioGroup from './shared/RadioGroup';
+import { updateReason } from '../../actions';
+import { pageSetup } from '../../utilities/page-setup';
+import { ROUTES } from '../../constants';
 
-// Relative Imports
-import { shouldShowQuestion } from '../../helpers';
-import { questionLabels } from '../../constants';
+const Reason = ({ formResponses, setReason, router, viewedIntroPage }) => {
+  const [formError, setFormError] = useState(false);
+  const shortName = SHORT_NAME_MAP.REASON;
+  const H1 = QUESTION_MAP[shortName];
+  const reason = formResponses[shortName];
+  const hint = (
+    <>
+      <strong>Note: </strong> If more than one of these descriptions matches
+      your situation, choose the one that started the events that led to your
+      discharge. For example, if you sustained a traumatic brain injury (TBI),
+      which led to posttraumatic stress disorder (PTSD), choose the option
+      associated with TBI.
+    </>
+  );
+  const {
+    REASON_PTSD,
+    REASON_TBI,
+    REASON_SEXUAL_ORIENTATION,
+    REASON_SEXUAL_ASSAULT,
+    REASON_TRANSGENDER,
+    REASON_ERROR,
+    REASON_UNJUST,
+    REASON_DD215_UPDATE_TO_DD214,
+  } = RESPONSES;
 
-const { Element } = Scroll;
+  useEffect(
+    () => {
+      pageSetup(H1);
+    },
+    [H1],
+  );
 
-const Reason = ({ formValues, handleKeyDown, scrollToLast, updateField }) => {
-  const key = '4_reason';
-
-  if (!formValues) {
-    return null;
-  }
-
-  if (!shouldShowQuestion(key, formValues.questions)) {
-    return null;
-  }
-
-  const options = [
-    { label: questionLabels[key]['1'], value: '1' },
-    { label: questionLabels[key]['2'], value: '2' },
-    { label: questionLabels[key]['3'], value: '3' },
-    { label: questionLabels[key]['4'], value: '4' },
-    { label: questionLabels[key]['5'], value: '5' },
-    // question 8 is intentionally presented out of order here
-    { label: questionLabels[key]['8'], value: '8' },
-    { label: questionLabels[key]['6'], value: '6' },
-    { label: questionLabels[key]['7'], value: '7' },
-  ];
-
-  const radioButtonProps = {
-    name: key,
-    label:
-      'Which of the following best describes why you want to change your discharge paperwork? Choose the one that’s closest to your situation.',
-    'label-header-level': '2',
-    hint:
-      'Note: If more than one of these fits your situation, choose the one that started the events leading to your discharge. For example, if you experienced sexual assault and have posttraumatic stress disorder (PTSD) resulting from that experience, choose sexual assault.',
-    key,
-    value: formValues[key],
-    onVaValueChange: e => {
-      if (e.returnValue) {
-        updateField(key, e.detail.value);
+  useEffect(
+    () => {
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
       }
     },
-    onMouseDown: scrollToLast,
-    onKeyDown: handleKeyDown,
-  };
+    [router, viewedIntroPage],
+  );
 
   return (
-    <div className="vads-u-margin-top--6">
-      <Element name={key} />
-      <VaRadio {...radioButtonProps} uswds>
-        {options.map((option, index) => (
-          <va-radio-option
-            key={index}
-            label={option.label}
-            name={key}
-            value={option.value}
-            checked={formValues[key] === option.value}
-          />
-        ))}
-      </VaRadio>
-    </div>
+    <RadioGroup
+      formError={formError}
+      formResponses={formResponses}
+      formValue={reason}
+      hint={hint}
+      H1={H1}
+      responses={[
+        REASON_PTSD,
+        REASON_TBI,
+        REASON_SEXUAL_ORIENTATION,
+        REASON_SEXUAL_ASSAULT,
+        REASON_TRANSGENDER,
+        REASON_DD215_UPDATE_TO_DD214,
+        REASON_ERROR,
+        REASON_UNJUST,
+      ]}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-reason"
+      valueSetter={setReason}
+    />
   );
 };
 
 Reason.propTypes = {
-  formValues: PropTypes.object.isRequired,
-  handleKeyDown: PropTypes.func,
-  scrollToLast: PropTypes.func,
-  updateField: PropTypes.func,
+  formResponses: PropTypes.object,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  setReason: PropTypes.func,
+  viewedIntroPage: PropTypes.bool,
 };
 
-export default Reason;
+const mapStateToProps = state => ({
+  formResponses: state?.dischargeUpgradeWizard?.duwForm?.form,
+  viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
+});
+
+const mapDispatchToProps = {
+  setReason: updateReason,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Reason);

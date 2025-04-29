@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 .older-messages {
   width: inherit;
@@ -33,9 +33,6 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     white-space: pre-line;
-  }
-  .fa-lg {
-    font-size: 1.33333em !important;
   }
   .expand-all-messages-btn {
     margin-top: 14px;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-
+import * as api from '~/platform/utilities/api';
+import sinon from 'sinon';
 import { renderWithProfileReducers } from '../../unit-test-helpers';
-
 import MilitaryInformation from '../../../components/military-information/MilitaryInformation';
 
 function createBasicInitialState(toggles = {}) {
@@ -48,6 +48,10 @@ function createBasicInitialState(toggles = {}) {
               characterOfDischargeCode: 'A',
             },
           ],
+          vetStatusEligibility: {
+            confirmed: true,
+            message: [],
+          },
         },
       },
     },
@@ -57,6 +61,16 @@ function createBasicInitialState(toggles = {}) {
 describe('MilitaryInformation', () => {
   let initialState;
   let view;
+  let apiRequestStub;
+
+  beforeEach(() => {
+    apiRequestStub = sinon.stub(api, 'apiRequest');
+  });
+
+  afterEach(() => {
+    apiRequestStub.restore();
+  });
+
   describe('when military history exists', () => {
     it('should render data for each entry of military history', () => {
       initialState = createBasicInitialState();
@@ -87,6 +101,15 @@ describe('MilitaryInformation', () => {
       initialState = createBasicInitialState();
       initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory[0].branchOfService = null;
       initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory[1].branchOfService = undefined;
+      const mockData = {
+        data: {
+          id: '',
+          type: 'veteran_status_confirmations',
+          attributes: { veteranStatus: 'confirmed' },
+        },
+      };
+
+      apiRequestStub.resolves(mockData);
       view = renderWithProfileReducers(<MilitaryInformation />, {
         initialState,
       });

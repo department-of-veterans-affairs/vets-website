@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { requiredFiles, optionalFiles } from '../config/requiredUploads';
+import { REQUIRED_FILES, OPTIONAL_FILES } from '../config/constants';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
+import { CHAMPVA_FAX_NUMBER } from '../../shared/constants';
 
 export default function SupportingDocumentsPage({
   contentAfterButtons,
@@ -16,10 +17,11 @@ export default function SupportingDocumentsPage({
     goBack,
     goForward,
     disableLinks: false,
+    faxNum: CHAMPVA_FAX_NUMBER,
     setFormData,
     showConsent: false,
-    fileNameMap: { ...requiredFiles, ...optionalFiles },
-    requiredFiles,
+    fileNameMap: { ...REQUIRED_FILES, ...OPTIONAL_FILES },
+    requiredFiles: REQUIRED_FILES,
   });
   return <>{OverviewComp}</>;
 }

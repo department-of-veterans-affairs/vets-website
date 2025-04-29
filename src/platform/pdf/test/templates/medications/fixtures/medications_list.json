@@ -42,6 +42,7 @@
       "list": [
         {
           "header": "ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB",
+          "sectionSeparators": true,
           "sections": [
             {
               "header": "About your prescription",
@@ -133,6 +134,7 @@
         },
         {
           "header": "ACEBUTOLOL HCL 400MG CAP",
+          "sectionSeparators": true,
           "sections": [
             {
               "header": "About your prescription",
@@ -216,6 +218,7 @@
         },
         {
           "header": "ACETIC ACID 0.25% IRRG SOLN",
+          "sectionSeparators": true,
           "sections": [
             {
               "header": "About your prescription",

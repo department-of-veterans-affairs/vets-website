@@ -35,7 +35,7 @@ export default class SupportingDocsVerification {
           const itemProps = Array.isArray(items)
             ? items[0]?.properties // Confirmation page has different page structure
             : items?.properties;
-          return Object.keys(itemProps).map(
+          return Object.keys(itemProps ?? {}).map(
             item =>
               // Descend into the page to determine if it has a file upload
               itemProps[item]?.type === 'array'

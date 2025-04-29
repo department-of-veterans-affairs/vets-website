@@ -13,7 +13,6 @@ import {
   VaCheckboxGroup,
   VaMemorableDate,
   VaModal,
-  VaNumberInput,
   VaPrivacyAgreement,
   VaRadio,
   VaRadioOption,
@@ -25,6 +24,7 @@ import {
   VaProcessListItem,
   VaPagination,
   VaIcon,
+  VaLanguageToggle,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V3BasePage() {
@@ -113,6 +113,15 @@ export default function V3BasePage() {
   };
   hideHeader();
 
+  const langToggleUrl = new URL(window.parent.location.href);
+  langToggleUrl.hash = 'langToggle';
+
+  const lang = sessionStorage.getItem('va-language-toggle-lang') ?? 'en';
+  function handleLanguageToggle(e) {
+    const { language } = e.detail;
+    sessionStorage.setItem('va-language-toggle-lang', language);
+  }
+
   return (
     <>
       <div className="vads-grid-container vads-font-sans">
@@ -148,22 +157,6 @@ export default function V3BasePage() {
               onInput={e => updateValue(e)}
             />
             <ValueDisplay label="V3 Input" id="v3InputValue" />
-          </div>
-        </div>
-
-        {/* Number Input */}
-        <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Number input component</h2>
-          <div className="vads-grid-col">
-            <VaNumberInput
-              uswds
-              name="v3NumberInput"
-              label="V3 Number Input"
-              hint="This is a hint"
-              inputmode="numeric"
-              onInput={e => updateValue(e)}
-            />
-            <ValueDisplay label="V3 Number Input" id="v3NumberInputValue" />
           </div>
         </div>
 
@@ -534,6 +527,19 @@ export default function V3BasePage() {
                 </p>
               </VaProcessListItem>
             </VaProcessList>
+          </div>
+        </div>
+        {/* Language Toggle */}
+        <div className="grid-row flex-column border-bottom">
+          <h2 className="grid-col font-ui-md">Language Toggle</h2>
+          <div className="grid-col">
+            <VaLanguageToggle
+              language={lang}
+              enHref={langToggleUrl}
+              esHref={langToggleUrl}
+              tlHref={langToggleUrl}
+              onVaLanguageToggle={handleLanguageToggle}
+            />
           </div>
         </div>
       </div>

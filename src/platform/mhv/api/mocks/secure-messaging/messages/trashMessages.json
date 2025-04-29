@@ -1,0 +1,80 @@
+{
+  "data": [
+    {
+      "id": "3579897",
+      "type": "messages",
+      "attributes": {
+        "messageId": 3579897,
+        "category": "OTHER",
+        "subject": "Wrong Group",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2024-05-07T13:44:35.000Z",
+        "senderId": 2992380,
+        "senderName": "COSTELLO, ANNE M",
+        "recipientId": 2991831,
+        "recipientName": "LEE, JAMIE",
+        "readReceipt": "READ",
+        "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/3579897"
+      
+}
+    
+},
+    {
+      "id": "2993392",
+      "type": "messages",
+      "attributes": {
+        "messageId": 2993392,
+        "category": "TEST_RESULTS",
+        "subject": "CBC Lab Results",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-09-01T14:47:58.000Z",
+        "senderId": 2992380,
+        "senderName": "COSTELLO, ANNE  M",
+        "recipientId": 2991831,
+        "recipientName": "LEE, JAMIE",
+        "readReceipt": "READ",
+        "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/2993392"
+      
+}
+    
+},
+    {
+      "id": "2991843",
+      "type": "messages",
+      "attributes": {
+        "messageId": 2991843,
+        "category": "OTHER",
+        "subject": "General Inquiry - 1",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2023-08-31T15:33:51.000Z",
+        "senderId": 2339005,
+        "senderName": "TRAN, AN",
+        "recipientId": 2991831,
+        "recipientName": "LEE, JAMIE",
+        "readReceipt": "READ",
+        "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "proxySenderName": null
+      
+},
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/2991843"
+      
+}
+    
+}
+  
+]
+}

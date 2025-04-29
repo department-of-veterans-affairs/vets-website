@@ -21,7 +21,7 @@ class IntroductionPage extends React.Component {
           subTitle="Web component v3 patterns for testing and development"
         />
         <div>
-          <h3>Pages</h3>
+          <h2 className="vads-u-font-size--h3">Pages</h2>
           <ul>
             <li>
               <Link to="/chapter-select">Chapter select</Link>
@@ -97,6 +97,9 @@ class IntroductionPage extends React.Component {
               <Link to="/array-multiple-page-builder-choose-flow">
                 Array - multiple page - builder pattern
               </Link>
+            </li>
+            <li>
+              <Link to="/confirmation">Confirmation page</Link>
             </li>
           </ul>
         </div>

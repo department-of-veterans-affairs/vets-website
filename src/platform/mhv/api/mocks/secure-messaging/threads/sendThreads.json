@@ -1,0 +1,274 @@
+{
+  "data": [
+    {
+      "id": "3813789",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3813789,
+        "folderId": -1,
+        "messageId": 3813790,
+        "threadPageSize": 10,
+        "messageCount": 1,
+        "category": "TEST_RESULTS",
+        "subject": "Test Result",
+        "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "sentDate": "2024-08-01T15:34:46.000Z",
+        "draftDate": null,
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "recipientId": 2993382,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3813789"
+      }
+    },
+    {
+      "id": "3805615",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3805615,
+        "folderId": -1,
+        "messageId": 3805616,
+        "threadPageSize": 10,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "Reroute Test",
+        "triageGroupName": "DETROIT: Audiology, House, Gregory, Md",
+        "sentDate": "2024-07-29T15:11:13.000Z",
+        "draftDate": null,
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "DETROIT: Audiology, House, Gregory, Md",
+        "recipientId": 2993563,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3805615"
+      }
+    },
+    {
+      "id": "3805609",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3805609,
+        "folderId": -1,
+        "messageId": 3805610,
+        "threadPageSize": 10,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "Reroute Test",
+        "triageGroupName": "DETROIT: Audiology, House, Gregory, Md",
+        "sentDate": "2024-07-29T15:09:30.000Z",
+        "draftDate": null,
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "DETROIT: Audiology, House, Gregory, Md",
+        "recipientId": 2993563,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3805609"
+      }
+    },
+    {
+      "id": "3805295",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3805295,
+        "folderId": -1,
+        "messageId": 3805296,
+        "threadPageSize": 10,
+        "messageCount": 2,
+        "category": "OTHER",
+        "subject": "Reroute Test",
+        "triageGroupName": "DETROIT: Audiology, Justice, French, MD",
+        "sentDate": "2024-07-29T13:04:59.000Z",
+        "draftDate": null,
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "DETROIT: Audiology, Justice, French, MD",
+        "recipientId": 3805285,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3805295"
+      }
+    },
+    {
+      "id": "3619279",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3619279,
+        "folderId": -1,
+        "messageId": 3619280,
+        "threadPageSize": 10,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "Test",
+        "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+        "sentDate": "2024-05-21T13:10:34.000Z",
+        "draftDate": null,
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+        "recipientId": 2993571,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3619279"
+      }
+    },
+    {
+      "id": "3580277",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3580277,
+        "folderId": -1,
+        "messageId": 3580278,
+        "threadPageSize": 10,
+        "messageCount": 2,
+        "category": "OTHER",
+        "subject": "Wrong Triage Group",
+        "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+        "sentDate": "2024-05-07T14:13:47.000Z",
+        "draftDate": null,
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+        "recipientId": 2993571,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3580277"
+      }
+    },
+    {
+      "id": "3579882",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3579882,
+        "folderId": -1,
+        "messageId": 3579883,
+        "threadPageSize": 10,
+        "messageCount": 2,
+        "category": "OTHER",
+        "subject": "Wrong Group",
+        "triageGroupName": "DETROIT: Cardiology, Yang, Christina, Md",
+        "sentDate": "2024-05-07T13:37:00.000Z",
+        "draftDate": null,
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "DETROIT: Cardiology, Yang, Christina, Md",
+        "recipientId": 2993571,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3579882"
+      }
+    },
+    {
+      "id": "3550425",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3550425,
+        "folderId": -1,
+        "messageId": 3550437,
+        "threadPageSize": 10,
+        "messageCount": 2,
+        "category": "OTHER",
+        "subject": "General Inquiry",
+        "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "sentDate": "2024-04-23T15:15:18.000Z",
+        "draftDate": null,
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "recipientId": 3550420,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3550425"
+      }
+    },
+    {
+      "id": "3549573",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3549573,
+        "folderId": -1,
+        "messageId": 3549590,
+        "threadPageSize": 10,
+        "messageCount": 3,
+        "category": "OTHER",
+        "subject": "TEST",
+        "triageGroupName": "DETROIT: MHV Coordinator, Prince, Diana",
+        "sentDate": "2024-04-23T13:11:53.000Z",
+        "draftDate": null,
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "DETROIT: MHV Coordinator, Prince, Diana",
+        "recipientId": 2993579,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3549573"
+      }
+    },
+    {
+      "id": "3397741",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3397741,
+        "folderId": -1,
+        "messageId": 3397742,
+        "threadPageSize": 10,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "Usability Test",
+        "triageGroupName": "DETROIT: MHV Coordinator, Prince, Diana",
+        "sentDate": "2024-03-05T20:10:11.000Z",
+        "draftDate": null,
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "DETROIT: MHV Coordinator, Prince, Diana",
+        "recipientId": 2993579,
+        "proxySenderName": null,
+        "hasAttachment": true,
+        "unsentDrafts": false,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3397741"
+      }
+    }
+  ]
+}

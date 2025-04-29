@@ -15,12 +15,12 @@ export default function RenderErrorContainer({
 
   if (auth === AUTH_LEVEL.FAIL) {
     recordEvent({
-      event: code ? `login-error-code-${code}` : `login-error-no-code`,
+      event: `login-error-code-${code}`,
     });
   }
 
   switch (code) {
-    // User denied Authorization (ID Proofing)
+    // 001 - User denied Authorization (ID Proofing)
     case AUTH_ERRORS.USER_DENIED.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -36,19 +36,14 @@ export default function RenderErrorContainer({
           <h2>What you can do:</h2>
           <p>
             Please try again, and this time, select <strong>“Accept”</strong> on
-            the final page of the identity verification process. Or, if you
-            don’t want to verify your identity with Login.gov or ID.me, you can
-            try signing in with your premium DS Logon or premium My HealtheVet
-            username and password.
+            the final page of the identity verification process.
           </p>
-          <button type="button" onClick={openLoginModal}>
-            Try signing in again
-          </button>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
         </>
       );
       break;
 
-    // User's system time mismatch
+    // 002 - User's system time mismatch
     case AUTH_ERRORS.USER_CLOCK_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -69,8 +64,8 @@ export default function RenderErrorContainer({
       break;
 
     // Server time mismatch
-    case AUTH_ERRORS.SERVER_CLOCK_MISMATCH.errorCode:
-    case AUTH_ERRORS.MVI_MISMATCH.errorCode:
+    case AUTH_ERRORS.SERVER_CLOCK_MISMATCH.errorCode: // 003 - Server timing mismatch
+    case AUTH_ERRORS.MVI_MISMATCH.errorCode: // 004 - MVI mismatch
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re sorry. Something went wrong on our end, and we couldn’t sign you
@@ -80,15 +75,16 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>What you can do:</h2>
-          <ContactCenterInformation />
-          <button type="button" onClick={openLoginModal}>
-            Try signing in again
-          </button>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
+          <ContactCenterInformation
+            startSentance
+            className="vads-u-display--block vads-u-margin-top--2"
+          />
         </>
       );
       break;
 
-    // Session expired
+    // 005 - Session expired
     case AUTH_ERRORS.SESSION_EXPIRED.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -101,14 +97,12 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <p>Please sign in again.</p>
-          <button type="button" onClick={openLoginModal}>
-            Sign in
-          </button>
+          <va-button onClick={openLoginModal} text="Sign in" />
         </>
       );
       break;
 
-    // Failure to Proof (Login.gov)
+    // 009 - Failure to Proof (Login.gov)
     case AUTH_ERRORS.LOGINGOV_PROOFING_FAIL.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -138,17 +132,15 @@ export default function RenderErrorContainer({
               Login.gov/contact.
             </a>
           </p>
-          <ContactCenterInformation>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
+          <ContactCenterInformation className="vads-u-display--block vads-u-margin-top--2">
             If you’ve taken the steps above and still can’t sign in,
           </ContactCenterInformation>
-          <button type="button" onClick={openLoginModal}>
-            Try signing in again
-          </button>
         </>
       );
       break;
 
-    // Multiple MHV IDs (IENs) error
+    // 101 - Multiple MHV IDs (IENs) error
     case AUTH_ERRORS.MULTIPLE_MHVIDS.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -203,7 +195,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // Multiple EDIPIs
+    // 102 - Multiple EDIPIs
     case AUTH_ERRORS.MULTIPLE_EDIPIS.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -214,12 +206,12 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>What you can do:</h2>
-          <ContactCenterInformation />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
 
-    // ICN Mismatch
+    // 103 - ICN Mismatch
     case AUTH_ERRORS.ICN_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -231,12 +223,12 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <ContactCenterInformation />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
 
-    // UUID Missing (Login.gov or ID.me)
+    // 104 - UUID Missing (Login.gov or ID.me)
     case AUTH_ERRORS.UUID_MISSING.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -247,12 +239,12 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <ContactCenterInformation />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
 
-    // Multiple Corp IDs
+    // 106 - Multiple Corp IDs
     case AUTH_ERRORS.MULTIPLE_CORPIDS.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -263,11 +255,12 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <ContactCenterInformation />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
 
+    // 108 - MHV Verification issue
     case AUTH_ERRORS.MHV_VERIFICATION_ERROR.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -396,6 +389,7 @@ export default function RenderErrorContainer({
       );
       break;
 
+    // 112 - MHV Provisioning Failure (ToU-specific)
     case AUTH_ERRORS.MHV_PROVISIONING_FAILURE.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -406,11 +400,12 @@ export default function RenderErrorContainer({
         <>
           <h2>How can I fix this issue?</h2>
           <p>Try signing in again in a few minutes.</p>
-          <ContactCenterInformation startScentence />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
 
+    // 110 - Cerner/Oracle Health provisioning failure (ToU-specific)
     case AUTH_ERRORS.CERNER_PROVISIONING_FAILURE.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -420,11 +415,12 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>How can I fix this issue?</h2>
-          <ContactCenterInformation startScentence />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
 
+    // 111 - Ineligible for Cerner (ToU-specific)
     case AUTH_ERRORS.CERNER_NOT_ELIGIBLE.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -442,13 +438,14 @@ export default function RenderErrorContainer({
             below
           </p>
           <a href="/my-health">Access My HealtheVet</a>
-          <ContactCenterInformation>
-            If you’re still running into issues
+          <ContactCenterInformation className="vads-u-display--block">
+            If you’re still running into issues,
           </ContactCenterInformation>
         </>
       );
       break;
 
+    // 202 - OAuth State mismatch (SiS-specific)
     case AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -460,13 +457,12 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <p>Please sign in again.</p>
-          <button type="button" onClick={openLoginModal}>
-            Sign in
-          </button>
+          <va-button onClick={openLoginModal} text="Sign in" />
         </>
       );
       break;
 
+    // 203 - OAuth invalid request (SiS-specific)
     case AUTH_ERRORS.OAUTH_INVALID_REQUEST.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -500,7 +496,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // Catch all generic error
+    // 007 - Catch all generic error
     default:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -566,7 +562,7 @@ export default function RenderErrorContainer({
   return (
     <div className="usa-content columns small-12">
       <h1>We can’t sign you in</h1>
-      <va-alert visible status="error">
+      <va-alert visible status="error" uswds>
         {alertContent}
       </va-alert>
       {troubleshootingContent}

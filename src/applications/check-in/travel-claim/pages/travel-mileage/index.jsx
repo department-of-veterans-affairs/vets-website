@@ -102,7 +102,7 @@ const TravelMileage = props => {
               rel="noreferrer"
               className="vads-u-padding-top--3 vads-u-display--block"
             >
-              {t('check-current-mileage-rates')}
+              {t('check-current-mileage-rates-new-tab')}
             </ExternalLink>
           </va-alert-expandable>
           {multipleAppointments ? (
@@ -123,13 +123,23 @@ const TravelMileage = props => {
             class="vads-u-margin-bottom--2"
           >
             <Trans
-              i18nKey="if-you-need-submit-receipts-other-expenses"
+              i18nKey="if-you-need-submit-receipts-other-expenses--v2"
               components={[
                 <span key="bold" className="vads-u-font-weight--bold" />,
               ]}
             />
           </va-additional-info>
-          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch small-screen:vads-u-flex-direction--row">
+          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch mobile-lg:vads-u-flex-direction--row">
+            <va-button
+              uswds
+              big
+              secondary
+              onClick={goToPreviousPage}
+              data-testid="back-button"
+              class="vads-u-margin-top--2"
+              value="back"
+              back
+            />
             <va-button
               uswds
               big
@@ -138,16 +148,6 @@ const TravelMileage = props => {
               data-testid="continue-button"
               class="vads-u-margin-top--2"
               value="continue"
-            />
-            <va-button
-              uswds
-              big
-              secondary
-              onClick={goToPreviousPage}
-              data-testid="back-button"
-              class="vads-u-margin-top--2 small-screen:vads-u-order--first"
-              value="back"
-              back
             />
           </div>
         </div>

@@ -20,8 +20,10 @@ const {
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const mockDisabilityCompensations = require('./endpoints/disability-compensations');
 const directDeposits = require('./endpoints/direct-deposits');
+const powerOfAttorney = require('./endpoints/power-of-attorney');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
+const vetVerificationStatus = require('./endpoints/vet-verification-status');
 const fullName = require('./endpoints/full-name');
 const {
   baseUserTransitionAvailabilities,
@@ -92,18 +94,23 @@ const responses = {
         res.json(
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
-            profileHideDirectDeposit: true,
+            profileHideDirectDeposit: false,
+            representativeStatusEnableV2Features: true,
+            profileLimitDirectDepositForNonBeneficiaries: true,
             profileShowCredentialRetirementMessaging: true,
-            profileShowEmailNotificationSettings: true,
-            profileShowMhvNotificationSettings: true,
             profileShowPaymentsNotificationSetting: true,
-            profileShowQuickSubmitNotificationSetting: true,
-            profileUseExperimental: true,
-            profileShowDirectDepositSingleForm: true,
-            profileShowDirectDepositSingleFormUAT: false,
-            profileShowDirectDepositSingleFormAlert: true,
-            profileShowDirectDepositSingleFormEduDowntime: true,
+            profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
+            profileShowNewHealthCareCopayBillNotificationSetting: false,
+            profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+            profileShowMhvNotificationSettingsEmailRxShipment: true,
+            profileShowMhvNotificationSettingsNewSecureMessaging: true,
+            profileShowMhvNotificationSettingsMedicalImages: true,
+            profileShowQuickSubmitNotificationSetting: false,
+            profileShowNoValidationKeyAddressAlert: false,
+            profileUseExperimental: false,
             profileShowPrivacyPolicy: true,
+            veteranStatusCardUseLighthouse: true,
+            veteranStatusCardUseLighthouseFrontend: true,
           }),
         ),
       secondsOfDelay,
@@ -126,6 +133,7 @@ const responses = {
     // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
     // return res.json(user.badAddress); // user with bad address
     // return res.json(user.nonVeteranUser); // non-veteran user
+    // return res.json(user.loa3UserWithNoFacilities); // user without facilities and not a vaPatient
     // return res.json(user.externalServiceError); // external service error
     // return res.json(user.loa3UserWithoutLighthouseServiceAvailable); // user without lighthouse service available / no icn or participant id
     // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
@@ -144,7 +152,13 @@ const responses = {
     // downtime for VA Profile aka Vet360 (according to service name in response)
     // return res.json(
     //   maintenanceWindows.createDowntimeActiveNotification([
-    //     maintenanceWindows.SERVICES.VA_PROFILE,
+    //     maintenanceWindows.SERVICES.VAPRO_PROFILE_PAGE,
+    //     maintenanceWindows.SERVICES.VAPRO_CONTACT_INFO,
+    //     maintenanceWindows.SERVICES.LIGHTHOUSE_DIRECT_DEPOSIT,
+    //     maintenanceWindows.SERVICES.VAPRO_MILITARY_INFO,
+    //     maintenanceWindows.SERVICES.VAPRO_NOTIFICATION_SETTINGS,
+    //     maintenanceWindows.SERVICES.VAPRO_HEALTH_CARE_CONTACTS,
+    //     maintenanceWindows.SERVICES.VAPRO_PERSONAL_INFO,
     //   ]),
     // );
   },
@@ -177,8 +191,13 @@ const responses = {
     // return res.status(200).json(mockDisabilityCompensations.updates.success);
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      () => res.status(200).json(directDeposits.base),
+      secondsOfDelay,
+    );
     // this endpoint is used for the single form version of the direct deposit page
-    return res.status(200).json(directDeposits.base);
+
     // return res.status(500).json(genericErrors.error500);
     // return res.status(400).json(directDeposits.updates.errors.unspecified);
     // user with no dd data but is eligible
@@ -195,6 +214,17 @@ const responses = {
       // () => res.status(500).json(error500),
       // () => res.status(200).json(mockDisabilityCompensations.updates.success),
       () => res.status(400).json(directDeposits.updates.errors.invalidDayPhone),
+      // () =>
+      //   res
+      //     .status(422)
+      //     .json(directDeposits.updates.errors.paymentRestrictionsPresent),
+      secondsOfDelay,
+    );
+  },
+  'GET /representation_management/v0/power_of_attorney': (_req, res) => {
+    const secondsOfDelay = 2;
+    delaySingleResponse(
+      () => res.status(200).json(powerOfAttorney.organization),
       secondsOfDelay,
     );
   },
@@ -221,8 +251,15 @@ const responses = {
     //   .status(200)
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
+  'GET /v0/profile/vet_verification_status': (_req, res) => {
+    return res.status(200).json(vetVerificationStatus.confirmed);
+    // return res.status(200).json(vetVerificationStatus.notConfirmedProblem);
+    // return res.status(200).json(vetVerificationStatus.notConfirmedIneligible);
+    // return res.status(504).json(vetVerificationStatus.apiError);
+  },
   'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
-    return res.status(200).json(ratingInfo.success);
+    // return res.status(200).json(ratingInfo.success.serviceConnected0);
+    return res.status(200).json(ratingInfo.success.serviceConnected40);
     // return res.status(500).json(genericErrors.error500);
   },
 

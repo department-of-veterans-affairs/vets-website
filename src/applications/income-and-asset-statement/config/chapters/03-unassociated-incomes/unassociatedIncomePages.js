@@ -1,39 +1,63 @@
-import merge from 'lodash/merge';
+import React from 'react';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   radioUI,
   radioSchema,
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { relationshipLabels, incomeTypeLabels } from '../../../labels';
 import {
-  otherExplanationRequired,
+  formatCurrency,
+  otherRecipientRelationshipExplanationRequired,
   otherIncomeTypeExplanationRequired,
   recipientNameRequired,
-  showRecipientName,
+  isDefined,
 } from '../../../helpers';
+import { relationshipLabels, incomeTypeLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'unassociatedIncomes',
   nounSingular: 'recurring income not associated with accounts or assets',
   nounPlural: 'recurring incomes not associated with accounts or assets',
   required: false,
   isItemIncomplete: item =>
-    !item?.recipientRelationship ||
-    !item.incomeType ||
-    !item.grossMonthlyIncome ||
-    !item.payer, // include all required fields here
+    !isDefined(item?.recipientRelationship) ||
+    !isDefined(item.incomeType) ||
+    !isDefined(item.grossMonthlyIncome) ||
+    !isDefined(item.payer), // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
+    cardDescription: item =>
+      isDefined(item?.grossMonthlyIncome) && (
+        <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
+          <li>
+            Income type:{' '}
+            <span className="vads-u-font-weight--bold">
+              {incomeTypeLabels[item.incomeType]}
+            </span>
+          </li>
+          <li>
+            Gross monthly income:{' '}
+            <span className="vads-u-font-weight--bold">
+              {formatCurrency(item.grossMonthlyIncome)}
+            </span>
+          </li>
+          <li>
+            Income recipient:{' '}
+            <span className="vads-u-font-weight--bold">{item.payer}</span>
+          </li>
+        </ul>
+      ),
     reviewAddButtonText: 'Add another unassociated income',
     alertMaxItems:
       'You have added the maximum number of allowed unassociated incomes for this application. You may edit or delete an unassociated income or choose to continue the application.',
@@ -106,17 +130,12 @@ const incomeRecipientPage = {
         expandUnder: 'recipientRelationship',
         expandUnderCondition: 'OTHER',
       },
-      'ui:required': otherExplanationRequired,
-    },
-    recipientName: {
-      'ui:title': 'Tell us the income recipient’s name',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        hint: 'Only needed if child, parent, custodian of child, or other',
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: showRecipientName,
-      },
-      'ui:required': recipientNameRequired,
+      'ui:required': (formData, index) =>
+        otherRecipientRelationshipExplanationRequired(
+          formData,
+          index,
+          'unassociatedIncomes',
+        ),
     },
   },
   schema: {
@@ -124,9 +143,28 @@ const incomeRecipientPage = {
     properties: {
       recipientRelationship: radioSchema(Object.keys(relationshipLabels)),
       otherRecipientRelationshipType: { type: 'string' },
-      recipientName: textSchema,
     },
     required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const recipientNamePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Recurring income not associated with accounts or assets',
+    ),
+    recipientName: textUI({
+      title: 'Tell us the income recipient’s name',
+      hint: 'Only needed if child, parent, custodian of child, or other',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientName: textSchema,
+    },
+    required: ['recipientName'],
   },
 };
 
@@ -147,13 +185,14 @@ const incomeTypePage = {
         expandUnder: 'incomeType',
         expandUnderCondition: 'OTHER',
       },
-      'ui:required': otherIncomeTypeExplanationRequired,
+      'ui:required': (formData, index) =>
+        otherIncomeTypeExplanationRequired(
+          formData,
+          index,
+          'unassociatedIncomes',
+        ),
     },
-    grossMonthlyIncome: merge({}, currencyUI('Gross monthly income'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    grossMonthlyIncome: currencyUI('Gross monthly income'),
     payer: textUI({
       title: 'Income payer name',
       hint: 'Name of business, financial institution, or program, etc.',
@@ -164,7 +203,7 @@ const incomeTypePage = {
     properties: {
       incomeType: radioSchema(Object.keys(incomeTypeLabels)),
       otherIncomeType: { type: 'string' },
-      grossMonthlyIncome: { type: 'number' },
+      grossMonthlyIncome: currencySchema,
       payer: textSchema,
     },
     required: ['incomeType', 'grossMonthlyIncome', 'payer'],
@@ -185,6 +224,14 @@ export const unassociatedIncomePages = arrayBuilderPages(
       path: 'unassociated-incomes/:index/income-recipient',
       uiSchema: incomeRecipientPage.uiSchema,
       schema: incomeRecipientPage.schema,
+    }),
+    unassociatedIncomeRecipientNamePage: pageBuilder.itemPage({
+      title: 'Unassociated income recipient name',
+      path: 'unassociated-incomes/:index/recipient-name',
+      depends: (formData, index) =>
+        recipientNameRequired(formData, index, 'unassociatedIncomes'),
+      uiSchema: recipientNamePage.uiSchema,
+      schema: recipientNamePage.schema,
     }),
     unassociatedIncomeTypePage: pageBuilder.itemPage({
       title: 'Unassociated income type',

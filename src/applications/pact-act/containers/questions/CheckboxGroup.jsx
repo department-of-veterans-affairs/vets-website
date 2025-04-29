@@ -126,7 +126,9 @@ CheckboxGroup.propTypes = {
   formResponses: PropTypes.object.isRequired,
   h1: PropTypes.string.isRequired,
   responses: PropTypes.arrayOf(PropTypes.string).isRequired,
-  router: PropTypes.object.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   setFormError: PropTypes.func.isRequired,
   shortName: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,

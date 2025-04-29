@@ -175,8 +175,10 @@ describe('Folder Thread List View container', () => {
         .to.have.attribute('status')
         .to.equal('error');
       expect(screen.getByText(Alerts.Message.SERVER_ERROR_503)).to.exist;
-      expect(ariaLabel.textContent).to.contain(
-        `${Alerts.Message.SERVER_ERROR_503}. You are in Inbox.`,
+      expect(ariaLabel.textContent).to.contain(`You are in Inbox.`);
+      expect(alert).to.have.attribute(
+        'close-btn-aria-label',
+        'Close notification',
       );
     });
   });
@@ -219,11 +221,14 @@ describe('Folder Thread List View container', () => {
         state = initialStateCustomFolder,
         path = `/folders/${customFolder.folderId}/`,
       ) => {
-        return renderWithStoreAndRouter(<FolderThreadListView testing />, {
-          initialState: state,
-          reducers: reducer,
-          path,
-        });
+        return renderWithStoreAndRouter(
+          <FolderThreadListView testing removeLandingPageFF />,
+          {
+            initialState: state,
+            reducers: reducer,
+            path,
+          },
+        );
       };
 
       const screen = await customSetup();

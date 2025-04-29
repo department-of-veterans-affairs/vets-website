@@ -1,6 +1,4 @@
 {
-  "view:enhancedFinancialStatusReport": true,
-  "view:streamlinedWaiver": true,
   "view:streamlinedWaiverAssetUpdate": true,
   "questions": {
     "hasRepayments": false,

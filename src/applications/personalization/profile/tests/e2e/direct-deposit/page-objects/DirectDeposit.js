@@ -28,11 +28,7 @@ class DirectDepositPage {
     const directDepositResponse =
       opts.directDepositResponse || defaults.directDepositResponse;
 
-    const featureToggles =
-      opts.featureToggles ||
-      generateFeatureToggles({
-        profileShowDirectDepositSingleForm: true,
-      });
+    const featureToggles = opts.featureToggles || generateFeatureToggles();
 
     cy.login(user);
 

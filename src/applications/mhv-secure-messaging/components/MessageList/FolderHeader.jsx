@@ -2,15 +2,23 @@ import React, { useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  updatePageTitle,
+  renderMHVDowntime,
+} from '@department-of-veterans-affairs/mhv/exports';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import {
   BlockedTriageAlertStyles,
   DefaultFolders as Folders,
-  PageTitles,
   ParentComponent,
+  downtimeNotificationParams,
 } from '../../util/constants';
-import { handleHeader } from '../../util/helpers';
+import { handleHeader, getPageTitle } from '../../util/helpers';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
@@ -26,6 +34,12 @@ const FolderHeader = props => {
   const showInnerNav =
     folder.folderId === Folders.INBOX.id || folder.folderId === Folders.SENT.id;
 
+  const removeLandingPageFF = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
+      ],
+  );
   const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
@@ -79,17 +93,36 @@ const FolderHeader = props => {
   useEffect(
     () => {
       if (location.pathname.includes(folder?.folderId)) {
-        updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
+        const pageTitleTag = getPageTitle({
+          removeLandingPageFF,
+          folderName: folder.name,
+        });
+        updatePageTitle(pageTitleTag);
       }
     },
-    [folder, location.pathname],
+    [folder, location.pathname, removeLandingPageFF],
   );
+
+  const { folderName, ddTitle, ddPrivacy } = handleHeader(folder);
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--1" data-testid="folder-header">
-        {handleHeader(folder.folderId, folder)}
+      <h1
+        className="vads-u-margin-bottom--1"
+        data-testid="folder-header"
+        data-dd-action-name={ddTitle}
+        data-dd-privacy={ddPrivacy}
+      >
+        {removeLandingPageFF ? `Messages: ${folderName}` : folderName}
       </h1>
+
+      {folder.folderId === Folders.INBOX.id && (
+        <DowntimeNotification
+          appTitle={downtimeNotificationParams.appTitle}
+          dependencies={[externalServices.mhvPlatform, externalServices.mhvSm]}
+          render={renderMHVDowntime}
+        />
+      )}
 
       {folder.folderId === Folders.INBOX.id && (
         <CernerTransitioningFacilityAlert />
@@ -109,7 +142,6 @@ const FolderHeader = props => {
                   ? BlockedTriageAlertStyles.INFO
                   : BlockedTriageAlertStyles.WARNING
               }
-              blockedTriageGroupList={[]}
               parentComponent={ParentComponent.FOLDER_HEADER}
             />
           )}

@@ -38,3 +38,7 @@ export const setFocus = selector => {
     el.focus();
   }
 };
+
+export const isNullOrUndefinedOrEmpty = value => {
+  return value === null || value === undefined || value === '';
+};

@@ -20,6 +20,10 @@ export default {
     powDocuments: {
       'ui:title': 'Upload additional evidence',
       'ui:field': FileField,
+      'ui:confirmationField': ({ formData }) => ({
+        data: formData?.map(item => item.name || item.fileName),
+        label: uiTitle,
+      }),
       'ui:options': {
         hideLabelText: false,
         showFieldLabel: true,

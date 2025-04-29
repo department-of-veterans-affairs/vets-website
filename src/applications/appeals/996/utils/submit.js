@@ -1,9 +1,9 @@
-import { CONFERENCE_TIMES_V2 } from '../constants';
+import { CONFERENCE_TIMES_V2_5 } from '../constants';
 
 import { MAX_LENGTH } from '../../shared/constants';
 import '../../shared/definitions';
 import { replaceSubmittedData } from '../../shared/utils/replace';
-import { removeEmptyEntries } from '../../shared/utils/submit';
+import { removeEmptyEntries, getIso2Country } from '../../shared/utils/submit';
 
 const nonDigitRegex = /[^\d]/g;
 
@@ -19,24 +19,31 @@ export const getRep = formData => {
     countryCode: '1',
     areaCode: phoneNumber.substring(0, 3),
     phoneNumber: phoneNumber.substring(3),
+    phoneNumberExt: formData.informalConferenceRep.extension || '',
   };
 
   // Empty string/null are not permitted values
   return removeEmptyEntries({
-    firstName: formData?.informalConferenceRep?.firstName,
-    lastName: formData?.informalConferenceRep?.lastName,
-    phone: removeEmptyEntries({
-      ...phone,
-      phoneNumberExt: formData.informalConferenceRep.extension || '',
-    }),
-    email: formData.informalConferenceRep.email || '',
+    firstName: formData?.informalConferenceRep?.firstName.substring(
+      0,
+      MAX_LENGTH.HLR_REP_FIRST_NAME,
+    ),
+    lastName: formData?.informalConferenceRep?.lastName.substring(
+      0,
+      MAX_LENGTH.HLR_REP_LAST_NAME,
+    ),
+    phone: removeEmptyEntries(phone),
+    email: (formData.informalConferenceRep.email || '').substring(
+      0,
+      MAX_LENGTH.EMAIL,
+    ),
   });
 };
 
-// schema v2
+// schema v2 & v2.5
 export const getConferenceTime = (formData = {}) => {
   const { informalConferenceTime = '' } = formData;
-  return CONFERENCE_TIMES_V2[informalConferenceTime]?.submit || '';
+  return CONFERENCE_TIMES_V2_5[informalConferenceTime]?.submit || '';
 };
 
 export const getContact = ({ informalConference }) => {
@@ -64,8 +71,8 @@ export const getAddress = formData => {
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
   // note "ISO2" is submitted, "Iso2" is from profile address
-  const countryCodeISO2 = truncate(
-    'countryCodeIso2',
+  const countryCodeISO2 = getIso2Country(veteran.address).substring(
+    0,
     MAX_LENGTH.ADDRESS_COUNTRY,
   );
   // international postal code can be undefined/null

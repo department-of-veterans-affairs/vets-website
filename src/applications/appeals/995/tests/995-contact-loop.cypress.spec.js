@@ -1,10 +1,7 @@
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import {
-  BASE_URL,
-  CONTESTABLE_ISSUES_API,
-  CONTACT_INFO_PATH,
-} from '../constants';
+import { BASE_URL, CONTACT_INFO_PATH } from '../constants';
+import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 
 import mockV2Data from './fixtures/data/maximal-test.json';
 import { getPastItf, fetchItf } from './995.cypress.helpers';
@@ -26,13 +23,13 @@ describe('995 contact info loop', () => {
     setStoredSubTask({ benefitType: 'compensation' });
     cy.intercept(
       'GET',
-      `/v1${CONTESTABLE_ISSUES_API}compensation`,
+      `${CONTESTABLE_ISSUES_API}/compensation`,
       mockContestableIssues,
     ).as('getIssues');
     cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockV2Data);
 
-    cy.intercept('GET', '/v0/intent_to_file', fetchItf());
+    cy.intercept('GET', ITF_API, fetchItf());
 
     cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);
     cy.intercept('GET', '/v0/profile/status/*', mockTelephoneUpdateSuccess);
@@ -69,12 +66,7 @@ describe('995 contact info loop', () => {
       .should('be.visible')
       .then(() => {
         // Click past the ITF message
-        cy.get('va-button-pair')
-          .shadow()
-          .find('va-button[back]')
-          .shadow()
-          .find('button')
-          .click();
+        cy.selectVaButtonPairSecondary();
       });
     cy.location('pathname').should('eq', `${BASE_URL}/introduction`);
   });
@@ -96,7 +88,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Mobile phone
@@ -108,7 +100,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Email
@@ -120,7 +112,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Mailing address
@@ -132,7 +124,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
   });
 
@@ -147,19 +139,12 @@ describe('995 contact info loop', () => {
     cy.contains('Edit mobile phone number').should('be.visible');
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/contact-information/edit-mobile-phone`,
+      `${MAIN_CONTACT_PATH}/edit-mobile-phone`,
     );
 
-    cy.get('va-text-input[label^="Mobile phone"]')
-      .shadow()
-      .find('input')
-      .clear();
-    cy.get('va-text-input[label^="Mobile phone"]')
-      .shadow()
-      .find('input')
-      .type('8885551212');
+    cy.get('va-text-input[value="5109224444"]');
 
-    cy.findAllByText(/save/i, { selector: 'button' })
+    cy.findAllByText(/update/i, { selector: 'button' })
       .first()
       .click();
 

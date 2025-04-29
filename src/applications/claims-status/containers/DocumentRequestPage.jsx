@@ -1,5 +1,4 @@
 import React from 'react';
-import Scroll from 'react-scroll';
 import { merge } from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,6 +6,7 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { Element } from 'platform/utilities/scroll';
 
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
@@ -14,37 +14,37 @@ import Notification from '../components/Notification';
 import DefaultPage from '../components/claim-document-request-pages/DefaultPage';
 import {
   addFile,
+  cancelUpload,
+  clearNotification,
+  // START lighthouse_migration
+  getClaim as getClaimAction,
+  // END lighthouse_migration
   removeFile,
+  resetUploads,
+  setFieldsDirty,
   submitFiles,
   // START lighthouse_migration
   submitFilesLighthouse,
   // END lighthouse_migration
-  resetUploads,
   updateField,
-  cancelUpload,
-  // START lighthouse_migration
-  getClaim as getClaimAction,
-  // END lighthouse_migration
-  setFieldsDirty,
-  clearNotification,
 } from '../actions';
 // START lighthouse_migration
 import { benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
 import {
   setDocumentRequestPageTitle,
-  setDocumentTitle,
   getClaimType,
+  isAutomated5103Notice,
+  setPageTitle,
 } from '../utils/helpers';
-import { setPageFocus, setUpPage } from '../utils/page';
+import { setUpPage, setPageFocus } from '../utils/page';
 import withRouter from '../utils/withRouter';
-import Automated5103Notice from '../components/claim-document-request-pages/Automated5103Notice';
+import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
 
 const scrollToError = () => {
   const options = merge({}, window.VetsGov.scroll, { offset: -25 });
   scrollTo('uploadError', options);
 };
-const { Element } = Scroll;
 
 const filesPath = '../files';
 const statusPath = '../status';
@@ -52,14 +52,7 @@ const statusPath = '../status';
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    if (this.props.trackedItem) {
-      const pageTitle = setDocumentRequestPageTitle(
-        this.props.trackedItem.displayName,
-      );
-      setDocumentTitle(pageTitle);
-    } else {
-      setDocumentTitle('Document Request');
-    }
+    setPageTitle(this.props.trackedItem);
     if (!this.props.loading) {
       setUpPage();
     } else {
@@ -86,12 +79,7 @@ class DocumentRequestPage extends React.Component {
     }
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
-    }
-  }
-
-  componentWillUnmount() {
-    if (!this.props.uploadComplete) {
-      this.props.clearNotification();
+      setPageTitle(this.props.trackedItem);
     }
   }
 
@@ -142,15 +130,15 @@ class DocumentRequestPage extends React.Component {
 
     if (this.props.loading) {
       content = (
-        <va-loading-indicator
-          set-focus
-          message="Loading your claim information..."
-        />
+        <div>
+          <va-loading-indicator
+            set-focus
+            message="Loading your claim information..."
+          />
+        </div>
       );
     } else {
       const { message, trackedItem } = this.props;
-      const is5103Notice =
-        trackedItem.displayName === 'Automated 5103 Notice Response';
 
       content = (
         <>
@@ -166,8 +154,8 @@ class DocumentRequestPage extends React.Component {
           )}
           <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
             <Toggler.Enabled>
-              {is5103Notice ? (
-                <Automated5103Notice item={trackedItem} />
+              {isAutomated5103Notice(trackedItem.displayName) ? (
+                <Default5103EvidenceNotice item={trackedItem} />
               ) : (
                 <>{this.getDefaultPage()}</>
               )}
@@ -185,10 +173,7 @@ class DocumentRequestPage extends React.Component {
 
     const previousPageIsFilesTab = () => {
       const previousPage = sessionStorage.getItem('previousPage');
-      if (previousPage === 'files') {
-        return true;
-      }
-      return false;
+      return previousPage === 'files';
     };
 
     const filesBreadcrumb = {
@@ -210,7 +195,9 @@ class DocumentRequestPage extends React.Component {
       previousPageBreadcrumb,
       {
         href: `../document-request/${params.trackedItemId}`,
-        label: setDocumentRequestPageTitle(trackedItem?.displayName),
+        label: setDocumentRequestPageTitle(
+          trackedItem?.friendlyName || trackedItem?.displayName,
+        ),
         isRouterLink: true,
       },
     ];
@@ -222,7 +209,7 @@ class DocumentRequestPage extends React.Component {
           <div className="usa-width-two-thirds medium-8 columns">
             <ClaimsBreadcrumbs crumbs={crumbs} />
             <div>{content}</div>
-            <NeedHelp />
+            <NeedHelp item={trackedItem} />
           </div>
         </div>
       </div>
@@ -244,36 +231,36 @@ function mapStateToProps(state, ownProps) {
   }
 
   return {
-    loading: claimDetail.loading,
     claim: claimDetail.detail,
-    trackedItem,
-    files: uploads.files,
-    uploading: uploads.uploading,
-    progress: uploads.progress,
-    uploadError: uploads.uploadError,
-    uploadComplete: uploads.uploadComplete,
-    uploadField: uploads.uploadField,
-    lastPage: claimsState.routing.lastPage,
-    message: claimsState.notifications.message,
     // START lighthouse_migration
     documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
     // END lighthouse_migration
+    files: uploads.files,
+    lastPage: claimsState.routing.lastPage,
+    loading: claimDetail.loading,
+    message: claimsState.notifications.additionalEvidenceMessage,
+    progress: uploads.progress,
+    trackedItem,
+    uploadComplete: uploads.uploadComplete,
+    uploadError: uploads.uploadError,
+    uploadField: uploads.uploadField,
+    uploading: uploads.uploading,
   };
 }
 
 const mapDispatchToProps = {
   addFile,
-  removeFile,
-  submitFiles,
-  updateField,
   cancelUpload,
+  clearNotification,
   getClaim: getClaimAction,
+  removeFile,
+  resetUploads,
+  setFieldsDirty,
+  submitFiles,
   // START lighthouse_migration
   submitFilesLighthouse,
   // END lighthouse_migration
-  setFieldsDirty,
-  resetUploads,
-  clearNotification,
+  updateField,
 };
 
 export default withRouter(

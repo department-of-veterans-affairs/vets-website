@@ -1,5 +1,14 @@
 // @ts-check
-import MockUser from '../../fixtures/MockUser';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+import { PRIMARY_CARE } from '../../../../utils/constants';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockUser from '../../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
+import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentsGetApi,
   mockClinicsApi,
@@ -11,15 +20,6 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
-import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
-import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import { PRIMARY_CARE } from '../../../../utils/constants';
-import { getTypeOfCareById } from '../../../../utils/appointment';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 
 const { cceType } = getTypeOfCareById(PRIMARY_CARE);
 const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
@@ -81,11 +81,11 @@ describe('VAOS direct schedule flow - Single clinic dead ends', () => {
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectRadioButton(/I need a different clinic/i)
+          .selectClinic({ selection: /I need a different clinic/i })
           .assertWarningAlert({
             text: /You’ve reached the limit for appointment requests at this location/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertNextButton({ isEnabled: false });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -124,12 +124,12 @@ describe('VAOS direct schedule flow - Single clinic dead ends', () => {
 
         VAFacilityPageObject.assertUrl()
           .assertWarningAlert({
-            text: /We found one facility that accepts online scheduling for this care/i,
+            text: /You can.t schedule an appointment online/i,
           })
           .assertText({
-            text: /To request an appointment online at this location, you need to have had a primary care appointment at this facility within the last 24 months/i,
+            text: /You haven’t had a recent appointment at this facility/i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertButton({ exist: false, label: /Continue/i });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -159,13 +159,13 @@ describe('VAOS direct schedule flow - Single clinic dead ends', () => {
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
-          .assertWarningAlert({
-            text: /We found one facility that accepts online scheduling for this care/i,
+          .assertErrorAlert({
+            text: /You can.t schedule an appointment online/i,
           })
           .assertText({
-            text: /Something went wrong on our end. Please try again later./i,
+            text: /We.re sorry. There.s a problem with our system. Try again later./i,
           })
-          .assertNexButton({ isEnabled: false });
+          .assertButton({ exist: false, label: /Continue/i });
 
         // Assert
         cy.axeCheckBestPractice();

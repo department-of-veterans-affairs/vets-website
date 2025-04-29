@@ -45,6 +45,8 @@ function getEditButton(addressName) {
 }
 
 function updateAddress(addressName) {
+  localStorage.setItem('hasSession', 'true');
+
   userEvent.click(getEditButton(addressName));
   const { container } = view;
 

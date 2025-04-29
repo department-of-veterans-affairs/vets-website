@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
-import { multiTypeQuery } from '../actions';
 import {
   calculateBoundingBox,
+  getFeaturesFromAddress,
+} from 'platform/utilities/facilities-and-mapbox';
+import { multiTypeQuery } from '../actions';
+import {
   convertMetersToMiles,
   distancesToNearbyVetCenters,
-} from '../../../facility-locator/utils/facilityDistance';
-import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
+} from '../facilityUtilities';
 import buildFacility from './buildFacility';
 import {
   hasAnyMultiData,

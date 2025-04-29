@@ -1,7 +1,7 @@
 const featureToggles = {
   data: {
     type: 'feature_toggles',
-    features: [{ name: 'show_digital_form_1095b', value: true }],
+    features: [{ name: 'show_digital_form_1095b', value: false }],
   },
 };
 

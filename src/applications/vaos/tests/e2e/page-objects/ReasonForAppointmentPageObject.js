@@ -16,13 +16,14 @@ export class ReasonForAppointmentPageObject extends PageObject {
   }
 
   selectReasonForAppointment() {
-    cy.get('va-radio')
-      .shadow()
-      .get('va-radio-option')
-      .findByText(/Routine or follow-up visit/i)
-      .click();
+    return super.selectRadioButtonShadow(/Routine or follow-up visit/i);
+  }
 
-    return this;
+  assertLabel({ label }) {
+    return this.assertShadow({
+      element: 'va-textarea',
+      text: label,
+    });
   }
 
   typeAdditionalText({ content }) {

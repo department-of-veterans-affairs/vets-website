@@ -1,21 +1,30 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import {
-  LoginHeader,
-  LoginActions,
-  LoginInfo,
-} from 'platform/user/authentication/components';
 import environment from 'platform/utilities/environment';
+import { EXTERNAL_APPS } from '../constants';
+import { useInternalTestingAuth } from '../hooks';
+import LoginHeader from './LoginHeader';
+import LoginActions from './LoginActions';
+import LoginInfo from './LoginInfo';
 
 const vaGovFullDomain = environment.BASE_URL;
 export const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
-const LoginContainer = props => {
-  const { externalApplication, isUnifiedSignIn, loggedOut } = props;
+export default function LoginContainer({
+  externalApplication,
+  isUnifiedSignIn,
+}) {
+  const isOccMobile = [EXTERNAL_APPS.VA_OCC_MOBILE]?.includes(
+    externalApplication,
+  );
+  const { href, onClick } = useInternalTestingAuth();
 
   return (
-    <section className="login">
-      <div className="container">
+    <>
+      <section
+        className={`login ${isUnifiedSignIn ? 'login-page' : 'login-modal'}`}
+      >
         {!isUnifiedSignIn && (
           <div className="row">
             <div className="columns">
@@ -30,13 +39,27 @@ const LoginContainer = props => {
           </div>
         )}
         <div className="container">
-          <LoginHeader loggedOut={loggedOut} />
-          <LoginActions externalApplication={externalApplication} />
+          <LoginHeader />
+          <LoginActions
+            externalApplication={externalApplication}
+            isUnifiedSignIn={isUnifiedSignIn}
+          />
           <LoginInfo />
         </div>
-      </div>
-    </section>
+        {isUnifiedSignIn &&
+          isOccMobile && (
+            <div className="row">
+              <div className="columns">
+                <va-link href={href} text="VA staff" onClick={onClick} />
+              </div>
+            </div>
+          )}
+      </section>
+    </>
   );
-};
+}
 
-export default LoginContainer;
+LoginContainer.propTypes = {
+  externalApplication: PropTypes.string,
+  isUnifiedSignIn: PropTypes.bool,
+};

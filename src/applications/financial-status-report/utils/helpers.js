@@ -1,7 +1,7 @@
-import moment from 'moment';
-import { addDays, format, isValid } from 'date-fns';
+import { parse, addDays, format, isAfter, isFuture, isValid } from 'date-fns';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { formatDateLong } from 'platform/utilities/date';
 import { deductionCodes } from '../constants/deduction-codes';
 import { ignoreFields } from '../constants/ignoreFields';
 
@@ -31,20 +31,35 @@ export const isNumber = value => {
   return pattern.test(value);
 };
 
-export const dateFormatter = date => {
-  if (!date) return undefined;
-  const formatDate = date?.slice(0, -3);
-  return moment(formatDate, 'YYYY-MM').format('MM/YYYY');
-};
+/**
+ * Helper function to format date strings with only month and year
+ *
+ * @param {string} dateString - e.g. '2021-01-XX' or '2021-01'
+ * @returns {string} e.g. '01/2021'
+ */
+export const monthYearFormatter = dateString => {
+  if (!dateString) return '';
 
-export const formatDate = date => {
-  return format(new Date(date), 'MMMM d, yyyy');
+  // Replace any '-XX' legacy markers with '-01'
+  const safeDate = dateString.replace(/-XX$/, '-01');
+
+  // If it’s only "YYYY-MM" (length 7), parse it as year-month
+  let parsedDate;
+  if (safeDate.length === 7) {
+    parsedDate = parse(safeDate, 'yyyy-MM', new Date());
+  } else {
+    // Otherwise assume "YYYY-MM-dd"
+    parsedDate = parse(safeDate, 'yyyy-MM-dd', new Date());
+  }
+
+  // If parsed successfully, format as "MM/yyyy"
+  return isValid(parsedDate) ? format(parsedDate, 'MM/yyyy') : '';
 };
 
 export const endDate = (date, days) => {
-  return isValid(new Date(date))
-    ? formatDate(addDays(new Date(date), days))
-    : '';
+  if (!date) return '';
+  const parsed = new Date(date);
+  return isValid(parsed) ? formatDateLong(addDays(parsed, days)) : '';
 };
 
 export const currency = amount => {
@@ -219,8 +234,8 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
       ...defaultObj,
       veteranOrSpouse: 'VETERAN',
       occupationName: employment.type,
-      from: dateFormatter(employment.from),
-      to: employment.isCurrent ? '' : dateFormatter(employment.to),
+      from: monthYearFormatter(employment.from),
+      to: employment.isCurrent ? '' : monthYearFormatter(employment.to),
       present: employment.isCurrent ? employment.isCurrent : false,
       employerName: employment.employerName,
     }));
@@ -233,8 +248,8 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
       ...defaultObj,
       veteranOrSpouse: 'SPOUSE',
       occupationName: employment.type,
-      from: dateFormatter(employment.from),
-      to: employment.isCurrent ? '' : dateFormatter(employment.to),
+      from: monthYearFormatter(employment.from),
+      to: employment.isCurrent ? '' : monthYearFormatter(employment.to),
       present: employment.isCurrent ? employment.isCurrent : false,
       employerName: employment.employerName,
     }));
@@ -244,14 +259,10 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   return history;
 };
 
-// receiving formatted date strings in the response
-// so we need to convert back to moment before sorting
 export const sortStatementsByDate = statements => {
-  const dateFormat = 'MM-DD-YYYY';
   return statements.sort(
     (a, b) =>
-      moment(b.pSStatementDate, dateFormat) -
-      moment(a.pSStatementDate, dateFormat),
+      new Date(b.pSStatementDateOutput) - new Date(a.pSStatementDateOutput),
   );
 };
 
@@ -262,49 +273,73 @@ export const getDebtName = debt => {
     : deductionCodes[debt.deductionCode] || debt.benefitType;
 };
 
-export const dateTemplate = 'YYYY-MM-DD';
+/**
+ * Helper function to determine if date value is valid starting date:
+ * - date is in the past or today
+ * - date is not in the future
+ *
+ * @param {string} date - date string in ISO format ('YYYY-MM' or 'YYYY-MM-DD')
+ * @returns {boolean} true if date meets requirements above
+ */
+export const isValidStartDate = date => {
+  if (!date) return false;
 
-export const maxDate = moment().add(100, 'year');
-export const getDate = date => moment(date, dateTemplate);
-export const isDateComplete = date => date?.length === dateTemplate.length;
-export const isDateInFuture = date => date?.diff(moment()) > 0;
-export const isDateBeyondMax = date => moment(date).isAfter(maxDate);
+  // Ensure the date is in a valid format (either YYYY-MM-DD or YYYY-MM)
+  const isProperFormat = date.length === 10 || date.length === 7;
+  if (!isProperFormat) return false;
 
-export const isValidFromDate = date => {
-  if (date && isDateComplete(date)) {
-    const dateObj = getDate(date);
-    return !isDateInFuture(dateObj) && !isDateBeyondMax(dateObj);
-  }
-  return false;
+  // If only "YYYY-MM" is provided, append "-01" to make it complete
+  const safeDate = date.length === 7 ? `${date}-01` : date;
+
+  // Parse the date and check its validity
+  const parsedDate = new Date(safeDate.replace(/-/g, '/'));
+
+  const year = parsedDate.getFullYear();
+  if (year < 1900) return false;
+
+  // Check that it's a real date, and not in the future
+  return isValid(parsedDate) && !isFuture(parsedDate);
 };
 
-export const isValidToDate = (fromDate, toDate) => {
-  if (
-    fromDate &&
-    toDate &&
-    isDateComplete(fromDate) &&
-    isDateComplete(toDate)
-  ) {
-    const fromDateObj = getDate(fromDate);
-    const toDateObj = getDate(toDate);
+/**
+ * Helper function to determine if date value is valid ending date:
+ * - ending date is not in the future
+ * - ending date is after start date
+ *
+ * @param {string} startDate - date string in ISO format ('YYYY-MM' or 'YYYY-MM-DD')
+ * @param {string} endingDate - date string in ISO format ('YYYY-MM' or 'YYYY-MM-DD')
+ * @returns {boolean} true if date meets requirements above
+ */
 
-    return (
-      !isDateInFuture(toDateObj) &&
-      !moment(toDateObj).isBefore(fromDateObj) &&
-      !isDateBeyondMax(toDateObj)
-    );
-  }
-  return false;
+export const isValidEndDate = (startDate, endingDate) => {
+  if (!startDate || !endingDate) return false;
+
+  // Ensure both dates are in a valid format
+  const isProperStartFormat = startDate.length === 10 || startDate.length === 7;
+  const isProperEndFormat = endingDate.length === 10 || endingDate.length === 7;
+
+  if (!isProperStartFormat || !isProperEndFormat) return false;
+
+  // Append "-01" to incomplete dates this applies to months and days
+  const safeStart = startDate.length === 7 ? `${startDate}-01` : startDate;
+  const safeEnd = endingDate.length === 7 ? `${endingDate}-01` : endingDate;
+
+  // Parse the dates
+  const parsedStart = new Date(safeStart.replace(/-/g, '/'));
+  const parsedEnd = new Date(safeEnd.replace(/-/g, '/'));
+
+  if (!isValid(parsedEnd) || !isValid(parsedStart)) return false;
+
+  const year = parsedEnd.getFullYear();
+  if (year < 1900) return false;
+
+  // Ensure the end date is not in the future and is after the start date
+  return !isFuture(parsedEnd) && isAfter(parsedEnd, parsedStart);
 };
 
 /**
  * Generates a unique key based on the given data fields and an optional index.
- * @example
- * const keyFieldsForCreditCard = ['amountDueMonthly', 'amountPastDue', 'unpaidBalance'];
- * key={generateUniqueKey(bills, keyFieldsForCreditCard, index)}
- * Output: "200-50-1000-2"
  */
-
 export const generateUniqueKey = (data, fields, index = null) => {
   if (data === null || !fields.length) {
     return `default-key-${index}`;

@@ -8,15 +8,28 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { selectProfile } from '~/platform/user/selectors';
 
-import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
-import ConfirmationPdfMessages from '../../shared/components/ConfirmationPdfMessages';
-import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
-
-import { boardReviewLabels } from '../content/boardReview';
+import { boardReviewConfirmationLabels } from '../content/boardReview';
 import { hearingTypeLabels } from '../content/hearingType';
+import {
+  wantsToUploadEvidence,
+  canUploadEvidence,
+  needsHearingType,
+  isDirectReview,
+} from '../utils/helpers';
+
+import {
+  chapterHeaderClass,
+  ConfirmationTitle,
+  ConfirmationAlert,
+  ConfirmationSummary,
+  ConfirmationReturnLink,
+} from '../../shared/components/ConfirmationCommon';
+import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
+import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
+import { showValueOrNotSelected } from '../../shared/utils/confirmation';
 
 import { getReadableDate } from '../../shared/utils/dates';
-import { NOD_PDF_DOWNLOAD_URL } from '../../shared/constants';
+// import { NOD_PDF_DOWNLOAD_URL } from '../../shared/constants';
 
 export const ConfirmationPageV2 = () => {
   const alertRef = useRef(null);
@@ -29,7 +42,7 @@ export const ConfirmationPageV2 = () => {
       if (alertRef?.current) {
         scrollTo('topScrollElement');
         // delay focus for Safari
-        waitForRenderThenFocus('h2', alertRef.current);
+        waitForRenderThenFocus('#main h2', alertRef.current);
       }
     },
     [alertRef],
@@ -39,79 +52,114 @@ export const ConfirmationPageV2 = () => {
   const submitDate = getReadableDate(
     submission?.timestamp || new Date().toISOString(),
   );
+  // Fix this after Lighthouse sets up the download URL
+  const downloadUrl = ''; // NOD_PDF_DOWNLOAD_URL;
+
+  const choseEvidence = canUploadEvidence(data);
+  const choseHearing = needsHearingType(data);
+  const choseDirectReview = isDirectReview(data);
 
   return (
-    <div>
-      <div className="print-only">
-        <img
-          src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-          alt="VA logo"
-          width="300"
-        />
-      </div>
-
-      <va-alert status="success" ref={alertRef} uswds>
-        <h2 slot="headline">
-          You submitted your Board Appeal request on {submitDate}
-        </h2>
+    <>
+      <ConfirmationTitle pageTitle="Request a Board Appeal" />
+      <ConfirmationAlert alertTitle="Your Board Appeal request submission is in progress">
         <p>
-          It may take 7 to 10 days to show up in your list of claims and
-          appeals.
+          You submitted the request on {submitDate}. It can take a few days for
+          the Board to receive your request. We’ll send you a confirmation
+          letter once we’ve processed your request.
         </p>
-      </va-alert>
+      </ConfirmationAlert>
 
-      <div className="screen-only">
-        <va-summary-box uswds class="vads-u-margin-top--2">
-          <h3 slot="headline" className="vads-u-margin-top--0">
-            Save a PDF copy of your Board Appeal
-          </h3>
-          <p>
-            If you’d like a PDF copy of your completed Board Appeal, you can
-            download it.
-          </p>
-          <ConfirmationPdfMessages pdfApi={NOD_PDF_DOWNLOAD_URL} />
-        </va-summary-box>
+      <ConfirmationSummary name="Board Appeal" downloadUrl={downloadUrl} />
 
-        <h3>Print this confirmation page</h3>
-        <p>
-          If you’d like to keep a copy of the information on this page, you can
-          print it now.{' '}
-        </p>
-        <va-button onClick={window.print} text="Print this page" />
-      </div>
-
-      <h2 className="vads-u-font-size--h3">What to expect next</h2>
+      <h2>What to expect next</h2>
       <p>
-        Your completed form will be submitted to the intake team. If your
-        request is accurate and complete, you’ll be in line for review, and your
-        request will show up in the status tool.{' '}
-        <strong>Intake may take 7 to 10 days.</strong>
+        We’re reviewing your request for a Board Appeal. If the Board agrees to
+        review your case, you’ll get a letter telling you that the Board has
+        added your case to the docket. The docket is the list of cases for the
+        Board to review.
+      </p>
+      <p>
+        You can check the status of your request in the claims and appeals
+        status tool. It may take <strong>7 to 10 days</strong> to appear there.
       </p>
       <p>
         <a href="/claim-or-appeal-status/">
-          Check your claims and appeals status online
+          Check the status of your request for a Board Appeal online
         </a>
       </p>
       <p>
         If we need more information, we’ll contact you to tell you what other
-        information you’ll need to submit. We’ll also tell you if we need to
-        schedule an exam or hearing for you. After we’ve completed our review,
-        we’ll mail you a decision packet with the details of our decision.
+        information you’ll need to submit.
       </p>
-      <p>
-        <strong>If you don’t hear back from us about your Board Appeal</strong>,
-        don’t file another claim or request another type of decision review.
-        Contact us online or call us instead.
-      </p>
+
+      <h3>What happens after the Board agrees to review your case</h3>
+      <div className="board-review-option-info">
+        {choseDirectReview && (
+          <p>
+            The board will consider evidence that is already on your record at
+            the time of your appeal.
+          </p>
+        )}
+        {choseEvidence && (
+          <>
+            <p>
+              You have 90 days from the date of the Board’s receipt of your VA
+              Form 10182 to submit new evidence.
+            </p>
+            <p>
+              All correspondence, requests, and evidence you send to the Board
+              should include your name and VA file number. Mail or fax documents
+              to:
+            </p>
+            <div className="va-address-block">
+              <div>Board of Veterans’ Appeals</div>
+              <div>PO Box 27063</div>
+              <div>Washington, DC 20038</div>
+            </div>
+            <p>
+              <strong>Fax:</strong>{' '}
+              <va-telephone not-clickable contact="8446788979" />
+            </p>
+          </>
+        )}
+        {choseHearing && (
+          <>
+            <p>
+              You will receive a letter from the Board when your hearing is
+              scheduled. While not required, you have the option to submit new
+              evidence during your hearing or within 90 days after the date of
+              your hearing. Any evidence submitted after the date of the
+              decision you are appealing but prior to the date of your hearing
+              cannot be considered by the Board. You can start preparing
+              evidence now, but you can only submit it during your hearing or
+              within 90 days after the date of your hearing. If you do not
+              appear for your scheduled hearing, and the hearing is not
+              rescheduled, you may submit evidence within 90 days following the
+              date of the scheduled hearing.
+            </p>
+            <p className="vads-u-margin-bottom--0">
+              You may also choose to withdraw your hearing request. If you
+              withdraw your hearing request, the Board can only consider
+              evidence submitted within 90 days following the Board’s receipt of
+              your hearing withdrawal.
+            </p>
+          </>
+        )}
+      </div>
+
       <p>
         <a href="/decision-reviews/after-you-request-review/">
           Learn more about what happens after you request a review
         </a>
       </p>
+      <p>
+        If you’re worried about how long it’s taking to receive a decision, do
+        not create another Board Appeal or other decision review. Duplicate
+        decision reviews can delay the process.
+      </p>
 
-      <h2 className="vads-u-font-size--h3">
-        How to contact us if you have questions
-      </h2>
+      <h2>How to contact us if you have questions</h2>
       <p>You can ask us a question online through Ask VA.</p>
       <p>
         <a href="https://ask.va.gov/">Contact us online through Ask VA.</a>
@@ -122,9 +170,7 @@ export const ConfirmationPageV2 = () => {
         ).
       </p>
 
-      <h2 className="vads-u-margin-top--4">
-        You submitted the following information for the Board Appeal
-      </h2>
+      <h2 className="vads-u-margin-top--4">Your Board Appeal request</h2>
 
       <ConfirmationPersonalInfo
         dob={profile.dob}
@@ -133,47 +179,93 @@ export const ConfirmationPageV2 = () => {
         veteran={data.veteran}
       />
 
-      <ConfirmationIssues data={data} />
+      <ConfirmationIssues
+        data={data}
+        text="The issues you’re asking the board to review"
+      >
+        <>
+          <li>
+            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              Are you requesting an extension?
+            </div>
+            <div
+              className="vads-u-margin-bottom--2 dd-privacy-hidden"
+              data-dd-action-name="requesting an extension"
+            >
+              {showValueOrNotSelected(data.requestingExtension)}
+            </div>
+          </li>
+          {data.requestingExtension && (
+            <li>
+              <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+                Reason for extension
+              </div>
+              <div
+                className="vads-u-margin-bottom--2 dd-privacy-hidden"
+                data-dd-action-name="reason for extension"
+              >
+                {data.extensionReason}
+              </div>
+            </li>
+          )}
+          <li>
+            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              Are you appealing denial of VA health care benefits?
+            </div>
+            <div
+              className="vads-u-margin-bottom--2 dd-privacy-hidden"
+              data-dd-action-name="is appealing VHA benefits"
+            >
+              {showValueOrNotSelected(data.appealingVHADenial)}
+            </div>
+          </li>
+        </>
+      </ConfirmationIssues>
 
-      <h3 className="vads-u-margin-top--2">Board review options</h3>
+      <h3 className={chapterHeaderClass}>Board review options</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="remove-bullets" role="list">
         <li>
-          <div className="page-title vads-u-color--gray">
+          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
             Select a Board review option:
           </div>
           <div
-            className="page-value dd-privacy-hidden"
+            className="vads-u-margin-bottom--2 dd-privacy-hidden"
             data-dd-action-name="board review option"
           >
-            {boardReviewLabels[data.boardReviewOption] || ''}
+            {boardReviewConfirmationLabels[data.boardReviewOption] || ''}
           </div>
         </li>
-        {data.boardReviewOption === 'evidence_submission' &&
-          data.evidence.length && (
-            <li>
-              <div className="page-title vads-u-color--gray">
-                Uploaded evidence
-              </div>
-              {data.evidence?.map((file, index) => (
+        {choseEvidence && (
+          <li>
+            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              Uploaded evidence
+            </div>
+            {wantsToUploadEvidence(data) && data.evidence.length ? (
+              data.evidence?.map((file, index) => (
                 <div
                   key={index}
-                  className="page-value dd-privacy-hidden"
+                  className="vads-u-margin-bottom--2 dd-privacy-hidden"
                   data-dd-action-name="evidence file name"
                 >
                   {file.name}
                 </div>
-              ))}
-            </li>
-          )}
-        {data.boardReviewOption === 'hearing' && (
+              ))
+            ) : (
+              <span className="evidence-later">I’ll submit it later.</span>
+            )}
+          </li>
+        )}
+        {choseHearing && (
           <>
             <li>
-              <div className="page-title vads-u-color--gray">Hearing Type</div>
+              <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+                Hearing Type
+              </div>
               <div
-                className="page-value dd-privacy-hidden"
+                className="vads-u-margin-bottom--2 dd-privacy-hidden"
                 data-dd-action-name="hearing type"
               >
                 {hearingTypeLabels[data.hearingTypePreference]}
@@ -182,19 +274,14 @@ export const ConfirmationPageV2 = () => {
           </>
         )}
       </ul>
-      <div className="screen-only vads-u-margin-top--4">
-        <a className="vads-c-action-link--green" href="/">
-          Go back to VA.gov
-        </a>
-      </div>
-    </div>
+
+      <ConfirmationReturnLink />
+    </>
   );
 };
 
 ConfirmationPageV2.propTypes = {
-  alertDescription: PropTypes.element,
-  alertTitle: PropTypes.string,
-  children: PropTypes.array,
+  children: PropTypes.element,
   form: PropTypes.shape({
     data: PropTypes.shape({}),
     formId: PropTypes.string,
@@ -202,13 +289,6 @@ ConfirmationPageV2.propTypes = {
       timestamp: PropTypes.instanceOf(Date),
     }),
   }),
-  name: PropTypes.shape({
-    first: PropTypes.string,
-    middle: PropTypes.string,
-    last: PropTypes.string,
-    suffix: PropTypes.string,
-  }),
-  pageTitle: PropTypes.string,
 };
 
 export default ConfirmationPageV2;

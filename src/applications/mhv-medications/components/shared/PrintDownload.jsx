@@ -1,18 +1,16 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import {
-  DD_ACTIONS_PAGE_TYPE,
-  DOWNLOAD_FORMAT,
-  PRINT_FORMAT,
-} from '../../util/constants';
+import { DOWNLOAD_FORMAT, PRINT_FORMAT } from '../../util/constants';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const PrintDownload = props => {
-  const { download, isSuccess, list } = props;
+  const { onDownload, isSuccess, list, onPrint, onText, isLoading } = props;
   const [isError, setIsError] = useState(false);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [printIndex, setPrintIndex] = useState(0);
-  const menu = useRef(null);
+  const containerEl = useRef(null);
+  const toggleButton = useRef(null);
   let toggleMenuButtonClasses =
     'toggle-menu-button vads-u-justify-content--space-between';
   let menuOptionsClasses = 'menu-options';
@@ -23,10 +21,20 @@ const PrintDownload = props => {
   }
 
   const handleDownload = async format => {
+    setMenuOpen(!menuOpen);
+    toggleButton.current.focus();
+    if (!navigator.onLine) {
+      setIsError(true);
+      return;
+    }
+
     try {
-      setMenuOpen(!menuOpen);
       setIsError(false);
-      await download(format);
+      if (format === DOWNLOAD_FORMAT.TXT && onText) {
+        onText();
+      } else {
+        await onDownload(format);
+      }
     } catch {
       setIsError(true);
     }
@@ -34,11 +42,19 @@ const PrintDownload = props => {
 
   const handlePrint = async option => {
     setMenuOpen(!menuOpen);
-    await download(option);
+    if (onPrint) {
+      onPrint();
+    } else {
+      await onDownload(option);
+    }
   };
 
   const closeMenu = e => {
-    if (menu.current && menuOpen && !menu.current.contains(e.target)) {
+    if (
+      containerEl.current &&
+      menuOpen &&
+      !containerEl.current.contains(e.target)
+    ) {
       setMenuOpen(false);
     }
   };
@@ -46,16 +62,16 @@ const PrintDownload = props => {
   document.addEventListener('mousedown', closeMenu);
 
   const handleUserKeyPress = e => {
-    const NUM_OF_DROPDOWN_OPTIONS = 4;
+    const NUM_OF_DROPDOWN_OPTIONS = list ? 4 : 3;
     if (printIndex > 0 && e.keyCode === 38) {
       // If user pressed up arrow
       e.preventDefault();
-      document.getElementById(`printButton-${printIndex - 2}`).focus();
+      document.getElementById(`printButton-${printIndex - 1}`)?.focus();
       setPrintIndex(printIndex - 1);
-    } else if (printIndex < NUM_OF_DROPDOWN_OPTIONS && e.keyCode === 40) {
+    } else if (printIndex < NUM_OF_DROPDOWN_OPTIONS - 1 && e.keyCode === 40) {
       // If user pressed down arrow
       e.preventDefault();
-      document.getElementById(`printButton-${printIndex}`).focus();
+      document.getElementById(`printButton-${printIndex + 1}`)?.focus();
       setPrintIndex(printIndex + 1);
     } else if (e.keyCode === 27) {
       // If user pressed escape
@@ -64,24 +80,35 @@ const PrintDownload = props => {
   };
   const handleFocus = () => {
     // Reset printIndex to 0 every time the element receives focus
-    setPrintIndex(0);
+    setPrintIndex(-1);
   };
 
   return (
     <>
-      {isSuccess && (
-        <div
-          className="vads-u-margin-bottom--3"
-          data-testid="download-success-banner"
-        >
-          <va-alert role="alert" status="success" background-only uswds>
-            <h2 slot="headline">Download started</h2>
-            <p className="vads-u-margin--0">
-              Check your device’s downloads location for your file.
-            </p>
-          </va-alert>
-        </div>
+      {isLoading && (
+        <va-loading-indicator
+          message="Loading..."
+          data-testid="print-download-loading-indicator"
+        />
       )}
+      {isSuccess &&
+        !isError && (
+          <div
+            className="vads-u-margin-bottom--3"
+            data-testid="download-success-banner"
+          >
+            <va-alert role="alert" status="success" background-only uswds>
+              <h2 slot="headline">Download started</h2>
+              <p className="vads-u-margin--0">
+                Check your device’s downloads location for your file.
+              </p>
+            </va-alert>
+          </div>
+        )}
+      {/* hack to generate va-alert and va-telephone web components in case there is no network at the time of download */}
+      <va-alert visible="false" uswds>
+        <va-telephone />
+      </va-alert>
       {isError && (
         <div className="vads-u-margin-bottom--3">
           <va-alert role="alert" status="error" uswds>
@@ -107,18 +134,19 @@ const PrintDownload = props => {
         className="print-download vads-u-margin-y--2 no-print"
         role="none"
         onKeyDown={handleUserKeyPress}
-        ref={menu}
-        onFocus={handleFocus}
+        ref={containerEl}
       >
         <button
-          data-dd-action-name={`Print Or Download Button - ${
-            list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
-          }`}
+          data-dd-action-name={`${
+            dataDogActionNames.shared.PRINT_OR_DOWNLOAD_BUTTON
+          }${list ? pageType.LIST : pageType.DETAILS}`}
           type="button"
-          className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
+          className={`vads-u-padding-x--2 ${toggleMenuButtonClasses} print-download-btn-min-height`}
           onClick={() => setMenuOpen(!menuOpen)}
           data-testid="print-records-button"
           aria-expanded={menuOpen}
+          ref={toggleButton}
+          onFocus={handleFocus}
         >
           <span>Print or download</span>
           <va-icon
@@ -130,12 +158,10 @@ const PrintDownload = props => {
         <ul className={menuOptionsClasses} data-testid="print-download-list">
           <li>
             <button
-              data-dd-action-name={`Print This ${
+              data-dd-action-name={`${dataDogActionNames.shared.PRINT_THIS}${
                 list ? 'Page Of The List' : 'Page'
-              } Option - ${
-                list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
-              }`}
-              className="vads-u-padding-x--2"
+              } Option - ${list ? pageType.LIST : pageType.DETAILS}`}
+              className="vads-u-padding-x--2 print-download-btn-min-height"
               id="printButton-0"
               type="button"
               data-testid="download-print-button"
@@ -147,10 +173,11 @@ const PrintDownload = props => {
           {list && (
             <li>
               <button
-                data-dd-action-name={`Print All Medications Option - ${
-                  DD_ACTIONS_PAGE_TYPE.LIST
-                }`}
-                className="vads-u-padding-x--2"
+                data-dd-action-name={
+                  dataDogActionNames.medicationsListPage
+                    .PRINT_ALL_MEDICATIONS_OPTION
+                }
+                className="vads-u-padding-x--2 print-download-btn-min-height"
                 id="printButton-1"
                 type="button"
                 data-testid="download-print-all-button"
@@ -162,34 +189,35 @@ const PrintDownload = props => {
           )}
           <li>
             <button
-              data-dd-action-name={`Download A PDF Of This ${
-                list ? 'List' : 'Page'
-              } Option - ${
-                list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
+              data-dd-action-name={`${
+                dataDogActionNames.shared.DOWNLOAD_A_PDF_OF_THIS
+              }${list ? 'List' : 'Page'} Option - ${
+                list ? pageType.LIST : pageType.DETAILS
               }`}
-              className="vads-u-padding-x--2"
-              id="printButton-2"
+              className="vads-u-padding-x--2 print-download-btn-min-height"
+              id={`printButton-${list ? '2' : '1'}`}
               type="button"
               data-testid="download-pdf-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.PDF)}
             >
-              Download a PDF of this {list ? 'list' : 'page'}
+              Download a PDF of {list ? 'all medications' : 'this page'}
             </button>
           </li>
           <li>
             <button
               type="button"
-              data-dd-action-name={`Download A Text File Of This ${
-                list ? 'List' : 'Page'
-              } Option - ${
-                list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
+              data-dd-action-name={`${
+                dataDogActionNames.shared.DOWNLOAD_A_TEXT_FILE_OF_THIS
+              }${list ? 'List' : 'Page'} Option - ${
+                list ? pageType.LIST : pageType.DETAILS
               }`}
-              className="vads-u-padding-x--2"
-              id="printButton-3"
+              className="vads-u-padding-x--2 print-download-btn-min-height"
+              id={`printButton-${list ? '3' : '2'}`}
               data-testid="download-txt-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.TXT)}
             >
-              Download a text file (.txt) of this {list ? 'list' : 'page'}
+              Download a text file (.txt) of{' '}
+              {list ? 'all medications' : 'this page'}
             </button>
           </li>
         </ul>
@@ -201,7 +229,10 @@ const PrintDownload = props => {
 export default PrintDownload;
 
 PrintDownload.propTypes = {
-  download: PropTypes.any,
   isSuccess: PropTypes.bool,
   list: PropTypes.any,
+  onDownload: PropTypes.any,
+  onPrint: PropTypes.func,
+  onText: PropTypes.func,
+  isLoading: PropTypes.bool,
 };

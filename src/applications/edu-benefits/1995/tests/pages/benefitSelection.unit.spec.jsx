@@ -26,7 +26,7 @@ describe('Edu 1995 benefitSelection', () => {
       />,
     );
     await waitFor(() => {
-      expect(form.find('input').length).to.equal(8);
+      expect(form.find('input').length).to.equal(6);
       form.unmount();
     });
   });
@@ -43,12 +43,13 @@ describe('Edu 1995 benefitSelection', () => {
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
-      .empty;
+    expect(
+      Array.from(formDOM.querySelectorAll('.usa-input-error')).length,
+    ).to.equal(1);
 
     submitForm(form);
 
-    expect(onSubmit.called).to.be.true;
+    expect(onSubmit.called).to.be.false;
   });
 });
 
@@ -72,7 +73,7 @@ describe('Delete Environment Variables Edu 1995 benefitSelection', () => {
       />,
     );
     await waitFor(() => {
-      expect(form.find('input').length).to.equal(8);
+      expect(form.find('input').length).to.equal(6);
       form.unmount();
     });
   });

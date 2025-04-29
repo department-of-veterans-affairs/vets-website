@@ -1,39 +1,39 @@
 // @ts-check
-import moment from 'moment';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
-import MockUser from '../../fixtures/MockUser';
+import { addMonths } from 'date-fns';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+import { APPOINTMENT_STATUS, PRIMARY_CARE } from '../../../../utils/constants';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockSlotResponse from '../../../fixtures/MockSlotResponse';
+import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
+import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
+import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
+import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
+import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
+import PreferredDatePageObject from '../../page-objects/PreferredDatePageObject';
+import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
+import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
+import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
-  mockAppointmentGetApi,
   mockAppointmentCreateApi,
+  mockAppointmentGetApi,
   mockAppointmentsGetApi,
   mockClinicsApi,
   mockEligibilityApi,
+  mockEligibilityCCApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
   mockSlotsApi,
   mockVamcEhrApi,
   vaosSetup,
-  mockEligibilityCCApi,
 } from '../../vaos-cypress-helpers';
-import { APPOINTMENT_STATUS, PRIMARY_CARE } from '../../../../utils/constants';
-import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
-import PreferredDatePageObject from '../../page-objects/PreferredDatePageObject';
-import MockSlotResponse from '../../fixtures/MockSlotResponse';
-import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
-import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
-import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
-import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
-import ReviewPageObject from '../../page-objects/ReviewPageObject';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
-import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
-import { getTypeOfCareById } from '../../../../utils/appointment';
 
 const { cceType } = getTypeOfCareById(PRIMARY_CARE);
 const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
@@ -58,9 +58,10 @@ describe('VAOS direct schedule flow - Primary care', () => {
         });
         const response = new MockAppointmentResponse({
           id: 'mock1',
-          localStartTime: moment(),
+          localStartTime: new Date(),
           status: APPOINTMENT_STATUS.booked,
           serviceType: 'primaryCare',
+          future: true,
         });
 
         mockAppointmentCreateApi({ response });
@@ -93,7 +94,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             locationId: '983',
             clinicId: '1',
             response: MockSlotResponse.createResponses({
-              startTimes: [moment().add(1, 'month')],
+              startTimes: [addMonths(new Date(), 1)],
             }),
           });
 
@@ -137,12 +138,9 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
-            .assertHeading({
-              level: 2,
-              name: /You.re scheduling a primary care appointment/i,
-            })
+            .assertText({ text: /primary care/i })
             .clickConfirmButton();
 
           ConfirmationPageObject.assertUrl().assertText({
@@ -169,7 +167,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             locationId: '983',
             clinicId: '1',
             response: MockSlotResponse.createResponses({
-              startTimes: [moment().add(1, 'month')],
+              startTimes: [addMonths(new Date(), 1)],
             }),
           });
 
@@ -209,12 +207,9 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
-            .assertHeading({
-              level: 2,
-              name: /You.re scheduling a primary care appointment/i,
-            })
+            .assertText({ text: /primary care/i })
             .clickConfirmButton();
 
           ConfirmationPageObject.assertUrl().assertText({
@@ -241,7 +236,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             locationId: '983',
             clinicId: '1',
             response: MockSlotResponse.createResponses({
-              startTimes: [moment().add(1, 'month')],
+              startTimes: [addMonths(new Date(), 1)],
             }),
           });
 
@@ -263,7 +258,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ClinicChoicePageObject.assertUrl()
             .assertSingleClinic()
-            .selectRadioButton(/Yes. make my appointment here/i)
+            .selectClinic({ selection: /Yes. make my appointment here/i })
             .clickNextButton();
 
           PreferredDatePageObject.assertUrl()
@@ -271,30 +266,29 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           DateTimeSelectPageObject.assertUrl()
-            .assertHeading({ name: /Choose a date and time/i })
+            .assertHeading({
+              name: /What date and time do you want for this appointment?/i,
+            })
             .selectFirstAvailableDate()
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .assertHeading({ name: /Tell us the reason for this appointment/i })
+            .assertHeading({ name: /What’s the reason for this appointment?/i })
             .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
-            .assertHeading({ name: /Confirm your contact information/i })
+            .assertHeading({ name: /How should we contact you/i })
             .typeEmailAddress('veteran@va.gov')
             .typePhoneNumber('5555555555')
             .clickNextButton();
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
-            .assertHeading({
-              level: 2,
-              name: /You.re scheduling a primary care appointment/i,
-            })
+            .assertText({ text: /primary care/i })
             .clickConfirmButton();
 
           ConfirmationPageObject.assertUrl().assertText({
@@ -321,7 +315,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             locationId: '983',
             clinicId: '1',
             response: MockSlotResponse.createResponses({
-              startTimes: [moment().add(1, 'month')],
+              startTimes: [addMonths(new Date(), 1)],
             }),
           });
 
@@ -342,7 +336,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ClinicChoicePageObject.assertUrl()
-            .selectRadioButton(/I need a different clinic/i)
+            .selectClinic({ selection: /I need a different clinic/i })
             .clickNextButton();
 
           DateTimeRequestPageObject.assertUrl();
@@ -398,9 +392,10 @@ describe('VAOS direct schedule flow - Primary care', () => {
         });
         const response = new MockAppointmentResponse({
           id: 'mock1',
-          localStartTime: moment(),
+          localStartTime: new Date(),
           status: APPOINTMENT_STATUS.booked,
           serviceType: 'primaryCare',
+          future: true,
         });
 
         mockAppointmentCreateApi({ response });
@@ -424,7 +419,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
           locationId: '983',
           clinicId: '1',
           response: MockSlotResponse.createResponses({
-            startTimes: [moment().add(1, 'month')],
+            startTimes: [addMonths(new Date(), 1)],
           }),
         });
       };
@@ -479,12 +474,9 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
-            .assertHeading({
-              level: 2,
-              name: /You.re scheduling a primary care appointment/i,
-            })
+            .assertText({ text: /primary care/i })
             .clickConfirmButton();
 
           ConfirmationPageObject.assertUrl().assertText({
@@ -546,12 +538,9 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
           ReviewPageObject.assertUrl()
             .assertHeading({
-              name: /Review your appointment details/i,
+              name: /Review and confirm your appointment details/i,
             })
-            .assertHeading({
-              level: 2,
-              name: /You.re scheduling a primary care appointment/i,
-            })
+            .assertText({ text: /primary care/i })
             .clickConfirmButton();
 
           ConfirmationPageObject.assertUrl().assertText({
@@ -578,7 +567,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             locationId: '983',
             clinicId: '1',
             response: MockSlotResponse.createResponses({
-              startTimes: [moment().add(1, 'month')],
+              startTimes: [addMonths(new Date(), 1)],
             }),
           });
 
@@ -597,7 +586,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ClinicChoicePageObject.assertUrl()
-            .selectRadioButton(/I need a different clinic/i)
+            .selectClinic({ selection: /I need a different clinic/i })
             .clickNextButton();
 
           DateTimeRequestPageObject.assertUrl();
@@ -615,9 +604,10 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
       const response = new MockAppointmentResponse({
         id: 'mock1',
-        localStartTime: moment(),
+        localStartTime: new Date(),
         status: APPOINTMENT_STATUS.booked,
         serviceType: 'primaryCare',
+        future: true,
       });
       mockAppointmentGetApi({
         response,
@@ -653,7 +643,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
           locationId: '983',
           clinicId: '1',
           response: MockSlotResponse.createResponses({
-            startTimes: [moment().add(1, 'month')],
+            startTimes: [addMonths(new Date(), 1)],
           }),
         });
       });
@@ -709,12 +699,9 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
         ReviewPageObject.assertUrl()
           .assertHeading({
-            name: /Review your appointment details/i,
+            name: /Review and confirm your appointment details/i,
           })
-          .assertHeading({
-            level: 2,
-            name: /You.re scheduling a primary care appointment/i,
-          })
+          .assertText({ text: /primary care/i })
           .clickConfirmButton();
 
         ConfirmationPageObject.assertUrl().assertText({

@@ -1,0 +1,167 @@
+/**
+new-breakpoint is needed for v1 grid utilities it returns a query that includes a width in px and a number of columns to use
+in a grid layout. This matters specifically in uswds/src/stylesheets/core/grid and uswds/src/stylesheets/lib/grid/span-columns
+*/
+$default-feature: min-width;
+$visual-grid-breakpoints: ();
+
+@function new-breakpoint($query: $feature $value $columns, $total-columns: $grid-columns) {
+  @if length($query) == 1 {
+    $query: $default-feature nth($query, 1) $total-columns;
+  } @else if is-even(length($query)) {
+    $query: append($query, $total-columns);
+  }
+
+  @if is-not(belongs-to($query, $visual-grid-breakpoints)) {
+    $visual-grid-breakpoints: append($visual-grid-breakpoints, $query, comma) !global;
+  }
+
+  @return $query;
+}
+
+@function is-not($value) {
+  @return if($value, false, true);
+}
+
+// Checks if a number is even
+@function is-even($int) {
+  @return $int % 2 == 0;
+}
+
+// Checks if an element belongs to a list or not
+@function belongs-to($tested-item, $list) {
+  @return is-not(not-belongs-to($tested-item, $list));
+}
+
+@function not-belongs-to($tested-item, $list) {
+  @return is-not(index($list, $tested-item));
+}
+
+//~~~~~~~ Needed for now because we haven't transferred grid classes yet
+$site-max-width: 1000px;
+$small: new-breakpoint(min-width $small-screen, 1);
+$medium: new-breakpoint(min-width $medium-screen, 6);
+$large: new-breakpoint(min-width $large-screen, 12);
+
+// $small: $small-screen;
+// $medium: $medium-screen;
+// $large: $large-screen;
+
+@mixin flexbox-col($size) {
+    flex: 0 0 percentage($size / $grid-columns);
+    max-width: percentage($size / $grid-columns); // IE10+ and Firefox
+}
+
+@mixin equal-width-flexbox-col() {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+$breakpoints: (
+  xsmall-screen:        $xsmall-screen,
+  small-screen:         $small-screen,
+  medium-screen:        $medium-screen,
+  small-desktop-screen: $small-desktop-screen,
+  large-screen:         $large-screen
+);
+@import "~uswds/src/stylesheets/lib/settings/grid";
+@import "~uswds/src/stylesheets/lib/functions/private";
+@import "~uswds/src/stylesheets/lib/grid/private";
+@import "~uswds/src/stylesheets/lib/grid/omega";
+@import "~uswds/src/stylesheets/lib/grid/shift";
+@import "~uswds/src/stylesheets/lib/helpers/directional-values";
+@import "~uswds/src/stylesheets/lib/addons/padding";
+@import "~uswds/src/stylesheets/lib/grid/span-columns";
+@import "~uswds/src/stylesheets/lib/mixins/clearfix";
+@import "~uswds/src/stylesheets/lib/grid/outer-container";
+@import "~uswds/src/stylesheets/core/utilities";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@import "~uswds/src/stylesheets/core/grid";
+@import "~foundation-sites/scss/foundation/components/grid";
+@import "~foundation-sites/scss/foundation/components/block-grid";
+//~~~~~~~
+
+// Overrides above order specifically for larger screens
+@include media($medium-screen) {
+  .usa-width-one-fourth {
+    margin-right: 2.35765%;
+    width: 23.23176%;
+  }
+  .usa-width-three-fourths {
+    width: 74.41059%;
+  }
+}
+
+// Grid container
+.vads-l-grid-container,
+.vads-l-grid-container--full {
+  @include outer-container($site-max-width);
+}
+
+.vads-l-grid-container {
+  @include padding(null 0.9375rem);
+
+  @include media($medium-screen) {
+    @include padding(null 1.875rem);
+  }
+}
+
+.vads-l-grid-container--full {
+  padding: 0;
+  max-width: 100%;
+}
+
+.vads-l-row {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 100%;
+}
+
+%grid-column {
+  box-sizing: border-box;
+  min-height: 1px; // Prevent columns from collapsing when empty
+  min-width: 0; // Resize columns as expected (https://css-tricks.com/flexbox-truncated-text/)
+  position: relative;
+  width: 100%;
+}
+
+@for $i from 1 through $grid-columns {
+  // Example: vads-l-col--6
+  .vads-l-col--#{$i} {
+    /* stylelint-disable-next-line */
+    @extend %grid-column;
+  }
+}
+
+.vads-l-col {
+  /* stylelint-disable-next-line */
+  @extend %grid-column;
+  @include equal-width-flexbox-col;
+}
+
+@for $i from 1 through $grid-columns {
+  // Example: vads-l-col--12
+  .vads-l-col--#{$i} {
+    @include flexbox-col($i);
+  }
+}
+
+// Breakpoint prefix grids. All
+@each $bp_name, $bp_value in $breakpoints {
+
+  @media (min-width: $bp_value) {
+    // Provide breakpoint classes for equal-width columns
+    // Example: vads-l-lg-col
+    .#{$bp_name}\:vads-l-col {
+      @include equal-width-flexbox-col;
+    }
+
+    @for $i from 1 through $grid-columns {
+      // Example: vads-l-lg-col--12
+      .#{$bp_name}\:vads-l-col--#{$i} {
+        @include flexbox-col($i);
+      }
+    }
+  }
+}

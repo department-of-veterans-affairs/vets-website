@@ -87,7 +87,7 @@
       "href": "/ogc/accreditation.asp",
       "order": 3,
       "target": null,
-      "title": "Accredited claims representatives"
+      "title": "Get help from an accredited representative or VSO"
     },
     {
       "column": 2,
@@ -173,10 +173,10 @@
     },
     {
       "column": 3,
-      "href": "https://www.twitter.com/DeptVetAffairs/",
+      "href": "https://www.x.com/DeptVetAffairs/",
       "order": 6,
       "target": "_blank",
-      "title": "Twitter",
+      "title": "X",
       "rel": "noopener noreferrer"
     },
     {

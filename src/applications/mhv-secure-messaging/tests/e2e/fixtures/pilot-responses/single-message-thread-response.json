@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "id": "3763993",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3763993,
+        "folderId": 0,
+        "messageId": 3764003,
+        "threadPageSize": 3,
+        "messageCount": 5,
+        "category": "OTHER",
+        "subject": "OH THREAD 002 ATTACHMENT",
+        "triageGroupName": "OH TG GROUP 002",
+        "sentDate": "2024-07-10T18:53:28.000Z",
+        "draftDate": null,
+        "senderId": 2444644,
+        "senderName": "SPARROW, JACK",
+        "recipientName": "MHVTP, GREEN G",
+        "recipientId": 2570050,
+        "proxySenderName": null,
+        "hasAttachment": true,
+        "unsentDrafts": true,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/threads/3763993"
+      }
+    }
+  ]
+}

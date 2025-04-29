@@ -1,7 +1,9 @@
-import moment from 'moment-timezone';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import MockSlotResponse from '../../fixtures/MockSlotResponse';
-import MockUser from '../../fixtures/MockUser';
+import { addDays, endOfMonth } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockSlotResponse from '../../../fixtures/MockSlotResponse';
+import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
@@ -19,7 +21,6 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
 
 describe('VAOS select appointment date', () => {
   beforeEach(() => {
@@ -45,13 +46,15 @@ describe('VAOS select appointment date', () => {
       });
     });
 
-    it('should allow a user to choose available slot and fetch new slots after changing clinics', () => {
+    // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/99727
+    it.skip('should allow a user to choose available slot and fetch new slots after changing clinics', () => {
       // Arrange
       // Add one day since same day appointments are not allowed.
-      const firstDate = moment().add(1, 'day');
-      const secondDate = moment()
-        .tz('America/Denver')
-        .add(2, 'day');
+      const firstDate = addDays(new Date(), 1);
+      const secondDate = formatInTimeZone(
+        addDays(new Date(), 2),
+        'America/Denver',
+      );
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
       const response = MockSlotResponse.createResponses({
         startTimes: [firstDate, secondDate],
@@ -166,7 +169,7 @@ describe('VAOS select appointment date', () => {
         .assertErrorAlert({
           text: /We.ve run into a problem when trying to find available appointment times/i,
         })
-        .assertNexButton({ label: 'Continue', isEnabled: false });
+        .assertNextButton({ label: 'Continue', isEnabled: false });
 
       // Assert
       cy.axeCheckBestPractice();
@@ -175,13 +178,10 @@ describe('VAOS select appointment date', () => {
     it('should fetch slots when moving between months', () => {
       // Arrange
       // Add one day since same day appointments are not allowed.
-      const firstDate = moment().add(1, 'day');
+      const firstDate = addDays(new Date(), 1);
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-      const todayDate = moment().date();
-      const endOfMonthDate = moment()
-        .clone()
-        .endOf('month')
-        .date();
+      const todayDate = new Date().getDate();
+      const endOfMonthDate = endOfMonth(new Date()).getDate();
 
       mockSlotsApi({
         locationId: '983',
@@ -243,7 +243,7 @@ describe('VAOS select appointment date', () => {
     it('should show validation error if no date selected', () => {
       // Arrange
       // Add one day since same day appointments are not allowed.
-      const firstDate = moment().add(1, 'day');
+      const firstDate = addDays(new Date(), 1);
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
       mockSlotsApi({

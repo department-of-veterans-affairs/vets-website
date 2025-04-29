@@ -1,9 +1,31 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { focusElement } from 'platform/utilities/ui';
+import { SIGN_IN_URL } from '../constants';
+import { selectIsUserLoggedIn } from '../selectors/user';
+
+const SIGN_IN_LINK_PROPS = {
+  onClick: undefined,
+  href: SIGN_IN_URL,
+};
+
+function StartLink({ children, ...props }) {
+  const isLoggedIn = useSelector(selectIsUserLoggedIn);
+
+  return (
+    <a
+      className="usa-button usa-button-primary"
+      {...props}
+      {...isLoggedIn || SIGN_IN_LINK_PROPS}
+    >
+      {children}
+    </a>
+  );
+}
 
 const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
@@ -17,11 +39,12 @@ const IntroductionPage = ({ route }) => {
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
       <p>
         As an attorney or claims agent, you can start the application process to
-        become a VA accredited representative through our online tool.
+        become a VA-accredited representative through our online tool.
       </p>
       <p>
-        <strong>Note:</strong> If you are a VSO representative wanting to apply
-        for accreditation, contact your organization’s certifying official.
+        <strong>Note:</strong> If you are a Veteran Service Organization
+        representative wanting to apply for accreditation, contact your
+        organization’s certifying official.
       </p>
       <h2>What to know before you fill out this form</h2>
       <p>
@@ -29,76 +52,94 @@ const IntroductionPage = ({ route }) => {
         each question and provide complete answers to all questions that apply
         to you.
       </p>
+      <p>
+        Truthfulness and candor are essential elements of good moral character
+        and reputation relevant to practice before the Department of Veterans
+        Affairs. Failure to disclose the requested information may result in
+        denial of accreditation under{' '}
+        <va-link
+          href="https://www.law.cornell.edu/cfr/text/38/14.629"
+          text="38 C.F.R. § 14.629"
+        />{' '}
+        or in disciplinary proceedings under{' '}
+        <va-link
+          href="https://www.law.cornell.edu/cfr/text/38/14.633"
+          text="38 C.F.R. § 14.633"
+        />{' '}
+        if you are already accredited.
+      </p>
+      <va-alert status="warning" visible>
+        This form asks about personal history that might be sensitive in
+        nature&mdash;professional terminations, academic suspensions,
+        imprisonment, legal cases, and more. Please consider your readiness to
+        discuss these incidents before proceeding.
+      </va-alert>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Fill out the following information:
       </h2>
       <va-process-list>
-        <li>
-          <h3>Personal information</h3>
+        <va-process-list-item header="Personal information">
           <p>
             You will need to fill out your personal information, up to date
             contact information, and any military service information.
           </p>
-        </li>
-        <li>
-          <h3>Military history</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Military service history">
           <p>
             If you served in a military branch of service, you will need to
             provide information about your tours.
           </p>
-        </li>
-        <li>
-          <h3>Employment information</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Employment information">
           <p>
             You will need to enter your employment information for the past five
-            years. If you aren’t employed you can select another status
+            years. If you are not employed you can select another status
             (unemployed, self-employed, student).
           </p>
-        </li>
-        <li>
-          <h3>Education information</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Education history">
           <p>
             You will need to provide your education institution’s name and
             address starting from high school graduation, undergraduate, to
             post-graduate. You will also need to provide the dates you attended
             and the degree received (or major).
           </p>
-        </li>
-        <li>
-          <h3>Law practice information</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Professional affiliations">
           <p>
             You will need to provide each jurisdiction you are currently a
             member of good standing. Along with the name, you will also need to
             provide the date of admission and your membership or registration
             number.
           </p>
-        </li>
-        <li>
-          <h3>Background questions</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Background information">
           <p>
             Truthfulness and candor are essential elements of good moral
-            character and reputation relevant to practice before the VA. In
-            order to evaluate your character and reputation, you will need to
-            fill out 12 questions.
+            character and reputation relevant to practice before VA. In order to
+            evaluate your character and reputation, you will need to provide
+            details on any convictions, imprisonments, sentences, terminations
+            due to unethical or unlawful behavior, and related topics.
           </p>
-        </li>
-        <li>
-          <h3>Character references</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Character references">
           <p>
-            You will need to provide 3 character reference who have personal
-            knowledge of your character and qualification to serve as an
-            attorney or claims agent. These references cannot be immediate
-            family members.
+            You will need to provide 3-4 character references who have personal
+            knowledge of your character and qualification to serve as a claims
+            agent or attorney. These references cannot be immediate family
+            members.
           </p>
-        </li>
-        <li>
-          <h3>Submit required documents</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Optional supplementary statements">
           <p>
-            Last, after you submit your application online, you will need to
-            send OGC supporting documentation before they can start to review
-            your application and make a decision.
+            Provide any additional explanations for your answers in previous
+            sections and additional information about why you are applying.
+            These questions are optional.
           </p>
-        </li>
+        </va-process-list-item>
+        <va-process-list-item header="Review application">
+          <p>Review your answers before submitting.</p>
+        </va-process-list-item>
       </va-process-list>
       <SaveInProgressIntro
         headingLevel={2}
@@ -106,6 +147,9 @@ const IntroductionPage = ({ route }) => {
         messages={formConfig.savedFormMessages}
         pageList={pageList}
         startText="Start your Application"
+        customLink={StartLink}
+        hideUnauthedStartLink
+        displayNonVeteranMessaging
       />
       <va-omb-info
         res-burden={45}
@@ -126,6 +170,15 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.arrayOf(PropTypes.object),
   }),
+  startLink: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.elementType,
+    PropTypes.func,
+  ]),
+};
+
+StartLink.propTypes = {
+  children: PropTypes.node,
 };
 
 export default IntroductionPage;

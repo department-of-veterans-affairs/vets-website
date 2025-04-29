@@ -61,7 +61,7 @@ describe('Declined', () => {
       fireEvent.click(signInButton);
 
       expect(dispatchStub.calledOnce).to.be.true;
-      expect(dispatchStub.calledWith(toggleLoginModal(true))).to.be.true;
+      expect(dispatchStub.calledWithMatch(toggleLoginModal(true))).to.be.true;
     });
 
     it('should redirect to vamobile when session storage exists', async () => {

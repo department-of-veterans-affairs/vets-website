@@ -41,7 +41,7 @@ describe('Condition details container', () => {
 
   it('displays the condition name', () => {
     const conditionName = screen.getByText(
-      `Health Conditions: ${initialState.mr.conditions.conditionDetails.name}`,
+      `${initialState.mr.conditions.conditionDetails.name}`,
       {
         exact: true,
         selector: 'h1',
@@ -137,7 +137,7 @@ describe('Condition details container with fields missing', () => {
   it('should not display the formatted date if date is missing', () => {
     waitFor(() => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
-        'None noted',
+        'None recorded',
       );
     });
   });

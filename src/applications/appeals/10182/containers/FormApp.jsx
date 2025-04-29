@@ -90,6 +90,7 @@ export const FormApp = ({
           // details.
           contestedIssues: getEligibleContestableIssues(
             contestableIssues?.issues,
+            { isNod: true },
           ),
         });
       }
@@ -164,6 +165,7 @@ const mapStateToProps = state => ({
   loggedIn: isLoggedIn(state),
   returnUrlFromSIPForm: state.form?.loadedData?.metadata?.returnUrl,
   isStartingOver: state.form.isStartingOver,
+  toggles: state.featureToggles || {},
 });
 
 const mapDispatchToProps = {

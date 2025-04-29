@@ -1,0 +1,57 @@
+{
+  "data": {
+    "attributes": {
+      "profile": {
+        "sign_in": {
+          "service_name": "idme"
+        },
+        "email": "john.doe@example.com",
+        "loa": { "current": 3 },
+        "first_name": "John",
+        "middle_name": "",
+        "last_name": "Doe",
+        "gender": "M",
+        "birth_date": "1985-01-01",
+        "verified": true
+      },
+      "veteran_status": {
+        "status": "OK",
+        "is_veteran": true,
+        "served_in_military": true
+      },
+      "in_progress_forms": ["MDOT"],
+      "prefills_available": ["MDOT"],
+      "services": [
+        "facilities",
+        "hca",
+        "edu-benefits",
+        "evss-claims",
+        "form526",
+        "user-profile",
+        "health-records",
+        "rx",
+        "messaging"
+      ],
+      "va_profile": {
+        "status": "OK",
+        "birth_date": "19850101",
+        "family_name": "Doe",
+        "gender": "M",
+        "given_names": ["John", ""],
+        "active_status": "active",
+        "facilities": [
+          {
+            "facility_id": "983",
+            "is_cerner": false
+          },
+          {
+            "facility_id": "984",
+            "is_cerner": false
+          }
+        ],
+        "va_patient": true
+      }
+    }
+  },
+  "meta": { "errors": null }
+}

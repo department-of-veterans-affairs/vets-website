@@ -12,9 +12,8 @@ const theirRelationshipToVeteranPage = {
       labelHeaderLevel: '3',
       labels: aboutTheirRelationshipToVet,
       errorMessages: {
-        required: 'Please select your relationship to the family member',
+        required: 'Please select their relationship to the Veteran',
       },
-      required: () => true,
     }),
     theyHaveRelationshipNotListed: {
       'ui:title': CHAPTER_3.THEIR_RELATIONSHIP_TO_VET.QUESTION_1,
@@ -25,7 +24,7 @@ const theirRelationshipToVeteranPage = {
         expandedContentFocus: true,
       },
       'ui:errorMessages': {
-        required: `Please enter your relationship to the family member`,
+        required: `Please enter their relationship to the Veteran`,
       },
     },
     'ui:options': {

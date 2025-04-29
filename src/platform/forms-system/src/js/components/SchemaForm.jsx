@@ -98,7 +98,7 @@ class SchemaForm extends React.Component {
       this.state.formContext,
     );
     this.setState({ formContext });
-    scrollToFirstError();
+    scrollToFirstError(this.props.formOptions);
   }
 
   onBlur(id) {
@@ -165,7 +165,7 @@ class SchemaForm extends React.Component {
   }
 
   validate(formData, errors) {
-    const { schema, uiSchema, appStateData } = this.props;
+    const { schema, uiSchema, appStateData, getFormData } = this.props;
     if (uiSchema) {
       uiSchemaValidate(
         errors,
@@ -175,6 +175,7 @@ class SchemaForm extends React.Component {
         '',
         null,
         appStateData,
+        getFormData,
       );
     }
     return errors;
@@ -228,17 +229,24 @@ class SchemaForm extends React.Component {
 
 SchemaForm.propTypes = {
   name: PropTypes.string.isRequired,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
   schema: PropTypes.object.isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
   uiSchema: PropTypes.object.isRequired,
-  data: PropTypes.any,
-  appStateData: PropTypes.object,
-  reviewMode: PropTypes.bool,
-  editModeOnReviewPage: PropTypes.bool,
-  onSubmit: PropTypes.func,
-  onChange: PropTypes.func,
-  hideTitle: PropTypes.bool,
   addNameAttribute: PropTypes.bool,
+  appStateData: PropTypes.object,
+  children: PropTypes.any,
+  data: PropTypes.any,
+  editModeOnReviewPage: PropTypes.bool,
+  formContext: PropTypes.shape({}),
+  formOptions: PropTypes.shape({}),
+  getFormData: PropTypes.func,
+  hideTitle: PropTypes.bool,
+  idSchema: PropTypes.object,
+  pagePerItemIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  reviewMode: PropTypes.bool,
+  safeRenderCompletion: PropTypes.bool,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 SchemaForm.defaultProps = {

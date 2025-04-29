@@ -56,6 +56,25 @@ export default {
         },
       },
     },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        const { claimOwnership, claimantType } = formData;
+
+        if (
+          claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+          claimantType === CLAIMANT_TYPES.NON_VETERAN
+        ) {
+          return {
+            ...formSchema,
+            required: ['claimantPhone', 'claimantEmail'],
+          };
+        }
+        return {
+          ...formSchema,
+          required: ['claimantPhone'],
+        };
+      },
+    },
   },
   schema: {
     type: 'object',

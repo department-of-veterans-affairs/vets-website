@@ -14,7 +14,9 @@ describe('Vaccines list container', () => {
     user,
     mr: {
       vaccines: {
-        vaccinesList: vaccines.entry.map(vaccine => convertVaccine(vaccine)),
+        vaccinesList: vaccines.entry.map(vaccine =>
+          convertVaccine(vaccine.resource),
+        ),
       },
     },
     featureToggles: {
@@ -83,7 +85,7 @@ describe('Vaccines list container first time loading', () => {
     mr: {
       vaccines: { listCurrentAsOf: undefined },
       alerts: { alertList: [] },
-      refresh: { initialFhirLoad: true },
+      refresh: { initialFhirLoad: new Date() },
     },
   };
 

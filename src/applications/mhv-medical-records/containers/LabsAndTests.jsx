@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { getLabsAndTestsList } from '../actions/labsAndTests';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
+import { getLabsAndTestsList, reloadRecords } from '../actions/labsAndTests';
 import {
   ALERT_TYPE_ERROR,
+  CernerAlertContent,
   accessAlertTypes,
   pageTitles,
   recordType,
@@ -15,9 +15,14 @@ import {
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
+  const updatedRecordList = useSelector(
+    state => state.mr.labsAndTests.updatedList,
+  );
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
   );
@@ -32,14 +37,25 @@ const LabsAndTests = () => {
     listState,
     listCurrentAsOf: labsAndTestsCurrentAsOf,
     refreshStatus: refresh.status,
-    extractType: refreshExtractTypes.VPR,
+    extractType: [refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR],
     dispatchAction: getLabsAndTestsList,
     dispatch,
   });
 
   useEffect(
+    /**
+     * @returns a callback to automatically load any new records when unmounting this component
+     */
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
+      return () => {
+        dispatch(reloadRecords());
+      };
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
     },
@@ -51,6 +67,7 @@ const LabsAndTests = () => {
       <h1 className="page-title vads-u-margin-bottom--1">
         Lab and test results
       </h1>
+
       <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
         Most lab and test results are available{' '}
         <span className="vads-u-font-weight--bold">36 hours</span> after the lab
@@ -58,6 +75,9 @@ const LabsAndTests = () => {
         <span className="vads-u-font-weight--bold">14 days</span> or longer to
         confirm.{' '}
       </p>
+
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
+
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.LABS_AND_TESTS}
@@ -66,6 +86,19 @@ const LabsAndTests = () => {
         listCurrentAsOf={labsAndTestsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={[refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR]}
+          newRecordsFound={
+            Array.isArray(labsAndTests) &&
+            Array.isArray(updatedRecordList) &&
+            labsAndTests.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
+
         <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       </RecordListSection>
     </div>

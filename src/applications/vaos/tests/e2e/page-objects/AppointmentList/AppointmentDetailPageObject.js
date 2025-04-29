@@ -47,11 +47,6 @@ function assertDescription(type, tokens) {
       '\tSuite 10\\, City 983\\, WY 82001-5356\\n',
     );
     expect(description[4]).to.equal('\t307-778-7550\\n');
-  } else if (type === VIDEO_TYPES.gfe) {
-    expect(description[0]).to.equal(
-      'You can join this meeting up to 30 minutes before the start ti',
-    );
-    expect(description[1]).to.equal('\tme.');
   }
 }
 function assertLocation(type, tokens) {
@@ -65,8 +60,6 @@ function assertLocation(type, tokens) {
     expect(tokens.get('LOCATION')).to.equal(
       '2360 East Pershing Boulevard\\, Suite 10\\, City 983\\, WY 82001-5356',
     );
-  } else if (type === VIDEO_TYPES.gfe) {
-    expect(tokens.get('LOCATION')).to.equal('VA Video Connect at home');
   }
 }
 function assertSummary(type, tokens) {
@@ -76,30 +69,25 @@ function assertSummary(type, tokens) {
       'VA Video Connect appointment at an ATLAS facility',
     );
   } else if (type === VIDEO_TYPES.mobile) {
-    // TODO: Verify this!!!
-    // expect(tokens.get('SUMMARY')).to.contain('VA Video Connect appointment');
+    expect(tokens.get('SUMMARY')).to.contain('VA Video Connect appointment');
   } else if (type === VIDEO_TYPES.clinic) {
     expect(tokens.get('SUMMARY')).to.contain(
       'VA Video Connect appointment at Cheyenne VA Medical Center',
     );
-  } else if (type === VIDEO_TYPES.gfe) {
-    expect(tokens.get('SUMMARY')).to.equal('VA Video Connect appointment');
   }
 }
 
 export class AppointmentDetailPageObject extends PageObject {
   assertAddToCalendar() {
     this.assertShadow({
-      element: '[data-testid="add-to-calendar-link"]',
+      element: '[data-testid="add-to-calendar-button"]',
       text: 'Add to calendar',
     });
     return this;
   }
 
   assertAddToCalendarLink({ startDate, type }) {
-    cy.findByTestId('add-to-calendar-link')
-      .as('link')
-      .shadow();
+    cy.findByTestId('add-to-calendar-link', { hidden: true }).as('link');
     cy.get('@link').should($foo => {
       const ics = decodeURIComponent(
         $foo.attr('href').replace('data:text/calendar;charset=utf-8,', ''),
@@ -120,19 +108,14 @@ export class AppointmentDetailPageObject extends PageObject {
 
       // And the start time should match the appointment
       expect(tokens.get('DTSTAMP')).to.equal(
-        `${moment(startDate)
-          .utc()
-          .format('YYYYMMDDTHHmmss[Z]')}`,
+        `${moment(startDate).format('YYYYMMDDTHHmmss[Z]')}`,
       );
       expect(tokens.get('DTSTART')).to.equal(
-        `${moment(startDate)
-          .utc()
-          .format('YYYYMMDDTHHmmss[Z]')}`,
+        `${moment(startDate).format('YYYYMMDDTHHmmss[Z]')}`,
       );
       expect(tokens.get('DTEND')).to.equal(
         `${moment(startDate)
           .add(60, 'minutes') // Default duration
-          .utc()
           .format('YYYYMMDDTHHmmss[Z]')}`,
       );
       expect(tokens.get('END')).includes('VEVENT');
@@ -143,7 +126,16 @@ export class AppointmentDetailPageObject extends PageObject {
   }
 
   assertAppointmentCode() {
-    this.assertText({ text: /Appointment Code: 7VBBCA/i });
+    this.assertText({ text: /7VBBCA/i });
+    return this;
+  }
+
+  assertCancelButton() {
+    this.assertShadow({
+      element: '[data-testid="print-button"]',
+      text: 'Print',
+    });
+
     return this;
   }
 
@@ -152,28 +144,12 @@ export class AppointmentDetailPageObject extends PageObject {
     return this;
   }
 
-  assertJoinAppointment({ exist = true, isEnabled = true } = {}) {
-    if (exist) {
-      if (isEnabled) {
-        cy.findByText(/Join appointment/i).should(
-          'not.have.class',
-          'usa-button-disabled',
-        );
-      } else {
-        cy.findByText(/Join appointment/i).should(
-          'have.class',
-          'usa-button-disabled',
-        );
-      }
-    } else {
-      cy.findByText(/Join appointment/i).should('not.exist');
-    }
-
-    return this;
-  }
-
   assertPrint() {
-    this.assertText({ text: /Print/i });
+    this.assertShadow({
+      element: '[data-testid="print-button"]',
+      text: 'Print',
+    });
+
     return this;
   }
 
@@ -185,6 +161,15 @@ export class AppointmentDetailPageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/1', { timeout: 5000 });
     cy.axeCheckBestPractice();
+
+    return this;
+  }
+
+  clickCancelButton() {
+    cy.get('[data-testid="cancel-button"]')
+      .shadow()
+      .findByText(/Cancel appointment/i)
+      .click();
 
     return this;
   }

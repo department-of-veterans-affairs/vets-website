@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   clearLabsAndTestDetails,
   getlabsAndTestsDetails,
 } from '../actions/labsAndTests';
 import EkgDetails from '../components/LabsAndTests/EkgDetails';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
 import MicroDetails from '../components/LabsAndTests/MicroDetails';
 import PathologyDetails from '../components/LabsAndTests/PathologyDetails';
@@ -15,32 +15,25 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   labTypes,
+  pageTitles,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import { useIsDetails } from '../hooks/useIsDetails';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
   const labAndTestDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
+  const labAndTestList = useSelector(
+    state => state.mr.labsAndTests.labsAndTestsList,
+  );
   const fullState = useSelector(state => state);
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
 
-  useIsDetails(dispatch);
-
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/labs-and-tests',
-            label: 'Lab and test results',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearLabsAndTestDetails());
       };
@@ -51,10 +44,11 @@ const LabAndTestDetails = () => {
   useEffect(
     () => {
       if (labId) {
-        dispatch(getlabsAndTestsDetails(labId));
+        dispatch(getlabsAndTestsDetails(labId, labAndTestList));
       }
+      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_DETAILS_PAGE_TITLE);
     },
-    [labId, dispatch],
+    [labId, labAndTestList, dispatch],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
@@ -81,7 +75,10 @@ const LabAndTestDetails = () => {
   if (labAndTestDetails?.type === labTypes.EKG) {
     return <EkgDetails record={labAndTestDetails} />;
   }
-  if (labAndTestDetails?.type === labTypes.RADIOLOGY) {
+  if (
+    labAndTestDetails?.type === labTypes.RADIOLOGY ||
+    labAndTestDetails?.type === labTypes.CVIX_RADIOLOGY
+  ) {
     return (
       <RadiologyDetails record={labAndTestDetails} fullState={fullState} />
     );

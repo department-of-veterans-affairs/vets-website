@@ -1,23 +1,28 @@
 import {
-  emailSchema,
-  emailUI,
+  emailToSendNotificationsSchema,
+  emailToSendNotificationsUI,
   phoneSchema,
   phoneUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
-export default {
+const pageSchema = {
   uiSchema: {
     ...titleUI('Your phone and email address'),
     phone: phoneUI('Phone number'),
-    emailAddress: emailUI(),
+    emailAddress: emailToSendNotificationsUI({
+      // no living situation risk = has housing = has email
+      required: formData => formData.livingSituation?.NONE,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       phone: phoneSchema,
-      emailAddress: emailSchema,
+      emailAddress: emailToSendNotificationsSchema,
     },
   },
 };
+
+export default pageSchema;

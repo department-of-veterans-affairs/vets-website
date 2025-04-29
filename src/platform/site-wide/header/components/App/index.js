@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import recordEvent from '~/platform/monitoring/record-event';
 import debounce from 'platform/utilities/data/debounce';
 import { updateLayoutHeaderType } from 'platform/site-wide/layout/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import MobileHeader from '../Header';
 import {
-  hideLegacyHeader,
-  showLegacyHeader,
+  hideDesktopHeader,
+  showDesktopHeader,
   toggleMinimalHeader,
 } from '../../helpers';
 
@@ -44,9 +43,9 @@ function setStaticHeaderDisplay(
       toggleMinimalHeader(headerState === 'minimal');
     }
     if (isDesktop) {
-      showLegacyHeader();
+      showDesktopHeader();
     } else {
-      hideLegacyHeader();
+      hideDesktopHeader();
     }
   }
   // else everything is already hidden by default
@@ -71,11 +70,6 @@ export const App = ({
       setIsDesktop(window.innerWidth >= MOBILE_BREAKPOINT_PX);
 
     const onResize = debounce(100, deriveIsDesktop);
-
-    recordEvent({
-      event: 'phased-roll-out-enabled',
-      'product-description': 'Header V2',
-    });
 
     window.addEventListener('resize', onResize);
 

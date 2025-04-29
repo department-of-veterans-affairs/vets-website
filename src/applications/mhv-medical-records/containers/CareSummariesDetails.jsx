@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   getCareSummaryAndNotesDetails,
   clearCareSummariesDetails,
 } from '../actions/careSummariesAndNotes';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import AdmissionAndDischargeDetails from '../components/CareSummaries/AdmissionAndDischargeDetails';
 import ProgressNoteDetails from '../components/CareSummaries/ProgressNoteDetails';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   loincCodes,
+  pageTitles,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import { useIsDetails } from '../hooks/useIsDetails';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
@@ -28,18 +28,8 @@ const CareSummariesDetails = () => {
   const { summaryId } = useParams();
   const activeAlert = useAlerts(dispatch);
 
-  useIsDetails(dispatch);
-
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/summaries-and-notes',
-            label: 'Care summaries and notes',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearCareSummariesDetails());
       };
@@ -52,6 +42,7 @@ const CareSummariesDetails = () => {
       if (summaryId) {
         dispatch(getCareSummaryAndNotesDetails(summaryId, careSummariesList));
       }
+      updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE);
     },
     [summaryId, careSummariesList, dispatch],
   );

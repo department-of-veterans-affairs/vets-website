@@ -79,12 +79,11 @@ describe('Chem Hem details component', () => {
 
   it('displays who the test was ordered by', () => {
     expect(screen.getByText('Ordered by', { selector: 'h3' })).to.exist;
-    expect(screen.getByText('DOE, JANE A', { exact: false })).to.exist;
+    expect(screen.getByText('JANE A DOE', { exact: false })).to.exist;
   });
 
-  it('displays the collecting location', () => {
-    expect(screen.getByText('Collecting location', { selector: 'h3' })).to
-      .exist;
+  it('displays the location', () => {
+    expect(screen.getByText('Location', { selector: 'h3' })).to.exist;
     expect(screen.getByText('Lab Site 989', { exact: false })).to.exist;
   });
 
@@ -114,13 +113,6 @@ describe('Chem Hem details component', () => {
       screen.getAllByText('Reference range', { selector: 'h4' }).length,
     ).to.eq(2);
     expect(screen.getByText('3.6-5.1 mEq/L', { selector: 'p' })).to.exist;
-  });
-
-  it('should display the performing lab location', () => {
-    expect(
-      screen.getAllByText('Performing lab location', { selector: 'h4' }).length,
-    ).to.eq(2);
-    expect(screen.getAllByText('DAYTON, OH VAMC').length).to.eq(2);
   });
 
   it('should display lab comments', () => {
@@ -170,7 +162,7 @@ describe('Chem hem details component with no date', () => {
   it('should not display the formatted date if effectiveDateTime is missing', () => {
     waitFor(() => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
-        'None noted',
+        'None recorded',
       );
     });
   });

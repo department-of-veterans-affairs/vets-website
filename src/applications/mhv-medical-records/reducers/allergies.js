@@ -19,9 +19,14 @@ const initialState = {
   listState: loadStates.PRE_FETCH,
   /**
    * The list of allergies returned from the api
-   * @type {array}
+   * @type {Array}
    */
   allergiesList: undefined,
+  /**
+   * New list of records retrieved. This list is NOT displayed. It must manually be copied into the display list.
+   * @type {Array}
+   */
+  updatedList: undefined,
   /**
    * The condition currently being displayed to the user
    */
@@ -30,7 +35,7 @@ const initialState = {
 
 export const extractLocation = allergy => {
   if (isArrayAndHasItems(allergy?.recorder?.extension)) {
-    const ref = allergy.recorder.extension[0].valueReference?.reference;
+    const ref = allergy.recorder.extension[0]?.valueReference?.reference;
     // Use the reference inside "recorder" to get the value from "contained".
     const org = extractContainedResource(allergy, ref);
     if (org?.name) {
@@ -58,8 +63,9 @@ export const convertAllergy = allergy => {
     id: allergy.id,
     type:
       (isArrayAndHasItems(allergy.category) &&
-        allergy.category[0].charAt(0).toUpperCase() +
-          allergy.category[0].slice(1)) ||
+        allergy.category
+          .join(', ')
+          .replace(/^./, char => char.toUpperCase())) ||
       EMPTY_FIELD,
     name: allergy?.code?.text || EMPTY_FIELD,
     date: allergy?.recordedDate
@@ -69,7 +75,9 @@ export const convertAllergy = allergy => {
     location: extractLocation(allergy),
     observedOrReported: extractObservedReported(allergy),
     notes:
-      (isArrayAndHasItems(allergy.note) && allergy.note[0].text) || EMPTY_FIELD,
+      (isArrayAndHasItems(allergy.note) && allergy.note[0]?.text) ||
+      EMPTY_FIELD,
+    provider: allergy.recorder?.display || EMPTY_FIELD,
   };
 };
 
@@ -88,16 +96,38 @@ export const allergyReducer = (state = initialState, action) => {
       };
     }
     case Actions.Allergies.GET_LIST: {
+      const oldList = state.allergiesList;
+      const newList =
+        action.response.entry
+          ?.map(allergy => {
+            return convertAllergy(allergy.resource);
+          })
+          .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
+
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        allergiesList:
-          action.response.entry
-            ?.map(allergy => {
-              return convertAllergy(allergy.resource);
-            })
-            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [],
+        allergiesList: typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Allergies.COPY_UPDATED_LIST: {
+      const originalList = state.allergiesList;
+      const { updatedList } = state;
+      if (
+        Array.isArray(originalList) &&
+        Array.isArray(updatedList) &&
+        originalList.length !== updatedList.length
+      ) {
+        return {
+          ...state,
+          allergiesList: state.updatedList,
+          updatedList: undefined,
+        };
+      }
+      return {
+        ...state,
       };
     }
     case Actions.Allergies.CLEAR_DETAIL: {

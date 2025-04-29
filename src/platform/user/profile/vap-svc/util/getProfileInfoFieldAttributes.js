@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash';
 import { API_ROUTES, FIELD_TITLES, FIELD_NAMES } from '../constants';
 
 import {
@@ -38,6 +39,7 @@ export const personalInformation = [
   FIELD_NAMES.PRONOUNS,
   FIELD_NAMES.GENDER_IDENTITY,
   FIELD_NAMES.SEXUAL_ORIENTATION,
+  FIELD_NAMES.MESSAGING_SIGNATURE,
 ];
 
 export const getProfileInfoFieldAttributes = fieldName => {
@@ -58,8 +60,8 @@ export const getProfileInfoFieldAttributes = fieldName => {
   if (phoneNumbers.includes(fieldName)) {
     apiRoute = API_ROUTES.TELEPHONES;
     convertCleanDataToPayload = phoneConvertCleanDataToPayload;
-    uiSchema = phoneUiSchema(FIELD_TITLES[fieldName]);
-    formSchema = phoneFormSchema;
+    uiSchema = cloneDeep(phoneUiSchema(FIELD_TITLES[fieldName]));
+    formSchema = cloneDeep(phoneFormSchema);
 
     if (fieldName === FIELD_NAMES.HOME_PHONE) {
       title = FIELD_TITLES[FIELD_NAMES.HOME_PHONE];
@@ -71,6 +73,8 @@ export const getProfileInfoFieldAttributes = fieldName => {
 
     if (fieldName === FIELD_NAMES.MOBILE_PHONE) {
       title = FIELD_TITLES[FIELD_NAMES.MOBILE_PHONE];
+      delete uiSchema.extension; // Remove for mobile only
+      delete formSchema.properties.extension;
     }
 
     if (fieldName === FIELD_NAMES.FAX_NUMBER) {
@@ -133,6 +137,21 @@ export const getProfileInfoFieldAttributes = fieldName => {
         // TODO: update when api route is avail
         apiRoute = '/';
         title = FIELD_TITLES[FIELD_NAMES.PRONOUNS];
+        break;
+
+      case FIELD_NAMES.MESSAGING_SIGNATURE:
+        apiRoute = API_ROUTES.MESSAGING_SIGNATURE;
+        title = FIELD_TITLES[FIELD_NAMES.MESSAGING_SIGNATURE];
+        convertCleanDataToPayload = payload => {
+          const includeSignature =
+            !!payload?.signatureName?.trim() &&
+            !!payload?.signatureTitle?.trim();
+          return {
+            signatureName: payload?.signatureName,
+            signatureTitle: payload?.signatureTitle,
+            includeSignature,
+          };
+        };
         break;
 
       default:

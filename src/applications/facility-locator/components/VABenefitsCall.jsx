@@ -6,7 +6,11 @@ export default function VABenefitsCall() {
     <div>
       <p className="p1">
         <strong>To check on the status of your claim or appeal</strong>, use our{' '}
-        <a href="/claim-or-appeal-status">online claim status tool</a>.
+        <va-link
+          href="/claim-or-appeal-status"
+          text="online claim status tool"
+        />
+        .
       </p>
       <p className="p1">
         <strong>To get help with benefits</strong>, call{' '}

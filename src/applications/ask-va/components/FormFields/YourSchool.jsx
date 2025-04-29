@@ -2,25 +2,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const StateSelect = props => {
-  const { school } = props;
+const YourSchool = props => {
+  const { schoolInfo } = props;
 
+  const facilityCode = schoolInfo?.schoolFacilityCode;
+  const facilityName = schoolInfo?.schoolName;
   return (
-    <p>
-      {' '}
-      Your school facility is <strong>{`${school}`}</strong>. Would you like to
-      use this school or choose a different option?{' '}
-    </p>
+    <div>
+      <p className="vads-u-margin-top--0">
+        This is the school facility we have in your profile.
+      </p>
+      <p className="school-info-bar">
+        <span className="vads-u-margin-left--2p5">{`${facilityCode} - ${facilityName}`}</span>
+      </p>
+    </div>
   );
 };
 
-StateSelect.propTypes = {
-  school: PropTypes.string,
+YourSchool.propTypes = {
+  schoolInfo: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-  // TODO: change this to get school from AVA profile
-  school: state.form.data.school,
+  schoolInfo: state.form.data.schoolInfo,
 });
 
-export default connect(mapStateToProps)(StateSelect);
+export default connect(mapStateToProps)(YourSchool);

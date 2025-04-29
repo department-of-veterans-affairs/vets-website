@@ -20,6 +20,7 @@
       "postalCode": "12345"
     },
     "veteranPhone": "1234567890",
+    "veteranEmailAddress": "john.veteran@email.com",
     "view:hasReceivedMedicalTreatment": true,
     "medicalTreatments": [
       {

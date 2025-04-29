@@ -12,17 +12,16 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording } from '../helpers/utilities';
+import { nameWording } from '../../shared/utilities';
+import { nameWordingExt } from '../helpers/utilities';
+import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import {
-  fileWithMetadataSchema,
-  fileUploadBlurb,
-} from '../../shared/components/fileUploads/attachments';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+  fileUploadUi as fileUploadUI,
+  singleFileSchema,
+} from '../../shared/components/fileUploads/upload';
+import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { blankSchema } from './applicantInformation';
-
-// TODO: move to /shared
-const additionalFilesHint =
-  'Depending on your response, you may need to submit additional documents with this application.';
+import { validFieldCharsOnly } from '../../shared/validations';
 
 const MEDIGAP = {
   A: 'Medigap Plan A',
@@ -58,16 +57,13 @@ export function applicantHasInsuranceSchema(isPrimary) {
         ...yesNoUI({
           updateUiSchema: formData => {
             return {
-              'ui:title': `Does ${nameWording(
-                formData,
-                false,
-                undefined,
-                true,
-              )} have ${
+              'ui:title': `${
+                formData.certifierRole === 'applicant' ? 'Do' : 'Does'
+              } ${nameWording(formData, false, false, true)} have ${
                 isPrimary ? '' : 'any other'
               } medical health insurance information to provide or update at this time?`,
               'ui:options': {
-                hint: additionalFilesHint,
+                hint: ADDITIONAL_FILES_HINT,
               },
             };
           },
@@ -115,6 +111,10 @@ export function applicantProviderSchema(isPrimary) {
         title: 'Insurance termination date',
         hint: 'Only enter this date if the policy is inactive.',
       }),
+      'ui:validations': [
+        (errors, formData) =>
+          validFieldCharsOnly(errors, null, formData, keyname1),
+      ],
     },
     schema: {
       type: 'object',
@@ -154,7 +154,7 @@ export function applicantInsuranceThroughEmployerSchema(isPrimary) {
               'ui:title': `Is this insurance through ${nameWording(
                 formData,
                 undefined,
-                undefined,
+                false,
                 true,
               )} employer?`,
             };
@@ -195,7 +195,7 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
               'ui:title': `Does ${nameWording(
                 formData,
                 undefined,
-                undefined,
+                false,
                 true,
               )} health insurance cover prescriptions?`,
               'ui:options': {
@@ -218,8 +218,8 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
   };
 }
 
-export function applicantInsuranceEOBSchema(isPrimary) {
-  const keyname = isPrimary ? 'applicantPrimaryEOB' : 'applicantSecondaryEOB';
+export function applicantInsuranceEobSchema(isPrimary) {
+  const keyname = isPrimary ? 'applicantPrimaryEob' : 'applicantSecondaryEob';
   const provider = isPrimary
     ? 'applicantPrimaryProvider'
     : 'applicantSecondaryProvider';
@@ -238,7 +238,7 @@ export function applicantInsuranceEOBSchema(isPrimary) {
               'ui:title': `Does ${nameWording(
                 formData,
                 undefined,
-                undefined,
+                false,
                 true,
               )} health insurance have an explanation of benefits (EOB) for prescriptions?`,
               'ui:options': {
@@ -290,6 +290,7 @@ export function applicantInsuranceSOBSchema(isPrimary) {
       ...fileUploadBlurb,
       [keyname]: fileUploadUI({
         label: 'Upload schedule of benefits document',
+        attachmentId: 'Schedule of benefits document',
       }),
     },
     schema: {
@@ -297,7 +298,7 @@ export function applicantInsuranceSOBSchema(isPrimary) {
       properties: {
         titleSchema,
         'view:fileUploadBlurb': blankSchema,
-        [keyname]: fileWithMetadataSchema([`Schedule of benefits document`]),
+        [keyname]: singleFileSchema,
       },
     },
   };
@@ -328,16 +329,15 @@ export function applicantInsuranceTypeSchema(isPrimary) {
           },
           required: () => true,
           updateUiSchema: formData => {
+            const wording = nameWordingExt(formData);
             return {
-              'ui:title': `Select the type of insurance plan or program ${nameWording(
-                formData,
-                false,
-                undefined,
-                true,
-              )} is enrolled in`,
+              'ui:title': `Select the type of insurance plan or program ${
+                wording.beingVerb
+              } enrolled in`,
               'ui:options': {
-                hint:
-                  'You may find this information on the front of your health insurance card.',
+                hint: `You may find this information on the front of ${
+                  wording.posessive
+                } health insurance card.`,
               },
             };
           },
@@ -378,13 +378,11 @@ export function applicantMedigapSchema(isPrimary) {
           required: () => true,
           labels: MEDIGAP,
           updateUiSchema: formData => {
+            const wording = nameWordingExt(formData);
             return {
-              'ui:title': `Select the Medigap plan ${nameWording(
-                formData,
-                false,
-                undefined,
-                true,
-              )} is enrolled in`,
+              'ui:title': `Select the Medigap plan ${
+                wording.beingVerb
+              } enrolled in`,
             };
           },
         }),
@@ -421,13 +419,17 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
             'ui:title': `Any additional comments about ${nameWording(
               formData,
               undefined,
-              undefined,
+              false,
               true,
             )} health insurance?`,
           };
         },
         charcount: true,
       }),
+      'ui:validations': [
+        (errors, formData) =>
+          validFieldCharsOnly(errors, null, formData, keyname),
+      ],
     },
     schema: {
       type: 'object',
@@ -457,10 +459,6 @@ export function applicantInsuranceCardSchema(isPrimary) {
               insurance card.
               <br />
               <br />
-              You can also upload any other supporting documents you may have
-              for this health insurance.
-              <br />
-              <br />
               If you don’t have a copy to upload now, you can send it by mail or
               fax.
             </>
@@ -468,29 +466,22 @@ export function applicantInsuranceCardSchema(isPrimary) {
         },
       ),
       ...fileUploadBlurb,
-      [keyname]: {
-        ...fileUploadUI({
-          label: 'Upload health insurance card',
-        }),
-        'ui:errorMessages': {
-          minItems:
-            'You must add both the front and back of your card as separate files.',
-        },
-      },
+      [`${keyname}Front`]: fileUploadUI({
+        label: 'Upload front of insurance card',
+        attachmentId: 'Front of insurance card', // used behind the scenes
+      }),
+      [`${keyname}Back`]: fileUploadUI({
+        label: 'Upload back of insurance card',
+        attachmentId: 'Back of insurance card', // used behind the scenes
+      }),
     },
     schema: {
       type: 'object',
       properties: {
         titleSchema,
         'view:fileUploadBlurb': blankSchema,
-        [keyname]: fileWithMetadataSchema(
-          [
-            `Front of insurance card`,
-            `Back of insurance card`,
-            `Other insurance supporting document`,
-          ],
-          2,
-        ),
+        [`${keyname}Front`]: singleFileSchema,
+        [`${keyname}Back`]: singleFileSchema,
       },
     },
   };

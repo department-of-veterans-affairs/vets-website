@@ -27,15 +27,15 @@ const content = {
 const ombInfo = {
   resBurden: '10',
   ombNumber: '2900-0881',
-  expDate: '06/30/2024',
+  expDate: '07/31/2027',
 };
 
 const childContent = (
   <>
-    <p>
-      Use this form to submit a formal statement to support your VA claim—or the
-      claim of another Veteran or eligible family member. People also sometimes
-      call this statement a “buddy statement.”
+    <p className="va-introtext">
+      Use this form to submit a formal statement to support your VA claim or the
+      claim of another Veteran or eligible family member. People sometimes refer
+      to this statement as a "buddy statement."
     </p>
     <h2>What to know before you complete this form</h2>
     <ul>
@@ -65,6 +65,9 @@ export const IntroductionPage = ({ route }) => {
       content={content}
       ombInfo={ombInfo}
       childContent={childContent}
+      devOnly={{
+        forceShowFormControls: true,
+      }}
     />
   );
 };

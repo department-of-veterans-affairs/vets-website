@@ -39,6 +39,11 @@ export default function vaTextInputFieldMapping(props) {
     type: inputType,
     width: uiOptions?.width,
     charcount: uiOptions?.charcount,
+    currency: uiOptions?.currency,
+    inputSuffix: uiOptions?.inputSuffix,
+    inputIconSuffix: uiOptions?.inputIconSuffix,
+    inputPrefix: uiOptions?.inputPrefix,
+    inputIconPrefix: uiOptions?.inputIconPrefix,
     onInput: (event, value) => {
       // redux value or input value
       let newVal = value || event.target.value;
@@ -47,6 +52,7 @@ export default function vaTextInputFieldMapping(props) {
       newVal = newVal === '' ? undefined : newVal;
       childrenProps.onChange(newVal);
     },
+    onChange: childrenProps.onChange,
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
     children: (
       <>

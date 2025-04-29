@@ -1,6 +1,7 @@
 import {
   isAuthenticatedWithSSOe,
   signInServiceEnabled,
+  signInServiceName,
 } from '~/platform/user/authentication/selectors';
 import {
   isLoggedIn,
@@ -13,14 +14,32 @@ import {
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import { personalizationEnabled, helpdeskInfoEnabled } from './featureToggles';
+import { personalizationEnabled } from './featureToggles';
 import { hasMhvAccount } from './hasMhvAccount';
+import { selectGreetingName } from './personalInformation';
+import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
+import { hasMhvBasicAccount } from './hasMhvBasicAccount';
+import { hasMessagingAccess } from './hasMessagingAccess';
+
 import {
-  selectGreetingName,
-  selectPersonalInformation,
-} from './personalInformation';
+  mhvAccountStatusLoading,
+  mhvAccountStatusUsersuccess,
+  mhvAccountStatusUserError,
+  mhvAccountStatusNonUserError,
+  mhvAccountStatusErrorsSorted,
+} from './mhvAccountStatus';
+
+import { profileHasEHRM, profileHasVista } from './facilities';
+import {
+  selectVaPatient,
+  selectProfileLoa,
+  selectProfileLogInProvider,
+} from './accountInformation';
 
 export {
+  hasMhvAccount,
+  hasMhvBasicAccount,
+  hasMessagingAccess,
   isAuthenticatedWithSSOe,
   isInMPI,
   isLOA1,
@@ -28,12 +47,21 @@ export {
   isLoggedIn,
   isProfileLoading,
   isVAPatient,
+  mhvAccountStatusLoading,
+  mhvAccountStatusUsersuccess,
+  mhvAccountStatusUserError,
+  mhvAccountStatusErrorsSorted,
+  mhvAccountStatusNonUserError,
   personalizationEnabled,
-  helpdeskInfoEnabled,
+  profileHasEHRM,
+  profileHasVista,
   selectDrupalStaticData,
   selectGreetingName,
-  selectPersonalInformation,
+  selectVaPatient,
   selectProfile,
+  selectProfileLoa,
+  selectProfileLogInProvider,
   signInServiceEnabled,
-  hasMhvAccount,
+  signInServiceName,
+  showVerifyAndRegisterAlert,
 };

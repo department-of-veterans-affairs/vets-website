@@ -1,134 +1,60 @@
+import { isEmpty } from 'lodash';
 import moment from 'moment';
+import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
-  TYPE_OF_VISIT,
   COVID_VACCINE_ID,
   PURPOSE_TEXT_V2,
+  TYPE_OF_VISIT,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
-import {
-  getPatientInstruction,
-  getProviderName,
-  getTypeOfCareById,
-} from '../../utils/appointment';
 
-/**
- * Gets appointment info from comments field for Va appointment Requests.
- *
- * @param {String} comments VA appointment comments value
- * @param {String} key key of appointment info you want returned
- * @returns {Array} returns formatted data
- */
-export function getAppointmentInfoFromComments(comments, key) {
-  const data = [];
-  const appointmentInfo = comments?.split('|');
+export function getAppointmentType(
+  appt,
+  useFeSourceOfTruthCC,
+  useFeSourceOfTruthVA,
+) {
+  // TODO: Update APPOINTMENT_TYPES enum to match API response values.
+  const isCerner = appt?.id?.startsWith('CERN');
 
-  if (key === 'modality') {
-    const preferredModality = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('preferred modality:'))[0]
-          ?.split(':')[1]
-          ?.trim()
-      : null;
-
-    if (appointmentInfo) {
-      data.push(preferredModality);
+  if (useFeSourceOfTruthVA) {
+    if (appt?.type === 'VA') {
+      return APPOINTMENT_TYPES.vaAppointment;
     }
-    return data;
-  }
 
-  if (key === 'contact') {
-    const phone = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('phone number:'))[0]
-          ?.split(':')[1]
-          ?.trim()
-      : null;
-    const email = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('email:'))[0]
-          ?.split(':')[1]
-          ?.trim()
-      : null;
-
-    const transformedPhone = { system: 'phone', value: phone };
-    const transformedEmail = { system: 'email', value: email };
-
-    data.push(transformedPhone, transformedEmail);
-    return data;
-  }
-
-  if (key === 'preferredDate') {
-    const preferredDates = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('preferred dates:'))[0]
-          ?.split(':')[1]
-          ?.split(',')
-      : null;
-    preferredDates?.map(date => {
-      const preferredDatePeriod = date?.split(' ');
-      if (preferredDatePeriod[1] === 'AM') {
-        const transformedDate = {
-          start: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
-            'YYYY-MM-DD',
-          )}T00:00:00Z`,
-          end: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
-            'YYYY-MM-DD',
-          )}T11:59:00Z"`,
-        };
-        data.push(transformedDate);
-      } else {
-        const transformedDate = {
-          start: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
-            'YYYY-MM-DD',
-          )}T12:00:00Z`,
-          end: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
-            'YYYY-MM-DD',
-          )}T23:59:00Z`,
-        };
-        data.push(transformedDate);
-      }
-      return data;
-    });
-  }
-  if (key === 'reasonCode') {
-    const reasonCode = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('reason code:'))[0]
-          ?.split(':')[1]
-      : null;
-    const transformedReasonCode = { code: reasonCode };
-    if (reasonCode) {
-      data.push(transformedReasonCode);
+    if (appt?.type === 'REQUEST') {
+      return APPOINTMENT_TYPES.request;
     }
-    return data;
   }
-  if (key === 'comments') {
-    const commentsInfo = comments?.split('|comments:');
-    const appointmentComments = commentsInfo ? commentsInfo[1] : null;
-    const transformedComments = { text: appointmentComments };
-    if (appointmentComments) {
-      data.push(transformedComments);
+
+  if (useFeSourceOfTruthCC) {
+    if (appt?.type === 'COMMUNITY_CARE_APPOINTMENT') {
+      return APPOINTMENT_TYPES.ccAppointment;
     }
-    return data;
+    if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
+      return APPOINTMENT_TYPES.ccRequest;
+    }
   }
-  return data;
-}
-function getAppointmentType(appt) {
-  if (appt.kind === 'cc' && appt.start) {
+
+  if (isCerner && isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.request;
+  }
+  if (isCerner && !isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.vaAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.start) {
     return APPOINTMENT_TYPES.ccAppointment;
   }
-  if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
+  if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.ccRequest;
   }
-  if (appt.kind !== 'cc' && appt.requestedPeriods?.length) {
+  if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.request;
   }
 
   return APPOINTMENT_TYPES.vaAppointment;
 }
-
 /**
  * Gets the type of visit that matches our array of visit constant
  *
@@ -205,46 +131,47 @@ function getAtlasLocation(appt) {
   };
 }
 
-/**
- * Gets the reasonCode from reasonCode.text field for DS
- *
- * @param {Object} appt VAOS Service appointment object
- * @param {Object} key key of reasonCode info you want returned
- * @returns {String} returns format data
- */
-function getReasonCodeDS(appt, key) {
-  let data;
-  const reasonCode = appt.reasonCode?.text?.split('|');
-  if (reasonCode) {
-    if (key === 'code') {
-      data = reasonCode
-        .filter(item => item.includes('reasonCode:'))[0]
-        ?.split(':')[1]
-        ?.trim();
-    }
-    if (key === 'comments') {
-      data = reasonCode
-        .filter(item => item.includes('comments:'))[0]
-        ?.split('comments:')[1]
-        ?.trim();
-    }
-  }
-  return data;
-}
-export function transformVAOSAppointment(appt) {
-  const appointmentType = getAppointmentType(appt);
+export function transformVAOSAppointment(
+  appt,
+  useFeSourceOfTruth,
+  useFeSourceOfTruthCC,
+  useFeSourceOfTruthVA,
+  useFeSourceOfTruthModality,
+) {
+  const appointmentType = getAppointmentType(
+    appt,
+    useFeSourceOfTruthCC,
+    useFeSourceOfTruthVA,
+  );
+  const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
-  const isVideo = appt.kind === 'telehealth';
+  const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   const isAtlas = !!appt.telehealth?.atlas;
-  const isPast = isPastAppointment(appt);
-  const isRequest =
-    appointmentType === APPOINTMENT_TYPES.request ||
-    appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const isUpcoming = isFutureAppointment(appt, isRequest);
+  const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
+  const isRequest = useFeSourceOfTruth
+    ? appt.pending
+    : appointmentType === APPOINTMENT_TYPES.request ||
+      appointmentType === APPOINTMENT_TYPES.ccRequest;
+  const isUpcoming = useFeSourceOfTruth
+    ? appt.future
+    : isFutureAppointment(appt, isRequest);
+  const isCCRequest = useFeSourceOfTruthCC
+    ? appointmentType === APPOINTMENT_TYPES.ccRequest
+    : isCC && isRequest;
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
-  const isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  let isPhone = appt.kind === 'phone';
+  let isCovid = appt.serviceType === COVID_VACCINE_ID;
+  let isInPersonVisit = !isVideo && !isCC && !isPhone;
+  if (useFeSourceOfTruthModality) {
+    isCompAndPen = appt.modality === 'claimExamAppointment';
+    isPhone = appt.modality === 'vaPhone';
+    isCovid = appt.modality === 'vaInPersonVaccine';
+    isInPersonVisit = isCompAndPen || isCovid || appt.modality === 'vaInPerson';
+  }
+
   const isCancellable = appt.cancellable;
   const appointmentTZ = appt.location?.attributes?.timezone?.timeZoneId;
 
@@ -255,14 +182,20 @@ export function transformVAOSAppointment(appt) {
       facilityId: appt.locationId,
       kind: appt.telehealth?.vvsKind,
       url: appt.telehealth?.url,
+      displayLink: appt.telehealth?.displayLink,
       duration: appt.minutesDuration,
-      providers: (providers || []).map(provider => ({
-        name: {
-          firstName: provider.name?.given,
-          lastName: provider.name?.family,
-        },
-        display: `${provider.name?.given} ${provider.name?.family}`,
-      })),
+      providers: (providers || [])
+        .map(provider => {
+          if (!provider.name) return null;
+          return {
+            name: {
+              firstName: provider.name?.given,
+              lastName: provider.name?.family,
+            },
+            display: `${provider.name?.given} ${provider.name?.family}`,
+          };
+        })
+        .filter(Boolean),
       isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
       atlasConfirmationCode: appt.telehealth?.atlas?.confirmationCode,
@@ -271,24 +204,9 @@ export function transformVAOSAppointment(appt) {
   }
 
   let requestFields = {};
-  const commentsReasonCode = getAppointmentInfoFromComments(
-    appt.reasonCode?.text,
-    'reasonCode',
-  );
-  const appointmentComments = getAppointmentInfoFromComments(
-    appt.reasonCode?.text,
-    'comments',
-  );
-  const commentsPreferredDate = getAppointmentInfoFromComments(
-    appt.reasonCode?.text,
-    'preferredDate',
-  );
+
   if (isRequest) {
-    const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
-    const requestedPeriods =
-      commentsPreferredDate.length > 0
-        ? commentsPreferredDate
-        : appt.requestedPeriods;
+    const { requestedPeriods, created } = appt;
     const reqPeriods = requestedPeriods?.map(d => ({
       // by passing the format into the moment constructor, we are
       // preventing the local time zone conversion from occuring
@@ -301,23 +219,23 @@ export function transformVAOSAppointment(appt) {
       )}.999`,
     }));
 
-    const hasReasonCode =
-      commentsReasonCode.length > 0 || appt.reasonCode?.coding?.length > 0;
-    const reasonCode =
-      commentsReasonCode.length > 0
-        ? commentsReasonCode[0]
-        : appt.reasonCode?.coding?.[0];
-    const reason = hasReasonCode
+    // hasReasonCode is only applicable to v0 appointments
+    const hasReasonCode = appt.reasonCode?.coding?.length > 0;
+
+    const reasonCode = !isEmpty(appt.reasonForAppointment)
+      ? appt.reasonForAppointment
+      : appt.reasonCode?.coding?.[0];
+    const reasonForAppointment = hasReasonCode
       ? PURPOSE_TEXT_V2.find(
           purpose =>
             purpose.serviceName === reasonCode.code ||
             purpose.commentShort === reasonCode.code,
         )?.short
-      : null;
+      : appt.reasonForAppointment;
     requestFields = {
       requestedPeriod: reqPeriods,
       created,
-      reason,
+      reasonForAppointment,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),
       type: {
@@ -329,6 +247,8 @@ export function transformVAOSAppointment(appt) {
         ],
       },
       contact: appt.contact,
+      preferredDates: appt?.preferredDates || [],
+      preferredModality: appt?.preferredModality,
     };
   }
 
@@ -337,38 +257,29 @@ export function transformVAOSAppointment(appt) {
   if (appt.location && appt.location.attributes) {
     facilityData = transformFacilityV2(appt.location.attributes);
   }
-  // get appt reason code from reasonCode.text field for DS
-  const reasonCode = appt.reasonCode?.coding
-    ? appt.reasonCode?.coding
-    : getReasonCodeDS(appt, 'code');
-  let comment = null;
-  const coding =
-    commentsReasonCode.length > 0 ? commentsReasonCode : reasonCode;
-  const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
-    purpose =>
-      purpose.serviceName === (coding?.[0]?.code || coding) ||
-      purpose.commentShort === (coding?.[0]?.code || coding),
-  )?.short;
-  const comments =
-    appointmentComments.length > 0 ? appointmentComments[0] : appt.reasonCode;
-  const reasonCodeText = getReasonCodeDS(appt, 'comments')
-    ? getReasonCodeDS(appt, 'comments')
-    : comments?.text;
-  const text = appt.reasonCode ? reasonCodeText : null;
-  if (coding && code && text) {
-    comment = `${code}: ${text}`;
-  } else if (coding && code) {
-    comment = code;
-  } else {
-    comment = text;
-  }
+  // get reason code from appt.reasonCode?.coding for v0 appointments
+  const reasonCodeV0 = appt.reasonCode?.coding;
+  const reasonForAppointment = appt.reasonForAppointment
+    ? appt.reasonForAppointment
+    : PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
+        purpose =>
+          purpose.serviceName === reasonCodeV0?.[0]?.code ||
+          purpose.commentShort === reasonCodeV0?.[0]?.code,
+      )?.short;
+  const patientComments = appt.reasonCode ? appt.patientComments : null;
   return {
     resourceType: 'Appointment',
     id: appt.id,
+    type: appt.type,
+    modality: appt.modality,
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     avsPath: isPast ? appt.avsPath : null,
-    start: !isRequest ? start.format() : null,
+    // NOTE: Timezone will be converted to the local timezone when using 'format()'.
+    // So use format without the timezone information.
+    start: !isRequest ? start.format('YYYY-MM-DDTHH:mm:ss') : null,
+    reasonForAppointment,
+    patientComments,
     timezone: appointmentTZ,
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2, so this is a made up status
@@ -381,16 +292,15 @@ export function transformVAOSAppointment(appt) {
       vistaId: appt.locationId?.substr(0, 3) || null,
       clinicId: appt.clinic,
       stationId: appt.locationId,
-      clinicName: appt.friendlyName || appt.serviceName || null,
+      clinicName: appt.serviceName || null,
       clinicPhysicalLocation: appt.physicalLocation || null,
+      clinicPhone: appt.extension?.clinic?.phoneNumber || null,
+      clinicPhoneExtension:
+        appt.extension?.clinic?.phoneNumberExtension || null,
     },
-    comment:
-      isVideo && !!appt.patientInstruction
-        ? getPatientInstruction(appt)
-        : comment,
     videoData,
     communityCareProvider:
-      isCC && !isRequest
+      appointmentType === APPOINTMENT_TYPES.ccAppointment
         ? {
             practiceName: appt.extension?.ccLocation?.practiceName,
             treatmentSpecialty: appt.extension?.ccTreatingSpecialty,
@@ -410,7 +320,7 @@ export function transformVAOSAppointment(appt) {
           }
         : null,
     preferredProviderName:
-      isCC && isRequest && appt.preferredProviderName
+      isCCRequest && appt.preferredProviderName
         ? { providerName: appt.preferredProviderName }
         : null,
     practitioners:
@@ -428,8 +338,10 @@ export function transformVAOSAppointment(appt) {
       appointmentType,
       isCommunityCare: isCC,
       isExpressCare: false,
-      isPhoneAppointment: appt.kind === 'phone',
-      isCOVIDVaccine: appt.serviceType === COVID_VACCINE_ID,
+      isPhoneAppointment: isPhone,
+      isCOVIDVaccine: isCovid,
+      isInPersonVisit,
+      isCerner,
       apiData: appt,
       timeZone: appointmentTZ,
       facilityData,
@@ -438,6 +350,20 @@ export function transformVAOSAppointment(appt) {
   };
 }
 
-export function transformVAOSAppointments(appts) {
-  return appts.map(appt => transformVAOSAppointment(appt));
+export function transformVAOSAppointments(
+  appts,
+  useFeSourceOfTruth,
+  useFeSourceOfTruthCC,
+  useFeSourceOfTruthVA,
+  useFeSourceOfTruthModality,
+) {
+  return appts.map(appt =>
+    transformVAOSAppointment(
+      appt,
+      useFeSourceOfTruth,
+      useFeSourceOfTruthCC,
+      useFeSourceOfTruthVA,
+      useFeSourceOfTruthModality,
+    ),
+  );
 }

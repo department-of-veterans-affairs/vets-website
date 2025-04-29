@@ -5,13 +5,18 @@ import environment from '../../utilities/environment';
 import {
   eauthEnvironmentPrefixes,
   cernerEnvPrefixes,
+  oracleHealthEnvPrefixes,
 } from '../../utilities/sso/constants';
 
 export const API_VERSION = 'v1';
 export const FORCE_NEEDED = 'force-needed';
 
-export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
-  `${environment.API_URL}/${version}/sessions/${type}/new`;
+export const API_SESSION_URL = ({ version = API_VERSION, type = null }) => {
+  if (!type) {
+    throw new Error('Attempted to call API_SESSION_URL without a type');
+  }
+  return `${environment.API_URL}/${version}/sessions/${type}/new`;
+};
 
 export const AUTH_EVENTS = {
   MOCK_LOGIN: 'mock-login-link-clicked-modal',
@@ -53,6 +58,7 @@ export const SERVICE_PROVIDERS = {
     label: 'ID.me',
     link: 'https://wallet.id.me/settings',
     image: <IDMeSVG />,
+    altImage: <IDMeSVG />,
     policy: 'idme',
     className: 'idme-button',
   },
@@ -85,15 +91,11 @@ export const EXTERNAL_APPS = {
   VA_FLAGSHIP_MOBILE: 'vamobile',
   VA_OCC_MOBILE: 'vaoccmobile',
   ARP: 'arp',
+  SMHD: 'smhdweb',
 };
 
-export const SIGNOUT_TYPES = {
-  SLO: 'slo',
-};
-
-export const AUTH_BROKER = {
-  IAM: 'iam',
-  SIS: 'sis',
+export const TEST_APPS = {
+  OKTA: 'okta_test',
 };
 
 export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
@@ -111,6 +113,13 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: '',
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
   [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
+  [EXTERNAL_APPS.SMHD]: `${eAuthURL}/MAP/users/v2/landing?application=vaoccmobile&redirect_uri=/smhdWeb/`,
+};
+
+export const EXTERNAL_REDIRECTS_ALT = {
+  [EXTERNAL_APPS.MY_VA_HEALTH]: `https://${
+    oracleHealthEnvPrefixes[environment.BUILDTYPE]
+  }patientportal.myhealth.va.gov`,
 };
 
 export const GA = {
@@ -138,10 +147,6 @@ export const SIGNUP_TYPES = {
   [CSP_IDS.LOGIN_GOV]: 'logingov_signup',
 };
 
-export const MHV_TRANSITION_DATE = null;
-export const MHV_TRANSITION_TIME = '[x]';
-export const ACCOUNT_TRANSITION_DISMISSED = 'accountTransitionDismissed';
-
 export const LINK_TYPES = {
   CREATE: 'create',
   SIGNIN: 'signin',
@@ -156,21 +161,8 @@ export const AUTH_PARAMS = {
   clientId: 'client_id',
   to: 'to',
   redirectUri: 'redirect_uri',
+  scope: 'scope',
+  verification: 'verification',
+  operation: 'operation',
+  state: 'state',
 };
-
-export const OCC_MOBILE = {
-  REGISTERED_APPS: 'registeredApps',
-  DEFAULT: 'default',
-};
-
-export const OCC_MOBILE_DSLOGON_ONLY = [
-  'ahburnpitregistry',
-  '/ahburnpitregistry/',
-  '%2Fahburnpitregistry%2F',
-  'AHburnpitregistry',
-  '/AHburnpitregistry/',
-  '%2FAHburnpitregistry%2F',
-  'AHBurnPitRegistry',
-  '/AHBurnPitRegistry/',
-  '%2FAHBurnPitRegistry%2F',
-];

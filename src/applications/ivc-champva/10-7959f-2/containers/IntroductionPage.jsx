@@ -17,15 +17,19 @@ const IntroductionPage = props => {
       />
       <p>
         If you’re a Veteran who gets medical care outside the U.S. for a
-        service-connected condition, use this form to file a Foreign Medical
-        Program (FMP) claim.
+        service-connected condition, we may cover the cost of your care through
+        the Foreign Medical Program (FMP). Use this form to file a claim with
+        FMP.
       </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         What to know before you fill out this form
       </h2>
       <p>When you prepare to file, be sure to have these on hand: </p>
       <ul>
-        <li>You’ll need an itemized billing statement to support your claim</li>
+        <li>
+          You’ll need to upload an itemized billing statement to support your
+          claim
+        </li>
         <li>
           If you already paid the provider, you’ll need to upload a receipt or
           other proof that you paid
@@ -35,11 +39,11 @@ const IntroductionPage = props => {
         </li>
       </ul>
       <a
-        href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#supporting-documents-to-send-w"
+        href="https://www.va.gov/health-care/file-foreign-medical-program-claim/"
         style={{ display: 'inline-block', marginBottom: '2em' }}
       >
         {' '}
-        Find out which supporting documents you need.
+        Find out which supporting documents you need
       </a>
       <SaveInProgressIntro
         formId={formConfig.formId}

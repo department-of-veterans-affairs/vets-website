@@ -9,34 +9,34 @@ const ProgramApprovalInformation = () => {
       header="Program approval information"
     >
       <LiSpanAndVaLinkAndPTag
-        href="https://inquiry.vba.va.gov/weamspub/buildSearchInstitutionCriteria.do"
+        href="https://www.va.gov/education/gi-bill-comparison-tool/schools-and-employers"
         hrefText="WEAMS Institution Search"
         pText="Use the Web Enabled Approval Management System (WEAMS) to identify educational institutions offering programs approved for Veterans training."
       />
       <LiSpanAndVaLinkAndPTag
-        href="https://inquiry.vba.va.gov/weamspub/buildSearchCountryLCCriteria.do"
-        hrefText="Licensing and Certification"
+        href="https://www.va.gov/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses"
+        hrefText="Licensing and certification"
         pText="Search WEAMS for approved Licensing and Certifications and Test Prep Courses by country and state."
       />
       <LiSpanAndVaLinkAndPTag
-        href="https://inquiry.vba.va.gov/weamspub/buildSearchNE.do"
-        hrefText="National Exams"
+        href="https://www.va.gov/education/gi-bill-comparison-tool/national-exams"
+        hrefText="National exams"
         pText="Search WEAMS to identify approved National Exams such as ACT, CLEP, MCAT, and more."
       />
       <LiSpanAndVaLinkAndPTag
         href="https://benefits.va.gov/gibill/School_Program_Approval.asp"
-        hrefText="Program Approvals"
+        hrefText="Program approvals"
         pText="Identify general approval guidelines for programs of education broken down by various types of training programs."
       />
       <LiSpanAndVaLinkAndPTag
         href="https://www.benefits.va.gov/gibill/foreign_program_approval_information_for_schools.asp"
-        hrefText="Foreign Program Approvals"
+        hrefText="Foreign program approvals"
         pText="Identify general approval guidelines for programs of education offered at foreign institutions."
       />
       <LiSpanAndVaLinkAndPTag
         href="https://benefits.va.gov/gibill/federalemployerOJTandApprenticeshipProgramApprovalInformation.asp"
-        hrefText="Federal On The Job Training/ Apprenticeship Approval"
-        pText="Discover the process and criteria for VA approval of on-the-job training and apprenticeship programs."
+        hrefText="Federal on-the-job training/apprenticeship approvals"
+        pText="Discover the process and criteria for VA approval of on-the-job training and apprenticeship (OJT/APP) programs."
       />
       <LiSpanAndVaLinkAndPTag
         href="https://www.va.gov/education/choosing-a-school/principles-of-excellence/"
@@ -49,8 +49,13 @@ const ProgramApprovalInformation = () => {
         pText="Find information for schools considering initial or continued participation in the Yellow Ribbon Program."
       />
       <LiSpanAndVaLinkAndPTag
+        href="https://benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/covered-educational-institutions.asp"
+        hrefText="Covered Educational Institutions"
+        pText="Educational institutions that have enrolled 20 or more individuals using educational assistance under Title 38, United States Code, during the previous calendar year."
+      />
+      <LiSpanAndVaLinkAndPTag
         href="https://nasaa-vetseducation.com/nasaa-contacts/"
-        hrefText="State Approving Agency Contact Information"
+        hrefText="State Approving Agency contact information"
         pText="Find out how you can contact your State Approving Agency."
       />
     </MainContentSubDiv>

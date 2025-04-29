@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons, {
+  FormNavButtonContinue,
+} from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { applicantWording } from '../../utilities';
@@ -9,6 +11,7 @@ import { applicantWording } from '../../utilities';
 export function ApplicantAddressCopyPage({
   contentBeforeButtons,
   contentAfterButtons,
+  customAddressKey, // optional override of `applicantAddress` so we can target arbitrary addresses in the form
   data,
   setFormData,
   goBack,
@@ -22,6 +25,7 @@ export function ApplicantAddressCopyPage({
   positivePrefix,
   negativePrefix,
 }) {
+  const addressKey = customAddressKey ?? 'applicantAddress';
   // Get the current applicant from list, OR if we don't have a list of
   // applicants, just treat the whole form data object as a single applicant
   const currentApp =
@@ -29,11 +33,20 @@ export function ApplicantAddressCopyPage({
       ? data?.applicants?.[pagePerItemIndex]
       : data;
   const [selectValue, setSelectValue] = useState(currentApp?.sharesAddressWith);
-  const [address, setAddress] = useState(currentApp?.applicantAddress);
+  const [address, setAddress] = useState(
+    data[addressKey] ?? currentApp?.[addressKey],
+  );
   // const [radioError, setRadioError] = useState(undefined);
   const [selectError, setSelectError] = useState(undefined);
   const [dirty, setDirty] = useState(false);
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+
+  const useTopBackLink =
+    contentAfterButtons?.props?.formConfig?.useTopBackLink ?? false;
+  const navButtons = useTopBackLink ? (
+    <FormNavButtonContinue submitToContinue />
+  ) : (
+    <FormNavButtons goBack={goBack} submitToContinue />
+  );
 
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
@@ -65,9 +78,7 @@ export function ApplicantAddressCopyPage({
     // Make sure that our <select> only shows options that:
     // 1. Have a valid address we can copy
     // 2. Are NOT the current applicant
-    return (
-      person?.applicantAddress?.country !== undefined && person !== currentApp
-    );
+    return person?.[addressKey]?.country !== undefined && person !== currentApp;
   }
 
   // Gets the veteran/sponsor address and third party address
@@ -82,9 +93,12 @@ export function ApplicantAddressCopyPage({
         displayText: `${data.certifierAddress.street} ${data.certifierAddress
           ?.state ?? ''}`,
       });
-    if (data.sponsorAddress?.street && data.veteransFullName)
+    if (
+      data.sponsorAddress?.street &&
+      (data.veteransFullName ?? data.sponsorName)
+    )
       allAddresses.push({
-        originatorName: fullName(data.veteransFullName),
+        originatorName: fullName(data.veteransFullName ?? data.sponsorName),
         originatorAddress: data.sponsorAddress,
         displayText: `${data.sponsorAddress.street} ${data.sponsorAddress
           ?.state ?? ''}`,
@@ -94,8 +108,8 @@ export function ApplicantAddressCopyPage({
       data.applicants.filter(app => isValidOrigin(app)).forEach(app =>
         allAddresses.push({
           originatorName: fullName(app.applicantName),
-          originatorAddress: app.applicantAddress,
-          displayText: `${app.applicantAddress.street} ${app.applicantAddress
+          originatorAddress: app?.[addressKey],
+          displayText: `${app?.[addressKey].street} ${app?.[addressKey]
             ?.state ?? ''}`,
         }),
       );
@@ -146,7 +160,7 @@ export function ApplicantAddressCopyPage({
           : tmpVal;
       tmpApp.sharesAddressWith = selectValue;
       if (selectValue !== 'not-shared') {
-        tmpApp.applicantAddress = address;
+        tmpApp[addressKey] = address;
       }
       setFormData(tmpVal);
       if (onReviewPage) updatePage();
@@ -185,7 +199,14 @@ export function ApplicantAddressCopyPage({
     <>
       {
         titleUI(
-          customTitle ?? `${applicantWording(currentApp)} address selection`,
+          customTitle ?? (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(currentApp)}
+              </span>{' '}
+              address selection
+            </>
+          ),
           customDescription ??
             'We’ll send any important information about your application to this address.',
         )['ui:title']
@@ -199,12 +220,17 @@ export function ApplicantAddressCopyPage({
           value={selectValue}
           label={selectWording}
           name="shared-address-select"
+          className="dd-privacy-hidden"
         >
           <option value="not-shared">
             {negativePrefix ?? 'No, use a new address'}
           </option>
           {getSelectOptions().map(el => (
-            <option key={el.originatorName} value={JSON.stringify(el)}>
+            <option
+              className="dd-privacy-hidden"
+              key={el.originatorName}
+              value={JSON.stringify(el)}
+            >
               {`${positivePrefix ?? 'Use'} `}
               {el.displayText}
             </option>
@@ -223,6 +249,7 @@ export function ApplicantAddressCopyPage({
 ApplicantAddressCopyPage.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
+  customAddressKey: PropTypes.string,
   customDescription: PropTypes.string,
   customSelectText: PropTypes.string,
   customTitle: PropTypes.string,

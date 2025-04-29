@@ -18,6 +18,7 @@ const defaultUser = {
         first_name: 'Gina',
         middle_name: '',
         last_name: 'Doe',
+        preferred_Name: 'Ginny',
         gender: 'F',
         birth_date: '1985-01-01',
         verified: true,
@@ -71,10 +72,12 @@ const defaultUser = {
 };
 
 const generateUser = ({
-  serviceProvider = 'idme',
+  serviceName = 'idme',
   loa = 3,
   mhvAccountState = 'OK',
   vaPatient = true,
+  firstName = 'Gina',
+  preferredName = 'Ginny',
 } = {}) => {
   return {
     ...defaultUser,
@@ -89,9 +92,11 @@ const generateUser = ({
         },
         profile: {
           ...defaultUser.data.attributes.profile,
+          first_name: firstName,
+          preferred_Name: preferredName,
           loa: { current: loa },
           sign_in: {
-            service_name: serviceProvider,
+            service_name: serviceName,
           },
         },
       },
@@ -99,7 +104,28 @@ const generateUser = ({
   };
 };
 
+const CSP_IDS = {
+  MHV: 'mhv',
+  ID_ME: 'idme',
+  DS_LOGON: 'dslogon',
+  LOGIN_GOV: 'logingov',
+};
+
+const USER_MOCKS = Object.freeze({
+  ALL_CAPS_NAME: generateUser({ firstName: 'KEVIN', preferredName: '' }),
+  UNREGISTERED: generateUser({ vaPatient: false }),
+  UNVERIFIED: generateUser({ loa: 1, vaPatient: false }),
+  LOGIN_GOV_UNVERIFIED: generateUser({
+    loa: 1,
+    serviceName: CSP_IDS.LOGIN_GOV,
+  }),
+  DS_LOGON_UNVERIFIED: generateUser({ loa: 1, serviceName: CSP_IDS.DS_LOGON }),
+  NO_MHV_ACCOUNT: generateUser({ mhvAccountState: 'NONE' }),
+  MHV_BASIC_ACCOUNT: generateUser({ loa: 1, serviceName: CSP_IDS.MHV }),
+  DEFAULT: generateUser(),
+});
+
 module.exports = {
-  defaultUser,
   generateUser,
+  USER_MOCKS,
 };

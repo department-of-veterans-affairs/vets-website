@@ -1,15 +1,14 @@
 import { Actions } from '../util/actionTypes';
-import { updateMessageInThread } from '../util/helpers';
+import { updateMessageInThread, updateDrafts } from '../util/helpers';
 
 const initialState = {
-  drafts: undefined,
+  drafts: [],
   messages: undefined,
   isLoading: false,
   replyToName: undefined,
   threadFolderId: undefined,
   replyToMessageId: undefined,
   cannotReply: false,
-  threadViewCount: 5,
 };
 
 export const threadDetailsReducer = (state = initialState, action) => {
@@ -28,9 +27,14 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.UPDATE_DRAFT_IN_THREAD: {
       return {
         ...state,
-        drafts: state.drafts.map(d => {
+        drafts: updateDrafts(state.drafts).map(d => {
           if (d.messageId === action.payload.messageId) {
-            return { ...d, ...action.payload };
+            return {
+              ...d,
+              ...action.payload,
+              isSaving: false,
+              lastSaveTime: Date.now(),
+            };
           }
           return d;
         }),
@@ -41,13 +45,31 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.DRAFT_SAVE_STARTED:
       return {
         ...state,
+        drafts:
+          state.drafts?.length > 1
+            ? state.drafts.map(d => {
+                if (d.messageId === action.payload.messageId) {
+                  return { ...d, isSaving: true, saveError: null };
+                }
+                return d;
+              })
+            : state.drafts,
         isSaving: true,
         saveError: null,
       };
+
     case Actions.Draft.CREATE_SUCCEEDED:
       return {
         ...state,
-        drafts: [action.response.data.attributes],
+        drafts: [
+          ...state.drafts,
+          {
+            ...action.response.data.attributes,
+            isSaving: false,
+            saveError: null,
+            lastSaveTime: Date.now(),
+          },
+        ],
         isSaving: false,
         saveError: null,
         lastSaveTime: Date.now(),
@@ -55,9 +77,17 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Draft.SAVE_FAILED:
       return {
         ...state,
-        isSaving: false,
-        lastSaveTime: null,
-        saveError: { ...action.response },
+        drafts: state.drafts.map(d => {
+          if (d.messageId === action.payload.messageId) {
+            return {
+              ...d,
+              isSaving: false,
+              lastSaveTime: null,
+              saveError: { ...action.response },
+            };
+          }
+          return d;
+        }),
       };
     case Actions.Thread.RESET_LAST_SAVE_TIME:
       return {
@@ -81,9 +111,7 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.CANNOT_REPLY_ALERT: {
       return { ...state, cannotReply: action.payload };
     }
-    case Actions.Thread.SET_THREAD_VIEW_COUNT: {
-      return { ...state, threadViewCount: action.payload };
-    }
+
     default:
       return state;
   }

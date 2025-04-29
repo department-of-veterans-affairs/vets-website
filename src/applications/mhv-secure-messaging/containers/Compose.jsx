@@ -1,23 +1,32 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearThread } from '../actions/threadDetails';
 import { retrieveMessageThread } from '../actions/messages';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
+import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import { closeAlert } from '../actions/alerts';
-import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
-import { PageTitles, Paths } from '../util/constants';
+import { PageTitles, Paths, BlockedTriageAlertStyles } from '../util/constants';
 import { getPatientSignature } from '../actions/preferences';
 
 const Compose = () => {
   const dispatch = useDispatch();
-  const { recipients } = useSelector(state => state.sm);
+  const recipients = useSelector(state => state.sm.recipients);
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
   const signature = useSelector(state => state.sm.preferences.signature);
-  const draftMessage = drafts?.length && drafts[0];
+  const { noAssociations } = useSelector(state => state.sm.recipients);
+  const removeLandingPageFF = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
+      ],
+  );
+  const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
+  const { allTriageGroupsBlocked } = recipients;
 
   const [acknowledged, setAcknowledged] = useState(false);
   const [draftType, setDraftType] = useState('');
@@ -35,8 +44,14 @@ const Compose = () => {
       } else {
         dispatch(retrieveMessageThread(draftId));
       }
+
+      const checkNextPath = history.listen(nextPath => {
+        if (nextPath.pathname !== Paths.CONTACT_LIST) {
+          dispatch(clearThread());
+        }
+      });
       return () => {
-        dispatch(clearThread());
+        checkNextPath();
       };
     },
     [dispatch, draftId, location.pathname],
@@ -77,19 +92,22 @@ const Compose = () => {
   useEffect(
     () => {
       if (acknowledged && header) focusElement(document.querySelector('h1'));
-      document.title = `${pageTitle} ${PageTitles.PAGE_TITLE_TAG}`;
+      document.title = `${pageTitle} ${
+        removeLandingPageFF
+          ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
+          : PageTitles.PAGE_TITLE_TAG
+      }`;
     },
-    [header, acknowledged],
+    [header, acknowledged, removeLandingPageFF, pageTitle],
   );
 
   const content = () => {
     if (!isDraftPage && recipients) {
       return (
         <>
-          <h1 className="page-title vads-u-margin-top--0" ref={header}>
-            {pageTitle}
-          </h1>
           <ComposeForm
+            pageTitle={pageTitle}
+            headerRef={header}
             draft={draftMessage}
             recipients={!recipients.error && recipients}
             signature={signature}
@@ -123,7 +141,23 @@ const Compose = () => {
         />
       )}
 
-      {draftType && !acknowledged ? (
+      {draftType &&
+        (noAssociations || allTriageGroupsBlocked) && (
+          <div className="vads-l-grid-container compose-container">
+            <h1>Start a new message</h1>
+            <BlockedTriageGroupAlert
+              alertStyle={
+                allTriageGroupsBlocked
+                  ? BlockedTriageAlertStyles.WARNING
+                  : BlockedTriageAlertStyles.INFO
+              }
+            />
+          </div>
+        )}
+
+      {draftType &&
+      !acknowledged &&
+      (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (
         <InterstitialPage
           acknowledge={() => {
             setAcknowledged(true);
@@ -132,13 +166,13 @@ const Compose = () => {
         />
       ) : (
         <>
-          {draftType && (
-            <div className="vads-l-grid-container compose-container">
-              <AlertBackgroundBox closeable />
-
-              {content()}
-            </div>
-          )}
+          {draftType &&
+            (noAssociations === (undefined || false) &&
+              !allTriageGroupsBlocked) && (
+              <div className="vads-l-grid-container compose-container">
+                {content()}
+              </div>
+            )}
         </>
       )}
     </>

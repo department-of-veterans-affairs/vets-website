@@ -1,40 +1,83 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  isProfileLoading,
-  isLoggedIn,
-} from '@department-of-veterans-affairs/platform-user/selectors';
 import { parseISO, isWithinInterval } from 'date-fns';
-import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import {
   VaBackToTop,
   VaPagination,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// TODO switch to native Set operations once browser support is more widespread
+import { intersection, difference } from 'lodash';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import BreadCrumbs from '../components/Breadcrumbs';
+import { focusElement } from 'platform/utilities/ui';
+import { Element } from 'platform/utilities/scroll';
+import { scrollTo } from 'platform/utilities/ui/scroll';
+import Breadcrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
-import HelpText from '../components/HelpText';
+import { HelpTextManage } from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
+import ErrorAlert from '../components/alerts/ErrorAlert';
+import { BTSSS_PORTAL_URL } from '../constants';
+import useSetPageTitle from '../hooks/useSetPageTitle';
 
-export default function App({ children }) {
+function SmocEntryContent() {
+  return (
+    <>
+      <p className="vads-u-font-family--serif vads-u-font-size--lg">
+        File new claims for travel reimbursement and review the status of all
+        your travel claims.
+      </p>
+      <h2 className="vads-u-margin-top--2">
+        File a new claim for travel reimbursement online
+      </h2>
+      <p>
+        If you’re claiming mileage only, you can file a travel claim for
+        eligible past appointments here on VA.gov.
+      </p>
+      <va-link-action
+        href="/my-health/appointments/past"
+        text="Go to your past appointments"
+        class="vads-u-margin-y--1"
+      />
+      <p>
+        <strong>
+          If you need to submit receipts for other expenses, like tolls, meals,
+          or lodging
+        </strong>
+        , you can file your travel claim through the{' '}
+        <va-link
+          external
+          href={BTSSS_PORTAL_URL}
+          text="Beneficiary Travel Self-Service System"
+        />
+        .
+      </p>
+    </>
+  );
+}
+
+export default function TravelPayStatusApp({ children }) {
   const dispatch = useDispatch();
-  const profileLoading = useSelector(state => isProfileLoading(state));
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
 
   const filterInfoRef = useRef();
+
+  useEffect(() => {
+    focusElement('h1');
+    scrollTo('topScrollElement');
+  });
 
   // TODO: utilize user info for authenticated requests
   // and validating logged in status
   // const user = useSelector(selectUser);
 
-  const { isLoading, travelClaims, error } = useSelector(
-    state => state.travelPay,
+  const { isLoading, data, error } = useSelector(
+    state => state.travelPay.travelClaims,
   );
+
+  const [hasFetchedClaims, setHasFetchedClaims] = useState(false);
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
@@ -48,20 +91,34 @@ export default function App({ children }) {
   const [selectedDateFilter, setSelectedDateFilter] = useState('all');
   const [appliedDateFilter, setAppliedDateFilter] = useState('all');
 
-  if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
+  if (data.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
-    const initialStatusFilters = [
-      ...new Set(travelClaims.map(claim => claim.claimStatus)),
-    ];
-    setStatusesToFilterBy(initialStatusFilters);
+
+    const topStatuses = new Set(['On hold', 'Denied', 'In manual review']);
+    const availableStatuses = new Set(data.map(c => c.claimStatus));
+
+    const availableTopStatuses = intersection(
+      Array.from(topStatuses),
+      Array.from(availableStatuses),
+    );
+
+    const availableNonTopStatuses = difference(
+      Array.from(availableStatuses),
+      Array.from(topStatuses),
+    ).sort(); // .sort() ensures statuses are alphabetized
+
+    const orderedStatusFilters = availableTopStatuses.concat(
+      availableNonTopStatuses,
+    );
+    setStatusesToFilterBy(orderedStatusFilters);
   }
 
   const dateFilters = getDateFilters();
 
-  if (travelClaims.length > 0 && datesToFilterBy.length === 0) {
+  if (data.length > 0 && datesToFilterBy.length === 0) {
     // Sets initial date filters after travelClaims load
     const initialDateFilters = dateFilters.filter(filter =>
-      travelClaims.some(claim =>
+      data.some(claim =>
         isWithinInterval(new Date(claim.appointmentDateTime), {
           start: filter.start,
           end: filter.end,
@@ -72,18 +129,22 @@ export default function App({ children }) {
   }
 
   // TODO: Move this logic to the API-side
+  const compareClaimsDate = (a, b) => {
+    // Date.parse(null) evaluates to NaN, which is falsy. By including
+    // the OR condition, any comparison with a null appointmentDateTime
+    // will fallback to comparing the createOn value instead.
+    return (
+      Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime) ||
+      Date.parse(b.createdOn) - Date.parse(a.createdOn)
+    );
+  };
+
   switch (orderClaimsBy) {
     case 'mostRecent':
-      travelClaims.sort(
-        (a, b) =>
-          Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime),
-      );
+      data.sort((a, b) => compareClaimsDate(a, b));
       break;
     case 'oldest':
-      travelClaims.sort(
-        (a, b) =>
-          Date.parse(a.appointmentDateTime) - Date.parse(b.appointmentDateTime),
-      );
+      data.sort((a, b) => compareClaimsDate(b, a));
       break;
     default:
       break;
@@ -135,16 +196,29 @@ export default function App({ children }) {
     TOGGLE_NAMES,
   } = useFeatureToggle();
 
-  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
   const toggleIsLoading = useToggleLoadingValue();
+  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
+  const canViewClaimDetails = useToggleValue(
+    TOGGLE_NAMES.travelPayViewClaimDetails,
+  );
+  const smocEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPaySubmitMileageExpense,
+  );
+
+  const title = smocEnabled
+    ? 'Travel reimbursement claims'
+    : 'Check your travel reimbursement claim status';
+
+  useSetPageTitle(title);
 
   useEffect(
     () => {
-      if (userLoggedIn) {
+      if (data.length === 0 && !hasFetchedClaims) {
         dispatch(getTravelClaims());
+        setHasFetchedClaims(true);
       }
     },
-    [dispatch, userLoggedIn],
+    [dispatch, data, error, hasFetchedClaims],
   );
 
   const CLAIMS_PER_PAGE = 10;
@@ -153,7 +227,7 @@ export default function App({ children }) {
     filter => filter.label === appliedDateFilter,
   );
 
-  let displayedClaims = travelClaims.filter(claim => {
+  let displayedClaims = data.filter(claim => {
     const statusFilterIncludesClaim =
       appliedStatusFilters.length === 0 ||
       appliedStatusFilters.includes(claim.claimStatus);
@@ -180,6 +254,41 @@ export default function App({ children }) {
     displayedClaims = displayedClaims.slice(pageStart - 1, pageEnd);
   }
 
+  const resultsText = () => {
+    let sortAndFilterText;
+
+    if (orderClaimsBy === 'mostRecent') {
+      sortAndFilterText = 'date (most recent)';
+    }
+
+    if (orderClaimsBy === 'oldest') {
+      sortAndFilterText = 'date (oldest)';
+    }
+
+    let appliedFiltersLength = appliedStatusFilters.length;
+    if (appliedDateFilter !== 'all') {
+      appliedFiltersLength += 1;
+    }
+
+    if (appliedFiltersLength > 0) {
+      sortAndFilterText += `, with ${appliedFiltersLength} ${
+        appliedFiltersLength === 1 ? 'filter' : 'filters'
+      } applied`;
+    }
+
+    if (numResults === 0 && appliedFiltersLength > 0) {
+      // Note that appliedFiltersLength === 1 should never be true here, since
+      // 0 claims matching a single filter should mean the filter isn't shown
+      return `Showing 0 claims with ${appliedFiltersLength} ${
+        appliedFiltersLength === 1 ? 'filter' : 'filters'
+      } applied`;
+    }
+
+    return numResults === 0
+      ? `Showing ${numResults} claims`
+      : `Showing ${pageStart} ‒ ${pageEnd} of ${numResults} claims, sorted by ${sortAndFilterText}.`;
+  };
+
   const onPageSelect = useCallback(
     selectedPage => {
       setCurrentPage(selectedPage);
@@ -188,7 +297,7 @@ export default function App({ children }) {
     [setCurrentPage],
   );
 
-  if ((profileLoading && !userLoggedIn) || toggleIsLoading) {
+  if (toggleIsLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -205,111 +314,180 @@ export default function App({ children }) {
     return null;
   }
 
+  if (error) {
+    return (
+      <Element name="topScrollElement">
+        <article className="usa-grid-full vads-u-padding-bottom--0">
+          <Breadcrumbs />
+          <h1 tabIndex="-1" data-testid="header">
+            {title}
+          </h1>
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            {smocEnabled ? (
+              <SmocEntryContent />
+            ) : (
+              <h2 className="vads-u-font-size--h4 vads-u-margin-bottom--4">
+                You can use this tool to check the status of your VA travel
+                claims.
+              </h2>
+            )}
+            <ErrorAlert errorStatus={error.errors[0].status} />
+            <VaBackToTop />
+          </div>
+        </article>
+      </Element>
+    );
+  }
+
   return (
-    <>
-      <MhvSecondaryNav />
+    <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
-        <BreadCrumbs />
+        <Breadcrumbs />
         <h1 tabIndex="-1" data-testid="header">
-          Check your travel reimbursement claim status
+          {title}
         </h1>
-        <HelpText />
-        {isLoading && (
-          <va-loading-indicator
-            label="Loading"
-            message="Loading Travel Claims..."
-          />
-        )}
-        {!userLoggedIn && (
-          <>
-            <p>Log in to view your travel claims</p>
-            <va-button
-              text="Sign in"
-              onClick={() => dispatch(toggleLoginModal(true))}
-            />
-          </>
-        )}
-        {error && <p>Error fetching travel claims.</p>}
-        {userLoggedIn &&
-          !isLoading &&
-          travelClaims.length > 0 && (
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          {smocEnabled ? (
+            <SmocEntryContent />
+          ) : (
             <>
-              <div className="btsss-claims-sort-and-filter-container">
-                <label
-                  htmlFor="claimsOrder"
-                  className="vads-u-margin-bottom--0"
-                >
-                  Show appointments in this order
-                </label>
-                <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
-                  <select
-                    className="vads-u-margin-bottom--0"
-                    hint={null}
-                    title="Show appointments in this order"
-                    name="claimsOrder"
-                    id="claimsOrder"
-                    value={selectedClaimsOrder}
-                    onChange={e => setSelectedClaimsOrder(e.target.value)}
+              <h2 className="vads-u-font-size--h4">
+                You can use this tool to check the status of your VA travel
+                claims.
+              </h2>
+              {!error &&
+                !isLoading && (
+                  <va-additional-info
+                    class="vads-u-margin-y--3"
+                    trigger="How to manage your claims or get more information"
                   >
-                    <option value="mostRecent">Most Recent</option>
-                    <option value="oldest">Oldest</option>
-                  </select>
-                  <va-button
-                    onClick={() => onSortClick()}
-                    data-testid="Sort travel claims"
-                    text="Sort"
-                    label="Sort"
+                    <>
+                      <HelpTextManage />
+                      <va-link
+                        data-testid="status-explainer-link"
+                        href="/my-health/travel-pay/help"
+                        text="What does my claim status mean?"
+                      />
+                    </>
+                  </va-additional-info>
+                )}
+            </>
+          )}
+
+          {isLoading && (
+            <va-loading-indicator
+              label="Loading"
+              message="Loading Travel Claims..."
+            />
+          )}
+          {!isLoading &&
+            data.length > 0 && (
+              <>
+                <div className="btsss-claims-sort-and-filter-container">
+                  <h2 className="vads-u-margin-top--2">Your travel claims</h2>
+                  <p>
+                    This list shows all the appointments you've filed a travel
+                    claim for.
+                  </p>
+                  {smocEnabled && (
+                    <va-additional-info
+                      class="vads-u-margin-y--3"
+                      trigger="How to manage your claims or get more information"
+                    >
+                      <div>
+                        <p className="vads-u-margin-top--0">
+                          You can call the BTSSS call center at{' '}
+                          <va-telephone contact="8555747292" /> (
+                          <va-telephone tty contact="711" />) Monday through
+                          Friday, 8:00 a.m. to 8:00 p.m. ET. Have your claim
+                          number ready to share when you call.
+                        </p>
+                        <va-link
+                          data-testid="status-explainer-link"
+                          href="/my-health/travel-pay/help"
+                          text="What does my claim status mean?"
+                        />
+                      </div>
+                    </va-additional-info>
+                  )}
+                  <label
+                    htmlFor="claimsOrder"
+                    className="vads-u-margin-bottom--0 vads-u-margin-top--0"
+                  >
+                    Show appointments with travel claims in this order
+                  </label>
+                  <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
+                    <select
+                      className="vads-u-margin-bottom--0"
+                      hint={null}
+                      title="Show appointments with travel claims in this order"
+                      name="claimsOrder"
+                      id="claimsOrder"
+                      value={selectedClaimsOrder}
+                      onChange={e => setSelectedClaimsOrder(e.target.value)}
+                    >
+                      <option value="mostRecent">Most Recent</option>
+                      <option value="oldest">Oldest</option>
+                    </select>
+                    <va-button
+                      onClick={() => onSortClick()}
+                      data-testid="Sort travel claims"
+                      secondary
+                      text="Sort"
+                      label="Sort"
+                    />
+                  </div>
+
+                  <TravelPayClaimFilters
+                    statusesToFilterBy={statusesToFilterBy}
+                    checkedStatusFilters={checkedStatusFilters}
+                    onStatusFilterChange={onStatusFilterChange}
+                    applyFilters={applyFilters}
+                    resetSearch={resetSearch}
+                    selectedDateFilter={selectedDateFilter}
+                    datesToFilterBy={datesToFilterBy}
+                    onDateFilterChange={onDateFilterChange}
                   />
                 </div>
 
-                <TravelPayClaimFilters
-                  statusesToFilterBy={statusesToFilterBy}
-                  checkedStatusFilters={checkedStatusFilters}
-                  onStatusFilterChange={onStatusFilterChange}
-                  applyFilters={applyFilters}
-                  resetSearch={resetSearch}
-                  selectedDateFilter={selectedDateFilter}
-                  datesToFilterBy={datesToFilterBy}
-                  onDateFilterChange={onDateFilterChange}
-                />
-              </div>
+                <h2 tabIndex={-1} ref={filterInfoRef} id="pagination-info">
+                  {resultsText()}
+                </h2>
 
-              <h2 tabIndex={-1} ref={filterInfoRef} id="pagination-info">
-                {numResults === 0
-                  ? `Showing ${numResults} events`
-                  : `Showing ${pageStart} ‒ ${pageEnd} of ${numResults} events`}
-              </h2>
-
-              <section
-                id="travel-claims-list"
-                className="travel-claim-list-container"
-              >
-                {displayedClaims.map(travelClaim =>
-                  TravelClaimCard(travelClaim),
+                <section
+                  id="travel-claims-list"
+                  className="travel-claim-list-container"
+                >
+                  {displayedClaims.map(travelClaim => (
+                    <TravelClaimCard
+                      key={travelClaim.id}
+                      {...travelClaim}
+                      canViewClaimDetails={canViewClaimDetails}
+                    />
+                  ))}
+                </section>
+                {shouldPaginate && (
+                  <VaPagination
+                    onPageSelect={e => onPageSelect(e.detail.page)}
+                    page={currentPage}
+                    pages={numPages}
+                  />
                 )}
-              </section>
-              {shouldPaginate && (
-                <VaPagination
-                  onPageSelect={e => onPageSelect(e.detail.page)}
-                  page={currentPage}
-                  pages={numPages}
-                />
-              )}
-            </>
-          )}
-        {userLoggedIn &&
-          !isLoading &&
-          !error &&
-          travelClaims.length === 0 && <p>No travel claims to show.</p>}
-        <VaBackToTop />
+              </>
+            )}
+          {!isLoading &&
+            !error &&
+            data.length === 0 && <p>No travel claims to show.</p>}
+          <VaBackToTop />
+        </div>
       </article>
 
       {children}
-    </>
+    </Element>
   );
 }
 
-App.propTypes = {
+TravelPayStatusApp.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,

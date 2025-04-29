@@ -1,11 +1,9 @@
-import {
-  currentOrPastDateUI,
-  currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import { formTitle } from '../../utils';
+import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   dateRangeAdditionalInfo,
-  dateRangePageDescription,
+  detailsPageBegin,
   endDateApproximate,
   getKeyIndex,
   getSelectedCount,
@@ -24,12 +22,14 @@ import { HERBICIDE_LOCATIONS, TE_URL_PREFIX } from '../../constants';
  */
 function makeUiSchema(locationId) {
   return {
-    'ui:title': formTitle(herbicidePageTitle),
-    'ui:description': ({ formData }) =>
-      dateRangePageDescription(
-        getKeyIndex(locationId, 'herbicide', formData),
-        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
-        HERBICIDE_LOCATIONS[locationId],
+    'ui:title': ({ formData }) =>
+      detailsPageBegin(
+        herbicidePageTitle,
+        teSubtitle(
+          getKeyIndex(locationId, 'herbicide', formData),
+          getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+          HERBICIDE_LOCATIONS[locationId],
+        ),
       ),
     toxicExposure: {
       herbicideDetails: {
@@ -42,6 +42,10 @@ function makeUiSchema(locationId) {
           }),
           'view:notSure': {
             'ui:title': notSureDatesDetails,
+            'ui:webComponentField': VaCheckboxField,
+            'ui:options': {
+              classNames: 'vads-u-margin-y--3',
+            },
           },
         },
       },
@@ -70,8 +74,8 @@ function makeSchema(locationId) {
               [locationId]: {
                 type: 'object',
                 properties: {
-                  startDate: currentOrPastDateSchema,
-                  endDate: currentOrPastDateSchema,
+                  startDate: full526EZSchema.definitions.minimumYearDate,
+                  endDate: full526EZSchema.definitions.minimumYearDate,
                   'view:notSure': {
                     type: 'boolean',
                   },

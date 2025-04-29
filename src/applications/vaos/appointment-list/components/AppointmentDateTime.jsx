@@ -12,6 +12,8 @@ AppointmentDate.propTypes = {
 };
 
 export function AppointmentTime({ appointment, format = 'h:mm a' }) {
+  if (!appointment) return null;
+
   const time = moment.parseZone(appointment.start);
   const { abbreviation, description } = getAppointmentTimezone(appointment);
 

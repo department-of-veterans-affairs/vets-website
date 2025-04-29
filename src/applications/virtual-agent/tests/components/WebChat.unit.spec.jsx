@@ -9,10 +9,9 @@ import thunk from 'redux-thunk';
 
 import * as ApiModule from '@department-of-veterans-affairs/platform-utilities/api';
 import WebChat, { renderMarkdown } from '../../components/WebChat';
-import MarkdownRenderer from '../../utils/markdownRenderer';
 
 // Event Listeners
-import * as signOutEventListenerModule from '../../event-listeners/signOutEventListener';
+import * as SignOutEventListenerModule from '../../event-listeners/signOutEventListener';
 import * as ClearBotSessionStorageEventListenerModule from '../../event-listeners/clearBotSessionStorageEventListener';
 
 // Selectors
@@ -23,14 +22,19 @@ import * as SelectUserFirstNameModule from '../../selectors/selectUserFirstName'
 // Hooks
 import * as UseBotPonyfillModule from '../../hooks/useBotPonyfill';
 import * as UseDirectLineModule from '../../hooks/useDirectline';
-import * as UseRecordRxSessionModule from '../../hooks/useRecordRxSession';
 import * as UseRxSkillEventListenerModule from '../../hooks/useRxSkillEventListener';
 import * as UseSetSendBoxMessageModule from '../../hooks/useSetSendBoxMessage';
 import * as UseWebChatStoreModule from '../../hooks/useWebChatStore';
 
+// Middleware
+import * as CardActionMiddlewareModule from '../../middleware/cardActionMiddleware';
+import * as ActivityMiddlewareModule from '../../middleware/activityMiddleware';
+
 // Utils and Helpers
 import * as SessionStorageModule from '../../utils/sessionStorage';
 import * as ValidateParametersModule from '../../utils/validateParameters';
+import * as TelemetryModule from '../../utils/telemetry';
+import MarkdownRenderer from '../../utils/markdownRenderer';
 
 describe('WebChat', () => {
   let sandbox;
@@ -59,6 +63,7 @@ describe('WebChat', () => {
       expect(renderSpy.calledWith(markdown)).to.be.true;
     });
   });
+
   describe('WebChat', () => {
     const token = 'fake-token';
     const apiSession = 'fake-api-session';
@@ -72,46 +77,59 @@ describe('WebChat', () => {
       sandbox.stub(SelectUserCurrentlyLoggedInModule, 'default').returns(true);
     };
 
-    it('should validate parameters, setup event listeners, setup useEffects and render', () => {
-      const webChatFramework = {
-        ReactWebChat: sandbox.stub().returns(<div />),
-        createDirectline: sandbox.spy(),
+    const getWebChatFramework = () => {
+      return {
+        createDirectLine: sinon.spy(),
         createStore: sandbox.spy(),
+        Components: {
+          BasicWebChat: sinon
+            .stub()
+            .callsFake(props => <div data-testid="BasicWebChat" {...props} />),
+          Composer: sinon
+            .stub()
+            .callsFake(props => <div data-testid="Composer" {...props} />),
+        },
       };
+    };
+
+    const stubFunctions = () => {
+      return {
+        validateParametersStub: sandbox.stub(
+          ValidateParametersModule,
+          'default',
+        ),
+        useWebChatStoreStub: sandbox
+          .stub(UseWebChatStoreModule, 'default')
+          .returns('fake-webchat-store'),
+        clearBotSessionStorageEventListenerStub: sandbox.stub(
+          ClearBotSessionStorageEventListenerModule,
+          'default',
+        ),
+        signOutEventListenerStub: sandbox.stub(
+          SignOutEventListenerModule,
+          'default',
+        ),
+        useBotPonyFillStub: sandbox.stub(UseBotPonyfillModule, 'default'),
+        rxSkillEventListenerStub: sandbox.stub(
+          UseRxSkillEventListenerModule,
+          'default',
+        ),
+        useSetSendBoxMessageStub: sandbox.stub(
+          UseSetSendBoxMessageModule,
+          'default',
+        ),
+        useDirectlineStub: sandbox
+          .stub(UseDirectLineModule, 'default')
+          .returns('fake-directline'),
+      };
+    };
+
+    it('should validate parameters, setup event listeners, setup useEffects and render', () => {
+      const webChatFramework = getWebChatFramework();
       const setParamLoadingStatus = sandbox.spy();
 
       stubValues();
-
-      const validateParametersStub = sandbox.stub(
-        ValidateParametersModule,
-        'default',
-      );
-      const useWebChatStoreStub = sandbox.stub(
-        UseWebChatStoreModule,
-        'default',
-      );
-      const clearBotSessionStorageEventListenerStub = sandbox.stub(
-        ClearBotSessionStorageEventListenerModule,
-        'default',
-      );
-      const signOutEventListenerStub = sandbox.stub(
-        signOutEventListenerModule,
-        'default',
-      );
-      const useBotPonyFillStub = sandbox.stub(UseBotPonyfillModule, 'default');
-      const rxSkillEventListenerStub = sandbox.stub(
-        UseRxSkillEventListenerModule,
-        'default',
-      );
-      const useSetSendBoxMessageStub = sandbox.stub(
-        UseSetSendBoxMessageModule,
-        'default',
-      );
-      const useRecordRxSessionStub = sandbox.stub(
-        UseRecordRxSessionModule,
-        'default',
-      );
-      const useDirectlineStub = sandbox.stub(UseDirectLineModule, 'default');
+      const functionStubs = stubFunctions();
 
       render(
         <Provider store={mockStore({})}>
@@ -124,45 +142,22 @@ describe('WebChat', () => {
         </Provider>,
       );
 
-      expect(validateParametersStub.calledOnce).to.be.true;
-      expect(useWebChatStoreStub.calledOnce).to.be.true;
-      expect(clearBotSessionStorageEventListenerStub.calledOnce).to.be.true;
-      expect(signOutEventListenerStub.calledOnce).to.be.true;
-      expect(useBotPonyFillStub.calledOnce).to.be.true;
-      expect(rxSkillEventListenerStub.calledOnce).to.be.true;
-      expect(useSetSendBoxMessageStub.calledOnce).to.be.true;
-      expect(useRecordRxSessionStub.calledOnce).to.be.true;
-      expect(useDirectlineStub.calledOnce).to.be.true;
+      expect(functionStubs.validateParametersStub.calledOnce).to.be.true;
+      expect(functionStubs.useWebChatStoreStub.calledOnce).to.be.true;
+      expect(functionStubs.clearBotSessionStorageEventListenerStub.calledOnce)
+        .to.be.true;
+      expect(functionStubs.signOutEventListenerStub.calledOnce).to.be.true;
+      expect(functionStubs.useBotPonyFillStub.calledOnce).to.be.true;
+      expect(functionStubs.rxSkillEventListenerStub.calledOnce).to.be.true;
+      expect(functionStubs.useSetSendBoxMessageStub.calledOnce).to.be.true;
+      expect(functionStubs.useDirectlineStub.calledOnce).to.be.true;
     });
     it('should call rx skill effects a second time when rxSkill event is triggered', async () => {
-      const webChatFramework = {
-        ReactWebChat: sandbox.stub().returns(<div />),
-        createDirectline: sandbox.spy(),
-        createStore: sandbox.spy(),
-      };
+      const webChatFramework = getWebChatFramework();
       const setParamLoadingStatus = sandbox.spy();
 
       stubValues();
-
-      const rxSkillEventListenerStub = sandbox.stub(
-        UseRxSkillEventListenerModule,
-        'default',
-      );
-      const useSetSendBoxMessageStub = sandbox.stub(
-        UseSetSendBoxMessageModule,
-        'default',
-      );
-      const useRecordRxSessionStub = sandbox.stub(
-        UseRecordRxSessionModule,
-        'default',
-      );
-
-      sandbox.stub(ValidateParametersModule, 'default');
-      sandbox.stub(UseWebChatStoreModule, 'default');
-      sandbox.stub(ClearBotSessionStorageEventListenerModule, 'default');
-      sandbox.stub(signOutEventListenerModule, 'default');
-      sandbox.stub(UseBotPonyfillModule, 'default');
-      sandbox.stub(UseDirectLineModule, 'default');
+      const functionStubs = stubFunctions();
 
       render(
         <Provider store={mockStore({})}>
@@ -175,31 +170,82 @@ describe('WebChat', () => {
         </Provider>,
       );
 
-      expect(rxSkillEventListenerStub.calledOnce).to.be.true;
-      expect(useSetSendBoxMessageStub.calledOnce).to.be.true;
-      expect(useRecordRxSessionStub.calledOnce).to.be.true;
+      expect(functionStubs.rxSkillEventListenerStub.calledOnce).to.be.true;
+      expect(functionStubs.useSetSendBoxMessageStub.calledOnce).to.be.true;
+    });
+    it('should render Composer with args and BasicWebChat', () => {
+      const webChatFramework = {
+        createDirectLine: sinon.spy(),
+        createStore: sandbox.spy(),
+        Components: {
+          BasicWebChat: sinon
+            .stub()
+            .callsFake(props => <div data-testid="BasicWebChat" {...props} />),
+          Composer: sinon
+            .stub()
+            .callsFake(props => <div data-testid="Composer" {...props} />),
+        },
+      };
+      const setParamLoadingStatus = sandbox.spy();
+
+      stubValues();
+      stubFunctions();
+      const cardActionMiddlewareStub = sandbox.stub(
+        CardActionMiddlewareModule,
+        'cardActionMiddleware',
+      );
+      const activityMiddlewareStub = sandbox.stub(
+        ActivityMiddlewareModule,
+        'activityMiddleware',
+      );
+      const handleTelemetryStub = sandbox.stub(TelemetryModule, 'default');
+      // const renderMarkdownStub = sandbox.stub(WebChat, 'renderMarkdown');
+      const store = mockStore({});
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <WebChat
+            token={token}
+            webChatFramework={webChatFramework}
+            apiSession={apiSession}
+            setParamLoadingStatus={setParamLoadingStatus}
+          />
+        </Provider>,
+      );
+
+      expect(getByTestId('Composer')).to.exist;
+      expect(getByTestId('BasicWebChat')).to.exist;
+      expect(
+        webChatFramework.Components.Composer.getCall(0).args[0]
+          .cardActionMiddleware,
+      ).to.equal(cardActionMiddlewareStub);
+      expect(
+        webChatFramework.Components.Composer.getCall(0).args[0]
+          .activityMiddleware,
+      ).to.equal(activityMiddlewareStub);
+      expect(
+        webChatFramework.Components.Composer.getCall(0).args[0].styleOptions,
+      ).to.not.be.undefined;
+      expect(
+        webChatFramework.Components.Composer.getCall(0).args[0].directLine,
+      ).to.equal('fake-directline');
+      expect(
+        webChatFramework.Components.Composer.getCall(0).args[0].store,
+      ).to.equal('fake-webchat-store');
+      expect(
+        webChatFramework.Components.Composer.getCall(0).args[0].renderMarkdown,
+      ).to.equal(renderMarkdown);
+      expect(
+        webChatFramework.Components.Composer.getCall(0).args[0].onTelemetry,
+      ).to.equal(handleTelemetryStub);
     });
     it('should render without webSpeechPonyfillFactory when not in rx skill', () => {
-      const reactWebChatStub = sandbox.stub().returns(<div />);
-      const webChatFramework = {
-        ReactWebChat: reactWebChatStub,
-        createDirectline: sandbox.spy(),
-        createStore: sandbox.spy(),
-      };
+      const webChatFramework = getWebChatFramework();
       const setParamLoadingStatus = sandbox.spy();
 
       stubValues();
-      sandbox.stub(ValidateParametersModule, 'default');
-      sandbox.stub(UseWebChatStoreModule, 'default');
-      sandbox.stub(ClearBotSessionStorageEventListenerModule, 'default');
-      sandbox.stub(signOutEventListenerModule, 'default');
-      sandbox.stub(UseBotPonyfillModule, 'default');
-      sandbox.stub(UseRxSkillEventListenerModule, 'default');
-      sandbox.stub(UseSetSendBoxMessageModule, 'default');
-      sandbox.stub(UseRecordRxSessionModule, 'default');
-      sandbox.stub(UseDirectLineModule, 'default');
 
-      render(
+      const { getByTestId } = render(
         <Provider store={mockStore({})}>
           <WebChat
             token={token}
@@ -210,9 +256,13 @@ describe('WebChat', () => {
         </Provider>,
       );
 
-      expect(reactWebChatStub.calledOnce).to.be.true;
-      expect(reactWebChatStub.getCall(0).args[0].webSpeechPonyfillFactory).to.be
-        .undefined;
+      const lastCallIndex =
+        webChatFramework.Components.Composer.args.length - 1;
+      expect(getByTestId('Composer')).to.exist;
+      expect(
+        webChatFramework.Components.Composer.getCall(lastCallIndex).args[0]
+          .webSpeechPonyfillFactory,
+      ).to.be.undefined;
     });
     it('should render with webSpeechPonyfillFactory when in rx skill', async () => {
       // we should find a better way to do this since we shouldn't know about these in this functio
@@ -223,25 +273,13 @@ describe('WebChat', () => {
       };
       sandbox.stub(ApiModule, ApiModule.apiRequest.name).resolves({});
 
-      const reactWebChatStub = sandbox.stub().returns(<div />);
-      const webChatFramework = {
-        ReactWebChat: reactWebChatStub,
-        createDirectline: sandbox.spy(),
-        createStore: sandbox.spy(),
-      };
+      const webChatFramework = getWebChatFramework();
       const setParamLoadingStatus = sandbox.spy();
 
       stubValues();
-      sandbox.stub(ValidateParametersModule, 'default');
-      sandbox.stub(UseWebChatStoreModule, 'default');
-      sandbox.stub(ClearBotSessionStorageEventListenerModule, 'default');
-      sandbox.stub(signOutEventListenerModule, 'default');
-      sandbox.stub(UseSetSendBoxMessageModule, 'default');
-      sandbox.stub(UseRecordRxSessionModule, 'default');
-      sandbox.stub(UseDirectLineModule, 'default');
       sandbox.stub(SessionStorageModule, 'getIsRxSkill').returns('true');
 
-      render(
+      const { getByTestId } = render(
         <Provider store={mockStore({})}>
           <WebChat
             token={token}
@@ -256,9 +294,13 @@ describe('WebChat', () => {
         global.window.dispatchEvent(new Event('rxSkill'));
       });
 
-      expect(reactWebChatStub.calledThrice).to.be.true;
-      expect(reactWebChatStub.getCall(2).args[0].webSpeechPonyfillFactory).to
-        .not.be.undefined;
+      const lastCallIndex =
+        webChatFramework.Components.Composer.args.length - 1;
+      expect(getByTestId('Composer')).to.exist;
+      expect(
+        webChatFramework.Components.Composer.getCall(lastCallIndex).args[0]
+          .webSpeechPonyfillFactory,
+      ).to.not.be.undefined;
     });
   });
 });

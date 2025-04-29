@@ -8,7 +8,7 @@ const goBack = e => {
 
 const isPastAppointmentLink = url => {
   const { pathname } = new URL(url);
-  return pathname.match(/^\/my-health\/appointments\/past\/[0-9]+$/);
+  return pathname.match(/^\/my-health\/appointments\/past\/[^/]+$/);
 };
 
 const BreadCrumb = () => {

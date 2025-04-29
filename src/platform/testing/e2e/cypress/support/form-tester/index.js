@@ -9,7 +9,7 @@ const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
 const FIELD_SELECTOR = 'input, select, textarea';
 const WEB_COMPONENT_SELECTORS =
-  'va-text-input, va-select, va-textarea, va-number-input, va-radio-option, va-checkbox, va-memorable-date';
+  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-date, va-memorable-date';
 
 const LOADING_SELECTOR = 'va-loading-indicator';
 
@@ -183,8 +183,12 @@ const performPageActions = (pathname, _13647Exception = false) => {
  * Top level loop that invokes all of the processing for a form page and
  * asserts that it proceeds to the next page until it gets to the confirmation.
  */
-const processPage = ({ _13647Exception }) => {
+const processPage = ({ _13647Exception, stopTestAfterPath }) => {
   cy.location('pathname', NO_LOG_OPTION).then(pathname => {
+    if (pathname.endsWith(stopTestAfterPath)) {
+      return;
+    }
+
     performPageActions(pathname, _13647Exception);
 
     if (!pathname.endsWith('/confirmation')) {
@@ -194,7 +198,7 @@ const processPage = ({ _13647Exception }) => {
             throw new Error(`Expected to navigate away from ${pathname}`);
           }
         })
-        .then(() => processPage({ _13647Exception }));
+        .then(() => processPage({ _13647Exception, stopTestAfterPath }));
     }
   });
 };
@@ -211,13 +215,7 @@ const defaultPostHook = pathname => {
       cy.get(APP_SELECTOR, NO_LOG_OPTION).then($form => {
         const privacyAgreement = $form.find('[name^="privacyAgreement"]');
         if (privacyAgreement.length) {
-          cy.wrap(privacyAgreement)
-            .shadow()
-            .find('va-checkbox')
-            .shadow()
-            .find('[type="checkbox"]')
-            .check(FORCE_OPTION)
-            .should('be.checked');
+          cy.wrap(privacyAgreement).then($el => cy.selectVaCheckbox($el, true));
         }
       });
 
@@ -232,7 +230,12 @@ const defaultPostHook = pathname => {
 
   // Everything else should click on the 'Continue' button.
   return () => {
-    cy.findByText(/continue/i, { selector: 'button' }).click(FORCE_OPTION);
+    cy.findByText(/continue/i, {
+      selector: 'button',
+      timeout: 30000,
+    })
+      .should('be.visible')
+      .click(FORCE_OPTION);
   };
 };
 
@@ -352,11 +355,15 @@ function enterData(field) {
     case 'email':
     case 'number':
     case 'text': {
+      cy.get(field.element).should('not.be.disabled');
       cy.wrap(field.element)
         .clear({ ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .type(field.data, { ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .then(element => {
-          if (element.val()) cy.get(element).should('have.value', field.data);
+          // masked SSN appears on blur, so it won't match the field.data
+          if (element.val() && !element[0].classList.contains('masked-ssn')) {
+            cy.get(element).should('have.value', field.data);
+          }
           // Get the autocomplete menu out of the way.
           if (element.attr('role') === 'combobox') element.blur();
         });
@@ -542,6 +549,9 @@ Cypress.Commands.add('fillPage', () => {
  * @property {(boolean|string[])} [skip] - Skips specific tests if it's an array
  *     that contains the test names as strings. Skips the whole suite
  *     if it's otherwise truthy.
+ * @property {string} [stopTestAfterPath] - The pathname of the page to stop the
+ *     e2e test on. Useful for testing a set range of pages within a form. See
+ *     setupInProgressReturnUrl in the utilities folder to set a start page.
  * ---
  * @param {TestConfig} testConfig
  */
@@ -558,6 +568,8 @@ const testForm = testConfig => {
     setup = () => {},
     setupPerTest = () => {},
     skip,
+    // null prevents endsWith string comparison returning true
+    stopTestAfterPath = null,
     _13647Exception = false,
     // whether or not to auto fill web component fields
     // (using RJSF naming convention #root_field_subField)
@@ -630,7 +642,7 @@ const testForm = testConfig => {
 
           cy.get(LOADING_SELECTOR)
             .should('not.exist')
-            .then(() => processPage({ _13647Exception }));
+            .then(() => processPage({ stopTestAfterPath, _13647Exception }));
         });
       });
     };

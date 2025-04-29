@@ -2,7 +2,7 @@ import environment from '~/platform/utilities/environment';
 import fileUiSchema from '~/platform/forms-system/src/js/definitions/file';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
 
-import { EVIDENCE_UPLOAD_API } from '../constants';
+import { EVIDENCE_UPLOAD_API } from '../constants/apis';
 
 import {
   MAX_FILE_SIZE_MB,

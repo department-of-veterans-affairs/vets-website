@@ -105,7 +105,8 @@
           "backImprint": "fake"
         }
       ],
-      "tracking": false
+      "tracking": false,
+      "sortedDispensedDate": "2023-08-04"
     },
     "links": {
       "self": "http://127.0.0.1:3000/my_health/v1/prescriptions/22332759"

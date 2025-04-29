@@ -1,73 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Scroll from 'react-scroll';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-// Relative Imports
-import { shouldShowQuestion } from '../../helpers';
-import { questionLabels } from '../../constants';
-
-const { Element } = Scroll;
+import { connect } from 'react-redux';
+import {
+  QUESTION_MAP,
+  RESPONSES,
+  SHORT_NAME_MAP,
+} from '../../constants/question-data-map';
+import RadioGroup from './shared/RadioGroup';
+import { updateDischargeType } from '../../actions';
+import { pageSetup } from '../../utilities/page-setup';
+import { ROUTES } from '../../constants';
 
 const DischargeType = ({
-  formValues,
-  handleKeyDown,
-  scrollToLast,
-  updateField,
+  formResponses,
+  setDischargeType,
+  router,
+  viewedIntroPage,
 }) => {
-  const key = '5_dischargeType';
+  const [formError, setFormError] = useState(false);
+  const shortName = SHORT_NAME_MAP.DISCHARGE_TYPE;
+  const H1 = QUESTION_MAP[shortName];
+  const dischargeType = formResponses[shortName];
+  const { DISCHARGE_HONORABLE, DISCHARGE_DISHONORABLE } = RESPONSES;
 
-  if (!formValues) {
-    return null;
-  }
+  useEffect(
+    () => {
+      pageSetup(H1);
+    },
+    [H1],
+  );
 
-  if (!shouldShowQuestion(key, formValues.questions)) {
-    return null;
-  }
-
-  const options = [
-    { label: questionLabels[key][1], value: '1' },
-    { label: questionLabels[key][2], value: '2' },
-  ];
-
-  const radioButtonProps = {
-    name: key,
-    label: 'Which of the following categories best describes you?',
-    'label-header-level': '2',
-    key,
-    value: formValues[key],
-    onVaValueChange: e => {
-      if (e.returnValue) {
-        updateField(key, e.detail.value);
+  useEffect(
+    () => {
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
       }
     },
-    onMouseDown: scrollToLast,
-    onKeyDown: handleKeyDown,
-  };
+    [router, viewedIntroPage],
+  );
 
   return (
-    <div className="vads-u-margin-top--6">
-      <Element name={key} />
-      <VaRadio {...radioButtonProps} uswds>
-        {options.map((option, index) => (
-          <va-radio-option
-            key={index}
-            label={option.label}
-            name={key}
-            value={option.value}
-            checked={formValues[key] === option.value}
-          />
-        ))}
-      </VaRadio>
-    </div>
+    <RadioGroup
+      formError={formError}
+      formResponses={formResponses}
+      formValue={dischargeType}
+      H1={H1}
+      responses={[DISCHARGE_HONORABLE, DISCHARGE_DISHONORABLE]}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-discharge_type"
+      valueSetter={setDischargeType}
+    />
   );
 };
 
 DischargeType.propTypes = {
-  formValues: PropTypes.object.isRequired,
-  handleKeyDown: PropTypes.func,
-  scrollToLast: PropTypes.func,
-  updateField: PropTypes.func,
+  formResponses: PropTypes.object,
+  setDischargeType: PropTypes.func,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  viewedIntroPage: PropTypes.bool,
 };
 
-export default DischargeType;
+const mapStateToProps = state => ({
+  formResponses: state?.dischargeUpgradeWizard?.duwForm?.form,
+  viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
+});
+
+const mapDispatchToProps = {
+  setDischargeType: updateDischargeType,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DischargeType);

@@ -3,6 +3,7 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import recordEvent from 'platform/monitoring/record-event';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { getFormattedPhone } from '../utils/contactInfo';
 import { missingPrimaryPhone } from '../validations';
@@ -32,14 +33,17 @@ export const PrimaryPhone = ({
 
   const checkErrors = (formData = data) => {
     const error = checkValidations([missingPrimaryPhone], primary, formData);
-    setHasError(error?.[0] || null);
+    const result = error?.[0] || null;
+    setHasError(result);
+    return result;
   };
 
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      checkErrors();
-      if (primary && !hasError) {
+      if (checkErrors()) {
+        scrollToFirstError({ focusOnAlertRole: true });
+      } else if (primary) {
         goForward(data);
       }
     },
@@ -62,11 +66,19 @@ export const PrimaryPhone = ({
   };
 
   const navButtons = onReviewPage ? (
-    <va-button text={content.update} onClick={updatePage} uswds />
+    <va-button
+      text={content.update}
+      onClick={updatePage}
+      label="update primary phone number"
+    />
   ) : (
     <>
       {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} submitToContinue />
+      <FormNavButtons
+        goBack={goBack}
+        goForward={handlers.onSubmit}
+        submitToContinue
+      />
       {contentAfterButtons}
     </>
   );
@@ -78,9 +90,9 @@ export const PrimaryPhone = ({
       <form onSubmit={handlers.onSubmit}>
         <div name="topScrollElement" />
         <VaRadio
-          class="vads-u-margin-y--2"
+          class="vads-u-margin-top--2 vads-u-margin-bottom--4"
           label={content.label}
-          label-header-level="3"
+          label-header-level={onReviewPage ? 4 : 3}
           hint="We may need to contact you if we have questions about your Supplemental Claim."
           error={hasError && errorMessages.missingPrimaryPhone}
           onVaValueChange={handlers.onSelection}

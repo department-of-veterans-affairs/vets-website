@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -7,9 +8,9 @@ import { Paths } from '../../../util/constants';
 import EditPreferences from '../../../components/ComposeForm/EditPreferences';
 
 describe('EditPreferences component', () => {
-  const setup = () => {
+  const setup = (initialState = {}) => {
     return renderWithStoreAndRouter(<EditPreferences />, {
-      initialState: {},
+      initialState,
       reducers: reducer,
       path: Paths.COMPOSE,
     });
@@ -51,5 +52,33 @@ describe('EditPreferences component', () => {
       'visible',
       'false',
     );
+  });
+
+  it('should not render when the isSignatureSettingsEnabled flag is enabled', () => {
+    const customState = {
+      featureToggles: {
+        featureTogglesLoading: false,
+      },
+    };
+    customState.featureToggles.mhv_secure_messaging_signature_settings = true;
+    const screen = setup(customState);
+    const editPreferencesButton = screen.queryByTestId(
+      'edit-preferences-button',
+    );
+    expect(editPreferencesButton).to.not.exist;
+  });
+
+  it('should not render when the featureToggles is loading', () => {
+    const customState = {
+      featureToggles: {
+        featureTogglesLoading: true,
+      },
+    };
+    customState.featureToggles.mhv_secure_messaging_signature_settings = true;
+    const screen = setup(customState);
+    const editPreferencesButton = screen.queryByTestId(
+      'edit-preferences-button',
+    );
+    expect(editPreferencesButton).to.not.exist;
   });
 });

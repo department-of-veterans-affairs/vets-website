@@ -4,7 +4,6 @@ import moment from 'moment';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
-import environment from 'platform/utilities/environment';
 import {
   getScrollOptions,
   focusElement,
@@ -39,17 +38,10 @@ export const supportingDocsDescription = (
     <p>We prefer that you upload the Veteran’s or Reservist’s DD214.</p>
     <p>Guidelines for uploading a file:</p>
     <ul>
-      {environment.isProduction() ? (
-        <>
-          <li>You can upload a .pdf, .jpeg, .jpg, or .png file</li>
-          <li>Your file should be no larger than 20MB</li>
-        </>
-      ) : (
-        <>
-          <li>You can upload a .pdf, .jpeg, .jpg, or .png file.</li>
-          <li>Your file should be no larger than 20MB.</li>
-        </>
-      )}
+      <>
+        <li>You can upload a .pdf, .jpeg, .jpg, or .png file.</li>
+        <li>Your file should be no larger than 20MB.</li>
+      </>
     </ul>
   </div>
 );

@@ -12,26 +12,6 @@ export const getItemSchema = (schema, index) => {
   return itemSchema.additionalItems;
 };
 
-/**
- * Return a phone number object
- * @param {String} phone - phone number string to convert to an object
- * @return {phoneObject}
- */
-export const returnPhoneObject = phone => {
-  const result = {
-    countryCode: '',
-    areaCode: '',
-    phoneNumber: '',
-    phoneNumberExt: '',
-  };
-  if (typeof phone === 'string' && phone?.length === 10) {
-    result.countryCode = '1';
-    result.areaCode = phone.slice(0, 3);
-    result.phoneNumber = phone.slice(-7);
-  }
-  return result;
-};
-
 export const outsidePaths = [
   '/start',
   '/introduction',
@@ -52,3 +32,6 @@ export const isOutsideForm = pathname => {
   const currentPath = (pathname || '').replace(trailingSlashRegex, '');
   return outsidePaths.some(path => currentPath.endsWith(path));
 };
+
+export const isOnReviewPage = () =>
+  window.location.pathname.endsWith('/review-and-submit');

@@ -8,7 +8,8 @@ import {
 import prescriptions from '../fixtures/prescriptions.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import nonVAPrescription from '../fixtures/nonVaPrescription.json';
-import { validateField } from '../../util/helpers';
+import { validateField, convertHtmlForDownload } from '../../util/helpers';
+import { DOWNLOAD_FORMAT } from '../../util/constants';
 
 describe('Prescriptions List Txt Config', () => {
   it('Should show all rxs with prescription name', () => {
@@ -69,24 +70,19 @@ describe('Allergies List Config', () => {
 });
 
 describe('VA prescription Config', () => {
-  it('should create "About your prescription" section', () => {
+  it('should create "Most recent prescription" section', () => {
     const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
-    expect(txt).to.include('About your prescription');
+    expect(txt).to.include('Most recent prescription');
+    expect(txt).to.include('Quantity: 30');
     expect(txt).to.include(
       prescriptionDetails.data.attributes.prescriptionName,
     );
   });
 
-  it('should create "About this medication or supply" section', () => {
-    const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
-    expect(txt).to.include('About this medication or supply');
-    expect(txt).to.include('Quantity: 30');
-  });
-
   it('should show refill information', () => {
     const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
     expect(txt).to.include('Refill history\n');
-    expect(txt).to.include('Description:');
+    expect(txt).to.include('Medication description:');
     expect(txt).to.include(
       'Note: If the medication you’re taking doesn’t match this description',
     );
@@ -125,5 +121,23 @@ describe('Non VA prescription Config', () => {
 
     const txt = buildNonVAPrescriptionTXT(nonVaRxWithoutProviderName);
     expect(txt).to.include('Documented by: None noted');
+  });
+});
+
+describe('Medication Information Config', () => {
+  it('should convert HTML to text (string) for TXT', async () => {
+    const htmlContent = `<div><p>Test\n</p><ul><li>Item 1</li><li>Item 2</li></ul></div>`;
+
+    const txt = await convertHtmlForDownload(htmlContent);
+    expect(txt).to.include('- Item 1');
+    expect(txt).to.include('- Item 2');
+    expect(txt).to.include('Test\n');
+  });
+
+  it('should convert HTML to text (array) for PDF', async () => {
+    const htmlContent = `<div><p>Test\n</p><ul><li>Item 1</li><li>Item 2</li></ul></div>`;
+
+    const txt = await convertHtmlForDownload(htmlContent, DOWNLOAD_FORMAT.PDF);
+    expect(txt).to.be.a('array');
   });
 });

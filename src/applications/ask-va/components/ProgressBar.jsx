@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
+import { focusElement } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import PropTypes from 'prop-types';
-import { CHAPTER_1, CHAPTER_2, CHAPTER_3 } from '../constants';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import {
-  aboutMyselfRelationshipVeteranPages,
   aboutMyselfRelationshipFamilyMemberPages,
-  aboutSomeoneElseRelationshipVeteranPages,
-  aboutSomeoneElseRelationshipFamilyMemberPages,
-  aboutSomeoneElseRelationshipFamilyMemberAboutVeteranPages,
-  aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberPages,
-  aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationPages,
-  aboutSomeoneElseRelationshipConnectedThroughWorkPages,
+  aboutMyselfRelationshipVeteranPages,
   aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
+  aboutSomeoneElseRelationshipConnectedThroughWorkPages,
+  aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberPages,
+  aboutSomeoneElseRelationshipFamilyMemberAboutVeteranPages,
+  aboutSomeoneElseRelationshipFamilyMemberPages,
+  aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationPages,
+  aboutSomeoneElseRelationshipVeteranPages,
   generalQuestionPages,
 } from '../config/schema-helpers/formFlowHelper';
+import { CHAPTER_1, CHAPTER_2, CHAPTER_3 } from '../constants';
 
 const formPages = [
   aboutMyselfRelationshipVeteranPages,
@@ -27,6 +33,30 @@ const formPages = [
   aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
   generalQuestionPages,
 ];
+
+const skipPaths = [
+  'category-requires-sign-in',
+  'topic-requires-sign-in',
+  'your-question-requires-sign-in',
+  'review-then-submit',
+];
+
+const getFormDataKeys = (flowList, pagePath) => {
+  // Keys for custom pages with no schema properties and/or not in flowPaths list
+  if (pagePath === CHAPTER_1.PAGE_1.PATH) return 'selectCategory';
+  if (pagePath === CHAPTER_1.PAGE_2.PATH) return 'selectTopic';
+  if (pagePath === CHAPTER_1.PAGE_3.PATH) return 'selectSubtopic';
+  if (pagePath === CHAPTER_2.PAGE_1.PATH) return 'whoIsYourQuestionAbout';
+  if (pagePath === CHAPTER_3.RELATIONSHIP_TO_VET.PATH)
+    return 'relationshipToVeteran';
+  if (pagePath === CHAPTER_2.PAGE_3.PATH)
+    return ['question', 'subject', 'fileUpload'];
+
+  const pageInFlow = flowList.filter(question => question.path === pagePath);
+  return pageInFlow[0]?.title === 'Your VA health facility'
+    ? 'yourHealthFacility'
+    : Object.keys(pageInFlow[0]?.schema?.properties);
+};
 
 const getPathsFromChapter = chapter => {
   const chapterValues = Object.values(chapter);
@@ -48,10 +78,12 @@ const findFlowPages = flows => {
   return allFlowPages.flat();
 };
 
-const ProgressBar = ({ pathname, categoryID }) => {
+const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
   const [percent, setPercent] = useState(0);
   const [viewedPages, setViewedPages] = useState([]);
-
+  const [invalidPages, setInvalidPages] = useState([]);
+  const [pagePercent, setPagePercent] = useState({});
+  const [formCopy, setFormCopy] = useState({});
   const currentPath = pathname.replace('/', '');
   const constantPaths = [
     getPathsFromChapter(CHAPTER_1),
@@ -62,18 +94,92 @@ const ProgressBar = ({ pathname, categoryID }) => {
   const flowPaths = findFlowPages(formPages);
   const isFlowPath = showProgressBar(currentPath, flowPaths);
   const onReviewPage = currentPath === 'review-then-submit';
+  const onCategoryPage = currentPath === CHAPTER_1.PAGE_1.PATH;
+
+  const removeViewedFromInvalidPages = (invalid, viewed) =>
+    invalid.filter(page => !viewed.includes(page));
+
+  const buildReplacementObj = keys => {
+    const replaceWith = {};
+    keys.forEach(key => {
+      replaceWith[key] = emptyFormData[key];
+    });
+    return replaceWith;
+  };
 
   useEffect(
     () => {
-      setViewedPages([...viewedPages, currentPath]);
+      // Scroll back to the top of the form
+      scrollTo('topScrollElement');
+      focusElement('h2');
+      if (!viewedPages.includes(currentPath))
+        setViewedPages([...viewedPages, currentPath]);
 
-      if (!viewedPages.includes(currentPath)) {
-        if (isConstantPath && currentPath !== CHAPTER_2.PAGE_3.PATH)
+      if (!viewedPages.includes(currentPath) && percent < 100) {
+        if (onCategoryPage) {
+          setPercent(0);
+          setPagePercent({ ...pagePercent, [currentPath]: percent });
+        }
+        if (
+          isConstantPath &&
+          currentPath !== CHAPTER_2.PAGE_3.PATH &&
+          currentPath !== CHAPTER_1.PAGE_1.PATH
+        ) {
           setPercent(percent + 5);
-        if (isFlowPath) setPercent(percent + 3);
-        if (isConstantPath && currentPath === CHAPTER_2.PAGE_3.PATH)
+          setPagePercent({ ...pagePercent, [currentPath]: percent + 5 });
+        }
+        if (isFlowPath) {
+          setPercent(percent + 3);
+          setPagePercent({ ...pagePercent, [currentPath]: percent + 3 });
+        }
+        if (isConstantPath && currentPath === CHAPTER_2.PAGE_3.PATH) {
           setPercent(90);
-        if (onReviewPage) setPercent(98);
+          setPagePercent({ ...pagePercent, [currentPath]: 90 });
+        }
+        if (onReviewPage) {
+          setPercent(98);
+          setPagePercent({ ...pagePercent, [currentPath]: 98 });
+        }
+        setFormCopy(cloneDeep(formData));
+      }
+
+      if (viewedPages.includes(currentPath) && percent < 100 && percent >= 0) {
+        if (onCategoryPage) setPercent(pagePercent[currentPath]);
+        if (
+          isConstantPath &&
+          currentPath !== CHAPTER_2.PAGE_3.PATH &&
+          currentPath !== CHAPTER_1.PAGE_1.PATH
+        )
+          setPercent(pagePercent[currentPath]);
+        if (isFlowPath) setPercent(pagePercent[currentPath]);
+        if (isConstantPath && currentPath === CHAPTER_2.PAGE_3.PATH)
+          setPercent(pagePercent[currentPath]);
+        if (onReviewPage) setPercent(pagePercent[currentPath]);
+      }
+
+      if (onReviewPage && invalidPages.length > 0) {
+        const invalidKeys = invalidPages
+          .filter(path => !skipPaths.includes(path))
+          .map(pagePath => getFormDataKeys(flowPaths, pagePath))
+          .flat();
+
+        const questionKeys = viewedPages
+          .filter(
+            path =>
+              path !== 'review-then-submit' &&
+              path !== 'your-personal-information',
+          )
+          .map(pagePath => getFormDataKeys(flowPaths, pagePath))
+          .flat();
+
+        const filteredInvalid = removeViewedFromInvalidPages(
+          invalidKeys,
+          questionKeys,
+        );
+        const clearWith = buildReplacementObj(filteredInvalid);
+
+        if (Object.keys(clearWith).length)
+          setFormData({ ...formData, ...clearWith });
       }
     },
     [currentPath],
@@ -81,12 +187,23 @@ const ProgressBar = ({ pathname, categoryID }) => {
 
   useEffect(
     () => {
-      if (currentPath === CHAPTER_1.PAGE_1.PATH && viewedPages.length > 1) {
-        setPercent(5);
-        setViewedPages([]);
+      if (
+        viewedPages.includes(currentPath) &&
+        viewedPages.indexOf(currentPath) !== viewedPages.length - 1 &&
+        !isEqual(formCopy, formData)
+      ) {
+        const nextPageIndex = viewedPages.indexOf(currentPath) + 1;
+        const viewedPagesToClearData = viewedPages.slice(nextPageIndex);
+        setInvalidPages([...invalidPages, ...viewedPagesToClearData]);
+
+        const resetViewedPagesToCurrentPath = viewedPages.slice(
+          0,
+          nextPageIndex,
+        );
+        setViewedPages(resetViewedPagesToCurrentPath);
       }
     },
-    [categoryID],
+    [formData],
   );
 
   return isConstantPath || isFlowPath || onReviewPage ? (
@@ -101,14 +218,24 @@ const ProgressBar = ({ pathname, categoryID }) => {
 };
 
 ProgressBar.propTypes = {
-  categoryID: PropTypes.string,
   pathname: PropTypes.string,
+  formData: PropTypes.object,
+  emptyFormData: PropTypes.object,
+  setFormData: PropTypes.func,
 };
 
 function mapStateToProps(state) {
   return {
-    categoryID: state.askVA.categoryID,
+    formData: state.form.data,
+    emptyFormData: state.form.data.initialFormData,
   };
 }
 
-export default connect(mapStateToProps)(ProgressBar);
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withRouter(ProgressBar));

@@ -1,12 +1,11 @@
 import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system/enrolled.json';
 
-import { v2 } from '../../mocks/appointments';
-import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
-
 import {
   makeUserObject,
   mockLocalStorage,
 } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
+import { v2 } from '../../mocks/appointments';
+import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
 
 const userWithRxMessaging = makeUserObject({
   isCerner: false,
@@ -56,7 +55,9 @@ describe('My VA Dashboard - Rx Messaging', () => {
       cy.findByTestId('view-manage-appointments-link-from-error').should(
         'not.exist',
       );
-      cy.findByTestId('view-manage-appointments-link-from-cta').should('exist');
+      cy.findByTestId('view-manage-appointments-link-from-cta').should(
+        'not.exist',
+      );
       cy.findByTestId('view-your-messages-link-from-cta').should('exist');
       cy.findByTestId('refill-prescriptions-link-from-cta').should('exist');
       cy.findByTestId('request-travel-reimbursement-link-from-cta').should(

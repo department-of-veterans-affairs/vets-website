@@ -1,35 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
-import { selectEnrollmentStatus } from '../../../utils/selectors/enrollment-status';
-import { selectFeatureToggles } from '../../../utils/selectors/feature-toggles';
-import { selectAuthStatus } from '../../../utils/selectors/auth-status';
+import {
+  selectAuthStatus,
+  selectFeatureToggles,
+  selectEnrollmentStatus,
+} from '../../../utils/selectors';
 import ProcessDescription from './ProcessDescription';
 import EnrollmentStatus from '../EnrollmentStatus';
 import OMBInfo from './OMBInfo';
 
 const GetStarted = ({ route }) => {
-  const { isESOverrideEnabled } = useSelector(selectFeatureToggles);
-  const { vesRecordFound, hasServerError, hasApplyStatus } = useSelector(
-    selectEnrollmentStatus,
-  );
-  const { isLoggedIn } = useSelector(selectAuthStatus);
-  const showEnrollmentDetails =
-    isLoggedIn && (vesRecordFound || hasServerError) && !isESOverrideEnabled;
-  const showOmbInfo = showEnrollmentDetails
-    ? !hasServerError && hasApplyStatus
-    : true;
-
-  // render based on enrollment status & feature toggle data
+  const { renderEnrollmentStatus, renderOmbInfo } = useSelector(state => {
+    const {
+      hasApplyStatus,
+      hasServerError,
+      vesRecordFound,
+    } = selectEnrollmentStatus(state);
+    const { isESOverrideEnabled } = selectFeatureToggles(state);
+    const { isLoggedIn } = selectAuthStatus(state);
+    const showEnrollmentDetails =
+      isLoggedIn && (vesRecordFound || hasServerError) && !isESOverrideEnabled;
+    return {
+      renderEnrollmentStatus: showEnrollmentDetails,
+      renderOmbInfo: showEnrollmentDetails
+        ? !hasServerError && hasApplyStatus
+        : true,
+    };
+  });
   return (
     <>
-      {showEnrollmentDetails ? (
+      {renderEnrollmentStatus ? (
         <EnrollmentStatus route={route} />
       ) : (
         <ProcessDescription route={route} />
       )}
-      {showOmbInfo ? <OMBInfo /> : null}
+      {renderOmbInfo && <OMBInfo />}
     </>
   );
 };

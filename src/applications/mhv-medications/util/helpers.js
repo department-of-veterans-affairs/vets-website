@@ -1,5 +1,4 @@
 import moment from 'moment-timezone';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
 import {
   EMPTY_FIELD,
@@ -7,20 +6,58 @@ import {
   medicationsUrls,
   PRINT_FORMAT,
   DOWNLOAD_FORMAT,
+  dispStatusObj,
 } from './constants';
+
+// Cache the dynamic import promise to avoid redundant network requests
+// and improve performance when generateMedicationsPDF is called multiple times
+let pdfModulePromise = null;
+
+// this function is needed to account for the prescription.trackingList dates coming in this format "Mon, 24 Feb 2025 03:39:11 EST" which is not recognized by momentjs
+const convertToISO = dateString => {
+  // Regular expression to match the expected date format
+  const regex = /^\w{3}, \d{2} \w{3} \d{4} \d{2}:\d{2}:\d{2} [A-Z]{3}$/;
+  // Return false if the format is invalid
+  if (!regex.test(dateString)) {
+    return false;
+  }
+  // Return false if the date is invalid
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) {
+    return false;
+  }
+
+  return date.toISOString();
+};
 
 /**
  * @param {*} timestamp
  * @param {*} format momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
+ * @param {*} noDateMessage message when there is no date being passed
+ * @param {*} dateWithMessage message when there is a date being passed, node date will be appended to the end of this message
  * @returns {String} fromatted timestamp
  */
-export const dateFormat = (timestamp, format = null) => {
-  if (timestamp) {
-    return moment
-      .tz(timestamp, 'America/New_York')
-      .format(format || 'MMMM D, YYYY');
+export const dateFormat = (
+  timestamp,
+  format = null,
+  noDateMessage = null,
+  dateWithMessage = null,
+) => {
+  if (!timestamp) {
+    return noDateMessage || EMPTY_FIELD;
   }
-  return EMPTY_FIELD;
+
+  const isoTimestamp = convertToISO(timestamp);
+  const isoTimeStampOrParamTimestamp = isoTimestamp || timestamp;
+  const finalTimestamp = moment
+    .tz(isoTimeStampOrParamTimestamp, 'America/New_York')
+    .format(format || 'MMMM D, YYYY');
+
+  if (dateWithMessage && finalTimestamp) {
+    return `${dateWithMessage}${finalTimestamp}`;
+  }
+
+  return finalTimestamp;
 };
 
 /**
@@ -34,8 +71,17 @@ export const generateMedicationsPDF = async (
   pdfData,
 ) => {
   try {
+    // Use cached module promise if available, otherwise create a new one
+    if (!pdfModulePromise) {
+      pdfModulePromise = import('@department-of-veterans-affairs/platform-pdf/exports');
+    }
+
+    // Wait for the module to load and extract the generatePdf function
+    const { generatePdf } = await pdfModulePromise;
     await generatePdf(templateName, generatedFileName, pdfData);
   } catch (error) {
+    // Reset the pdfModulePromise so subsequent calls can try again
+    pdfModulePromise = null;
     Sentry.captureException(error);
     Sentry.captureMessage('vets_mhv_medications_pdf_generation_error');
     throw error;
@@ -50,6 +96,17 @@ export const validateField = fieldValue => {
     return fieldValue;
   }
   return EMPTY_FIELD;
+};
+
+/**
+ * @param {String} fieldName field name
+ * @param {String} fieldValue value that is being validated
+ */
+export const validateIfAvailable = (fieldName, fieldValue) => {
+  if (fieldValue || fieldValue === 0) {
+    return fieldValue;
+  }
+  return `${fieldName} not available`;
 };
 
 /**
@@ -220,9 +277,15 @@ export const fromToNumbs = (page, total, listLength, maxPerPage) => {
  * @param {Object} location - The location object from React Router, containing the current pathname.
  * @param {String} prescriptionId - A prescription object, used for the details page.
  * @param {Object} pagination - The pagination object used for the prescription list page.
+ * @param {Boolean} removeLandingPage - mhvMedicationsRemoveLandingPage feature flag value (to be removed once turned on in prod)
  * @returns {Array<Object>} An array of breadcrumb objects with `url` and `label` properties.
  */
-export const createBreadcrumbs = (location, prescription, currentPage) => {
+export const createBreadcrumbs = (
+  location,
+  prescription,
+  currentPage,
+  removeLandingPage,
+) => {
   const { pathname } = location;
   const defaultBreadcrumbs = [
     {
@@ -236,11 +299,13 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
   ];
   const {
     subdirectories,
+    // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
     MEDICATIONS_ABOUT,
     MEDICATIONS_URL,
     MEDICATIONS_REFILL,
   } = medicationsUrls;
 
+  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
   if (pathname.includes(subdirectories.ABOUT)) {
     return [
       ...defaultBreadcrumbs,
@@ -249,16 +314,20 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
   }
   if (pathname === subdirectories.BASE) {
     return defaultBreadcrumbs.concat([
-      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+      ...(!removeLandingPage
+        ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]
+        : []),
       {
         href: `${MEDICATIONS_URL}?page=${currentPage || 1}`,
         label: 'Medications',
       },
     ]);
   }
-  if (pathname === subdirectories.REFILL) {
+  if (pathname.includes(subdirectories.REFILL)) {
     return defaultBreadcrumbs.concat([
-      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+      ...(!removeLandingPage
+        ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]
+        : [{ href: MEDICATIONS_URL, label: 'Medications' }]),
       { href: MEDICATIONS_REFILL, label: 'Refill prescriptions' },
     ]);
   }
@@ -279,6 +348,9 @@ export const getErrorTypeFromFormat = format => {
 };
 
 export const pharmacyPhoneNumber = prescription => {
+  if (!prescription) {
+    return null;
+  }
   if (prescription.cmopDivisionPhone) {
     return prescription.cmopDivisionPhone;
   }
@@ -312,6 +384,7 @@ export const sanitizeKramesHtmlStr = htmlString => {
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = htmlString;
 
+  // This section is to address removing <body> and <page> tags
   if (tempDiv.querySelector('body')) {
     tempDiv.innerHTML = tempDiv.querySelector('body').innerHTML;
   }
@@ -319,12 +392,14 @@ export const sanitizeKramesHtmlStr = htmlString => {
     tempDiv.innerHTML = tempDiv.querySelector('page').innerHTML;
   }
 
+  // This section is to address removing <h1> tags
   tempDiv.querySelectorAll('h1').forEach(h1 => {
     const h2 = document.createElement('h2');
     h2.innerHTML = h1.innerHTML;
     h1.replaceWith(h2);
   });
 
+  // This section is to address <h3> tags coming before <h2> tags
   tempDiv.querySelectorAll('h3').forEach(h3 => {
     let sibling = h3.nextElementSibling;
     while (sibling) {
@@ -338,17 +413,81 @@ export const sanitizeKramesHtmlStr = htmlString => {
     }
   });
 
-  tempDiv.querySelectorAll('ul').forEach(ul => {
+  const processUl = ul => {
     const nestedUls = ul.querySelectorAll('ul');
 
+    // This section is to address nested <ul> tags
     nestedUls.forEach(nestedUl => {
       while (nestedUl.firstChild) {
         ul.appendChild(nestedUl.firstChild);
       }
       nestedUl.remove();
     });
-  });
 
+    // This section is to address <p> tags inside of <ul> tags
+    const pTags = ul.querySelectorAll('p');
+    pTags.forEach(pTag => {
+      const fragmentBefore = document.createDocumentFragment(); // Fragment to hold nodes before <p> tag
+      const fragmentAfter = document.createDocumentFragment(); // Fragment to hold nodes after <p> tag
+      let isBefore = true;
+
+      Array.from(ul.childNodes).forEach(child => {
+        if (child === pTag) {
+          isBefore = false;
+          return;
+        }
+
+        if (isBefore) {
+          // Add non-empty nodes before <p> tag to fragmentBefore
+          if (
+            child.nodeType !== Node.TEXT_NODE ||
+            child.textContent.trim().length > 0
+          ) {
+            fragmentBefore.appendChild(child.cloneNode(true));
+          }
+        } else if (
+          // Add non-empty nodes after <p> tag to fragmentAfter
+          child.nodeType !== Node.TEXT_NODE ||
+          child.textContent.trim().length > 0
+        ) {
+          fragmentAfter.appendChild(child.cloneNode(true));
+        }
+      });
+
+      // If there are nodes before <p> tag, create new <ul> and insert it
+      if (fragmentBefore.childNodes.length > 0) {
+        const newUlBefore = document.createElement('ul');
+        while (fragmentBefore.firstChild) {
+          newUlBefore.appendChild(fragmentBefore.firstChild);
+        }
+        if (ul.parentNode) {
+          ul.parentNode.insertBefore(newUlBefore, ul);
+        }
+      }
+
+      // Insert <p> tag before the original <ul>
+      if (ul.parentNode) {
+        ul.parentNode.insertBefore(pTag, ul);
+      }
+
+      // If there are nodes after <p> tag, create new <ul> and insert it
+      if (fragmentAfter.childNodes.length > 0) {
+        const newUlAfter = document.createElement('ul');
+        while (fragmentAfter.firstChild) {
+          newUlAfter.appendChild(fragmentAfter.firstChild);
+        }
+        if (ul.parentNode) {
+          ul.parentNode.insertBefore(newUlAfter, ul);
+        }
+      }
+
+      ul.remove();
+    });
+  };
+
+  tempDiv.querySelectorAll('ul').forEach(processUl);
+
+  // This section is to address all caps text inside of <h2> tags
   tempDiv.querySelectorAll('h2').forEach(heading => {
     const h2 = document.createElement('h2');
     let words = heading.textContent.toLowerCase().split(' ');
@@ -359,9 +498,12 @@ export const sanitizeKramesHtmlStr = htmlString => {
       return word;
     });
     h2.textContent = words.join(' ');
+    h2.setAttribute('id', h2.textContent);
+    h2.setAttribute('tabindex', '-1');
     heading.replaceWith(h2);
   });
 
+  // This section is to address text with no tags
   Array.from(tempDiv.childNodes).forEach(node => {
     if (
       node.nodeType === Node.TEXT_NODE &&
@@ -373,5 +515,108 @@ export const sanitizeKramesHtmlStr = htmlString => {
     }
   });
 
+  // This section is to address all table tags and add role="presentation" to them
+  tempDiv.querySelectorAll('table').forEach(table => {
+    table.setAttribute('role', 'presentation');
+  });
+
   return tempDiv.innerHTML;
+};
+
+/**
+ * Return medication information page HTML as text
+ */
+export const convertHtmlForDownload = async (html, option) => {
+  // Dynamically import cheerio at runtime
+  const cheerioModule = await import('cheerio');
+  const $ = cheerioModule.load(html);
+  const contentElements = [
+    'address',
+    'blockquote',
+    'canvas',
+    'dd',
+    'div',
+    'dt',
+    'fieldset',
+    'figcaption',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'li',
+    'p',
+    'pre',
+  ];
+  const elements = $(contentElements.join(', '));
+  if (option === DOWNLOAD_FORMAT.PDF) {
+    const textBlocks = [];
+    elements.each((_, el) => {
+      textBlocks.push({
+        text: $(el)
+          .text()
+          .trim(),
+        type: el.tagName,
+      });
+    });
+    return textBlocks;
+  }
+  elements.each((_, el) => {
+    if (
+      $(el)
+        .text()
+        .includes('\n')
+    ) {
+      return;
+    }
+    if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(el.tagName)) {
+      $(el).prepend('\n');
+      $(el).after('\n\n\n');
+      return;
+    }
+    if (el.tagName === 'li') {
+      $(el).prepend('\t- ');
+      if (!el.next || el.next.name !== 'li') {
+        $(el).after('\n\n');
+      } else {
+        $(el).after('\n');
+      }
+      return;
+    }
+    $(el).after('\n\n');
+  });
+  return $.text().trim();
+};
+
+/**
+ * Categorizes prescriptions into refillable and renewable
+ */
+export const categorizePrescriptions = ([refillable, renewable], rx) => {
+  if (rx.isRefillable) {
+    return [[...refillable, rx], renewable];
+  }
+  return [refillable, [...renewable, rx]];
+};
+
+/**
+ * @param {Object} rx prescription object
+ * @returns {Boolean}
+ */
+export const isRefillTakingLongerThanExpected = rx => {
+  if (!rx) {
+    return false;
+  }
+
+  const refillDate = rx.refillDate || rx.rxRfRecords[0]?.refillDate;
+  const refillSubmitDate =
+    rx.refillSubmitDate || rx.rxRfRecords[0]?.refillSubmitDate;
+  const sevenDaysAgoDate = new Date().setDate(new Date().getDate() - 7);
+
+  return (
+    (rx.dispStatus === dispStatusObj.refillinprocess &&
+      Date.now() > Date.parse(refillDate)) ||
+    (rx.dispStatus === dispStatusObj.submitted &&
+      Date.parse(refillSubmitDate) < sevenDaysAgoDate)
+  );
 };

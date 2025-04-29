@@ -1,6 +1,4 @@
-$formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
-
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-sidebar";
 
 .outreach-asset-form-filters {
@@ -21,7 +19,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     @media (min-width: $large-screen) {
       height: 388px;
       &.large-screen\:vads-l-col--6 {
-        max-width: 48.35%;
+        max-width: 48.2%;
       }
     }
 

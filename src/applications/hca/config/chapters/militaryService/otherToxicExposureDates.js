@@ -1,21 +1,18 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import { ServiceDateRangeDescription } from '../../../components/FormDescriptions';
 import DateRangeDescription from '../../../components/FormDescriptions/DateRangeDescription';
 import { validateExposureDates } from '../../../utils/validation';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import { emptyObjectSchema } from '../../../definitions';
 
-const {
-  toxicExposureStartDate,
-  toxicExposureEndDate,
-} = fullSchemaHca.properties;
+const { toxicExposureStartDate, toxicExposureEndDate } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
     ...titleUI(
       'Dates of exposure',
-      'Enter any date range when you were exposed to other toxins or hazards. You don\u2019t need to have exact dates.',
+      'Enter any date range when you think you may have been exposed to other toxins or hazards. You don\u2019t need to have exact dates.',
     ),
     'view:toxicExposureDates': {
       toxicExposureStartDate: {

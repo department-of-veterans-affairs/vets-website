@@ -1,8 +1,9 @@
 import React from 'react';
-import { requiredFiles, optionalFiles } from '../config/requiredUploads';
+import { REQUIRED_FILES, OPTIONAL_FILES } from '../config/constants';
 import MissingFileOverview, {
   MissingFileConsentPagePropTypes,
 } from '../../shared/components/fileUploads/MissingFileOverview';
+import { CHAMPVA_FAX_NUMBER } from '../../shared/constants';
 
 export function MissingFileConsentPage(props) {
   const OverviewComp = MissingFileOverview({
@@ -14,9 +15,10 @@ export function MissingFileConsentPage(props) {
     disableLinks: true,
     heading: <></>,
     showMail: true,
+    faxNum: CHAMPVA_FAX_NUMBER,
     showConsent: true,
-    fileNameMap: { ...requiredFiles, ...optionalFiles },
-    requiredFiles,
+    fileNameMap: { ...REQUIRED_FILES, ...OPTIONAL_FILES },
+    requiredFiles: REQUIRED_FILES,
   });
   return <>{OverviewComp}</>;
 }

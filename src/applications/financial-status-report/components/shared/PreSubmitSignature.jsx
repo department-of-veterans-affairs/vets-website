@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import {
   VaTextInput,
   VaPrivacyAgreement,
   VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { setData } from 'platform/forms-system/src/js/actions';
 
 import {
   isStreamlinedLongForm,
@@ -82,6 +84,25 @@ const PreSubmitSignature = ({
   const nameOnFile = normalize(first + middle + last);
   const inputValue = normalize(signature.value);
   const signatureMatches = !!nameOnFile && nameOnFile === inputValue;
+
+  const dispatch = useDispatch();
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const serverSideTransform = useToggleValue(
+    TOGGLE_NAMES.fsrServerSideTransform,
+  );
+
+  useEffect(() => {
+    if (formData?.flippers?.serverSideTransform !== serverSideTransform) {
+      dispatch(
+        setData({
+          ...formData,
+          flippers: {
+            serverSideTransform,
+          },
+        }),
+      );
+    }
+  }, []);
 
   useEffect(
     () => {

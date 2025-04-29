@@ -1,51 +1,35 @@
 import mockUser from '../fixtures/user.json';
-import vamcUser from '../fixtures/vamc-ehr.json';
+import mockVamcEhr from '../fixtures/vamc-ehr.json';
 import mockUnauthenticatedUser from '../fixtures/non-rx-user.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import cernerUser from '../fixtures/cerner-user.json';
 import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
-
+import { Paths } from '../utils/constants';
 import prescriptions from '../fixtures/prescriptions.json';
 import { medicationsUrls } from '../../../util/constants';
+import listOfprescriptions from '../fixtures/listOfPrescriptions.json';
 
 class MedicationsSite {
   login = (isMedicationsUser = true) => {
-    if (isMedicationsUser) {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
+    this.mockFeatureToggles();
+    this.mockVamcEhr();
 
-      cy.intercept(
-        { method: 'GET', url: '/v0/feature_toggles?*' },
-        mockToggles,
-      ).as('featureToggle');
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
-      // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+    if (isMedicationsUser) {
       cy.intercept(
         'GET',
         '/my_health/v1/prescriptions?page=1&per_page=999',
         prescriptions,
       ).as('prescriptions');
-      cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
       cy.intercept('GET', '/health-care/refill-track-prescriptions');
+
+      // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
+      // window.localStorage.setItem('isLoggedIn', true);
+      // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+      cy.login(mockUser);
     } else {
       // cy.login();
       window.localStorage.setItem('isLoggedIn', false);
 
-      cy.intercept(
-        { method: 'GET', url: '/v0/feature_toggles?*' },
-        {
-          data: {
-            type: 'feature_toggles',
-            features: [
-              {
-                name: 'mhv_medications_to_va_gov_release',
-                value: true,
-              },
-            ],
-          },
-        },
-      ).as('featureToggle');
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
       cy.intercept('GET', '/v0/user', mockUnauthenticatedUser).as(
         'mockUnAuthUser',
       );
@@ -53,53 +37,49 @@ class MedicationsSite {
     }
   };
 
-  cernerLogin = (isMedicationsUser = true) => {
-    if (isMedicationsUser) {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
+  cernerLogin = user => {
+    // if (isMedicationsUser) {
+    cy.login(user);
+    this.mockFeatureToggles();
+    this.mockVamcEhr();
 
-      cy.intercept(
-        { method: 'GET', url: '/v0/feature_toggles?*' },
-        mockToggles,
-      ).as('featureToggle');
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
-
-      cy.intercept(
-        'GET',
-        '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-        emptyPrescriptionsList,
-      ).as('emptyPrescriptionsList');
-      cy.intercept('GET', '/v0/user', cernerUser).as('mockUser');
-    }
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      emptyPrescriptionsList,
+    ).as('emptyPrescriptionsList');
+    // }
   };
 
   cernerLoginPrescriptionListError = (isMedicationsUser = true) => {
     if (isMedicationsUser) {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
-
-      cy.intercept(
-        { method: 'GET', url: '/v0/feature_toggles?*' },
-        mockToggles,
-      ).as('featureToggle');
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
-      cy.intercept('GET', '/v0/user', cernerUser).as('mockUser');
+      cy.login(cernerUser);
+      this.mockFeatureToggles();
+      this.mockVamcEhr();
     }
   };
 
   cernerLoginRefillPageError = (isMedicationsUser = true) => {
     if (isMedicationsUser) {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
-
-      cy.intercept(
-        { method: 'GET', url: '/v0/feature_toggles?*' },
-        mockToggles,
-      ).as('featureToggle');
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
-      cy.intercept('GET', '/v0/user', cernerUser).as('mockUser');
+      cy.login(cernerUser);
+      this.mockFeatureToggles();
+      this.mockVamcEhr();
       cy.visit(medicationsUrls.MEDICATIONS_REFILL);
     }
+  };
+
+  loginWithFeatureToggles = (user, toggles) => {
+    cy.login(user);
+    cy.intercept('GET', '/v0/feature_toggles?*', toggles).as('featureToggles');
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, listOfprescriptions).as(
+      'delayAlertRxList',
+    );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      listOfprescriptions,
+    ).as('listOfprescriptions');
+    this.mockVamcEhr();
   };
 
   verifyloadLogInModal = () => {
@@ -126,11 +106,9 @@ class MedicationsSite {
   };
 
   loadVAPaginationNextPrescriptions = (interceptedPage = 2, mockRx) => {
-    cy.intercept(
-      'GET',
-      `my_health/v1/prescriptions?page=${interceptedPage}&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date`,
-      mockRx,
-    ).as(`Prescriptions${interceptedPage}`);
+    cy.intercept('GET', Paths.INTERCEPT.PAGINATION_NEXT, mockRx).as(
+      `Prescriptions${interceptedPage}`,
+    );
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
@@ -139,6 +117,7 @@ class MedicationsSite {
     cy.get('[id="pagination"]')
       .shadow()
       .find('[aria-label="Next page"]')
+      .first()
       .click({ waitForAnimations: true });
     cy.wait(`@Prescriptions${interceptedPage}`);
   };
@@ -165,10 +144,12 @@ class MedicationsSite {
     displayedEndNumber,
     threadLength,
   ) => {
-    cy.get('[data-testid="page-total-info"]').should(
-      'contain',
-      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, alphabetically by status`,
-    );
+    cy.get('[data-testid="page-total-info"]').should($el => {
+      const text = $el.text().trim();
+      expect(text).to.include(
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, alphabetically by status`,
+      );
+    });
   };
 
   verifyDownloadedPdfFile = (_prefixString, _clickMoment, _searchText) => {
@@ -204,5 +185,28 @@ class MedicationsSite {
       }
     });
   };
+
+  mockFeatureToggles = () => {
+    cy.intercept('GET', '/v0/feature_toggles?*', mockToggles).as(
+      'featureToggles',
+    );
+  };
+
+  mockVamcEhr = () => {
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamcEhr).as('vamcEhr');
+  };
+
+  unallowedUserLogin = user => {
+    cy.login(user);
+    this.mockFeatureToggles();
+    this.mockVamcEhr();
+    cy.intercept('GET', '/v0/user', user).as('mockUser');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      emptyPrescriptionsList,
+    ).as('emptyPrescriptionsList');
+  };
 }
+
 export default MedicationsSite;

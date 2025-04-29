@@ -6,7 +6,6 @@ const Breadcrumbs = () => {
     <VaBreadcrumbs
       class="income-limits-breadcrumbs vads-u-margin-left--1"
       label="Breadcrumbs"
-      uswds
       breadcrumbList={[
         {
           href: '/',
@@ -14,11 +13,11 @@ const Breadcrumbs = () => {
         },
         {
           href: '/health-care',
-          label: 'Health Care',
+          label: 'VA Health care',
         },
         {
           href: '/health-care/income-limits',
-          label: 'Check income limits',
+          label: 'Income limits and your VA health care',
         },
       ]}
     />

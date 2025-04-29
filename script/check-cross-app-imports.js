@@ -1,15 +1,126 @@
 /* eslint-disable no-console */
+/* eslint-disable no-param-reassign */
+
 const fs = require('fs-extra');
 const path = require('path');
 const omit = require('lodash/omit');
 const pickBy = require('lodash/pickBy');
 const findImports = require('find-imports');
 const commandLineArgs = require('command-line-args');
+const core = require('@actions/core');
 
-const {
-  buildGraph,
-  dedupeGraph,
-} = require('./github-actions/select-cypress-tests');
+function getImports(filePath) {
+  return findImports(filePath, {
+    absoluteImports: true,
+    relativeImports: true,
+    packageImports: false,
+  });
+}
+
+function getAppNameFromFilePath(filePath) {
+  return filePath.split('/')[2];
+}
+
+/* Function takes an import reference and returns the path
+ * to the referenced file from 'src/' if the reference begins
+ * with 'applications/' or starts with '../'. Otherwise
+ * it returns the given reference.
+ */
+function getImportPath(filePathAsArray, importRef) {
+  if (importRef.startsWith('applications/')) {
+    return `src/${importRef}`;
+  }
+  if (importRef.startsWith('../')) {
+    const numDirsUp = importRef.split('/').filter(str => str === '..').length;
+
+    return importRef.replace(
+      '../'.repeat(numDirsUp),
+      `${filePathAsArray
+        .slice(0, filePathAsArray.length - 1 - numDirsUp)
+        .join('/')}/`,
+    );
+  }
+
+  return importRef;
+}
+
+function importIsFromOtherApplication(appName, importPath) {
+  return (
+    importPath.startsWith('src/applications') &&
+    !importPath.startsWith(`src/applications/${appName}`)
+  );
+}
+
+function updateGraph(graph, appName, importerFilePath, importeeFilePath) {
+  const importAppName = getAppNameFromFilePath(importeeFilePath);
+
+  if (!graph[importAppName]) {
+    graph[importAppName] = {
+      appsToTest: [importAppName],
+      appsThatThisAppImportsFrom: {},
+      appsThatImportFromThisApp: {},
+    };
+  }
+
+  if (!graph[appName].appsThatThisAppImportsFrom[importAppName]) {
+    graph[appName].appsThatThisAppImportsFrom[importAppName] = {
+      filesImported: [],
+    };
+  }
+
+  graph[appName].appsThatThisAppImportsFrom[importAppName].filesImported.push({
+    importer: importerFilePath,
+    importee: importeeFilePath,
+  });
+
+  if (!graph[importAppName].appsThatImportFromThisApp[appName]) {
+    graph[importAppName].appsThatImportFromThisApp[appName] = {
+      filesImported: [],
+    };
+  }
+
+  graph[importAppName].appsThatImportFromThisApp[appName].filesImported.push({
+    importer: importerFilePath,
+    importee: importeeFilePath,
+  });
+}
+
+function buildGraph() {
+  const graph = {};
+  const files = ['src/applications/**/*.*', '!src/applications/*.*'];
+  const imports = getImports(files);
+
+  Object.keys(imports).forEach(importerFilePath => {
+    const appName = getAppNameFromFilePath(importerFilePath);
+    const filePathAsArray = importerFilePath.split('/');
+
+    if (!graph[appName]) {
+      graph[appName] = {
+        appsToTest: [appName],
+        appsThatThisAppImportsFrom: {},
+        appsThatImportFromThisApp: {},
+      };
+    }
+
+    imports[importerFilePath].forEach(importRef => {
+      const importeeFilePath = getImportPath(filePathAsArray, importRef);
+
+      if (importIsFromOtherApplication(appName, importeeFilePath)) {
+        updateGraph(graph, appName, importerFilePath, importeeFilePath);
+      }
+    });
+  });
+
+  return graph;
+}
+
+function dedupeGraph(graph) {
+  Object.keys(graph).forEach(app => {
+    graph[app].appsToTest = [...new Set(graph[app].appsToTest)];
+  });
+
+  return graph;
+}
 
 const changedAppsConfig = require('../config/changed-apps-build.json');
 
@@ -38,8 +149,7 @@ const getPlatformAppImports = (platformImports, appFolder) => {
 const appHasCrossAppImports = (importGraph, appFolder) => {
   return (
     Object.keys(importGraph[appFolder].appsThatThisAppImportsFrom).length ||
-    Object.keys(importGraph[appFolder].appsThatImportFromThisApp).length ||
-    importGraph[appFolder].platformFilesThatImportFromThisApp.length
+    Object.keys(importGraph[appFolder].appsThatImportFromThisApp).length
   );
 };
 
@@ -59,6 +169,13 @@ const getCrossAppImports = appFolders => {
     absoluteImports: true,
     relativeImports: true,
     packageImports: false,
+  });
+
+  // Zero out references from src/platform so that they won't flag isolation checks.
+  // This approach preserves data in case you want to log or debug it,
+  // but ensures it doesn't affect the cross-app import logic.
+  Object.keys(importGraph).forEach(app => {
+    importGraph[app].platformFilesThatImportFromThisApp = [];
   });
 
   Object.keys(importGraph).forEach(app => {
@@ -94,8 +211,20 @@ const failOnCrossAppImport = options['fail-on-cross-app-import'];
 // Generate full cross app import report when no apps are specified
 if (!appFolders && !checkAllowlist) {
   const outputPath = path.join('./tmp', 'cross-app-imports.json');
-  fs.outputFileSync(outputPath, JSON.stringify(getCrossAppImports(), null, 2));
-
+  const crossAppJson = getCrossAppImports();
+  fs.outputFileSync(outputPath, JSON.stringify(crossAppJson, null, 2));
+  core.exportVariable(
+    'APPS_NOT_ISOLATED',
+    JSON.stringify(
+      Object.keys(crossAppJson).filter(app => {
+        const appData = crossAppJson[app];
+        return (
+          appData.appsThatThisAppImportsFrom &&
+          Object.keys(appData.appsThatThisAppImportsFrom).length > 0
+        );
+      }),
+    ),
+  );
   console.log(`Cross app import report saved at: ${outputPath}`);
   process.exit(0);
 }

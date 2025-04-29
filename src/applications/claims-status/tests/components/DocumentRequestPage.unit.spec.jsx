@@ -15,7 +15,16 @@ import { renderWithRouter, rerenderWithRouter } from '../utils';
 
 const claim = {
   id: 1,
-  attributes: {},
+  attributes: {
+    description: 'Test',
+    displayName: 'Test description',
+    status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+    closeDate: null,
+    claimPhaseDates: {
+      latestPhaseType: 'GATHERING_OF_EVIDENCE',
+    },
+    trackedItem: [],
+  },
 };
 
 const params = { id: 1, trackedItemId: 467558 };
@@ -37,16 +46,30 @@ const defaultProps = {
 };
 
 describe('<DocumentRequestPage>', () => {
-  const getStore = (cst5103UpdateEnabled = true) =>
+  const getStore = (
+    cst5103UpdateEnabled = true,
+    cstFriendlyEvidenceRequests = true,
+  ) =>
     createStore(() => ({
       featureToggles: {
         // eslint-disable-next-line camelcase
         cst_5103_update_enabled: cst5103UpdateEnabled,
+        // eslint-disable-next-line camelcase
+        cst_friendly_evidence_requests: cstFriendlyEvidenceRequests,
+      },
+      disability: {
+        status: {
+          claimAsk: {
+            decisionRequested: false,
+            decisionRequestError: false,
+            loadingDecisionRequest: false,
+          },
+        },
       },
     }));
 
   context('when cst5103UpdateEnabled is true', () => {
-    it('should render Automated5103Notice component when item is a 5103 notice', () => {
+    it('should render Default5103EvidenceNotice component when item is a 5103 notice', () => {
       const trackedItem = {
         closedDate: null,
         description: 'Automated 5103 Notice Response',
@@ -67,20 +90,20 @@ describe('<DocumentRequestPage>', () => {
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
-      expect($('#automated-5103-notice-page', container)).to.exist;
+      expect($('#default-5103-notice-page', container)).to.exist;
       const breadcrumbs = $('va-breadcrumbs', container);
       expect(breadcrumbs.breadcrumbList[3].href).to.equal(
         `../document-request/${trackedItem.id}`,
       );
       expect(breadcrumbs.breadcrumbList[3].label).to.equal(
-        '5103 Evidence Notice',
+        'Review evidence list (5103 notice)',
       );
       expect(document.title).to.equal(
-        '5103 Evidence Notice | Veterans Affairs',
+        'Review evidence list (5103 notice) | Veterans Affairs',
       );
     });
 
-    it('should not render Automated5103Notice component when item is a not a 5103 notice', () => {
+    it('should not render Default5103EvidenceNotice component when item is a not a 5103 notice', () => {
       const trackedItem = {
         closedDate: null,
         description: 'Buddy statement text',
@@ -101,16 +124,16 @@ describe('<DocumentRequestPage>', () => {
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
-      expect($('#automated-5103-notice-page', container)).to.not.exist;
+      expect($('#default-5103-notice-page', container)).to.not.exist;
       const breadcrumbs = $('va-breadcrumbs', container);
       expect(breadcrumbs.breadcrumbList[3].href).to.equal(
         `../document-request/${trackedItem.id}`,
       );
       expect(breadcrumbs.breadcrumbList[3].label).to.equal(
-        `Request for ${trackedItem.displayName}`,
+        trackedItem.displayName,
       );
       expect(document.title).to.equal(
-        `Request for ${trackedItem.displayName} | Veterans Affairs`,
+        `${trackedItem.displayName} | Veterans Affairs`,
       );
     });
   });
@@ -278,35 +301,6 @@ describe('<DocumentRequestPage>', () => {
       expect($('va-alert h2', container).textContent).to.equal(message.title);
     });
 
-    it('should clear upload error when leaving', () => {
-      const trackedItem = {
-        status: 'NEEDED_FROM_YOU',
-      };
-
-      const message = {
-        title: 'test',
-        body: 'test',
-        type: 'error',
-      };
-      const clearNotification = sinon.spy();
-
-      const { container, unmount } = renderWithRouter(
-        <Provider store={getStore(false)}>
-          <DocumentRequestPage
-            {...defaultProps}
-            trackedItem={trackedItem}
-            clearNotification={clearNotification}
-            message={message}
-          />
-          ,
-        </Provider>,
-      );
-
-      expect($('va-alert', container)).to.exist;
-      unmount();
-      expect(clearNotification.called).to.be.true;
-    });
-
     it('should not clear notification after completed upload', () => {
       const trackedItem = {
         status: 'NEEDED_FROM_YOU',
@@ -340,7 +334,7 @@ describe('<DocumentRequestPage>', () => {
       };
 
       const { context } = renderWithRouter(
-        <Provider store={getStore(false)}>
+        <Provider store={getStore(false, false)}>
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
@@ -369,7 +363,7 @@ describe('<DocumentRequestPage>', () => {
       };
       const onSubmit = sinon.spy();
       const { container, rerender } = renderWithRouter(
-        <Provider store={getStore(false)}>
+        <Provider store={getStore(false, false)}>
           <DocumentRequestPage
             {...defaultProps}
             trackedItem={trackedItem}
@@ -378,11 +372,6 @@ describe('<DocumentRequestPage>', () => {
           ,
         </Provider>,
       );
-
-      // Check the checkbox
-      $('va-checkbox', container).__events.vaChange({
-        detail: { checked: true },
-      });
 
       // Create a file
       const file = {
@@ -398,7 +387,7 @@ describe('<DocumentRequestPage>', () => {
 
       rerenderWithRouter(
         rerender,
-        <Provider store={getStore(false)}>
+        <Provider store={getStore(false, false)}>
           <DocumentRequestPage
             {...defaultProps}
             trackedItem={trackedItem}
@@ -409,7 +398,7 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
 
-      fireEvent.click($('.submit-files-button', container));
+      fireEvent.click($('#submit', container));
       expect(onSubmit.called).to.be.true;
     });
 
@@ -421,7 +410,7 @@ describe('<DocumentRequestPage>', () => {
         displayName: 'Testing',
       };
       const { container, rerender } = renderWithRouter(
-        <Provider store={getStore(false)}>
+        <Provider store={getStore(false, false)}>
           <DocumentRequestPage
             {...defaultProps}
             trackedItem={trackedItem}
@@ -431,11 +420,6 @@ describe('<DocumentRequestPage>', () => {
           ,
         </Provider>,
       );
-
-      // Check the checkbox
-      $('va-checkbox', container).__events.vaChange({
-        detail: { checked: true },
-      });
 
       // Create a file
       const file = {
@@ -451,7 +435,7 @@ describe('<DocumentRequestPage>', () => {
 
       rerenderWithRouter(
         rerender,
-        <Provider store={getStore(false)}>
+        <Provider store={getStore(false, false)}>
           <DocumentRequestPage
             {...defaultProps}
             trackedItem={trackedItem}
@@ -463,7 +447,7 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
 
-      fireEvent.click($('.submit-files-button', container));
+      fireEvent.click($('#submit', container));
       expect(submitFilesLighthouse.called).to.be.true;
     });
 
@@ -486,7 +470,7 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
 
-      expect(document.title).to.equal('Request for Testing | Veterans Affairs');
+      expect(document.title).to.equal('Testing | Veterans Affairs');
       expect(resetUploads.called).to.be.true;
     });
 
@@ -532,4 +516,45 @@ describe('<DocumentRequestPage>', () => {
       expect(navigate.calledWith('../files')).to.be.true;
     });
   });
+  context(
+    'when cstFriendlyEvidenceRequests is true and friendlyName exists in track Item',
+    () => {
+      it('should render friendlyName in  breadcrumb', () => {
+        const item = {
+          closedDate: null,
+          description: '21-4142 text',
+          displayName: '21-4142/21-4142a',
+          friendlyName: 'Authorization to Disclose Information',
+          activityDescription: 'good description',
+          canUploadFile: true,
+          supportAliases: ['VA Form 21-4142'],
+          id: 467558,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-07',
+          status: 'NEEDED_FROM_YOU',
+          suspenseDate: '2024-05-07',
+          uploadsAllowed: true,
+          documents: [],
+          date: '2024-03-07',
+        };
+
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <DocumentRequestPage {...defaultProps} trackedItem={item} />,
+          </Provider>,
+        );
+        const breadcrumbs = $('va-breadcrumbs', container);
+        expect(breadcrumbs.breadcrumbList[3].href).to.equal(
+          `../document-request/${item.id}`,
+        );
+        expect(breadcrumbs.breadcrumbList[3].label).to.equal(
+          'Authorization to Disclose Information',
+        );
+        expect(document.title).to.equal(
+          'Authorization to Disclose Information | Veterans Affairs',
+        );
+      });
+    },
+  );
 });

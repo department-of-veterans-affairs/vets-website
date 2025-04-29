@@ -1,5 +1,5 @@
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 export const selectFeatureToggles = state => {
   const toggles = toggleValues(state);
@@ -9,7 +9,9 @@ export const selectFeatureToggles = state => {
       toggles[FEATURE_FLAG_NAMES.hcaBrowserMonitoringEnabled],
     isESOverrideEnabled:
       toggles[FEATURE_FLAG_NAMES.hcaEnrollmentStatusOverrideEnabled],
-    isFacilitiesApiEnabled: toggles[FEATURE_FLAG_NAMES.hcaUseFacilitiesApi],
-    isSigiEnabled: toggles[FEATURE_FLAG_NAMES.hcaSigiEnabled],
+    isPerformanceAlertEnabled:
+      toggles[FEATURE_FLAG_NAMES.hcaPerformanceAlertEnabled],
+    isInsuranceV2Enabled: toggles[FEATURE_FLAG_NAMES.hcaInsuranceV2Enabled],
+    isRegOnlyEnabled: toggles[FEATURE_FLAG_NAMES.hcaRegOnlyEnabled],
   };
 };

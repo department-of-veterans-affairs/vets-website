@@ -1,9 +1,10 @@
 import environment from 'platform/utilities/environment';
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 
-export const buildEventData = ({ informalConference }) => {
+export const buildEventData = formData => {
+  const { informalConference, informalConferenceChoice } = formData;
   let informalConf = 'no';
-  if (informalConference !== 'no') {
+  if (informalConferenceChoice && informalConference !== 'no') {
     informalConf = informalConference === 'rep' ? 'yes-with-rep' : 'yes';
   }
   return {
@@ -16,7 +17,7 @@ const submitForm = (form, formConfig) => {
   const { submitUrl, trackingPrefix } = formConfig;
   const body = formConfig.transformForSubmit(formConfig, form);
 
-  const url = `${environment.API_URL}/v1/${submitUrl}`;
+  const url = `${environment.API_URL}${submitUrl}`;
 
   // eventData for analytics
   const eventData = buildEventData(form.data);

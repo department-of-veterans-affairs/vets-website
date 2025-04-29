@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import {
   addressUI,
   addressSchema,
@@ -13,8 +14,14 @@ import {
   phoneUI,
   phoneSchema,
   textUI,
+  emailUI,
+  emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording } from '../../shared/utilities';
+import {
+  validAddressCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -33,6 +40,10 @@ export const applicantNameDobSchema = {
     ),
     applicantName: fullNameMiddleInitialUI,
     applicantDOB: dateOfBirthUI(),
+    'ui:validations': [
+      (errors, formData) =>
+        validObjectCharsOnly(errors, null, formData, 'applicantName'),
+    ],
   },
   schema: {
     type: 'object',
@@ -57,15 +68,16 @@ export const applicantMemberNumberSchema = {
           'ui:title': 'CHAMPVA member number',
           'ui:errorMessages': {
             required: 'Please enter your CHAMPVA member number',
-            pattern: 'Must be letters and numbers only',
+            pattern: 'Must be numbers only',
           },
           'ui:options': {
             uswds: true,
-            hint: `This number is usually the same as ${
-              formData?.certifierRole === 'applicant'
-                ? 'your'
-                : 'the beneficiary’s'
-            } Social Security number.`,
+            hint: `This number is usually the same as ${nameWording(
+              formData,
+              true,
+              false,
+              true,
+            )} Social Security number.`,
           },
         };
       },
@@ -78,8 +90,9 @@ export const applicantMemberNumberSchema = {
       titleSchema,
       applicantMemberNumber: {
         type: 'string',
-        pattern: '^[0-9a-zA-Z]+$',
-        maxLength: 20,
+        pattern: '^[0-9]+$',
+        maxLength: 9,
+        minLength: 8,
       },
     },
   },
@@ -92,16 +105,20 @@ export const applicantAddressSchema = {
         `${nameWording(formData, true, true, true)} mailing address`,
       'We’ll send any important information about this form to this address.',
     ),
-    applicantAddress: {
-      ...addressUI({
-        labels: {
-          militaryCheckbox:
-            'Address is on a United States military base outside of the U.S.',
+    applicantAddress: merge({}, addressUI(), {
+      state: {
+        'ui:errorMessages': {
+          required: 'Enter a valid State, Province, or Region',
         },
-      }),
-    },
+      },
+      labels: {
+        militaryCheckbox:
+          'Address is on a United States military base outside of the U.S.',
+      },
+    }),
     applicantNewAddress: {
       ...radioUI({
+        type: 'radio',
         updateUiSchema: formData => {
           const labels = {
             yes: 'Yes',
@@ -126,6 +143,10 @@ export const applicantAddressSchema = {
         },
       }),
     },
+    'ui:validations': [
+      (errors, formData) =>
+        validAddressCharsOnly(errors, null, formData, 'applicantAddress'),
+    ],
   },
   schema: {
     type: 'object',
@@ -138,7 +159,7 @@ export const applicantAddressSchema = {
   },
 };
 
-export const applicantPhoneSchema = {
+export const applicantContactSchema = {
   uiSchema: {
     ...titleUI(
       ({ formData }) =>
@@ -151,6 +172,10 @@ export const applicantPhoneSchema = {
         } if we have any questions.`,
     ),
     applicantPhone: phoneUI(),
+    applicantEmail: emailUI({
+      // Only require applicant email if said applicant is filling the form:
+      required: formData => formData.certifierRole === 'applicant',
+    }),
   },
   schema: {
     type: 'object',
@@ -158,6 +183,7 @@ export const applicantPhoneSchema = {
     properties: {
       titleSchema,
       applicantPhone: phoneSchema,
+      applicantEmail: emailSchema,
     },
   },
 };

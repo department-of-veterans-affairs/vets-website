@@ -54,6 +54,26 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
+  it('should render header with LocationType.HEALTH for VA health service autosuggest, totalEntries = 1', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        facilityType={LocationType.HEALTH}
+        inProgress={false}
+        pagination={{ totalEntries: 1 }}
+        results={[{}]}
+        serviceType={null}
+        context="new york"
+        vamcServiceDisplay="All VA health services"
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 1 result for "VA health",\s+"All VA health services"\s+near\s+"new york"/,
+    );
+
+    wrapper.unmount();
+  });
+
   it('should render header with LocationType.HEALTH, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
@@ -368,11 +388,11 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('LocationType.CEMETARY, totalEntries = 1', () => {
+  it('LocationType.CEMETERY, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        facilityType={LocationType.CEMETARY}
+        facilityType={LocationType.CEMETERY}
         context="new york"
         pagination={{ totalEntries: 1 }}
       />,
@@ -384,11 +404,11 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('LocationType.CEMETARY, totalEntries = 5', () => {
+  it('LocationType.CEMETERY, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        facilityType={LocationType.CEMETARY}
+        facilityType={LocationType.CEMETERY}
         context="new york"
         pagination={{ totalEntries: 5 }}
       />,
@@ -400,11 +420,11 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('LocationType.CEMETARY, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+  it('LocationType.CEMETERY, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
-        facilityType={LocationType.CEMETARY}
+        facilityType={LocationType.CEMETERY}
         context="new york"
         pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
       />,

@@ -98,6 +98,7 @@ export class MockAppointment {
     this.practitioners = [];
     this.preferredProviderName = '';
     this.resourceType = '';
+    this.type = '';
 
     if (start && start.isValid())
       this.start = start.format('YYYY-MM-DDTHH:mm:ss');
@@ -107,6 +108,8 @@ export class MockAppointment {
     this.vaos = {
       isPastAppointment: false,
       isUpcomingAppointment: false,
+      isPendingAppointment: false,
+      isCompAndPenAppointment: false,
     };
     this.version = 2;
     this.videoData = {
@@ -137,11 +140,31 @@ export class MockAppointment {
     this.vaos.isUpcomingAppointment = value;
   }
 
+  setIsPendingAppointment(value) {
+    this.vaos.isPendingAppointment = value;
+  }
+
+  setIsCompAndPenAppointment(value) {
+    this.vaos.isCompAndPenAppointment = value;
+  }
+
   setAvsPath(value) {
     this.avsPath = value;
   }
 
   setCancelationReason(value) {
     this.cancelationReason = value;
+  }
+
+  setCreated(value) {
+    this.created = value;
+  }
+
+  setModality(value) {
+    this.modality = value;
+  }
+
+  setType(value) {
+    this.type = value;
   }
 }

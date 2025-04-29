@@ -1,10 +1,10 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import {
   CompensationInfoDescription,
   CompensationTypeDescription,
 } from '../../../components/FormDescriptions';
 
-const { vaCompensationType } = fullSchemaHca.properties;
+const { vaCompensationType } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -17,7 +17,7 @@ export default {
       'ui:options': {
         labels: {
           lowDisability:
-            'Yes, for a service-connected disability rating of up to 40%',
+            'Yes, for a service-connected disability rating of 40% or less',
           highDisability:
             'Yes, for a service-connected disability rating of 50% or higher',
           none: 'No',

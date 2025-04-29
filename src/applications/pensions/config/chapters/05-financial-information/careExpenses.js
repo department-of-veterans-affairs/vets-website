@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
+  currencyUI,
+  currencySchema,
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
   radioUI,
@@ -15,30 +16,25 @@ import {
   VaTextInputField,
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
-import { recipientTypeLabels } from '../../../labels';
+import {
+  careTypeLabels,
+  careFrequencyLabels,
+  recipientTypeLabels,
+} from '../../../labels';
 import { doesHaveCareExpenses } from './helpers';
 import ArrayDescription from '../../../components/ArrayDescription';
+import { showMultiplePageResponse } from '../../../helpers';
 
 const {
   childName,
   provider,
-  ratePerHour,
   noCareEndDate,
-  paymentAmount,
 } = fullSchemaPensions.definitions.careExpenses.items.properties;
 
-const careOptions = {
-  CARE_FACILITY: 'Care facility',
-  IN_HOME_CARE_PROVIDER: 'In-home care provider',
-};
-
-const frequencyOptions = {
-  ONCE_MONTH: 'Once a month',
-  ONCE_YEAR: 'Once a year',
-};
+// eslint-disable-next-line no-unused-vars
+const { ONE_TIME, ...careFrequencyLabelsWithoutOneTime } = careFrequencyLabels;
 
 export const CareExpenseView = ({ formData }) => (
   <ListItemView title={formData.provider} />
@@ -54,7 +50,8 @@ CareExpenseView.propTypes = {
 export default {
   title: 'List of unreimbursed care expenses',
   path: 'financial/care-expenses/add',
-  depends: doesHaveCareExpenses,
+  depends: formData =>
+    !showMultiplePageResponse() && doesHaveCareExpenses(formData),
   uiSchema: {
     ...titleUI(
       'List of unreimbursed care expenses',
@@ -97,18 +94,10 @@ export default {
         },
         careType: radioUI({
           title: 'Choose the type of care:',
-          labels: careOptions,
+          labels: careTypeLabels,
         }),
-        ratePerHour: merge(
-          {},
-          currencyUI(
-            'If this is an in-home provider, what is the rate per hour?',
-          ),
-          {
-            'ui:options': {
-              classNames: 'schemaform-currency-input-v3',
-            },
-          },
+        ratePerHour: currencyUI(
+          'If this is an in-home provider, what is the rate per hour?',
         ),
         hoursPerWeek: numberUI({
           title: 'How many hours per week does the care provider work?',
@@ -127,13 +116,9 @@ export default {
         },
         paymentFrequency: radioUI({
           title: 'How often are the payments?',
-          labels: frequencyOptions,
+          labels: careFrequencyLabelsWithoutOneTime,
         }),
-        paymentAmount: merge({}, currencyUI('How much is each payment?'), {
-          'ui:options': {
-            classNames: 'schemaform-currency-input-v3',
-          },
-        }),
+        paymentAmount: currencyUI('How much is each payment?'),
       },
     },
   },
@@ -156,16 +141,18 @@ export default {
             recipients: radioSchema(Object.keys(recipientTypeLabels)),
             childName,
             provider,
-            careType: radioSchema(Object.keys(careOptions)),
-            ratePerHour,
+            careType: radioSchema(Object.keys(careTypeLabels)),
+            ratePerHour: currencySchema,
             hoursPerWeek: numberSchema,
             careDateRange: {
               ...currentOrPastDateRangeSchema,
               required: ['from'],
             },
             noCareEndDate,
-            paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
-            paymentAmount,
+            paymentFrequency: radioSchema(
+              Object.keys(careFrequencyLabelsWithoutOneTime),
+            ),
+            paymentAmount: currencySchema,
           },
         },
       },

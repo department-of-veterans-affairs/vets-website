@@ -6,8 +6,6 @@ class AllergiesListPage extends BaseListPage {
     allergies = defaultAllergies,
     waitForAllergies = false,
   ) => {
-    cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
-    cy.wait('@session');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -19,7 +17,6 @@ class AllergiesListPage extends BaseListPage {
       .then(() => {
         cy.get('[data-testid="allergies-landing-page-link"]').click();
       });
-    //
     if (waitForAllergies) {
       cy.wait('@allergiesList');
     }
@@ -41,12 +38,30 @@ class AllergiesListPage extends BaseListPage {
       'have.text',
       `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
     );
+    cy.focused().then($el => {
+      cy.wrap($el).should(
+        'contain',
+        `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
+      );
+    });
   };
 
   verifyBreadcrumbs = breadcrumbsText => {
     cy.get('[data-testid="breadcrumbs"]').contains(`${breadcrumbsText}`, {
       matchCase: false,
     });
+  };
+
+  verifySecondaryNav = () => {
+    cy.get('[data-testid="mhv-sec-nav-item"]')
+      .eq(4)
+      .find('a')
+      .contains('Records')
+      .should('be.visible');
+    cy.get('[data-testid="mhv-sec-nav-item"]')
+      .eq(4)
+      .find('a')
+      .should('have.attr', 'href', '/my-health/medical-records');
   };
 }
 export default new AllergiesListPage();

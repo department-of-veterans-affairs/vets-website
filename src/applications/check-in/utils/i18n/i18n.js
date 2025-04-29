@@ -47,19 +47,31 @@ export const dateFormatInterpolators = {
     return formatDate(value, 'h:mm aaaa', { locale });
   },
   day: (value, _format, _lng, locale) => {
-    return formatDate(value, 'iiii', { locale });
+    return formatDate(value, 'EEEE', { locale });
   },
   monthDay: (value, _format, _lng, locale) => {
-    return formatDate(value, "MMMM' 'dd", { locale });
+    return formatDate(value, 'MMMM d', { locale });
   },
-  dayOfWeek: (value, _format, _lng, locale) => {
-    return formatDate(value, 'eeee', { locale });
+  dayOfWeekAbbr: (value, _format, _lng, locale) => {
+    return formatDate(value, 'E', { locale });
+  },
+  monthAndYear: (value, _format, _lng, locale) => {
+    return formatDate(value, 'MMMM Y', { locale });
+  },
+  dayOfMonth: (value, _format, _lng, locale) => {
+    return formatDate(value, 'd', { locale });
   },
   dayWithTime: (value, _format, _lng, locale) => {
     return formatDate(value.date, 'MMMM dd, yyyy, h:mm aaaa', {
       locale,
       timeZone: value.timezone,
     });
+  },
+  date: (value, _format, _lng, locale) => {
+    return formatDate(value, 'E, MMMM do', { locale });
+  },
+  dayOfWeek: (value, _format, _lng, locale) => {
+    return formatDate(value, 'eeee', { locale });
   },
   default: (value, format, _lng, locale) => {
     return formatDate(value, format, { locale });
@@ -85,6 +97,12 @@ const i18nOptions = {
           dateFormatInterpolators.default,
         );
         return interpolator(value, format, lng, locale);
+      }
+      if (format === 'capitalize') {
+        return `${value.substr(0, 1).toUpperCase()}${value.substr(1)}`;
+      }
+      if (format === 'uncapitalize') {
+        return `${value.substr(0, 1).toLowerCase()}${value.substr(1)}`;
       }
       return value;
     },

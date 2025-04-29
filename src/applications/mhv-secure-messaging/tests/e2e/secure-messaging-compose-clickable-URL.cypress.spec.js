@@ -17,17 +17,19 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     };
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
     PatientInterstitialPage.getContinueButton().click();
-    PatientComposePage.selectRecipient(requestBodyUpdated.recipientId);
+    PatientComposePage.selectRecipient();
     PatientComposePage.selectCategory(requestBodyUpdated.category);
     PatientComposePage.getMessageSubjectField().type(
       `${requestBodyUpdated.subject}`,
     );
     PatientComposePage.getMessageBodyField().type(
-      `${requestBodyUpdated.body}`,
+      `\n${requestBodyUpdated.body}`,
       { force: true },
     );
-    PatientComposePage.verifyClickableURLinMessageBody('https://www.va.gov/');
+    PatientComposePage.verifyClickableURLinMessageBody(
+      `${requestBodyUpdated.body}`,
+    );
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

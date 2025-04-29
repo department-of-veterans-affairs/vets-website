@@ -120,14 +120,7 @@ export const selectHideDirectDeposit = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileHideDirectDeposit];
 
 export const selectIsBlocked = state => {
-  // TODO: remove this once the direct deposit form is updated to use single form
-  const showDirectDepositSingleForm = toggleValues(state)?.[
-    FEATURE_FLAG_NAMES.profileShowDirectDepositSingleForm
-  ];
-
-  return showDirectDepositSingleForm
-    ? getIsBlocked(state.directDeposit.controlInformation)
-    : getIsBlocked(cnpDirectDepositInformation(state)?.controlInformation);
+  return getIsBlocked(state.directDeposit.controlInformation);
 };
 
 export const selectProfileContacts = state => state?.profileContacts || {};

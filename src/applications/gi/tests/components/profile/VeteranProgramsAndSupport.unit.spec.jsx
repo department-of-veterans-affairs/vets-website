@@ -82,7 +82,7 @@ describe('<VeteranProgramsAndSupport>', () => {
       showModal: showModalMock,
       isSomething,
     });
-    const veteranProgramsSection = wrapper.find('.usa-width-one-half');
+    const veteranProgramsSection = wrapper.children();
     expect(veteranProgramsSection).to.have.lengthOf(2);
     expect(
       veteranProgramsSection

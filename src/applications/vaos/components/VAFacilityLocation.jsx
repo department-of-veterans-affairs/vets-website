@@ -11,6 +11,8 @@ export default function VAFacilityLocation({
   facilityId,
   clinicFriendlyName,
   clinicPhysicalLocation,
+  clinicPhone,
+  clinicPhoneExtension,
   showCovidPhone,
   showPhone,
   isPhone,
@@ -46,6 +48,8 @@ export default function VAFacilityLocation({
           showDirectionsLink={showDirectionsLink}
           clinicName={clinicFriendlyName}
           clinicPhysicalLocation={clinicPhysicalLocation}
+          clinicPhone={clinicPhone}
+          clinicPhoneExtension={clinicPhoneExtension}
           level={2}
           showCovidPhone={showCovidPhone}
           isPhone={isPhone}
@@ -68,6 +72,8 @@ export default function VAFacilityLocation({
 VAFacilityLocation.propTypes = {
   clinicFriendlyName: PropTypes.string,
   clinicName: PropTypes.string,
+  clinicPhone: PropTypes.string,
+  clinicPhoneExtension: PropTypes.string,
   clinicPhysicalLocation: PropTypes.string,
   facility: PropTypes.object,
   facilityId: PropTypes.string,

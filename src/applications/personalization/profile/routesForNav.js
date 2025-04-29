@@ -2,8 +2,8 @@ import AccountSecurity from './components/account-security/AccountSecurity';
 import ContactInformation from './components/contact-information/ContactInformation';
 import PersonalInformation from './components/personal-information/PersonalInformation';
 import MilitaryInformation from './components/military-information/MilitaryInformation';
-import DirectDeposit from './components/direct-deposit/legacy/DirectDeposit';
-import { DirectDeposit as DirectDepositNew } from './components/direct-deposit/DirectDeposit';
+import AccreditedRepresentative from './components/accredited-representative/AccreditedRepresentative';
+import { DirectDeposit } from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
@@ -49,6 +49,13 @@ export const routesForNav = [
     requiresMVI: true,
   },
   {
+    component: AccreditedRepresentative,
+    name: PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE,
+    path: PROFILE_PATHS.ACCREDITED_REPRESENTATIVE,
+    requiresLOA3: true,
+    requiresMVI: true,
+  },
+  {
     component: NotificationSettings,
     name: PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS,
     path: PROFILE_PATHS.NOTIFICATION_SETTINGS,
@@ -71,21 +78,8 @@ export const routesForNav = [
   },
 ];
 
-export const getRoutesForNav = (
-  { profileShowDirectDepositSingleForm = false } = {
-    profileShowDirectDepositSingleForm: false,
-  },
-) => {
+export const getRoutesForNav = () => {
   return routesForNav.reduce((acc, route) => {
-    // use the new direct deposit root route component if profileShowDirectDepositSingleForm flag is true
-    if (
-      profileShowDirectDepositSingleForm &&
-      route.name === PROFILE_PATH_NAMES.DIRECT_DEPOSIT
-    ) {
-      acc.push({ ...route, component: DirectDepositNew });
-      return acc;
-    }
-
     acc.push(route);
     return acc;
   }, []);

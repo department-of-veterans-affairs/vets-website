@@ -7,6 +7,7 @@ import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import withRouter from '../utils/withRouter';
 
 import {
   getAppealsV2 as getAppealsV2Action,
@@ -21,7 +22,6 @@ import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsListItem from '../components/ClaimsListItem';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
-import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import FeaturesWarning from '../components/FeaturesWarning';
 import NoClaims from '../components/NoClaims';
 import StemClaimListItem from '../components/StemClaimListItem';
@@ -46,15 +46,9 @@ class YourClaimsPageV2 extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
-    this.hide30DayNotice = this.hide30DayNotice.bind(this);
-
-    if (!sessionStorage.getItem('show30DayNotice')) {
-      sessionStorage.setItem('show30DayNotice', true);
-    }
 
     this.state = {
-      page: 1,
-      show30DayNotice: sessionStorage.getItem('show30DayNotice') === 'true',
+      page: YourClaimsPageV2.getPageFromURL(props),
     };
   }
 
@@ -90,15 +84,37 @@ class YourClaimsPageV2 extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.location.pathname !== this.props.location.pathname ||
+      prevProps.location.search !== this.props.location.search
+    ) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const newPage = YourClaimsPageV2.getPageFromURL(nextProps);
+
+    if (newPage !== prevState.page) {
+      return {
+        page: newPage,
+      };
+    }
+    return null;
+  }
+
+  static getPageFromURL(props) {
+    const queryParams = new URLSearchParams(props.location.search);
+    return parseInt(queryParams.get('page'), 10) || 1;
+  }
+
   changePage(event) {
+    const newURL = `${this.props.location.pathname}?page=${event.detail.page}`;
+    this.props.navigate(newURL);
     this.setState({ page: event.detail.page });
     // Move focus to "Showing X through Y of Z events..." for screenreaders
     setPageFocus('#pagination-info');
-  }
-
-  hide30DayNotice() {
-    this.setState({ show30DayNotice: false });
-    sessionStorage.setItem('show30DayNotice', false);
   }
 
   renderListItem(claim) {
@@ -193,12 +209,6 @@ class YourClaimsPageV2 extends React.Component {
 
       content = (
         <>
-          {this.state.show30DayNotice && (
-            <ClosedClaimMessage
-              claims={pageItems}
-              onClose={this.hide30DayNotice}
-            />
-          )}
           {pageInfo}
           <div className="claim-list">
             {atLeastOneRequestLoading && (
@@ -248,13 +258,12 @@ class YourClaimsPageV2 extends React.Component {
             <ClaimLetterSection />
             <FeaturesWarning />
             <h2 id="what-if-i-dont-see-my-appeal">
-              What if I don’t see my appeal?
+              What if I can't find my claim, decision review, or appeal?
             </h2>
             <p>
-              If you submitted a Notice of Disagreement for an appeal within the
-              last 3 months, VA might still be processing your appeal. For more
-              information, contact your Veterans Service Organization or
-              representative.
+              If you recently submitted a claim or requested a Higher Level
+              Review or Board appeal, we might still be processing it. Check
+              back for updates.
             </p>
             <NeedHelp />
           </div>
@@ -282,6 +291,8 @@ YourClaimsPageV2.propTypes = {
       attributes: PropTypes.shape({}),
     }),
   ),
+  location: PropTypes.object,
+  navigate: PropTypes.func,
   stemClaimsLoading: PropTypes.bool,
 };
 
@@ -299,11 +310,31 @@ function mapStateToProps(state) {
   const stemClaims = stemAutomatedDecision ? claimsV2Root.stemClaims : [];
 
   // TO-DO: Implement with reselect to save cycles
-  const sortedList = [
+  const closedClaims = [
     ...claimsV2Root.appeals,
     ...claimsV2Root.claims,
     ...stemClaims,
-  ].sort(sortByLastUpdated);
+  ]
+    .filter(
+      claim =>
+        claim.attributes.status === 'COMPLETE' ||
+        claim.attributes.claimType === 'STEM',
+    )
+    .sort(sortByLastUpdated);
+
+  const inProgressClaims = [
+    ...claimsV2Root.appeals,
+    ...claimsV2Root.claims,
+    ...stemClaims,
+  ]
+    .filter(
+      claim =>
+        claim.attributes.status !== 'COMPLETE' &&
+        claim.attributes.claimType !== 'STEM',
+    )
+    .sort(sortByLastUpdated);
+
+  const sortedList = [...inProgressClaims, ...closedClaims];
 
   return {
     appealsAvailable: claimsV2Root.v2Availability,
@@ -324,9 +355,11 @@ const mapDispatchToProps = {
   getStemClaims: getStemClaimsAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(YourClaimsPageV2);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(YourClaimsPageV2),
+);
 
 export { YourClaimsPageV2 };

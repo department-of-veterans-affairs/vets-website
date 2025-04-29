@@ -31,15 +31,31 @@ describe('Confirmation page', () => {
   const mockStore = configureStore(middleware);
 
   it('it should show status success and the correct name of person', () => {
-    const { container, getByText } = render(
+    const route = {
+      formConfig: {
+        chapters: {
+          chapter1: {
+            title: 'Chapter 1',
+            pages: {
+              page1: {
+                title: 'Page 1',
+                schema: {},
+                uiSchema: {},
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const { container } = render(
       <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage />
+        <ConfirmationPage route={route} />
       </Provider>,
     );
     expect(container.querySelector('va-alert')).to.have.attr(
       'status',
       'success',
     );
-    getByText(/Jack W Witness/);
   });
 });

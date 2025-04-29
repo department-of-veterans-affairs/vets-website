@@ -1,12 +1,10 @@
 import React from 'react';
-import { APP_URLS, LAST_YEAR } from '../../utils/constants';
+import { APP_URLS } from '../../utils/appUrls';
+import { LAST_YEAR } from '../../utils/helpers';
 
 /** CHAPTER 1: Veteran Information */
 export const BirthInfoDescription = (
   <>
-    <p className="vads-u-margin-top--0">
-      Enter your place of birth, including city and state, province or region.
-    </p>
     <va-additional-info
       trigger="Why we ask for this information"
       class="vads-u-margin-bottom--3"
@@ -20,7 +18,7 @@ export const BirthInfoDescription = (
 export const BirthSexDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-y--2"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
     uswds
   >
     <div>
@@ -68,61 +66,6 @@ export const DemographicInfoDescription = (
       Information is gathered for statistical purposes only.
     </div>
   </legend>
-);
-
-export const HomeAddressDescription = (
-  <>
-    Home address
-    <span className="sr-only">.</span>
-    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
-      Any updates you make here to your address will apply only to this
-      application.
-    </div>
-  </>
-);
-
-export const MailingAddressDescription = (
-  <>
-    Mailing address
-    <span className="sr-only">.</span>
-    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
-      We’ll send any important information about your application to this
-      address. Any updates you make here to your address will apply only to this
-      application.
-    </div>
-  </>
-);
-
-export const SIGIGenderDescription = (
-  <>
-    <va-additional-info
-      trigger="What to know before you decide to share your gender identity"
-      class="vads-u-margin-top--2"
-      uswds
-    >
-      <div>
-        <p className="vads-u-margin-top--0">
-          Sharing your gender identity on this application is optional. This
-          information can help your health care team know how you wish to be
-          addressed as a person. It can also help your team better assess your
-          health needs and risks. We also use this information to help make sure
-          we’re serving the needs of all Veterans.
-        </p>
-
-        <p>
-          But you should know that any information you share here goes into your
-          VA-wide records. VA staff outside of the health care system may be
-          able to read this information.
-        </p>
-
-        <p className="vads-u-margin-bottom--0">
-          We follow strict security and privacy practices to keep your personal
-          information secure. But if you want to share your gender identity in
-          your health records only, talk with your health care team.
-        </p>
-      </div>
-    </va-additional-info>
-  </>
 );
 
 /** CHAPTER 2: VA Benefits */
@@ -182,7 +125,7 @@ export const PensionInfoDescription = (
 export const PensionTypeDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
     uswds
   >
     <div>
@@ -215,25 +158,6 @@ export const PensionTypeDescription = (
 export const ServiceDateRangeDescription = (
   <div className="vads-u-color--gray-medium">
     If you don’t know the exact date, enter your best guess
-  </div>
-);
-
-export const OtherToxicExposureDescription = (
-  <div className="vads-u-margin-top--2 vads-u-margin-bottom--4">
-    <a
-      target="_blank"
-      rel="noreferrer"
-      href="https://www.publichealth.va.gov/exposures/index.asp"
-    >
-      Learn more about exposures on our Public Health website (opens in new tab)
-    </a>
-  </div>
-);
-
-export const OtherToxicExposureHint = (
-  <div className="vads-u-color--gray-medium">
-    If you’re listing multiple toxins or hazards, list them without commas or
-    any other special characters
   </div>
 );
 
@@ -403,7 +327,7 @@ export const IncomeDescription = (
 export const MaritalStatusDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
     uswds
   >
     <div>
@@ -533,37 +457,22 @@ export const SpouseFinancialSupportDescription = (
 );
 
 /** CHAPTER 5: Insurance Information */
-export const EssentialCoverageDescription = (
-  <va-additional-info
-    trigger="Learn more about minimum essential coverage."
-    class="vads-u-margin-y--2 vads-u-margin-left--4"
-    uswds
-  >
-    To avoid the penalty for not having insurance, you must be enrolled in a
-    health plan that qualifies as minimum essential coverage. Being signed up
-    for VA health care meets the minimum essential coverage requirement under
-    the Affordable Care Act.
-  </va-additional-info>
-);
-
 export const FacilityLocatorDescription = (
   <>
     <p>
-      OR{' '}
       <a href={APP_URLS.facilities} rel="noopener noreferrer" target="_blank">
-        Find locations with the VA Facility Locator
+        Find locations with the VA Facility Locator (opens in new tab)
       </a>
     </p>
-
     <p>
       If you’re looking for medical care outside the continental U.S. or Guam,
       you’ll need to sign up for our Foreign Medical Program.{' '}
       <a
-        href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp"
+        href="/health-care/foreign-medical-program/"
         rel="noopener noreferrer"
         target="_blank"
       >
-        Learn more about the Foreign Medical Program
+        Learn more about the Foreign Medical Program (opens in new tab)
       </a>
       .
     </p>
@@ -574,7 +483,7 @@ export const FacilityLocatorDescription = (
         rel="noopener noreferrer"
         target="_blank"
       >
-        Veterans Living Abroad
+        Veterans Living Abroad (opens in new tab)
       </a>
       .
     </p>
@@ -585,49 +494,6 @@ export const GroupCodeDescription = (
   <div className="vads-u-color--gray-medium">
     Either this or the policy number is required
   </div>
-);
-
-export const HealthInsuranceDescription = (
-  <p className="vads-u-margin-bottom--3">
-    Health insurance includes any coverage that you get through a spouse or
-    significant other. Health insurance also includes Medicare, private
-    insurance, or insurance from your employer.
-  </p>
-);
-
-export const HealthInsuranceCoverageDescription = (
-  <va-additional-info
-    trigger="Why we ask this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
-    uswds
-  >
-    <div>
-      <p className="vads-u-margin-top--0">
-        We ask for this information for billing purposes only. Your health
-        insurance coverage doesn’t affect the VA health care benefits you can
-        get.
-      </p>
-
-      <p>
-        Giving us your health insurance information helps you for these reasons:
-      </p>
-
-      <ul className="vads-u-margin-bottom--0">
-        <li>
-          We must bill your private health insurance provider for any care,
-          supplies, or medicines we provide to treat your non-service-connected
-          conditions. If you have a VA copayment, we may be able to use the
-          payments from your provider to cover some or all of your copayment.
-        </li>
-        <li>
-          Your private insurance provider may apply your VA health care charges
-          toward your annual deductible. Your annual deductible is the amount of
-          money you pay toward your care each year before your insurance starts
-          to pay for care.
-        </li>
-      </ul>
-    </div>
-  </va-additional-info>
 );
 
 export const MedicaidDescription = (
@@ -705,13 +571,13 @@ export const PolicyNumberDescription = (
 );
 
 export const PolicyOrDescription = (
-  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-bottom--neg2p5 vads-u-color--primary-darkest">
+  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-bottom--neg2p5 vads-u-color--primary-darker">
     or
   </div>
 );
 
 export const PolicyOrGroupDescription = (
-  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-top--6 vads-u-margin-bottom--2 vads-u-color--primary-darkest">
+  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-top--6 vads-u-margin-bottom--2 vads-u-color--primary-darker">
     Provide either your insurance policy number or group code.{' '}
     <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
       (*Required)
@@ -719,8 +585,20 @@ export const PolicyOrGroupDescription = (
   </div>
 );
 
+export const PolicyOrGroupTitle = (
+  <>
+    Insurance policy number or group code.&nbsp;
+    <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+      (*Required)
+    </span>
+  </>
+);
+
 export const TricarePolicyDescription = (
-  <va-additional-info trigger="I have TRICARE. What’s my policy number?" uswds>
+  <va-additional-info
+    trigger="I have TRICARE. What’s my policy number?"
+    class="vads-u-margin-y--2"
+  >
     <div>
       <p className="vads-u-margin-top--0">
         You can use your Department of Defense benefits number (DBN) or your

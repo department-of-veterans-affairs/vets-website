@@ -7,7 +7,8 @@ import { ROUTES } from '../../../constants';
 // Burn Pit 2.1.1 - I'm not sure
 // Burn Pit 2.1.2 - Go back
 // Burn Pit 2.1.1 - Go back
-// Burn Pit 2.1 - Yes
+// Burn Pit 2.1 - No
+// Burn Pit 2.1.1 - Yes
 // Agent Orange 2.2.A - No
 // Agent Orange - 2.2.1.A - Yes
 // Agent Orange - 2.2.1.B - Go back
@@ -19,12 +20,13 @@ import { ROUTES } from '../../../constants';
 // Radiation 2.3.A - Yes
 // Radiation 2.3.B - Select 2 checkboxes
 // Camp Lejeune 2.4 - Yes
+// Main Flow 2.5 - I'm not sure
 // Results 1
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
 describe('PACT Act', () => {
-  describe('During both of these time periods - Mixed responses (Results screen 1)', () => {
+  describe('During both of these time periods - Mixed responses (Results page 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
 
@@ -58,7 +60,12 @@ describe('PACT Act', () => {
 
       // BURN_PIT_2_1
       h.verifyUrl(ROUTES.BURN_PIT_2_1);
-      h.selectRadio(h.BURN_PIT_2_1_INPUT, 0);
+      h.selectRadio(h.BURN_PIT_2_1_INPUT, 1);
+      h.clickContinue();
+
+      // BURN_PIT_2_1_1
+      h.verifyUrl(ROUTES.BURN_PIT_2_1_1);
+      h.selectRadio(h.BURN_PIT_2_1_1_INPUT, 0);
       h.clickContinue();
 
       // ORANGE_2_2_A
@@ -106,6 +113,11 @@ describe('PACT Act', () => {
       h.selectRadio(h.LEJEUNE_2_4_INPUT, 0);
       h.clickContinue();
 
+      // MAIN_FLOW_2_5
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.selectRadio(h.MAIN_FLOW_2_5_INPUT, 2);
+      h.clickContinue();
+
       // RESULTS 1, P1
       h.verifyUrl(ROUTES.RESULTS_1_1);
       h.verifyElement(h.RESULTS_1_1_HEADER);
@@ -119,6 +131,10 @@ describe('PACT Act', () => {
       // RESULTS 1, P1
       h.verifyUrl(ROUTES.RESULTS_1_1);
       h.clickResultsBack();
+
+      // MAIN_FLOW_2_5
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.clickBack();
 
       // LEJEUNE_2_4
       h.verifyUrl(ROUTES.LEJEUNE_2_4);
@@ -146,6 +162,10 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_A
       h.verifyUrl(ROUTES.ORANGE_2_2_A);
+      h.clickBack();
+
+      // BURN_PIT_2_1_1
+      h.verifyUrl(ROUTES.BURN_PIT_2_1_1);
       h.clickBack();
 
       // BURN_PIT_2_1

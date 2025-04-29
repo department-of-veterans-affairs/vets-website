@@ -1,91 +1,57 @@
-// Dependencies
 import React from 'react';
 import { get } from 'lodash';
-// Relative
-import { LocationType, FacilityType } from '../constants';
+import { LocationForHoursTypes } from '../types';
+import { FacilityType, LocationType } from '../constants';
 import { formatOperatingHours } from '../utils/helpers';
 
-/**
- * VA Facility Known Operational Hours
- */
-const LocationHours = ({ location, showHoursSpecialInstructions }) => {
-  // Derive the formatted hours info.
+const LocationHours = ({ location }) => {
   const hoursInfo = get(location, 'attributes.hours');
-  // Derive the time ranges for each day.
-  const sunday = formatOperatingHours(get(hoursInfo, 'sunday'));
-  const monday = formatOperatingHours(get(hoursInfo, 'monday'));
-  const tuesday = formatOperatingHours(get(hoursInfo, 'tuesday'));
-  const wednesday = formatOperatingHours(get(hoursInfo, 'wednesday'));
-  const thursday = formatOperatingHours(get(hoursInfo, 'thursday'));
-  const friday = formatOperatingHours(get(hoursInfo, 'friday'));
-  const saturday = formatOperatingHours(get(hoursInfo, 'saturday'));
+  const days = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+  ];
 
-  // Derive if the facility is a vet center.
+  const renderHoursByDay = () => {
+    return days.map(day => {
+      const hours = formatOperatingHours(get(hoursInfo, day));
+      const dayToDisplay = day.charAt(0).toUpperCase() + day.slice(1);
+
+      if (hours) {
+        return (
+          <div className="row">
+            <p className="small-6 columns vads-u-margin--0">{dayToDisplay}:</p>
+            <p
+              data-testid={`${day}-hours`}
+              className="small-6 columns vads-u-margin--0"
+            >
+              {hours}
+            </p>
+          </div>
+        );
+      }
+
+      return null;
+    });
+  };
+
   const facilityType = get(location, 'attributes.facilityType');
   const isVetCenter = facilityType === LocationType.VET_CENTER;
-  const isVaHealth = facilityType === FacilityType.VA_HEALTH_FACILITY;
-  const { operationalHoursSpecialInstructions } = location.attributes;
+  const isCemetery = facilityType === FacilityType.VA_CEMETERY;
+  const title = isCemetery ? 'Open for visitation' : 'Hours of operation';
+
+  if ((Array.isArray(hoursInfo) && !hoursInfo.length) || !hoursInfo) {
+    return null;
+  }
 
   return (
     <div id="hours-op">
-      <h3 className="highlight">Hours of operation</h3>
-
-      {/* Sunday */}
-      {sunday && (
-        <div className="row">
-          <div className="small-6 columns">Sunday:</div>
-          <div className="small-6 columns">{sunday}</div>
-        </div>
-      )}
-
-      {/* Monday */}
-      {monday && (
-        <div className="row">
-          <div className="small-6 columns">Monday:</div>
-          <div className="small-6 columns">{monday}</div>
-        </div>
-      )}
-
-      {/* Tuesday */}
-      {tuesday && (
-        <div className="row">
-          <div className="small-6 columns">Tuesday:</div>
-          <div className="small-6 columns">{tuesday}</div>
-        </div>
-      )}
-
-      {/* Wednesday */}
-      {wednesday && (
-        <div className="row">
-          <div className="small-6 columns">Wednesday:</div>
-          <div className="small-6 columns">{wednesday}</div>
-        </div>
-      )}
-
-      {/* Thursday */}
-      {thursday && (
-        <div className="row">
-          <div className="small-6 columns">Thursday:</div>
-          <div className="small-6 columns">{thursday}</div>
-        </div>
-      )}
-
-      {/* Friday */}
-      {friday && (
-        <div className="row">
-          <div className="small-6 columns">Friday:</div>
-          <div className="small-6 columns">{friday}</div>
-        </div>
-      )}
-
-      {/* Saturday */}
-      {saturday && (
-        <div className="row">
-          <div className="small-6 columns">Saturday:</div>
-          <div className="small-6 columns">{saturday}</div>
-        </div>
-      )}
-
+      <h3>{title}</h3>
+      {renderHoursByDay()}
       {isVetCenter && (
         <p>
           In addition to the hours listed above, all Vet Centers maintain
@@ -94,16 +60,10 @@ const LocationHours = ({ location, showHoursSpecialInstructions }) => {
           Please contact your Vet Center to obtain the current schedule.
         </p>
       )}
-
-      {isVaHealth &&
-        showHoursSpecialInstructions &&
-        operationalHoursSpecialInstructions && (
-          <p id="operational-special-p">
-            {operationalHoursSpecialInstructions}
-          </p>
-        )}
     </div>
   );
 };
+
+LocationHours.propTypes = LocationForHoursTypes;
 
 export default LocationHours;

@@ -1,3 +1,5 @@
+import { convertAppointments } from '../../utils/appointment';
+
 export const SET_APP = 'SET_APP';
 
 export const setApp = application => {
@@ -30,6 +32,21 @@ export const SET_FORM = 'SET_FORM';
 export const setForm = form => {
   return {
     type: SET_FORM,
-    payload: { form },
+    payload: { ...form },
+  };
+};
+
+export const RECEIVED_UPCOMING_APPOINTMENTS = 'RECEIVED_UPCOMING_APPOINTMENTS';
+
+export const recievedUpcomingAppointments = payload => {
+  const data = {
+    upcomingAppointments: convertAppointments(payload),
+  };
+
+  return {
+    type: RECEIVED_UPCOMING_APPOINTMENTS,
+    payload: {
+      ...data,
+    },
   };
 };

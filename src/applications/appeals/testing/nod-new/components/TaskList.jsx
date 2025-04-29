@@ -15,7 +15,7 @@ export const TaskList = () => {
       <div name="topNavScrollElement" />
       <p>
         <span>&#x2190;&#x00a0;</span>
-        <a href="/decision-reviews/appeals-testing">Board Appeals</a>
+        <a href="/decision-reviews/test-nod">Board Appeals</a>
       </p>
       <h1>Request a Board Appeal (Form 10182)</h1>
       <ol className="task-list vads-u-margin-bottom--8 vads-u-margin-left--0 vads-u-padding-left--0">

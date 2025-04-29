@@ -12,7 +12,11 @@ const ONE_MINUTE = 1000 * 60; // ms
  *  the loading indicator
  * @returns {Element} - loading indicator, alert or link
  */
-const ConfirmationPdfMessages = ({ pdfApi, delayTimer = ONE_MINUTE }) => {
+const ConfirmationPdfMessages = ({
+  pdfApi,
+  successLinkText = 'Download a copy of your Board Appeal',
+  delayTimer = ONE_MINUTE,
+}) => {
   const [apiState, setApiState] = useState('generating');
   const [downloadUrl, setDownloadUrl] = useState(null);
 
@@ -31,11 +35,8 @@ const ConfirmationPdfMessages = ({ pdfApi, delayTimer = ONE_MINUTE }) => {
       apiRequest(pdfApi)
         .then(response => {
           clearTimeout(timer);
-          if (response.ok) {
-            // TODO: update response (no fallback) once API is available
-            setDownloadUrl(
-              response.data || 'https://www.va.gov/vaforms/va/pdf/VA10182.pdf',
-            );
+          if (response.ok && response.data) {
+            setDownloadUrl(response.data);
             setApiState('successful');
           } else {
             setApiState('error');
@@ -82,7 +83,7 @@ const ConfirmationPdfMessages = ({ pdfApi, delayTimer = ONE_MINUTE }) => {
           download
           filetype="PDF"
           href={downloadUrl}
-          text="Download a copy of your Board Appeal"
+          text={successLinkText}
         />
       );
     default:
@@ -93,6 +94,7 @@ const ConfirmationPdfMessages = ({ pdfApi, delayTimer = ONE_MINUTE }) => {
 ConfirmationPdfMessages.propTypes = {
   delayTimer: PropTypes.number,
   pdfApi: PropTypes.string,
+  successLinkText: PropTypes.string,
 };
 
 export default ConfirmationPdfMessages;

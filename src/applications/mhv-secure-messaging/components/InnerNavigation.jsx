@@ -33,7 +33,7 @@ const InnerNavigation = () => {
           vads-u-display--flex
           vads-u-flex-wrap--wrap
           vads-u-flex--fill
-          small-screen:vads-u-flex--auto
+          mobile-lg:vads-u-flex--auto
           vads-u-border-bottom--1px
           vads-u-border-color--gray-lightest
         "
@@ -52,7 +52,11 @@ const InnerNavigation = () => {
               ${handleActiveLinksStyle(path)}
             `}
           >
-            <Link className="inner-nav-link" to={path.path}>
+            <Link
+              className="inner-nav-link"
+              to={path.path}
+              data-dd-action-name={`${path.label} link`}
+            >
               {path.label}
             </Link>
           </div>

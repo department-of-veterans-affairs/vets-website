@@ -1,23 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
-  // START ligthouse_migration
-  submit5103 as submit5103Action,
-  submitRequest as submitRequestAction,
-  // END lighthouse_migration
   getClaim as getClaimAction,
+  submit5103 as submit5103Action,
 } from '../actions';
-import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-// START lighthouse_migration
-import { cstUseLighthouse } from '../selectors';
-// END lighthouse_migration
+import NeedHelp from '../components/NeedHelp';
+import { setDocumentTitle } from '../utils/helpers';
 import { setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
-import { setDocumentTitle } from '../utils/helpers';
 
 class AskVAPage extends React.Component {
   constructor() {
@@ -54,11 +49,8 @@ class AskVAPage extends React.Component {
       decisionRequestError,
       params,
       submit5103,
-      submitRequest,
-      useLighthouse5103,
     } = this.props;
 
-    const submitFunc = useLighthouse5103 ? submit5103 : submitRequest;
     const submitDisabled =
       !this.state.submittedDocs ||
       loadingDecisionRequest ||
@@ -85,7 +77,7 @@ class AskVAPage extends React.Component {
     ];
 
     return (
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0  vads-u-margin-bottom--7">
+      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0  vads-u-margin-bottom--7">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <ClaimsBreadcrumbs crumbs={crumbs} />
@@ -127,7 +119,7 @@ class AskVAPage extends React.Component {
                 submit
                 class="button-primary vads-u-margin-top--1"
                 text={buttonMsg}
-                onClick={() => submitFunc(params.id)}
+                onClick={() => submit5103(params.id)}
               />
               {!loadingDecisionRequest ? (
                 <va-button
@@ -154,18 +146,12 @@ function mapStateToProps(state) {
     loadingDecisionRequest: claimsState.claimAsk.loadingDecisionRequest,
     decisionRequested: claimsState.claimAsk.decisionRequested,
     decisionRequestError: claimsState.claimAsk.decisionRequestError,
-    // START lighthouse_migration
-    useLighthouse5103: cstUseLighthouse(state, '5103'),
-    // END lighthouse_migration
   };
 }
 
 const mapDispatchToProps = {
-  // START lighthouse_migration
-  submit5103: submit5103Action,
-  submitRequest: submitRequestAction,
-  // END lighthouse_migration
   getClaim: getClaimAction,
+  submit5103: submit5103Action,
 };
 
 export default withRouter(
@@ -182,11 +168,7 @@ AskVAPage.propTypes = {
   loadingDecisionRequest: PropTypes.bool,
   navigate: PropTypes.func,
   params: PropTypes.object,
-  // START lighthouse_migration
   submit5103: PropTypes.func,
-  submitRequest: PropTypes.func,
-  useLighthouse5103: PropTypes.bool,
-  // END lighthouse_migration
 };
 
 export { AskVAPage };

@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
@@ -99,15 +99,6 @@
           @media (max-width: $small-desktop-screen) {
             text-align: left;
           }
-        }
-
-        .use-my-location-button {
-          width: 1.8rem;
-          height: 1.8rem;
-          background-image: url("/img/location-arrow-solid.svg");
-          background-repeat: no-repeat;
-          background-color: transparent;
-          padding: 0 2.4rem 0 0;
         }
 
         .finding-your-location-loading {

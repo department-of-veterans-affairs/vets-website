@@ -1,9 +1,8 @@
 import React from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { render } from '@testing-library/react';
-import sinon from 'sinon';
 import { fromUnixTime } from 'date-fns';
 import { format } from 'date-fns-tz';
 
@@ -44,7 +43,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
             form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
               lastUpdated,
-              expiresAt: moment().unix() + 2000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
             },
           },
         ],
@@ -98,7 +97,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
             form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
               lastUpdated: 946684800,
-              expiresAt: moment().unix() + 2000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
             },
           },
         ],
@@ -130,107 +129,17 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
     tree.unmount();
   });
-  it('calls signInHelpList function when provided', () => {
-    const signInHelpListMock = () =>
-      React.createElement('div', null, 'Mock Component');
-    const testFormConfig = {
-      prefillEnabled: true,
-      saveInProgress: {
-        messages: {
-          inProgress:
-            'Your personal records request (20-10206) is in progress.',
-          expired:
-            'Your saved Personal records request (20-10206) has expired. If you want to request personal records, please start a new application.',
-          saved: 'Your Personal records request has been saved.',
-        },
-      },
-      signInHelpList: signInHelpListMock,
-      customText: {
-        appType: 'testApp',
-      },
-    };
-    const testUser = {
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
 
-    const { container } = render(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="20-10206"
-        user={testUser}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={testFormConfig}
-        prefillEnabled
-        headingLevel={1}
-      />,
-    );
-
-    expect(container.textContent).to.include('Mock Component');
-  });
-  it('renders correctly when signInHelpList not provided', () => {
-    const testFormConfig = {
-      prefillEnabled: true,
-      saveInProgress: {
-        messages: {
-          inProgress:
-            'Your personal records request (20-10206) is in progress.',
-          expired:
-            'Your saved Personal records request (20-10206) has expired. If you want to request personal records, please start a new application.',
-          saved: 'Your Personal records request has been saved.',
-        },
-      },
-      customText: {
-        appType: 'testApp',
-      },
-    };
-    const testUser = {
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const { container } = render(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="20-10206"
-        user={testUser}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={testFormConfig}
-        prefillEnabled
-      />,
-    );
-
-    expect(container.textContent).not.to.contain('Mock Component');
-  });
   it('should pass prefills available prop', () => {
     const user = {
       profile: {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [VA_FORM_IDS.FORM_10_10EZ],
@@ -267,7 +176,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -297,6 +209,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     const link = tree.find('.va-button-link');
     expect(link.prop('text')).to.contain('Sign in to your account.');
+    expect(tree.find('va-alert-sign-in[variant="signInOptional"]').exists()).to
+      .be.true;
     expect(link.prop('aria-label')).to.eq('test aria-label');
     expect(link.prop('aria-describedby')).to.eq('test-id');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
@@ -310,7 +224,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -337,18 +254,13 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect($('va-alert', container).textContent).to.contain(
-      'We can fill in some of your information for you to save you time.',
-    );
     expect($('va-button', container).getAttribute('text')).to.contain(
       'Sign in to start your application',
     );
     expect($('a', container).textContent).to.contain(
       'Start your application without signing in',
     );
-    expect(container.textContent).to.include(
-      'lose any information you already',
-    );
+    expect($('va-alert-sign-in[variant="signInOptional"]', container)).to.exist;
   });
 
   it('should render message if signed in with no saved form', () => {
@@ -393,7 +305,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       },
     };
 
-    const tree = shallow(
+    const tree = mount(
       <SaveInProgressIntro
         saveInProgress={{ formData: {} }}
         pageList={pageList}
@@ -402,13 +314,20 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
+        formConfig={{ customText: { appType: 'application' } }}
       />,
     );
 
-    expect(tree.find('va-alert').text()).to.contain(
-      'Note: Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your application in progress and come back later to finish filling it out.',
+    expect(tree.find('va-alert h3').text()).to.equal(
+      "We've prefilled some of your information",
     );
+
+    const alertText = tree.find('va-alert').text();
+
+    expect(alertText).to.contain(
+      'Since you’re signed in, we can prefill part of your application based on your profile details. You can also save your application in progress and come back later to finish filling it out.',
+    );
+
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
     tree.unmount();
   });
@@ -420,20 +339,18 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
       },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
+      login: { currentlyLoggedIn: false },
     };
 
-    const tree = shallow(
+    const { container } = render(
       <SaveInProgressIntro
         saveInProgress={{ formData: {} }}
         pageList={pageList}
@@ -448,9 +365,13 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('va-alert').text()).to.contain('1 year');
-    expect(tree.find('va-alert').text()).to.not.contain('60 days');
-    tree.unmount();
+    const signInAlertRetentionPeriod = container
+      .querySelector('va-alert-sign-in')
+      .getAttribute('time-limit');
+
+    expect(signInAlertRetentionPeriod).to.eql('1 year');
+    expect(signInAlertRetentionPeriod).to.not.eql('60 days');
+    expect($('va-alert-sign-in[variant="signInOptional"]', container)).to.exist;
   });
 
   it('should render loading indicator while profile is loading', () => {
@@ -459,7 +380,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -494,7 +418,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000),
+            },
           },
         ],
         prefillsAvailable: [],
@@ -526,45 +453,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
     tree.unmount();
   });
-  it('should render sign in message from render prop', () => {
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
-          },
-        ],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-    const renderSpy = sinon.stub().returns(<div>Render prop info</div>);
-
-    const tree = shallow(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        renderSignInMessage={renderSpy}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
-      />,
-    );
-
-    expect(renderSpy.called).to.be.true;
-    expect(tree.text()).to.contain('Render prop info');
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
-    tree.unmount();
-  });
 
   it('should render downtime notification', () => {
     const user = {
@@ -572,7 +460,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -584,7 +475,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         },
       },
     };
-    const renderSpy = sinon.stub().returns(<div>Render prop info</div>);
 
     const tree = shallow(
       <SaveInProgressIntro
@@ -595,7 +485,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        renderSignInMessage={renderSpy}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
       />,
@@ -611,7 +500,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -649,7 +541,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -661,7 +556,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         },
       },
     };
-    const renderSpy = sinon.stub().returns(<div>Render prop info</div>);
 
     const tree = shallow(
       <SaveInProgressIntro
@@ -673,7 +567,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        renderSignInMessage={renderSpy}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
       />,
@@ -689,7 +582,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            metadata: {
+              lastUpdated: 3000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
+            },
           },
         ],
         prefillsAvailable: [],
@@ -718,6 +614,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.find('.schemaform-start-button').exists()).to.be.false;
     expect(tree.text()).to.not.include('lose any information you already');
+    expect(tree.find('va-alert-sign-in[variant="signInOptional"]').exists()).to
+      .be.true;
 
     tree.unmount();
   });
@@ -754,6 +652,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.find('.schemaform-start-button').exists()).to.be.false;
     expect(tree.text()).to.not.include('lose any information you already');
+    expect(tree.find('va-alert-sign-in[variant="signInRequired"]').exists()).to
+      .be.true;
 
     tree.unmount();
   });
@@ -787,9 +687,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         formConfig={formConfig}
       />,
     );
-    expect(container.querySelector('va-button').outerHTML).to.contain(
+    expect($('va-button', container).outerHTML).to.contain(
       'Custom message displayed to non-signed-in users',
     );
+    expect($('va-alert-sign-in[variant="signInRequired"]', container)).to.exist;
   });
 
   it('should not render an inProgress message', () => {
@@ -800,7 +701,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
             form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
               lastUpdated: 946684800,
-              expiresAt: moment().unix() + 2000,
+              expiresAt: Math.floor(Date.now() / 1000) + 2000,
             },
           },
         ],

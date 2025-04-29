@@ -6,12 +6,13 @@ import { ROUTES } from '../../../../constants';
 // Burn Pit 2.1 - No
 // Burn Pit 2.1.1 - No
 // Burn Pit 2.1.2 - Yes
+// Main Flow 2.5 - No
 // Results 1
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
 describe('PACT Act', () => {
-  describe('1990 or later -  "Yes" to one question category (Results Screen 1)', () => {
+  describe('1990 or later -  "Yes" to one question category (Results page 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
 
@@ -40,6 +41,11 @@ describe('PACT Act', () => {
       h.selectRadio(h.BURN_PIT_2_1_2_INPUT, 0);
       h.clickContinue();
 
+      // MAIN_FLOW_2_5
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.selectRadio(h.MAIN_FLOW_2_5_INPUT, 1);
+      h.clickContinue();
+
       // RESULTS 1, P1
       h.verifyUrl(ROUTES.RESULTS_1_1);
       h.verifyElement(h.RESULTS_1_1_HEADER);
@@ -53,6 +59,10 @@ describe('PACT Act', () => {
       // RESULTS 1, P1
       h.verifyUrl(ROUTES.RESULTS_1_1);
       h.clickResultsBack();
+
+      // MAIN_FLOW_2_5
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.clickBack();
 
       // BURN_PIT_2_1_2
       h.verifyUrl(ROUTES.BURN_PIT_2_1_2);

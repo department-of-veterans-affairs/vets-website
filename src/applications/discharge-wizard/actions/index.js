@@ -1,6 +1,4 @@
 import {
-  DW_UPDATE_FIELD,
-  // v2 actions
   DUW_UPDATE_FORM_STORE,
   DUW_VIEWED_INTRO_PAGE,
   DUW_UPDATE_SERVICE_BRANCH,
@@ -15,15 +13,12 @@ import {
   DUW_UPDATE_PREV_APPLICATION_YEAR,
   DUW_UPDATE_PRIOR_SERVICE,
   DUW_UPDATE_FAILURE_TO_EXHAUST,
+  DUW_QUESTION_SELECTED_TO_EDIT,
+  DUW_EDIT_MODE,
+  DUW_QUESTION_FLOW_CHANGED,
+  DUW_ANSWER_CHANGED,
+  DUW_ROUTE_MAP,
 } from '../constants';
-
-export const updateField = (key, value) => {
-  return {
-    type: DW_UPDATE_FIELD,
-    key,
-    value,
-  };
-};
 
 export const updateFormStore = value => {
   return {
@@ -35,6 +30,41 @@ export const updateFormStore = value => {
 export const updateIntroPageViewed = value => {
   return {
     type: DUW_VIEWED_INTRO_PAGE,
+    payload: value,
+  };
+};
+
+export const updateEditMode = value => {
+  return {
+    type: DUW_EDIT_MODE,
+    payload: value,
+  };
+};
+
+export const updateQuestionFlowChanged = value => {
+  return {
+    type: DUW_QUESTION_FLOW_CHANGED,
+    payload: value,
+  };
+};
+
+export const updateAnswerChanged = value => {
+  return {
+    type: DUW_ANSWER_CHANGED,
+    payload: value,
+  };
+};
+
+export const updateQuestionSelectedToEdit = value => {
+  return {
+    type: DUW_QUESTION_SELECTED_TO_EDIT,
+    payload: value,
+  };
+};
+
+export const updateRouteMap = value => {
+  return {
+    type: DUW_ROUTE_MAP,
     payload: value,
   };
 };

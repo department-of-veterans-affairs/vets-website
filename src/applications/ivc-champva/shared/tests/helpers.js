@@ -44,6 +44,7 @@ export const fillAddressWebComponentPattern = (fieldName, addressObject) => {
   fillTextWebComponent(`${fieldName}_street3`, addressObject.street3);
   // List loop fields sometimes fail on this because the state <select> renders as a text input
   // TODO: look into that bug. For now, set the test to check which field type we have
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/83806
   cy.get('body').then(body => {
     if (body.find(`va-select[name="root_${fieldName}_state"]`).length > 0)
       selectDropdownWebComponent(`${fieldName}_state`, addressObject.state);
@@ -118,7 +119,7 @@ export const reviewAndSubmitPageFlow = (
     .shadow()
     .get('#inputField')
     .type(veteranSignature);
-  cy.get(`va-checkbox[name="veteran-certify"]`)
+  cy.get(`va-checkbox[id="veteran-certify"]`)
     .shadow()
     .find('input')
     .click({ force: true });

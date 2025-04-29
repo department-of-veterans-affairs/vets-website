@@ -148,7 +148,7 @@ const SpouseOtherIncomeSummary = ({
               {
                 label: continueButtonText,
                 onClick: onSubmit,
-                isSubmitting: true, // If this button submits a form
+                isSubmitting: 'prevent', // If this button submits a form
               },
             ]}
           />

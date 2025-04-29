@@ -1,7 +1,4 @@
-import {
-  checkboxGroupUI,
-  checkboxGroupSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   conditionsDescription,
   conditionsPageTitle,
@@ -10,16 +7,14 @@ import {
   makeTEConditionsUISchema,
   validateTEConditions,
 } from '../../content/toxicExposure';
-import { formTitle } from '../../utils';
+import { formTitle, makeConditionsUI } from '../../utils';
 
 export const uiSchema = {
   'ui:title': formTitle(conditionsPageTitle),
   toxicExposure: {
-    conditions: checkboxGroupUI({
+    conditions: makeConditionsUI({
       title: conditionsQuestion,
       description: conditionsDescription,
-      labels: {},
-      required: false,
       replaceSchema: makeTEConditionsSchema,
       updateUiSchema: makeTEConditionsUISchema,
     }),

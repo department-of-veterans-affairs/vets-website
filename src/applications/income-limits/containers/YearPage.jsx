@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   VaButtonPair,
-  VaSelect,
+  VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 import { ROUTES } from '../constants';
 import { updateEditMode, updateYear } from '../actions';
-import { customizeTitle } from '../utilities/customize-title';
 
 const YearPage = ({
   editMode,
@@ -21,11 +20,6 @@ const YearPage = ({
 }) => {
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const H1 = 'Income limits from past years going back to 2001';
-
-  useEffect(() => {
-    document.title = customizeTitle(H1);
-  });
 
   useEffect(
     () => {
@@ -43,10 +37,13 @@ const YearPage = ({
     [pastMode, router],
   );
 
+  const yearIsValid = year =>
+    year && +year >= 2001 && +year <= new Date().getFullYear();
+
   const onContinueClick = () => {
     setSubmitted(true);
 
-    if (!yearInput) {
+    if (!yearIsValid(yearInput)) {
       setError(true);
     } else if (editMode) {
       setError(false);
@@ -62,40 +59,20 @@ const YearPage = ({
   };
 
   const onYearInput = event => {
-    updateYearField(event.target.value);
-  };
+    const year = event?.target?.value;
 
-  const makeYearArray = () => {
-    const years = [];
-    let currentYear = new Date().getFullYear();
-    const earliestYear = 2001;
-
-    while (currentYear >= earliestYear) {
-      years.push(currentYear);
-
-      currentYear -= 1;
+    if (error && year?.length === 4 && yearIsValid(year)) {
+      setError(false);
     }
 
-    const options = years.map(year => (
-      <option key={year} value={year}>
-        {year}
-      </option>
-    ));
-
-    options.unshift(
-      <option key="Select a year" value="">
-        Select a year
-      </option>,
-    );
-
-    return options;
+    updateYearField(event.target.value);
   };
 
   return (
     <>
-      <h1>{H1}</h1>
+      <h1>Income limits from past years going back to 2001</h1>
       <p>
-        Select the year you&#8217;d like to check income limits for. Then answer
+        Enter the year you&#8217;d like to check income limits for. Then answer
         2 questions to find out how your income may have affected your VA health
         care eligibility and costs for that year.
       </p>
@@ -104,26 +81,23 @@ const YearPage = ({
         income and deductions to check income limits. Limits vary by where you
         live and change each year.
       </p>
-      <VaSelect
-        autocomplete="false"
+      <VaTextInput
         data-testid="il-year"
-        error={(submitted && error && 'Select a year.') || null}
+        error={submitted && error ? 'Enter a valid four digit year.' : null}
         id="year"
+        inputmode="numeric"
         label="Year"
-        name="year"
+        maxlength={4}
+        onInput={onYearInput}
+        required
         value={yearInput}
-        onVaSelect={onYearInput}
-        uswds
-      >
-        {makeYearArray()}
-      </VaSelect>
+      />
       <VaButtonPair
         class="vads-u-margin-top--1"
         data-testid="il-buttonPair"
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
-        uswds
       />
     </>
   );

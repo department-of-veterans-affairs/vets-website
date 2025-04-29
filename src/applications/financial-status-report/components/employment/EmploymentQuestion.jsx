@@ -13,6 +13,7 @@ import {
   jobButtonConstants,
 } from '../../utils/session';
 import { getGMT } from '../../actions/geographicMeansThreshold';
+import { isEligibleForStreamlined } from '../../utils/streamlinedDepends';
 
 const EmploymentQuestion = props => {
   const {
@@ -69,7 +70,6 @@ const EmploymentQuestion = props => {
   // useEffect to get GMT data
   useEffect(() => {
     const fetchData = async () => {
-      const year = 2023;
       const { hasDependents = 0 } = data?.questions;
       const dependents = parseInt(hasDependents, 10);
 
@@ -77,7 +77,7 @@ const EmploymentQuestion = props => {
         zipCode,
       } = data?.personalData?.veteranContactInformation?.address;
 
-      const gmtResponse = await getGMT(dependents, year, zipCode);
+      const gmtResponse = await getGMT(dependents, zipCode);
 
       dispatch(
         setData({
@@ -90,7 +90,7 @@ const EmploymentQuestion = props => {
       );
     };
 
-    if (data['view:streamlinedWaiver']) {
+    if (isEligibleForStreamlined(data)) {
       fetchData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -26,6 +26,7 @@ export default function MyVAHealth() {
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
   const [displayTerms, setDisplayTerms] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const url = new URL(window.location);
   const ssoeTarget = url.searchParams.get('ssoeTarget');
 
@@ -69,6 +70,7 @@ export default function MyVAHealth() {
     const cernerType = type === 'accept' ? 'accept_and_provision' : type;
 
     try {
+      setIsDisabled(true);
       setLoadingMessage(prev => ({ ...prev, isLoading: true }));
       const response = await apiRequest(
         `/terms_of_use_agreements/v1/${cernerType}`,
@@ -82,12 +84,14 @@ export default function MyVAHealth() {
       // if the type was accept
       if (response && type === 'accept') {
         setLoadingMessage(defaultMessage);
+        setIsDisabled(false);
         window.location = parseRedirectUrl(decodeURIComponent(ssoeTarget));
       }
 
       // if the type was decline
       if (response && type === 'decline') {
         setShowDeclineModal(false);
+        setIsDisabled(false);
         declineAndLogout({
           termsCodeExists: false,
           shouldRedirectToMobile: false,
@@ -96,6 +100,7 @@ export default function MyVAHealth() {
       }
     } catch (err) {
       setError({ isError: true, message: errorMessages.network });
+      setIsDisabled(false);
       // fatal or network error redirect to 110 page
       redirectToErrorPage(110);
     }
@@ -192,6 +197,7 @@ export default function MyVAHealth() {
               )}
               <TermsAcceptance
                 error={error}
+                isDisabled={isDisabled}
                 isMiddleAuth
                 handleTouClick={handleTouClick}
                 setShowDeclineModal={setShowDeclineModal}

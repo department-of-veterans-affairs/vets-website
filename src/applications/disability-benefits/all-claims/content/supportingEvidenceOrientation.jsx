@@ -24,6 +24,24 @@ export const supportingEvidenceOrientation = ({ formData }) => {
           You only need to submit new evidence that VA doesn’t already have.
         </strong>
       </p>
+      <va-alert status="info">
+        <h3>Notice of evidence needed</h3>
+        <p>
+          We’re required by law to tell you what evidence you’ll need to submit
+          to support your disability claim.
+        </p>
+        <p>
+          You can review the evidence requirements on our evidence needed for
+          your disability claim page.
+        </p>
+        <p>
+          <va-link
+            external
+            href="https://www.va.gov/disability/how-to-file-claim/evidence-needed/"
+            text="Review the evidence requirements"
+          />
+        </p>
+      </va-alert>
     </div>
   );
 };

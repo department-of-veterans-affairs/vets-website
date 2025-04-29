@@ -8,15 +8,13 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { getVaccinesList } from '../actions/vaccines';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
+import { getVaccinesList, reloadRecords } from '../actions/vaccines';
 import PrintHeader from '../components/shared/PrintHeader';
 import {
   recordType,
@@ -24,6 +22,7 @@ import {
   pageTitles,
   accessAlertTypes,
   refreshExtractTypes,
+  CernerAlertContent,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -31,7 +30,10 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
-  processList,
+  getLastUpdatedText,
+  formatNameFirstLast,
+  sendDataDogAction,
+  formatUserDob,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -41,10 +43,13 @@ import {
   generateVaccinesContent,
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
+  const updatedRecordList = useSelector(state => state.mr.vaccines.updatedList);
   const listState = useSelector(state => state.mr.vaccines.listState);
   const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
   const user = useSelector(state => state.user.profile);
@@ -71,8 +76,19 @@ const Vaccines = props => {
   });
 
   useEffect(
+    /**
+     * @returns a callback to automatically load any new records when unmounting this component
+     */
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
+      return () => {
+        dispatch(reloadRecords());
+      };
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
     },
@@ -87,11 +103,23 @@ const Vaccines = props => {
     updatePageTitle,
   );
 
+  const lastUpdatedText = getLastUpdatedText(
+    refresh.status,
+    refreshExtractTypes.VPR,
+  );
+
   const generateVaccinesPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateVaccinesIntro();
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };
+    const { title, subject, subtitles } = generateVaccinesIntro(
+      vaccines,
+      lastUpdatedText,
+    );
+    const scaffold = generatePdfScaffold(user, title, subject);
+    const pdfData = {
+      ...scaffold,
+      subtitles,
+      ...generateVaccinesContent(vaccines),
+    };
     const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
   };
@@ -102,20 +130,17 @@ const Vaccines = props => {
 ${txtLine}\n\n
 ${item.name}\n
 Date received: ${item.date}\n
-Location: ${item.location}\n
-Reaction: ${processList(item.reactions)}\n
-Provider notes: ${processList(item.notes)}\n`;
+Location: ${item.location}\n`;
   };
 
   const generateVaccinesTxt = async () => {
     const content = `
 ${crisisLineHeader}\n\n
 Vaccines\n
-${formatName(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+${formatNameFirstLast(user.userFullName)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.\n
-For complete records of your allergies and reactions to vaccines, review your allergy records.\n
+This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records. \n
 Showing ${vaccines.length} records from newest to oldest
 ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
 
@@ -128,14 +153,25 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
     <div id="vaccines">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Vaccines</h1>
-      <p>Review vaccines (immunizations) in your VA medical records.</p>
-      <p className="vads-u-margin-bottom--4">
-        For a list of your allergies and reactions (including any reactions to
-        vaccines), go to your allergy records.{' '}
-        <Link to="/allergies" className="no-print">
+      <p>
+        This list includes all vaccines (immunizations) in your VA medical
+        records. For a list of your allergies and reactions (including any
+        reactions to vaccines), download your allergy records.
+      </p>
+      <div className="vads-u-margin-bottom--4">
+        <Link
+          to="/allergies"
+          className="no-print"
+          onClick={() => {
+            sendDataDogAction('Go to your allergy records - Vaccines');
+          }}
+        >
           Go to your allergy records
         </Link>
-      </p>
+      </div>
+
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.VACCINES} />
+
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -145,13 +181,30 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            Array.isArray(vaccines) &&
+            Array.isArray(updatedRecordList) &&
+            vaccines.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
+
         <PrintDownload
+          description="Vaccines - List"
           list
           downloadPdf={generateVaccinesPdf}
           allowTxtDownloads={allowTxtDownloads}
           downloadTxt={generateVaccinesTxt}
         />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <DownloadingRecordsInfo
+          allowTxtDownloads={allowTxtDownloads}
+          description="Vaccines"
+        />
         <RecordList records={vaccines} type={recordType.VACCINES} />
       </RecordListSection>
     </div>

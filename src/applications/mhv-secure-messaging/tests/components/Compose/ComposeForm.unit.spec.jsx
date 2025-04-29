@@ -18,16 +18,24 @@ import allBlockedAssociations from '../../fixtures/json-triage-mocks/triage-team
 import reducer from '../../../reducers';
 import signatureReducers from '../../fixtures/signature-reducers.json';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
-import { Paths, Prompts } from '../../../util/constants';
+import {
+  Paths,
+  Prompts,
+  ElectronicSignatureBox,
+  ErrorMessages,
+} from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
 import * as categoriesActions from '../../../actions/categories';
 import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
+  getProps,
   inputVaTextInput,
   selectVaRadio,
   selectVaSelect,
+  checkVaCheckbox,
+  comboBoxVaSelect,
 } from '../../../util/testUtils';
 import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json';
 
@@ -47,6 +55,7 @@ describe('Compose form component', () => {
         noAssociations: noBlockedRecipients.noAssociations,
         allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
       },
+      preferences: { signature: {} },
     },
     drupalStaticData,
     featureToggles: {},
@@ -85,16 +94,6 @@ describe('Compose form component', () => {
         path,
       },
     );
-  };
-
-  const getProps = element => {
-    let prop;
-    Object.keys(element).forEach(key => {
-      if (key.match(/^__react[^$]*(\$.+)$/)) {
-        prop = key;
-      }
-    });
-    return prop;
   };
 
   afterEach(() => {
@@ -151,8 +150,8 @@ describe('Compose form component', () => {
   it('displays compose action buttons if path is /new-message', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
-    const sendButton = await screen.getByTestId('Send-Button');
-    const saveDraftButton = await screen.getByTestId('Save-Draft-Button');
+    const sendButton = await screen.getByTestId('send-button');
+    const saveDraftButton = await screen.getByTestId('save-draft-button');
 
     expect(sendButton).to.exist;
     expect(saveDraftButton).to.exist;
@@ -161,7 +160,7 @@ describe('Compose form component', () => {
   it('displays error states on empty fields when send button is clicked', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
-    const sendButton = screen.getByTestId('Send-Button');
+    const sendButton = screen.getByTestId('send-button');
 
     fireEvent.click(sendButton);
 
@@ -234,9 +233,37 @@ describe('Compose form component', () => {
       recipients: customState.sm.recipients,
     });
 
-    fireEvent.click(screen.getByTestId('Send-Button'));
+    fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
       expect(sendMessageSpy.calledOnce).to.be.true;
+      sendMessageSpy.restore();
+    });
+  });
+
+  it('renders sending message spinner without errors', async () => {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
+    expect(screen.queryByTestId('sending-indicator')).to.equal(null);
+    fireEvent.click(screen.getByTestId('send-button'));
+    await waitFor(() => {
+      expect(screen.getByTestId('sending-indicator')).to.exist;
     });
   });
 
@@ -245,12 +272,14 @@ describe('Compose form component', () => {
     const screen = setup(draftState, `/thread/${draftMessage.id}`, {
       draft: draftMessage,
       recipients: draftState.sm.recipients,
+      isSignatureRequired: false,
+      messageValid: true,
     });
 
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+      fireEvent.click(screen.getByTestId('save-draft-button'));
+      expect(saveDraftSpy.calledOnce).to.be.true;
     });
-    expect(saveDraftSpy.calledOnce).to.be.true;
   });
 
   it('displays user signature on /new-message when signature is enabled', async () => {
@@ -326,7 +355,12 @@ describe('Compose form component', () => {
   });
 
   it('displays an error on attempt to save a draft with attachments', async () => {
-    const screen = setup(initialState, Paths.COMPOSE);
+    const customProps = {
+      ...draftMessage,
+      messageValid: true,
+      isSignatureRequired: false,
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
     const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
@@ -338,20 +372,17 @@ describe('Compose form component', () => {
     expect(uploader.files[0].name).to.equal('test.png');
     let modal = null;
 
+    fireEvent.click(screen.getByTestId('save-draft-button'));
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
-      modal = screen.getByTestId('quit-compose-double-dare');
+      modal = screen.queryByTestId('navigation-warning-modal');
+      expect(modal).to.exist;
     });
-
-    expect(modal).to.exist;
     expect(modal).to.have.attribute(
       'modal-title',
       "We can't save attachments in a draft message",
     );
 
-    fireEvent.click(
-      document.querySelector('va-button[text="Continue editing"]'),
-    );
+    fireEvent.click(document.querySelector('va-button[text="Edit draft"]'));
   });
 
   it('renders without errors to category selection', async () => {
@@ -464,8 +495,9 @@ describe('Compose form component', () => {
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
     });
-
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
   });
 
   it('adds eventListener if path is /draft/:id', async () => {
@@ -503,8 +535,9 @@ describe('Compose form component', () => {
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
     });
-
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
   });
 
   it('does not display BlockedTriageGroupAlert on a saved draft if user is not blocked from groups', async () => {
@@ -572,11 +605,13 @@ describe('Compose form component', () => {
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
     );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
-    );
+    await waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+      );
+    });
     const viewOnlyDraftSections = screen.queryAllByTestId(
       'view-only-draft-section',
     );
@@ -619,11 +654,13 @@ describe('Compose form component', () => {
       'blocked-triage-group-alert',
     );
 
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to some of your care teams",
-    );
+    await waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to some of your care teams",
+      );
+    });
     expect(screen.queryAllByTestId('blocked-triage-group').length).to.equal(2);
   });
 
@@ -661,11 +698,13 @@ describe('Compose form component', () => {
       'blocked-triage-group-alert',
     );
 
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
-    );
+    waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+      );
+    });
   });
 
   it('displays BlockedTriageGroupAlert if there are no associations at all', async () => {
@@ -729,7 +768,7 @@ describe('Compose form component', () => {
         );
       }
     });
-    expect(screen.queryByTestId('Send-Button')).to.not.exist;
+    expect(screen.queryByTestId('send-button')).to.not.exist;
   });
 
   it('displays BlockedTriageGroupAlert if blocked from one facility', async () => {
@@ -763,11 +802,13 @@ describe('Compose form component', () => {
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
     );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to care teams at VA Indiana health care",
-    );
+    waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to care teams at VA Indiana health care",
+      );
+    });
   });
 
   it('displays BlockedTriageGroupAlert with list if blocked from one facility and care team at another facility', async () => {
@@ -802,11 +843,13 @@ describe('Compose form component', () => {
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
     );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to some of your care teams",
-    );
+    await waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to some of your care teams",
+      );
+    });
     const blockedList = screen.queryAllByTestId('blocked-triage-group');
     expect(blockedList.length).to.equal(2);
     expect(
@@ -848,15 +891,17 @@ describe('Compose form component', () => {
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
     );
-    expect(blockedTriageGroupAlert).to.exist;
-    expect(blockedTriageGroupAlert).to.have.attribute(
-      'trigger',
-      "You can't send messages to your care teams right now",
-    );
-    expect(screen.queryByTestId('Send-Button')).to.not.exist;
+    await waitFor(() => {
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert).to.have.attribute(
+        'trigger',
+        "You can't send messages to your care teams right now",
+      );
+    });
+    expect(screen.queryByTestId('send-button')).to.not.exist;
   });
 
-  it('displays an alert and Digital Signature component if signature is required', async () => {
+  it('displays alerts in Electronic Signature component if signature is required', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={initialState.sm.recipients} />,
       {
@@ -869,10 +914,13 @@ describe('Compose form component', () => {
     ).id;
     selectVaSelect(screen.container, val);
 
-    const digitalSignature = await screen.findByText('Digital signature', {
-      selector: 'h2',
-    });
-    expect(digitalSignature).to.exist;
+    const electronicSignature = await screen.findByText(
+      ElectronicSignatureBox.TITLE,
+      {
+        selector: 'h2',
+      },
+    );
+    expect(electronicSignature).to.exist;
     const alert = screen.getByTestId('signature-alert');
     expect(alert).to.have.attribute('visible', 'true');
     expect(alert.textContent).to.contain(Prompts.Compose.SIGNATURE_REQUIRED);
@@ -891,5 +939,348 @@ describe('Compose form component', () => {
     );
     inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
     expect(signatureTextField).to.have.attribute('error', '');
+  });
+
+  it('displays an error in Electronic Signature component if checkbox is not checked', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={initialState.sm.recipients} />,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
+    // Enters value for all other compose form fields first
+    const tgRecipient = initialState.sm.recipients.allowedRecipients.find(
+      r => r.signatureRequired,
+    ).id;
+    selectVaSelect(screen.container, tgRecipient);
+
+    const checkboxSelector = `va-checkbox[label="${
+      ElectronicSignatureBox.CHECKBOX_LABEL
+    }"]`;
+
+    await waitFor(() => {
+      const sendButton = screen.getByTestId('send-button');
+      const checkbox = screen.container.querySelector(checkboxSelector);
+      checkVaCheckbox(checkbox, false);
+
+      // after clicking send, validation checks on Electronic Signature component runs
+      fireEvent.click(sendButton);
+      expect(checkbox).to.have.attribute(
+        'error',
+        `${ErrorMessages.ComposeForm.CHECKBOX_REQUIRED}`,
+      );
+
+      checkVaCheckbox(checkbox, true);
+      expect(checkbox).to.have.attribute('error', '');
+    });
+  });
+
+  it('displays modal on attempt to manual save with electronic signature populated', async () => {
+    const customProps = {
+      ...draftMessage,
+      messageValid: true,
+      isSignatureRequired: true,
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+
+    const val = initialState.sm.recipients.allowedRecipients.find(
+      r => r.signatureRequired,
+    ).id;
+    selectVaSelect(screen.container, val);
+
+    const electronicSignature = await screen.findByText(
+      ElectronicSignatureBox.TITLE,
+      {
+        selector: 'h2',
+      },
+    );
+    expect(electronicSignature).to.exist;
+    const signatureTextFieldSelector = 'va-text-input[label="Your full name"]';
+    inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
+    let modal = null;
+
+    fireEvent.click(screen.getByTestId('save-draft-button'));
+    await waitFor(() => {
+      modal = screen.queryByTestId('navigation-warning-modal');
+      expect(modal).to.exist;
+    });
+    expect(modal).to.have.attribute(
+      'modal-title',
+      "We can't save your signature in a draft message",
+    );
+  });
+
+  it('should display an error message when a file is 0B', async () => {
+    const screen = setup(initialState, Paths.COMPOSE);
+    const file = new File([''], 'test.png', { type: 'image/png' });
+
+    const uploader = screen.getByTestId('attach-file-input');
+
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file] },
+      }),
+    );
+
+    const error = screen.getByTestId('file-input-error-message');
+    expect(error).to.exist;
+    expect(error.textContent).to.equal(
+      ErrorMessages.ComposeForm.ATTACHMENTS.FILE_EMPTY,
+    );
+  });
+
+  it('should display an error message when a file is not an accepted file type', async () => {
+    const file = new File(['(⌐□_□)'], 'test.zip', {
+      type: 'application/zip',
+    });
+    const screen = setup(initialState, Paths.COMPOSE);
+
+    const uploader = screen.getByTestId('attach-file-input');
+
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file] },
+      }),
+    );
+
+    const error = screen.getByTestId('file-input-error-message');
+    expect(error).to.exist;
+    expect(error.textContent).to.equal(
+      ErrorMessages.ComposeForm.ATTACHMENTS.INVALID_FILE_TYPE,
+    );
+  });
+
+  it('should display an error message when a file is a duplicate', async () => {
+    const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      attachments: [file],
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm
+        draft={customDraftMessage}
+        recipients={customState.sm.recipients}
+      />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: `/draft/${draftMessage.id}`,
+      },
+    );
+    const uploader = screen.getByTestId('attach-file-input');
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file] },
+      }),
+    );
+    const error = screen.getByTestId('file-input-error-message');
+    expect(error.textContent).to.equal('You have already attached this file.');
+  });
+
+  it('should display an error message when a file with the same name but different size is a duplicate', async () => {
+    const oneAttachment = { name: 'test.png', size: 100, type: 'image/png' };
+
+    const file = new File(['(⌐□_□)'], 'test.png', {
+      type: 'image/png',
+      size: 200,
+    });
+
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      attachments: [oneAttachment],
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm
+        draft={customDraftMessage}
+        recipients={customState.sm.recipients}
+      />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: `/draft/${draftMessage.id}`,
+      },
+    );
+
+    const uploader = screen.getByTestId('attach-file-input');
+
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file] },
+      }),
+    );
+
+    expect(uploader.files[0].name).to.equal('test.png');
+    expect(uploader.files.length).to.equal(1);
+    const error = screen.getByTestId('file-input-error-message');
+    expect(error.textContent).to.equal('You have already attached this file.');
+  });
+
+  it('should display an error message when a file is over 6MB', async () => {
+    const largeFileSizeInBytes = 7 * 1024 * 1024; // 7MB
+
+    const largeFileBuffer = new ArrayBuffer(largeFileSizeInBytes);
+    const largeFileBlob = new Blob([largeFileBuffer], {
+      type: 'application/octet-stream',
+    });
+
+    const largeFile = new File([largeFileBlob], 'large_file.txt', {
+      type: 'application/octet-stream',
+      lastModified: new Date().getTime(),
+    });
+
+    const screen = setup(initialState, Paths.COMPOSE);
+    const uploader = screen.getByTestId('attach-file-input');
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [largeFile] },
+      }),
+    );
+    const error = screen.getByTestId('file-input-error-message');
+    expect(error.textContent).to.equal(
+      ErrorMessages.ComposeForm.ATTACHMENTS.FILE_TOO_LARGE,
+    );
+  });
+
+  it(' should display an error message when attaching a new file increases total attachments size over 10MB', async () => {
+    const oneMB = 1024 * 1024;
+    const customAttachments = [
+      { name: 'test1.png', size: 4 * oneMB, type: 'image/png' },
+      { name: 'test2.png', size: 4 * oneMB, type: 'image/png' },
+    ];
+    const largeFileSizeInBytes = 3 * oneMB; // 7MB
+
+    const largeFileBuffer = new ArrayBuffer(largeFileSizeInBytes);
+    const largeFileBlob = new Blob([largeFileBuffer], {
+      type: 'application/octet-stream',
+    });
+
+    const largeFile = new File([largeFileBlob], 'large_file.txt', {
+      type: 'application/octet-stream',
+      lastModified: new Date().getTime(),
+    });
+
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      attachments: [...customAttachments],
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm
+        draft={customDraftMessage}
+        recipients={customState.sm.recipients}
+      />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: `/draft/${draftMessage.id}`,
+      },
+    );
+
+    const uploader = screen.getByTestId('attach-file-input');
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [largeFile] },
+      }),
+    );
+    const error = screen.getByTestId('file-input-error-message');
+    expect(error.textContent).to.equal(
+      ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
+    );
+  });
+
+  it('should contain Edit Signature Link', () => {
+    const customState = { ...initialState, featureToggles: { loading: false } };
+    // eslint-disable-next-line camelcase
+    customState.featureToggles.mhv_secure_messaging_signature_settings = true;
+    customState.sm.preferences.signature.includeSignature = true;
+    const screen = setup(customState, Paths.COMPOSE);
+    expect(screen.getByText('Edit signature for all messages')).to.exist;
+  });
+
+  it('renders combobox when combobox feauture flag is true', () => {
+    const customState = { ...initialState, featureToggles: { loading: false } };
+    // eslint-disable-next-line camelcase
+    customState.featureToggles.mhv_secure_messaging_recipient_combobox = true;
+    customState.sm.preferences.signature.includeSignature = true;
+    const screen = setup(customState, Paths.COMPOSE);
+    expect(screen.getByTestId('compose-recipient-combobox')).to.exist;
+  });
+
+  it('renders without errors to recipient selection in combobox', () => {
+    const customState = { ...initialState, featureToggles: { loading: false } };
+    // eslint-disable-next-line camelcase
+    customState.featureToggles.mhv_secure_messaging_recipient_combobox = true;
+    customState.sm.preferences.signature.includeSignature = true;
+    const screen = setup(customState, Paths.COMPOSE);
+    const val = initialState.sm.recipients.allowedRecipients[0].id;
+    comboBoxVaSelect(screen.container, val);
+    waitFor(() => {
+      expect(screen.getByTestId('compose-recipient-combobox')).to.have.value(
+        val,
+      );
+    });
+  });
+
+  it('displays error states on empty fields when send button is clicked (combobox empty)', async () => {
+    const customState = { ...initialState, featureToggles: { loading: false } };
+    // eslint-disable-next-line camelcase
+    customState.featureToggles.mhv_secure_messaging_recipient_combobox = true;
+    customState.sm.preferences.signature.includeSignature = true;
+
+    const screen = setup(customState, Paths.COMPOSE);
+
+    const sendButton = screen.getByTestId('send-button');
+
+    fireEvent.click(sendButton);
+
+    const comboBoxInput = await screen.getByTestId(
+      'compose-recipient-combobox',
+    );
+
+    const subjectInput = await screen.getByTestId('message-subject-field');
+    const subjectInputError = subjectInput[getProps(subjectInput)].error;
+
+    const messageInput = await screen.getByTestId('message-body-field');
+    const messageInputError = messageInput[getProps(messageInput)].error;
+
+    expect(comboBoxInput.error).to.equal('Please select a recipient.');
+    expect(subjectInputError).to.equal('Subject cannot be blank.');
+    expect(messageInputError).to.equal('Message body cannot be blank.');
   });
 });

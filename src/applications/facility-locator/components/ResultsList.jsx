@@ -1,64 +1,54 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
 import { facilityTypes } from '../config';
-import {
-  MARKER_LETTERS,
-  CLINIC_URGENTCARE_SERVICE,
-  PHARMACY_RETAIL_SERVICE,
-  LocationType,
-  Error,
-  Covid19Vaccine,
-  EMERGENCY_CARE_SERVICES,
-} from '../constants';
-
-import { setFocus } from '../utils/helpers';
+import { Error } from '../constants';
 import { recordSearchResultsEvents } from '../utils/analytics';
-import { updateSearchQuery, searchWithBounds } from '../actions';
-
-import VaFacilityResult from './search-results-items/VaFacilityResult';
-import CCProviderResult from './search-results-items/CCProviderResult';
-import PharmacyResult from './search-results-items/PharmacyResult';
-import UrgentCareResult from './search-results-items/UrgentCareResult';
-import EmergencyCareResult from './search-results-items/EmergencyCareResult';
-import Covid19Result from './search-results-items/Covid19Result';
+import { ResultMapper } from './search-results-items/common/ResultMapper';
+import { updateSearchQuery, searchWithBounds } from '../actions/search';
 import SearchResultMessage from './SearchResultMessage';
 
 export const ResultsList = ({
   facilityTypeName,
   inProgress,
+  isMobile,
   searchString,
   results,
   searchError,
   pagination,
   currentQuery,
   query,
+  searchResultMessageRef,
   ...props
 }) => {
-  const searchResultTitle = useRef();
+  const [resultsData, setResultsData] = useState(null);
+  const currentPage = pagination ? pagination.currentPage : 1;
 
   useEffect(
     () => {
-      setFocus(searchResultTitle.current);
+      setResultsData(
+        results.map((result, index) => ({
+          ...result,
+          resultItem: true,
+          searchString,
+          currentPage,
+          markerText: index + 1,
+        })),
+      );
     },
-    [results, inProgress, props.error],
+    [results],
   );
 
-  function isHealthAndHealthConnect(apiResult, searchQuery) {
-    let final = false;
-    if (
-      searchQuery?.facilityType === 'health' &&
-      apiResult?.attributes?.phone?.healthConnect !== null
-    ) {
-      final = true;
-    }
-    return final;
-  }
+  useEffect(
+    () => {
+      if (resultsData?.length) {
+        recordSearchResultsEvents(props, resultsData);
+      }
+    },
+    [resultsData],
+  );
 
   /**
    * Returns Result items by type
@@ -67,124 +57,11 @@ export const ResultsList = ({
    * @returns [] list of results
    */
   const renderResultItems = (searchQuery, apiResults) => {
-    return apiResults.map((result, index) => {
-      let item;
-      const showHealthConnectNumber = isHealthAndHealthConnect(result, query);
-
-      switch (searchQuery.facilityType) {
-        case 'health':
-        case 'cemetery':
-        case 'benefits':
-        case 'vet_center':
-          item =
-            searchQuery.serviceType === Covid19Vaccine ? (
-              <Covid19Result location={result} key={result.id} index={index} />
-            ) : (
-              <VaFacilityResult
-                location={result}
-                query={searchQuery}
-                key={result.id}
-                index={index}
-                showHealthConnectNumber={showHealthConnectNumber}
-              />
-            );
-          break;
-        case 'provider':
-          // Support non va urgent care search through ccp option
-          if (searchQuery.serviceType === CLINIC_URGENTCARE_SERVICE) {
-            item = (
-              <UrgentCareResult
-                provider={result}
-                query={searchQuery}
-                key={result.id}
-              />
-            );
-          } else if (searchQuery.serviceType === PHARMACY_RETAIL_SERVICE) {
-            item = (
-              <PharmacyResult
-                provider={result}
-                query={searchQuery}
-                key={result.id}
-              />
-            );
-          } else if (
-            EMERGENCY_CARE_SERVICES.includes(searchQuery.serviceType)
-          ) {
-            item = (
-              <EmergencyCareResult
-                provider={result}
-                query={searchQuery}
-                key={result.id}
-              />
-            );
-          } else {
-            item = (
-              <CCProviderResult
-                provider={result}
-                query={searchQuery}
-                key={result.id}
-              />
-            );
-          }
-          break;
-        case 'pharmacy':
-          item = (
-            <PharmacyResult
-              provider={result}
-              query={searchQuery}
-              key={result.id}
-            />
-          );
-          break;
-        case 'emergency_care':
-          if (result.type === LocationType.CC_PROVIDER) {
-            item = (
-              <EmergencyCareResult
-                provider={result}
-                query={searchQuery}
-                key={result.id}
-              />
-            );
-          } else {
-            item = (
-              <VaFacilityResult
-                location={result}
-                query={searchQuery}
-                key={result.id}
-                index={index}
-              />
-            );
-          }
-          break;
-        case 'urgent_care':
-          if (result.type === LocationType.CC_PROVIDER) {
-            item = (
-              <UrgentCareResult
-                provider={result}
-                query={searchQuery}
-                key={result.id}
-              />
-            );
-          } else {
-            item = (
-              <VaFacilityResult
-                location={result}
-                query={searchQuery}
-                key={result.id}
-                index={index}
-              />
-            );
-          }
-          break;
-        default:
-          item = null;
-      }
-
-      return item;
+    return apiResults?.map((result, index) => {
+      return ResultMapper(result, searchQuery, index);
     });
   };
 
-  const currentPage = pagination ? pagination.currentPage : 1;
   if (inProgress) {
     return (
       <div>
@@ -208,47 +85,39 @@ export const ResultsList = ({
     if (searchError.type === 'mapBox') {
       return (
         <SearchResultMessage
-          facilityType={facilityTypeName}
-          resultRef={searchResultTitle}
+          resultRef={searchResultMessageRef}
           message={Error.LOCATION}
+          searchStarted={currentQuery.searchStarted}
         />
       );
     }
+
     return (
       <SearchResultMessage
-        facilityType={facilityTypeName}
-        resultRef={searchResultTitle}
-        message={Error.DEFAULT}
         error={searchError}
+        isMobile={isMobile}
+        message={Error.DEFAULT}
+        resultRef={searchResultMessageRef}
+        searchStarted={currentQuery.searchStarted}
       />
     );
   }
 
-  if (facilityTypeName && (!results || results.length < 1)) {
+  if (facilityTypeName && !results.length) {
     return (
       <SearchResultMessage
-        facilityType={facilityTypeName}
-        resultsFound={results === 0}
-        resultRef={searchResultTitle}
+        isMobile={isMobile}
+        resultsFound={false}
+        resultRef={searchResultMessageRef}
+        searchStarted={currentQuery.searchStarted}
       />
     );
   }
+
   if (!facilityTypeName || !currentQuery.facilityType) {
-    return <SearchResultMessage />;
+    return <SearchResultMessage searchStarted={currentQuery.searchStarted} />;
   }
 
-  const markers = MARKER_LETTERS.values();
-  const resultsData = results.map(result => ({
-    ...result,
-    resultItem: true,
-    searchString,
-    currentPage,
-    markerText: markers.next().value,
-  }));
-
-  if (resultsData.length > 0) {
-    recordSearchResultsEvents(props, resultsData);
-  }
   return <div>{renderResultItems(query, resultsData)}</div>;
 };
 
@@ -257,10 +126,12 @@ ResultsList.propTypes = {
   error: PropTypes.object,
   facilityTypeName: PropTypes.string,
   inProgress: PropTypes.bool,
+  isMobile: PropTypes.bool,
   pagination: PropTypes.object,
   query: PropTypes.object,
   results: PropTypes.array,
-  searchError: PropTypes.object,
+  searchError: PropTypes.string,
+  searchResultMessageRef: PropTypes.object,
   searchString: PropTypes.string,
 };
 
@@ -295,11 +166,7 @@ function mapStateToProps(state) {
     pagination: state.searchResult.pagination,
     position,
     searchString,
-    selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
-    facilityLocatorShowHealthConnectNumber: toggleValues(state)[
-      FEATURE_FLAG_NAMES.facilityLocatorShowHealthConnectNumber
-    ],
   };
 }
 

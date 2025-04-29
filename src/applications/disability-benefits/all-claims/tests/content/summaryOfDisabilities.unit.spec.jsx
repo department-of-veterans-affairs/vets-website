@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { render, within } from '@testing-library/react';
 import { SummaryOfDisabilitiesDescription } from '../../content/summaryOfDisabilities';
 import { NULL_CONDITION_STRING } from '../../constants';
+import { DISABILITY_SHARED_CONFIG } from '../../utils';
 
 describe('summaryOfDisabilitiesDescription', () => {
   it('renders selected rated disabilities when claiming increase', () => {
@@ -138,5 +139,56 @@ describe('summaryOfDisabilitiesDescription', () => {
     tree.getByText('Diabetes Mellitus0');
     tree.getByText('Asthma');
     expect(tree.queryByText('Diabites Mellitus1')).to.be.null;
+  });
+
+  it('renders link to rated disabilities page when both new and increase are selected', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingNew': true,
+        'view:claimingIncrease': true,
+      },
+    };
+
+    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
+
+    const link = tree.getByText('go back and add it');
+    expect(link.getAttribute('aria-label')).to.equal(
+      'go back and add any missing disabilities',
+    );
+    expect(link.getAttribute('data-testid')).to.equal(
+      `redirect-link-${DISABILITY_SHARED_CONFIG.ratedDisabilities.path}`,
+    );
+  });
+
+  it('renders link to rated disabilities page when only increase is selected', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingNew': false,
+        'view:claimingIncrease': true,
+      },
+    };
+
+    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
+
+    const link = tree.getByText('go back and add it');
+    expect(link.getAttribute('data-testid')).to.equal(
+      `redirect-link-${DISABILITY_SHARED_CONFIG.ratedDisabilities.path}`,
+    );
+  });
+
+  it('renders link to add disabilities page when only new is selected', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingNew': true,
+        'view:claimingIncrease': false,
+      },
+    };
+
+    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
+
+    const link = tree.getByText('go back and add it');
+    expect(link.getAttribute('data-testid')).to.equal(
+      `redirect-link-${DISABILITY_SHARED_CONFIG.addDisabilities.path}`,
+    );
   });
 });

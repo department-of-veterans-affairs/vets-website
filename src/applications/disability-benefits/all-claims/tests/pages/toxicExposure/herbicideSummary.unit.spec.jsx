@@ -47,7 +47,7 @@ describe('Herbicide Summary', () => {
       },
     };
 
-    const { getByText, getByLabelText } = render(
+    const { getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
     );
 
@@ -67,9 +67,6 @@ describe('Herbicide Summary', () => {
     getByText('January 1968 - January 1969');
 
     getByText(goBackLink);
-    getByLabelText(
-      'go back and edit locations and dates for Agent Orange locations',
-    );
   });
 
   it('does not render a location if not checked', () => {

@@ -2,7 +2,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 class TravelPages {
   validatePageLoaded = page => {
-    let title = 'Would you like to file a travel reimbursement claim?';
+    let title = 'Would you like to file a travel reimbursement claim now?';
     switch (page) {
       case 'mileage':
         title = 'Are you claiming only mileage and no other expenses?';
@@ -96,14 +96,8 @@ class TravelPages {
     }
   };
 
-  clickEditLink = () => {
-    cy.get(`a[data-testid="review-edit-link-mileage"]`).click({
-      waitForAnimations: true,
-    });
-  };
-
   clickStartOver = () => {
-    cy.get(`a[data-testid="review-edit-link-mileage"]`).click({
+    cy.get(`a[data-testid="review-edit-link"]`).click({
       waitForAnimations: true,
     });
   };

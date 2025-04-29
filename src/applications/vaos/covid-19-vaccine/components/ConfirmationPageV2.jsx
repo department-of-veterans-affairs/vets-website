@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -22,13 +22,12 @@ import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
-function handleClick(history, dispatch, typeOfCare) {
+function handleClick(dispatch) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(typeOfCare.url);
   };
 }
 
@@ -40,7 +39,6 @@ function ConfirmationPageV2({
   submitStatus,
   changeCrumb,
 }) {
-  const history = useHistory();
   const dispatch = useDispatch();
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
@@ -92,20 +90,20 @@ function ConfirmationPageV2({
           <va-link
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
-            onClick={handleClick(history, dispatch, typeOfCare)}
-            tabindex="0"
+            onClick={handleClick(dispatch)}
+            href={`${root.url}${typeOfCare.url}`}
           />
         </div>
       </InfoAlert>
-      <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
+      <h2 className="vads-u-margin-bottom--0 vads-u-display--inline-block">
         Type of care:
       </h2>
       <div className="vads-u-display--inline"> COVID-19 vaccine</div>
 
-      <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+      <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
           <h2
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+            className="vads-u-margin-bottom--0"
             data-cy="va-appointment-details-header"
           >
             COVID-19 vaccine

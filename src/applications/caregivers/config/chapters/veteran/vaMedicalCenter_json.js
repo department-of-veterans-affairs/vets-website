@@ -2,17 +2,20 @@ import {
   titleUI,
   selectUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import {
   MED_CENTER_LABELS,
   MED_CENTERS_BY_STATE,
-  STATE_LABELS,
-} from '../../../utils/constants';
-import { fullSchema } from '../../../utils/imports';
+  setPlannedClinics,
+} from '../../../utils/helpers';
+import { FULL_SCHEMA, STATES_USA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-const { veteran } = fullSchema.properties;
+const { veteran } = FULL_SCHEMA.properties;
 const { plannedClinic } = veteran.properties;
+
+const STATE_LABELS = createUSAStateLabels(states);
 
 const vaMedicalCenterJson = {
   uiSchema: {
@@ -28,12 +31,7 @@ const vaMedicalCenterJson = {
     veteranPlannedClinic: selectUI({
       title: content['vet-info-title--facility'],
       labels: MED_CENTER_LABELS,
-      updateSchema: formData => {
-        const state = formData['view:plannedClinicState'];
-        return state
-          ? { enum: MED_CENTERS_BY_STATE[state] || [] }
-          : { enum: [] };
-      },
+      updateSchema: setPlannedClinics,
     }),
   },
   schema: {
@@ -42,7 +40,7 @@ const vaMedicalCenterJson = {
     properties: {
       'view:plannedClinicState': {
         type: 'string',
-        enum: states.USA.map(state => state.value).filter(
+        enum: STATES_USA.map(state => state.value).filter(
           state => !!MED_CENTERS_BY_STATE[state],
         ),
       },

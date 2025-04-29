@@ -1,20 +1,56 @@
 import { Actions } from '../util/actionTypes';
 import {
   getPrescription,
-  getPaginatedSortedList,
   getRefillablePrescriptionList,
   fillRx,
+  fillRxs,
   getAllergies,
+  getFilteredList,
+  getRecentlyRequestedList,
 } from '../api/rxApi';
+import { isRefillTakingLongerThanExpected } from '../util/helpers';
 
-export const getPrescriptionsPaginatedSortedList = (
+export const getPaginatedFilteredList = (
   pageNumber,
+  filterOption,
   sortEndpoint,
+  perPage,
 ) => async dispatch => {
   try {
-    const response = await getPaginatedSortedList(pageNumber, sortEndpoint);
+    const response = await getFilteredList(
+      pageNumber,
+      filterOption,
+      sortEndpoint,
+      perPage,
+    );
     dispatch({
-      type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
+      type: Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
+      response,
+    });
+    return null;
+  } catch (error) {
+    dispatch({
+      type: Actions.Prescriptions.GET_API_ERROR,
+    });
+    return error;
+  }
+};
+
+export const getRefillAlertList = () => async dispatch => {
+  try {
+    const recentlyRequestedList = await getRecentlyRequestedList();
+    const response = recentlyRequestedList.data.reduce(
+      (refillAlertList, { attributes: rx }) => {
+        if (isRefillTakingLongerThanExpected(rx)) {
+          refillAlertList.push(rx);
+        }
+        return refillAlertList;
+      },
+      [],
+    );
+
+    dispatch({
+      type: Actions.Prescriptions.GET_REFILL_ALERT_LIST,
       response,
     });
     return null;
@@ -92,4 +128,22 @@ export const fillPrescription = prescriptionId => async dispatch => {
     });
     return error;
   }
+};
+
+export const fillPrescriptions = prescriptions => async dispatch => {
+  try {
+    const response = await fillRxs(prescriptions.map(p => p.prescriptionId));
+    response.prescriptions = prescriptions;
+    dispatch({ type: Actions.Prescriptions.FILL_NOTIFICATION, response });
+    return null;
+  } catch (error) {
+    dispatch({
+      type: Actions.Prescriptions.GET_API_ERROR,
+    });
+    return error;
+  }
+};
+
+export const clearFillNotification = () => async dispatch => {
+  dispatch({ type: Actions.Prescriptions.CLEAR_FILL_NOTIFICATION });
 };

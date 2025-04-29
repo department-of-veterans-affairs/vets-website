@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
 
 import {
+  waitForRenderThenFocus,
+  focusElement,
+  scrollTo,
+} from 'platform/utilities/ui';
+
+import {
   getChaptersLengthDisplay,
   createFormPageList,
   createPageList,
@@ -10,11 +16,7 @@ import {
   getCurrentChapterDisplay,
 } from '../helpers';
 
-import {
-  focusByOrder,
-  customScrollAndFocus,
-  defaultFocusSelector,
-} from '../../../../utilities/ui';
+import { isMinimalHeaderApp } from '../patterns/minimal-header';
 
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
@@ -26,6 +28,10 @@ export default function FormNav(props) {
     isLoggedIn,
     inProgressFormId,
   } = props;
+
+  const PROGRESS_BAR_HEADER_LEVEL = '2';
+  // testFocus for unit tests (stubbing wasn't working as expected)
+  const focusAfterRender = props.testFocus || waitForRenderThenFocus;
 
   const [index, setIndex] = useState(0);
 
@@ -69,12 +75,15 @@ export default function FormNav(props) {
     }
   }
 
-  if (isLoggedIn) {
+  const pageIndex = eligiblePageList.findIndex(p => p === page);
+  // Only display the helper text if the user is logged in and on the first page of the first chapter
+  // skip introduction page at index 0
+  if (isLoggedIn && index === 0 && pageIndex === 1) {
     inProgressMessage = (
       <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
         We&rsquo;ll save your application on every change.{' '}
         {inProgressFormId &&
-          `Your application ID number is ${inProgressFormId}.`}
+          `Your in-progress ID number is ${inProgressFormId}.`}
       </span>
     );
   }
@@ -107,34 +116,26 @@ export default function FormNav(props) {
         setIndex(index - 1);
       }
 
-      return () => {
-        // Check main toggle to enable custom focus; the unmounting of the page
-        // before the review & submit page may cause the customScrollAndFocus
-        // function to be called inadvertently
-        if (
-          !(
-            page.chapterKey === 'review' ||
-            window.location.pathname.endsWith('review-and-submit')
-          )
-        ) {
-          if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
-            customScrollAndFocus(page.scrollAndFocusTarget, index);
-          } else {
-            focusByOrder([defaultFocusSelector, 'h2']);
-          }
+      // Focus on review & submit header
+      if (
+        page.chapterKey === 'review' ||
+        window.location.pathname.endsWith('review-and-submit')
+      ) {
+        scrollTo('topScrollElement');
+        if (hideFormNavProgress || isMinimalHeaderApp()) {
+          focusElement('h1');
         } else {
-          // h2 fallback for confirmation page
-          focusByOrder([defaultFocusSelector, 'h2']);
+          // Focus on review & submit page h2 in stepper
+          focusAfterRender(
+            'va-segmented-progress-bar',
+            document,
+            250,
+            `h${PROGRESS_BAR_HEADER_LEVEL}`,
+          );
         }
-      };
+      }
     },
-    [
-      current,
-      formConfig.useCustomScrollAndFocus,
-      index,
-      page.chapterKey,
-      page.scrollAndFocusTarget,
-    ],
+    [current, hideFormNavProgress, index, page.chapterKey, focusAfterRender],
   );
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
@@ -151,11 +152,11 @@ export default function FormNav(props) {
             heading-text={chapterName ?? ''} // functionality only available for v3
             name="v3SegmentedProgressBar"
             labels={v3SegmentedProgressBar && stepLabels ? stepLabels : ''}
-            header-level="2"
+            header-level={PROGRESS_BAR_HEADER_LEVEL}
             {...(v3SegmentedProgressBar?.useDiv ? { 'use-div': 'true' } : {})}
           />
           <div className="schemaform-chapter-progress">
-            <div className="nav-header nav-header-schemaform">
+            <div className="nav-header">
               <div data-testid="navFormDiv" className="vads-u-font-size--h4">
                 {inProgressMessage}
               </div>
@@ -181,10 +182,10 @@ FormNav.propTypes = {
       reviewPageTitle: PropTypes.string,
     }),
     urlPrefix: PropTypes.string,
-    useCustomScrollAndFocus: PropTypes.bool,
   }).isRequired,
   currentPath: PropTypes.string,
   formData: PropTypes.shape({}),
   inProgressFormId: PropTypes.number,
   isLoggedIn: PropTypes.bool,
+  testFocus: PropTypes.func,
 };

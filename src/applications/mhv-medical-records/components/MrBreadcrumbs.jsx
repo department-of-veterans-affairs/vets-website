@@ -1,45 +1,185 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React, { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { Breadcrumbs, Paths } from '../util/constants';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
+import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
+import { handleDataDogAction, removeTrailingSlash } from '../util/helpers';
 
 const MrBreadcrumbs = () => {
-  const crumbs = useSelector(state => state.mr.breadcrumbs.list);
-  const isDetails = useSelector(state => state.mr.isDetails.currentIsDetails);
-  const crumb = crumbs[0]?.url?.toLowerCase();
+  const dispatch = useDispatch();
+  const location = useLocation();
   const history = useHistory();
-  return (
-    <>
-      {crumbs.length > 0 && crumbs[0]?.url ? (
-        <div
-          className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
-          label="Breadcrumb"
-          data-testid="breadcrumbs"
+
+  const crumbsList = useSelector(state => state.mr.breadcrumbs.crumbsList);
+  const pageNumber = useSelector(state => state.mr.pageTracker.pageNumber);
+
+  const [locationBasePath, locationChildPath] = useMemo(
+    () => {
+      const pathElements = location.pathname.split('/');
+      if (pathElements[0] === '') pathElements.shift();
+      return pathElements;
+    },
+    [location],
+  );
+
+  const allowMarchUpdates = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
+      ],
+  );
+
+  const textContent = document.querySelector('h1')?.textContent;
+  const searchIndex = new URLSearchParams(location.search);
+  const page = searchIndex.get('page');
+  const { labId, vaccineId, summaryId, allergyId, conditionId } = useParams();
+
+  const urlVitalsDate = searchIndex.get('timeFrame');
+
+  useEffect(
+    () => {
+      if (page) dispatch(setPageNumber(+page));
+    },
+    [page, dispatch],
+  );
+
+  useEffect(
+    () => {
+      const path = locationBasePath ? `/${locationBasePath}/` : '/';
+      const feature = Object.keys(Paths).find(_path => path === Paths[_path]);
+
+      if (path === '/') {
+        dispatch(clearPageNumber());
+        dispatch(setBreadcrumbs([]));
+      } else if (locationChildPath && textContent) {
+        const detailCrumb = {
+          href: `${path}${locationChildPath}`,
+          label: textContent,
+          isRouterLink: true,
+        };
+        let backToPageNumCrumb;
+        if (pageNumber) {
+          backToPageNumCrumb = {
+            ...Breadcrumbs[feature],
+            href: `${removeTrailingSlash(
+              Breadcrumbs[feature].href,
+            )}?page=${pageNumber}`,
+          };
+          dispatch(setBreadcrumbs([backToPageNumCrumb, detailCrumb]));
+        } else if (urlVitalsDate) {
+          const backToVitalsDateCrumb = {
+            ...Breadcrumbs[feature],
+            href: `${removeTrailingSlash(
+              Breadcrumbs[feature].href,
+            )}?timeFrame=${urlVitalsDate}`,
+          };
+          dispatch(setBreadcrumbs([backToVitalsDateCrumb, detailCrumb]));
+        } else {
+          dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
+        }
+      } else if (feature === 'SETTINGS' && !allowMarchUpdates) {
+        dispatch(
+          setBreadcrumbs([
+            { ...Breadcrumbs[feature], label: 'Medical records settings' },
+          ]),
+        );
+      } else {
+        dispatch(setBreadcrumbs([Breadcrumbs[feature]]));
+      }
+    },
+    [
+      dispatch,
+      locationBasePath,
+      locationChildPath,
+      textContent,
+      pageNumber,
+      urlVitalsDate,
+    ],
+  );
+
+  const handleRouteChange = ({ detail }) => {
+    const { href } = detail;
+    history.push(href);
+    handleDataDogAction({ locationBasePath, locationChildPath });
+  };
+
+  const backToImagesBreadcrumb = location.pathname.includes('/images')
+    ? crumbsList[crumbsList.length - 1].href
+    : `/${locationBasePath}`;
+
+  const backToAllergiesBreadcrumb = () =>
+    location.pathname.includes(`/allergies/${allergyId}`)
+      ? history.goBack()
+      : `/${locationBasePath}`;
+
+  if (
+    location.pathname.includes(
+      `/${locationBasePath}/${labId ||
+        vaccineId ||
+        summaryId ||
+        allergyId ||
+        conditionId}`,
+    )
+  ) {
+    return (
+      <div
+        className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
+        label="Breadcrumb"
+        data-testid="mr-breadcrumbs"
+      >
+        <span className="breadcrumb-angle vads-u-padding-right--0p5">
+          <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
+        </span>
+        <Link
+          to={backToImagesBreadcrumb}
+          onClick={() => {
+            handleDataDogAction({ locationBasePath, locationChildPath });
+            backToAllergiesBreadcrumb();
+          }}
         >
-          <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
-            <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
-          </span>
-          {isDetails ? (
-            <va-link
-              href=""
-              text={`Back to ${crumbs[0].label}`}
-              onClick={e => {
-                e.preventDefault();
-                history.goBack();
-              }}
-            />
-          ) : (
-            <Link to={crumb === '/my-health/medical-records' ? '/' : crumb}>
-              Back to {crumbs[0].label}
-            </Link>
-          )}
-        </div>
-      ) : (
-        <div
-          className="breadcrumbs-container vads-u-padding-bottom--5"
-          data-testid="no-breadcrumbs"
-        />
-      )}
-    </>
+          Back
+        </Link>
+      </div>
+    );
+  }
+  if (location.pathname.includes('/vitals/')) {
+    return (
+      <div
+        className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
+        label="Breadcrumb"
+        data-testid="mr-breadcrumbs"
+      >
+        <span className="breadcrumb-angle vads-u-padding-right--0p5">
+          <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
+        </span>
+        <Link
+          to={`${backToImagesBreadcrumb}${
+            urlVitalsDate ? `?timeFrame=${urlVitalsDate}` : ''
+          }`}
+          onClick={() => {
+            handleDataDogAction({ locationBasePath, locationChildPath });
+            backToAllergiesBreadcrumb();
+          }}
+        >
+          Back
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <VaBreadcrumbs
+      breadcrumbList={crumbsList}
+      label="Breadcrumb"
+      home-veterans-affairs
+      onRouteChange={handleRouteChange}
+      className="mobile-lg:vads-u-margin-y--2 no-print"
+      dataTestid="breadcrumbs"
+      uswds
+    />
   );
 };
 

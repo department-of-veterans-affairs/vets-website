@@ -8,10 +8,9 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 
-import {
-  applicantWording,
-  additionalFilesHint,
-} from '../../../10-10D/helpers/wordingCustomization';
+import { ADDITIONAL_FILES_HINT } from '../../constants';
+import { applicantWording } from '../../utilities';
+import { validateText } from '../../validations';
 
 /*
 Overriding these allows us to set custom property titles.
@@ -27,14 +26,9 @@ export function appRelBoilerplate({ data, pagePerItemIndex }) {
   const { keyname = KEYNAME } = data;
   const currentListItem = data?.applicants?.[pagePerItemIndex];
   const personTitle = 'Sponsor';
-  const applicant = applicantWording(currentListItem, undefined, false);
+  const applicant = applicantWording(currentListItem, false);
 
-  const relativePossessive = applicantWording(
-    currentListItem,
-    undefined,
-    true,
-    false,
-  );
+  const relativePossessive = applicantWording(currentListItem, true, false);
 
   return {
     keyname,
@@ -109,15 +103,21 @@ export function ApplicantRelationshipReviewPage(props) {
   return data ? (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5 dd-privacy-hidden">
           {props.title(currentListItem)}
         </h4>
-        <VaButton secondary onClick={props.editPage} text="Edit" uswds />
+        <VaButton
+          secondary
+          onClick={props.editPage}
+          text="Edit"
+          label={`Edit ${props.title(currentListItem)}`}
+          uswds
+        />
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt>{description}</dt>
-          <dd>
+          <dt className="dd-privacy-hidden">{description}</dt>
+          <dd className="dd-privacy-hidden">
             {options.map(
               opt =>
                 opt.value === currentListItem?.[keyname]?.[primary]
@@ -132,13 +132,17 @@ export function ApplicantRelationshipReviewPage(props) {
             <dt>
               {customOtherDescription || (
                 <>
-                  Since {useFirstPerson ? 'your' : `${applicant}’s `}{' '}
-                  relationship with the {personTitle} was not listed, please
-                  describe it here
+                  Since{' '}
+                  <span className="dd-privacy-hidden">
+                    {useFirstPerson ? 'your' : `${applicant}’s `}
+                  </span>{' '}
+                  relationship with the{' '}
+                  <span className="dd-privacy-hidden">{personTitle}</span> was
+                  not listed, please describe it here
                 </>
               )}
             </dt>
-            <dd>{other}</dd>
+            <dd className="dd-privacy-hidden">{other}</dd>
           </div>
         ) : null}
       </dl>
@@ -200,6 +204,14 @@ export default function ApplicantRelationshipPage({
       if (checkValue[primary] === 'other' && !checkValue[secondary]) {
         setInputError('This field is required');
         isValid = false;
+      } else if (checkValue[primary] === 'other' && checkValue[secondary]) {
+        const errMsg = validateText(checkValue[secondary]);
+        if (errMsg) {
+          setInputError(errMsg);
+          isValid = false;
+        } else {
+          setInputError(null);
+        }
       } else {
         setInputError(null);
       }
@@ -244,25 +256,27 @@ export default function ApplicantRelationshipPage({
   );
   return (
     <>
-      {
-        titleUI(
-          customTitle ||
-            `${
-              useFirstPerson ? `Your` : `${applicant}’s`
-            } relationship to the ${personTitle}`,
-        )['ui:title']
-      }
+      <span className="dd-privacy-hidden">
+        {
+          titleUI(
+            customTitle ||
+              `${
+                useFirstPerson ? `Your` : `${applicant}’s`
+              } relationship to the ${personTitle}`,
+          )['ui:title']
+        }
+      </span>
 
       <form onSubmit={handlers.onGoForward}>
         <VaRadio
-          class="vads-u-margin-y--2"
+          class="vads-u-margin-y--2 dd-privacy-hidden"
           label={
             description ||
             `What ${data.sponsorIsDeceased ? 'was' : 'is'} ${
               useFirstPerson ? `your` : `${applicant}’s`
             } relationship to the ${personTitle}?`
           }
-          hint={customHint || additionalFilesHint}
+          hint={customHint || ADDITIONAL_FILES_HINT}
           required
           error={checkError}
           onVaValueChange={handlers.radioUpdate}

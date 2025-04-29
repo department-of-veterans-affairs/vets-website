@@ -1,49 +1,55 @@
 /* eslint-disable no-prototype-builtins */
-import moment from 'moment';
-import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import * as Sentry from '@sentry/browser';
+import { format } from 'date-fns';
+import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
-  GA_PREFIX,
+  selectFeatureCCDirectScheduling,
+  selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthVA,
+  selectFeatureFeSourceOfTruthModality,
+  selectSystemIds,
+} from '../../redux/selectors';
+import {
   APPOINTMENT_TYPES,
+  GA_PREFIX,
   VIDEO_TYPES,
 } from '../../utils/constants';
 import { recordItemsRetrieved } from '../../utils/events';
-import {
-  selectSystemIds,
-  selectFeatureVAOSServiceRequests,
-  selectFeatureVAOSServiceCCAppointments,
-  selectFeatureVAOSServiceVAAppointments,
-} from '../../redux/selectors';
+
+import { getLocation, getLocationSettings } from '../../services/location';
 
 import {
-  getLocation,
-  getLocations,
-  getLocationSettings,
-} from '../../services/location';
-
-import {
+  cancelAppointment,
   fetchAppointments,
+  fetchBookedAppointment,
+  fetchRequestById,
   getAppointmentRequests,
   getVAAppointmentLocationId,
   isVideoHome,
-  fetchRequestById,
-  fetchBookedAppointment,
-  cancelAppointment,
 } from '../../services/appointment';
-import { captureError, has400LevelError } from '../../utils/error';
+
+import {
+  FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+  FETCH_PENDING_APPOINTMENTS_FAILED,
+  FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
+  getAdditionalFacilityInfoV2,
+} from '../../redux/actions';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
   STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
-import { selectAppointmentById } from './selectors';
 import { fetchHealthcareServiceById } from '../../services/healthcare-service';
+import {
+  captureError,
+  has400LevelError,
+  has404AppointmentIdError,
+} from '../../utils/error';
+import { selectAppointmentById } from './selectors';
+import { getIsInCCPilot } from '../../referral-appointments/utils/pilot';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
-export const FETCH_PENDING_APPOINTMENTS = 'vaos/FETCH_PENDING_APPOINTMENTS';
-export const FETCH_PENDING_APPOINTMENTS_FAILED =
-  'vaos/FETCH_PENDING_APPOINTMENTS_FAILED';
-export const FETCH_PENDING_APPOINTMENTS_SUCCEEDED =
-  'vaos/FETCH_PENDING_APPOINTMENTS_SUCCEEDED';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
   'vaos/FETCH_FUTURE_APPOINTMENTS_FAILED';
 export const FETCH_FUTURE_APPOINTMENTS_SUCCEEDED =
@@ -76,70 +82,27 @@ export const CANCEL_APPOINTMENT_CONFIRMED_FAILED =
   'vaos/CANCEL_APPOINTMENT_CONFIRMED_FAILED';
 export const CANCEL_APPOINTMENT_CLOSED = 'vaos/CANCEL_APPOINTMENT_CLOSED';
 
-export const FETCH_FACILITY_LIST_DATA_SUCCEEDED =
-  'vaos/FETCH_FACILITY_LIST_DATA_SUCCEEDED';
-
 export const FETCH_FACILITY_SETTINGS = 'vaos/FETCH_FACILITY_SETTINGS';
 export const FETCH_FACILITY_SETTINGS_FAILED =
   'vaos/FETCH_FACILITY_SETTINGS_FAILED';
 export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
   'vaos/FETCH_FACILITY_SETTINGS_SUCCEEDED';
 
-/*
- * The facility data we get back from the various endpoints for
- * requests and appointments does not have basics like address or phone.
- *
- * We want to show that basic info on the list page, so this goes and fetches
- * it separately, but doesn't block the list page from displaying
- */
-async function getAdditionalFacilityInfo(futureAppointments) {
-  // Get facility ids from non-VA appts or requests
-  const nonVaFacilityAppointmentIds = futureAppointments
-    .filter(
-      appt => !appt.vaos?.isVideo && (appt.vaos?.isCommunityCare || !appt.vaos),
-    )
-    .map(appt => appt.facilityId || appt.facility?.facilityCode);
-
-  // Get facility ids from VA appointments
-  const vaFacilityAppointmentIds = futureAppointments
-    .filter(appt => appt.vaos && !appt.vaos.isCommunityCare)
-    .map(getVAAppointmentLocationId);
-
-  const uniqueFacilityIds = new Set(
-    [...nonVaFacilityAppointmentIds, ...vaFacilityAppointmentIds].filter(
-      id => !!id,
-    ),
-  );
-  let facilityData = null;
-  if (uniqueFacilityIds.size > 0) {
-    facilityData = await getLocations({
-      facilityIds: Array.from(uniqueFacilityIds),
-    });
-  }
-
-  return facilityData;
-}
-
-/**
- * Function to retrieve facility information from the appointment
- * record when using the v2 api.
- *
- * @param {*} appointments
- */
-function getAdditionalFacilityInfoV2(appointments) {
-  // Facility information included with v2 appointment api call.
-  return appointments
-    ?.map(appt => appt?.vaos?.facilityData ?? null)
-    .filter(n => n);
-}
-
 export function fetchFutureAppointments({ includeRequests = true } = {}) {
   return async (dispatch, getState) => {
-    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
-      getState(),
+    const state = getState();
+    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
     );
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      getState(),
+    const patientFacilities = selectPatientFacilities(state);
+
+    const includeEPS = getIsInCCPilot(
+      featureCCDirectScheduling,
+      patientFacilities || [],
     );
 
     dispatch({
@@ -161,26 +124,40 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
        * and requests lists, but needs confirmed to go back 30 days. Appointments
        * will be filtered out by date accordingly in our selectors
        */
+      const now = new Date();
+      const startDate = new Date(now);
+      startDate.setDate(startDate.getDate() - 30); // Subtract 30 days
+
+      const endDate = new Date(now);
+      endDate.setDate(endDate.getDate() + 395); // Add 395 days
+
       const promises = [
         fetchAppointments({
-          startDate: moment()
-            .subtract(30, 'days')
-            .format('YYYY-MM-DD'),
-          endDate: moment()
-            .add(395, 'days')
-            .format('YYYY-MM-DD'),
+          startDate: format(startDate, 'yyyy-MM-dd'), // Start 30 days in the past for canceled appointments
+          endDate: format(endDate, 'yyyy-MM-dd'),
+          includeEPS,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         }),
       ];
       if (includeRequests) {
+        const requestStartDate = new Date(now);
+        requestStartDate.setDate(requestStartDate.getDate() - 120); // Subtract 120 days
+
+        const requestEndDate = new Date(now);
+        requestEndDate.setDate(requestEndDate.getDate() + 1); // Add 1 day
+
         promises.push(
           getAppointmentRequests({
-            startDate: moment()
-              .subtract(120, 'days')
-              .format('YYYY-MM-DD'),
-            endDate: moment()
-              .add(featureVAOSServiceRequests ? 1 : 0, 'days')
-              .format('YYYY-MM-DD'),
-            useV2: featureVAOSServiceRequests,
+            startDate: format(requestStartDate, 'yyyy-MM-dd'), // Start 120 days in the past for requests
+            endDate: format(requestEndDate, 'yyyy-MM-dd'), // End 1 day in the future for requests
+            includeEPS,
+            useFeSourceOfTruth,
+            useFeSourceOfTruthCC,
+            useFeSourceOfTruthVA,
+            useFeSourceOfTruthModality,
           })
             .then(requests => {
               dispatch({
@@ -233,11 +210,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       );
 
       recordItemsRetrieved(
-        'video_gfe',
-        data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.gfe).length,
-      );
-
-      recordItemsRetrieved(
         'video_store_forward',
         data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.storeForward)
           .length,
@@ -250,13 +222,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       });
 
       try {
-        let facilityData;
-        if (featureVAOSServiceVAAppointments) {
-          facilityData = getAdditionalFacilityInfoV2(data);
-        } else {
-          facilityData = await getAdditionalFacilityInfo([].concat(...results));
-        }
-
+        const facilityData = getAdditionalFacilityInfoV2(data);
         if (facilityData && facilityData.length > 0) {
           dispatch({
             type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
@@ -287,78 +253,20 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
   };
 }
 
-export function fetchPendingAppointments() {
-  return async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: FETCH_PENDING_APPOINTMENTS,
-      });
-
-      const state = getState();
-      const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
-        state,
-      );
-
-      const pendingAppointments = await getAppointmentRequests({
-        startDate: moment()
-          .subtract(120, 'days')
-          .format('YYYY-MM-DD'),
-        endDate: moment()
-          .add(featureVAOSServiceRequests ? 1 : 0, 'days')
-          .format('YYYY-MM-DD'),
-      });
-
-      const data = pendingAppointments?.filter(
-        appt => !appt.hasOwnProperty('meta'),
-      );
-      const backendServiceFailures = pendingAppointments.find(
-        appt => appt.hasOwnProperty('meta') || null,
-      );
-
-      dispatch({
-        type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-        data,
-        backendServiceFailures,
-      });
-
-      recordEvent({
-        event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
-      });
-
-      try {
-        let facilityData;
-        if (featureVAOSServiceRequests) {
-          facilityData = getAdditionalFacilityInfoV2(data);
-        } else {
-          facilityData = await getAdditionalFacilityInfo(data);
-        }
-        if (facilityData) {
-          dispatch({
-            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-            facilityData,
-          });
-        }
-      } catch (error) {
-        captureError(error);
-      }
-
-      return data;
-    } catch (error) {
-      recordEvent({
-        event: `${GA_PREFIX}-get-pending-appointments-failed`,
-      });
-      dispatch({
-        type: FETCH_PENDING_APPOINTMENTS_FAILED,
-      });
-      return captureError(error);
-    }
-  };
-}
-
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      getState(),
+    const state = getState();
+    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
+    const patientFacilities = selectPatientFacilities(state);
+    const includeEPS = getIsInCCPilot(
+      featureCCDirectScheduling,
+      patientFacilities || [],
     );
 
     dispatch({
@@ -374,8 +282,14 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       const results = await fetchAppointments({
         startDate,
         endDate,
+        avs: true,
+        fetchClaimStatus: true,
+        includeEPS,
+        useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
+        useFeSourceOfTruthVA,
+        useFeSourceOfTruthModality,
       });
-
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
       const backendServiceFailures =
         results.find(appt => appt.hasOwnProperty('meta')) || null;
@@ -393,16 +307,9 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       });
 
       try {
-        let facilityData;
-        if (featureVAOSServiceVAAppointments) {
-          facilityData = getAdditionalFacilityInfoV2(
-            getState().appointments.past,
-          );
-        } else {
-          facilityData = await getAdditionalFacilityInfo(
-            getState().appointments.past,
-          );
-        }
+        const facilityData = getAdditionalFacilityInfoV2(
+          getState().appointments.past,
+        );
         if (facilityData && facilityData.length > 0) {
           dispatch({
             type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
@@ -430,6 +337,13 @@ export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
+      const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+      const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+      const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+      const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+        state,
+      );
+
       let request = selectAppointmentById(state, id, [
         APPOINTMENT_TYPES.ccRequest,
         APPOINTMENT_TYPES.request,
@@ -446,6 +360,10 @@ export function fetchRequestDetails(id) {
       if (!request) {
         request = await fetchRequestById({
           id,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
@@ -479,16 +397,12 @@ export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
-      const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+      const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+      const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+      const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
         state,
       );
-      const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-        state,
-      );
-      const useV2 =
-        type === 'cc'
-          ? featureVAOSServiceCCAppointments
-          : featureVAOSServiceVAAppointments;
 
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
@@ -509,16 +423,15 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         appointment = await fetchBookedAppointment({
           id,
           type,
-          useV2,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         });
       }
 
       // We would expect to have the clinic name here, but if we don't, fetch it
-      if (
-        featureVAOSServiceVAAppointments &&
-        appointment.location.clinicId &&
-        !appointment.location.clinicName
-      ) {
+      if (appointment.location.clinicId && !appointment.location.clinicName) {
         try {
           const clinic = await fetchHealthcareServiceById({
             locationId: appointment.location.stationId,
@@ -558,6 +471,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       captureError(e);
       dispatch({
         type: FETCH_CONFIRMED_DETAILS_FAILED,
+        isBadAppointmentId: has404AppointmentIdError(e),
       });
     }
   };
@@ -572,7 +486,14 @@ export function startAppointmentCancel(appointment) {
 
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
-    const appointment = getState().appointments.appointmentToCancel;
+    const state = getState();
+    const appointment = state.appointments.appointmentToCancel;
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
 
     try {
       dispatch({
@@ -581,6 +502,10 @@ export function confirmCancelAppointment() {
 
       const updatedAppointment = await cancelAppointment({
         appointment,
+        useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
+        useFeSourceOfTruthVA,
+        useFeSourceOfTruthModality,
       });
 
       dispatch({

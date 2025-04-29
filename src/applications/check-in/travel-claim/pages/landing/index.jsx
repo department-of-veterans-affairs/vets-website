@@ -33,6 +33,9 @@ const Landing = props => {
   );
 
   const { getTravelPaySent } = useStorage(APP_NAMES.TRAVEL_CLAIM, true);
+  const { setCompleteTimestamp } = useStorage(APP_NAMES.TRAVEL_CLAIM);
+
+  setCompleteTimestamp(window, null);
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
   const [sessionCallMade, setSessionCallMade] = useState(false);

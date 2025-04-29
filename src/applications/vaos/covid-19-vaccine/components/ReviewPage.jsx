@@ -20,7 +20,10 @@ import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 const pageTitle = 'Review your appointment details';
 
 function handleClick(history, contactInfo) {
-  return () => {
+  return e => {
+    // Stop default behavior for anchor tag since we are using React routing.
+    e.preventDefault();
+
     history.push(contactInfo.url);
   };
 }
@@ -112,11 +115,11 @@ export default function ReviewPage({ changeCrumb }) {
             </div>
           </div>
           <va-link
+            href={contactInfo.url}
             onClick={handleClick(history, contactInfo)}
             aria-label="Edit contact information"
             text="Edit"
             data-testid="edit-contact-information-link"
-            tabindex="0"
           />
         </div>
       </div>

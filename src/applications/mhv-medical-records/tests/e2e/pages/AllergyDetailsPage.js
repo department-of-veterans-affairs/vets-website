@@ -48,19 +48,32 @@ class AllergyDetailsPage extends BaseDetailsPage {
   };
 
   verifyBreadcrumbs = breadcrumbsText => {
-    cy.get('[data-testid="breadcrumbs"]').contains(`${breadcrumbsText}`, {
+    cy.get('[data-testid="mr-breadcrumbs"]').contains(`${breadcrumbsText}`, {
       matchCase: false,
     });
   };
 
-  clickBreadcrumbs = () => {
-    cy.get('[data-testid="breadcrumbs"]')
+  clickBreadcrumbs = breadcrumb => {
+    cy.get('[data-testid="mr-breadcrumbs"]')
       .find('a')
-      .click();
+      .contains(breadcrumb)
+      .click({ waitForAnimations: true });
   };
 
   verifySidenavHighlightAllergies = () => {
     cy.get('.is-active').should('contain', 'Allergies and reactions');
+  };
+
+  verifySecondaryNav = () => {
+    cy.get('[data-testid="mhv-sec-nav-item"]')
+      .eq(4)
+      .find('a')
+      .contains('Records')
+      .should('be.visible');
+    cy.get('[data-testid="mhv-sec-nav-item"]')
+      .eq(4)
+      .find('a')
+      .should('have.attr', 'href', '/my-health/medical-records');
   };
 }
 export default new AllergyDetailsPage();

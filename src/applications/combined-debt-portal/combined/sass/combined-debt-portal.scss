@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 h1:focus {
   outline: none !important;
@@ -16,27 +16,35 @@ h1:focus {
   list-style: none;
 }
 
-.on-this-page-links {
-  display: block;
-  border: 1px solid var(--vads-color-base-light);
-  border-radius: 4px;
-  padding: 1em;
-  dl {
-    margin: 0;
+.vads-u-width--fit {
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.vads-u-max-width--90 {
+  max-width: 90% !important;
+}
+.icon-color--warning {
+  color: var(--vads-color-warning-dark);
+}
+.icon-color--info {
+  color: var(--vads-color-primary);
+}
+.icon-color--success {
+  color: var(--vads-color-success);
+}
+
+.debt-balance-details {
+  @media (min-width: $small-screen) {
+    margin-left: 32px;
+  }
+  @media (min-width: $medium-screen) {
+    margin-left: 40px;
   }
 }
 
-@media (min-width: 768px) {
-  .on-this-page-links {
-    border: none;
-    padding: 1em 1em 1em 0;
-  }
+.cdp-link-icon--active {
+  vertical-align: baseline;
+  position: relative;
+  top: 3px;
 }
-
-.on-this-page-links dd a {
-  max-width: 285px;
-  i {
-    font-size: 0.75em;
-  }
-}
-

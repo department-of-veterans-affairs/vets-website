@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function CallToActionAlert({
   heading,
@@ -22,20 +23,39 @@ export default function CallToActionAlert({
           <va-button
             onClick={primaryButtonHandler}
             text={primaryButtonText}
-            aria-label={ariaLabel}
+            label={ariaLabel}
             aria-describedby={ariaDescribedby}
             uswds
+            {...(status === 'continue' ? { 'primary-alternate': true } : {})}
           />
         )}
         {secondaryButtonText && (
-          <button
-            className="va-button-link vads-u-margin-left--2"
+          <va-button
+            text={secondaryButtonText}
             onClick={secondaryButtonHandler}
-          >
-            {secondaryButtonText}
-          </button>
+            secondary
+          />
         )}
       </div>
     </va-alert>
   );
 }
+
+CallToActionAlert.propTypes = {
+  alertText: PropTypes.node,
+  ariaDescribedby: PropTypes.string,
+  ariaLabel: PropTypes.string,
+  headerLevel: PropTypes.number,
+  heading: PropTypes.string,
+  primaryButtonHandler: PropTypes.func,
+  primaryButtonText: PropTypes.string,
+  secondaryButtonHandler: PropTypes.func,
+  secondaryButtonText: PropTypes.string,
+  status: PropTypes.string,
+};
+
+CallToActionAlert.defaultProps = {
+  headerLevel: 3,
+  ariaDescribedby: null,
+  ariaLabel: null,
+};

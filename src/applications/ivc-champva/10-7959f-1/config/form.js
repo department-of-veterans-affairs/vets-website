@@ -1,5 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 
 import {
   ssnOrVaFileNumberNoHintSchema,
@@ -13,17 +15,18 @@ import {
   addressSchema,
   emailUI,
   emailSchema,
+  phoneUI,
+  phoneSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
-import prefillTransformer from './prefillTransformer';
+import SubmissionError from '../../shared/components/SubmissionError';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
-import prefilledAddress from '../helpers/prefilledAddress';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 import {
@@ -31,10 +34,9 @@ import {
   CustomSSNReviewPage,
 } from '../helpers/CustomSSN';
 import {
-  internationalPhoneSchema,
-  internationalPhoneUI,
-} from '../../shared/components/InternationalPhone';
-import PrefillCopy from '../helpers/PrefillCopy';
+  validAddressCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -56,6 +58,9 @@ const formConfig = {
     reviewPageTitle: 'Review and sign',
     submitButtonText: 'Submit',
   },
+  downtime: {
+    dependencies: [externalServices.pega, externalServices.form107959f1],
+  },
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -65,18 +70,18 @@ const formConfig = {
       fullNamePath: 'veteranFullName',
     },
   },
+  submissionError: SubmissionError,
   formId: '10-7959F-1',
   saveInProgress: {
     messages: {
       inProgress: 'Your FMP registration (10-7959F-1) is in progress.',
       expired:
-        'Your saved FMP benefits registration (10-7959F-1) has expired. If you want to register for Foriegn Medical Program benefits, please start a new application.',
+        'Your saved FMP benefits registration (10-7959F-1) has expired. If you want to register for Foreign Medical Program benefits, please start a new application.',
       saved: 'Your FMP benefits registration has been saved.',
     },
   },
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to register for FMP benefits.',
     noAuth:
@@ -94,36 +99,22 @@ const formConfig = {
           path: 'veteran-information',
           title: 'Name and date of birth',
           uiSchema: {
-            ...titleUI(
-              'Name and date of birth',
-              'We use this information to verify other details.',
-            ),
-            messageAriaDescribedby:
-              'We use this information to verify other details.',
-            'view:prefilledAddress': {
-              'ui:description': prefilledAddress,
-            },
+            ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
-            veteranDateOfBirth: dateOfBirthUI({ required: true }),
-            'view:PrefillCopy': {
-              'ui:description': PrefillCopy,
-            },
+            veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
+            'ui:validations': [
+              (errors, formData) =>
+                validObjectCharsOnly(errors, null, formData, 'veteranFullName'),
+            ],
           },
+          messageAriaDescribedby: 'Name and date of birth',
           schema: {
             type: 'object',
             required: ['veteranFullName', 'veteranDateOfBirth'],
             properties: {
               titleSchema,
-              'view:prefilledAddress': {
-                type: 'object',
-                properties: {},
-              },
               veteranFullName: fullNameSchema,
               veteranDateOfBirth: dateOfBirthSchema,
-              'view:PrefillCopy': {
-                type: 'object',
-                properties: {},
-              },
             },
           },
         },
@@ -169,11 +160,17 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               "We'll send any important information about your application to this address.",
-            veteranAddress: addressUI({
-              required: {
-                state: () => true,
+            veteranAddress: merge({}, addressUI(), {
+              state: {
+                'ui:errorMessages': {
+                  required: 'Enter a valid State, Province, or Region',
+                },
               },
             }),
+            'ui:validations': [
+              (errors, formData) =>
+                validAddressCharsOnly(errors, null, formData, 'veteranAddress'),
+            ],
           },
           schema: {
             type: 'object',
@@ -191,9 +188,9 @@ const formConfig = {
       pages: {
         page4: {
           path: 'same-as-mailing-address',
-          title: 'Home address ',
+          title: 'Home address status ',
           uiSchema: {
-            ...titleUI('Home address'),
+            ...titleUI('Home address status'),
             sameMailingAddress: yesNoUI({
               title: 'Is your home address the same as your mailing address?',
               labels: {
@@ -216,19 +213,23 @@ const formConfig = {
           title: 'Home address ',
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
-            ...titleUI(
-              `Home address`,
-              `This is your current location, outside the United States.`,
-            ),
-            messageAriaDescribedby:
-              'This is your current location, outside the United States.',
-            physicalAddress: {
-              ...addressUI({
-                required: {
-                  state: () => true,
+            ...titleUI(`Home address`),
+            physicalAddress: merge({}, addressUI(), {
+              state: {
+                'ui:errorMessages': {
+                  required: 'Enter a valid State, Province, or Region',
                 },
-              }),
-            },
+              },
+            }),
+            'ui:validations': [
+              (errors, formData) =>
+                validAddressCharsOnly(
+                  errors,
+                  null,
+                  formData,
+                  'physicalAddress',
+                ),
+            ],
           },
           schema: {
             type: 'object',
@@ -250,19 +251,19 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
+              'Include a country code for foreign phone numbers',
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
-            veteranPhoneNumber: internationalPhoneUI(),
+            veteranPhoneNumber: phoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
             type: 'object',
-            required: ['veteranPhoneNumber'],
+            required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: internationalPhoneSchema,
+              veteranPhoneNumber: phoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },

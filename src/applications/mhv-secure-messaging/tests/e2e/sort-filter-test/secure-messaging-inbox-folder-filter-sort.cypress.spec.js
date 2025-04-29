@@ -1,53 +1,48 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import { Locators, AXE_CONTEXT } from '../utils/constants';
+import PatientFilterPage from '../pages/PatientFilterPage';
 
-describe('Secure Messaging Inbox Folder filter-sort checks', () => {
-  const {
-    data: [, secondElement, thirdElement],
-    ...rest
-  } = mockMessages;
-
-  const mockFilterResults = { data: [secondElement, thirdElement], ...rest };
+describe('SM INBOX FOLDER FILTER-SORT CHECKS', () => {
+  const filterData = 'test';
+  const filteredResponse = PatientFilterPage.filterMockResponse(
+    mockMessages,
+    filterData,
+  );
 
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockMessages);
   });
 
-  it('Verify filter works correctly', () => {
-    PatientInboxPage.inputFilterData('test');
-    PatientInboxPage.clickFilterMessagesButton(mockFilterResults);
-    PatientInboxPage.verifyFilterResults('test', mockFilterResults);
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+  it('verify filter works correctly', () => {
+    PatientFilterPage.inputFilterData(filterData);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
+    PatientFilterPage.verifyFilterResults(filterData, filteredResponse);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('Verify clear filter btn works correctly', () => {
-    PatientInboxPage.inputFilterData('test');
-    PatientInboxPage.clickFilterMessagesButton(mockFilterResults);
-    PatientInboxPage.clickClearFilterButton();
-    PatientInboxPage.verifyFilterFieldCleared();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+  it('verify clear filter btn works correctly', () => {
+    PatientFilterPage.inputFilterData(filterData);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
+    PatientFilterPage.clickClearFilterButton();
+    PatientFilterPage.verifyFilterFieldCleared();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('Check sorting works properly', () => {
-    const sortedResponse = {
-      ...mockMessages,
-      data: [...mockMessages.data].sort(
-        (a, b) =>
-          new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
-      ),
-    };
-    PatientInboxPage.verifySorting('Oldest to newest', sortedResponse);
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+  it('verify sorting works correctly', () => {
+    const sortedResponse = PatientFilterPage.sortMessagesThread(mockMessages);
+
+    PatientFilterPage.verifySorting(sortedResponse);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
 
-describe('Verify sorting feature with only one filter result', () => {
+describe('SM SORTING WITH ONLY ONE MESSAGE', () => {
   const {
     data: [, secondElement],
     ...rest
@@ -59,13 +54,12 @@ describe('Verify sorting feature with only one filter result', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
-    PatientInboxPage.inputFilterData('draft');
-    PatientInboxPage.clickFilterMessagesButton(mockSingleFilterResult);
-    PatientInboxPage.verifyFilterResults('draft', mockSingleFilterResult);
+    PatientFilterPage.inputFilterData('draft');
+    PatientFilterPage.clickApplyFilterButton(mockSingleFilterResult);
+    PatientFilterPage.verifyFilterResults('draft', mockSingleFilterResult);
 
-    cy.get(Locators.DROPDOWN).should('not.exist');
+    cy.get(Locators.DROPDOWN.SORT).should('not.exist');
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

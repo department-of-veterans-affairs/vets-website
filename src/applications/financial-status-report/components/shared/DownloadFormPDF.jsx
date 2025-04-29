@@ -5,6 +5,7 @@ import * as Sentry from '@sentry/browser';
 
 const DownloadFormPDF = ({ pdfContent }) => {
   const [pdfBlob, setPdfBlob] = useState(null);
+  const buttonText = 'Download completed form';
 
   useEffect(
     () => {
@@ -52,15 +53,7 @@ const DownloadFormPDF = ({ pdfContent }) => {
 
   return (
     <>
-      {pdfBlob && (
-        <button
-          onClick={handlePdfDownload}
-          type="button"
-          className="usa-button button"
-        >
-          Download completed form
-        </button>
-      )}
+      {pdfBlob && <va-button text={buttonText} onClick={handlePdfDownload} />}
     </>
   );
 };

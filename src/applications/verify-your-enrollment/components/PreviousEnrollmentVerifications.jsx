@@ -5,13 +5,23 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { useSelector } from 'react-redux';
 import {
   combineEnrollmentsWithStartMonth,
+  combineEnrollmentsWithStartMonthDGIB,
   getGroupedPreviousEnrollments,
+  getGroupedPreviousEnrollmentsDGIB,
   getSignlePreviousEnrollments,
+  getSignlePreviousEnrollmentsDGIB,
+  groupVerificationsByMonth,
+  isVerificationEndDateValid,
+  sortedEnrollmentsDGIB,
 } from '../helpers';
 import { ENROLLMETS_PER_PAGE } from '../constants';
 import { EnrollmentStatus } from './EnrollmentStatus';
 
-const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
+const PreviousEnrollmentVerifications = ({
+  enrollmentData,
+  enrollmentVerifications,
+  claimantId,
+}) => {
   const [userEnrollmentData, setUserEnrollmentData] = useState([]);
   const [pastAndCurrentAwards, setPastAndCurrentAwards] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -19,6 +29,29 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   const [subsetStart, setSubsetStart] = useState(0);
   const [subsetEnd, setSubsetEnd] = useState(0);
   const response = useSelector(state => state.personalInfo);
+  // DGIB
+  const verificationMethod = [
+    'Initial',
+    'Manual',
+    'Auto',
+    'Text',
+    'Email',
+    'MEB',
+    'VYE',
+  ];
+  const verifiedEnrollments =
+    groupVerificationsByMonth(enrollmentVerifications)?.filter(
+      enrollment =>
+        verificationMethod.includes(enrollment.verificationMethod) &&
+        isVerificationEndDateValid(enrollment.verificationEndDate),
+    ).length || 0;
+  const pendingVerificationsDGIB =
+    groupVerificationsByMonth(enrollmentVerifications)?.filter(
+      enrollment =>
+        isVerificationEndDateValid(enrollment.verificationEndDate) &&
+        !verificationMethod.includes(enrollment.verificationMethod),
+    ).length || 0;
+
   const totalEnrollmentVerificationsCount = Object.keys(
     combineEnrollmentsWithStartMonth(enrollmentData?.verifications ?? {}),
   ).length;
@@ -31,8 +64,9 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   // get count of verified and unverified enrollments (Grouped by start month)
   const totalEnrollmentCount =
     totalEnrollmentPendingVerificationsCount +
-    totalEnrollmentVerificationsCount;
-
+    totalEnrollmentVerificationsCount +
+    pendingVerificationsDGIB +
+    verifiedEnrollments;
   const sortDatesByMonthYear = array => {
     // Helper function to convert "Month YYYY" or "Date unavailable" to a Date object
     function parseDate(dateStr) {
@@ -59,14 +93,26 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
 
   const getPreviouslyVerified = () => {
     let enrollments = [];
-
-    Object.values(pastAndCurrentAwards).forEach(month => {
+    const combinedEnrollmentsObj = combineEnrollmentsWithStartMonthDGIB(
+      sortedEnrollmentsDGIB(enrollmentVerifications),
+    );
+    const enrollmentsToProcess = !claimantId
+      ? pastAndCurrentAwards
+      : combinedEnrollmentsObj;
+    Object.values(enrollmentsToProcess).forEach(month => {
+      const verificationEndDateArr = month.filter(m =>
+        isVerificationEndDateValid(m.verificationEndDate),
+      );
       if (month.length > 1) {
-        const tempGroupEnrollment = getGroupedPreviousEnrollments(month);
+        const tempGroupEnrollment = !claimantId
+          ? getGroupedPreviousEnrollments(month)
+          : getGroupedPreviousEnrollmentsDGIB(verificationEndDateArr);
         enrollments.push(tempGroupEnrollment);
       }
       if (month.length === 1) {
-        const tempSingleEnrollment = getSignlePreviousEnrollments(month[0]);
+        const tempSingleEnrollment = claimantId
+          ? getSignlePreviousEnrollmentsDGIB(month[0], enrollmentVerifications)
+          : getSignlePreviousEnrollments(month[0]);
         enrollments.push(tempSingleEnrollment);
       }
     });
@@ -81,10 +127,9 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
     enrollments?.forEach(enrollment => {
       const topLevelEnrollment = enrollment?.props?.children;
       const isAnArray = Array.isArray(topLevelEnrollment);
-
       if (!isAnArray) {
         const objectChildProps =
-          topLevelEnrollment.props?.children[0]?.props?.children;
+          topLevelEnrollment?.props?.children[0]?.props?.children;
         const objectChildPropsIsArray = Array.isArray(objectChildProps);
         if (!objectChildPropsIsArray) {
           tempEnrollmentArray.push({
@@ -98,7 +143,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
         }
       }
 
-      if (isAnArray) {
+      if (isAnArray && !claimantId) {
         // find the first object within the array that is not undefined and is not null
         const firstNotUndefined = topLevelEnrollment.find(
           el => el !== undefined && el !== null && el !== false,
@@ -127,7 +172,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
       }
     });
 
-    if (tempEnrollmentArray.length > 0) {
+    if (tempEnrollmentArray.length > 0 && !claimantId) {
       const sortedEnrollments = sortDatesByMonthYear(tempEnrollmentArray);
       enrollments = sortedEnrollments;
     }
@@ -135,7 +180,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
     // Adjust based on subsetStart and subsetEnd to control the number of elements returned
 
     enrollments = enrollments.slice(subsetStart, subsetEnd);
-    return enrollments;
+    return !claimantId ? enrollments : enrollments.reverse();
   };
 
   const handlePageChange = useCallback(
@@ -208,8 +253,8 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
       <>
         <h2>Your monthly enrollment verifications</h2>
         <p>
-          Verifications are processed on the business day after submission.
-          Payment is projected to be processed within 4 to 6 business days.
+          We will process your verification the next business day after
+          submission. We will process your payment within 4 to 6 business days.
         </p>
         <va-additional-info
           trigger="What if I notice an error with my enrollment information?"
@@ -246,7 +291,14 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
           start={subsetStart}
           end={subsetEnd}
           total={totalEnrollmentCount}
-          dontHaveEnrollment={response?.error?.error === 'Forbidden'}
+          dontHaveEnrollment={
+            response?.error?.error === 'Forbidden' ||
+            !response.personalInfo ||
+            [
+              response.personalInfo?.verificationRecord?.status,
+              response.personalInfo?.status,
+            ].includes(204)
+          }
         />
       )}
       {totalEnrollmentCount > 0 && getPreviouslyVerified()}
@@ -267,6 +319,8 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   );
 };
 PreviousEnrollmentVerifications.propTypes = {
+  claimantId: PropTypes.number,
   enrollmentData: PropTypes.object,
+  enrollmentVerifications: PropTypes.array,
 };
 export default PreviousEnrollmentVerifications;

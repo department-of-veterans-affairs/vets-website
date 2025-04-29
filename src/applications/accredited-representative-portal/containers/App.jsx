@@ -1,42 +1,25 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom-v5-compat';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import { fetchUser } from '../actions/user';
-import { selectUserIsLoading } from '../selectors/user';
-import Footer from '../components/common/Footer/Footer';
-import Header from '../components/common/Header/Header';
 
-const App = () => {
-  const dispatch = useDispatch();
-  const isLoading = useSelector(selectUserIsLoading);
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
-  useEffect(
-    () => {
-      dispatch(fetchUser());
-    },
-    [dispatch],
-  );
-
+function App() {
   const {
-    useToggleValue,
+    TOGGLE_NAMES: { accreditedRepresentativePortalFrontend: appToggleKey },
     useToggleLoadingValue,
-    TOGGLE_NAMES,
+    useToggleValue,
   } = useFeatureToggle();
 
-  const isAppToggleLoading = useToggleLoadingValue(
-    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
-  );
-
-  const isAppEnabled = useToggleValue(
-    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
-  );
-
+  const isAppEnabled = useToggleValue(appToggleKey);
   const isProduction = window.Cypress || environment.isProduction();
+  const shouldExitApp = isProduction && !isAppEnabled;
+
+  const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
 
   if (isAppToggleLoading) {
     return (
@@ -46,22 +29,18 @@ const App = () => {
     );
   }
 
-  if (isProduction && !isAppEnabled) {
-    document.location.replace('/');
+  if (shouldExitApp) {
+    window.location.replace('/');
     return null;
   }
 
   return (
-    <>
+    <div className="container">
       <Header />
-      {isLoading ? (
-        <VaLoadingIndicator message="Loading user information..." />
-      ) : (
-        <Outlet />
-      )}
+      <Outlet />
       <Footer />
-    </>
+    </div>
   );
-};
+}
 
 export default App;

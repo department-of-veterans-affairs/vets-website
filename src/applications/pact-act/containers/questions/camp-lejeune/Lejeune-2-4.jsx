@@ -41,8 +41,8 @@ const Lejeune24 = ({
 
   const locationList = (
     <ul>
-      <li>{RESPONSES.LEJEUNE_MARINE}</li>
-      <li>{RESPONSES.NEW_RIVER_MARINE}</li>
+      <li>Marine Corps Base Camp Lejeune</li>
+      <li>Marine Corps Air Station New River</li>
     </ul>
   );
 
@@ -74,11 +74,11 @@ const mapDispatchToProps = {
 
 Lejeune24.propTypes = {
   formResponses: PropTypes.object.isRequired,
-  setLejeune24: PropTypes.func.isRequired,
-  viewedIntroPage: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
-  }),
+  }).isRequired,
+  setLejeune24: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
 export default connect(

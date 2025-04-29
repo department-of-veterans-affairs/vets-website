@@ -78,8 +78,31 @@ export const submissionForm = {
     },
     parentGuardianSponsor: 'John Hancock',
     firstSponsor: '9001001080',
-    highSchoolDiploma: 'Yes',
-    highSchoolDiplomaDate: '2000-01-02',
+    // Updated test data for toeHighSchoolInfoChange scenarios
+    highSchoolDiplomaWithChangeFlagTrue: {
+      toeHighSchoolInfoChange: true,
+      highSchoolDiploma: 'Yes',
+      highSchoolDiplomaDate: '2000-01-02',
+    },
+    highSchoolDiplomaWithChangeFlagFalse: {
+      toeHighSchoolInfoChange: false,
+      highSchoolDiplomaLegacy: 'Yes',
+      highSchoolDiplomaDateLegacy: '2000-01-02',
+    },
+    noHighSchoolDiplomaWithChangeFlagTrue: {
+      toeHighSchoolInfoChange: true,
+      highSchoolDiploma: 'No',
+    },
+    noHighSchoolDiplomaWithChangeFlagFalse: {
+      toeHighSchoolInfoChange: false,
+      highSchoolDiplomaLegacy: 'No',
+    },
+    noHighSchoolDiplomaDateWithChangeFlagTrue: {
+      toeHighSchoolInfoChange: true,
+    },
+    noHighSchoolDiplomaDateWithChangeFlagFalse: {
+      toeHighSchoolInfoChange: false,
+    },
     'view:directDepositLearnMore': {},
     'view:contactMethodIntro': {},
     contactMethod: 'Email',
@@ -2468,7 +2491,7 @@ export const submissionForm = {
             properties: {
               accountType: {
                 type: 'string',
-                enum: ['checking', 'savings'],
+                enum: ['Checking', 'Savings'],
               },
               routingNumber: {
                 type: 'string',

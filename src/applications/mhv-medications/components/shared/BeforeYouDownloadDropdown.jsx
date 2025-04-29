@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { DD_ACTIONS_PAGE_TYPE } from '../../util/constants';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const BeforeYouDownloadDropdown = ({ page }) => {
   const content = useMemo(
     () => {
-      if (page === DD_ACTIONS_PAGE_TYPE.DETAILS) {
+      if (page === pageType.DETAILS) {
         return (
           <ul>
             <li>
@@ -36,7 +36,10 @@ const BeforeYouDownloadDropdown = ({ page }) => {
       <va-additional-info
         trigger="What to know before you print or download"
         data-testid="dropdown-info"
-        data-dd-action-name={`What To Know Before You Print Or Download Button - ${page}`}
+        data-dd-action-name={`${
+          dataDogActionNames.shared
+            .WHAT_TO_KNOW_BEFORE_YOU_PRINT_OR_DOWNLOAD_BUTTON
+        }${page}`}
         uswds
       >
         {content}

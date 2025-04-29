@@ -1,182 +1,61 @@
 import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json';
-import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
-import defaultMockThread from '../fixtures/single-draft-response.json';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
-import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
-import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
+import { Data, Locators, Paths } from '../utils/constants';
 import { Alerts } from '../../../util/constants';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from '../fixtures/threads-response.json';
 import FolderLoadPage from './FolderLoadPage';
+import mockDraftsRespone from '../fixtures/draftPageResponses/draft-threads-response.json';
+import mockReplyDraftResponse from '../fixtures/draftPageResponses/single-reply-draft-response.json';
+import mockSavedDraftResponse from '../fixtures/draftPageResponses/single-draft-response.json';
 
 class PatientMessageDraftsPage {
-  mockDraftMessages = mockDraftMessagesResponse;
-
-  mockDetailedMessage = mockDraftResponse;
-
-  currentThread = defaultMockThread;
-
-  loadDraftMessages = (
-    draftMessages = mockDraftMessagesResponse,
-    detailedMessage = mockDraftResponse,
-  ) => {
-    this.mockDraftMessages = draftMessages;
-    cy.log(
-      `draft messages before set Draft Test Message Details = ${JSON.stringify(
-        this.mockDraftMessages,
-      )}`,
-    );
-    this.setDraftTestMessageDetails(detailedMessage);
-
-    cy.log(`draft messages  = ${JSON.stringify(this.mockDraftMessages)}`);
+  loadDrafts = (messagesResponse = mockDraftsRespone) => {
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2*`,
       mockDraftFolderMetaResponse,
     ).as('draftsFolderMetaResponse');
+
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
-      this.mockDraftMessages,
+      messagesResponse,
     ).as('draftsResponse');
-
     FolderLoadPage.loadFolders();
     cy.get('[data-testid="Drafts"]>a').click({ force: true });
-    // cy.wait('@draftsFolderMetaResponse');
-    // cy.wait('@draftsResponse');
   };
 
-  setDraftTestMessageDetails = mockMessage => {
-    if (this.mockDraftMessages.data.length > 0) {
-      cy.log(`draftMessages size ${this.mockDraftMessages.data.length}`);
-      this.mockDraftMessages.data.at(0).attributes.sentDate =
-        mockMessage.data.attributes.sentDate;
-      this.mockDraftMessages.data.at(0).attributes.messageId =
-        mockMessage.data.attributes.messageId;
-      this.mockDraftMessages.data.at(0).attributes.subject =
-        mockMessage.data.attributes.subject;
-      this.mockDraftMessages.data.at(0).attributes.body =
-        mockMessage.data.attributes.body;
-      this.mockDraftMessages.data.at(0).attributes.category =
-        mockMessage.data.attributes.category;
-      this.mockDetailedMessage = mockMessage;
-    }
-  };
-
-  loadMessageDetails = (
-    mockParentMessageDetails,
-    mockThread = defaultMockThread,
-    previousMessageIndex = 1,
-    mockPreviousMessageDetails = mockDraftResponse,
+  loadSingleDraft = (
+    mockThread = mockDraftsRespone,
+    singleDraftThread = mockSavedDraftResponse,
   ) => {
-    this.currentThread = mockThread;
-    // this.currentThread.data.at(0).attributes.sentDate =
-    //  mockParentMessageDetails.data.attributes.sentDate;
-    this.currentThread.data.at(0).id =
-      mockParentMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(0).attributes.messageId =
-      mockParentMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(0).attributes.subject =
-      mockParentMessageDetails.data.attributes.subject;
-    this.currentThread.data.at(0).attributes.body =
-      mockParentMessageDetails.data.attributes.body;
-    this.currentThread.data.at(0).attributes.category =
-      mockParentMessageDetails.data.attributes.category;
-    this.currentThread.data.at(0).attributes.recipientId =
-      mockParentMessageDetails.data.attributes.recipientId;
-    this.currentThread.data.at(0).attributes.senderName =
-      mockParentMessageDetails.data.attributes.senderName;
-    this.currentThread.data.at(0).attributes.recipientName =
-      mockParentMessageDetails.data.attributes.recipientName;
-
-    cy.log(
-      `loading parent message details.${
-        this.currentThread.data.at(0).attributes.messageId
-      }`,
-    );
-    if (this.currentThread.data.lenghth > 1) {
-      this.currentThread.data.at(previousMessageIndex).attributes.sentDate =
-        mockPreviousMessageDetails.data.attributes.sentDate;
-      this.currentThread.data.at(previousMessageIndex).id =
-        mockPreviousMessageDetails.data.attributes.messageId;
-      this.currentThread.data.at(previousMessageIndex).attributes.messageId =
-        mockPreviousMessageDetails.data.attributes.messageId;
-      this.currentThread.data.at(previousMessageIndex).attributes.subject =
-        mockPreviousMessageDetails.data.attributes.subject;
-      this.currentThread.data.at(previousMessageIndex).attributes.body =
-        mockPreviousMessageDetails.data.attributes.body;
-      this.currentThread.data.at(previousMessageIndex).attributes.category =
-        mockPreviousMessageDetails.data.attributes.category;
-      this.currentThread.data.at(previousMessageIndex).attributes.recipientId =
-        mockPreviousMessageDetails.data.attributes.recipientId;
-      this.currentThread.data.at(previousMessageIndex).attributes.senderName =
-        mockPreviousMessageDetails.data.attributes.senderName;
-      this.currentThread.data.at(
-        previousMessageIndex,
-      ).attributes.recipientName =
-        mockPreviousMessageDetails.data.attributes.recipientName;
-      this.currentThread.data.at(
-        previousMessageIndex,
-      ).attributes.triageGroupName =
-        mockPreviousMessageDetails.data.attributes.triageGroupName;
-    }
-    cy.log(
-      `message thread  = ${JSON.stringify(
-        mockParentMessageDetails.data.attributes.messageId,
-      )}`,
-    );
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        this.currentThread.data.at(0).attributes.messageId
-      }`,
-      mockParentMessageDetails,
-    ).as('message1');
-
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockParentMessageDetails.data.attributes.messageId
-      }/thread?full_body=true`,
-      this.currentThread,
-    ).as('full-thread');
-
-    cy.contains(mockParentMessageDetails.data.attributes.subject).click({
-      waitForAnimations: true,
-    });
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-    // cy.wait('@message1');
-    cy.wait('@full-thread');
-  };
-
-  loadSingleDraft = (singleDraftThread, singleDraft) => {
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${
-        mockMessages.data[0].attributes.messageId
+        mockThread.data[0].attributes.messageId
       }/thread*`,
       singleDraftThread,
     ).as('full-thread');
 
+    cy.contains(mockThread.data[0].attributes.subject).click();
+  };
+
+  loadSingleReplyDraft = (singleReplyDraftThread = mockReplyDraftResponse) => {
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${
-        singleDraftThread.data[0].attributes.messageId
-      }`,
-      singleDraft,
-    ).as('fist-message-in-thread');
+        mockDraftsRespone.data[0].attributes.messageId
+      }/thread*`,
+      singleReplyDraftThread,
+    ).as('full-thread');
 
-    cy.contains(mockMessages.data[0].attributes.subject).click({
+    cy.contains(mockDraftsRespone.data[0].attributes.subject).click({
       waitForAnimations: true,
     });
+    cy.get(`[subheader]`)
+      .eq(0)
+      .click();
   };
 
   loadMultiDraftThread = (mockResponse = mockMultiDraftsResponse) => {
@@ -215,11 +94,46 @@ class PatientMessageDraftsPage {
   };
 
   clickDeleteButton = () => {
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).should('be.visible');
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({
+    cy.get(`#delete-draft-button`).should('be.visible');
+    cy.get(`#delete-draft-button`).click({
       force: true,
       waitForAnimations: true,
     });
+  };
+
+  confirmDeleteDraft = draftMessage => {
+    cy.intercept(
+      'DELETE',
+      `${Paths.INTERCEPT.MESSAGES}/${
+        draftMessage.data[0].attributes.messageId
+      }`,
+      draftMessage,
+    ).as('deletedDraftResponse');
+
+    cy.get(Locators.BUTTONS.DELETE_CONFIRM)
+      .shadow()
+      .find(`button`)
+      .click({ force: true });
+  };
+
+  clickMultipleDeleteButton = number => {
+    cy.get(`[data-testid="reply-form"]`)
+      .find('va-accordion-item')
+      .then(el => {
+        if (el.length > 1) {
+          cy.get(`#delete-draft-button-${number}`).should('be.visible');
+          cy.get(`#delete-draft-button-${number}`).click({
+            force: true,
+            waitForAnimations: true,
+          });
+        } else {
+          cy.get(`#delete-draft-button`).should('be.visible');
+          cy.get(`#delete-draft-button`).click({
+            force: true,
+            waitForAnimations: true,
+          });
+        }
+      });
   };
 
   sendDraftMessage = draftMessage => {
@@ -238,7 +152,7 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
-  saveMultiDraftMessage = (mockResponse, messageId) => {
+  saveMultiDraftMessage = (mockResponse, messageId, btnNum) => {
     const firstNonDraftMessageId = mockMultiDraftsResponse.data.filter(
       el => el.attributes.draftDate === null,
     )[0].attributes.messageId;
@@ -247,20 +161,10 @@ class PatientMessageDraftsPage {
       `${
         Paths.SM_API_BASE
       }/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
-      { data: mockResponse },
+      { ok: true },
     ).as('saveDraft');
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+    cy.get(`#save-draft-button-${btnNum}`).click();
     cy.wait('@saveDraft');
-  };
-
-  confirmDeleteDraft = draftMessage => {
-    cy.intercept(
-      'DELETE',
-      `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data.attributes.messageId}`,
-      draftMessage,
-    ).as('deletedDraftResponse');
-
-    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click({ force: true });
   };
 
   deleteMultipleDraft = (mockResponse, reducedMockResponse, index = 0) => {
@@ -283,7 +187,6 @@ class PatientMessageDraftsPage {
     cy.get(Locators.BUTTONS.DELETE_CONFIRM).click({ force: true });
   };
 
-  // method below could be deleted after refactoring associated specs
   verifyDeleteConfirmationMessage = () => {
     cy.get('[data-testid="alert-text"]').should(
       'contain.text',
@@ -299,10 +202,12 @@ class PatientMessageDraftsPage {
     cy.get(Locators.ALERTS.NOTIFICATION).should('be.visible');
   };
 
-  confirmDeleteDraftWithEnterKey = draftMessage => {
+  confirmDeleteDraftWithEnterKey = (draftMessage = mockSavedDraftResponse) => {
     cy.intercept(
       'DELETE',
-      `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data.attributes.messageId}`,
+      `${Paths.INTERCEPT.MESSAGES}/${
+        draftMessage.data[0].attributes.messageId
+      }`,
       draftMessage,
     ).as('deletedDraftResponse');
     cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
@@ -325,59 +230,10 @@ class PatientMessageDraftsPage {
       .should('include', `${draftMessage.data.attributes.messageId}`);
   };
 
-  getMessageSubjectField = () => {
-    return cy
-      .get(Locators.MESSAGE_SUBJECT)
-      .shadow()
-      .find('[name="message-subject"]');
-  };
-
-  getMessageBodyField = () => {
-    return cy
-      .get(Locators.MESSAGES_BODY)
-      .shadow()
-      .find('[name="compose-message-body"]');
-  };
-
-  openAdvancedSearch = () => {
-    cy.get(Locators.ADDITIONAL_FILTER).click();
-  };
-
-  selectAdvancedSearchCategory = () => {
-    cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
-      .find('select')
-      .select('COVID');
-  };
-
-  clickSubmitSearchButton = () => {
-    cy.get(Locators.BUTTONS.FILTER).click();
-  };
-
-  selectRecipientName = recipientName => {
-    cy.get(Locators.ALERTS.RECIP_SELECT)
-      .shadow()
-      .find('select')
-      .select(recipientName);
-  };
-
   selectCategory = (category = 'COVID') => {
     cy.get(Locators.BUTTONS.CATEG_RADIO_BUTT)
       .contains(category)
       .click();
-  };
-
-  addMessageSubject = subject => {
-    cy.get(Locators.MESSAGE_SUBJECT)
-      .shadow()
-      .find('#inputField')
-      .type(subject);
-  };
-
-  addMessageBody = text => {
-    cy.get('#compose-message-body')
-      .shadow()
-      .find('#textarea')
-      .type(text);
   };
 
   saveNewDraftMessage = (singleThreadData, singleMessageData) => {
@@ -392,14 +248,26 @@ class PatientMessageDraftsPage {
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ force: true });
   };
 
-  saveExistingDraftMessage = mockResponse => {
+  saveExistingDraft = (
+    category,
+    subject,
+    requestData = mockSavedDraftResponse,
+  ) => {
     cy.intercept(
       'PUT',
-      `/my_health/v1/messaging/message_drafts/3163320/replydraft/3163906`,
-      { data: mockResponse },
-    ).as('saveDraft');
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ waitForAnimations: true });
-    // cy.wait('@saveDraft');
+      `/my_health/v1/messaging/message_drafts/${
+        requestData.data[0].attributes.messageId
+      }`,
+      {},
+    ).as('draft_message');
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+
+    cy.get('@draft_message')
+      .its('request.body')
+      .then(message => {
+        expect(message.category).to.eq(category);
+        expect(message.subject).to.eq(subject);
+      });
   };
 
   saveDraftByKeyboard = () => {
@@ -413,208 +281,156 @@ class PatientMessageDraftsPage {
     });
   };
 
-  verifyFocusOnConfirmationMessage = () => {
-    cy.get('.last-save-time').should('have.focus');
-  };
-
-  inputFilterDataText = text => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .type(`${text}`, { force: true });
-  };
-
-  submitFilterByKeyboard = (mockFilterResponse, folderId) => {
-    cy.intercept(
-      'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/search`,
-      mockFilterResponse,
-    ).as('filterResult');
-
-    cy.realPress('Enter');
-  };
-
-  clickFilterMessagesButton = () => {
-    cy.intercept(
-      'POST',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/search`,
-      sentSearchResponse,
-    );
-    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
-  };
-
-  clickClearFilterButton = () => {
-    this.inputFilterDataText('any');
-    this.clickFilterMessagesButton();
-    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
-  };
-
-  verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
-    cy.get(Locators.MESSAGES).should(
-      'have.length',
-      `${responseData.data.length}`,
-    );
-
-    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
-      cy.wrap(element)
-        .invoke('text')
-        .then(text => {
-          const lowerCaseText = text.toLowerCase();
-          expect(lowerCaseText).to.contain(`${filterValue}`);
-        });
-    });
-  };
-
-  clearFilterByKeyboard = () => {
-    // next line required to start tab navigation from the header of the page
-    cy.get('[data-testid="folder-header"]').click();
-    cy.contains('Clear Filters').then(el => {
-      cy.tabToElement(el)
-        .first()
-        .click();
-    });
-  };
-
-  verifyFilterFieldCleared = () => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .should('be.empty');
-  };
-
-  sortMessagesByKeyboard = (text, data, folderId) => {
-    cy.get(Locators.DROPDOWN)
-      .shadow()
-      .find('select')
-      .select(`${text}`, { force: true });
-
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}/threads**`,
-      data,
-    ).as('sortResponse');
-    cy.tabToElement('[data-testid="sort-button"]');
-    cy.realPress('Enter');
-  };
-
-  verifySortingByKeyboard = (text, data, folderId) => {
-    let listBefore;
-    let listAfter;
-    cy.get(Locators.THREAD_LIST)
-      .find(Locators.DATE_RECEIVED)
-      .then(list => {
-        listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
-      })
-      .then(() => {
-        this.sortMessagesByKeyboard(`${text}`, data, folderId);
-        cy.get(Locators.THREAD_LIST)
-          .find(Locators.DATE_RECEIVED)
-          .then(list2 => {
-            listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
-            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
-            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
-          });
-      });
-  };
-
-  verifyFilterResultsText = (
-    filterValue,
-    responseData = sentSearchResponse,
-  ) => {
-    cy.get(Locators.MESS_LIST).should(
-      'have.length',
-      `${responseData.data.length}`,
-    );
-    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
-      cy.wrap(element)
-        .invoke('text')
-        .then(text => {
-          const lowerCaseText = text.toLowerCase();
-          expect(lowerCaseText).to.contain(`${filterValue}`);
-        });
-    });
-  };
-
-  clickSortMessagesByDateButton = (
-    text,
-    sortedResponse = mockSortedMessages,
-  ) => {
-    cy.get(Locators.DROPDOWN)
-      .shadow()
-      .find('select')
-      .select(`${text}`, { force: true });
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
-      sortedResponse,
-    );
-    cy.get(Locators.BUTTONS.SORT).click({ force: true });
-  };
-
-  verifySorting = () => {
-    let listBefore;
-    let listAfter;
-    cy.get(Locators.THREAD_LIST)
-      .find(Locators.DATE_RECEIVED)
-      .then(list => {
-        listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
-      })
-      .then(() => {
-        this.clickSortMessagesByDateButton('Oldest to newest');
-        cy.get(Locators.THREAD_LIST)
-          .find(Locators.DATE_RECEIVED)
-          .then(list2 => {
-            listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
-            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
-            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
-          });
-      });
-  };
-
-  inputFilterDataByKeyboard = text => {
-    cy.tabToElement('#inputField')
-      .first()
-      .type(`${text}`, { force: true });
-  };
-
   verifyDraftMessageBannerTextHasFocus = () => {
     cy.focused().should('contain.text', 'Draft was successfully deleted.');
   };
 
-  verifyMessagesBodyText = MessageBody => {
-    cy.get(Locators.MESSAGES_BODY)
-      .should('have.attr', 'value')
-      .and('eq', MessageBody);
+  verifySavedMessageAlertText = (text = Data.MESSAGE_WAS_SAVED) => {
+    cy.get(Locators.ALERTS.SAVE_DRAFT).should('include.text', text);
   };
 
-  verifyDraftMessageBodyText = MessagesBodyDraft => {
-    cy.get(Locators.MESSAGES_BODY_DRAFT).should(
-      'have.text',
-      `${MessagesBodyDraft}`,
-    );
-  };
-
-  verifySavedMessageAlertText = MESSAGE_WAS_SAVED => {
-    cy.get(Locators.ALERTS.SAVE_DRAFT).should(
-      'include.text',
-      MESSAGE_WAS_SAVED,
-    );
-  };
-
-  verifySaveModalButtons = () => {
-    cy.get(`[data-testid="quit-compose-double-dare"]>va-button`).each(el => {
-      cy.wrap(el).should('be.visible');
+  expandAllDrafts = () => {
+    cy.get(Locators.BUTTONS.EDIT_DRAFTS).click({
+      force: true,
+      waitForAnimations: true,
     });
+  };
+
+  verifyExpandedDraftBody = (response, number, index) => {
+    cy.get('[open="true"]')
+      .find('.thread-list-draft')
+      .should('contain.text', `Draft ${number}`);
+
+    cy.get(`[open="true"]`)
+      .find(`[data-testid="draft-reply-to"]`)
+      .should('contain.text', response.data[index].attributes.recipientName);
+  };
+
+  expandSingleDraft = number => {
+    cy.get(`[subheader="draft #${number}..."]`)
+      .shadow()
+      .find('button')
+      .click({ force: true, waitForAnimations: true });
+  };
+
+  verifyExpandedDraftButtons = number => {
+    cy.get(`[open="true"]`)
+      .find(`#attach-file-button-${number}`)
+      .shadow()
+      .find(`button`)
+      .should('be.visible')
+      .and(`have.text`, `Attach file to draft ${number}`);
+
+    cy.get(`[open="true"]`)
+      .find(`#send-button-${number}`)
+      .shadow()
+      .find(`button`)
+      .should('be.visible')
+      .and(`have.text`, `Send draft ${number}`);
+
+    cy.get(`[open="true"]`)
+      .find(`#save-draft-button-${number}`)
+      .should('be.visible')
+      .and(`have.text`, `Save draft ${number}`);
+
+    cy.get(`[open="true"]`)
+      .find(`#delete-draft-button-${number}`)
+      .should('be.visible')
+      .and(`have.text`, `Delete draft ${number}`);
+  };
+
+  verifyExpandedOldDraftButtons = number => {
+    cy.get(`#delete-draft-button-${number}`)
+      .should('be.visible')
+      .and('have.text', `Delete draft ${number}`);
+
+    cy.get('[class^="attachments-section]').should('not.exist');
+    cy.get(`#send-button-${number}`).should('not.exist');
+    cy.get(`#save-draft-button-${number}`).should('not.exist');
+  };
+
+  verifySaveWithAttachmentAlert = () => {
+    cy.get(Locators.ALERTS.ALERT_MODAL)
+      .shadow()
+      .find('h2')
+      .should('contain', `can't save attachment`);
   };
 
   closeModal = () => {
     cy.get('va-modal[visible]')
       .find('.va-modal-close')
       .click();
+  };
+
+  verifyThreadRecipientName = (mockResponse, index) => {
+    cy.get(Locators.THREADS)
+      .find(`.vads-u-font-weight--bold`)
+      .eq(index)
+      .should(`be.visible`)
+      .and(`have.text`, mockResponse.data[index].attributes.recipientName);
+  };
+
+  verifyAttachFileBtn = () => {
+    cy.get(Locators.BUTTONS.ATTACH_FILE)
+      .shadow()
+      .find(`button`)
+      .should(`be.visible`)
+      .and(`have.text`, Data.BUTTONS.ATTACH_FILE);
+  };
+
+  verifySendDraftBtn = () => {
+    cy.get(Locators.BUTTONS.SEND)
+      .shadow()
+      .find(`button`)
+      .should(`be.visible`)
+      .and(`contain.text`, Data.BUTTONS.SEND);
+  };
+
+  verifySaveDraftBtn = () => {
+    cy.get(Locators.BUTTONS.SAVE_DRAFT)
+      .should(`be.visible`)
+      .and('contain.text', Data.BUTTONS.SAVE_DRAFT);
+  };
+
+  verifyDeleteDraftBtn = () => {
+    cy.get(Locators.BUTTONS.DELETE_DRAFT)
+      .should(`be.visible`)
+      .and(`contain.text`, Data.BUTTONS.DELETE_DRAFT);
+  };
+
+  verifyCantSaveAlert = (
+    alertText,
+    firstBtnText = `Edit draft`,
+    secondBtnText = `Delete draft`,
+  ) => {
+    cy.get(`[status="warning"]`)
+      .find(`h2`)
+      .should('be.visible')
+      .and(`contain.text`, alertText);
+
+    cy.get(`[status="warning"]`)
+      .find(`[text='${firstBtnText}']`)
+      .shadow()
+      .find(`button`)
+      .should('be.visible')
+      .and(`contain.text`, firstBtnText);
+
+    cy.get(`[status="warning"]`)
+      .find(`[text='${secondBtnText}']`)
+      .shadow()
+      .find(`.last-focusable-child`)
+      .should('be.visible')
+      .and(`contain.text`, secondBtnText);
+  };
+
+  clickDeleteChangesButton = () => {
+    cy.get(`[status="warning"]`)
+      .find(`va-button[text="Delete changes"]`)
+      .click();
+  };
+
+  verifyDraftToFieldContainsPlainTGName = value => {
+    cy.get('[data-testid="message-list-item"]').should('contain.text', value);
   };
 }
 

@@ -11,6 +11,7 @@
       "last": "Veteran"
     },
     "veteranDateOfBirth": "1980-01-01",
+    "veteranEmailAddress": "john.veteran@email.com",
     "veteranId": {
       "ssn": "321540989"
     },

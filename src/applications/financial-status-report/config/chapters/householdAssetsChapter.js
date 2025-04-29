@@ -18,10 +18,7 @@ import EnhancedVehicleRecord from '../../components/otherAssets/EnhancedVehicleR
 import VehicleSummaryWidget from '../../components/otherAssets/VehicleSummaryWidget';
 import MonetaryAssetsSummaryReview from '../../components/monetary/MonetaryAssetsSummaryReview';
 import VehicleSummaryReview from '../../components/otherAssets/VehicleSummaryReview';
-import {
-  CashOnHand,
-  CashOnHandReview,
-} from '../../components/monetary/CashOnHand';
+import { CashOnHand } from '../../components/monetary/CashOnHand';
 import RecreationalVehiclesReview from '../../components/otherAssets/RecreationalVehcilesReview';
 import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
 import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
@@ -42,17 +39,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         CustomPage: CashOnHand,
-        CustomPageReview: CashOnHandReview,
-        depends: formData => {
-          const { gmtData } = formData;
-          // Also show if the new asset update is true
-          const gmtDepends =
-            (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
-            (gmtData?.isEligibleForStreamlined &&
-              gmtData?.incomeBelowOneFiftyGmt &&
-              formData['view:streamlinedWaiverAssetUpdate']);
-          return gmtDepends || formData['view:reviewPageNavigationToggle'];
-        },
+        CustomPageReview: null,
       },
       cashInBank: {
         path: 'cash-in-bank',
@@ -61,15 +48,6 @@ export default {
         schema: { type: 'object', properties: {} },
         CustomPage: CashInBank,
         CustomPageReview: CashInBankReview,
-        depends: formData => {
-          const { gmtData } = formData;
-          // Only show if the new asset update is true
-          const gmtDepends =
-            gmtData?.isEligibleForStreamlined &&
-            gmtData?.incomeBelowOneFiftyGmt &&
-            formData['view:streamlinedWaiverAssetUpdate'];
-          return gmtDepends || formData['view:reviewPageNavigationToggle'];
-        },
       },
       streamlinedShortTransitionPage: {
         // Transition page - streamlined short form only

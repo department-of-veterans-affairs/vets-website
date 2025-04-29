@@ -14,7 +14,7 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
     order: 0,
   },
   {
-    url: URLS.INTRODUCTION,
+    url: URLS.APPOINTMENTS,
     order: 1,
   },
   {

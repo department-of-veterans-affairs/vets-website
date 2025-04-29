@@ -5,7 +5,6 @@ import {
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
   serviceNumberUI,
-  serviceNumberSchema,
   checkboxGroupUI,
   titleUI,
   checkboxGroupSchema,
@@ -76,7 +75,9 @@ export default {
     properties: {
       serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchLabels)),
       activeServiceDateRange: currentOrPastDateRangeSchema,
-      serviceNumber: serviceNumberSchema,
+      serviceNumber: {
+        type: 'string',
+      },
       placeOfSeparation,
       'view:wartimeWarning': {
         type: 'object',

@@ -1,17 +1,14 @@
-import React from 'react';
-import { useLocation, NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
-import { getCancelInfo } from '../appointment-list/redux/selectors';
 import { closeCancelAppointment } from '../appointment-list/redux/actions';
+import { GA_PREFIX } from '../utils/constants';
 
-export default function BackLink({
-  appointment,
-  featureAppointmentDetailsRedesign = false,
-}) {
+export default function BackLink({ appointment }) {
   const {
     isPastAppointment,
     isPendingAppointment,
@@ -22,91 +19,58 @@ export default function BackLink({
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const handleClickGATracker = () => {
-    let status;
-    if (isPendingAppointment) {
-      status = 'pending';
-    } else if (isUpcomingAppointment) {
-      status = 'upcoming';
-    } else if (isPastAppointment) {
-      status = 'past';
-    }
+  let status;
+  let link;
+  let linkText;
+  if (isPendingAppointment) {
+    status = 'pending';
+    link = '/pending';
+    linkText = 'Back to pending appointments';
+  } else if (isUpcomingAppointment) {
+    status = 'upcoming';
+    link = '/';
+    linkText = 'Back to appointments';
+  } else if (isPastAppointment) {
+    status = 'past';
+    link = '/past';
+    linkText = 'Back to past appointments';
+  }
 
-    const progress =
-      location.search === '?confirmMsg=true' ? 'confirmation' : 'appointment';
+  const progress =
+    location.search === '?confirmMsg=true' ? 'confirmation' : 'appointment';
 
-    if (progress === 'confirmation' && status === 'upcoming') {
-      status = 'direct';
-    }
-    return () => {
-      recordEvent({
-        event: `${GA_PREFIX}-${status}-${progress}-details-descriptive-back-link`,
-      });
-
-      if (featureAppointmentDetailsRedesign) dispatch(closeCancelAppointment());
-    };
-  };
-
-  const { cancelAppointmentStatus } = useSelector(getCancelInfo);
-  const handleBackLinkText = () => {
-    let linkText;
-    if (isPendingAppointment) {
-      linkText = 'Back to pending appointments';
-      if (
-        featureAppointmentDetailsRedesign &&
-        cancelAppointmentStatus !== FETCH_STATUS.succeeded
-      )
-        linkText = 'Back to request for appointments';
-    } else if (isUpcomingAppointment) {
-      linkText = 'Back to appointments';
-    } else if (isPastAppointment) {
-      linkText = 'Back to past appointments';
-    }
-    return linkText;
-  };
-  const handleBackLink = () => {
-    let link;
-    if (isPendingAppointment) {
-      link = '/pending';
-      if (
-        featureAppointmentDetailsRedesign &&
-        cancelAppointmentStatus !== FETCH_STATUS.succeeded
-      ) {
-        // Don't change the url
-        link = history.location.pathname;
-      }
-    } else if (isUpcomingAppointment) {
-      link = '/';
-    } else if (isPastAppointment) {
-      link = '/past';
-    }
-    return link;
-  };
+  if (progress === 'confirmation' && status === 'upcoming') {
+    status = 'direct';
+  }
 
   return (
     <div
       className="backLinkContainer vads-u-margin-top--2"
       aria-describedby="vaos-hide-for-print backLink"
     >
-      <div
-        aria-hidden
-        className="vads-u-color--link-default vads-u-margin-right--1"
-      >
-        ‹
-      </div>
-      <NavLink
-        aria-label={handleBackLinkText()}
-        to={handleBackLink()}
+      <VaLink
+        back
+        href={`/my-health/appointments${link}`}
+        text={linkText}
+        aria-label={linkText}
         className="vaos-hide-for-print vads-u-color--link-default"
-        onClick={handleClickGATracker()}
-      >
-        {handleBackLinkText()}
-      </NavLink>
+        onClick={e => {
+          e.preventDefault();
+
+          recordEvent({
+            event: `${GA_PREFIX}-${status}-${progress}-details-descriptive-back-link`,
+          });
+          dispatch(closeCancelAppointment());
+          if (progress !== 'confirmation') {
+            history.goBack();
+          }
+          history.push(link);
+        }}
+      />
     </div>
   );
 }
 
 BackLink.propTypes = {
   appointment: PropTypes.object.isRequired,
-  featureAppointmentDetailsRedesign: PropTypes.bool,
 };

@@ -12,7 +12,15 @@ const MoreInfoCard = ({
   linkDescription,
 }) => {
   const response = useSelector(state => state.personalInfo);
-  if (response?.error?.error === 'Forbidden') return null;
+  if (
+    response?.error?.error === 'Forbidden' ||
+    !response?.personalInfo ||
+    [
+      response?.personalInfo?.verificationRecord?.status,
+      response?.personalInfo?.status,
+    ].includes(204)
+  )
+    return null;
   return (
     <div className={`vads-u-margin-top--${marginTop}`}>
       <va-card background>
@@ -26,7 +34,7 @@ const MoreInfoCard = ({
           URL={URL}
           className={className}
         />
-        <p className="vads-u-color--base vads-u-margin-top--0 vads-u-text-align--justify">
+        <p className="vads-u-color--base vads-u-margin-top--0">
           {linkDescription}
         </p>
         <PageLink

@@ -3,12 +3,15 @@ import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs
 import formConfig from '../config/form';
 
 import {
+  CLEAR_FORM_DATA,
   CLOSE_REVIEW_CHAPTER,
   OPEN_REVIEW_CHAPTER,
   SET_CATEGORY_ID,
   SET_LOCATION_SEARCH,
+  SET_SUBTOPIC_ID,
   SET_TOPIC_ID,
   SET_UPDATED_IN_REVIEW,
+  SET_VA_HEALTH_FACILITY,
 } from '../actions';
 
 import {
@@ -20,12 +23,14 @@ import {
 const initialState = {
   categoryID: '',
   topicID: '',
+  subtopicID: '',
   updatedInReview: '',
   searchLocationInput: '',
   getLocationInProgress: false,
   currentUserLocation: '',
   getLocationError: false,
   selectedFacility: null,
+  vaHealthFacility: '',
   reviewPageView: {
     openChapters: [],
   },
@@ -36,6 +41,10 @@ export default {
   test: 'test',
   askVA: (state = initialState, action) => {
     switch (action.type) {
+      case CLEAR_FORM_DATA:
+        return {
+          ...initialState,
+        };
       case SET_CATEGORY_ID:
         return {
           ...state,
@@ -45,6 +54,11 @@ export default {
         return {
           ...state,
           topicID: action.payload,
+        };
+      case SET_SUBTOPIC_ID:
+        return {
+          ...state,
+          subtopicID: action.payload,
         };
       case SET_UPDATED_IN_REVIEW:
         return {
@@ -97,6 +111,11 @@ export default {
         return {
           ...state,
           searchLocationInput: action.payload,
+        };
+      case SET_VA_HEALTH_FACILITY:
+        return {
+          ...state,
+          vaHealthFacility: action.payload,
         };
       default:
         return state;

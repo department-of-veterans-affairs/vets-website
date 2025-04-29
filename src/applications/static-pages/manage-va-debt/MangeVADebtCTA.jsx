@@ -3,13 +3,15 @@ import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 const cdpUrl = getAppUrl('combined-debt-portal');
 const fsrUrl = getAppUrl('request-debt-help-form-5655');
+const breadcrumbs = [
+  { href: '/', label: 'Home' },
+  { href: '/manage-va-debt', label: 'Manage your VA debt' },
+];
+const bcString = JSON.stringify(breadcrumbs);
 
 const ManageVADebtCTA = () => (
   <>
-    <va-breadcrumbs uswds="false">
-      <a href="/">Home</a>
-      <a href="/manage-va-debt">Manage your VA debt</a>
-    </va-breadcrumbs>
+    <va-breadcrumbs breadcrumb-list={bcString} />
     {/* This page is only for local development purposes, on staging/prod
      this page is rendered from the content-build in drupal. */}
     <h1>Manage your VA debt for benefit overpayments and copay bills</h1>

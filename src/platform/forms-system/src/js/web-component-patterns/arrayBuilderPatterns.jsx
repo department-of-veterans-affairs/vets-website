@@ -9,7 +9,11 @@ import {
 /**
  * Looks for URL param 'add' and 'removedAllWarn' and returns a warning alert if both are present
  */
-export function withAlertOrDescription({ description, nounSingular }) {
+export function withAlertOrDescription({
+  description,
+  nounSingular,
+  hasMultipleItemPages,
+}) {
   return () => {
     const search = getArrayUrlSearchParams();
     const isAdd = search.get('add');
@@ -28,23 +32,33 @@ export function withAlertOrDescription({ description, nounSingular }) {
         </>
       );
     }
-    return isEdit
-      ? `We’ll take you through each of the sections of this ${nounSingular} for you to review and edit`
-      : description || '';
+    if (isEdit && hasMultipleItemPages) {
+      return `We’ll take you through each of the sections of this ${nounSingular} for you to review and edit`;
+    }
+    return description || '';
   };
 }
 
 /**
- * Looks for URL param 'edit' and returns a title with 'Edit' prepended if it is present
+ * Looks for URL param 'edit' and returns a title with 'Edit' prepended if it is present.
+ * Optionally allows control over whether the title should be lowercased.
+ *
+ * @param {string | function} title - The title or a function that returns a title.
+ * @param {boolean} [lowerCase=true] - Whether to lower case the first character of the title when 'edit' is present.
+ * @returns {function} - A function that returns the modified or original title.
  */
-export const withEditTitle = title => {
+export const withEditTitle = (title, lowerCase = true) => {
   return props => {
     const search = getArrayUrlSearchParams();
     const isEdit = search.get('edit');
     const titleStr = typeof title === 'function' ? title(props) : title;
-    return isEdit
-      ? `Edit ${titleStr.charAt(0).toLowerCase() + titleStr.slice(1)}`
-      : titleStr;
+    if (isEdit) {
+      const modifiedTitle = lowerCase
+        ? titleStr.charAt(0).toLowerCase() + titleStr.slice(1)
+        : titleStr;
+      return `Edit ${modifiedTitle}`;
+    }
+    return titleStr;
   };
 };
 
@@ -69,6 +83,9 @@ export const withEditTitle = title => {
  * @param {{
  *   title: string,
  *   nounSingular: string,
+ *   lowerCase?: boolean,
+ *   hasMultipleItemPages?: boolean,
+ *   description?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element
  * }} options
  * @returns {UISchemaOptions}
  */
@@ -76,10 +93,12 @@ export const arrayBuilderItemFirstPageTitleUI = ({
   title,
   description,
   nounSingular,
+  lowerCase = true,
+  hasMultipleItemPages = true,
 }) => {
   return titleUI(
-    withEditTitle(title),
-    withAlertOrDescription({ description, nounSingular }),
+    withEditTitle(title, lowerCase),
+    withAlertOrDescription({ description, nounSingular, hasMultipleItemPages }),
   );
 };
 
@@ -100,14 +119,20 @@ export const arrayBuilderItemFirstPageTitleUI = ({
             equal to your income. This won’t affect your application or benefits.
           </AdditionalInfo>
       </p>))
+    ...arrayBuilderItemSubsequentPageTitleUI('Sallie Mae', undefined, false)
  * ```
  * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [title] 'ui:title'
  * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [description] 'ui:description'
+ * @param {boolean} [lowerCase=true] - Whether to lower case the first character of the title when 'edit' is present
  *
  * @returns {UISchemaOptions}
  */
-export const arrayBuilderItemSubsequentPageTitleUI = (title, description) => {
-  return titleUI(withEditTitle(title), description);
+export const arrayBuilderItemSubsequentPageTitleUI = (
+  title,
+  description,
+  lowerCase = true,
+) => {
+  return titleUI(withEditTitle(title, lowerCase), description);
 };
 
 /**
@@ -205,6 +230,11 @@ export const arrayBuilderYesNoUI = (
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
                 labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
+                ifMinimalHeader: {
+                  labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '2',
+                  labelHeaderLevelStyle:
+                    yesNoOptionsMore?.labelHeaderLevelStyle || '3',
+                },
                 hint: customHint
                   ? customHint({
                       arrayData,
@@ -233,6 +263,11 @@ export const arrayBuilderYesNoUI = (
               'ui:title': defaultTitle,
               'ui:options': {
                 labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
+                ifMinimalHeader: {
+                  labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '1',
+                  labelHeaderLevelStyle:
+                    yesNoOptions?.labelHeaderLevelStyle || '2',
+                },
                 hint: customMoreHint
                   ? customMoreHint({
                       arrayData,

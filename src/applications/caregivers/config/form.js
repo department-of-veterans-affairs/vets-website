@@ -3,20 +3,22 @@ import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import {
-  submitTransform,
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
   primaryHasDifferentMailingAddress,
   secondaryOneHasDifferentMailingAddress,
   secondaryTwoHasDifferentMailingAddress,
+  showFacilityConfirmation,
 } from '../utils/helpers';
+import submitTransformer from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetHelpFooter from '../components/GetHelp';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
-import { fullSchema } from '../utils/imports';
+import { API_ENDPOINTS } from '../utils/constants';
+import { FULL_SCHEMA } from '../utils/imports';
 import content from '../locales/en/content.json';
 import manifest from '../manifest.json';
 
@@ -26,7 +28,8 @@ import vetIdentityInfoPage from './chapters/veteran/identityInformation';
 import vetHomeAddressPage from './chapters/veteran/homeAddress';
 import vetContactInfoPage from './chapters/veteran/contactInformation';
 import vetMedicalCenterJsonPage from './chapters/veteran/vaMedicalCenter_json';
-import vetMedicalCenterApiPage from './chapters/veteran/vaMedicalCenter_api';
+import FacilitySearch from '../components/FormFields/FacilitySearch';
+import FacilityReview from '../components/FormReview/FacilityReview';
 
 // primary pages
 import hasPrimaryPage from './chapters/primary/hasPrimary';
@@ -49,10 +52,11 @@ import secondaryTwoIdentityInfoPage from './chapters/secondaryTwo/identityInform
 import secondaryTwoHomeAddressPage from './chapters/secondaryTwo/homeAddress';
 import secondaryTwoMailingAddressPage from './chapters/secondaryTwo/mailingAddress';
 import secondaryTwoContactInfoPage from './chapters/secondaryTwo/contactInformation';
+import FacilityConfirmation from '../components/FormPages/FacilityConfirmation';
 
 // sign as representative
 import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
-import uploadPOADocument from './chapters/signAsRepresentative/uploadPOADocument';
+import documentUpload from './chapters/signAsRepresentative/documentUpload';
 
 const {
   address,
@@ -65,7 +69,7 @@ const {
   fullName,
   uuid,
   signature,
-} = fullSchema.definitions;
+} = FULL_SCHEMA.definitions;
 
 /* Chapters
  * 1 - Vet/Service Member (required)
@@ -76,8 +80,8 @@ const {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
-  transformForSubmit: submitTransform,
+  submitUrl: environment.API_URL + API_ENDPOINTS.submission,
+  transformForSubmit: submitTransformer,
   trackingPrefix: 'caregivers-10-10cg-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
@@ -107,6 +111,7 @@ const formConfig = {
     uuid,
     signature,
   },
+  dev: { disableWindowUnloadInCI: true },
   chapters: {
     veteranInformation: {
       title: content['vet-info-title--chapter'],
@@ -146,8 +151,19 @@ const formConfig = {
           path: 'veteran-information/va-medical-center/locator',
           title: content['vet-info-title--facility'],
           depends: formData => formData['view:useFacilitiesAPI'],
-          uiSchema: vetMedicalCenterApiPage.uiSchema,
-          schema: vetMedicalCenterApiPage.schema,
+          CustomPage: FacilitySearch,
+          CustomPageReview: FacilityReview,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        vetMedicalCenterConfirmation: {
+          path: 'veteran-information/va-medical-center/confirm',
+          title: content['vet-info-title--facility'],
+          depends: showFacilityConfirmation,
+          CustomPage: FacilityConfirmation,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
@@ -299,8 +315,8 @@ const formConfig = {
           title: content['sign-as-rep-title--upload'],
           depends: formData => formData.signAsRepresentativeYesNo === 'yes',
           editModeOnReviewPage: false,
-          uiSchema: uploadPOADocument.uiSchema,
-          schema: uploadPOADocument.schema,
+          uiSchema: documentUpload.uiSchema,
+          schema: documentUpload.schema,
         },
       },
     },

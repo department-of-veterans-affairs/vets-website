@@ -30,10 +30,8 @@ const PageFieldSummary = props => {
 
   return (
     <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
-      <div className="form-review-panel-page-header-row vads-u-margin-bottom--1">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          Your question
-        </h4>
+      <div className="form-review-panel-page-header-row vads-u-margin-bottom--1 vads-u-padding-top--3">
+        <h5 className="vads-u-padding-y--1">Your question</h5>
         <span>{defaultEditButton({ label: `Edit` })}</span>
       </div>
       {currentPage[0]?.chapterTitle === alertPage[0].chapterTitle &&

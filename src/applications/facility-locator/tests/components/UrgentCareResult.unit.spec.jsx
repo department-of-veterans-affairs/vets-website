@@ -10,10 +10,13 @@ describe('UrgentCareResult', () => {
       facilityType: 'urgent_care',
       serviceType: 'NonVAUrgentCare',
     };
+
     const wrapper = shallow(
       <UrgentCareResult provider={testData.data[4]} query={query} />,
     );
+
     expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationMarker').length).to.equal(1);
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
@@ -31,10 +34,13 @@ describe('UrgentCareResult', () => {
       facilityType: 'urgent_care',
       serviceType: 'UrgentCare',
     };
+
     const wrapper = shallow(
       <UrgentCareResult provider={testData.data[1]} query={query} />,
     );
+
     expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationMarker').length).to.equal(1);
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);

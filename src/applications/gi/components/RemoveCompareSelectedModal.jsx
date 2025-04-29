@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function RemoveCompareSelectedModal({
@@ -21,3 +22,10 @@ export default function RemoveCompareSelectedModal({
     </VaModal>
   );
 }
+
+RemoveCompareSelectedModal.propTypes = {
+  name: PropTypes.string.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+};

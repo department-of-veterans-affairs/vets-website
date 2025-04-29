@@ -1,86 +1,53 @@
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import AppointmentsPage from './components/AppointmentsPage/index';
-import AppointmentNotificationPage from '../referral-appointments/AppointmentNotificationsPage';
-import ReviewApproved from '../referral-appointments/ReviewApproved';
-import ChooseCommunityCare from '../referral-appointments/ChooseCommunityCare';
-import FilterPage from '../referral-appointments/FilterPage';
-import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
-import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
-import ConfirmApprovedPage from '../referral-appointments/ConfirmApprovedPage';
+import { Route, Switch, Redirect, useLocation } from 'react-router-dom';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
-import ChooseDateAndTime from '../referral-appointments/ChooseDateAndTime';
+import { useIsInCCPilot } from '../referral-appointments/hooks/useIsInCCPilot';
+import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
+import UpcomingAppointmentsDetailsPage from './pages/UpcomingAppointmentsDetailsPage';
+import EpsAppointmentDetailsPage from '../referral-appointments/EpsAppointmentDetailsPage';
+import AppointmentsPage from './pages/AppointmentsPage/index';
+import RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage/RequestedAppointmentDetailsPage';
 
 function AppointmentListSection() {
   useManualScrollRestoration();
 
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+  const { isInCCPilot } = useIsInCCPilot();
+  const location = useLocation();
 
+  // Parse the query parameters
+  const searchParams = new URLSearchParams(location.search);
+  const eps = searchParams.get('eps'); // Get the 'eps' query parameter
   return (
     <>
-      {!featureBreadcrumbUrlUpdate && (
-        <Switch>
-          <Route
-            path="/choose-community-care-appointment"
-            component={ChooseCommunityCare}
-          />
-          <Route path="/filter-page" component={FilterPage} />
-          <Route
-            path="/appointment-notifications"
-            component={AppointmentNotificationPage}
-          />
-          <Route path="/confirm-approved" component={ConfirmApprovedPage} />
-          <Route path="/review-approved" component={ReviewApproved} />
-          <Route
-            path="/:pastOrPending?/cc/:id"
-            component={ConfirmedAppointmentDetailsPage}
-          />
-          <Route
-            path="/:pastOrPending?/va/:id"
-            component={ConfirmedAppointmentDetailsPage}
-          />
-          <Route
-            path="/:pastOrPending?/requests/:id"
-            component={RequestedAppointmentDetailsPage}
-          />
-          <Route path="/" component={AppointmentsPage} />
-        </Switch>
-      )}
-      {featureBreadcrumbUrlUpdate && (
-        <Switch>
-          <Route
-            path="/choose-community-care-appointment"
-            component={ChooseCommunityCare}
-          />
-          <Route path="/filter-page" component={FilterPage} />
-          <Route
-            path="/appointment-notifications"
-            component={AppointmentNotificationPage}
-          />
-          <Route path="/confirm-approved" component={ConfirmApprovedPage} />
-          <Route path="/review-approved" component={ReviewApproved} />
-          <Route
-            path="/provider-choose-date-and-time"
-            component={ChooseDateAndTime}
-          />
-          <Route
-            path="/pending/:id"
-            component={RequestedAppointmentDetailsPage}
-          />
-          <Route path="/pending" component={AppointmentsPage} />
-          <Route path="/past/:id" component={ConfirmedAppointmentDetailsPage} />
-          <Route path="/past" component={AppointmentsPage} />
-          <Route
-            path={['/va/:id', '/:id']}
-            component={ConfirmedAppointmentDetailsPage}
-          />
-          <Route path="/" component={AppointmentsPage} />
-        </Switch>
-      )}
+      <Switch>
+        <Route
+          path="/pending/:id"
+          component={RequestedAppointmentDetailsPage}
+        />
+
+        {isInCCPilot && <Redirect from="/pending" to="/referrals-requests" />}
+
+        <Route path="/pending" component={AppointmentsPage} />
+        {isInCCPilot && (
+          <Route path="/referrals-requests" component={ReferralsAndRequests} />
+        )}
+        <Route path="/past/:id" component={UpcomingAppointmentsDetailsPage} />
+        <Route path="/past" component={AppointmentsPage} />
+        {isInCCPilot &&
+          eps && <Route path="/:id" component={EpsAppointmentDetailsPage} />}
+        <Route
+          exact
+          path={['/va/:id', '/:id']}
+          component={UpcomingAppointmentsDetailsPage}
+        />
+        <Route
+          exact
+          path={['/', '/pending', '/past']}
+          component={AppointmentsPage}
+        />
+        <Route component={PageNotFound} />
+      </Switch>
     </>
   );
 }

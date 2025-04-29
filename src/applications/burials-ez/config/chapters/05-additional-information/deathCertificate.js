@@ -1,5 +1,4 @@
-import React from 'react';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
 import DeathCertificateUploadMessage from '../../../components/DeathCertificateUploadMessage';
 import { generateTitle } from '../../../utils/helpers';
 import { burialUploadUI } from '../../../utils/upload';
@@ -9,25 +8,39 @@ const { files } = fullSchemaBurials.definitions;
 export default {
   uiSchema: {
     'ui:title': generateTitle('Death certificate'),
-    'ui:description': ({ formData }) => (
-      <DeathCertificateUploadMessage form={formData} />
-    ),
+    'ui:description': DeathCertificateUploadMessage,
     deathCertificate: {
-      ...burialUploadUI('Upload the Veteran’s death certificate'),
+      ...burialUploadUI('Upload the Veteran’s death certificate', {
+        fileUploadNetworkErrorMessage:
+          'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
+        fileUploadNetworkErrorAlert: {
+          header: 'We couldn’t upload your file',
+          body: [
+            'We’re sorry. There was a problem with our system and we couldn’t upload your file. Try uploading your file again.',
+            'If there are still issues uploading your file, you can submit your documents and a PDF version of this form by mail.',
+          ],
+          formName: 'Application for Burial Benefits',
+          formLink: 'https://www.va.gov/find-forms/about-form-21p-530ez/',
+          formNumber: '21P-530EZ',
+          showMailingAddress: true,
+          hideAlertIfLoggedIn: true,
+        },
+      }),
       'ui:required': form => {
-        const option1 = form?.burialAllowanceRequested?.service === true;
-        const option2 = form?.locationOfDeath?.location !== 'vaMedicalCenter';
-        const option3 = Boolean(
-          form?.burialAllowanceRequested?.service === true &&
-          form?.locationOfDeath?.location === 'vaMedicalCenter'
-            ? 0
-            : 1,
+        const isClaimingBurialAllowance =
+          form['view:claimedBenefits']?.burialAllowance;
+        const serviceRequested =
+          form.burialAllowanceRequested?.service === true;
+        const locationIsVaMedicalCenter =
+          form.locationOfDeath?.location === 'vaMedicalCenter';
+        return !(
+          isClaimingBurialAllowance &&
+          serviceRequested &&
+          locationIsVaMedicalCenter
         );
-        if (!option3) {
-          return false;
-        }
-        return option1 || option2;
       },
+      // Empty items object required for confirmation page
+      items: {},
     },
   },
   schema: {

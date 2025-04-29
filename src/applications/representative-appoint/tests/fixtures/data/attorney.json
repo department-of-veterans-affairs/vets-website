@@ -1,0 +1,31 @@
+[
+  {
+    "data": {
+      "id": "20087",
+      "type": "representative",
+      "attributes": {
+        "firstName": "John",
+        "lastName": "Adams",
+        "fullName": "John Adams",
+        "addressLine1": "2342 Main St",
+        "addressLine2": null,
+        "addressLine3": null,
+        "addressType": "Domestic",
+        "city": "Anytown",
+        "countryName": "United States",
+        "countryCodeIso3": "USA",
+        "province": "Connecticut",
+        "internationalPostalCode": null,
+        "stateCode": "CT",
+        "zipCode": "54837",
+        "zipSuffix": "2319",
+        "email": "attorney@law.com",
+        "phone": "585-878-0710ext.321",
+        "individualType": "attorney",
+        "accreditedOrganizations": {
+          "data": []
+        }
+      }
+    }
+  }
+]

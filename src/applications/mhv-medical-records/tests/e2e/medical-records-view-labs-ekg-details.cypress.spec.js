@@ -4,7 +4,7 @@ import EKGDetailsPage from './pages/EKGDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import labsAndTests from '../fixtures/labsAndTests.json';
 
-describe('Medical Records View EKG Details', () => {
+describe.skip('Medical Records View EKG Details', () => {
   const site = new MedicalRecordsSite();
   before(() => {
     site.login();

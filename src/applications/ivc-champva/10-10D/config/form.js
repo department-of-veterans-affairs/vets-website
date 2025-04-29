@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import React from 'react';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import {
   checkboxGroupSchema,
   checkboxGroupUI,
@@ -22,13 +23,17 @@ import {
   radioUI,
   titleSchema,
   titleUI,
+  ssnUI,
+  ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import SubmissionError from '../../shared/components/SubmissionError';
+import CustomPrefillMessage from '../components/CustomPrefillAlert';
+import { flattenApplicantSSN } from './migrations';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
-import { customRelationshipSchema } from '../components/CustomRelationshipPattern';
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
 
 import transformForSubmit from './submitTransformer';
@@ -37,26 +42,25 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import getNameKeyForSignature from '../helpers/signatureKeyName';
 import {
   isInRange,
   onReviewPage,
-  MAX_APPLICANTS,
   applicantListSchema,
-} from '../helpers/utilities';
-import { applicantWording, getAgeInYears } from '../../shared/utilities';
-import {
   sponsorWording,
-  additionalFilesHint,
-} from '../helpers/wordingCustomization';
-import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
+  page15aDepends,
+} from '../helpers/utilities';
 import {
-  thirdPartyInfoUiSchema,
-  thirdPartyInfoSchema,
-} from '../components/ThirdPartyInfo';
+  certifierNameValidation,
+  certifierAddressValidation,
+  sponsorAddressCleanValidation,
+  certifierAddressCleanValidation,
+  applicantAddressCleanValidation,
+} from '../helpers/validations';
+import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
+import { applicantWording, getAgeInYears } from '../../shared/utilities';
+import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
 import { acceptableFiles } from '../components/Sponsor/sponsorFileUploads';
 import {
-  // marriageDocumentList,
   applicantBirthCertConfig,
   applicantSchoolCertConfig,
   applicantSchoolCertUploadUiSchema,
@@ -69,21 +73,16 @@ import {
   appMedicareOver65IneligibleConfig,
   applicantOhiCardsConfig,
   applicantOtherInsuranceCertificationConfig,
-  applicantMarriageCertConfig,
-  applicantSecondMarriageDivorceCertConfig,
   applicantBirthCertUploadUiSchema,
   applicantAdoptedUploadUiSchema,
   applicantStepChildUploadUiSchema,
-  applicantMarriageCertUploadUiSchema,
-  applicantSecondMarriageCertUploadUiSchema,
-  applicantSecondMarriageDivorceCertUploadUiSchema,
+  applicantRemarriageCertUploadUiSchema,
   applicantMedicarePartAPartBCardsUploadUiSchema,
   applicantMedicarePartDCardsUploadUiSchema,
   appMedicareOver65IneligibleUploadUiSchema,
   applicantOhiCardsUploadUiSchema,
   applicantOtherInsuranceCertificationUploadUiSchema,
 } from '../components/Applicant/applicantFileUpload';
-import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
 import GetFormHelp from '../../shared/components/GetFormHelp';
 
 import {
@@ -115,17 +114,14 @@ import {
   ApplicantDependentStatusReviewPage,
 } from '../pages/ApplicantDependentStatus';
 import {
-  ApplicantSponsorMarriageDetailsPage,
-  ApplicantSponsorMarriageDetailsReviewPage,
   marriageDatesSchema,
-  remarriageDetailsSchema,
-  depends18f2,
   depends18f3,
-  depends18f4,
-  depends18f5,
-  depends18f6,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
+import {
+  signerContactInfoPage,
+  SignerContactInfoPage,
+} from '../pages/SignerContactInfoPage';
 
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
@@ -134,14 +130,11 @@ import { fileWithMetadataSchema } from '../../shared/components/fileUploads/atta
 import FileFieldWrapped from '../components/FileUploadWrapper';
 
 // Control whether we show the file overview page by calling `hasReq` to
-// determine if any files have not been uploaded
+// determine if any required files have not been uploaded
 function showFileOverviewPage(formData) {
   try {
     return (
-      hasReq(formData.applicants, true, true) ||
-      hasReq(formData.applicants, false, true) ||
-      hasReq(formData, true, true) ||
-      hasReq(formData, false, true)
+      hasReq(formData.applicants, true, true) || hasReq(formData, true, true)
     );
   } catch {
     return false;
@@ -153,7 +146,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit,
-  showReviewErrors: !environment.isProduction(),
+  showReviewErrors: true, // May want to hide in prod later, but for now keeping in due to complexity of this form
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   footerContent: GetFormHelp,
   // submit: () =>
@@ -168,13 +161,17 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData => getNameKeyForSignature(formData),
+      fullNamePath: _formData => 'certifierName',
     },
   },
+  submissionError: SubmissionError,
   formId: '10-10D',
   dev: {
     showNavLinks: false,
     collapsibleNavLinks: true,
+  },
+  downtime: {
+    dependencies: [externalServices.pega, externalServices.form1010d],
   },
   saveInProgress: {
     messages: {
@@ -184,7 +181,8 @@ const formConfig = {
       saved: 'Your CHAMPVA benefits application has been saved.',
     },
   },
-  version: 0,
+  version: 1,
+  migrations: [flattenApplicantSSN],
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
@@ -193,7 +191,7 @@ const formConfig = {
       'Please sign in again to continue your application for CHAMPVA benefits.',
   },
   title: 'Apply for CHAMPVA benefits',
-  subTitle: 'Form 10-10d',
+  subTitle: 'Application for CHAMPVA benefits (VA Form 10-10d)',
   defaultDefinitions: {},
   chapters: {
     certifierInformation: {
@@ -215,8 +213,10 @@ const formConfig = {
                 other:
                   'I’m a representative applying for benefits on behalf of someone else',
               },
+              // Changing this data on review messes up the ad hoc prefill
+              // mapping of certifier -> applicant|sponsor:
+              hideOnReview: true,
             }),
-            ...thirdPartyInfoUiSchema,
           },
           schema: {
             type: 'object',
@@ -224,17 +224,17 @@ const formConfig = {
             properties: {
               titleSchema,
               certifierRole: radioSchema(['applicant', 'sponsor', 'other']),
-              ...thirdPartyInfoSchema,
             },
           },
         },
         page2: {
+          // initialData: mockData.data,
           path: 'signer-info',
-          title: 'Certification',
-          depends: formData => get('certifierRole', formData) === 'other',
+          title: 'Your name',
           uiSchema: {
             ...titleUI('Your name'),
             certifierName: fullNameUI(),
+            'ui:validations': [certifierNameValidation],
           },
           schema: {
             type: 'object',
@@ -247,61 +247,45 @@ const formConfig = {
         },
         page3: {
           path: 'signer-mailing-address',
-          title: 'Certification',
-          depends: formData => get('certifierRole', formData) === 'other',
+          title: 'Your mailing address',
           uiSchema: {
             ...titleUI(
               'Your mailing address',
               'We’ll send any important information about this application to your address',
             ),
-            // ...homelessInfo.uiSchema,
             certifierAddress: addressUI(),
+            'ui:validations': [
+              certifierAddressValidation,
+              certifierAddressCleanValidation,
+            ],
           },
           schema: {
             type: 'object',
             required: ['certifierAddress'],
             properties: {
               titleSchema,
-              // ...homelessInfo.schema,
               certifierAddress: addressSchema(),
             },
           },
         },
         page4: {
           path: 'signer-contact-info',
-          title: 'Certification',
-          depends: formData => get('certifierRole', formData) === 'other',
-          uiSchema: {
-            ...titleUI(
-              'Your contact information',
-              'We use this information to contact you if we have more questions.',
-            ),
-            ...noPhoneInfo.uiSchema,
-            certifierPhone: phoneUI(),
-          },
-          schema: {
-            type: 'object',
-            required: ['certifierPhone'],
-            properties: {
-              titleSchema,
-              ...noPhoneInfo.schema,
-              certifierPhone: phoneSchema,
-            },
-          },
+          title: 'Your contact information',
+          CustomPage: SignerContactInfoPage,
+          CustomPageReview: null,
+          ...signerContactInfoPage,
         },
         page5: {
           path: 'signer-relationship',
-          title: 'Certification',
+          title: 'Your relationship to applicant',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            ...titleUI(
-              'Your relationship to the applicant',
-              `You can add up to ${MAX_APPLICANTS} applicants on a single application. If you need to add more than ${MAX_APPLICANTS}, you’ll need to fill out another form for them.`,
-            ),
+            ...titleUI('Your relationship to the applicant'),
             certifierRelationship: {
               relationshipToVeteran: checkboxGroupUI({
                 title: 'Which of these best describes you?',
-                hint: 'Select all that apply',
+                hint:
+                  'If you’re applying on behalf of multiple applicants, you can select all applicable options',
                 required: () => true,
                 labels: {
                   spouse: 'I’m an applicant’s spouse',
@@ -328,6 +312,7 @@ const formConfig = {
               'ui:options': {
                 updateSchema: (formData, formSchema) => {
                   const fs = formSchema;
+                  // If 'other', open the text field to specify:
                   if (
                     get(
                       'certifierRelationship.relationshipToVeteran.other',
@@ -386,20 +371,36 @@ const formConfig = {
       pages: {
         page6: {
           path: 'sponsor-info',
-          title: formData =>
-            `${sponsorWording(formData)} name and date of birth`,
+          title: formData => (
+            <>
+              <span className="dd-privacy-hidden">
+                {sponsorWording(formData)}
+              </span>{' '}
+              name and date of birth
+            </>
+          ),
           uiSchema: sponsorNameDobConfig.uiSchema,
           schema: sponsorNameDobConfig.schema,
         },
         page7: {
           path: 'sponsor-identification-info',
-          title: formData =>
-            `${sponsorWording(formData)} identification information`,
+          title: formData => (
+            <>
+              <span className="dd-privacy-hidden">
+                {sponsorWording(formData)}
+              </span>{' '}
+              identification information
+            </>
+          ),
           uiSchema: {
-            ...titleUI(
-              ({ formData }) =>
-                `${sponsorWording(formData)} identification information`,
-            ),
+            ...titleUI(({ formData }) => (
+              <>
+                <span className="dd-privacy-hidden">
+                  {sponsorWording(formData)}
+                </span>{' '}
+                identification information
+              </>
+            )),
             ssn: ssnOrVaFileNumberCustomUI(),
           },
           schema: {
@@ -447,12 +448,13 @@ const formConfig = {
             sponsorInfoTitle: titleUI('Sponsor status details'),
             sponsorDOD: dateOfDeathUI('When did the sponsor die?'),
             sponsorDeathConditions: yesNoUI({
-              title: 'Did sponsor die during active military service?',
-              hint: additionalFilesHint,
+              title: 'Did the sponsor die during active military service?',
+              hint: ADDITIONAL_FILES_HINT,
               labels: {
-                yes: 'Yes, sponsor passed away during active military service',
+                yes:
+                  'Yes, the sponsor passed away during active military service',
                 no:
-                  'No, sponsor did not pass away during active military service',
+                  'No, the sponsor did not pass away during active military service',
               },
             }),
           },
@@ -466,16 +468,74 @@ const formConfig = {
             },
           },
         },
+        page10b0: {
+          path: 'sponsor-mailing-same',
+          title: formData => (
+            <>
+              <span className="dd-privacy-hidden">
+                {sponsorWording(formData)}
+              </span>{' '}
+              address selection
+            </>
+          ),
+          // Only show if we have addresses to pull from:
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('certifierRole', formData) !== 'sponsor' &&
+            get('street', formData?.certifierAddress),
+          CustomPage: props => {
+            const extraProps = {
+              ...props,
+              customAddressKey: 'sponsorAddress',
+              customTitle: `${sponsorWording(props.data)} address selection`,
+              customDescription:
+                'We’ll send any important information about this form to this address.',
+              customSelectText: `Does ${sponsorWording(
+                props.data,
+                false,
+                false,
+              )} live at a previously entered address?`,
+              positivePrefix: 'Yes, their address is',
+              negativePrefix: 'No, they have a different address',
+            };
+            return ApplicantAddressCopyPage(extraProps);
+          },
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
         page10b1: {
           path: 'sponsor-mailing-address',
-          title: formData => `${sponsorWording(formData)} mailing address`,
+          title: formData => (
+            <>
+              <span className="dd-privacy-hidden">
+                {sponsorWording(formData)}
+              </span>{' '}
+              mailing address
+            </>
+          ),
           depends: formData => !get('sponsorIsDeceased', formData),
           uiSchema: {
             ...titleUI(
-              ({ formData }) => `${sponsorWording(formData)} mailing address`,
-              'We’ll send any important information about this application to this address.',
+              ({ formData }) => (
+                <>
+                  <span className="dd-privacy-hidden">
+                    {sponsorWording(formData)}
+                  </span>{' '}
+                  mailing address
+                </>
+              ),
+              ({ formData }) => (
+                // Prefill message conditionally displays based on `certifierRole`
+                <>
+                  <p>
+                    We’ll send any important information about this application
+                    to this address.
+                  </p>
+                  {CustomPrefillMessage(formData, 'sponsor')}
+                </>
+              ),
             ),
-            ...homelessInfo.uiSchema,
             sponsorAddress: {
               ...addressUI({
                 labels: {
@@ -484,25 +544,35 @@ const formConfig = {
                 },
               }),
             },
+            'ui:validations': [sponsorAddressCleanValidation],
           },
           schema: {
             type: 'object',
             required: ['sponsorAddress'],
             properties: {
               titleSchema,
-              ...homelessInfo.schema,
               sponsorAddress: addressSchema(),
             },
           },
         },
         page11: {
           path: 'sponsor-contact-info',
-          title: formData => `${sponsorWording(formData)} contact information`,
+          title: formData => (
+            <>
+              <span>{sponsorWording(formData)}</span> contact information
+            </>
+          ),
           depends: formData => !get('sponsorIsDeceased', formData),
           uiSchema: {
             ...titleUI(
-              ({ formData }) =>
-                `${sponsorWording(formData)} contact information`,
+              ({ formData }) => (
+                <>
+                  <span className="dd-privacy-hidden">
+                    {sponsorWording(formData)}
+                  </span>{' '}
+                  contact information
+                </>
+              ),
               ({ formData }) => {
                 const base = sponsorWording(formData);
                 const first = base === 'Your' ? 'you' : 'the sponsor';
@@ -510,7 +580,6 @@ const formConfig = {
                 return `Having this information helps us contact ${first} faster if we have questions about ${second} information.`;
               },
             ),
-            ...noPhoneInfo.uiSchema,
             sponsorPhone: {
               ...phoneUI({
                 title: 'Phone number',
@@ -523,7 +592,6 @@ const formConfig = {
             required: ['sponsorPhone'],
             properties: {
               titleSchema,
-              ...noPhoneInfo.schema,
               sponsorPhone: phoneSchema,
             },
           },
@@ -537,15 +605,14 @@ const formConfig = {
           title: 'Applicant information',
           path: 'applicant-info',
           uiSchema: {
-            ...titleUI('Applicant name and date of birth', () => (
+            ...titleUI('Applicant name and date of birth', ({ formData }) => (
+              // Prefill message conditionally displays based on `certifierRole`
               <>
-                Enter the information for any applicants you want to enroll in
-                CHAMPVA benefits.
-                <br />
-                <br />
-                {`You can add up to ${MAX_APPLICANTS} applicants in a single application. If you 
-              need to add more than ${MAX_APPLICANTS} applicants, you'll need to submit a 
-              separate application for them.`}
+                <p>
+                  Enter the information for any applicants you want to enroll in
+                  CHAMPVA benefits.
+                </p>
+                {CustomPrefillMessage(formData, 'applicant')}
               </>
             )),
             applicants: {
@@ -556,10 +623,11 @@ const formConfig = {
                 itemName: 'Applicant',
                 customTitle: ' ', // prevent <dl> around the schemaform-field-container
                 confirmRemove: true,
+                itemAriaLabel: item => `${applicantWording(item, false)}`,
               },
               items: {
                 applicantName: fullNameUI(),
-                applicantDob: dateOfBirthUI({ required: true }),
+                applicantDob: dateOfBirthUI({ required: () => true }),
               },
             },
           },
@@ -572,7 +640,14 @@ const formConfig = {
         page13a: {
           path: 'applicant-info-intro/:index',
           arrayPath: 'applicants',
-          title: item => `${applicantWording(item)} information`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              information
+            </>
+          ),
           showPagePerItem: true,
           depends: () => !onReviewPage(),
           uiSchema: {
@@ -582,16 +657,25 @@ const formConfig = {
               },
               items: {
                 ...titleUI(
-                  ({ formData }) => `${applicantWording(formData)} information`,
-                  ({
-                    formData,
-                  }) => `Next we'll ask more questions about ${applicantWording(
-                    formData,
-                    undefined,
-                    false,
-                  )}. This includes social security number, mailing address, 
-                          contact information, relationship to sponsor, and health 
-                          insurance information.`,
+                  ({ formData }) => (
+                    <>
+                      <span className="dd-privacy-hidden">
+                        {applicantWording(formData)}
+                      </span>{' '}
+                      information
+                    </>
+                  ),
+                  ({ formData }) => (
+                    <>
+                      Next we’ll ask more questions about{' '}
+                      <span className="dd-privacy-hidden">
+                        {applicantWording(formData, false, false)}
+                      </span>
+                      . This includes social security number, mailing address,
+                      contact information, relationship to the sponsor, and
+                      health insurance information.
+                    </>
+                  ),
                 ),
               },
             },
@@ -604,7 +688,14 @@ const formConfig = {
         page14: {
           path: 'applicant-identification-info/:index',
           arrayPath: 'applicants',
-          title: item => `${applicantWording(item)} identification information`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              identification information
+            </>
+          ),
           showPagePerItem: true,
           uiSchema: {
             applicants: {
@@ -617,17 +708,21 @@ const formConfig = {
                 maxItems: 'A maximum of three applicants may be added.',
               },
               items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} identification information`,
-                ),
-                applicantSSN: ssnOrVaFileNumberCustomUI(),
+                ...titleUI(({ formData }) => (
+                  <>
+                    <span className="dd-privacy-hidden">
+                      {applicantWording(formData)}
+                    </span>{' '}
+                    identification information
+                  </>
+                )),
+                applicantSSN: ssnUI(),
               },
             },
           },
-          schema: applicantListSchema([], {
+          schema: applicantListSchema(['applicantSSN'], {
             titleSchema,
-            applicantSSN: ssnOrVaFileNumberSchema,
+            applicantSSN: ssnSchema,
           }),
         },
         page15a: {
@@ -635,12 +730,15 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           keepInPageOnReview: false,
-          title: item => `${applicantWording(item)} address selection`,
-          // Only show if we have addresses to pull from:
-          depends: (formData, index) =>
-            (index && index > 0) || // We will have app0's address
-            (get('street', formData?.certifierAddress) ||
-              get('street', formData?.sponsorAddress)),
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>
+              address selection
+            </>
+          ),
+          depends: (formData, index) => page15aDepends(formData, index),
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
           uiSchema: {
@@ -657,20 +755,41 @@ const formConfig = {
           path: 'applicant-mailing-address/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} mailing address`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              mailing address
+            </>
+          ),
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} mailing address`,
+                  ({ formData }) => (
+                    <>
+                      <span className="dd-privacy-hidden">
+                        {applicantWording(formData)}
+                      </span>{' '}
+                      mailing address
+                    </>
+                  ),
+                  ({ formData, formContext }) => {
+                    const txt =
+                      'We’ll send any important information about your application to this address';
+                    // Prefill message conditionally displays based on `certifierRole`
+                    return formContext.pagePerItemIndex === '0' ? (
+                      <>
+                        <p>{txt}</p>
+                        {CustomPrefillMessage(formData, 'applicant')}
+                      </>
+                    ) : (
+                      <p>{txt}</p>
+                    );
+                  },
                 ),
-                'view:description': {
-                  'ui:description':
-                    'We’ll send any important information about your application to this address.',
-                },
-                ...homelessInfo.uiSchema,
                 applicantAddress: {
                   ...addressUI({
                     labels: {
@@ -678,14 +797,13 @@ const formConfig = {
                         'Address is on a United States military base outside the country.',
                     },
                   }),
+                  'ui:validations': [applicantAddressCleanValidation],
                 },
               },
             },
           },
           schema: applicantListSchema([], {
             titleSchema,
-            'view:description': blankSchema,
-            ...homelessInfo.schema,
             applicantAddress: addressSchema(),
           }),
         },
@@ -693,17 +811,48 @@ const formConfig = {
           path: 'applicant-contact-info/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} contact information`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              contact information
+            </>
+          ),
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} contact information`,
-                  'This information helps us contact you faster if we need to follow up with you about your application',
+                  ({ formData }) => (
+                    <>
+                      <span className="dd-privacy-hidden">
+                        {applicantWording(formData)}
+                      </span>{' '}
+                      contact information
+                    </>
+                  ),
+                  ({ formData, formContext }) => {
+                    const txt = (
+                      <>
+                        We’ll use this information to contact{' '}
+                        <span className="dd-privacy-hidden">
+                          {applicantWording(formData, false, false, true)}
+                        </span>{' '}
+                        if we need to follow up about this application.
+                      </>
+                    );
+                    // Prefill message conditionally displays based on `certifierRole`
+                    return formContext.pagePerItemIndex === '0' ? (
+                      <>
+                        <p>{txt}</p>
+                        {CustomPrefillMessage(formData, 'applicant')}
+                      </>
+                    ) : (
+                      <p>{txt}</p>
+                    );
+                  },
                 ),
-                ...noPhoneInfo.uiSchema,
                 applicantPhone: phoneUI(),
                 applicantEmailAddress: emailUI(),
               },
@@ -711,7 +860,6 @@ const formConfig = {
           },
           schema: applicantListSchema(['applicantPhone'], {
             titleSchema,
-            ...noPhoneInfo.schema,
             applicantPhone: phoneSchema,
             applicantEmailAddress: emailSchema,
           }),
@@ -720,7 +868,14 @@ const formConfig = {
           path: 'applicant-gender/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} sex listed at birth`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              sex listed at birth
+            </>
+          ),
           CustomPage: ApplicantGenderPage,
           CustomPageReview: ApplicantGenderReviewPage,
           uiSchema: {
@@ -746,7 +901,8 @@ const formConfig = {
           path: 'applicant-relationship/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} relationship to sponsor`,
+          title: item =>
+            `${applicantWording(item)} relationship to the sponsor`,
           CustomPage: ApplicantRelationshipPage,
           CustomPageReview: ApplicantRelationshipReviewPage,
           schema: applicantListSchema([], {
@@ -791,18 +947,31 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             'ui:description': blankSchema,
-            applicantRelationshipOrigin: customRelationshipSchema([
-              'blood',
-              'adoption',
-              'step',
-            ]),
+            applicantRelationshipOrigin: {
+              type: 'object',
+              properties: {
+                relationshipToVeteran: radioSchema([
+                  'blood',
+                  'adoption',
+                  'step',
+                ]),
+                otherRelationshipToVeteran: { type: 'string' },
+              },
+            },
           }),
         },
         page18a: {
           path: 'applicant-relationship-child-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} birth certificate`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              birth certificate
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -826,7 +995,14 @@ const formConfig = {
           path: 'applicant-child-adoption-file/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} adoption documents`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              adoption documents
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -856,8 +1032,14 @@ const formConfig = {
           path: 'applicant-child-marriage-file/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} parental marriage documents`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              parental marriage documents
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -887,7 +1069,14 @@ const formConfig = {
           path: 'applicant-dependent-status/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} status`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              status
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -930,7 +1119,14 @@ const formConfig = {
           path: 'applicant-child-school-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} school documents`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              school documents
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -962,7 +1158,14 @@ const formConfig = {
           path: 'applicant-dependent-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} helpless child documents`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              helpless child documents
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -985,187 +1188,52 @@ const formConfig = {
             ),
           }),
         },
-        page18f1: {
-          path: 'applicant-marriage/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage details`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              ['spouse', 'spouseSeparated'].includes(
-                get(
-                  'applicantRelationshipToSponsor.relationshipToVeteran',
-                  formData?.applicants?.[index],
-                ),
-              ) && get('sponsorIsDeceased', formData)
-            );
-          },
-          CustomPage: ApplicantSponsorMarriageDetailsPage,
-          CustomPageReview: ApplicantSponsorMarriageDetailsReviewPage,
-          schema: applicantListSchema([], {
-            applicantSponsorMarriageDetails: {
-              type: 'object',
-              properties: {
-                relationshipToVeteran: { type: 'string' },
-                otherRelationshipToVeteran: { type: 'string' },
-              },
-            },
-          }),
-          uiSchema: {
-            applicants: {
-              'ui:options': { viewField: ApplicantField },
-              items: {},
-            },
-          },
-        },
-        // If applicant has second marriage, is it ongoing?
-        page18f2: {
-          path: 'applicant-remarriage/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} remarriage status`,
-          depends: (formData, index) => depends18f2(formData, index),
-          uiSchema: remarriageDetailsSchema.uiSchema,
-          schema: remarriageDetailsSchema.schema,
-        },
         // Marriage dates (sponsor living or dead) when applicant did not remarry
         page18f3: {
           path: 'applicant-marriage-date/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage dates`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              marriage dates
+            </>
+          ),
           depends: (formData, index) => depends18f3(formData, index),
           uiSchema: marriageDatesSchema.noRemarriageUiSchema,
           schema: marriageDatesSchema.noRemarriageSchema,
-        },
-        // Applicant remarried after sponsor died
-        page18f4: {
-          path: 'applicant-remarriage-date/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage dates`,
-          depends: (formData, index) => depends18f4(formData, index),
-          uiSchema: marriageDatesSchema.remarriageUiSchema,
-          schema: marriageDatesSchema.remarriageSchema,
-        },
-        // Applicant remarried after sponsor died but separated from 2nd spouse
-        page18f5: {
-          path: 'applicant-remarriage-separation-date/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage dates`,
-          depends: (formData, index) => depends18f5(formData, index),
-          uiSchema: marriageDatesSchema.remarriageSeparatedUiSchema,
-          schema: marriageDatesSchema.remarriageSeparatedSchema,
-        },
-        // Applicant separated from sponsor before sponsor's death
-        page18f6: {
-          path: 'applicant-information/married-separated-dates/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage dates`,
-          depends: (formData, index) => depends18f6(formData, index),
-          uiSchema: marriageDatesSchema.separatedUiSchema,
-          schema: marriageDatesSchema.separatedSchema,
         },
         page18f: {
           path: 'applicant-marriage-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage documents`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              marriage documents
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
               get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'spouse' &&
-              ((get('sponsorIsDeceased', formData) &&
-                [
-                  'marriedTillDeathNoRemarriage',
-                  'marriedTillDeathRemarriedAfter55',
-                ].includes(
-                  get(
-                    'applicantSponsorMarriageDetails.relationshipToVeteran',
-                    formData?.applicants?.[index],
-                  ),
-                )) ||
-                !get('sponsorIsDeceased', formData))
+              ) === 'spouse' && get('sponsorIsDeceased', formData)
             );
           },
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
-          uiSchema: applicantMarriageCertUploadUiSchema,
+          uiSchema: applicantRemarriageCertUploadUiSchema,
           schema: applicantListSchema([], {
             titleSchema,
-            ...applicantMarriageCertConfig.schema,
-            applicantMarriageCert: fileWithMetadataSchema(
-              acceptableFiles.spouseCert,
-            ),
-          }),
-        },
-        page18f7: {
-          path: 'applicant-remarriage-upload/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} second marriage documents`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'spouse' &&
-              get(
-                'applicantSponsorMarriageDetails.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'marriedTillDeathRemarriedAfter55'
-            );
-          },
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
-          customPageUsesPagePerItemData: true,
-          uiSchema: applicantSecondMarriageCertUploadUiSchema,
-          schema: applicantListSchema([], {
-            titleSchema,
-            ...applicantMarriageCertConfig.schema,
-            applicantSecondMarriageCert: fileWithMetadataSchema(
-              acceptableFiles.spouseCert,
-            ),
-          }),
-        },
-        // If applicant remarried after 55 but the second marriage is not viable,
-        // upload a certificate proving the marriage dissolved
-        page18f8: {
-          path: 'applicant-remarriage-separation-upload/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} second marriage dissolution documents`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'spouse' &&
-              get(
-                'applicantSponsorMarriageDetails.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'marriedTillDeathRemarriedAfter55' &&
-              !get('remarriageIsViable', formData?.applicants?.[index])
-            );
-          },
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
-          customPageUsesPagePerItemData: true,
-          uiSchema: applicantSecondMarriageDivorceCertUploadUiSchema,
-          schema: applicantListSchema([], {
-            titleSchema,
-            ...applicantSecondMarriageDivorceCertConfig.schema,
-            applicantSecondMarriageDivorceCert: fileWithMetadataSchema(
+            'view:fileUploadBlurb': blankSchema,
+            applicantRemarriageCert: fileWithMetadataSchema(
               acceptableFiles.spouseCert,
             ),
           }),
@@ -1174,8 +1242,14 @@ const formConfig = {
           path: 'applicant-medicare/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} Medicare Part A and B status`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              Medicare Part A and B status
+            </>
+          ),
           CustomPage: ApplicantMedicareStatusPage,
           CustomPageReview: ApplicantMedicareStatusReviewPage,
           schema: applicantListSchema([], {
@@ -1197,7 +1271,14 @@ const formConfig = {
           path: 'applicant-medicare-continued/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare Part D status`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              Medicare Part D status
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1228,7 +1309,14 @@ const formConfig = {
           path: 'applicant-medicare-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare Part A and B card`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              Medicare Part A and B card
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1255,7 +1343,14 @@ const formConfig = {
           path: 'applicant-medicare-d-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare Part D card`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              Medicare Part D card
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1288,8 +1383,14 @@ const formConfig = {
           path: 'applicant-medicare-ineligible/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} over 65 and ineligible for Medicare`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              over 65 and ineligible for Medicare
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1316,7 +1417,14 @@ const formConfig = {
           path: 'applicant-other-insurance-status/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} other health insurance`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              other health insurance status
+            </>
+          ),
           CustomPage: ApplicantOhiStatusPage,
           CustomPageReview: ApplicantOhiStatusReviewPage,
           schema: applicantListSchema([], {
@@ -1338,7 +1446,14 @@ const formConfig = {
           path: 'applicant-other-insurance-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} other health insurance`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              other health insurance upload
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1363,7 +1478,14 @@ const formConfig = {
           path: 'applicant-other-insurance-10-7959c-file/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} 10-7959c upload`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              10-7959c upload
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (

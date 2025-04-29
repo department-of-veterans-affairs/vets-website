@@ -23,16 +23,6 @@ describe('When feature toggle cst_claim_phases disabled', () => {
       cy.axeCheck();
     });
   });
-
-  context('On the overview tab', () => {
-    it("shows a user's past updates when they click 'Show past updates' on the third step", () => {
-      const trackClaimsPage = new TrackClaimsPageV2();
-      trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
-      trackClaimsPage.verifyInProgressClaim(true);
-      trackClaimsPage.verifyOverviewShowPastUpdates();
-      cy.axeCheck();
-    });
-  });
 });
 
 describe('When feature toggle cst_claim_phases enabled', () => {

@@ -11,18 +11,19 @@ const getDownloadUrl = (id, docType) =>
 
 const formatDate = buildDateFormatter();
 
-const docTypeToDescription = {
-  27: 'Board decision',
-  704: '5103 notice',
-  706: '5103 notice',
-  858: '5103 notice',
-  184: 'Notification letter',
-};
-
-const getDescription = docType => {
-  const defaultDescription = 'Notification letter';
-
-  return docTypeToDescription[docType] || defaultDescription;
+const docTypeToGAEventName = {
+  27: 'Appeal decision',
+  704: '5103',
+  706: '5103',
+  858: '5103',
+  184: 'Claim decision or other notification',
+  34: 'Specific evidence request',
+  700: 'Specific evidence request',
+  859: 'Specific evidence request',
+  408: 'Exam scheduled',
+  942: 'Evidence final notification',
+  864: '3rd party records request',
+  1605: '3rd party records request',
 };
 
 const filename = 'ClaimLetter.pdf';
@@ -38,19 +39,28 @@ const downloadHandler = docType => {
     'gtm.elementUrl': `${
       environment.API_URL
     }/v0/claim_letters/[${docType}]:id.pdf`,
+    'letter-type': docTypeToGAEventName[docType],
   });
 };
 
 const ClaimLetterListItem = ({ letter }) => {
   const formattedDate = formatDate(letter.receivedAt);
-  const heading = `${formattedDate} letter`;
 
   return (
     <li className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-padding-bottom--2">
-      <h2 className="vads-u-font-size--h4">{heading}</h2>
-      <div className="vads-u-color--gray-warm-dark vads-u-margin-bottom--0p5">
-        {getDescription(letter.docType)}
-      </div>
+      <h2 className="vads-u-margin-y--0">
+        {/*
+          Both the heading and subheading, while styled differently, are
+          contained in the h2 in an attempt to guarantee uniqueness in headings
+          for accessibility.
+        */}
+        <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--3 vads-u-margin-bottom--1">
+          {letter.typeDescription ?? 'Notification letter'}
+        </span>{' '}
+        <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal vads-u-color--gray-warm-dark vads-u-line-height--4 vads-u-margin-bottom--0p5 vads-u-font-family--sans">
+          {formattedDate}
+        </span>
+      </h2>
       <va-link
         download
         filename={filename}

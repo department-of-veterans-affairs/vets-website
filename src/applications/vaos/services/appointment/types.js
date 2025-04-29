@@ -64,7 +64,7 @@
  * @property {string} clinicId The VistA clinic id for the appointment. Only applies to in person VA appointments
  * - Mapped from vaAppointment.clinicId
  * @property {string} clinicName The VistA clinic name for the appointment. Only applies to in person VA appointments
- * - Mapped from vaAppointment.clinicFriendlyName, with fallback to vaAppointment.vdsAppointments[0].clinic.name
+ * - Mapped from vaAppointment.serviceName
  */
 
 /**
@@ -103,7 +103,7 @@
  * @property {?string} facilityId The location id of the video appointment
  * - Mapped from appt.sta6aid for clinic based appointments or appt.facilityId for other video appointment types
  * @property {?Array<VideoProvider>} providers Array of providers included in the video visit, mapped from appt.vvsAppointments[0].providers
- * @property {'ADHOC'|'MOBILE_GFE'|'CLINIC_BASED'|'STORE_FORWARD'|'MOBILE_ANY'} kind Video visit type
+ * @property {'ADHOC'|'CLINIC_BASED'|'STORE_FORWARD'|'MOBILE_ANY'} kind Video visit type
  * - Mapped from appointment.vvsAppointments[0].appointmentKind
  * @property {?string} url The url for the video visit
  * - Mapped from appointment.vvsAppointments[0].patients[0].virtualMeetingRoom.url
@@ -189,7 +189,7 @@
  * @property {string} actor.reference Mapped to HealthcareService/${appointment.facilityId}_${appointment.clinicId}
  *
  * Clinics are uniquely identified by a combination of the VistA site/instance id and the clinic id
- * @property {string} actor.display Clinic name, mapped from appointment.clinicFriendlyName or appointment.vdsAppointments[0].clinic.name
+ * @property {string} actor.display Clinic name, mapped from appointment.serviceName
  */
 
 /**

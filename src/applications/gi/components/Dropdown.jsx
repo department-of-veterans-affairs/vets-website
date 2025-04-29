@@ -6,6 +6,7 @@ import { handleScrollOnInputFocus } from '../utils/helpers';
 const Dropdown = ({
   alt,
   ariaLabel,
+  boldLabel,
   className,
   disabled,
   hideArrows,
@@ -17,13 +18,29 @@ const Dropdown = ({
   selectClassName,
   value,
   visible,
+  required,
+  children,
 }) => {
   if (!visible) {
     return null;
   }
 
   const dropdownId = `${name}-dropdown`;
-  const labelElement = <label htmlFor={name}>{label}</label>;
+  const labelElement = boldLabel ? (
+    <strong>
+      <label htmlFor={name}>
+        {label}{' '}
+        {required ? <span className="required-label">(*Required)</span> : null}{' '}
+        {children}
+      </label>
+    </strong>
+  ) : (
+    <label htmlFor={name}>
+      {label}{' '}
+      {required ? <span className="required-label">(*Required)</span> : null}{' '}
+      {children}
+    </label>
+  );
 
   const selectClasses = classNames('vads-u-color--gray', selectClassName, {
     hideArrows,
@@ -66,9 +83,8 @@ const Dropdown = ({
 };
 
 Dropdown.propTypes = {
-  visible: PropTypes.bool.isRequired,
+  alt: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
@@ -77,15 +93,24 @@ Dropdown.propTypes = {
   ).isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  alt: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
+  hideArrows: PropTypes.bool,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  selectClassName: PropTypes.string,
+  visible: PropTypes.bool,
   onFocus: PropTypes.func,
+  required: PropTypes.bool,
+  boldLabel: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 Dropdown.defaultProps = {
   className: 'form-group top-aligned',
   visible: false,
   onFocus: handleScrollOnInputFocus,
+  required: false,
 };
 
 export default Dropdown;

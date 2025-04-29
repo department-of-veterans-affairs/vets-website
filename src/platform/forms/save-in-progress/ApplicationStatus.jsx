@@ -10,12 +10,7 @@ import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
 } from 'platform/site-wide/wizard';
-import { Toggler } from '~/platform/utilities/feature-toggles';
-import {
-  FORM_DESCRIPTIONS,
-  FORM_BENEFITS,
-  MY_VA_SIP_FORMS,
-} from '../constants';
+import { MY_VA_SIP_FORMS } from '../constants';
 import { getFormLink } from '../helpers';
 import { removeSavedForm } from '../../user/profile/actions';
 
@@ -140,19 +135,9 @@ export class ApplicationStatus extends React.Component {
         return (
           <div className="usa-alert usa-alert-info background-color-only sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
             <h5 className="form-title saved">Your {appType} is in progress</h5>
-            <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaEnableNewSipConfig}>
-              <Toggler.Enabled>
-                <span className="saved-form-item-metadata">
-                  Your {foundForm.description} is in progress.
-                </span>
-              </Toggler.Enabled>
-
-              <Toggler.Disabled>
-                <span className="saved-form-item-metadata">
-                  Your {FORM_DESCRIPTIONS[formId]} is in progress.
-                </span>
-              </Toggler.Disabled>
-            </Toggler>
+            <span className="saved-form-item-metadata">
+              Your {foundForm.description} is in progress.
+            </span>
 
             <br />
             {lastSavedDateTime && (
@@ -214,22 +199,10 @@ export class ApplicationStatus extends React.Component {
       return (
         <div className="usa-alert usa-alert-warning background-color-only sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
           <h5 className="form-title saved">Your {appType} has expired</h5>
-          <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaEnableNewSipConfig}>
-            <Toggler.Enabled>
-              <span className="saved-form-item-metadata">
-                Your saved {foundForm.description} has expired. If you want to
-                apply for {foundForm.benefit}, please start a new {appType}.
-              </span>
-            </Toggler.Enabled>
-
-            <Toggler.Disabled>
-              <span className="saved-form-item-metadata">
-                Your saved {FORM_DESCRIPTIONS[formId]} has expired. If you want
-                to apply for {FORM_BENEFITS[formId]}, please start a new{' '}
-                {appType}.
-              </span>
-            </Toggler.Disabled>
-          </Toggler>
+          <span className="saved-form-item-metadata">
+            Your saved {foundForm.description} has expired. If you want to apply
+            for {foundForm.benefit}, please start a new {appType}.
+          </span>
           <br />
           <p>
             <button className="usa-button-primary" onClick={this.toggleModal}>

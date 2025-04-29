@@ -1,9 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { deductionCodes } from '../const/deduction-codes';
 
-const HowDoIPay = ({ userData }) => (
-  <>
-    <article className="vads-u-font-family--sans vads-u-padding-x--0">
+export const getDeductionDescription = code => {
+  const description = deductionCodes[code];
+  if (!description) {
+    return '';
+  }
+  return `– ${description}`;
+};
+
+const HowDoIPay = ({ userData }) => {
+  const { deductionCode } = userData;
+
+  return (
+    <article className="vads-u-padding-x--0">
       <h2
         id="howDoIPay"
         className="vads-u-margin-top--4 vads-u-margin-bottom-2"
@@ -26,10 +38,10 @@ const HowDoIPay = ({ userData }) => (
         website.
       </p>
       <p>
-        You will need to provide the following details to pay this debt online:
+        You’ll need to provide the following details to pay this debt online:
       </p>
       {userData ? (
-        <ul className="no-bullets">
+        <ul>
           <li>
             <strong>File Number: </strong>
             {userData.fileNumber}
@@ -44,7 +56,7 @@ const HowDoIPay = ({ userData }) => (
           </li>
           <li>
             <strong>Deduction Code: </strong>
-            {userData.deductionCode}
+            {userData.deductionCode} {getDeductionDescription(deductionCode)}
           </li>
         </ul>
       ) : (
@@ -56,17 +68,44 @@ const HowDoIPay = ({ userData }) => (
         </ul>
       )}
 
+      <va-additional-info trigger="Here's what the above terms mean:">
+        <ul>
+          <li>
+            <strong>File Number</strong> is your VA claim number. This field
+            must be 8 or 9 characters long.
+          </li>
+          <li>
+            <strong>Payee Number</strong> tells us whether the debtor is a
+            veteran or service member, a child, a spouse, a vendee or parent of
+            the veteran.
+          </li>
+          <li>
+            <strong>Person Entitled</strong> is the first initial, middle
+            initial (if there is one) and first four letters of the debtor’s
+            last name. If the entry on the collection letter after Person
+            Entitled does not have a middle initial, a blank will appear where
+            the middle initial would be. Please leave the same space blank on
+            this form.
+          </li>
+          <li>
+            <strong>Deduction Code</strong> is a number that tells us what type
+            of benefit the debtor received when the debt was established.
+          </li>
+        </ul>
+      </va-additional-info>
+
       <va-link-action
         href="https://www.pay.va.gov/"
         message-aria-describedby="Opens pay.va.gov"
-        text="Pay on pay.va.gov"
+        text="Pay at pay.va.gov"
+        class="vads-u-margin-top--2"
       />
 
       <h3>Pay by phone</h3>
       <p>
-        Call us at <va-telephone contact="8008270648" /> (
-        <va-telephone contact="6127136415" /> from overseas) (
-        <va-telephone contact="711" tty="true" />
+        Call us at <va-telephone contact={CONTACTS.DMC} /> (
+        <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
+        overseas) (<va-telephone contact="711" tty="true" />
         ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
 
@@ -87,11 +126,11 @@ const HowDoIPay = ({ userData }) => (
         <br />
         St. Paul, MN 55111
         <br />
-        United States of America
+        USA
       </p>
     </article>
-  </>
-);
+  );
+};
 
 HowDoIPay.propTypes = {
   showDebtLetterDownload: PropTypes.bool,

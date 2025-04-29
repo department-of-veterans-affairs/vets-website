@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import Checkbox from './Checkbox';
 import SchoolClassification from './SchoolClassification';
 import CompareScroller from './CompareScroller';
 
-export default function({
+export default function CompareHeader({
   currentScroll,
   institutions,
   setPromptingFacilityCode,
@@ -18,6 +21,9 @@ export default function({
   smallScreen,
   version,
 }) {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
+
   useEffect(() => {
     focusElement('.compare-page-description-label');
   }, []);
@@ -28,7 +34,9 @@ export default function({
       <div key={i} className="small-screen:vads-l-col--3 institution-card">
         <div className="compare-header empty-header" />
         <div className="compare-action">
-          <Link to="/search">Return to search to add</Link>
+          <Link to={giCtCollab ? '/schools-and-employers' : '/search'}>
+            Return to search to add
+          </Link>
         </div>
       </div>,
     );
@@ -53,7 +61,11 @@ export default function({
       'gibct-form-value': e.target.checked,
     });
   };
-
+  const highlightDifferences = (
+    <span aria-label="A highlighted row indicates the information is different between your selected institutions.">
+      Highlight differences
+    </span>
+  );
   return (
     <div
       className={classNames({
@@ -62,7 +74,7 @@ export default function({
     >
       <div className="small-screen:vads-l-col--3 compare-controls non-scroll-parent">
         <div className="non-scroll-label">
-          <div className="test-header compare-header vads-u-padding-right--1">
+          <div className="test-header compare-header vads-u-padding-right--1 vads-u-height--auto">
             <h1 className="compare-page-description-label">
               Institution comparison:
             </h1>
@@ -71,11 +83,7 @@ export default function({
           <div className="compare-action">
             <Checkbox
               checked={showDifferences}
-              label={
-                <span aria-label="A highlighted row indicates the information is different between your selected institutions.">
-                  Highlight differences
-                </span>
-              }
+              label={highlightDifferences}
               name="highlight-differences"
               className="vads-u-display--inline-block"
               onChange={handleOnChange}
@@ -104,6 +112,7 @@ export default function({
                   <div className="header-fields vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-height--full">
                     <div className="institution-name">
                       <Link
+                        data-testid="compare-header-link"
                         to={{
                           pathname: profileLink,
                           state: { prevPath: location.pathname },
@@ -121,18 +130,18 @@ export default function({
                       </Link>
                     </div>
                     <div className="compare-action">
-                      <button
-                        type="button"
-                        className="usa-button-secondary"
+                      {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+                      <VaButton
+                        secondary
+                        text="Remove"
+                        className="inst-remove-btn"
                         onClick={() => {
                           setPromptingFacilityCode(institution.facilityCode);
                         }}
                         aria-label={`Remove ${
                           institution.name
                         } from comparison`}
-                      >
-                        Remove
-                      </button>
+                      />
                     </div>
                   </div>
                 </div>
@@ -153,3 +162,13 @@ export default function({
     </div>
   );
 }
+CompareHeader.propTypes = {
+  institutions: PropTypes.array.isRequired,
+  scrollClickHandler: PropTypes.func.isRequired,
+  setPromptingFacilityCode: PropTypes.func.isRequired,
+  setShowDifferences: PropTypes.func.isRequired,
+  showDifferences: PropTypes.bool.isRequired,
+  smallScreen: PropTypes.bool.isRequired,
+  currentScroll: PropTypes.number,
+  version: PropTypes.string,
+};

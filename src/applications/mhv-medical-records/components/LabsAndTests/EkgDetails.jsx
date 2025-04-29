@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -16,6 +16,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
+  sendDataDogAction,
 } from '../../util/helpers';
 
 import { pageTitles } from '../../util/constants';
@@ -26,7 +27,8 @@ import {
   generateEkgContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { useIsDetails } from '../../hooks/useIsDetails';
+import LabelValue from '../shared/LabelValue';
+import HeaderSection from '../shared/HeaderSection';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;
@@ -38,9 +40,6 @@ const EkgDetails = props => {
   );
   const user = useSelector(state => state.user.profile);
   const [downloadStarted, setDownloadStarted] = useState(false);
-
-  const dispatch = useDispatch();
-  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -61,9 +60,9 @@ const EkgDetails = props => {
 
   const generateEkgDetailsPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateLabsIntro(record);
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateEkgContent(record) };
+    const { title, subject, subtitles } = generateLabsIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject);
+    const pdfData = { ...scaffold, subtitles, ...generateEkgContent(record) };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Electrocardiogram details', runningUnitTest);
   };
@@ -87,44 +86,63 @@ const EkgDetails = props => {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1
+      <HeaderSection
+        header={record.name}
         className="vads-u-margin-bottom--0"
         aria-describedby="ekg-date"
         data-testid="ekg-record-name"
+        data-dd-privacy="mask"
+        data-dd-action-name="[lab and tests - ekg name]"
       >
-        {record.name}
-      </h1>
-      <DateSubheading date={record.date} id="ekg-date" />
+        <DateSubheading
+          date={record.date}
+          id="ekg-date"
+          label="Date and time collected"
+        />
 
-      {downloadStarted && <DownloadSuccessAlert />}
-      <PrintDownload
-        downloadPdf={generateEkgDetailsPdf}
-        allowTxtDownloads={allowTxtDownloads}
-        downloadTxt={generateEkgTxt}
-      />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        {downloadStarted && <DownloadSuccessAlert />}
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={generateEkgDetailsPdf}
+          allowTxtDownloads={allowTxtDownloads}
+          downloadTxt={generateEkgTxt}
+        />
+        <DownloadingRecordsInfo
+          description="L&TR Detail"
+          allowTxtDownloads={allowTxtDownloads}
+        />
 
-      <div className="electrocardiogram-details max-80">
-        <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-          Ordering location
-        </h2>
-        <p data-testid="ekg-record-facility">
-          {record.facility || 'There is no facility reported at this time'}
-        </p>
-        <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-          Results
-        </h2>
-        <p data-testid="ekg-results">
-          Your EKG results aren’t available in this tool. To get your EKG
-          results, you can request a copy of your complete medical record from
-          your VA health facility.
-        </p>
-        <p className="vads-u-margin-top--2 no-print">
-          <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
-            Learn how to get records from your VA health facility
-          </a>
-        </p>
-      </div>
+        <div className="test-details-container max-80">
+          <LabelValue
+            label="Location"
+            value={
+              record.facility || 'There is no facility reported at this time'
+            }
+            testId="ekg-record-facility"
+            actionName="[lab and tests - ekg facility]"
+          />
+          <LabelValue label="Results">
+            <p testId="ekg-results">
+              Your EKG results aren’t available in this tool. To get your EKG
+              results, you can request a copy of your complete medical record
+              from your VA health facility.
+            </p>
+          </LabelValue>
+
+          <p className="vads-u-margin-top--3 no-print">
+            <a
+              href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/"
+              onClick={() => {
+                sendDataDogAction(
+                  'Learn how to get records from your VA health facility',
+                );
+              }}
+            >
+              Learn how to get records from your VA health facility
+            </a>
+          </p>
+        </div>
+      </HeaderSection>
     </div>
   );
 };

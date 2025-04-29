@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { format as formatDate } from 'date-fns';
 import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 
@@ -45,9 +44,6 @@ describe('AppointmentBlock', () => {
             <AppointmentBlock appointments={appointments} page="intro" />
           </CheckInProvider>,
         );
-        expect(screen.getByTestId('appointment-day-location')).to.have.text(
-          'Your appointments are on November 16, 2021.',
-        );
         expect(screen.getAllByTestId('appointment-list-item').length).to.equal(
           2,
         );
@@ -62,47 +58,8 @@ describe('AppointmentBlock', () => {
             />
           </CheckInProvider>,
         );
-        expect(screen.getByTestId('appointment-day-location')).to.have.text(
-          'Your appointment is on November 16, 2021.',
-        );
 
-        expect(screen.getAllByTestId('appointment-list-item').length).to.equal(
-          1,
-        );
-      });
-    });
-    describe('Phone appointment context', () => {
-      const phoneAppointments = JSON.parse(JSON.stringify(appointments));
-      phoneAppointments[0].kind = 'phone';
-      phoneAppointments[1].kind = 'phone';
-
-      it('Renders appointment time with no clinic for phone appointments', () => {
-        const screen = render(
-          <CheckInProvider store={{ app: 'preCheckIn' }}>
-            <AppointmentBlock
-              appointments={phoneAppointments}
-              page="confirmation"
-            />
-          </CheckInProvider>,
-        );
-        expect(screen.getByTestId('appointment-day-location')).to.have.text(
-          'Your appointments are on November 16, 2021.',
-        );
-      });
-    });
-  });
-  describe('day-of context', () => {
-    describe('In person appointment context', () => {
-      it('Renders appointment date', () => {
-        const today = formatDate(new Date(), 'MMMM dd, yyyy');
-        const screen = render(
-          <CheckInProvider store={{ app: 'dayOf' }}>
-            <AppointmentBlock appointments={appointments} page="details" />
-          </CheckInProvider>,
-        );
-        expect(screen.getByTestId('date-text')).to.have.text(
-          `Here are your appointments for today: ${today}.`,
-        );
+        expect(screen.getAllByTestId('appointment-item').length).to.equal(1);
       });
     });
   });

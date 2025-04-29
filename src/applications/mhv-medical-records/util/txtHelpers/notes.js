@@ -1,13 +1,9 @@
-import {
-  txtLine,
-  txtLineDotted,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { txtLineDotted } from '@department-of-veterans-affairs/mhv/exports';
 import { loincCodes } from '../constants';
 
-export const parseCareSummariesAndNotes = records => {
+export const parseCareSummariesAndNotes = (records, index = 2) => {
   return `
-${txtLine}
-2) Care summaries and notes
+${index}) Care summaries and notes
 
 This report only includes care summaries and notes from 2013 and later.
 For after-visit summaries, (summaries of your appointments with VA providers), go to your appointment records.

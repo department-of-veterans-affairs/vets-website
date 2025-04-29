@@ -1,40 +1,64 @@
+import { parseISO } from 'date-fns';
 import format from 'date-fns/format';
+import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
-import React from 'react';
-import { connect } from 'react-redux';
-
+import React, { useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { clearFormData, removeAskVaForm } from '../actions';
+import { hasPrefillInformation } from '../constants';
 
-const PersonalAuthenticatedInformation = ({ goBack, goForward, formData }) => {
-  const mock = {
-    first: 'Mock',
-    last: 'Data',
-    dateOfBirth: '1950-10-04',
-    socialOrServiceNum: {
-      ssn: '1112223333',
-      service: null,
+const PersonalAuthenticatedInformation = ({
+  goForward,
+  formData,
+  isLoggedIn,
+  router,
+  formId,
+}) => {
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      if (!hasPrefillInformation(formData)) {
+        goForward(formData);
+      }
     },
+    [isLoggedIn, formData, goForward],
+  );
+
+  const handleGoBack = () => {
+    dispatch(clearFormData());
+    dispatch(removeAskVaForm(formId));
+    router.push('/');
   };
 
   const { first, last, dateOfBirth, socialOrServiceNum } =
-    formData.aboutYoursel || mock;
+    formData.aboutYourself || {};
 
-  const { ssn, serviceNumber } = socialOrServiceNum;
+  const { ssn, serviceNumber } = socialOrServiceNum || {};
 
   const dateOfBirthFormatted = !dateOfBirth
     ? '-'
-    : format(new Date(dateOfBirth), 'MMMM d, yyyy');
+    : format(parseISO(dateOfBirth.split('T')[0]), 'MMMM d, yyyy');
 
   let ssnLastFour = '-';
   if (ssn) {
     ssnLastFour = ssn.substr(ssn.length - 4);
   }
 
+  useEffect(
+    () => {
+      focusElement('h2');
+    },
+    [formData.aboutYourself],
+  );
+
   return (
     <>
       <div>
         <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
-          <h3>Your personal information</h3>
+          <h2 className="vads-u-font-size--h3">Your personal information</h2>
           <p>This is the personal information we have on file for you.</p>
           <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-margin-top--4 vads-u-margin-bottom--4">
             <div className="vads-u-padding-left--1">
@@ -61,7 +85,7 @@ const PersonalAuthenticatedInformation = ({ goBack, goForward, formData }) => {
             Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>
         </div>
-        <FormNavButtons goBack={goBack} goForward={goForward} />
+        <FormNavButtons goBack={handleGoBack} goForward={goForward} />
       </div>
     </>
   );
@@ -69,9 +93,11 @@ const PersonalAuthenticatedInformation = ({ goBack, goForward, formData }) => {
 
 PersonalAuthenticatedInformation.propTypes = {
   formData: PropTypes.object,
+  formId: PropTypes.string,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   isLoggedIn: PropTypes.bool,
+  router: PropTypes.object,
   user: PropTypes.object,
 };
 
@@ -80,7 +106,10 @@ const mapStateToProps = state => {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     user: state.user.profile,
     formData: state.form.data,
+    formId: state.form.formId,
   };
 };
 
-export default connect(mapStateToProps)(PersonalAuthenticatedInformation);
+export default connect(mapStateToProps)(
+  withRouter(PersonalAuthenticatedInformation),
+);

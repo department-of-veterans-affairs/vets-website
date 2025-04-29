@@ -23,7 +23,7 @@ describe('<AccordionItem>', () => {
     );
 
     wrapper
-      .find('button')
+      .find('[data-testid="search-tab"]')
       .at(0)
       .simulate('click');
     const recordedEvent = global.window.dataLayer[0];
@@ -38,7 +38,7 @@ describe('<AccordionItem>', () => {
       </AccordionItem>,
     );
     wrapper
-      .find('button')
+      .find('[data-testid="search-tab"]')
       .at(0)
       .simulate('click');
     const recordedEvent = global.window.dataLayer[0];
@@ -93,7 +93,7 @@ describe('<AccordionItem>', () => {
       <AccordionItem button="Test Button" onClick={onClickSpy} />,
     );
 
-    wrapper.find('button').simulate('click');
+    wrapper.find('[data-testid="search-tab"]').simulate('click');
     expect(onClickSpy).to.have.property('callCount', 1);
     expect(onClickSpy.calledWith(false)).to.equal(true);
     wrapper.unmount();

@@ -55,7 +55,7 @@ export default class OptOutWizard extends React.Component {
           </p>
           <div>
             <a
-              href="/education/opt-out-information-sharing/opt-out-form-0993"
+              href="/find-forms/about-form-22-0993/"
               className="usa-button-primary"
             >
               Yes, I Want to Opt Out

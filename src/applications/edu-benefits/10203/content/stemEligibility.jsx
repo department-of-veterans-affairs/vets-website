@@ -5,7 +5,7 @@ export const eligiblePrograms = () => {
     <div>
       <a
         aria-label="See eligible degree programs, opening in new tab"
-        href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+        href="https://www.va.gov/resources/approved-fields-of-study-for-the-stem-scholarship/"
         target="_blank"
         rel="noopener noreferrer"
       >

@@ -1,9 +1,10 @@
 {
+  "description": "No Medicare, both OHIs (Medigap), US address (new), third party signer",
   "data": {
     "secondaryAdditionalComments": "Secondary comment",
     "secondaryMedigapPlan": "D",
     "applicantSecondaryInsuranceType": "medigap",
-    "applicantSecondaryEOB": true,
+    "applicantSecondaryEob": true,
     "applicantSecondaryHasPrescription": true,
     "applicantSecondaryThroughEmployer": true,
     "applicantSecondaryProvider": "Secondary Provider Name",
@@ -13,7 +14,7 @@
     "primaryAdditionalComments": "Additional primary comment",
     "primaryMedigapPlan": "B",
     "applicantPrimaryInsuranceType": "medigap",
-    "applicantPrimaryEOB": false,
+    "applicantPrimaryEob": false,
     "applicantPrimaryHasPrescription": true,
     "applicantPrimaryThroughEmployer": true,
     "applicantPrimaryProvider": "Primary Provider Name",
@@ -37,10 +38,15 @@
       "last": "Jones",
       "suffix": "Sr."
     },
-    "applicantDOB": "1950-02-03",
     "missingUploads": [
       {
-        "name": "primaryInsuranceCard",
+        "name": "primaryInsuranceCardFront",
+        "path": "insurance-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "primaryInsuranceCardBack",
         "path": "insurance-upload",
         "required": true,
         "uploaded": false
@@ -52,7 +58,13 @@
         "uploaded": false
       },
       {
-        "name": "secondaryInsuranceCard",
+        "name": "secondaryInsuranceCardFront",
+        "path": "secondary-insurance-card-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "secondaryInsuranceCardBack",
         "path": "secondary-insurance-card-upload",
         "required": true,
         "uploaded": false
@@ -60,6 +72,7 @@
     ],
     "consentToMailMissingRequiredFiles": true,
     "certifierRole": "other",
+    "certifierEmail": "certifier@email.gov",
     "signature": "Certifier Jones"
   }
 }

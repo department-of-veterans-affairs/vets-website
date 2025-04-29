@@ -5,6 +5,10 @@
       {
         "name": "form2110210",
         "value": true
+      },
+      {
+        "name": "confirmation_page_new",
+        "value": true
       }
     ]
   }

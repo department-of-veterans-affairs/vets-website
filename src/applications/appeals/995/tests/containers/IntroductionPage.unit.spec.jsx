@@ -9,12 +9,14 @@ import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
 
 import { title995 } from '../../content/title';
+import { SC_NEW_FORM_TOGGLE } from '../../constants';
 
 const getData = ({
   loggedIn = true,
   isVerified = true,
   dob = '2000-01-01',
   canAppeal = true,
+  toggle = false,
 } = {}) => ({
   props: {
     loggedIn,
@@ -41,6 +43,7 @@ const getData = ({
           claims: {
             appeals: canAppeal,
           },
+          signIn: { serviceName: 'logingov' },
         },
       },
       form: {
@@ -51,6 +54,10 @@ const getData = ({
           metadata: {},
         },
         data: {},
+      },
+      featureToggles: {
+        loading: false,
+        [SC_NEW_FORM_TOGGLE]: toggle,
       },
       scheduledDowntime: {
         globalDowntime: null,
@@ -68,7 +75,7 @@ const getData = ({
 describe('IntroductionPage', () => {
   it('should render', () => {
     const { props, mockStore } = getData({ loggedIn: false });
-    const { container } = render(
+    const { container, queryByText } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
@@ -78,6 +85,18 @@ describe('IntroductionPage', () => {
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
     expect($('.sip-wrapper', container)).to.exist;
+    expect(queryByText(/Other VA health care benefits and services/)).to.not
+      .exist;
+  });
+
+  it('should render MST section when feature toggle is enabled', () => {
+    const { props, mockStore } = getData({ toggle: true });
+    const { queryByText } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    expect(queryByText(/Other VA health care benefits and services/)).to.exist;
   });
 
   it('should render one SIP alert when not logged in', () => {
@@ -88,10 +107,7 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     // This SIP alert is _after_ the process list
-    expect($$('va-alert[status="info"]', container).length).to.eq(1);
-    expect($$('va-alert[status="info"]', container)[0].textContent).to.include(
-      'Sign in now',
-    );
+    expect($$('va-alert-sign-in', container).length).to.eql(1);
     expect($('va-alert[status="warning"]', container)).to.not.exist;
   });
 
@@ -102,7 +118,7 @@ describe('IntroductionPage', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect($('va-alert[status="continue"]', container)).to.exist;
+    expect($('va-alert-sign-in[variant="verifyLoginGov"]', container)).to.exist;
     expect($('va-alert[status="info"]', container)).to.not.exist;
     expect($('.sip-wrapper.bottom', container).innerHTML).to.eq('');
   });

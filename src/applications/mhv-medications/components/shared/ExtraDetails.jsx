@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { useSelector } from 'react-redux';
 import { dateFormat, pharmacyPhoneNumber } from '../../util/helpers';
-import {
-  dispStatusObj,
-  medicationsUrls,
-  DD_ACTIONS_PAGE_TYPE,
-} from '../../util/constants';
+import { dispStatusObj, medicationsUrls } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+import { selectRemoveLandingPageFlag } from '../../util/selectors';
 
 const ExtraDetails = rx => {
   const { dispStatus, refillRemaining } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
+  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
     noRefillRemaining = true;
@@ -33,7 +33,7 @@ const ExtraDetails = rx => {
               Call your VA pharmacy
               <CallPharmacyPhone
                 cmopDivisionPhone={pharmacyPhone}
-                page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+                page={pageType.DETAILS}
               />
             </p>
           </div>
@@ -50,14 +50,14 @@ const ExtraDetails = rx => {
               data-testid="rx-refillinprocess-info"
               className="vads-u-margin-y--0"
             >
-              We expect to fill it on{' '}
+              We expect to fill this prescription on{' '}
               {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
             </p>
             <p className="vads-u-margin-y--0" data-testid="pharmacy-phone-info">
               If you need it sooner, call your VA pharmacy
               <CallPharmacyPhone
                 cmopDivisionPhone={pharmacyPhone}
-                page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+                page={pageType.DETAILS}
               />
             </p>
           </div>
@@ -69,11 +69,11 @@ const ExtraDetails = rx => {
           data-testid="submitted-refill-request"
         >
           <va-icon icon="fact_check" size={3} aria-hidden="true" />
-          <div className="vads-u-padding-left--2">
+          <span className="vads-u-padding-left--2">
             We got your request on{' '}
             {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
             updates.
-          </div>
+          </span>
         </p>
       )}
       {dispStatus === dispStatusObj.activeParked && (
@@ -88,12 +88,17 @@ const ExtraDetails = rx => {
             renewal.
           </p>
           <va-link
-            href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
+            href={
+              removeLandingPage
+                ? '/resources/how-to-renew-a-va-prescription'
+                : medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW
+            }
             text="Learn how to renew prescriptions"
             data-testid="learn-to-renew-precsriptions-link"
-            data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
-              DD_ACTIONS_PAGE_TYPE.DETAILS
-            }`}
+            data-dd-action-name={
+              dataDogActionNames.detailsPage
+                .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
+            }
           />
         </div>
       )}
@@ -109,9 +114,9 @@ const ExtraDetails = rx => {
             }/my-health/secure-messages/new-message/`}
             text="Start a new message"
             data-testid="discontinued-compose-message-link"
-            data-dd-action-name={`Compose A Message Link - ${
-              DD_ACTIONS_PAGE_TYPE.DETAILS
-            }`}
+            data-dd-action-name={
+              dataDogActionNames.detailsPage.COMPOSE_A_MESSAGE_LINK
+            }
           />
         </div>
       )}
@@ -129,8 +134,7 @@ const ExtraDetails = rx => {
       )}
       {dispStatus === dispStatusObj.nonVA && (
         <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
-          This isn’t a prescription that you filled through a VA pharmacy. You
-          can’t manage this medication in this online tool.
+          You can’t manage this medication in this online tool.
         </p>
       )}
       {dispStatus === dispStatusObj.onHold && (
@@ -139,7 +143,7 @@ const ExtraDetails = rx => {
           refill, call your VA pharmacy
           <CallPharmacyPhone
             cmopDivisionPhone={pharmacyPhone}
-            page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+            page={pageType.DETAILS}
           />
         </p>
       )}
@@ -153,7 +157,11 @@ const ExtraDetails = rx => {
               You have no refills left. If you need more, request a renewal.
             </p>
             <va-link
-              href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
+              href={
+                removeLandingPage
+                  ? '/resources/how-to-renew-a-va-prescription'
+                  : medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW
+              }
               text="Learn how to renew prescriptions"
               data-testid="learn-to-renew-prescriptions-link"
             />

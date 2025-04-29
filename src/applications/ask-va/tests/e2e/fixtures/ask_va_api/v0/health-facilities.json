@@ -1,0 +1,19 @@
+{
+    "data": [],
+    "meta": {
+        "pagination": {
+            "currentPage": 1,
+            "prevPage": null,
+            "nextPage": null,
+            "totalPages": 1,
+            "totalEntries": 0
+        }
+    },
+    "links": {
+        "self": "https://staging-api.va.gov/ask_va_api/v0/health_facilities?lat=30.268072&long=-97.742805&page=1&per_page=10&radius=50&type=health",
+        "first": "https://staging-api.va.gov/ask_va_api/v0/health_facilities?lat=30.268072&long=-97.742805&per_page=10&radius=50&type=health",
+        "prev": null,
+        "next": null,
+        "last": "https://staging-api.va.gov/ask_va_api/v0/health_facilities?lat=30.268072&long=-97.742805&page=1&per_page=10&radius=50&type=health"
+    }
+}

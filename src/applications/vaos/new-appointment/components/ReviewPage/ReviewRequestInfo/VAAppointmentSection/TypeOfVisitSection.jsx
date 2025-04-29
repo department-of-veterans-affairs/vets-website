@@ -7,10 +7,11 @@ import { FLOW_TYPES, TYPE_OF_VISIT } from '../../../../../utils/constants';
 import getNewAppointmentFlow from '../../../../newAppointmentFlow';
 import { getFlowType } from '../../../../redux/selectors';
 
-export function handleClick(history, pageFlow) {
-  const { home, visitType } = pageFlow;
+export function handleClick(history, home, visitType) {
+  return e => {
+    // Stop default behavior for anchor tag since we are using React routing.
+    e.preventDefault();
 
-  return () => {
     if (
       history.location.pathname.endsWith('/') ||
       (visitType.url.endsWith('/') && visitType.url !== home.url)
@@ -22,7 +23,7 @@ export function handleClick(history, pageFlow) {
 
 export default function TypeOfVisitSection({ data }) {
   const history = useHistory();
-  const pageFlow = useSelector(getNewAppointmentFlow);
+  const { home, visitType } = useSelector(getNewAppointmentFlow);
   const flowType = useSelector(getFlowType);
 
   return (
@@ -31,7 +32,6 @@ export default function TypeOfVisitSection({ data }) {
         <div className="vads-u-flex--1 vads-u-padding-right--1">
           <h2
             className={classNames({
-              'vads-u-font-size--base': FLOW_TYPES.DIRECT === flowType,
               'vaos-appts__block-label': FLOW_TYPES.DIRECT === flowType,
               'vads-u-font-size--h3': FLOW_TYPES.REQUEST === flowType,
               'vads-u-margin-top--0': FLOW_TYPES.REQUEST === flowType,
@@ -49,10 +49,10 @@ export default function TypeOfVisitSection({ data }) {
         </div>
         <div>
           <va-link
-            onClick={handleClick(history, pageFlow)}
+            href={visitType.url}
+            onClick={handleClick(history, home, visitType)}
             text="Edit"
             aria-label="Edit how you want to attend"
-            tabindex="0"
           />
         </div>
       </div>

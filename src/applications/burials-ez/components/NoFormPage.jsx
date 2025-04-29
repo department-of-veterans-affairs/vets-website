@@ -293,7 +293,7 @@ export const NoFormPage = () => {
   const loggedIn = useSelector(isLoggedIn);
 
   useEffect(() => {
-    const resource = '/in_progress_forms/21P-530V2';
+    const resource = '/in_progress_forms/21P-530EZ';
     apiRequest(resource)
       .then(responseData => {
         setData(responseData);

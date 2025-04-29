@@ -7,6 +7,7 @@ export const webComponentList = [
   'va-button',
   'va-checkbox-group',
   'va-checkbox',
+  'va-file-input',
   'va-memorable-date',
   'va-number-input',
   'va-privacy-agreement',
@@ -21,12 +22,13 @@ export const webComponentList = [
 export const focusableWebComponentList = [
   'va-accordion-item',
   // 'va-accordion',
-  'va-alert',
+  'va-alert:not([visible="false"])',
   // 'va-breadcrumbs',
   // 'va-button-pair',
   'va-button',
   // 'va-checkbox-group',
   'va-checkbox',
+  // 'va-file-input',
   // 'va-memorable-date',
   'va-number-input',
   // 'va-privacy-agreement',
@@ -35,4 +37,12 @@ export const focusableWebComponentList = [
   'va-select',
   'va-text-input',
   'va-textarea',
+];
+
+// Web components with a `label-header-level` property
+export const webComponentsWithHeaders = [
+  'va-checkbox-group',
+  'va-radio',
+  'va-textarea',
+  'va-alert:not([visible="false"])',
 ];

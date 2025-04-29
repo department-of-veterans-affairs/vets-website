@@ -164,6 +164,20 @@ export const introductionPageFlow = () => {
     .click({ force: true });
 };
 
+export const fillStatementOfTruthSignature = veteranSignature => {
+  cy.get('#veteran-signature')
+    .shadow()
+    .get('#inputField')
+    .type(veteranSignature);
+};
+
+export const checkStatementOfTruthBox = () => {
+  cy.get(`va-checkbox[id="veteran-certify"]`)
+    .shadow()
+    .find('input')
+    .click({ force: true });
+};
+
 export const reviewAndSubmitPageFlow = (
   signerName,
   submitButtonText = 'Submit application',
@@ -176,14 +190,8 @@ export const reviewAndSubmitPageFlow = (
       : `${signerName.first} ${signerName.last}`;
   }
 
-  cy.get('#veteran-signature')
-    .shadow()
-    .get('#inputField')
-    .type(veteranSignature);
-  cy.get(`va-checkbox[name="veteran-certify"]`)
-    .shadow()
-    .find('input')
-    .click({ force: true });
+  fillStatementOfTruthSignature(veteranSignature);
+  checkStatementOfTruthBox();
   cy.findByText(submitButtonText, {
     selector: 'button',
   }).click();

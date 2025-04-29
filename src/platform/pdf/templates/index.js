@@ -16,4 +16,16 @@ templates.veteranStatus = () => {
   return require('./veteran_status');
 };
 
+templates.veteranStatusNew = () => {
+  return require('./veteran_status_new');
+};
+
+templates.selfEnteredInfo = () => {
+  return require('./self_entered_info');
+};
+
+templates.oneDebtLetter = () => {
+  return require('./one_debt_letter');
+};
+
 export { templates };

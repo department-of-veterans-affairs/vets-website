@@ -6,8 +6,6 @@
  */
 /* eslint-disable no-await-in-loop */
 
-import { MissingFieldsException } from '../utils/exceptions/MissingFieldsException';
-
 import {
   createImageDetailItem,
   createAccessibleDoc,
@@ -46,6 +44,10 @@ const config = {
       font: 'Bitter-Bold',
       size: 12.75,
     },
+    H5: {
+      font: 'Bitter-Bold',
+      size: 12,
+    },
   },
   subHeading: {
     boldFont: 'SourceSansPro-Bold',
@@ -76,7 +78,7 @@ const generateIntroductionContent = async (doc, parent, data) => {
       introduction.add(
         createSubHeading(doc, config, element.value, {
           x: 16,
-          paragraphGap: 6,
+          paragraphGap: element.paragraphGap ?? 6,
           ...(element.weight === 'bold' && {
             font: config.subHeading.boldFont,
           }),
@@ -104,10 +106,16 @@ const generateResultsMedicationListContent = async (
   // medication header
   if (medication.header) {
     results.add(
-      await createHeading(doc, 'H3', config, medication.header, {
-        paragraphGap: 10,
-        x: 16,
-      }),
+      await createHeading(
+        doc,
+        medication.headerSize || 'H3',
+        config,
+        medication.header,
+        {
+          paragraphGap: 10,
+          x: medication.indent || 16,
+        },
+      ),
     );
   }
 
@@ -115,10 +123,16 @@ const generateResultsMedicationListContent = async (
   for (const section of medication.sections) {
     if (section.header) {
       results.add(
-        await createHeading(doc, 'H4', config, section.header, {
-          paragraphGap: 10,
-          x: 16,
-        }),
+        await createHeading(
+          doc,
+          section.headerSize || 'H4',
+          config,
+          section.header,
+          {
+            paragraphGap: 10,
+            x: section.indent || 16,
+          },
+        ),
       );
     }
 
@@ -127,32 +141,47 @@ const generateResultsMedicationListContent = async (
       let structs;
       // image item
       if (resultItem.value?.type === 'image') {
-        structs = await createImageDetailItem(doc, config, 32, resultItem);
+        structs = await createImageDetailItem(
+          doc,
+          config,
+          resultItem.indent || 16,
+          resultItem,
+        );
         // rich text item
       } else if (resultItem.isRich) {
-        structs = await createRichTextDetailItem(doc, config, 32, resultItem);
+        structs = await createRichTextDetailItem(
+          doc,
+          config,
+          resultItem.indent || 16,
+          resultItem,
+        );
         // regular item
       } else {
-        structs = await createDetailItem(doc, config, 32, resultItem);
+        structs = await createDetailItem(
+          doc,
+          config,
+          resultItem.indent || 16,
+          resultItem,
+        );
       }
 
       // If the next item does not fit - move to the next page
-      let height = !resultItem.value?.type
-        ? doc.heightOfString(`${resultItem.title}: ${resultItem.value}`, {
-            font: config.text.font,
-            size: config.text.size,
-          })
-        : resultItem.value?.options?.height;
-      height = resultItem.inline ? height : height + 24;
-      if (doc.y + height > doc.page.height - doc.page.margins.bottom)
-        await doc.addPage();
+      if (!resultItem.disablePageSplit) {
+        doc.fontSize(config.text.size);
+        let height = !resultItem.value?.type
+          ? doc.heightOfString(`${resultItem.title}: ${resultItem.value}`)
+          : resultItem.value?.options?.height;
+        height = resultItem.inline ? height : height + 24;
+        if (doc.y + height > doc.page.height - doc.page.margins.bottom)
+          await doc.addPage();
+      }
 
       for (const struct of structs) {
         results.add(struct);
       }
     }
 
-    doc.moveDown(0.5);
+    doc.moveDown(0.75);
   }
 
   // horizontal line
@@ -164,7 +193,7 @@ const generateResultsMedicationListContent = async (
 };
 
 const generateResultsContent = async (doc, parent, data) => {
-  for (const resultItem of data.results) {
+  for (const [i, resultItem] of data.results.entries()) {
     const results = doc.struct('Sect', {
       title: resultItem.header || 'Results',
     });
@@ -173,10 +202,16 @@ const generateResultsContent = async (doc, parent, data) => {
     // results --> header
     if (resultItem.header) {
       results.add(
-        createHeading(doc, 'H2', config, resultItem.header, {
-          paragraphGap: 12,
-          x: 16,
-        }),
+        createHeading(
+          doc,
+          resultItem.headerSize || 'H2',
+          config,
+          resultItem.header,
+          {
+            paragraphGap: 12,
+            x: 16,
+          },
+        ),
       );
     }
 
@@ -201,7 +236,7 @@ const generateResultsContent = async (doc, parent, data) => {
 
     // results --> items
     for (const listItem of resultItem.list) {
-      const hasHorizontalRule = listItem.sectionSeparators !== false;
+      const hasHorizontalRule = !!listItem.sectionSeparators;
       await generateResultsMedicationListContent(
         listItem,
         doc,
@@ -211,28 +246,23 @@ const generateResultsContent = async (doc, parent, data) => {
       );
     }
 
+    // horizontal line at the end of results (typically before allergies)
+    if (i < data.results.length - 1) {
+      addHorizontalRule(
+        doc,
+        ...Object.values({
+          spaceFromEdge: 16,
+          linesAbove: 0.5,
+          linesBelow: 1,
+        }),
+      );
+    }
+
     results.end();
   }
 };
 
-const validate = data => {
-  const requiredFields = [
-    'title',
-    'headerLeft',
-    'headerRight',
-    'footerLeft',
-    'footerRight',
-  ];
-
-  const missingFields = requiredFields.filter(field => !data[field]);
-  if (missingFields.length) {
-    throw new MissingFieldsException(missingFields);
-  }
-};
-
 const generate = async data => {
-  validate(data);
-
   const doc = createAccessibleDoc(data, config);
 
   await registerVaGovFonts(doc);

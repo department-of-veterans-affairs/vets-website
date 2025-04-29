@@ -58,7 +58,6 @@ const FileBDDClaim = ({ getPageStateFromPageName, setWizardStatus }) => {
           {formStartButton({
             setWizardStatus,
             label,
-            ariaId: 'learn_about_bdd',
             eventReason: 'wizard completed, starting BDD flow',
           })}
         </>

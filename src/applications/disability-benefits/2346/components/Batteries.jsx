@@ -180,6 +180,9 @@ class Batteries extends Component {
                     })}
                     htmlFor={batterySupply.productId}
                   >
+                    <span className="icon-wrap">
+                      <va-icon icon="check" size={3} />
+                    </span>
                     Order batteries for this device
                   </label>
                 </div>

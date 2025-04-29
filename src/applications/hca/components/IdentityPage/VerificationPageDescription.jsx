@@ -1,15 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import content from '../../locales/en/content.json';
 
 const VerificationPageDescription = ({ onLogin }) => (
   <>
-    <FormTitle title="Before you start your application" />
+    <FormTitle
+      title={content['page-title--before-you-begin']}
+      subTitle={content['form-subtitle']}
+    />
     <p>
       We need some information before you can start your application. This will
-      help us fit your application to your specific needs.
+      help us fit your application to your specific needs. Then you can fill out
+      the VA health care application (10-10EZ).
     </p>
-    <p>Then you can fill out the VA health care application (10-10EZ).</p>
     <p className="vads-u-font-weight--bold">Sign in and save time</p>
     <p>
       You can sign in and confirm that the information we have for you is up to

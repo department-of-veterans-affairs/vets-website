@@ -9,6 +9,8 @@ import {
   setConversationIdKey,
   setTokenKey,
 } from '../utils/sessionStorage';
+import { logErrorToDatadog } from '../utils/logging';
+import { useDatadogLogging } from './useDatadogLogging';
 
 export function callVirtualAgentTokenApi(
   virtualAgentEnableMsftPvaTesting,
@@ -30,8 +32,19 @@ export function callVirtualAgentTokenApi(
   };
 }
 
-async function getToken(props, setToken, setApiSession, setLoadingStatus) {
+async function getToken(
+  props,
+  setToken,
+  setApiSession,
+  setLoadingStatus,
+  isDatadogLoggingEnabled,
+) {
   try {
+    logErrorToDatadog(
+      isDatadogLoggingEnabled,
+      'vets-website - useVirtualAgentToken',
+      new Error('test'),
+    );
     const apiCall = callVirtualAgentTokenApi(
       props.virtualAgentEnableMsftPvaTesting,
       props.virtualAgentEnableNluPvaTesting,
@@ -45,9 +58,9 @@ async function getToken(props, setToken, setApiSession, setLoadingStatus) {
     setApiSession(response.apiSession);
     setLoadingStatus(COMPLETE);
   } catch (ex) {
-    Sentry.captureException(
-      new Error('Could not retrieve virtual agent token'),
-    );
+    const error = new Error('Could not retrieve virtual agent token');
+    Sentry.captureException(error);
+    logErrorToDatadog(isDatadogLoggingEnabled, error.message, error);
     setLoadingStatus(ERROR);
   }
 }
@@ -57,6 +70,7 @@ export default function useVirtualAgentToken(props) {
   const [apiSession, setApiSession] = useState('');
   const [csrfTokenLoading, csrfTokenLoadingError] = useWaitForCsrfToken(props);
   const [loadingStatus, setLoadingStatus] = useState(LOADING);
+  const isDatadogLoggingEnabled = useDatadogLogging();
 
   useEffect(
     () => {
@@ -67,9 +81,15 @@ export default function useVirtualAgentToken(props) {
 
       clearBotSessionStorage();
 
-      getToken(props, setToken, setApiSession, setLoadingStatus);
+      getToken(
+        props,
+        setToken,
+        setApiSession,
+        setLoadingStatus,
+        isDatadogLoggingEnabled,
+      );
     },
-    [csrfTokenLoading, csrfTokenLoadingError],
+    [csrfTokenLoading, csrfTokenLoadingError, props, isDatadogLoggingEnabled],
   );
 
   return { token, loadingStatus, apiSession };

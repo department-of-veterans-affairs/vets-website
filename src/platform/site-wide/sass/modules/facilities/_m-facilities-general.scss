@@ -58,11 +58,6 @@
   }
 }
 
-.usa-accordion>ul li ul.usa-unstyled-list,
-.usa-accordion-bordered>ul li ul.usa-unstyled-list {
-  list-style: none;
-}
-
 .facility-satisfaction-tile {
   width: 50%;
 
@@ -275,7 +270,7 @@
 }
 
 .facilities_health_service {
-  .usa-button {
+  button.usa-button {
     margin-bottom: 0;
   }
 }

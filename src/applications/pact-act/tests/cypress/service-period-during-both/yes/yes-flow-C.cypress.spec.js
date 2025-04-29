@@ -11,12 +11,13 @@ import { ROUTES } from '../../../../constants';
 // Agent Orange 2.2.2 - Yes
 // Radiation 2.3.A - No
 // Camp Lejeune 2.4 - Yes
+// Main Flow 2.5 - No
 // Results 1 (Yes to more than one category)
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
 describe('PACT Act', () => {
-  describe('During both of these time periods - "Yes" to two or more question categories (Results Screen 1)', () => {
+  describe('During both of these time periods - "Yes" to two or more question categories (Results page 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
 
@@ -70,6 +71,11 @@ describe('PACT Act', () => {
       h.selectRadio(h.LEJEUNE_2_4_INPUT, 0);
       h.clickContinue();
 
+      // MAIN_FLOW_2_5
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.selectRadio(h.MAIN_FLOW_2_5_INPUT, 1);
+      h.clickContinue();
+
       // RESULTS 1, P1
       h.verifyUrl(ROUTES.RESULTS_1_1);
       h.verifyElement(h.RESULTS_1_1_HEADER);
@@ -83,6 +89,10 @@ describe('PACT Act', () => {
       // RESULTS 1, P1
       h.verifyUrl(ROUTES.RESULTS_1_1);
       h.clickResultsBack();
+
+      // MAIN_FLOW_2_5
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.clickBack();
 
       // LEJEUNE_2_4
       h.verifyUrl(ROUTES.LEJEUNE_2_4);

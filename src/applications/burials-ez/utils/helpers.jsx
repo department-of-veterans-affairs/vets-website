@@ -1,140 +1,16 @@
 import React from 'react';
-import * as Sentry from '@sentry/browser';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import set from 'platform/utilities/data/set';
+import get from 'platform/utilities/data/get';
 
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
-import { apiRequest } from 'platform/utilities/api';
-import { formatISO } from 'date-fns';
+import {
+  checkboxGroupSchema,
+  fullNameUI,
+  textUI,
+  textSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
-function checkStatus(guid) {
-  const headers = { 'Content-Type': 'application/json' };
-
-  return apiRequest(`/burial_claims/${guid}`, {
-    headers,
-    mode: 'cors',
-  }).catch(res => {
-    if (res instanceof Error) {
-      Sentry.captureException(res);
-      Sentry.captureMessage('vets_burial_poll_client_error');
-
-      // keep polling because we know they submitted earlier
-      // and this is likely a network error
-      return Promise.resolve();
-    }
-
-    // if we get here, it's likely that we hit a server error
-    return Promise.reject(res);
-  });
-}
-
-const POLLING_INTERVAL = 1000;
-
-function pollStatus(
-  { guid, confirmationNumber, regionalOffice },
-  onDone,
-  onError,
-) {
-  setTimeout(() => {
-    checkStatus(guid)
-      .then(res => {
-        if (!res || res.data.attributes.state === 'pending') {
-          pollStatus(
-            { guid, confirmationNumber, regionalOffice },
-            onDone,
-            onError,
-          );
-        } else if (res.data.attributes.state === 'success') {
-          const response = res.data.attributes.response || {
-            confirmationNumber,
-            regionalOffice,
-          };
-          onDone(response);
-        } else {
-          // needs to start with this string to get the right message on the form
-          throw new Error(
-            `vets_server_error_burial: status ${res.data.attributes.state}`,
-          );
-        }
-      })
-      .catch(onError);
-  }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
-}
-
-export function transformCountryCode(countryCode) {
-  switch (countryCode) {
-    case 'USA':
-      return 'US';
-    case 'MEX':
-      return 'MX';
-    case 'CAN':
-      return 'CA';
-    default:
-      return countryCode;
-  }
-}
-
-export function transform(formConfig, form) {
-  const localTime = formatISO(new Date());
-  const correctedForm = {
-    ...form,
-    data: {
-      ...form?.data,
-      claimantAddress: {
-        ...form?.data?.claimantAddress,
-        country: transformCountryCode(form?.data?.claimantAddress?.country),
-      },
-    },
-  };
-  const formData = transformForSubmit(formConfig, correctedForm);
-  return JSON.stringify({
-    burialClaim: {
-      form: formData,
-    },
-    localTime,
-  });
-}
-
-export function submit(form, formConfig) {
-  const headers = { 'Content-Type': 'application/json' };
-
-  const body = transform(formConfig, form);
-  const apiRequestOptions = {
-    headers,
-    body,
-    method: 'POST',
-    mode: 'cors',
-  };
-
-  const onSuccess = resp => {
-    const { guid, confirmationNumber, regionalOffice } = resp.data.attributes;
-    return new Promise((resolve, reject) => {
-      pollStatus(
-        { guid, confirmationNumber, regionalOffice },
-        response => {
-          window.dataLayer.push({
-            event: `${formConfig.trackingPrefix}-submission-successful`,
-          });
-          return resolve(response);
-        },
-        error => reject(error),
-      );
-    });
-  };
-
-  const onFailure = respOrError => {
-    if (respOrError instanceof Response && respOrError.status === 429) {
-      const error = new Error('vets_throttled_error_burial');
-      error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
-
-      return Promise.reject(error);
-    }
-    return Promise.reject(respOrError);
-  };
-
-  return apiRequest('/burial_claims', apiRequestOptions)
-    .then(onSuccess)
-    .catch(onFailure);
-}
+import { validateBenefitsIntakeName } from './validation';
 
 export const generateTitle = text => {
   return <h3 className="vads-u-margin-top--0 vads-u-color--base">{text}</h3>;
@@ -147,6 +23,51 @@ export const generateHelpText = (
   return <span className={className}>{text}</span>;
 };
 
+/**
+ * Function to generate UI Schema and Schema for death facility information
+ * @param {string} facilityKey - Key for death facility in the schema
+ * @param {string} facilityName - Name for the facility in UI
+ * @returns {Object} - Object containing uiSchema and schema
+ */
+export const generateDeathFacilitySchemas = (
+  facilityKey,
+  facilityName = 'Default Facility Name',
+) => {
+  return {
+    uiSchema: {
+      'ui:title': generateTitle('Veteran death location details'),
+      [facilityKey]: {
+        facilityName: textUI({
+          title: `Name of ${facilityName}`,
+          errorMessages: {
+            required: `Enter the Name of ${facilityName}`,
+          },
+        }),
+        facilityLocation: textUI({
+          title: `Location of ${facilityName}`,
+          hint: 'City and state',
+          errorMessages: {
+            required: `Enter the city and state of ${facilityName}`,
+          },
+        }),
+      },
+    },
+    schema: {
+      type: 'object',
+      properties: {
+        [facilityKey]: {
+          type: 'object',
+          required: ['facilityName', 'facilityLocation'],
+          properties: {
+            facilityName: textSchema,
+            facilityLocation: textSchema,
+          },
+        },
+      },
+    },
+  };
+};
+
 export const checkboxGroupSchemaWithReviewLabels = keys => {
   const schema = checkboxGroupSchema(keys);
   keys.forEach(key => {
@@ -157,4 +78,24 @@ export const checkboxGroupSchemaWithReviewLabels = keys => {
     };
   });
   return schema;
+};
+
+export const benefitsIntakeFullNameUI = (formatTitle, uiOptions = {}) => {
+  let uiSchema = fullNameUI(formatTitle, uiOptions);
+  ['first', 'last'].forEach(part => {
+    const validations = [
+      ...get([part, 'ui:validations'], uiSchema),
+      validateBenefitsIntakeName,
+    ];
+    uiSchema = set(`${part}.ui:validations`, validations, uiSchema);
+  });
+  return uiSchema;
+};
+
+export const isProductionEnv = () => {
+  return (
+    !environment.BASE_URL.includes('localhost') &&
+    !window.DD_RUM?.getInitConfiguration() &&
+    !window.Mocha
+  );
 };

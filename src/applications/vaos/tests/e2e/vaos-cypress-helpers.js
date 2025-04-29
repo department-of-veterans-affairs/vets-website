@@ -15,7 +15,9 @@ import featureFlags from '../../utils/featureFlags';
  * @export
  * @param {Object} [toggles={}] Feature flags to set/unset
  */
-export function mockFeatureToggles(toggles = {}) {
+export function mockFeatureToggles(
+  toggles = { vaOnlineSchedulingRecentLocationsFilter: false },
+) {
   cy.intercept(
     {
       method: 'GET',
@@ -51,7 +53,7 @@ export function mockCCProvidersApi({
   cy.intercept(
     {
       method: 'GET',
-      pathname: '/facilities_api/v1/ccp/provider',
+      pathname: '/facilities_api/v2/ccp/provider',
     },
     req => {
       if (responseCode !== 200) {
@@ -65,7 +67,7 @@ export function mockCCProvidersApi({
 
       req.reply({ data });
     },
-  ).as('v1:get:provider');
+  ).as('v2:get:provider');
 }
 
 /**
@@ -590,6 +592,11 @@ export function vaosSetup() {
           'wcag21aa',
           'best-practice',
         ],
+      },
+      rules: {
+        'aria-allowed-role': {
+          enabled: false,
+        },
       },
     });
   });

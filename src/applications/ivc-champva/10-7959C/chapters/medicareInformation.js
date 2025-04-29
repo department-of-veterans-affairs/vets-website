@@ -1,5 +1,4 @@
 import React from 'react';
-import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
 import {
   titleUI,
   titleSchema,
@@ -12,16 +11,14 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording } from '../helpers/utilities';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import { nameWording } from '../../shared/utilities';
 import {
-  fileWithMetadataSchema,
-  fileUploadBlurb,
-} from '../../shared/components/fileUploads/attachments';
-
-// TODO put in /shared
-const additionalFilesHint =
-  'Depending on your response, you may need to submit additional documents with this application.';
+  fileUploadUi as fileUploadUI,
+  singleFileSchema,
+} from '../../shared/components/fileUploads/upload';
+import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
+import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
+import { validFieldCharsOnly } from '../../shared/validations';
 
 const effectiveDateHint =
   'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."';
@@ -38,13 +35,15 @@ export const applicantHasMedicareSchema = {
       ...yesNoUI({
         updateUiSchema: formData => {
           return {
-            'ui:title': `Does ${nameWording(
+            'ui:title': `${
+              formData.certifierRole === 'applicant' ? 'Do' : 'Does'
+            } ${nameWording(
               formData,
               false,
-              undefined,
+              false,
               true,
             )} have Medicare information to provide or update at this time?`,
-            'ui:options': { hint: additionalFilesHint },
+            'ui:options': { hint: ADDITIONAL_FILES_HINT },
           };
         },
       }),
@@ -80,12 +79,9 @@ export const applicantMedicareClassSchema = {
         },
         updateUiSchema: formData => {
           return {
-            'ui:title': `Which Medicare plan is ${nameWording(
-              formData,
-              false,
-              false,
-              true,
-            )} enrolled in?`,
+            'ui:title': `Which Medicare plan ${
+              formData.certifierRole === 'applicant' ? 'are' : 'is'
+            } ${nameWording(formData, false, false, true)} enrolled in?`,
             'ui:options': {
               hint:
                 'You can find this information on the front of your Medicare card.',
@@ -122,7 +118,7 @@ export const applicantMedicarePharmacySchema = {
             'ui:title': `Does ${nameWording(
               formData,
               undefined,
-              undefined,
+              false,
               true,
             )} Medicare plan provide pharmacy benefits?`,
             'ui:options': {
@@ -157,12 +153,21 @@ export const applicantMedicarePartACarrierSchema = {
     applicantMedicarePartACarrier: textUI({
       title: 'Name of insurance carrier',
       hint:
-        'Your insurance is "Medicare Health Insurance" or your insurance company.',
+        'Your insurance carrier may be listed as "Medicare Health Insurance" on your insurance card.',
     }),
     applicantMedicarePartAEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part A effective date',
       hint: effectiveDateHint,
     }),
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(
+          errors,
+          null,
+          formData,
+          'applicantMedicarePartACarrier',
+        ),
+    ],
   },
   schema: {
     type: 'object',
@@ -192,12 +197,21 @@ export const applicantMedicarePartBCarrierSchema = {
     applicantMedicarePartBCarrier: textUI({
       title: 'Name of insurance carrier',
       hint:
-        'Your insurance is "Medicare Health Insurance" or your insurance company.',
+        'Your insurance carrier may be listed as "Medicare Health Insurance" on your insurance card.',
     }),
     applicantMedicarePartBEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part B effective date',
       hint: effectiveDateHint,
     }),
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(
+          errors,
+          null,
+          formData,
+          'applicantMedicarePartBCarrier',
+        ),
+    ],
   },
   schema: {
     type: 'object',
@@ -218,7 +232,7 @@ export const applicantMedicareABUploadSchema = {
     ...titleUI(
       'Upload Medicare card for hospital and medical coverage',
       ({ formData }) => {
-        const appName = nameWording(formData, undefined, undefined, true);
+        const appName = nameWording(formData, undefined, false, true);
         return (
           <>
             You’ll need to submit a copy of the front and back of {appName}{' '}
@@ -227,12 +241,8 @@ export const applicantMedicareABUploadSchema = {
             <br />
             Upload a copy of one of these documents:
             <ul>
-              <li>
-                Medicare Parts A and B card, <b>or</b>
-              </li>
-              <li>
-                Medicare Advantage card, <b>or</b>
-              </li>
+              <li>Medicare Parts A and B card, or</li>
+              <li>Medicare Advantage card, or</li>
               <li>Medicare PACE card</li>
             </ul>
             If you don’t have a copy to upload now, you can send it by mail or
@@ -242,25 +252,22 @@ export const applicantMedicareABUploadSchema = {
       },
     ),
     ...fileUploadBlurb,
-    applicantMedicarePartAPartBCard: {
-      ...fileUploadUI({
-        label: 'Upload Medicare card',
-      }),
-      'ui:errorMessages': {
-        minItems:
-          'You must add both the front and back of your card as separate files.',
-      },
-    },
+    applicantMedicarePartAPartBCardFront: fileUploadUI({
+      label: 'Upload front of Medicare card',
+      attachmentId: 'Front of Medicare card', // used behind the scenes
+    }),
+    applicantMedicarePartAPartBCardBack: fileUploadUI({
+      label: 'Upload back of Medicare card',
+      attachmentId: 'Back of Medicare card', // used behind the scenes
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      applicantMedicarePartAPartBCard: fileWithMetadataSchema(
-        ['Front of Medicare card', 'Back of Medicare card'],
-        2,
-      ),
+      applicantMedicarePartAPartBCardFront: singleFileSchema,
+      applicantMedicarePartAPartBCardBack: singleFileSchema,
     },
   },
 };
@@ -280,13 +287,15 @@ export const applicantHasMedicareDSchema = {
       ...yesNoUI({
         updateUiSchema: formData => {
           return {
-            'ui:title': `Does ${nameWording(
+            'ui:title': `${
+              formData.certifierRole === 'applicant' ? 'Do' : 'Does'
+            } ${nameWording(
               formData,
               false,
-              undefined,
+              false,
               true,
             )} have Medicare Part D information to provide or update at this time?`,
-            'ui:options': { hint: additionalFilesHint },
+            'ui:options': { hint: ADDITIONAL_FILES_HINT },
           };
         },
       }),
@@ -314,6 +323,15 @@ export const applicantMedicarePartDCarrierSchema = {
       title: 'Medicare Part D effective date',
       hint: effectiveDateHint,
     }),
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(
+          errors,
+          null,
+          formData,
+          'applicantMedicarePartDCarrier',
+        ),
+    ],
   },
   schema: {
     type: 'object',
@@ -332,7 +350,7 @@ export const applicantMedicarePartDCarrierSchema = {
 export const applicantMedicareDUploadSchema = {
   uiSchema: {
     ...titleUI('Upload Medicare Part D card', ({ formData }) => {
-      const appName = nameWording(formData, undefined, undefined, true);
+      const appName = nameWording(formData, undefined, false, true);
       return (
         <>
           You’ll need to submit a copy of the front and back of {appName}{' '}
@@ -345,50 +363,22 @@ export const applicantMedicareDUploadSchema = {
       );
     }),
     ...fileUploadBlurb,
-    applicantMedicarePartDCard: {
-      ...fileUploadUI({
-        label: 'Upload Medicare Part D card',
-      }),
-      'ui:errorMessages': {
-        minItems:
-          'You must add both the front and back of your card as separate files.',
-      },
-    },
+    applicantMedicarePartDCardFront: fileUploadUI({
+      label: 'Upload front of Medicare Part D card',
+      attachmentId: 'Front of Medicare Part D card', // used behind the scenes
+    }),
+    applicantMedicarePartDCardBack: fileUploadUI({
+      label: 'Upload back of Medicare Part D card',
+      attachmentId: 'Back of Medicare Part D card', // used behind the scenes
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      applicantMedicarePartDCard: fileWithMetadataSchema(
-        ['Front of Medicare Part D card', 'Back of Medicare Part D card'],
-        2,
-      ),
-    },
-  },
-};
-
-export const applicantMedicareAdditionalCommentsSchema = {
-  uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
-        `${nameWording(
-          formData,
-          undefined,
-          undefined,
-          true,
-        )} Medicare additional comments`,
-    ),
-    applicantMedicareAdditionalComments: {
-      'ui:title': 'Any additional comments about this Medicare plan?',
-      'ui:webComponentField': VaTextareaField,
-    },
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      titleSchema,
-      applicantMedicareAdditionalComments: { type: 'string' },
+      applicantMedicarePartDCardFront: singleFileSchema,
+      applicantMedicarePartDCardBack: singleFileSchema,
     },
   },
 };

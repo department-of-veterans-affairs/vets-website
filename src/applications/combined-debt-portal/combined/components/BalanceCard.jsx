@@ -11,8 +11,8 @@ const BalanceCard = ({ amount, count, date, appType }) => {
 
   const linkText =
     appType === APP_TYPES.DEBT
-      ? 'Check the status and resolve your debt'
-      : 'Check your balance and resolve your bill';
+      ? 'Review details and resolve your debt'
+      : 'Review details and resolve your bill';
 
   // Linking to existing applications
   // TODO: update a tag with Link component after merge
@@ -46,7 +46,7 @@ const BalanceCard = ({ amount, count, date, appType }) => {
         data-testid="card-link"
       >
         {linkText}
-        <va-icon icon="navigate_next" size={3} />
+        <va-icon icon="navigate_next" size={2} class="cdp-link-icon--active" />
       </Link>
     </va-card>
   );

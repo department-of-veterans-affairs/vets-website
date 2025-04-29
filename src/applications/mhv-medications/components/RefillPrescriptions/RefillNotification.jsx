@@ -2,16 +2,26 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { DD_ACTIONS_PAGE_TYPE } from '../../util/constants';
+import { useSelector } from 'react-redux';
+import { dataDogActionNames } from '../../util/dataDogConstants';
+import { SESSION_RX_FILTER_OPEN_BY_DEFAULT } from '../../util/constants';
 
-const RefillNotification = ({ refillResult = {} }) => {
+const RefillNotification = ({ refillStatus }) => {
+  // Selectors
+  const successfulMeds = useSelector(
+    state => state.rx.prescriptions?.refillNotification?.successfulMeds,
+  );
+  const failedMeds = useSelector(
+    state => state.rx.prescriptions?.refillNotification?.failedMeds,
+  );
+
   useEffect(
     () => {
-      if (refillResult?.status === 'finished') {
+      if (refillStatus === 'finished') {
         let elemId = '';
-        if (refillResult?.successfulMeds.length === 0) {
+        if (successfulMeds?.length === 0) {
           elemId = 'failed-refill';
-        } else if (refillResult?.failedMeds.length > 0) {
+        } else if (failedMeds?.length > 0) {
           elemId = 'partial-refill';
         } else {
           elemId = 'success-refill';
@@ -22,14 +32,21 @@ const RefillNotification = ({ refillResult = {} }) => {
         }
       }
     },
-    [refillResult],
+    [refillStatus, successfulMeds, failedMeds],
   );
+
+  const handleGoToMedicationsListOnSuccess = () => {
+    if (!sessionStorage.getItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT)) {
+      sessionStorage.setItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT, true);
+    }
+  };
+
   const isNotSubmitted =
-    refillResult?.status === 'finished' &&
-    refillResult?.successfulMeds.length === 0 &&
-    refillResult?.failedMeds.length === 0;
-  const isPartiallySubmitted = refillResult?.failedMeds.length > 0;
-  const isSuccess = refillResult?.successfulMeds.length > 0;
+    refillStatus === 'finished' &&
+    successfulMeds?.length === 0 &&
+    failedMeds?.length === 0;
+  const isPartiallySubmitted = failedMeds?.length > 0;
+  const isSuccess = successfulMeds?.length > 0;
   return (
     <>
       <va-alert
@@ -71,9 +88,10 @@ const RefillNotification = ({ refillResult = {} }) => {
           these refill requests:
         </p>
         <ul className="va-list--disc">
-          {refillResult?.failedMeds.map((item, idx) => (
+          {failedMeds?.map((item, idx) => (
             <li
               className="vads-u-padding-y--0 vads-u-font-weight--bold"
+              data-testid="medication-requested-failed"
               key={idx}
             >
               {item?.prescriptionName}
@@ -103,11 +121,12 @@ const RefillNotification = ({ refillResult = {} }) => {
           Refills requested
         </h2>
         <ul className="va-list--disc">
-          {refillResult?.successfulMeds.map((id, idx) => (
+          {successfulMeds?.map((id, idx) => (
             <li
               className="vads-u-padding-y--0"
-              data-testid="medication-requested"
+              data-testid="medication-requested-successful"
               key={idx}
+              data-dd-privacy="mask"
             >
               {id?.prescriptionName}
             </li>
@@ -118,15 +137,18 @@ const RefillNotification = ({ refillResult = {} }) => {
           data-testid="success-message-description"
         >
           <p>
-            For updates on your refill requests, go to your medications list.
+            To check the status of your refill requests, go to your medications
+            list and filter by "recently requested."
           </p>
           <Link
             data-testid="back-to-medications-page-link"
             to="/"
             className="hide-visited-link"
-            data-dd-action-name={`Go To Your Medications List Action Link - ${
-              DD_ACTIONS_PAGE_TYPE.REFILL
-            }`}
+            data-dd-action-name={
+              dataDogActionNames.refillPage
+                .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK
+            }
+            onClick={handleGoToMedicationsListOnSuccess}
           >
             Go to your medications list
           </Link>
@@ -137,7 +159,7 @@ const RefillNotification = ({ refillResult = {} }) => {
 };
 
 RefillNotification.propTypes = {
-  refillResult: PropTypes.object,
+  refillStatus: PropTypes.string,
 };
 
 export default RefillNotification;

@@ -66,9 +66,7 @@ describe('Thread List Sort component', () => {
     const sortSelectDropdown = document.querySelector('va-select');
     const sortButton = document.querySelector('va-button');
 
-    expect(sortSelectDropdown.label).to.equal(
-      'Show conversations in this order',
-    );
+    expect(sortSelectDropdown.label).to.equal('Show drafts in this order');
     expect(sortSelectDropdown.value).to.equal(DRAFT_DATE_DESCENDING.value);
     expect(sortButton.getAttribute('text')).to.equal('Sort');
 

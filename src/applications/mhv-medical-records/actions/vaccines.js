@@ -43,3 +43,7 @@ export const getVaccineDetails = (vaccineId, vaccineList) => async dispatch => {
 export const clearVaccineDetails = () => async dispatch => {
   dispatch({ type: Actions.Vaccines.CLEAR_DETAIL });
 };
+
+export const reloadRecords = () => async dispatch => {
+  dispatch({ type: Actions.Vaccines.COPY_UPDATED_LIST });
+};

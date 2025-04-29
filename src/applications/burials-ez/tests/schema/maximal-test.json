@@ -69,11 +69,11 @@
     }
   ],
   "locationOfDeath": {
-    "location": "stateVeteransHome",
-    "stateVeteransHome": {
-      "facilityName": "CA State facility",
-      "facilityLocation": "Modesto, CA"
-    }
+    "location": "stateVeteransHome"
+  },
+  "stateVeteransHome": {
+    "facilityName": "CA State facility",
+    "facilityLocation": "Modesto, CA"
   },
   "veteranFullName": {
     "first": "Tom",
@@ -100,7 +100,6 @@
   },
   "claimantSocialSecurityNumber": "333445556",
   "claimantDateOfBirth": "1991-01-21",
-  "formV2": true,
   "transportationReceipts": [
     {
       "name": "Screenshot from 2024-03-08 11-21-30.png",

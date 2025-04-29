@@ -8,9 +8,12 @@ import moment from 'moment';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import {
-  selectFeatureFacilitiesServiceV2,
   selectSystemIds,
   selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthVA,
+  selectFeatureFeSourceOfTruthModality,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
@@ -40,7 +43,7 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
 } from '../../redux/sitewide';
 import { createAppointment } from '../../services/appointment';
-import { transformFormToVAOSAppointment } from './helpers/formSubmitTransformers.v2';
+import { transformFormToVAOSAppointment } from './helpers/formSubmitTransformers';
 
 export const FORM_PAGE_OPENED = 'covid19Vaccine/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'covid19Vaccine/FORM_DATA_UPDATED';
@@ -152,9 +155,6 @@ export function openFacilityPage() {
     try {
       const initialState = getState();
       const newBooking = selectCovid19VaccineNewBooking(initialState);
-      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-        initialState,
-      );
       const siteIds = selectSystemIds(initialState);
       let { facilities } = newBooking;
       let facilityId = newBooking.data.vaFacility;
@@ -167,7 +167,6 @@ export function openFacilityPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
-          useV2: featureFacilitiesServiceV2,
         });
       }
 
@@ -383,8 +382,13 @@ export function prefillContactInfo() {
 
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
-    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(
-      getState(),
+    const state = getState();
+    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
     );
 
     dispatch({
@@ -404,6 +408,10 @@ export function confirmAppointment(history) {
     try {
       const appointment = await createAppointment({
         appointment: transformFormToVAOSAppointment(getState()),
+        useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
+        useFeSourceOfTruthVA,
+        useFeSourceOfTruthModality,
       });
 
       const data = selectCovid19VaccineFormData(getState());
@@ -457,9 +465,6 @@ export function openContactFacilitiesPage() {
     try {
       const initialState = getState();
       const newBooking = selectCovid19VaccineNewBooking(initialState);
-      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-        initialState,
-      );
       const siteIds = selectSystemIds(initialState);
       let { facilities } = newBooking;
 
@@ -471,7 +476,6 @@ export function openContactFacilitiesPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
-          useV2: featureFacilitiesServiceV2,
         });
       }
 

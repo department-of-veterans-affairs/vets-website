@@ -1,48 +1,67 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import sinon from 'sinon';
-import { shallow } from 'enzyme';
-import SkinDeep from 'skin-deep';
 import * as Scroll from 'react-scroll';
-import { ConfirmationPage } from '../../../containers/ConfirmationPage';
+import ConfirmationPage from '../../../containers/ConfirmationPage';
 import { scrollToTop } from '../../../helpers';
+import formConfig from '../../../config/form';
 
-const generateForm = ({
+const getData = ({
+  loggedIn = true,
   hasResponse = true,
   hasRegionalOffice = true,
   hasBankAccount = true,
-  timestamp = new Date('12/29/2014'),
-} = {}) => {
-  return {
-    submission: {
-      ...(hasResponse && {
-        response: {
-          confirmationNumber: 'V-PEN-177',
-          ...(hasRegionalOffice && {
-            regionalOffice: [
-              'Attention: Western Region',
-              'VA Regional Office',
-              'P.O. Box 8888',
-              'Muskogee, OK 74402-8888',
-            ],
+  timestamp = new Date('09/07/2025'),
+} = {}) => ({
+  mockStore: {
+    getState: () => ({
+      user: {
+        login: {
+          currentlyLoggedIn: loggedIn,
+        },
+        profile: {
+          savedForms: [],
+          prefillsAvailable: [],
+          verified: false,
+        },
+      },
+      form: {
+        submission: {
+          ...(hasResponse && {
+            response: {
+              confirmationNumber: 'V-PEN-177',
+              ...(hasRegionalOffice && {
+                regionalOffice: [
+                  'Attention: Western Region',
+                  'VA Regional Office',
+                  'P.O. Box 8888',
+                  'Muskogee, OK 74402-8888',
+                ],
+              }),
+            },
+          }),
+          timestamp,
+        },
+        data: {
+          veteranFullName: { first: 'Jane', last: 'Doe' },
+          ...(hasBankAccount && {
+            bankAccount: {
+              accountType: 'checking',
+              bankName: 'Best Bank',
+              accountNumber: '001122334455',
+              routingNumber: '123123123',
+            },
           }),
         },
-      }),
-      timestamp,
-    },
-    data: {
-      veteranFullName: { first: 'Jane', last: 'Doe' },
-      ...(hasBankAccount && {
-        bankAccount: {
-          accountType: 'checking',
-          bankName: 'Best Bank',
-          accountNumber: '001122334455',
-          routingNumber: '123123123',
-        },
-      }),
-    },
-  };
-};
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  },
+});
 
 describe('scrollToTop function', () => {
   let scrollToSpy;
@@ -67,56 +86,122 @@ describe('scrollToTop function', () => {
 });
 
 describe('Pension benefits confirmation page', () => {
-  it('should render', () => {
-    const form = generateForm();
-    const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
-
-    const heading = tree.everySubTree('h2');
-    expect(heading.length).to.eql(1);
-    expect(heading[0]?.text()).to.equal('Your Veterans Pension application');
-
-    const alert = tree.everySubTree('va-alert', { status: 'success' });
-    expect(alert.length).to.eql(1);
-
-    const info = tree.everySubTree('va-summary-box');
-    expect(info.length).to.eql(1);
-    expect(info[0]?.subTree('va-button').props.text).to.equal(
-      'Print this page for your records',
+  it('should render with correct content', () => {
+    const { mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage route={{ formConfig }} />
+      </Provider>,
     );
 
-    const sections = tree.everySubTree('section');
-    expect(sections.length).to.eql(4);
-    expect(sections[0].subTree('h3').text()).to.equal(
+    expect($('h2', container)).to.exist;
+    expect($('h2', container).textContent).to.eql(
+      'Form submission started on September 7, 2025',
+    );
+    expect($('.confirmation-submission-alert-section', container)).to.exist;
+    expect($('.confirmation-print-this-page-section', container)).to.exist;
+    expect($('.confirmation-whats-next-process-list-section', container)).to
+      .exist;
+    const sections = $$('section');
+    expect(sections.length).to.eq(3);
+    expect($('h2', sections[0]).textContent).to.eql(
       'If you need to submit supporting documents',
     );
-    expect(sections[1].subTree('h3').text()).to.equal('What to expect next');
-    expect(sections[3].subTree('h3').text()).to.equal(
-      'How to contact us if you have questions',
+    expect($('va-link', sections[0])).to.have.attr(
+      'text',
+      'Use the Claim Status Tool to upload your documents',
     );
+    expect($('.va-address-block', sections[0])).to.exist;
 
-    const blocks = tree.everySubTree('p', { className: 'va-address-block' });
-    expect(blocks.length).to.eql(2);
-
-    const phoneNums = tree.everySubTree('va-telephone');
-    expect(phoneNums.length).to.eql(2);
-    expect(phoneNums[0].props.international).to.be.true;
-    expect(phoneNums[1].props.tty).to.be.true;
+    expect($('h2', sections[1]).textContent).to.eql(
+      'Direct deposit account information',
+    );
+    expect($('va-link', sections[1])).to.have.attr(
+      'text',
+      'Review your direct deposit information',
+    );
+    expect($('.va-address-block', sections[1])).to.exist;
+    expect($('h2', sections[2]).textContent).to.eql(
+      'When to tell us if your information changes',
+    );
+    const howToContactSection = $(
+      '.confirmation-how-to-contact-section',
+      container,
+    );
+    expect(howToContactSection).to.exist;
+    expect($('va-telephone', howToContactSection)).to.exist;
+    expect($('va-link', howToContactSection)).to.exist;
+    expect($('va-link', howToContactSection)).to.have.attr(
+      'text',
+      'Contact us online through Ask VA',
+    );
+    expect($$('.va-address-block', container).length).to.eq(2);
+    expect($('#pension_527ez_submission_confirmation', container)).to.exist;
   });
 
   it('should render if no submission response', () => {
-    const form = generateForm({ hasResponse: false });
-    const tree = shallow(<ConfirmationPage form={form} />);
+    const { mockStore } = getData({ hasResponse: false });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage route={{ formConfig }} />
+      </Provider>,
+    );
+    expect($('#pension_527ez_submission_confirmation', container)).not.to.exist;
+  });
 
-    const confirmation = tree.find('#pension_527ez_submission_confirmation');
-    expect(confirmation.length).to.eql(0);
-    tree.unmount();
+  it('should render correct content when user is not logged in', () => {
+    const { mockStore } = getData({ loggedIn: false });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage route={{ formConfig }} />
+      </Provider>,
+    );
+
+    expect($('h2', container)).to.exist;
+    expect($('h2', container).textContent).to.eql(
+      'Form submission started on September 7, 2025',
+    );
+    expect($('.confirmation-submission-alert-section', container)).to.exist;
+    expect($('.confirmation-print-this-page-section', container)).to.exist;
+    expect($('.confirmation-whats-next-process-list-section', container)).to
+      .exist;
+    const sections = $$('section');
+    expect(sections.length).to.eq(3);
+    expect($('h2', sections[0]).textContent).to.eql(
+      'If you need to submit supporting documents',
+    );
+    expect($('va-link', sections[0])).to.not.exist;
+    expect($('h2', sections[1]).textContent).to.eql(
+      'Direct deposit account information',
+    );
+    expect($('va-link', sections[1])).to.have.attr(
+      'text',
+      'Review your direct deposit information',
+    );
+    expect($('.va-address-block', sections[1])).to.exist;
+    expect($('h2', sections[2]).textContent).to.eql(
+      'When to tell us if your information changes',
+    );
+    expect($('.confirmation-how-to-contact-section', container)).to.exist;
+    expect($$('.va-address-block', container).length).to.eq(2);
+    expect($('#pension_527ez_submission_confirmation', container)).to.exist;
   });
 
   it('should not include bank account section', () => {
-    const form = generateForm({ hasBankAccount: false });
-    const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
-
-    const sections = tree.everySubTree('section');
-    expect(sections.length).to.eql(3);
+    const { mockStore } = getData({ hasBankAccount: false });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage route={{ formConfig }} />
+      </Provider>,
+    );
+    const sections = $$('section');
+    expect(sections.length).to.eq(2);
+    expect($('h2', sections[0]).textContent).to.eql(
+      'If you need to submit supporting documents',
+    );
+    expect($('h2', sections[1]).textContent).to.eql(
+      'When to tell us if your information changes',
+    );
+    expect($$('.va-address-block', container).length).to.eq(1);
   });
 });

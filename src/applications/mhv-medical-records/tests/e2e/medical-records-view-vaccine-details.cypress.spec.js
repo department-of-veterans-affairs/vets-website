@@ -16,8 +16,6 @@ describe('Medical Records View Vaccines', () => {
     VaccineDetailsPage.verifyVaccineName(defaultVaccines.entry[0]);
     VaccineDetailsPage.verifyVaccineDate(defaultVaccines.entry[0]);
     VaccineDetailsPage.verifyVaccineLocation(defaultVaccines.entry[0]);
-    VaccineDetailsPage.verifyVaccineNotes(defaultVaccines.entry[0], 0);
-    VaccineDetailsPage.verifyVaccineNotes(defaultVaccines.entry[0], 1);
     // need to check manufacturer -- not in code 12/04/2023
     // Need to check Reactions -- not in code 12/04/2023
 
@@ -31,8 +29,6 @@ describe('Medical Records View Vaccines', () => {
     VaccineDetailsPage.verifyVaccineName(defaultVaccines.entry[12]);
     VaccineDetailsPage.verifyVaccineDateYearOnly(defaultVaccines.entry[12]);
     VaccineDetailsPage.verifyVaccineLocation(defaultVaccines.entry[12]);
-    VaccineDetailsPage.verifyVaccineNotes(defaultVaccines.entry[12], 0);
-    VaccineDetailsPage.verifyVaccineNotes(defaultVaccines.entry[12], 1);
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');

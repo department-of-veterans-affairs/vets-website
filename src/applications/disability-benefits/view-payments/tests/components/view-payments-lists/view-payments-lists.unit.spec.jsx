@@ -4,8 +4,10 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { waitFor } from '@testing-library/react';
 import environment from 'platform/utilities/environment';
 
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 import allPayments from '../../../reducers/index';
 import ViewPaymentsLists from '../../../components/view-payments-lists/ViewPaymentsLists';
 import {
@@ -70,10 +72,15 @@ describe('View Payments Lists', () => {
       },
     };
 
-    const screen = renderInReduxProvider(<ViewPaymentsLists />, {
-      initialState,
-      reducers: allPayments,
-    });
+    const screen = renderInReduxProvider(
+      <MemoryRouter>
+        <ViewPaymentsLists />
+      </MemoryRouter>,
+      {
+        initialState,
+        reducers: allPayments,
+      },
+    );
     expect(await screen.findByText(/Payments you received/)).to.exist;
     expect(screen.getByText(/Payments returned/)).to.exist;
   });
@@ -93,10 +100,15 @@ describe('View Payments Lists', () => {
       },
     };
 
-    const screen = renderInReduxProvider(<ViewPaymentsLists />, {
-      initialState,
-      reducers: allPayments,
-    });
+    const screen = renderInReduxProvider(
+      <MemoryRouter>
+        <ViewPaymentsLists />
+      </MemoryRouter>,
+      {
+        initialState,
+        reducers: allPayments,
+      },
+    );
 
     expect(await screen.findByText(/Payments you received/)).to.exist;
     expect(
@@ -119,10 +131,15 @@ describe('View Payments Lists', () => {
       },
     };
 
-    const screen = renderInReduxProvider(<ViewPaymentsLists />, {
-      initialState,
-      reducers: allPayments,
-    });
+    const screen = renderInReduxProvider(
+      <MemoryRouter>
+        <ViewPaymentsLists />
+      </MemoryRouter>,
+      {
+        initialState,
+        reducers: allPayments,
+      },
+    );
 
     expect(
       await screen.findByText(
@@ -155,5 +172,29 @@ describe('View Payments Lists', () => {
     expect(
       await screen.findByText(/We don’t have a record of VA payments for you/),
     ).to.exist;
+  });
+
+  it('should display the IdentityNotVerified alert', async () => {
+    overrideServerWithOptions(payments);
+    const initialState = {
+      isLoading: false,
+      payments: null,
+      error: false,
+      user: { profile: { loa: { current: 1 } } },
+    };
+
+    const { container } = renderInReduxProvider(
+      <MemoryRouter>
+        <ViewPaymentsLists />
+      </MemoryRouter>,
+      {
+        initialState,
+        reducers: allPayments,
+      },
+    );
+
+    await waitFor(() => {
+      expect(container.querySelector('va-alert-sign-in')).to.exist;
+    });
   });
 });

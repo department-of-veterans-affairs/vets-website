@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   addressUI,
@@ -11,7 +12,17 @@ import {
   radioSchema,
   phoneUI,
   phoneSchema,
+  emailUI,
+  emailSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import {
+  validAddressCharsOnly,
+  validFieldCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -20,10 +31,12 @@ export const certifierRoleSchema = {
   uiSchema: {
     ...titleUI('Your information'),
     certifierRole: radioUI({
+      type: 'radio',
       title: 'Which of these best describes you?',
       required: () => true,
       labels: {
         applicant: 'I’m the beneficiary submitting a claim for myself',
+        sponsor: 'I’m a Veteran submitting a claim for my spouse or dependent',
         other:
           'I’m a representative submitting a claim on behalf of the beneficiary',
       },
@@ -33,15 +46,57 @@ export const certifierRoleSchema = {
     type: 'object',
     properties: {
       titleSchema,
-      certifierRole: radioSchema(['applicant', 'other']),
+      certifierRole: radioSchema(['applicant', 'sponsor', 'other']),
     },
   },
+};
+
+export const certifierReceivedPacketSchema = {
+  uiSchema: {
+    ...titleUI(({ formData }) => {
+      return `${
+        formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
+      } CHAMPVA benefit status`;
+    }),
+
+    certifierReceivedPacket: {
+      ...yesNoUI({
+        type: 'radio',
+        updateUiSchema: formData => {
+          return {
+            'ui:title': `${
+              formData?.certifierRole === 'applicant'
+                ? 'Do you'
+                : 'Does the beneficiary'
+            } receive CHAMPVA benefits now?`,
+          };
+        },
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['certifierReceivedPacket'],
+    properties: {
+      titleSchema,
+      certifierReceivedPacket: yesNoSchema,
+    },
+  },
+};
+
+export const certifierNotEnrolledChampvaSchema = {
+  uiSchema: {},
+  schema: blankSchema,
 };
 
 export const certifierNameSchema = {
   uiSchema: {
     ...titleUI('Your name'),
     certifierName: fullNameMiddleInitialUI,
+    'ui:validations': [
+      (errors, formData) =>
+        validObjectCharsOnly(errors, null, formData, 'certifierName'),
+    ],
   },
   schema: {
     type: 'object',
@@ -58,32 +113,46 @@ export const certifierAddressSchema = {
       'Your mailing address',
       'We’ll send any important information about this form to this address',
     ),
-    certifierAddress: addressUI(),
+    certifierAddress: merge({}, addressUI(), {
+      state: {
+        'ui:errorMessages': {
+          required: 'Enter a valid State, Province, or Region',
+        },
+      },
+    }),
+    'ui:validations': [
+      (errors, formData) =>
+        validAddressCharsOnly(errors, null, formData, 'certifierAddress'),
+    ],
   },
   schema: {
     type: 'object',
     required: ['certifierAddress'],
     properties: {
       titleSchema,
-      certifierAddress: addressSchema(),
+      certifierAddress: addressSchema({
+        omit: ['street3'],
+      }),
     },
   },
 };
 
-export const certifierPhoneSchema = {
+export const certifierContactSchema = {
   uiSchema: {
     ...titleUI(
       'Your contact information',
       'We’ll use this information to contact you if we have more questions.',
     ),
     certifierPhone: phoneUI(),
+    certifierEmail: emailUI(),
   },
   schema: {
     type: 'object',
-    required: ['certifierPhone'],
+    required: ['certifierPhone', 'certifierEmail'],
     properties: {
       titleSchema,
       certifierPhone: phoneSchema,
+      certifierEmail: emailSchema,
     },
   },
 };
@@ -92,6 +161,7 @@ export const certifierRelationshipSchema = {
   uiSchema: {
     ...titleUI('Your relationship to the beneficiary'),
     certifierRelationship: radioUI({
+      type: 'radio',
       title: 'Which of these best describes you?',
       required: () => true,
       labels: {
@@ -123,6 +193,15 @@ export const certifierRelationshipSchema = {
         };
       },
     },
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(
+          errors,
+          null,
+          formData,
+          'certifierOtherRelationship',
+        ),
+    ],
   },
   schema: {
     type: 'object',

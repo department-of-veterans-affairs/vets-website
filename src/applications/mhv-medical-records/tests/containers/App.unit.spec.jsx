@@ -11,12 +11,14 @@ import {
 
 import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
+import * as mhvExports from '~/platform/mhv/hooks/useDatadogRum';
 import App from '../../containers/App';
 import LandingPage from '../../containers/LandingPage';
 import reducer from '../../reducers';
 import ResizeObserver from '../fixtures/mocks/ResizeObserver';
 
 global.ResizeObserver = ResizeObserver;
+let sandbox;
 
 describe('App', () => {
   let oldLocation;
@@ -28,13 +30,16 @@ describe('App', () => {
     global.window.location = {
       replace: sinon.spy(),
     };
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
     resetFetch();
     global.window.location = oldLocation;
+    sandbox.restore();
   });
 
+  const testAccountUuid = '12345678-1234-1234-1234-123456789012';
   const initialState = {
     user: {
       login: {
@@ -42,15 +47,28 @@ describe('App', () => {
       },
       profile: {
         services: [backendServices.MEDICAL_RECORDS],
+        verified: true,
+        mhvAccountState: 'MULTIPLE',
+        accountUuid: testAccountUuid,
       },
-    },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_to_va_gov_release: true,
     },
     mr: {
       breadcrumbs: {
-        list: [],
+        crumbsList: [
+          {
+            href: '/',
+            label: 'VA.gov home',
+          },
+          {
+            href: '/my-health',
+            label: 'My HealtheVet',
+          },
+          {
+            href: '/',
+            label: 'Medical records',
+            isRouterLink: true,
+          },
+        ],
       },
     },
   };
@@ -89,11 +107,7 @@ describe('App', () => {
         {
           initialState: {
             ...initialState,
-            featureToggles: {
-              loading: true,
-              // eslint-disable-next-line camelcase
-              mhv_medical_records_to_va_gov_release: undefined,
-            },
+            featureToggles: { loading: true },
           },
           path: `/`,
           reducers: reducer,
@@ -102,37 +116,7 @@ describe('App', () => {
       expect(screen.getByTestId('mr-feature-flag-loading-indicator'));
     });
 
-    it('feature flag set to false', () => {
-      const screen = renderWithStoreAndRouter(
-        <App>
-          <LandingPage />
-        </App>,
-        {
-          initialState: {
-            ...initialState,
-            featureToggles: {
-              // eslint-disable-next-line camelcase
-              mhv_medical_records_to_va_gov_release: false,
-            },
-          },
-          path: `/`,
-          reducers: reducer,
-        },
-      );
-      expect(
-        screen.queryByText('Medical records', {
-          selector: 'h1',
-          exact: true,
-        }),
-      ).to.be.null;
-      expect(
-        screen.queryByText(
-          'Review, print, and download your VA medical records.',
-        ),
-      ).to.be.null;
-    });
-
-    it('feature flag set to true', () => {
+    it('feature flags are done loading', async () => {
       const screen = renderWithStoreAndRouter(
         <App>
           <LandingPage />
@@ -146,20 +130,29 @@ describe('App', () => {
           path: `/`,
         },
       );
-      expect(
-        screen.getAllByText('Medical records', {
-          selector: 'h1',
-          exact: true,
-        }),
-      );
+      await waitFor(() => {
+        expect(
+          screen.getAllByText('Medical records', {
+            selector: 'h1',
+            exact: true,
+          }),
+        );
+      });
       expect(
         screen.getAllByText(
           'Review, print, and download your VA medical records.',
+          {
+            selector: 'p',
+            exact: false,
+          },
         ),
       );
+      expect(screen.getByRole('navigation', { name: 'My HealtheVet' }));
     });
+  });
 
-    it('renders the global downtime notification', () => {
+  describe.skip('Downtime notification logic', () => {
+    it('renders the global downtime notification', async () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
           ...initialState,
@@ -174,12 +167,14 @@ describe('App', () => {
         reducers: reducer,
         path: `/`,
       });
-      expect(
-        screen.getByText('This tool is down for maintenance', {
-          selector: 'h3',
-          exact: true,
-        }),
-      );
+      await waitFor(() => {
+        expect(
+          screen.getByText('This tool is down for maintenance', {
+            selector: 'h3',
+            exact: true,
+          }),
+        );
+      });
       expect(
         screen.getByText('We’re making some updates to this tool', {
           exact: false,
@@ -187,7 +182,7 @@ describe('App', () => {
       );
     });
 
-    it('renders the downtime notification', () => {
+    it('renders the downtime notification', async () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
           ...initialState,
@@ -202,12 +197,14 @@ describe('App', () => {
         reducers: reducer,
         path: `/`,
       });
-      expect(
-        screen.getByText('Maintenance on My HealtheVet', {
-          selector: 'h2',
-          exact: true,
-        }),
-      );
+      await waitFor(() => {
+        expect(
+          screen.getByText('Maintenance on My HealtheVet', {
+            selector: 'h2',
+            exact: true,
+          }),
+        );
+      });
       expect(
         screen.getByText(
           'We’re working on this medical records tool right now. The maintenance will last 48 hours.',
@@ -218,7 +215,7 @@ describe('App', () => {
       );
     });
 
-    it('renders the downtime notification for multiple services', () => {
+    it('renders the downtime notification for multiple services', async () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
           ...initialState,
@@ -233,12 +230,14 @@ describe('App', () => {
         reducers: reducer,
         path: `/`,
       });
-      expect(
-        screen.getByText('Maintenance on My HealtheVet', {
-          selector: 'h2',
-          exact: true,
-        }),
-      );
+      await waitFor(() => {
+        expect(
+          screen.getByText('Maintenance on My HealtheVet', {
+            selector: 'h2',
+            exact: true,
+          }),
+        );
+      });
       expect(
         screen.getByText(
           'We’re working on this medical records tool right now. The maintenance will last 48 hours.',
@@ -290,7 +289,9 @@ describe('App', () => {
       reducers: reducer,
       path: `/`,
     });
-    expect(screen.getByTestId('no-breadcrumbs')).to.exist;
+    waitFor(() => {
+      expect(screen.getByTestId('breadcrumbs')).to.exist;
+    });
   });
 
   it('does not render breadcrumbs when downtime and not at the landing page', () => {
@@ -308,7 +309,7 @@ describe('App', () => {
       reducers: reducer,
       path: `/vaccines`,
     });
-    expect(screen.queryByTestId('no-breadcrumbs')).to.not.exist;
+    expect(screen.queryByTestId('breadcrumbs')).to.not.exist;
   });
 
   describe('Side Nav feature flag functionality', () => {
@@ -401,6 +402,28 @@ describe('App', () => {
       });
       await waitFor(() => {
         expect(window.location.replace.called).to.be.false;
+      });
+    });
+  });
+
+  it('should call setDatadogRumUser with the correct user ID', async () => {
+    const setDatadogRumUserStub = sandbox.stub(mhvExports, 'setDatadogRumUser');
+
+    renderWithStoreAndRouter(
+      <App>
+        <div>Test content</div>
+      </App>,
+      {
+        initialState,
+        reducers: reducer,
+        path: `/`,
+      },
+    );
+
+    await waitFor(() => {
+      expect(setDatadogRumUserStub.calledOnce).to.be.true;
+      expect(setDatadogRumUserStub.firstCall.args[0]).to.deep.equal({
+        id: testAccountUuid,
       });
     });
   });

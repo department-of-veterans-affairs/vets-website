@@ -1,23 +1,12 @@
-import { intersection, pick } from 'lodash';
-
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 import {
   titleUI,
   phoneUI,
-  emailUI,
   phoneSchema,
+  emailToSendNotificationsUI,
+  emailToSendNotificationsSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { veteranFields } from '../definitions/constants';
-
-const { required, properties } = fullSchema.properties[
-  veteranFields.parentObject
-];
-const pageFields = [
-  veteranFields.homePhone,
-  veteranFields.mobilePhone,
-  veteranFields.email,
-];
 
 /** @type {PageSchema} */
 export default {
@@ -27,7 +16,7 @@ export default {
       ...titleUI('Phone and email address'),
       [veteranFields.homePhone]: phoneUI('Home phone number'),
       [veteranFields.mobilePhone]: phoneUI('Mobile phone number'),
-      [veteranFields.email]: emailUI(),
+      [veteranFields.email]: emailToSendNotificationsUI(),
     },
   },
   schema: {
@@ -35,11 +24,11 @@ export default {
     properties: {
       [veteranFields.parentObject]: {
         type: 'object',
-        required: intersection(required, pageFields),
+        required: [veteranFields.homePhone, veteranFields.email],
         properties: {
-          ...pick(properties, pageFields),
           [veteranFields.homePhone]: phoneSchema,
           [veteranFields.mobilePhone]: phoneSchema,
+          [veteranFields.email]: emailToSendNotificationsSchema,
         },
       },
     },

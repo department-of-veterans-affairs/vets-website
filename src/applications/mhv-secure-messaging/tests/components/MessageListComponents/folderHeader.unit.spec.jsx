@@ -124,18 +124,12 @@ describe('Folder Header component', () => {
 
       const filterHeader = filterBox.querySelector('h2');
       expect(filterHeader.textContent).to.equal(
-        `Filter messages in ${customFolder.name} `,
+        `Filter messages in ${customFolder.name}`,
       );
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
         filterDescription.withMsgId,
-      );
-
-      expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${customFolder.name} ${
-          filterDescription.withMsgId
-        }`,
       );
     });
 
@@ -193,15 +187,12 @@ describe('Folder Header component', () => {
 
       const filterHeader = filterBox.querySelector('h2');
       expect(filterHeader.textContent).to.equal(
-        `Filter messages in ${inbox.name} `,
+        `Filter messages in ${inbox.name.toLowerCase()}`,
       );
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
         filterDescription.withMsgId,
-      );
-      expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${inbox.name} ${filterDescription.withMsgId}`,
       );
     });
 
@@ -302,15 +293,12 @@ describe('Folder Header component', () => {
 
       const filterHeader = filterBox.querySelector('h2');
       expect(filterHeader.textContent).to.equal(
-        `Filter messages in ${drafts.name} `,
+        `Filter messages in ${drafts.name.toLowerCase()}`,
       );
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
-        'Enter information from one of these fields: To, from, or subject',
-      );
-      expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${drafts.name} ${filterDescription.noMsgId}`,
+        'Enter information from one of these fields: to, from, or subject',
       );
     });
 
@@ -348,15 +336,12 @@ describe('Folder Header component', () => {
 
       const filterHeader = filterBox.querySelector('h2');
       expect(filterHeader.textContent).to.equal(
-        `Filter messages in ${sent.name} `,
+        `Filter messages in ${sent.name.toLowerCase()}`,
       );
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
         filterDescription.withMsgId,
-      );
-      expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${sent.name} ${filterDescription.withMsgId}`,
       );
     });
 
@@ -406,15 +391,12 @@ describe('Folder Header component', () => {
 
       const filterHeader = filterBox.querySelector('h2');
       expect(filterHeader.textContent).to.equal(
-        `Filter messages in ${trash.name} `,
+        `Filter messages in ${trash.name.toLowerCase()}`,
       );
 
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
         filterDescription.withMsgId,
-      );
-      expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${trash.name} ${filterDescription.withMsgId}`,
       );
     });
 

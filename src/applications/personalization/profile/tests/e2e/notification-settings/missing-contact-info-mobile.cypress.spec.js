@@ -34,14 +34,7 @@ describe('Notification Settings For Mobile Phone', () => {
         user.data.attributes.vet360ContactInformation.mobilePhone = null;
         cy.login(user);
         cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
-        cy.get('va-loading-indicator')
-          .should('exist')
-          .then($container => {
-            cy.wrap($container)
-              .shadow()
-              .findByRole('progressbar', { name: /loading/i })
-              .should('exist');
-          });
+        cy.get('va-loading-indicator').should('exist');
         cy.injectAxeThenAxeCheck();
 
         // and then the loading indicator should be removed
@@ -70,13 +63,13 @@ describe('Notification Settings For Mobile Phone', () => {
   });
 
   context(
-    'when user is missing mobile phone, email and the profileShowEmailNotificationSettings toggle is true',
+    'when user is missing mobile phone, email and the profileShowMhvNotificationSettingsEmailAppointmentReminders toggle is true',
     () => {
       it('should show the correct mobile phone and email link in alert', () => {
         cy.intercept(
           'v0/feature_toggles*',
           generateFeatureToggles({
-            profileShowEmailNotificationSettings: true,
+            profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
           }),
         );
         const user = makeMockUser();

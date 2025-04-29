@@ -95,7 +95,7 @@ const ResourcesAndSupportSearchApp = () => {
   }
 
   return (
-    <div className="usa-grid usa-grid-full">
+    <div data-testid="rs-container" className="usa-grid usa-grid-full">
       <div className="usa-content vads-u-margin-bottom--0 medium-screen:vads-u-margin-bottom--3">
         {errorMessage && (
           <va-alert status="error" uswds>
@@ -106,7 +106,7 @@ const ResourcesAndSupportSearchApp = () => {
 
         {articles && (
           <>
-            <h1 className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
+            <h1 className="vads-u-padding-x--1 desktop-lg:vads-u-padding-x--0">
               Resources and Support Search Results
             </h1>
             <SearchBar
@@ -116,7 +116,7 @@ const ResourcesAndSupportSearchApp = () => {
               setSearchData={setSearchData}
             />
             <h2
-              className="vads-u-max-width--full vads-u-margin-x--1 vads-u-font-family--sans vads-u-margin-top--2 medium-screen:vads-u-margin-top--0 large-screen:vads-u-padding-x--0 vads-u-font-size--base vads-u-margin-bottom--2p5 vads-u-font-weight--normal"
+              className="vads-u-max-width--full vads-u-margin-x--1 vads-u-font-family--sans vads-u-margin-top--2 medium-screen:vads-u-margin-top--0 desktop-lg:vads-u-padding-x--0 vads-u-font-size--base vads-u-margin-bottom--2p5 vads-u-font-weight--normal"
               id="pagination-summary"
             >
               {paginationSummary}

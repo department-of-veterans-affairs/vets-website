@@ -42,7 +42,7 @@ describe('Gulf War 1990 Summary', () => {
       },
     };
 
-    const { getByText, getByLabelText } = render(
+    const { getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
     );
 
@@ -61,9 +61,6 @@ describe('Gulf War 1990 Summary', () => {
     getByText('October 2023 - No end date entered');
 
     getByText(goBackLink);
-    getByLabelText(
-      'go back and edit locations and dates for service after August 2, 1990',
-    );
   });
 
   it('does not render a location if not checked', () => {

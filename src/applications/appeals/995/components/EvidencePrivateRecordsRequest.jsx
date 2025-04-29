@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { EVIDENCE_VA_PATH, EVIDENCE_VA, EVIDENCE_PRIVATE } from '../constants';
@@ -15,6 +14,7 @@ import {
 
 import { customPageProps995 } from '../../shared/props';
 import errorMessages from '../../shared/content/errorMessages';
+import { focusFirstError } from '../../shared/utils/focus';
 
 /**
  * This page is needed to make the back button on this page to to the last
@@ -58,7 +58,7 @@ const EvidencePrivateRequest = ({
     onGoForward: () => {
       if (typeof data[EVIDENCE_PRIVATE] === 'undefined') {
         setError(errorMessages.requiredYesNo);
-        focusElement('va-radio');
+        setTimeout(focusFirstError);
       } else {
         setError(null);
         goForward(data);

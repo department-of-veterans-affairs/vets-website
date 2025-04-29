@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { Await, useLoaderData } from 'react-router-dom-v5-compat';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,7 +8,6 @@ import { selectUser } from '@department-of-veterans-affairs/platform-user/select
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
-import { getAvs } from '../api/v0';
 import { getFormattedAppointmentDate } from '../utils';
 
 import { useDatadogRum } from '../hooks/useDatadogRum';
@@ -26,6 +25,7 @@ const generateAppointmentHeader = avs => {
 };
 
 const Avs = props => {
+  const { id, isLoggedIn } = props;
   useDatadogRum();
 
   const user = useSelector(selectUser);
@@ -38,51 +38,23 @@ const Avs = props => {
     },
     state => state.featureToggles,
   );
-  const { isLoggedIn } = props;
-  const { id } = useParams();
 
-  const [avs, setAvs] = useState({});
-  const [avsLoading, setAvsLoading] = useState(true);
-
-  const [error, setError] = useState(null);
-
-  if (error) {
-    throw error;
-  }
-
-  useEffect(
-    () => {
-      const fetchAvs = async () => {
-        try {
-          const response = await getAvs(id);
-
-          // cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/model/AvsDataModel.java
-          setAvs(response.data.attributes);
-          setAvsLoading(false);
-        } catch (e) {
-          setError(e);
-        }
-      };
-
-      if (isLoggedIn && avsLoading && id) {
-        fetchAvs();
-      }
-    },
-    [avs, avsLoading, id, isLoggedIn],
-  );
+  const loader = useLoaderData();
 
   if (avsEnabled === false) {
     window.location.replace('/');
     return null;
   }
 
-  if (isLoggedIn && id && (avsLoading || featureTogglesLoading)) {
-    return (
-      <va-loading-indicator
-        data-testid="avs-loading-indicator"
-        message="Loading your after-visit summary"
-      />
-    );
+  const loadingIndicator = (
+    <va-loading-indicator
+      data-testid="avs-loading-indicator"
+      message="Loading your after-visit summary"
+    />
+  );
+
+  if (isLoggedIn && (!loader.avs || featureTogglesLoading)) {
+    return loadingIndicator;
   }
 
   if (!id) {
@@ -91,55 +63,67 @@ const Avs = props => {
   }
 
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 main-content">
+    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0 main-content">
       <RequiredLoginView
         user={user}
         serviceRequired={[backendServices.USER_PROFILE]}
       >
-        <BreadCrumb />
-        <h1 className="vads-u-padding-top--2">After-visit summary</h1>
-        {avs.meta?.pageHeader && (
-          <p>
-            <AvsPageHeader text={avs.meta.pageHeader} />
-          </p>
-        )}
+        <Suspense fallback={loadingIndicator}>
+          <Await resolve={loader.avs}>
+            {avs => (
+              <>
+                <BreadCrumb />
+                <h1 className="vads-u-padding-top--2">After-visit summary</h1>
+                {avs.meta?.pageHeader && (
+                  <p>
+                    <AvsPageHeader text={avs.meta.pageHeader} />
+                  </p>
+                )}
 
-        <va-accordion uswds>
-          <va-accordion-item
-            header={generateAppointmentHeader(avs)}
-            open="true"
-            uswds
-          >
-            <YourAppointment avs={avs} />
-          </va-accordion-item>
-          <va-accordion-item
-            header="Your treatment plan from this appointment"
-            uswds
-          >
-            <YourTreatmentPlan avs={avs} />
-          </va-accordion-item>
-          <va-accordion-item
-            header="Your health information as of this appointment"
-            uswds
-          >
-            <YourHealthInformation avs={avs} />
-          </va-accordion-item>
-          <va-accordion-item header="More information" uswds>
-            <MoreInformation avs={avs} />
-          </va-accordion-item>
-        </va-accordion>
+                <va-accordion uswds>
+                  <va-accordion-item
+                    header={generateAppointmentHeader(avs)}
+                    open="true"
+                    uswds
+                  >
+                    <YourAppointment avs={avs} />
+                  </va-accordion-item>
+                  <va-accordion-item
+                    header="Your treatment plan from this appointment"
+                    uswds
+                  >
+                    <YourTreatmentPlan avs={avs} />
+                  </va-accordion-item>
+                  <va-accordion-item
+                    header="Your health information as of this appointment"
+                    uswds
+                  >
+                    <YourHealthInformation avs={avs} />
+                  </va-accordion-item>
+                  <va-accordion-item header="More information" uswds>
+                    <MoreInformation avs={avs} />
+                  </va-accordion-item>
+                </va-accordion>
+              </>
+            )}
+          </Await>
+        </Suspense>
       </RequiredLoginView>
     </div>
   );
 };
 
-const mapStateToProps = state => ({
-  isLoggedIn: state.user.login.currentlyLoggedIn,
-});
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.user.login.currentlyLoggedIn,
+  };
+};
 
 Avs.propTypes = {
+  id: PropTypes.string,
   isLoggedIn: PropTypes.bool,
   params: PropTypes.object,
 };
 
+export { Avs };
 export default connect(mapStateToProps)(Avs);

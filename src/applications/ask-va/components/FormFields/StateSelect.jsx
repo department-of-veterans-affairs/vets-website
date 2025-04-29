@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { states } from '@department-of-veterans-affairs/platform-forms/address';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { states } from '@department-of-veterans-affairs/platform-forms/address';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const StateSelect = props => {
   const { id, onChange, value } = props;
@@ -12,7 +12,7 @@ const StateSelect = props => {
   };
 
   return (
-    <VaSelect id={id} name={id} value={value} onVaSelect={handleChange} uswds>
+    <VaSelect id={id} name={id} value={value} onVaSelect={handleChange}>
       {states.USA.map(state => (
         <option key={state.value} value={state.value}>
           {state.label}
@@ -24,8 +24,8 @@ const StateSelect = props => {
 
 StateSelect.propTypes = {
   id: PropTypes.string,
-  onChange: PropTypes.func,
   value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default StateSelect;

@@ -8,14 +8,14 @@ import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester,
   getFormDOM,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../config/form';
 
 describe('Pensions document upload', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.documentUpload;
+  } = formConfig.chapters.additionalInformation.pages.uploadDocuments;
 
   it('should render', () => {
     const form = render(

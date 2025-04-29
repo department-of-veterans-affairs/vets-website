@@ -40,8 +40,13 @@ export default function ArrayBuilderItemPage({
       schema: props.schema,
       uiSchema: props.uiSchema,
       data: props.data,
+      fullData: props.fullData,
       onChange: props.onChange,
       onSubmit: props.onSubmit,
+      index: props.pagePerItemIndex
+        ? parseInt(props.pagePerItemIndex, 10)
+        : null,
+      arrayPath,
     });
 
     if (!props.onReviewPage && !isEdit && !isAdd) {
@@ -64,13 +69,7 @@ export default function ArrayBuilderItemPage({
       return null;
     }
 
-    const handleClick = e => {
-      // ideally we could just pass 'submit' to VaButton
-      // but it doesn't work until this is fixed:
-      // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/2379
-      e.preventDefault();
-      onSubmit();
-    };
+    const NavButtons = props.NavButtons || FormNavButtons;
 
     return (
       <SchemaForm
@@ -82,6 +81,7 @@ export default function ArrayBuilderItemPage({
         uiSchema={uiSchema}
         pagePerItemIndex={props.pagePerItemIndex}
         formContext={props.formContext}
+        getFormData={props.getFormData}
         trackingPrefix={props.trackingPrefix}
         onChange={onChange}
         onSubmit={onSubmit}
@@ -99,8 +99,9 @@ export default function ArrayBuilderItemPage({
                 required={required}
               />
               {/* save-in-progress link, etc */}
+              {props.pageContentBeforeButtons}
               {props.contentBeforeButtons}
-              <FormNavButtons
+              <NavButtons
                 goBack={props.goBack}
                 goForward={props.onContinue}
                 submitToContinue
@@ -124,7 +125,7 @@ export default function ArrayBuilderItemPage({
               <div>
                 <VaButton
                   continue
-                  onClick={handleClick}
+                  submit="prevent"
                   // "Continue" will display instead of `text`
                   // prop until this is fixed:
                   // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/2733
@@ -147,20 +148,23 @@ export default function ArrayBuilderItemPage({
     appStateData: PropTypes.object,
     contentAfterButtons: PropTypes.node,
     contentBeforeButtons: PropTypes.node,
-    PageContentBeforeButtons: PropTypes.node,
     data: PropTypes.object,
     formContext: PropTypes.object,
+    fullData: PropTypes.object,
+    getFormData: PropTypes.func,
     goBack: PropTypes.func,
     goToPath: PropTypes.func,
     onChange: PropTypes.func,
     onContinue: PropTypes.func,
     onReviewPage: PropTypes.bool,
     onSubmit: PropTypes.func,
+    pageContentBeforeButtons: PropTypes.node,
     pagePerItemIndex: PropTypes.string,
     required: PropTypes.bool,
     setFormData: PropTypes.func,
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,
+    NavButtons: PropTypes.func,
   };
 
   return CustomPage;

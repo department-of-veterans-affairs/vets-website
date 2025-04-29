@@ -3,49 +3,61 @@ import PropTypes from 'prop-types';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function FacilityPhone({
-  contact,
-  className = 'vads-u-font-weight--bold',
+  contact = '800-698-2411',
+  extension,
+  className = '',
   level,
   icon,
-  heading = 'Main phone:',
+  heading = 'Phone: ',
 }) {
   if (!contact) {
     return null;
   }
 
-  const [number, extension] = contact.split('x');
+  let number = contact;
+  let numberExtension = extension;
+
+  // Extract number and extension from contact if extension not explicitly set and
+  // contact contains an 'x' character, usually in the format "123-456-7890 x1234"
+  if (!extension && contact.includes('x')) {
+    [number, numberExtension] = contact.split('x').map(item => item.trim());
+  }
+
+  const isClinic = !!heading.includes('Clinic');
   const Heading = `h${level}`;
+
+  let dataTestId = 'facility-telephone';
+  if (number === '800-698-2411') {
+    dataTestId = 'main-telephone';
+  } else if (isClinic) {
+    dataTestId = 'clinic-telephone';
+  }
 
   return (
     <>
       {!!icon === false &&
         level && (
           <>
-            <Heading
-              className={`vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base ${className}`}
-            >
+            <Heading className={`vads-u-display--inline ${className}`}>
               {heading}
             </Heading>{' '}
           </>
         )}
       {typeof icon === 'undefined' &&
-        typeof level === 'undefined' &&
-        `${heading} `}
-      {!!icon === true && (
+        typeof level === 'undefined' && (
+          <span className={className}>{heading}</span>
+        )}
+      <VaTelephone
+        contact={number}
+        extension={numberExtension}
+        data-testid={dataTestId}
+      />
+      {!isClinic && (
         <span>
-          <va-icon icon="phone" size="3" srtext="Phone icon" />{' '}
+          &nbsp;(
+          <VaTelephone contact="711" tty data-testid="tty-telephone" />)
         </span>
       )}
-      <span>
-        <VaTelephone
-          contact={number}
-          extension={extension}
-          data-testid="facility-telephone"
-        />{' '}
-      </span>
-      <span>
-        (<VaTelephone contact="711" tty data-testid="tty-telephone" />)
-      </span>
     </>
   );
 }
@@ -53,6 +65,7 @@ export default function FacilityPhone({
 FacilityPhone.propTypes = {
   className: PropTypes.string,
   contact: PropTypes.string,
+  extension: PropTypes.string,
   heading: PropTypes.string,
   icon: PropTypes.bool,
   level: PropTypes.number,

@@ -1,0 +1,77 @@
+{
+  "data": {
+    "id": "57016",
+    "type": "representative",
+    "attributes": {
+      "firstName": "Bob",
+      "lastName": "Adams",
+      "fullName": "Bob Adams",
+      "addressLine1": "706 E 8th St",
+      "addressLine2": null,
+      "addressLine3": null,
+      "addressType": "Domestic",
+      "city": "Anytown",
+      "countryName": "United States",
+      "countryCodeIso3": "USA",
+      "province": "Ohio",
+      "internationalPostalCode": null,
+      "stateCode": "OH",
+      "zipCode": "43210",
+      "zipSuffix": "1557",
+      "email": "example@rep.com",
+      "phone": "930-678-1331",
+      "individualType": "veteran_service_officer",
+      "accreditedOrganizations": {
+        "data": [
+          {
+            "id": "074",
+            "type": "organization",
+            "attributes": {
+              "name": "American Legion",
+              "addressLine1": "1500 K St NW",
+              "addressLine2": null,
+              "addressLine3": null,
+              "addressType": "Domestic",
+              "city": "Washington",
+              "countryName": null,
+              "countryCodeIso3": null,
+              "province": null,
+              "internationalPostalCode": null,
+              "stateCode": "DC",
+              "zipCode": "20006",
+              "zipSuffix": "2801",
+              "phone": "269-541-2765",
+              "lat": null,
+              "long": null,
+              "poaCode": "074",
+              "canAcceptDigitalPoaRequests": true
+            }
+          },
+          {
+            "id": "E5L",
+            "type": "organization",
+            "attributes": {
+              "name": "Department of Veterans Affairs",
+              "addressLine1": "304 W Indiana St",
+              "addressLine2": null,
+              "addressLine3": null,
+              "addressType": "Domestic",
+              "city": "Anytown",
+              "countryName": null,
+              "countryCodeIso3": null,
+              "province": null,
+              "internationalPostalCode": null,
+              "stateCode": "OH",
+              "zipCode": "43675",
+              "zipSuffix": "2738",
+              "phone": "365-243-3670",
+              "lat": null,
+              "long": null,
+              "poaCode": "E5L"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

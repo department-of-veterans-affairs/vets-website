@@ -1,3 +1,14 @@
+@media print {
+  body[data-location="confirmation"] {
+    va-breadcrumbs {
+      display: none;
+    }
+    .print-full-width {
+      width: 100%;
+    }
+  }
+}
+
 .confirmation-page-title {
   &:focus {
     outline: none;
@@ -8,6 +19,7 @@
   margin-top: 0;
 }
 
+/* This class should be replaced by the va-summary-box web component */
 .inset {
   margin: 1.25rem 0rem;
   padding: 1.25rem 1.875rem;
@@ -32,7 +44,7 @@
   font-weight: normal;
 }
 
-ul.claim-list{
+ul.claim-list {
   list-style: none;
   padding-left: 0;
   li {

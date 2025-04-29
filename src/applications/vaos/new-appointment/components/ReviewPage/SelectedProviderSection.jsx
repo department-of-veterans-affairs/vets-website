@@ -8,10 +8,11 @@ import getNewAppointmentFlow from '../../newAppointmentFlow';
 import { FLOW_TYPES } from '../../../utils/constants';
 import { getFlowType } from '../../redux/selectors';
 
-function handleClick(history, pageFlow) {
-  const { home, ccPreferences } = pageFlow;
+function handleClick(history, home, ccPreferences) {
+  return e => {
+    // Stop default behavior for anchor tag since we are using React routing.
+    e.preventDefault();
 
-  return () => {
     if (
       history.location.pathname.endsWith('/') ||
       (ccPreferences.url.endsWith('/') && ccPreferences.url !== home.url)
@@ -26,7 +27,7 @@ export default function SelectedProviderSection({ data, vaCityState }) {
   const provider = data.communityCareProvider;
   const hasProvider =
     !!provider && !!Object.keys(data.communityCareProvider).length;
-  const pageFlow = useSelector(getNewAppointmentFlow);
+  const { home, ccPreferences } = useSelector(getNewAppointmentFlow);
   const flowType = useSelector(getFlowType);
 
   return (
@@ -35,7 +36,6 @@ export default function SelectedProviderSection({ data, vaCityState }) {
         <div className="vads-u-flex--1 vads-u-padding-right--1">
           <h2
             className={classNames({
-              'vads-u-font-size--base': FLOW_TYPES.DIRECT === flowType,
               'vaos-appts__block-label': FLOW_TYPES.DIRECT === flowType,
               'vads-u-font-size--h3': FLOW_TYPES.REQUEST === flowType,
               'vads-u-margin-top--0': FLOW_TYPES.REQUEST === flowType,
@@ -76,11 +76,11 @@ export default function SelectedProviderSection({ data, vaCityState }) {
         </div>
         <div>
           <va-link
-            onClick={handleClick(history, pageFlow)}
+            href={ccPreferences.url}
+            onClick={handleClick(history, home, ccPreferences)}
             aria-label="Edit provider preference"
             text="Edit"
             data-testid="edit-new-appointment"
-            tabindex="0"
           />
         </div>
       </div>

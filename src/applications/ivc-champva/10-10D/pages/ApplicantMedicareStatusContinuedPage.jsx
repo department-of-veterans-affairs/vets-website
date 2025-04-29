@@ -1,4 +1,4 @@
-import { pageProps, reviewPageProps } from '../config/constants';
+import { PAGE_PROPS, REVIEW_PAGE_PROPS } from '../config/constants';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
   appRelBoilerplate,
@@ -55,5 +55,5 @@ export function ApplicantMedicareStatusContinuedReviewPage(props) {
   return ApplicantRelationshipReviewPage(newProps);
 }
 
-ApplicantMedicareStatusContinuedReviewPage.propTypes = reviewPageProps;
-ApplicantMedicareStatusContinuedPage.propTypes = pageProps;
+ApplicantMedicareStatusContinuedReviewPage.propTypes = REVIEW_PAGE_PROPS;
+ApplicantMedicareStatusContinuedPage.propTypes = PAGE_PROPS;

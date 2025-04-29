@@ -8,7 +8,8 @@ export default {
   uiSchema: {
     otherReasons: checkboxGroupUI({
       title: 'Are any of these other descriptions true for you?',
-      hint: 'If not, select Continue.',
+      hint:
+        'If yes, select which descriptions are true. If no, select continue.',
       required: false,
       labels: OTHER_REASONS,
       labelHeaderLevel: '3',

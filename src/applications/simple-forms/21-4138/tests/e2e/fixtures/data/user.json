@@ -5,6 +5,7 @@
       "first": "John",
       "last": "Veteran"
     },
+    "emailAddress": "testing@gmail.com",
     "dateOfBirth": "1980-01-01",
     "idNumber": {
       "ssn": "321540987"

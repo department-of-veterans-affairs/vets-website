@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Element } from 'react-scroll';
 
 import {
   focusElement,
@@ -15,6 +14,8 @@ import {
   selectProfile,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
+
+import { Element } from 'platform/utilities/scroll';
 
 // import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
 import { generateMockUser } from '../../../../site-wide/user-nav/tests/mocks/user';
@@ -72,6 +73,8 @@ const ContactInfo = ({
   uiSchema,
   testContinueAlert = false,
   contactInfoPageKey,
+  disableMockContactInfo = false,
+  contactSectionHeadingLevel,
 }) => {
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
@@ -84,7 +87,7 @@ const ContactInfo = ({
   const profile = useSelector(selectProfile) || {};
   const loggedIn = useSelector(isLoggedIn) || false;
   const contactInfo =
-    loggedIn && environment.isLocalhost()
+    loggedIn && environment.isLocalhost() && !disableMockContactInfo
       ? generateMockUser({ authBroker: 'iam' }).data.attributes
           .vet360ContactInformation
       : profile.vapContactInfo || {};
@@ -188,13 +191,13 @@ const ContactInfo = ({
           scrollTo(
             onReviewPage
               ? `${contactInfoPageKey}ScrollElement`
-              : 'topScrollElement',
+              : `header-${lastEdited}`,
           );
           focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
         });
       }
     },
-    [editState, onReviewPage],
+    [contactInfoPageKey, editState, onReviewPage],
   );
 
   useEffect(
@@ -211,7 +214,7 @@ const ContactInfo = ({
   );
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
-  const Headers = onReviewPage ? 'h5' : 'h4';
+  const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');
   const headerClassNames = ['vads-u-font-size--h4', 'vads-u-width--auto'].join(
     ' ',
   );
@@ -224,8 +227,7 @@ const ContactInfo = ({
       visible={editState === `${id},updated`}
       class="vads-u-margin-y--1"
       status="success"
-      background-only
-      role="alert"
+      slim
     >
       {`${text} ${content.updated}`}
     </va-alert>
@@ -238,7 +240,10 @@ const ContactInfo = ({
   const contactSection = [
     keys.homePhone ? (
       <React.Fragment key="home">
-        <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
+        <Headers
+          name="header-home-phone"
+          className={`${headerClassNames} vads-u-margin-top--0p5`}
+        >
           {content.homePhone}
         </Headers>
         {showSuccessAlert('home-phone', content.homePhone)}
@@ -261,7 +266,9 @@ const ContactInfo = ({
 
     keys.mobilePhone ? (
       <React.Fragment key="mobile">
-        <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
+        <Headers name="header-mobile-phone" className={headerClassNames}>
+          {content.mobilePhone}
+        </Headers>
         {showSuccessAlert('mobile-phone', content.mobilePhone)}
         <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
           {renderTelephone(dataWrap[keys.mobilePhone])}
@@ -282,7 +289,9 @@ const ContactInfo = ({
 
     keys.email ? (
       <React.Fragment key="email">
-        <Headers className={headerClassNames}>{content.email}</Headers>
+        <Headers name="header-email" className={headerClassNames}>
+          {content.email}
+        </Headers>
         {showSuccessAlert('email', content.email)}
         <span className="dd-privacy-hidden" data-dd-action-name="email">
           {dataWrap[keys.email] || ''}
@@ -303,7 +312,9 @@ const ContactInfo = ({
 
     keys.address ? (
       <React.Fragment key="mailing">
-        <Headers className={headerClassNames}>{content.mailingAddress}</Headers>
+        <Headers name="header-address" className={headerClassNames}>
+          {content.mailingAddress}
+        </Headers>
         {showSuccessAlert('address', content.mailingAddress)}
         <AddressView data={dataWrap[keys.address]} />
         {loggedIn && (
@@ -355,7 +366,7 @@ const ContactInfo = ({
             missingInfo.length === 0 &&
             validationErrors.length === 0 && (
               <div className="vads-u-margin-top--1p5">
-                <va-alert status="success" background-only>
+                <va-alert status="success" slim>
                   <div className="vads-u-font-size--base">
                     {content.alertContent}
                   </div>
@@ -371,7 +382,7 @@ const ContactInfo = ({
               </p>
               {submitted && (
                 <div className="vads-u-margin-top--1p5" role="alert">
-                  <va-alert status="error" background-only>
+                  <va-alert status="error" slim>
                     <div className="vads-u-font-size--base">
                       We still don’t have your {list}. Please edit and update
                       the field.
@@ -380,7 +391,7 @@ const ContactInfo = ({
                 </div>
               )}
               <div className="vads-u-margin-top--1p5" role="alert">
-                <va-alert status="warning" background-only>
+                <va-alert status="warning" slim>
                   <div className="vads-u-font-size--base">
                     Your {list} {plural ? 'are' : 'is'} missing. Please edit and
                     update the {plural ? 'fields' : 'field'}.
@@ -393,7 +404,7 @@ const ContactInfo = ({
             missingInfo.length === 0 &&
             validationErrors.length > 0 && (
               <div className="vads-u-margin-top--1p5" role="alert">
-                <va-alert status="error" background-only>
+                <va-alert status="error" slim>
                   <div className="vads-u-font-size--base">
                     {validationErrors[0]}
                   </div>
@@ -415,10 +426,12 @@ const ContactInfo = ({
 ContactInfo.propTypes = {
   contactInfoPageKey: contactInfoPropTypes.contactInfoPageKey,
   contactPath: PropTypes.string,
+  contactSectionHeadingLevel: PropTypes.string,
   content: contactInfoPropTypes.content, // content passed in from profileContactInfo
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   data: contactInfoPropTypes.data,
+  disableMockContactInfo: PropTypes.bool,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   keys: contactInfoPropTypes.keys,

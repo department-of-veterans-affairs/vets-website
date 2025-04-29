@@ -4,6 +4,7 @@ export const CaregiverCountyDescription = () => (
   <va-additional-info
     trigger="Why we ask for this information"
     class="vads-u-margin-y--1p5"
+    onBlur={event => event.stopPropagation()}
   >
     <p>
       Providing the county helps the Caregiver Support Team connect caregivers

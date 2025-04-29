@@ -6,6 +6,7 @@ import {
 import { Actions } from '../../util/actionTypes';
 import paginatedSortedListApiResponse from '../fixtures/paginatedSortedListApiResponse.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
+import { categorizePrescriptions } from '../../util/helpers';
 
 describe('Prescriptions reducer', () => {
   function reduce(action, state = initialState) {
@@ -21,30 +22,66 @@ describe('Prescriptions reducer', () => {
     expect(state).to.deep.equal(initialState);
   });
 
-  it('should change prescriptionsList and prescriptionsPagination when GET_PAGINATED_SORTED_LIST action is passed', () => {
+  it('should change prescriptionsFilteredList and prescriptionsPagination when GET_PAGINATED_FILTERED_LIST action is passed', () => {
+    const paginatedFilteredListApiResponse = paginatedSortedListApiResponse;
     const rxState = {
       ...initialState,
-      prescriptionsList: paginatedSortedListApiResponse.data.map(rx => {
-        return { ...rx.attributes };
-      }),
-      prescriptionsPagination: paginatedSortedListApiResponse.meta.pagination,
-      apiError: false,
-    };
-    const state = reduce({
-      type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
-      response: paginatedSortedListApiResponse,
-    });
-    expect(state).to.deep.equal(rxState);
-  });
-
-  it('should change refillablePrescriptionsList when GET_REFILLABLE_LIST action is passed', () => {
-    const rxState = {
-      ...initialState,
-      refillablePrescriptionsList: paginatedSortedListApiResponse.data.map(
+      prescriptionsFilteredList: paginatedFilteredListApiResponse.data.map(
         rx => {
           return { ...rx.attributes };
         },
       ),
+      filterCount: undefined,
+      prescriptionsFilteredPagination:
+        paginatedFilteredListApiResponse.meta.pagination,
+      apiError: false,
+    };
+    const state = reduce({
+      type: Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
+      response: paginatedFilteredListApiResponse,
+    });
+    expect(state).to.deep.equal(rxState);
+  });
+
+  it('should change refillAlertList when GET_REFILL_ALERT_LIST action is passed', () => {
+    const refillAlertList = [
+      {
+        prescriptionId: 123456,
+        prescriptionName: 'Test name 1',
+      },
+      {
+        prescriptionId: 234567,
+        prescriptionName: 'Test name 2',
+      },
+    ];
+    const rxState = {
+      ...initialState,
+      refillAlertList,
+      apiError: false,
+    };
+    const state = reduce({
+      type: Actions.Prescriptions.GET_REFILL_ALERT_LIST,
+      response: refillAlertList,
+    });
+    expect(state).to.deep.equal(rxState);
+  });
+
+  it('should change refillableList and renewableList when GET_REFILLABLE_LIST action is passed', () => {
+    const refillablePrescriptionsList = paginatedSortedListApiResponse.data
+      .map(rx => {
+        return { ...rx.attributes };
+      })
+      .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName));
+
+    const [refillableList, renewableList] = refillablePrescriptionsList.reduce(
+      categorizePrescriptions,
+      [[], []],
+    );
+
+    const rxState = {
+      ...initialState,
+      refillableList,
+      renewableList,
       apiError: false,
     };
     const state = reduce({
@@ -149,5 +186,22 @@ describe('Prescriptions reducer', () => {
     );
     expect(state.prescriptionDetails.error).to.equal(undefined);
     expect(state.prescriptionsList[indexOfRxFilled].error).to.equal(undefined);
+  });
+
+  it('should clear fill action notification data', () => {
+    const initialStateWithRxList = {
+      ...initialState,
+      refillNotification: {
+        successfulMeds: ['1', '2'],
+        failedMeds: ['3', '4'],
+      },
+    };
+    const state = reduce(
+      {
+        type: Actions.Prescriptions.CLEAR_FILL_NOTIFICATION,
+      },
+      initialStateWithRxList,
+    );
+    expect(state.refillNotification).to.equal(undefined);
   });
 });

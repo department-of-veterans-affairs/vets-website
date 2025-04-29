@@ -953,7 +953,7 @@ export function getAlertContent(
       onClick={dismissNotification}
       key="dismiss-notification-button"
     >
-      <i className="fa fa-times" />
+      <va-icon icon="close" size={3} />
       <span className="remove-notification-label">
         Remove this notification
       </span>

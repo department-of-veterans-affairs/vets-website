@@ -21,9 +21,13 @@ import {
   focusOnChange,
   getFocusableElements,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
+import { Element } from 'platform/utilities/scroll';
+
+import { removeDuplicatesByChapterAndPageKey } from '../utils/reviewPageHelper';
 import ArrayField from './ArrayField';
 
-const { Element, scroller } = Scroll;
+const { scroller } = Scroll;
 const scrollOffset = -40;
 
 /*
@@ -34,6 +38,13 @@ class ReviewCollapsibleChapter extends React.Component {
     super(props);
     this.handleEdit = this.handleEdit.bind(this);
     this.id = uniqueId();
+  }
+
+  showSaveCancelButtons(editing) {
+    if (this.props.showButtons) {
+      return !editing;
+    }
+    return true;
   }
 
   handleEdit(key, editing, index = null) {
@@ -116,7 +127,7 @@ class ReviewCollapsibleChapter extends React.Component {
     let pageSchema;
     let pageUiSchema;
     let pageData;
-    let arrayFields;
+    let arrayFields = [];
     let fullPageKey;
 
     if (page.showPagePerItem) {
@@ -124,14 +135,13 @@ class ReviewCollapsibleChapter extends React.Component {
         pageState.schema.properties[page.arrayPath].items[page.index];
       pageUiSchema = pageState.uiSchema[page.arrayPath].items;
       pageData = get([page.arrayPath, page.index], form.data);
-      arrayFields = [];
       fullPageKey = `${page.pageKey}${page.index}`;
     } else {
       // TODO: support array fields inside of an array page?
       // Our pattern is to separate out array fields (growable tables) from
       // the normal page and display them separately. The review version of
       // ObjectField will hide them in the main section.
-      arrayFields = getArrayFields(pageState, page);
+      arrayFields = getArrayFields(pageState, page) || [];
       // This will be undefined if there are no fields other than an array
       // in a page, in which case we won’t render the form, just the array
       const pageSchemaObjects = getNonArraySchema(
@@ -212,10 +222,10 @@ class ReviewCollapsibleChapter extends React.Component {
           formContext={formContext}
           editModeOnReviewPage={page.editModeOnReviewPage}
         >
-          {!editing ? (
+          {this.showSaveCancelButtons(editing) ? (
             <div />
           ) : (
-            <div>
+            <div className="vads-u-display--flex vads-u-max-width--100">
               <ProgressButton
                 submitButton
                 onButtonClick={() => {
@@ -230,21 +240,24 @@ class ReviewCollapsibleChapter extends React.Component {
                   );
                 }}
                 buttonText="Save"
-                buttonClass="usa-button-primary"
+                buttonClass="usa-button-primary vads-u-width--auto"
                 ariaLabel={ariaLabel}
               />
               <button
                 aria-label="Cancel"
                 type="button"
                 id="cancel"
-                className=""
+                className="usa-button-secondary vads-u-width--auto"
+                onClick={() =>
+                  this.handleEdit(page.pageKey, !editing, page.index)
+                }
               >
                 Cancel
               </button>
             </div>
           )}
         </SchemaForm>
-        {arrayFields.map(arrayField => (
+        {arrayFields?.map(arrayField => (
           <div key={arrayField.path} className="form-review-array">
             <ArrayField
               pageKey={page.pageKey}
@@ -317,7 +330,7 @@ class ReviewCollapsibleChapter extends React.Component {
     return (
       <page.CustomPageReview
         key={`${page.pageKey}Review`}
-        editPage={() => this.handleEdit(page.pageKey, !editing, page.index)}
+        editPage={() => this.handleEdit(page.pageKey, false, page.index)}
         name={page.pageKey}
         title={page.title}
         data={props.form.data}
@@ -335,11 +348,11 @@ class ReviewCollapsibleChapter extends React.Component {
       viewedPages,
     } = props;
     const ChapterDescription = chapterFormConfig.reviewDescription;
+    const uniqueExpandedPages = removeDuplicatesByChapterAndPageKey(
+      expandedPages,
+    );
     return (
-      <div
-        className="usa-accordion-content schemaform-chapter-accordion-content"
-        aria-hidden="false"
-      >
+      <div className="schemaform-chapter-accordion-content" aria-hidden="false">
         {ChapterDescription && (
           <ChapterDescription
             viewedPages={viewedPages}
@@ -349,7 +362,7 @@ class ReviewCollapsibleChapter extends React.Component {
             push
           />
         )}
-        {expandedPages.map(page => {
+        {uniqueExpandedPages?.map(page => {
           const pageConfig = form.pages[page.pageKey];
           const editing = pageConfig.showPagePerItem
             ? pageConfig.editMode[page.index]
@@ -384,7 +397,9 @@ class ReviewCollapsibleChapter extends React.Component {
         );
 
         // Sets focus on the first focusable element
-        focusOnChange(key, `[id="${focusableElements[0].id}"]`);
+        if (focusableElements.length > 0) {
+          focusOnChange(key, `[id="${focusableElements[0].id}"]`);
+        }
       }
     }, 0);
   };

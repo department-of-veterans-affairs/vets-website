@@ -11,6 +11,8 @@ import {
   FETCH_MHV_ACCOUNT_SUCCESS,
   REMOVING_SAVED_FORM_SUCCESS,
   PROFILE_ERROR,
+  FETCH_MESSAGING_SIGNATURE,
+  UPDATE_MHV_STATE_VALUE,
 } from '../actions';
 
 const initialState = {
@@ -20,6 +22,8 @@ const initialState = {
     last: null,
     suffix: null,
   },
+  preferredName: null,
+  createdAt: null,
   email: null,
   dob: null,
   gender: null,
@@ -37,6 +41,7 @@ const initialState = {
     errors: null,
     loading: false,
     termsAndConditionsAccepted: false,
+    messagingSignature: null,
   },
   vapContactInfo: {},
   savedForms: [],
@@ -64,7 +69,10 @@ function profileInformation(state = initialState, action) {
   switch (action.type) {
     case UPDATE_PROFILE_FIELDS: {
       const newState = mapRawUserDataToState(action.payload);
-      return { ...state, ...newState };
+      return {
+        ...state,
+        ...newState,
+      };
     }
 
     case PROFILE_LOADING_FINISHED:
@@ -89,6 +97,9 @@ function profileInformation(state = initialState, action) {
     case FETCH_MHV_ACCOUNT_SUCCESS:
       return updateMhvAccountState(state, action.data.attributes);
 
+    case UPDATE_MHV_STATE_VALUE:
+      return set('mhvAccountState', action.accountState, state);
+
     case REMOVING_SAVED_FORM_SUCCESS: {
       const forms = state.savedForms.filter(el => el.form !== action.formId);
       return set('savedForms', forms, state);
@@ -96,6 +107,12 @@ function profileInformation(state = initialState, action) {
 
     case PROFILE_ERROR:
       return set('errors', true, state);
+
+    case FETCH_MESSAGING_SIGNATURE: {
+      return updateMhvAccountState(state, {
+        messagingSignature: action.payload,
+      });
+    }
 
     default:
       return state;

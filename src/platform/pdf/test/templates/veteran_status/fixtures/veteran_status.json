@@ -1,24 +1,24 @@
 {
-    "title": "Veteran Status",
+    "title": "Proof of Veteran status card",
     "details": {
         "fullName": "John H. Doe",
         "serviceHistory": [
             {
-                "branchOfService": "Air Force",
+                "branchOfService": "United States Air Force",
                 "beginDate": "2009-04-12",
                 "endDate": "2013-04-11",
                 "personnelCategoryTypeCode": "V",
                 "characterOfDischargeCode": "A"
             },
             {
-                "branchOfService": "Army",
+                "branchOfService": "United States Army",
                 "beginDate": "2005-04-12",
                 "endDate": "2009-04-11",
                 "personnelCategoryTypeCode": "A",
                 "characterOfDischargeCode": "A"
             },
             {
-                "branchOfService": "Navy",
+                "branchOfService": "United States Navy",
                 "beginDate": "2003-04-12",
                 "endDate": "2005-04-11",
                 "personnelCategoryTypeCode": "A",

@@ -10,7 +10,7 @@ import { MAX_LENGTH } from '../constants';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
-// case we end up filtering out deferred and expired issues
+// case we end up filtering out disqualifying and expired issues
 export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
   let Wrap = 'h3';
   const wrapClassNames = ['vads-u-font-size--h3'];
@@ -29,7 +29,10 @@ export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
     <>
       <legend className="vads-u-width--full vads-u-padding-top--0 vads-u-border-top--0">
         <Wrap className={wrapClassNames.join(' ')}>
-          Select the issues you’d like us to review
+          Select the issues you’d like us to review{' '}
+          <span className="vads-u-color--secondary-dark vads-u-font-weight--normal vads-u-font-size--base">
+            (*Required)
+          </span>
         </Wrap>
       </legend>
       <div className="vads-u-margin-bottom--2">
@@ -171,7 +174,10 @@ NoneSelectedAlert.propTypes = {
 };
 
 export const ContestableIssuesAdditionalInfo = (
-  <va-additional-info trigger="Why isn’t my issue listed here?" uswds>
+  <va-additional-info
+    trigger="Why isn’t my issue listed here?"
+    class="vads-u-margin-top--3 vads-u-margin-bottom--4"
+  >
     If you don’t see your issue or decision listed here, it may not be in our
     system yet. This can happen if it’s a more recent claim decision. If you
     have a decision date, you can add a new issue now.

@@ -4,6 +4,7 @@ import {
   PAW_UPDATE_BURN_PIT_2_1,
   PAW_UPDATE_BURN_PIT_2_1_1,
   PAW_UPDATE_BURN_PIT_2_1_2,
+  PAW_UPDATE_BURN_PIT_2_1_3,
   PAW_UPDATE_ORANGE_2_2_A,
   PAW_UPDATE_ORANGE_2_2_B,
   PAW_UPDATE_ORANGE_2_2_1_A,
@@ -13,6 +14,7 @@ import {
   PAW_UPDATE_RADIATION_2_3_A,
   PAW_UPDATE_RADIATION_2_3_B,
   PAW_UPDATE_LEJEUNE_2_4,
+  PAW_UPDATE_MAIN_FLOW_2_5,
   PAW_UPDATE_FORM_STORE,
 } from '../constants';
 import { SHORT_NAME_MAP } from '../constants/question-data-map';
@@ -23,6 +25,7 @@ const {
   BURN_PIT_2_1,
   BURN_PIT_2_1_1,
   BURN_PIT_2_1_2,
+  BURN_PIT_2_1_3,
   ORANGE_2_2_1_A,
   ORANGE_2_2_1_B,
   ORANGE_2_2_2,
@@ -32,6 +35,7 @@ const {
   RADIATION_2_3_A,
   RADIATION_2_3_B,
   LEJEUNE_2_4,
+  MAIN_FLOW_2_5,
 } = SHORT_NAME_MAP;
 
 const initialState = {
@@ -50,6 +54,8 @@ const pactAct = (state = initialState, action) => {
       return updateFormValue(BURN_PIT_2_1_1, false, state, action);
     case PAW_UPDATE_BURN_PIT_2_1_2:
       return updateFormValue(BURN_PIT_2_1_2, false, state, action);
+    case PAW_UPDATE_BURN_PIT_2_1_3:
+      return updateFormValue(BURN_PIT_2_1_3, false, state, action);
     case PAW_UPDATE_ORANGE_2_2_A:
       return updateFormValue(ORANGE_2_2_A, false, state, action);
     case PAW_UPDATE_ORANGE_2_2_B:
@@ -68,6 +74,8 @@ const pactAct = (state = initialState, action) => {
       return updateFormValue(RADIATION_2_3_B, true, state, action);
     case PAW_UPDATE_LEJEUNE_2_4:
       return updateFormValue(LEJEUNE_2_4, false, state, action);
+    case PAW_UPDATE_MAIN_FLOW_2_5:
+      return updateFormValue(MAIN_FLOW_2_5, false, state, action);
     case PAW_VIEWED_INTRO_PAGE:
       return {
         ...state,

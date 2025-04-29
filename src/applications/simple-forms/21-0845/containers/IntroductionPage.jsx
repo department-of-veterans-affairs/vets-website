@@ -9,8 +9,7 @@ import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-
-import manifest from '../manifest.json';
+import IdNotVerifiedAlert from '../../shared/components/IdNotVerified';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -71,52 +70,9 @@ class IntroductionPage extends React.Component {
           </va-telephone>
           ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
         </p>
-        <h2 id="start-your-request">Start your authorization</h2>
-        <p>
-          <strong>Note</strong>: You’ll need to sign in with a verified{' '}
-          <strong>Login.gov</strong> or <strong>ID.me</strong> account or a
-          Premium <strong>DS Logon</strong> or <strong>My HealtheVet</strong>{' '}
-          account. If you don’t have any of those accounts, you can create a
-          free <strong>Login.gov</strong> or <strong>ID.me</strong> account when
-          you sign in to start filling out your form.
-        </p>
         {userLoggedIn &&
         !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
-            <div className="id-not-verified-content vads-u-margin-top--4">
-              <va-alert status="continue" uswds>
-                <h3 slot="headline">
-                  You’ll need to verify your identity to authorize the release
-                  of your information
-                </h3>
-                <p>
-                  We need to make sure you’re you — and not someone pretending
-                  to be you — before we can give you access to your personal and
-                  health-related information. This helps to keep your
-                  information safe, and to prevent fraud and identity theft.
-                </p>
-                <strong>This one-time process takes about 5-10 minutes.</strong>
-                <p>
-                  <a
-                    href={`/verify?next=${manifest.rootUrl}/introduction`}
-                    className="verify-link vads-c-action-link--green"
-                  >
-                    Verify your identity
-                  </a>
-                </p>
-              </va-alert>
-              <p className="vads-u-margin-top--3">
-                If you don’t want to verify your identity right now, you can
-                still download and complete the PDF version of this
-                authorization.
-              </p>
-              <p className="vads-u-margin-y--3">
-                <va-link
-                  download
-                  href="https://www.vba.va.gov/pubs/forms/VBA-21-0845-ARE.pdf"
-                  text="Get VA Form 21-0845 to download"
-                />
-              </p>
-            </div>
+            <IdNotVerifiedAlert formNumber="21-0845" formType="authorization" />
           )}
         {(!userLoggedIn || userIdVerified) && (
           <SaveInProgressIntro
@@ -126,6 +82,9 @@ class IntroductionPage extends React.Component {
             prefillEnabled={formConfig.prefillEnabled}
             messages={formConfig.savedFormMessages}
             pageList={pageList}
+            devOnly={{
+              forceShowFormControls: true,
+            }}
             startText="Start your authorization"
             unauthStartText="Sign in to start your authorization"
             verifiedPrefillAlert={

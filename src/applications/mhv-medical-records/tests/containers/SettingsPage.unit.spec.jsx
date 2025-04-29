@@ -2,11 +2,14 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
+import { fireEvent } from '@testing-library/dom';
 import reducer from '../../reducers';
 import SettingsPage from '../../containers/SettingsPage';
 
-describe('SettingsPage container opted in with status error', () => {
+describe('SettingsPage container opted in with opt in status error', () => {
   const initialState = {
+    // eslint-disable-next-line camelcase
+    featureToggles: { mhv_medical_records_update_landing_page: true },
     mr: {
       sharing: {
         statusError: { type: 'optin' },
@@ -28,7 +31,8 @@ describe('SettingsPage container opted in with status error', () => {
   });
 
   it('displays sharing status', () => {
-    expect(screen.getByText('Manage your sharing settings')).to.exist;
+    expect(screen.getByText('Manage your electronic sharing settings')).to
+      .exist;
   });
 
   it('displays no action available header', () => {
@@ -41,7 +45,7 @@ describe('SettingsPage container opted in with status error', () => {
   });
 });
 
-describe('SettingsPage container opted out', () => {
+describe('SettingsPage container opted out with opt out status error', () => {
   const initialState = {
     mr: {
       sharing: {
@@ -141,13 +145,18 @@ describe('SettingsPage container automatically included', () => {
 
   it('displays a loading indicator', () => {
     const autoIncludeMessage = screen.getByText(
-      'We automatically include you in this online sharing program.',
+      'We automatically include you in electronic sharing.',
       {
         exact: false,
         selector: 'p',
       },
     );
     expect(autoIncludeMessage).to.exist;
+  });
+
+  it('should open the opt out confirmation modal when the open opt out modal button is clicked', () => {
+    fireEvent.click(screen.getByTestId('open-opt-in-out-modal-button'));
+    expect(screen.getByText('If you opt out', { exact: false })).to.exist;
   });
 });
 
@@ -167,14 +176,8 @@ describe('SettingsPage container not sharing', () => {
     });
   });
 
-  it('displays a loading indicator', () => {
-    const autoIncludeMessage = screen.getByText(
-      'We’re not currently sharing your records online with your community',
-      {
-        exact: false,
-        selector: 'p',
-      },
-    );
-    expect(autoIncludeMessage).to.exist;
+  it('should open the opt in confirmation modal when the open opt in modal button is clicked', () => {
+    fireEvent.click(screen.getByTestId('open-opt-in-out-modal-button'));
+    expect(screen.getByText('If you opt back in', { exact: false })).to.exist;
   });
 });

@@ -26,9 +26,9 @@ export default function DowntimeBanners() {
     !isLocalhost && !loading && (!statuses || statuses?.length === 0);
 
   return (
-    <div className="downtime-notification row">
-      <div className="columns small-12">
-        <div className="form-warning-banner fed-warning--v2">
+    <div className="downtime-notification row vads-u-margin-top--2">
+      <div className="sign-in-wrapper">
+        <div className="form-warning-banner fed-warning--v2 vads-u-margin-left--0">
           {isApiDown() ? renderServiceDown('mvi') : null}
           {renderMaintenanceWindow(maintenanceWindows)}
           {renderDowntimeBanner(statuses)}

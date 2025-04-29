@@ -9,7 +9,7 @@ describe('<VABenefitsCall>', () => {
     expect(wrapper.type()).to.not.equal(null);
     expect(wrapper.find('div').length).to.equal(1);
     expect(wrapper.find('p').length).to.equal(2);
-    expect(wrapper.find('a').length).to.equal(1);
+    expect(wrapper.find('va-link').length).to.equal(1);
     expect(wrapper.find('va-telephone').length).to.equal(2);
     wrapper.unmount();
   });

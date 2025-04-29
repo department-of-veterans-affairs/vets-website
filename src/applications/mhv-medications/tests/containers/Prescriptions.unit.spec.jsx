@@ -8,6 +8,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
+import allergiesList from '../fixtures/allergiesList.json';
 import prescriptions from '../fixtures/prescriptions.json';
 import Prescriptions from '../../containers/Prescriptions';
 import { medicationsUrls } from '../../util/constants';
@@ -16,8 +17,8 @@ const allergyErrorState = {
   initialState: {
     rx: {
       prescriptions: {
-        prescriptionsList: [prescriptions[0]],
-        prescriptionsPagination: {
+        prescriptionsFilteredList: [prescriptions[0]],
+        prescriptionsFilteredPagination: {
           currentPage: 1,
           totalPages: 1,
           totalEntries: 1,
@@ -40,8 +41,8 @@ describe('Medications Prescriptions container', () => {
   const initialState = {
     rx: {
       prescriptions: {
-        prescriptionsList: prescriptions,
-        prescriptionsPagination: {
+        prescriptionsFilteredList: prescriptions,
+        prescriptionsFilteredPagination: {
           currentPage: 1,
           totalPages: 7,
           totalEntries: 122,
@@ -86,8 +87,8 @@ describe('Medications Prescriptions container', () => {
     const screen = setup({
       rx: {
         prescriptions: {
-          prescriptionsList: undefined,
-          prescriptionsPagination: undefined,
+          prescriptionsFilteredList: undefined,
+          prescriptionsFilteredPagination: undefined,
         },
         breadcrumbs: {
           list: [
@@ -106,10 +107,8 @@ describe('Medications Prescriptions container', () => {
 
   it('displays intro text ', async () => {
     const screen = setup();
-    expect(
-      await screen.findByText(
-        'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications. If you print or download this list, we’ll include a list of your allergies.',
-      ),
+    expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
+      'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications',
     );
   });
 
@@ -126,11 +125,18 @@ describe('Medications Prescriptions container', () => {
       initialState: {
         rx: {
           prescriptions: {
-            prescriptionsList: [],
-            prescriptionsPagination: {
+            prescriptionsFilteredList: [],
+            prescriptionsFilteredPagination: {
               currentPage: 1,
               totalPages: 1,
               totalEntries: 0,
+            },
+            filterCount: {
+              allMedications: 0,
+              active: 0,
+              recentlyRequested: 0,
+              renewal: 0,
+              nonActive: 0,
             },
           },
           breadcrumbs: {
@@ -139,7 +145,10 @@ describe('Medications Prescriptions container', () => {
               { label: 'About medications' },
             ],
           },
-          allergies: { error: true },
+          allergies: {
+            allergiesList: [],
+            error: false,
+          },
         },
       },
       reducers: reducer,
@@ -160,8 +169,8 @@ describe('Medications Prescriptions container', () => {
       initialState: {
         rx: {
           prescriptions: {
-            prescriptionsList: [prescriptions[0]],
-            prescriptionsPagination: {
+            prescriptionsFilteredList: [prescriptions[0]],
+            prescriptionsFilteredPagination: {
               currentPage: 1,
               totalPages: 1,
               totalEntries: 1,
@@ -174,8 +183,8 @@ describe('Medications Prescriptions container', () => {
             ],
           },
           allergies: {
-            allergiesList: null,
-            error: true,
+            allergiesList,
+            error: false,
           },
         },
       },
@@ -285,5 +294,43 @@ describe('Medications Prescriptions container', () => {
     expect(button).to.exist;
     expect(button).to.have.text('Print this page of the list');
     button.click();
+  });
+
+  it('displays link for allergies if mhv_medications_display_allergies feature flag is set to true', () => {
+    const screen = setup({
+      ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_allergies: true,
+      },
+    });
+    expect(screen.getByText('Go to your allergies and reactions'));
+  });
+  it('displays "If you print or download this list, we’ll include a list of your allergies." if mhv_medications_display_allergies feature flag is set to false', async () => {
+    const screen = setup({
+      ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_allergies: false,
+      },
+    });
+    expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
+      'If you print or download this list, we’ll include a list of your allergies.',
+    );
+  });
+  it('displays filter accordion', async () => {
+    const screen = setup({
+      ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
+    });
+    expect(await screen.getByTestId('filter-accordion')).to.exist;
   });
 });

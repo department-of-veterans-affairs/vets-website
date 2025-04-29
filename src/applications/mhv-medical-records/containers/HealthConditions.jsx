@@ -3,23 +3,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { getConditionsList } from '../actions/conditions';
+import { getConditionsList, reloadRecords } from '../actions/conditions';
 import {
   recordType,
   pageTitles,
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   refreshExtractTypes,
+  CernerAlertContent,
 } from '../util/constants';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 
 const HealthConditions = () => {
+  const ABOUT_THE_CODES_LABEL = 'About the codes in some condition names';
+  const dispatch = useDispatch();
+  const updatedRecordList = useSelector(
+    state => state.mr.conditions.updatedList,
+  );
   const listState = useSelector(state => state.mr.conditions.listState);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
-  const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
   const refresh = useSelector(state => state.mr.refresh);
   const conditionsCurrentAsOf = useSelector(
@@ -36,8 +42,19 @@ const HealthConditions = () => {
   });
 
   useEffect(
+    /**
+     * @returns a callback to automatically load any new records when unmounting this component
+     */
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
+      return () => {
+        dispatch(reloadRecords());
+      };
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
     },
@@ -49,23 +66,11 @@ const HealthConditions = () => {
       <h1 className="vads-u-margin--0" data-testid="health-conditions">
         Health conditions
       </h1>
-      <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
-        Health condition records are available{' '}
-        <span className="vads-u-font-weight--bold">36 hours</span> after your
-        providers enter them.
-      </p>
-      <va-additional-info
-        trigger="About the codes in some condition names"
-        class="no-print vads-u-margin-bottom--3"
-      >
-        <p>
-          Some of your health conditions may have diagnosis codes in the name
-          that start with SCT or ICD. Providers use these codes to track your
-          health conditions and to communicate with other providers about your
-          care. If you have a question about these codes or a health condition,
-          ask your provider at your next appointment.
-        </p>
-      </va-additional-info>
+
+      <AcceleratedCernerFacilityAlert
+        {...CernerAlertContent.HEALTH_CONDITIONS}
+      />
+
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.HEALTH_CONDITIONS}
@@ -74,6 +79,32 @@ const HealthConditions = () => {
         listCurrentAsOf={conditionsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            Array.isArray(conditions) &&
+            Array.isArray(updatedRecordList) &&
+            conditions.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
+
+        <va-additional-info
+          data-dd-action-name={ABOUT_THE_CODES_LABEL}
+          trigger={ABOUT_THE_CODES_LABEL}
+          class="no-print vads-u-margin-bottom--3"
+        >
+          <p>
+            Some of your health conditions may have diagnosis codes in the name
+            that start with SCT or ICD. Providers use these codes to track your
+            health conditions and to communicate with other providers about your
+            care. If you have a question about these codes or a health
+            condition, ask your provider at your next appointment.
+          </p>
+        </va-additional-info>
         <RecordList records={conditions} type={recordType.HEALTH_CONDITIONS} />
       </RecordListSection>
     </>

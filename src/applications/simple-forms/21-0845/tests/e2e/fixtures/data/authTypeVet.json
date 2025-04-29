@@ -6,6 +6,8 @@
       "middle": "",
       "last": "Veteran"
     },
+    "veteranEmail": "john@veteran.com",
+    "veteranPhone": "5555555555",
     "veteranDateOfBirth": "2000-01-01",
     "veteranSSN": "111223333",
     "thirdPartyType": "person",

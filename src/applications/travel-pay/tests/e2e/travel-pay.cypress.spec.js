@@ -1,18 +1,18 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
-import MockDate from 'mockdate';
+import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { appName, rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
 
 const testStatuses = [
-  'Claim Submitted',
+  'Claim submitted',
   'Saved',
-  'In Process',
+  'In process',
   'Incomplete',
   'Appealed',
-  'Manual Review',
+  'In manual review',
   'Closed',
-  'On Hold',
+  'On hold',
 ];
 
 Cypress.Commands.add('openFilters', () => {
@@ -25,20 +25,23 @@ Cypress.Commands.add('openFilters', () => {
 
 describe(`${appName} -- Status Page`, () => {
   beforeEach(() => {
+    cy.clock(new Date(2024, 5, 25), ['Date']);
     cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeClaims.happyPath();
+    ApiInitializer.initializeClaimDetails.happyPath();
     cy.login(user);
     cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();
   });
 
-  before(() => {
-    MockDate.set('2024-06-25');
+  afterEach(() => {
+    cy.clock().invoke('restore');
   });
 
-  after(() => {
-    MockDate.reset();
+  it('navigates to the platform 404 page if route not found', () => {
+    cy.visit(`${rootUrl}/banana`);
+    cy.findByTestId(pageNotFoundTestId).should('exist');
   });
 
   it('defaults to "most recent" sort order', () => {
@@ -56,6 +59,66 @@ describe(`${appName} -- Status Page`, () => {
     cy.get('h3[data-testid="travel-claim-details"]')
       .eq(4)
       .should('include.text', ' June 22, 2023');
+  });
+
+  it('navigates to view claim details and back to status page', () => {
+    cy.get('h3[data-testid="travel-claim-details"]~a')
+      .first()
+      .click();
+
+    cy.location('pathname').should(
+      'eq',
+      '/my-health/travel-pay/claims/498d60a7-fe33-4ea8-80a6-80a27d9fc212',
+    );
+
+    cy.get('span[data-testid="claim-details-claim-number"]').should(
+      'include.text',
+      'Claim number: TC0000000000001',
+    );
+
+    cy.get('va-additional-info[trigger="What does this status mean?"]')
+      .first()
+      .click();
+
+    cy.get('p[data-testid="status-definition-text"]').should(
+      'contain.text',
+      'We approved your claim',
+    );
+
+    // Wrapper to simulate Bradcrumbs spacing interferes with the cypress .get
+    // cy.get('va-link[data-testid="details-back-link"]')
+    //   .first()
+    //   .click();
+
+    // Instead just find the text for the link and click it
+    cy.contains('Travel reimbursement claims').click();
+
+    cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
+  });
+
+  it('navigates to the status explainer page and back to status page', () => {
+    cy.get('va-additional-info')
+      .first()
+      .click();
+
+    cy.get('va-link[data-testid="status-explainer-link"]')
+      .first()
+      .click();
+
+    cy.location('pathname').should('eq', '/my-health/travel-pay/help');
+
+    cy.get('h1').should('include.text', 'What does my claim status mean?');
+
+    // // get the 4th Breadcrumb, test that it is correct for the page
+    cy.get('a')
+      .eq(3)
+      .should('include.text', 'Help: Claim Status Meanings');
+
+    // The 3rd Breadcrumb link (since there are 2 with path: "/")
+    cy.get('a')
+      .eq(2)
+      .click();
+    cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
 
   it('sorts the claims ordered by appointment date ascending on user action', () => {
@@ -128,7 +191,7 @@ describe(`${appName} -- Status Page`, () => {
     cy.get('va-button[data-testid="Sort travel claims"]').click();
 
     cy.openFilters();
-    cy.selectVaCheckbox('Claim Submitted', true);
+    cy.selectVaCheckbox('Claim submitted', true);
     cy.get('select[name="claimsDates"]').select('All of 2023');
     cy.get('select[name="claimsDates"]').should('have.value', 'All of 2023');
 

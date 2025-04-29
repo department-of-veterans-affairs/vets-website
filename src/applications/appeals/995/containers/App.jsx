@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -9,6 +8,7 @@ import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms
 import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from '~/platform/user/selectors';
 import { setData } from '~/platform/forms-system/src/js/actions';
+import { useFormFeatureToggleSync } from 'platform/utilities/feature-toggles';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
@@ -24,6 +24,8 @@ import {
   DATA_DOG_TOKEN,
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
+  SC_NEW_FORM_KEY,
+  SC_NEW_FORM_DATA,
 } from '../constants';
 
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
@@ -61,18 +63,6 @@ export const App = ({
 
   const hasSupportedBenefitType = SUPPORTED_BENEFIT_TYPES_LIST.includes(
     subTaskBenefitType,
-  );
-
-  useEffect(
-    () => {
-      // Set user account & application id in Sentry so we can access their form
-      // data for any thrown errors
-      if (accountUuid && inProgressFormId) {
-        Sentry.setTag('account_uuid', accountUuid);
-        Sentry.setTag('in_progress_form_id', inProgressFormId);
-      }
-    },
-    [accountUuid, inProgressFormId],
   );
 
   useEffect(
@@ -128,11 +118,18 @@ export const App = ({
       isLoadingIssues,
       legacyCount,
       loggedIn,
+      pathname,
       setFormData,
       subTaskBenefitType,
-      pathname,
     ],
   );
+
+  useFormFeatureToggleSync([
+    {
+      toggleName: SC_NEW_FORM_KEY,
+      formKey: SC_NEW_FORM_DATA,
+    },
+  ]);
 
   let content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>

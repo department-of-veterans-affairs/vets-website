@@ -1,36 +1,22 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
-import mockMessages from './fixtures/messages-response.json';
-import defaultMockThread from './fixtures/thread-response.json';
 import { AXE_CONTEXT, Locators } from './utils/constants';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
+import singleThreadResponse from './fixtures/thread-response-new-api.json';
 
-describe('Secure Messaging - Print Functionality', () => {
-  beforeEach(() => {
+describe('SM -PRINT FUNCTIONALITY', () => {
+  it('verify buton and functionality', () => {
+    const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
+      singleThreadResponse,
+    );
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages(
-      mockMessages,
-      PatientInboxPage.getNewMessageDetails(),
-    );
-    PatientMessageDetailsPage.loadMessageDetails(
-      PatientInboxPage.getNewMessageDetails(),
-      defaultMockThread,
-      0,
-    );
-  });
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
 
-  it('print messages', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
+
     cy.get(Locators.BUTTONS.PRINT).should('be.visible');
     cy.get(Locators.BUTTONS.PRINT).click();
     cy.window().then(win => {

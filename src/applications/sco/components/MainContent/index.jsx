@@ -6,8 +6,6 @@ import UploadFileToVa from './Update/UploadFileToVa';
 import OtherResources from './Update/OtherResources';
 import TrainingAndWebinar from './Update/TrainingAndWebinar';
 
-import LastUpdated from './LastUpdated';
-
 const MainContent = () => {
   return (
     <div className="vads-l-col--12 medium-screen:vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
@@ -27,7 +25,6 @@ const MainContent = () => {
         <UploadFileToVa />
         <OtherResources />
       </article>
-      <LastUpdated />
     </div>
   );
 };

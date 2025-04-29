@@ -11,11 +11,11 @@ import prescriptions from '../fixtures/prescriptions.json';
 import LandingPage from '../../containers/LandingPage';
 import { medicationsUrls } from '../../util/constants';
 
-describe('Medicaitons Landing page container', () => {
+describe('Medications Landing page container', () => {
   const initialState = {
     rx: {
       prescriptions: {
-        prescriptionsList: prescriptions,
+        prescriptionsFilteredList: prescriptions,
         prescriptionDetails: prescriptions,
         apiError: false,
       },
@@ -80,7 +80,7 @@ describe('Medicaitons Landing page container', () => {
       state = {
         rx: {
           prescriptions: {
-            prescriptionsList: prescriptions,
+            prescriptionsFilteredList: prescriptions,
           },
           breadcrumbs: {
             list: [
@@ -218,7 +218,7 @@ describe('App-level feature flag functionality', () => {
       initialState: {
         rx: {
           prescriptions: {
-            prescriptionsList: prescriptions,
+            prescriptionsFilteredList: prescriptions,
             prescriptionDetails: prescriptions,
           },
         },
@@ -250,7 +250,7 @@ describe('App-level feature flag functionality', () => {
       initialState: {
         rx: {
           prescriptions: {
-            prescriptionsList: [],
+            prescriptionsFilteredList: [],
             prescriptionDetails: prescriptions,
           },
         },
@@ -276,5 +276,69 @@ describe('App-level feature flag functionality', () => {
         'You don’t have any VA prescriptions or medication records',
       ),
     ).to.exist;
+  });
+  describe('allergies feature flag', () => {
+    const allergiesFFInitialState = {
+      rx: {
+        prescriptions: {
+          prescriptionsFilteredList: [],
+          prescriptionDetails: prescriptions,
+        },
+      },
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+        profile: {
+          services: [backendServices.USER_PROFILE],
+        },
+      },
+      featureToggles: {
+        loading: false,
+        // eslint-disable-next-line camelcase
+        mhv_medications_to_va_gov_release: true,
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_allergies: true,
+      },
+    };
+
+    const setupWithAllergyFeaturetoggle = (
+      state = allergiesFFInitialState,
+      path = '/',
+    ) => {
+      return renderWithStoreAndRouter(<LandingPage />, {
+        initialState: state,
+        reducers: reducer,
+        path,
+      });
+    };
+
+    it('displays "Go to your allergies and reactions" link when show allergies feature flag is true', () => {
+      expect(
+        setupWithAllergyFeaturetoggle().getByText(
+          'Go to your allergies and reactions',
+        ),
+      );
+    });
+
+    it('displays "Go to your allergy and reaction records on the My HealtheVet website" link when show allergies feature flag is false', () => {
+      const newScreenWithAllergyFeatureToggleOff = setupWithAllergyFeaturetoggle(
+        {
+          ...allergiesFFInitialState,
+          featureToggles: {
+            loading: false,
+            // eslint-disable-next-line camelcase
+            mhv_medications_to_va_gov_release: true,
+            // eslint-disable-next-line camelcase
+            mhv_medications_display_allergies: false,
+          },
+        },
+      );
+      expect(
+        newScreenWithAllergyFeatureToggleOff.getByText(
+          'Go to your allergy and reaction records on the My HealtheVet website',
+        ),
+      );
+    });
   });
 });

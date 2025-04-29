@@ -1,10 +1,10 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
 
 @mixin schemaform-padding {
   // query borrowed from _m-schemaform.scss
-  @media(max-width: 40.063em) {
+  @media (max-width: 40.063em) {
     padding-right: 1.25rem - 0.5859375rem;
   }
 }
@@ -14,7 +14,7 @@
 // This triggers the [tabindex]:focus rule in USWDS which gives a golden outline
 // We don't want that outline around #content
 #content[tabindex]:focus {
-    outline: none;
+  outline: none;
 }
 
 .letters {
@@ -34,7 +34,7 @@
       margin-top: 2em;
 
       h2 {
-        margin-top: .5em;
+        margin-top: 0.5em;
       }
     }
   }
@@ -149,6 +149,7 @@
   }
 
   .form-expanding-group {
+    margin-bottom: 1.5em;
     margin-left: initial;
     margin-top: 1.5em;
   }
@@ -179,14 +180,18 @@
 
 // This probably belongs somewhere else
 
-.usa-alert, .usa-input-error, .nav-header > h4, .nav-header {
+.usa-alert,
+.usa-input-error,
+.nav-header > h4,
+.nav-header {
   &:focus {
     outline: none;
   }
 }
 
 label + div {
-  select, input:not([type="radio"]) {
+  select,
+  input:not([type="radio"]) {
     margin-top: 0.5em;
   }
 }
@@ -210,4 +215,11 @@ label + div {
 .va-profile-wrapper .va-modal-inner {
   max-height: 100%;
   overflow-y: auto;
+}
+
+.bullet-disc {
+  list-style-type: disc;
+}
+.edit-link {
+  margin: 0.5em 0;
 }

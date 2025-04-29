@@ -18,7 +18,11 @@
           "personnelCategoryTypeCode": "A",
           "characterOfDischargeCode": "A"
         }
-      ]
+      ],
+      "vetStatusEligibility": {
+        "confirmed": true,
+        "message": []
+      }
     }
   }
 }

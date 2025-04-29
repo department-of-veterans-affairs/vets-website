@@ -1,37 +1,21 @@
-import React from 'react';
-import StateSelect from '../../../components/FormFields/StateSelect';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { CHAPTER_3 } from '../../../constants';
-
-const title = <h3>{CHAPTER_3.SCHOOL_STATE_OR_RESIDENCY.TITLE}</h3>;
-
-const description = (
-  <>
-    <p>
-      <strong>{CHAPTER_3.SCHOOL_STATE_OR_RESIDENCY.PAGE_DESCRIPTION}</strong>
-    </p>
-    <p>{CHAPTER_3.SCHOOL_STATE_OR_RESIDENCY.QUESTION_1}</p>
-  </>
-);
 
 const schoolStOrResidencyPage = {
   uiSchema: {
-    'ui:title': title,
-
     stateOrResidency: {
-      'ui:description': description,
+      ...titleUI(CHAPTER_3.SCHOOL_STATE_OR_RESIDENCY.TITLE),
       schoolState: {
         'ui:title': 'School state',
-        'ui:widget': StateSelect,
       },
       residencyState: {
         'ui:title': 'Residency state',
-        'ui:widget': StateSelect,
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['stateOrResidency'],
+    required: [],
     properties: {
       stateOrResidency: {
         type: 'object',

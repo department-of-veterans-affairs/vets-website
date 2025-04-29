@@ -12,6 +12,7 @@ const DateSubheading = ({ date, label, id, testId, labelClass }) => {
         <span
           className="vads-u-font-weight--normal"
           data-dd-privacy="mask"
+          data-dd-action-name="Progress note date"
           data-testid="header-time"
         >
           {date}

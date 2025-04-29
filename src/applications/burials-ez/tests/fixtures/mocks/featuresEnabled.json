@@ -10,11 +10,11 @@
           "value": true
         },
         {
-          "name": "burialFormV2",
+          "name": "burial_confirmation_page",
           "value": true
         },
         {
-          "name": "burial_form_v2",
+          "name": "burialConfirmationPage",
           "value": true
         }
       ]

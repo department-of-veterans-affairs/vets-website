@@ -1,9 +1,14 @@
 import { vitalTypeDisplayNames } from '../constants';
 
-export const generateVitalsIntro = records => {
+export const generateVitalsIntro = (records, lastUpdated) => {
   return {
-    title: `Vitals: ${vitalTypeDisplayNames[records[0].type]}`,
+    title: vitalTypeDisplayNames[records[0].type],
     subject: 'VA Medical Record',
+    subtitles: [
+      'Vitals are basic health numbers your providers check at your appointments.',
+      lastUpdated,
+      `Showing ${records.length} records from newest to oldest`,
+    ],
   };
 };
 
@@ -28,10 +33,25 @@ export const generateVitalsItem = record => ({
   ],
 });
 
-export const generateVitalsContent = records => ({
+// used for vital details page
+export const generateVitalContent = records => ({
   results: {
     items: records.map(record => ({
-      header: record.name,
+      ...generateVitalsItem(record),
+    })),
+  },
+});
+
+// used for Blue Button
+export const generateVitalsContent = records => ({
+  results: {
+    header: records[0].name,
+    headerType: 'H3',
+    headerIndent: 30,
+    preface: `Showing ${records.length} records, from newest to oldest`,
+    prefaceIndent: 30,
+    sectionSeparators: false,
+    items: records.map(record => ({
       ...generateVitalsItem(record),
     })),
   },

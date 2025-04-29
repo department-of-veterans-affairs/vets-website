@@ -15,7 +15,6 @@ const EnrollmentCard = ({ enrollmentPeriods, confirmationPage = false }) => {
     const combinedEnrollmentsValues = Object.values(
       combinedEnrollmentsObj,
     ).reverse();
-
     // if there are more than one enrollment periods that startd in the same month
     // then the records are combined into the same array
     // if else is in place to take account for arrays that have multiple objects
@@ -37,7 +36,7 @@ const EnrollmentCard = ({ enrollmentPeriods, confirmationPage = false }) => {
                 {
                   /* sending true as second argument turns on left border */
                 }
-                return getPeriodsToVerify([nestedEnrollment], true);
+                return getPeriodsToVerify([nestedEnrollment]);
               })}
             </div>
           </div>
@@ -56,7 +55,7 @@ const EnrollmentCard = ({ enrollmentPeriods, confirmationPage = false }) => {
                 enrollment[0].actBegin,
               )}.`}
             {/* sending true as second argument turns on left border */}
-            {getPeriodsToVerify(enrollment, true)}
+            {getPeriodsToVerify(enrollment)}
           </div>
         </div>
       );

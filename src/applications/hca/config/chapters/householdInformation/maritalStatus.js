@@ -1,8 +1,8 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import { MaritalStatusDescription } from '../../../components/FormDescriptions';
 import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 
-const { maritalStatus } = fullSchemaHca.definitions;
+const { maritalStatus } = FULL_SCHEMA.definitions;
 
 export default {
   uiSchema: {

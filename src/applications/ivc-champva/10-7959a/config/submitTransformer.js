@@ -1,12 +1,13 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { adjustYearString, concatStreets } from '../../shared/utilities';
 
 function getPrimaryContact(data) {
   // For callback API we need to know what data in the form should be
   // treated as the primary contact.
   return {
     name: data?.certifierName ?? data?.applicantName ?? false,
-    email: false, // We don't collect email
+    email: data?.certifierEmail ?? data?.applicantEmail ?? false,
     phone: data?.certifierPhone ?? data?.applicantPhone ?? false,
   };
 }
@@ -16,7 +17,15 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
 
-  const copyOfData = JSON.parse(JSON.stringify(transformedData));
+  let copyOfData = JSON.parse(JSON.stringify(transformedData));
+
+  // If user is the sponsor, copy sponsor details into the certifier section:
+  if (copyOfData.certifierRole === 'sponsor') {
+    copyOfData.certifierName = copyOfData.sponsorName;
+    copyOfData.certifierAddress = copyOfData.sponsorAddress;
+    copyOfData.certifierPhone = copyOfData.sponsorPhone;
+    copyOfData.certifierEmail = copyOfData.sponsorEmail;
+  }
 
   // Set this for the callback API so it knows who to contact if there's
   // a status event notification
@@ -24,21 +33,34 @@ export default function transformForSubmit(formConfig, form) {
 
   // ---
   // Add type/category info to file uploads:
+  const pharmacyUpload = copyOfData?.pharmacyUpload?.map(el => {
+    return { ...el, attachmentId: 'MEDDOCS' };
+  });
+  copyOfData.pharmacyUpload = pharmacyUpload;
+
   const medicalUpload = copyOfData?.medicalUpload?.map(el => {
-    return { ...el, documentType: 'itemized billing statement' };
+    return { ...el, attachmentId: 'MEDDOCS' };
   });
   copyOfData.medicalUpload = medicalUpload;
 
-  const primaryEOB = copyOfData?.primaryEOB?.map(el => {
-    return { ...el, documentType: 'EOB' };
+  const primaryEob = copyOfData?.primaryEob?.map(el => {
+    return { ...el, attachmentId: 'EOB' };
   });
-  copyOfData.primaryEOB = primaryEOB;
+  copyOfData.primaryEob = primaryEob;
 
-  const secondaryEOB = copyOfData?.secondaryEOB?.map(el => {
-    return { ...el, documentType: 'EOB' };
+  const secondaryEob = copyOfData?.secondaryEob?.map(el => {
+    return { ...el, attachmentId: 'EOB' };
   });
-  copyOfData.secondaryEOB = secondaryEOB;
+  copyOfData.secondaryEob = secondaryEob;
   // ---
+
+  // Combine all three street strings into one
+  copyOfData.applicantAddress = concatStreets(copyOfData.applicantAddress);
+
+  if (copyOfData.certifierAddress) {
+    // Combine streets for 3rd party certifier
+    copyOfData.certifierAddress = concatStreets(copyOfData.certifierAddress);
+  }
 
   // Date of signature
   copyOfData.certificationDate = new Date().toISOString().replace(/T.*/, '');
@@ -46,11 +68,34 @@ export default function transformForSubmit(formConfig, form) {
   // Compile files
   copyOfData.supportingDocs = [
     copyOfData.medicalUpload,
-    copyOfData.primaryEOB,
-    copyOfData.secondaryEOB,
+    copyOfData.primaryEob,
+    copyOfData.secondaryEob,
+    copyOfData.pharmacyUpload,
   ]
     .flat(Infinity) // Flatten nested lists of files
     .filter(el => el); // drop any nulls
+
+  /*
+  In order to enable multi-claim backend (see https://github.com/department-of-veterans-affairs/vets-api/pull/18173)
+  create a `claims` array with one entry. When we move to the list-loop
+  claims collection, this will be produced by the "claims" array builder.
+  For now, this is here so that the backend changes may be merged in without 
+  breaking the existing single-claim flow.
+
+  TODO: Remove this claims array when we switch to list loop for claims on frontend
+  */
+  copyOfData.claims = [
+    {
+      claimIsAutoRelated: copyOfData.claimIsAutoRelated,
+      claimIsWorkRelated: copyOfData.claimIsWorkRelated,
+      claimType: copyOfData.claimType,
+      claimId: 0, // Always zero - we only support one claim currently
+    },
+  ];
+
+  copyOfData.fileNumber = copyOfData.applicantMemberNumber;
+
+  copyOfData = adjustYearString(copyOfData);
 
   return JSON.stringify({
     ...copyOfData,

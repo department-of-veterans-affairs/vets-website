@@ -10,7 +10,6 @@ import ClaimPage from './containers/ClaimPage';
 import ClaimStatusPage from './containers/ClaimStatusPage';
 import StemClaimStatusPage from './containers/StemClaimStatusPage';
 import FilesPage from './containers/FilesPage';
-import DetailsPage from './containers/DetailsPage';
 import AskVAPage from './containers/AskVAPage';
 import DocumentRequestPage from './containers/DocumentRequestPage';
 import ClaimEstimationPage from './containers/ClaimEstimationPage';
@@ -19,18 +18,19 @@ import AppealsV2DetailPage from './containers/AppealsV2DetailPage';
 import AppealInfo from './containers/AppealInfo';
 import ClaimsStatusApp from './containers/ClaimsStatusApp';
 import OverviewPage from './containers/OverviewPage';
+import Standard5103NoticePage from './containers/Standard5103NoticePage';
 
-const { cstUseClaimDetailsV2 } = Toggler.TOGGLE_NAMES;
+const { cst5103UpdateEnabled } = Toggler.TOGGLE_NAMES;
 
-const detailsRoute = (
-  <TogglerRoute toggleName={cstUseClaimDetailsV2} redirectWhenToggleEnabled>
-    <DetailsPage />
+const askVARoute = (
+  <TogglerRoute toggleName={cst5103UpdateEnabled} redirectWhenToggleEnabled>
+    <AskVAPage />
   </TogglerRoute>
 );
 
-const overviewRoute = (
-  <TogglerRoute toggleName={cstUseClaimDetailsV2}>
-    <OverviewPage />
+const standard5103EvidenceNoticeRoute = (
+  <TogglerRoute toggleName={cst5103UpdateEnabled}>
+    <Standard5103NoticePage />
   </TogglerRoute>
 );
 
@@ -46,15 +46,18 @@ const routes = (
       <Route path="your-claims" element={<YourClaimsPageV2 />} />
       <Route path="your-claims/:id" element={<ClaimPage />}>
         <Route index element={<Navigate to="status" replace />} />
-        <Route path="ask-va-to-decide" element={<AskVAPage />} />
+        <Route path="ask-va-to-decide" element={askVARoute} />
+        <Route
+          path="5103-evidence-notice"
+          element={standard5103EvidenceNoticeRoute}
+        />
         <Route path="claim-estimate" element={<ClaimEstimationPage />} />
-        <Route path="details" element={detailsRoute} />
         <Route
           path="document-request/:trackedItemId"
           element={<DocumentRequestPage />}
         />
         <Route path="files" element={<FilesPage />} />
-        <Route path="overview" element={overviewRoute} />
+        <Route path="overview" element={<OverviewPage />} />
         <Route path="status" element={<ClaimStatusPage />} />
       </Route>
       <Route path="your-claim-letters" element={<YourClaimLetters />} />

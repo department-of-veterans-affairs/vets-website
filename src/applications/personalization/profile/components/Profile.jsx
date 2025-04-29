@@ -7,18 +7,15 @@ import { LastLocationProvider } from 'react-router-last-location';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
+  fetchPowerOfAttorney as fetchPowerOfAttorneyAction,
 } from '@@profile/actions';
 
 import {
-  cnpDirectDepositInformation,
   selectProfileToggles,
   selectIsBlocked,
   togglesAreLoaded,
 } from '@@profile/selectors';
-import {
-  fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
-  fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
-} from '@@profile/actions/paymentInformation';
+
 import { fetchPersonalInformation as fetchPersonalInformationAction } from '~/platform/user/profile/vap-svc/actions/personalInformation';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import DowntimeNotification, {
@@ -59,19 +56,17 @@ import { fetchDirectDeposit as fetchDirectDepositAction } from '../actions/direc
 class Profile extends Component {
   componentDidMount() {
     const {
-      fetchCNPPaymentInformation,
-      fetchEDUPaymentInformation,
       fetchDirectDeposit,
+      fetchPowerOfAttorney,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
       fetchTotalDisabilityRating,
       isLOA3,
       isInMVI,
-      shouldFetchCNPDirectDepositInformation,
       shouldFetchDirectDeposit,
+      shouldShowAccreditedRepTab,
       shouldFetchTotalDisabilityRating,
-      shouldFetchEDUDirectDepositInformation,
       connectDrupalSourceOfTruthCerner,
       togglesLoaded,
     } = this.props;
@@ -80,9 +75,9 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
-    }
-    if (togglesLoaded && shouldFetchCNPDirectDepositInformation) {
-      fetchCNPPaymentInformation({});
+      if (shouldShowAccreditedRepTab) {
+        fetchPowerOfAttorney();
+      }
     }
 
     if (togglesLoaded && shouldFetchDirectDeposit) {
@@ -92,24 +87,19 @@ class Profile extends Component {
     if (shouldFetchTotalDisabilityRating) {
       fetchTotalDisabilityRating();
     }
-    if (togglesLoaded && shouldFetchEDUDirectDepositInformation) {
-      fetchEDUPaymentInformation();
-    }
   }
 
   componentDidUpdate(prevProps) {
     const {
-      fetchCNPPaymentInformation,
-      fetchEDUPaymentInformation,
       fetchDirectDeposit,
+      fetchPowerOfAttorney,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
       fetchTotalDisabilityRating,
       isLOA3,
-      shouldFetchCNPDirectDepositInformation,
       shouldFetchDirectDeposit,
-      shouldFetchEDUDirectDepositInformation,
+      shouldShowAccreditedRepTab,
       shouldFetchTotalDisabilityRating,
       isInMVI,
       togglesLoaded,
@@ -118,6 +108,9 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
+      if (shouldShowAccreditedRepTab) {
+        fetchPowerOfAttorney();
+      }
     }
 
     if (
@@ -128,34 +121,12 @@ class Profile extends Component {
     }
 
     if (
-      (togglesLoaded &&
-        !prevProps.togglesLoaded &&
-        shouldFetchCNPDirectDepositInformation) ||
-      (togglesLoaded &&
-        shouldFetchCNPDirectDepositInformation &&
-        !prevProps.shouldFetchCNPDirectDepositInformation)
-    ) {
-      fetchCNPPaymentInformation({});
-    }
-
-    if (
       (togglesLoaded && !prevProps.togglesLoaded && shouldFetchDirectDeposit) ||
       (togglesLoaded &&
         shouldFetchDirectDeposit &&
         !prevProps.shouldFetchDirectDeposit)
     ) {
       fetchDirectDeposit();
-    }
-
-    if (
-      (togglesLoaded &&
-        !prevProps.togglesLoaded &&
-        shouldFetchEDUDirectDepositInformation) ||
-      (togglesLoaded &&
-        shouldFetchEDUDirectDepositInformation &&
-        !prevProps.shouldFetchEDUDirectDepositInformation)
-    ) {
-      fetchEDUPaymentInformation();
     }
   }
 
@@ -184,12 +155,13 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const toggles = this.props.profileToggles;
+    let routes = getRoutes();
 
-    const routes = getRoutes({
-      profileShowDirectDepositSingleForm:
-        toggles.profileShowDirectDepositSingleForm,
-    });
+    if (!this.props.shouldShowAccreditedRepTab) {
+      routes = routes.filter(
+        item => item.name !== 'Accredited representative or VSO',
+      );
+    }
 
     return (
       <BrowserRouter>
@@ -256,16 +228,13 @@ class Profile extends Component {
       <RequiredLoginView
         serviceRequired={backendServices.USER_PROFILE}
         user={this.props.user}
+        showProfileErrorMessage
       >
         <DowntimeNotification
           appTitle="profile"
           render={this.handleDowntimeApproaching}
           loadingIndicator={<RequiredLoginLoader />}
-          dependencies={[
-            externalServices.evss,
-            externalServices.mvi,
-            externalServices.vaProfile,
-          ]}
+          dependencies={[externalServices.VAPRO_PROFILE_PAGE]}
         >
           {this.renderContent()}
         </DowntimeNotification>
@@ -277,12 +246,11 @@ class Profile extends Component {
 Profile.propTypes = {
   connectDrupalSourceOfTruthCerner: PropTypes.func.isRequired,
   dismissDowntimeWarning: PropTypes.func.isRequired,
-  fetchCNPPaymentInformation: PropTypes.func.isRequired,
   fetchDirectDeposit: PropTypes.func.isRequired,
-  fetchEDUPaymentInformation: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
+  fetchPowerOfAttorney: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
   initializeDowntimeWarnings: PropTypes.func.isRequired,
   isBlocked: PropTypes.bool.isRequired,
@@ -290,10 +258,9 @@ Profile.propTypes = {
   isInMVI: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
   profileToggles: PropTypes.object.isRequired,
-  shouldFetchCNPDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
-  shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
+  shouldShowAccreditedRepTab: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
@@ -315,23 +282,15 @@ const mapStateToProps = state => {
   const isInMVI = isInMVISelector(state);
   const isEligibleForDD =
     signInServicesEligibleForDD.has(signInService) && isInMVI && is2faEnabled;
-  const shouldFetchCNPDirectDepositInformation =
-    isEligibleForDD &&
-    isLighthouseAvailable &&
-    !profileToggles?.profileShowDirectDepositSingleForm;
-  const shouldFetchEDUDirectDepositInformation =
-    isEligibleForDD && !profileToggles?.profileShowDirectDepositSingleForm;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
+  const shouldShowAccreditedRepTab =
+    profileToggles?.representativeStatusEnableV2Features;
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
-    profileToggles?.profileShowDirectDepositSingleForm &&
-    !(
-      profileToggles?.profileHideDirectDeposit &&
-      !profileToggles?.profileShowDirectDepositSingleFormUAT
-    );
+    !profileToggles?.profileHideDirectDeposit;
 
   // block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
@@ -356,9 +315,6 @@ const mapStateToProps = state => {
   // fails:
   const hasLoadedFullName = isLOA1 || !isInMVI || state.vaProfile?.hero;
 
-  const hasLoadedCNPPaymentInformation =
-    !isInMVI || cnpDirectDepositInformation(state);
-
   const hasLoadedDirectDeposit =
     !isInMVI ||
     state.directDeposit?.paymentAccount ||
@@ -375,9 +331,6 @@ const mapStateToProps = state => {
       (shouldFetchTotalDisabilityRating
         ? hasLoadedTotalDisabilityRating
         : true) &&
-      (shouldFetchCNPDirectDepositInformation
-        ? hasLoadedCNPPaymentInformation
-        : true) &&
       (shouldFetchDirectDeposit ? hasLoadedDirectDeposit : true));
 
   const showLoader =
@@ -388,9 +341,8 @@ const mapStateToProps = state => {
     showLoader,
     isInMVI,
     isLOA3,
-    shouldFetchCNPDirectDepositInformation,
     shouldFetchDirectDeposit,
-    shouldFetchEDUDirectDepositInformation,
+    shouldShowAccreditedRepTab,
     shouldFetchTotalDisabilityRating,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
@@ -404,10 +356,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
+  fetchPowerOfAttorney: fetchPowerOfAttorneyAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchDirectDeposit: fetchDirectDepositAction,
-  fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,
-  fetchEDUPaymentInformation: fetchEDUPaymentInformationAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,

@@ -8,6 +8,8 @@ import {
   arrayBuilderYesNoUI,
   addressUI,
   addressSchema,
+  currencyUI,
+  currencySchema,
   dateOfBirthUI,
   dateOfBirthSchema,
   fullNameUI,
@@ -23,7 +25,6 @@ import {
   VaCheckboxField,
   VaTextInputField,
 } from 'platform/forms-system/src/js/web-component-fields';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   DisabilityDocsAlert,
@@ -44,7 +45,8 @@ const options = {
   nounPlural: 'dependent children',
   required: false,
   isItemIncomplete: item =>
-    !item?.fullName ||
+    !item?.fullName?.first ||
+    !item.fullName.last ||
     !item.childDateOfBirth ||
     !item.childPlaceOfBirth ||
     (!item.childSocialSecurityNumber && !item['view:noSsn']) ||
@@ -63,9 +65,10 @@ const options = {
         !item.personWhoLivesWithChild.first ||
         !item.personWhoLivesWithChild.last)) ||
     (!item.childInHousehold && !item.monthlyPayment), // include all required fields here
-  maxItems: 15,
   text: {
-    getItemName: item => formatFullName(item.fullName),
+    getItemName: item =>
+      item.fullName ? formatFullName(item.fullName) : undefined,
+    summaryTitleWithoutItems: 'Dependent children',
   },
 };
 
@@ -76,7 +79,11 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:isAddingDependents': arrayBuilderYesNoUI(options),
+    'view:isAddingDependents': arrayBuilderYesNoUI(options, {
+      title: 'Do you have any dependent children?',
+      labelHeaderLevel: ' ',
+      hint: null,
+    }),
   },
   schema: {
     type: 'object',
@@ -110,9 +117,9 @@ const birthInformationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} birth information`
-          : 'Birth Information',
+        `${formatFullName(formData.fullName)} birth information`,
+      undefined,
+      false,
     ),
     childDateOfBirth: dateOfBirthUI(),
     childPlaceOfBirth: {
@@ -137,13 +144,17 @@ const socialSecurityNumberPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} Social Security information`
-          : 'Social Security information',
+        `${formatFullName(formData.fullName)} Social Security information`,
+      undefined,
+      false,
     ),
     childSocialSecurityNumber: merge({}, ssnUI(), {
-      'ui:required': (formData, index) =>
-        !get(['dependents', index, 'view:noSsn'], formData),
+      'ui:required': (formData, index) => {
+        return (
+          formData?.['view:noSsn'] !== true &&
+          formData?.dependents?.[index]?.['view:noSsn'] !== true
+        );
+      },
     }),
     'view:noSsn': {
       'ui:title': "Doesn't have a Social Security number",
@@ -164,9 +175,9 @@ const relationshipPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} relationship information`
-          : 'Relationship information',
+        `${formatFullName(formData.fullName)} relationship information`,
+      undefined,
+      false,
     ),
     childRelationship: radioUI({
       title: "What's your relationship?",
@@ -187,9 +198,9 @@ const attendingSchoolPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} school information`
-          : 'School information',
+        `${formatFullName(formData.fullName)} school information`,
+      undefined,
+      false,
     ),
     attendingCollege: yesNoUI({
       title: 'Is your child in school?',
@@ -199,6 +210,12 @@ const attendingSchoolPage = {
       'ui:options': {
         expandUnder: 'attendingCollege',
       },
+      'ui:required': (formData, index) => {
+        return (
+          isBetween18And23(formData?.childDateOfBirth) ||
+          isBetween18And23(formData?.dependents?.[index]?.childDateOfBirth)
+        );
+      },
     },
   },
   schema: {
@@ -207,7 +224,6 @@ const attendingSchoolPage = {
       attendingCollege: yesNoSchema,
       'view:schoolWarning': { type: 'object', properties: {} },
     },
-    required: ['attendingCollege'],
   },
 };
 
@@ -216,9 +232,9 @@ const disabledPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} disabled information`
-          : 'Disabled information',
+        `${formatFullName(formData.fullName)} disabled information`,
+      undefined,
+      false,
     ),
     disabled: yesNoUI({
       title: 'Is your child seriously disabled?',
@@ -249,9 +265,9 @@ const previouslyMarriedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} marriage information`
-          : 'Marriage information',
+        `${formatFullName(formData.fullName)} marriage information`,
+      undefined,
+      false,
     ),
     previouslyMarried: yesNoUI({
       title: 'Has your child ever been married?',
@@ -278,9 +294,9 @@ const inHouseholdPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} household information`
-          : 'Household information',
+        `${formatFullName(formData.fullName)} household information`,
+      undefined,
+      false,
     ),
     childInHousehold: yesNoUI({
       title: 'Does your child live with you?',
@@ -300,9 +316,9 @@ const addressPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName
-          ? `${formatFullName(formData.fullName)} address information`
-          : 'Address information',
+        `${formatFullName(formData.fullName)} address information`,
+      undefined,
+      false,
     ),
     childAddress: addressUI({
       omit: ['isMilitary', 'street3'],
@@ -320,8 +336,11 @@ const addressPage = {
         "How much do you contribute per month to your child's support?",
       ),
       {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
+        'ui:required': (formData, index) => {
+          return (
+            formData?.childInHousehold === false ||
+            formData.dependents?.[index]?.childInHousehold === false
+          );
         },
       },
     ),
@@ -331,15 +350,14 @@ const addressPage = {
     properties: {
       childAddress: addressSchema({ omit: ['isMilitary', 'street3'] }),
       personWhoLivesWithChild: fullNameSchema,
-      monthlyPayment: { type: 'number' },
+      monthlyPayment: currencySchema,
     },
-    required: ['childAddress', 'monthlyPayment'],
   },
 };
 
 export const dependentChildrenPages = arrayBuilderPages(
   options,
-  (pageBuilder, helpers) => ({
+  pageBuilder => ({
     dependentChildrenSummary: pageBuilder.summaryPage({
       title: 'Dependent children',
       path: 'household/dependents/summary',
@@ -380,9 +398,7 @@ export const dependentChildrenPages = arrayBuilderPages(
       path: 'household/dependents/:index/school',
       depends: (formData, index) =>
         showMultiplePageResponse() &&
-        isBetween18And23(
-          get(['dependents', index, 'childDateOfBirth'], formData),
-        ),
+        isBetween18And23(formData.dependents?.[index]?.childDateOfBirth),
       uiSchema: attendingSchoolPage.uiSchema,
       schema: attendingSchoolPage.schema,
     }),
@@ -404,18 +420,15 @@ export const dependentChildrenPages = arrayBuilderPages(
       title: 'Dependent children',
       path: 'household/dependents/:index/in-household',
       depends: () => showMultiplePageResponse(),
-      onNavForward: props => {
-        return props.formData.childInHousehold
-          ? helpers.navForwardFinishedItem(props) // go to next page
-          : helpers.navForwardKeepUrlParams(props); // return to summary
-      },
       uiSchema: inHouseholdPage.uiSchema,
       schema: inHouseholdPage.schema,
     }),
     dependentChildAddressPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/address',
-      depends: () => showMultiplePageResponse(),
+      depends: (formData, index) =>
+        showMultiplePageResponse() &&
+        !formData.dependents?.[index]?.childInHousehold,
       uiSchema: addressPage.uiSchema,
       schema: addressPage.schema,
     }),

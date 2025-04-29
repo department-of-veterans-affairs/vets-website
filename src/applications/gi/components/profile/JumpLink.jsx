@@ -1,5 +1,6 @@
 import React from 'react';
-import { getScrollOptions } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
+import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
 import { isProductionOrTestProdEnv } from '../../utils/helpers';
@@ -13,8 +14,10 @@ export default function JumpLink({
   customClass,
 }) {
   const jumpLinkClicked = e => {
-    e.preventDefault();
+    e?.preventDefault();
     scrollTo(jumpToId, getScrollOptions());
+    const sectionHeading = document.querySelector(`#${jumpToId} h2`);
+    focusElement(sectionHeading);
   };
 
   const handleClick = e => {
@@ -70,3 +73,11 @@ export default function JumpLink({
     </a>
   );
 }
+JumpLink.propTypes = {
+  jumpToId: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  customClass: PropTypes.string,
+  dataTestId: PropTypes.string,
+  iconToggle: PropTypes.bool,
+  onClick: PropTypes.func,
+};

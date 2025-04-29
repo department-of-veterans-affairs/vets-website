@@ -1,30 +1,28 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import UserInfoSection from '../components/UserInfoSection';
-
 import { focusElement } from 'platform/utilities/ui';
 import { formatDateLong } from 'platform/utilities/date';
+
+import UserInfoSection from '../components/UserInfoSection';
 
 export class PrintPage extends React.Component {
   componentDidMount() {
     focusElement('.print-screen');
     document.querySelector('header').classList.add('no-print-no-sr');
     document.querySelector('footer').classList.add('no-print-no-sr');
-    document
-      .querySelector('.va-nav-breadcrumbs')
-      .classList.add('no-print-no-sr');
+    document.querySelector('va-breadcrumbs').classList.add('no-print-no-sr');
   }
 
   componentWillUnmount() {
     document.querySelector('header').classList.remove('no-print-no-sr');
     document.querySelector('footer').classList.remove('no-print-no-sr');
-    document
-      .querySelector('.va-nav-breadcrumbs')
-      .classList.remove('no-print-no-sr');
+    document.querySelector('va-breadcrumbs').classList.remove('no-print-no-sr');
   }
 
   backToStatement = () => this.props.router.push('/');
+
   printWindow = () => window.print();
 
   render() {
@@ -38,7 +36,7 @@ export class PrintPage extends React.Component {
           <div className="print-screen">
             <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
             <h1 className="section-header">
-              Post-9/11 GI Bill
+              Your Post-9/11 GI Bill
               <sup>&reg;</sup> Statement of Benefits
             </h1>
             <button className="usa-button-primary" onClick={this.printWindow}>
@@ -64,7 +62,14 @@ export class PrintPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
+PrintPage.propTypes = {
+  enrollmentData: PropTypes.object,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+};
+
+export function mapStateToProps(state) {
   return {
     enrollmentData: state.post911GIBStatus.enrollmentData,
   };

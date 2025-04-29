@@ -28,6 +28,7 @@ export default {
         'ui:errorMessages': {
           required: errorMessages.missingDisagreement,
         },
+        'ui:objectViewField': AreaOfDisagreementReviewField,
         'ui:options': {
           itemAriaLabel: data => getIssueTitle(data, { plainText: true }),
         },
@@ -36,22 +37,28 @@ export default {
           'ui:title': content.disagreementLegend,
           serviceConnection: {
             'ui:title': DISAGREEMENT_TYPES.serviceConnection,
-            'ui:reviewField': AreaOfDisagreementReviewField,
+            'ui:options': {
+              hideOnReview: true,
+            },
           },
           effectiveDate: {
             'ui:title': DISAGREEMENT_TYPES.effectiveDate,
-            'ui:reviewField': AreaOfDisagreementReviewField,
+            'ui:options': {
+              hideOnReview: true,
+            },
           },
           evaluation: {
             'ui:title': DISAGREEMENT_TYPES.evaluation,
-            'ui:reviewField': AreaOfDisagreementReviewField,
+            'ui:options': {
+              hideOnReview: true,
+            },
           },
         },
         otherEntry: {
           'ui:title': DISAGREEMENT_TYPES.otherEntry,
-          'ui:reviewField': AreaOfDisagreementReviewField,
           'ui:description': content.otherEntryHint,
           'ui:options': {
+            hideOnReview: true,
             updateSchema: (formData, _schema, _uiSchema, index) => ({
               type: 'string',
               maxLength: calculateOtherMaxLength(

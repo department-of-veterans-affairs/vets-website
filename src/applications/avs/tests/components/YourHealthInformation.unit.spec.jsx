@@ -34,12 +34,15 @@ describe('Avs: Your Health Information', () => {
     expect(screen.getByTestId('recall-appointments').firstChild).to.have.text(
       'March 15, 2024TEST CLINIC (VETERANS LOCATION VIDEO )Clinic location: LOMA LINDA VA CLINIC',
     );
+    expect(screen.getByTestId('problems')).to.contain.text(
+      'Diabetes Last updated: June 10, 2023',
+    );
     expect(screen.getByTestId('smoking-status')).to.have.text('Current smoker');
     expect(screen.getByTestId('immunizations')).to.contain.text(
       'COVID-19 (PFIZER)',
     );
     expect(screen.getByTestId('allergies-reactions')).to.contain.text(
-      'SIMVASTATIN',
+      'SIMVASTATINVerified date: June 10, 1999Severity: None notedReaction: myopathy',
     );
     expect(screen.getByTestId('lab-results')).to.contain.text(
       'RET-HeResult: 35.7',
@@ -49,6 +52,9 @@ describe('Avs: Your Health Information', () => {
     );
     expect(screen.getByTestId('my-medications')).to.contain.text(
       'Quantity: 90 for 90 days',
+    );
+    expect(screen.getByTestId('my-medications')).to.contain.text(
+      'Reason for use: DIABETES MELLITUS',
     );
     expect(screen.getByTestId('my-medications')).to.contain.text(
       'Documenting Facility & Provider: CAMP MASTER, PROVIDER,ONE',

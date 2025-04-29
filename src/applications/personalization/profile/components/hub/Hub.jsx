@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+
 import { hasBadAddress as hasBadAddressSelector } from '@@vap-svc/selectors';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
@@ -10,9 +12,14 @@ import { ProfileBreadcrumbs } from '@@profile/components/ProfileBreadcrumbs';
 import { ProfileLink } from '@@profile/components/ProfileLink';
 import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAlert';
 import { HubCard } from './HubCard';
-import { EduMigrationAlert } from '../direct-deposit/legacy/alerts/EduMigrationAlert';
 
 export const Hub = () => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+
+  const showAccreditedRepresentative = useToggleValue(
+    TOGGLE_NAMES.representativeStatusEnableV2Features,
+  );
+
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);
 
@@ -29,8 +36,6 @@ export const Hub = () => {
         <h1>Profile</h1>
       </div>
 
-      <EduMigrationAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 medium-screen:vads-l-col--10" />
-
       {hasBadAddress && (
         <BadAddressAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 vads-l-col--10" />
       )}
@@ -39,7 +44,7 @@ export const Hub = () => {
       <div className="hub-cards vads-u-margin-bottom--4">
         <HubCard
           heading={PROFILE_PATH_NAMES.PERSONAL_INFORMATION}
-          content="Legal name, date of birth, preferred name, gender identity, and disability rating"
+          content="Legal name, date of birth, preferred name, and disability rating"
         >
           <ProfileLink
             text="Manage your personal information"
@@ -68,6 +73,20 @@ export const Hub = () => {
           />
         </HubCard>
 
+        {showAccreditedRepresentative && (
+          <HubCard
+            heading={PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE}
+            content="Contact information for your current accredited attorney, claims agent, or Veterans Service Organization (VSO)"
+          >
+            <>
+              <ProfileLink
+                className="vads-u-display--block vads-u-margin-bottom--2"
+                text="Check your accredited representative or VSO"
+                href={PROFILE_PATHS.ACCREDITED_REPRESENTATIVE}
+              />
+            </>
+          </HubCard>
+        )}
         <HubCard
           heading={PROFILE_PATH_NAMES.MILITARY_INFORMATION}
           content="Military branches and dates of service"

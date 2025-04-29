@@ -7,7 +7,6 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
-import { submit } from './config/submit';
 
 export default function PensionEntry({ location, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -15,8 +14,11 @@ export default function PensionEntry({ location, children }) {
   const pensionMultiplePageResponse = useToggleValue(
     TOGGLE_NAMES.pensionMultiplePageResponse,
   );
-  const pensionModuleEnabled = useToggleValue(
-    TOGGLE_NAMES.pensionModuleEnabled,
+  const pensionIncomeAndAssetsClarification = useToggleValue(
+    TOGGLE_NAMES.pensionIncomeAndAssetsClarification,
+  );
+  const pensionMedicalEvidenceClarification = useToggleValue(
+    TOGGLE_NAMES.pensionMedicalEvidenceClarification,
   );
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading,
@@ -38,9 +40,22 @@ export default function PensionEntry({ location, children }) {
           'showMultiplePageResponse',
           pensionMultiplePageResponse,
         );
+        window.sessionStorage.setItem(
+          'showIncomeAndAssetsClarification',
+          pensionIncomeAndAssetsClarification,
+        );
+        window.sessionStorage.setItem(
+          'showPensionEvidenceClarification',
+          !!pensionMedicalEvidenceClarification,
+        );
       }
     },
-    [isLoadingFeatures, pensionMultiplePageResponse],
+    [
+      isLoadingFeatures,
+      pensionMultiplePageResponse,
+      pensionIncomeAndAssetsClarification,
+      pensionMedicalEvidenceClarification,
+    ],
   );
 
   if (isLoadingFeatures !== false || redirectToHowToPage) {
@@ -49,10 +64,6 @@ export default function PensionEntry({ location, children }) {
 
   if (!pensionFormEnabled) {
     return <NoFormPage />;
-  }
-
-  if (pensionModuleEnabled) {
-    formConfig.submit = (f, fc) => submit(f, fc, 'pensions/v0/pension_claims');
   }
 
   return (

@@ -15,6 +15,11 @@ export {
 export { default as SchemaForm } from './src/js/components/SchemaForm';
 
 export {
+  PersonalInformation,
+  personalInformationPage,
+} from './src/js/components/PersonalInformation';
+
+export {
   directDepositDescription,
   directDepositAlert,
   bankInfoHelpText,
@@ -159,7 +164,6 @@ export {
   isValidCurrentOrFutureDate,
   isValidCurrentOrPastYear,
   isValidCurrentOrFutureMonthYear,
-  dateToMoment,
   isValidDateRange,
   isValidRoutingNumber,
 } from './src/js/utilities/validations/index';
@@ -179,8 +183,6 @@ export {
 } from './src/js/widgets/PhoneNumberWidget';
 
 export { default as TextWidget } from './src/js/widgets/TextWidget';
-
-export { default as ArrayCountWidget } from './src/js/widgets/ArrayCountWidget';
 
 export {
   closeReviewChapter,
@@ -244,8 +246,9 @@ export {
   getNextPagePath,
   getPreviousPagePath,
   checkValidPagePath,
-  createRoutes,
 } from './src/js/routing';
+
+export { createRoutes } from './src/js/routing/createRoutes';
 
 export {
   transformErrors,

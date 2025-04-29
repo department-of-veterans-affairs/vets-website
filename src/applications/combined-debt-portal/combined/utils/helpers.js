@@ -1,9 +1,11 @@
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { format } from 'date-fns';
+import { addDays, format, isBefore, isEqual, isValid } from 'date-fns';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
-import moment from 'moment';
 import React from 'react';
+import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
+import * as Sentry from '@sentry/browser';
+import recordEvent from 'platform/monitoring/record-event';
 
 export const APP_TYPES = Object.freeze({
   DEBT: 'DEBT',
@@ -24,17 +26,26 @@ export const API_RESPONSES = Object.freeze({
 export const combinedPortalAccess = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
 
-export const debtLettersShowLetters = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.debtLettersShowLetters];
-
 export const debtLettersShowLettersVBMS = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.debtLettersShowLettersVBMS];
+
+export const showPaymentHistory = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.CdpPaymentHistoryVba];
 
 export const selectLoadingFeatureFlags = state =>
   state?.featureToggles?.loading;
 
+/**
+ * Helper function to consisently format date strings
+ *
+ * @param {string} date - date string or date type
+ * @returns formatted date string; example:
+ * - January 1, 2021
+ */
 export const formatDate = date => {
-  return format(new Date(date), 'MMMM d, yyyy');
+  const newDate =
+    typeof date === 'string' ? new Date(date.replace(/-/g, '/')) : date;
+  return isValid(newDate) ? format(new Date(newDate), 'MMMM d, y') : '';
 };
 
 export const currency = amount => {
@@ -45,14 +56,6 @@ export const currency = amount => {
   });
   return formatter.format(parseFloat(amount));
 };
-
-export const mcpFeatureToggle = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.showMedicalCopays];
-
-export const mcpHTMLStatementToggle = state =>
-  toggleValues(state)[
-    FEATURE_FLAG_NAMES.medicalCopaysHtmlMedicalStatementsViewEnabled
-  ];
 
 export const cdpAccessToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
@@ -65,9 +68,7 @@ export const formatTableData = tableData =>
   }));
 
 export const calcDueDate = (date, days) => {
-  return moment(date, 'MM-DD-YYYY')
-    .add(days, 'days')
-    .format('MMMM D, YYYY');
+  return formatDate(addDays(new Date(date), days));
 };
 
 export const titleCase = str => {
@@ -81,19 +82,18 @@ export const titleCase = str => {
 // if currentDate is on or before dueDate show current status
 // else show past due status
 export const verifyCurrentBalance = date => {
-  const currentDate = moment();
+  const currentDate = new Date();
   const dueDate = calcDueDate(date, 30);
-  return currentDate.isSameOrBefore(dueDate);
+  return (
+    isBefore(currentDate, new Date(dueDate)) ||
+    isEqual(currentDate, new Date(dueDate))
+  );
 };
 
-// receiving formatted date strings in the response
-// so we need to convert back to moment before sorting
 export const sortStatementsByDate = statements => {
-  const dateFormat = 'MM-DD-YYYY';
   return statements.sort(
     (a, b) =>
-      moment(b.pSStatementDate, dateFormat) -
-      moment(a.pSStatementDate, dateFormat),
+      new Date(b.pSStatementDateOutput) - new Date(a.pSStatementDateOutput),
   );
 };
 
@@ -122,5 +122,100 @@ export const setPageFocus = selector => {
   } else {
     document.querySelector('#main h1').setAttribute('tabIndex', -1);
     document.querySelector('#main h1').focus();
+  }
+};
+
+// 'Manually' generating PDF instead of using generatePdf so we can
+//  get the blob and send it to the API to combine with the Notice of Rights PDF
+//  may just be a temporary solution until we can get all the content displaying in a reasonable way
+const getPdfBlob = async (templateId, data) => {
+  const template = templates[templateId]();
+  const doc = await template.generate(data);
+
+  const chunks = [];
+  return new Promise((resolve, reject) => {
+    doc.on('data', chunk => chunks.push(chunk));
+    doc.on('end', () => {
+      const blob = new Blob([Buffer.concat(chunks)], {
+        type: 'application/pdf',
+      });
+      resolve(blob);
+    });
+    doc.on('error', reject);
+    doc.end();
+  });
+};
+
+const pdfGenerationAnalytics = (success, count) => {
+  recordEvent({
+    event: 'cdp-one-va-letter-download',
+    'cdp-one-va-letter-download-success': success,
+    'cdp-one-va-letter-download-count-debt': count?.debt || 0,
+    'cdp-one-va-letter-download-count-copay': count?.copay || 0,
+  });
+};
+
+// some fancy PDF generation
+export const handlePdfGeneration = async (environment, pdfData) => {
+  const analyticsCount = {
+    debt: pdfData?.debts?.length || 0,
+    copay: pdfData?.copays?.length || 0,
+  };
+
+  try {
+    const blob = await getPdfBlob('oneDebtLetter', pdfData);
+
+    const file = new File([blob], 'one_debt_letter.pdf', {
+      type: 'application/pdf',
+    });
+
+    const formData = new FormData();
+    formData.append('document', file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open(
+      'POST',
+      `${environment.API_URL}/debts_api/v0/combine_one_debt_letter_pdf`,
+    );
+    xhr.responseType = 'blob';
+
+    xhr.setRequestHeader('X-Key-Inflection', 'camel');
+    xhr.setRequestHeader('X-CSRF-Token', localStorage.getItem('csrfToken'));
+    xhr.setRequestHeader('Source-App-Name', window.appName);
+    xhr.withCredentials = true;
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const filename = `one_debt_letter_${
+          new Date().toISOString().split('T')[0]
+        }.pdf`;
+
+        const url = URL.createObjectURL(xhr.response);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.click();
+        URL.revokeObjectURL(url);
+      } else {
+        pdfGenerationAnalytics(false, analyticsCount);
+        Sentry.captureMessage(
+          `OneDebtLetter - PDF request failed: ${xhr.status}`,
+        );
+      }
+    };
+
+    xhr.onerror = () => {
+      pdfGenerationAnalytics(false, analyticsCount);
+      Sentry.captureMessage(`OneDebtLetter - Network error during PDF request`);
+    };
+
+    xhr.send(formData);
+    pdfGenerationAnalytics(true, analyticsCount);
+  } catch (err) {
+    pdfGenerationAnalytics(false, analyticsCount);
+    Sentry.setExtra('error: ', err);
+    Sentry.captureMessage(
+      `OneDebtLetter - PDF generation failed: ${err.message}`,
+    );
   }
 };

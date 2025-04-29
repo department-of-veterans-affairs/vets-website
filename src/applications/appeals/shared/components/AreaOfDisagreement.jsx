@@ -8,8 +8,10 @@ import {
 import cloneDeep from '~/platform/utilities/data/cloneDeep';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { waitForRenderThenFocus } from '~/platform/utilities/ui';
-import { focusOnChange } from '~/platform/forms-system/src/js/utilities//ui';
-import { ERROR_ELEMENTS } from '~/platform/utilities/constants';
+import {
+  focusOnChange,
+  scrollToFirstError,
+} from '~/platform/forms-system/src/js/utilities//ui';
 
 import { DISAGREEMENT_TYPES, MAX_LENGTH } from '../constants';
 import {
@@ -55,6 +57,9 @@ const AreaOfDisagreement = ({
     const hasError = (disagreement.otherEntry?.length || 0) > max;
     setMaxLength(max);
     setInputErrorMessage(hasError ? errorMessages.maxOtherEntry(max) : null);
+    if (hasError) {
+      scrollToFirstError({ focusOnAlertRole: true });
+    }
     return hasError;
   };
 
@@ -63,6 +68,9 @@ const AreaOfDisagreement = ({
     setCheckboxErrorMessage(
       hasError ? errorMessages.missingDisagreement : null,
     );
+    if (hasError) {
+      scrollToFirstError({ focusOnAlertRole: true });
+    }
     return hasError;
   };
 
@@ -110,8 +118,7 @@ const AreaOfDisagreement = ({
         focusOnChange(scrollKey, 'va-button', 'button');
         updatePage(data);
       } else {
-        // replaces scrollToFirstError()
-        focusOnChange(scrollKey, ERROR_ELEMENTS.join(','));
+        scrollToFirstError({ focusOnAlertRole: true });
       }
     },
   };
@@ -145,7 +152,7 @@ const AreaOfDisagreement = ({
             ),
         )}
         <VaTextInput
-          label={`${DISAGREEMENT_TYPES.otherEntry}. ${content.otherEntryHint}`}
+          label={content.otherEntry}
           name="otherEntry"
           error={inputErrorMessage}
           onInput={handlers.onInput}

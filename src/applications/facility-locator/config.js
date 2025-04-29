@@ -6,7 +6,6 @@ import {
   EMERGENCY_CARE_SERVICES,
 } from './constants';
 import manifest from './manifest.json';
-import { facilityLocatorLatLongOnly } from './utils/featureFlagSelectors';
 
 const apiSettings = {
   credentials: 'include',
@@ -41,26 +40,15 @@ export const resolveParamsWithUrl = ({
   bounds,
   center,
   radius,
-  store,
 }) => {
   const filterableLocations = ['health', 'benefits', 'provider'];
-  const reduxStore = store || require('./facility-locator-entry');
-  let latLongOnly = false;
-
-  try {
-    latLongOnly = facilityLocatorLatLongOnly(reduxStore.default.getState());
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.warn('error getting redux state from store', reduxStore, e);
-  }
-
   const api = getAPI();
 
   let facility;
   let service;
   let { url } = api;
   let roundRadius;
-  const perPage = 10;
+  let perPage = 10;
   let communityServiceType = false;
   let multiSpecialties = false;
 
@@ -92,6 +80,7 @@ export const resolveParamsWithUrl = ({
       service = serviceType;
       url = api.ccUrl;
       communityServiceType = true;
+      perPage = 15;
       break;
     default:
       facility = locationType;
@@ -119,20 +108,12 @@ export const resolveParamsWithUrl = ({
     }&${sNchar}${EMERGENCY_CARE_SERVICES[4]}`;
   }
 
-  let locationParams;
-  if (latLongOnly) {
-    locationParams = [
-      center && center.length > 0 ? `lat=${center[0]}` : null,
-      center && center.length > 0 ? `long=${center[1]}` : null,
-    ];
-  } else {
-    locationParams = [
-      address ? `address=${address}` : null,
-      ...bounds.map(c => `bbox[]=${c}`),
-      center && center.length > 0 ? `latitude=${center[0]}` : null,
-      center && center.length > 0 ? `longitude=${center[1]}` : null,
-    ];
-  }
+  const locationParams = [
+    address ? `address=${address}` : null,
+    ...bounds.map(c => `bbox[]=${c}`),
+    center && center.length > 0 ? `latitude=${center[0]}` : null,
+    center && center.length > 0 ? `longitude=${center[1]}` : null,
+  ];
 
   const postLocationParams = {};
   locationParams.forEach(param => {
@@ -193,12 +174,12 @@ export const facilityTypes = {
   [FacilityType.EMERGENCY_CARE]: 'Emergency Care',
   [FacilityType.URGENT_CARE_PHARMACIES]:
     'Community pharmacies (in VA’s network)',
-  [FacilityType.VA_CEMETARY]: 'VA cemeteries',
+  [FacilityType.VA_CEMETERY]: 'VA cemeteries',
   [FacilityType.VA_BENEFITS_FACILITY]: 'Benefits',
   [FacilityType.VET_CENTER]: 'Vet Centers',
   [LocationType.HEALTH]: 'VA health',
   [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
-  [LocationType.CEMETARY]: 'VA cemeteries',
+  [LocationType.CEMETERY]: 'VA cemeteries',
   [LocationType.BENEFITS]: 'VA benefits',
 };
 
@@ -285,7 +266,7 @@ export const facilityTypesOptions = {
   [LocationType.URGENT_CARE_PHARMACIES]:
     'Community pharmacies (in VA’s network)',
   [LocationType.BENEFITS]: 'VA benefits',
-  [LocationType.CEMETARY]: 'VA cemeteries',
+  [LocationType.CEMETERY]: 'VA cemeteries',
   [LocationType.VET_CENTER]: 'Vet Centers',
 };
 
@@ -293,6 +274,6 @@ export const nonPPMSfacilityTypeOptions = {
   [LocationType.NONE]: 'Choose a facility type',
   [LocationType.HEALTH]: 'VA health',
   [LocationType.BENEFITS]: 'VA benefits',
-  [LocationType.CEMETARY]: 'VA cemeteries',
+  [LocationType.CEMETERY]: 'VA cemeteries',
   [LocationType.VET_CENTER]: 'Vet Centers',
 };

@@ -4,7 +4,8 @@ import EnhancedEligibilityDescription from './EnhancedEligibilityDescription';
 const ToxicExposureDescription = (
   <>
     <p>
-      Next we’ll ask you more questions about your military service history.
+      Next we’ll ask you more questions about your military service history that
+      may be relevant to you based on your date of birth.
     </p>
     <p>
       It’s your choice whether you want to answer these questions. Before you
@@ -16,18 +17,18 @@ const ToxicExposureDescription = (
     </p>
     <ul>
       <li>
-        While deployed to certain areas linked to exposures like Agent Orange,
-        burn pits, radiation, or contaminated water
+        <strong>While deployed to certain areas</strong> linked to exposures
+        like Agent Orange, burn pits, radiation, or contaminated water
       </li>
       <li>
-        By working with chemicals, pesticides, lead, asbestos, certain paints,
-        nuclear weapons, x-rays, or other toxins during training or active duty
-        service
+        <strong>During training or active duty service</strong> by working with
+        chemicals, pesticides, lead, asbestos, certain paints, nuclear weapons,
+        X-rays, or other toxins
       </li>
     </ul>
     <p>
       We’ll also determine if you’re more likely to get VA health care benefits.
-      We call this "enhanced eligibility status."
+      We call this “enhanced eligibility status.”
     </p>
     <EnhancedEligibilityDescription />
   </>

@@ -1,15 +1,20 @@
-import manifest from '../manifest.json';
-
-describe(manifest.appName, () => {
-  // Skip tests in CI until the app is released.
-  // Remove this block when the app has a content page in production.
-  before(function() {
-    if (Cypress.env('CI')) this.skip();
+describe('SCO page', () => {
+  beforeEach(() => {
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'forms_10215_10216_release',
+            value: true,
+          },
+        ],
+      },
+    });
   });
-
-  it('is accessible', () => {
-    cy.visit(manifest.rootUrl)
-      .injectAxe()
-      .axeCheck();
+  it('Shows forms 10215 and 10216 digital form links if feature toggle on', () => {
+    cy.visit('/school-administrators');
+    cy.injectAxeThenAxeCheck();
+    cy.contains('Accepted forms for digital submission').should.exist;
   });
 });

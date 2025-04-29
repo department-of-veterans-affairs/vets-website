@@ -40,7 +40,7 @@ const HubLinks = ({ hubs }) => {
     </div>
   ));
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <div className="vads-l-row">{hubLayout}</div>
     </div>
   );

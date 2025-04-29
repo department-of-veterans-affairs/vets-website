@@ -2,13 +2,19 @@ import React from 'react';
 
 function AddingDetails() {
   return (
-    <div className="usa-alert usa-alert-info background-color-only claims-alert-status">
-      <h3 className="claims-alert-header vads-u-font-size--h4">
-        We’re adding your details
-      </h3>
-      We’ve received your claim and are still adding some of your information.
-      Check back soon to see the complete details of your claim.
-    </div>
+    <va-alert
+      class="vads-u-margin-bottom--1"
+      close-btn-aria-label="Close notification"
+      full-width="false"
+      slim
+      status="info"
+      visible="true"
+      data-test-id="adding-details"
+    >
+      <p className="vads-u-margin-y--0">
+        We can't show all of the details of your claim. Please check back later.
+      </p>
+    </va-alert>
   );
 }
 

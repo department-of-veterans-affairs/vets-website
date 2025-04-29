@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import { focusElement } from 'platform/utilities/ui';
 
 import extraData from '../tests/fixtures/data/extra-data.json';
@@ -16,7 +16,7 @@ import GetFormHelp from '../../../shared/content/GetFormHelp';
 const ViewAppeal = () => {
   useEffect(() => {
     focusElement('h2');
-    scrollToTop('topScrollElement');
+    scrollTo('topScrollElement');
   });
 
   const { data } = testData;

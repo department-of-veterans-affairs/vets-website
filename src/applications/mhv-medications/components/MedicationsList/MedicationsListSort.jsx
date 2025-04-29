@@ -1,24 +1,16 @@
-import {
-  VaButton,
-  VaSelect,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState } from 'react';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
-import {
-  rxListSortingOptions,
-  DD_ACTIONS_PAGE_TYPE,
-} from '../../util/constants';
-import { selectRefillContentFlag } from '../../util/selectors';
+import { rxListSortingOptions } from '../../util/constants';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const MedicationsListSort = props => {
   const { value, sortRxList } = props;
   const history = useHistory();
-  const showRefillContent = useSelector(selectRefillContentFlag);
-  const [sortListOption, setSortListOption] = useState(value);
+  const sortListOption = useMemo(() => value, [value]);
 
   const rxSortingOptions = Object.keys(rxListSortingOptions);
   return (
@@ -29,21 +21,26 @@ const MedicationsListSort = props => {
           data-testid="sort-dropdown"
           label="Show medications in this order"
           name="sort-order"
-          data-dd-action-name={`Show Medications In This Order Select - ${
-            DD_ACTIONS_PAGE_TYPE.LIST
-          }`}
+          data-dd-action-name={
+            dataDogActionNames.medicationsListPage
+              .SHOW_MEDICATIONS_IN_ORDER_SELECT
+          }
           value={sortListOption}
           onVaSelect={e => {
-            setSortListOption(e.detail.value);
+            sortRxList(e.detail.value);
+            history.push(`/?page=1`);
+            waitForRenderThenFocus(
+              "[data-testid='page-total-info']",
+              document,
+              500,
+            );
             const capitalizedOption = e.detail.value
               .replace(/([a-z])([A-Z])/g, '$1 $2')
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(' ');
             datadogRum.addAction(
-              `click on ${capitalizedOption} Option - ${
-                DD_ACTIONS_PAGE_TYPE.LIST
-              }`,
+              `${capitalizedOption} Option - ${pageType.LIST}`,
             );
           }}
           uswds
@@ -56,29 +53,6 @@ const MedicationsListSort = props => {
             );
           })}
         </VaSelect>
-      </div>
-      <div className="sort-button">
-        <VaButton
-          data-dd-action-name={`Sort Medications Button - ${
-            DD_ACTIONS_PAGE_TYPE.LIST
-          }`}
-          uswds
-          className="va-button"
-          secondary={showRefillContent}
-          data-testid="sort-button"
-          text="Sort"
-          onClick={() => {
-            if (sortListOption) {
-              sortRxList(sortListOption);
-              history.push(`/?page=1`);
-              waitForRenderThenFocus(
-                "[data-testid='page-total-info']",
-                document,
-                500,
-              );
-            }
-          }}
-        />
       </div>
     </div>
   );

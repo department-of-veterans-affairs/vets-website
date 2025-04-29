@@ -32,7 +32,7 @@ const recreationalVehicleUISchema = {
         'What is the estimated value of all of your trailers, campers, and boats?',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
-        classNames: 'schemaform-currency-input',
+        currency: true,
         width: 'md',
       },
       'ui:required': () => true,

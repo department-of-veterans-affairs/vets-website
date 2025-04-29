@@ -25,7 +25,7 @@ describe('remove folder error modal', () => {
       folderId,
       folderName,
     );
-    FolderManagementPage.deleteFolderButton().click();
+    FolderManagementPage.clickDeleteFolderButton();
 
     cy.get(Locators.FOLDERS.NOT_EMP_FOLDER).should(
       'include.text',

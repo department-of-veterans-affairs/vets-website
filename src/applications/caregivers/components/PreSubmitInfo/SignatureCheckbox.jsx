@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from 'platform/monitoring/record-event';
 import { normalizeFullName, replaceStrValues } from '../../utils/helpers';
+import { VaCheckbox } from '../../utils/imports';
 import SignatureInput from './SignatureInput';
 import content from '../../locales/en/content.json';
 
@@ -17,7 +16,7 @@ const SignatureCheckbox = props => {
     submission,
     isRepresentative,
   } = props;
-  const [hasError, setError] = useState(false);
+  const [error, setError] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
   const hasSubmittedForm = !!submission.status;
   const normalizedFullName = normalizeFullName(fullName, true);
@@ -32,21 +31,18 @@ const SignatureCheckbox = props => {
     : undefined;
 
   const handleCheck = event => {
-    setIsChecked(
-      event.target.shadowRoot.querySelector('#checkbox-element').checked,
-    );
-    recordEvent({
-      'caregivers-poa-certification-checkbox-checked': event.target.value,
-      fullName,
-      label,
-      isRepresentative,
-    });
+    const value = event.target.checked;
+    setIsChecked(value);
   };
 
   useEffect(
     () => {
-      const error = isChecked === true || hasSubmittedForm ? false : showError;
-      setError(error);
+      const hasError =
+        isChecked === true || hasSubmittedForm ? false : showError;
+      const message = hasError
+        ? content['validation-signature-required']
+        : null;
+      setError(message);
     },
     [showError, isChecked, hasSubmittedForm],
   );
@@ -81,7 +77,7 @@ const SignatureCheckbox = props => {
         required={isRequired}
         onVaChange={handleCheck}
         class="signature-checkbox"
-        error={hasError ? content['validation-signature-required'] : undefined}
+        error={error}
         label={content['signature-checkbox-label']}
       />
     </fieldset>

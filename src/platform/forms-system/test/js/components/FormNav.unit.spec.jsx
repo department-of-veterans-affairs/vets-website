@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 
 import environment from 'platform/utilities/environment';
 import FormNav from '../../../src/js/components/FormNav';
@@ -35,12 +36,19 @@ describe('Schemaform FormNav', () => {
     },
   });
   const getReviewData = () => ({
+    urlPrefix: '/',
     chapters: {
       chapter1: {
         title: 'Testing',
         pages: {
+          introduction: {
+            path: '/introduction',
+          },
           page1: {
             path: 'testing1',
+          },
+          page2: {
+            path: 'testing2',
           },
         },
       },
@@ -48,6 +56,13 @@ describe('Schemaform FormNav', () => {
         pages: {
           page2: {
             path: 'testing2',
+          },
+        },
+      },
+      review: {
+        pages: {
+          'review-and-submit': {
+            path: 'review-and-submit',
           },
         },
       },
@@ -167,7 +182,7 @@ describe('Schemaform FormNav', () => {
 
   it('should display a custom review page title', () => {
     const formConfigReviewData = getReviewData();
-    const currentPath = 'review-and-submit';
+    const currentPath = '/review-and-submit';
 
     const { container } = render(
       <FormNav formConfig={formConfigReviewData} currentPath={currentPath} />,
@@ -180,9 +195,10 @@ describe('Schemaform FormNav', () => {
       'Custom Review Page Title',
     );
   });
-  it('should display the auto-save message & application ID', () => {
+
+  it('should display the auto-save message & in-progress ID on the second page (index 1) of the first chapter', () => {
     const formConfigReviewData = getReviewData();
-    const currentPath = 'review-and-submit';
+    const currentPath = '/testing1'; // This is at index 1 as introduction is first
 
     const tree = render(
       <FormNav
@@ -198,11 +214,28 @@ describe('Schemaform FormNav', () => {
       }),
     ).to.not.be.null;
     expect(
-      tree.getByText('Your application ID number is 12345', {
+      tree.getByText('Your in-progress ID number is 12345', {
         exact: false,
       }),
     ).to.not.be.null;
   });
+
+  it('should hide the auto-save message & in-progress ID on any page after index 1', () => {
+    const formConfigReviewData = getReviewData();
+    const currentPath = '/testing2'; // This is after index 1
+
+    const tree = render(
+      <FormNav
+        formConfig={formConfigReviewData}
+        currentPath={currentPath}
+        inProgressFormId={12345}
+        isLoggedIn
+      />,
+    );
+    const content = tree.queryByTestId('navFormDiv').textContent;
+    expect(content).to.eq('');
+  });
+
   it('should not display the auto-save message', () => {
     const formConfigReviewData = getReviewData();
     const currentPath = 'review-and-submit';
@@ -218,29 +251,28 @@ describe('Schemaform FormNav', () => {
     expect(tree.queryByTestId('navFormDiv').textContent).to.eq('');
   });
 
-  // Can't get this test to work... useEffect callback is calling the focus
-  // function; but the page includes an empty div when focusElement is called
-  it.skip('should focus on navigation H3', async () => {
-    const currentPath = 'testing1';
-    const formConfigDefaultData = {
-      ...getDefaultData(),
-      useCustomScrollAndFocus: false,
-    };
+  it('should focus on va-segmented-progress-bar', () => {
+    const focusSpy = sinon.spy();
+    const currentPath = '/review-and-submit';
+    const formConfigDefaultData = getReviewData();
     const App = () => (
       <>
-        <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />
+        <div name="topScrollElement" />
+        <FormNav
+          formConfig={formConfigDefaultData}
+          currentPath={currentPath}
+          testFocus={focusSpy}
+        />
         <div id="main">
-          <h3>H3</h3>
+          <h2>H2</h2>
         </div>
       </>
     );
 
-    const { unmount, rerender } = render(<App />);
-    unmount();
-    rerender(<App />);
+    render(<App />);
 
-    await waitFor(() => {
-      expect(document.activeElement.tagName).to.eq('H3');
+    waitFor(() => {
+      expect(focusSpy.calledWith('va-segmented-progress-bar')).to.be.true;
     });
   });
 

@@ -32,11 +32,14 @@ describe('Medical Records Care Summary Page', () => {
     );
 
     // Verify Admitted Date
-    NotesDetailsPage.verifyDischargeSummaryDischargeDate('None noted');
+    NotesDetailsPage.verifyDischargeSummaryDischargeDate('None recorded');
 
     // Verify Discharge Summary discharged By
     NotesDetailsPage.verifyDischargeSummaryDischargedBy(
-      notes.entry[0].resource.contained[0].name[0].text,
+      // notes.entry[0].resource.contained[0].name[0].text,
+      `${notes.entry[1].resource.contained[0].name[0].given[0]} ${
+        notes.entry[1].resource.contained[0].name[0].family
+      }`,
     );
 
     // Verify Discharge Summary Note
@@ -66,11 +69,14 @@ describe('Medical Records Care Summary Page', () => {
     );
 
     // Verify Admitted Date
-    NotesDetailsPage.verifyDischargeSummaryAdmissionDate('None noted');
+    NotesDetailsPage.verifyDischargeSummaryAdmissionDate('None recorded');
 
     // Verify Discharge Summary discharged By
     NotesDetailsPage.verifyDischargeSummaryDischargedBy(
-      notes.entry[2].resource.contained[0].name[0].text,
+      // notes.entry[2].resource.contained[0].name[0].text,
+      `${notes.entry[2].resource.contained[0].name[0].given[0]} ${
+        notes.entry[2].resource.contained[0].name[0].family
+      }`,
     );
     // Verify Discharge Summary Note
     NotesDetailsPage.verifyDischargeSummaryNote(
@@ -97,12 +103,15 @@ describe('Medical Records Care Summary Page', () => {
       notes.entry[4].resource.contained[1].name,
     );
 
-    NotesDetailsPage.verifyDischargeSummaryAdmissionDate('None noted');
-    NotesDetailsPage.verifyDischargeSummaryDischargeDate('None noted');
+    NotesDetailsPage.verifyDischargeSummaryAdmissionDate('None recorded');
+    NotesDetailsPage.verifyDischargeSummaryDischargeDate('None recorded');
 
     // Verify Discharge Summary discharged By
     NotesDetailsPage.verifyDischargeSummaryDischargedBy(
-      notes.entry[4].resource.contained[0].name[0].text,
+      // notes.entry[4].resource.contained[0].name[0].text,
+      `${notes.entry[4].resource.contained[0].name[0].given[0]} ${
+        notes.entry[4].resource.contained[0].name[0].family
+      }`,
     );
 
     // Verify Discharge Summary Note

@@ -9,12 +9,7 @@ export class AudiologyPageObject extends PageObject {
   }
 
   selectTypeOfCare(label) {
-    cy.findByLabelText(label)
-      .as('radio')
-      .focus();
-    cy.get('@radio').click();
-
-    return this;
+    return super.selectRadioButtonShadow(label);
   }
 }
 

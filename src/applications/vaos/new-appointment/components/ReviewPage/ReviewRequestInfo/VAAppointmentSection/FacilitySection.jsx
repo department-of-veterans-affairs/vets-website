@@ -5,16 +5,8 @@ import { FLOW_TYPES } from '../../../../../utils/constants';
 import State from '../../../../../components/State';
 import { getFlowType } from '../../../../redux/selectors';
 
-export default function FacilitySection({ facility }) {
+export default function FacilitySection({ facility, clinic }) {
   const flowType = useSelector(getFlowType);
-
-  if (FLOW_TYPES.DIRECT === flowType)
-    return (
-      <>
-        <h3 className="vaos-appts__block-label">{facility.name}</h3>
-        {facility.address?.city}, <State state={facility.address?.state} />
-      </>
-    );
 
   return (
     <>
@@ -22,9 +14,17 @@ export default function FacilitySection({ facility }) {
       {facility.name}
       <br />
       {facility.address?.city}, <State state={facility.address?.state} />
+      {FLOW_TYPES.DIRECT === flowType && (
+        <>
+          <br />
+          <br />
+          <span>Clinic: {clinic.serviceName || 'Not available'}</span>
+        </>
+      )}
     </>
   );
 }
 FacilitySection.propTypes = {
   facility: PropTypes.object.isRequired,
+  clinic: PropTypes.object,
 };

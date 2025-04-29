@@ -32,11 +32,14 @@ const headlines = {
   serverError: 'We’re sorry. Something went wrong on our end.',
 };
 
-const mockApiCall = sinon.stub(actions, 'getRatedDisabilities');
-
 describe('<AppContent>', () => {
+  let mockApiCall;
   beforeEach(() => {
-    mockApiCall.reset();
+    mockApiCall = sinon.stub(actions, 'getRatedDisabilities');
+  });
+
+  afterEach(() => {
+    mockApiCall.restore();
   });
 
   context('error/loading states', () => {

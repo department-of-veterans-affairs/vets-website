@@ -1,9 +1,11 @@
 import { generateEmployersSchemas, isEmployedUnder65 } from './helpers';
+import { showMultiplePageResponse } from '../../../helpers';
 
 export default {
   title: 'List of current employment',
   path: 'employment/current/history',
-  depends: isEmployedUnder65,
+  depends: formData =>
+    !showMultiplePageResponse() && isEmployedUnder65(formData),
   ...generateEmployersSchemas({
     employersKey: 'currentEmployers',
     employersTitle: 'List of current employment',

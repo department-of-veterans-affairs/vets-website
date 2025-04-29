@@ -53,6 +53,9 @@ export default function ReviewPage() {
 
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
   const submissionType = isDirectSchedule ? 'appointment' : 'request';
+  const alertHeadline = isDirectSchedule
+    ? 'We couldn’t schedule this appointment'
+    : 'We can’t submit your request';
   const facilityDetails = facility || parentFacility;
 
   return (
@@ -92,10 +95,7 @@ export default function ReviewPage() {
       </div>
       {submitStatus === FETCH_STATUS.failed && (
         <div className="info-alert" role="alert">
-          <InfoAlert
-            status="error"
-            headline="We couldn’t schedule this appointment"
-          >
+          <InfoAlert status="error" headline={alertHeadline}>
             <>
               {submitStatusVaos409 && (
                 <p>

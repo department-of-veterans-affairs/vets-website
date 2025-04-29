@@ -107,13 +107,15 @@ describe('Reply form component', () => {
     const patientSafetyNotice = document.querySelector(
       "[trigger='Only use messages for non-urgent needs']",
     );
-    const draftToLabel = document.querySelector('span');
+    const draftToLabel = document.querySelector(
+      'span[data-testid=draft-reply-to]',
+    );
     const actionButtons = document.querySelector('.compose-form-actions');
 
     expect(patientSafetyNotice).to.exist;
 
     expect(draftToLabel.textContent).to.equal(
-      `(Draft) To: ${senderName}\n(Team: ${triageGroupName})`,
+      `Draft To: ${senderName}\n(Team: ${triageGroupName})`,
     );
 
     expect(getByText('Attachments'))
@@ -121,6 +123,34 @@ describe('Reply form component', () => {
       .to.contain('message-body-attachments-label');
 
     expect(actionButtons).to.exist;
+  });
+
+  it('renders correct category in h1 when category is "OTHER"', async () => {
+    const customReplyMessage = {
+      ...replyMessage,
+      category: 'OTHER',
+      subject: 'test replace category',
+    };
+    const screen = render(undefined, undefined, customReplyMessage);
+
+    await waitFor(() => {
+      const replyTitle = screen.getByTestId('reply-form-title');
+      expect(replyTitle).to.have.text('General: test replace category');
+    });
+  });
+
+  it('renders correct category in h1 when category is "TEST_RESULTS"', async () => {
+    const customReplyMessage = {
+      ...replyMessage,
+      category: 'TEST_RESULTS',
+      subject: 'test replace category',
+    };
+    const screen = render(undefined, undefined, customReplyMessage);
+
+    await waitFor(() => {
+      const replyTitle = screen.getByTestId('reply-form-title');
+      expect(replyTitle).to.have.text('Test: test replace category');
+    });
   });
 
   it('renders the message signature in the textarea if a signature is included', async () => {
@@ -161,7 +191,7 @@ describe('Reply form component', () => {
 
     expect(uploader.files[0].name).to.equal('test.png');
     expect(uploader.files.length).to.equal(1);
-    fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+    fireEvent.click(screen.getByTestId('save-draft-button'));
     await waitFor(() => {
       expect(
         document.querySelector(
@@ -190,8 +220,9 @@ describe('Reply form component', () => {
     fireEvent.focus(screen.getByTestId('message-body-field'));
     inputVaTextInput(screen.container, 'Test draft message', 'va-textarea');
     mockApiRequest(saveDraftResponse);
+    expect(screen.getByTestId('save-draft-button')).to.exist;
+    fireEvent.click(screen.getByTestId('save-draft-button'));
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
       expect(screen.getByText('Your message was saved', { exact: false }));
     });
   });

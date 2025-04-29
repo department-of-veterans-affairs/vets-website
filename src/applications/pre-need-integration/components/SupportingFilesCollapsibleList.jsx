@@ -1,5 +1,4 @@
 import React from 'react';
-import CollapsiblePanel from './CollapsiblePanel';
 
 const SupportingFilesOrAffidavitInfo = () => {
   return (
@@ -51,10 +50,9 @@ const BehalfOfSomeoneElseContent = () => {
               className="vads-u-color--link-default"
               href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf"
             >
-              <i
-                className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
-                aria-hidden="true"
-              />
+              <span className="vads-u-padding-right--1 vads-u-color--link-default">
+                <va-icon icon="file_download" size={3} />
+              </span>
               Download VA Form 21-22 (PDF, 4 pages)
             </a>
           </div>
@@ -72,10 +70,9 @@ const BehalfOfSomeoneElseContent = () => {
               className="vads-u-color--link-default"
               href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf"
             >
-              <i
-                className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
-                aria-hidden="true"
-              />
+              <span className="vads-u-padding-right--1 vads-u-color--link-default">
+                <va-icon icon="file_download" size={3} />
+              </span>
               Download VA Form 21-22a (PDF, 3 pages)
             </a>
           </div>
@@ -148,40 +145,29 @@ const CollapsibleList = () => {
       <div className="input-section">
         <div
           id="3-collapsiblePanel"
-          className="usa-accordion-bordered form-review-panel"
+          className="form-review-panel"
           data-chapter="applicantInformation"
         >
           <div name="chapterapplicantInformationScrollElement" />
           <h3 className="vads-u-font-size--h5">
             What kinds of files can I upload?
           </h3>
-          <ul className="usa-unstyled-list">
-            <li>
-              <CollapsiblePanel
-                header="If you're applying for yourself"
-                pageContent={
-                  <p>
-                    You can upload a copy of your or your sponsor’s DD214 or
-                    other separation papers. This will help us figure out if you
-                    qualify for burial in a VA national cemetery based on your
-                    or your sponsor’s military status and service history.
-                  </p>
-                }
-              />
-            </li>
-            <li>
-              <CollapsiblePanel
-                header="If you're preparing the application for someone else"
-                pageContent={<BehalfOfSomeoneElseContent />}
-              />
-            </li>
-            <li>
-              <CollapsiblePanel
-                header="Can I mail or fax files?"
-                pageContent={<MailOrFaxFilesContent />}
-              />
-            </li>
-          </ul>
+          <va-accordion bordered>
+            <va-accordion-item header="If you're applying for yourself">
+              <p>
+                You can upload a copy of your or your sponsor’s DD214 or other
+                separation papers. This will help us figure out if you qualify
+                for burial in a VA national cemetery based on your or your
+                sponsor’s military status and service history.
+              </p>
+            </va-accordion-item>
+            <va-accordion-item header="If you're preparing the application for someone else">
+              <BehalfOfSomeoneElseContent />
+            </va-accordion-item>
+            <va-accordion-item header="Can I mail or fax files?">
+              <MailOrFaxFilesContent />
+            </va-accordion-item>
+          </va-accordion>
         </div>
       </div>
     </div>

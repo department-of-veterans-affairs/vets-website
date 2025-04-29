@@ -13,6 +13,8 @@ const ContactInfoCard = ({
   edit,
 }) => {
   const countryLabel = COUNTRY_LABELS[COUNTRY_VALUES.indexOf(country)];
+  const buttonText = 'Edit mailing address';
+
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3 vads-u-margin-bottom--5">
       <h4 className="vads-u-margin--0 vads-u-margin-bottom--2">
@@ -26,13 +28,7 @@ const ContactInfoCard = ({
         </p>
         <p className="vads-u-margin--1px">{countryLabel}</p>
       </div>
-      <button
-        className="usa-button-secondary vads-u-width--auto vads-u-margin-top--2"
-        onClick={() => edit()}
-        type="button"
-      >
-        Edit mailing address
-      </button>
+      <va-button text={buttonText} onClick={() => edit()} />
     </div>
   );
 };

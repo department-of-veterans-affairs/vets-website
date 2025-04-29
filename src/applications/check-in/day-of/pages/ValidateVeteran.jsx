@@ -61,6 +61,7 @@ const ValidateVeteran = props => {
         setSession,
         app,
         updateError,
+        setDobError,
       );
     },
     [
@@ -72,6 +73,7 @@ const ValidateVeteran = props => {
       setSession,
       token,
       updateError,
+      setDobError,
     ],
   );
 
@@ -82,10 +84,6 @@ const ValidateVeteran = props => {
   return (
     <>
       <ValidateDisplay
-        header={t('check-in-at-va')}
-        subTitle={t(
-          'we-need-some-information-to-verify-your-identity-so-we-can-check-you-in',
-        )}
         lastNameInput={{
           lastNameError,
           setLastName,
@@ -94,6 +92,7 @@ const ValidateVeteran = props => {
         dobInput={{
           setDob,
           dob,
+          dobError,
         }}
         setDobError={setDobError}
         isLoading={isLoading}

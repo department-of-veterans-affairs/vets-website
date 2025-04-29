@@ -58,10 +58,7 @@ export default function App(props) {
                   <span role="presentation" className="vads-u-padding-x--1p5">
                     |
                   </span>
-                  <a
-                    href="/decision-reviews/testing/nod-new"
-                    className="exit-link"
-                  >
+                  <a href="/decision-reviews/test-nod" className="exit-link">
                     Exit form
                   </a>
                 </div>

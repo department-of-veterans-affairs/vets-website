@@ -91,6 +91,8 @@ export const newFolder = folderName => async dispatch => {
       type: Actions.Folder.CREATE,
       response,
     });
+    dispatch(getFolders());
+
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
@@ -146,6 +148,8 @@ export const delFolder = folderId => async dispatch => {
 export const renameFolder = (folderId, newName) => async dispatch => {
   try {
     await updateFolderName(folderId, newName);
+    await dispatch(getFolders());
+    await dispatch(retrieveFolder(folderId));
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,

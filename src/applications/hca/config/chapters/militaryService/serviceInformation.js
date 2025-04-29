@@ -1,20 +1,19 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-
 import {
   DISCHARGE_TYPE_LABELS,
   SERVICE_BRANCH_LABELS,
 } from '../../../utils/constants';
 import { validateServiceDates } from '../../../utils/validation';
+import { FULL_SCHEMA } from '../../../utils/imports';
 
 const {
   dischargeType,
   lastDischargeDate,
   lastEntryDate,
   lastServiceBranch,
-} = fullSchemaHca.properties;
+} = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

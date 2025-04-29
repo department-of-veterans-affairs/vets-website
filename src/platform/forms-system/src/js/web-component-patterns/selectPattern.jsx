@@ -35,6 +35,7 @@ import VaSelectField from '../web-component-fields/VaSelectField';
  * @param {string | UIOptions & {
  *  title?: UISchemaOptions['ui:title'],
  *  errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *  required?: UISchemaOptions['ui:required'],
  *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
  *  hint?: string,
  *  labels?: UISchemaOptions['ui:options']['labels'],
@@ -42,13 +43,14 @@ import VaSelectField from '../web-component-fields/VaSelectField';
  * @returns {UISchemaOptions}
  */
 export const selectUI = options => {
-  const { title, description, errorMessages, ...uiOptions } =
+  const { title, description, errorMessages, required, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   return {
     'ui:title': title,
     'ui:description': description,
     'ui:webComponentField': VaSelectField,
+    'ui:required': required,
     'ui:options': {
       ...uiOptions,
     },

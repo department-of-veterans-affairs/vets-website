@@ -24,10 +24,10 @@ const VaAccordionGi = ({ title, children, expanded, onChange }) => {
   );
 };
 
-VaAccordionGi.prototype = {
-  title: PropTypes.string,
+VaAccordionGi.propTypes = {
   children: PropTypes.any,
   expanded: PropTypes.bool,
+  title: PropTypes.string,
   onChange: PropTypes.func,
 };
 

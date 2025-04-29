@@ -7,7 +7,6 @@ import { useDirectDeposit, useDirectDepositEffects } from '@@profile/hooks';
 import Headline from '@@profile/components/ProfileSectionHeadline';
 import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
 import LoadFail from '@@profile/components/alerts/LoadFail';
-import { handleDowntimeForSection } from '@@profile/components/alerts/DowntimeBanner';
 
 import VerifyIdentity from '@@profile/components/direct-deposit/alerts/VerifyIdentity';
 import { TemporaryOutage } from '@@profile/components/direct-deposit/alerts/TemporaryOutage';
@@ -23,6 +22,7 @@ import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { COULD_NOT_DETERMINE_DUE_TO_EXCEPTION } from './config/enums';
 
 const cardHeadingId = 'bank-account-information';
 
@@ -48,6 +48,34 @@ Wrapper.defaultProps = {
   withPaymentHistory: true,
 };
 
+const MontgomeryGiBillDescription = () => (
+  <va-additional-info
+    trigger=" How to update your direct deposit information for Montgomery GI Bill"
+    class="vads-u-margin-top--4 gi-bill-info"
+    uswds
+    data-testid="gi-bill-additional-info"
+  >
+    <div>
+      <p
+        className="vads-u-margin-top--0 vads-u-color--black"
+        data-testid="gi-bill-description"
+      >
+        If you’re getting benefits through the Montgomery GI Bill Active Duty
+        (MGIB-AD) or Montgomery GI Bill Selected Reserve (MGIB-SR), you’ll need
+        to update your direct deposit information using our enrollment
+        verification tool.
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        <va-link
+          href="https://www.va.gov/education/verify-school-enrollment/#for-montgomery-gi-bill-benefit"
+          text="Update direct deposit information for MGIB benefits"
+          data-testid="gi-bill-update-link"
+        />
+      </p>
+    </div>
+  </va-additional-info>
+);
+
 export const DirectDeposit = () => {
   const directDepositHookResult = useDirectDeposit();
 
@@ -55,6 +83,7 @@ export const DirectDeposit = () => {
     ui,
     paymentAccount,
     controlInformation,
+    veteranStatus,
     isIdentityVerified,
     isBlocked,
     useOAuth,
@@ -79,9 +108,8 @@ export const DirectDeposit = () => {
   const hideDirectDeposit = useToggleValue(
     TOGGLE_NAMES.profileHideDirectDeposit,
   );
-
-  const profileShowDirectDepositSingleFormUAT = useToggleValue(
-    TOGGLE_NAMES.profileShowDirectDepositSingleFormUAT,
+  const nonVeteranFeatureFlag = useToggleValue(
+    TOGGLE_NAMES.profileLimitDirectDepositForNonBeneficiaries,
   );
 
   const togglesLoading = useToggleLoadingValue();
@@ -94,7 +122,7 @@ export const DirectDeposit = () => {
     );
   }
 
-  if (hideDirectDeposit && !profileShowDirectDepositSingleFormUAT) {
+  if (hideDirectDeposit) {
     return (
       <Wrapper>
         <TemporaryOutage customMessaging />
@@ -103,7 +131,11 @@ export const DirectDeposit = () => {
     );
   }
 
-  if (loadError) {
+  if (
+    loadError ||
+    (nonVeteranFeatureFlag &&
+      veteranStatus === COULD_NOT_DETERMINE_DUE_TO_EXCEPTION)
+  ) {
     return (
       <Wrapper>
         <LoadFail />
@@ -160,9 +192,8 @@ export const DirectDeposit = () => {
 
       <Wrapper>
         <DowntimeNotification
-          appTitle="direct deposit"
-          render={handleDowntimeForSection('direct deposit')}
-          dependencies={[externalServices.vaProfile]}
+          appTitle="direct deposit information page"
+          dependencies={[externalServices.LIGHTHOUSE_DIRECT_DEPOSIT]}
         >
           <ProfileInfoCard
             title="Bank account information"
@@ -171,7 +202,6 @@ export const DirectDeposit = () => {
             level={2}
           />
         </DowntimeNotification>
-
         <DirectDepositDevWidget
           debugData={{
             controlInformation,
@@ -188,7 +218,7 @@ export const DirectDeposit = () => {
             setFormData,
           }}
         />
-
+        <MontgomeryGiBillDescription />
         <FraudVictimSummary />
       </Wrapper>
     </div>

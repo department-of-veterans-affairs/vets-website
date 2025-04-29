@@ -68,7 +68,7 @@ context('credential retirement alerts on account security', () => {
     );
 
     cy.findByText(
-      `Starting December 31, 2024, you’ll no longer be able to sign in with your DS Logon username and password.`,
+      `Starting September 30, 2025, you’ll no longer be able to sign in with your DS Logon username and password.`,
       { exact: false },
     );
 
@@ -86,7 +86,7 @@ context('credential retirement alerts on account security', () => {
     );
 
     cy.findByText(
-      `Starting December 31, 2024, you’ll no longer be able to sign in with your My HealtheVet username and password.`,
+      `Starting January 31, 2025, you’ll no longer be able to sign in with your My HealtheVet username and password.`,
       { exact: false },
     );
 
@@ -98,12 +98,7 @@ context('credential retirement alerts on account security', () => {
 
     cy.visit(PROFILE_PATHS.ACCOUNT_SECURITY);
 
-    cy.get('va-alert').within(() => {
-      cy.findByText('Verify your identity to access your complete profile', {
-        exact: false,
-      });
-      cy.findByRole('link', { name: /verify your identity/i });
-    });
+    cy.get('va-alert-sign-in');
 
     cy.injectAxeThenAxeCheck();
   });

@@ -35,6 +35,17 @@ export const selectVaSelect = (container, value, selector = 'va-select') => {
   $(selector, container).__events.vaSelect(changeEvent);
 };
 
+export const comboBoxVaSelect = (
+  container,
+  value,
+  selector = 'va-combo-box',
+) => {
+  const changeEvent = new CustomEvent('vaSelect', {
+    detail: { value },
+  });
+  $(selector, container).__events.vaSelect(changeEvent);
+};
+
 export const selectVaDate = (container, value, selector = 'va-date') => {
   const vaDate = $(selector, container);
   vaDate.value = value;
@@ -50,4 +61,23 @@ export const selectVaRadio = (container, value, selector = 'va-radio') => {
     detail: { value },
   });
   $(selector, container).__events.vaValueChange(changeEvent);
+};
+
+export const checkVaCheckbox = (checkboxGroup, bool) => {
+  checkboxGroup.__events.vaChange({
+    target: {
+      checked: bool,
+    },
+    detail: { checked: bool },
+  });
+};
+
+export const getProps = element => {
+  let prop;
+  Object.keys(element).forEach(key => {
+    if (key.match(/^__react[^$]*(\$.+)$/)) {
+      prop = key;
+    }
+  });
+  return prop;
 };

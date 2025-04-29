@@ -13,7 +13,7 @@ export const personalInformationPage = {
   uiSchema: {
     ...titleUI({ title: 'Name and date of birth', headerLevel: 1 }),
     fullName: fullNameNoSuffixUI(label => getFullNameLabels(label, false)),
-    dateOfBirth: dateOfBirthUI({ required: true }),
+    dateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',

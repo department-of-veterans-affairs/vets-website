@@ -41,10 +41,10 @@ const TravelPayAlert = props => {
         <div>
           <p
             className="vads-u-margin-top--0"
-            data-testid="travel-pay-error-message"
+            data-testid="travel-pay-message-error"
           >
             <Trans
-              i18nKey="sorry-something-went-wrong-on-our-end-with-filing-your-travel-claim"
+              i18nKey="sorry-we-cant-file-now--v2"
               components={[
                 <span key="bold" className="vads-u-font-weight--bold" />,
               ]}
@@ -73,10 +73,10 @@ const TravelPayAlert = props => {
       >
         <p
           className="vads-u-margin-top--0"
-          data-testid="travel-pay-not-eligible-message"
+          data-testid="travel-pay-message-ineligible"
         >
           <Trans
-            i18nKey="travel-pay-cant-file-message"
+            i18nKey="travel-pay-cant-file-message--v2"
             components={[
               <span key="bold" className="vads-u-font-weight--bold" />,
             ]}
@@ -105,7 +105,7 @@ const TravelPayAlert = props => {
       <div>
         <p
           className="vads-u-margin-y--0"
-          data-testid="travel-pay-eligible-success-message"
+          data-testid="travel-pay-message-success"
         >
           <Trans
             i18nKey="processing-travel-claim"

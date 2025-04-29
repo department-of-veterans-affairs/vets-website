@@ -1,65 +1,17 @@
-import { getAppUrl } from '~/platform/utilities/registry-helpers';
-import { canHaveEducationExpenses } from './helpers/household';
-import { replaceStrValues } from './helpers/general';
-import content from '../locales/en/content.json';
-
-// declare previous year for form questions and content
-export const LAST_YEAR = new Date().getFullYear() - 1;
-
 // declare API endpoint routes
 export const API_ENDPOINTS = {
+  csrfCheck: '/maintenance_windows',
+  downloadPdf: '/health_care_applications/download_pdf',
   enrollmentStatus: '/health_care_applications/enrollment_status',
+  facilities: '/health_care_applications/facilities',
+  ratingInfo: '/health_care_applications/rating_info',
 };
-
-// declare global app URLs for use with content links
-export const APP_URLS = {
-  dischargeWizard: getAppUrl('discharge-upgrade-instructions'),
-  ezr: getAppUrl('ezr'),
-  facilities: getAppUrl('facilities'),
-  hca: getAppUrl('hca'),
-  profile: getAppUrl('profile'),
-  verify: getAppUrl('verify'),
-};
-
-// declare subpage configs for dependent information page
-export const DEPENDENT_SUBPAGES = [
-  {
-    id: 'basic',
-    title: content['household-dependent-info-basic-title'],
-  },
-  {
-    id: 'additional',
-    title: content['household-dependent-info-addtl-title'],
-  },
-  {
-    id: 'support',
-    title: content['household-dependent-info-support-title'],
-    depends: { cohabitedLastYear: false },
-  },
-  {
-    id: 'income',
-    title: replaceStrValues(
-      content['household-dependent-info-income-title'],
-      LAST_YEAR,
-      '%d',
-    ),
-    depends: { 'view:dependentIncome': true },
-  },
-  {
-    id: 'education',
-    title: content['household-dependent-info-education-title'],
-    depends: canHaveEducationExpenses,
-  },
-];
 
 // declare view fields for use in household section
 export const DEPENDENT_VIEW_FIELDS = {
   report: 'view:reportDependents',
   skip: 'view:skipDependentInfo',
 };
-
-// declare prefix for use in GA events related to disability rating
-export const DISABILITY_PREFIX = 'disability-ratings';
 
 // declare action statuses for fetching disability rating
 export const DISABILITY_RATING_ACTIONS = {
@@ -76,14 +28,14 @@ export const DISABILITY_RATING_INIT_STATE = {
 };
 
 // declare labels for discharge type select box
-export const DISCHARGE_TYPE_LABELS = {
+export const DISCHARGE_TYPE_LABELS = Object.freeze({
   honorable: 'Honorable',
   general: 'General',
   other: 'Other Than Honorable',
   'bad-conduct': 'Bad Conduct',
   dishonorable: 'Dishonorable',
   undesirable: 'Undesirable',
-};
+});
 
 // declare action statuses for fetching enrollment status
 export const ENROLLMENT_STATUS_ACTIONS = {
@@ -166,7 +118,7 @@ export const MOCK_ENROLLMENT_RESPONSE = {
 };
 
 // declare labels for last service branch select box
-export const SERVICE_BRANCH_LABELS = {
+export const SERVICE_BRANCH_LABELS = Object.freeze({
   'air force': 'Air Force',
   army: 'Army',
   'coast guard': 'Coast Guard',
@@ -181,7 +133,7 @@ export const SERVICE_BRANCH_LABELS = {
   'f.scouts new': 'Filipino New Scout',
   'f.scouts old': 'Filipino Old Scout',
   other: 'Other',
-};
+});
 
 // declare name to use for window session storage item
 export const SESSION_ITEM_NAME = 'hcaDependentIndex';
@@ -193,6 +145,3 @@ export const SHARED_PATHS = {
     info: 'household-information/dependent-information',
   },
 };
-
-// declare states without medical care serivces
-export const STATES_WITHOUT_MEDICAL = ['AA', 'AE', 'AP', 'FM', 'MH', 'PW'];

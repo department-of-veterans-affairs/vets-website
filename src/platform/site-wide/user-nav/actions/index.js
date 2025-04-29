@@ -1,26 +1,42 @@
+import appendQuery from 'append-query';
+
 export const TOGGLE_FORM_SIGN_IN_MODAL = 'TOGGLE_FORM_SIGN_IN_MODAL';
 export const TOGGLE_LOGIN_MODAL = 'TOGGLE_LOGIN_MODAL';
 export const UPDATE_SEARCH_HELP_USER_MENU = 'UPDATE_SEARCH_HELP_USER_MENU';
-export const TOGGLE_ACCOUNT_TRANSITION_MODAL =
-  'TOGGLE_ACCOUNT_TRANSITION_MODAL';
-export const TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL =
-  'TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL';
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 
 export function toggleFormSignInModal(isOpen) {
   return { type: TOGGLE_FORM_SIGN_IN_MODAL, isOpen };
 }
 
-export function toggleAccountTransitionModal(isOpen) {
-  return { type: TOGGLE_ACCOUNT_TRANSITION_MODAL, isOpen };
-}
+export function toggleLoginModal(
+  isOpen,
+  trigger = 'header',
+  forceVerification = false,
+) {
+  return async (dispatch, getState) => {
+    const { signInServiceEnabled } = getState()?.featureToggles;
 
-export function toggleAccountTransitionSuccessModal(isOpen) {
-  return { type: TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL, isOpen };
-}
+    const nextParam = new URLSearchParams(window?.location?.search)?.get(
+      'next',
+    );
+    const nextQuery = {
+      next: nextParam ?? 'loginModal',
+      ...(signInServiceEnabled && { oauth: true }),
+      ...(forceVerification && { verification: 'required' }),
+    };
 
-export function toggleLoginModal(isOpen) {
-  return { type: TOGGLE_LOGIN_MODAL, isOpen };
+    const url = isOpen
+      ? appendQuery(window.location.toString(), nextQuery)
+      : `${window.location.origin}${window.location.pathname}`;
+    window.history.pushState({}, '', url);
+
+    return dispatch({
+      type: TOGGLE_LOGIN_MODAL,
+      isOpen,
+      trigger,
+    });
+  };
 }
 
 export function toggleSearchHelpUserMenu(menu, isOpen) {
