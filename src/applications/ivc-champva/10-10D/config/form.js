@@ -31,7 +31,7 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import { flattenApplicantSSN } from './migrations';
+import { flattenApplicantSSN, migrateCardUploadKeys } from './migrations';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
@@ -182,8 +182,8 @@ const formConfig = {
       saved: 'Your CHAMPVA benefits application has been saved.',
     },
   },
-  version: 1,
-  migrations: [flattenApplicantSSN],
+  version: 2,
+  migrations: [flattenApplicantSSN, migrateCardUploadKeys],
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
