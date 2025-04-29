@@ -102,23 +102,103 @@ describe('VAOS Component: StatusAlert', () => {
       event: 'vaos-schedule-appointment-button-clicked',
     });
   });
-  it('Should display cancellation alert message', () => {
-    const mockAppointment = new MockAppointment({ start: moment() });
-    mockAppointment.setKind('clinic');
-    mockAppointment.setStatus('cancelled');
-    mockAppointment.setCancelationReason('pat');
 
-    const screen = renderWithStoreAndRouter(
-      <StatusAlert appointment={mockAppointment} facility={facilityData} />,
-      {
-        initialState,
-        path: `/${mockAppointment.id}`,
-      },
-    );
-    expect(screen.baseElement).to.contain('.usa-alert-error');
-    expect(screen.baseElement).to.contain.text('You canceled this appointment');
+  describe('Cancellation alert', () => {
+    it('Should display for canceled VA appointments', () => {
+      const mockAppointment = new MockAppointment({ start: moment() });
+      mockAppointment.setStatus('cancelled');
+      mockAppointment.setCancelationReason('pat');
 
-    expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
-    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+      const screen = renderWithStoreAndRouter(
+        <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+        {
+          initialState,
+          path: `/${mockAppointment.id}`,
+        },
+      );
+      expect(screen.baseElement).to.contain('.usa-alert-error');
+      expect(screen.baseElement).to.contain.text(
+        'You canceled this appointment',
+      );
+      expect(screen.baseElement).to.contain.text(
+        'If you still want this appointment, call your VA health facility to schedule.',
+      );
+
+      expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
+      expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
+    });
+
+    it('Should display for canceled CC appointments', () => {
+      const mockAppointment = new MockAppointment({ start: moment() });
+      mockAppointment.setType('COMMUNITY_CARE_APPOINTMENT');
+      mockAppointment.setStatus('cancelled');
+      mockAppointment.setCancelationReason('pat');
+
+      const screen = renderWithStoreAndRouter(
+        <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+        {
+          initialState,
+          path: `/${mockAppointment.id}`,
+        },
+      );
+      expect(screen.baseElement).to.contain('.usa-alert-error');
+      expect(screen.baseElement).to.contain.text(
+        'You canceled this appointment',
+      );
+      expect(screen.baseElement).to.contain.text(
+        'If you still want this appointment, call your community care provider to schedule.',
+      );
+
+      expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
+      expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
+    });
+
+    it('Should display for canceled C&P appointments', () => {
+      const mockAppointment = new MockAppointment({ start: moment() });
+      mockAppointment.setIsCompAndPenAppointment(true);
+      mockAppointment.setStatus('cancelled');
+      mockAppointment.setCancelationReason('pat');
+
+      const screen = renderWithStoreAndRouter(
+        <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+        {
+          initialState,
+          path: `/${mockAppointment.id}`,
+        },
+      );
+      expect(screen.baseElement).to.contain('.usa-alert-error');
+      expect(screen.baseElement).to.contain.text(
+        'You canceled this appointment',
+      );
+      expect(screen.baseElement).to.contain.text(
+        'If you still want this appointment, call your VA health facility’s compensation and pension office to schedule.',
+      );
+
+      expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
+      expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
+    });
+
+    it('Should display for canceled appointment requests', () => {
+      const mockAppointment = new MockAppointment({ start: moment() });
+      mockAppointment.setIsPendingAppointment(true);
+      mockAppointment.setStatus('cancelled');
+      mockAppointment.setCancelationReason('pat');
+
+      const screen = renderWithStoreAndRouter(
+        <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+        {
+          initialState,
+          path: `/${mockAppointment.id}`,
+        },
+      );
+      expect(screen.baseElement).to.contain('.usa-alert-error');
+      expect(screen.baseElement).to.contain.text('You canceled this request');
+      expect(screen.baseElement).to.contain.text(
+        'If you still want this appointment, call your VA health facility or submit another request online.',
+      );
+
+      expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
+      expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+    });
   });
 });
