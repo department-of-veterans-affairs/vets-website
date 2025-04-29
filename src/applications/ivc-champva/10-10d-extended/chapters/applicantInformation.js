@@ -5,6 +5,8 @@ import { cloneDeep } from 'lodash';
 import {
   addressUI,
   addressSchema,
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
   fullNameUI,
@@ -43,6 +45,7 @@ import {
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
 import { isInRange } from '../../10-10D/helpers/utilities';
 import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
+import { depends18f3 } from '../../10-10D/pages/ApplicantSponsorMarriageDetailsPage';
 
 /*
 // TODO: get the custom prefill stuff working with array builder
@@ -226,19 +229,22 @@ const applicantBirthCertConfig = uploadWithInfoComponent(
 
 const applicantBirthCertUploadPage = {
   uiSchema: {
-    ...titleUI('Upload birth certificate', ({ formData }) => (
-      <>
-        To help us process this application faster, submit a copy of{' '}
-        <b className="dd-privacy-hidden">
-          {applicantWording(formData, true, false)}
-        </b>{' '}
-        birth certificate.
-        <br />
-        Submitting a copy can help us process this application faster.
-        <br />
-        {MAIL_OR_FAX_LATER_MSG}
-      </>
-    )),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload birth certificate',
+      ({ formData }) => (
+        <>
+          To help us process this application faster, submit a copy of{' '}
+          <b className="dd-privacy-hidden">
+            {applicantWording(formData, true, false)}
+          </b>{' '}
+          birth certificate.
+          <br />
+          Submitting a copy can help us process this application faster.
+          <br />
+          {MAIL_OR_FAX_LATER_MSG}
+        </>
+      ),
+    ),
     ...applicantBirthCertConfig.uiSchema,
     applicantBirthCertOrSocialSecCard: fileUploadUI({
       label: 'Upload a copy of birth certificate',
@@ -263,19 +269,22 @@ const applicantAdoptedConfig = uploadWithInfoComponent(
 
 const applicantAdoptionUploadPage = {
   uiSchema: {
-    ...titleUI('Upload adoption documents', ({ formData }) => (
-      <>
-        To help us process this application faster, submit a copy of{' '}
-        <b className="dd-privacy-hidden">
-          {applicantWording(formData, true, false)}
-        </b>{' '}
-        adoption documents.
-        <br />
-        Submitting a copy can help us process this application faster.
-        <br />
-        {MAIL_OR_FAX_LATER_MSG}
-      </>
-    )),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload adoption documents',
+      ({ formData }) => (
+        <>
+          To help us process this application faster, submit a copy of{' '}
+          <b className="dd-privacy-hidden">
+            {applicantWording(formData, true, false)}
+          </b>{' '}
+          adoption documents.
+          <br />
+          Submitting a copy can help us process this application faster.
+          <br />
+          {MAIL_OR_FAX_LATER_MSG}
+        </>
+      ),
+    ),
     ...applicantAdoptedConfig.uiSchema,
     applicantAdoptionPapers: fileUploadUI({
       label: 'Upload a copy of adoption documents',
@@ -300,19 +309,22 @@ const applicantStepChildConfig = uploadWithInfoComponent(
 
 const applicantStepChildUploadPage = {
   uiSchema: {
-    ...titleUI('Upload parental marriage documents', ({ formData }) => (
-      <>
-        To help us process this application faster, submit a copy of{' '}
-        <b className="dd-privacy-hidden">
-          {applicantWording(formData, true, false)}
-        </b>{' '}
-        parental marriage documents.
-        <br />
-        Submitting a copy can help us process this application faster.
-        <br />
-        {MAIL_OR_FAX_LATER_MSG}
-      </>
-    )),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload parental marriage documents',
+      ({ formData }) => (
+        <>
+          To help us process this application faster, submit a copy of{' '}
+          <b className="dd-privacy-hidden">
+            {applicantWording(formData, true, false)}
+          </b>{' '}
+          parental marriage documents.
+          <br />
+          Submitting a copy can help us process this application faster.
+          <br />
+          {MAIL_OR_FAX_LATER_MSG}
+        </>
+      ),
+    ),
     ...applicantStepChildConfig.uiSchema,
     applicantStepMarriageCert: fileUploadUI({
       label: 'Upload a copy of parental marriage documents',
@@ -337,19 +349,22 @@ const applicantSchoolCertConfig = uploadWithInfoComponent(
 
 const applicantSchoolCertUploadPage = {
   uiSchema: {
-    ...titleUI('Upload school documents', ({ formData }) => (
-      <>
-        To help us process this application faster, submit a copy of{' '}
-        <b className="dd-privacy-hidden">
-          {applicantWording(formData, true, false)}
-        </b>{' '}
-        school documents.
-        <br />
-        Submitting a copy can help us process this application faster.
-        <br />
-        {MAIL_OR_FAX_LATER_MSG}
-      </>
-    )),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload school documents',
+      ({ formData }) => (
+        <>
+          To help us process this application faster, submit a copy of{' '}
+          <b className="dd-privacy-hidden">
+            {applicantWording(formData, true, false)}
+          </b>{' '}
+          school documents.
+          <br />
+          Submitting a copy can help us process this application faster.
+          <br />
+          {MAIL_OR_FAX_LATER_MSG}
+        </>
+      ),
+    ),
     ...applicantSchoolCertConfig.uiSchema,
     applicantSchoolCert: fileUploadUI({
       label: 'Upload proof of school enrollment',
@@ -372,19 +387,22 @@ const applicantHelplessChildConfig = uploadWithInfoComponent(
 
 const applicantHelplessChildUploadPage = {
   uiSchema: {
-    ...titleUI('Upload helpless child documents', ({ formData }) => (
-      <>
-        To help us process this application faster, submit a copy of{' '}
-        <b className="dd-privacy-hidden">
-          {applicantWording(formData, true, false)}
-        </b>{' '}
-        helpless child documents.
-        <br />
-        Submitting a copy can help us process this application faster.
-        <br />
-        {MAIL_OR_FAX_LATER_MSG}
-      </>
-    )),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload helpless child documents',
+      ({ formData }) => (
+        <>
+          To help us process this application faster, submit a copy of{' '}
+          <b className="dd-privacy-hidden">
+            {applicantWording(formData, true, false)}
+          </b>{' '}
+          helpless child documents.
+          <br />
+          Submitting a copy can help us process this application faster.
+          <br />
+          {MAIL_OR_FAX_LATER_MSG}
+        </>
+      ),
+    ),
     ...applicantHelplessChildConfig.uiSchema,
     applicantHelplessCert: fileUploadUI({
       label: 'Upload proof of helpless child status',
@@ -422,6 +440,24 @@ const applicantDependentStatusPage = {
       },
     },
     required: ['applicantDependentStatus'],
+  },
+};
+
+const applicantMarriageDatesPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${applicantWording(formData)} date of marriage to the sponsor`,
+      'If you don’t know the exact date, enter your best guess',
+    ),
+    dateOfMarriageToSponsor: currentOrPastDateUI(),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      dateOfMarriageToSponsor: currentOrPastDateSchema,
+    },
+    required: ['dateOfMarriageToSponsor'],
   },
 };
 
@@ -635,6 +671,15 @@ export const applicantPages = arrayBuilderPages(
       },
       CustomPage: FileFieldCustom,
       ...applicantHelplessChildUploadPage,
+    }),
+    page18f3: pageBuilder.itemPage({
+      path: 'applicant-marriage-date/:index',
+      title: item => `${applicantWording(item)} marriage dates`,
+      depends: (formData, index) => {
+        if (index === undefined) return true;
+        return depends18f3(formData, index);
+      },
+      ...applicantMarriageDatesPage,
     }),
   }),
 );
