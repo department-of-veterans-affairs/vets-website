@@ -33,33 +33,27 @@ export default function EpsAppointmentDetailsPage() {
     referralAppointmentInfo,
   } = useSelector(getReferralAppointmentInfo);
 
-  useEffect(
-    () => {
-      dispatch(setFormCurrentPage('details'));
-    },
-    [dispatch],
-  );
-  useEffect(
-    () => {
-      if (
-        !appointmentInfoError &&
-        !appointmentInfoTimeout &&
-        !appointmentInfoLoading &&
-        referralAppointmentInfo?.attributes?.status !== 'booked'
-      ) {
-        dispatch(fetchAppointmentInfo(appointmentId));
-      }
-    },
-    [
-      dispatch,
-      appointmentId,
-      appointmentInfoError,
-      appointmentInfoTimeout,
-      appointmentCreateStatus,
-      appointmentInfoLoading,
-      referralAppointmentInfo?.attributes?.status,
-    ],
-  );
+  useEffect(() => {
+    dispatch(setFormCurrentPage('details'));
+  }, [dispatch]);
+  useEffect(() => {
+    if (
+      !appointmentInfoError &&
+      !appointmentInfoTimeout &&
+      !appointmentInfoLoading &&
+      referralAppointmentInfo?.attributes?.status !== 'booked'
+    ) {
+      dispatch(fetchAppointmentInfo(appointmentId));
+    }
+  }, [
+    dispatch,
+    appointmentId,
+    appointmentInfoError,
+    appointmentInfoTimeout,
+    appointmentCreateStatus,
+    appointmentInfoLoading,
+    referralAppointmentInfo?.attributes?.status,
+  ]);
   if (appointmentInfoError || appointmentInfoTimeout) {
     return (
       <PageLayout showNeedHelp>
@@ -144,9 +138,7 @@ export default function EpsAppointmentDetailsPage() {
                 </>
                 <div className="vads-u-margin-top--1 vads-u-color--link-default">
                   <a
-                    href={`https://maps.google.com?saddr=Current+Location&daddr=${
-                      appointment.provider.location.address
-                    }`}
+                    href={`https://maps.google.com?saddr=Current+Location&daddr=${appointment.provider.location.address}`}
                   >
                     <va-icon icon="directions" size="3" />
                     Directions

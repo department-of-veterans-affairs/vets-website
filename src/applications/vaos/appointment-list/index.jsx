@@ -34,8 +34,9 @@ function AppointmentListSection() {
         )}
         <Route path="/past/:id" component={UpcomingAppointmentsDetailsPage} />
         <Route path="/past" component={AppointmentsPage} />
-        {isInCCPilot &&
-          eps && <Route path="/:id" component={EpsAppointmentDetailsPage} />}
+        {isInCCPilot && eps && (
+          <Route path="/:id" component={EpsAppointmentDetailsPage} />
+        )}
         <Route
           exact
           path={['/va/:id', '/:id']}

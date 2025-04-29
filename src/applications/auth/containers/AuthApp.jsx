@@ -50,9 +50,6 @@ export default function AuthApp({ location }) {
   const isFeatureToggleLoading = useSelector(
     store => store?.featureToggles?.loading,
   );
-  const isInterstitialEnabled = useSelector(
-    store => store?.featureToggles?.mhvInterstitialEnabled,
-  );
 
   const handleAuthError = (error, codeOverride) => {
     const { errorCode: detailedErrorCode } = getAuthError(
@@ -75,11 +72,6 @@ export default function AuthApp({ location }) {
   };
 
   const redirect = () => {
-    if (isInterstitialEnabled && ['mhv', 'myhealthevet'].includes(loginType)) {
-      window.location.replace('/sign-in-changes-reminder');
-      return;
-    }
-
     // remove from session storage
     sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 

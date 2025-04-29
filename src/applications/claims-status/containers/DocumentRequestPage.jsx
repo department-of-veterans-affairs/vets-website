@@ -33,11 +33,11 @@ import { benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
 import {
   setDocumentRequestPageTitle,
-  setDocumentTitle,
   getClaimType,
   isAutomated5103Notice,
+  setPageTitle,
 } from '../utils/helpers';
-import { setPageFocus, setUpPage } from '../utils/page';
+import { setUpPage, setPageFocus } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
 
@@ -52,14 +52,7 @@ const statusPath = '../status';
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    if (this.props.trackedItem) {
-      const pageTitle = setDocumentRequestPageTitle(
-        this.props.trackedItem.displayName,
-      );
-      setDocumentTitle(pageTitle);
-    } else {
-      setDocumentTitle('Document Request');
-    }
+    setPageTitle(this.props.trackedItem);
     if (!this.props.loading) {
       setUpPage();
     } else {
@@ -86,6 +79,7 @@ class DocumentRequestPage extends React.Component {
     }
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
+      setPageTitle(this.props.trackedItem);
     }
   }
 
@@ -136,10 +130,12 @@ class DocumentRequestPage extends React.Component {
 
     if (this.props.loading) {
       content = (
-        <va-loading-indicator
-          set-focus
-          message="Loading your claim information..."
-        />
+        <div>
+          <va-loading-indicator
+            set-focus
+            message="Loading your claim information..."
+          />
+        </div>
       );
     } else {
       const { message, trackedItem } = this.props;
@@ -199,7 +195,9 @@ class DocumentRequestPage extends React.Component {
       previousPageBreadcrumb,
       {
         href: `../document-request/${params.trackedItemId}`,
-        label: setDocumentRequestPageTitle(trackedItem?.displayName),
+        label: setDocumentRequestPageTitle(
+          trackedItem?.friendlyName || trackedItem?.displayName,
+        ),
         isRouterLink: true,
       },
     ];
