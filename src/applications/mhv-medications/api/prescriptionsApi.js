@@ -101,9 +101,12 @@ export const prescriptionsApi = createApi({
       transformResponse: response => {
         if (response?.data && Array.isArray(response.data)) {
           return {
-            prescriptions: response.data.map(prescription =>
-              convertPrescription(prescription),
-            ),
+            prescriptions: response.data
+              .map(prescription => convertPrescription(prescription))
+              .sort((a, b) =>
+                a.prescriptionName.localeCompare(b.prescriptionName),
+              )
+              .filter(prescription => prescription?.isRefillable),
             meta: response.meta || {},
           };
         }
