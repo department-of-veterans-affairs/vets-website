@@ -48,6 +48,36 @@ const IntroductionPage = ({ route, router }) => {
       <FormTitle title={title} subTitle={subTitle} />
       <h2>How to submit VA form {formNumber}</h2>
       <p>This upload tool allows Veterans to submit a completed VA form.</p>
+      {/* <VaFileInput
+        id="file-upload"
+        className="vads-u-margin-bottom--3"
+        // error={this.getErrorMessage()}
+        label="Upload VA Form 21-686c"
+        hint="You can upload one file no larger than 25MB. Your file can be .pdf, .png or .jpg."
+        accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+        // onVaChange={e => this.add(e.detail.files)}
+        name="fileUpload"
+        additionalErrorClass="claims-upload-input-error-message"
+        aria-describedby="file-requirements"
+        uswds
+      />
+      <label htmlFor="file-upload-multiple">Upload supporting evidence</label>
+      <VaFileInputMultiple
+        id="file-upload-multiple"
+        required={true}
+        className="vads-u-margin-bottom--3"
+        // error={this.getErrorMessage()}
+        label="Select supporting documents to upload"
+        hint="You can upload one file at a time no larger than 25MB. Your file can be .pdf, .png or .jpg."
+        // onVaChange={e => handleChange(e)}
+        onVaMultipleChange={e => handleChange(e)}
+        name="fileUpload"
+        additionalErrorClass="claims-upload-input-error-message"
+        aria-describedby="file-requirements"
+        accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+        uswds
+      />
+      {files.length} */}
       <VaProcessList>
         <VaProcessListItem header="Download the form">
           <p>Download the official VA Form {formNumber} from VA.gov.</p>

@@ -17,6 +17,7 @@ const transformForSubmit = (formConfig, form) => {
     sharedTransformForSubmit(formConfig, form),
   );
 
+  // debugger
   const { formNumber, subTitle } = getFormContent();
   const {
     veteranSsn = {},
@@ -33,6 +34,7 @@ const transformForSubmit = (formConfig, form) => {
   return JSON.stringify({
     confirmationCode,
     formName: subTitle,
+    supportingDocuments: transformedData.supportingDocuments,
     formData: {
       veteranSsn,
       postalCode: address.postalCode,

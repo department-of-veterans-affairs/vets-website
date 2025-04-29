@@ -5,21 +5,30 @@ import {
   fileInputSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+import FileField from 'platform/forms-system/src/js/fields/FileField';
 import {
   UPLOAD_TITLE,
   UPLOAD_DESCRIPTION,
   FORM_UPLOAD_OCR_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,
 } from '../config/constants';
-import { getFormContent, getPdfDownloadUrl, onCloseAlert } from '../helpers';
+import {
+  getFormContent,
+  getPdfDownloadUrl,
+  onCloseAlert,
+  createPayload,
+  parseResponse,
+} from '../helpers';
 import { CustomAlertPage } from './helpers';
+import SupportingEvidenceViewField from '../components/SupportingEvidenceViewField';
 
 const { formNumber, title } = getFormContent();
 const fileUploadUrl = `${
   environment.API_URL
 }/accredited_representative_portal/v0/representative_form_upload`;
-const warningsPresent = formData => formData.uploadedFile?.warnings?.length > 0;
+const warningsPresent = formData =>
+  formData.supportingDocuments?.warnings?.length > 0;
 
 export const uploadPage = {
   uiSchema: {
@@ -45,11 +54,63 @@ export const uploadPage = {
         },
       }),
     },
+    'ui:objectViewField': SupportingEvidenceViewField,
+    supportingDocuments: {
+      'ui:title': 'Upload additional evidence',
+      'ui:field': FileField,
+      'ui:confirmationField': ({ formData }) => ({
+        data: formData?.map(item => item.name || item.fileName),
+        label: UPLOAD_TITLE,
+      }),
+      'ui:options': {
+        hideLabelText: false,
+        showFieldLabel: true,
+        buttonText: 'Upload file',
+        addAnotherLabel: 'Upload another file',
+        ariaLabelAdditionalText: `${UPLOAD_TITLE}. ${UPLOAD_DESCRIPTION}`,
+        attachmentType: {
+          'ui:title': 'File type',
+        },
+        attachmentDescription: {
+          'ui:title': 'Document description',
+        },
+        fileUploadUrl,
+        fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+        createPayload,
+        parseResponse,
+        keepInPageOnReview: true,
+        classNames: 'schemaform-file-upload',
+      },
+    },
   },
   schema: {
     type: 'object',
     properties: {
       uploadedFile: fileInputSchema,
+      supportingDocuments: {
+        type: 'array',
+        minItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            fileName: {
+              type: 'string',
+            },
+            fileSize: {
+              type: 'integer',
+            },
+            confirmationNumber: {
+              type: 'string',
+            },
+            errorMessage: {
+              type: 'string',
+            },
+            uploading: {
+              type: 'boolean',
+            },
+          },
+        },
+      },
     },
     required: ['uploadedFile'],
   },
@@ -57,7 +118,7 @@ export const uploadPage = {
 
 /** @type {CustomPageType} */
 export function UploadPage(props) {
-  const warnings = props.data?.uploadedFile?.warnings;
+  const warnings = props.data?.supportingDocuments?.warnings;
   const alert =
     warnings?.length > 0
       ? FORM_UPLOAD_OCR_ALERT(
@@ -70,10 +131,10 @@ export function UploadPage(props) {
   return <CustomAlertPage {...props} alert={alert} />;
 }
 
-UploadPage.propTypes = {
-  data: PropTypes.shape({
-    uploadedFile: PropTypes.shape({
-      warnings: PropTypes.arrayOf(PropTypes.string),
-    }),
-  }).isRequired,
-};
+// UploadPage.propTypes = {
+//   data: PropTypes.shape({
+//     uploadedFile: PropTypes.shape({
+//       warnings: PropTypes.arrayOf(PropTypes.string),
+//     }),
+//   }).isRequired,
+// };

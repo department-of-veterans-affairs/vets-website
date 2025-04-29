@@ -39,6 +39,15 @@ export const representativeTitleAndDescription = {
   },
 };
 
+export const supportingEvidenceTitleAndDescription = {
+  'view:supportingEvidenceTitle': {
+    'ui:title': 'Upload supporting evidence',
+  },
+  'view:supportingEvidenceDescription': {
+    'ui:description': 'Select supporting documents to upload.',
+  },
+};
+
 export const CustomTopContent = () => {
   const formNumber = getFormNumber();
   const breadcrumbs = [

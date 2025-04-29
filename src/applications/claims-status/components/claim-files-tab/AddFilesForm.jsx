@@ -82,6 +82,7 @@ class AddFilesForm extends React.Component {
   };
 
   add = async files => {
+    // debugger
     const file = files[0];
     const { onAddFile, mockReadAndCheckFile } = this.props;
     const extraData = {};
