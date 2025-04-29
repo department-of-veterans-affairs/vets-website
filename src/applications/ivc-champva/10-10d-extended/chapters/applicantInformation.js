@@ -16,6 +16,10 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  phoneUI,
+  phoneSchema,
+  emailUI,
+  emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -117,6 +121,32 @@ const applicantMailingAddressPage = {
   },
 };
 
+const applicantContactInfoPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${applicantWording(formData) || 'Applicant'} contact information`,
+      ({ formData }) =>
+        `We’ll use this information to contact ${applicantWording(
+          formData,
+          false,
+          false,
+          true,
+        )} if we have more questions`,
+    ),
+    applicantPhone: phoneUI(),
+    applicantEmailAddress: emailUI(),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      applicantPhone: phoneSchema,
+      applicantEmailAddress: emailSchema,
+    },
+    required: ['applicantPhone'],
+  },
+};
+
 const applicantSummaryPage = {
   uiSchema: {
     'view:hasApplicants': arrayBuilderYesNoUI(applicantOptions),
@@ -187,6 +217,11 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-mailing-address/:index',
       title: 'Mailing address',
       ...applicantMailingAddressPage,
+    }),
+    page16: pageBuilder.itemPage({
+      path: 'applicant-contact-info/:index',
+      title: 'Contact information',
+      ...applicantContactInfoPage,
     }),
   }),
 );
