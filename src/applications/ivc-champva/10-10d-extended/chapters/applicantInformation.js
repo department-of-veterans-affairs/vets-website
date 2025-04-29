@@ -254,6 +254,43 @@ const applicantBirthCertUploadPage = {
   },
 };
 
+const applicantAdoptedConfig = uploadWithInfoComponent(
+  undefined, // acceptableFiles.adoptionCert,
+  'adoption papers',
+);
+
+const applicantAdoptionUploadPage = {
+  uiSchema: {
+    ...titleUI('Upload adoption documents', ({ formData }) => (
+      <>
+        To help us process this application faster, submit a copy of{' '}
+        <b className="dd-privacy-hidden">
+          {applicantWording(formData, true, false)}
+        </b>{' '}
+        adoption documents.
+        <br />
+        Submitting a copy can help us process this application faster.
+        <br />
+        {MAIL_OR_FAX_LATER_MSG}
+      </>
+    )),
+    ...applicantAdoptedConfig.uiSchema,
+    applicantAdoptionPapers: fileUploadUI({
+      label: 'Upload a copy of adoption documents',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      titleSchema,
+      ...applicantAdoptedConfig.schema,
+      applicantAdoptionPapers: fileWithMetadataSchema(
+        acceptableFiles.adoptionCert,
+      ),
+    },
+  },
+};
+
 const applicantSummaryPage = {
   uiSchema: {
     'view:hasApplicants': arrayBuilderYesNoUI(applicantOptions),
@@ -373,6 +410,27 @@ export const applicantPages = arrayBuilderPages(
       CustomPageReview: null,
       customPageUsesPagePerItemData: true,
       ...applicantBirthCertUploadPage,
+    }),
+    page18d: pageBuilder.itemPage({
+      path: 'applicant-child-adoption-file/:index',
+      title: item => `${applicantWording(item)} adoption documents`,
+      depends: (formData, index) => {
+        if (index === undefined) return true;
+        return (
+          get(
+            'applicantRelationshipToSponsor.relationshipToVeteran',
+            formData?.applicants?.[index],
+          ) === 'child' &&
+          get(
+            'applicantRelationshipOrigin.relationshipToVeteran',
+            formData?.applicants?.[index],
+          ) === 'adoption'
+        );
+      },
+      CustomPage: FileFieldCustom,
+      CustomPageReview: null,
+      customPageUsesPagePerItemData: true,
+      ...applicantAdoptionUploadPage,
     }),
   }),
 );
