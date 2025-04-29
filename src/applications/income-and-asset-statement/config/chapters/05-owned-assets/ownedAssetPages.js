@@ -17,9 +17,11 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import {
   formatCurrency,
   formatFullNameNoSuffix,
+  generateDeleteDescription,
+  isDefined,
+  isRecipientInfoIncomplete,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
-  isDefined,
 } from '../../../helpers';
 import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
 import {
@@ -34,11 +36,7 @@ export const options = {
   nounPlural: 'incomes and net worth associated with owned assets',
   required: false,
   isItemIncomplete: item =>
-    !isDefined(item?.recipientRelationship) ||
-    (!isDefined(item?.otherRecipientRelationshipType) &&
-      item?.recipientRelationship === 'OTHER') ||
-    (!isDefined(item?.recipientName) &&
-      item?.recipientRelationship !== 'VETERAN') ||
+    isRecipientInfoIncomplete(item) ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.ownedPortionValue) ||
     !isDefined(item.assetType), // include all required fields here
@@ -85,18 +83,8 @@ export const options = {
     deleteTitle: 'Delete this owned asset',
     deleteYes: 'Yes, delete this owned asset',
     deleteNo: 'No',
-    deleteDescription: props => {
-      const itemName = options.text.getItemName(
-        props.itemData,
-        props.index,
-        props.formData,
-      );
-      return itemName
-        ? `This will delete ${itemName} from your list of ${props.nounPlural}.`
-        : `This will delete this ${props.nounSingular} from your list of ${
-            props.nounPlural
-          }.`;
-    },
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 

@@ -64,3 +64,30 @@ export const recipientNameRequired = (form, index, arrayKey) =>
 
 export const surrenderValueRequired = (form, index) =>
   get(['annuities', index, 'canBeLiquidated'], form);
+
+export const isRecipientInfoIncomplete = item =>
+  !isDefined(item?.recipientRelationship) ||
+  (!isDefined(item?.recipientName) &&
+    item?.recipientRelationship !== 'VETERAN') ||
+  (!isDefined(item?.otherRecipientRelationshipType) &&
+    item?.recipientRelationship === 'OTHER');
+
+export const isIncomeTypeInfoIncomplete = item =>
+  !isDefined(item?.incomeType) ||
+  (!isDefined(item?.otherIncomeType) && item?.incomeType === 'OTHER');
+
+/**
+ * Generates the delete description text for an array item.
+ *
+ * @param {Object} props - Props passed to the deleteDescription text field.
+ * @param {Function} getItemName - The getItemName function from the text config.
+ * @returns {string} - The description to show in the delete confirmation dialog.
+ */
+export const generateDeleteDescription = (props, getItemName) => {
+  const itemName = getItemName(props.itemData, props.index, props.formData);
+  return itemName
+    ? `This will delete ${itemName} from your list of ${props.nounPlural}.`
+    : `This will delete this ${props.nounSingular} from your list of ${
+        props.nounPlural
+      }.`;
+};

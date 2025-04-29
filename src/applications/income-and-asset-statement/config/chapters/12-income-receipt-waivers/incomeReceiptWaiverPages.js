@@ -24,9 +24,11 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import {
   formatCurrency,
   formatFullNameNoSuffix,
+  generateDeleteDescription,
+  isDefined,
+  isRecipientInfoIncomplete,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
-  isDefined,
 } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
@@ -37,11 +39,7 @@ export const options = {
   nounPlural: 'income receipt waivers',
   required: false,
   isItemIncomplete: item =>
-    !isDefined(item?.recipientRelationship) ||
-    (!isDefined(item?.otherRecipientRelationshipType) &&
-      item?.recipientRelationship === 'OTHER') ||
-    (!isDefined(item?.recipientName) &&
-      item?.recipientRelationship !== 'VETERAN') ||
+    isRecipientInfoIncomplete(item) ||
     !isDefined(item.payer) ||
     !isDefined(item.waivedGrossMonthlyIncome), // include all required fields here
   maxItems: 5,
@@ -83,18 +81,8 @@ export const options = {
     deleteTitle: 'Delete this income receipt waiver',
     deleteYes: 'Yes, delete this income receipt waiver',
     deleteNo: 'No',
-    deleteDescription: props => {
-      const itemName = options.text.getItemName(
-        props.itemData,
-        props.index,
-        props.formData,
-      );
-      return itemName
-        ? `This will delete ${itemName} from your list of ${props.nounPlural}.`
-        : `This will delete this ${props.nounSingular} from your list of ${
-            props.nounPlural
-          }.`;
-    },
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 

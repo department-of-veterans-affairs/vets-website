@@ -21,8 +21,9 @@ import { trustTypeLabels } from '../../../labels';
 import {
   annualReceivedIncomeFromTrustRequired,
   formatCurrency,
-  monthlyMedicalReimbursementAmountRequired,
+  generateDeleteDescription,
   isDefined,
+  monthlyMedicalReimbursementAmountRequired,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -76,6 +77,8 @@ export const options = {
     deleteTitle: 'Delete this trust',
     deleteYes: 'Yes, delete this trust',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 

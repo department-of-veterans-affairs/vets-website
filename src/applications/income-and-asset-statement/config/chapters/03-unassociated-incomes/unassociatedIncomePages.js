@@ -19,10 +19,13 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import {
   formatCurrency,
   formatFullNameNoSuffix,
-  otherRecipientRelationshipExplanationRequired,
-  otherIncomeTypeExplanationRequired,
-  recipientNameRequired,
+  generateDeleteDescription,
   isDefined,
+  isIncomeTypeInfoIncomplete,
+  isRecipientInfoIncomplete,
+  otherIncomeTypeExplanationRequired,
+  otherRecipientRelationshipExplanationRequired,
+  recipientNameRequired,
 } from '../../../helpers';
 import { relationshipLabels, incomeTypeLabels } from '../../../labels';
 
@@ -33,13 +36,8 @@ export const options = {
   nounPlural: 'recurring incomes not associated with accounts or assets',
   required: false,
   isItemIncomplete: item =>
-    !isDefined(item?.recipientRelationship) ||
-    (!isDefined(item?.recipientName) &&
-      item?.recipientRelationship !== 'VETERAN') ||
-    (!isDefined(item?.otherRecipientRelationshipType) &&
-      item?.recipientRelationship === 'OTHER') ||
-    !isDefined(item?.incomeType) ||
-    (!isDefined(item?.otherIncomeType) && item?.incomeType === 'OTHER') ||
+    isRecipientInfoIncomplete(item) ||
+    isIncomeTypeInfoIncomplete(item) ||
     !isDefined(item?.grossMonthlyIncome) ||
     !isDefined(item?.payer), // include all required fields here
   maxItems: 5,
@@ -84,18 +82,8 @@ export const options = {
     deleteTitle: 'Delete this unassociated income',
     deleteYes: 'Yes, delete this unassociated income',
     deleteNo: 'No',
-    deleteDescription: props => {
-      const itemName = options.text.getItemName(
-        props.itemData,
-        props.index,
-        props.formData,
-      );
-      return itemName
-        ? `This will delete ${itemName} from your list of ${props.nounPlural}.`
-        : `This will delete this ${props.nounSingular} from your list of ${
-            props.nounPlural
-          }.`;
-    },
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 

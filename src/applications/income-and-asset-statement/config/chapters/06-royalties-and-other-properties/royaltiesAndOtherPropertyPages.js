@@ -21,10 +21,12 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import {
   formatCurrency,
   formatFullNameNoSuffix,
-  otherRecipientRelationshipExplanationRequired,
-  otherGeneratedIncomeTypeExplanationRequired,
-  recipientNameRequired,
+  generateDeleteDescription,
   isDefined,
+  isRecipientInfoIncomplete,
+  otherGeneratedIncomeTypeExplanationRequired,
+  otherRecipientRelationshipExplanationRequired,
+  recipientNameRequired,
 } from '../../../helpers';
 import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 
@@ -35,11 +37,7 @@ export const options = {
   nounPlural: 'royalties and other properties',
   required: false,
   isItemIncomplete: item =>
-    !isDefined(item?.recipientRelationship) ||
-    (!isDefined(item?.recipientName) &&
-      item?.recipientRelationship !== 'VETERAN') ||
-    (!isDefined(item?.otherRecipientRelationshipType) &&
-      item?.recipientRelationship === 'OTHER') ||
+    isRecipientInfoIncomplete(item) ||
     typeof item.canBeSold !== 'boolean' ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.fairMarketValue) ||
@@ -94,18 +92,8 @@ export const options = {
     deleteTitle: 'Delete this royalty and other property',
     deleteYes: 'Yes, delete this royalty and other property',
     deleteNo: 'No',
-    deleteDescription: props => {
-      const itemName = options.text.getItemName(
-        props.itemData,
-        props.index,
-        props.formData,
-      );
-      return itemName
-        ? `This will delete ${itemName} from your list of ${props.nounPlural}.`
-        : `This will delete this ${props.nounSingular} from your list of ${
-            props.nounPlural
-          }.`;
-    },
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 

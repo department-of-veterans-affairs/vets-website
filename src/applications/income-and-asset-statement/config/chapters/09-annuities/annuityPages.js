@@ -15,10 +15,11 @@ import {
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatDateLong } from 'platform/utilities/date';
 import {
-  formatCurrency,
   annualReceivedIncomeFromAnnuityRequired,
-  surrenderValueRequired,
+  formatCurrency,
+  generateDeleteDescription,
   isDefined,
+  surrenderValueRequired,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -71,6 +72,8 @@ export const options = {
     deleteTitle: 'Delete this annuity',
     deleteYes: 'Yes, delete this annuity',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 

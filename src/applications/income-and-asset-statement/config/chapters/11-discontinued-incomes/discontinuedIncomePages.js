@@ -21,9 +21,12 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import {
   formatCurrency,
   formatFullNameNoSuffix,
+  generateDeleteDescription,
+  isDefined,
+  isIncomeTypeInfoIncomplete,
+  isRecipientInfoIncomplete,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
-  isDefined,
 } from '../../../helpers';
 import { incomeFrequencyLabels, relationshipLabels } from '../../../labels';
 
@@ -34,14 +37,9 @@ export const options = {
   nounPlural: 'discontinued incomes',
   required: false,
   isItemIncomplete: item =>
-    !isDefined(item?.recipientRelationship) ||
-    (!isDefined(item?.otherRecipientRelationshipType) &&
-      item?.recipientRelationship === 'OTHER') ||
-    (!isDefined(item?.recipientName) &&
-      item?.recipientRelationship !== 'VETERAN') ||
+    isRecipientInfoIncomplete(item) ||
     !isDefined(item.payer) ||
-    !isDefined(item.incomeType) ||
-    (!isDefined(item?.otherIncomeType) && item?.incomeType === 'OTHER') ||
+    isIncomeTypeInfoIncomplete(item) ||
     !isDefined(item.incomeFrequency) ||
     !isDefined(item.incomeLastReceivedDate) ||
     !isDefined(item.grossAnnualAmount), // include all required fields here
@@ -85,18 +83,8 @@ export const options = {
     deleteTitle: 'Delete this discontinued income',
     deleteYes: 'Yes, delete this discontinued income',
     deleteNo: 'No',
-    deleteDescription: props => {
-      const itemName = options.text.getItemName(
-        props.itemData,
-        props.index,
-        props.formData,
-      );
-      return itemName
-        ? `This will delete ${itemName} from your list of ${props.nounPlural}.`
-        : `This will delete this ${props.nounSingular} from your list of ${
-            props.nounPlural
-          }.`;
-    },
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 

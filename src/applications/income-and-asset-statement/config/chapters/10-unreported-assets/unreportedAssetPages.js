@@ -16,8 +16,9 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
-  otherAssetOwnerRelationshipExplanationRequired,
+  generateDeleteDescription,
   isDefined,
+  otherAssetOwnerRelationshipExplanationRequired,
 } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
@@ -67,6 +68,8 @@ export const options = {
     deleteTitle: 'Delete this unreported asset',
     deleteYes: 'Yes, delete this unreported asset',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 

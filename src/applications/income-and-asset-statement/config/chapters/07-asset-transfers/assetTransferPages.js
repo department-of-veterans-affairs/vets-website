@@ -26,9 +26,10 @@ import { relationshipLabels, transferMethodLabels } from '../../../labels';
 import {
   formatCurrency,
   formatFullNameNoSuffix,
+  generateDeleteDescription,
+  isDefined,
   otherNewOwnerRelationshipExplanationRequired,
   otherTransferMethodExplanationRequired,
-  isDefined,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -102,6 +103,8 @@ export const options = {
     deleteTitle: 'Delete this asset transfer',
     deleteYes: 'Yes, delete this asset transfer',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 
