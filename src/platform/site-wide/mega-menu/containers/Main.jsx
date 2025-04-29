@@ -185,13 +185,13 @@ const mapStateToProps = (state, ownProps) => {
 
   // Use feature toggle to conditionally add links
   const featureToggles = toggleValues(state);
-  const showMvhHeaderLinks = featureToggles.mhvHeaderLinks;
+  const showMhvHeaderLinks = featureToggles.mhvHeaderLinks;
 
-  if (loggedIn && !showMvhHeaderLinks) {
+  if (loggedIn && !showMhvHeaderLinks) {
     defaultLinks.push(MY_VA_LINK, MY_HEALTH_LINK);
   }
 
-  if (showMvhHeaderLinks) {
+  if (showMhvHeaderLinks) {
     defaultLinks.push(MY_VA_LINK, MY_HEALTH_LINK);
   }
 
