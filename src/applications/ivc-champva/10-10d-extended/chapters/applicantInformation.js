@@ -23,6 +23,9 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
+import ApplicantRelationshipPage, {
+  appRelBoilerplate,
+} from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 import { page15aDepends } from '../helpers/utilities';
 
 import { applicantWording } from '../../shared/utilities';
@@ -147,6 +150,71 @@ const applicantContactInfoPage = {
   },
 };
 
+// BEGIN APPLICANT GENDER CONFIG
+// Using a custom page to handle the gender selection because the description
+// text of the radio button needs to contain dynamic wording, which isn't
+// supported when using the bare `radioUI` (since updateUISchema doesn't work
+// in list loop/arraybuilder fields).
+
+const applicantGenderPage = {
+  uiSchema: {
+    applicantGender: {},
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      applicantGender: {
+        type: 'object',
+        properties: {
+          gender: { type: 'string' },
+          _unused: { type: 'string' },
+        },
+      },
+    },
+  },
+};
+
+const GENDER_PROPERTY_NAMES = {
+  keyname: 'applicantGender',
+  primary: 'gender',
+  secondary: '_unused',
+};
+
+function generateOptions({ data, pagePerItemIndex }) {
+  const bp = appRelBoilerplate({ data, pagePerItemIndex });
+  const customTitle = `${bp.relativePossessive} sex listed at birth`;
+  const options = [
+    {
+      label: 'Female',
+      value: 'female',
+    },
+    {
+      label: 'Male',
+      value: 'male',
+    },
+  ];
+
+  return {
+    ...bp,
+    options,
+    customTitle,
+    description: `What’s ${customTitle}?`,
+    customHint: `Enter the sex that appears on ${
+      bp.relativePossessive
+    } birth certificate`,
+  };
+}
+
+function ApplicantGenderPage(props) {
+  const newProps = {
+    ...props,
+    ...GENDER_PROPERTY_NAMES,
+    genOp: generateOptions,
+  };
+  return ApplicantRelationshipPage(newProps);
+}
+// END APPLICANT GENDER CONFIG
+
 const applicantSummaryPage = {
   uiSchema: {
     'view:hasApplicants': arrayBuilderYesNoUI(applicantOptions),
@@ -222,6 +290,12 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-contact-info/:index',
       title: 'Contact information',
       ...applicantContactInfoPage,
+    }),
+    page17: pageBuilder.itemPage({
+      path: 'applicant-gender/:index',
+      title: 'Applicant sex listed at birth',
+      ...applicantGenderPage,
+      CustomPage: ApplicantGenderPage,
     }),
   }),
 );
