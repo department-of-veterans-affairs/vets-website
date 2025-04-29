@@ -156,6 +156,9 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
+    const hasIncompleteCards = arrayData?.some((item, index) =>
+      isItemIncomplete(item, index),
+    );
 
     useEffect(() => {
       const cleanupEmptyItems = () => {
@@ -361,6 +364,15 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         props.goToPath(path, {
           force: true,
         });
+      }
+    }
+
+    function onContinue() {
+      if (hasIncompleteCards) {
+        // eslint-disable-next-line no-console
+        console.log('focus red alert');
+      } else {
+        props.onContinue();
       }
     }
 
@@ -570,6 +582,8 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           arrayBuilderOptions={arrayBuilderOptions}
           addAnotherItemButtonClick={addAnotherItemButtonClick}
           NavButtons={NavButtons}
+          hasIncompleteCards={hasIncompleteCards}
+          onContinue={onContinue}
         />
       );
     }
@@ -594,8 +608,8 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           {props.contentBeforeButtons}
           <NavButtons
             goBack={props.goBack}
-            goForward={props.onContinue}
-            submitToContinue
+            goForward={onContinue}
+            submitToContinue={!hasIncompleteCards}
           />
           {props.contentAfterButtons}
         </>

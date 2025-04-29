@@ -38,7 +38,11 @@ const RemoveButton = ({ onClick, srText }) => (
 
 const MissingInformationAlert = ({ children }) => (
   <div className="vads-u-margin-top--2">
-    <va-alert status="error" uswds>
+    <va-alert
+      data-alert-name="array-card-missing-information"
+      status="error"
+      uswds
+    >
       {children}
     </va-alert>
   </div>
