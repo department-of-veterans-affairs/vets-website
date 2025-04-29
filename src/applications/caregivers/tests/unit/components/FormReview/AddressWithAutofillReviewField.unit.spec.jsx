@@ -16,22 +16,19 @@ const defaultData = {
 describe('CG <AddressWithAutofillReviewField>', () => {
   const subject = ({ data = defaultData, autofill = false } = {}) => {
     const props = {
-      formData: {
-        ...data,
-        'view:autofill': autofill,
-      },
+      formData: { ...data, 'view:autofill': autofill },
       inputLabel: content['primary-input-label'],
     };
-    const { container } = render(<AddressWithAutofillReviewField {...props} />);
+    const { getByTestId } = render(
+      <AddressWithAutofillReviewField {...props} />,
+    );
     const selectors = () => ({
-      street: container.querySelector('[data-testid="cg-address-street"]'),
-      street2: container.querySelector('[data-testid="cg-address-street2"]'),
-      city: container.querySelector('[data-testid="cg-address-city"]'),
-      state: container.querySelector('[data-testid="cg-address-state"]'),
-      postalCode: container.querySelector(
-        '[data-testid="cg-address-postalcode"]',
-      ),
-      autofill: container.querySelector('[data-testid="cg-address-autofill"]'),
+      street: getByTestId('cg-address-street'),
+      street2: getByTestId('cg-address-street2'),
+      city: getByTestId('cg-address-city'),
+      state: getByTestId(/cg-address-state/),
+      postalCode: getByTestId('cg-address-postalCode'),
+      autofill: getByTestId('cg-address-autofill'),
     });
     return { selectors };
   };
@@ -65,8 +62,6 @@ describe('CG <AddressWithAutofillReviewField>', () => {
     const reviewRows = Object.fromEntries(
       Object.entries(selectors).filter(e => e[0] !== 'autofill'),
     );
-    Object.keys(reviewRows).forEach(key => {
-      expect(reviewRows[key]).to.be.empty;
-    });
+    Object.keys(reviewRows).forEach(key => expect(reviewRows[key]).to.be.empty);
   });
 });

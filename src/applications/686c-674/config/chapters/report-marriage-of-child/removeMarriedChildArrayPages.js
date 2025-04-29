@@ -72,6 +72,13 @@ export const removeMarriedChildSummaryPage = {
     'view:completedMarriedChild': arrayBuilderYesNoUI(
       removeMarriedChildOptions,
       {
+        title: 'Do you have a child to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
+      {
         title: 'Do you have another child to add?',
         labels: {
           Y: 'Yes',
@@ -140,7 +147,7 @@ export const marriedChildIncomeQuestionPage = {
     dependentIncome: radioUI({
       title: 'Did this child have an income in the last 365 days?',
       hint:
-        'Answer this question only if you are adding this dependent to your pension.',
+        'Answer this question only if you are removing this dependent from your pension.',
       labels: {
         Y: 'Yes',
         N: 'No',

@@ -108,13 +108,23 @@ export const deceasedDependentIntroPage = {
 /** @returns {PageSchema} */
 export const deceasedDependentSummaryPage = {
   uiSchema: {
-    'view:completedDependent': arrayBuilderYesNoUI(deceasedDependentOptions, {
-      title: 'Do you have another deceased dependent to report?',
-      labels: {
-        Y: 'Yes, I have another dependent to report',
-        N: 'No, I don’t have another dependent to report',
+    'view:completedDependent': arrayBuilderYesNoUI(
+      deceasedDependentOptions,
+      {
+        title: 'Do you have a deceased dependent to report?',
+        labels: {
+          Y: 'Yes, I have a dependent to report',
+          N: 'No, I don’t have a dependent to report',
+        },
       },
-    }),
+      {
+        title: 'Do you have another deceased dependent to report?',
+        labels: {
+          Y: 'Yes, I have another dependent to report',
+          N: 'No, I don’t have another dependent to report',
+        },
+      },
+    ),
   },
   schema: {
     type: 'object',
@@ -299,7 +309,7 @@ export const deceasedDependentIncomePage = {
     deceasedDependentIncome: radioUI({
       title: 'Did this dependent have an income in the last 365 days?',
       hint:
-        'Answer this question only if you are adding this dependent to your pension.',
+        'Answer this question only if you are removing this dependent from your pension.',
       labels: {
         Y: 'Yes',
         N: 'No',

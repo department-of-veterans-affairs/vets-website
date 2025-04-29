@@ -1,12 +1,12 @@
-import React from 'react';
-import moment from 'moment';
-import { expect } from 'chai';
-import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
+import { expect } from 'chai';
+import moment from 'moment';
+import React from 'react';
 
 import {
-  setFetchJSONFailure,
   mockFetch,
+  setFetchJSONFailure,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
@@ -15,18 +15,14 @@ import {
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
 
-import ReviewPage from './ReviewPage';
+import { mockAppointmentSubmit } from '../../tests/mocks/mockApis';
 import { onCalendarChange } from '../redux/actions';
-import { mockAppointmentSubmit } from '../../tests/mocks/helpers';
+import ReviewPage from './ReviewPage';
 
 describe('VAOS vaccine flow: ReviewPage', () => {
   let store;
   let start;
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingVAOSServiceVAAppointments: true,
-    },
-  };
+  const initialState = {};
 
   beforeEach(() => {
     mockFetch();

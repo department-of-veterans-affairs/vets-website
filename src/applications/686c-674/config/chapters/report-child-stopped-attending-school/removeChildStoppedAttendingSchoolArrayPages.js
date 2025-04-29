@@ -74,6 +74,14 @@ export const removeChildStoppedAttendingSchoolSummaryPage = {
       removeChildStoppedAttendingSchoolOptions,
       {
         title:
+          'Do you have a child between ages 18 and 23 who left school to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
+      {
+        title:
           'Do you have another child between ages 18 and 23 who left school to add?',
         labels: {
           Y: 'Yes',
@@ -144,7 +152,7 @@ export const childIncomeQuestionPage = {
     dependentIncome: radioUI({
       title: 'Did this child have an income in the last 365 days?',
       hint:
-        'Answer this question only if you are adding this dependent to your pension.',
+        'Answer this question only if you are removing this dependent from your pension.',
       labels: {
         Y: 'Yes',
         N: 'No',
