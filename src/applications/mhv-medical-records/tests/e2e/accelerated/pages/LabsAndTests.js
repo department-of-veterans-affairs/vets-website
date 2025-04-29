@@ -25,11 +25,12 @@ class LabsAndTests {
   };
 
   goToLabAndTestPage = () => {
-    cy.get('[data-testid="labs-and-tests-landing-page-link"]')
-      .should('be.visible')
-      .click({
-        waitForAnimations: true,
-      });
+    cy.get('[data-testid="labs-and-tests-landing-page-link"]').should(
+      'be.visible',
+    );
+    cy.get('[data-testid="labs-and-tests-landing-page-link"]').click({
+      waitForAnimations: true,
+    });
   };
 
   checkUrl = ({ timeFrame }) => {
