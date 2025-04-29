@@ -35,14 +35,11 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
 
     mhvIntegrationMedicalRecordsToPhase1 = true,
-    mhvMedicationsRemoveLandingPage = true,
-
 
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
     mhvSecureMessagingRecipientCombobox = true,
-
   } = toggles;
 
   return {
