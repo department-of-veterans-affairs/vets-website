@@ -115,7 +115,8 @@ export const poaDetailsBreadcrumbs = [
     label: 'VA.gov/representative home',
   },
   {
-    href: '/representative/poa-requests?status=pending',
+    href:
+      '/representative/poa-requests?status=pending&pageSize=20&pageNumber=1',
     label: 'Power of attorney requests',
   },
   {
@@ -123,3 +124,35 @@ export const poaDetailsBreadcrumbs = [
     label: 'POA request',
   },
 ];
+export const SEARCH_PARAMS = {
+  STATUS: 'status',
+  SORTBY: 'sortBy',
+  SORTORDER: 'sortOrder',
+  SIZE: 'pageSize',
+  NUMBER: 'pageNumber',
+};
+export const SORT_BY = {
+  CREATED: 'created_at',
+  RESOLVED: 'resolved_at',
+  ASC: 'asc',
+  DESC: 'desc',
+};
+
+export const PENDING = {
+  ASC_OPTION: 'Submitted date (newest)',
+  DESC_OPTION: 'Submitted date (oldest)',
+};
+
+export const PROCESSED = {
+  ASC_OPTION: 'Processed date (newest)',
+  DESC_OPTION: 'Processed date (oldest)',
+};
+
+export const STATUSES = {
+  PENDING: 'pending',
+  PROCESSED: 'processed',
+  // default is 20 per page
+  SIZE: '20',
+  // default is page 1
+  NUMBER: '1',
+};

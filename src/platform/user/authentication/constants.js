@@ -147,10 +147,6 @@ export const SIGNUP_TYPES = {
   [CSP_IDS.LOGIN_GOV]: 'logingov_signup',
 };
 
-export const MHV_TRANSITION_DATE = null;
-export const MHV_TRANSITION_TIME = '[x]';
-export const ACCOUNT_TRANSITION_DISMISSED = 'accountTransitionDismissed';
-
 export const LINK_TYPES = {
   CREATE: 'create',
   SIGNIN: 'signin',
@@ -168,4 +164,5 @@ export const AUTH_PARAMS = {
   scope: 'scope',
   verification: 'verification',
   operation: 'operation',
+  state: 'state',
 };

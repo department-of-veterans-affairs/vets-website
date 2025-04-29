@@ -74,9 +74,6 @@ export {
 } from './authentication/components/LoginHeader';
 export { default as LoginInfo } from './authentication/components/LoginInfo';
 export {
-  default as LogoutAlert,
-} from './authentication/components/LogoutAlert';
-export {
   default as ServiceProvidersList,
 } from './authentication/components/ServiceProvidersList';
 export {
@@ -118,9 +115,6 @@ export {
   IDME_TYPES,
   POLICY_TYPES,
   SIGNUP_TYPES,
-  MHV_TRANSITION_DATE,
-  MHV_TRANSITION_TIME,
-  ACCOUNT_TRANSITION_DISMISSED,
   LINK_TYPES,
   AUTH_PARAMS,
 } from './authentication/constants';

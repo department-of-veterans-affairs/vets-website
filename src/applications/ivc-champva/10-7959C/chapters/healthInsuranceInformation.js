@@ -21,6 +21,7 @@ import {
 } from '../../shared/components/fileUploads/upload';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { blankSchema } from './applicantInformation';
+import { validFieldCharsOnly } from '../../shared/validations';
 
 const MEDIGAP = {
   A: 'Medigap Plan A',
@@ -110,6 +111,10 @@ export function applicantProviderSchema(isPrimary) {
         title: 'Insurance termination date',
         hint: 'Only enter this date if the policy is inactive.',
       }),
+      'ui:validations': [
+        (errors, formData) =>
+          validFieldCharsOnly(errors, null, formData, keyname1),
+      ],
     },
     schema: {
       type: 'object',
@@ -421,6 +426,10 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
         },
         charcount: true,
       }),
+      'ui:validations': [
+        (errors, formData) =>
+          validFieldCharsOnly(errors, null, formData, keyname),
+      ],
     },
     schema: {
       type: 'object',
