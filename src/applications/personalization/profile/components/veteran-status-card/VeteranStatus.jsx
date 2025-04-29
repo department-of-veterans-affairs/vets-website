@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { generatePdf } from '~/platform/pdf';
 import { focusElement } from '~/platform/utilities/ui';
 import { captureError } from '~/platform/user/profile/vap-svc/util/analytics';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
@@ -9,6 +10,7 @@ import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
 import Headline from '../ProfileSectionHeadline';
 import VeteranStatusCard from './VeteranStatusCard/VeteranStatusCard';
+import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
 
 const VeteranStatus = ({
   serviceHistory = [],
@@ -21,12 +23,20 @@ const VeteranStatus = ({
     suffix: '',
   },
   edipi,
+  mockUserAgent,
 }) => {
   const [errors, setErrors] = useState([]);
   const [data, setData] = useState(null);
   const [shouldFocusError, setShouldFocusError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { first, middle, last, suffix } = userFullName;
+
+  const userAgent =
+    mockUserAgent || navigator.userAgent || navigator.vendor || window.opera;
+
+  const isMobile =
+    (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
+    /android/i.test(userAgent);
 
   const formattedFullName = formatFullName({
     first,
@@ -66,7 +76,36 @@ const VeteranStatus = ({
   const userHasRequiredCardData = !!(
     serviceHistory.length && formattedFullName
   );
+
   const hasConfirmationData = !!(data && data.attributes);
+
+  const canCreatePdf =
+    !isLoading &&
+    userHasRequiredCardData &&
+    hasConfirmationData &&
+    data?.attributes?.veteranStatus === 'confirmed';
+
+  const pdfData = {
+    title: `Veteran status card for ${formattedFullName}`,
+    details: {
+      fullName: formattedFullName,
+      latestService,
+      totalDisabilityRating,
+      edipi,
+      image: {
+        title: 'V-A logo',
+        url: '/img/design/logo/logo-black-and-white.png',
+      },
+      seal: {
+        title: 'V-A Seal',
+        url: '/img/design/logo/seal-black-and-white.png',
+      },
+      scissors: {
+        title: 'Scissors icon',
+        url: '/img/scissors-black.png',
+      },
+    },
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -102,13 +141,31 @@ const VeteranStatus = ({
 
   useEffect(
     () => {
-      if (shouldFocusError && errors?.length > 0) {
+      if (shouldFocusError && errors.length > 0) {
         focusElement('.vet-status-pdf-download-error');
         setShouldFocusError(false);
       }
     },
     [shouldFocusError, errors],
   );
+
+  const createPdf = async () => {
+    setErrors([]);
+
+    try {
+      await generatePdf(
+        'veteranStatusNew',
+        'Veteran status card',
+        pdfData,
+        !isMobile,
+      );
+    } catch (error) {
+      setErrors([
+        "We're sorry. Something went wrong on our end. Please try to download your Veteran status card later.",
+      ]);
+      captureError(error, { eventName: 'vet-status-pdf-download' });
+    }
+  };
 
   const isVetStatusEligibilityPopulated =
     Object.keys(vetStatusEligibility).length !== 0;
@@ -219,7 +276,7 @@ const VeteranStatus = ({
                   <>
                     {data?.attributes?.veteranStatus === 'confirmed' ? (
                       <>
-                        {errors?.length > 0 ? (
+                        {errors.length > 0 ? (
                           <div className="vet-status-pdf-download-error vads-u-padding-y--2">
                             <va-alert status="error" uswds>
                               {errors[0]}
@@ -257,7 +314,7 @@ const VeteranStatus = ({
                   <>{systemErrrorAlert}</>
                 ) : (
                   <>
-                    {errors?.length > 0 ? (
+                    {errors.length > 0 ? (
                       <>
                         <div className="vet-status-pdf-download-error vads-u-padding-y--2">
                           <va-alert status="error" uswds>
@@ -280,12 +337,14 @@ const VeteranStatus = ({
           </>
         )}
       </div>
+      <FrequentlyAskedQuestions createPdf={canCreatePdf ? createPdf : null} />
     </>
   );
 };
 
 VeteranStatus.propTypes = {
   edipi: PropTypes.number,
+  mockUserAgent: PropTypes.string,
   serviceHistory: PropTypes.arrayOf(
     PropTypes.shape({
       branchOfService: PropTypes.string,

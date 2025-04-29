@@ -121,6 +121,20 @@ function createBasicInitialState(serviceHistory, eligibility) {
   };
 }
 
+function testHeadingAndDescription(initialState) {
+  const view = renderWithProfileReducers(<VeteranStatus />, {
+    initialState,
+  });
+  const heading = view.getByRole('heading', {
+    name: /Veteran Status Card/i,
+  });
+  expect(heading).to.exist;
+  const description = view.getByText(
+    /This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure./i,
+  );
+  expect(description).to.exist;
+}
+
 describe('VeteranStatus', () => {
   let apiRequestStub;
 
@@ -137,25 +151,8 @@ describe('VeteranStatus', () => {
       confirmedEligibility,
     );
 
-    it('should render heading', () => {
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-      const heading = view.getAllByText(/Veteran Status Card/i);
-      expect(heading).to.have.lengthOf.above(0);
-    });
-
-    it('should render description copy', async () => {
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-      await waitFor(() => {
-        expect(
-          view.queryByText(
-            /This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure./i,
-          ),
-        ).to.exist;
-      });
+    it('displays the heading and description successfully', () => {
+      testHeadingAndDescription(initialState);
     });
   });
 
@@ -164,6 +161,10 @@ describe('VeteranStatus', () => {
       [serviceHistoryItemMiddle],
       confirmedEligibility,
     );
+
+    it('displays the heading and description successfully', () => {
+      testHeadingAndDescription(initialState);
+    });
 
     it('displays the card successfully', async () => {
       apiRequestStub.resolves(vetStatusConfirmed);
@@ -305,6 +306,10 @@ describe('VeteranStatus', () => {
       confirmedEligibility,
     );
 
+    it('displays the heading and description successfully', () => {
+      testHeadingAndDescription(initialState);
+    });
+
     it('should render card if service history contains an eligible discharge despite any other discharges', async () => {
       apiRequestStub.resolves(vetStatusConfirmed);
       const view = renderWithProfileReducers(<VeteranStatus />, {
@@ -332,6 +337,10 @@ describe('VeteranStatus', () => {
 
   describe('when there is no service history', () => {
     const initialState = createBasicInitialState([], problematicEligibility);
+
+    it('displays the heading and description successfully', () => {
+      testHeadingAndDescription(initialState);
+    });
 
     it('displays not confirmed message if confirmed', async () => {
       apiRequestStub.resolves(vetStatusConfirmed);
@@ -384,14 +393,20 @@ describe('VeteranStatus', () => {
       suffix: '',
     };
 
+    it('displays the heading and description successfully', () => {
+      testHeadingAndDescription(initialState);
+    });
+
     it('should render an error and not the HTML card', async () => {
       apiRequestStub.resolves(vetStatusNotConfirmed);
       const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 
-      const heading = view.getAllByText(/Veteran Status Card/);
-      expect(heading).to.have.lengthOf.to.be(1); // only appears once as the section heading, not here as the card heading
+      const heading = view.getByRole('heading', {
+        name: /Veteran Status Card/i,
+      });
+      expect(heading).to.exist;
 
       await waitFor(() => {
         expect(
@@ -417,6 +432,10 @@ describe('VeteranStatus', () => {
       );
       const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
+      });
+
+      it('displays the heading and description successfully', () => {
+        testHeadingAndDescription(initialState);
       });
 
       await waitFor(() => {
