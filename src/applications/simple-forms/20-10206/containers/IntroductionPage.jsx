@@ -144,6 +144,7 @@ export const IntroductionPage = ({
 
       if (signInLink && !userLoggedIn) {
         const handleClick = e => {
+          e.stopPropagation();
           e.preventDefault();
           window.location = appendLoggedInQueryParam();
         };
