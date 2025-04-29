@@ -56,6 +56,7 @@ const App = ({
   const showStreamlinedWaiver = useToggleValue(
     TOGGLE_NAMES.showFinancialStatusReportStreamlinedWaiver,
   );
+  const showStaticWizard = useToggleValue(TOGGLE_NAMES.fsrWizard);
 
   // Set the document title based on the current page
   useDocumentTitle(location);
@@ -196,7 +197,11 @@ const App = ({
     return <ErrorAlert />;
   }
 
-  if (showLegacyWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
+  if (
+    !showStaticWizard &&
+    showLegacyWizard &&
+    wizardState !== WIZARD_STATUS_COMPLETE
+  ) {
     return (
       <WizardContainer setWizardStatus={setWizardStatus} showFSR={showFSR} />
     );
