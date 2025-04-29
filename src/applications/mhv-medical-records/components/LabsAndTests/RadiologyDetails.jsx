@@ -140,11 +140,15 @@ const RadiologyDetails = props => {
 
   useEffect(
     () => {
-      if (imageRequestApiFailed || studyRequestLimitReached) {
+      if (
+        imageRequestApiFailed ||
+        studyRequestLimitReached ||
+        studyJob?.status === studyJobStatus.ERROR
+      ) {
         setProcessingRequest(false);
       }
     },
-    [imageRequestApiFailed, studyRequestLimitReached],
+    [imageRequestApiFailed, studyJob, studyRequestLimitReached],
   );
 
   useEffect(
