@@ -461,6 +461,46 @@ const applicantMarriageDatesPage = {
   },
 };
 
+const applicantMarriageCertConfig = uploadWithInfoComponent(
+  undefined, // acceptableFiles.spouseCert,
+  'marriage certificates',
+);
+
+const applicantMarriageCertUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload marriage documents',
+      ({ formData }) => (
+        <>
+          To help us process this application faster, submit a copy of{' '}
+          <b className="dd-privacy-hidden">
+            {applicantWording(formData, true, false)}
+          </b>{' '}
+          marriage documents.
+          <br />
+          Submitting a copy can help us process this application faster.
+          <br />
+          {MAIL_OR_FAX_LATER_MSG}
+        </>
+      ),
+    ),
+    ...applicantMarriageCertConfig.uiSchema,
+    applicantRemarriageCert: fileUploadUI({
+      label: 'Upload proof of marriage or legal union',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      titleSchema,
+      ...applicantMarriageCertConfig.schema,
+      applicantRemarriageCert: fileWithMetadataSchema(
+        acceptableFiles.spouseCert,
+      ),
+    },
+  },
+};
+
 const applicantSummaryPage = {
   uiSchema: {
     'view:hasApplicants': arrayBuilderYesNoUI(applicantOptions),
@@ -680,6 +720,21 @@ export const applicantPages = arrayBuilderPages(
         return depends18f3(formData, index);
       },
       ...applicantMarriageDatesPage,
+    }),
+    page18f: pageBuilder.itemPage({
+      path: 'applicant-marriage-upload/:index',
+      title: item => `${applicantWording(item)} marriage documents`,
+      depends: (formData, index) => {
+        if (index === undefined) return true;
+        return (
+          get(
+            'applicantRelationshipToSponsor.relationshipToVeteran',
+            formData?.applicants?.[index],
+          ) === 'spouse' && get('sponsorIsDeceased', formData)
+        );
+      },
+      CustomPage: FileFieldCustom,
+      ...applicantMarriageCertUploadPage,
     }),
   }),
 );
