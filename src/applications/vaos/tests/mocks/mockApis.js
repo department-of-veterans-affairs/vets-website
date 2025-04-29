@@ -463,25 +463,6 @@ export function mockVAOSAppointmentsFetch({
 }
 
 /**
- * Mocks the api call to get parent sites from the VAOS service. Really only used
- * on the old two step facility page.
- *
- * @export
- * @param {Array<string>} ids A list of VistA site ids to mock the request for
- * @param {Array<VARParentSite>} data The list of parent site data returned from the mock call
- */
-export function mockVAOSParentSites(ids, data, children = false) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v2/facilities?children=${children}&${ids
-        .map(id => `ids[]=${id}`)
-        .join('&')}`,
-    ),
-    { data },
-  );
-}
-
-/**
  * Mock the api calls that checks if a user is eligible for community care for
  *   a given type of care and if the facility supports CC
  *
