@@ -124,7 +124,7 @@ describe('VAOS Component: EnrolledRoute', () => {
       ...initialState,
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingMhvRouteGuards: true,
+        vaOnlineSchedulingMHVRouteGuards: true,
       },
       user: {
         ...initialState.user,
@@ -154,7 +154,7 @@ describe('VAOS Component: EnrolledRoute', () => {
       ...initialState,
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingMhvRouteGuards: true,
+        vaOnlineSchedulingMHVRouteGuards: true,
       },
       user: {
         ...initialState.user,
