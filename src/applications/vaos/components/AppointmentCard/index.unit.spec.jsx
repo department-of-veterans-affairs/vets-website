@@ -27,9 +27,7 @@ const appointmentData = {
 };
 
 describe('VAOS Component: AppointmentCard', () => {
-  const initialState = {
-    featureToggles: {},
-  };
+  const initialState = {};
 
   it('should display appointment card', async () => {
     const state = {

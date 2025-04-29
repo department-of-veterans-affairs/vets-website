@@ -30,6 +30,10 @@ const AuthContext = () => {
     <>
       {smocEnabled ? (
         <>
+          <p>
+            <strong>If you’re claiming mileage only</strong>, you can file a
+            travel claim for eligible past appointments here on VA.gov.
+          </p>
           <va-link-action
             data-testid="vagov-smoc-link"
             href="/my-health/appointments/past"

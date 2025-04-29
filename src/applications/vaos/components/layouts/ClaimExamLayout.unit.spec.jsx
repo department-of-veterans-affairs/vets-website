@@ -602,7 +602,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
       );
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility’s compensation and pension office to schedule./i,
         ),
       );
       expect(
@@ -720,7 +720,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
       );
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility’s compensation and pension office to schedule./i,
         ),
       );
       expect(
