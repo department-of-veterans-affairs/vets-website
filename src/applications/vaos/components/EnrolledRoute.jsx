@@ -8,6 +8,7 @@ import { RequiredLoginView } from 'platform/user/authorization/components/Requir
 import { selectPatientFacilities } from 'platform/user/cerner-dsot/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectUser, isLOA3 } from 'platform/user/selectors';
+import FullWidthLayout from './FullWidthLayout';
 
 import { useDatadogRum } from '../utils/useDatadogRum';
 import NoRegistrationMessage from './NoRegistrationMessage';
@@ -24,9 +25,16 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
   const userProfileLoading = user?.profile?.loading;
   useDatadogRum();
 
-  // Wait for feature flag to load before rendering.
+  // Wait for feature flag & user profile to load before rendering.
   if (isToggleLoading || userProfileLoading) {
-    return null;
+    return (
+      <FullWidthLayout>
+        <va-loading-indicator
+          set-focus
+          message="Checking the VA online scheduling tool status..."
+        />
+      </FullWidthLayout>
+    );
   }
 
   // Determine if the user should be redirected to the `/my-health` page.
