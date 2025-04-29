@@ -291,6 +291,43 @@ const applicantAdoptionUploadPage = {
   },
 };
 
+const applicantStepChildConfig = uploadWithInfoComponent(
+  undefined, // acceptableFiles.stepCert,
+  'marriage certificates',
+);
+
+const applicantStepChildUploadPage = {
+  uiSchema: {
+    ...titleUI('Upload parental marriage documents', ({ formData }) => (
+      <>
+        To help us process this application faster, submit a copy of{' '}
+        <b className="dd-privacy-hidden">
+          {applicantWording(formData, true, false)}
+        </b>{' '}
+        parental marriage documents.
+        <br />
+        Submitting a copy can help us process this application faster.
+        <br />
+        {MAIL_OR_FAX_LATER_MSG}
+      </>
+    )),
+    ...applicantStepChildConfig.uiSchema,
+    applicantStepMarriageCert: fileUploadUI({
+      label: 'Upload a copy of parental marriage documents',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      titleSchema,
+      ...applicantStepChildConfig.schema,
+      applicantStepMarriageCert: fileWithMetadataSchema(
+        acceptableFiles.stepCert,
+      ),
+    },
+  },
+};
+
 const applicantSummaryPage = {
   uiSchema: {
     'view:hasApplicants': arrayBuilderYesNoUI(applicantOptions),
@@ -407,8 +444,6 @@ export const applicantPages = arrayBuilderPages(
         );
       },
       CustomPage: FileFieldCustom,
-      CustomPageReview: null,
-      customPageUsesPagePerItemData: true,
       ...applicantBirthCertUploadPage,
     }),
     page18d: pageBuilder.itemPage({
@@ -428,9 +463,26 @@ export const applicantPages = arrayBuilderPages(
         );
       },
       CustomPage: FileFieldCustom,
-      CustomPageReview: null,
-      customPageUsesPagePerItemData: true,
       ...applicantAdoptionUploadPage,
+    }),
+    page18e: pageBuilder.itemPage({
+      path: 'applicant-child-marriage-file/:index',
+      title: item => `${applicantWording(item)} parental marriage documents`,
+      depends: (formData, index) => {
+        if (index === undefined) return true;
+        return (
+          get(
+            'applicantRelationshipToSponsor.relationshipToVeteran',
+            formData?.applicants?.[index],
+          ) === 'child' &&
+          get(
+            'applicantRelationshipOrigin.relationshipToVeteran',
+            formData?.applicants?.[index],
+          ) === 'step'
+        );
+      },
+      CustomPage: FileFieldCustom,
+      ...applicantStepChildUploadPage,
     }),
   }),
 );
