@@ -114,7 +114,7 @@ describe('CompleteReferral', () => {
     expect(getByTestId('survey-link')).to.have.text('Start the sign-up survey');
     expect(getByTestId('survey-link')).to.have.attribute(
       'href',
-      'https://docs.google.com/forms/d/e/1FAIpQLSeaLpeM0yudkRVQsJzOFRW8yqVqH-f4DKNkXoxxDfP0cRSMCw/viewform',
+      'https://forms.gle/7Lh5H2fab7Qv3DbA9',
     );
   });
 });

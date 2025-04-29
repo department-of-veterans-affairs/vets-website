@@ -198,7 +198,7 @@ export default function CompleteReferral() {
               </p>
               <p className="vads-u-margin-bottom--0">
                 <va-link
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSeaLpeM0yudkRVQsJzOFRW8yqVqH-f4DKNkXoxxDfP0cRSMCw/viewform"
+                  href="https://forms.gle/7Lh5H2fab7Qv3DbA9"
                   text="Start the sign-up survey"
                   data-testid="survey-link"
                 />
