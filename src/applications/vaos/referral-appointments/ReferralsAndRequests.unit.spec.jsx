@@ -16,7 +16,6 @@ import { mockVAOSAppointmentsFetch } from '../tests/mocks/mockApis';
 const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingVAOSServiceRequests: true,
     vaOnlineSchedulingCCDirectScheduling: true,
   },
 };
