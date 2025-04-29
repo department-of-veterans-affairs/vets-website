@@ -9,6 +9,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 import WIP from '../../shared/components/WIP';
+import { useBrowserMonitoring } from '../helpers/useBrowserMonitoring';
 
 const breadcrumbList = [
   { href: '/', label: 'Home' },
@@ -23,6 +24,9 @@ const breadcrumbList = [
 ];
 
 export default function App({ location, children }) {
+  // Add Datadog RUM to the app
+  useBrowserMonitoring();
+
   return (
     <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <Toggler toggleName={Toggler.TOGGLE_NAMES.form107959a}>

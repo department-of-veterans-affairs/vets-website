@@ -245,6 +245,7 @@ describe('VAOS Referral API Error Handling', () => {
         cy.wait('@v2:post:draftReferralAppointment');
 
         // Select the first appointment slot
+        chooseDateAndTime.selectNextMonth();
         chooseDateAndTime.selectAppointmentSlot(0);
         cy.findAllByRole('radio')
           .eq(0)
@@ -344,6 +345,7 @@ describe('VAOS Referral API Error Handling', () => {
         cy.wait('@v2:post:draftReferralAppointment');
 
         // Select the first appointment slot
+        chooseDateAndTime.selectNextMonth();
         chooseDateAndTime.selectAppointmentSlot(0);
         cy.findAllByRole('radio')
           .eq(0)

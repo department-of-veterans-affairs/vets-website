@@ -83,9 +83,9 @@ const UpcomingAppointmentsPage = props => {
         data-testid="upcoming-appointments-error-message"
         status="error"
       >
-        <h3 className="vads-u-margin-top--0">
+        <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
           {t('were-sorry-weve-run-into-a-problem')}
-        </h3>
+        </h2>
         <p className="vads-u-margin-bottom--0">
           {t('were-having-trouble-getting-your-upcoming-appointments')}
         </p>
