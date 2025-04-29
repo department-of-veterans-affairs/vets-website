@@ -3,29 +3,33 @@ const appointmentData = {
   type: 'eps_appointments',
   attributes: {
     id: 'qdm61cJ5',
-    status: 'not-booked',
-    start: '2024-11-21T18:00:00Z',
+    status: 'booked',
+    start: '2024-11-21T18:00:00',
     typeOfCare: 'Physical Therapy',
     isLatest: true,
     lastRetrieved: '2024-11-21T18:00:00Z',
     modality: 'Office Visit',
-  },
-  provider: {
-    id: 'test-provider-id',
-    name: 'Dr. Bones',
-    isActive: true,
-    phoneNumber: '555-555-5555',
-    organization: {
-      name: 'Meridian Health',
+    provider: {
+      id: 'test-provider-id',
+      name: 'Dr. Bones',
+      isActive: true,
+      phoneNumber: '555-555-5555',
+      organization: {
+        name: 'Meridian Health',
+      },
+      location: {
+        name: 'Test Medical Complex',
+        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
+        latitude: 33.058736,
+        longitude: -80.032819,
+        timezone: 'America/New_York',
+      },
+      networkIds: ['sandbox-network-test'],
     },
-    location: {
-      name: 'Test Medical Complex',
-      address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
-      latitude: 33.058736,
-      longitude: -80.032819,
-      timezone: 'America/New_York',
+    referringFacility: {
+      name: 'Different Test Medical Complex',
+      phoneNumber: '555-555-5555',
     },
-    networkIds: ['sandbox-network-test'],
   },
 };
 
@@ -37,7 +41,11 @@ const appointmentData = {
  * @param {Object} [draftResponse={}] - The draft response object.
  * @returns {Object} The referral appointment object.
  */
-const createMockEpsAppointment = (id, status = 'draft', draftResponse = {}) => {
+const createMockEpsAppointment = (
+  id,
+  status = 'booked',
+  draftResponse = {},
+) => {
   return {
     ...draftResponse,
     id,

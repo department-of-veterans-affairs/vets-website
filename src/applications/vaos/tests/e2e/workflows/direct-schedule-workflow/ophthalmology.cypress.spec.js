@@ -5,12 +5,12 @@ import {
   APPOINTMENT_STATUS,
   OPHTHALMOLOGY_ID,
 } from '../../../../utils/constants';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import MockSlotResponse from '../../fixtures/MockSlotResponse';
-import MockUser from '../../fixtures/MockUser';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockSlotResponse from '../../../fixtures/MockSlotResponse';
+import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';

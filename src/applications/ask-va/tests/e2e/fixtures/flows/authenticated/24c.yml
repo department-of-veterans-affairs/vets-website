@@ -31,11 +31,6 @@ flow:
       target: page
       value: tell-us-about-your-veteran-family-member
 
-    # - action: include
-    #   target: page
-    #   value: tell-us-about-your-family-member-veteran-death
-
-
     - action: include
       target: page
       value: school-information
@@ -46,7 +41,7 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-yourself
+      value: tell-us-about-you
 
     - action: include
       target: page

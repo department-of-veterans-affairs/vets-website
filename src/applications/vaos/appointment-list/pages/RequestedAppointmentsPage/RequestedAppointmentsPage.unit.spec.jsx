@@ -5,18 +5,17 @@ import { within } from '@testing-library/dom';
 import { format, addDays, subDays } from 'date-fns';
 import React from 'react';
 import reducers from '../../../redux/reducer';
-import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
 import { getVAOSRequestMock } from '../../../tests/mocks/mock';
 import {
   getTestDate,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
 import RequestedAppointmentsPage from './RequestedAppointmentsPage';
+import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/mockApis';
 
 const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingVAOSServiceRequests: true,
     vaOnlineSchedulingFeSourceOfTruth: true,
     vaOnlineSchedulingFeSourceOfTruthVA: true,
   },

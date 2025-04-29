@@ -10,6 +10,7 @@ describe('<HealthCareCTA />', () => {
   const initialState = {
     featureToggles: {
       [Toggler.TOGGLE_NAMES.myVaNotificationDotIndicator]: true,
+      [Toggler.TOGGLE_NAMES.travelPaySubmitMileageExpense]: false,
     },
   };
 
@@ -74,6 +75,28 @@ describe('<HealthCareCTA />', () => {
       tree.getByTestId('refill-prescriptions-link-from-cta');
       tree.getByTestId('request-travel-reimbursement-link-from-cta');
       tree.getByTestId('get-medical-records-link-from-cta');
+    });
+
+    it('renders modified travel reimbursement link with Travel Pay SMOC feature flag', () => {
+      const tree = renderWithStoreAndRouter(
+        <HealthCareCTA isVAPatient noCerner />,
+        {
+          initialState: {
+            featureToggles: {
+              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
+              [Toggler.TOGGLE_NAMES.travelPaySubmitMileageExpense]: true,
+            },
+          },
+        },
+      );
+
+      const travelReimbursementLink = tree.getByTestId(
+        'request-travel-reimbursement-link-from-cta',
+      );
+      expect(travelReimbursementLink).to.exist;
+      expect(travelReimbursementLink.getAttribute('href')).to.contain(
+        '/my-health/travel-pay/claims',
+      );
     });
 
     context('renders "Go to your inbox" CTA', () => {
