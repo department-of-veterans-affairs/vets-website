@@ -36,18 +36,34 @@ import { refillProcessStepGuide } from '../util/processListData';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 
 const RefillPrescriptions = () => {
-  // Use RTK Query hooks to fetch refillable prescriptions
   const {
     data: refillableData,
     isLoading,
     error: refillableError,
   } = useGetRefillablePrescriptionsQuery();
 
-  // Use mutation hook for refilling prescriptions
   const [
     bulkRefillPrescriptions,
-    { isLoading: isRefilling, error: bulkRefillError },
+    result,
   ] = useBulkRefillPrescriptionsMutation();
+  const { isLoading: isRefilling, error: bulkRefillError } = result;
+  const successfulMeds =
+    result?.data?.successfulIds && refillableData
+      ? result.data.successfulIds.map(successfulId => {
+          return refillableData.prescriptions.find(
+            prescription =>
+              prescription.prescriptionId === Number(successfulId),
+          );
+        })
+      : [];
+  const failedMeds =
+    result?.data?.failedIds && refillableData
+      ? result.data.failedIds.map(failedId => {
+          return refillableData.prescriptions.find(
+            prescription => prescription.prescriptionId === Number(failedId),
+          );
+        })
+      : [];
 
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
     false,
@@ -200,7 +216,11 @@ const RefillPrescriptions = () => {
           </>
         ) : (
           <>
-            <RefillNotification refillStatus={refillStatus} />
+            <RefillNotification
+              refillStatus={refillStatus}
+              successfulMeds={successfulMeds}
+              failedMeds={failedMeds}
+            />
             {fullRefillList?.length > 0 ? (
               <div>
                 <CernerFacilityAlert />

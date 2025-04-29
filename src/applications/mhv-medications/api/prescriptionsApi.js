@@ -5,7 +5,6 @@ import {
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   defaultSelectedSortOption,
-  EMPTY_FIELD,
   rxListSortingOptions,
 } from '../util/constants';
 
@@ -21,52 +20,7 @@ export const convertPrescription = prescription => {
   if (!prescription) return null;
 
   // Extract from attributes if available, otherwise use the prescription object directly
-  const prescriptionData = prescription.attributes || prescription;
-
-  return {
-    id: prescriptionData.prescriptionId,
-    prescriptionId: prescriptionData.prescriptionId,
-    prescriptionNumber: prescriptionData.prescriptionNumber || EMPTY_FIELD,
-    prescriptionName:
-      prescriptionData.prescriptionName ||
-      prescriptionData.orderableItem ||
-      EMPTY_FIELD,
-    refillStatus: prescriptionData.refillStatus || EMPTY_FIELD,
-    refillSubmitDate: prescriptionData.refillSubmitDate || EMPTY_FIELD,
-    refillDate: prescriptionData.refillDate || EMPTY_FIELD,
-    refillRemaining: prescriptionData.refillRemaining,
-    facilityName: prescriptionData.facilityName || EMPTY_FIELD,
-    orderedDate: prescriptionData.orderedDate || EMPTY_FIELD,
-    quantity: prescriptionData.quantity || EMPTY_FIELD,
-    expirationDate: prescriptionData.expirationDate || EMPTY_FIELD,
-    dispensedDate: prescriptionData.dispensedDate || EMPTY_FIELD,
-    sortedDispensedDate:
-      prescriptionData.sortedDispensedDate ||
-      prescriptionData.dispensedDate ||
-      EMPTY_FIELD,
-    stationNumber: prescriptionData.stationNumber || EMPTY_FIELD,
-    isRefillable: prescriptionData.isRefillable || false,
-    isTrackable: prescriptionData.isTrackable || false,
-    sig: prescriptionData.sig || EMPTY_FIELD,
-    cmopDivisionPhone: prescriptionData.cmopDivisionPhone || EMPTY_FIELD,
-    dialCmopDivisionPhone:
-      prescriptionData.dialCmopDivisionPhone || EMPTY_FIELD,
-    providerFirstName: prescriptionData.providerFirstName || EMPTY_FIELD,
-    providerLastName: prescriptionData.providerLastName || EMPTY_FIELD,
-    remarks: prescriptionData.remarks || EMPTY_FIELD,
-    dispStatus: prescriptionData.dispStatus || EMPTY_FIELD,
-    prescriptionSource: prescriptionData.prescriptionSource || EMPTY_FIELD,
-    indicationForUse: prescriptionData.indicationForUse || EMPTY_FIELD,
-    cmopNdcNumber: prescriptionData.cmopNdcNumber || EMPTY_FIELD,
-    trackingList: prescriptionData.trackingList || [],
-    rxRfRecords: prescriptionData.rxRfRecords || [],
-    // Additional fields that might be useful
-    disclaimer: prescriptionData.disclaimer || EMPTY_FIELD,
-    shape: prescriptionData.shape || EMPTY_FIELD,
-    color: prescriptionData.color || EMPTY_FIELD,
-    frontImprint: prescriptionData.frontImprint || EMPTY_FIELD,
-    backImprint: prescriptionData.backImprint || EMPTY_FIELD,
-  };
+  return prescription.attributes || prescription;
 };
 
 // Create the prescriptions API slice
@@ -162,10 +116,12 @@ export const prescriptionsApi = createApi({
       }),
     }),
     refillPrescription: builder.mutation({
-      query: id => ({
-        path: `${apiBasePath}/prescriptions/${id}/refill`,
-        method: 'PATCH',
-      }),
+      query: id => {
+        return {
+          path: `${apiBasePath}/prescriptions/${id}/refill`,
+          method: 'PATCH',
+        };
+      },
     }),
     bulkRefillPrescriptions: builder.mutation({
       query: ids => {
@@ -173,6 +129,12 @@ export const prescriptionsApi = createApi({
         return {
           path: `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`,
           options: { method: 'PATCH' },
+        };
+      },
+      transformResponse: response => {
+        return {
+          successfulIds: response?.successfulIds || [],
+          failedIds: response?.failedIds || [],
         };
       },
     }),

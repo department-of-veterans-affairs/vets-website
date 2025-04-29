@@ -17,7 +17,7 @@ class MedicationsSite {
     if (isMedicationsUser) {
       cy.intercept(
         'GET',
-        '/my_health/v1/prescriptions?page=1&per_page=999',
+        '/my_health/v1/prescriptions?page=1&per_page=10&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
         prescriptions,
       ).as('prescriptions');
       cy.intercept('GET', '/health-care/refill-track-prescriptions');
