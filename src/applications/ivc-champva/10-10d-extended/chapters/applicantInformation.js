@@ -24,13 +24,23 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import ApplicantRelationshipPage from '../../shared/components/applicantLists/ApplicantRelationshipPage';
+import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
+import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
+import { applicantWording } from '../../shared/utilities';
+
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
 import { page15aDepends } from '../helpers/utilities';
+import { MAIL_OR_FAX_LATER_MSG, MAX_APPLICANTS } from '../constants';
 
-import { applicantWording } from '../../shared/utilities';
+import {
+  uploadWithInfoComponent,
+  acceptableFiles,
+} from '../../10-10D/components/Sponsor/sponsorFileUploads';
 
 /*
 // TODO: get the custom prefill stuff working with array builder
@@ -55,7 +65,7 @@ const applicantOptions = {
   isItemIncomplete: item => {
     return !item?.applicantName?.first;
   }, // TODO: include more required fields here
-  maxItems: 25, // TODO: use constant for this limit
+  maxItems: MAX_APPLICANTS,
   text: {
     getItemName: item => item?.applicantName?.first || 'Applicant',
     cardDescription: item =>
@@ -206,6 +216,44 @@ const applicantRelationshipOriginPage = {
   },
 };
 
+// TODO: switch to v3 file upload after initial page implementation
+const applicantBirthCertConfig = uploadWithInfoComponent(
+  undefined, // acceptableFiles.birthCert,
+  'birth certificates',
+);
+
+const applicantBirthCertUploadPage = {
+  uiSchema: {
+    ...titleUI('Upload birth certificate', ({ formData }) => (
+      <>
+        To help us process this application faster, submit a copy of{' '}
+        <b className="dd-privacy-hidden">
+          {applicantWording(formData, true, false)}
+        </b>{' '}
+        birth certificate.
+        <br />
+        Submitting a copy can help us process this application faster.
+        <br />
+        {MAIL_OR_FAX_LATER_MSG}
+      </>
+    )),
+    ...applicantBirthCertConfig.uiSchema,
+    applicantBirthCertOrSocialSecCard: fileUploadUI({
+      label: 'Upload a copy of birth certificate',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      titleSchema,
+      ...applicantBirthCertConfig.schema,
+      applicantBirthCertOrSocialSecCard: fileWithMetadataSchema(
+        acceptableFiles.birthCert,
+      ),
+    },
+  },
+};
+
 const applicantSummaryPage = {
   uiSchema: {
     'view:hasApplicants': arrayBuilderYesNoUI(applicantOptions),
@@ -308,6 +356,23 @@ export const applicantPages = arrayBuilderPages(
       },
       ...applicantRelationshipOriginPage,
       CustomPage: ApplicantRelOriginPage,
+    }),
+    page18a: pageBuilder.itemPage({
+      path: 'applicant-relationship-child-upload/:index',
+      title: item => `${applicantWording(item)} birth certificate`,
+      depends: (formData, index) => {
+        if (index === undefined) return true;
+        return (
+          get(
+            'applicantRelationshipToSponsor.relationshipToVeteran',
+            formData?.applicants?.[index],
+          ) === 'child'
+        );
+      },
+      CustomPage: FileFieldCustom,
+      CustomPageReview: null,
+      customPageUsesPagePerItemData: true,
+      ...applicantBirthCertUploadPage,
     }),
   }),
 );
