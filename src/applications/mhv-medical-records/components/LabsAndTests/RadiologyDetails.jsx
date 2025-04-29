@@ -369,7 +369,7 @@ ${record.results}`;
     return (
       imageStudyJob &&
       (imageStudyJob.status === studyJobStatus.NEW ||
-        studyJob?.status !== studyJobStatus.QUEUED ||
+        imageStudyJob.status === studyJobStatus.QUEUED ||
         imageStudyJob.status === studyJobStatus.PROCESSING) &&
       imageStudyJob.percentComplete < 100
     );
