@@ -248,7 +248,7 @@ export function createTransaction(
       const { code = 'code', title = 'title', detail = 'detail' } = firstError;
       const profileSection = analyticsSectionName || 'unknown-profile-section';
 
-      // Check if it's a 500 error and we're in a form context
+      // Check if it's a 5xx error and we're in a form context
       if (isServerError(error.status)) {
         const state = getState();
         const hasFormData = Boolean(state.form?.data);

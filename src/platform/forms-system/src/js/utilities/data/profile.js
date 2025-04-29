@@ -472,7 +472,9 @@ export const contactInfoPropTypes = {
   }),
   data: PropTypes.shape({
     veteran: PropTypes.shape({
-      email: PropTypes.object,
+      email: PropTypes.shape({
+        emailAddress: PropTypes.string,
+      }),
       homePhone: PropTypes.shape({
         countryCode: PropTypes.string,
         areaCode: PropTypes.string,

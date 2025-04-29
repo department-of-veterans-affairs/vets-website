@@ -332,25 +332,6 @@ export const ProfileInformationEditViewFc = ({
       ...value,
     };
 
-    // If this is a mailing address with form data, make sure to preserve
-    // the updateProfileChoice or formOnlyUpdate flag
-    // if (
-    //   fieldName === FIELD_NAMES.MAILING_ADDRESS &&
-    //   contactInfoFormAppConfig?.formFieldData &&
-    //   (contactInfoFormAppConfig?.formFieldData?.updateProfileChoice === 'no' ||
-    //     contactInfoFormAppConfig?.formFieldData?.formOnlyUpdate === true)
-    // ) {
-    //   // Preserve the updateProfileChoice or formOnlyUpdate flag
-    //   if (contactInfoFormAppConfig.formFieldData.updateProfileChoice) {
-    //     newFieldValue.updateProfileChoice =
-    //       contactInfoFormAppConfig.formFieldData.updateProfileChoice;
-    //   }
-    //   if (contactInfoFormAppConfig.formFieldData.formOnlyUpdate) {
-    //     newFieldValue.formOnlyUpdate =
-    //       contactInfoFormAppConfig.formFieldData.formOnlyUpdate;
-    //   }
-    // }
-
     if (newFieldValue['view:livesOnMilitaryBase']) {
       newFieldValue.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
     }
