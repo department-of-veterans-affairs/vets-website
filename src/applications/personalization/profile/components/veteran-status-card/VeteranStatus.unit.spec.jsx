@@ -121,20 +121,6 @@ function createBasicInitialState(serviceHistory, eligibility) {
   };
 }
 
-function testHeadingAndDescription(initialState) {
-  const view = renderWithProfileReducers(<VeteranStatus />, {
-    initialState,
-  });
-  const heading = view.getByRole('heading', {
-    name: /Veteran Status Card/i,
-  });
-  expect(heading).to.exist;
-  const description = view.getByText(
-    /This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure./i,
-  );
-  expect(description).to.exist;
-}
-
 describe('VeteranStatus', () => {
   let apiRequestStub;
 
@@ -151,8 +137,32 @@ describe('VeteranStatus', () => {
       confirmedEligibility,
     );
 
-    it('displays the heading and description successfully', () => {
-      testHeadingAndDescription(initialState);
+    it('should render heading', () => {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+      const heading = view.getByRole('heading', {
+        name: /Veteran Status Card/i,
+      });
+      expect(heading).to.exist;
+    });
+
+    it('should render description copy', () => {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+      const description = view.getByText(
+        /This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure./i,
+      );
+      expect(description).to.exist;
+    });
+
+    it('should render frequently asked questions', () => {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+      const faq = view.getByText(/Frequently asked questions/i);
+      expect(faq).to.exist;
     });
   });
 
@@ -161,10 +171,6 @@ describe('VeteranStatus', () => {
       [serviceHistoryItemMiddle],
       confirmedEligibility,
     );
-
-    it('displays the heading and description successfully', () => {
-      testHeadingAndDescription(initialState);
-    });
 
     it('displays the card successfully', async () => {
       apiRequestStub.resolves(vetStatusConfirmed);
@@ -177,12 +183,20 @@ describe('VeteranStatus', () => {
         apiRequestStub,
         '/profile/vet_verification_status',
       );
+
       await waitFor(() => {
         expect(
           view.queryByText(
             /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
           ),
         ).to.not.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.true; // PDF link should be available
       });
     });
 
@@ -198,6 +212,13 @@ describe('VeteranStatus', () => {
             /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
 
@@ -216,6 +237,13 @@ describe('VeteranStatus', () => {
             'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
 
@@ -231,6 +259,13 @@ describe('VeteranStatus', () => {
             'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
 
@@ -256,6 +291,13 @@ describe('VeteranStatus', () => {
             'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
 
@@ -281,6 +323,13 @@ describe('VeteranStatus', () => {
             'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
 
@@ -290,7 +339,7 @@ describe('VeteranStatus', () => {
         initialState,
       });
 
-      expect(view.getByTestId('proof-of-status-loading-indicator')).to.exist;
+      expect(view.getByTestId('veteran-status-loading-indicator')).to.exist;
     });
   });
 
@@ -306,10 +355,6 @@ describe('VeteranStatus', () => {
       confirmedEligibility,
     );
 
-    it('displays the heading and description successfully', () => {
-      testHeadingAndDescription(initialState);
-    });
-
     it('should render card if service history contains an eligible discharge despite any other discharges', async () => {
       apiRequestStub.resolves(vetStatusConfirmed);
       const view = renderWithProfileReducers(<VeteranStatus />, {
@@ -318,8 +363,12 @@ describe('VeteranStatus', () => {
 
       await waitFor(() => {
         expect(
-          view.queryByText(/This card doesn’t entitle you to any VA benefits./),
-        ).to.exist;
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.true; // PDF link should be available
       });
     });
 
@@ -338,10 +387,6 @@ describe('VeteranStatus', () => {
   describe('when there is no service history', () => {
     const initialState = createBasicInitialState([], problematicEligibility);
 
-    it('displays the heading and description successfully', () => {
-      testHeadingAndDescription(initialState);
-    });
-
     it('displays not confirmed message if confirmed', async () => {
       apiRequestStub.resolves(vetStatusConfirmed);
       const view = renderWithProfileReducers(<VeteranStatus />, {
@@ -358,6 +403,13 @@ describe('VeteranStatus', () => {
             /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
 
@@ -373,6 +425,13 @@ describe('VeteranStatus', () => {
             /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
   });
@@ -393,20 +452,11 @@ describe('VeteranStatus', () => {
       suffix: '',
     };
 
-    it('displays the heading and description successfully', () => {
-      testHeadingAndDescription(initialState);
-    });
-
     it('should render an error and not the HTML card', async () => {
       apiRequestStub.resolves(vetStatusNotConfirmed);
       const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
-
-      const heading = view.getByRole('heading', {
-        name: /Veteran Status Card/i,
-      });
-      expect(heading).to.exist;
 
       await waitFor(() => {
         expect(
@@ -419,6 +469,13 @@ describe('VeteranStatus', () => {
             /We’re sorry. There’s a problem with your discharge status records./,
           ),
         ).to.not.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
   });
@@ -434,10 +491,6 @@ describe('VeteranStatus', () => {
         initialState,
       });
 
-      it('displays the heading and description successfully', () => {
-        testHeadingAndDescription(initialState);
-      });
-
       await waitFor(() => {
         expect(
           view.queryByText(
@@ -445,6 +498,13 @@ describe('VeteranStatus', () => {
           ),
         ).to.exist;
       });
+      expect(
+        Array.from(view.container.querySelectorAll('va-link')).some(
+          link =>
+            link.getAttribute('text') ===
+            'Print your Veteran Status Card (PDF)',
+        ),
+      ).to.be.not.true; // PDF link should NOT be available
     });
   });
 });

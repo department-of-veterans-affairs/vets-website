@@ -261,12 +261,12 @@ const VeteranStatus = ({
         This card makes it easy to prove your service and access Veteran
         discounts, all while keeping your personal information secure.
       </p>
-      <div id="proof-of-veteran-status">
+      <div id="veteran-status">
         {isLoading ? (
           <va-loading-indicator
             set-focus
             message="Checking your eligibility..."
-            data-testid="proof-of-status-loading-indicator"
+            data-testid="veteran-status-loading-indicator"
           />
         ) : (
           <>
