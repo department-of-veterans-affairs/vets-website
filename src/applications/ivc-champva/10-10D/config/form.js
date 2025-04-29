@@ -128,6 +128,7 @@ import { fileWithMetadataSchema } from '../../shared/components/fileUploads/atta
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
+import { singleFileSchema } from '../../shared/components/fileUploads/upload';
 
 // Control whether we show the file overview page by calling `hasReq` to
 // determine if any required files have not been uploaded
@@ -1333,10 +1334,8 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartAPartBCardsConfig.schema,
-            applicantMedicarePartAPartBCard: fileWithMetadataSchema(
-              acceptableFiles.medicareABCert,
-              2,
-            ),
+            applicantMedicarePartAPartBCardFront: singleFileSchema,
+            applicantMedicarePartAPartBCardBack: singleFileSchema,
           }),
         },
         page20b: {
