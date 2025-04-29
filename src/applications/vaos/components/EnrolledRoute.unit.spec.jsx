@@ -16,7 +16,7 @@ const initialState = {
   featureToggles: {
     vaOnlineScheduling: true,
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingMhvRouteGuards: false,
+    vaOnlineSchedulingMHVRouteGuards: false,
   },
   user: {
     login: {
@@ -123,7 +123,7 @@ describe('VAOS Component: EnrolledRoute', () => {
       ...initialState,
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingMhvRouteGuards: true,
+        vaOnlineSchedulingMHVRouteGuards: true,
       },
       user: {
         ...initialState.user,
@@ -153,7 +153,7 @@ describe('VAOS Component: EnrolledRoute', () => {
       ...initialState,
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingMhvRouteGuards: true,
+        vaOnlineSchedulingMHVRouteGuards: true,
       },
       user: {
         ...initialState.user,
