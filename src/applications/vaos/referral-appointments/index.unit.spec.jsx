@@ -114,4 +114,54 @@ describe('ReferralAppointments', () => {
       expect(utils.scrollAndFocus.calledWith('h1')).to.be.true;
     });
   });
+
+  it('should redirect to referrals-requests page if referral has appointments', async () => {
+    const referralWithHasAppointments = createReferralById(
+      '2024-11-29',
+      'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    );
+    referralWithHasAppointments.attributes.hasAppointments = true;
+
+    const referralWithAppointmentsArray = createReferralById(
+      '2024-11-29',
+      'add2f0f4-a1ea-4dea-a504-a54ab57c6802',
+    );
+    referralWithAppointmentsArray.attributes.appointments = [
+      { id: 'appointment-1', status: 'booked' },
+    ];
+
+    servicesUtils.apiRequestWithUrl.resolves({
+      data: referralWithHasAppointments,
+    });
+
+    const initialState = {
+      ...initialStateVAOSService,
+      referral: {
+        referrals: createReferrals(3),
+        referralsFetchStatus: FETCH_STATUS.succeeded,
+      },
+    };
+
+    let screen = renderWithStoreAndRouter(<ReferralAppointments />, {
+      initialState,
+      path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    });
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal('/referrals-requests');
+    });
+
+    servicesUtils.apiRequestWithUrl.resolves({
+      data: referralWithAppointmentsArray,
+    });
+
+    screen = renderWithStoreAndRouter(<ReferralAppointments />, {
+      initialState,
+      path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6802',
+    });
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal('/referrals-requests');
+    });
+  });
 });
