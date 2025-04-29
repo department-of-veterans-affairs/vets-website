@@ -141,30 +141,18 @@ function locationSupportsRequests(location, typeOfCare) {
   );
 }
 
-function hasMatchingClinics(
-  clinics,
-  pastAppointments,
-  featureClinicFilter = false,
-) {
+function hasMatchingClinics(clinics, pastAppointments) {
   return clinics?.some(
     clinic =>
       !!pastAppointments.find(appt => {
         const clinicIds = clinic.id.split('_');
-        if (appt.version === 2 && featureClinicFilter) {
+        if (appt.version === 2) {
           return (
             clinic.stationId === appt.location.stationId &&
             clinicIds[1] === appt.location.clinicId &&
             clinic.patientDirectScheduling === true
           );
         }
-        // TODO remove lines since v0 returns pre-filtered direct schedule clinics
-        // if (appt.version === 1 && featureClinicFilter) {
-        //   return (
-        //     clinicIds[0] === appt.facilityId &&
-        //     clinicIds[1] === appt.clinicId &&
-        //     clinic.patientDirectScheduling === 'Y'
-        //   );
-        // }
         return (
           clinicIds[0] === appt.facilityId && clinicIds[1] === appt.clinicId
         );
@@ -381,31 +369,12 @@ export async function fetchFlowEligibilityAndClinics({
       );
     }
 
-    if (featureClinicFilter) {
-      if (
-        !isCerner &&
-        typeOfCare.id !== PRIMARY_CARE &&
-        typeOfCare.id !== MENTAL_HEALTH &&
-        directTypeOfCareSettings.patientHistoryRequired &&
-        !hasMatchingClinics(
-          results.clinics,
-          results.pastAppointments,
-          featureClinicFilter,
-        )
-      ) {
-        eligibility.direct = false;
-        eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
-        recordEligibilityFailure('direct-no-matching-past-clinics');
-      }
-    } else if (
+    if (
       !isCerner &&
       typeOfCare.id !== PRIMARY_CARE &&
       typeOfCare.id !== MENTAL_HEALTH &&
-      !hasMatchingClinics(
-        results.clinics,
-        results.pastAppointments,
-        featureClinicFilter,
-      )
+      directTypeOfCareSettings.patientHistoryRequired &&
+      !hasMatchingClinics(results.clinics, results.pastAppointments)
     ) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
