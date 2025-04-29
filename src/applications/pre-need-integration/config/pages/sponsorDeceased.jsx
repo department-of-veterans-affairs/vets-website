@@ -27,6 +27,9 @@ export const uiSchema = {
       },
     }),
   },
+  'ui:options': {
+    itemName: 'sponsor’s death',
+  },
 };
 
 export const schema = {
