@@ -3,18 +3,16 @@ import mockFeedbackPost from '../fixtures/mocks/feedback-post.json';
 import mockFeedbackGet from '../fixtures/mocks/feedback-1234.json';
 
 describe('Feedback Tool Keyboard Test', () => {
-  beforeEach(() => {
+  it('Is accessible accordingly via keyboard', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
         features: [],
       },
     });
-  });
-  it('Is accessible accordingly via keyboard', () => {
     cy.intercept('POST', '/v0/gi_bill_feedbacks', {
+      statusCode: 200,
       body: mockFeedbackPost,
-      statusCode: 204,
     }).as('postFeedback');
     cy.intercept('GET', '/v0/gi_bill_feedbacks/1234', mockFeedbackGet);
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { body: {} });
