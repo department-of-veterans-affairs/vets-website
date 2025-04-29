@@ -334,7 +334,6 @@ describe('Medications Prescriptions container', () => {
       'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications. If you print or download this list, we’ll include a list of your allergies.',
     );
   });
-
   it('displays filter accordion', async () => {
     const screen = setup({
       ...initialState,
