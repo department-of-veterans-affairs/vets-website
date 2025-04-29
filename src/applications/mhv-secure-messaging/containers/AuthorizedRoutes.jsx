@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -18,7 +18,7 @@ import manifest from '../manifest.json';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 
-// Prepend SmBreadcrumbs to each route, except for PageNotFound
+// Prepend SmBreadcrumbs to each route, except for MhvPageNotFound
 const AppRoute = ({ children, ...rest }) => {
   return (
     <Route {...rest}>
@@ -110,7 +110,7 @@ const AuthorizedRoutes = () => {
           <EditContactList />
         </AppRoute>
         <Route>
-          <PageNotFound />
+          <MhvPageNotFound />
         </Route>
       </Switch>
     </div>
