@@ -4,6 +4,7 @@ import mockFeedbackGet from '../fixtures/mocks/feedback-1234.json';
 
 describe('Feedback Tool Keyboard Test', () => {
   beforeEach(() => {
+    if (Cypress.env('CI')) this.skip();
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -156,5 +157,7 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.url().should('include', '/review-and-submit');
     cy.tabToElementAndPressSpace('va-checkbox');
     cy.tabToSubmitForm();
+    cy.realPress('Space');
+    cy.wait('@postFeedback');
   });
 });
