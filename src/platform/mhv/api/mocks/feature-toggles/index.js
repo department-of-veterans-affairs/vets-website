@@ -30,8 +30,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
-    mhvMedicationsRemoveLandingPage = true,
-
 
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,
