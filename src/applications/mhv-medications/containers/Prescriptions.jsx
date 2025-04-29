@@ -785,7 +785,7 @@ const Prescriptions = () => {
                         <div className="vads-u-height--viewport vads-u-padding-top--3">
                           <va-loading-indicator
                             message={loadingMessage}
-                            setFocus
+                            set-focus
                             data-testid="loading-indicator"
                           />
                         </div>
@@ -828,7 +828,7 @@ const Prescriptions = () => {
                         <div className="vads-u-padding-y--3">
                           <va-loading-indicator
                             message={loadingMessage}
-                            setFocus
+                            set-focus
                             data-testid="loading-indicator"
                           />
                         </div>
@@ -861,7 +861,7 @@ const Prescriptions = () => {
                           <div className="vads-u-height--viewport vads-u-padding-top--3">
                             <va-loading-indicator
                               message={`${loadingMessage}`}
-                              setFocus
+                              set-focus
                               data-testid="loading-indicator"
                             />
                           </div>

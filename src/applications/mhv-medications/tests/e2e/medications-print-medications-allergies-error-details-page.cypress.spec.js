@@ -15,6 +15,6 @@ describe('Navigate to Print Error Message when Allergies API Fails on Details Pa
     cy.axeCheck('main');
     detailsPage.clickPrintOrDownloadThisPageDropDownOnDetailsPage();
     detailsPage.clickPrintThisPageButtonOnDetailsPage();
-    listPage.verifyPrintErrorMessageForAllergiesAPICallFail();
+    listPage.verifyPrintErrorMessageForAllergiesAPICallFail(); // [data-testid="no-medications-list"] not found
   });
 });
