@@ -90,7 +90,7 @@ class PilotEnvPage {
   };
 
   verifyThreadLength = thread => {
-    cy.get('[data-testid="thread-list-item"]').then(el => {
+    cy.get(Locators.THREADS).then(el => {
       expect(el.length).to.eq(thread.data.length);
     });
   };
