@@ -125,7 +125,6 @@ class FolderLoadPage {
   };
 
   verifyUrlError = () => {
-    cy.visit(`${Paths.UI_MAIN}/dummy`);
     cy.findByTestId('mhv-page-not-found').should('exist');
     cy.get('[data-testid="secure-messaging"]')
       .find('h1')

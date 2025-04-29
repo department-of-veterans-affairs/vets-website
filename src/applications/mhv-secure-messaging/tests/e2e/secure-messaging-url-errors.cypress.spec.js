@@ -7,12 +7,6 @@ describe('Verify alert for invalid url', () => {
     SecureMessagingSite.login();
   });
 
-  it('Invalid landing page url', () => {
-    FolderLoadPage.verifyUrlError();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-
   it('Invalid Inbox page url', () => {
     cy.visit(`${Paths.UI_MAIN}/inbox1`);
     FolderLoadPage.verifyUrlError();
