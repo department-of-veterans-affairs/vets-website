@@ -1,3 +1,4 @@
+import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
@@ -20,6 +21,14 @@ import applicantMailingAddress2 from '../pages/applicantMailingAddress2';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 import { isUserSignedIn } from '../utils/helpers';
+
+const CustomHeader = () => {
+  return (
+    <h3 className="vads-u-margin-bottom--3">
+      Confirm the personal information we have on file for you
+    </h3>
+  );
+};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -69,6 +78,7 @@ const formConfig = {
             gender: { show: false, required: false },
             name: { show: true, required: false },
           },
+          header: <CustomHeader />,
           depends: formData => isUserSignedIn(formData),
         }),
         applicantName: {
