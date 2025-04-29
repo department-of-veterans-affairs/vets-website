@@ -42,10 +42,7 @@ import {
   acceptableFiles,
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
 import { isInRange } from '../../10-10D/helpers/utilities';
-import {
-  ApplicantDependentStatusPage,
-  ApplicantDependentStatusReviewPage,
-} from '../../10-10D/pages/ApplicantDependentStatus';
+import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
 
 /*
 // TODO: get the custom prefill stuff working with array builder
@@ -57,7 +54,7 @@ import CustomPrefillMessage from '../components/CustomPrefillAlert';
 import { applicantAddressCleanValidation } from '../../shared/validations';
 */
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+import mockData from '../tests/fixtures/data/test-data.json';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -333,6 +330,41 @@ const applicantStepChildUploadPage = {
   },
 };
 
+const applicantSchoolCertConfig = uploadWithInfoComponent(
+  undefined, // acceptableFiles.schoolCert,
+  'school certifications',
+);
+
+const applicantSchoolCertUploadPage = {
+  uiSchema: {
+    ...titleUI('Upload school documents', ({ formData }) => (
+      <>
+        To help us process this application faster, submit a copy of{' '}
+        <b className="dd-privacy-hidden">
+          {applicantWording(formData, true, false)}
+        </b>{' '}
+        school documents.
+        <br />
+        Submitting a copy can help us process this application faster.
+        <br />
+        {MAIL_OR_FAX_LATER_MSG}
+      </>
+    )),
+    ...applicantSchoolCertConfig.uiSchema,
+    applicantSchoolCert: fileUploadUI({
+      label: 'Upload proof of school enrollment',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      titleSchema,
+      ...applicantSchoolCertConfig.schema,
+      applicantSchoolCert: fileWithMetadataSchema(acceptableFiles.schoolCert),
+    },
+  },
+};
+
 const applicantDependentStatusPage = {
   uiSchema: {},
   schema: {
@@ -375,7 +407,7 @@ export const applicantPages = arrayBuilderPages(
     applicantIntro: pageBuilder.introPage({
       path: 'applicant-intro',
       title: '[noun plural]',
-      // initialData: mockData.data,
+      initialData: mockData.data,
       uiSchema: {
         ...titleUI(
           'Add applicants',
@@ -527,9 +559,29 @@ export const applicantPages = arrayBuilderPages(
           )
         );
       },
-      ...applicantDependentStatusPage,
       CustomPage: ApplicantDependentStatusPage,
-      CustomPageReview: ApplicantDependentStatusReviewPage,
+      ...applicantDependentStatusPage,
+    }),
+    page18b: pageBuilder.itemPage({
+      path: 'applicant-child-school-upload/:index',
+      title: item => `${applicantWording(item)} school documents`,
+      depends: (formData, index) => {
+        if (index === undefined) return true;
+        return (
+          formData.applicants[index]?.applicantRelationshipToSponsor
+            ?.relationshipToVeteran === 'child' &&
+          isInRange(
+            getAgeInYears(formData.applicants[index]?.applicantDob),
+            18,
+            23,
+          ) &&
+          ['enrolled', 'intendsToEnroll'].includes(
+            formData.applicants[index]?.applicantDependentStatus?.status,
+          )
+        );
+      },
+      CustomPage: FileFieldCustom,
+      ...applicantSchoolCertUploadPage,
     }),
   }),
 );
