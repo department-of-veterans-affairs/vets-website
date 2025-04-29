@@ -37,7 +37,7 @@ export default function prefillTransformer(pages, formData, metadata) {
       phoneNumber: phone || '',
       emailAddress: email || '',
       businessPhone: workPhone || businessPhone || '',
-      businessEmail: email || businessEmail || '',
+      businessEmail: businessEmail || email || '',
     };
   };
 
