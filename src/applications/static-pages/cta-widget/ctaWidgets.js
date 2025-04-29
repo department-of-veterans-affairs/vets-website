@@ -133,7 +133,7 @@ export const ctaWidgetsLookup = {
     isHealthTool: false,
     mhvToolName: null,
     requiredServices: backendServices.EVSS_CLAIMS,
-    serviceDescription: 'check your GI Bill Benefits',
+    serviceDescription: 'check your GI Bill benefits',
   },
   [CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES]: {
     id: CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES,
