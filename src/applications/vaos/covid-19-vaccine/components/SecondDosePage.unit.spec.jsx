@@ -116,7 +116,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
 
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        'contact-information',
+        '/new-covid-19-vaccine-appointment/contact-info',
       ),
     );
   });
