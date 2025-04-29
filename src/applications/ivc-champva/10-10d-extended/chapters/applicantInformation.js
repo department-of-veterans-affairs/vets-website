@@ -30,7 +30,7 @@ import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUpload
 import ApplicantRelationshipPage from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
-import { applicantWording } from '../../shared/utilities';
+import { applicantWording, getAgeInYears } from '../../shared/utilities';
 
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
@@ -41,6 +41,11 @@ import {
   uploadWithInfoComponent,
   acceptableFiles,
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
+import { isInRange } from '../../10-10D/helpers/utilities';
+import {
+  ApplicantDependentStatusPage,
+  ApplicantDependentStatusReviewPage,
+} from '../../10-10D/pages/ApplicantDependentStatus';
 
 /*
 // TODO: get the custom prefill stuff working with array builder
@@ -328,6 +333,29 @@ const applicantStepChildUploadPage = {
   },
 };
 
+const applicantDependentStatusPage = {
+  uiSchema: {},
+  schema: {
+    type: 'object',
+    properties: {
+      titleSchema,
+      'ui:description': blankSchema,
+      applicantDependentStatus: {
+        type: 'object',
+        properties: {
+          status: radioSchema([
+            'enrolled',
+            'intendsToEnroll',
+            'over18HelplessChild',
+          ]),
+          _unused: { type: 'string' },
+        },
+      },
+    },
+    required: ['applicantDependentStatus'],
+  },
+};
+
 const applicantSummaryPage = {
   uiSchema: {
     'view:hasApplicants': arrayBuilderYesNoUI(applicantOptions),
@@ -483,6 +511,25 @@ export const applicantPages = arrayBuilderPages(
       },
       CustomPage: FileFieldCustom,
       ...applicantStepChildUploadPage,
+    }),
+    page18b1: pageBuilder.itemPage({
+      path: 'applicant-dependent-status/:index',
+      title: item => `${applicantWording(item)} dependent status`,
+      depends: (formData, index) => {
+        if (index === undefined) return true;
+        return (
+          formData.applicants[index]?.applicantRelationshipToSponsor
+            ?.relationshipToVeteran === 'child' &&
+          isInRange(
+            getAgeInYears(formData.applicants[index]?.applicantDob),
+            18,
+            23,
+          )
+        );
+      },
+      ...applicantDependentStatusPage,
+      CustomPage: ApplicantDependentStatusPage,
+      CustomPageReview: ApplicantDependentStatusReviewPage,
     }),
   }),
 );
