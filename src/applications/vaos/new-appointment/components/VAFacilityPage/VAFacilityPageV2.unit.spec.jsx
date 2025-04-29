@@ -1,28 +1,26 @@
-import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
+import React from 'react';
 
 // eslint-disable-next-line import/no-unresolved
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import VAFacilityPage from './VAFacilityPageV2';
-import {
-  createTestStore,
-  setTypeOfCare,
-  renderWithStoreAndRouter,
-  setTypeOfEyeCare,
-} from '../../../tests/mocks/setup';
-import {
-  mockSchedulingConfigurations,
-  mockGetCurrentPosition,
-} from '../../../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import { createMockFacility } from '../../../tests/mocks/data';
+import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import {
   mockEligibilityFetches,
-  mockFacilitiesFetch,
-} from '../../../tests/mocks/fetch';
+  mockFacilitiesApi,
+  mockGetCurrentPosition,
+  mockSchedulingConfigurations,
+} from '../../../tests/mocks/mockApis';
+import {
+  createTestStore,
+  renderWithStoreAndRouter,
+  setTypeOfCare,
+  setTypeOfEyeCare,
+} from '../../../tests/mocks/setup';
+import VAFacilityPage from './VAFacilityPageV2';
 
 describe('VAOS Page: VAFacilityPage', () => {
   describe('when there are multiple facilities to choose from', () => {
@@ -65,10 +63,10 @@ describe('VAOS Page: VAFacilityPage', () => {
     beforeEach(() => mockFetch());
 
     it('should display error messaging if user denied location permissions', async () => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
             name: 'Facility 983',
@@ -140,10 +138,10 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should not display show more button if < 6 locations', async () => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities: facilities.slice(0, 5),
+        response: facilities.slice(0, 5),
       });
       mockSchedulingConfigurations([
         getSchedulingConfigurationMock({
@@ -208,10 +206,10 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should display previous user choices when returning to page', async () => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
             name: 'Fake facility name 1',
@@ -281,9 +279,9 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should show no facilities message with up to two unsupported facilities for users with address', async () => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
             name: 'Facility 983',
@@ -369,10 +367,10 @@ describe('VAOS Page: VAFacilityPage', () => {
       facilityDetails.attributes.phone = {
         main: '4065555858',
       };
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities: [
+        response: [
           facilityDetails,
           createMockFacility({
             id: '124',
@@ -446,10 +444,10 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it('should show additional info link if there are unsupported facilities within 100 miles', async () => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
             name: 'Facility that is enabled',
@@ -540,10 +538,10 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
             name: 'Facility that is enabled',
@@ -658,10 +656,10 @@ describe('VAOS Page: VAFacilityPage', () => {
           requestEnabled: true,
         }),
       ]);
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
             name: 'First cerner facility',
@@ -709,10 +707,10 @@ describe('VAOS Page: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities,
+        response: facilities,
       });
       mockEligibilityFetches({
         facilityId: '983',
@@ -799,10 +797,10 @@ describe('VAOS Page: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities,
+        response: facilities,
       });
       mockEligibilityFetches({
         facilityId: '983',
@@ -878,10 +876,10 @@ describe('VAOS Page: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities,
+        response: facilities,
       });
       mockEligibilityFetches({
         facilityId: '983',
@@ -954,10 +952,10 @@ describe('VAOS Page: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities,
+        response: facilities,
       });
       mockEligibilityFetches({
         facilityId: '983',
@@ -1021,9 +1019,9 @@ describe('VAOS Page: VAFacilityPage', () => {
       }, []);
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
             name: 'Facility 983',
@@ -1076,10 +1074,10 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should show facility information without form', async () => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983'],
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
             name: 'San Diego VA Medical Center',
@@ -1133,10 +1131,10 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should switch to multi facility view when type of care changes to one that has multiple supported facilities', async () => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983'],
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
             name: 'Facility 1',
@@ -1202,10 +1200,10 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should filter out facilities without a physical location', async () => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983'],
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
             name: 'Facility 1',
@@ -1315,7 +1313,6 @@ describe('VAOS Page: VAFacilityPage', () => {
         },
         featureToggles: {
           vaOnlineSchedulingDirect: true,
-          vaOnlineSchedulingUseDsot: true,
         },
         user: {
           profile: {
@@ -1330,9 +1327,9 @@ describe('VAOS Page: VAFacilityPage', () => {
         },
       };
 
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
             name: 'First cerner facility',

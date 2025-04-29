@@ -1,20 +1,22 @@
-import React from 'react';
-import moment from 'moment';
-import { expect } from 'chai';
 import {
   mockFetch,
   setFetchJSONResponse,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { expect } from 'chai';
+import moment from 'moment';
+import React from 'react';
+import { NewBookingSection } from '.';
+import { createMockFacility } from '../tests/mocks/data';
+import { getSchedulingConfigurationMock } from '../tests/mocks/mock';
+import {
+  mockFacilitiesApi,
+  mockSchedulingConfigurations,
+} from '../tests/mocks/mockApis';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
-import { NewBookingSection } from '.';
-import { mockFacilitiesFetch } from '../tests/mocks/fetch';
-import { createMockFacility } from '../tests/mocks/data';
-import { mockSchedulingConfigurations } from '../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../tests/mocks/mock';
 
 const initialState = {
   featureToggles: {
@@ -40,9 +42,9 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
       ...initialState,
     });
 
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
-      facilities: [
+      response: [
         createMockFacility({
           id: '983',
           name: 'A facility',
@@ -82,9 +84,9 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
       ...initialState,
     });
 
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
-      facilities: [
+      response: [
         createMockFacility({
           id: '983',
           name: 'Facility that is enabled',

@@ -1,32 +1,28 @@
 /* eslint-disable camelcase */
-import React from 'react';
 import { expect } from 'chai';
+import React from 'react';
 
-import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 
 import {
-  setFetchJSONFailure,
   mockFetch,
+  setFetchJSONFailure,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { FACILITY_TYPES } from '../../../utils/constants';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
+import { FACILITY_TYPES } from '../../../utils/constants';
 
 import ReviewPage from '.';
-
-import { mockAppointmentSubmit } from '../../../tests/mocks/helpers';
+import { mockAppointmentSubmit } from '../../../tests/mocks/mockApis';
 
 const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
-    vaOnlineSchedulingVAOSServiceRequests: true,
   },
 };
 

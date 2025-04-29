@@ -1716,3 +1716,58 @@ describe('convertEmergencyContacts', () => {
     expect(convertEmergencyContacts(null)).to.be.null;
   });
 });
+
+describe('selfEnteredReducer', () => {
+  it('sets all SEI data with GET_ALL action', () => {
+    const payload = {
+      responses: {
+        allergies: { pojoObject: [{ comments: 'Allergy 1' }] },
+        demographics: { name: { firstName: 'Test', lastName: 'User' } },
+        familyHistory: { pojoObject: [{ comments: 'Family history 1' }] },
+        vitals: {
+          heartRateReadings: [
+            { comments: 'Heart rate 1' },
+            { comments: 'Heart rate 2' },
+          ],
+          painReadings: [{ comments: 'Pain 1' }],
+        },
+      },
+    };
+
+    const newState = selfEnteredReducer(
+      {},
+      {
+        type: Actions.SelfEntered.GET_ALL,
+        payload,
+      },
+    );
+
+    expect(newState.vitals.heartRate.length).to.equal(2);
+    expect(newState.vitals.pain.length).to.equal(1);
+    expect(newState.allergies.length).to.equal(1);
+    expect(newState.familyHistory.length).to.equal(1);
+    expect(newState.demographics.firstName).to.equal('Test');
+    expect(newState.failedDomains.length).to.equal(0);
+  });
+
+  it('sets SEI errors with the GET_ALL action', () => {
+    const payload = {
+      errors: {
+        vaccines: { message: 'message', class: 'class' },
+        vitals: { message: 'message', class: 'class' },
+      },
+    };
+
+    const newState = selfEnteredReducer(
+      {},
+      {
+        type: Actions.SelfEntered.GET_ALL,
+        payload,
+      },
+    );
+
+    expect(newState.failedDomains.length).to.equal(2);
+    expect(newState.failedDomains).to.include('vitals');
+    expect(newState.failedDomains).to.include('vaccines');
+  });
+});

@@ -11,6 +11,7 @@ import {
   isAtlasVideoAppointment,
   isClinicVideoAppointment,
   isVAPhoneAppointment,
+  isInPersonVisit,
 } from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -22,7 +23,6 @@ import {
 import {
   getConfirmedAppointmentDetailsInfo,
   selectIsCanceled,
-  selectIsInPerson,
   selectIsPast,
 } from '../../redux/selectors';
 import DetailsVA from './DetailsVA';
@@ -35,13 +35,11 @@ export default function UpcomingAppointmentsDetailsPage() {
     appointmentDetailsStatus,
     isBadAppointmentId,
     facilityData,
-    useV2,
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
   );
-
-  const isInPerson = selectIsInPerson(appointment);
+  const isInPerson = isInPersonVisit(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const appointmentDate = moment.parseZone(appointment?.start);
@@ -163,11 +161,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   return (
     <PageLayout isDetailPage showNeedHelp>
       {isVA && (
-        <DetailsVA
-          appointment={appointment}
-          facilityData={facilityData}
-          useV2={useV2}
-        />
+        <DetailsVA appointment={appointment} facilityData={facilityData} />
       )}
       {isCommunityCare && <CCLayout data={appointment} />}
       {isVideo && <VideoLayout data={appointment} />}

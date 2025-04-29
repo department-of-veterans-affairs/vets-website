@@ -1,34 +1,31 @@
-import React from 'react';
 import { expect } from 'chai';
+import React from 'react';
 
 import {
   mockFetch,
   setFetchJSONFailure,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { fireEvent, waitFor } from '@testing-library/dom';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import VAFacilityPage from './VAFacilityPageV2';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import {
-  createTestStore,
-  setTypeOfCare,
-  renderWithStoreAndRouter,
-} from '../../../tests/mocks/setup';
+  createMockClinic,
+  createMockFacility,
+} from '../../../tests/mocks/data';
 import {
   getSchedulingConfigurationMock,
   getV2ClinicMock,
 } from '../../../tests/mocks/mock';
 import {
-  mockSchedulingConfigurations,
-  mockVAOSParentSites,
-} from '../../../tests/mocks/helpers';
-import {
   mockEligibilityFetches,
-  mockFacilitiesFetch,
-} from '../../../tests/mocks/fetch';
+  mockFacilitiesApi,
+  mockSchedulingConfigurations,
+} from '../../../tests/mocks/mockApis';
 import {
-  createMockClinic,
-  createMockFacility,
-} from '../../../tests/mocks/data';
+  createTestStore,
+  renderWithStoreAndRouter,
+  setTypeOfCare,
+} from '../../../tests/mocks/setup';
+import VAFacilityPage from './VAFacilityPageV2';
 
 describe('VAOS Page: VAFacilityPage eligibility check', () => {
   describe('when there is a single supported facility', () => {
@@ -43,24 +40,23 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         },
       },
     };
-    const siteIds = ['983'];
+    const ids = ['983'];
 
     beforeEach(() => {
       mockFetch();
 
-      mockVAOSParentSites(
-        siteIds,
-        [
+      mockFacilitiesApi({
+        ids,
+        response: [
           createMockFacility({
             id: '983',
             name: 'San Diego VA Medical Center',
             isParent: true,
           }),
         ],
-        true,
-      );
-      mockFacilitiesFetch({
-        facilities: [
+      });
+      mockFacilitiesApi({
+        response: [
           createMockFacility({
             id: '442',
             name: 'San Diego VA Medical Center',
@@ -121,12 +117,12 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           createMockClinic({
             id: '308',
             stationId: '983',
-            friendlyName: 'Green team clinic',
+            name: 'Green team clinic',
           }),
           createMockClinic({
             id: '309',
             stationId: '983',
-            friendlyName: 'Red team clinic',
+            name: 'Red team clinic',
           }),
         ],
         requestPastVisits: false,
@@ -163,7 +159,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           createMockClinic({
             id: '308',
             stationId: '983',
-            friendlyName: 'Green team clinic',
+            name: 'Green team clinic',
           }),
         ],
         limit: false,
@@ -211,7 +207,6 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       featureToggles: {
         vaOnlineSchedulingCommunityCare: false,
         vaOnlineSchedulingDirect: true,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
       },
       user: {
         profile: {
@@ -242,8 +237,8 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     beforeEach(() => {
       mockFetch();
 
-      mockFacilitiesFetch({
-        facilities,
+      mockFacilitiesApi({
+        response: facilities,
         children: true,
       });
     });
