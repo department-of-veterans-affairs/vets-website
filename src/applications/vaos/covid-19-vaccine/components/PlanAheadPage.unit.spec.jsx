@@ -69,7 +69,9 @@ describe('VAOS Page: PlanAheadPage', () => {
     expect(screen.history.push.called).to.be.true;
     // Expect router to route to screener page
     await waitFor(() =>
-      expect(screen.history.push.firstCall.args[0]).to.equal('doses-received'),
+      expect(screen.history.push.firstCall.args[0]).to.equal(
+        '/new-covid-19-vaccine-appointment/confirm-doses-received',
+      ),
     );
   });
 
@@ -85,7 +87,7 @@ describe('VAOS Page: PlanAheadPage', () => {
     // Expect router to route to screener page
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/schedule/type-of-care',
+        '/new-appointment',
       ),
     );
   });
