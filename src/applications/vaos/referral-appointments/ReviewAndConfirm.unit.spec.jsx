@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon, { match } from 'sinon';
 import { waitFor, userEvent } from '@testing-library/dom';
 
 import * as utils from 'applications/vaos/services/utils';
@@ -179,8 +179,27 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     });
   });
   it('should display an error message when appointment creation fails', async () => {
-    sandbox
-      .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
+    const expectedUrl = '/vaos/v2/appointments/submit';
+    const expectedOptions = match({
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: match(value => {
+        try {
+          const parsed = JSON.parse(value);
+          return (
+            parsed.referralId && parsed.slotId && parsed.draftApppointmentId
+          );
+        } catch {
+          return false;
+        }
+      }),
+    });
+
+    // Stub only for that specific call
+    requestStub
+      .withArgs(expectedUrl, expectedOptions)
       .rejects(new Error('Failed to create appointment'));
 
     const screen = renderWithStoreAndRouter(
@@ -193,13 +212,15 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     );
 
     // Ensure the "Continue" button is present
-    expect(screen.queryByTestId('continue-button')).to.exist;
+    waitFor(() => {
+      expect(screen.queryByTestId('continue-button')).to.exist;
 
-    // Simulate clicking the "Continue" button
-    userEvent.click(screen.queryByTestId('continue-button'));
+      // Simulate clicking the "Continue" button
+      userEvent.click(screen.queryByTestId('continue-button'));
+    });
 
     // Wait for the error handling logic to execute
-    await waitFor(() => {
+    waitFor(() => {
       // Verify that the error message is displayed
       expect(screen.getByTestId('create-error-alert')).to.exist;
       expect(screen.getByTestId('create-error-alert')).to.contain.text(
