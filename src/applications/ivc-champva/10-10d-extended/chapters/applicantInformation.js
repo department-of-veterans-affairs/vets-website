@@ -46,6 +46,7 @@ import {
 import { isInRange } from '../../10-10D/helpers/utilities';
 import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
 import { depends18f3 } from '../../10-10D/pages/ApplicantSponsorMarriageDetailsPage';
+import { ApplicantMedicareStatusPage } from '../../10-10D/pages/ApplicantMedicareStatusPage';
 
 /*
 // TODO: get the custom prefill stuff working with array builder
@@ -501,6 +502,23 @@ const applicantMarriageCertUploadPage = {
   },
 };
 
+const applicantMedicareStatusPage = {
+  uiSchema: {},
+  schema: {
+    type: 'object',
+    properties: {
+      applicantMedicareStatus: {
+        type: 'object',
+        properties: {
+          eligibility: { type: 'string' },
+          _unused: { type: 'string' },
+        },
+      },
+    },
+    required: ['applicantMedicareStatus'],
+  },
+};
+
 const applicantSummaryPage = {
   uiSchema: {
     'view:hasApplicants': arrayBuilderYesNoUI(applicantOptions),
@@ -735,6 +753,12 @@ export const applicantPages = arrayBuilderPages(
       },
       CustomPage: FileFieldCustom,
       ...applicantMarriageCertUploadPage,
+    }),
+    page19: pageBuilder.itemPage({
+      path: 'applicant-medicare/:index',
+      title: item => `${applicantWording(item)} Medicare Part A and B status`,
+      ...applicantMedicareStatusPage,
+      CustomPage: ApplicantMedicareStatusPage,
     }),
   }),
 );
