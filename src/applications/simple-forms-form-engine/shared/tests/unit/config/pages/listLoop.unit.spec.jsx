@@ -6,6 +6,8 @@ import { render } from '@testing-library/react';
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import * as titlePattern from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import * as arrayBuilderPatterns from 'platform/forms-system/src/js/web-component-patterns/arrayBuilderPatterns';
+import { kebabCase } from 'lodash';
+import { componentKey } from 'applications/simple-forms-form-engine/shared/config/pages/customStepPage';
 
 const findChapterByType = type =>
   normalizedForm.chapters.find(chapter => chapter.type === type);
@@ -308,6 +310,64 @@ describe('listLoopPages', () => {
             nounSingular: required.nounSingular,
           }),
         ).to.eq(true);
+      });
+    });
+
+    required.pages.forEach(page => {
+      describe(page.pageTitle, () => {
+        const testName = 'Oscar Winning Film';
+
+        let pages;
+        let subsequentTitleStub;
+
+        beforeEach(() => {
+          subsequentTitleStub = sinon
+            .stub(arrayBuilderPatterns, 'arrayBuilderItemSubsequentPageTitleUI')
+            .callsFake((title, description) => ({
+              withName: title({ formData: { name: testName } }),
+              withoutName: title({ formData: {} }),
+              description,
+            }));
+
+          pages = listLoopPages(required, arrayBuilderStub);
+        });
+
+        afterEach(() => {
+          subsequentTitleStub.restore();
+        });
+
+        it('includes the correct attributes', () => {
+          const itemPage = pages[`film${page.id}`];
+
+          expect(itemPage.title).to.eq(page.pageTitle);
+          expect(itemPage.path).to.eq(
+            `films/:index/${kebabCase(page.pageTitle)}`,
+          );
+        });
+
+        it('calls titleUI with the correct args', () => {
+          const itemPage = pages[`film${page.id}`];
+
+          expect(itemPage.uiSchema.withName).to.eq(
+            `${page.pageTitle} for ${testName}`,
+          );
+          expect(itemPage.uiSchema.withoutName).to.eq(page.pageTitle);
+          expect(itemPage.uiSchema.description).to.eq(page.bodyText);
+        });
+
+        it('includes all components', () => {
+          const componentKeys = page.components.map(component =>
+            componentKey(component),
+          );
+          const itemPage = pages[`film${page.id}`];
+
+          expect(Object.keys(itemPage.schema.properties)).to.include.members(
+            componentKeys,
+          );
+          expect(Object.keys(itemPage.uiSchema)).to.include.members(
+            componentKeys,
+          );
+        });
       });
     });
   });

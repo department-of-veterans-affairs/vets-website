@@ -4,7 +4,7 @@ import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-b
 import { formatReviewDate } from 'platform/forms-system/exportsFile';
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import { employmentHistory } from '.';
-import { componentKey } from './customStepPage';
+import { buildComponents, componentKey } from './customStepPage';
 
 /** @type {Record<string, ListLoopVariation>} */
 const variations = {
@@ -79,7 +79,28 @@ const hydrateComponentLists = chapter => {
   return { requiredComponents, summaryComponents };
 };
 
-const { datePage, detailPage } = employmentHistory;
+/**
+ * @param {ArrayBuilderOptions} options
+ * @param {NormalizedPage} page
+ * @returns {PageSchema}
+ */
+const itemPageBuilder = (options, { bodyText, components, pageTitle }) => {
+  const { schema, uiSchema } = buildComponents(components);
+
+  return {
+    path: `${kebabCase(options.nounPlural)}/:index/${kebabCase(pageTitle)}`,
+    schema,
+    title: pageTitle,
+    uiSchema: {
+      ...uiSchema,
+      ...webComponentPatterns.arrayBuilderItemSubsequentPageTitleUI(
+        ({ formData }) =>
+          formData?.name ? `${pageTitle} for ${formData.name}` : pageTitle,
+        bodyText,
+      ),
+    },
+  };
+};
 
 /**
  * Yes, this function name is awful. You got a better one?
@@ -161,11 +182,11 @@ const pageBuilderCallbackBuilder = (options, chapter) => pageBuilder => {
     namePage,
   );
 
-  return {
-    ...pages,
-    employerDatePage: pageBuilder.itemPage(datePage),
-    employerDetailPage: pageBuilder.itemPage(detailPage),
-  };
+  chapter.pages.forEach(page => {
+    pages[`${nounSingular}${page.id}`] = itemPageBuilder(options, page);
+  });
+
+  return pages;
 };
 
 /**

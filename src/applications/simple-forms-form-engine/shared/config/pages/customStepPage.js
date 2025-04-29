@@ -33,14 +33,14 @@ const selectSchemas = component => {
   }
 };
 
-/** @returns {PageSchema} */
-export default ({ components, bodyText, pageTitle }) => {
+/**
+ * @param {Array<DigitalFormComponent>} components
+ * @returns {PageSchema}
+ */
+export const buildComponents = components => {
   const schema = { properties: {}, required: [], type: 'object' };
-  const uiSchema = {
-    ...webComponentPatterns.titleUI(pageTitle, bodyText),
-  };
-
-  components.forEach(component => {
+  const uiSchema = {};
+  for (const component of components) {
     const key = componentKey(component);
 
     const [componentSchema, componentUiSchema] = selectSchemas(component);
@@ -51,13 +51,23 @@ export default ({ components, bodyText, pageTitle }) => {
     if (component.required) {
       schema.required.push(key);
     }
-  });
+  }
+
+  return { schema, uiSchema };
+};
+
+/** @returns {PageSchema} */
+export default ({ components, bodyText, pageTitle }) => {
+  const { schema, uiSchema } = buildComponents(components);
 
   return {
     // This assumes every page title within a form is unique.
     path: kebabCase(pageTitle),
     schema,
     title: pageTitle,
-    uiSchema,
+    uiSchema: {
+      ...uiSchema,
+      ...webComponentPatterns.titleUI(pageTitle, bodyText),
+    },
   };
 };
