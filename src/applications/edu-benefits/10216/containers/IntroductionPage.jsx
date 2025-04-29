@@ -61,7 +61,7 @@ const IntroductionPage = ({ route }) => {
           applies to the submission of routine 85/15 Ratio reports to VA. Your
           Educational & Training Institution must maintain compliance with the
           provisions of the 85/15 rule for all programs approved to receive GI
-          Bill Benefits and must provide 85/15 calculations for any term or
+          Bill benefits and must provide 85/15 calculations for any term or
           other enrollment period requested by a VA employee or State Approval
           Agency representative.
         </li>
