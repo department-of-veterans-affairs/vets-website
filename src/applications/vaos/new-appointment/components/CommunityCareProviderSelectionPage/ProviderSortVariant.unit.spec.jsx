@@ -12,7 +12,7 @@ import {
   mockCCProviderFetch,
   mockFacilitiesApi,
   mockGetCurrentPosition,
-  mockSchedulingConfigurations,
+  mockSchedulingConfigurationsApi,
 } from '../../../tests/mocks/mockApis';
 import {
   createTestStore,
@@ -73,16 +73,16 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
         }),
       ],
     });
-    mockSchedulingConfigurations(
-      [
+    mockSchedulingConfigurationsApi({
+      isCCEnabled: true,
+      response: [
         getSchedulingConfigurationMock({
           id: '983',
           typeOfCareId: 'primaryCare',
           requestEnabled: true,
         }),
       ],
-      true,
-    );
+    });
   });
 
   it('should display list of providers when choose a provider clicked', async () => {

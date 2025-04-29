@@ -21,6 +21,7 @@ export default class MockAppointmentResponse {
    * @param {Date} [props.created=null] - Set appointment created date to the value passed in otherwise set the date to today's date as the default.
    * @param {string=} props.url - Set video appointment URL.
    * @param {string=} props.vvsKind - Set type of video appointment.
+   * @param {string=} props.displayLink - Set displayLink of video appointment.
    * @param {string|number} [props.id=1] - Set appointment id.
    * @param {boolean} [props.cancellable=true] - Set if appointment is cancellable.
    * @param {string|TYPE_OF_VISIT_ID} [props.kind=clinic] - Set if appointment is VA or CC appointment.
@@ -37,6 +38,7 @@ export default class MockAppointmentResponse {
     localStartTime,
     url,
     vvsKind,
+    displayLink = false,
     cancellable = true,
     created = null,
     future = false,
@@ -95,6 +97,7 @@ export default class MockAppointmentResponse {
         atlas,
         url,
         vvsKind,
+        displayLink,
       },
       future,
       pending,
@@ -197,7 +200,12 @@ export default class MockAppointmentResponse {
       );
   }
 
-  static createMobileResponses({ localStartTime, future = false, count = 1 }) {
+  static createMobileResponses({
+    localStartTime,
+    future = false,
+    displayLink = false,
+    count = 1,
+  }) {
     return Array(count)
       .fill(count)
       .map(
@@ -209,6 +217,7 @@ export default class MockAppointmentResponse {
             modality: 'vaVideoCareAtHome',
             localStartTime,
             vvsKind: VIDEO_TYPES.mobile,
+            displayLink,
             future,
           }),
       );

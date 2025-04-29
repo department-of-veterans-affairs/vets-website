@@ -300,6 +300,12 @@ export const getPatient = async () => {
   });
 };
 
+export const getSelfEnteredInformation = () => {
+  return apiRequest(`${apiBasePath}/medical_records/self_entered`, {
+    headers,
+  });
+};
+
 export const generateCCD = () => {
   return apiRequest(`${apiBasePath}/medical_records/ccd/generate`, { headers });
 };
