@@ -1,4 +1,5 @@
 import React from 'react';
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { cloneDeep } from 'lodash';
 import {
@@ -20,12 +21,13 @@ import {
   phoneSchema,
   emailUI,
   emailSchema,
+  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
-import ApplicantRelationshipPage, {
-  appRelBoilerplate,
-} from '../../shared/components/applicantLists/ApplicantRelationshipPage';
+import ApplicantRelationshipPage from '../../shared/components/applicantLists/ApplicantRelationshipPage';
+import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
+import { ApplicantGenderPage } from './ApplicantGenderPage';
 import { page15aDepends } from '../helpers/utilities';
 
 import { applicantWording } from '../../shared/utilities';
@@ -150,12 +152,6 @@ const applicantContactInfoPage = {
   },
 };
 
-// BEGIN APPLICANT GENDER CONFIG
-// Using a custom page to handle the gender selection because the description
-// text of the radio button needs to contain dynamic wording, which isn't
-// supported when using the bare `radioUI` (since updateUISchema doesn't work
-// in list loop/arraybuilder fields).
-
 const applicantGenderPage = {
   uiSchema: {
     applicantGender: {},
@@ -174,47 +170,6 @@ const applicantGenderPage = {
   },
 };
 
-const GENDER_PROPERTY_NAMES = {
-  keyname: 'applicantGender',
-  primary: 'gender',
-  secondary: '_unused',
-};
-
-function generateOptions({ data, pagePerItemIndex }) {
-  const bp = appRelBoilerplate({ data, pagePerItemIndex });
-  const customTitle = `${bp.relativePossessive} sex listed at birth`;
-  const options = [
-    {
-      label: 'Female',
-      value: 'female',
-    },
-    {
-      label: 'Male',
-      value: 'male',
-    },
-  ];
-
-  return {
-    ...bp,
-    options,
-    customTitle,
-    description: `What’s ${customTitle}?`,
-    customHint: `Enter the sex that appears on ${
-      bp.relativePossessive
-    } birth certificate`,
-  };
-}
-
-function ApplicantGenderPage(props) {
-  const newProps = {
-    ...props,
-    ...GENDER_PROPERTY_NAMES,
-    genOp: generateOptions,
-  };
-  return ApplicantRelationshipPage(newProps);
-}
-// END APPLICANT GENDER CONFIG
-
 const applicantRelationshipPage = {
   uiSchema: {},
   schema: {
@@ -229,6 +184,25 @@ const applicantRelationshipPage = {
       },
     },
     required: ['applicantRelationshipToSponsor'],
+  },
+};
+
+const applicantRelationshipOriginPage = {
+  uiSchema: {},
+  schema: {
+    type: 'object',
+    properties: {
+      titleSchema,
+      'ui:description': blankSchema,
+      applicantRelationshipOrigin: {
+        type: 'object',
+        properties: {
+          relationshipToVeteran: radioSchema(['blood', 'adoption', 'step']),
+          otherRelationshipToVeteran: { type: 'string' },
+        },
+      },
+    },
+    required: ['applicantRelationshipOrigin'],
   },
 };
 
@@ -319,6 +293,21 @@ export const applicantPages = arrayBuilderPages(
       title: item => `${applicantWording(item)} relationship to the sponsor`,
       ...applicantRelationshipPage,
       CustomPage: ApplicantRelationshipPage,
+    }),
+    page18c: pageBuilder.itemPage({
+      path: 'applicant-relationship-child/:index',
+      title: item => `${applicantWording(item)} dependent status`,
+      depends: (formData, index) => {
+        if (index === undefined) return true;
+        return (
+          get(
+            'applicantRelationshipToSponsor.relationshipToVeteran',
+            formData?.applicants?.[index],
+          ) === 'child'
+        );
+      },
+      ...applicantRelationshipOriginPage,
+      CustomPage: ApplicantRelOriginPage,
     }),
   }),
 );
