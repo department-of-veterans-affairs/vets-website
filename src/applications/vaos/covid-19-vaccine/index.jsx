@@ -171,7 +171,7 @@ export function NewBookingSection() {
               : `${match.url}/contact-info`
           }
         >
-          <ContactInfoPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          <ContactInfoPage />
         </Route>
         <Route path={`${match.url}/review`}>
           <ReviewPage changeCrumb={newTitle => setCrumb(newTitle)} />
