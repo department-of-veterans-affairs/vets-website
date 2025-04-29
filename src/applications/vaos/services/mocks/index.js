@@ -409,6 +409,32 @@ const responses = {
       return res.status(500).json({ error: true });
     }
 
+    if (req.params.referralId === 'scheduled-referral') {
+      const scheduledReferral = referralUtils.createReferralById(
+        '2024-12-02',
+        'scheduled-referral',
+      );
+      // Set hasAppointments to true to test redirect
+      scheduledReferral.attributes.hasAppointments = true;
+      return res.json({
+        data: scheduledReferral,
+      });
+    }
+
+    if (req.params.referralId === 'referral-with-appointments') {
+      const referralWithAppointments = referralUtils.createReferralById(
+        '2024-12-02',
+        'referral-with-appointments',
+      );
+      // Add appointments array with one appointment to test redirect
+      referralWithAppointments.attributes.appointments = [
+        { id: 'test-appointment-id', status: 'booked' },
+      ];
+      return res.json({
+        data: referralWithAppointments,
+      });
+    }
+
     if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
       const expiredReferral = referralUtils.createReferralById(
         '2024-12-02',
