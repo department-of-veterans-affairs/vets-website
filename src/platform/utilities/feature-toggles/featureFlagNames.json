@@ -274,7 +274,7 @@
   "vaDependentsV2": "va_dependents_v2",
   "vaDependentsV2Banner": "va_dependents_v2_banner",
   "vaOnlineScheduling": "va_online_scheduling",
-  "vaOnlineSchedulingBookingExclusion": "va_online_scheduling_booking_exclusion\t",
+  "vaOnlineSchedulingBookingExclusion": "va_online_scheduling_booking_exclusion",
   "vaOnlineSchedulingBreadcrumbUrlUpdate": "va_online_scheduling_breadcrumb_url_update",
   "vaOnlineSchedulingCancel": "va_online_scheduling_cancel",
   "vaOnlineSchedulingCCDirectScheduling": "va_online_scheduling_cc_direct_scheduling",
