@@ -70,12 +70,7 @@ const routes = [
   {
     path: 'refill',
     element: <AppWrapper Component={RefillPrescriptions} />,
-    // Pass the route path to the loader
-    // so that it can be used in the loader function
-    loader: async (...args) => {
-      await prescriptionsLoader(...args);
-      return null;
-    },
+    loader: allergiesLoader,
   },
   {
     path: ':page',
