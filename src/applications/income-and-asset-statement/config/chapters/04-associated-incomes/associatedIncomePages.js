@@ -1,16 +1,17 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   radioUI,
   radioSchema,
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
@@ -192,16 +193,8 @@ const incomeTypePage = {
           'associatedIncomes',
         ),
     },
-    grossMonthlyIncome: merge({}, currencyUI('Gross monthly income'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
-    accountValue: merge({}, currencyUI('Value of account'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    grossMonthlyIncome: currencyUI('Gross monthly income'),
+    accountValue: currencyUI('Value of account'),
     payer: textUI({
       title: 'Income payer name',
       hint: 'Name of business, financial institution, or program, etc.',
@@ -212,8 +205,8 @@ const incomeTypePage = {
     properties: {
       incomeType: radioSchema(Object.keys(incomeTypeEarnedLabels)),
       otherIncomeType: { type: 'string' },
-      grossMonthlyIncome: { type: 'number' },
-      accountValue: { type: 'number' },
+      grossMonthlyIncome: currencySchema,
+      accountValue: currencySchema,
       payer: textSchema,
     },
     required: ['incomeType', 'grossMonthlyIncome', 'accountValue', 'payer'],
