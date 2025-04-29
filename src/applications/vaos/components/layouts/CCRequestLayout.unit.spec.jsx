@@ -8,9 +8,6 @@ import CCRequestLayout from './CCRequestLayout';
 
 describe('VAOS Component: CCRequestLayout', () => {
   const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingVAOSServiceCCAppointments: true,
-    },
     appointments: {
       facilityData: {
         '983': {

@@ -34,15 +34,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   const end = addDays(now, 395); // Add 395 days
 
   it('should show VA appointment text, useFeSourceOfTruthVA=false', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-      },
-    };
-
     const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
@@ -78,7 +69,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -91,7 +82,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 
@@ -102,15 +93,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show VA appointment text, useFeSourceOfTruthVA=true', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-      },
-    };
-
     const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
@@ -146,7 +128,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -159,7 +141,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 
@@ -170,16 +152,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show CC appointment text', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
-
     const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
@@ -194,7 +166,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -207,7 +179,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 
@@ -218,16 +190,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show at home video appointment text', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
-
     const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
@@ -244,7 +206,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -257,7 +219,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
     await screen.findAllByLabelText(
@@ -267,16 +229,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show phone appointment text', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
-
     const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
@@ -292,7 +244,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -305,7 +257,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 
@@ -317,16 +269,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show cancelled appointment text', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
-
     const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
@@ -342,7 +284,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -355,7 +297,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 
@@ -367,16 +309,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     expect(screen.baseElement).to.contain.text('Community care');
   });
   it('should show VA appointment text for telehealth appointments without vvsKind', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingVAOSServiceCCAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
-
     const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
@@ -412,7 +344,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120), // Subtract 120 days
-      end: now, // Current date
+      end: addDays(now, 1), // Current date + 1
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -425,7 +357,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 
