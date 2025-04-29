@@ -35,9 +35,8 @@ import { createMockFacility } from './data';
 import { getSchedulingConfigurationMock } from './mock';
 import {
   mockFacilitiesApi,
-  mockSchedulingConfigurations,
+  mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
-  mockVAOSParentSites,
 } from './mockApis';
 
 /**
@@ -230,14 +229,16 @@ export async function setVAFacility(
   ];
 
   mockFacilitiesApi({ children: true, response: facilities });
-  mockSchedulingConfigurations([
-    getSchedulingConfigurationMock({
-      id: '983',
-      typeOfCareId,
-      directEnabled: true,
-      requestEnabled: true,
-    }),
-  ]);
+  mockSchedulingConfigurationsApi({
+    response: [
+      getSchedulingConfigurationMock({
+        id: '983',
+        typeOfCareId,
+        directEnabled: true,
+        requestEnabled: true,
+      }),
+    ],
+  });
 
   const screen = renderWithStoreAndRouter(<VAFacilityPageV2 />, { store });
 
@@ -270,13 +271,15 @@ export async function setVaccineFacility(store, facilityId, facilityData = {}) {
   ];
 
   mockFacilitiesApi({ children: true, response: facilities });
-  mockSchedulingConfigurations([
-    getSchedulingConfigurationMock({
-      id: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
-      directEnabled: true,
-    }),
-  ]);
+  mockSchedulingConfigurationsApi({
+    response: [
+      getSchedulingConfigurationMock({
+        id: '983',
+        typeOfCareId: TYPE_OF_CARE_ID,
+        directEnabled: true,
+      }),
+    ],
+  });
 
   const { findByText, history } = renderWithStoreAndRouter(
     <VaccineFacilityPage />,
@@ -421,11 +424,12 @@ export async function setCommunityCareFlow({
     },
   });
 
-  mockVAOSParentSites(
-    registered,
-    parentSites.map(data => createMockFacility({ ...data, isParent: true })),
-    true,
-  );
+  mockFacilitiesApi({
+    ids: registered,
+    response: parentSites.map(data =>
+      createMockFacility({ ...data, isParent: true }),
+    ),
+  });
   mockV2CommunityCareEligibility({
     parentSites: parentSites.map(data => data.id),
     supportedSites: supportedSites || parentSites.map(data => data.id),
