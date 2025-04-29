@@ -48,6 +48,7 @@ import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDepend
 import { depends18f3 } from '../../10-10D/pages/ApplicantSponsorMarriageDetailsPage';
 import { ApplicantMedicareStatusPage } from '../../10-10D/pages/ApplicantMedicareStatusPage';
 import { ApplicantMedicareStatusContinuedPage } from '../../10-10D/pages/ApplicantMedicareStatusContinuedPage';
+import ApplicantOhiStatusPage from '../../10-10D/pages/ApplicantOhiStatusPage';
 
 /*
 // TODO: get the custom prefill stuff working with array builder
@@ -537,6 +538,23 @@ const applicantMedicarePartDStatusPage = {
   },
 };
 
+const applicantOhiStatusPage = {
+  uiSchema: {},
+  schema: {
+    type: 'object',
+    properties: {
+      applicantHasOhi: {
+        type: 'object',
+        properties: {
+          hasOhi: { type: 'string' },
+          _unused: { type: 'string' },
+        },
+      },
+    },
+    required: ['applicantHasOhi'],
+  },
+};
+
 const applicantSummaryPage = {
   uiSchema: {
     'view:hasApplicants': arrayBuilderYesNoUI(applicantOptions),
@@ -792,6 +810,12 @@ export const applicantPages = arrayBuilderPages(
       },
       ...applicantMedicarePartDStatusPage,
       CustomPage: ApplicantMedicareStatusContinuedPage,
+    }),
+    page21: pageBuilder.itemPage({
+      path: 'applicant-other-insurance-status/:index',
+      title: item => `${applicantWording(item)} other health insurance status`,
+      ...applicantOhiStatusPage,
+      CustomPage: ApplicantOhiStatusPage,
     }),
   }),
 );
