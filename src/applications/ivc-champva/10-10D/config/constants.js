@@ -33,6 +33,8 @@ export const REQUIRED_FILES = {
   applicantMedicarePartDCardBack: 'Medicare Card back (Part D)',
   applicantMedicareIneligibleProof: 'Proof of Medicare Ineligibility',
   applicantOhiCard: 'Other Health Insurance Cards',
+  applicantOhiCardFront: 'Other Health Insurance Card front',
+  applicantOhiCardBack: 'Other Health Insurance Card back',
   applicantOtherInsuranceCertification: {
     name:
       'Completed and signed CHAMPVA Other Health Insurance (OHI) Certification ',
@@ -68,6 +70,7 @@ export const FILE_UPLOAD_ORDER = [
   'applicantMedicarePartDCardFront',
   'applicantMedicarePartDCardBack',
   'applicantMedicareIneligibleProof',
-  'applicantOhiCard',
+  'applicantOhiCardFront',
+  'applicantOhiCardBack',
   'applicantOtherInsuranceCertification',
 ];

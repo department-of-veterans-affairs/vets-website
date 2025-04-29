@@ -419,14 +419,17 @@ export const applicantOhiCardsUploadUiSchema = {
         </>,
       ),
       ...applicantOhiCardsConfig.uiSchema,
-      applicantOhiCard: {
+      applicantOhiCardFront: {
         ...fileUploadUI({
-          label: 'Upload other health insurance cards',
+          label: 'Upload front of other health insurance card',
+          attachmentId: acceptableFiles.healthInsCert[0],
         }),
-        'ui:errorMessages': {
-          minItems:
-            'You must add both the front and back of your card as separate files.',
-        },
+      },
+      applicantOhiCardBack: {
+        ...fileUploadUI({
+          label: 'Upload back of other health insurance card',
+          attachmentId: acceptableFiles.healthInsCert[1],
+        }),
       },
     },
   },

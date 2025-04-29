@@ -1465,10 +1465,8 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantOhiCardsConfig.schema,
-            applicantOhiCard: fileWithMetadataSchema(
-              acceptableFiles.healthInsCert,
-              2,
-            ),
+            applicantOhiCardFront: singleFileSchema,
+            applicantOhiCardBack: singleFileSchema,
           }),
         },
         page22: {
