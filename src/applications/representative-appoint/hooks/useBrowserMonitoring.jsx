@@ -5,8 +5,6 @@ import { datadogLogs } from '@datadog/browser-logs';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-// Commenting out `isProductionEnv` for now while we test this in staging
-// import { isProductionEnv } from '../utilities/helpers';
 
 // CONSTANTS
 const APP_UUID = '987a812a-6aa8-4a16-96cd-fe9204ea3a9a';
@@ -79,7 +77,7 @@ const useBrowserMonitoring = () => {
 
   const isLoadingFeatureFlags = useToggleLoadingValue();
   const isBrowserMonitoringEnabled = useToggleValue(
-    TOGGLE_NAMES.burialBrowserMonitoringEnabled,
+    TOGGLE_NAMES.armUseDatadogRealUserMonitoring,
   );
 
   useEffect(
