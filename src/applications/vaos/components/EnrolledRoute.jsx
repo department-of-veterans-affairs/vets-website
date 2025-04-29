@@ -8,26 +8,33 @@ import { RequiredLoginView } from 'platform/user/authorization/components/Requir
 import { selectPatientFacilities } from 'platform/user/cerner-dsot/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectUser, isLOA3 } from 'platform/user/selectors';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import FullWidthLayout from './FullWidthLayout';
 
 import { useDatadogRum } from '../utils/useDatadogRum';
-import { selectFeatureMhvRouteGuards } from '../redux/selectors';
 import NoRegistrationMessage from './NoRegistrationMessage';
 
 export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
   const user = useSelector(selectUser);
   const sites = useSelector(selectPatientFacilities);
-  const featureMhvRouteGuards = useSelector(selectFeatureMhvRouteGuards);
   const isUserLOA3 = useSelector(isLOA3);
   const hasRegisteredSystems = sites?.length > 0;
-  const { useToggleLoadingValue } = useFeatureToggle();
-  const isLoadingFeatureFlags = useToggleLoadingValue();
-
+  const featureMhvRouteGuards = useSelector(
+    state => state.featureToggles.vaOnlineSchedulingMHVRouteGuards,
+  );
+  const isToggleLoading = useSelector(state => state.featureToggles.loading);
+  const userProfileLoading = user?.profile?.loading;
   useDatadogRum();
 
-  // Wait for feature flag to load before rendering.
-  if (isLoadingFeatureFlags) {
-    return null;
+  // Wait for feature flag & user profile to load before rendering.
+  if (isToggleLoading || userProfileLoading) {
+    return (
+      <FullWidthLayout>
+        <va-loading-indicator
+          set-focus
+          message="Checking the VA online scheduling tool status..."
+        />
+      </FullWidthLayout>
+    );
   }
 
   // Determine if the user should be redirected to the `/my-health` page.
