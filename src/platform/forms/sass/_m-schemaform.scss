@@ -1,5 +1,6 @@
 // Style for schemaform
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as mixins;
+
 .va-growable-background {
   padding: 1em;
   margin-bottom: 1em;
@@ -230,7 +231,7 @@ label {
 }
 
 .schemaform-array-row-title:focus {
-  @include focus-gold-light-outline;
+  @include mixins.focus-gold-light-outline;
   display: inline-block;
 }
 
@@ -335,7 +336,7 @@ fieldset.schemaform-field-template {
 //duplicated/renamed from claims-status.scss
 .help-footer-box {
   padding: 2em 0;
-  @include media($medium-screen) {
+  @include mixins.media($medium-screen) {
     padding-top: 0.6em;
     // padding-left: inherit;
   }
@@ -607,7 +608,7 @@ va-accordion-item[data-unviewed-pages="true"] {
   left: 0;
   z-index: 1;
 
-  @include media-maxwidth($small-screen) {
+  @include mixins.media-maxwidth($small-screen) {
     font-size: 0.8125rem;
   }
 }

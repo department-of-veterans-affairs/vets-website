@@ -773,6 +773,11 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
+      - name: Inspect hosts file
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: grep -i localhost /etc/hosts
+        continue-on-error: true
+
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
@@ -782,6 +787,15 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
+
+      - name: Re-check localhost connectivity
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: curl --verbose http://127.0.0.1:3001/track-claims
+        continue-on-error: true
+
+      - name: Show test server output
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: echo ${{ steps.start-server.outputs[*] }}
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
@@ -860,7 +874,7 @@ jobs:
             node_modules
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --host=0.0.0.0 --port=3001 &
 
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact

@@ -352,7 +352,13 @@ module.exports = async (env = {}) => {
             },
             {
               loader: 'sass-loader',
-              options: { sourceMap: true },
+              options: {
+                sourceMap: true,
+                implementation: require('sass'),
+                sassOptions: {
+                  quietDeps: true,
+                },
+              },
             },
           ],
         },
