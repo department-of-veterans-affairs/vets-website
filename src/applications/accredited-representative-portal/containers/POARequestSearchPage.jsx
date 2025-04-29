@@ -23,6 +23,7 @@ import {
 import POARequestCard from '../components/POARequestCard';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
+import PaginationMeta from '../components/PaginationMeta';
 
 const SearchResults = ({ poaRequests }) => {
   if (poaRequests.length === 0) {
@@ -52,7 +53,9 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
   if (active) classNames.push('active');
   return (
     <Link
-      to={`?status=${tabStatus}&sort=${tabSort}&pageSize=20&pageNumber=1`}
+      to={`?status=${tabStatus}&sortOrder=${
+        tabStatus === 'pending' ? 'created_at' : 'resolved_at'
+      }&sortBy=${tabSort}&pageSize=20&pageNumber=1`}
       className={classNames.join(' ')}
       role="tab"
       id={`tab-${tabStatus}`}
@@ -73,28 +76,8 @@ const POARequestSearchPage = title => {
   );
   const poaRequests = useLoaderData().data;
   const meta = useLoaderData().meta.page;
-  const pageSize = Number(useSearchParams()[0].get('pageSize'));
-  let initCount;
-  const pageNumber = Number(useSearchParams()[0].get('pageNumber'));
-  let pageSizeCount = pageSize * pageNumber;
-  const totalCount = meta.total;
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
-  if (pageSizeCount > totalCount) {
-    pageSizeCount = pageSize + (totalCount - pageSize);
-  }
-  if (pageNumber > 1) {
-    if (poaRequests.length < pageSize) {
-      initCount = pageSize * (pageNumber - 1) + 1;
-    } else {
-      initCount = pageSizeCount - (pageSize - 1);
-    }
-  } else {
-    initCount = 1;
-  }
-  const searchMetaText = `Showing ${initCount}-${pageSizeCount} of ${totalCount} ${searchStatus} requests sorted by “${
-    searchStatus === 'processed' ? 'Processed' : 'Submitted'
-  } date (newest)”`;
 
   return (
     <section className="poa-request">
@@ -129,14 +112,14 @@ const POARequestSearchPage = title => {
           <StatusTabLink
             tabStatus={STATUSES.PENDING}
             searchStatus={searchStatus}
-            tabSort={SORT_BY.CREATED_ASC}
+            tabSort={SORT_BY.ASC}
           >
             Pending
           </StatusTabLink>
           <StatusTabLink
             tabStatus={STATUSES.PROCESSED}
             searchStatus={searchStatus}
-            tabSort={SORT_BY.RESOLVED_DESC}
+            tabSort={SORT_BY.DESC}
           >
             Processed
           </StatusTabLink>
@@ -162,12 +145,12 @@ const POARequestSearchPage = title => {
                         Pending POA requests
                       </h2>
                       <SortForm
-                        asc={SORT_BY.CREATED_ASC}
-                        desc={SORT_BY.CREATED_DESC}
+                        asc={SORT_BY.ASC}
+                        desc={SORT_BY.DESC}
                         ascOption={PENDING.ASC_OPTION}
                         descOption={PENDING.DESC_OPTION}
                       />
-                      <p>{searchMetaText}</p>
+                      <PaginationMeta meta={meta} poaRequests={poaRequests} />
                     </>
                   );
                 case STATUSES.PROCESSED:
@@ -180,12 +163,12 @@ const POARequestSearchPage = title => {
                         Processed POA requests
                       </h2>
                       <SortForm
-                        asc={SORT_BY.RESOLVED_ASC}
-                        desc={SORT_BY.RESOLVED_DESC}
+                        asc={SORT_BY.ASC}
+                        desc={SORT_BY.DESC}
                         ascOption={PROCESSED.ASC_OPTION}
                         descOption={PROCESSED.DESC_OPTION}
                       />
-                      <p>{searchMetaText}</p>
+                      <PaginationMeta meta={meta} poaRequests={poaRequests} />
                     </>
                   );
                 default:
@@ -205,7 +188,8 @@ const POARequestSearchPage = title => {
 POARequestSearchPage.loader = ({ request }) => {
   const { searchParams } = new URL(request.url);
   const status = searchParams.get(SEARCH_PARAMS.STATUS);
-  const sort = searchParams.get(SEARCH_PARAMS.SORT);
+  const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
+  const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
   const size = searchParams.get(SEARCH_PARAMS.SIZE);
   const number = searchParams.get(SEARCH_PARAMS.NUMBER);
   if (
@@ -213,14 +197,15 @@ POARequestSearchPage.loader = ({ request }) => {
     !Object.values(STATUSES).includes(sort)
   ) {
     searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
-    searchParams.set(SEARCH_PARAMS.SORT, SORT_BY.CREATED_ASC);
+    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.CREATED);
+    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.ASC);
     searchParams.set(SEARCH_PARAMS.SIZE, STATUSES.SIZE);
     searchParams.set(SEARCH_PARAMS.NUMBER, STATUSES.NUMBER);
     throw redirect(`?${searchParams}`);
   }
 
   return api.getPOARequests(
-    { status, sort, size, number },
+    { status, sort, size, number, sortBy },
     {
       signal: request.signal,
     },

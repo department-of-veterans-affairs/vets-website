@@ -16,14 +16,7 @@ import RequestedAppointmentsPage from '../pages/RequestedAppointmentsPage/Reques
 describe('VAOS Backend Service Alert', () => {
   const now = startOfDay(new Date());
   const yesterday = subDays(now, 1);
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingVAOSServiceCCAppointments: true,
-      vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      // eslint-disable-next-line camelcase
-      show_new_schedule_view_appointments_page: true,
-    },
-  };
+  const initialState = {};
 
   beforeEach(() => {
     mockFetch();
@@ -45,7 +38,7 @@ describe('VAOS Backend Service Alert', () => {
 
     mockAppointmentsApi({
       start: subDays(now, 120),
-      end: now,
+      end: addDays(now, 1),
       response: [appointment],
       statuses: ['proposed', 'cancelled'],
     });
@@ -225,15 +218,10 @@ describe('VAOS Backend Service Alert', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: {
-        ...initialState,
-        featureToggles: {
-          ...initialState.featureToggles,
-          vaOnlineSchedulingVAOSServiceRequests: true,
-        },
-      },
-    });
+    const screen = renderWithStoreAndRouter(
+      <RequestedAppointmentsPage />,
+      initialState,
+    );
 
     // Assert
     await waitFor(() => {
@@ -262,15 +250,10 @@ describe('VAOS Backend Service Alert', () => {
     });
 
     // Act
-    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: {
-        ...initialState,
-        featureToggles: {
-          ...initialState.featureToggles,
-          vaOnlineSchedulingVAOSServiceRequests: true,
-        },
-      },
-    });
+    const screen = renderWithStoreAndRouter(
+      <RequestedAppointmentsPage />,
+      initialState,
+    );
 
     // Assert
     await waitFor(() => {

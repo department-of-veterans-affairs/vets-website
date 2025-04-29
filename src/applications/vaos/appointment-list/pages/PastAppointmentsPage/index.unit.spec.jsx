@@ -28,9 +28,6 @@ import { APPOINTMENT_STATUS } from '../../../utils/constants';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingPast: true,
-    vaOnlineSchedulingVAOSServiceVAAppointments: true,
-    vaOnlineSchedulingVAOSServiceCCAppointments: true,
   },
 };
 const now = startOfDay(new Date(), 'day');
