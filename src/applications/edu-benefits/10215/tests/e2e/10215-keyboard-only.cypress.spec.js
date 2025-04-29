@@ -57,19 +57,19 @@ describe('22-10215 Edu Benefits Form', () => {
     // cy.realPress('Enter');
 
     cy.tabToElement(
-      'va-accordion-item[header="What are the due dates for submitting my 85/15 Rule enrollment ratios?"]',
+      'va-accordion-item[header="What are the due dates for submitting my 85/15 rule enrollment ratios?"]',
     );
     cy.realPress('Space');
     cy.realPress('Tab');
     cy.focused().should(
       'contain.text',
-      'What happens after I submit my 85/15 Rule enrollment ratios?',
+      'What happens after I submit my 85/15 rule enrollment ratios?',
     );
     cy.realPress('Space');
     cy.realPress('Tab');
     cy.focused().should(
       'contain.text',
-      'How do I request an exemption from routine 85/15 Rule enrollment ratio reporting?',
+      'How do I request an exemption from routine 85/15 rule enrollment ratio reporting? ',
     );
 
     // // Tab to and press 'Start your form without signing in' to go to the introduction page
