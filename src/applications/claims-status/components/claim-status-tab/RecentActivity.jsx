@@ -265,7 +265,8 @@ export default function RecentActivity({ claim }) {
                   {item.activityDescription}
                   <br />
                   <Link
-                    aria-label={`Add information for ${item.displayName}`}
+                    aria-label={`About this notice for ${item.friendlyName ||
+                      item.displayName}`}
                     className="add-your-claims-link"
                     to={`../document-request/${item.id}`}
                   >
@@ -282,7 +283,8 @@ export default function RecentActivity({ claim }) {
                     You don’t have to do anything, but if you have this
                     information you can{' '}
                     <Link
-                      aria-label={`Add information for ${item.displayName}`}
+                      aria-label={`Add it here for ${item.friendlyName ||
+                        item.displayName}`}
                       className="add-your-claims-link"
                       to={`../document-request/${item.id}`}
                     >

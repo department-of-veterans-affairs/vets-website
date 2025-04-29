@@ -29,7 +29,8 @@ function FilesOptional({ item }) {
       {cstFriendlyEvidenceRequests ? (
         <div className="call-to-action">
           <Link
-            aria-label={`Add information for ${item.displayName}`}
+            aria-label={`About this notice for ${item.friendlyName ||
+              item.displayName}`}
             className="add-your-claims-link"
             to={`../document-request/${item.id}`}
           >
@@ -41,7 +42,7 @@ function FilesOptional({ item }) {
           You don’t have to do anything, but if you have this information you
           can{' '}
           <Link
-            aria-label={`Add information for ${item.displayName}`}
+            aria-label={`Add it here for ${item.displayName}`}
             className="add-your-claims-link"
             to={`../document-request/${item.id}`}
           >
