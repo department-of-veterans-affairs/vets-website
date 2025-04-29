@@ -60,7 +60,7 @@ import CustomPrefillMessage from '../components/CustomPrefillAlert';
 import { applicantAddressCleanValidation } from '../../shared/validations';
 */
 
-import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/fixtures/data/test-data.json';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -593,7 +593,7 @@ export const applicantPages = arrayBuilderPages(
     applicantIntro: pageBuilder.introPage({
       path: 'applicant-intro',
       title: '[noun plural]',
-      initialData: mockData.data,
+      // initialData: mockData.data,
       uiSchema: {
         ...titleUI(
           'Add applicants',
