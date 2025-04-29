@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
+import { http, HttpResponse } from 'msw'; // Updated import
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { rest } from 'msw';
 import IntroductionPage from '../../containers/IntroductionPage';
 
 const generateStore = ({
@@ -73,20 +73,20 @@ describe('IntroductionPage', () => {
     });
 
     server.use(
-      rest.get(
+      http.get(
         `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
-        (_, res, ctx) =>
-          res(
-            ctx.status(200),
-            ctx.json({
+        () =>
+          HttpResponse.json(
+            {
               data: {
                 attributes: {
                   // eslint-disable-next-line camelcase
                   valid_va_file_number: true,
                 },
               },
-            }),
-          ),
+            },
+            { status: 200 },
+          ), // Use HttpResponse
       ),
     );
 
@@ -109,15 +109,15 @@ describe('IntroductionPage', () => {
       hasVaFileNumber: { errors: 'va file num error' },
     });
     server.use(
-      rest.get(
+      http.get(
         `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
-        (_, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({
+        () =>
+          HttpResponse.json(
+            {
               errors: 'junk',
-            }),
-          ),
+            },
+            { status: 401 },
+          ), // Use HttpResponse
       ),
     );
 
