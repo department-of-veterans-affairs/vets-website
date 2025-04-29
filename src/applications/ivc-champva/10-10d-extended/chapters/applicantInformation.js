@@ -365,6 +365,43 @@ const applicantSchoolCertUploadPage = {
   },
 };
 
+const applicantHelplessChildConfig = uploadWithInfoComponent(
+  undefined, // acceptableFiles.helplessCert,
+  'VBA decision rating',
+);
+
+const applicantHelplessChildUploadPage = {
+  uiSchema: {
+    ...titleUI('Upload helpless child documents', ({ formData }) => (
+      <>
+        To help us process this application faster, submit a copy of{' '}
+        <b className="dd-privacy-hidden">
+          {applicantWording(formData, true, false)}
+        </b>{' '}
+        helpless child documents.
+        <br />
+        Submitting a copy can help us process this application faster.
+        <br />
+        {MAIL_OR_FAX_LATER_MSG}
+      </>
+    )),
+    ...applicantHelplessChildConfig.uiSchema,
+    applicantHelplessCert: fileUploadUI({
+      label: 'Upload proof of helpless child status',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      titleSchema,
+      ...applicantHelplessChildConfig.schema,
+      applicantHelplessCert: fileWithMetadataSchema(
+        acceptableFiles.helplessCert,
+      ),
+    },
+  },
+};
+
 const applicantDependentStatusPage = {
   uiSchema: {},
   schema: {
@@ -582,6 +619,22 @@ export const applicantPages = arrayBuilderPages(
       },
       CustomPage: FileFieldCustom,
       ...applicantSchoolCertUploadPage,
+    }),
+    page18b2: pageBuilder.itemPage({
+      path: 'applicant-dependent-upload/:index',
+      title: item => `${applicantWording(item)} helpless child documents`,
+      depends: (formData, index) => {
+        if (index === undefined) return true;
+        return (
+          formData.applicants[index]?.applicantRelationshipToSponsor
+            ?.relationshipToVeteran === 'child' &&
+          getAgeInYears(formData.applicants[index]?.applicantDob) >= 18 &&
+          formData.applicants[index]?.applicantDependentStatus?.status ===
+            'over18HelplessChild'
+        );
+      },
+      CustomPage: FileFieldCustom,
+      ...applicantHelplessChildUploadPage,
     }),
   }),
 );
