@@ -90,7 +90,9 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            let signerName = data.veteran.fullName;
+            let signerName = environment.isProduction()
+              ? data.veteran.fullName
+              : data.fullName;
             if (
               data.preparerIdentification?.preparerFullName &&
               Object.keys(data.preparerIdentification?.preparerFullName)
@@ -112,7 +114,7 @@ const testConfig = createTestConfig(
 
       cy.login(user);
     },
-    skip: environment.isTest(),
+    skip: false,
   },
   manifest,
   formConfig,

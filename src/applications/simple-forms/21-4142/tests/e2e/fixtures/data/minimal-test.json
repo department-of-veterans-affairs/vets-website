@@ -1,5 +1,7 @@
 {
   "data": {
+    "fullName": { "first": "veteran", "last": "name" },
+    "dateOfBirth": "1950-10-25",
     "veteran": {
       "homePhone": "9876543210",
       "email": "email@address.com",

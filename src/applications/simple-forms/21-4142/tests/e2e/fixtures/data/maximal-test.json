@@ -99,6 +99,13 @@
       "patientVaFileNumber": "123456789",
       "isRequestingOwnMedicalRecords": false
     },
+    "fullName": {
+      "first": "First",
+      "middle": "Middle",
+      "last": "Last",
+      "suffix": "Jr."
+    },
+    "dateOfBirth": "1965-02-07",
     "veteran": {
       "homePhone": "9876543210",
       "email": "email@address.com",
