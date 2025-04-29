@@ -8,7 +8,6 @@ import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import CustomPreSubmitInfo from '../components/CustomPreSubmitInfo';
 import GetFormHelp from '../components/GetFormHelp';
 import { customSubmit686 } from '../analytics/helpers';
 
@@ -140,7 +139,15 @@ export const formConfig = {
   trackingPrefix: 'disability-21-686c-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  preSubmitInfo: CustomPreSubmitInfo,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      useProfileFullName: true,
+    },
+  },
   formId: VA_FORM_IDS.FORM_21_686CV2,
   saveInProgress: {
     messages: {
@@ -1068,12 +1075,23 @@ export const formConfig = {
       title: 'Additional information',
       pages: {
         marriageAdditionalEvidence: {
-          depends: formData =>
-            typeof formData?.currentMarriageInformation?.type === 'string' &&
-            formData?.currentMarriageInformation?.type !==
-              MARRIAGE_TYPES.ceremonial &&
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.['view:addOrRemoveDependents']?.add,
+          depends: formData => {
+            const { veteranAddress: address } =
+              formData.veteranContactInformation || {};
+            const isOutsideUSA =
+              address?.country !== 'USA' || Boolean(address?.isMilitary);
+            const { typeOfMarriage } =
+              formData?.currentMarriageInformation || {};
+            const isValidNonCeremonialMarriage =
+              typeof typeOfMarriage === 'string' &&
+              typeOfMarriage !== MARRIAGE_TYPES.ceremonial;
+
+            return (
+              (isOutsideUSA || isValidNonCeremonialMarriage) &&
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+              formData?.['view:addOrRemoveDependents']?.add
+            );
+          },
           title: 'Submit supporting evidence to add your spouse',
           path: 'add-spouse-evidence',
           uiSchema: spouseAdditionalEvidence.uiSchema,

@@ -60,10 +60,12 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
           if (response.availableForms.length === 0) {
             recordEvent({ event: '1095b-available-forms-not-found' });
             updateFormError({ error: true, type: errorTypes.NOT_FOUND });
-          }
-          const mostRecentYearData = response.availableForms[0];
-          if (mostRecentYearData?.year) {
-            updateYear(mostRecentYearData.year);
+          } else {
+            recordEvent({ event: '1095b-available-forms-found' });
+            const mostRecentYearData = response.availableForms[0];
+            if (mostRecentYearData.year) {
+              updateYear(mostRecentYearData.year);
+            }
           }
         })
         .catch(() => {
@@ -71,7 +73,6 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
           updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
         })
         .finally(() => {
-          recordEvent({ event: '1095b-available-forms-found' });
           setHasLoadedMostRecentYear(true);
         });
     },

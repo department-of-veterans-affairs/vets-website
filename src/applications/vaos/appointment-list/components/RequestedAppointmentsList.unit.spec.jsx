@@ -6,20 +6,13 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import { within } from '@testing-library/dom';
 import reducers from '../../redux/reducer';
 import { getVAOSRequestMock } from '../../tests/mocks/mock';
-import { mockVAOSAppointmentsFetch } from '../../tests/mocks/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../tests/mocks/setup';
 import RequestedAppointmentsList from './RequestedAppointmentsList';
+import { mockVAOSAppointmentsFetch } from '../../tests/mocks/mockApis';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-  },
-};
-
-const initialStateVAOSService = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingVAOSServiceRequests: true,
   },
 };
 
@@ -103,7 +96,7 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
 
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
-      initialState: initialStateVAOSService,
+      initialState,
       reducers,
     });
     // Then it should display the requested appointments
@@ -167,7 +160,7 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
     });
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
-      initialState: initialStateVAOSService,
+      initialState,
       reducers,
     });
 
@@ -232,9 +225,9 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState: {
-        ...initialStateVAOSService,
+        ...initialState,
         featureToggles: {
-          ...initialStateVAOSService.featureToggles,
+          ...initialState.featureToggles,
           vaOnlineSchedulingFeSourceOfTruthCC: true,
         },
       },
@@ -254,7 +247,7 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
     mockVAOSAppointmentsFetch({ error: true });
 
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
-      initialState: initialStateVAOSService,
+      initialState,
       reducers,
     });
 
@@ -265,7 +258,7 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
     ).to.be.ok;
   });
 
-  it('should display request sorted by create date in decending order', async () => {
+  it('should display request sorted by create date in descending order', async () => {
     // Given a veteran has VA appointment request
     const startDate = moment.utc();
     const appointment = getVAOSRequestMock();
@@ -358,7 +351,7 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
 
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
-      initialState: initialStateVAOSService,
+      initialState,
       reducers,
     });
 
@@ -399,7 +392,9 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
       start: moment()
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+      end: moment()
+        .add(2, 'days')
+        .format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
       requests: [appointment],
     });
@@ -441,7 +436,9 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
       start: moment()
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+      end: moment()
+        .add(2, 'days')
+        .format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
       requests: [appointment],
     });
@@ -488,7 +485,9 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
       start: moment()
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+      end: moment()
+        .add(2, 'days')
+        .format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
       requests: [appointment],
     });

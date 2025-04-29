@@ -1,28 +1,28 @@
 /* eslint-disable camelcase */
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Route } from 'react-router-dom';
 
-import set from 'platform/utilities/data/set';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import set from 'platform/utilities/data/set';
 
-import moment from 'moment';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import moment from 'moment';
 
-import TypeOfCarePage from './index';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import {
-  mockVAOSParentSites,
-  mockV2CommunityCareEligibility,
-} from '../../../tests/mocks/helpers';
+import TypeOfCarePage from './index';
 
 import { NewAppointment } from '../..';
 import { createMockFacility } from '../../../tests/mocks/data';
+import {
+  mockFacilitiesApi,
+  mockV2CommunityCareEligibility,
+} from '../../../tests/mocks/mockApis';
 import { FLOW_TYPES } from '../../../utils/constants';
 
 const initialState = {
@@ -45,14 +45,13 @@ describe('VAOS Page: TypeOfCarePage', () => {
   beforeEach(() => mockFetch());
 
   it('should open facility type page when CC eligible and has a supported parent site', async () => {
-    mockVAOSParentSites(
-      ['983'],
-      [
+    mockFacilitiesApi({
+      ids: ['983'],
+      response: [
         createMockFacility({ id: '983', isParent: true }),
         createMockFacility({ id: '983GC', isParent: true }),
       ],
-      true,
-    );
+    });
     mockV2CommunityCareEligibility({
       parentSites: ['983', '983GC'],
       supportedSites: ['983GC'],
@@ -73,14 +72,13 @@ describe('VAOS Page: TypeOfCarePage', () => {
   });
 
   it('should skip facility type page if eligible for CC but no supported sites', async () => {
-    mockVAOSParentSites(
-      ['983'],
-      [
+    mockFacilitiesApi({
+      ids: ['983'],
+      response: [
         createMockFacility({ id: '983', isParent: true }),
         createMockFacility({ id: '983GC', isParent: true }),
       ],
-      true,
-    );
+    });
     mockV2CommunityCareEligibility({
       parentSites: ['983', '983GC'],
       supportedSites: [],

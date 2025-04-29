@@ -71,7 +71,7 @@ describe('Referral Services', () => {
     const result = await services.postReferralAppointment(input);
 
     expect(
-      requestStub.calledWith('/vaos/v2/epsApi/appointments', {
+      requestStub.calledWith('/vaos/v2/appointments/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: expectedBody,
@@ -87,7 +87,7 @@ describe('Referral Services', () => {
     const result = await services.postDraftReferralAppointment('ref-id-123');
 
     expect(
-      requestStub.calledWith('/vaos/v2/epsApi/draftReferralAppointment', {
+      requestStub.calledWith('/vaos/v2/appointments/draft', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ referralId: 'ref-id-123' }),
@@ -103,7 +103,7 @@ describe('Referral Services', () => {
     const result = await services.getAppointmentInfo('a1');
 
     expect(
-      requestStub.calledWith('/vaos/v2/epsApi/appointments/a1', {
+      requestStub.calledWith('/vaos/v2/eps_appointments/a1', {
         method: 'GET',
       }),
     ).to.be.true;
