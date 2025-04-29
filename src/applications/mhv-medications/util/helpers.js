@@ -1,5 +1,4 @@
 import moment from 'moment-timezone';
-import cheerio from 'cheerio';
 import * as Sentry from '@sentry/browser';
 import {
   EMPTY_FIELD,
@@ -527,8 +526,10 @@ export const sanitizeKramesHtmlStr = htmlString => {
 /**
  * Return medication information page HTML as text
  */
-export const convertHtmlForDownload = (html, option) => {
-  const $ = cheerio.load(html);
+export const convertHtmlForDownload = async (html, option) => {
+  // Dynamically import cheerio at runtime
+  const cheerioModule = await import('cheerio');
+  const $ = cheerioModule.load(html);
   const contentElements = [
     'address',
     'blockquote',

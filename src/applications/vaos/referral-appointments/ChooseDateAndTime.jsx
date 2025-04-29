@@ -39,7 +39,7 @@ export const ChooseDateAndTime = props => {
         futureStatus === FETCH_STATUS.notStarted
       ) {
         if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-          dispatch(createDraftReferralAppointment(currentReferral.uuid));
+          dispatch(createDraftReferralAppointment(currentReferral.referralId));
         }
         if (futureStatus === FETCH_STATUS.notStarted) {
           dispatch(fetchFutureAppointments({ includeRequests: false }));
@@ -60,6 +60,7 @@ export const ChooseDateAndTime = props => {
       }
     },
     [
+      currentReferral.referralId,
       currentReferral.uuid,
       dispatch,
       draftAppointmentCreateStatus,
@@ -75,9 +76,12 @@ export const ChooseDateAndTime = props => {
 
   if (loading) {
     return (
-      <div className="vads-u-margin-y--8" data-testid="loading">
-        <va-loading-indicator message="Loading available appointments times..." />
-      </div>
+      <ReferralLayout
+        data-testid="loading"
+        loadingMessage="Loading available appointments times..."
+        hasEyebrow
+        heading="Schedule an appointment with your provider"
+      />
     );
   }
 

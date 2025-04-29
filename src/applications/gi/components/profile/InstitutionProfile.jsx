@@ -45,8 +45,7 @@ export default function InstitutionProfile({
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
-  const { type, facilityCode, name, programTypes } = institution;
-  localStorage.setItem('institutionName', name);
+  const { type, facilityCode, programTypes } = institution;
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
   };
