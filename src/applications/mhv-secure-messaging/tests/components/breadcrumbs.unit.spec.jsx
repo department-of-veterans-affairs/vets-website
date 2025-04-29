@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { cleanup, fireEvent } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
 import { inbox } from '../fixtures/folder-inbox-response.json';
@@ -176,7 +176,7 @@ describe('Breadcrumbs', () => {
     );
   });
 
-  it('should navigate to the INBOX if the previousUrl is contact list', () => {
+  it('should navigate to the INBOX if the previousUrl is contact list', async () => {
     const customState = {
       sm: {
         breadcrumbs: {
@@ -192,11 +192,12 @@ describe('Breadcrumbs', () => {
     });
 
     fireEvent.click(screen.getByText('Back'));
-
-    expect(screen.history.location.pathname).to.equal(Paths.INBOX);
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(Paths.INBOX);
+    });
   });
 
-  it('should navigate to the previousUrl if the previousUrl is not contact list', () => {
+  it('should navigate to the previousUrl if the previousUrl is not contact list', async () => {
     const customState = {
       sm: {
         breadcrumbs: {
@@ -213,7 +214,9 @@ describe('Breadcrumbs', () => {
 
     fireEvent.click(screen.getByText('Back'));
 
-    expect(screen.history.location.pathname).to.equal(Paths.DRAFTS);
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(Paths.DRAFTS);
+    });
   });
 
   it('should redirect back to draft message if an active draft is present', async () => {
