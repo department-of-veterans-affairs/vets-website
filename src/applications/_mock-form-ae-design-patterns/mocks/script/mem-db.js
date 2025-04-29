@@ -73,7 +73,8 @@ const deleteInProgressForm = () => {
     formData: {},
     metadata: {},
   };
-  memDb.user.inProgressForms = [];
+  // reset the inProgressForms to an empty array
+  memDb.user.data.attributes.inProgressForms = [];
 };
 
 // sanitize user input
