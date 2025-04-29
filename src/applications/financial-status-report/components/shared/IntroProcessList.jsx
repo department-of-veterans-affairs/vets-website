@@ -7,10 +7,13 @@ import manifest from '../../manifest.json';
 const IntroProcessList = ({ showLegacyWizard, showStaticWizard }) => {
   return showStaticWizard ? (
     <>
-      <va-process-list class="vads-u-margin-left--neg2 vads-u-padding-bottom--0">
+      <va-process-list
+        class="vads-u-margin-left--neg2 vads-u-padding-bottom--0"
+        data-testid="static-process-list"
+      >
         <va-process-list-item header="Make sure this is the right form for you">
           <p>
-            you should only use this form if all these descriptions are true for
+            You should only use this form if all these descriptions are true for
             you:
           </p>
           <ul>
@@ -27,9 +30,10 @@ const IntroProcessList = ({ showLegacyWizard, showStaticWizard }) => {
               debt
             </li>
           </ul>
-          <p>Not sure if this is the right form for you? </p>
+          <p>Not sure if this is the right form for you?</p>
           <va-link
-            href=""
+            data-testid="learn-more-about-options-link"
+            href="/resources/options-to-help-with-va-debt"
             text="Learn more about options for requesting help with VA debts"
           />
         </va-process-list-item>
@@ -65,7 +69,7 @@ const IntroProcessList = ({ showLegacyWizard, showStaticWizard }) => {
               food, and utilities (like gas, electricity, and water.)
             </li>
             <li>
-              <strong>Installment contracts or other debts.</strong> these
+              <strong>Installment contracts or other debts.</strong> These
               include car loans, student loans, credit card debt, and other
               debts or purchase payment plans.
             </li>
@@ -127,7 +131,10 @@ const IntroProcessList = ({ showLegacyWizard, showStaticWizard }) => {
           .
         </p>
       ) : null}
-      <va-process-list class="vads-u-margin-left--neg2 vads-u-padding-bottom--0">
+      <va-process-list
+        class="vads-u-margin-left--neg2 vads-u-padding-bottom--0"
+        data-testid="legacy-process-list"
+      >
         <va-process-list-item header="Prepare">
           <p>
             You’ll need this information for you (and your spouse if you’re
