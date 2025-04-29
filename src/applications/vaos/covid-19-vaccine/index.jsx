@@ -44,7 +44,7 @@ export function NewBookingSection() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
-  const [crumb, setCrumb] = useState('New COVID-19 vaccine appointment');
+  const [crumb] = useState('New COVID-19 vaccine appointment');
 
   useEffect(
     () => {
@@ -121,12 +121,10 @@ export function NewBookingSection() {
               : `${match.url}/confirm-doses-received`
           }
         >
-          <ReceivedDoseScreenerPage
-            changeCrumb={newTitle => setCrumb(newTitle)}
-          />
+          <ReceivedDoseScreenerPage />
         </Route>
         <Route path={`${match.url}/contact-facility`}>
-          <ContactFacilitiesPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          <ContactFacilitiesPage />
         </Route>
         <Route
           path={
@@ -135,7 +133,7 @@ export function NewBookingSection() {
               : `${match.url}/choose-facility`
           }
         >
-          <VAFacilityPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          <VAFacilityPage />
         </Route>
         <Route
           path={
@@ -144,7 +142,7 @@ export function NewBookingSection() {
               : `${match.url}/choose-clinic`
           }
         >
-          <ClinicChoicePage changeCrumb={newTitle => setCrumb(newTitle)} />
+          <ClinicChoicePage />
         </Route>
         <Route
           path={
@@ -153,7 +151,7 @@ export function NewBookingSection() {
               : `${match.url}/select-date`
           }
         >
-          <SelectDate1Page changeCrumb={newTitle => setCrumb(newTitle)} />
+          <SelectDate1Page />
         </Route>
         <Route
           path={
@@ -162,7 +160,7 @@ export function NewBookingSection() {
               : `${match.url}/second-dose-info`
           }
         >
-          <SecondDosePage changeCrumb={newTitle => setCrumb(newTitle)} />
+          <SecondDosePage />
         </Route>
         <Route
           path={
@@ -174,7 +172,7 @@ export function NewBookingSection() {
           <ContactInfoPage />
         </Route>
         <Route path={`${match.url}/review`}>
-          <ReviewPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          <ReviewPage />
         </Route>
         <Route
           exact
@@ -184,10 +182,10 @@ export function NewBookingSection() {
               : `${match.url}/confirmation`
           }
         >
-          <ConfirmationPageV2 changeCrumb={newTitle => setCrumb(newTitle)} />
+          <ConfirmationPageV2 />
         </Route>
         <Route path={`${match.url}`}>
-          <PlanAheadPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          <PlanAheadPage />
         </Route>
       </Switch>
     </FormLayout>
