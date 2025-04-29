@@ -21,6 +21,28 @@ const PrivacyPolicy = () => {
     privacyPolicyText?.setAttribute('style', 'display:none;');
   };
 
+  const updateCheckbox = async () => {
+    const checkbox = await querySelectorWithShadowRoot(
+      'va-checkbox',
+      document.querySelector('va-statement-of-truth'),
+    );
+
+    if (checkbox) {
+      checkbox.setAttribute(
+        'label',
+        'I certify the information above is true and correct to the best of my knowledge and belief.',
+      );
+    }
+  };
+
+  useEffect(() => {
+    const updateCheckboxLabel = async () => {
+      await updateCheckbox();
+    };
+
+    updateCheckboxLabel();
+  }, []);
+
   useEffect(() => {
     const removeElements = async () => {
       // Hide "Note" above Certification statement
