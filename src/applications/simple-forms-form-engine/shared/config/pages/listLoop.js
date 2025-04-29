@@ -183,7 +183,9 @@ const pageBuilderCallbackBuilder = (options, chapter) => pageBuilder => {
   );
 
   chapter.pages.forEach(page => {
-    pages[`${nounSingular}${page.id}`] = itemPageBuilder(options, page);
+    pages[`${nounSingular}${page.id}`] = pageBuilder.itemPage(
+      itemPageBuilder(options, page),
+    );
   });
 
   return pages;
@@ -211,17 +213,19 @@ export const listLoopPages = (chapter, arrayBuilder = arrayBuilderPages) => {
     maxItems,
     text: {
       getItemName: item => item.name,
-      cardDescription: item => (
-        <ul>
-          {Object.entries(summaryComponents).map(([key, type]) => (
-            <li key={key}>
-              {type === 'digital_form_date_component'
-                ? formatReviewDate(item[key])
-                : item[key]}
-            </li>
-          ))}
-        </ul>
-      ),
+      cardDescription: item =>
+        // item is null when cardDescription is first rendered
+        item && (
+          <ul>
+            {Object.entries(summaryComponents).map(([key, type]) => (
+              <li key={key}>
+                {type === 'digital_form_date_component'
+                  ? formatReviewDate(item[key])
+                  : item[key]}
+              </li>
+            ))}
+          </ul>
+        ),
     },
   };
 
