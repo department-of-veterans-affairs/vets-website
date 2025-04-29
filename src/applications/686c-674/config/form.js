@@ -1075,12 +1075,23 @@ export const formConfig = {
       title: 'Additional information',
       pages: {
         marriageAdditionalEvidence: {
-          depends: formData =>
-            typeof formData?.currentMarriageInformation?.type === 'string' &&
-            formData?.currentMarriageInformation?.type !==
-              MARRIAGE_TYPES.ceremonial &&
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.['view:addOrRemoveDependents']?.add,
+          depends: formData => {
+            const { veteranAddress: address } =
+              formData.veteranContactInformation || {};
+            const isOutsideUSA =
+              address?.country !== 'USA' || Boolean(address?.isMilitary);
+            const { typeOfMarriage } =
+              formData?.currentMarriageInformation || {};
+            const isValidNonCeremonialMarriage =
+              typeof typeOfMarriage === 'string' &&
+              typeOfMarriage !== MARRIAGE_TYPES.ceremonial;
+
+            return (
+              (isOutsideUSA || isValidNonCeremonialMarriage) &&
+              isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+              formData?.['view:addOrRemoveDependents']?.add
+            );
+          },
           title: 'Submit supporting evidence to add your spouse',
           path: 'add-spouse-evidence',
           uiSchema: spouseAdditionalEvidence.uiSchema,

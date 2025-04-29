@@ -1,6 +1,6 @@
 import React from 'react';
 import { Toggler } from 'platform/utilities/feature-toggles';
-import { SIGN_OUT_URL } from '../../constants/index';
+import { SIGN_OUT_URL } from '../../constants';
 import NavDropdown from './NavDropdown';
 
 const UserHelpLinks = () => {

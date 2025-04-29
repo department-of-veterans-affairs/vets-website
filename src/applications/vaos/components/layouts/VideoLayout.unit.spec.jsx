@@ -35,7 +35,6 @@ describe('VAOS Component: VideoLayout', () => {
   describe('When appointment information is missing', () => {
     const nullInitialState = {
       appointments: {},
-      featureToggles: {},
     };
     it('should not display heading and text for empty data', async () => {
       // Arrange

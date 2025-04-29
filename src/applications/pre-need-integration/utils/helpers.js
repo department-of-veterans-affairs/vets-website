@@ -841,7 +841,6 @@ export const veteranUI = {
       labels: {
         female: 'Female',
         male: 'Male',
-        na: 'Prefer not to answer',
       },
     },
   },
@@ -992,7 +991,6 @@ export const preparerVeteranUI = {
       labels: {
         female: 'Female',
         male: 'Male',
-        na: 'Prefer not to answer',
       },
     },
   },
