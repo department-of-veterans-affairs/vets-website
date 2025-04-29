@@ -18,7 +18,7 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
   const isUserLOA3 = useSelector(isLOA3);
   const hasRegisteredSystems = sites?.length > 0;
   const featureMhvRouteGuards = useSelector(
-    state => state.featureToggles.vaOnlineSchedulingMhvRouteGuards,
+    state => state.featureToggles.vaOnlineSchedulingMHVRouteGuards,
   );
   const isToggleLoading = useSelector(state => state.featureToggles.loading);
   const userProfileLoading = user?.profile?.loading;
