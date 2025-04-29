@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,6 +14,10 @@ const ombInfo = {
   expDate: '08/31/2026',
 };
 
+const appendLoggedInQueryParam = (windowLocation = window.location) => {
+  return `${windowLocation.origin}${windowLocation.pathname}?loggedIn=true`;
+};
+
 /**
  * Creates a sign-in button component based on user login status
  * @param {Object} params - Parameters for creating the sign-in button
@@ -23,12 +27,7 @@ const ombInfo = {
  * @param {Function} params.appendLoggedInQueryParam - Function to append logged in query param
  * @returns {React.Component} A sign-in button component
  */
-const createSignInButton = ({
-  userLoggedIn,
-  routes,
-  router,
-  appendLoggedInQueryParam,
-}) => {
+const createSignInButton = ({ userLoggedIn, routes, router }) => {
   const text = userLoggedIn
     ? 'Start your request'
     : 'Sign in to start your request';
@@ -137,9 +136,30 @@ export const IntroductionPage = ({
     </>
   );
 
-  const appendLoggedInQueryParam = (windowLocation = window.location) => {
-    return `${windowLocation.origin}${windowLocation.pathname}?loggedIn=true`;
-  };
+  useEffect(
+    () => {
+      const signInLink = document.querySelector(
+        '.sign-in-nav .sign-in-links .sign-in-link',
+      );
+
+      if (signInLink && !userLoggedIn) {
+        const handleClick = e => {
+          e.preventDefault();
+          window.location = appendLoggedInQueryParam();
+        };
+
+        signInLink.addEventListener('click', handleClick);
+
+        return () => {
+          signInLink.removeEventListener('click', handleClick);
+        };
+      }
+
+      // Return an empty cleanup function if no event listener was added
+      return () => {};
+    },
+    [userLoggedIn],
+  );
 
   // Create the sign-in button using the extracted function
   const signInButton = () =>
