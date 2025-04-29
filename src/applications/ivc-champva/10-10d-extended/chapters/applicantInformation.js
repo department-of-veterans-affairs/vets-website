@@ -47,6 +47,7 @@ import { isInRange } from '../../10-10D/helpers/utilities';
 import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
 import { depends18f3 } from '../../10-10D/pages/ApplicantSponsorMarriageDetailsPage';
 import { ApplicantMedicareStatusPage } from '../../10-10D/pages/ApplicantMedicareStatusPage';
+import { ApplicantMedicareStatusContinuedPage } from '../../10-10D/pages/ApplicantMedicareStatusContinuedPage';
 
 /*
 // TODO: get the custom prefill stuff working with array builder
@@ -519,6 +520,23 @@ const applicantMedicareStatusPage = {
   },
 };
 
+const applicantMedicarePartDStatusPage = {
+  uiSchema: {},
+  schema: {
+    type: 'object',
+    properties: {
+      applicantMedicarePartD: {
+        type: 'object',
+        properties: {
+          enrollment: { type: 'string' },
+          otherEnrollment: { type: 'string' },
+        },
+      },
+    },
+    required: ['applicantMedicarePartD'],
+  },
+};
+
 const applicantSummaryPage = {
   uiSchema: {
     'view:hasApplicants': arrayBuilderYesNoUI(applicantOptions),
@@ -759,6 +777,21 @@ export const applicantPages = arrayBuilderPages(
       title: item => `${applicantWording(item)} Medicare Part A and B status`,
       ...applicantMedicareStatusPage,
       CustomPage: ApplicantMedicareStatusPage,
+    }),
+    page20: pageBuilder.itemPage({
+      path: 'applicant-medicare-continued/:index',
+      title: item => `${applicantWording(item)} Medicare Part D status`,
+      depends: (formData, index) => {
+        if (index === undefined) return true;
+        return (
+          get(
+            'applicantMedicareStatus.eligibility',
+            formData?.applicants?.[index],
+          ) === 'enrolled'
+        );
+      },
+      ...applicantMedicarePartDStatusPage,
+      CustomPage: ApplicantMedicareStatusContinuedPage,
     }),
   }),
 );
