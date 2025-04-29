@@ -1240,7 +1240,7 @@ jobs:
     name: Testing Reports - Unit Tests Coverage
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
-    if: ${{ always() && !cancelled() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
+    if: needs.unit-tests.outputs.tests_ran == 'true'
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
