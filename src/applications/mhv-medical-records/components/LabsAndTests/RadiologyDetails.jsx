@@ -143,7 +143,7 @@ const RadiologyDetails = props => {
       if (
         imageRequestApiFailed ||
         studyRequestLimitReached ||
-        studyJob?.status === studyJobStatus.ERROR
+        studyJob?.status
       ) {
         setProcessingRequest(false);
       }
