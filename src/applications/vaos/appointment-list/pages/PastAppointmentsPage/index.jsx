@@ -166,7 +166,7 @@ export default function PastAppointmentsPage() {
         {dateRangeOptions[pastSelectedIndex]?.label}
       </div>
 
-      <div className="vads-u-margin-bottom--2">
+      <div className="vads-u-margin-top--neg1 vads-u-margin-bottom--2">
         {/* The following line tag is for italics not an icon */}
         {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component */}
         <i>
