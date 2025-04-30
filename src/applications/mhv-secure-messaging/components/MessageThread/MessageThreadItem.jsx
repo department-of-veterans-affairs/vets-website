@@ -111,7 +111,7 @@ const MessageThreadItem = props => {
       }`}
     >
       <h3 slot="headline">
-        {isDraft ? 'DRAFT' : dateFormat(sentDate, 'MMMM D [at] h:mm a z')}
+        {isDraft ? 'DRAFT' : dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
       </h3>
       {!isSentOrReadOrDraft && (
         <span
@@ -142,11 +142,7 @@ const MessageThreadItem = props => {
           forPrint={forPrint}
         />
         <HorizontalRule />
-        <MessageThreadBody
-          text={body}
-          forPrint={forPrint}
-          messageId={messageId}
-        />
+        <MessageThreadBody text={body} forPrint={forPrint} />
 
         {attachments?.length > 0 && (
           <MessageThreadAttachments
@@ -154,6 +150,14 @@ const MessageThreadItem = props => {
             forPrint={forPrint}
           />
         )}
+        <HorizontalRule />
+        <p
+          className="vads-u-margin-y--2"
+          data-testid={!forPrint ? 'message-id' : ''}
+        >
+          <>Message ID: </>
+          <span data-dd-privacy="mask">{messageId}</span>
+        </p>
       </div>
     </VaAccordionItem>
   );

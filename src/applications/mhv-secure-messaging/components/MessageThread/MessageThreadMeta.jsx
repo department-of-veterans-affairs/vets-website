@@ -3,26 +3,20 @@ import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
 
 const MessageThreadMeta = props => {
-  const {
-    message,
-    isSent,
-    replyMessage,
-    activeReplyDraftMessage,
-    draftMessageHistoryItem,
-    forPrint,
-  } = props;
+  const { message, isSent, forPrint } = props;
   const {
     recipientName,
     senderName,
     triageGroupName,
     suggestedNameDisplay,
-    messageId,
     sentDate,
-  } =
-    message ||
-    replyMessage ||
-    activeReplyDraftMessage ||
-    draftMessageHistoryItem;
+    readReceipt,
+  } = message;
+
+  const readReceiptMessage =
+    readReceipt === null
+      ? 'Not yet opened by your care team'
+      : 'Opened by your care team';
 
   return (
     <div className="message-thread-meta">
@@ -44,35 +38,21 @@ const MessageThreadMeta = props => {
         >
           <>From: </>
           <span data-dd-privacy="mask">
-            {draftMessageHistoryItem
-              ? `${draftMessageHistoryItem[0]?.senderName} ${
-                  !isSent ? draftMessageHistoryItem[0]?.triageGroupName : ''
-                }`
-              : `${senderName} ${
-                  !isSent ? `(${suggestedNameDisplay || triageGroupName})` : ''
-                }`}
+            {`${senderName} ${
+              !isSent ? `(${suggestedNameDisplay || triageGroupName})` : ''
+            }`}
           </span>
         </p>
         <p
           className="vads-u-padding-right--2 vads-u-margin-y--0p5"
-          data-testid={!forPrint && !draftMessageHistoryItem ? 'to' : 'draftTo'}
+          data-testid={!forPrint ? 'to' : 'draftTo'}
         >
           <>To: </>
           <span data-dd-privacy="mask">
-            {(isSent && suggestedNameDisplay) ||
-              recipientName ||
-              draftMessageHistoryItem[0]?.recipientName}
+            {(isSent && suggestedNameDisplay) || recipientName}
           </span>
         </p>
-        <p
-          className="vads-u-margin-y--0p5"
-          data-testid={!forPrint ? 'message-id' : ''}
-        >
-          <>Message ID: </>
-          <span data-dd-privacy="mask">
-            {messageId || draftMessageHistoryItem[0]?.messageId}
-          </span>
-        </p>
+        {isSent && <span>{readReceiptMessage}</span>}
       </div>
     </div>
   );
