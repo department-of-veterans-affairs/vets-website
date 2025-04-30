@@ -15,7 +15,7 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
   const [breadcrumb, setBreadcrumb] = useState([]);
 
   const label = useSelector(state => getUrlLabel(state, location));
-  const covidLabel = useSelector(state => getCovidUrlLabel(state, location));
+  const covidLabel = useSelector(() => getCovidUrlLabel(location));
   const newLabel = labelOverride || label || covidLabel;
 
   // get referrer query param

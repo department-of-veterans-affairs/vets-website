@@ -125,12 +125,11 @@ export function routeToNextAppointmentPage(history, current, data) {
  * flow URL
  *
  * @export
- * @param {object} state
  * @param {string} location - the pathname
  * @returns {string} the label string
  */
 
-export function getCovidUrlLabel(state, location) {
+export function getCovidUrlLabel(location) {
   const _flow = getPageFlow();
   const home = '/';
   const results = Object.values(_flow).filter(
