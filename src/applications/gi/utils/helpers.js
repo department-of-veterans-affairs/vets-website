@@ -1181,19 +1181,19 @@ export const deriveInstitutionTitle = localType => {
   let title;
   switch (localType) {
     case 'public':
-      title = 'Public Institutions';
+      title = 'Public Institution';
       break;
     case 'private':
-      title = 'Private Nonprofit Institutions';
+      title = 'Private Nonprofit Institution';
       break;
     case 'proprietary':
-      title = 'Proprietary Institutions';
+      title = 'Proprietary Institution';
       break;
     case 'foreign':
-      title = 'Foreign Institutions';
+      title = 'Foreign Institution';
       break;
     default:
-      title = `${capitalize(localType)} Institutions`;
+      title = `${capitalize(localType)} Institution`;
   }
   return title;
 };
