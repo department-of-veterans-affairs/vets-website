@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import * as api from '~/platform/utilities/api';
 import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import { renderWithProfileReducers } from '../../tests/unit-test-helpers';
-import VeteranStatus from './VeteranStatus';
+import { renderWithProfileReducers } from '../../unit-test-helpers';
+import VeteranStatus from '../../../components/veteran-status-card/VeteranStatus';
 
 const serviceHistoryItemOlder = {
   branchOfService: 'Air Force',
@@ -141,21 +141,28 @@ describe('VeteranStatus', () => {
       const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
-      const heading = view.getAllByText(/Veteran Status Card/i);
-      expect(heading).to.have.lengthOf.above(0);
+      const heading = view.getByRole('heading', {
+        name: /Veteran Status Card/i,
+      });
+      expect(heading).to.exist;
     });
 
-    it('should render description copy', async () => {
+    it('should render description copy', () => {
       const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
-      await waitFor(() => {
-        expect(
-          view.queryByText(
-            /This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure./i,
-          ),
-        ).to.exist;
+      const description = view.getByText(
+        /This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure./i,
+      );
+      expect(description).to.exist;
+    });
+
+    it('should render frequently asked questions', () => {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
       });
+      const faq = view.getByText(/Frequently asked questions/i);
+      expect(faq).to.exist;
     });
   });
 
@@ -176,12 +183,20 @@ describe('VeteranStatus', () => {
         apiRequestStub,
         '/profile/vet_verification_status',
       );
+
       await waitFor(() => {
         expect(
           view.queryByText(
             /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
           ),
         ).to.not.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.true; // PDF link should be available
       });
     });
 
@@ -197,6 +212,13 @@ describe('VeteranStatus', () => {
             /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
 
@@ -215,6 +237,13 @@ describe('VeteranStatus', () => {
             'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
 
@@ -230,6 +259,13 @@ describe('VeteranStatus', () => {
             'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
 
@@ -255,6 +291,13 @@ describe('VeteranStatus', () => {
             'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
 
@@ -280,6 +323,13 @@ describe('VeteranStatus', () => {
             'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
 
@@ -289,7 +339,7 @@ describe('VeteranStatus', () => {
         initialState,
       });
 
-      expect(view.getByTestId('proof-of-status-loading-indicator')).to.exist;
+      expect(view.getByTestId('veteran-status-loading-indicator')).to.exist;
     });
   });
 
@@ -313,8 +363,12 @@ describe('VeteranStatus', () => {
 
       await waitFor(() => {
         expect(
-          view.queryByText(/This card doesn’t entitle you to any VA benefits./),
-        ).to.exist;
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.true; // PDF link should be available
       });
     });
 
@@ -349,6 +403,13 @@ describe('VeteranStatus', () => {
             /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
 
@@ -364,6 +425,13 @@ describe('VeteranStatus', () => {
             /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
           ),
         ).to.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
   });
@@ -390,9 +458,6 @@ describe('VeteranStatus', () => {
         initialState,
       });
 
-      const heading = view.getAllByText(/Veteran Status Card/);
-      expect(heading).to.have.lengthOf.to.be(1); // only appears once as the section heading, not here as the card heading
-
       await waitFor(() => {
         expect(
           view.queryByText(
@@ -404,6 +469,13 @@ describe('VeteranStatus', () => {
             /We’re sorry. There’s a problem with your discharge status records./,
           ),
         ).to.not.exist;
+        expect(
+          Array.from(view.container.querySelectorAll('va-link')).some(
+            link =>
+              link.getAttribute('text') ===
+              'Print your Veteran Status Card (PDF)',
+          ),
+        ).to.be.not.true; // PDF link should NOT be available
       });
     });
   });
@@ -426,6 +498,13 @@ describe('VeteranStatus', () => {
           ),
         ).to.exist;
       });
+      expect(
+        Array.from(view.container.querySelectorAll('va-link')).some(
+          link =>
+            link.getAttribute('text') ===
+            'Print your Veteran Status Card (PDF)',
+        ),
+      ).to.be.not.true; // PDF link should NOT be available
     });
   });
 });
