@@ -94,7 +94,7 @@ describe('Refill Notification Component', () => {
     });
     expect(
       screen.getByText(
-        'For updates on your refill requests, go to your medications list.',
+        'To check the status of your refill requests, go to your medications list and filter by "recently requested."',
       ),
     ).to.exist;
     expect(screen.getByText('Go to your medications list')).to.exist;

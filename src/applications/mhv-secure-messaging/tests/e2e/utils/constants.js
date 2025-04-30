@@ -91,6 +91,7 @@ export const Locators = {
   FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
   INBOX_FOOTER: `[data-testid="inbox-footer"]`,
   COMBO_BOX: '.usa-combo-box',
+  SEARCH_RESULT: `[data-testid="search-messages"]`,
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
