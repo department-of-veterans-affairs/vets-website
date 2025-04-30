@@ -28,19 +28,15 @@ export const prescriptionsLoader = async ({ params }) => {
       filterOption: '',
     };
     fetchPromises.push(
-      store.dispatch(getPrescriptionsList.initiate(queryParams)).unwrap(),
+      store.dispatch(getPrescriptionsList.initiate(queryParams)),
     );
-    fetchPromises.push(
-      store.dispatch(getRefillAlertPrescriptions.initiate()).unwrap(),
-    );
+    fetchPromises.push(store.dispatch(getRefillAlertPrescriptions.initiate()));
   }
 
   // If on a prescription detail page, also fetch that specific prescription
   if (params?.prescriptionId) {
     fetchPromises.push(
-      store
-        .dispatch(getPrescriptionById.initiate(params.prescriptionId))
-        .unwrap(),
+      store.dispatch(getPrescriptionById.initiate(params.prescriptionId)),
     );
   }
 
@@ -48,7 +44,7 @@ export const prescriptionsLoader = async ({ params }) => {
   // Using this workaround because React Router doesn't pass the route path to the loader.
   if (window.location.pathname.endsWith('/refill')) {
     fetchPromises.push(
-      store.dispatch(getRefillablePrescriptions.initiate(undefined)).unwrap(),
+      store.dispatch(getRefillablePrescriptions.initiate(undefined)),
     );
   }
 

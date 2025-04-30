@@ -111,7 +111,7 @@ const Prescriptions = () => {
   // Use the consolidated query parameters for RTK Query
   const {
     data: prescriptionsData,
-    error: prescriptionsError,
+    error: prescriptionsApiError,
     isLoading: isPrescriptionsLoading,
     isFetching: isPrescriptionsFetching,
   } = useGetPrescriptionsListQuery(queryParams);
@@ -145,7 +145,6 @@ const Prescriptions = () => {
     [filteredList],
   );
 
-  const prescriptionsApiError = prescriptionsError;
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
