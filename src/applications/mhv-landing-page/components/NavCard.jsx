@@ -3,8 +3,6 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
-export const externalLinkText = '(opens in new tab)';
-
 /**
  * A navigation card.
  * @param {string} icon an optional icon to display to the left of the title
@@ -41,7 +39,7 @@ const NavCard = ({
         <span
           className={ariaLabel?.includes('unread') ? 'mhv-c-indicator' : ''}
         >
-          {text} {isExternal && externalLinkText}
+          {text}
         </span>
         {!isExternal && <va-icon icon="navigate_next" size={4} />}
       </a>

@@ -5,7 +5,7 @@ import {
   resolveLandingPageLinks,
   resolveUnreadMessageAriaLabel,
 } from '../../utilities/data';
-import NavCard, { externalLinkText } from '../../components/NavCard';
+import NavCard from '../../components/NavCard';
 
 describe('NavCard component', () => {
   describe('unread message indicator', () => {
@@ -82,7 +82,8 @@ describe('NavCard component', () => {
         <NavCard title="Card title" links={links} />,
       );
       const linkElement = getByRole('link');
-      expect(linkElement.text).to.not.include(externalLinkText);
+      expect(linkElement).to.have.attribute('href', 'https://www.va.gov');
+      expect(linkElement).to.not.have.attribute('target', '_blank');
     });
 
     it('external links', () => {
@@ -93,7 +94,8 @@ describe('NavCard component', () => {
         <NavCard title="Card title" links={links} />,
       );
       const linkElement = getByRole('link');
-      expect(linkElement.text).to.include(externalLinkText);
+      expect(linkElement).to.have.attribute('href', 'https://www.google.com');
+      expect(linkElement).to.have.attribute('target', '_blank');
     });
   });
 
