@@ -16,6 +16,7 @@ import {
   useGetRefillablePrescriptionsQuery,
   useBulkRefillPrescriptionsMutation,
 } from '../api/prescriptionsApi';
+
 import { dateFormat } from '../util/helpers';
 import {
   selectRefillContentFlag,
@@ -207,6 +208,7 @@ const RefillPrescriptions = () => {
         {showRefillProgressContent && (
           <RefillAlert
             dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
+            refillStatus={refillStatus}
           />
         )}
         {prescriptionsApiError ? (

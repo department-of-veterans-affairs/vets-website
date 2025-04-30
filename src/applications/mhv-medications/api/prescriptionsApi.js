@@ -6,7 +6,9 @@ import {
 import {
   defaultSelectedSortOption,
   rxListSortingOptions,
+  filterOptions,
 } from '../util/constants';
+import { isRefillTakingLongerThanExpected } from '../util/helpers';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -141,6 +143,50 @@ export const prescriptionsApi = createApi({
         };
       },
     }),
+    getRecentlyRequestedPrescriptions: builder.query({
+      query: () => ({
+        path: `${apiBasePath}/prescriptions?${
+          filterOptions.RECENTLY_REQUESTED.url
+        }${rxListSortingOptions.alphabeticalOrder.API_ENDPOINT}`,
+      }),
+      transformResponse: response => {
+        if (response?.data && Array.isArray(response.data)) {
+          return {
+            prescriptions: response.data.map(prescription =>
+              convertPrescription(prescription),
+            ),
+            meta: response.meta || {},
+          };
+        }
+        return { prescriptions: [], meta: {} };
+      },
+    }),
+    getRefillAlertPrescriptions: builder.query({
+      query: () => ({
+        path: `${apiBasePath}/prescriptions?${
+          filterOptions.RECENTLY_REQUESTED.url
+        }${rxListSortingOptions.alphabeticalOrder.API_ENDPOINT}`,
+      }),
+      transformResponse: response => {
+        if (response?.data && Array.isArray(response.data)) {
+          const alertPrescriptions = response.data.reduce(
+            (refillAlertList, prescription) => {
+              const rx = convertPrescription(prescription);
+              if (isRefillTakingLongerThanExpected(rx)) {
+                refillAlertList.push(rx);
+              }
+              return refillAlertList;
+            },
+            [],
+          );
+          return {
+            prescriptions: alertPrescriptions,
+            meta: response.meta || {},
+          };
+        }
+        return { prescriptions: [], meta: {} };
+      },
+    }),
   }),
 });
 
@@ -152,6 +198,8 @@ export const {
   useGetPrescriptionDocumentationQuery,
   useRefillPrescriptionMutation,
   useBulkRefillPrescriptionsMutation,
+  useGetRecentlyRequestedPrescriptionsQuery,
+  useGetRefillAlertPrescriptionsQuery,
   endpoints: {
     // The following are auto-generated hooks for the endpoints
     getPrescriptionsList,
@@ -160,6 +208,8 @@ export const {
     getPrescriptionDocumentation,
     refillPrescription,
     bulkRefillPrescriptions,
+    getRecentlyRequestedPrescriptions,
+    getRefillAlertPrescriptions,
   },
   // The following are useful utilities provided by RTK Query
   usePrefetch,

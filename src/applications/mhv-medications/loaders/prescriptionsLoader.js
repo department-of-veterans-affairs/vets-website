@@ -3,6 +3,7 @@ import {
   getPrescriptionById,
   getPrescriptionsList,
   getRefillablePrescriptions,
+  getRefillAlertPrescriptions,
 } from '../api/prescriptionsApi';
 import {
   defaultSelectedSortOption,
@@ -28,6 +29,9 @@ export const prescriptionsLoader = async ({ params }) => {
     };
     fetchPromises.push(
       store.dispatch(getPrescriptionsList.initiate(queryParams)).unwrap(),
+    );
+    fetchPromises.push(
+      store.dispatch(getRefillAlertPrescriptions.initiate()).unwrap(),
     );
   }
 

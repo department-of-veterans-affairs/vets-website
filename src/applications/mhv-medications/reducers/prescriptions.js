@@ -42,10 +42,6 @@ export const initialState = {
    */
   renewableList: undefined,
   /**
-   * Refill Page successful/failed notification
-   */
-  refillNotification: undefined,
-  /**
    * The list of prescriptions with taking longer than expected refills
    * @type {array}
    */
@@ -104,31 +100,6 @@ export const prescriptionsReducer = (state = initialState, action) => {
         refillableList,
         renewableList,
         apiError: false,
-      };
-    }
-    case Actions.Prescriptions.FILL_NOTIFICATION: {
-      const { failedIds, successfulIds, prescriptions } = action.response;
-
-      const successfulMeds = prescriptions?.filter(item =>
-        successfulIds?.includes(String(item.prescriptionId)),
-      );
-      const failedMeds = prescriptions?.filter(item =>
-        failedIds?.includes(String(item.prescriptionId)),
-      );
-
-      return {
-        ...state,
-        refillNotification: {
-          successfulMeds,
-          failedMeds,
-        },
-        apiError: false,
-      };
-    }
-    case Actions.Prescriptions.CLEAR_FILL_NOTIFICATION: {
-      return {
-        ...state,
-        refillNotification: initialState.refillNotification,
       };
     }
     case Actions.Prescriptions.GET_API_ERROR: {
