@@ -15,6 +15,7 @@ const { user81Copays } = require('./medical-copays');
 const { v2 } = require('./appointments');
 const mockLocalDSOT = require('../../common/mocks/script/drupal-vamc-data/mockLocalDSOT');
 const { boot } = require('../../common/mocks/script/utils');
+const { delaySingleResponse } = require('../../profile/mocks/script/utils');
 
 // set to true to simulate a user with debts for /v0/debts endpoint
 const hasDebts = false;
@@ -68,10 +69,14 @@ const responses = {
     // return res.status(500).json({
     //   error: 'bad request',
     // });
-    return res.status(200).json({
-      url:
-        'https://dsva-vagov-local-vff-simple-forms.s3.us-gov-west-1.amazonaws.com/submission/form_21-10210_vagov_123fake-submission-id-567.pdf',
-    });
+    const secondsOfDelay = 2;
+    delaySingleResponse(
+      () =>
+        res.status(200).json({
+          url: 'https://example.com/form.pdf',
+        }),
+      secondsOfDelay,
+    );
   },
   'GET /v0/profile/full_name': {
     id: '',

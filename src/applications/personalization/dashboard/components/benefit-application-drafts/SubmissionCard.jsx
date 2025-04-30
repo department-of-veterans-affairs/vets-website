@@ -75,8 +75,9 @@ const SavePdfDownload = ({
       </div>
 
       {showLoadingIndicator ? (
-        <va-loading-indicator label="Downloading" message="Downloading..." />
+        <va-button loading text="Downloading..." />
       ) : (
+        // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
         <button
           className="usa-button vads-u-padding-y--1p5 vads-u-padding-x--2p5"
           type="button"
