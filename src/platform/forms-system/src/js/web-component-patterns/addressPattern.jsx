@@ -11,6 +11,7 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 import VaSelectField from '../web-component-fields/VaSelectField';
 import VaCheckboxField from '../web-component-fields/VaCheckboxField';
+import VaRadioField from '../web-component-fields/VaRadioField';
 
 /**
  * PATTERNS
@@ -369,10 +370,27 @@ export function addressUI(options) {
       'ui:title': options?.labels?.street2 || 'Street address line 2',
       'ui:autocomplete': 'address-line2',
       'ui:required': requiredFunc('street2', false),
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         hideEmptyValueInReview: true,
+        updateSchema: (formData, schema, _uiSchema, index, path) => {
+          const addressPath = getAddressPath(path);
+          const addressFormData = get(addressPath, formData) ?? {};
+          const { isMilitary } = addressFormData;
+          const ui = _uiSchema;
+
+          const titleIfMilitary = 'Apartment or unit number';
+          const titleIfNotMilitary =
+            options?.labels?.street2 || 'Street address line 2';
+
+          ui['ui:title'] = isMilitary ? titleIfMilitary : titleIfNotMilitary;
+
+          return {
+            ...schema,
+            title: isMilitary ? titleIfMilitary : titleIfNotMilitary,
+          };
+        },
       },
-      'ui:webComponentField': VaTextInputField,
     };
   }
 
@@ -414,11 +432,11 @@ export function addressUI(options) {
           const addressFormData = get(addressPath, formData) ?? {};
           const { isMilitary } = addressFormData;
           if (isMilitary) {
-            ui['ui:webComponentField'] = VaSelectField;
+            ui['ui:webComponentField'] = VaRadioField;
             ui['ui:errorMessages'].required = CITY_ERROR_MESSAGES.military;
             return {
               type: 'string',
-              title: MILITARY_CITY_TITLE,
+              title: 'Post office',
               enum: MILITARY_CITY_VALUES,
               enumNames: MILITARY_CITY_NAMES,
             };
@@ -487,10 +505,10 @@ export function addressUI(options) {
           const { isMilitary } = data;
           const ui = _uiSchema;
           if (isMilitary) {
-            ui['ui:webComponentField'] = VaSelectField;
+            ui['ui:webComponentField'] = VaRadioField;
             return {
               type: 'string',
-              title: 'State',
+              title: 'Overseas "state" abbreviation',
               enum: MILITARY_STATE_VALUES,
               enumNames: MILITARY_STATE_NAMES,
             };
