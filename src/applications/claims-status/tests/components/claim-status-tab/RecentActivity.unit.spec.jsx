@@ -11,6 +11,7 @@ import { renderWithRouter } from '../../utils';
 const getStore = (
   cstClaimPhasesEnabled = false,
   cst5103UpdateEnabled = false,
+  cstFriendlyEvidenceRequests = false,
 ) =>
   createStore(() => ({
     featureToggles: {
@@ -18,6 +19,8 @@ const getStore = (
       cst_claim_phases: cstClaimPhasesEnabled,
       // eslint-disable-next-line camelcase
       cst_5103_update_enabled: cst5103UpdateEnabled,
+      // eslint-disable-next-line camelcase
+      cst_friendly_evidence_requests: cstFriendlyEvidenceRequests,
     },
   }));
 
@@ -109,6 +112,7 @@ const openClaimStep3WithNeededFromYouItem = {
         requestedDate: '2024-05-12',
         status: 'NEEDED_FROM_YOU',
         displayName: 'Needed from you Request',
+        friendlyName: 'friendly name',
       },
     ],
   },
@@ -133,6 +137,7 @@ const openClaimStep3WithNeededFromOthersItem = {
         requestedDate: '2024-05-12',
         status: 'NEEDED_FROM_OTHERS',
         displayName: 'Needed from others Request',
+        friendlyName: 'Third party friendly name',
       },
     ],
   },
@@ -589,7 +594,7 @@ describe('<RecentActivity>', () => {
           getByText('Request for others');
           getByText('We opened a request: "Needed from others Request"');
           expect($('va-alert', container)).to.exist;
-          getByLabelText('Add information for Needed from others Request');
+          getByLabelText('Add it here for Needed from others Request');
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should render recent activities section with NO_LONGER_REQUIRED record', () => {
@@ -1028,7 +1033,7 @@ describe('<RecentActivity>', () => {
           getByText('Request for others');
           getByText('We opened a request: "Needed from others Request"');
           expect($('va-alert', container)).to.exist;
-          getByLabelText('Add information for Needed from others Request');
+          getByLabelText('Add it here for Needed from others Request');
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should render recent activities section with NO_LONGER_REQUIRED record', () => {
@@ -1350,6 +1355,25 @@ describe('<RecentActivity>', () => {
           },
         );
       });
+    });
+  });
+
+  context('When cstFriendlyEvidenceRequests is enabled', () => {
+    it('should render friendly disaply name with NEEDED_FROM_YOU record', () => {
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false, false, true)}>
+          <RecentActivity claim={openClaimStep3WithNeededFromYouItem} />
+        </Provider>,
+      );
+      getByText(`We opened a request: "friendly name"`);
+    });
+    it('should render friendly disaply name with NEEDED_FROM_OTHERS record', () => {
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false, false, true)}>
+          <RecentActivity claim={openClaimStep3WithNeededFromOthersItem} />
+        </Provider>,
+      );
+      getByText(`We made a request for you: "Third party friendly name"`);
     });
   });
 });

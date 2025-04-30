@@ -48,7 +48,9 @@ describe('Medications Breadcrumbs', () => {
 
   it('Find tracking page text', () => {
     const screen = setup();
-    const h2 = screen.getByText('Track your shipment');
+    const h2 = screen.getByText(
+      'Track the shipment of your most recent refill',
+    );
     const h3 = screen.getByText('Tracking number:');
     const trackingNumber = screen.getByTestId('tracking-number');
     expect(h2).to.exist;
