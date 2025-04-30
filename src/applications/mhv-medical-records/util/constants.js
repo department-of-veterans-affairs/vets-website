@@ -337,8 +337,8 @@ export const allergyTypes = {
 };
 
 export const studyJobStatus = {
-  NONE: 'NONE', // has not been requested
   NEW: 'NEW', // has been requested but not yet processing (very short-lived)
+  QUEUED: 'QUEUED', // has been requested but not yet processing (also very short-lived)
   PROCESSING: 'PROCESSING', // has been requested
   COMPLETE: 'COMPLETE', // request complete
   ERROR: 'ERROR', // error
@@ -523,4 +523,11 @@ export const CernerAlertContent = {
     linkPath: '/pages/health_record/results',
     pageName: 'vitals',
   },
+};
+
+export const radiologyErrors = {
+  ERROR_REQUEST_AGAIN:
+    'We’re sorry. There was a problem with our system. Try requesting your images again.',
+  ERROR_TRY_LATER:
+    'We’re sorry. There was a problem with our system. Try again later.',
 };
