@@ -115,9 +115,6 @@ export {
   IDME_TYPES,
   POLICY_TYPES,
   SIGNUP_TYPES,
-  MHV_TRANSITION_DATE,
-  MHV_TRANSITION_TIME,
-  ACCOUNT_TRANSITION_DISMISSED,
   LINK_TYPES,
   AUTH_PARAMS,
 } from './authentication/constants';
@@ -156,18 +153,10 @@ export {
 
 /* authorization */
 export {
-  default as AcceptTermsPrompt,
-} from './authorization/components/AcceptTermsPrompt';
-export {
   default as RequiredLoginView,
   RequiredLoginLoader,
 } from './authorization/components/RequiredLoginView';
 export { default as VerifyAlert } from './authorization/components/VerifyAlert';
-// TO DO: resolve missing nested import
-// export { MHVApp } from './authorization/containers/MHVApp';
-// export {
-//   RequiredTermsAcceptanceView,
-// } from './authorization/containers/RequiredTermsAcceptanceView';
 
 /* profile */
 

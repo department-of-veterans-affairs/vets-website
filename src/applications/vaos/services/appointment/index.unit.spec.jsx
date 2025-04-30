@@ -1,35 +1,34 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
-import { expect } from 'chai';
-import sinon from 'sinon';
-import MockDate from 'mockdate';
 import {
   mockFetch,
   setFetchJSONFailure,
   setFetchJSONResponse,
-  // eslint-disable-next-line import/no-unresolved
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { expect } from 'chai';
+import MockDate from 'mockdate';
+import sinon from 'sinon';
 
 import {
   FUTURE_APPOINTMENTS_HIDDEN_SET,
   fetchBookedAppointment,
   getAppointmentRequests,
   getLongTermAppointmentHistoryV2,
+  getVAAppointmentLocationId,
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
-  getVAAppointmentLocationId,
 } from '.';
-import {
-  APPOINTMENT_STATUS,
-  APPOINTMENT_TYPES,
-  VIDEO_TYPES,
-} from '../../utils/constants';
 import moment from '../../lib/moment-tz';
 import { createMockAppointment } from '../../tests/mocks/data';
 import {
   getDateRanges,
   mockVAOSAppointmentsFetch,
-} from '../../tests/mocks/helpers';
+} from '../../tests/mocks/mockApis';
 import { generateAppointmentUrl } from '../../utils/appointment';
+import {
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+  VIDEO_TYPES,
+} from '../../utils/constants';
 
 function setRequestedPeriod(date, amOrPm) {
   const isAM = amOrPm.toUpperCase() === 'AM';
@@ -69,7 +68,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -96,7 +94,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -123,7 +120,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -150,7 +146,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -178,7 +173,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -217,7 +211,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -269,7 +262,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -300,7 +292,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -331,7 +322,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -360,7 +350,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -400,7 +389,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -425,7 +413,6 @@ describe('VAOS Services: Appointment ', () => {
       try {
         await fetchBookedAppointment({
           id: '1234',
-          useV2: true,
           useFeSourceOfTruth: true,
         });
       } catch (e) {
@@ -491,7 +478,6 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await getAppointmentRequests({
         startDate,
         endDate,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -550,7 +536,6 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await getAppointmentRequests({
         startDate,
         endDate,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -606,7 +591,6 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await getAppointmentRequests({
         startDate,
         endDate,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -648,7 +632,6 @@ describe('VAOS Services: Appointment ', () => {
         await getAppointmentRequests({
           startDate,
           endDate,
-          useV2: true,
           useFeSourceOfTruth: true,
         });
       } catch (e) {
