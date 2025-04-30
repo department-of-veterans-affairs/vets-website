@@ -30,8 +30,6 @@ import {
   veteranIsSelfText,
 } from '../definitions/constants';
 
-const fullName = environment.isProduction() ? 'veteran.fullName' : 'fullName';
-
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -54,7 +52,7 @@ const formConfig = {
         formData[preparerIdentificationFields.parentObject][
           preparerIdentificationFields.relationshipToVeteran
         ] === veteranIsSelfText
-          ? fullName
+          ? 'veteran.fullName'
           : 'preparerIdentification.preparerFullName',
     },
   },

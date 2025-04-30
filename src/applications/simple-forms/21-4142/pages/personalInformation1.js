@@ -34,11 +34,15 @@ export default {
         },
       }
     : {
-        ...titleUI({
-          title: 'Tell us about the Veteran connected to this authorization',
-        }),
-        fullName: fullNameUI(label => getFullNameLabels(label, false)),
-        dateOfBirth: dateOfBirthUI(),
+        [veteranFields.parentObject]: {
+          ...titleUI({
+            title: 'Tell us about the Veteran connected to this authorization',
+          }),
+          [veteranFields.fullName]: fullNameUI(label =>
+            getFullNameLabels(label, false),
+          ),
+          [veteranFields.dateOfBirth]: dateOfBirthUI(),
+        },
       },
   schema: {
     type: 'object',
@@ -51,9 +55,14 @@ export default {
           },
         }
       : {
-          fullName: fullNameSchema,
-          dateOfBirth: dateOfBirthSchema,
+          [veteranFields.parentObject]: {
+            type: 'object',
+            properties: {
+              [veteranFields.fullName]: fullNameSchema,
+              [veteranFields.dateOfBirth]: dateOfBirthSchema,
+            },
+            required: ['fullName', 'dateOfBirth'],
+          },
         },
-    required: environment.isProduction() ? [] : ['fullName', 'dateOfBirth'],
   },
 };

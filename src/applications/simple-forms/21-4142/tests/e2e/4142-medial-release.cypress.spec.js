@@ -1,7 +1,6 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import environment from 'platform/utilities/environment';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import user from './fixtures/mocks/user.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
@@ -90,9 +89,7 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            let signerName = environment.isProduction()
-              ? data.veteran.fullName
-              : data.fullName;
+            let signerName = data.veteran.fullName;
             if (
               data.preparerIdentification?.preparerFullName &&
               Object.keys(data.preparerIdentification?.preparerFullName)

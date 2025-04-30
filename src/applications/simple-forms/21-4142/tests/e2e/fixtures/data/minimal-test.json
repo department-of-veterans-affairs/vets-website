@@ -1,7 +1,5 @@
 {
   "data": {
-    "fullName": { "first": "veteran", "last": "name" },
-    "dateOfBirth": "1950-10-25",
     "veteran": {
       "homePhone": "9876543210",
       "email": "email@address.com",
@@ -13,7 +11,8 @@
         "postalCode": "78945"
       },
       "ssn": "555443333",
-      "fullName": { "first": "veteran", "last": "name" }
+      "fullName": { "first": "veteran", "last": "name" },
+      "dateOfBirth": "1950-10-25"
     },
     "preparerIdentification": {
       "relationshipToVeteran": "I am the Veteran",
