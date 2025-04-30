@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Switch,
@@ -40,7 +40,7 @@ export function NewBookingSection() {
   const canUseVaccineFlow = useSelector(selectCanUseVaccineFlow);
   const facilitySettingsStatus = useSelector(selectFacilitySettingsStatus);
   const isNewAppointmentStarted = useSelector(selectIsNewAppointmentStarted);
-  const [crumb] = useState('New COVID-19 vaccine appointment');
+  const pageTitle = 'New COVID-19 vaccine appointment';
 
   useEffect(
     () => {
@@ -88,7 +88,7 @@ export function NewBookingSection() {
     facilitySettingsStatus === FETCH_STATUS.notStarted
   ) {
     return (
-      <FormLayout pageTitle={crumb}>
+      <FormLayout pageTitle={pageTitle}>
         <va-loading-indicator
           set-focus
           message="Checking for online appointment availability"
@@ -108,7 +108,7 @@ export function NewBookingSection() {
   }
 
   return (
-    <FormLayout pageTitle={crumb}>
+    <FormLayout pageTitle={pageTitle}>
       <Switch>
         <Route path={`${match.url}/doses-received`}>
           <ReceivedDoseScreenerPage />
