@@ -1,4 +1,6 @@
 // hacky fix for address save button sizing
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as mixins;
+@use "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as variables;
 [data-action="save-edit"] {
   line-height: .9;
   padding: 0.75rem 1.25rem !important;
@@ -27,7 +29,7 @@ padding-left: 0;
 }
 
 .contact-info-card {
-  @include media($medium-screen) {
+  @include mixins.media(variables.$medium-screen) {
     width: 18.8rem;
     // height: 8.8rem;
 
@@ -36,7 +38,7 @@ padding-left: 0;
     }
   }
   &:nth-of-type(4) {
-    @include media($medium-screen) {
+    @include mixins.media(variables.$medium-screen) {
       height: 11.4rem;
     }
   }
@@ -86,13 +88,13 @@ padding-left: 0;
 
 // post study page
 #locked-card {
-  @include media($medium-screen) {
+  @include mixins.media(variables.$medium-screen) {
     width: 21rem;
   }
 }
 
 #gray-locked-card {
-  @include media($medium-screen) {
+  @include mixins.media(variables.$medium-screen) {
   width: 23rem;
   }
 }
