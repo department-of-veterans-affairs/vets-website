@@ -22,7 +22,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingFeSourceOfTruthTelehealth', value: true },
   { name: 'vaOnlineSchedulingMHVRouteGuards', value: false },
   { name: 'vaOnlineSchedulingDirectScheduleAppointmentConflict', value: false },
-  { name: 'vaOnlineSchedulingDisplayPastCancelledAppointments', value: true },
   { name: 'vaOnlineSchedulingPatientHistoryFutureAppts', value: false },
   { name: 'edu_section_103', value: true },
   { name: 'gibctEybBottomSheet', value: true },
