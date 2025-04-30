@@ -111,6 +111,7 @@ const ApplicationsInProgress = ({
             {allForms.map(form => {
               const formId = form.form;
               const formStatus = form.status;
+              const { pdfSupport } = form;
               const formTitle = `application for ${
                 MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
               }`;
@@ -159,6 +160,7 @@ const ApplicationsInProgress = ({
                     guid={form.id}
                     lastSavedDate={lastSavedDate}
                     submittedDate={submittedDate}
+                    pdfSupport={pdfSupport}
                     presentableFormId={presentableFormId}
                     status={normalizeSubmissionStatus(formStatus)}
                   />

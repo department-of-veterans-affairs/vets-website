@@ -40,19 +40,22 @@ const SavePdfDownload = ({
   formId,
   getPdfDownloadUrl,
   guid,
-  showLoadingIndicator,
+  // showLoadingIndicator,
 }) => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [showDownloadingButton, setShowDownloadingButton] = useState(false);
 
   const handleDownloadButtonClick = async () => {
     setError(null);
+    setShowDownloadingButton(true);
     const result = await getPdfDownloadUrl(formId, guid);
 
     if (result.error) {
       setError(result.error);
     } else {
       setShowSuccess(true);
+      setShowDownloadingButton(false);
     }
   };
 
@@ -74,12 +77,17 @@ const SavePdfDownload = ({
         ) : null}
       </div>
 
-      {showLoadingIndicator ? (
-        <va-button loading text="Downloading..." />
+      {showDownloadingButton ? (
+        <va-button
+          className=" vads-u-padding-y--1p5 vads-u-padding-x--2p5"
+          full-width
+          loading
+          text="Downloading..."
+        />
       ) : (
         // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
         <button
-          className="usa-button vads-u-padding-y--1p5 vads-u-padding-x--2p5"
+          className="usa-button vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-width--full"
           type="button"
           onClick={handleDownloadButtonClick}
         >
@@ -161,6 +169,7 @@ const SubmissionCard = ({
   showLoadingIndicator,
   lastSavedDate,
   submittedDate,
+  pdfSupport,
   presentableFormId,
   status,
 }) => {
@@ -184,7 +193,7 @@ const SubmissionCard = ({
         </p>
 
         <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaFormPdfLink}>
-          {status === 'received' && (
+          {pdfSupport && (
             <SavePdfDownload
               formId={formId}
               getPdfDownloadUrl={getPdfDownloadUrl}
@@ -225,6 +234,7 @@ SubmissionCard.propTypes = {
   guid: PropTypes.string.isRequired,
   // The display-ready date when the application was last updated by the user
   lastSavedDate: PropTypes.string.isRequired,
+  pdfSupport: PropTypes.bool.isRequired,
   presentableFormId: PropTypes.string.isRequired,
   status: PropTypes.oneOf(['inProgress', 'actionNeeded', 'received'])
     .isRequired,
