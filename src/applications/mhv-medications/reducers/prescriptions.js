@@ -22,10 +22,6 @@ export const initialState = {
   /**
    * Pagination received form meta object in prescriptionsList payload
    */
-  prescriptionsPagination: undefined,
-  /**
-   * Pagination received form meta object in prescriptionsList payload
-   */
   prescriptionsFilteredPagination: undefined,
   /**
    * Sort option used for sorting the prescriptions list
@@ -70,17 +66,6 @@ export const prescriptionsReducer = (state = initialState, action) => {
       return {
         ...state,
         prescriptionDetails: undefined,
-        apiError: false,
-      };
-    }
-    // **Remove once filter feature is developed and live.**
-    case Actions.Prescriptions.GET_PAGINATED_SORTED_LIST: {
-      return {
-        ...state,
-        prescriptionsList: action.response.data.map(rx => {
-          return { ...rx.attributes };
-        }),
-        prescriptionsPagination: action.response.meta.pagination,
         apiError: false,
       };
     }

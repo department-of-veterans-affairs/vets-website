@@ -13,6 +13,7 @@ export function ApplicantAddressCopyPage({
   contentAfterButtons,
   customAddressKey, // optional override of `applicantAddress` so we can target arbitrary addresses in the form
   data,
+  fullData,
   setFormData,
   goBack,
   goForward,
@@ -85,27 +86,32 @@ export function ApplicantAddressCopyPage({
   // (if available), as well as any addresses belonging to other
   // applicants so we can display in <select> down below
   function getSelectOptions() {
+    // fullData is present when this component is used inside the Array Builder
+    const fullOrItemData = fullData ?? data;
+
     const allAddresses = [];
-    if (data.certifierAddress?.street && data.certifierName)
+    if (fullOrItemData.certifierAddress?.street && fullOrItemData.certifierName)
       allAddresses.push({
-        originatorName: fullName(data.certifierName),
-        originatorAddress: data.certifierAddress,
-        displayText: `${data.certifierAddress.street} ${data.certifierAddress
-          ?.state ?? ''}`,
+        originatorName: fullName(fullOrItemData.certifierName),
+        originatorAddress: fullOrItemData.certifierAddress,
+        displayText: `${fullOrItemData.certifierAddress.street} ${fullOrItemData
+          .certifierAddress?.state ?? ''}`,
       });
     if (
-      data.sponsorAddress?.street &&
-      (data.veteransFullName ?? data.sponsorName)
+      fullOrItemData.sponsorAddress?.street &&
+      (fullOrItemData.veteransFullName ?? fullOrItemData.sponsorName)
     )
       allAddresses.push({
-        originatorName: fullName(data.veteransFullName ?? data.sponsorName),
-        originatorAddress: data.sponsorAddress,
-        displayText: `${data.sponsorAddress.street} ${data.sponsorAddress
-          ?.state ?? ''}`,
+        originatorName: fullName(
+          fullOrItemData.veteransFullName ?? fullOrItemData.sponsorName,
+        ),
+        originatorAddress: fullOrItemData.sponsorAddress,
+        displayText: `${fullOrItemData.sponsorAddress.street} ${fullOrItemData
+          .sponsorAddress?.state ?? ''}`,
       });
 
-    if (data?.applicants)
-      data.applicants.filter(app => isValidOrigin(app)).forEach(app =>
+    if (fullOrItemData?.applicants)
+      fullOrItemData.applicants.filter(app => isValidOrigin(app)).forEach(app =>
         allAddresses.push({
           originatorName: fullName(app.applicantName),
           originatorAddress: app?.[addressKey],
@@ -152,10 +158,12 @@ export function ApplicantAddressCopyPage({
     onGoForward: event => {
       event.preventDefault();
       if (!handlers.validate()) return;
-      const tmpVal = { ...data };
+      // fullData is present when in Array Builder flows
+      const fullOrItemData = fullData ?? data;
+      const tmpVal = { ...fullOrItemData };
       // Either use the current list loop applicant, or treat whole form data as an applicant
       const tmpApp =
-        pagePerItemIndex && data?.applicants
+        pagePerItemIndex && fullOrItemData?.applicants
           ? tmpVal?.applicants[pagePerItemIndex]
           : tmpVal;
       tmpApp.sharesAddressWith = selectValue;
@@ -164,7 +172,7 @@ export function ApplicantAddressCopyPage({
       }
       setFormData(tmpVal);
       if (onReviewPage) updatePage();
-      goForward(data);
+      goForward({ formData: data });
     },
   };
 
@@ -254,6 +262,7 @@ ApplicantAddressCopyPage.propTypes = {
   customSelectText: PropTypes.string,
   customTitle: PropTypes.string,
   data: PropTypes.object,
+  fullData: PropTypes.object,
   genOp: PropTypes.func,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
