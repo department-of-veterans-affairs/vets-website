@@ -179,6 +179,8 @@ describe('Radiology details component - image with error', () => {
       'radiology-request-images-button',
     );
     expect(requestImagesButton).to.exist;
+    // assert that the button is enabled:
+    expect(requestImagesButton.getAttribute('disabled')).to.eq('false');
     fireEvent.click(requestImagesButton);
   });
 });
