@@ -19,7 +19,13 @@ const {
   veteranContacts: { items: contact },
 } = ezrSchema.properties;
 
-const { fullName, primaryPhone, relationship, address } = contact.properties;
+const {
+  fullName,
+  primaryPhone,
+  relationship,
+  address,
+  contactType,
+} = contact.properties;
 
 /**
  * Declare schema attributes for emergency contacts page
@@ -55,6 +61,9 @@ export const emergencyContactsPage = () => ({
         required: content['emergency-contact-relationship-error-message'],
       },
     }),
+    contactType: {
+      ...selectUI({ title: 'Default relationship type', inert: true }),
+    },
     'view:hasEmergencyContactAddress': yesNoUI({
       title: content['emergency-contact-address-label'],
       hint: content['emergency-contact-address-hint'],
@@ -66,12 +75,17 @@ export const emergencyContactsPage = () => ({
       fullName,
       primaryPhone,
       relationship,
+      contactType: {
+        ...contactType,
+        default: contactType.enum[2],
+      },
       'view:hasEmergencyContactAddress': yesNoSchema,
     },
     required: [
       'fullName',
       'primaryPhone',
       'relationship',
+      'contactType',
       'view:hasEmergencyContactAddress',
     ],
   },
