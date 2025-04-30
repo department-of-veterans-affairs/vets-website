@@ -23,13 +23,24 @@ const getData = ({
   updateSpy = () => {},
   requiredKeys = ['mobilePhone', 'homePhone', 'email', 'mailingAddress'],
   uiSchema = {},
+  formData = {},
 } = {}) => ({
   data: {
     veteran: {
-      email: email ? vapProfile.email.emailAddress : null,
-      mobilePhone: mobile ? vapProfile.mobilePhone : null,
-      homePhone: home ? vapProfile.homePhone : null,
-      mailingAddress: address ? vapProfile.mailingAddress : null,
+      // email: email ? vapProfile.email.emailAddress : null,
+      // mobilePhone: mobile ? vapProfile.mobilePhone : null,
+      // homePhone: home ? vapProfile.homePhone : null,
+      // mailingAddress: address ? vapProfile.mailingAddress : null,
+      email: email ? { ...vapProfile.email, ...formData.email } : null,
+      mobilePhone: mobile
+        ? { ...vapProfile.mobilePhone, ...formData.mobilePhone }
+        : null,
+      homePhone: home
+        ? { ...vapProfile.homePhone, ...formData.homePhone }
+        : null,
+      mailingAddress: address
+        ? { ...vapProfile.mailingAddress, ...formData.mailingAddress }
+        : null,
     },
   },
   setFormData: () => {},
@@ -103,5 +114,47 @@ describe('<ContactInfo>', () => {
     });
 
     expect(container).to.exist;
+  });
+
+  it('should prefill form data when form has newer updatedAt timestamp than profile data', () => {
+    const olderProfileData = {
+      ...vapProfile,
+      mailingAddress: {
+        ...vapProfile.mailingAddress,
+        addressLine1: '123 Profile Street',
+        updatedAt: '2023-01-01T00:00:00.000Z',
+      },
+    };
+
+    const newerFormData = {
+      mailingAddress: {
+        addressLine1: '456 Form Avenue',
+        updatedAt: '2025-02-01T00:00:00.000Z', // Newer timestamp
+      },
+    };
+
+    const props = getData({ formData: newerFormData });
+
+    const { container, getByText } = renderWithStoreAndRouter(
+      <ContactInfo {...props} />,
+      {
+        initialState: {
+          ...defaultInitialState,
+          user: {
+            ...defaultInitialState.user,
+            profile: {
+              vapContactInfo: olderProfileData,
+            },
+          },
+        },
+        reducers: {
+          vapService,
+        },
+        path: '/contact-information',
+      },
+    );
+
+    expect(container.textContent).to.include('456 Form Avenue');
+    expect(getByText('456 Form Avenue, Apt 2')).to.exist;
   });
 });
