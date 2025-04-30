@@ -58,14 +58,11 @@ export default {
           },
         }
       : {
-          // [veteranFields.parentObject]: {
-          //   type: 'object',
-          //   required: intersection(required, pageFields),
-          //   properties: pick(properties, pageFields),
-          // },
           [veteranFields.parentObject]: {
             type: 'object',
-            [veteranFields.address]: addressSchema({ omit: ['street3'] }),
+            properties: {
+              [veteranFields.address]: addressSchema({ omit: ['street3'] }),
+            },
           },
         },
   },
