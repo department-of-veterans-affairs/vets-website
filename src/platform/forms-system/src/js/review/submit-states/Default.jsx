@@ -9,7 +9,6 @@ import { handleFinishLater } from '../../components/FormNavButtons';
 
 export default function Default({ buttonText, formConfig = {}, onSubmit }) {
   const ariaDescribedBy = formConfig?.ariaDescribedBySubmit ?? null;
-  const hideBackButton = formConfig?.useTopBackLink || false;
 
   const form = useSelector(state => state.form);
   const dispatch = useDispatch();
@@ -26,38 +25,22 @@ export default function Default({ buttonText, formConfig = {}, onSubmit }) {
     <>
       <PreSubmitSection formConfig={formConfig} />
       <Row classNames="form-progress-buttons vads-u-display--flex vads-u-margin-y--2">
-        {hideBackButton ? (
-          <>
-            <Column classNames="vads-u-flex--1">
-              <ProgressButton
-                ariaDescribedBy={ariaDescribedBy}
-                onButtonClick={finishLater}
-                buttonText="Finish later"
-                buttonClass="usa-button-primary"
-              />
-            </Column>
-            <Column classNames="vads-u-flex--1" />
-          </>
-        ) : (
-          <>
-            <Column classNames="vads-u-flex--1">
-              <ProgressButton
-                ariaDescribedBy={ariaDescribedBy}
-                onButtonClick={finishLater}
-                buttonText="Finish later"
-                buttonClass="usa-button-secondary"
-              />
-            </Column>
-            <Column classNames="vads-u-flex--1">
-              <ProgressButton
-                ariaDescribedBy={ariaDescribedBy}
-                onButtonClick={onSubmit}
-                buttonText={buttonText}
-                buttonClass="usa-button-primary"
-              />
-            </Column>
-          </>
-        )}
+        <Column classNames="vads-u-flex--1">
+          <ProgressButton
+            ariaDescribedBy={ariaDescribedBy}
+            onButtonClick={finishLater}
+            buttonText="Finish later"
+            buttonClass="usa-button-secondary"
+          />
+        </Column>
+        <Column classNames="vads-u-flex--1">
+          <ProgressButton
+            ariaDescribedBy={ariaDescribedBy}
+            onButtonClick={onSubmit}
+            buttonText={buttonText}
+            buttonClass="usa-button-primary"
+          />
+        </Column>
       </Row>
     </>
   );
