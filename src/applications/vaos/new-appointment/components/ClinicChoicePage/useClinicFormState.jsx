@@ -36,15 +36,11 @@ export default function useClinicFormState(pageTitle) {
     selectFeatureClinicFilter(state),
   );
 
-  let filteredClinics = clinics;
-
   // filter the clinics based on Direct Scheduling value from VATS
   // v2 uses boolean while v0 uses Y/N string
-  if (featureClinicFilter) {
-    filteredClinics = clinics.filter(
-      clinic => clinic.patientDirectScheduling === true,
-    );
-  }
+  let filteredClinics = clinics.filter(
+    clinic => clinic.patientDirectScheduling === true,
+  );
 
   // Past appointment history check
   // primary care and mental health are exempt

@@ -331,7 +331,7 @@ export async function fetchFlowEligibilityAndClinics({
   }
 
   // Similar to above, but for direct scheduling
-  if (featureClinicFilter && !isCerner) {
+  if (!isCerner) {
     results.clinics = results?.clinics?.filter(
       clinic => clinic.patientDirectScheduling === true,
     );
