@@ -15,7 +15,6 @@ import * as useIsInCCPilot from './hooks/useIsInCCPilot';
 const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingVAOSServiceRequests: true,
     vaOnlineSchedulingCCDirectScheduling: true,
   },
 };

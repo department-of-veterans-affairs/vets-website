@@ -17,9 +17,10 @@ import {
 } from '../../../tests/mocks/setup';
 
 import ReviewPage from '.';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { createMockCheyenneFacility } from '../../../tests/mocks/data';
 import {
-  mockAppointmentSubmit,
+  mockAppointmentSubmitApi,
   mockFacilityApi,
 } from '../../../tests/mocks/mockApis';
 import { onCalendarChange, startDirectScheduleFlow } from '../../redux/actions';
@@ -27,8 +28,6 @@ import { onCalendarChange, startDirectScheduleFlow } from '../../redux/actions';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
   },
 };
 
@@ -41,9 +40,6 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     start = moment.tz();
     store = createTestStore({
       ...initialState,
-      featureToggles: {
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      },
       newAppointment: {
         pages: {},
         data: {
@@ -170,11 +166,8 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should submit successfully', async () => {
-    mockAppointmentSubmit({
-      id: 'fake_id',
-      attributes: {
-        reasonCode: {},
-      },
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 'fake_id' }),
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {

@@ -58,6 +58,9 @@ export const loincCodes = {
   // lab and test results
   MICROBIOLOGY: '18725-2', // changed from '79381-0'
   PATHOLOGY: '11526-1', // changed from '60567-5'
+  SURGICAL_PATHOLOGY: '27898-6',
+  ELECTRON_MICROSCOPY: '50668-3',
+  CYTOPATHOLOGY: '26438-2',
   EKG: '11524-6',
   RADIOLOGY: '18748-4',
   // care summaries and notes
@@ -278,6 +281,7 @@ export const SEI_DOMAIN_DISPLAY_MAP = {
   activityJournal: 'Activity journal',
   allergies: 'Allergies',
   demographics: 'Demographics',
+  emergencyContacts: 'Emergency contacts',
   familyHistory: 'Family health history',
   foodJournal: 'Food journal',
   providers: 'Healthcare providers',
@@ -333,8 +337,8 @@ export const allergyTypes = {
 };
 
 export const studyJobStatus = {
-  NONE: 'NONE', // has not been requested
   NEW: 'NEW', // has been requested but not yet processing (very short-lived)
+  QUEUED: 'QUEUED', // has been requested but not yet processing (also very short-lived)
   PROCESSING: 'PROCESSING', // has been requested
   COMPLETE: 'COMPLETE', // request complete
   ERROR: 'ERROR', // error
@@ -519,4 +523,11 @@ export const CernerAlertContent = {
     linkPath: '/pages/health_record/results',
     pageName: 'vitals',
   },
+};
+
+export const radiologyErrors = {
+  ERROR_REQUEST_AGAIN:
+    'We’re sorry. There was a problem with our system. Try requesting your images again.',
+  ERROR_TRY_LATER:
+    'We’re sorry. There was a problem with our system. Try again later.',
 };

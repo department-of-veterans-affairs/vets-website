@@ -1,23 +1,26 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
-import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import SubmissionError from '../../shared/components/SubmissionError';
+import GetFormHelp from '../../shared/components/GetFormHelp';
+import { applicantPages } from '../chapters/applicantInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  showReviewErrors: true, // May want to hide in prod later, but for now keeping in due to complexity of this form
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  // submit: () =>
+  // Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-10d-extended-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  submissionError: SubmissionError,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -37,11 +40,12 @@ const formConfig = {
   }),
   formId: VA_FORM_IDS.FORM_10_10D_EXTENDED,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your CHAMPVA application (includes 10-7959c) application (10-10D-EXTENDED) is in progress.',
-    //   expired: 'Your saved CHAMPVA application (includes 10-7959c) application (10-10D-EXTENDED) has expired. If you want to apply for CHAMPVA application (includes 10-7959c), please start a new application.',
-    //   saved: 'Your CHAMPVA application (includes 10-7959c) application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your CHAMPVA benefits application (10-10D) is in progress.',
+      expired:
+        'Your saved CHAMPVA benefits application (10-10D) has expired. If you want to apply for CHAMPVA benefits, please start a new application.',
+      saved: 'Your CHAMPVA benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
@@ -55,20 +59,12 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
-      pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
-      },
+    applicantInformation: {
+      title: 'Applicant information',
+      pages: applicantPages,
     },
   },
-  // getHelp,
-  footerContent,
+  footerContent: GetFormHelp,
 };
 
 export default formConfig;
