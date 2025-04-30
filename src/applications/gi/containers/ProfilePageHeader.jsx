@@ -8,6 +8,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import {
   convertRatingToStars,
   createId,
+  deriveInstitutionTitle,
   deriveLearnMoreAriaLabel,
   deriveModalText,
   formatNumber,
@@ -154,7 +155,7 @@ const ProfilePageHeader = ({
     (lowerType && lowerType !== 'ojt') ||
     (localeType && lowerType && lowerType !== 'ojt') ||
     website;
-  const schoolType = `${_.capitalize(lowerType)} school`;
+  const schoolType = deriveInstitutionTitle(lowerType);
 
   const schoolTypeDiv = () => {
     const modalText = deriveModalText(lowerType);

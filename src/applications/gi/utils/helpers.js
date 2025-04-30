@@ -1,4 +1,4 @@
-import { snakeCase } from 'lodash';
+import _, { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
 import ADDRESS_DATA from 'platform/forms/address/data';
@@ -869,6 +869,7 @@ export const generateMockPrograms = numPrograms => {
     'MICROSOFT CERTIFIED SOLUTIONS ASSOCIATE',
   ];
 
+  // eslint-disable-next-line no-shadow
   return Array.from({ length: numPrograms }, (_, index) => ({
     id: (index + 1).toString(),
     type: 'institution_programs',
@@ -1135,9 +1136,9 @@ export const focusElement = (ref, delay = 0) => {
   }, delay);
 };
 
-export const deriveModalText = myLocalType => {
+export const deriveModalText = lowerType => {
   let modalName;
-  switch (myLocalType) {
+  switch (lowerType) {
     case 'public':
       modalName = 'publicSchool';
       break;
@@ -1156,9 +1157,9 @@ export const deriveModalText = myLocalType => {
   return modalName;
 };
 
-export const deriveLearnMoreAriaLabel = (localType, ariaLabels) => {
+export const deriveLearnMoreAriaLabel = (lowerType, ariaLabels) => {
   let ariaLabel;
-  switch (localType) {
+  switch (lowerType) {
     case 'public':
       ariaLabel = ariaLabels.learnMore.publicSchool;
       break;
@@ -1175,4 +1176,25 @@ export const deriveLearnMoreAriaLabel = (localType, ariaLabels) => {
       ariaLabel = undefined;
   }
   return ariaLabel;
+};
+
+export const deriveInstitutionTitle = localType => {
+  let title;
+  switch (localType) {
+    case 'public':
+      title = 'Public Institutions';
+      break;
+    case 'private':
+      title = 'Private Nonprofit Institutions';
+      break;
+    case 'proprietary':
+      title = 'Proprietary Institutions';
+      break;
+    case 'foreign':
+      title = 'Foreign Institutions';
+      break;
+    default:
+      title = `${_.capitalize(localType)} Institutions`;
+  }
+  return title;
 };

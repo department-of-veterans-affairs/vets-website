@@ -337,28 +337,28 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('publicSchool')}
-        modalTitle="Public School"
+        modalTitle="Public Institutions"
       >
         <PublicSchoolModalContent />
       </VaModal>
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('privateSchool')}
-        modalTitle="Private School"
+        modalTitle="Private Nonprofit Institutions"
       >
         <PrivateSchoolModalContent />
       </VaModal>
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('proprietarySchool')}
-        modalTitle="Proprietary School"
+        modalTitle="Proprietary Institutions"
       >
         <ProprietarySchoolModalContent />
       </VaModal>
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('foreignSchool')}
-        modalTitle="Foreign School"
+        modalTitle="Foreign Institutions"
       >
         <ForeignSchoolModalContent />
       </VaModal>
