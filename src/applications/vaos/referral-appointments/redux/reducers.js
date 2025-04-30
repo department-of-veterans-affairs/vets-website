@@ -128,6 +128,7 @@ function ccAppointmentReducer(state = initialState, action) {
         appointmentInfoTimeout: false,
         appointmentInfoError: false,
         appointmentInfoLoading: false,
+        pollingRequestStart: null,
         referralAppointmentInfo: {},
         referralsFetchStatus: FETCH_STATUS.notStarted,
         referralFetchStatus: FETCH_STATUS.notStarted,

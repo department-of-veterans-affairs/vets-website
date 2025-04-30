@@ -45,4 +45,16 @@ describe('SM CUSTOM FOLDER FILTER-SORT CHECKS', () => {
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
+
+  it('verify filter with no matches', () => {
+    const noMatchResponse = PatientFilterPage.filterMockResponse(
+      mockThreadsResponse,
+      'no match',
+    );
+
+    PatientFilterPage.inputFilterData('no match');
+    PatientFilterPage.clickApplyFilterButton(noMatchResponse);
+
+    PatientFilterPage.verifyNoMatchFilterFocusAndText();
+  });
 });

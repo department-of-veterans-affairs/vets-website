@@ -500,7 +500,7 @@ describe('BehaviorListPage', () => {
       const { container } = render(
         page({ onReviewPage: true, updatePage: updateSpy }),
       );
-      fireEvent.click($('va-button[text="Update page"]', container));
+      fireEvent.click(container.querySelector('button.usa-button-primary'));
       expect(updateSpy.called).to.be.true;
     });
   });
