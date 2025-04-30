@@ -30,28 +30,22 @@ const PrivacyPolicy = () => {
     if (checkbox) {
       checkbox.setAttribute(
         'label',
-        'I certify the information above is true and correct to the best of my knowledge and belief.',
+        'I certify that the information above is true and correct to the best of my knowledge and belief.',
       );
     }
   };
 
   useEffect(() => {
-    const updateCheckboxLabel = async () => {
+    const initializeComponent = async () => {
+      // Update checkbox label
       await updateCheckbox();
-    };
-
-    updateCheckboxLabel();
-  }, []);
-
-  useEffect(() => {
-    const removeElements = async () => {
       // Hide "Note" above Certification statement
       await removeNoteText();
       // Hide platform line for privacy policy, use custom
       await removeOldPrivacyPolicy();
     };
 
-    removeElements();
+    initializeComponent();
   }, []);
 
   return (
