@@ -31,9 +31,10 @@ export default function DefaultPage({
           </h1>
 
           {item.status === 'NEEDED_FROM_YOU' ? (
-            <p className="vads-u-font-size--h3">
+            <p className="vads-u-font-size--h3 vads-u-margin-bottom--1">
               Respond by {dateFormatter(item.suspenseDate)}
             </p>
+           <DueDate date={item.suspenseDate} />
           ) : (
             <p className="vads-u-font-size--h3">
               Requested to others on {dateFormatter(item.requestedDate)}
