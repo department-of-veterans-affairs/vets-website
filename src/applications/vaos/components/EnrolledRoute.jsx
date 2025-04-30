@@ -8,45 +8,33 @@ import { RequiredLoginView } from 'platform/user/authorization/components/Requir
 import { selectPatientFacilities } from 'platform/user/cerner-dsot/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectUser, isLOA3 } from 'platform/user/selectors';
+import FullWidthLayout from './FullWidthLayout';
 
 import { useDatadogRum } from '../utils/useDatadogRum';
-import { selectFeatureMhvRouteGuards } from '../redux/selectors';
 import NoRegistrationMessage from './NoRegistrationMessage';
 
 export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
   const user = useSelector(selectUser);
   const sites = useSelector(selectPatientFacilities);
-  const featureMhvRouteGuards = useSelector(selectFeatureMhvRouteGuards);
   const isUserLOA3 = useSelector(isLOA3);
   const hasRegisteredSystems = sites?.length > 0;
-  const featureTogglesLoading = useSelector(
-    state => state.featureToggles?.loading,
+  const featureMhvRouteGuards = useSelector(
+    state => state.featureToggles.vaOnlineSchedulingMHVRouteGuards,
   );
-
-  // Adding logs to debug values in staging. Redirect is working locally but not in staging.
-  const logDebugInfo = (label, values) => {
-    if (!environment.isProduction() && navigator.userAgent !== 'node.js') {
-      /* eslint-disable no-console */
-      console.log('----');
-      console.log(label);
-      console.log(values);
-      console.log('----');
-      /* eslint-enable no-console */
-    }
-  };
-
-  logDebugInfo('initialRender', {
-    featureMhvRouteGuards,
-    isUserLOA3,
-    hasRegisteredSystems,
-    featureTogglesLoading,
-  });
-
+  const isToggleLoading = useSelector(state => state.featureToggles.loading);
+  const userProfileLoading = user?.profile?.loading;
   useDatadogRum();
 
-  // Wait for feature flag to load before rendering.
-  if (featureTogglesLoading) {
-    return null;
+  // Wait for feature flag & user profile to load before rendering.
+  if (isToggleLoading || userProfileLoading) {
+    return (
+      <FullWidthLayout>
+        <va-loading-indicator
+          set-focus
+          message="Checking the VA online scheduling tool status..."
+        />
+      </FullWidthLayout>
+    );
   }
 
   // Determine if the user should be redirected to the `/my-health` page.
@@ -57,22 +45,10 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
     featureMhvRouteGuards && (!isUserLOA3 || !hasRegisteredSystems);
 
   if (shouldRedirectToMyHealtheVet()) {
-    logDebugInfo('shouldRedirectToMyHealtheVet if statement', {
-      featureMhvRouteGuards,
-      isUserLOA3,
-      hasRegisteredSystems,
-      featureTogglesLoading,
-    });
     window.location.replace(`${window.location.origin}/my-health`);
     return null;
   }
 
-  logDebugInfo('after if statement', {
-    featureMhvRouteGuards,
-    isUserLOA3,
-    hasRegisteredSystems,
-    featureTogglesLoading,
-  });
   return (
     <RequiredLoginView
       serviceRequired={[

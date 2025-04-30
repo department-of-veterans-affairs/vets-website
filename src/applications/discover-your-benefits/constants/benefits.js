@@ -1,3 +1,5 @@
+import { URLS } from './urls';
+
 const categories = {
   BURIALS: 'Burials and memorials',
   EDUCATION: 'Education',
@@ -196,8 +198,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
-    applyNowURL: 'https://www.va.gov/education/how-to-apply/',
+    learnMoreURL: URLS.GIB_LEARN,
+    applyNowURL: URLS.GIB_APPLY,
   },
   {
     name: 'DOD SkillBridge program',
@@ -225,7 +227,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://skillbridge.osd.mil/program-overview.htm',
+    learnMoreURL: URLS.DBP_LEARN,
     applyNowURL: '',
   },
   {
@@ -271,10 +273,8 @@ export const BENEFITS_LIST = [
         mappingTypes.SEPARATION,
       ],
     },
-    learnMoreURL:
-      'https://www.va.gov/careers-employment/education-and-career-counseling',
-    applyNowURL:
-      'https://www.va.gov/careers-employment/education-and-career-counseling/apply-career-guidance-form-25-8832/introduction',
+    learnMoreURL: URLS.ECC_LEARN,
+    applyNowURL: URLS.ECC_APPLY,
   },
   {
     name: "Veterans' Preference in federal hiring",
@@ -302,7 +302,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.opm.gov/fedshirevets/',
+    learnMoreURL: URLS.FHV_LEARN,
     applyNowURL: '',
   },
   {
@@ -322,8 +322,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL:
-      'https://www.va.gov/careers-employment/veteran-owned-business-support/',
+    learnMoreURL: URLS.SVC_LEARN,
     applyNowURL: '',
   },
   {
@@ -343,7 +342,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.dodtap.mil/dodtap/app/home',
+    learnMoreURL: URLS.TAP_LEARN,
     applyNowURL: '',
   },
   {
@@ -374,10 +373,8 @@ export const BENEFITS_LIST = [
         disabilityTypes.STARTED,
       ],
     },
-    learnMoreURL:
-      'https://www.va.gov/careers-employment/vocational-rehabilitation/',
-    applyNowURL:
-      'https://www.va.gov/careers-employment/vocational-rehabilitation/how-to-apply',
+    learnMoreURL: URLS.VRE_LEARN,
+    applyNowURL: URLS.VRE_APPLY,
   },
   {
     name: 'VetSuccess on Campus (VSOC)',
@@ -407,7 +404,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/careers-employment/vetsuccess-on-campus/',
+    learnMoreURL: URLS.VSC_LEARN,
     applyNowURL: '',
   },
   {
@@ -438,10 +435,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL:
-      'https://www.va.gov/housing-assistance/disability-housing-grants/',
-    applyNowURL:
-      'https://www.va.gov/housing-assistance/disability-housing-grants/how-to-apply/',
+    learnMoreURL: URLS.DHS_LEARN,
+    applyNowURL: URLS.DHS_APPLY,
   },
   {
     name: 'Veterans Pension',
@@ -477,8 +472,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/pension/eligibility/',
-    applyNowURL: 'https://www.va.gov/pension/how-to-apply/',
+    learnMoreURL: URLS.VAP_LEARN,
+    applyNowURL: URLS.VAP_APPLY,
   },
   {
     name: 'VA mental health services',
@@ -504,8 +499,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL:
-      'https://www.va.gov/health-care/health-needs-conditions/mental-health/',
+    learnMoreURL: URLS.MHC_LEARN,
     applyNowURL: '',
   },
   {
@@ -535,9 +529,8 @@ export const BENEFITS_LIST = [
         disabilityTypes.STARTED,
       ],
     },
-    learnMoreURL: 'https://www.va.gov/health-care/foreign-medical-program/',
-    applyNowURL:
-      'https://www.va.gov/health-care/foreign-medical-program/register-form-10-7959f-1/introduction',
+    learnMoreURL: URLS.FMP_LEARN,
+    applyNowURL: URLS.FMP_APPLY,
   },
   {
     name: "Veterans' Group Life Insurance (VGLI)",
@@ -565,7 +558,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/life-insurance/options-eligibility/vgli',
+    learnMoreURL: URLS.VGL_LEARN,
     applyNowURL: '',
   },
   {
@@ -600,9 +593,8 @@ export const BENEFITS_LIST = [
         disabilityTypes.APPLIED_AND_RECEIVED,
       ],
     },
-    learnMoreURL:
-      'https://www.va.gov/life-insurance/options-eligibility/valife',
-    applyNowURL: 'https://insurance.va.gov/VALIFE/Fiduciary/',
+    learnMoreURL: URLS.VAL_LEARN,
+    applyNowURL: URLS.VAL_APPLY,
   },
   {
     name: 'Disability compensation',
@@ -634,8 +626,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/disability/',
-    applyNowURL: 'https://www.va.gov/disability/how-to-file-a-claim',
+    learnMoreURL: URLS.DIS_LEARN,
+    applyNowURL: URLS.DIS_APPLY,
   },
   {
     name: 'VA-backed home loans',
@@ -668,9 +660,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/housing-assistance/home-loans/',
-    applyNowURL:
-      'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/',
+    learnMoreURL: URLS.COE_LEARN,
+    applyNowURL: URLS.COE_APPLY,
   },
   {
     name: 'VA health care',
@@ -701,8 +692,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/health-care/',
-    applyNowURL: 'https://www.va.gov/health-care/how-to-apply/',
+    learnMoreURL: URLS.VAH_LEARN,
+    applyNowURL: URLS.VAH_APPLY,
   },
   {
     name: 'VA national cemetery burial',
@@ -729,8 +720,8 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/burials-memorials/eligibility/',
-    applyNowURL: 'https://www.va.gov/burials-memorials/pre-need-eligibility/',
+    learnMoreURL: URLS.BUR_LEARN,
+    applyNowURL: URLS.BUR_APPLY,
   },
   {
     name: 'Transfer your GI Bill benefits',
@@ -752,8 +743,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL:
-      'https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/',
+    learnMoreURL: URLS.TGI_LEARN,
     applyNowURL: '',
   },
   {
@@ -779,7 +769,7 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL: 'https://www.va.gov/discharge-upgrade-instructions/',
+    learnMoreURL: URLS.DCU_LEARN,
     applyNowURL: '',
   },
   {
@@ -799,8 +789,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
-    learnMoreURL:
-      'https://discover.va.gov/external-resources/?_resource_type=state-veterans-affairs-office',
+    learnMoreURL: URLS.SVB_LEARN,
     applyNowURL: '',
   },
 ];
