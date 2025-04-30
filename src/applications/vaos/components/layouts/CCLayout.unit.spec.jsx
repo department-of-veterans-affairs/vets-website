@@ -390,6 +390,7 @@ describe('VAOS Component: CCLayout', () => {
         },
         start: moment().format('YYYY-MM-DDTHH:mm:ss'),
         status: 'cancelled',
+        type: 'COMMUNITY_CARE_APPOINTMENT',
       };
 
       // Act
@@ -406,7 +407,7 @@ describe('VAOS Component: CCLayout', () => {
       );
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your community care provider to schedule/i,
         ),
       );
       expect(
@@ -524,6 +525,7 @@ describe('VAOS Component: CCLayout', () => {
           .subtract(2, 'day')
           .format('YYYY-MM-DDTHH:mm:ss'),
         status: 'cancelled',
+        type: 'COMMUNITY_CARE_APPOINTMENT',
       };
 
       // Act
@@ -540,7 +542,7 @@ describe('VAOS Component: CCLayout', () => {
       );
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your community care provider to schedule/i,
         ),
       );
       expect(
