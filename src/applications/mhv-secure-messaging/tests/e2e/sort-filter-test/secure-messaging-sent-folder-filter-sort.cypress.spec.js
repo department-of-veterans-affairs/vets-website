@@ -46,6 +46,18 @@ describe('SM SENT FOLDER FILTER-SORT CHECKS', () => {
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
+
+  it('verify filter with no matches', () => {
+    const noMatchResponse = PatientFilterPage.filterMockResponse(
+      mockSentMessages,
+      'no match',
+    );
+
+    PatientFilterPage.inputFilterData('no match');
+    PatientFilterPage.clickApplyFilterButton(noMatchResponse);
+
+    PatientFilterPage.verifyNoMatchFilterFocusAndText();
+  });
 });
 
 describe('SM SENT FOLDER PLAIN TG NAME FILTERING', () => {

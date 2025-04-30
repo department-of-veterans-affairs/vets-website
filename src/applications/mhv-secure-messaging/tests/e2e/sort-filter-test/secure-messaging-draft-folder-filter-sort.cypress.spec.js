@@ -47,6 +47,18 @@ describe('SM DRAFT FOLDER FILTER-SORT CHECKS', () => {
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
+
+  it('verify filter with no matches', () => {
+    const noMatchResponse = PatientFilterPage.filterMockResponse(
+      mockDraftMessages,
+      'no match',
+    );
+
+    PatientFilterPage.inputFilterData('no match');
+    PatientFilterPage.clickApplyFilterButton(noMatchResponse);
+
+    PatientFilterPage.verifyNoMatchFilterFocusAndText();
+  });
 });
 
 describe('SM DRAFT FOLDER PLAIN TG NAME FILTERING', () => {

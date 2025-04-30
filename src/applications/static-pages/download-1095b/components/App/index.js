@@ -167,7 +167,7 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
                 `${environment.API_URL}/v0/form1095_bs/download_pdf/${year}`,
               )}
               id="pdf-download-link"
-              label="Download PDF (best for printing)"
+              label={`Download ${year} 10 95-B PDF (best for printing)`}
               text="Download PDF (best for printing)"
               onClick={e => {
                 e.preventDefault();
@@ -183,7 +183,7 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
                 `${environment.API_URL}/v0/form1095_bs/download_txt/${year}`,
               )}
               id="txt-download-link"
-              label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
+              label={`Download ${year} 10 95-B Text file (best for screen readers, enlargers, and refreshable Braille displays)`}
               text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
               onClick={e => {
                 e.preventDefault();
