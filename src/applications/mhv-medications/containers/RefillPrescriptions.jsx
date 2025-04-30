@@ -22,11 +22,9 @@ import {
 import { dateFormat } from '../util/helpers';
 import {
   selectRefillContentFlag,
-  selectFilterFlag,
   selectRefillProgressFlag,
   selectRemoveLandingPageFlag,
 } from '../util/selectors';
-import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
 import { SESSION_SELECTED_PAGE_NUMBER } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
@@ -59,9 +57,6 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
   const fullRefillList = useSelector(
     state => state.rx.prescriptions?.refillableList,
   );
-  const fullRenewList = useSelector(
-    state => state.rx.prescriptions?.renewableList,
-  );
   const prescriptionsApiError = useSelector(
     state => state.rx.prescriptions?.apiError,
   );
@@ -69,7 +64,6 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
     state => state.rx.prescriptions?.refillNotification,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
-  const showFilterContent = useSelector(selectFilterFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
@@ -318,31 +312,22 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
                 <CernerFacilityAlert className="vads-u-margin-top--2" />
               </>
             )}
-            {showFilterContent ? (
-              <p
-                className="vads-u-margin-top--3"
-                data-testid="note-refill-page"
+            <p className="vads-u-margin-top--3" data-testid="note-refill-page">
+              <strong>Note:</strong> If you can’t find the prescription you’re
+              looking for, you may need to renew it. Go to your medications list
+              and filter by “renewal needed before refill.”
+              <Link
+                data-testid="medications-page-link"
+                className="vads-u-margin-top--2 vads-u-display--block"
+                to="/"
+                data-dd-action-name={
+                  dataDogActionNames.refillPage
+                    .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK_RENEW
+                }
               >
-                <strong>Note:</strong> If you can’t find the prescription you’re
-                looking for, you may need to renew it. Go to your medications
-                list and filter by “renewal needed before refill.”
-                <Link
-                  data-testid="medications-page-link"
-                  className="vads-u-margin-top--2 vads-u-display--block"
-                  to="/"
-                  data-dd-action-name={
-                    dataDogActionNames.refillPage
-                      .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK_RENEW
-                  }
-                >
-                  Go to your medications list
-                </Link>
-              </p>
-            ) : (
-              <RenewablePrescriptions
-                renewablePrescriptionsList={fullRenewList}
-              />
-            )}
+                Go to your medications list
+              </Link>
+            </p>
             {showRefillProgressContent && (
               <ProcessList stepGuideProps={stepGuideProps} />
             )}

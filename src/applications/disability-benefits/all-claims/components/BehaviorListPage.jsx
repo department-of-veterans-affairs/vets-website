@@ -301,12 +301,13 @@ const BehaviorListPage = ({
       {contentAfterButtons}
     </>
   ) : (
-    <va-button
-      text="Update page"
-      onClick={handlers.onUpdatePage}
-      label="Update page"
-      class="usa-button-primary"
-    />
+    <button
+      className="usa-button-primary"
+      type="button"
+      onClick={event => handlers.onUpdatePage(event)}
+    >
+      Update page
+    </button>
   );
 
   return (

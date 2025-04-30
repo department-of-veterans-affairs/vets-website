@@ -234,11 +234,13 @@ const BehaviorIntroCombatPage = ({
         {/* Mental Health dropdown is not displayed when content is rendered on the Review and Submit page */}
         <>{!onReviewPage && mentalHealthSupportAlert()}</>
         {onReviewPage && (
-          <va-button
-            onClick={handlers.onUpdatePage}
-            label="Update behavior questions choice"
-            text="Update page"
-          />
+          <button
+            className="usa-button-primary"
+            type="button"
+            onClick={event => handlers.onUpdatePage(event)}
+          >
+            Update page
+          </button>
         )}
 
         {!onReviewPage && (

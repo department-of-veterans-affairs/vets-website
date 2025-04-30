@@ -54,10 +54,12 @@ import {
 import {
   certifierNameValidation,
   certifierAddressValidation,
+} from '../helpers/validations';
+import {
   sponsorAddressCleanValidation,
   certifierAddressCleanValidation,
   applicantAddressCleanValidation,
-} from '../helpers/validations';
+} from '../../shared/validations';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';

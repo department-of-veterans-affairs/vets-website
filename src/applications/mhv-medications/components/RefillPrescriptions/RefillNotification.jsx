@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useSelector } from 'react-redux';
 import { dataDogActionNames } from '../../util/dataDogConstants';
-import { selectFilterFlag } from '../../util/selectors';
 import { SESSION_RX_FILTER_OPEN_BY_DEFAULT } from '../../util/constants';
 
 const RefillNotification = ({ refillStatus }) => {
@@ -16,18 +15,21 @@ const RefillNotification = ({ refillStatus }) => {
     state => state.rx.prescriptions?.refillNotification?.failedMeds,
   );
 
-  // Feature flags
-  const showFilterContent = useSelector(selectFilterFlag);
-
-  useEffect(() => {
-    if (refillStatus === 'finished') {
-      let elemId = '';
-      if (successfulMeds?.length === 0) {
-        elemId = 'failed-refill';
-      } else if (failedMeds?.length > 0) {
-        elemId = 'partial-refill';
-      } else {
-        elemId = 'success-refill';
+  useEffect(
+    () => {
+      if (refillStatus === 'finished') {
+        let elemId = '';
+        if (successfulMeds?.length === 0) {
+          elemId = 'failed-refill';
+        } else if (failedMeds?.length > 0) {
+          elemId = 'partial-refill';
+        } else {
+          elemId = 'success-refill';
+        }
+        const element = document.getElementById(elemId);
+        if (element) {
+          focusElement(element);
+        }
       }
       const element = document.getElementById(elemId);
       if (element) {
@@ -138,9 +140,8 @@ const RefillNotification = ({ refillStatus }) => {
           data-testid="success-message-description"
         >
           <p>
-            {showFilterContent
-              ? 'To check the status of your refill requests, go to your medications list and filter by “recently requested.”'
-              : 'For updates on your refill requests, go to your medications list.'}
+            To check the status of your refill requests, go to your medications
+            list and filter by "recently requested."
           </p>
           <Link
             data-testid="back-to-medications-page-link"
