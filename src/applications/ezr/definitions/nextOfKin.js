@@ -19,7 +19,13 @@ const {
   veteranContacts: { items: contact },
 } = ezrSchema.properties;
 
-const { fullName, primaryPhone, relationship, address } = contact.properties;
+const {
+  fullName,
+  primaryPhone,
+  relationship,
+  contactType,
+  address,
+} = contact.properties;
 
 /**
  * Declare schema attributes for next of kins page
@@ -56,6 +62,9 @@ export const nextOfKinPage = options => ({
         required: content['next-of-kin-relationship-error-message'],
       },
     }),
+    contactType: {
+      ...selectUI({ title: 'Default relationship type', inert: true }),
+    },
     'view:hasNextOfKinAddress': yesNoUI(content['next-of-kin-address-label']),
   },
   schema: {
@@ -64,12 +73,17 @@ export const nextOfKinPage = options => ({
       fullName,
       primaryPhone,
       relationship,
+      contactType: {
+        ...contactType,
+        default: contactType.enum[0],
+      },
       'view:hasNextOfKinAddress': yesNoSchema,
     },
     required: [
       'fullName',
       'primaryPhone',
       'relationship',
+      'contactType',
       'view:hasNextOfKinAddress',
     ],
   },
