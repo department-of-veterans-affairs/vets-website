@@ -1134,3 +1134,45 @@ export const focusElement = (ref, delay = 0) => {
     }
   }, delay);
 };
+
+export const deriveModalText = myLocalType => {
+  let modalName;
+  switch (myLocalType) {
+    case 'public':
+      modalName = 'publicSchool';
+      break;
+    case 'private':
+      modalName = 'privateSchool';
+      break;
+    case 'proprietary':
+      modalName = 'proprietarySchool';
+      break;
+    case 'foreign':
+      modalName = 'foreignSchool';
+      break;
+    default:
+      modalName = undefined;
+  }
+  return modalName;
+};
+
+export const deriveLearnMoreAriaLabel = (localType, ariaLabels) => {
+  let ariaLabel;
+  switch (localType) {
+    case 'public':
+      ariaLabel = ariaLabels.learnMore.publicSchool;
+      break;
+    case 'private':
+      ariaLabel = ariaLabels.learnMore.privateSchool;
+      break;
+    case 'proprietary':
+      ariaLabel = ariaLabels.learnMore.proprietarySchool;
+      break;
+    case 'foreign':
+      ariaLabel = ariaLabels.learnMore.foreignSchool;
+      break;
+    default:
+      ariaLabel = undefined;
+  }
+  return ariaLabel;
+};
