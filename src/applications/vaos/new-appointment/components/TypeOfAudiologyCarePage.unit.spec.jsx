@@ -71,7 +71,7 @@ describe('VAOS Page: TypeOfAudiologyCarePage', () => {
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/request-date',
+        'community-request/',
       ),
     );
   });
