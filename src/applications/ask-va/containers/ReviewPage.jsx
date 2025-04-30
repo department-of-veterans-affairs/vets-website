@@ -178,11 +178,21 @@ const ReviewPage = props => {
           // TODO - need error modal instead of forwarding to confirmation per final design
           // Temporary alert dialog for testing
           setShow503Alert(true);
+          scroller.scrollTo('topScrollElement', {
+            duration: 500,
+            delay: 0,
+            smooth: true,
+          });
         },
       });
     } catch (_error) {
       setIsDisabled(false);
       setShow503Alert(true);
+      scroller.scrollTo('topScrollElement', {
+        duration: 500,
+        delay: 0,
+        smooth: true,
+      });
       // TODO - need error modal instead of forwarding to confirmation per final design
       // Temporary alert dialog for testing
     }
