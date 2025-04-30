@@ -53,7 +53,7 @@ export function EditAddress() {
           </va-alert>
           <va-additional-info
             id="dont-have-address"
-            class="dont-have-address"
+            class="dont-have-address vads-u-margin-bottom--3"
             trigger="If you don’t have an address"
           >
             <div>
@@ -79,24 +79,26 @@ export function EditAddress() {
           </va-additional-info>
         </>
       )}
-      <InitializeVAPServiceID>
-        <ProfileInformationFieldController
-          forceEditView
-          fieldName={FIELD_NAMES.MAILING_ADDRESS}
-          isDeleteDisabled
-          cancelCallback={() => navigate('/letter-page')}
-          successCallback={() =>
-            navigate('/letter-page', {
-              state: {
-                success: true,
-              },
-            })
-          }
-          saveButtonText="Save address"
-          cancelButtonText="Cancel edit"
-        />
-      </InitializeVAPServiceID>
-      <va-need-help>
+      <div className="vads-u-margin-bottom--1">
+        <InitializeVAPServiceID>
+          <ProfileInformationFieldController
+            forceEditView
+            fieldName={FIELD_NAMES.MAILING_ADDRESS}
+            isDeleteDisabled
+            cancelCallback={() => navigate('/letter-page')}
+            successCallback={() =>
+              navigate('/letter-page', {
+                state: {
+                  success: true,
+                },
+              })
+            }
+            saveButtonText="Save address"
+            cancelButtonText="Cancel edit"
+          />
+        </InitializeVAPServiceID>
+      </div>
+      <va-need-help class="vads-u-margin-top--9">
         <div slot="content">
           <p>
             Call us at <va-telephone contact="8008271000" />. We're here Monday

@@ -12,7 +12,7 @@ import {
   mockEligibilityFetches,
   mockFacilitiesApi,
   mockGetCurrentPosition,
-  mockSchedulingConfigurations,
+  mockSchedulingConfigurationsApi,
 } from '../../../tests/mocks/mockApis';
 import {
   createTestStore,
@@ -63,6 +63,7 @@ describe('VAOS Page: VAFacilityPage', () => {
     beforeEach(() => mockFetch());
 
     it('should display error messaging if user denied location permissions', async () => {
+      // Arrange
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
@@ -77,20 +78,22 @@ describe('VAOS Page: VAFacilityPage', () => {
           }),
         ],
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-          requestEnabled: false,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983GC',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-          requestEnabled: false,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'primaryCare',
+            directEnabled: true,
+            requestEnabled: false,
+          }),
+          getSchedulingConfigurationMock({
+            id: '983GC',
+            typeOfCareId: 'primaryCare',
+            directEnabled: true,
+            requestEnabled: false,
+          }),
+        ],
+      });
 
       mockEligibilityFetches({
         facilityId: '983',
@@ -120,9 +123,12 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
+
+      // Assert
       await screen.findAllByRole('radio');
       const facilitiesSelect = await screen.findByTestId('facilitiesSelect');
       // call VaSelect custom event for onChange handling
@@ -138,39 +144,41 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should not display show more button if < 6 locations', async () => {
+      // Arrange
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
         response: facilities.slice(0, 5),
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983GC',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983GB',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983HK',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983QA',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-      ]);
-
+      mockSchedulingConfigurationsApi({
+        response: [
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'primaryCare',
+            directEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '983GC',
+            typeOfCareId: 'primaryCare',
+            directEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '983GB',
+            typeOfCareId: 'primaryCare',
+            directEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '983HK',
+            typeOfCareId: 'primaryCare',
+            directEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '983QA',
+            typeOfCareId: 'primaryCare',
+            directEnabled: true,
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: '323',
@@ -186,10 +194,12 @@ describe('VAOS Page: VAFacilityPage', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       // Radio buttons only show up after all the data is loaded, which
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
@@ -206,6 +216,7 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should display previous user choices when returning to page', async () => {
+      // Arrange
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
@@ -219,19 +230,20 @@ describe('VAOS Page: VAFacilityPage', () => {
           }),
         ],
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-      ]);
-
+      mockSchedulingConfigurationsApi({
+        response: [
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'primaryCare',
+            requestEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '984',
+            typeOfCareId: 'primaryCare',
+            requestEnabled: true,
+          }),
+        ],
+      });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: '323',
@@ -247,10 +259,12 @@ describe('VAOS Page: VAFacilityPage', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       // Radio buttons only show up after all the data is loaded, which
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
@@ -279,6 +293,7 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should show no facilities message with up to two unsupported facilities for users with address', async () => {
+      // Arrange
       mockFacilitiesApi({
         children: true,
         response: [
@@ -296,20 +311,22 @@ describe('VAOS Page: VAFacilityPage', () => {
           }),
         ],
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          directEnabled: false,
-          requestEnabled: false,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          directEnabled: false,
-          requestEnabled: false,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'primaryCare',
+            directEnabled: false,
+            requestEnabled: false,
+          }),
+          getSchedulingConfigurationMock({
+            id: '984',
+            typeOfCareId: 'primaryCare',
+            directEnabled: false,
+            requestEnabled: false,
+          }),
+        ],
+      });
 
       const state = {
         ...initialState,
@@ -333,10 +350,12 @@ describe('VAOS Page: VAFacilityPage', () => {
       const store = createTestStore(state);
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       expect(
         await screen.findByText(/You can’t schedule this appointment online/i),
       ).to.exist;
@@ -350,6 +369,7 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should show no facilities message with up to five unsupported facilities for users without address', async () => {
+      // Arrange
       const facilityDetails = createMockFacility({
         id: '123',
         name: 'Bozeman VA medical center',
@@ -395,22 +415,24 @@ describe('VAOS Page: VAFacilityPage', () => {
         ],
       });
 
-      const configs = ['123', '124', '125', '126', '127', '128'].map(id =>
+      const response = ['123', '124', '125', '126', '127', '128'].map(id =>
         getSchedulingConfigurationMock({
           id,
           typeOfCareId: 'primaryCare',
           requestEnabled: false,
         }),
       );
-      mockSchedulingConfigurations(configs);
+      mockSchedulingConfigurationsApi({ response });
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       expect(
         await screen.findByText(/You can’t schedule this appointment online/i),
       ).to.exist;
@@ -428,13 +450,21 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should display an error message when facilities call fails', async () => {
+      // Arrange
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
+      mockFacilitiesApi({
+        ids: ['983', '984'],
+        responseCode: 500,
+      });
+
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       expect(
         await screen.findByText(
           /You can.t schedule an appointment online right now/i,
@@ -444,6 +474,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it('should show additional info link if there are unsupported facilities within 100 miles', async () => {
+      // Arrange
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
@@ -477,28 +508,30 @@ describe('VAOS Page: VAFacilityPage', () => {
           }),
         ],
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983GC',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'optometry',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984GC',
-          typeOfCareId: 'optometry',
-          requestEnabled: true,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'primaryCare',
+            requestEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '983GC',
+            typeOfCareId: 'primaryCare',
+            requestEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '984',
+            typeOfCareId: 'optometry',
+            requestEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '984GC',
+            typeOfCareId: 'optometry',
+            requestEnabled: true,
+          }),
+        ],
+      });
 
       const store = createTestStore({
         ...initialState,
@@ -516,9 +549,13 @@ describe('VAOS Page: VAFacilityPage', () => {
         },
       });
       await setTypeOfCare(store, /primary care/i);
+
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
+
+      // Assert
       expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
         .ok;
       expect(screen.getByTestId('facility-not-listed')).to.exist;
@@ -538,6 +575,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
+      // Arrange
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
@@ -564,28 +602,30 @@ describe('VAOS Page: VAFacilityPage', () => {
           }),
         ],
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983GC',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'optometry',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984GC',
-          typeOfCareId: 'optometry',
-          requestEnabled: true,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'primaryCare',
+            requestEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '983GC',
+            typeOfCareId: 'primaryCare',
+            requestEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '984',
+            typeOfCareId: 'optometry',
+            requestEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '984GC',
+            typeOfCareId: 'optometry',
+            requestEnabled: true,
+          }),
+        ],
+      });
       mockGetCurrentPosition();
       const store = createTestStore({
         ...initialState,
@@ -603,9 +643,13 @@ describe('VAOS Page: VAFacilityPage', () => {
         },
       });
       await setTypeOfCare(store, /primary care/i);
+
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
+
+      // Assert
       expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
         .ok;
       expect(screen.getByTestId('facility-not-listed')).to.exist;
@@ -634,28 +678,31 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it('should display correct facilities after changing type of care', async () => {
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983GB',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'optometry',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984GB',
-          typeOfCareId: 'optometry',
-          requestEnabled: true,
-        }),
-      ]);
+      // Arrange
+      mockSchedulingConfigurationsApi({
+        response: [
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'primaryCare',
+            requestEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '983GB',
+            typeOfCareId: 'primaryCare',
+            requestEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '984',
+            typeOfCareId: 'optometry',
+            requestEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '984GB',
+            typeOfCareId: 'optometry',
+            requestEnabled: true,
+          }),
+        ],
+      });
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
@@ -680,9 +727,12 @@ describe('VAOS Page: VAFacilityPage', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
+
+      // Assert
       expect(await screen.findAllByRole('radio')).to.have.length(2);
 
       await cleanup();
@@ -698,7 +748,8 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should display a list of facilities with a show more button', async () => {
-      const configs = facilities.map(facility =>
+      // Arrange
+      const response = facilities.map(facility =>
         getSchedulingConfigurationMock({
           id: facility.id,
           typeOfCareId: 'primaryCare',
@@ -706,7 +757,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         }),
       );
 
-      mockSchedulingConfigurations(configs);
+      mockSchedulingConfigurationsApi({ response });
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
@@ -730,10 +781,12 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       const buttons = await screen.findAllByRole('radio');
 
       await waitFor(() => {
@@ -788,7 +841,8 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should sort by distance from home address if we have coordinates', async () => {
-      const configs = facilities.map(facility =>
+      // Arrange
+      const response = facilities.map(facility =>
         getSchedulingConfigurationMock({
           id: facility.id,
           typeOfCareId: 'primaryCare',
@@ -796,7 +850,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         }),
       );
 
-      mockSchedulingConfigurations(configs);
+      mockSchedulingConfigurationsApi({ response });
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
@@ -835,10 +889,12 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       // Radio buttons only show up after all the data is loaded, which
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
@@ -867,7 +923,8 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should sort by distance from current location when user selects dropdown option for current location', async () => {
-      const configs = facilities.map(facility =>
+      // Arrange
+      const response = facilities.map(facility =>
         getSchedulingConfigurationMock({
           id: facility.id,
           typeOfCareId: 'primaryCare',
@@ -875,7 +932,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         }),
       );
 
-      mockSchedulingConfigurations(configs);
+      mockSchedulingConfigurationsApi({ response });
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
@@ -909,9 +966,12 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
+
+      // Assert
       await screen.findAllByRole('radio');
 
       const facilitiesSelect = await screen.findByTestId('facilitiesSelect');
@@ -943,7 +1003,8 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should sort alphabetically when user selects dropdown option for alphabetical', async () => {
-      const configs = facilities.map(facility =>
+      // Arrange
+      const response = facilities.map(facility =>
         getSchedulingConfigurationMock({
           id: facility.id,
           typeOfCareId: 'primaryCare',
@@ -951,7 +1012,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         }),
       );
 
-      mockSchedulingConfigurations(configs);
+      mockSchedulingConfigurationsApi({ response });
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
@@ -985,7 +1046,10 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, { store });
+
+      // Assert
       await screen.findAllByRole('radio');
       // default sorted by home address
       let firstRadio = screen.container.querySelector('.form-radio-buttons');
@@ -1005,7 +1069,8 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should sort alphabetically when user does not have an address', async () => {
-      const configs = facilities.reduce((acc, facility) => {
+      // Arrange
+      const response = facilities.reduce((acc, facility) => {
         if (facility.id === '983' || facility.id === '984') {
           const config = getSchedulingConfigurationMock({
             id: facility.id,
@@ -1018,7 +1083,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         return [...acc];
       }, []);
 
-      mockSchedulingConfigurations(configs);
+      mockSchedulingConfigurationsApi({ response });
       mockFacilitiesApi({
         children: true,
         response: [
@@ -1049,7 +1114,10 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, { store });
+
+      // Assert
       await screen.findAllByRole('radio');
       // default sorted by home address
       const firstRadio = screen.container.querySelector('.form-radio-buttons');
@@ -1074,6 +1142,7 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should show facility information without form', async () => {
+      // Arrange
       mockFacilitiesApi({
         children: true,
         ids: ['983'],
@@ -1097,17 +1166,20 @@ describe('VAOS Page: VAFacilityPage', () => {
         limit: true,
         directPastVisits: true,
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'primaryCare',
+            requestEnabled: true,
+          }),
+        ],
+      });
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const { baseElement, findByText, history } = renderWithStoreAndRouter(
         <VAFacilityPage />,
         {
@@ -1115,6 +1187,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         },
       );
 
+      // Assert
       await findByText(
         /We found one VA facility for your primary care appointment./i,
       );
@@ -1131,6 +1204,7 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should switch to multi facility view when type of care changes to one that has multiple supported facilities', async () => {
+      // Arrange
       mockFacilitiesApi({
         children: true,
         ids: ['983'],
@@ -1161,32 +1235,36 @@ describe('VAOS Page: VAFacilityPage', () => {
         limit: true,
         directPastVisits: true,
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'optometry',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983GC',
-          typeOfCareId: 'ophthalmology',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983GD',
-          typeOfCareId: 'ophthalmology',
-          directEnabled: true,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'optometry',
+            requestEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '983GC',
+            typeOfCareId: 'ophthalmology',
+            directEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '983GD',
+            typeOfCareId: 'ophthalmology',
+            directEnabled: true,
+          }),
+        ],
+      });
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /eye care/i);
       await setTypeOfEyeCare(store, '408'); // Optometry
 
+      // Act
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       await screen.findByText(/You can.t schedule an appointment online/i);
 
       await cleanup();
@@ -1200,6 +1278,7 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should filter out facilities without a physical location', async () => {
+      // Arrange
       mockFacilitiesApi({
         children: true,
         ids: ['983'],
@@ -1237,31 +1316,35 @@ describe('VAOS Page: VAFacilityPage', () => {
         limit: true,
         directPastVisits: true,
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '983GA',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'primaryCare',
+            directEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '984',
+            typeOfCareId: 'primaryCare',
+            directEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '983GA',
+            typeOfCareId: 'primaryCare',
+            directEnabled: true,
+          }),
+        ],
+      });
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       await screen.findAllByRole('radio');
 
       expect(await screen.findByRole('radio', { name: /Facility 1/i }));
@@ -1274,19 +1357,20 @@ describe('VAOS Page: VAFacilityPage', () => {
     beforeEach(() => mockFetch());
 
     it('should display Cerner sites in the facility list ', async () => {
+      // Arrange
       const initialState = {
         drupalStaticData: {
           vamcEhrData: {
             loading: false,
             data: {
               ehrDataByVhaId: {
-                '442': {
+                442: {
                   vhaId: '442',
                   vamcFacilityName: 'Cheyenne VA Medical Center',
                   vamcSystemName: 'VA Cheyenne health care',
                   ehr: 'cerner',
                 },
-                '552': {
+                552: {
                   vhaId: '552',
                   vamcFacilityName: 'Dayton VA Medical Center',
                   vamcSystemName: 'VA Dayton health care',
@@ -1313,7 +1397,6 @@ describe('VAOS Page: VAFacilityPage', () => {
         },
         featureToggles: {
           vaOnlineSchedulingDirect: true,
-          vaOnlineSchedulingUseDsot: true,
         },
         user: {
           profile: {
@@ -1346,18 +1429,20 @@ describe('VAOS Page: VAFacilityPage', () => {
         ],
       });
 
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          directEnabled: true,
-        }),
-      ]);
+      mockSchedulingConfigurationsApi({
+        response: [
+          getSchedulingConfigurationMock({
+            id: '983',
+            typeOfCareId: 'primaryCare',
+            directEnabled: true,
+          }),
+          getSchedulingConfigurationMock({
+            id: '984',
+            typeOfCareId: 'primaryCare',
+            directEnabled: true,
+          }),
+        ],
+      });
 
       const store = createTestStore({
         ...initialState,
@@ -1377,10 +1462,12 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       await setTypeOfCare(store, /primary care/i);
 
+      // Act
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // Assert
       // Make sure Cerner facilities show up
       expect(await screen.findByText(/First Cerner facility/i)).to.be.ok;
       expect(screen.getByText(/Second Cerner facility/i)).to.be.ok;
