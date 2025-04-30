@@ -39,7 +39,7 @@ export default function ReferralAppointments() {
     [error, referral],
   );
 
-  if (referral && referral.attributes && referral.attributes.hasAppointments) {
+  if (referral?.attributes?.hasAppointments) {
     return <Redirect to="/referrals-requests" />;
   }
 
