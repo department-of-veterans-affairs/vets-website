@@ -179,16 +179,6 @@ export default function getNewAppointmentFlow(state) {
   };
 
   return {
-    // ...flow,
-    home: {
-      url: '/',
-    },
-    typeOfAppointment: {
-      url: '/new-appointment',
-      // Temporary stub for typeOfAppointment which will eventually be first step
-      // Next will direct to type of care or provider once both flows are complete
-      next: 'typeOfFacility',
-    },
     appointmentTime: {
       url: 'appointment-time',
       next: 'contactInfo',
@@ -216,6 +206,10 @@ export default function getNewAppointmentFlow(state) {
       label: 'Which provider do you prefer?',
       next: 'ccLanguage',
     },
+    ccRequestDateTime: {
+      ...flow.requestDateTime,
+      url: 'community-request/',
+    },
     clinicChoice: {
       url: '/schedule/clinic',
       label: 'Which VA clinic would you like to go to?',
@@ -234,6 +228,9 @@ export default function getNewAppointmentFlow(state) {
       url: 'contact-information',
       label: 'How should we contact you?',
       next: 'review',
+    },
+    home: {
+      url: '/',
     },
     preferredDate: {
       url: 'preferred-date',
@@ -258,19 +255,15 @@ export default function getNewAppointmentFlow(state) {
       ...flow.requestDateTime,
       url: 'va-request/',
     },
-    ccRequestDateTime: {
-      ...flow.requestDateTime,
-      url: 'community-request/',
-    },
-    root: {
-      url: '/my-health/appointments',
-    },
     review: {
       label:
         FLOW_TYPES.DIRECT === flowType
           ? 'Review and confirm your appointment details'
           : 'Review and submit your request',
       url: 'review',
+    },
+    root: {
+      url: '/my-health/appointments',
     },
     scheduleCerner: {
       url: 'how-to-schedule',
@@ -285,6 +278,12 @@ export default function getNewAppointmentFlow(state) {
       url: 'provider',
       label: 'Which provider do you want to schedule with?',
       next: 'preferredDate',
+    },
+    typeOfAppointment: {
+      url: '/new-appointment',
+      // Temporary stub for typeOfAppointment which will eventually be first step
+      // Next will direct to type of care or provider once both flows are complete
+      next: 'typeOfFacility',
     },
     typeOfCare: {
       url: '/schedule/type-of-care',
@@ -367,6 +366,17 @@ export default function getNewAppointmentFlow(state) {
       label: 'Choose the type of sleep care you need',
       next: VA_FACILITY_V2_KEY,
     },
+    vaFacility: {
+      url: 'va-facility',
+      next: vaFacilityNext,
+    },
+    vaFacilityV2: {
+      url: 'location',
+      label: isSingleVaFacility
+        ? 'Your appointment location'
+        : 'Which VA location would you like to go to?',
+      next: vaFacilityNext,
+    },
     vaccineFlow: {
       url:
         // IMPORTANT!!!
@@ -379,17 +389,6 @@ export default function getNewAppointmentFlow(state) {
         // Leaving the '/' off makes '/schedule' the parent.
         'covid-vaccine/',
       label: 'COVID-19 vaccine appointment',
-    },
-    vaFacility: {
-      url: 'va-facility',
-      next: vaFacilityNext,
-    },
-    vaFacilityV2: {
-      url: 'location',
-      label: isSingleVaFacility
-        ? 'Your appointment location'
-        : 'Which VA location would you like to go to?',
-      next: vaFacilityNext,
     },
     visitType: {
       url: 'preferred-method',
