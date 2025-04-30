@@ -24,6 +24,7 @@ import referralsAndRequests from '../../referrals/page-objects/ReferralsAndReque
 import scheduleReferral from '../../referrals/page-objects/ScheduleReferral';
 import chooseDateAndTime from '../../referrals/page-objects/ChooseDateAndTime';
 import reviewAndConfirm from '../../referrals/page-objects/ReviewAndConfirm';
+import completeReferral from '../../referrals/page-objects/CompleteReferral';
 
 describe('VAOS Referral API Error Handling', () => {
   // Common error cases for all API tests
@@ -179,7 +180,7 @@ describe('VAOS Referral API Error Handling', () => {
   });
 
   // TODO: This test is failing because the submit appointment page does not display an error
-  describe.skip('Submit Appointment API Errors', () => {
+  describe('Submit Appointment API Errors', () => {
     const referralId = 'referral-123';
     const appointmentId = 'EEKoGzEf';
 
@@ -244,6 +245,7 @@ describe('VAOS Referral API Error Handling', () => {
         cy.wait('@v2:post:draftReferralAppointment');
 
         // Select the first appointment slot
+        chooseDateAndTime.selectNextMonth();
         chooseDateAndTime.selectAppointmentSlot(0);
         cy.findAllByRole('radio')
           .eq(0)
@@ -343,6 +345,7 @@ describe('VAOS Referral API Error Handling', () => {
         cy.wait('@v2:post:draftReferralAppointment');
 
         // Select the first appointment slot
+        chooseDateAndTime.selectNextMonth();
         chooseDateAndTime.selectAppointmentSlot(0);
         cy.findAllByRole('radio')
           .eq(0)
@@ -362,7 +365,7 @@ describe('VAOS Referral API Error Handling', () => {
         cy.injectAxeThenAxeCheck();
 
         // Verify error message is displayed
-        reviewAndConfirm.assertApiError();
+        completeReferral.assertApiError();
       });
     });
   });

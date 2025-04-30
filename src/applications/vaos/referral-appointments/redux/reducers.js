@@ -122,13 +122,16 @@ function ccAppointmentReducer(state = initialState, action) {
       return {
         ...state,
         provider: {},
-        providerFetchStatus: FETCH_STATUS.notStarted,
         draftAppointmentInfo: {},
         draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
+        appointmentCreateStatus: FETCH_STATUS.notStarted,
         appointmentInfoTimeout: false,
         appointmentInfoError: false,
         appointmentInfoLoading: false,
+        pollingRequestStart: null,
         referralAppointmentInfo: {},
+        referralsFetchStatus: FETCH_STATUS.notStarted,
+        referralFetchStatus: FETCH_STATUS.notStarted,
         selectedSlot: '',
       };
     default:
