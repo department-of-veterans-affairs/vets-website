@@ -121,7 +121,7 @@ dl.review-auto-margin {
       margin-top: 0;
       margin-bottom: 0;
     }
-    @media (min-width: $small-screen) {
+    @media (min-width: variables.$small-screen) {
       flex-direction: row;
       > dd {
         padding-left: 5px;
