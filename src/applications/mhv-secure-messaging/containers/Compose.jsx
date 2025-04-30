@@ -4,12 +4,19 @@ import { useLocation, useParams, useHistory } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearThread } from '../actions/threadDetails';
+import { getListOfThreads } from '../actions/threads';
+
 import { retrieveMessageThread } from '../actions/messages';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import { closeAlert } from '../actions/alerts';
-import { PageTitles, Paths, BlockedTriageAlertStyles } from '../util/constants';
+import {
+  PageTitles,
+  Paths,
+  BlockedTriageAlertStyles,
+  DefaultFolders,
+} from '../util/constants';
 import { getPatientSignature } from '../actions/preferences';
 
 const Compose = () => {
@@ -24,6 +31,9 @@ const Compose = () => {
         FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
       ],
   );
+  const threadSort = useSelector(state => state.sm.threads.threadSort);
+  const { threadList, isLoading } = useSelector(state => state.sm.threads);
+
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
   const { allTriageGroupsBlocked } = recipients;
@@ -31,6 +41,7 @@ const Compose = () => {
   const [acknowledged, setAcknowledged] = useState(false);
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState('Start a new message');
+  const [uniqueTriageGroups, setUniqueTriageGroups] = useState([]);
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
@@ -100,6 +111,47 @@ const Compose = () => {
     },
     [header, acknowledged, removeLandingPageFF, pageTitle],
   );
+  // make sure the thread list is fetched when navigating to the compose page
+  useEffect(
+    () => {
+      if (!threadList || threadList.length === 0) {
+        dispatch(
+          getListOfThreads(
+            DefaultFolders.SENT.id,
+            100,
+            threadSort.page,
+            threadSort.value,
+            true,
+          ),
+        );
+      }
+    },
+    [dispatch, threadList, threadSort.page, threadSort.value],
+  );
+
+  useEffect(
+    () => {
+      if (threadList?.length > 0 && !isLoading && recipients) {
+        const uniqueHash = threadList.reduce((acc, thread) => {
+          if (!acc[thread.recipientId]) {
+            acc[thread.recipientId] = {
+              triageGroupName: thread.triageGroupName,
+              sentDate: thread.sentDate,
+              triageGroupId: thread.recipientId,
+            };
+          }
+          return acc;
+        }, {});
+
+        const groups = Object.values(uniqueHash);
+        // sort the unique triage groups by sentDate in descending order
+        groups.sort((a, b) => new Date(b.sentDate) - new Date(a.sentDate));
+        // take the first 5 unique triage groups
+        setUniqueTriageGroups(groups.slice(0, 5));
+      }
+    },
+    [threadList, isLoading, recipients],
+  );
 
   const content = () => {
     if (!isDraftPage && recipients) {
@@ -111,6 +163,7 @@ const Compose = () => {
             draft={draftMessage}
             recipients={!recipients.error && recipients}
             signature={signature}
+            recentRecipients={uniqueTriageGroups}
           />
         </>
       );

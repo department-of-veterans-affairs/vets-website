@@ -52,7 +52,14 @@ import EditSignatureLink from './EditSignatureLink';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const ComposeForm = props => {
-  const { pageTitle, headerRef, draft, recipients, signature } = props;
+  const {
+    pageTitle,
+    headerRef,
+    draft,
+    recipients,
+    signature,
+    recentRecipients,
+  } = props;
   const {
     noAssociations,
     allTriageGroupsBlocked,
@@ -864,8 +871,10 @@ const ComposeForm = props => {
                 setCheckboxMarked={setCheckboxMarked}
                 setElectronicSignature={setElectronicSignature}
                 setComboBoxInputValue={setComboBoxInputValue}
+                recentRecipients={recentRecipients}
               />
             )}
+
           <div className="compose-form-div">
             {noAssociations || allTriageGroupsBlocked ? (
               <ViewOnlyDraftSection
@@ -999,9 +1008,31 @@ const ComposeForm = props => {
 };
 
 ComposeForm.propTypes = {
+  headerRef: PropTypes.object.isRequired,
+  pageTitle: PropTypes.string.isRequired,
+  recipients: PropTypes.shape({
+    noAssociations: PropTypes.bool,
+    allTriageGroupsBlocked: PropTypes.bool,
+    allowedRecipients: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        name: PropTypes.string,
+        type: PropTypes.string,
+        status: PropTypes.string,
+        signatureRequired: PropTypes.bool,
+      }),
+    ),
+  }).isRequired,
   draft: PropTypes.object,
-  recipients: PropTypes.object,
-  signature: PropTypes.object,
+  recentRecipients: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      name: PropTypes.string,
+      type: PropTypes.string,
+      status: PropTypes.string,
+    }),
+  ),
+  signature: PropTypes.string,
 };
 
 export default ComposeForm;
