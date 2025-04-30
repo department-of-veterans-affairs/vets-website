@@ -15,7 +15,7 @@ export default function InterstitialChanges() {
 
   useEffect(() => {
     document.title =
-      'You’ll need to sign in with a different account after January 31, 2025 | Veterans Affairs';
+      'You’ll need to sign in with a different account after September 30, 2025 | Veterans Affairs';
 
     apiRequest('/user/credential_emails', {
       credentials: 'include',
@@ -50,13 +50,13 @@ export default function InterstitialChanges() {
         id="interstitialH1"
         className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
       >
-        You’ll need to sign in with a different account after March 4, 2025
+        You’ll need to sign in with a different account after September 30, 2025
       </h1>
       <p
         className="vads-u-font-size--base section-content vads-u-measure--5"
         id="interstitialP"
       >
-        After this date, we'll remove the <strong>My HealtheVet</strong> sign-in
+        After this date, we'll remove the <strong>DS Logon</strong> sign-in
         option. You’ll need to sign in using a <strong>Login.gov</strong> or{' '}
         <strong>ID.me</strong> account.
       </p>
@@ -67,11 +67,11 @@ export default function InterstitialChanges() {
       )}
       <h2 id="interstitialH2">Or continue using your old account</h2>
       <p className="vads-u-font-size--base" id="interstitialMhvP">
-        You can use your <strong>My HealtheVet</strong> account to sign in until
-        March 4, 2025.
+        You can use your <strong>DS Logon</strong> account to sign in until
+        September 30, 2025.
       </p>
       <VaLink
-        text="Continue with your My HealtheVet account for now"
+        text="Continue with your DS Logon account for now"
         href={returnUrl}
         id="interstitialVaLink"
       />

@@ -50,6 +50,15 @@ const selectorShorthand = {
   TYPE_CITY: "va-text-input[name='root_address_city']",
   TYPE_POSTAL_CODE: "va-text-input[name='root_address_postalCode']",
   TYPE_YOUR_POSTAL_CODE: 'input#root_yourPostalCode',
+  TYPE_US_MAIL: "va-text-input[name='U.S. Mail']",
+  TYPE_VETERAN_FIRST_NAME: "va-text-input[name='root_aboutTheVeteran_first']",
+  TYPE_VETERAN_LAST_NAME: "va-text-input[name='root_aboutTheVeteran_last']",
+  TYPE_VETERAN_SSN:
+    "va-text-input[name='root_aboutTheVeteran_socialOrServiceNum_ssn']",
+  TYPE_VETERAN_FAMILY_SSN:
+    "va-text-input[name='root_aboutTheFamilyMember_socialOrServiceNum_ssn']",
+  SELECT_SCHOOL: "va-select[name='schoolState']",
+  SELECT_FACILITY: "va-select[name='root_stateOfTheFacility']",
 };
 /*
 

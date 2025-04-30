@@ -30,19 +30,22 @@ export default function DefaultPage({
             {item.friendlyName || item.displayName}
           </h1>
 
-          {item.status === 'NEEDED_FROM_YOU' ? (
-            <p className="vads-u-font-size--h3">
-              Respond by {dateFormatter(item.suspenseDate)}
-            </p>
-          ) : null}
-          {item.status === 'NEEDED_FROM_OTHERS' ? (
+          {item.status === 'NEEDED_FROM_YOU' && (
+            <>
+              <p className="vads-u-font-size--h3 vads-u-margin-bottom--1">
+                Respond by {dateFormatter(item.suspenseDate)}
+              </p>
+              <DueDate date={item.suspenseDate} />
+            </>
+          )}
+          {item.status === 'NEEDED_FROM_OTHERS' && (
             <div className="optional-upload">
               <p>
                 <strong>Optional</strong> - We’ve asked others to send this to
                 us, but you may upload it if you have it.
               </p>
             </div>
-          ) : null}
+          )}
           <h2>What we need from you</h2>
 
           {evidenceDictionary[item.displayName] ? (
