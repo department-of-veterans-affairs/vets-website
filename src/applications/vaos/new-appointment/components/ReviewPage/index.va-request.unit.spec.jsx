@@ -1,32 +1,33 @@
 /* eslint-disable camelcase */
-import React from 'react';
 import { expect } from 'chai';
+import React from 'react';
 
-import userEvent from '@testing-library/user-event';
 import { waitFor, within } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 
 import {
-  setFetchJSONFailure,
   mockFetch,
+  setFetchJSONFailure,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { FACILITY_TYPES } from '../../../utils/constants';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
+import { FACILITY_TYPES } from '../../../utils/constants';
 
 import ReviewPage from '.';
-import { mockAppointmentSubmit } from '../../../tests/mocks/helpers';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { createMockCheyenneFacility } from '../../../tests/mocks/data';
-import { mockFacilityFetch } from '../../../tests/mocks/fetch';
+import {
+  mockAppointmentSubmitApi,
+  mockFacilityApi,
+} from '../../../tests/mocks/mockApis';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
   },
 };
 
@@ -35,7 +36,6 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
   const defaultState = {
     ...initialState,
-    featureToggles: { vaOnlineSchedulingVAOSServiceRequests: true },
     newAppointment: {
       pages: {},
       data: {
@@ -53,7 +53,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
       clinics: {},
       parentFacilities: [],
       facilities: {
-        '323': [
+        323: [
           {
             id: '983',
             name: 'Cheyenne VA Medical Center',
@@ -79,11 +79,8 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
   it('should submit successfully', async () => {
     store = createTestStore(defaultState);
-    mockAppointmentSubmit({
-      id: 'fake_id',
-      attributes: {
-        reasonCode: {},
-      },
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 'fake_id' }),
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -131,11 +128,8 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
         },
       },
     });
-    mockAppointmentSubmit({
-      id: 'fake_id',
-      attributes: {
-        reasonCode: {},
-      },
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 'fake_id' }),
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -184,11 +178,8 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
         },
       },
     });
-    mockAppointmentSubmit({
-      id: 'fake_id',
-      attributes: {
-        reasonCode: {},
-      },
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 'fake_id' }),
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -216,8 +207,10 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
   it('should show error message on failure', async () => {
     store = createTestStore(defaultState);
-    mockFacilityFetch({
-      facility: createMockCheyenneFacility({}),
+    mockFacilityApi({
+      id: ['983'],
+      response: createMockCheyenneFacility({}),
+      responseCode: 404,
     });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),

@@ -8,7 +8,7 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatur
 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import { SIGN_IN_URL } from '../config/constants';
+import { SIGN_IN_URL } from '../constants';
 import { fetchUser } from '../actions/user';
 import { selectIsUserLoading } from '../selectors/user';
 import { selectShouldGoToSignIn } from '../selectors/navigation';

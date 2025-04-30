@@ -42,7 +42,7 @@ describe('SpouseAdditionalEvidence', () => {
 
   it('should display common-law marriage requirements', () => {
     const { container } = renderWithStore({
-      currentMarriageInformation: { type: 'COMMON-LAW' },
+      currentMarriageInformation: { typeOfMarriage: 'COMMON-LAW' },
     });
 
     const listItems = [...container.querySelectorAll('li')].map(
@@ -62,7 +62,7 @@ describe('SpouseAdditionalEvidence', () => {
 
   it('should display tribal marriage requirements', () => {
     const { container } = renderWithStore({
-      currentMarriageInformation: { type: 'TRIBAL' },
+      currentMarriageInformation: { typeOfMarriage: 'TRIBAL' },
     });
 
     const listItems = [...container.querySelectorAll('li')].map(
@@ -90,7 +90,7 @@ describe('SpouseAdditionalEvidence', () => {
 
   it('should display proxy marriage requirements', () => {
     const { container } = renderWithStore({
-      currentMarriageInformation: { type: 'PROXY' },
+      currentMarriageInformation: { typeOfMarriage: 'PROXY' },
     });
 
     const listItems = [...container.querySelectorAll('li')].map(

@@ -1,15 +1,24 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { MARRIAGE_TYPES } from '../config/constants';
 
 export const SpouseAdditionalEvidence = () => {
   const formData = useSelector(state => {
     return state?.form?.data || {};
   });
   const isCommonLawMarriage =
-    formData.currentMarriageInformation?.type === 'COMMON-LAW';
+    formData.currentMarriageInformation?.typeOfMarriage ===
+    MARRIAGE_TYPES.commonLaw;
   const isTribalMarriage =
-    formData.currentMarriageInformation?.type === 'TRIBAL';
-  const isProxyMarriage = formData.currentMarriageInformation?.type === 'PROXY';
+    formData.currentMarriageInformation?.typeOfMarriage ===
+    MARRIAGE_TYPES.tribal;
+  const isProxyMarriage =
+    formData.currentMarriageInformation?.typeOfMarriage ===
+    MARRIAGE_TYPES.proxy;
+
+  const { veteranAddress } = formData.veteranContactInformation || {};
+  const isOutsideUSA =
+    veteranAddress?.country !== 'USA' || Boolean(veteranAddress?.isMilitary);
 
   return (
     <div>
@@ -29,7 +38,7 @@ export const SpouseAdditionalEvidence = () => {
           level="3"
         >
           <ul>
-            {!isCommonLawMarriage && (
+            {isOutsideUSA && (
               <li>
                 A copy of your marriage license, or a church record of your
                 marriage
