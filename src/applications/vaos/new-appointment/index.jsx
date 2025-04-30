@@ -8,10 +8,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
-import {
-  selectFeatureBreadcrumbUrlUpdate,
-  selectFeatureUseVaDate,
-} from '../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 import { selectIsNewAppointmentStarted } from './redux/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
@@ -48,7 +45,6 @@ export function NewAppointment() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
-  const featureUseVaDate = useSelector(state => selectFeatureUseVaDate(state));
   const match = useRouteMatch();
   const location = useLocation();
   const [crumb, setCrumb] = useState('Schedule an appointment');
@@ -109,13 +105,9 @@ export function NewAppointment() {
             />
           </Route>
           <Route path={`${match.url}/preferred-date`}>
-            {featureUseVaDate ? (
-              <PreferredDatePageVaDate
-                changeCrumb={newTitle => setCrumb(newTitle)}
-              />
-            ) : (
-              <PreferredDatePage changeCrumb={newTitle => setCrumb(newTitle)} />
-            )}
+            <PreferredDatePageVaDate
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
           </Route>
           <Route path={`${match.url}/date-time`}>
             <DateTimeSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
