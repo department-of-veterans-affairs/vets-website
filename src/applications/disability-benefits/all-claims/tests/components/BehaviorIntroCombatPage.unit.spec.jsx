@@ -47,7 +47,7 @@ describe('BehaviorIntroCombatPage', () => {
         const goForwardSpy = sinon.spy();
 
         const data = {
-          'view:answerCombatBehaviorQuestions': 'true',
+          answerCombatBehaviorQuestions: 'true',
         };
 
         const { container } = render(page({ data, goForward: goForwardSpy }));
@@ -62,7 +62,7 @@ describe('BehaviorIntroCombatPage', () => {
         const goForwardSpy = sinon.spy();
 
         const data = {
-          'view:answerCombatBehaviorQuestions': 'false',
+          answerCombatBehaviorQuestions: 'false',
         };
 
         const { container } = render(page({ data, goForward: goForwardSpy }));
@@ -81,11 +81,11 @@ describe('BehaviorIntroCombatPage', () => {
               onReviewPage: true,
               updatePage: updateSpy,
               data: {
-                'view:answerCombatBehaviorQuestions': 'true',
+                answerCombatBehaviorQuestions: 'true',
               },
             }),
           );
-          fireEvent.click($('va-button[text="Update page"]', container));
+          fireEvent.click(container.querySelector('button.usa-button-primary'));
           expect(updateSpy.called).to.be.true;
         });
       });
@@ -98,12 +98,12 @@ describe('BehaviorIntroCombatPage', () => {
               onReviewPage: true,
               updatePage: updateSpy,
               data: {
-                'view:answerCombatBehaviorQuestions': 'false',
+                answerCombatBehaviorQuestions: 'false',
               },
             }),
           );
 
-          fireEvent.click($('va-button[text="Update page"]', container));
+          fireEvent.click(container.querySelector('button.usa-button-primary'));
           expect(updateSpy.called).to.be.true;
         });
       });
@@ -129,7 +129,7 @@ describe('BehaviorIntroCombatPage', () => {
     describe('Delete already declared behavioral changes modal', () => {
       describe('When the user has already declared behavioral changes, changes the selection to opt out and clicks continue', () => {
         const data = {
-          'view:answerCombatBehaviorQuestions': 'false',
+          answerCombatBehaviorQuestions: 'false',
           healthBehaviors: {
             appetite: true,
           },
@@ -147,7 +147,7 @@ describe('BehaviorIntroCombatPage', () => {
 
       describe('When the user has already declared behavioral changes, is opted in and clicks continue', () => {
         const data = {
-          'view:answerCombatBehaviorQuestions': 'true',
+          answerCombatBehaviorQuestions: 'true',
           healthBehaviors: {
             appetite: true,
           },
@@ -167,7 +167,7 @@ describe('BehaviorIntroCombatPage', () => {
       describe('Modal Content', () => {
         describe('When the user has previously claimed less than four behavioral changes on the Behavioral List page', () => {
           const threeSelectedChangesAndOptOut = {
-            'view:answerCombatBehaviorQuestions': 'false',
+            answerCombatBehaviorQuestions: 'false',
             workBehaviors: {
               performance: true,
               reassignment: true,
@@ -207,7 +207,7 @@ describe('BehaviorIntroCombatPage', () => {
 
         describe('When the user has previously claimed up to four behavioral changes on the Behavioral List page', () => {
           const fourSelectedChangesAndOptOut = {
-            'view:answerCombatBehaviorQuestions': 'false',
+            answerCombatBehaviorQuestions: 'false',
             workBehaviors: {
               performance: true,
               reassignment: true,
@@ -247,7 +247,7 @@ describe('BehaviorIntroCombatPage', () => {
 
         describe('When the user has previously claimed five or more behavioral changes on the Behavioral List page', () => {
           const fiveSelectedChangesAndOptOut = {
-            'view:answerCombatBehaviorQuestions': 'false',
+            answerCombatBehaviorQuestions: 'false',
             workBehaviors: {
               performance: true,
               reassignment: true,
@@ -291,7 +291,7 @@ describe('BehaviorIntroCombatPage', () => {
         describe('When behavioral changes are undefined in the formData', () => {
           it('does not display the behavioral changes in the modal', () => {
             const undefinedPresent = {
-              'view:answerCombatBehaviorQuestions': 'false',
+              answerCombatBehaviorQuestions: 'false',
               workBehaviors: {
                 performance: true,
                 reassignment: undefined,
@@ -318,7 +318,7 @@ describe('BehaviorIntroCombatPage', () => {
         describe('When behavioral changes are false in the formData', () => {
           it('does not display the behavioral changes in the modal', () => {
             const undefinedPresent = {
-              'view:answerCombatBehaviorQuestions': 'false',
+              answerCombatBehaviorQuestions: 'false',
               workBehaviors: {
                 performance: true,
                 reassignment: false,
@@ -343,7 +343,7 @@ describe('BehaviorIntroCombatPage', () => {
 
       describe('Modal Selections', () => {
         const filledOutDataWithOptOut = {
-          'view:answerCombatBehaviorQuestions': 'false',
+          answerCombatBehaviorQuestions: 'false',
           healthBehaviors: {
             appetite: true,
           },
@@ -410,7 +410,7 @@ describe('BehaviorIntroCombatPage', () => {
 
             expect(
               setFormDataSpy.calledWith({
-                'view:answerCombatBehaviorQuestions': 'false',
+                answerCombatBehaviorQuestions: 'false',
                 healthBehaviors: {},
                 workBehaviors: {},
                 otherBehaviors: {},
@@ -461,7 +461,9 @@ describe('BehaviorIntroCombatPage', () => {
                   }),
                 );
 
-                fireEvent.click($('va-button[text="Update page"]', container));
+                fireEvent.click(
+                  container.querySelector('button.usa-button-primary'),
+                );
 
                 const modal = $('va-modal[visible="true"]', container);
 
@@ -473,7 +475,7 @@ describe('BehaviorIntroCombatPage', () => {
                 expect(updateSpy.notCalled).to.be.true;
               });
 
-              it('displays a modal prompt to delete the answers, updates the page if deletion is confirmed, and deletes the data', () => {
+              it('displays a modal prompt to delete the answers, updates the page if deletion is confirmed, deletes the data, and displays a confirmation alert message', () => {
                 const updateSpy = sinon.spy();
                 const setFormDataSpy = sinon.spy();
 
@@ -486,7 +488,9 @@ describe('BehaviorIntroCombatPage', () => {
                   }),
                 );
 
-                fireEvent.click($('va-button[text="Update page"]', container));
+                fireEvent.click(
+                  container.querySelector('button.usa-button-primary'),
+                );
 
                 const modal = $('va-modal[visible="true"]', container);
 
@@ -497,20 +501,30 @@ describe('BehaviorIntroCombatPage', () => {
 
                 expect(
                   setFormDataSpy.calledWith({
-                    'view:answerCombatBehaviorQuestions': 'false',
+                    answerCombatBehaviorQuestions: 'false',
                     healthBehaviors: {},
                     workBehaviors: {},
                     otherBehaviors: {},
                     behaviorsDetails: {},
                   }),
                 );
-                expect(updateSpy.called).to.be.true;
+
+                // updatePage exits out of edit mode; we want the alert to show in edit mode without a continue link
+                expect(updateSpy.called).to.be.false;
+                expect(
+                  $(confirmationAlertSelector, container).innerHTML,
+                ).to.contain(
+                  'We’ve removed information about your behavioral changes',
+                );
+                expect(
+                  $(confirmationAlertSelector, container).innerHTML,
+                ).to.not.contain('Continue with your claim');
               });
             });
 
             describe('When the user has already declared behavioral changes, is opted in and clicks update', () => {
               const data = {
-                'view:answerCombatBehaviorQuestions': 'true',
+                answerCombatBehaviorQuestions: 'true',
                 healthBehaviors: {
                   appetite: true,
                 },
@@ -528,7 +542,9 @@ describe('BehaviorIntroCombatPage', () => {
                   }),
                 );
 
-                fireEvent.click($('va-button[text="Update page"]', container));
+                fireEvent.click(
+                  container.querySelector('button.usa-button-primary'),
+                );
 
                 expect(updateSpy.called).to.be.true;
               });
@@ -551,7 +567,7 @@ describe('BehaviorIntroCombatPage', () => {
             const modal = container.querySelector('va-modal');
             modal.__events.primaryButtonClick();
 
-            fireEvent.click($('button.va-button-link', container));
+            fireEvent.click($('va-link', container));
             expect(goForwardSpy.called).to.be.true;
           });
         });
