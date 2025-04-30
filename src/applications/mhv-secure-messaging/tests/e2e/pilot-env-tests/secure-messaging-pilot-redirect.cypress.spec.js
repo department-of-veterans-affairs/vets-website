@@ -10,10 +10,6 @@ describe('SM PILOT MAIN PAGE REDIRECTING', () => {
         name: 'mhv_secure_messaging_cerner_pilot',
         value: true,
       },
-      {
-        name: 'mhv_secure_messaging_remove_landing_page',
-        value: true,
-      },
     ]);
 
     SecureMessagingSite.login();

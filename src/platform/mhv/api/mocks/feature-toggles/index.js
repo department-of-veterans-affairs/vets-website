@@ -171,10 +171,6 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvSecureMessagingRecipientOptGroups,
         },
         {
-          name: 'mhv_secure_messaging_remove_landing_page',
-          value: true,
-        },
-        {
           name: 'mhv_secure_messaging_recipient_combobox',
           value: mhvSecureMessagingRecipientCombobox,
         },
