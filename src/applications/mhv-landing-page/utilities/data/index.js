@@ -156,6 +156,7 @@ const resolveLandingPageLinks = (
       text:
         'Share your personal health data on the Share My Health Data website',
       isExternal: true,
+      omitExternalLinkText: true,
     },
   ].filter(isLinkData);
 

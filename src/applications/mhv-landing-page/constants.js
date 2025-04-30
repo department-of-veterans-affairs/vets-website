@@ -56,7 +56,7 @@ const HEALTH_TOOL_LINKS = freeze({
     {
       href: 'https://dvagov-btsss.dynamics365portals.us/signin',
       text:
-        'File a claim for travel reimbursement on the Beneficiary Travel Self-Service System website (opens in new tab)',
+        'File a claim for travel reimbursement on the Beneficiary Travel Self-Service System website',
       isExternal: true,
     },
   ]),
