@@ -161,7 +161,6 @@ const Prescriptions = () => {
   const isAlertVisible = useMemo(() => false, []);
   const [isLoading, setLoading] = useState();
   const [loadingMessage, setLoadingMessage] = useState('');
-  const [sortingInProgress, setSortingInProgress] = useState(false);
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
@@ -284,12 +283,9 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if (sortingInProgress && !isLoading) {
-        focusElement(document.getElementById('showingRx'));
-        setSortingInProgress(false);
-      }
+      focusElement(document.getElementById('showingRx'));
     },
-    [sortingInProgress, isLoading],
+    [isPrescriptionsLoading, isPrescriptionsFetching],
   );
 
   // Update page title and session storage
@@ -704,10 +700,6 @@ const Prescriptions = () => {
   };
 
   const renderMedicationsList = () => {
-    if (isLoading) {
-      return renderLoadingIndicator(loadingMessage);
-    }
-
     return (
       <MedicationsList
         pagination={pagination}
@@ -779,10 +771,6 @@ const Prescriptions = () => {
     // Medications exist and should be displayed
     const hasMedications =
       filteredList?.length > 0 || paginatedPrescriptionsList?.length > 0;
-
-    if (isPrescriptionsLoading || isPrescriptionsFetching) {
-      return renderLoadingIndicator();
-    }
 
     if (noMedications) {
       return renderEmptyPrescriptions();
@@ -863,6 +851,9 @@ const Prescriptions = () => {
             <CernerFacilityAlert />
             {renderRefillAlert()}
             {renderMedicationsContent()}
+            {isLoading &&
+              (!filteredList || filteredList?.length === 0) &&
+              renderLoadingIndicator()}
           </>
         )}
         {removeLandingPage && !isLoading && <NeedHelp page={pageType.LIST} />}

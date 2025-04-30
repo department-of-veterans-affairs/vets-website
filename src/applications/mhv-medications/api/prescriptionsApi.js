@@ -78,8 +78,8 @@ export const prescriptionsApi = createApi({
         } = params;
 
         let queryParams = `page=${page}&per_page=${perPage}`;
-        if (sortEndpoint) queryParams += sortEndpoint;
         if (filterOption) queryParams += filterOption;
+        if (sortEndpoint) queryParams += sortEndpoint;
         if (includeImage) queryParams += '&include_image=true';
 
         return {
