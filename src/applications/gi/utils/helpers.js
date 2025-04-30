@@ -1,4 +1,4 @@
-import _, { snakeCase } from 'lodash';
+import { snakeCase, capitalize } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
 import ADDRESS_DATA from 'platform/forms/address/data';
@@ -869,7 +869,6 @@ export const generateMockPrograms = numPrograms => {
     'MICROSOFT CERTIFIED SOLUTIONS ASSOCIATE',
   ];
 
-  // eslint-disable-next-line no-shadow
   return Array.from({ length: numPrograms }, (_, index) => ({
     id: (index + 1).toString(),
     type: 'institution_programs',
@@ -1194,7 +1193,7 @@ export const deriveInstitutionTitle = localType => {
       title = 'Foreign Institutions';
       break;
     default:
-      title = `${_.capitalize(localType)} Institutions`;
+      title = `${capitalize(localType)} Institutions`;
   }
   return title;
 };
