@@ -112,7 +112,7 @@ const POARequestSearchPage = title => {
           <StatusTabLink
             tabStatus={STATUSES.PENDING}
             searchStatus={searchStatus}
-            tabSort={SORT_BY.ASC}
+            tabSort={SORT_BY.DESC}
           >
             Pending
           </StatusTabLink>
@@ -198,7 +198,7 @@ POARequestSearchPage.loader = ({ request }) => {
   ) {
     searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
     searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.CREATED);
-    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.ASC);
+    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.DESC);
     searchParams.set(SEARCH_PARAMS.SIZE, STATUSES.SIZE);
     searchParams.set(SEARCH_PARAMS.NUMBER, STATUSES.NUMBER);
     throw redirect(`?${searchParams}`);
