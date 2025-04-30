@@ -98,6 +98,14 @@ class PatientFilterSortPage {
     cy.get(Locators.FIELDS.SEARCH_MESSAGE_HEADING)
       .should('be.visible')
       .and('have.text', Assertions.NO_MATCHES_SEARCH);
+    cy.get(Locators.SEARCH_RESULT)
+      .find(`ul li`)
+      .each(el => {
+        cy.wrap(el).should(`be.visible`);
+        cy.wrap(el)
+          .invoke(`text`)
+          .should(`not.be.empty`);
+      });
   };
 
   clickClearFilterButton = () => {
