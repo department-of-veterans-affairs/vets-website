@@ -62,6 +62,23 @@ class GeneralFunctionsPage {
     };
   };
 
+  formatToReadableDate = isoString => {
+    const date = new Date(isoString);
+
+    const formatted = new Intl.DateTimeFormat('en-US', {
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+      timeZoneName: 'short',
+    }).format(date);
+
+    return formatted.replace('AM', 'a.m.').replace('PM', 'p.m.');
+  };
+
   getDateFormat = (date = new Date()) => {
     const options = {
       year: 'numeric',
