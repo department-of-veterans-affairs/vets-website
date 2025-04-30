@@ -28,6 +28,7 @@ const App = props => {
     loading: isLoadingFeatures,
     isProdEnabled,
     isEmergencyContactsEnabled,
+    isNextOfKinEnabled,
   } = features;
   const {
     dob: veteranDateOfBirth,
@@ -66,6 +67,7 @@ const App = props => {
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:householdEnabled': !!canSubmitFinancialInfo,
           'view:isEmergencyContactsEnabled': isEmergencyContactsEnabled,
+          'view:isNextOfKinEnabled': isNextOfKinEnabled,
         };
 
         setFormData({
@@ -111,6 +113,7 @@ const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
+    isNextOfKinEnabled: state.featureToggles.ezrNextOfKinEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,

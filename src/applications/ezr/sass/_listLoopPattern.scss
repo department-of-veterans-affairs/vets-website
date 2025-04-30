@@ -12,3 +12,7 @@ legend.schemaform-block-title:focus { outline: none !important; }
  // Hack to hide the contact type field, because we only allow Primary Next of Kin and
 // the forms pattern forces display of the field
 va-select[name$="_contactType"] { display: none; }
+
+// Hack to hide DELETE button in the list loop for EC/NoK until we implement Delete
+va-card[name^="next of kin"] va-button-icon[data-action="remove"] { display: none; }
+va-card[name^="emergency contact"] va-button-icon[data-action="remove"] { display: none; }

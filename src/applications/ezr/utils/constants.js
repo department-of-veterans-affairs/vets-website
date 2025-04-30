@@ -130,3 +130,5 @@ export const APP_URLS = {
   verify: getAppUrl('verify'),
   facilities: getAppUrl('facilities'),
 };
+
+export const MAX_NEXT_OF_KINS = 1;

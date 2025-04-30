@@ -21,8 +21,11 @@ export const advanceToInsurancePolicies = testData => {
 
   // Skip Emergency Contacts Section
   goToNextPage('/veteran-information/emergency-contacts-summary');
-
   selectYesNoWebComponent('view:isEmergencyContactsEnabled', false);
+
+  // Skip Next of Kin Section
+  goToNextPage('/veteran-information/next-of-kin-summary');
+  selectYesNoWebComponent('view:isNextOfKinEnabled', false);
 
   // Skip TERA Section
   goToNextPage('/military-service/toxic-exposure');
