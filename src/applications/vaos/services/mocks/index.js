@@ -421,20 +421,6 @@ const responses = {
       });
     }
 
-    if (req.params.referralId === 'referral-with-appointments') {
-      const referralWithAppointments = referralUtils.createReferralById(
-        '2024-12-02',
-        'referral-with-appointments',
-      );
-      // Add appointments array with one appointment to test redirect
-      referralWithAppointments.attributes.appointments = [
-        { id: 'test-appointment-id', status: 'booked' },
-      ];
-      return res.json({
-        data: referralWithAppointments,
-      });
-    }
-
     if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
       const expiredReferral = referralUtils.createReferralById(
         '2024-12-02',

@@ -116,22 +116,14 @@ describe('ReferralAppointments', () => {
   });
 
   it('should redirect to referrals-requests page if referral has appointments', async () => {
-    const referralWithHasAppointments = createReferralById(
+    const referralWithAppointments = createReferralById(
       '2024-11-29',
       'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
     );
-    referralWithHasAppointments.attributes.hasAppointments = true;
-
-    const referralWithAppointmentsArray = createReferralById(
-      '2024-11-29',
-      'add2f0f4-a1ea-4dea-a504-a54ab57c6802',
-    );
-    referralWithAppointmentsArray.attributes.appointments = [
-      { id: 'appointment-1', status: 'booked' },
-    ];
+    referralWithAppointments.attributes.hasAppointments = true;
 
     servicesUtils.apiRequestWithUrl.resolves({
-      data: referralWithHasAppointments,
+      data: referralWithAppointments,
     });
 
     const initialState = {
@@ -142,22 +134,9 @@ describe('ReferralAppointments', () => {
       },
     };
 
-    let screen = renderWithStoreAndRouter(<ReferralAppointments />, {
+    const screen = renderWithStoreAndRouter(<ReferralAppointments />, {
       initialState,
       path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-    });
-
-    await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal('/referrals-requests');
-    });
-
-    servicesUtils.apiRequestWithUrl.resolves({
-      data: referralWithAppointmentsArray,
-    });
-
-    screen = renderWithStoreAndRouter(<ReferralAppointments />, {
-      initialState,
-      path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6802',
     });
 
     await waitFor(() => {
