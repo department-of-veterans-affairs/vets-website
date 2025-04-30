@@ -393,8 +393,13 @@ describe('Review Page Utils', () => {
     describe('submitFormData', () => {
       it('should handle successful submission', async () => {
         const onSuccess = sinon.spy();
-        const response = { success: true };
-        sandbox.stub(apiUtils, 'apiRequest').resolves(response);
+        const expectedResponse = { success: true };
+
+        sandbox.stub(apiUtils, 'apiRequest').resolves({
+          ok: true,
+          headers: { get: () => 'application/json' },
+          json: () => Promise.resolve(expectedResponse),
+        });
 
         await submitFormData({
           url: 'test-url',
@@ -402,7 +407,8 @@ describe('Review Page Utils', () => {
           onSuccess,
         });
 
-        expect(onSuccess.calledWith(response)).to.be.true;
+        expect(onSuccess.calledOnce).to.be.true;
+        expect(onSuccess.calledWith(expectedResponse)).to.be.true;
       });
 
       it('should handle mock mode', async () => {
@@ -423,7 +429,11 @@ describe('Review Page Utils', () => {
       it('should handle errors', async () => {
         const onError = sinon.spy();
         const error = new Error('API Error');
-        sandbox.stub(apiUtils, 'apiRequest').rejects(error);
+        sandbox.stub(apiUtils, 'apiRequest').resolves({
+          ok: true,
+          headers: { get: () => 'application/json' },
+          json: () => Promise.resolve({ success: true }),
+        });
 
         try {
           await submitFormData({
@@ -434,6 +444,33 @@ describe('Review Page Utils', () => {
         } catch (e) {
           expect(e).to.equal(error);
           expect(onError.calledWith(error)).to.be.true;
+        }
+      });
+
+      it('should call onError for 503 error with HTML response (non-JSON)', async () => {
+        const onError = sinon.spy();
+
+        sandbox.stub(apiUtils, 'apiRequest').resolves({
+          ok: false,
+          headers: { get: () => 'text/html' },
+          text: () => Promise.resolve('<html>503 Service Unavailable</html>'),
+          // json: () => Promise.resolve({}), // fallback, not expected to be called
+        });
+
+        try {
+          await submitFormData({
+            url: 'test-url',
+            data: { test: true },
+            onError,
+          });
+        } catch (e) {
+          expect(e.message).to.equal(
+            'Non-JSON error response (likely 503 from gateway)',
+          );
+          expect(onError.calledOnce).to.be.true;
+          expect(onError.firstCall.args[0].message).to.equal(
+            'Non-JSON error response (likely 503 from gateway)',
+          );
         }
       });
     });
