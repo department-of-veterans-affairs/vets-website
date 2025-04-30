@@ -233,7 +233,6 @@ function logEligibilityExplanation(
  * @param {TypeOfCare} params.typeOfCare Type of care object for the currently chosen type of care
  * @param {Location} params.location The current location to check eligibility against
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
- * @param {boolean} [params.featureClinicFilter=false] feature flag to filter clinics based on VATS
  * @param {boolean} [params.useFeSourceOfTruth=false] whether to use vets-api payload as the FE source of truth
  * @param {boolean} [params.useFeSourceOfTruthCC=false] whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @param {boolean} [params.useFeSourceOfTruthVA=false] whether to use vets-api payload as the FE source of truth for VA appointments and requests
@@ -244,7 +243,6 @@ export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
   directSchedulingEnabled,
-  featureClinicFilter = false,
   useFeSourceOfTruth = false,
   useFeSourceOfTruthCC = false,
   useFeSourceOfTruthVA = false,
@@ -274,11 +272,10 @@ export async function fetchFlowEligibilityAndClinics({
       typeOfCare,
     }).catch(createErrorHandler('direct-available-clinics-error'));
     // Primary care and mental health is exempt from past appt history requirement
-    const isDirectAppointmentHistoryRequired = featureClinicFilter
-      ? typeOfCare.id !== PRIMARY_CARE &&
-        typeOfCare.id !== MENTAL_HEALTH &&
-        directTypeOfCareSettings.patientHistoryRequired === true
-      : typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
+    const isDirectAppointmentHistoryRequired =
+      typeOfCare.id !== PRIMARY_CARE &&
+      typeOfCare.id !== MENTAL_HEALTH &&
+      directTypeOfCareSettings.patientHistoryRequired === true;
 
     if (isDirectAppointmentHistoryRequired) {
       apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(

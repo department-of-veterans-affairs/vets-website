@@ -90,7 +90,7 @@ export function getSchedulingConfigurationMock({
   typeOfCareId = 'fake',
   requestEnabled = false,
   directEnabled = false,
-  patientHistoryRequired = 'No',
+  patientHistoryRequired = true,
   patientHistoryDuration = 365,
   communityCare = false,
 } = {}) {

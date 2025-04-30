@@ -12,7 +12,6 @@ import {
   selectFeatureCommunityCare,
   selectSystemIds,
   selectRegisteredCernerFacilityIds,
-  selectFeatureClinicFilter,
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
@@ -313,7 +312,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
-    const featureClinicFilter = selectFeatureClinicFilter(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
@@ -373,7 +371,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
           location,
           typeOfCare,
           directSchedulingEnabled,
-          featureClinicFilter,
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
