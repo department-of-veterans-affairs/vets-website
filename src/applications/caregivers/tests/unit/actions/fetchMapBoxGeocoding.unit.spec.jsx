@@ -71,7 +71,12 @@ describe('CG fetchMapBoxGeocoding action', () => {
       clientStub.returns({ send: sinon.stub().rejects(error) });
 
       await fetchMapBoxGeocoding(query, mockClient);
-      expect(mockLogger.error.calledWith(loggerMessage, {}, error)).to.be.true;
+      sinon.assert.calledOnceWithExactly(
+        mockLogger.error,
+        loggerMessage,
+        {},
+        error,
+      );
     });
 
     it('should render error message on error', async () => {

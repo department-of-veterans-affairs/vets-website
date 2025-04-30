@@ -19,6 +19,10 @@ const selectorShorthand = {
     "va-select[name='root_familyMembersLocationOfResidence']",
   SELECT_CATEGORY: 'va-select#root_selectCategory',
   SELECT_BRANCH_OF_SERVICE: "va-select[name='root_yourBranchOfService']",
+  SELECT_BRANCH_OF_SERVICE_ABOUT_YOU:
+    "va-select[name='root_aboutYourself_branchOfService']",
+  SELECT_COUNTRY: "va-select[name='root_address_country']",
+  SELECT_STATE: "va-select[name='root_address_state']",
   SELECT_MONTH: 'va-select.usa-form-group--month-select',
   TYPE_VETERAN_POSTAL_CODE: 'input#root_veteranPostalCode',
   TYPE_FAMILY_POSTAL_CODE: 'input#root_postalCode',
@@ -41,6 +45,20 @@ const selectorShorthand = {
   TYPE_BUSINESS_PHONE_NUMBER: "va-text-input[name='root_businessPhone']",
   TYPE_BUSINESS_EMAIL: "va-text-input[name='root_businessEmail']",
   TYPE_EMAIL: "va-text-input[name='root_emailAddress']",
+  TYPE_COUNSELOR_NAME: "va-text-input[name='root_yourVRECounselor']",
+  TYPE_STREET_ADDRESS: "va-text-input[name='root_address_street']",
+  TYPE_CITY: "va-text-input[name='root_address_city']",
+  TYPE_POSTAL_CODE: "va-text-input[name='root_address_postalCode']",
+  TYPE_YOUR_POSTAL_CODE: 'input#root_yourPostalCode',
+  TYPE_US_MAIL: "va-text-input[name='U.S. Mail']",
+  TYPE_VETERAN_FIRST_NAME: "va-text-input[name='root_aboutTheVeteran_first']",
+  TYPE_VETERAN_LAST_NAME: "va-text-input[name='root_aboutTheVeteran_last']",
+  TYPE_VETERAN_SSN:
+    "va-text-input[name='root_aboutTheVeteran_socialOrServiceNum_ssn']",
+  TYPE_VETERAN_FAMILY_SSN:
+    "va-text-input[name='root_aboutTheFamilyMember_socialOrServiceNum_ssn']",
+  SELECT_SCHOOL: "va-select[name='schoolState']",
+  SELECT_FACILITY: "va-select[name='root_stateOfTheFacility']",
 };
 /*
 
