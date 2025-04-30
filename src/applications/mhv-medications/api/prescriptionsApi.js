@@ -7,6 +7,7 @@ import {
   defaultSelectedSortOption,
   rxListSortingOptions,
   filterOptions,
+  INCLUDE_IMAGE_ENDPOINT,
 } from '../util/constants';
 import { isRefillTakingLongerThanExpected } from '../util/helpers';
 
@@ -47,6 +48,24 @@ export const prescriptionsApi = createApi({
     }
   },
   endpoints: builder => ({
+    getPrescriptionSortedList: builder.query({
+      query: ({ sortEndpoint, includeImage = false }) => ({
+        path: `${apiBasePath}/prescriptions?${sortEndpoint}${
+          includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
+        }`,
+      }),
+      transformResponse: response => {
+        if (response?.data && Array.isArray(response.data)) {
+          return {
+            prescriptions: response.data.map(prescription =>
+              convertPrescription(prescription),
+            ),
+            meta: response.meta || {},
+          };
+        }
+        return { prescriptions: [], meta: {} };
+      },
+    }),
     getPrescriptionsList: builder.query({
       query: (params = {}) => {
         const {
@@ -200,6 +219,7 @@ export const {
   useBulkRefillPrescriptionsMutation,
   useGetRecentlyRequestedPrescriptionsQuery,
   useGetRefillAlertPrescriptionsQuery,
+  useGetPrescriptionSortedListQuery,
   endpoints: {
     // The following are auto-generated hooks for the endpoints
     getPrescriptionsList,
@@ -210,6 +230,7 @@ export const {
     bulkRefillPrescriptions,
     getRecentlyRequestedPrescriptions,
     getRefillAlertPrescriptions,
+    getPrescriptionSortedList,
   },
   // The following are useful utilities provided by RTK Query
   usePrefetch,

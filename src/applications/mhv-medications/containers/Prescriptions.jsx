@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import PropTypes from 'prop-types';
@@ -62,11 +62,15 @@ import RefillAlert from '../components/shared/RefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import InProductionEducationFiltering from '../components/MedicationsList/InProductionEducationFiltering';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
-import { useGetPrescriptionsListQuery } from '../api/prescriptionsApi';
+import {
+  useGetPrescriptionsListQuery,
+  getPrescriptionSortedList,
+} from '../api/prescriptionsApi';
 
 const Prescriptions = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
@@ -148,7 +152,7 @@ const Prescriptions = () => {
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
-  const [prescriptionsFullList] = useState([]);
+  const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
   const [printedList, setPrintedList] = useState([]);
   const [hasFullListDownloadError, setHasFullListDownloadError] = useState(
     false,
@@ -565,7 +569,26 @@ const Prescriptions = () => {
       !prescriptionsFullList.length
     ) {
       setIsRetrievingFullList(true);
+      const { data, isError } = await dispatch(
+        getPrescriptionSortedList.initiate(
+          {
+            sortEndpoint: rxListSortingOptions[selectedSortOption].API_ENDPOINT,
+            includeImage: false,
+          },
+          {
+            forceRefetch: true,
+          },
+        ),
+      );
+
+      if (isError) {
+        setHasFullListDownloadError(true);
+      } else {
+        setPrescriptionsFullList(data.prescriptions);
+      }
+      setIsRetrievingFullList(false);
     }
+
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
       format,
