@@ -53,7 +53,7 @@ const formConfig = {
       fullNamePath: formData =>
         formData[preparerIdentificationFields.parentObject][
           preparerIdentificationFields.relationshipToVeteran
-        ] !== veteranIsSelfText
+        ] === veteranIsSelfText
           ? fullName
           : 'preparerIdentification.preparerFullName',
     },
