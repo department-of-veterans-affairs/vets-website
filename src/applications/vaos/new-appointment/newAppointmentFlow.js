@@ -282,8 +282,7 @@ export default function getNewAppointmentFlow(state) {
       next: 'reasonForAppointment',
     },
     selectProvider: {
-      // remove?
-      url: '/new-appointment/provider',
+      url: 'provider',
       label: 'Which provider do you want to schedule with?',
       next: 'preferredDate',
     },
