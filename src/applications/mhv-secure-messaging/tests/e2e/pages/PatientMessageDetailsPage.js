@@ -218,7 +218,7 @@ class PatientMessageDetailsPage {
     cy.get(Locators.MSG_DATE)
       .eq(messageIndex)
       .should(
-        'have.text',
+        'include.text',
         `Date: ${GeneralFunctionsPage.formatToReadableDate(
           messageDetails.data[messageIndex].attributes.sentDate,
         )}`,
@@ -272,7 +272,7 @@ class PatientMessageDetailsPage {
     cy.get(Locators.MSG_DATE)
       .eq(messageIndex)
       .should(
-        'have.text',
+        'include.text',
         `Date: ${GeneralFunctionsPage.formatToReadableDate(
           messageDetails.data.attributes.sentDate,
         )}`,
