@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
+import FrequentlyAskedQuestions from '../../../components/veteran-status-card/FrequentlyAskedQuestions';
 
 describe('<FrequentlyAskedQuestions />', () => {
   it('renders without crashing', () => {

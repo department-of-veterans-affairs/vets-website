@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import * as api from '~/platform/utilities/api';
 import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import { renderWithProfileReducers } from '../../tests/unit-test-helpers';
-import VeteranStatus from './VeteranStatus';
+import { renderWithProfileReducers } from '../../unit-test-helpers';
+import VeteranStatus from '../../../components/veteran-status-card/VeteranStatus';
 
 const serviceHistoryItemOlder = {
   branchOfService: 'Air Force',

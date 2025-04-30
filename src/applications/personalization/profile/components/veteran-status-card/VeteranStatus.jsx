@@ -9,7 +9,7 @@ import { apiRequest } from '~/platform/utilities/api';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
 import Headline from '../ProfileSectionHeadline';
-import VeteranStatusCard from './VeteranStatusCard/VeteranStatusCard';
+import VeteranStatusCard from './VeteranStatusCard';
 import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
 
 const VeteranStatus = ({

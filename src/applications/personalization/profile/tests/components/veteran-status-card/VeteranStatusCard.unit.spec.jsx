@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import VeteranStatusCard from './VeteranStatusCard';
+import VeteranStatusCard from '../../../components/veteran-status-card/VeteranStatusCard';
 
 const testData = {
   edipi: '6198661986',
