@@ -111,13 +111,23 @@ export const addStudentsIntroPage = {
 /** @returns {PageSchema} */
 export const addStudentsSummaryPage = {
   uiSchema: {
-    'view:completedStudent': arrayBuilderYesNoUI(addStudentsOptions, {
-      title: 'Do you have another student to add?',
-      labels: {
-        Y: 'Yes',
-        N: 'No',
+    'view:completedStudent': arrayBuilderYesNoUI(
+      addStudentsOptions,
+      {
+        title: 'Do you have a student to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
       },
-    }),
+      {
+        title: 'Do you have another student to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
+    ),
   },
   schema: {
     type: 'object',

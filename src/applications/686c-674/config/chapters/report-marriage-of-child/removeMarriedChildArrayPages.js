@@ -72,6 +72,13 @@ export const removeMarriedChildSummaryPage = {
     'view:completedMarriedChild': arrayBuilderYesNoUI(
       removeMarriedChildOptions,
       {
+        title: 'Do you have a child to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
+      {
         title: 'Do you have another child to add?',
         labels: {
           Y: 'Yes',
