@@ -125,7 +125,7 @@ export default function StatusAlert({ appointment, facility }) {
               <br />
               <br />
               <va-link
-                text="Schedule a new appointment"
+                text="Request a new appointment"
                 data-testid="schedule-appointment-link"
                 onClick={handleClick(dispatch)}
                 href={`${root.url}${typeOfCare.url}`}

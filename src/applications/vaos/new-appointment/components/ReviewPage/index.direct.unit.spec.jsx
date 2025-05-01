@@ -17,9 +17,10 @@ import {
 } from '../../../tests/mocks/setup';
 
 import ReviewPage from '.';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { createMockCheyenneFacility } from '../../../tests/mocks/data';
 import {
-  mockAppointmentSubmit,
+  mockAppointmentSubmitApi,
   mockFacilityApi,
 } from '../../../tests/mocks/mockApis';
 import { onCalendarChange, startDirectScheduleFlow } from '../../redux/actions';
@@ -165,11 +166,8 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should submit successfully', async () => {
-    mockAppointmentSubmit({
-      id: 'fake_id',
-      attributes: {
-        reasonCode: {},
-      },
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 'fake_id' }),
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {

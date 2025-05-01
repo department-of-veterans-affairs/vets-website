@@ -38,7 +38,7 @@ export default function FilesNeeded({ item, previousPage = null }) {
 
     if (cstFriendlyEvidenceRequests && item.friendlyName) {
       let updatedFriendlyName = item.friendlyName;
-      if (!evidenceDictionary[item.displayName].isProperNoun) {
+      if (!evidenceDictionary[item.displayName]?.isProperNoun) {
         updatedFriendlyName =
           updatedFriendlyName.charAt(0).toLowerCase() +
           updatedFriendlyName.slice(1);
@@ -52,8 +52,11 @@ export default function FilesNeeded({ item, previousPage = null }) {
     const itemWithNewDescription = itemsWithNewDescriptions.find(
       i => i.type === item.displayName,
     );
-    if (cstFriendlyEvidenceRequests && item.friendlyDescription) {
-      return item.friendlyDescription;
+    if (
+      cstFriendlyEvidenceRequests &&
+      (item.shortDescription || item.activityDescription)
+    ) {
+      return item.shortDescription || item.activityDescription;
     }
     return itemWithNewDescription !== undefined
       ? itemWithNewDescription.description
