@@ -1225,7 +1225,7 @@ jobs:
       # -------------------------
       # | Unit Tests Summary |
       # -------------------------
-        
+
       - name: Download Unit Test Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
@@ -1242,7 +1242,7 @@ jobs:
           name: Unit Test Stability Review Summary
           conclusion: ${{ needs.unit-tests-stress-test.result }}
           output: |
-            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+            {"summary": ${{ env.MOCHAWESOME_REPORT_RESULTS || '""' }}}
 
   testing-reports-unit-tests-coverage:
     name: Testing Reports - Unit Tests Coverage
@@ -2066,7 +2066,7 @@ jobs:
         if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: stress-test-report
+          name: unit-test-stress-test-results-${{ matrix.ci_node_index }}
           path: mocha/results
 
       - name: Upload Coverage Report Artifact
