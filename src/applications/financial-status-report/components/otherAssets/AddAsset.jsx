@@ -36,15 +36,6 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
   const [submitted, setSubmitted] = useState(false);
 
   const handlers = {
-    onSubmit: event => {
-      // handle page navigation
-      // goToPath needs to be encapsulated separately from setFormData
-      // or data updates won't be reflected when page navigation occurs
-      event.preventDefault();
-      if (!nameError && !amountError) {
-        goToPath(SUMMARY_PATH);
-      }
-    },
     onAssetNameChange: ({ target }) => {
       setAssetName(target.value);
     },
@@ -81,8 +72,9 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
             otherAssets: newAssets,
           },
         });
+
+        goToPath(SUMMARY_PATH);
       }
-      handlers.onSubmit(event);
     },
   };
 
@@ -158,7 +150,6 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
               {
                 label: `${labelText} asset`,
                 onClick: handlers.onUpdate,
-                isSubmitting: 'prevent', // If this button submits a form
               },
             ]}
           />
