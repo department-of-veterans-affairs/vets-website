@@ -14,14 +14,12 @@ describe('Medicaitons Print/Download button component', () => {
     onDownload = handleFullListDownload,
     success = false,
     list = false,
-    onText = undefined,
     onPrint = undefined,
     isLoading = undefined,
   ) => {
     return renderWithStoreAndRouter(
       <PrintDownload
         onDownload={onDownload}
-        onText={onText}
         onPrint={onPrint}
         isSuccess={success}
         list={list}
@@ -75,14 +73,7 @@ describe('Medicaitons Print/Download button component', () => {
   });
 
   it('displays spinner when loading ', () => {
-    const screen = setup(
-      handleFullListDownload,
-      false,
-      false,
-      undefined,
-      undefined,
-      true,
-    );
+    const screen = setup(handleFullListDownload, false, false, undefined, true);
 
     expect(screen.getByTestId('print-download-loading-indicator')).to.exist;
   });
