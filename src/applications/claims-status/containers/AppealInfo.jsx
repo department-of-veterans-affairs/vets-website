@@ -8,10 +8,10 @@ import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scro
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 
 import { getAppealsV2 as getAppealsV2Action } from '../actions';
-import AppealNotFound from '../components/appeals-v2/AppealNotFound'; // eslint-disable-line import/no-named-as-default
-import AppealHeader from '../components/appeals-v2/AppealHeader'; // eslint-disable-line import/no-named-as-default
+import AppealNotFound from '../components/appeals-v2/AppealNotFound';
+import AppealHeader from '../components/appeals-v2/AppealHeader';
 import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
-import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar'; // eslint-disable-line import/no-named-as-default
+import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import CopyOfExam from '../components/CopyOfExam';
 import { setUpPage } from '../utils/page';
@@ -118,7 +118,6 @@ function AppealInfo({
     [appeal],
   );
 
-  // -------------------------------------------------------------- content --
   let appealContent;
   let claimHeading;
 
@@ -152,7 +151,6 @@ function AppealInfo({
     isRouterLink: true,
   };
 
-  // -------------------------------------------------------------- render --
   return (
     <div>
       <div className="row">
