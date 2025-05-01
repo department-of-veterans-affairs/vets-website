@@ -10,43 +10,55 @@ export default function Academics({ institution, onShowModal }) {
 
   const typeOfAccreditation = (
     <div aria-live="off">
-      {accreditationType ? (
-        <strong>
-          <LearnMoreLabel
-            bold
-            text="Accreditation"
-            onClick={() => {
-              onShowModal('accreditation');
-            }}
-            ariaLabel={ariaLabels.learnMore.accreditation}
-            buttonId="accreditation-button"
-            buttonClassName="small-screen-font"
-          />
-          :
-        </strong>
-      ) : (
-        <>
-          <span className="vads-u-font-weight--bold">Accreditation</span>: Yes
-        </>
-      )}
-      &nbsp;
       {accredited && (
         <>
-          {accreditationType && upperCaseFirstLetterOnly(accreditationType)} (
-          <a
-            href={`http://nces.ed.gov/collegenavigator/?id=${
-              institution.cross
-            }#accred`}
-            target="_blank"
-            rel="noopener noreferrer"
-            id="see-accreditors"
-          >
-            See accreditors
-          </a>
-          )
+          {accreditationType ? (
+            <strong>
+              <LearnMoreLabel
+                bold
+                text="Accreditation"
+                onClick={() => {
+                  onShowModal('accreditation');
+                }}
+                ariaLabel={ariaLabels.learnMore.accreditation}
+                buttonId="accreditation-button"
+                buttonClassName="small-screen-font"
+              />
+              :
+            </strong>
+          ) : (
+            <>
+              <span className="vads-u-font-weight--bold">Accreditation</span>:
+              Yes
+            </>
+          )}
         </>
       )}
-      {!accredited && !accreditationType && 'None'}
+      {accredited &&
+        accreditationType && (
+          <>
+            &nbsp;
+            {upperCaseFirstLetterOnly(accreditationType)} (
+            <a
+              href={`http://nces.ed.gov/collegenavigator/?id=${
+                institution.cross
+              }#accred`}
+              target="_blank"
+              rel="noopener noreferrer"
+              id="see-accreditors"
+            >
+              See accreditors
+            </a>
+            )
+          </>
+        )}
+      {!accredited &&
+        !accreditationType && (
+          <>
+            <span className="vads-u-font-weight--bold">Accreditation</span>:
+            None
+          </>
+        )}
     </div>
   );
 
