@@ -46,6 +46,7 @@ const selectorShorthand = {
   TYPE_BUSINESS_EMAIL: "va-text-input[name='root_businessEmail']",
   TYPE_EMAIL: "va-text-input[name='root_emailAddress']",
   TYPE_COUNSELOR_NAME: "va-text-input[name='root_yourVRECounselor']",
+  TYPE_THEIR_COUNSELOR_NAME: "va-text-input[name='root_theirVRECounselor']",
   TYPE_STREET_ADDRESS: "va-text-input[name='root_address_street']",
   TYPE_CITY: "va-text-input[name='root_address_city']",
   TYPE_POSTAL_CODE: "va-text-input[name='root_address_postalCode']",
