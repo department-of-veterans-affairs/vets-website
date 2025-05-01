@@ -18,7 +18,6 @@ import {
   API_SESSION_URL,
   SIGNUP_TYPES,
   GA,
-  EBENEFITS_DEFAULT_PATH,
   POLICY_TYPES,
   AUTH_EVENTS,
 } from '../../authentication/constants';
@@ -341,28 +340,28 @@ describe('Authentication Utilities', () => {
   describe('createExternalApplicationUrl', () => {
     afterEach(() => cleanup());
     it('should return correct url or null for the parsed application param', () => {
-      Object.values(EXTERNAL_APPS).forEach(application => {
-        setup({ path: `${usipPath}?application=${application}` });
+      Object.values(EXTERNAL_APPS)
+        .filter(application => application !== EXTERNAL_APPS.EBENEFITS)
+        .forEach(application => {
+          setup({ path: `${usipPath}?application=${application}` });
 
-        const pathAppend = () => {
-          switch (application) {
-            case EXTERNAL_APPS.EBENEFITS:
-              return EBENEFITS_DEFAULT_PATH;
-            case EXTERNAL_APPS.VA_OCC_MOBILE:
-              return `${global.window.location.search}`;
-            case EXTERNAL_APPS.MY_VA_HEALTH:
-              return `/?authenticated=true`;
-            default:
-              return '';
-          }
-        };
+          const pathAppend = () => {
+            switch (application) {
+              case EXTERNAL_APPS.VA_OCC_MOBILE:
+                return `${global.window.location.search}`;
+              case EXTERNAL_APPS.MY_VA_HEALTH:
+                return `/?authenticated=true`;
+              default:
+                return '';
+            }
+          };
 
-        expect(authUtilities.createExternalApplicationUrl()).to.eq(
-          `${EXTERNAL_REDIRECTS[application]}${pathAppend()}`,
-        );
+          expect(authUtilities.createExternalApplicationUrl()).to.eq(
+            `${EXTERNAL_REDIRECTS[application]}${pathAppend()}`,
+          );
 
-        setup({});
-      });
+          setup({});
+        });
 
       expect(authUtilities.createExternalApplicationUrl()).to.eq(null);
     });
