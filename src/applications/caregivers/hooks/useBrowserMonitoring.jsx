@@ -36,7 +36,7 @@ const initializeRealUserMonitoring = () => {
       beforeSend: ({ type, resource }) => {
         return !(
           type === 'resource' &&
-          EXCLUDED_DOMAINS.some(d => resource.url.includes(d))
+          EXCLUDED_DOMAINS.some(domain => resource.url.includes(domain))
         );
       },
     });
@@ -53,7 +53,10 @@ const initializeBrowserLogging = () => {
       ...DEFAULT_CONFIG,
       forwardErrorsToLogs: true,
       beforeSend: ({ http }) => {
-        return !(http?.url && EXCLUDED_DOMAINS.some(d => http.url.includes(d)));
+        return !(
+          http?.url &&
+          EXCLUDED_DOMAINS.some(domain => http.url.includes(domain))
+        );
       },
     });
   }
