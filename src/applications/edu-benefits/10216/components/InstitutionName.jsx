@@ -12,7 +12,7 @@ const InstitutionName = () => {
       // Re-focus
       const facilityCodeInput = document
         .querySelector('va-text-input')
-        .shadowRoot?.querySelector('input');
+        ?.shadowRoot?.querySelector('input');
       if (!loader && institutionName) focusElement(facilityCodeInput);
     },
     [institutionName, loader],
