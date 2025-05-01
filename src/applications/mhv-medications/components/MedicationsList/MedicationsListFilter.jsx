@@ -138,6 +138,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
               value={option}
               description={filterOptions[option].description}
               checked={filterOption === option}
+              data-testid={`filter-option-${option}`}
               data-dd-action-name={
                 dataDogActionNames.medicationsListPage[option]
               }
