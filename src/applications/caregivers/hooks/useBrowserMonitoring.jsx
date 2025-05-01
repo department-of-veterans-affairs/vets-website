@@ -14,6 +14,13 @@ const DEFAULT_CONFIG = {
   sessionSampleRate: 100,
 };
 
+// declare 3rd party domains to exclude from logs
+const EXCLUDED_DOMAINS = [
+  'google-analytics.com',
+  'browser-intake-ddog-gov.com',
+  'eauth.va.gov',
+];
+
 const initializeRealUserMonitoring = () => {
   // prevent RUM from re-initializing the SDK
   if (!window.DD_RUM?.getInitConfiguration()) {
@@ -26,6 +33,12 @@ const initializeRealUserMonitoring = () => {
       trackResources: true,
       trackLongTasks: true,
       defaultPrivacyLevel: 'mask-user-input',
+      beforeSend: ({ type, resource }) => {
+        return !(
+          type === 'resource' &&
+          EXCLUDED_DOMAINS.some(d => resource.url.includes(d))
+        );
+      },
     });
 
     // if sessionReplaySampleRate > 0, we need to manually start the recording
@@ -39,6 +52,9 @@ const intitalizeBrowserLogging = () => {
     datadogLogs.init({
       ...DEFAULT_CONFIG,
       forwardErrorsToLogs: true,
+      beforeSend: ({ http }) => {
+        return !(http?.url && EXCLUDED_DOMAINS.some(d => http.url.includes(d)));
+      },
     });
   }
 };
