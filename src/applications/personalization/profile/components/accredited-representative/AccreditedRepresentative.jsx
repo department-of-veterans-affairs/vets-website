@@ -1,25 +1,40 @@
 import React, { useEffect } from 'react';
-
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import { useStore, connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Cookies from 'js-cookie';
 
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import repStatusLoader from 'platform/user/widgets/representative-status';
 
-const AccreditedRepresentative = ({ powerOfAttorney }) => {
+import { fetchPowerOfAttorney as fetchPowerOfAttorneyAction } from '@@profile/actions';
+
+const AccreditedRepresentative = ({
+  fetchPowerOfAttorney,
+  powerOfAttorney,
+}) => {
   const { BASE_URL } = environment;
   const hasRepresentative = !!powerOfAttorney?.id;
   const store = useStore();
 
+  // storing POA response to prevent redundant request from within the Rep Status tool
+  const setPOACookie = cookieValue => {
+    const expirationTime = new Date(new Date().getTime() + 5 * 60 * 1000);
+    Cookies.set('powerOfAttorney', cookieValue, { expires: expirationTime });
+  };
+
   useEffect(
     () => {
       if (hasRepresentative) {
+        setPOACookie(powerOfAttorney);
         repStatusLoader(store, 'representative-status', 3);
       }
     },
     [hasRepresentative],
   );
+
+  useEffect(() => {
+    fetchPowerOfAttorney();
+  }, []);
 
   const renderHasRepresentative = () => {
     return (
@@ -74,10 +89,18 @@ const AccreditedRepresentative = ({ powerOfAttorney }) => {
 
 AccreditedRepresentative.propTypes = {
   powerOfAttorney: PropTypes.object,
+  fetchPowerOfAttorney: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   powerOfAttorney: state.vaProfile?.powerOfAttorney,
 });
 
-export default connect(mapStateToProps)(AccreditedRepresentative);
+const mapDispatchToProps = {
+  fetchPowerOfAttorney: fetchPowerOfAttorneyAction,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AccreditedRepresentative);
