@@ -1141,7 +1141,7 @@ export const deriveModalText = lowerType => {
     case 'public':
       modalName = 'publicSchool';
       break;
-    case 'private':
+    case 'for profit':
       modalName = 'privateSchool';
       break;
     case 'proprietary':
@@ -1165,7 +1165,7 @@ export const deriveLearnMoreAriaLabel = (lowerType, ariaLabels) => {
     case 'private':
       ariaLabel = ariaLabels.learnMore.privateSchool;
       break;
-    case 'proprietary':
+    case 'for profit':
       ariaLabel = ariaLabels.learnMore.proprietarySchool;
       break;
     case 'foreign':
@@ -1180,6 +1180,9 @@ export const deriveLearnMoreAriaLabel = (lowerType, ariaLabels) => {
 export const deriveInstitutionTitle = localType => {
   if (localType === 'private') {
     return 'Private Nonprofit Institution';
+  }
+  if (localType === 'for profit') {
+    return 'Proprietary Institutions';
   }
   return `${capitalize(localType)} Institution`;
 };
