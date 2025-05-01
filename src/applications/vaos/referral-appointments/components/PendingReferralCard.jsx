@@ -8,7 +8,7 @@ import AppointmentColumn from '../../components/AppointmentColumn';
 
 const PendingReferralCard = ({ referral, index }) => {
   const first = index === 0;
-  const idClickable = `id-${referral.uuid.replace(/[.=]/g, '\\$&')}`;
+  const idClickable = `id-${referral.uuid.replace(/[.=\\]/g, '\\$&')}`;
   const typeOfCareName = referral.categoryOfCare;
 
   const link = `schedule-referral?id=${
