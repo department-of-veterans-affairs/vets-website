@@ -104,7 +104,7 @@ const generateTitleSection = (doc, parent, data) => {
         .font(config.text.font)
         .fontSize(config.text.size)
         .text(
-          "This report includes health information you entered yourself in My HealtheVet. Your VA health care team can't access this self-entered information. To share this information with your care team, print this report and bring it to your next appointment.",
+          'This report includes health information you entered yourself in the past. You can no longer enter or edit health information in My HealtheVet.',
           config.margins.left,
           doc.y,
           { ...subTitleOptions, paragraphGap: 12 },
@@ -117,7 +117,7 @@ const generateTitleSection = (doc, parent, data) => {
         .font(config.text.font)
         .fontSize(config.text.size)
         .text(
-          'If you want to add or edit self-entered health information, go to www.myhealth.va.gov',
+          'Your VA health care team can’t access this self-entered information. To share this information with your care team, print this report and bring it to your next appointment.',
           config.margins.left,
           doc.y,
           { ...subTitleOptions, paragraphGap: 12 },
