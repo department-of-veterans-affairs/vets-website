@@ -46,7 +46,7 @@ const initializeRealUserMonitoring = () => {
   }
 };
 
-const intitalizeBrowserLogging = () => {
+const initializeBrowserLogging = () => {
   // prevent LOGS from re-initializing the SDK
   if (!window.DD_LOGS?.getInitConfiguration()) {
     datadogLogs.init({
@@ -69,7 +69,7 @@ const useBrowserMonitoring = () => {
       if (!environment.BASE_URL.includes('localhost')) return;
 
       // enable browser logging
-      intitalizeBrowserLogging();
+      initializeBrowserLogging();
 
       // enable RUM if feature flag value is `true`
       if (isBrowserMonitoringEnabled) {
