@@ -275,6 +275,32 @@ const formConfig = {
               ...ssnUI,
               'ui:reviewField': ObfuscateReviewField,
             },
+            'view:bestFitAlert': {
+              // 'ui:options': {
+              //   hideIf: formData => {
+              //     return false;
+              //   },
+              // },
+              'ui:description': (
+                <>
+                  <va-alert status="warning">
+                    <>
+                      Opting out of receiving electronic notifications will
+                      affect your ability to verify enrollments using email and
+                      text messaging. To verify you will be required to access{' '}
+                      <a
+                        href="https://ask.va.gov/"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Ask VA
+                      </a>{' '}
+                      or use our online system.
+                    </>
+                  </va-alert>
+                </>
+              ),
+            },
           },
           schema: {
             type: 'object',
@@ -292,6 +318,10 @@ const formConfig = {
               fullName,
               dateOfBirth: date,
               ssn,
+              'view:bestFitAlert': {
+                type: 'object',
+                properties: {},
+              },
             },
           },
         },

@@ -97,7 +97,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const stateUser = state.user;
   const vapContactInfo = stateUser?.profile?.vapContactInfo || {};
   const profile = stateUser?.profile;
-  const sponsors = state.data?.formData?.attributes?.sponsors;
+
+  const sponsors = state.data?.formData?.attributes?.toeSponsors; // Might be worth renaming this since we're using it for more than toe now
   let firstName;
   let middleName;
   let lastName;
