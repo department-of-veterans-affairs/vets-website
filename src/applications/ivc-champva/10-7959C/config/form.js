@@ -49,6 +49,7 @@ import {
 import {
   formSignatureSchema,
   applicationEmailSchema,
+  champvaScreenSchema,
 } from '../chapters/formSignature';
 import CustomAttestation from '../components/CustomAttestation';
 
@@ -139,6 +140,12 @@ const formConfig = {
           path: 'form-signature',
           title: 'Form signature',
           ...formSignatureSchema,
+          scrollAndFocusTarget,
+        },
+        ohiScreen: {
+          path: 'champva-screen',
+          ...champvaScreenSchema,
+          title: 'CHAMPVA screen',
           scrollAndFocusTarget,
         },
         signerEmail: {
