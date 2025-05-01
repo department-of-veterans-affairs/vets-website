@@ -121,7 +121,7 @@ const PrescriptionDetailsDocumentation = () => {
   };
 
   const downloadPdf = async () => {
-    const formattedText = convertHtmlForDownload(
+    const formattedText = await convertHtmlForDownload(
       htmlContent,
       DOWNLOAD_FORMAT.PDF,
     );
