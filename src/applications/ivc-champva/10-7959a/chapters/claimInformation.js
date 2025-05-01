@@ -268,7 +268,7 @@ export const eobUploadSchema = isPrimary => {
       ...titleUI(
         ({ formData }) => {
           // If `isPrimary`, show first health insurance co. name. Else, show 2nd.
-          return `Upload explanation of benefits from ${
+          return `Upload explanation of benefits for this claim from ${
             formData?.policies?.[isPrimary ? 0 : 1]?.name
           }`;
         },
@@ -278,8 +278,10 @@ export const eobUploadSchema = isPrimary => {
           return (
             <>
               You’ll need to submit a copy of the explanation of benefits from{' '}
-              {name} insurance provider. This document lists what {yourOrTheir}{' '}
-              other health insurance already paid for {yourOrTheir} care.
+              {name} insurance provider. This is not the same as the summary of
+              benefits for the health insurance policy. The explanation of
+              benefits lists what {yourOrTheir} other health insurance already
+              paid for this specific claim.
               <br />
               <p>
                 <b>
@@ -288,16 +290,33 @@ export const eobUploadSchema = isPrimary => {
                 </b>
               </p>
               <ul>
-                <li>Date of service that matches the date of care.</li>
-                <li>The health care provider’s name.</li>
-                <li>What the insurance provider paid for and the amount.</li>
-                <li>NPI codes. This is usually a 10-digit number.</li>
-                <li>CPT codes. This is usually a 5-digit code.</li>
+                <li>
+                  <b>Date of service</b> that matches the date of care.
+                </li>
+                <li>
+                  <b>The health care provider’s:</b>
+                  <ul style={{ listStyleType: 'disc' }}>
+                    <li>Name.</li>
+                    <li>
+                      10-digit NPI (National Provider Identifier) code if not
+                      shown on itemized billing statement.
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <b>The services</b> the insurance provider paid for. This may
+                  be a 5-digit CPT (Current Procedural Terminology) or HCPCS
+                  (Healthcare Common Procedure Coding System) code or a
+                  description of the service or medical procedure.
+                </li>
+                <li>
+                  <b>The amount paid</b> by the insurance provider.
+                </li>
               </ul>
               <p>
                 <b>Note:</b>
-                &nbsp; An explanation of benefits is usually sent by mail or
-                email. Contact {name} insurance provider if you have more
+                &nbsp; Note: An explanation of benefits is usually sent by mail
+                or email. Contact {name} insurance provider if you have more
                 questions about where to find this document.
                 <br />
                 <br />
@@ -357,15 +376,39 @@ export const pharmacyClaimUploadSchema = {
           <b>Here’s what the document must include:</b>
         </p>
         <ul>
-          <li>Name, address, and phone number of the pharmacy.</li>
-          <li>Name, dosage, strength, and quantity of the medication.</li>
-          <li>Cost of the medication and the copay amount.</li>
           <li>
-            National Drug Code (NDC) for each medication. This is an 11-digit
-            number that’s different from the Rx number.
+            <b>The pharmacy’s:</b>
+            <ul style={{ listStyleType: 'disc' }}>
+              <li>Name</li>
+              <li>Address</li>
+              <li>Phone number</li>
+            </ul>
           </li>
-          <li>Date the pharmacy filled the prescription.</li>
-          <li>Name of the provider who wrote the prescription.</li>
+          <li>
+            <b>The medication’s:</b>
+            <ul style={{ listStyleType: 'disc' }}>
+              <li>Name</li>
+              <li>Dosage</li>
+              <li>Strength</li>
+              <li>Quantity</li>
+            </ul>
+          </li>
+          <li>
+            <b>Cost</b> of the medication.
+          </li>
+          <li>
+            <b>Copay amount.</b>
+          </li>
+          <li>
+            <b>National Drug Code (NDC)</b> for each medication. This is an
+            11-digit number that’s different from the Rx number.
+          </li>
+          <li>
+            <b>Date</b> the pharmacy filled the prescription.
+          </li>
+          <li>
+            <b>Name of the provider</b> who wrote the prescription.
+          </li>
         </ul>
         <p>
           <b>Note:</b>
