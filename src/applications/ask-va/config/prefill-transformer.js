@@ -29,7 +29,7 @@ export default function prefillTransformer(pages, formData, metadata) {
     const avaProfile = data?.avaProfile || {};
 
     const { phone, email, workPhone, ...restContactInfo } = contactInfo;
-    const { businessPhone } = avaProfile;
+    const { businessPhone, businessEmail } = avaProfile;
 
     return {
       ...restContactInfo,
@@ -37,7 +37,7 @@ export default function prefillTransformer(pages, formData, metadata) {
       phoneNumber: phone || '',
       emailAddress: email || '',
       businessPhone: workPhone || businessPhone || '',
-      businessEmail: email || '',
+      businessEmail: businessEmail || email || '',
     };
   };
 

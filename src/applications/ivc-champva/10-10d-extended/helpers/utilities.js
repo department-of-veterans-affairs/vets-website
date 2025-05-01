@@ -1,5 +1,5 @@
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import { MAX_APPLICANTS } from '../config/constants';
+import { MAX_APPLICANTS } from '../constants';
 
 // Helper to detect if we're on review page when we don't have access
 // to form context. Necessary because list and loop pages don't seem
