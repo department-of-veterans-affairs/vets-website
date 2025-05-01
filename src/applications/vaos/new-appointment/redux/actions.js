@@ -12,7 +12,6 @@ import {
   selectFeatureCommunityCare,
   selectSystemIds,
   selectRegisteredCernerFacilityIds,
-  selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
@@ -314,9 +313,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
     const featureClinicFilter = selectFeatureClinicFilter(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
@@ -377,7 +373,6 @@ export function checkEligibility({ location, showModal, isCerner }) {
           location,
           typeOfCare,
           directSchedulingEnabled,
-          useV2: featureVAOSServiceVAAppointments,
           featureClinicFilter,
           useFeSourceOfTruth,
           useFeSourceOfTruthCC,
@@ -693,33 +688,21 @@ export function hideEligibilityModal() {
   };
 }
 
-export function openReasonForAppointment(
-  page,
-  uiSchema,
-  schema,
-  useV2 = false,
-) {
+export function openReasonForAppointment(page, uiSchema, schema) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
     page,
     uiSchema,
     schema,
-    useV2,
   };
 }
 
-export function updateReasonForAppointmentData(
-  page,
-  uiSchema,
-  data,
-  useV2 = false,
-) {
+export function updateReasonForAppointmentData(page, uiSchema, data) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
     page,
     uiSchema,
     data,
-    useV2,
   };
 }
 
@@ -925,9 +908,6 @@ export function checkCommunityCareEligibility() {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
     const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
@@ -977,14 +957,10 @@ export function submitAppointmentOrRequest(history) {
         });
         resetDataLayer();
 
-        if (featureVAOSServiceVAAppointments) {
-          if (featureBreadcrumbUrlUpdate) {
-            history.push(`/${appointment.id}?confirmMsg=true`);
-          } else {
-            history.push(`/va/${appointment.id}?confirmMsg=true`);
-          }
+        if (featureBreadcrumbUrlUpdate) {
+          history.push(`/${appointment.id}?confirmMsg=true`);
         } else {
-          history.push('/new-appointment/confirmation');
+          history.push(`/va/${appointment.id}?confirmMsg=true`);
         }
       } catch (error) {
         const extraData = {

@@ -66,8 +66,8 @@ describe('22-10215 <IntroductionPage>', () => {
   it('should render due dates table', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
 
-    expect(wrapper.find('va-table').length).to.equal(1);
-    expect(wrapper.find('va-table-row').length).to.equal(5);
+    expect(wrapper.find('va-table').length).to.equal(2);
+    expect(wrapper.find('va-table-row').length).to.equal(7);
 
     wrapper.unmount();
   });
