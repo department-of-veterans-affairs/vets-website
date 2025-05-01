@@ -1178,22 +1178,8 @@ export const deriveLearnMoreAriaLabel = (lowerType, ariaLabels) => {
 };
 
 export const deriveInstitutionTitle = localType => {
-  let title;
-  switch (localType) {
-    case 'public':
-      title = 'Public Institution';
-      break;
-    case 'private':
-      title = 'Private Nonprofit Institution';
-      break;
-    case 'proprietary':
-      title = 'Proprietary Institution';
-      break;
-    case 'foreign':
-      title = 'Foreign Institution';
-      break;
-    default:
-      title = `${capitalize(localType)} Institution`;
+  if (localType === 'private') {
+    return 'Private Nonprofit Institution';
   }
-  return title;
+  return `${capitalize(localType)} Institution`;
 };
