@@ -109,8 +109,8 @@ const PrescriptionDetailsDocumentation = () => {
     updatePageTitle(`More about this medication | Veteran Affairs`);
   }, []);
 
-  const downloadText = () => {
-    const formattedText = convertHtmlForDownload(htmlContent);
+  const downloadText = async () => {
+    const formattedText = await convertHtmlForDownload(htmlContent);
     const textData = buildMedicationInformationTxt(formattedText);
     generateTextFile(
       textData,
