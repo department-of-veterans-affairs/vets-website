@@ -276,6 +276,11 @@ describe('Helpers unit tests', () => {
         'May 24 at noon ET',
       );
     });
+    it('returns a formatted datetime with custom day pattern', () => {
+      expect(
+        formatDowntime(new Date('2020-05-24T12:00:30-04:00'), 'd, y'),
+      ).to.equal('May 24, 2020 at noon ET');
+    });
   });
 
   describe('parseStringOrDate', () => {
