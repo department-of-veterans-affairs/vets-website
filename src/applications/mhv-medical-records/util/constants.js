@@ -58,6 +58,9 @@ export const loincCodes = {
   // lab and test results
   MICROBIOLOGY: '18725-2', // changed from '79381-0'
   PATHOLOGY: '11526-1', // changed from '60567-5'
+  SURGICAL_PATHOLOGY: '27898-6',
+  ELECTRON_MICROSCOPY: '50668-3',
+  CYTOPATHOLOGY: '26438-2',
   EKG: '11524-6',
   RADIOLOGY: '18748-4',
   // care summaries and notes
