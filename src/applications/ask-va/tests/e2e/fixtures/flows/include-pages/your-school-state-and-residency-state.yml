@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  School state or residency state
+  - action: select
+    target: SCHOOL
+    value: CA
+  - action: click
+    target: call-to-action
