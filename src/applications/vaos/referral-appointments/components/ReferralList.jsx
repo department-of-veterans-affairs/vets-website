@@ -11,8 +11,8 @@ const ReferralList = ({ referrals, referralsError }) => {
         status="error"
         headline="We’re sorry. We’ve run into a problem"
       >
-        We’re sorry. We can’t retrieve your community care referrals at this
-        time. Please try again later.
+        We’re having trouble getting your community care referrals. Please try
+        again later.
       </InfoAlert>
     );
   }

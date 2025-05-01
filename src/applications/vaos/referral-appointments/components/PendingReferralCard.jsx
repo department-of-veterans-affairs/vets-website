@@ -1,6 +1,7 @@
 import React from 'react';
 import { format, parseISO } from 'date-fns';
 import PropTypes from 'prop-types';
+import { titleCase } from '../../utils/formatters';
 import AppointmentFlexGrid from '../../components/AppointmentFlexGrid';
 import ListItem from '../../components/ListItem';
 import AppointmentRow from '../../components/AppointmentRow';
@@ -37,7 +38,7 @@ const PendingReferralCard = ({ referral, index }) => {
                     className="vads-u-font-weight--bold vaos-appts__display--table"
                     data-testid="typeOfCare"
                   >
-                    {`${typeOfCareName} referral`}
+                    {`${titleCase(typeOfCareName)} referral`}
                   </AppointmentColumn>
                   <AppointmentColumn
                     padding="0p5"

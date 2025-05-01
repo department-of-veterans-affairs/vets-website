@@ -13,8 +13,7 @@ const RequestList = ({ appointments, requestsError }) => {
         status="error"
         headline="We’re sorry. We’ve run into a problem"
       >
-        We’re having trouble getting your appointment requests. Please try again
-        later.
+        We’re having trouble getting your requests. Please try again later.
       </InfoAlert>
     );
   }

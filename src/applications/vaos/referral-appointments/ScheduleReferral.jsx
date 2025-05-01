@@ -29,8 +29,8 @@ export default function ScheduleReferral(props) {
     >
       <div>
         <p data-testid="subtitle">
-          We’ve approved your referral with a community care provider. You can
-          schedule your first appointment now.
+          We’ve approved your referral for community care. You can schedule your
+          first appointment now.
         </p>
         <va-additional-info
           data-testid="help-text"
@@ -39,9 +39,14 @@ export default function ScheduleReferral(props) {
           class="vads-u-margin-bottom--2"
         >
           <p>
-            Contact your referring VA facility if you have already scheduled
-            with a community care provider.
+            Upcoming appointments with community care providers may not appear
+            in this tool. If you want us to add your community care appointment
+            to your appointments list, call your VA facility.
           </p>
+          <va-link
+            href="/find-locations/?facilityType=health"
+            text="Find your VA health facility"
+          />
         </va-additional-info>
         <ReferralAppLink
           linkText="Schedule your appointment"
@@ -65,23 +70,11 @@ export default function ScheduleReferral(props) {
           <strong>Referral number: </strong>
           {currentReferral.referralId}
         </p>
-        <va-additional-info
-          data-testid="additional-appointment-help-text"
-          uswds
-          trigger="If you were approved for more than one appointment"
-          class="vads-u-margin-bottom--2"
-        >
-          <p>
-            If you were approved for more than one appointment, schedule your
-            first appointment using this tool. You’ll need to schedule the
-            remaining appointments later with your community care provider.
-          </p>
-        </va-additional-info>
-
-        <h2>Have questions about your referral?</h2>
+        <h2>If you have questions about your referral</h2>
         <p>
-          Contact your referring VA facility if you have questions about your
-          referral or how to schedule your appointment.
+          Contact the team at your referring VA facility. They can answer
+          questions about your referral, like how many appointments are included
+          and how to schedule your first one.
         </p>
         <p data-testid="referral-facility">
           <strong>Referring VA facility: </strong>
