@@ -2,7 +2,7 @@ import React from 'react';
 
 const NeedHelp = () => {
   return (
-    <div className="vads-u-margin-top--6">
+    <div className="vads-u-margin-top--6 need-help-container">
       <va-need-help>
         <div slot="content">
           <p>

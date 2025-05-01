@@ -51,10 +51,10 @@ const IntroductionPage = ({ route }) => {
       </p>
       <p>
         By regulation 38 CFR 21.4201(f)(2), schools WITHOUT an approved 35
-        percent Exemption are obligated to report all 85/15 percent calculations
-        to the VA. To find due dates for submitting your calculations each term,
-        please review the "More information about reporting your 85/15 Rule
-        enrollment ratios" section of this page.
+        percent exemption are obligated to report all 85/15 calculations to the
+        VA. To find due dates for submitting your calculations each term, please
+        review the "More information about reporting your 85/15 Rule enrollment
+        ratios" section of this page.
       </p>
       <p>
         <va-link
