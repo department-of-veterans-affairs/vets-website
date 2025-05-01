@@ -17,7 +17,6 @@ const setTitle = () =>
   setDocumentTitle('Your Edith Nourse Rogers STEM Scholarship application');
 
 const StemClaimStatusPage = ({ claim, loading, getStemClaims }) => {
-  /* ----------------------------- mount ---------------------------------- */
   useEffect(
     () => {
       setTitle();
@@ -27,7 +26,6 @@ const StemClaimStatusPage = ({ claim, loading, getStemClaims }) => {
     [getStemClaims],
   );
 
-  /* ------------------------- main content ------------------------------ */
   const content = useMemo(
     () => {
       if (loading) {
@@ -64,7 +62,6 @@ const StemClaimStatusPage = ({ claim, loading, getStemClaims }) => {
     [loading, claim],
   );
 
-  /* ---------------------- breadcrumbs ---------------------------------- */
   const crumb = useMemo(
     () => ({
       href: '../status',
@@ -74,7 +71,6 @@ const StemClaimStatusPage = ({ claim, loading, getStemClaims }) => {
     [],
   );
 
-  /* --------------------------- render ---------------------------------- */
   return (
     <div>
       <div name="topScrollElement" />
@@ -94,7 +90,6 @@ const StemClaimStatusPage = ({ claim, loading, getStemClaims }) => {
   );
 };
 
-/* ------------------------- redux wiring -------------------------------- */
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   const claim =
@@ -107,10 +102,8 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-/* use the aliased name here */
 const mapDispatchToProps = { getStemClaims: getStemClaimsAction };
 
-/* --------------------------- prop types -------------------------------- */
 StemClaimStatusPage.propTypes = {
   claim: PropTypes.object,
   getStemClaims: PropTypes.func,
