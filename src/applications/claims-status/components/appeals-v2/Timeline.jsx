@@ -4,7 +4,9 @@ import { getEventContent, formatDate } from '../../utils/appeals-v2-helpers';
 import Expander from './Expander';
 import PastEvent from './PastEvent';
 
-/** Renders the list of past appeal-workflow events. */
+/**
+ * Timeline is in charge of the past events.
+ */
 const Timeline = ({ events = [], missingEvents = false }) => {
   const [expanded, setExpanded] = useState(false);
 
