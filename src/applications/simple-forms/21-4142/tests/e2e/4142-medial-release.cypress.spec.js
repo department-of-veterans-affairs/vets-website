@@ -53,17 +53,6 @@ const testConfig = createTestConfig(
               cy.findByText(/continue/i, { selector: 'button' }).click();
             });
           });
-          // afterHook(() => {
-          //   cy.get('@testData').then(data => {
-          //     fillAddressWebComponentPattern(
-          //       'veteran_address',
-          //       data.veteran.address,
-          //     );
-          //     cy.findByText(/continue/i, { selector: 'button' })
-          //       .last()
-          //       .click();
-          //   });
-          // });
         } else {
           afterHook(() => {
             cy.get('@testData').then(data => {
