@@ -19,6 +19,32 @@ function FileFieldWrapped(props) {
   return FileFieldCustom({ ...props, requiredFiles: [] });
 }
 
+const additionalMedicalClaimInfo = () => {
+  return (
+    <va-additional-info
+      trigger="More information about the codes that should be included"
+      class="vads-u-margin-bottom--4"
+    >
+      <ul>
+        <li>
+          <b>DX codes</b>, or diagnosis codes, are used to identify a specific
+          diagnosis. They are typically a letter followed by a series of 3-7
+          numbers, usually including a decimal point (example: A12.345)
+        </li>
+        <li>
+          <b>CPT codes</b> are used to identify a medical service or procedure.
+          They are usually a 5-digit code (example: 12345)
+        </li>
+        <li>
+          <b>HCPCS codes</b> are used to identify products, supplies, and
+          services. They are usually one alphabet letter followed by 4 digits
+          (example: A1234)
+        </li>
+      </ul>
+    </va-additional-info>
+  );
+};
+
 const additionalNotesClaims = formData => {
   const nameCap = nameWording(formData, false, true, true) || 'You';
   const namePosessive =
@@ -130,37 +156,68 @@ export const medicalClaimUploadSchema = {
   uiSchema: {
     ...titleUI('Upload supporting documents', ({ formData }) => (
       <>
-        You’ll need to submit a copy of an itemized billing statement for this
-        claim.
-        <br />
+        <va-alert status="warning">
+          <p className="vads-u-margin-y--0">
+            You’ll need to submit a copy of an <b>itemized billing statement</b>
+            , often called a superbill, for this claim. Ask your provider for an
+            itemized bill as the patient copy is often missing critical
+            information required by CHAMPVA to process claims.
+          </p>
+        </va-alert>
         <p>
-          <b>Documentation must include all of this information:</b>
+          <b>
+            The statement must include all of this information to process your
+            claim:
+          </b>
         </p>
         <ul>
           <li>
-            {nameWording(formData, true, true, true)} full name, date of birth,
-            and Social Security Number.
+            <b>{nameWording(formData, true, true, true)}:</b>
+            <ul style={{ listStyleType: 'disc' }}>
+              <li>Full name</li>
+              <li>Date of birth</li>
+            </ul>
           </li>
           <li>
-            {nameWording(formData, true, true, true)} provider’s full name,
-            medical title, office address, billing address, and tax
-            identification number.
+            <b>{nameWording(formData, true, true, true)} provider’s:</b>
+            <ul style={{ listStyleType: 'disc' }}>
+              <li>Full name</li>
+              <li>Medical title</li>
+              <li>Address where services were rendered</li>
+              <li>10-digit National Provider Identifier (NPI)</li>
+              <li>
+                9-digit tax identification number (TIN or Tax ID; example
+                12-1234567)
+              </li>
+            </ul>
           </li>
           <li>
-            A list of diagnosis and procedure codes for the care. This includes
-            DX, CPT, or HCPS codes.
+            <b>A list of charges</b> for{' '}
+            {nameWording(formData, true, false, true)} care
           </li>
           <li>
-            A list of charges for {nameWording(formData, true, false, true)}{' '}
-            care, and the dates when {nameWording(formData, false, false, true)}{' '}
-            got the care.
+            <b>The date of service</b> when{' '}
+            {nameWording(formData, false, false, true)} got the care
+          </li>
+          <li>
+            <b>Diagnosis (DX) codes</b> for the care
+          </li>
+          <li>
+            <b>A list of procedure codes</b> for the care:
+            <ul style={{ listStyleType: 'disc' }}>
+              <li>Current Procedural Terminology (CPT) codes or</li>
+              <li>Healthcare Common Procedure Coding System (HCPCS) codes</li>
+            </ul>
           </li>
         </ul>
+        {additionalMedicalClaimInfo()}
         <p>
           <b>Note:</b>
-          &nbsp; You may need to ask your provider for a statement that has all
-          of the information listed here. The statement must include all of this
-          information in order for us to process this claim.
+          &nbsp; CHAMPVA will not be able to process your claim if your
+          statement does not include all of the listed information. You may need
+          to ask your provider for a statement that has all of the information
+          listed here.
+          {/* <va-link text="Learn more about itemized bills" href="#TODO" /> */}
           <br />
           <br />
           You can also submit any other documents you think may be relevant to
