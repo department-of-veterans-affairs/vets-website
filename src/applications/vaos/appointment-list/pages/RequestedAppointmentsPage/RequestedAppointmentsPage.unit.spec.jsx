@@ -1,17 +1,17 @@
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { expect } from 'chai';
-import MockDate from 'mockdate';
 import { within } from '@testing-library/dom';
-import { format, addDays, subDays } from 'date-fns';
+import { expect } from 'chai';
+import { addDays, format, subDays } from 'date-fns';
+import MockDate from 'mockdate';
 import React from 'react';
 import reducers from '../../../redux/reducer';
 import { getVAOSRequestMock } from '../../../tests/mocks/mock';
+import { mockAppointmentsApi } from '../../../tests/mocks/mockApis';
 import {
   getTestDate,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
 import RequestedAppointmentsPage from './RequestedAppointmentsPage';
-import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/mockApis';
 
 const initialStateVAOSService = {
   featureToggles: {
@@ -68,10 +68,10 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       },
       requestedPeriods: [
         {
-          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+          start: addDays(startDate, 3),
         },
         {
-          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+          start: addDays(startDate, 4),
         },
       ],
       serviceType: '323',
@@ -81,11 +81,11 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     };
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'),
-      end: format(addDays(now, 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
+      response: [appointment],
     });
 
     // When veteran selects the Requested dropdown selection
@@ -127,10 +127,10 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       },
       requestedPeriods: [
         {
-          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+          start: addDays(startDate, 3),
         },
         {
-          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+          start: addDays(startDate, 4),
         },
       ],
       serviceType: '203',
@@ -139,11 +139,11 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     };
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'),
-      end: format(addDays(now, 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [ccAppointmentRequest],
+      response: [ccAppointmentRequest],
     });
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
@@ -200,10 +200,10 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       },
       requestedPeriods: [
         {
-          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+          start: addDays(startDate, 3),
         },
         {
-          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+          start: addDays(startDate, 4),
         },
       ],
       serviceType: '323',
@@ -221,11 +221,11 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     };
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'),
-      end: format(addDays(now, 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment, canceledAppointment],
+      response: [appointment, canceledAppointment],
     });
 
     // When veteran selects requested appointments
@@ -288,10 +288,10 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       },
       requestedPeriods: [
         {
-          start: format(addDays(now, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+          start: addDays(now, 3),
         },
         {
-          start: format(addDays(now, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+          start: addDays(now, 4),
         },
       ],
       serviceType: 'primaryCare',
@@ -318,11 +318,11 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     };
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'),
-      end: format(addDays(now, 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment, appointment2, appointment3],
+      response: [appointment, appointment2, appointment3],
     });
 
     // When veteran selects the Requested dropdown selection
@@ -383,10 +383,10 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       },
       requestedPeriods: [
         {
-          start: format(addDays(now, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+          start: addDays(now, 3),
         },
         {
-          start: format(addDays(now, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+          start: addDays(now, 4),
         },
       ],
       serviceType: '323',
@@ -396,11 +396,11 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     };
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'),
-      end: format(addDays(now, 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
+      response: [appointment],
     });
 
     // When veteran selects requested appointments
@@ -416,9 +416,9 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // And cancelled appointments should not be displayed
     expect(
-      screen.queryByRole('heading', { level: 2, name: 'Canceled requests' }),
+      screen.queryByRole('heading', { level: 2, name: 'Canceled response' }),
     ).not.to.be.ok;
-    expect(screen.queryByText('These appointment requests have been canceled.'))
+    expect(screen.queryByText('These appointment response have been canceled.'))
       .not.to.be.ok;
 
     // And the no appointments alert message should not be displayed
@@ -433,11 +433,11 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
   it('should display no appointments alert when there are no pending or cancelled appointments', async () => {
     // And a veteran has no pending or canceled appointment request
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(new Date(), 120), 'yyyy-MM-dd'),
-      end: format(addDays(new Date(), 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(new Date(), 120),
+      end: addDays(new Date(), 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [{}],
+      response: [{}],
     });
 
     // When veteran selects requested appointments
@@ -499,10 +499,10 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       },
       requestedPeriods: [
         {
-          start: format(addDays(now, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+          start: addDays(now, 3),
         },
         {
-          start: format(addDays(now, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+          start: addDays(now, 4),
         },
       ],
       serviceType: '323',
@@ -512,11 +512,11 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     };
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'),
-      end: format(addDays(now, 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
+      response: [appointment],
     });
 
     // When veteran selects requested appointments
@@ -546,7 +546,12 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     ).to.be.ok;
   });
   it('should show error message when request fails', async () => {
-    mockVAOSAppointmentsFetch({ error: true });
+    mockAppointmentsApi({
+      start: subDays(new Date(), 120),
+      end: addDays(new Date(), 2),
+      statuses: ['proposed', 'cancelled'],
+      responseCode: 500,
+    });
 
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
       initialState: initialStateVAOSService,
@@ -604,10 +609,10 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
         },
         requestedPeriods: [
           {
-            start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+            start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ss"),
           },
           {
-            start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
+            start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ss"),
           },
         ],
         serviceType: '323',
@@ -615,11 +620,11 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
         status: 'proposed',
       };
       // And developer is using the v2 API
-      mockVAOSAppointmentsFetch({
-        start: format(subDays(new Date(), 120), 'yyyy-MM-dd'),
-        end: format(addDays(new Date(), 2), 'yyyy-MM-dd'),
+      mockAppointmentsApi({
+        start: subDays(new Date(), 120),
+        end: addDays(new Date(), 2),
         statuses: ['proposed', 'cancelled'],
-        requests: [appointment],
+        response: [appointment],
       });
 
       // When veteran selects the Requested dropdown selection
