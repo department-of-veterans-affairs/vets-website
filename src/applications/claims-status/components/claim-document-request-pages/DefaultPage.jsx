@@ -31,19 +31,23 @@ export default function DefaultPage({
           </h1>
 
           {item.status === 'NEEDED_FROM_YOU' ? (
-            <p className="vads-u-font-size--h3">
-              Respond by {dateFormatter(item.suspenseDate)}
-            </p>
-          ) : null}
-          {item.status === 'NEEDED_FROM_OTHERS' ? (
-            <div className="optional-upload">
-              <p>
-                <strong>Optional</strong> - We’ve asked others to send this to
-                us, but you may upload it if you have it.
+            <>
+              <p className="vads-u-font-size--h3 vads-u-margin-bottom--1">
+                Respond by {dateFormatter(item.suspenseDate)}
               </p>
-            </div>
-          ) : null}
-          <h2>What we need from you</h2>
+              <DueDate date={item.suspenseDate} />
+            </>
+          ) : (
+            <p className="vads-u-font-size--h3">
+              Requested to others on {dateFormatter(item.requestedDate)}
+            </p>
+          )}
+
+          {item.status === 'NEEDED_FROM_YOU' ? (
+            <h2>What we need from you</h2>
+          ) : (
+            <h2>What we’re notifying you about</h2>
+          )}
 
           {evidenceDictionary[item.displayName] ? (
             evidenceDictionary[item.displayName].longDescription
@@ -51,18 +55,41 @@ export default function DefaultPage({
             <p>{scrubDescription(item.description)}</p>
           )}
 
-          <h3>Learn about this request in your claim letter</h3>
-          <p>
-            On {dateFormatter(item.requestedDate)}, we mailed you a letter
-            titled, “Request for Specific Evidence or Information,” which may
-            include more details about this request. You can access this and all
-            your claim letters online.
-          </p>
-          <va-link
-            text="Your claim letters"
-            label="Your claim letters"
-            href="/track-claims/your-claim-letters"
-          />
+          {item.status === 'NEEDED_FROM_OTHERS' && (
+            <div className="optional-upload">
+              <p>
+                <strong>
+                  This is just a notice. No action is needed by you.
+                </strong>
+                {(!evidenceDictionary[item.displayName] ||
+                  !evidenceDictionary[item.displayName].noActionNeeded) && (
+                  <>
+                    {' '}
+                    But, if you have documents related to this request,
+                    uploading them on this page may help speed up the evidence
+                    review for your claim.
+                  </>
+                )}
+              </p>
+            </div>
+          )}
+
+          {item.status === 'NEEDED_FROM_YOU' && (
+            <>
+              <h3>Learn about this request in your claim letter</h3>
+              <p>
+                On {dateFormatter(item.requestedDate)}, we mailed you a letter
+                titled, “Request for Specific Evidence or Information,” which
+                may include more details about this request. You can access this
+                and all your claim letters online.
+              </p>
+              <va-link
+                text="Your claim letters"
+                label="Your claim letters"
+                href="/track-claims/your-claim-letters"
+              />
+            </>
+          )}
           {evidenceDictionary[item.displayName] &&
             evidenceDictionary[item.displayName].nextSteps && (
               <>

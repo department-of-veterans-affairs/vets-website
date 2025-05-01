@@ -6,7 +6,6 @@ import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import { allergies } from '../fixtures/allergies.json';
 import { Actions } from '../../util/actionTypes';
 import {
-  getPrescriptionsPaginatedSortedList,
   getPrescriptionDetails,
   getAllergiesList,
   clearAllergiesError,
@@ -17,16 +16,6 @@ import {
 } from '../../actions/prescriptions';
 
 describe('Get prescription list action', () => {
-  it('should dispatch a get paginated, sorted list action', () => {
-    const mockData = prescriptions;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getPrescriptionsPaginatedSortedList()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
-      );
-    });
-  });
   it('should dispatch a paginated filtered list action', async () => {
     const mockData = prescriptions;
     mockApiRequest(mockData);
