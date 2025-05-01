@@ -171,7 +171,6 @@ export const submitFormData = async ({
     if (!response?.ok) {
       // If the response is not ok and not JSON, assume 503 from gateway
       if (!contentType || !contentType.includes('application/json')) {
-        // const htmlText = await response.text();
         throw new Error('Non-JSON error response (likely 503 from gateway)');
       }
 

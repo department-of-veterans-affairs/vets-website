@@ -454,7 +454,6 @@ describe('Review Page Utils', () => {
           ok: false,
           headers: { get: () => 'text/html' },
           text: () => Promise.resolve('<html>503 Service Unavailable</html>'),
-          // json: () => Promise.resolve({}), // fallback, not expected to be called
         });
 
         try {
