@@ -16,9 +16,11 @@ const DEFAULT_CONFIG = {
 
 // declare 3rd party domains to exclude from logs
 const EXCLUDED_DOMAINS = [
-  'google-analytics.com',
+  'resource.digital.voice.va.gov',
   'browser-intake-ddog-gov.com',
+  'google-analytics.com',
   'eauth.va.gov',
+  'api.va.gov',
 ];
 
 const initializeRealUserMonitoring = () => {
