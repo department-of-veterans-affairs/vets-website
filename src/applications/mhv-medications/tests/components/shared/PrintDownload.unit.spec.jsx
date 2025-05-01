@@ -9,7 +9,6 @@ import { DOWNLOAD_FORMAT } from '../../../util/constants';
 describe('Medicaitons Print/Download button component', () => {
   let handleFullListDownload;
   let handlePrintPage;
-  let handleTextDownload;
   const setup = (
     onDownload = handleFullListDownload,
     success = false,
@@ -34,7 +33,6 @@ describe('Medicaitons Print/Download button component', () => {
   beforeEach(() => {
     handleFullListDownload = sinon.spy();
     handlePrintPage = sinon.spy();
-    handleTextDownload = sinon.spy();
   });
 
   it('renders without errors', () => {
@@ -116,26 +114,10 @@ describe('Medicaitons Print/Download button component', () => {
   });
 
   it('should start print page using custom fn on print button click', () => {
-    const screen = setup(undefined, false, false, undefined, handlePrintPage);
+    const screen = setup(undefined, false, false, handlePrintPage);
     const printBtn = screen.getByText('Print this page');
     fireEvent.click(printBtn);
     expect(handlePrintPage.getCalls().length).to.equal(1);
-  });
-
-  it('should start txt download using custom fn on txt button click', () => {
-    global.navigator = {
-      onLine: true,
-    };
-    const screen = setup(
-      undefined,
-      false,
-      false,
-      handleTextDownload,
-      undefined,
-    );
-    const txtBtn = screen.getByText('Download a text file (.txt) of this page');
-    fireEvent.click(txtBtn);
-    expect(handleTextDownload.getCalls().length).to.equal(1);
   });
 
   it('user keyboard events: upArrow, downArrow, and esc keys', () => {
