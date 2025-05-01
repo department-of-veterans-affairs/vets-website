@@ -15,8 +15,8 @@ const DEFAULT_CONFIG = {
   sessionSampleRate: 100,
 };
 
-// declare 3rd party URLs to exclude from logs
-const EXCLUDED_URLS = [
+// declare 3rd party domains to exclude from logs
+const EXCLUDED_DOMAINS = [
   'google-analytics.com',
   'browser-intake-ddog-gov.com',
   'eauth.va.gov',
@@ -37,7 +37,7 @@ const initializeRealUserMonitoring = user => {
       beforeSend: ({ type, resource }) => {
         return !(
           type === 'resource' &&
-          EXCLUDED_URLS.some(url => resource.url.includes(url))
+          EXCLUDED_DOMAINS.some(d => resource.url.includes(d))
         );
       },
     });
@@ -60,9 +60,7 @@ const intitalizeBrowserLogging = () => {
       ...DEFAULT_CONFIG,
       forwardErrorsToLogs: true,
       beforeSend: ({ http }) => {
-        return !(
-          http?.url && EXCLUDED_URLS.some(url => http.url.includes(url))
-        );
+        return !(http?.url && EXCLUDED_DOMAINS.some(d => http.url.includes(d)));
       },
     });
   }
