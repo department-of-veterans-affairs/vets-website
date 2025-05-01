@@ -1,5 +1,4 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import { AXE_CONTEXT, Paths } from './utils/constants';
 
@@ -7,8 +6,9 @@ describe('SM MAIN PAGE REDIRECTING', () => {
   it('verify redirecting to inbox with feature flag', () => {
     const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([]);
 
-    SecureMessagingSite.login();
-    SecureMessagingLandingPage.loadMainPage(updatedFeatureToggle);
+    SecureMessagingSite.login(updatedFeatureToggle);
+
+    cy.visit(Paths.UI_MAIN);
 
     cy.url().should(`include`, Paths.INBOX);
 
