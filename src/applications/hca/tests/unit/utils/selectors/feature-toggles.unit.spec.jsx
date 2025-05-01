@@ -14,14 +14,16 @@ describe('hca FeatureToggles selector', () => {
     },
   };
 
-  it('should return feature toggles when `selectFeatureToggles` executes', () => {
-    expect(selectFeatureToggles(state)).to.eql({
-      isLoadingFeatureFlags: false,
-      isBrowserMonitoringEnabled: true,
-      isPerformanceAlertEnabled: false,
-      isESOverrideEnabled: false,
-      isInsuranceV2Enabled: false,
-      isRegOnlyEnabled: true,
+  describe('when `selectFeatureToggles` executes', () => {
+    it('should return feature toggles', () => {
+      expect(selectFeatureToggles(state)).to.eql({
+        isLoadingFeatureFlags: false,
+        isBrowserMonitoringEnabled: true,
+        isPerformanceAlertEnabled: false,
+        isESOverrideEnabled: false,
+        isInsuranceV2Enabled: false,
+        isRegOnlyEnabled: true,
+      });
     });
   });
 });
