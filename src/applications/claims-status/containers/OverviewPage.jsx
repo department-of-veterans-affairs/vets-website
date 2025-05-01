@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { clearNotification } from '../actions';
@@ -10,6 +9,7 @@ import ClaimTimeline from '../components/ClaimTimeline';
 import ClaimOverviewHeader from '../components/claim-overview-tab/ClaimOverviewHeader';
 import DesktopClaimPhaseDiagram from '../components/claim-overview-tab/DesktopClaimPhaseDiagram';
 import MobileClaimPhaseDiagram from '../components/claim-overview-tab/MobileClaimPhaseDiagram';
+import ClaimPhaseStepper from '../components/claim-overview-tab/ClaimPhaseStepper';
 
 import {
   claimAvailable,
@@ -19,51 +19,56 @@ import {
   setTabDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab } from '../utils/page';
-import ClaimPhaseStepper from '../components/claim-overview-tab/ClaimPhaseStepper';
 
-// HELPERS
+// HELPERS ------------------------------------------------------------
 const STATUSES = getStatusMap();
-
 const getPhaseFromStatus = latestStatus =>
   [...STATUSES.keys()].indexOf(latestStatus.toUpperCase()) + 1;
 
-class OverviewPage extends React.Component {
-  componentDidMount() {
-    const { claim } = this.props;
-    // Only set the document title at mount-time if the claim is already available.
+/* =================================================================== */
+/*                         Functional component                         */
+/* =================================================================== */
+const OverviewPage = ({
+  claim,
+  clearNotification: clearNotif,
+  lastPage,
+  loading,
+  message,
+}) => {
+  /* ---------------------- componentDidMount ------------------------ */
+  useEffect(() => {
     if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Overview');
 
-    setTimeout(() => {
-      const { lastPage, loading } = this.props;
+    const timer = setTimeout(() => {
       setPageFocus(lastPage, loading);
     }, 100);
-  }
 
-  componentDidUpdate(prevProps) {
-    const { claim, lastPage, loading } = this.props;
+    return () => clearTimeout(timer); // cleanup timeout on unmount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // run once
 
-    if (!loading && prevProps.loading && !isTab(lastPage)) {
+  /* ---------------------- componentDidUpdate ----------------------- */
+  const prevLoadingRef = useRef(loading);
+
+  useEffect(() => {
+    const prevLoading = prevLoadingRef.current;
+
+    if (!loading && prevLoading && !isTab(lastPage)) {
       setUpPage(false);
     }
-    // Set the document title when loading completes.
-    //   If loading was successful it will display a title specific to the claim.
-    //   Otherwise it will display a default title of "Overview of Your Claim".
-    if (loading !== prevProps.loading) {
+    if (loading !== prevLoading) {
       setTabDocumentTitle(claim, 'Overview');
     }
-  }
 
-  componentWillUnmount() {
-    this.props.clearNotification();
-  }
+    prevLoadingRef.current = loading;
+  }, [loading, lastPage, claim]);
 
-  getPageContent() {
-    const { claim } = this.props;
+  /* ------------------ componentWillUnmount ------------------------- */
+  useEffect(() => () => clearNotif(), [clearNotif]);
 
-    // Return null if the claim/ claim.attributes dont exist
-    if (!claimAvailable(claim)) {
-      return null;
-    }
+  /* -------------------------- helpers ------------------------------ */
+  const getPageContent = useCallback(() => {
+    if (!claimAvailable(claim)) return null;
 
     const { claimPhaseDates, claimDate, claimTypeCode } = claim.attributes;
     const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
@@ -72,6 +77,7 @@ class OverviewPage extends React.Component {
     return (
       <div className="overview-container">
         <ClaimOverviewHeader claimTypeCode={claimTypeCode} />
+
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstClaimPhases}>
           <Toggler.Enabled>
             {isDisabilityCompensationClaim(claimTypeCode) ? (
@@ -91,47 +97,42 @@ class OverviewPage extends React.Component {
               <ClaimTimeline
                 id={claim.id}
                 phase={currentPhase}
-                currentPhaseBack={claimPhaseDates.currentPhaseBack}
+                currentPhaseBack={currentPhaseBack}
               />
             )}
           </Toggler.Enabled>
+
           <Toggler.Disabled>
             <ClaimTimeline
               id={claim.id}
               phase={currentPhase}
-              currentPhaseBack={claimPhaseDates.currentPhaseBack}
+              currentPhaseBack={currentPhaseBack}
             />
           </Toggler.Disabled>
         </Toggler>
       </div>
     );
-  }
+  }, [claim]);
 
-  render() {
-    const { claim, loading, message } = this.props;
+  /* --------------------------- render ------------------------------ */
+  const content = !loading ? getPageContent() : null;
 
-    let content = null;
-    if (!loading) {
-      content = this.getPageContent();
-    }
+  return (
+    <ClaimDetailLayout
+      claim={claim}
+      loading={loading}
+      clearNotification={clearNotif}
+      currentTab="Overview"
+      message={message}
+    >
+      {content}
+    </ClaimDetailLayout>
+  );
+};
 
-    return (
-      <ClaimDetailLayout
-        claim={claim}
-        loading={loading}
-        clearNotification={this.props.clearNotification}
-        currentTab="Overview"
-        message={message}
-      >
-        {content}
-      </ClaimDetailLayout>
-    );
-  }
-}
-
+/* ------------------------- Redux wiring ---------------------------- */
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
-
   return {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
@@ -140,22 +141,17 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  clearNotification,
-};
+const mapDispatchToProps = { clearNotification };
 
+/* -------------------------- PropTypes ----------------------------- */
 OverviewPage.propTypes = {
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
-  params: PropTypes.object,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(OverviewPage);
-
+/* --------------------------- export ------------------------------- */
+export default connect(mapStateToProps, mapDispatchToProps)(OverviewPage);
 export { OverviewPage };
