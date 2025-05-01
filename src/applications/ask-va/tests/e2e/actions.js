@@ -15,6 +15,8 @@ export const HEADING_SELECTORS = [
 
 const selectorShorthand = {
   SELECT_RESIDENCE: "va-select[name='root_yourLocationOfResidence']",
+  SELECT_VETERAN_RESIDENCE:
+    "va-select[name='root_veteransLocationOfResidence']",
   SELECT_FAMILY_MEMBER_RESIDENCE:
     "va-select[name='root_familyMembersLocationOfResidence']",
   SELECT_CATEGORY: 'va-select#root_selectCategory',
