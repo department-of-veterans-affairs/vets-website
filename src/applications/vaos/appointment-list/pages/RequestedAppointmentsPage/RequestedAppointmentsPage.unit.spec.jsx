@@ -68,10 +68,10 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       },
       requestedPeriods: [
         {
-          start: addDays(startDate, 3),
+          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ss"),
         },
         {
-          start: addDays(startDate, 4),
+          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ss"),
         },
       ],
       serviceType: '323',
@@ -127,10 +127,10 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       },
       requestedPeriods: [
         {
-          start: addDays(startDate, 3),
+          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ss"),
         },
         {
-          start: addDays(startDate, 4),
+          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ss"),
         },
       ],
       serviceType: '203',
@@ -200,10 +200,10 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       },
       requestedPeriods: [
         {
-          start: addDays(startDate, 3),
+          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ss"),
         },
         {
-          start: addDays(startDate, 4),
+          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ss"),
         },
       ],
       serviceType: '323',
