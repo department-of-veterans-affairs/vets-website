@@ -15,7 +15,8 @@ import {
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
 
-import { mockAppointmentSubmit } from '../../tests/mocks/mockApis';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import { mockAppointmentSubmitApi } from '../../tests/mocks/mockApis';
 import { onCalendarChange } from '../redux/actions';
 import ReviewPage from './ReviewPage';
 
@@ -85,11 +86,8 @@ describe('VAOS vaccine flow: ReviewPage', () => {
       store,
     });
     await screen.findByText(/COVID-19 vaccine/i);
-    mockAppointmentSubmit({
-      id: 'fake_id',
-      attributes: {
-        reasonCode: {},
-      },
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 1 }),
     });
     expect(screen.baseElement).to.contain.text(
       'Make sure the information is correct. Then confirm your appointment.',
