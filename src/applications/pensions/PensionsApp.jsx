@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import IntentToFile from 'platform/shared/itf/IntentToFile';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from './config/form';
@@ -69,7 +68,6 @@ export default function PensionEntry({ location, children }) {
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      <IntentToFile itfType="compensation" location={location} />
       {children}
     </RoutedSavableApp>
   );
