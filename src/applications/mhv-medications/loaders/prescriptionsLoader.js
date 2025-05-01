@@ -6,8 +6,9 @@ import {
   getRefillAlertPrescriptions,
 } from '../api/prescriptionsApi';
 import {
-  defaultSelectedSortOption,
   rxListSortingOptions,
+  ALL_MEDICATIONS_FILTER_KEY,
+  filterOptions,
 } from '../util/constants';
 
 /**
@@ -20,13 +21,31 @@ export const prescriptionsLoader = async ({ params }) => {
 
   // For main prescriptions list, load first page of prescriptions
   if (!params?.prescriptionId) {
+    // Get values from Redux store
+    const state = store.getState();
+    const { pageNumber, filterOption, sortOption } = state.rx.preferences;
+
+    // Get the sort endpoint from the sort option
+    const sortEndpoint =
+      sortOption && rxListSortingOptions[sortOption]?.API_ENDPOINT
+        ? rxListSortingOptions[sortOption].API_ENDPOINT
+        : rxListSortingOptions[Object.keys(rxListSortingOptions)[0]]
+            .API_ENDPOINT;
+
+    // Determine filter option URL
+    const filterOptionUrl =
+      filterOption !== ALL_MEDICATIONS_FILTER_KEY &&
+      filterOptions[filterOption]?.url
+        ? filterOptions[filterOption].url
+        : '';
+
     const queryParams = {
-      page: 1,
+      page: pageNumber || 1,
       perPage: 10,
-      sortEndpoint:
-        rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-      filterOption: '',
+      sortEndpoint,
+      filterOption: filterOptionUrl,
     };
+
     fetchPromises.push(
       store.dispatch(getPrescriptionsList.initiate(queryParams)),
     );
@@ -41,7 +60,6 @@ export const prescriptionsLoader = async ({ params }) => {
   }
 
   // For refill pages, load refillable prescriptions
-  // Using this workaround because React Router doesn't pass the route path to the loader.
   if (window.location.pathname.endsWith('/refill')) {
     fetchPromises.push(
       store.dispatch(getRefillablePrescriptions.initiate(undefined)),

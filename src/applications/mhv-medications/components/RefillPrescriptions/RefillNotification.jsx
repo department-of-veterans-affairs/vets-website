@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { dataDogActionNames } from '../../util/dataDogConstants';
-import { SESSION_RX_FILTER_OPEN_BY_DEFAULT } from '../../util/constants';
+import { setFilterOpen } from '../../redux/preferencesSlice';
 
 const RefillNotification = ({ refillStatus, successfulMeds, failedMeds }) => {
+  const dispatch = useDispatch();
+
   useEffect(
     () => {
       if (refillStatus === 'finished') {
@@ -27,9 +30,7 @@ const RefillNotification = ({ refillStatus, successfulMeds, failedMeds }) => {
   );
 
   const handleGoToMedicationsListOnSuccess = () => {
-    if (!sessionStorage.getItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT)) {
-      sessionStorage.setItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT, true);
-    }
+    dispatch(setFilterOpen(true));
   };
 
   const isNotSubmitted =

@@ -1,18 +1,24 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { datadogRum } from '@datadog/browser-rum';
+import { useDispatch, useSelector } from 'react-redux';
 import { rxListSortingOptions } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+import { setSortOption } from '../../redux/preferencesSlice';
 
-const MedicationsListSort = props => {
-  const { value, sortRxList } = props;
+const MedicationsListSort = () => {
   const navigate = useNavigate();
-  const sortListOption = useMemo(() => value, [value]);
+  const dispatch = useDispatch();
+
+  const selectedSortOption = useSelector(
+    state => state.rx.preferences.sortOption,
+  );
 
   const rxSortingOptions = Object.keys(rxListSortingOptions);
+
   return (
     <div className="medications-list-sort">
       <div className="vads-u-margin-bottom--0p5">
@@ -25,9 +31,11 @@ const MedicationsListSort = props => {
             dataDogActionNames.medicationsListPage
               .SHOW_MEDICATIONS_IN_ORDER_SELECT
           }
-          value={sortListOption}
+          value={selectedSortOption}
           onVaSelect={e => {
-            sortRxList(e.detail.value);
+            const newSortOption = e.detail.value;
+            dispatch(setSortOption(newSortOption));
+
             navigate(`/?page=1`, {
               replace: true,
             });
@@ -36,7 +44,7 @@ const MedicationsListSort = props => {
               document,
               500,
             );
-            const capitalizedOption = e.detail.value
+            const capitalizedOption = newSortOption
               .replace(/([a-z])([A-Z])/g, '$1 $2')
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -62,7 +70,6 @@ const MedicationsListSort = props => {
 
 MedicationsListSort.propTypes = {
   sortRxList: PropTypes.func,
-  value: PropTypes.string,
 };
 
 export default MedicationsListSort;

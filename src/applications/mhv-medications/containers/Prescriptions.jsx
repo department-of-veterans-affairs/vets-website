@@ -27,15 +27,12 @@ import {
 import {
   PDF_TXT_GENERATE_STATUS,
   rxListSortingOptions,
-  SESSION_SELECTED_SORT_OPTION,
-  SESSION_SELECTED_FILTER_OPTION,
-  defaultSelectedSortOption,
   medicationsUrls,
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
-  SESSION_SELECTED_PAGE_NUMBER,
   filterOptions,
   ALL_MEDICATIONS_FILTER_KEY,
+  defaultSelectedSortOption,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -66,6 +63,11 @@ import {
   useGetPrescriptionsListQuery,
   getPrescriptionSortedList,
 } from '../api/prescriptionsApi';
+import {
+  setSortOption,
+  setFilterOption,
+  setPageNumber,
+} from '../redux/preferencesSlice';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -74,9 +76,15 @@ const Prescriptions = () => {
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
+
+  // Get sort/filter selections from store.
   const selectedSortOption = useSelector(
-    state => state.rx.prescriptions?.selectedSortOption,
+    state => state.rx.preferences.sortOption,
   );
+  const selectedFilterOption = useSelector(
+    state => state.rx.preferences.filterOption,
+  );
+  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
 
   // Get feature flags
   const showGroupingContent = useSelector(selectGroupingFlag);
@@ -86,31 +94,18 @@ const Prescriptions = () => {
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const showIPEContent = useSelector(selectIPEContentFlag);
 
-  // Get stored session values
-  const storedPageNumber =
-    sessionStorage.getItem(SESSION_SELECTED_PAGE_NUMBER) || '1';
-  const storedFilterOption =
-    sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
-    ALL_MEDICATIONS_FILTER_KEY;
-  const storedSortOption =
-    sessionStorage.getItem(SESSION_SELECTED_SORT_OPTION) ||
-    defaultSelectedSortOption;
-
   // Track if we've initialized from session storage
   const initializedFromSession = useRef(false);
 
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams, setQueryParams] = useState({
-    page: Number(storedPageNumber),
+    page: currentPage || 1,
     perPage: showGroupingContent ? 10 : 20,
     sortEndpoint:
-      rxListSortingOptions[storedSortOption]?.API_ENDPOINT ||
+      rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-    filterOption: filterOptions[storedFilterOption]?.url || '',
+    filterOption: filterOptions[selectedFilterOption]?.url || '',
   });
-
-  // For components that still need individual state values
-  const [filterOption, setFilterOption] = useState(storedFilterOption);
 
   // Use the consolidated query parameters for RTK Query
   const {
@@ -120,8 +115,14 @@ const Prescriptions = () => {
     isFetching: isPrescriptionsFetching,
   } = useGetPrescriptionsListQuery(queryParams);
 
-  // Derived from query params for backwards compatibility
-  const currentPage = queryParams.page;
+  // Extract page from URL query params
+  const page = useMemo(
+    () => {
+      const query = new URLSearchParams(search);
+      return Number(query.get('page'));
+    },
+    [search],
+  );
 
   // Mark as initialized after the first render
   useEffect(() => {
@@ -166,13 +167,6 @@ const Prescriptions = () => {
     format: undefined,
   });
   const scrollLocation = useRef();
-  const page = useMemo(
-    () => {
-      const query = new URLSearchParams(search);
-      return Number(query.get('page'));
-    },
-    [search],
-  );
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
 
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
@@ -185,17 +179,22 @@ const Prescriptions = () => {
     // Prepare updates for a single state change
     const updates = {};
 
-    if (newFilterOption !== null) {
+    const isFiltering = newFilterOption !== null;
+    updateLoadingStatus(
+      true,
+      `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
+    );
+
+    if (isFiltering) {
       updates.filterOption = filterOptions[newFilterOption]?.url || '';
       updates.page = 1;
-      setFilterOption(newFilterOption);
-      sessionStorage.setItem(SESSION_SELECTED_FILTER_OPTION, newFilterOption);
-      navigate('/?page=1', { replace: true });
+      dispatch(setFilterOption(newFilterOption));
+      dispatch(setPageNumber(1));
     }
 
     if (newSortOption && newSortOption !== selectedSortOption) {
       updates.sortEndpoint = rxListSortingOptions[newSortOption].API_ENDPOINT;
-      sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, newSortOption);
+      dispatch(setSortOption(newSortOption));
       setPdfTxtGenerateStatus({
         ...pdfTxtGenerateStatus,
         status: PDF_TXT_GENERATE_STATUS.NotStarted,
@@ -209,26 +208,17 @@ const Prescriptions = () => {
         ...updates,
       }));
     }
-  };
 
-  // Update the sorting function to use consolidated state updates
-  const sortRxList = sortOption => {
-    if (sortOption !== selectedSortOption && sortOption !== '') {
-      setPdfTxtGenerateStatus({
-        ...pdfTxtGenerateStatus,
-        status: PDF_TXT_GENERATE_STATUS.NotStarted,
-      });
-      updateFilterAndSort(null, sortOption);
-    }
+    navigate('/?page=1', { replace: true });
   };
 
   // Handle pagination changes
   const handlePageChange = newPage => {
+    dispatch(setPageNumber(newPage));
     setQueryParams(prev => ({
       ...prev,
       page: newPage,
     }));
-    sessionStorage.setItem(SESSION_SELECTED_PAGE_NUMBER, newPage);
     navigate(`/?page=${newPage}`, { replace: true });
   };
 
@@ -288,11 +278,10 @@ const Prescriptions = () => {
     [isPrescriptionsLoading, isPrescriptionsFetching],
   );
 
-  // Update page title and session storage
+  // Update page title
   useEffect(
     () => {
       updatePageTitle('Medications | Veterans Affairs');
-      sessionStorage.setItem(SESSION_SELECTED_PAGE_NUMBER, currentPage);
     },
     [currentPage],
   );
@@ -312,13 +301,13 @@ const Prescriptions = () => {
   useEffect(
     () => {
       if (Number.isNaN(page) || page < 1) {
-        navigate(
-          `/?page=${sessionStorage.getItem(SESSION_SELECTED_PAGE_NUMBER) || 1}`,
-          { replace: true },
-        );
+        navigate(`/?page=${currentPage || 1}`, { replace: true });
+      } else if (page !== currentPage) {
+        // If the URL page parameter differs from our Redux state, update Redux
+        dispatch(setPageNumber(page));
       }
     },
-    [page, navigate],
+    [page, navigate, currentPage, dispatch],
   );
 
   useEffect(
@@ -333,17 +322,14 @@ const Prescriptions = () => {
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
-  useEffect(() => {
-    if (!filterOption) {
-      setFilterOption(ALL_MEDICATIONS_FILTER_KEY);
-    }
-  }, []);
-
-  const selectedFilterOption =
-    filterOptions[
-      sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
-        ALL_MEDICATIONS_FILTER_KEY
-    ]?.showingContentDisplayName;
+  useEffect(
+    () => {
+      if (!selectedFilterOption) {
+        dispatch(setFilterOption(ALL_MEDICATIONS_FILTER_KEY));
+      }
+    },
+    [dispatch, selectedFilterOption],
+  );
 
   const pdfData = useCallback(
     (rxList, allergiesList) => {
@@ -795,20 +781,13 @@ const Prescriptions = () => {
             </h2>
             <MedicationsListFilter
               updateFilter={updateFilterAndSort}
-              filterOption={filterOption}
-              setFilterOption={setFilterOption}
               filterCount={filterCount}
             />
             {showIPEContent && <InProductionEducationFiltering />}
           </>
           {hasMedications && (
             <>
-              {!isLoading && (
-                <MedicationsListSort
-                  value={selectedSortOption}
-                  sortRxList={sortRxList}
-                />
-              )}
+              {!isLoading && <MedicationsListSort />}
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               {renderMedicationsList()}
               {!isLoading && (
