@@ -1,3 +1,4 @@
+import { defer } from 'react-router-dom-v5-compat';
 import { store } from '../store';
 import {
   getPrescriptionById,
@@ -16,7 +17,7 @@ import {
  * Loads prescription data when routes that need it are accessed
  * This follows the React Router loader pattern
  */
-export const prescriptionsLoader = async ({ params }) => {
+export const prescriptionsLoader = ({ params }) => {
   const fetchPromises = [];
 
   // For main prescriptions list, load first page of prescriptions
@@ -66,8 +67,5 @@ export const prescriptionsLoader = async ({ params }) => {
     );
   }
 
-  // Wait for all fetch promises to resolve
-  await Promise.all(fetchPromises);
-
-  return null;
+  return defer(Promise.all(fetchPromises));
 };

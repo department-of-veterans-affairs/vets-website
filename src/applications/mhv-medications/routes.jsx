@@ -75,23 +75,21 @@ const routes = [
   {
     path: ':page',
     element: <AppWrapper Component={Prescriptions} />,
-    loader: async (...args) => {
-      await Promise.all([
+    loader: (...args) => {
+      return Promise.all([
         allergiesLoader(...args),
         prescriptionsLoader(...args),
       ]);
-      return null;
     },
   },
   {
     path: '/',
     element: <AppWrapper Component={Prescriptions} />,
-    loader: async (...args) => {
-      await Promise.all([
+    loader: (...args) => {
+      return Promise.all([
         allergiesLoader(...args),
         prescriptionsLoader(...args),
       ]);
-      return null;
     },
   },
   {
@@ -102,12 +100,11 @@ const routes = [
   {
     path: 'prescription/:prescriptionId',
     element: <AppWrapper Component={PrescriptionDetails} />,
-    loader: async (...args) => {
-      await Promise.all([
+    loader: (...args) => {
+      return Promise.all([
         allergiesLoader(...args),
         prescriptionsLoader(...args),
       ]);
-      return null;
     },
   },
   {
