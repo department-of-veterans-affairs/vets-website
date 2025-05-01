@@ -1182,7 +1182,7 @@ export const deriveInstitutionTitle = localType => {
     return 'Private Nonprofit Institution';
   }
   if (localType === 'for profit') {
-    return 'Proprietary Institutions';
+    return 'Proprietary Institution';
   }
   return `${capitalize(localType)} Institution`;
 };
