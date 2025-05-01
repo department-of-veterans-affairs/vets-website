@@ -1381,7 +1381,7 @@ const ReviewPage = props => {
       <div className="vads-u-margin-top--4 vads-u-display--flex">
         <va-button back onClick={() => props.goBack()} />
         {isDisabled ? (
-          <va-button text="Submit question" disabled />
+          <va-button text="Submit question" disabled loading />
         ) : (
           <va-button text="Submit question" onClick={handleSubmit} />
         )}
