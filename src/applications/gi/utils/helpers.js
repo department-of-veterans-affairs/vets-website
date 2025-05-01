@@ -1141,10 +1141,10 @@ export const deriveModalText = lowerType => {
     case 'public':
       modalName = 'publicSchool';
       break;
-    case 'for profit':
+    case 'private':
       modalName = 'privateSchool';
       break;
-    case 'proprietary':
+    case 'for profit':
       modalName = 'proprietarySchool';
       break;
     case 'foreign':
