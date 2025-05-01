@@ -33,6 +33,8 @@ import { getAndProcessItf, createItf } from './utils/api';
  *  required if ITF replaces the page content
  * @param {Element} children - React elements to render when ITF is dismissed -
  *  required if ITF replaces the page content
+ * @param {Boolean} [includeTypeInCreateApi=false] - whether to include the ITF
+ *  type in the API endpoint
  * @param {Boolean} [includeTypeInFetchApi=false] - whether to include the ITF
  *  type in the API endpoint
  *  (/v0/intent_to_file VS /v0/intent_to_file/compensation).
@@ -74,6 +76,7 @@ import { getAndProcessItf, createItf } from './utils/api';
 const IntentToFile = ({
   baseUrl = '', // required for full page replacement
   children, // required for full page replacement
+  includeTypeInCreateApi = true,
   includeTypeInFetchApi = false,
   itfApi,
   itfCreated = ItfCreatedAlert,
@@ -158,6 +161,7 @@ const IntentToFile = ({
             // create ITF
             createItf({
               accountUuid,
+              includeTypeInCreateApi,
               inProgressFormId,
               itfApi,
               itfType,
@@ -240,6 +244,8 @@ IntentToFile.propTypes = {
   WrapPage: PropTypes.func,
   baseUrl: PropTypes.string,
   children: PropTypes.any,
+  includeTypeInCreateApi: PropTypes.bool,
+  includeTypeInFetchApi: PropTypes.bool,
   itfApi: PropTypes.string,
   itfCreated: PropTypes.func,
   itfCreating: PropTypes.func,

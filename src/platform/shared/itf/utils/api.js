@@ -78,7 +78,7 @@ fetchItf.propTypes = {
 /**
  * Create Intent to File from given API
  * @param {String} accountUuid
- * @param {Boolean} includeTypeInFetchApi - Include the itfType in the API URL;
+ * @param {Boolean} includeTypeInCreateApi - Include the itfType in the API URL;
  * added because 526 create API includes the type, but Lighthouse API does not
  * @param {String} inProgressFormId
  * @param {String} itfApi - API endpoint
@@ -87,7 +87,7 @@ fetchItf.propTypes = {
  */
 export const createItf = async ({
   accountUuid,
-  includeTypeInFetchApi = true,
+  includeTypeInCreateApi = true,
   inProgressFormId,
   itfApi = ITF_API,
   itfType,
@@ -97,7 +97,7 @@ export const createItf = async ({
   }
 
   const apiUrl = `${environment.API_URL}${itfApi}${
-    includeTypeInFetchApi ? `/${itfType}` : ''
+    includeTypeInCreateApi ? `/${itfType}` : ''
   }`;
   let type = ITF_CREATION_FAILED;
   let currentITF = {};
