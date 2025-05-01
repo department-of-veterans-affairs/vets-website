@@ -114,7 +114,7 @@ describe('NavCard component', () => {
       );
       const linkElement = getByRole('link');
       expect(linkElement).to.have.attribute('href', 'https://www.google.com');
-      expect(linkElement).to.have.attribute('target', '_blank');
+      expect(linkElement).to.not.have.attribute('target', '_blank');
       expect(linkElement.text).to.not.include(externalLinkText);
     });
   });

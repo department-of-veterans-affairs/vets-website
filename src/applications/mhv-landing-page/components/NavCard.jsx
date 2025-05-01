@@ -29,7 +29,7 @@ const NavCard = ({
           className={isExternal ? 'mhv-c-navlink-external' : 'mhv-c-navlink'}
           href={href}
           aria-label={ariaLabel}
-          target={isExternal ? '_blank' : ''}
+          target={isExternal && !omitExternalLinkText ? '_blank' : ''}
           onClick={() => {
             recordEvent({
               event: 'nav-linkslist',
