@@ -2,7 +2,11 @@
 {
     "unauthenticated": [  
     ],
-    "authenticated": [  
+    "authenticated": [ 
+        "8c.yml",
+        "8d.yml",
+        "8e.yml",
+        "8f.yml", 
        "19f.yml"
     ]
 }
