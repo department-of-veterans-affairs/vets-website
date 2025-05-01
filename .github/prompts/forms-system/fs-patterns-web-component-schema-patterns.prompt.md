@@ -1,6 +1,6 @@
 # Forms web component patterns for RJSF (React JSON Schema Form)
 
-Look at [README](../../src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.md) for all available web component patterns.
+Look at [README](../../../src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.md) for all available web component patterns.
 
 ## Example of Usage:
 
