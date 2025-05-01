@@ -34,20 +34,17 @@ describe('<Academics>', () => {
     const onShowModalSpy = sinon.spy();
     const tree = shallow(
       <Academics
-        institution={{
-          creditForMilTraining: 'creditForMilTraining',
-        }}
+        institution={{ creditForMilTraining: 'creditForMilTraining' }}
         onShowModal={onShowModalSpy}
       />,
     );
     tree
       .find('LearnMoreLabel')
-      .at(1)
+      .at(0)
       .simulate('click');
 
     expect(onShowModalSpy.callCount).to.equal(1);
-    expect(onShowModalSpy.getCall(0).calledWith('militaryTrainingCredit')).to.be
-      .true;
+    expect(onShowModalSpy.calledWith('militaryTrainingCredit')).to.be.true;
     expect(
       tree
         .find('div[aria-live="off"]')
@@ -62,19 +59,17 @@ describe('<Academics>', () => {
     const onShowModalSpy = sinon.spy();
     const tree = shallow(
       <Academics
-        institution={{
-          independentStudy: 'independentStudy',
-        }}
+        institution={{ independentStudy: 'independentStudy' }}
         onShowModal={onShowModalSpy}
       />,
     );
     tree
       .find('LearnMoreLabel')
-      .at(2)
+      .at(1)
       .simulate('click');
 
     expect(onShowModalSpy.callCount).to.equal(1);
-    expect(onShowModalSpy.getCall(0).calledWith('independentStudy')).to.be.true;
+    expect(onShowModalSpy.calledWith('independentStudy')).to.be.true;
     expect(
       tree
         .find('div[aria-live="off"]')
@@ -89,21 +84,17 @@ describe('<Academics>', () => {
     const onShowModalSpy = sinon.spy();
     const tree = shallow(
       <Academics
-        institution={{
-          priorityEnrollment: 'priorityEnrollment',
-        }}
+        institution={{ priorityEnrollment: 'priorityEnrollment' }}
         onShowModal={onShowModalSpy}
       />,
     );
     tree
       .find('LearnMoreLabel')
-      .at(3)
+      .at(2)
       .simulate('click');
 
     expect(onShowModalSpy.callCount).to.equal(1);
-    expect(onShowModalSpy.getCall(0).calledWith('priorityEnrollment')).to.be
-      .true;
-
+    expect(onShowModalSpy.calledWith('priorityEnrollment')).to.be.true;
     expect(
       tree
         .find('div[aria-live="off"]')
