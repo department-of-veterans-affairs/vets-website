@@ -531,53 +531,6 @@ export function mockSchedulingConfigurationsApi({
 }
 
 /**
- * Mocks request to VA community care providers api, used in community care request flow
- *
- * @export
- * @param {Object} address Facility address object with latitude and longitude properties
- * @param {Array<string>} specialties Array of specialty codes used for a type of care
- * @param {Array<string>} bbox Array of bounding box coordinates to search in
- * @param {Array<PPMSProvider>} providers Array of providers to return from mock
- * @param {boolean} [vaError=false] If true mock will return an error response
- * @param {number} [radius=60] Miles radius to search within for the mock, used in query param
- */
-export function mockCCProviderFetch(
-  address,
-  specialties,
-  bbox,
-  providers,
-  vaError = false,
-  radius = 60,
-) {
-  const bboxQuery = bbox.map(c => `bbox[]=${c}`).join('&');
-  const specialtiesQuery = specialties.map(s => `specialties[]=${s}`).join('&');
-
-  if (vaError) {
-    setFetchJSONFailure(
-      global.fetch.withArgs(
-        `${environment.API_URL}/facilities_api/v2/ccp/provider?latitude=${
-          address.latitude
-        }&longitude=${
-          address.longitude
-        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
-      ),
-      { errors: [] },
-    );
-  } else {
-    setFetchJSONResponse(
-      global.fetch.withArgs(
-        `${environment.API_URL}/facilities_api/v2/ccp/provider?latitude=${
-          address.latitude
-        }&longitude=${
-          address.longitude
-        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
-      ),
-      { data: providers },
-    );
-  }
-}
-
-/**
  * Mocks the api call that fetches a list of appointment slots for direct scheduling
  *
  * @example GET '/vaos/v2/locations/:facilityId/clinics/:clinicId/slots'
@@ -753,4 +706,43 @@ export function mockEligibilityFetches({
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
   });
+}
+
+/**
+ * Function to mock the 'GET' community care endpoint.
+ *
+ * @example GET '/vaos/v2/community_care/eligibility/:serviceType'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {boolean} arguments.isEligible - Flag to determine eligibility.
+ * @param {string} arguments.serviceType - Type of care.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ *
+ * @return {string} Return mock API URL. This is useful for debugging.
+ */
+export function mockCCEligibilityApi({
+  isEligible: eligible = true,
+  serviceType,
+  response: _data,
+  responseCode = 200,
+}) {
+  const baseUrl = `${
+    environment.API_URL
+  }/vaos/v2/community_care/eligibility/${serviceType}`;
+
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data: {
+        id: serviceType,
+        attributes: {
+          eligible,
+        },
+      },
+    });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  }
+
+  return baseUrl;
 }
