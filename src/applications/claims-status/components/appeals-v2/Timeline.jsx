@@ -8,7 +8,6 @@ import PastEvent from './PastEvent';
 const Timeline = ({ events = [], missingEvents = false }) => {
   const [expanded, setExpanded] = useState(false);
 
-  // ---— helpers --------------------------------------------------------------
   const dateRange = useMemo(
     () => {
       if (!events.length) return '';
@@ -52,7 +51,6 @@ const Timeline = ({ events = [], missingEvents = false }) => {
     [events],
   );
 
-  // ---— render --------------------------------------------------------------
   return (
     <div>
       <ol id="appeal-timeline" className="form-process appeal-timeline">
