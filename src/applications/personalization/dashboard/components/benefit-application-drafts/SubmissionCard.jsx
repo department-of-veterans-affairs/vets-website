@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -40,11 +40,20 @@ const SavePdfDownload = ({
   formId,
   getPdfDownloadUrl,
   guid,
-  // showLoadingIndicator,
+  showLoadingIndicator,
 }) => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [error, setError] = useState('');
   const [showDownloadingButton, setShowDownloadingButton] = useState(false);
+
+  useEffect(
+    () => {
+      if (!showLoadingIndicator) {
+        setTimeout(() => setShowDownloadingButton(false), 3000);
+      }
+    },
+    [showLoadingIndicator],
+  );
 
   const handleDownloadButtonClick = async () => {
     setError(null);
@@ -55,7 +64,7 @@ const SavePdfDownload = ({
       setError(result.error);
     } else {
       setShowSuccess(true);
-      setShowDownloadingButton(false);
+      // setShowDownloadingButton(false);
     }
   };
 
