@@ -23,6 +23,7 @@ import preparerIdentification from '../pages/preparerIdentification';
 import preparerPersonalInformation from '../pages/preparerPersonalInformation';
 import preparerAddress1 from '../pages/preparerAddress1';
 import preparerAddress2 from '../pages/preparerAddress2';
+import turtleRequest from '../pages/turtleRequest';
 import {
   patientIdentificationFields,
   preparerIdentificationFields,
@@ -245,12 +246,24 @@ const formConfig = {
         },
       },
     },
-  },
-  downtime: {
-    dependencies: [externalServices.lighthouseBenefitsIntake],
+    turtleRequestChapter: {
+      title: 'Turtle Request',
+      pages: {
+        turtleRequest: {
+          path: 'turtle-request',
+          title: 'Request a Free Turtle',
+          uiSchema: turtleRequest.uiSchema,
+          schema: turtleRequest.schema,
+        },
+      },
+    },
   },
   footerContent,
   getHelp,
+  downtime: {
+    requiredForPrefill: true,
+    dependencies: [externalServices.vaProfile],
+  },
 };
 
 export default formConfig;
