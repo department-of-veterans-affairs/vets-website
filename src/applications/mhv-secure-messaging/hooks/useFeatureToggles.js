@@ -6,6 +6,7 @@ const useFeatureToggles = () => {
     featureTogglesLoading,
     isSignatureSettingsEnabled,
     isComboBoxEnabled,
+    readReceiptsEnabled,
   } = useSelector(
     state => {
       return {
@@ -18,6 +19,10 @@ const useFeatureToggles = () => {
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientCombobox
           ],
+        readReceiptsEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingReadReceipts
+          ],
       };
     },
     state => state.featureToggles,
@@ -27,6 +32,7 @@ const useFeatureToggles = () => {
     featureTogglesLoading,
     isSignatureSettingsEnabled,
     isComboBoxEnabled,
+    readReceiptsEnabled,
   };
 };
 

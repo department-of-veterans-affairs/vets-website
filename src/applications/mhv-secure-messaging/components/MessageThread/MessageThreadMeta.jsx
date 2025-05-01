@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const MessageThreadMeta = props => {
   const { message, isSent, forPrint } = props;
+
+  const { readReceiptsEnabled } = useFeatureToggles();
   const {
     recipientName,
     senderName,
     triageGroupName,
     suggestedNameDisplay,
+    messageId,
     sentDate,
     readReceipt,
   } = message;
@@ -52,7 +56,17 @@ const MessageThreadMeta = props => {
             {(isSent && suggestedNameDisplay) || recipientName}
           </span>
         </p>
-        {isSent && <span>{readReceiptMessage}</span>}
+        {readReceiptsEnabled ? (
+          isSent && <span>{readReceiptMessage}</span>
+        ) : (
+          <p
+            className="vads-u-margin-y--0p5"
+            data-testid={!forPrint ? 'message-id' : ''}
+          >
+            <>Message ID: </>
+            <span data-dd-privacy="mask">{messageId}</span>
+          </p>
+        )}
       </div>
     </div>
   );
