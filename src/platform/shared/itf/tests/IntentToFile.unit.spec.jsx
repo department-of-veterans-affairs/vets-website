@@ -10,33 +10,17 @@ import { activeItf, nonActiveItf, mockItfData } from './helpers';
 
 describe('IntentToFile', () => {
   const getData = ({
-    apiType = false,
-    baseUrl = '',
-    ifCreated,
+    baseUrl = '/path-to-app',
     itfApi = '/v0/intent_to_file',
-    itfCreating,
-    itfFailed,
-    itfFound,
-    itfSearching,
     itfType = 'compensation',
     loggedIn = true,
     path = '/inside-form',
-    WrapAlert,
-    WrapPage,
   } = {}) => ({
     props: {
       baseUrl,
-      ifCreated,
-      includeTypeInFetchApi: apiType,
       itfApi,
-      itfCreating,
-      itfFailed,
-      itfFound,
-      itfSearching,
       itfType,
       location: { pathname: path },
-      WrapAlert,
-      WrapPage,
     },
     mockStore: {
       getState: () => ({

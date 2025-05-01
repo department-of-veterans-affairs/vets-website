@@ -3,7 +3,7 @@
 export const ITF_SUPPORTED_BENEFIT_TYPES = [
   'compensation', // 21-526EZ, 21-0995
   'pension', // 21P-527EZ
-  'survivor', // 21P-530EZ
+  'survivor', // 21P-534EZ
 ];
 
 export const ITF_STATUSES = {

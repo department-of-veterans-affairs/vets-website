@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import environment from 'platform/utilities/environment';
 import { isLoggedIn } from 'platform/user/selectors';
 import { formatDowntime } from 'platform/utilities/date';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
@@ -19,6 +20,7 @@ import {
 } from './content';
 import {
   DAY_YEAR_PATTERN,
+  ITF_API,
   ITF_STATUSES,
   ITF_SUPPORTED_BENEFIT_TYPES,
 } from './constants';
@@ -33,11 +35,6 @@ import { getAndProcessItf, createItf } from './utils/api';
  *  required if ITF replaces the page content
  * @param {Element} children - React elements to render when ITF is dismissed -
  *  required if ITF replaces the page content
- * @param {Boolean} [includeTypeInCreateApi=false] - whether to include the ITF
- *  type in the API endpoint
- * @param {Boolean} [includeTypeInFetchApi=false] - whether to include the ITF
- *  type in the API endpoint
- *  (/v0/intent_to_file VS /v0/intent_to_file/compensation).
  * @param {String} itfApi - API endpoint to use for ITF
  * @param {Function} itfCreated - content to render when ITF is created
  * @param {Function} itfCreating - content to render when ITF is being created
@@ -54,10 +51,9 @@ import { getAndProcessItf, createItf } from './utils/api';
  * @example full page replacement (in App)
  * <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
  *   <IntentToFile
- *     formId={formConfig.formId}
- *     includeTypeInFetchApi={false}
  *     itfType="compensation"
  *     location={location}
+ *     baseUrl="/{path.to.app}"
  *   >
  *     {children}
  *   </IntentToFile>
@@ -65,8 +61,6 @@ import { getAndProcessItf, createItf } from './utils/api';
  * @example stand-alone alert (rendered at top of page)
  * <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
  *   <IntentToFile
- *     formId={formConfig.formId}
- *     includeTypeInFetchApi={false}
  *     itfType="compensation"
  *     location={location}
  *   />
@@ -76,9 +70,7 @@ import { getAndProcessItf, createItf } from './utils/api';
 const IntentToFile = ({
   baseUrl = '', // required for full page replacement
   children, // required for full page replacement
-  includeTypeInCreateApi = true,
-  includeTypeInFetchApi = false,
-  itfApi,
+  itfApi = ITF_API,
   itfCreated = ItfCreatedAlert,
   itfCreating = ItfCreateSpinner,
   itfFailed = ItfFailedAlert,
@@ -90,10 +82,6 @@ const IntentToFile = ({
   WrapPage = WrapPageWithButtons, // required if customizing page replacement
 } = {}) => {
   const loggedIn = useSelector(state => isLoggedIn(state));
-  const accountUuid = useSelector(state => state?.user?.profile?.accountUuid);
-  const inProgressFormId = useSelector(
-    state => state?.form?.loadedData?.metadata?.inProgressFormId,
-  );
 
   const [startUrl] = useState(location.pathname);
   const [messageDismissed, setMessageDismissed] = useState(false);
@@ -103,6 +91,7 @@ const IntentToFile = ({
 
   const wrapRef = useRef(null);
   const Wrapper = children ? WrapPage : WrapAlert;
+  const apiUrl = `${environment.API_URL}${itfApi}/${itfType}`;
 
   const focusAlertHeader = () => {
     const header = children ? 'h2' : 'va-alert';
@@ -141,13 +130,7 @@ const IntentToFile = ({
       if (canCheckItf && !messageDismissed) {
         if (!message) {
           setMessage('fetch-itf');
-          getAndProcessItf({
-            accountUuid,
-            includeTypeInFetchApi,
-            inProgressFormId,
-            itfApi,
-            itfType,
-          }).then(resultingItf => {
+          getAndProcessItf({ apiUrl, itfType }).then(resultingItf => {
             const itf = { ...localItf, ...resultingItf };
             dispatch(setItf(itf));
             setLocalItf(itf);
@@ -159,13 +142,7 @@ const IntentToFile = ({
           } else {
             setMessage('create-itf');
             // create ITF
-            createItf({
-              accountUuid,
-              includeTypeInCreateApi,
-              inProgressFormId,
-              itfApi,
-              itfType,
-            })
+            createItf({ apiUrl })
               .then(resultingItf => {
                 const { type } = resultingItf;
                 if (type === 'ITF_CREATION_SUCCEEDED') {
@@ -244,8 +221,6 @@ IntentToFile.propTypes = {
   WrapPage: PropTypes.func,
   baseUrl: PropTypes.string,
   children: PropTypes.any,
-  includeTypeInCreateApi: PropTypes.bool,
-  includeTypeInFetchApi: PropTypes.bool,
   itfApi: PropTypes.string,
   itfCreated: PropTypes.func,
   itfCreating: PropTypes.func,
