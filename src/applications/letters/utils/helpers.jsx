@@ -46,19 +46,14 @@ export function LH_MIGRATION__getOptions(shouldUseLighthouse) {
   return migrationOptions;
 }
 
-export function apiRequest(resource, optionalSettings = {}, success) {
+export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
   const requestUrl =
     resource[0] === '/' ? [baseUrl, resource].join('') : resource;
 
   return commonApiClient(requestUrl, optionalSettings)
     .then(success)
-    .catch(error => {
-      // TODO: Switch to Sentry after confirming it won't show a lot of false positives.
-      // This eliminates the Webpack runtime error we see on every page refresh.
-      // eslint-disable-next-line no-console
-      console.log(error);
-    });
+    .catch(error);
 }
 
 export const recordsNotFound = (
