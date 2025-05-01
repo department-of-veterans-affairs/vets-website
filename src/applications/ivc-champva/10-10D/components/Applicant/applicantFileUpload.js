@@ -5,7 +5,10 @@ import { applicantWording } from '../../../shared/utilities';
 import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
 import { fileUploadUi as fileUploadUI } from '../../../shared/components/fileUploads/upload';
 import { REQUIRED_FILES } from '../../config/constants';
-import { uploadWithInfoComponent } from '../Sponsor/sponsorFileUploads';
+import {
+  acceptableFiles,
+  uploadWithInfoComponent,
+} from '../Sponsor/sponsorFileUploads';
 
 // This file contains the ui/schemas for applicant file upload screens.
 
@@ -299,14 +302,17 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
         },
       ),
       ...applicantMedicarePartAPartBCardsConfig.uiSchema,
-      applicantMedicarePartAPartBCard: {
+      applicantMedicarePartAPartBCardFront: {
         ...fileUploadUI({
-          label: 'Upload Medicare cards',
+          label: 'Upload front of Medicare card',
+          attachmentId: acceptableFiles.medicareABCert[0],
         }),
-        'ui:errorMessages': {
-          minItems:
-            'You must add both the front and back of your card as separate files.',
-        },
+      },
+      applicantMedicarePartAPartBCardBack: {
+        ...fileUploadUI({
+          label: 'Upload back of Medicare card',
+          attachmentId: acceptableFiles.medicareABCert[1],
+        }),
       },
     },
   },
@@ -338,14 +344,17 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
         },
       ),
       ...applicantMedicarePartDCardsConfig.uiSchema,
-      applicantMedicarePartDCard: {
+      applicantMedicarePartDCardFront: {
         ...fileUploadUI({
-          label: 'Upload Medicare card',
+          label: 'Upload front of Medicare Part D card',
+          attachmentId: acceptableFiles.medicareDCert[0],
         }),
-        'ui:errorMessages': {
-          minItems:
-            'You must add both the front and back of your card as separate files.',
-        },
+      },
+      applicantMedicarePartDCardBack: {
+        ...fileUploadUI({
+          label: 'Upload back of Medicare Part D card',
+          attachmentId: acceptableFiles.medicareDCert[1],
+        }),
       },
     },
   },
@@ -410,14 +419,17 @@ export const applicantOhiCardsUploadUiSchema = {
         </>,
       ),
       ...applicantOhiCardsConfig.uiSchema,
-      applicantOhiCard: {
+      applicantOhiCardFront: {
         ...fileUploadUI({
-          label: 'Upload other health insurance cards',
+          label: 'Upload front of other health insurance card',
+          attachmentId: acceptableFiles.healthInsCert[0],
         }),
-        'ui:errorMessages': {
-          minItems:
-            'You must add both the front and back of your card as separate files.',
-        },
+      },
+      applicantOhiCardBack: {
+        ...fileUploadUI({
+          label: 'Upload back of other health insurance card',
+          attachmentId: acceptableFiles.healthInsCert[1],
+        }),
       },
     },
   },
