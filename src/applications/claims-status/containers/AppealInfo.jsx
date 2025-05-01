@@ -66,7 +66,6 @@ function AppealInfo({
   fullName,
   getAppealsV2,
 }) {
-  // ------------------------------------------------------------- lifecycle --
   useEffect(() => {
     if (!appeal) {
       getAppealsV2();
@@ -80,7 +79,6 @@ function AppealInfo({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // -------------------------------------------------------------- helpers --
   const createHeading = useCallback(
     () => {
       if (!appeal) return '';

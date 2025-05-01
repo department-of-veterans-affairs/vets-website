@@ -31,7 +31,6 @@ const FilesPage = ({
   location,
   message,
 }) => {
-  /* --------------------- componentDidMount ----------------------------- */
   useEffect(
     () => {
       if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Files');
@@ -51,7 +50,6 @@ const FilesPage = ({
     [claim, lastPage, loading, location?.hash],
   );
 
-  /* --------------------- componentDidUpdate ---------------------------- */
   const prevLoadingRef = useRef(loading);
 
   useEffect(

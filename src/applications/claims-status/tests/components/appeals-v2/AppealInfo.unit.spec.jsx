@@ -19,6 +19,8 @@ import {
 } from '../../../actions/types';
 import { renderWithRouter } from '../../utils';
 
+AppealInfo.contextTypes = {};
+
 const appealIdParam = mockData.data[0].id;
 
 const TestComponent = () => <div data-testid="children" />;
@@ -160,8 +162,7 @@ describe('<AppealInfo>', () => {
 
   it('should have access to the appeal id in route params', () => {
     const wrapper = shallow(<AppealInfo {...defaultProps} />);
-    const appealId = wrapper.instance().props.params.id;
-    expect(appealId).to.equal(appealIdParam);
+    expect(wrapper.props().params.id).to.equal(appealIdParam);
     wrapper.unmount();
   });
 
