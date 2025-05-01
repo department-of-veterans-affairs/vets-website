@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import { format } from 'date-fns-tz';
 import SignInLink from '../components/SignInLink';
 import { SAVE_STATUSES, saveErrors } from './actions';
@@ -107,4 +108,13 @@ SaveStatus.propTypes = {
   }),
 };
 
-export default SaveStatus;
+function mapStateToProps(state) {
+  return {
+    form: state.form,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  SaveStatus,
+);

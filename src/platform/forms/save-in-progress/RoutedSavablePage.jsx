@@ -1,13 +1,10 @@
-import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { FormPage } from 'platform/forms-system/src/js/containers/FormPage';
-import {
-  setData as setDataAction,
-  uploadFile,
-} from 'platform/forms-system/src/js/actions';
+import { setData, uploadFile } from 'platform/forms-system/src/js/actions';
 
 import debounce from '../../utilities/data/debounce';
 
@@ -15,113 +12,74 @@ import SaveFormLink from './SaveFormLink';
 import SaveStatus from './SaveStatus';
 import {
   saveErrors,
-  autoSaveForm as autoSaveFormAction,
-  saveAndRedirectToReturnUrl as saveAndRedirectToReturnUrlAction,
+  autoSaveForm,
+  saveAndRedirectToReturnUrl,
 } from './actions';
 import { getFormContext } from './selectors';
-import { toggleLoginModal as toggleLoginModalAction } from '../../site-wide/user-nav/actions';
+import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import { FINISH_APP_LATER_DEFAULT_MESSAGE } from '../../forms-system/src/js/constants';
 
-const RoutedSavablePage = props => {
-  const {
-    user,
-    form,
-    formConfig,
-    route,
-    location,
-    showLoginModal,
-    setData,
-    autoSaveForm,
-    saveAndRedirectToReturnUrl,
-    toggleLoginModal,
-  } = props;
+class RoutedSavablePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.debouncedAutoSave = debounce(1000, this.autoSave);
+  }
 
-  const debouncedAutoSave = useMemo(
-    () =>
-      debounce(1000, () => {
-        if (user.login.currentlyLoggedIn) {
-          const { data, formId, version, submission } = form;
-          const returnUrl = route.pageConfig?.returnUrl || location.pathname;
-          autoSaveForm(formId, data, version, returnUrl, submission);
-        }
-      }),
-    [user, form, route, location, autoSaveForm],
-  );
+  onChange = formData => {
+    this.props.setData(formData);
+    this.debouncedAutoSave();
+  };
 
-  const onChange = useCallback(
-    formData => {
-      setData(formData);
-      debouncedAutoSave();
-    },
-    [setData, debouncedAutoSave],
-  );
+  autoSave() {
+    const { form, user, route } = this.props;
+    if (user.login.currentlyLoggedIn) {
+      const { data, formId, version, submission } = form;
+      const returnUrl =
+        route.pageConfig?.returnUrl || this.props.location.pathname;
+      this.props.autoSaveForm(formId, data, version, returnUrl, submission);
+    }
+  }
 
-  const finishAppLaterMessage = useMemo(
-    () =>
+  render() {
+    const { user, form, formConfig, route } = this.props;
+    const finishAppLaterMessage =
       formConfig?.customText?.finishAppLaterMessage ||
-      FINISH_APP_LATER_DEFAULT_MESSAGE,
-    [formConfig],
-  );
-
-  const contentBeforeButtons = useMemo(
-    () => (
+      FINISH_APP_LATER_DEFAULT_MESSAGE;
+    const contentBeforeButtons = (
       <SaveFormLink
-        locationPathname={location.pathname}
-        form={form}
+        locationPathname={this.props.location.pathname}
         formConfig={formConfig}
         route={route}
         pageList={route.pageList}
         user={user}
-        showLoginModal={showLoginModal}
-        saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
-        toggleLoginModal={toggleLoginModal}
+        showLoginModal={this.props.showLoginModal}
+        saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+        toggleLoginModal={this.props.toggleLoginModal}
       >
         {finishAppLaterMessage}
       </SaveFormLink>
-    ),
-    [
-      location.pathname,
-      form,
-      formConfig,
-      route,
-      user,
-      showLoginModal,
-      saveAndRedirectToReturnUrl,
-      toggleLoginModal,
-      finishAppLaterMessage,
-    ],
-  );
-
-  const contentAfterButtons = useMemo(
-    () => (
+    );
+    const contentAfterButtons = (
       <SaveStatus
         isLoggedIn={user.login.currentlyLoggedIn}
-        showLoginModal={showLoginModal}
-        toggleLoginModal={toggleLoginModal}
-        form={form}
+        showLoginModal={this.props.showLoginModal}
+        toggleLoginModal={this.props.toggleLoginModal}
         formConfig={formConfig}
       />
-    ),
-    [
-      user.login.currentlyLoggedIn,
-      showLoginModal,
-      toggleLoginModal,
-      form,
-      formConfig,
-    ],
-  );
+    );
 
-  return (
-    <FormPage
-      {...props}
-      blockScrollOnMount={saveErrors.has(form.savedStatus)}
-      setData={onChange}
-      formContext={getFormContext({ user, form })}
-      contentBeforeButtons={contentBeforeButtons}
-      contentAfterButtons={contentAfterButtons}
-    />
-  );
-};
+    return (
+      <FormPage
+        {...this.props}
+        blockScrollOnMount={saveErrors.has(form.savedStatus)}
+        setData={this.onChange}
+        formContext={getFormContext({ user, form })}
+        contentBeforeButtons={contentBeforeButtons}
+        contentAfterButtons={contentAfterButtons}
+      />
+    );
+  }
+}
 
 function mapStateToProps(state, ownProps) {
   const { appStateSelector } = ownProps.route.pageConfig;
@@ -135,10 +93,10 @@ function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = {
-  setData: setDataAction,
-  saveAndRedirectToReturnUrl: saveAndRedirectToReturnUrlAction,
-  autoSaveForm: autoSaveFormAction,
-  toggleLoginModal: toggleLoginModalAction,
+  setData,
+  saveAndRedirectToReturnUrl,
+  autoSaveForm,
+  toggleLoginModal,
   uploadFile,
 };
 
@@ -158,7 +116,6 @@ RoutedSavablePage.propTypes = {
       pageKey: PropTypes.string.isRequired,
       schema: PropTypes.object.isRequired,
       uiSchema: PropTypes.object.isRequired,
-      returnUrl: PropTypes.string,
     }),
     pageList: PropTypes.arrayOf(
       PropTypes.shape({

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
 import { Element } from 'platform/utilities/scroll';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
@@ -129,4 +129,13 @@ SaveFormLink.propTypes = {
   savedStatus: PropTypes.string,
 };
 
-export default SaveFormLink;
+function mapStateToProps(state) {
+  return {
+    form: state.form,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  SaveFormLink,
+);
