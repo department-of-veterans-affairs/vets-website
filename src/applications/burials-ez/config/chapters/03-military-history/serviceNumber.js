@@ -1,7 +1,7 @@
 import { ssnOrServiceNumberSchema } from 'platform/forms-system/src/js/web-component-patterns/ssnPattern';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import NoHintReviewField from '../../../components/NoHintReviewField';
 import { generateTitle, generateHelpText } from '../../../utils/helpers';
-import ReviewRowView from '../../../components/ReviewRowView';
 
 export default {
   uiSchema: {
@@ -12,7 +12,7 @@ export default {
         'Enter this only if the deceased Veteran has one',
       ),
       'ui:webComponentField': VaTextInputField,
-      'ui:reviewField': ReviewRowView,
+      'ui:reviewField': NoHintReviewField,
       'ui:errorMessages': {
         pattern:
           'Enter a valid Social Security number or Military Service number',
