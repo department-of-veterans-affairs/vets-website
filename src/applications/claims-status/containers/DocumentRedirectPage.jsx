@@ -1,12 +1,18 @@
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Navigate } from 'react-router-dom-v5-compat';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import withRouter from '../utils/withRouter';
+import DocumentRequestPage from './DocumentRequestPage';
 
-const DocumentRedirect = ({ trackedItem, trackedItemId }) => {
+const DocumentRedirectPage = ({ trackedItem, trackedItemId }) => {
   const [redirectPath, setRedirectPath] = useState(null);
-
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const cstFriendlyEvidenceRequests = useToggleValue(
+    TOGGLE_NAMES.cstFriendlyEvidenceRequests,
+  );
   useEffect(
     () => {
       if (!trackedItem) return;
@@ -17,12 +23,18 @@ const DocumentRedirect = ({ trackedItem, trackedItemId }) => {
           setRedirectPath(`../needed-from-others/${trackedItemId}`);
         }
       };
-
-      fetchEvidenceType();
+      if (cstFriendlyEvidenceRequests) {
+        fetchEvidenceType();
+      }
     },
-    [trackedItem, trackedItem.status, trackedItemId],
+    [
+      cstFriendlyEvidenceRequests,
+      trackedItem,
+      trackedItem.status,
+      trackedItemId,
+    ],
   );
-  if (!trackedItem || !redirectPath)
+  if (!trackedItem)
     return (
       <va-loading-indicator
         set-focus
@@ -30,7 +42,11 @@ const DocumentRedirect = ({ trackedItem, trackedItemId }) => {
       />
     );
 
-  return <Redirect to={redirectPath} />;
+  return cstFriendlyEvidenceRequests ? (
+    <Navigate to={redirectPath} />
+  ) : (
+    <DocumentRequestPage />
+  );
 };
 
 function mapStateToProps(state, ownProps) {
@@ -54,10 +70,10 @@ export default withRouter(
   connect(
     mapStateToProps,
     null,
-  )(DocumentRedirect),
+  )(DocumentRedirectPage),
 );
 
-DocumentRedirect.propTypes = {
+DocumentRedirectPage.propTypes = {
   trackedItem: PropTypes.object,
   trackedItemId: PropTypes.string,
 };
