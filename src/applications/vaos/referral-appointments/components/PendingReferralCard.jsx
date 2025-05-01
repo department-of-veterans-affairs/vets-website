@@ -8,7 +8,7 @@ import AppointmentColumn from '../../components/AppointmentColumn';
 
 const PendingReferralCard = ({ referral, index }) => {
   const first = index === 0;
-  const idClickable = `id-${referral.uuid.replace('.', '\\.')}`;
+  const idClickable = `id-${referral.uuid.replace(/[.=]/g, '\\$&')}`;
   const typeOfCareName = referral.categoryOfCare;
 
   const link = `schedule-referral?id=${
@@ -52,7 +52,7 @@ const PendingReferralCard = ({ referral, index }) => {
               </AppointmentColumn>
 
               <AppointmentColumn
-                id={`vaos-referral-detail-${referral.uuid}`}
+                id={`vaos-referral-detail-${idClickable}`}
                 className="vaos-hide-for-print"
                 padding="0p5"
                 size="1"
@@ -61,7 +61,7 @@ const PendingReferralCard = ({ referral, index }) => {
                 <va-link-action
                   type="secondary"
                   href={link}
-                  aria-describedby={`vaos-referral-detail-${referral.uuid}`}
+                  aria-describedby={`vaos-referral-detail-${idClickable}`}
                   message-aria-describedby="Custom message"
                   text="Schedule your appointment"
                   data-testid="schedule-appointment-link"
