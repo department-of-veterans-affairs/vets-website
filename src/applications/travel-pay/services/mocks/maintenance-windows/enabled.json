@@ -1,0 +1,15 @@
+{
+  "data": [
+    {
+      "id": "319",
+      "type": "maintenance_window",
+      "attributes": {
+        "id": 319,
+        "external_service": "travel-pay-api",
+        "start_time": "2025-05-08T05:00:00.000Z",
+        "end_time": "2025-05-08T08:00:00.000Z",
+        "description": ""
+      }
+    }
+  ]
+}
