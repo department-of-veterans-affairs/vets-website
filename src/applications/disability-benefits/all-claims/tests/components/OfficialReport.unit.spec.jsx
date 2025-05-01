@@ -134,7 +134,7 @@ function setupOfficialReport({
 
 describe('OfficialReport', () => {
   it('renders the component', () => {
-    const { getByText } = setupOfficialReport({
+    const { container } = setupOfficialReport({
       eventData: {
         agency: 'Agency 1',
         otherReports: {
@@ -143,7 +143,9 @@ describe('OfficialReport', () => {
       },
     });
 
-    expect(getByText('VA FORM 21-0781')).to.exist;
+    const visibleHeading = container.querySelector('h3.vads-u-margin--0');
+    expect(visibleHeading).to.exist;
+    expect(visibleHeading.textContent).to.include('VA FORM 21-0781');
   });
 
   it('opens the police report modal when police is deselected and a location field is filled', () => {

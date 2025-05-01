@@ -86,8 +86,18 @@ const IntroductionPage = props => {
       <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-top--2">
         <va-omb-info
           res-burden={30}
-          omb-number="2900-0009"
+          omb-number="2900-0043"
           exp-date="08/31/2025"
+        />
+      </div>
+      <h2>Additional forms you may need to complete</h2>
+      <h3>Request for Approval of School Attendance</h3>
+      <p>VA Form 21-674</p>
+      <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-top--2">
+        <va-omb-info
+          res-burden={15}
+          omb-number="2900-0049"
+          exp-date="11/30/2027"
         />
       </div>
     </div>

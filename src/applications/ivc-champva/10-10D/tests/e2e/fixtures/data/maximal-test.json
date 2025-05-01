@@ -82,7 +82,13 @@
             "uploaded": false
           },
           {
-            "name": "applicantOhiCard",
+            "name": "applicantOhiCardFront",
+            "path": "applicant-other-insurance-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOhiCardBack",
             "path": "applicant-other-insurance-file/:index",
             "required": true,
             "uploaded": false
@@ -126,13 +132,25 @@
         "applicantDob": "2000-01-02",
         "missingUploads": [
           {
-            "name": "applicantMedicarePartAPartBCard",
+            "name": "applicantMedicarePartAPartBCardFront",
             "path": "applicant-medicare-ab-file/:index",
             "required": true,
             "uploaded": false
           },
           {
-            "name": "applicantMedicarePartDCard",
+            "name": "applicantMedicarePartAPartBCardBack",
+            "path": "applicant-medicare-ab-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartDCardFront",
+            "path": "applicant-medicare-d-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartDCardBack",
             "path": "applicant-medicare-d-file/:index",
             "required": true,
             "uploaded": false
@@ -144,7 +162,13 @@
             "uploaded": false
           },
           {
-            "name": "applicantOhiCard",
+            "name": "applicantOhiCardFront",
+            "path": "applicant-other-insurance-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOhiCardBack",
             "path": "applicant-other-insurance-file/:index",
             "required": true,
             "uploaded": false

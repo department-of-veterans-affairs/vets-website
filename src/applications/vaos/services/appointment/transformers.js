@@ -182,6 +182,7 @@ export function transformVAOSAppointment(
       facilityId: appt.locationId,
       kind: appt.telehealth?.vvsKind,
       url: appt.telehealth?.url,
+      displayLink: appt.telehealth?.displayLink,
       duration: appt.minutesDuration,
       providers: (providers || [])
         .map(provider => {
@@ -291,7 +292,7 @@ export function transformVAOSAppointment(
       vistaId: appt.locationId?.substr(0, 3) || null,
       clinicId: appt.clinic,
       stationId: appt.locationId,
-      clinicName: appt.friendlyName || appt.serviceName || null,
+      clinicName: appt.serviceName || null,
       clinicPhysicalLocation: appt.physicalLocation || null,
       clinicPhone: appt.extension?.clinic?.phoneNumber || null,
       clinicPhoneExtension:

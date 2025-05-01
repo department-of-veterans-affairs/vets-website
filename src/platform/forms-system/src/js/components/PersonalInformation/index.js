@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
   defaultConfig,
@@ -66,6 +67,38 @@ const personalInformationPage = ({
     ...defaultPageConfig.personalInfoConfig,
     ...personalInfoConfig,
   };
+
+  // Create a CustomPage component with proper PropTypes
+  const CustomPage = props => (
+    <PersonalInformation
+      {...props}
+      config={config}
+      dataAdapter={dataAdapter}
+      errorMessage={errorMessage}
+      contentBeforeButtons={contentBeforeButtons || props.contentBeforeButtons}
+      contentAfterButtons={contentAfterButtons || props.contentAfterButtons}
+    >
+      {header && (
+        <PersonalInformationHeader>{header}</PersonalInformationHeader>
+      )}
+      {cardHeader && (
+        <PersonalInformationCardHeader>
+          {cardHeader}
+        </PersonalInformationCardHeader>
+      )}
+      {note && <PersonalInformationNote>{note}</PersonalInformationNote>}
+      {footer && (
+        <PersonalInformationFooter>{footer}</PersonalInformationFooter>
+      )}
+    </PersonalInformation>
+  );
+
+  // Add PropTypes to the CustomPage component
+  CustomPage.propTypes = {
+    contentAfterButtons: PropTypes.node,
+    contentBeforeButtons: PropTypes.node,
+  };
+
   return {
     [key]: {
       title,
@@ -75,29 +108,7 @@ const personalInformationPage = ({
         type: 'object',
         properties: {},
       },
-      CustomPage: props => (
-        <PersonalInformation
-          {...props}
-          config={config}
-          dataAdapter={dataAdapter}
-          errorMessage={errorMessage}
-          contentBeforeButtons={contentBeforeButtons}
-          contentAfterButtons={contentAfterButtons}
-        >
-          {header && (
-            <PersonalInformationHeader>{header}</PersonalInformationHeader>
-          )}
-          {cardHeader && (
-            <PersonalInformationCardHeader>
-              {cardHeader}
-            </PersonalInformationCardHeader>
-          )}
-          {note && <PersonalInformationNote>{note}</PersonalInformationNote>}
-          {footer && (
-            <PersonalInformationFooter>{footer}</PersonalInformationFooter>
-          )}
-        </PersonalInformation>
-      ),
+      CustomPage,
       CustomPageReview: hideOnReview
         ? null
         : props => (

@@ -340,7 +340,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ebaaea0a7f451660e007036c1b649f9d035c858c",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a6815eb11dde49c728182e9fd2370410a37ad005",
     "web-vitals": "^4.2.4"
   },
   "resolutions": {
@@ -406,13 +406,10 @@
       "src/applications/check-in",
       "src/applications/vaos",
       "src/applications/claims-status",
-      "src/applications/accredited-representative-portal/accreditation/21a",
       "src/applications/accredited-representative-portal",
       "src/applications/_mock-form-ae-design-patterns"
     ],
     "nohoist": [
-      "**/applications-accredited-representative-portal/accreditation/21a/react-router",
-      "**/applications-accredited-representative-portal/accreditation/21a/history",
       "**/applications-accredited-representative-portal/react-router-dom",
       "**/applications-check-in/i18next-resources-to-backend",
       "**/applications-check-in/react-i18next",

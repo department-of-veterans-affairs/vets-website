@@ -46,8 +46,11 @@ const ProviderAddress = props => {
             </a>
           </div>
         )}
-      <p className="vads-u-margin--0" data-testid="phone">
-        Phone: <va-telephone contact={phone} data-testid="provider-telephone" />
+      <p className="vads-u-margin-bottom--0" data-testid="phone">
+        <strong>Main phone:</strong>
+      </p>
+      <p className="vads-u-margin--0">
+        <va-telephone contact={phone} data-testid="provider-telephone" />
       </p>
     </address>
   );
