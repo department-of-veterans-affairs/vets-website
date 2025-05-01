@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
-
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { getSignInUrl } from '../../utilities/constants';
 import UserNav from './UserNav';
 
@@ -50,6 +50,26 @@ export const Nav = () => {
       {profile && (
         <div className="nav__container-secondary" data-testid="desktop-nav-row">
           <div className="nav__container vads-u-display--flex">
+            <Toggler
+              toggleName={
+                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSearch
+              }
+            >
+              <Toggler.Enabled>
+                <Link
+                  className="nav__btn desktop"
+                  to="/poa-search"
+                  data-testid="desktop-search-link"
+                >
+                  <va-icon
+                    icon="search"
+                    size={2}
+                    className="people-search-icon"
+                  />
+                  Search People
+                </Link>
+              </Toggler.Enabled>
+            </Toggler>
             <Link
               className="nav__btn desktop"
               to="/poa-requests"
@@ -57,13 +77,21 @@ export const Nav = () => {
             >
               Power of Attorney Requests
             </Link>
-            <Link
-              to="/get-help"
-              className="nav__btn desktop vads-u-display--none"
-              data-testid="desktop-help-link"
+            <Toggler
+              toggleName={
+                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp
+              }
             >
-              Get Help
-            </Link>
+              <Toggler.Enabled>
+                <Link
+                  to="/get-help"
+                  className="nav__btn desktop"
+                  data-testid="desktop-help-link"
+                >
+                  Get Help
+                </Link>
+              </Toggler.Enabled>
+            </Toggler>
           </div>
         </div>
       )}

@@ -1,12 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { SIGN_OUT_URL } from '../../utilities/constants';
 import NavDropdown from './NavDropdown';
 
 const UserHelpLinks = () => {
   return (
     <>
+      <Toggler
+        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSearch}
+      >
+        <Toggler.Enabled>
+          <li>
+            <Link
+              data-testid="user-nav-poa-search-link"
+              className="vads-u-color--white"
+              to="/poa-search"
+            >
+              <va-icon icon="search" size={2} className="people-search-icon" />
+              Search People
+            </Link>
+          </li>
+        </Toggler.Enabled>
+      </Toggler>
       <li>
         <Link
           data-testid="user-nav-poa-requests-link"
@@ -16,15 +32,21 @@ const UserHelpLinks = () => {
           Power of Attorney Requests
         </Link>
       </li>
-      <li className="vads-u-display--none">
-        <Link
-          data-testid="user-nav-profile-link"
-          className="vads-u-color--white"
-          to="/get-help"
-        >
-          Get Help
-        </Link>
-      </li>
+      <Toggler
+        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
+      >
+        <Toggler.Enabled>
+          <li>
+            <Link
+              data-testid="user-nav-profile-link"
+              className="vads-u-color--white"
+              to="/get-help"
+            >
+              Get Help
+            </Link>
+          </li>
+        </Toggler.Enabled>
+      </Toggler>
     </>
   );
 };
@@ -32,15 +54,21 @@ const UserHelpLinks = () => {
 const UserNavLinks = () => {
   return (
     <>
-      <li className="vads-u-display--none">
-        <Link
-          data-testid="user-nav-profile-link"
-          className="vads-u-color--black"
-          to="/profile"
-        >
-          Profile
-        </Link>
-      </li>
+      <Toggler
+        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalProfile}
+      >
+        <Toggler.Enabled>
+          <li>
+            <Link
+              data-testid="user-nav-profile-link"
+              className="vads-u-color--black"
+              to="/profile"
+            >
+              Profile
+            </Link>
+          </li>
+        </Toggler.Enabled>
+      </Toggler>
       <li>
         <a
           data-testid="user-nav-sign-out-link"
@@ -100,6 +128,7 @@ function UserNav({ profile }) {
           closeIcon="close"
           view="mobile"
           size={2}
+          data-testid="menu-toggle-dropdown-mobile"
         >
           <UserHelpLinks />
         </NavDropdown>

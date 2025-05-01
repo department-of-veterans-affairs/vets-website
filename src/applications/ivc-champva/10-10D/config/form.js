@@ -31,7 +31,7 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import { flattenApplicantSSN } from './migrations';
+import { flattenApplicantSSN, migrateCardUploadKeys } from './migrations';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
@@ -52,10 +52,12 @@ import {
 import {
   certifierNameValidation,
   certifierAddressValidation,
+} from '../helpers/validations';
+import {
   sponsorAddressCleanValidation,
   certifierAddressCleanValidation,
   applicantAddressCleanValidation,
-} from '../helpers/validations';
+} from '../../shared/validations';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
@@ -128,6 +130,7 @@ import { fileWithMetadataSchema } from '../../shared/components/fileUploads/atta
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
+import { singleFileSchema } from '../../shared/components/fileUploads/upload';
 
 // Control whether we show the file overview page by calling `hasReq` to
 // determine if any required files have not been uploaded
@@ -181,8 +184,8 @@ const formConfig = {
       saved: 'Your CHAMPVA benefits application has been saved.',
     },
   },
-  version: 1,
-  migrations: [flattenApplicantSSN],
+  version: 2,
+  migrations: [flattenApplicantSSN, migrateCardUploadKeys],
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
@@ -371,20 +374,36 @@ const formConfig = {
       pages: {
         page6: {
           path: 'sponsor-info',
-          title: formData =>
-            `${sponsorWording(formData)} name and date of birth`,
+          title: formData => (
+            <>
+              <span className="dd-privacy-hidden">
+                {sponsorWording(formData)}
+              </span>{' '}
+              name and date of birth
+            </>
+          ),
           uiSchema: sponsorNameDobConfig.uiSchema,
           schema: sponsorNameDobConfig.schema,
         },
         page7: {
           path: 'sponsor-identification-info',
-          title: formData =>
-            `${sponsorWording(formData)} identification information`,
+          title: formData => (
+            <>
+              <span className="dd-privacy-hidden">
+                {sponsorWording(formData)}
+              </span>{' '}
+              identification information
+            </>
+          ),
           uiSchema: {
-            ...titleUI(
-              ({ formData }) =>
-                `${sponsorWording(formData)} identification information`,
-            ),
+            ...titleUI(({ formData }) => (
+              <>
+                <span className="dd-privacy-hidden">
+                  {sponsorWording(formData)}
+                </span>{' '}
+                identification information
+              </>
+            )),
             ssn: ssnOrVaFileNumberCustomUI(),
           },
           schema: {
@@ -454,7 +473,14 @@ const formConfig = {
         },
         page10b0: {
           path: 'sponsor-mailing-same',
-          title: formData => `${sponsorWording(formData)} address selection`,
+          title: formData => (
+            <>
+              <span className="dd-privacy-hidden">
+                {sponsorWording(formData)}
+              </span>{' '}
+              address selection
+            </>
+          ),
           // Only show if we have addresses to pull from:
           depends: formData =>
             !get('sponsorIsDeceased', formData) &&
@@ -483,11 +509,25 @@ const formConfig = {
         },
         page10b1: {
           path: 'sponsor-mailing-address',
-          title: formData => `${sponsorWording(formData)} mailing address`,
+          title: formData => (
+            <>
+              <span className="dd-privacy-hidden">
+                {sponsorWording(formData)}
+              </span>{' '}
+              mailing address
+            </>
+          ),
           depends: formData => !get('sponsorIsDeceased', formData),
           uiSchema: {
             ...titleUI(
-              ({ formData }) => `${sponsorWording(formData)} mailing address`,
+              ({ formData }) => (
+                <>
+                  <span className="dd-privacy-hidden">
+                    {sponsorWording(formData)}
+                  </span>{' '}
+                  mailing address
+                </>
+              ),
               ({ formData }) => (
                 // Prefill message conditionally displays based on `certifierRole`
                 <>
@@ -520,12 +560,22 @@ const formConfig = {
         },
         page11: {
           path: 'sponsor-contact-info',
-          title: formData => `${sponsorWording(formData)} contact information`,
+          title: formData => (
+            <>
+              <span>{sponsorWording(formData)}</span> contact information
+            </>
+          ),
           depends: formData => !get('sponsorIsDeceased', formData),
           uiSchema: {
             ...titleUI(
-              ({ formData }) =>
-                `${sponsorWording(formData)} contact information`,
+              ({ formData }) => (
+                <>
+                  <span className="dd-privacy-hidden">
+                    {sponsorWording(formData)}
+                  </span>{' '}
+                  contact information
+                </>
+              ),
               ({ formData }) => {
                 const base = sponsorWording(formData);
                 const first = base === 'Your' ? 'you' : 'the sponsor';
@@ -576,6 +626,7 @@ const formConfig = {
                 itemName: 'Applicant',
                 customTitle: ' ', // prevent <dl> around the schemaform-field-container
                 confirmRemove: true,
+                itemAriaLabel: item => `${applicantWording(item, false)}`,
               },
               items: {
                 applicantName: fullNameUI(),
@@ -592,7 +643,14 @@ const formConfig = {
         page13a: {
           path: 'applicant-info-intro/:index',
           arrayPath: 'applicants',
-          title: item => `${applicantWording(item)} information`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              information
+            </>
+          ),
           showPagePerItem: true,
           depends: () => !onReviewPage(),
           uiSchema: {
@@ -602,16 +660,25 @@ const formConfig = {
               },
               items: {
                 ...titleUI(
-                  ({ formData }) => `${applicantWording(formData)} information`,
-                  ({
-                    formData,
-                  }) => `Next we'll ask more questions about ${applicantWording(
-                    formData,
-                    undefined,
-                    false,
-                  )}. This includes social security number, mailing address, 
-                          contact information, relationship to the sponsor, and health 
-                          insurance information.`,
+                  ({ formData }) => (
+                    <>
+                      <span className="dd-privacy-hidden">
+                        {applicantWording(formData)}
+                      </span>{' '}
+                      information
+                    </>
+                  ),
+                  ({ formData }) => (
+                    <>
+                      Next we’ll ask more questions about{' '}
+                      <span className="dd-privacy-hidden">
+                        {applicantWording(formData, false, false)}
+                      </span>
+                      . This includes social security number, mailing address,
+                      contact information, relationship to the sponsor, and
+                      health insurance information.
+                    </>
+                  ),
                 ),
               },
             },
@@ -624,7 +691,14 @@ const formConfig = {
         page14: {
           path: 'applicant-identification-info/:index',
           arrayPath: 'applicants',
-          title: item => `${applicantWording(item)} identification information`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              identification information
+            </>
+          ),
           showPagePerItem: true,
           uiSchema: {
             applicants: {
@@ -637,10 +711,14 @@ const formConfig = {
                 maxItems: 'A maximum of three applicants may be added.',
               },
               items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} identification information`,
-                ),
+                ...titleUI(({ formData }) => (
+                  <>
+                    <span className="dd-privacy-hidden">
+                      {applicantWording(formData)}
+                    </span>{' '}
+                    identification information
+                  </>
+                )),
                 applicantSSN: ssnUI(),
               },
             },
@@ -655,7 +733,14 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           keepInPageOnReview: false,
-          title: item => `${applicantWording(item)} address selection`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>
+              address selection
+            </>
+          ),
           depends: (formData, index) => page15aDepends(formData, index),
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
@@ -673,14 +758,27 @@ const formConfig = {
           path: 'applicant-mailing-address/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} mailing address`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              mailing address
+            </>
+          ),
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} mailing address`,
+                  ({ formData }) => (
+                    <>
+                      <span className="dd-privacy-hidden">
+                        {applicantWording(formData)}
+                      </span>{' '}
+                      mailing address
+                    </>
+                  ),
                   ({ formData, formContext }) => {
                     const txt =
                       'We’ll send any important information about your application to this address';
@@ -716,21 +814,37 @@ const formConfig = {
           path: 'applicant-contact-info/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} contact information`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              contact information
+            </>
+          ),
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
               items: {
                 ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} contact information`,
+                  ({ formData }) => (
+                    <>
+                      <span className="dd-privacy-hidden">
+                        {applicantWording(formData)}
+                      </span>{' '}
+                      contact information
+                    </>
+                  ),
                   ({ formData, formContext }) => {
-                    const txt = `We'll use this information to contact ${applicantWording(
-                      formData,
-                      false,
-                      false,
-                      true,
-                    )} if we need to follow up about this application.`;
+                    const txt = (
+                      <>
+                        We’ll use this information to contact{' '}
+                        <span className="dd-privacy-hidden">
+                          {applicantWording(formData, false, false, true)}
+                        </span>{' '}
+                        if we need to follow up about this application.
+                      </>
+                    );
                     // Prefill message conditionally displays based on `certifierRole`
                     return formContext.pagePerItemIndex === '0' ? (
                       <>
@@ -757,7 +871,14 @@ const formConfig = {
           path: 'applicant-gender/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} sex listed at birth`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              sex listed at birth
+            </>
+          ),
           CustomPage: ApplicantGenderPage,
           CustomPageReview: ApplicantGenderReviewPage,
           uiSchema: {
@@ -846,7 +967,14 @@ const formConfig = {
           path: 'applicant-relationship-child-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} birth certificate`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              birth certificate
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -870,7 +998,14 @@ const formConfig = {
           path: 'applicant-child-adoption-file/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} adoption documents`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              adoption documents
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -900,8 +1035,14 @@ const formConfig = {
           path: 'applicant-child-marriage-file/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} parental marriage documents`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              parental marriage documents
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -931,7 +1072,14 @@ const formConfig = {
           path: 'applicant-dependent-status/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} status`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              status
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -974,7 +1122,14 @@ const formConfig = {
           path: 'applicant-child-school-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} school documents`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              school documents
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1006,7 +1161,14 @@ const formConfig = {
           path: 'applicant-dependent-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} helpless child documents`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              helpless child documents
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1034,7 +1196,14 @@ const formConfig = {
           path: 'applicant-marriage-date/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage dates`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              marriage dates
+            </>
+          ),
           depends: (formData, index) => depends18f3(formData, index),
           uiSchema: marriageDatesSchema.noRemarriageUiSchema,
           schema: marriageDatesSchema.noRemarriageSchema,
@@ -1043,7 +1212,14 @@ const formConfig = {
           path: 'applicant-marriage-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage documents`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              marriage documents
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1069,8 +1245,14 @@ const formConfig = {
           path: 'applicant-medicare/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} Medicare Part A and B status`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              Medicare Part A and B status
+            </>
+          ),
           CustomPage: ApplicantMedicareStatusPage,
           CustomPageReview: ApplicantMedicareStatusReviewPage,
           schema: applicantListSchema([], {
@@ -1092,7 +1274,14 @@ const formConfig = {
           path: 'applicant-medicare-continued/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare Part D status`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              Medicare Part D status
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1123,7 +1312,14 @@ const formConfig = {
           path: 'applicant-medicare-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare Part A and B card`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              Medicare Part A and B card
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1140,17 +1336,22 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartAPartBCardsConfig.schema,
-            applicantMedicarePartAPartBCard: fileWithMetadataSchema(
-              acceptableFiles.medicareABCert,
-              2,
-            ),
+            applicantMedicarePartAPartBCardFront: singleFileSchema,
+            applicantMedicarePartAPartBCardBack: singleFileSchema,
           }),
         },
         page20b: {
           path: 'applicant-medicare-d-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare Part D card`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              Medicare Part D card
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1171,10 +1372,8 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartDCardsConfig.schema,
-            applicantMedicarePartDCard: fileWithMetadataSchema(
-              acceptableFiles.medicareDCert,
-              2,
-            ),
+            applicantMedicarePartDCardFront: singleFileSchema,
+            applicantMedicarePartDCardBack: singleFileSchema,
           }),
         },
         // If the user is ineligible for Medicare and over 65 years,
@@ -1183,8 +1382,14 @@ const formConfig = {
           path: 'applicant-medicare-ineligible/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} over 65 and ineligible for Medicare`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              over 65 and ineligible for Medicare
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1211,8 +1416,14 @@ const formConfig = {
           path: 'applicant-other-insurance-status/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} other health insurance status`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              other health insurance status
+            </>
+          ),
           CustomPage: ApplicantOhiStatusPage,
           CustomPageReview: ApplicantOhiStatusReviewPage,
           schema: applicantListSchema([], {
@@ -1234,8 +1445,14 @@ const formConfig = {
           path: 'applicant-other-insurance-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} other health insurance upload`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              other health insurance upload
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1250,17 +1467,22 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantOhiCardsConfig.schema,
-            applicantOhiCard: fileWithMetadataSchema(
-              acceptableFiles.healthInsCert,
-              2,
-            ),
+            applicantOhiCardFront: singleFileSchema,
+            applicantOhiCardBack: singleFileSchema,
           }),
         },
         page22: {
           path: 'applicant-other-insurance-10-7959c-file/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} 10-7959c upload`,
+          title: item => (
+            <>
+              <span className="dd-privacy-hidden">
+                {applicantWording(item)}
+              </span>{' '}
+              10-7959c upload
+            </>
+          ),
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (

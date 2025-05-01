@@ -86,7 +86,7 @@ featureSetsToTest.forEach(featureSet => {
             website:
               'https://www.va.gov/atlanta-health-care/locations/fort-mcpherson-va-clinic/',
             map:
-              'https://maps.google.com?saddr=Atlanta, GA&daddr=1701 Hardee Avenue, Southwest, Atlanta, GA 30310-5110',
+              'https://maps.google.com?saddr=Current+Location&daddr=1701 Hardee Avenue, Southwest, Atlanta, GA 30310-5110',
           },
           0,
         );
@@ -129,7 +129,7 @@ featureSetsToTest.forEach(featureSet => {
             addressLine2: 'TAMPA, FL 33602-5620',
             website: null,
             map:
-              'https://maps.google.com?saddr=Tampa, FL&daddr=564 CHANNELSIDE DR, TAMPA, FL 33602-5620',
+              'https://maps.google.com?saddr=Current+Location&daddr=564 CHANNELSIDE DR, TAMPA, FL 33602-5620',
           },
           0,
         );
@@ -170,7 +170,7 @@ featureSetsToTest.forEach(featureSet => {
             addressLine2: 'NORFOLK, VA 23507-1904',
             website: null,
             map:
-              'https://maps.google.com?saddr=Norfolk, VA&daddr=600 GRESHAM DR, NORFOLK, VA 23507-1904',
+              'https://maps.google.com?saddr=Current+Location&daddr=600 GRESHAM DR, NORFOLK, VA 23507-1904',
           },
           0,
         );
@@ -212,7 +212,7 @@ featureSetsToTest.forEach(featureSet => {
             addressLine2: 'Seattle, WA 98112',
             website: null,
             map:
-              'https://maps.google.com?saddr=Seattle, WA&daddr=203 14th Ave E, Seattle, WA 98112',
+              'https://maps.google.com?saddr=Current+Location&daddr=203 14th Ave E, Seattle, WA 98112',
           },
           0,
         );
@@ -247,7 +247,7 @@ featureSetsToTest.forEach(featureSet => {
             addressLine2: 'RENO, NV 89501',
             website: null,
             map:
-              'https://maps.google.com?saddr=Reno, NV&daddr=750 N VIRGINIA ST, RENO, NV 89501',
+              'https://maps.google.com?saddr=Current+Location&daddr=750 N VIRGINIA ST, RENO, NV 89501',
           },
           0,
         );
@@ -278,7 +278,7 @@ featureSetsToTest.forEach(featureSet => {
             addressLine2: 'Muskogee, OK 74401',
             website: null,
             map:
-              'https://maps.google.com?saddr=Tulsa, OK&daddr=125 South Main Street, Muskogee, OK 74401',
+              'https://maps.google.com?saddr=Current+Location&daddr=125 South Main Street, Muskogee, OK 74401',
           },
           0,
         );
@@ -309,7 +309,7 @@ featureSetsToTest.forEach(featureSet => {
             addressLine2: 'Honolulu, HI 96813-1729',
             website: null,
             map:
-              'https://maps.google.com?saddr=Honolulu, HI&daddr=2177 Puowaina Dr, Honolulu, HI 96813-1729',
+              'https://maps.google.com?saddr=Current+Location&daddr=2177 Puowaina Dr, Honolulu, HI 96813-1729',
           },
           0,
         );
@@ -340,7 +340,7 @@ featureSetsToTest.forEach(featureSet => {
             addressLine2: 'Evanston, IL 60202',
             website: 'https://www.va.gov/evanston-vet-center/',
             map:
-              'https://maps.google.com?saddr=Chicago, IL&daddr=1901 Howard Street, Evanston, IL 60202',
+              'https://maps.google.com?saddr=Current+Location&daddr=1901 Howard Street, Evanston, IL 60202',
           },
           0,
         );

@@ -1,3 +1,4 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -5,8 +6,8 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   arrayBuilderItemSubsequentPageTitleUI,
-  yesNoUI,
-  yesNoSchema,
+  radioUI,
+  radioSchema,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   ssnUI,
@@ -14,6 +15,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { CancelButton } from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const removeMarriedChildOptions = {
@@ -30,19 +32,33 @@ export const removeMarriedChildOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your children under 18 who got married',
-    getItemName: item =>
-      `${capitalize(item.fullName?.first) || ''} ${capitalize(
-        item.fullName?.last,
+    getItemName: () => 'Child',
+    cardDescription: item =>
+      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
+        item?.fullName?.last,
       ) || ''}`,
   },
 };
 
 export const removeMarriedChildIntroPage = {
   uiSchema: {
-    ...titleUI(
-      'Your children under 18 who got married',
-      'In the next few questions, we’ll ask you about your children who have gotten married. You must add at least one child.',
-    ),
+    ...titleUI({
+      title: 'Your children under 18 who got married',
+      description: () => {
+        return (
+          <>
+            <p>
+              In the next few questions, we’ll ask you about your children who
+              have gotten married. You must add at least one child.
+            </p>
+            <CancelButton
+              dependentType="children who got married"
+              isAddChapter={false}
+            />
+          </>
+        );
+      },
+    }),
   },
   schema: {
     type: 'object',
@@ -55,6 +71,13 @@ export const removeMarriedChildSummaryPage = {
   uiSchema: {
     'view:completedMarriedChild': arrayBuilderYesNoUI(
       removeMarriedChildOptions,
+      {
+        title: 'Do you have a child to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
       {
         title: 'Do you have another child to add?',
         labels: {
@@ -121,16 +144,21 @@ export const dateChildMarriedPage = {
 export const marriedChildIncomeQuestionPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Child’s income'),
-    dependentIncome: {
-      ...yesNoUI(
-        'Did this child earn an income in the last 365 days? Answer this question only if you are adding this dependent to your pension.',
-      ),
-    },
+    dependentIncome: radioUI({
+      title: 'Did this child have an income in the last 365 days?',
+      hint:
+        'Answer this question only if you are removing this dependent from your pension.',
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+        NA: 'This question doesn’t apply to me',
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      dependentIncome: yesNoSchema,
+      dependentIncome: radioSchema(['Y', 'N', 'NA']),
     },
   },
 };

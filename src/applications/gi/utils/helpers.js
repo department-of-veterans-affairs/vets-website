@@ -1126,3 +1126,11 @@ export const handleZoom = () => {
     }
   });
 };
+
+export const focusElement = (ref, delay = 0) => {
+  setTimeout(() => {
+    if (ref) {
+      ref.focus();
+    }
+  }, delay);
+};

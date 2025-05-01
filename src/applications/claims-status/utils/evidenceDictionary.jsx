@@ -40,4 +40,115 @@ export const evidenceDictionary = {
       </>
     ),
   },
+  'Employment info needed': {
+    longDescription: (
+      <p>
+        For your benefits claim, we need employment information from your most
+        recent employer.
+      </p>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          Give VA Form 21-4192 to your most recent employer and ask them to mail
+          us your employment information.
+        </p>
+        <Link
+          className="active-va-link"
+          data-testid="VA Form 21-4192"
+          to="https://www.va.gov/find-forms/about-form-21-4192/"
+        >
+          VA Form 21-4192
+          <va-icon icon="chevron_right" size={3} aria-hidden="true" />
+        </Link>
+      </>
+    ),
+    isProperNoun: false,
+  },
+  'EFT - Treasury Mandate Notification': {
+    longDescription: (
+      <p>
+        For your benefits claim, we need your direct deposit information in
+        order to pay benefits, if awarded.
+      </p>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          You can update your direct deposit information in your VA.gov profile,
+          by phone, or by mail.
+        </p>
+        <p>
+          If you don’t already have a bank account, the Veterans Benefits
+          Banking Program (VBBP) can connect you with a bank that will help you
+          set up an account.
+        </p>
+        <Link
+          className="active-va-link"
+          data-testid="Add direct deposit information"
+          to="https://www.va.gov/resources/direct-deposit-for-your-va-benefit-payments/"
+        >
+          Add direct deposit information
+          <va-icon icon="chevron_right" size={3} aria-hidden="true" />
+        </Link>
+      </>
+    ),
+    isProperNoun: false,
+  },
+  'RV1 - Reserve Records Request': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested your service records or
+          treatment records from your reserve unit.
+        </p>
+        <p>Your records may be used to verify:</p>
+        <ul className="bullet-disc">
+          <li>Your service</li>
+          <li>An event in your service</li>
+          <li>Treatment received during your service</li>
+        </ul>
+      </>
+    ),
+  },
+  'DBQ AUDIO Hearing Loss and Tinnitus': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested a disability exam for your
+          hearing. The examiner’s office will contact you to schedule this
+          appointment.
+        </p>
+      </>
+    ),
+    noActionNeeded: true,
+  },
+  'DBQ PSYCH Mental Disorders': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested a mental health exam. The
+          examiner’s office will contact you to schedule this appointment.
+        </p>
+      </>
+    ),
+    noActionNeeded: true,
+  },
+  'Proof of service (DD214, etc.)': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested all your DD Form 214's or
+          other separation papers for all your periods of military service.
+        </p>
+        <p>
+          You can also{' '}
+          <a href="https://www.va.gov/records/get-military-service-records/">
+            request your military service records
+          </a>{' '}
+          yourself from the National Archives.
+        </p>
+      </>
+    ),
+  },
 };

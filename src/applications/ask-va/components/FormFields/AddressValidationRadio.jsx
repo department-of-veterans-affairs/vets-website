@@ -53,7 +53,7 @@ const AddressValidationRadio = props => {
     state_code: state || militaryState,
     country_name: 'United States',
     country_code_iso3: 'USA',
-    address_pou: 'RESIDENCE',
+    address_pou: 'RESIDENCE/CHOICE',
     address_type: 'DOMESTIC',
   };
 
@@ -167,7 +167,7 @@ const AddressValidationRadio = props => {
             {shouldShowSuggestions
               ? `We can’t confirm the address you entered with the U.S. Postal
             Service`
-              : `Confirm you address`}
+              : `Confirm your address`}
           </h4>
           <p className="vads-u-margin-y--0">
             {shouldShowSuggestions

@@ -9,7 +9,7 @@ import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-sys
 import classNames from 'classnames';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
 import { PURPOSE_TEXT_V2, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
@@ -21,10 +21,7 @@ import {
   routeToPreviousAppointmentPage,
   updateReasonForAppointmentData,
 } from '../redux/actions';
-import {
-  selectFeatureVAOSServiceRequests,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import { getPageTitle } from '../newAppointmentFlow';
 
 function isValidComment(value) {
@@ -87,7 +84,6 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
   const pageInitialSchema = isCommunityCare
     ? initialSchema.cc
     : initialSchema.default;
-  const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
   const uiSchema = {
     default: {
       reasonForAppointment: {
@@ -127,16 +123,27 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
   };
   const pageUISchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
 
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-    dispatch(
-      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema, useV2),
-    );
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
-  }, []);
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      dispatch(
+        openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
+      );
+      if (featureBreadcrumbUrlUpdate) {
+        changeCrumb(pageTitle);
+      }
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div
@@ -158,12 +165,7 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
           }
           onChange={newData =>
             dispatch(
-              updateReasonForAppointmentData(
-                pageKey,
-                pageUISchema,
-                newData,
-                useV2,
-              ),
+              updateReasonForAppointmentData(pageKey, pageUISchema, newData),
             )
           }
           data={data}

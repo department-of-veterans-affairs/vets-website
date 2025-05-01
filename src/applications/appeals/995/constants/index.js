@@ -146,7 +146,8 @@ export const ATTACHMENTS_OTHER = {
   L070: 'Photographs',
   L222:
     'VA Form 21-0779 - Request for Nursing Home Information in Connection with Claim for Aid & Attendance',
-  L228: 'VA Form 21-0781 - Statement in Support of Claim for PTSD',
+  L228:
+    'VA Form 21-0781 - Statement in Support of Claimed Mental Health Disorder(s) Due to an In-Service Traumatic Event(s)',
   L229:
     'VA Form 21-0781a - Statement in Support of Claim for PTSD Secondary to Personal Assault',
   L102:

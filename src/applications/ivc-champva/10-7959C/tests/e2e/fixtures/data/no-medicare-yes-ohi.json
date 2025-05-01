@@ -40,7 +40,13 @@
     },
     "missingUploads": [
       {
-        "name": "primaryInsuranceCard",
+        "name": "primaryInsuranceCardFront",
+        "path": "insurance-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "primaryInsuranceCardBack",
         "path": "insurance-upload",
         "required": true,
         "uploaded": false
@@ -52,7 +58,13 @@
         "uploaded": false
       },
       {
-        "name": "secondaryInsuranceCard",
+        "name": "secondaryInsuranceCardFront",
+        "path": "secondary-insurance-card-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "secondaryInsuranceCardBack",
         "path": "secondary-insurance-card-upload",
         "required": true,
         "uploaded": false

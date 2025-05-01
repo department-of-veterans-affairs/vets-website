@@ -5,12 +5,9 @@ import { focusElement } from 'platform/utilities/ui';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // Utils
-import {
-  clearGeocodeError,
-  clearSearchText,
-  geolocateUser,
-  getProviderSpecialties,
-} from '../../actions';
+import { clearSearchText } from '../../actions/search';
+import { clearGeocodeError, geolocateUser } from '../../actions/mapbox';
+import { getProviderSpecialties } from '../../actions/locations';
 import { LocationType } from '../../constants';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
@@ -30,7 +27,9 @@ export const SearchForm = props => {
     mobileMapUpdateEnabled,
     onChange,
     onSubmit,
+    searchInitiated,
     selectMobileMapPin,
+    setSearchInitiated,
     suppressPPMS,
     useProgressiveDisclosure,
     vamcAutoSuggestEnabled,
@@ -39,7 +38,6 @@ export const SearchForm = props => {
   const [selectedServiceType, setSelectedServiceType] = useState(null);
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
-  const [searchInitiated, setSearchInitiated] = useState(false);
 
   const handleFacilityTypeChange = e => {
     onChange({

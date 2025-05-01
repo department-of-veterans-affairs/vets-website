@@ -420,7 +420,8 @@ export const DOC_TYPES = [
   },
   {
     value: 'L228',
-    label: 'VA Form 21-0781 - Statement in Support of Claim for PTSD',
+    label:
+      'VA Form 21-0781 - Statement in Support of Claimed Mental Health Disorder(s) Due to an In-Service Traumatic Event(s)',
   },
   {
     value: 'L229',
@@ -1201,6 +1202,17 @@ export function setDocumentRequestPageTitle(displayName) {
 export function setTabDocumentTitle(claim, tabName) {
   setDocumentTitle(generateClaimTitle(claim, 'document', tabName));
 }
+
+export const setPageTitle = trackedItem => {
+  if (trackedItem) {
+    const pageTitle = setDocumentRequestPageTitle(
+      trackedItem.friendlyName || trackedItem.displayName,
+    );
+    setDocumentTitle(pageTitle);
+  } else {
+    setDocumentTitle('Document Request');
+  }
+};
 
 // Used to set the page focus on the CST Tabs
 export function setPageFocus(lastPage, loading) {

@@ -31,7 +31,7 @@ const requestsV2 = require('./v2/requests.json');
 // CC Direct Scheduling mocks
 const referralUtils = require('../../referral-appointments/utils/referrals');
 const providerUtils = require('../../referral-appointments/utils/provider');
-const ccDirectAppointmentUtils = require('../../referral-appointments/utils/appointment');
+const epsAppointmentUtils = require('../../referral-appointments/utils/appointment');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -74,6 +74,7 @@ const responses = {
   'POST /vaos/v2/appointments': (req, res) => {
     const {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
+      kind,
     } = req.body;
     const selectedClinic = clinicsV2.data.filter(
       clinic => clinic.id === req.body.clinic,
@@ -86,10 +87,16 @@ const responses = {
     const localTime = momentTz(selectedTime[0])
       .tz('America/Denver')
       .format('YYYY-MM-DDTHH:mm:ss');
+    const pending = req.body.status === 'proposed';
+    const future = req.body.status === 'booked';
     let reasonForAppointment;
     let patientComments;
+    let type;
+    let modality;
     if (req.body.kind === 'cc') {
       patientComments = req.body.reasonCode?.text;
+      type = pending ? 'COMMUNITY_CARE_REQUEST' : 'COMMUNITY_CARE_APPOINTMENT';
+      modality = 'communityCare';
     } else {
       const tokens = req.body.reasonCode?.text?.split('|') || [];
       for (const token of tokens) {
@@ -100,12 +107,18 @@ const responses = {
           patientComments = token.substring('comments:'.length);
         }
       }
+      type = pending ? 'REQUEST' : 'VA';
+      modality = 'vaInPerson';
     }
 
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
         ...req.body,
+        created: new Date().toISOString(),
+        kind,
+        type,
+        modality,
         localStartTime: req.body.slot?.id ? localTime : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
         contact: {
@@ -124,6 +137,8 @@ const responses = {
           selectedClinic[0]?.attributes.physicalLocation || null,
         reasonForAppointment,
         patientComments,
+        future,
+        pending,
       },
     };
     currentMockId += 1;
@@ -166,6 +181,18 @@ const responses = {
         appointment.attributes.future = moment(
           appointment.attributes.start,
         ).isAfter(moment());
+
+        if (appointment.attributes.modality === 'vaVideoCareAtHome') {
+          const diff = moment().diff(
+            moment(appointment.attributes.start),
+            'minutes',
+          );
+          if (!appointment.attributes.telehealth) {
+            appointment.attributes.telehealth = {};
+          }
+          appointment.attributes.telehealth.displayLink =
+            diff > -30 && diff < 240;
+        }
       }
     }
     const filteredAppointments = appointments.filter(appointment => {
@@ -216,20 +243,21 @@ const responses = {
   //   return res.json(errors);
   // },
 
-  'GET /vaos/v2/appointments/:id': (req, res) => {
-    const appointments = {
-      data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
-    };
-    const appointment = appointments.data.find(
-      appt => appt.id === req.params.id,
-    );
-    if (appointment.start) {
-      appointment.future = moment(appointment.start).isAfter(moment());
-    }
-    return res.json({
-      data: appointment,
-    });
-  },
+  // 'GET /vaos/v2/appointments/:id': (req, res) => {
+  //   const appointments = {
+  //     data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
+  //   };
+  //   const appointment = appointments.data.find(
+  //     appt => appt.id === req.params.id,
+  //   );
+
+  //   if (appointment.start) {
+  //     appointment.future = moment(appointment.start).isAfter(moment());
+  //   }
+  //   return res.json({
+  //     data: appointment,
+  //   });
+  // },
   'GET /vaos/v2/scheduling/configurations': (req, res) => {
     if (req.query.cc_enabled === 'true') {
       return res.json(schedulingConfigurationsCC);
@@ -371,65 +399,37 @@ const responses = {
   'GET /vaos/v2/relationships': (req, res) => {
     return res.json(patientProviderRelationships);
   },
-
-  // EPS api
-  'GET /vaos/v2/epsApi/referrals': (req, res) => {
+  'GET /vaos/v2/referrals': (req, res) => {
     return res.json({
-      data: referralUtils.createReferrals(4, '2024-12-02'),
+      data: referralUtils.createReferrals(4),
     });
   },
-  'GET /vaos/v2/epsApi/referrals/:referralId': (req, res) => {
+  'GET /vaos/v2/referrals/:referralId': (req, res) => {
     if (req.params.referralId === 'error') {
       return res.status(500).json({ error: true });
     }
 
     if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
-      const yesterday = moment()
-        .subtract(1, 'days')
-        .format('YYYY-MM-DD');
       const expiredReferral = referralUtils.createReferralById(
         '2024-12-02',
         req.params.referralId,
-        '111',
-        yesterday,
       );
       return res.json({
         data: expiredReferral,
       });
     }
-    const tomorrow = moment()
-      .add(2, 'days')
-      .format('YYYY-MM-DD');
     const referral = referralUtils.createReferralById(
       '2024-12-02',
       req.params.referralId,
-      '111',
-      tomorrow,
     );
     return res.json({
       data: referral,
     });
   },
-  'GET /vaos/v2/epsApi/providerDetails/:providerId': (req, res) => {
-    // Provider 3 throws error
-    if (req.params.providerId === '3') {
-      return res.status(500).json({ error: true });
-    }
-    // Provider 0 has no available slots
-    if (req.params.providerId === '0') {
-      return res.json({
-        data: providerUtils.createProviderDetails(0, req.params.providerId),
-      });
-    }
-    return res.json({
-      data: providerUtils.createProviderDetails(5, req.params.providerId),
-    });
-  },
-  'POST /vaos/v2/epsApi/draftReferralAppointment': (req, res) => {
+  'POST /vaos/v2/appointments/draft': (req, res) => {
     const { referralId } = req.body;
-
     // Provider 3 throws error
-    if (referralId === '3') {
+    if (referralId === '') {
       return res.status(500).json({ error: true });
     }
 
@@ -444,46 +444,46 @@ const responses = {
       referralId,
     );
 
-    draftAppointments[draftAppointment.appointment.id] = draftAppointment;
+    draftAppointments[draftAppointment.id] = draftAppointment;
 
     return res.json({
       data: draftAppointment,
     });
   },
-  'GET /vaos/v2/epsApi/appointments/:appointmentId': (req, res) => {
+  'GET /vaos/v2/eps_appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
+    const mockAppointment = epsAppointmentUtils.createMockEpsAppointment(
+      appointmentId,
+      null,
+      epsAppointmentUtils.appointmentData,
+    );
 
     if (appointmentId === 'timeout-appointment-id') {
       // Set a very high poll count to simulate a timeout
       successPollCount = 1000;
     }
 
-    const draftAppointment = draftAppointments[appointmentId];
-    if (!draftAppointment || appointmentId === 'eps-error-appointment-id') {
+    if (appointmentId === 'eps-error-appointment-id') {
       return res.status(400).json({ error: true });
     }
 
     const count = draftAppointmentPollCount[appointmentId] || 0;
-    let { state } = draftAppointment.appointment;
 
     // Mock polling for appointment state change
     if (count < successPollCount) {
       draftAppointmentPollCount[appointmentId] = count + 1;
     } else {
-      state = 'confirmed';
+      // reassign status of mocked appointment to booked to simulate success
+      mockAppointment.attributes.status = 'booked';
       draftAppointmentPollCount[appointmentId] = 0;
     }
 
     return res.json({
-      data: ccDirectAppointmentUtils.createReferralAppointment(
-        appointmentId,
-        state,
-        draftAppointment,
-      ),
+      data: mockAppointment,
     });
   },
-  'POST /vaos/v2/epsApi/appointments': (req, res) => {
+  'POST /vaos/v2/appointments/submit': (req, res) => {
     const { slotId, draftApppointmentId, referralId } = req.body;
 
     if (!referralId || !slotId || !draftApppointmentId) {
@@ -493,7 +493,7 @@ const responses = {
     draftAppointmentPollCount[draftApppointmentId] = 1;
 
     return res.status(201).json({
-      data: { appointmentId: draftApppointmentId },
+      data: { id: draftApppointmentId },
     });
   },
   // Required v0 APIs

@@ -19,6 +19,7 @@ import { hasMhvAccount } from './hasMhvAccount';
 import { selectGreetingName } from './personalInformation';
 import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
 import { hasMhvBasicAccount } from './hasMhvBasicAccount';
+import { hasMessagingAccess } from './hasMessagingAccess';
 
 import {
   mhvAccountStatusLoading,
@@ -29,10 +30,16 @@ import {
 } from './mhvAccountStatus';
 
 import { profileHasEHRM, profileHasVista } from './facilities';
+import {
+  selectVaPatient,
+  selectProfileLoa,
+  selectProfileLogInProvider,
+} from './accountInformation';
 
 export {
   hasMhvAccount,
   hasMhvBasicAccount,
+  hasMessagingAccess,
   isAuthenticatedWithSSOe,
   isInMPI,
   isLOA1,
@@ -50,7 +57,10 @@ export {
   profileHasVista,
   selectDrupalStaticData,
   selectGreetingName,
+  selectVaPatient,
   selectProfile,
+  selectProfileLoa,
+  selectProfileLogInProvider,
   signInServiceEnabled,
   signInServiceName,
   showVerifyAndRegisterAlert,

@@ -41,12 +41,6 @@ export {
 } from './authentication/hooks/index';
 
 export {
-  default as AccountTransitionModal,
-} from './authentication/components/account-transition/TransitionModal';
-export {
-  default as TransitionSuccessModal,
-} from './authentication/components/account-transition/TransitionSuccessModal';
-export {
   VerifyIdmeButton,
   VerifyLogingovButton,
   VerifyButton,
@@ -79,9 +73,6 @@ export {
   default as LoginHeader,
 } from './authentication/components/LoginHeader';
 export { default as LoginInfo } from './authentication/components/LoginInfo';
-export {
-  default as LogoutAlert,
-} from './authentication/components/LogoutAlert';
 export {
   default as ServiceProvidersList,
 } from './authentication/components/ServiceProvidersList';
@@ -124,9 +115,6 @@ export {
   IDME_TYPES,
   POLICY_TYPES,
   SIGNUP_TYPES,
-  MHV_TRANSITION_DATE,
-  MHV_TRANSITION_TIME,
-  ACCOUNT_TRANSITION_DISMISSED,
   LINK_TYPES,
   AUTH_PARAMS,
 } from './authentication/constants';
@@ -165,18 +153,10 @@ export {
 
 /* authorization */
 export {
-  default as AcceptTermsPrompt,
-} from './authorization/components/AcceptTermsPrompt';
-export {
   default as RequiredLoginView,
   RequiredLoginLoader,
 } from './authorization/components/RequiredLoginView';
 export { default as VerifyAlert } from './authorization/components/VerifyAlert';
-// TO DO: resolve missing nested import
-// export { MHVApp } from './authorization/containers/MHVApp';
-// export {
-//   RequiredTermsAcceptanceView,
-// } from './authorization/containers/RequiredTermsAcceptanceView';
 
 /* profile */
 

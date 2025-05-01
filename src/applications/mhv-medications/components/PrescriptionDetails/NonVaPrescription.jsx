@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { validateField, dateFormat } from '../../util/helpers';
 import ExtraDetails from '../shared/ExtraDetails';
 import { selectGroupingFlag } from '../../util/selectors';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const NonVaPrescription = prescription => {
   const showGroupingFlag = useSelector(selectGroupingFlag);
@@ -28,7 +29,7 @@ const NonVaPrescription = prescription => {
         </h2>
         {prescription && <ExtraDetails {...prescription} />}
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Status
           </h3>
           <p data-testid="rx-status" data-dd-privacy="mask">
@@ -39,6 +40,9 @@ const NonVaPrescription = prescription => {
               trigger="What does this status mean?"
               data-testid="status-dropdown"
               uswds
+              data-dd-action-name={
+                dataDogActionNames.detailsPage.STATUS_INFO_DROPDOWN
+              }
             >
               <ul className="non-va-ul" data-testid="nonVA-status-definition">
                 <li>
@@ -67,25 +71,25 @@ const NonVaPrescription = prescription => {
           </div>
         </section>
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Instructions
           </h3>
           <p>{validateField(prescription.sig)}</p>
         </section>
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Reason for use
           </h3>
           <p>{validateField(prescription.indicationForUse)}</p>
         </section>
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             When you started taking this medication
           </h3>
           <p>{dateFormat(prescription.dispensedDate)}</p>
         </section>
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Documented by
           </h3>
           <p data-dd-privacy="mask">
@@ -97,7 +101,7 @@ const NonVaPrescription = prescription => {
           </p>
         </section>
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Documented at this facility
           </h3>
           <p data-dd-privacy="mask">
@@ -105,7 +109,7 @@ const NonVaPrescription = prescription => {
           </p>
         </section>
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Provider notes
           </h3>
           <p data-dd-privacy="mask">

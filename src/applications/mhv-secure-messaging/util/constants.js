@@ -51,6 +51,7 @@ export const ErrorMessages = {
   },
   ComposeForm: {
     RECIPIENT_REQUIRED: 'Please select a recipient.',
+    VALID_RECIPIENT_REQUIRED: 'Please select a valid recipient.',
     CATEGORY_REQUIRED: 'Please select a category.',
     CHECKBOX_REQUIRED: 'You must certify by checking the box.',
     SUBJECT_REQUIRED: 'Subject cannot be blank.',
@@ -501,9 +502,9 @@ export const CernerTransitioningFacilities = {
 };
 
 export const filterDescription = {
-  noMsgId: 'Enter information from one of these fields: To, from, or subject',
+  noMsgId: 'Enter information from one of these fields: to, from, or subject',
   withMsgId:
-    'Enter information from one of these fields: To, from, message ID, or subject',
+    'Enter information from one of these fields: to, from, subject, or message ID',
 };
 
 export const smFooter = {

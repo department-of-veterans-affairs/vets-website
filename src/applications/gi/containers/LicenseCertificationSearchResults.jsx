@@ -5,9 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import ADDRESS_DATA from 'platform/forms/address/data';
 
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useSignalFetch } from '../utils/useSignalFetch';
 
-import { filterLcResults } from '../actions';
+import { fetchLicenseCertificationResults, filterLcResults } from '../actions';
 import {
   handleLcResultsSearch,
   isSmallScreen,
@@ -20,7 +19,7 @@ import {
 import { lacpCategoryList } from '../constants';
 
 import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
-import LicenseCertificationFilterAccordion from '../components/LicenseCertificationFilterAccordion';
+import FilterAccordion from '../components/FilterAccordion';
 import FilterControls from '../components/FilterControls';
 import LicenseCertificationSearchInfo from '../components/LicenseCertificationSearchInfo';
 
@@ -66,6 +65,7 @@ export default function LicenseCertificationSearchResults() {
       filterLocation,
     );
   });
+
   const itemsPerPage = 10;
 
   const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
@@ -74,7 +74,16 @@ export default function LicenseCertificationSearchResults() {
     currentPage * itemsPerPage,
   );
 
-  useSignalFetch(hasFetchedOnce);
+  useEffect(() => {
+    document.title = `Search results: GI Bill® Comparison Tool | Veterans Affairs`;
+  }, []);
+
+  useEffect(() => {
+    if (!hasFetchedOnce) {
+      dispatch(fetchLicenseCertificationResults());
+    }
+    return null;
+  }, []);
 
   useEffect(
     () => {
@@ -169,6 +178,16 @@ export default function LicenseCertificationSearchResults() {
     );
   };
 
+  const updateResults = () => {
+    handleSearch(
+      categoryCheckboxes
+        .filter(checkbox => checkbox.checked === true)
+        .map(option => option.name),
+      nameParam,
+      dropdown.current.optionValue,
+    );
+  };
+
   const handleStateChange = e => {
     setFilterLocation(e.target.value);
   };
@@ -189,18 +208,13 @@ export default function LicenseCertificationSearchResults() {
       page,
     );
     setCurrentPage(page);
-    setTimeout(() => {
-      if (searchInfoWrapperRef.current) {
-        searchInfoWrapperRef.current.focus();
-      }
-    }, 500);
   };
 
   const handleGoToDetails = (e, id, name) => {
     e.preventDefault();
-    history.push(
-      `/licenses-certifications-and-prep-courses/results/${id}/${name}`,
-    );
+
+    const routerPath = `/licenses-certifications-and-prep-courses/results/${id}/${name}`;
+    history.push(routerPath);
   };
 
   const handleGoHome = e => {
@@ -341,6 +355,9 @@ export default function LicenseCertificationSearchResults() {
 
               <div className="lc-result-info-wrapper row">
                 <LicenseCertificationSearchInfo
+                  key={`${activeCategories.join(
+                    '-',
+                  )}-${nameParam}-${stateParam}-${currentPage}`}
                   filteredResults={filteredResults}
                   currentPage={currentPage}
                   itemsPerPage={itemsPerPage}
@@ -362,19 +379,11 @@ export default function LicenseCertificationSearchResults() {
                     }
                   >
                     <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
-                      <LicenseCertificationFilterAccordion
+                      <FilterAccordion
                         button="Update search"
                         buttonLabel="Filter your results"
-                        expanded={!smallScreen}
-                        buttonOnClick={() =>
-                          handleSearch(
-                            categoryCheckboxes
-                              .filter(checkbox => checkbox.checked === true)
-                              .map(option => option.name),
-                            nameParam,
-                            dropdown.current.optionValue,
-                          )
-                        }
+                        smallScreen={smallScreen}
+                        updateResults={updateResults}
                         resetSearch={handleResetSearch}
                       >
                         <FilterControls
@@ -384,7 +393,7 @@ export default function LicenseCertificationSearchResults() {
                           handleDropdownChange={handleStateChange}
                           filterLocation={filterLocation}
                         />
-                      </LicenseCertificationFilterAccordion>
+                      </FilterAccordion>
                     </div>
                   </div>
 
@@ -412,12 +421,10 @@ export default function LicenseCertificationSearchResults() {
                                 </p>
                               )}
                               <va-link
-                                href={`/licenses-certifications-and-prep-courses/results/${
+                                href={`/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/${
                                   result.enrichedId
-                                }`}
-                                text={`View test amount details for ${
-                                  result.lacNm
-                                }`}
+                                }/${result.lacNm}`}
+                                text={`Learn more about ${result.lacNm}`}
                                 type="secondary"
                                 onClick={e =>
                                   handleGoToDetails(

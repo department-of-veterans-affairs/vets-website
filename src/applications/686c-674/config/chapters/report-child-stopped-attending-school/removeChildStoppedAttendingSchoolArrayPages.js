@@ -1,3 +1,4 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -5,8 +6,8 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   arrayBuilderItemSubsequentPageTitleUI,
-  yesNoUI,
-  yesNoSchema,
+  radioUI,
+  radioSchema,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   ssnUI,
@@ -14,6 +15,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { CancelButton } from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const removeChildStoppedAttendingSchoolOptions = {
@@ -30,19 +32,34 @@ export const removeChildStoppedAttendingSchoolOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your children between ages 18 and 23 who left school',
-    getItemName: item =>
-      `${capitalize(item.fullName?.first) || ''} ${capitalize(
-        item.fullName?.last,
+    getItemName: () => 'Child',
+    cardDescription: item =>
+      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
+        item?.fullName?.last,
       ) || ''}`,
   },
 };
 
 export const removeChildStoppedAttendingSchoolIntroPage = {
   uiSchema: {
-    ...titleUI(
-      'Your children between ages 18 and 23 who left school',
-      'In the next few questions, we’ll ask you about your children between ages 18 and 23 who left school. You must add at least one child.',
-    ),
+    ...titleUI({
+      title: 'Your children',
+      description: () => {
+        return (
+          <>
+            <p>
+              In the next few questions, we’ll ask you about your children
+              between ages 18 and 23 who left school. You must add at least one
+              child.
+            </p>
+            <CancelButton
+              dependentType="children who left school"
+              isAddChapter={false}
+            />
+          </>
+        );
+      },
+    }),
   },
   schema: {
     type: 'object',
@@ -55,6 +72,14 @@ export const removeChildStoppedAttendingSchoolSummaryPage = {
   uiSchema: {
     'view:completedChildStoppedAttendingSchool': arrayBuilderYesNoUI(
       removeChildStoppedAttendingSchoolOptions,
+      {
+        title:
+          'Do you have a child between ages 18 and 23 who left school to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
       {
         title:
           'Do you have another child between ages 18 and 23 who left school to add?',
@@ -124,16 +149,21 @@ export const dateChildLeftSchoolPage = {
 export const childIncomeQuestionPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Child’s income'),
-    dependentIncome: {
-      ...yesNoUI(
-        'Did this child earn an income in the last 365 days? Answer this question only if you are adding this dependent to your pension.',
-      ),
-    },
+    dependentIncome: radioUI({
+      title: 'Did this child have an income in the last 365 days?',
+      hint:
+        'Answer this question only if you are removing this dependent from your pension.',
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+        NA: 'This question doesn’t apply to me',
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      dependentIncome: yesNoSchema,
+      dependentIncome: radioSchema(['Y', 'N', 'NA']),
     },
   },
 };

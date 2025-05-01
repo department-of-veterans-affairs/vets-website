@@ -3,7 +3,11 @@ import {
   checkboxGroupUI,
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { titleWithTag, form0781HeadingTag } from '../../content/form0781';
+import {
+  titleWithTag,
+  form0781HeadingTag,
+  mentalHealthSupportAlert,
+} from '../../content/form0781';
 import {
   supportingEvidenceDescription,
   supportingEvidenceNoneLabel,
@@ -11,8 +15,6 @@ import {
   supportingEvidencePageTitle,
   validateSupportingEvidenceSelections,
   supportingEvidenceBuddyStatement,
-  supportingEvidenceValidationError,
-  showConflictingAlert,
 } from '../../content/form0781/supportingEvidencePage';
 import {
   SUPPORTING_EVIDENCE_SUBTITLES,
@@ -20,20 +22,16 @@ import {
   SUPPORTING_EVIDENCE_RECORD,
   SUPPORTING_EVIDENCE_WITNESS,
   SUPPORTING_EVIDENCE_OTHER,
+  SUPPORTING_EVIDENCE_HINTS,
 } from '../../constants';
 
 export const uiSchema = {
   'ui:title': titleWithTag(supportingEvidencePageTitle, form0781HeadingTag),
   'ui:description': supportingEvidenceDescription,
-  'view:conflictingResponseAlert': {
-    'ui:description': supportingEvidenceValidationError,
-    'ui:options': {
-      hideIf: formData => showConflictingAlert(formData) === false,
-    },
-  },
   supportingEvidenceReports: checkboxGroupUI({
     title: SUPPORTING_EVIDENCE_SUBTITLES.reports,
     labelHeaderLevel: '4',
+    hint: SUPPORTING_EVIDENCE_HINTS.reports,
     labels: {
       ...SUPPORTING_EVIDENCE_REPORT,
     },
@@ -42,6 +40,7 @@ export const uiSchema = {
   supportingEvidenceRecords: checkboxGroupUI({
     title: SUPPORTING_EVIDENCE_SUBTITLES.records,
     labelHeaderLevel: '4',
+    hint: SUPPORTING_EVIDENCE_HINTS.records,
     labels: {
       ...SUPPORTING_EVIDENCE_RECORD,
     },
@@ -50,6 +49,7 @@ export const uiSchema = {
   supportingEvidenceWitness: checkboxGroupUI({
     title: SUPPORTING_EVIDENCE_SUBTITLES.witness,
     labelHeaderLevel: '4',
+    hint: SUPPORTING_EVIDENCE_HINTS.witness,
     labels: {
       ...SUPPORTING_EVIDENCE_WITNESS,
     },
@@ -58,6 +58,7 @@ export const uiSchema = {
   supportingEvidenceOther: checkboxGroupUI({
     title: SUPPORTING_EVIDENCE_SUBTITLES.other,
     labelHeaderLevel: '4',
+    hint: SUPPORTING_EVIDENCE_HINTS.other,
     labels: {
       ...SUPPORTING_EVIDENCE_OTHER,
     },
@@ -69,6 +70,7 @@ export const uiSchema = {
   supportingEvidenceNoneCheckbox: checkboxGroupUI({
     title: SUPPORTING_EVIDENCE_SUBTITLES.none,
     labelHeaderLevel: '4',
+    hint: SUPPORTING_EVIDENCE_HINTS.none,
     labels: {
       none: supportingEvidenceNoneLabel,
     },
@@ -79,6 +81,9 @@ export const uiSchema = {
   },
   'view:supportingEvidenceAdditionalInformation': {
     'ui:description': supportingEvidenceAdditionalInformation,
+  },
+  'view:mentalHealthSupportAlert': {
+    'ui:description': mentalHealthSupportAlert,
   },
   'ui:validations': [validateSupportingEvidenceSelections],
 };
@@ -111,6 +116,10 @@ export const schema = {
       properties: {},
     },
     'view:supportingEvidenceAdditionalInformation': {
+      type: 'object',
+      properties: {},
+    },
+    'view:mentalHealthSupportAlert': {
       type: 'object',
       properties: {},
     },

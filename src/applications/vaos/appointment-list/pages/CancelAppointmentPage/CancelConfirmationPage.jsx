@@ -11,6 +11,8 @@ import { startNewAppointmentFlow } from '../../redux/actions';
 import getNewAppointmentFlow from '../../../new-appointment/newAppointmentFlow';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { selectAppointmentType } from '../../redux/selectors';
+import { selectFeatureFeSourceOfTruth } from '../../../redux/selectors';
+
 import CancelPageContent from './CancelPageContent';
 
 function handleClick(history, dispatch, url) {
@@ -29,16 +31,19 @@ function handleClick(history, dispatch, url) {
 export default function CancelConfirmationPage({ appointment, cancelInfo }) {
   const dispatch = useDispatch();
   const history = useHistory();
+  const useFeSourceOfTruth = useSelector(state =>
+    selectFeatureFeSourceOfTruth(state),
+  );
   const { typeOfCare: page } = useSelector(getNewAppointmentFlow);
   const { showCancelModal } = cancelInfo;
   const type = selectAppointmentType(appointment);
+  const isRequest = useFeSourceOfTruth
+    ? appointment.vaos.isPendingAppointment
+    : APPOINTMENT_TYPES.request === type ||
+      APPOINTMENT_TYPES.ccRequest === type;
 
   let heading = 'You have canceled your appointment';
-  if (
-    APPOINTMENT_TYPES.request === type ||
-    APPOINTMENT_TYPES.ccRequest === type
-  )
-    heading = 'You have canceled your request';
+  if (isRequest) heading = 'You have canceled your request';
 
   useEffect(() => {
     scrollAndFocus();
@@ -64,7 +69,7 @@ export default function CancelConfirmationPage({ appointment, cancelInfo }) {
         Scheduling a new appointment
       </a>
       <AppointmentCard appointment={appointment}>
-        <CancelPageContent type={type} />
+        <CancelPageContent isRequest={isRequest} />
       </AppointmentCard>
     </>
   );

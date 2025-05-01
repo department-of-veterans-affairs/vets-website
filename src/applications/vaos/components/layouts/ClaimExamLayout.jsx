@@ -51,9 +51,8 @@ export default function ClaimExamLayout({ data: appointment }) {
 
   let heading = 'Claim exam';
   const facilityId = locationId;
-  if (isPastAppointment) heading = 'Past claim exam';
-  else if (APPOINTMENT_STATUS.cancelled === status)
-    heading = 'Canceled claim exam';
+  if (APPOINTMENT_STATUS.cancelled === status) heading = 'Canceled claim exam';
+  else if (isPastAppointment) heading = 'Past claim exam';
 
   recordAppointmentDetailsNullStates(
     {

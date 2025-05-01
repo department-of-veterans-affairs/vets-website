@@ -4,6 +4,7 @@ import {
   VaRadio,
   VaRadioOption,
   VaLoadingIndicator,
+  VaBreadcrumbs,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import {
@@ -11,6 +12,8 @@ import {
   formatStatus,
   resolutionDate,
   BANNER_TYPES,
+  DETAILS_BC_LABEL,
+  poaDetailsBreadcrumbs,
 } from '../utilities/poaRequests';
 import api from '../utilities/api';
 import ProcessingBanner from '../components/ProcessingBanner';
@@ -116,17 +119,19 @@ const checkLimitations = (limitations, limit) => {
   return checkAuthorizations(checkLimitation);
 };
 
-const POARequestDetailsPage = () => {
+const POARequestDetailsPage = title => {
   const poaRequest = useLoaderData();
-  const [error, setError] = useState(false);
+  const [error, setError] = useState();
+  const [decisionValue, setDecisionValue] = useState();
   const handleChange = e => {
     e.preventDefault();
     const radioValue = e.detail?.value;
     if (radioValue) {
-      setError(false);
+      setError();
     } else {
       setError(true);
     }
+    setDecisionValue(radioValue);
   };
 
   const poaStatus =
@@ -140,6 +145,7 @@ const POARequestDetailsPage = () => {
   const state = poaRequest?.powerOfAttorneyForm.claimant.address.stateCode;
   const zipCode = poaRequest?.powerOfAttorneyForm.claimant.address.zipCode;
   const phone = poaRequest?.powerOfAttorneyForm.claimant.phone;
+  const formattedPhone = phone.replace(/[^a-zA-Z0-9]/g, '');
   const email = poaRequest?.powerOfAttorneyForm.claimant.email;
   const claimantFirstName = poaRequest?.powerOfAttorneyForm.claimant.name.first;
   const claimantLastName = poaRequest?.powerOfAttorneyForm.claimant.name.last;
@@ -150,12 +156,38 @@ const POARequestDetailsPage = () => {
   const poaRequestSubmission =
     poaRequest?.powerOfAttorneyFormSubmission?.status;
   const navigation = useNavigation();
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  useEffect(
+    () => {
+      focusElement('h1');
+      document.title = title.title;
+    },
+    [title],
+  );
+
+  const handleSubmit = e => {
+    if (!decisionValue) {
+      setError('Select an option to continue');
+      e.preventDefault();
+    }
+    return true;
+  };
+
+  setTimeout(() => {
+    if (document.querySelector('va-radio')) {
+      document
+        .querySelector('va-radio')
+        .shadowRoot?.querySelector('h2')
+        .setAttribute('style', 'font-size:1.0625rem;');
+    }
+  }, '1000');
 
   return (
     <>
+      <VaBreadcrumbs
+        breadcrumbList={poaDetailsBreadcrumbs}
+        label={DETAILS_BC_LABEL}
+        homeVeteransAffairs={false}
+      />
       {navigation.state === 'loading' ? (
         <VaLoadingIndicator message="Loading..." />
       ) : (
@@ -303,7 +335,9 @@ const POARequestDetailsPage = () => {
               </li>
               <li>
                 <p>Phone</p>
-                <p>{phone}</p>
+                <p>
+                  <va-telephone contact={formattedPhone} />
+                </p>
               </li>
               <li>
                 <p>Email</p>
@@ -329,7 +363,7 @@ const POARequestDetailsPage = () => {
         and the veteran information will show up here. if the veteran is filing themselves, they will appear as the claimant */}
             {poaRequest.powerOfAttorneyForm.veteran && (
               <>
-                <h2>Veteran information</h2>
+                <h2>Veteran identification information</h2>
                 <ul className="poa-request-details__list poa-request-details__list--info">
                   <li>
                     <p>Name</p>
@@ -402,6 +436,7 @@ const POARequestDetailsPage = () => {
               <Form
                 method="post"
                 action="decision"
+                onSubmit={handleSubmit}
                 className={
                   error
                     ? `poa-request-details__form poa-request-details__form--error`
@@ -411,10 +446,11 @@ const POARequestDetailsPage = () => {
                 <VaRadio
                   header-aria-describedby={null}
                   label="Do you accept or decline this POA request?"
-                  label-header-level={4}
+                  label-header-level={2}
                   class="poa-request-details__form-label"
                   onVaValueChange={handleChange}
                   required
+                  error={error}
                 >
                   <p>
                     We’ll send the claimant an email letting them know your
@@ -462,7 +498,10 @@ POARequestDetailsPage.loader = ({ params, request }) => {
 
 POARequestDetailsPage.createDecisionAction = async ({ params, request }) => {
   const key = (await request.formData()).get('decision');
-  const decision = DECISION_OPTIONS[key];
+  const decision = {
+    ...DECISION_OPTIONS[key], // Spread the existing decision object
+    key, // Add the key field with the value of the key
+  };
 
   await api.createPOARequestDecision(params.id, decision, {
     signal: request.signal,

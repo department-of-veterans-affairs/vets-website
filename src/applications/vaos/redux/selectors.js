@@ -64,20 +64,8 @@ export const selectHasVAPResidentialAddress = state =>
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 
-export const selectFeatureVAOSServiceRequests = state =>
-  toggleValues(state).vaOnlineSchedulingVAOSServiceRequests;
-
-export const selectFeatureVAOSServiceVAAppointments = state =>
-  toggleValues(state).vaOnlineSchedulingVAOSServiceVAAppointments;
-
-export const selectFeatureVAOSServiceCCAppointments = state =>
-  toggleValues(state).vaOnlineSchedulingVAOSServiceCCAppointments;
-
 export const selectFeatureClinicFilter = state =>
   toggleValues(state).vaOnlineSchedulingClinicFilter;
-
-export const selectFeatureConvertUtcToLocaL = state =>
-  toggleValues(state).vaOnlineSchedulingConvertUtcToLocal;
 
 export const selectFeatureBreadcrumbUrlUpdate = state =>
   toggleValues(state).vaOnlineSchedulingBreadcrumbUrlUpdate;
@@ -108,9 +96,6 @@ export const selectFeatureRemovePodiatry = state =>
 export const selectFeatureUseVaDate = state =>
   toggleValues(state).vaosOnlineSchedulingUseVADate;
 
-export const selectFeaturePastApptDateRange = state =>
-  toggleValues(state).vaOnlineSchedulingPastApptDateRange;
-
 export const selectFeatureFeSourceOfTruth = state =>
   toggleValues(state).vaOnlineSchedulingFeSourceOfTruth;
 
@@ -127,10 +112,16 @@ export const selectFeatureFeSourceOfTruthTelehealth = state =>
   toggleValues(state).vaOnlineSchedulingFeSourceOfTruthTelehealth;
 
 export const selectFeatureMhvRouteGuards = state =>
-  toggleValues(state).vaOnlineSchedulingMhvRouteGuards;
+  toggleValues(state).vaOnlineSchedulingMHVRouteGuards;
 
 export const selectFeatureDirectScheduleAppointmentConflict = state =>
   toggleValues(state).vaOnlineSchedulingDirectScheduleAppointmentConflict;
+
+export const selectFeatureDisplayPastCancelledAppointments = state =>
+  toggleValues(state).vaOnlineSchedulingDisplayPastCancelledAppointments;
+
+export const selectFeaturePatientHistoryFutureAppts = state =>
+  toggleValues(state).vaOnlineSchedulingPatientHistoryFutureAppts;
 
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;

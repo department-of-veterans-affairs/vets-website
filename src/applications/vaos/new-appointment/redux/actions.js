@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import moment from 'moment';
+import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -12,10 +12,12 @@ import {
   selectFeatureCommunityCare,
   selectSystemIds,
   selectRegisteredCernerFacilityIds,
-  selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthVA,
+  selectFeatureFeSourceOfTruthModality,
   selectFeatureRecentLocationsFilter,
 } from '../../redux/selectors';
 import {
@@ -89,6 +91,8 @@ export const FORM_PAGE_CHANGE_COMPLETED =
   'newAppointment/FORM_PAGE_CHANGE_COMPLETED';
 export const FORM_UPDATE_FACILITY_TYPE =
   'newAppointment/FORM_UPDATE_FACILITY_TYPE';
+export const FORM_UPDATE_SELECTED_PROVIDER =
+  'newAppointment/FORM_UPDATE_SELECTED_PROVIDER';
 export const FORM_PAGE_FACILITY_V2_OPEN =
   'newAppointment/FACILITY_PAGE_V2_OPEN';
 export const FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED =
@@ -216,6 +220,13 @@ export function updateFacilityType(facilityType) {
   };
 }
 
+export function updateSelectedProvider(provider) {
+  return {
+    type: FORM_UPDATE_SELECTED_PROVIDER,
+    provider,
+  };
+}
+
 export function startDirectScheduleFlow({ isRecordEvent = true } = {}) {
   if (isRecordEvent) {
     recordEvent({
@@ -302,11 +313,13 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
     const featureClinicFilter = selectFeatureClinicFilter(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -324,6 +337,9 @@ export function checkEligibility({ location, showModal, isCerner }) {
             typeOfCare,
             directSchedulingEnabled,
             useFeSourceOfTruth,
+            useFeSourceOfTruthCC,
+            useFeSourceOfTruthVA,
+            useFeSourceOfTruthModality,
             isCerner: true,
           });
 
@@ -357,9 +373,11 @@ export function checkEligibility({ location, showModal, isCerner }) {
           location,
           typeOfCare,
           directSchedulingEnabled,
-          useV2: featureVAOSServiceVAAppointments,
           featureClinicFilter,
           useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         });
 
         if (showModal) {
@@ -670,33 +688,21 @@ export function hideEligibilityModal() {
   };
 }
 
-export function openReasonForAppointment(
-  page,
-  uiSchema,
-  schema,
-  useV2 = false,
-) {
+export function openReasonForAppointment(page, uiSchema, schema) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
     page,
     uiSchema,
     schema,
-    useV2,
   };
 }
 
-export function updateReasonForAppointmentData(
-  page,
-  uiSchema,
-  data,
-  useV2 = false,
-) {
+export function updateReasonForAppointmentData(page, uiSchema, data) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
     page,
     uiSchema,
     data,
-    useV2,
   };
 }
 
@@ -709,9 +715,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
     const timezone = getTimezoneByFacilityId(data.vaFacility);
 
     let fetchedAppointmentSlotMonths = [];
@@ -769,21 +772,19 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           fetchedAppointmentSlotMonths.push(endDateMonth);
         }
 
-        const sortedSlots = [...availableSlots, ...mappedSlots]
-          // Check timezone 1st since conversion might flip the date to the
-          // previous or next day. This insures available slots are displayed
-          // for the correct day.
-          .map(slot => {
-            if (featureVAOSServiceVAAppointments) {
-              const zonedDate = utcToZonedTime(slot.start, timezone);
-              const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
-                timeZone: timezone,
-              });
-              return { ...slot, start: time };
-            }
-            return slot;
-          })
-          .sort((a, b) => a.start.localeCompare(b.start));
+        // Check timezone 1st since conversion might flip the date to the
+        // previous or next day. This insures available slots are displayed
+        // for the correct day.
+        const correctedSlots = mappedSlots.map(slot => {
+          const zonedDate = utcToZonedTime(slot.start, timezone);
+          const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
+            timeZone: timezone,
+          });
+          return { ...slot, start: time };
+        });
+        const sortedSlots = [...availableSlots, ...correctedSlots].sort(
+          (a, b) => a.start.localeCompare(b.start),
+        );
         dispatch({
           type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
@@ -803,16 +804,19 @@ export function onCalendarChange(
   selectedDates,
   maxSelections,
   upcomingAppointments,
+  timezone,
 ) {
   let isSame = false;
-  if (maxSelections === 1 && selectedDates?.length > 0) {
-    const date = selectedDates[0];
-
-    const d1 = moment(date, 'YYYY-MM-DDTHH:mm:ss');
-    const appointments = upcomingAppointments[d1.format('YYYY-MM')];
+  if (maxSelections === 1 && selectedDates?.length > 0 && timezone) {
+    const selectedDate = selectedDates[0];
+    const key = moment(selectedDate, 'YYYY-MM-DDTHH:mm:ss');
+    const appointments = upcomingAppointments[key.format('YYYY-MM')];
 
     isSame = appointments?.some(appointment => {
-      const d2 = moment(appointment.start, 'YYYY-MM-DDTHH:mm:ss');
+      // Convert slot date to calendar timezone since slot dates are in UTC
+      const d1 = moment.tz(selectedDate, timezone);
+      const d2 = moment.tz(appointment.start, `${appointment.timezone}`);
+
       return (
         appointment.status !== APPOINTMENT_STATUS.cancelled && d1.isSame(d2)
       );
@@ -825,6 +829,7 @@ export function onCalendarChange(
     isAppointmentSelectionError: isSame,
   };
 }
+
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   return {
     type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
@@ -903,11 +908,13 @@ export function checkCommunityCareEligibility() {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
     const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -934,6 +941,9 @@ export function submitAppointmentOrRequest(history) {
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
           useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
         });
 
         dispatch({
@@ -947,14 +957,10 @@ export function submitAppointmentOrRequest(history) {
         });
         resetDataLayer();
 
-        if (featureVAOSServiceVAAppointments) {
-          if (featureBreadcrumbUrlUpdate) {
-            history.push(`/${appointment.id}?confirmMsg=true`);
-          } else {
-            history.push(`/va/${appointment.id}?confirmMsg=true`);
-          }
+        if (featureBreadcrumbUrlUpdate) {
+          history.push(`/${appointment.id}?confirmMsg=true`);
         } else {
-          history.push('/new-appointment/confirmation');
+          history.push(`/va/${appointment.id}?confirmMsg=true`);
         }
       } catch (error) {
         const extraData = {
@@ -1022,20 +1028,17 @@ export function submitAppointmentOrRequest(history) {
       });
 
       try {
-        let requestData;
-        if (isCommunityCare) {
-          requestBody = transformFormToVAOSCCRequest(getState());
-          requestData = await createAppointment({
-            appointment: requestBody,
-            useFeSourceOfTruth,
-          });
-        } else {
-          requestBody = transformFormToVAOSVARequest(getState());
-          requestData = await createAppointment({
-            appointment: requestBody,
-            useFeSourceOfTruth,
-          });
-        }
+        requestBody = isCommunityCare
+          ? transformFormToVAOSCCRequest(getState())
+          : transformFormToVAOSVARequest(getState());
+
+        const requestData = await createAppointment({
+          appointment: requestBody,
+          useFeSourceOfTruth,
+          useFeSourceOfTruthCC,
+          useFeSourceOfTruthVA,
+          useFeSourceOfTruthModality,
+        });
 
         dispatch({
           type: FORM_SUBMIT_SUCCEEDED,

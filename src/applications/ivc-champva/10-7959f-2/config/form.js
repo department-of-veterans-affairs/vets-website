@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import React from 'react';
 
@@ -17,22 +18,27 @@ import {
   emailUI,
   emailSchema,
   radioSchema,
+  phoneUI,
+  phoneSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import transformForSubmit from './submitTransformer';
+import prefillTransformer from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import {
-  internationalPhoneSchema,
-  internationalPhoneUI,
-} from '../../shared/components/InternationalPhone';
+  validAddressCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 import PaymentSelectionUI, {
   PaymentReviewScreen,
+  loggedInPaymentInfo,
+  loggedOutPaymentInfo,
 } from '../components/PaymentSelection';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import {
@@ -50,6 +56,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit,
+  prefillTransformer,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   footerContent: GetFormHelp,
   // submit: () =>
@@ -107,6 +114,10 @@ const formConfig = {
             ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
             veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
+            'ui:validations': [
+              (errors, formData) =>
+                validObjectCharsOnly(errors, null, formData, 'veteranFullName'),
+            ],
           },
           schema: {
             type: 'object',
@@ -159,11 +170,17 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               "We'll send any important information about your claim to this address.",
-            veteranAddress: addressUI({
-              required: {
-                state: () => true,
+            veteranAddress: merge({}, addressUI(), {
+              state: {
+                'ui:errorMessages': {
+                  required: 'Enter a valid State, Province, or Region',
+                },
               },
             }),
+            'ui:validations': [
+              (errors, formData) =>
+                validAddressCharsOnly(errors, null, formData, 'veteranAddress'),
+            ],
           },
           schema: {
             type: 'object',
@@ -207,13 +224,22 @@ const formConfig = {
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(`Home address`),
-            physicalAddress: {
-              ...addressUI({
-                required: {
-                  state: () => true,
+            physicalAddress: merge({}, addressUI(), {
+              state: {
+                'ui:errorMessages': {
+                  required: 'Enter a valid State, Province, or Region',
                 },
-              }),
-            },
+              },
+            }),
+            'ui:validations': [
+              (errors, formData) =>
+                validAddressCharsOnly(
+                  errors,
+                  null,
+                  formData,
+                  'physicalAddress',
+                ),
+            ],
           },
           schema: {
             type: 'object',
@@ -235,11 +261,15 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'Include a country code for foreign phone numbers',
+              'Enter a 10-digit U.S. phone number',
             ),
-            messageAriaDescribedby:
-              'Include a country code for foreign phone numbers',
-            veteranPhoneNumber: internationalPhoneUI(),
+            messageAriaDescribedby: 'Enter a 10-digit U.S. phone number',
+            veteranPhoneNumber: merge({}, phoneUI(), {
+              'ui:errorMessages': {
+                required:
+                  'Please enter a 10-digit U.S. phone number (with or without dashes)',
+              },
+            }),
             veteranEmailAddress: emailUI(),
           },
           schema: {
@@ -247,7 +277,7 @@ const formConfig = {
             required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: internationalPhoneSchema,
+              veteranPhoneNumber: phoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },
@@ -262,21 +292,18 @@ const formConfig = {
           title: 'Where to send the payment',
           uiSchema: {
             ...titleUI(
-              'Where to send the payment',
-              <>
-                <ul>
-                  <li>
-                    Select <strong>Veteran</strong> if you’ve already paid this
-                    provider. We’ll send a check to your mailing address to pay
-                    you back (also called reimbursement).
-                  </li>
-                  <li>
-                    Select <strong>Provider</strong> if you haven’t paid the
-                    provider. We’ll send a check to the provider’s mailing
-                    address to pay them directly.
-                  </li>
-                </ul>
-              </>,
+              'Who should we send payments to?',
+              ({ _formData, formContext }) => {
+                return (
+                  <>
+                    {formContext?.isLoggedIn ? (
+                      <>{loggedInPaymentInfo} </>
+                    ) : (
+                      <>{loggedOutPaymentInfo}</>
+                    )}
+                  </>
+                );
+              },
             ),
             sendPayment: PaymentSelectionUI(),
           },
@@ -300,10 +327,7 @@ const formConfig = {
           title: 'Included files',
           depends: formData => formData.sendPayment === 'Veteran',
           uiSchema: {
-            ...titleUI({
-              title: 'Upload billing statements and supporting documents',
-              headerLevel: 2,
-            }),
+            ...titleUI('Upload billing statements and supporting documents'),
             'view:UploadDocuments': {
               'ui:description': UploadDocumentsVeteran,
             },
@@ -341,10 +365,7 @@ const formConfig = {
           title: 'Included files',
           depends: formData => formData.sendPayment === 'Provider',
           uiSchema: {
-            ...titleUI({
-              title: 'Upload billing statements and supporting documents',
-              headerLevel: 2,
-            }),
+            ...titleUI('Upload billing statements and supporting documents'),
             'view:UploadDocuments': {
               'ui:description': UploadDocumentsProvider,
             },

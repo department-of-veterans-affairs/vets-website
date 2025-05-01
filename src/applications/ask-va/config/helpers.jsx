@@ -5,6 +5,7 @@ import React from 'react';
 import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
 
 import {
+  branchOfServiceRuleforCategories,
   CategoryBenefitsIssuesOutsidetheUS,
   CategoryEducation,
   CategoryGuardianshipCustodianshipFiduciaryIssues,
@@ -18,6 +19,7 @@ import {
   relationshipOptionsSomeoneElse,
   statesRequiringPostalCode,
   TopicAppraisals,
+  TopicDisabilityCompensation,
   TopicEducationBenefitsAndWorkStudy,
   TopicSpeciallyAdapatedHousing,
   TopicVeteranReadinessAndEmploymentChapter31,
@@ -345,9 +347,7 @@ export const isLocationOfResidenceRequired = data => {
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
     (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN)
+      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK)
   ) {
     return true;
   }
@@ -503,9 +503,7 @@ export const isPostalCodeRequired = data => {
   if (
     (GuardianshipAndVRE || EducationAndVRE) &&
     (whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
-      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK &&
-      isQuestionAboutVeteranOrSomeoneElse ===
-        isQuestionAboutVeteranOrSomeoneElseLabels.VETERAN) &&
+      relationshipToVeteran === relationshipOptionsSomeoneElse.WORK) &&
     statesRequiringPostalCode.includes(veteransLocationOfResidence)
   ) {
     return true;
@@ -556,19 +554,12 @@ export const isStateOfPropertyRequired = data => {
 
 // List of categories required for Branch of service rule: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields%2C%20options%20and%20labels/Field%20rules.md#branch-of-service
 export const isBranchOfServiceRequired = data => {
-  const { selectCategory, whoIsYourQuestionAbout } = data;
-
-  const branchOfServiceRuleforCategories = [
-    'Veteran ID Card (VIC)',
-    'Disability compensation',
-    'Survivor benefits',
-    'Burials and memorials',
-    'Center for Women Veterans',
-    'Benefits issues outside the U.S.',
-  ];
+  const { selectCategory, selectTopic, whoIsYourQuestionAbout } = data;
 
   return (
-    branchOfServiceRuleforCategories.includes(selectCategory) &&
+    (branchOfServiceRuleforCategories.includes(selectCategory) ||
+      (selectCategory === CategoryBenefitsIssuesOutsidetheUS &&
+        selectTopic === TopicDisabilityCompensation)) &&
     whoIsYourQuestionAbout !== whoIsYourQuestionAboutLabels.GENERAL
   );
 };
@@ -921,3 +912,6 @@ export const generalQuestionCondition = formData => {
     formData.whoIsYourQuestionAbout === whoIsYourQuestionAboutLabels.GENERAL
   );
 };
+
+export const formatDateTimeForAnnouncements = date =>
+  format(date, "EEEE, MMMM d, yyyy 'at' h:mm a 'ET'");

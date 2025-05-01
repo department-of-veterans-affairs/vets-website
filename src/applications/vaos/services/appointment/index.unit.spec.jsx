@@ -1,0 +1,851 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
+import {
+  mockFetch,
+  setFetchJSONFailure,
+  setFetchJSONResponse,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
+import { expect } from 'chai';
+import MockDate from 'mockdate';
+import sinon from 'sinon';
+
+import { addDays, format, subDays } from 'date-fns';
+import {
+  FUTURE_APPOINTMENTS_HIDDEN_SET,
+  fetchBookedAppointment,
+  getAppointmentRequests,
+  getLongTermAppointmentHistoryV2,
+  getVAAppointmentLocationId,
+  isUpcomingAppointmentOrRequest,
+  isValidPastAppointment,
+} from '.';
+import { createMockAppointment } from '../../tests/mocks/data';
+import { getDateRanges, mockAppointmentsApi } from '../../tests/mocks/mockApis';
+import { generateAppointmentUrl } from '../../utils/appointment';
+import {
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+  VIDEO_TYPES,
+} from '../../utils/constants';
+
+function setRequestedPeriod(date, amOrPm) {
+  const isAM = amOrPm.toUpperCase() === 'AM';
+  return {
+    start: `${format(date, 'yyyy-MM-dd')}T${
+      isAM ? '00:00:00.000Z' : `12:00:00.000Z`
+    }`,
+    end: `${format(date, 'yyyy-MM-dd')}T${
+      isAM ? '11:59:59.999Z' : `23:59:59.999Z`
+    }`,
+  };
+}
+
+describe('VAOS Services: Appointment ', () => {
+  describe('fetchBookedAppointment by id', () => {
+    beforeEach(() => mockFetch());
+
+    it('should return data for an in person VA appointment', async () => {
+      const data = {
+        id: '1234',
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
+        email: 'test@va.gov',
+        kind: 'clinic',
+        locationId: '552GA',
+        clinic: '5544',
+        clinicFriendlyName: 'Friendly clinic name',
+        serviceType: 'primaryCare',
+        status: 'booked',
+      };
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
+        { data: createMockAppointment({ ...data }) },
+      );
+
+      const v2Result = await fetchBookedAppointment({
+        id: data.id,
+        useFeSourceOfTruth: true,
+      });
+
+      expect(v2Result).to.be.ok;
+    });
+
+    it('should return data for a cancelled VA appointment', async () => {
+      const data = {
+        id: '1234',
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
+        email: 'test@va.gov',
+        kind: 'clinic',
+        locationId: '552GA',
+        clinic: '5544',
+        status: 'cancelled',
+      };
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
+        { data: createMockAppointment({ ...data }) },
+      );
+
+      const v2Result = await fetchBookedAppointment({
+        id: data.id,
+        useFeSourceOfTruth: true,
+      });
+
+      expect(v2Result).to.be.ok;
+    });
+
+    it('should return data for a past VA appointment', async () => {
+      const data = {
+        id: '1234',
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
+        email: 'test@va.gov',
+        kind: 'clinic',
+        locationId: '552GA',
+        clinic: '5544',
+        status: 'booked',
+      };
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
+        { data: createMockAppointment({ ...data }) },
+      );
+
+      const v2Result = await fetchBookedAppointment({
+        id: data.id,
+        useFeSourceOfTruth: true,
+      });
+
+      expect(v2Result).to.be.ok;
+    });
+
+    it('should return data for a VA phone appointment', async () => {
+      const data = {
+        id: '1234',
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
+        email: 'test@va.gov',
+        kind: 'phone',
+        locationId: '552GA',
+        clinic: '5544',
+        status: 'booked',
+      };
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
+        { data: createMockAppointment({ ...data }) },
+      );
+
+      const v2Result = await fetchBookedAppointment({
+        id: data.id,
+        useFeSourceOfTruth: true,
+      });
+
+      expect(v2Result).to.be.ok;
+    });
+
+    it('should return data for a VA covid vaccine appointment', async () => {
+      const data = {
+        id: '1234',
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
+        email: 'test@va.gov',
+        kind: 'clinic',
+        locationId: '552GA',
+        clinic: '5544',
+        status: 'booked',
+        serviceType: 'covid',
+      };
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
+        { data: createMockAppointment({ ...data }) },
+      );
+
+      const v2Result = await fetchBookedAppointment({
+        id: data.id,
+        useFeSourceOfTruth: true,
+      });
+
+      expect(v2Result).to.be.ok;
+    });
+
+    it('should return data for a VVC at home video appointment', async () => {
+      const data = {
+        id: '1234',
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
+        email: 'test@va.gov',
+        kind: 'telehealth',
+        locationId: '552',
+        status: 'booked',
+        minutesDuration: 60,
+        telehealth: {
+          vvsKind: VIDEO_TYPES.adhoc,
+          url: 'testing',
+        },
+        practitioners: [
+          {
+            name: {
+              family: 'Doe',
+              given: ['Meg'],
+            },
+          },
+        ],
+      };
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
+        { data: createMockAppointment({ ...data }) },
+      );
+
+      const v2Result = await fetchBookedAppointment({
+        id: data.id,
+        useFeSourceOfTruth: true,
+      });
+
+      expect(v2Result).to.be.ok;
+    });
+
+    it('should return data for an ATLAS video appointment', async () => {
+      const data = {
+        id: '1234',
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
+        email: 'test@va.gov',
+        kind: 'telehealth',
+        locationId: '552',
+        status: 'booked',
+        minutesDuration: 60,
+        telehealth: {
+          vvsKind: VIDEO_TYPES.adhoc,
+          url: 'testing',
+          atlas: {
+            siteCode: '1234',
+            confirmationCode: 'A523',
+            address: {
+              streetAddress: '114 Dewey Ave',
+              city: 'Eureka',
+              state: 'MT',
+              zipCode: '59917',
+              country: 'USA',
+              longitude: -115.1,
+              latitude: 48.8,
+            },
+          },
+        },
+        practitioners: [
+          {
+            name: {
+              family: 'Doe',
+              given: ['Meg'],
+            },
+          },
+        ],
+      };
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
+        { data: createMockAppointment({ ...data }) },
+      );
+
+      const v2Result = await fetchBookedAppointment({
+        id: data.id,
+        useFeSourceOfTruth: true,
+      });
+
+      expect(v2Result).to.be.ok;
+    });
+
+    it('should return data for a clinic based video appointment', async () => {
+      const data = {
+        id: '1234',
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
+        email: 'test@va.gov',
+        kind: 'telehealth',
+        locationId: '552',
+        clinicId: '5544',
+        status: 'booked',
+        minutesDuration: 60,
+        telehealth: {
+          vvsKind: VIDEO_TYPES.clinic,
+        },
+      };
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
+        { data: createMockAppointment({ ...data }) },
+      );
+
+      const v2Result = await fetchBookedAppointment({
+        id: data.id,
+        useFeSourceOfTruth: true,
+      });
+
+      expect(v2Result).to.be.ok;
+    });
+
+    it('should return data for a store forward video appointment', async () => {
+      const data = {
+        id: '1234',
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
+        email: 'test@va.gov',
+        kind: 'telehealth',
+        locationId: '552',
+        clinicId: '5544',
+        status: 'booked',
+        minutesDuration: 60,
+        telehealth: {
+          vvsKind: VIDEO_TYPES.storeForward,
+        },
+      };
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
+        { data: createMockAppointment({ ...data }) },
+      );
+
+      const v2Result = await fetchBookedAppointment({
+        id: data.id,
+        useFeSourceOfTruth: true,
+      });
+
+      expect(v2Result).to.be.ok;
+    });
+
+    it('should return data for a mobile any video appointment', async () => {
+      const data = {
+        id: '1234',
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
+        email: 'test@va.gov',
+        kind: 'telehealth',
+        status: 'booked',
+        minutesDuration: 60,
+        telehealth: {
+          vvsKind: VIDEO_TYPES.mobile,
+        },
+      };
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
+        { data: createMockAppointment({ ...data }) },
+      );
+
+      const v2Result = await fetchBookedAppointment({
+        id: data.id,
+        useFeSourceOfTruth: true,
+      });
+
+      expect(v2Result).to.be.ok;
+    });
+
+    it('should return data for a community care appointment', async () => {
+      const data = {
+        id: '1234',
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
+        kind: 'cc',
+        status: 'booked',
+        minutesDuration: 60,
+        communityCareProvider: {
+          address: {
+            line: ['1012 14TH ST NW STE 700'],
+            city: 'WASHINGTON',
+            state: 'DC',
+            postalCode: '20005-3477',
+          },
+          providers: {
+            name: {
+              firstName: 'WILLIAM',
+              lastName: 'CAMPBELL',
+            },
+          },
+          treatmentSpecialty: 'Optometry',
+        },
+      };
+
+      setFetchJSONResponse(
+        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
+        { data: createMockAppointment({ ...data }) },
+      );
+
+      const v2Result = await fetchBookedAppointment({
+        id: data.id,
+        useFeSourceOfTruth: true,
+      });
+
+      expect(v2Result).to.be.ok;
+    });
+
+    it('should return data for an error fetching appointments', async () => {
+      const error = {
+        code: 'VAOS_504',
+        title: 'Gateway error',
+        status: 504,
+        source: 'stack trace',
+      };
+      setFetchJSONFailure(
+        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/1234`)),
+        {
+          errors: [error],
+        },
+      );
+
+      let v2Result = null;
+      try {
+        await fetchBookedAppointment({
+          id: '1234',
+          useFeSourceOfTruth: true,
+        });
+      } catch (e) {
+        v2Result = e;
+      }
+
+      expect(v2Result).to.be.ok;
+    });
+  });
+
+  describe('getAppointmentRequests', () => {
+    beforeEach(() => mockFetch());
+
+    it('should return data for a VA appointment request', async () => {
+      // Given VA appointment request
+      const data = {
+        id: '1234',
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
+        email: 'test@va.gov',
+        phone: '2125551212',
+        kind: 'clinic',
+        locationId: '552GA',
+        clinicFriendlyName: 'Friendly clinic name',
+        requestedPeriods: [
+          {
+            start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00.000`,
+            end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59.999`,
+          },
+        ],
+        serviceType: 'primaryCare',
+        status: 'proposed',
+        visitType: 'Office Visit',
+      };
+      const startDate = format(subDays(new Date(), 30), 'yyyy-MM-dd');
+      const endDate = format(addDays(new Date(), 30, 'days'), 'yyyy-MM-dd');
+
+      // And the developer fetched that request through both the v2 APIs
+      const url = generateAppointmentUrl(startDate, endDate, [
+        'proposed',
+        'cancelled',
+      ]);
+
+      setFetchJSONResponse(global.fetch.withArgs(sinon.match(url)), {
+        data: [
+          createMockAppointment({
+            ...data,
+            requestedPeriods: [
+              {
+                start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00Z`,
+                end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59Z`,
+              },
+            ],
+          }),
+        ],
+      });
+
+      const v2Result = await getAppointmentRequests({
+        startDate,
+        endDate,
+        useFeSourceOfTruth: true,
+      });
+
+      // Then expect a VA appointment request to be returned.
+      expect(v2Result.length).to.be.gt(0);
+    });
+
+    it('should return data for a CC appointment request', async () => {
+      // Given CC appointment request
+      const data = {
+        id: '1234',
+        email: 'test@va.gov',
+        phone: '2125551212',
+        kind: 'cc',
+        clinicFriendlyName: 'Friendly clinic name',
+        requestedPeriods: [
+          {
+            start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00.000`,
+            end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59.999`,
+          },
+        ],
+        serviceType: 'primaryCare',
+        status: 'proposed',
+        typeOfCareId: 'CCPRMYRTNE',
+        visitType: 'Office Visit',
+      };
+      const startDate = format(subDays(new Date(), 30), 'yyyy-MM-dd');
+      const endDate = format(addDays(new Date(), 30), 'yyyy-MM-dd');
+
+      // And the developer fetched that request through both the v2 and v0 APIs
+      setFetchJSONResponse(
+        global.fetch.withArgs(
+          sinon.match(
+            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+          ),
+        ),
+        {
+          data: [
+            createMockAppointment({
+              ...data,
+              requestedPeriods: [
+                {
+                  start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00Z`,
+                  end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59Z`,
+                },
+              ],
+            }),
+          ],
+        },
+      );
+
+      const v2Result = await getAppointmentRequests({
+        startDate,
+        endDate,
+        useFeSourceOfTruth: true,
+      });
+
+      // Then expect a CC appointment request to be returned.
+      expect(v2Result.length).to.be.gt(0);
+    });
+
+    it('should return data for a cancelled appointment request', async () => {
+      // Given cancelled VA appointment request
+      const data = {
+        id: '1234',
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
+        email: 'test@va.gov',
+        phone: '2125551212',
+        kind: 'clinic',
+        locationId: '552GA',
+        clinicFriendlyName: 'Friendly clinic name',
+        requestedPeriods: [
+          {
+            start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00.000`,
+            end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59.999`,
+          },
+        ],
+        serviceType: 'primaryCare',
+        status: 'cancelled',
+        visitType: 'Office Visit',
+      };
+      const startDate = format(subDays(new Date(), 30), 'yyyy-MM-dd');
+      const endDate = format(addDays(new Date(), 30), 'yyyy-MM-dd');
+
+      // And the developer fetched that request through both the v2 and v0 APIs
+      setFetchJSONResponse(
+        global.fetch.withArgs(
+          sinon.match(
+            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+          ),
+        ),
+        {
+          data: [
+            createMockAppointment({
+              ...data,
+            }),
+          ],
+        },
+      );
+
+      const v2Result = await getAppointmentRequests({
+        startDate,
+        endDate,
+        useFeSourceOfTruth: true,
+      });
+
+      // Then expect a canceled appointment request to be returned.
+      expect(v2Result.length).to.be.gt(0);
+    });
+
+    it('should return data for an error fetching response', async () => {
+      // Given VAOS error
+      const error = {
+        code: 'VAOS_504',
+        title: 'Gateway error',
+        status: 504,
+        source: 'stack trace',
+      };
+
+      const startDate = format(subDays(new Date(), 30), 'yyyy-MM-dd');
+      const endDate = format(addDays(new Date(), 30), 'yyyy-MM-dd');
+
+      // And the developer fetched that request through both the v2 and v0 APIs
+      setFetchJSONFailure(
+        global.fetch.withArgs(
+          sinon.match(
+            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+          ),
+        ),
+        {
+          errors: [error],
+        },
+      );
+
+      let v2Result = null;
+
+      try {
+        await getAppointmentRequests({
+          startDate,
+          endDate,
+          useFeSourceOfTruth: true,
+        });
+      } catch (e) {
+        v2Result = e;
+      }
+
+      // Then expect an error to be returned.
+      expect(v2Result).to.be.ok;
+    });
+  });
+
+  describe('getLongTermAppointmentHistoryV2', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
+
+    it('should fetch 3 years of appointment history', async () => {
+      const dateRanges = getDateRanges(3);
+      dateRanges.forEach(range => {
+        mockAppointmentsApi({
+          start: range.start,
+          end: range.end,
+          useRFC3339: true,
+          response: [],
+          statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        });
+      });
+
+      await getLongTermAppointmentHistoryV2(true, true, true);
+      expect(global.fetch.callCount).to.equal(3);
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        `${dateRanges[0].start.toISOString().slice(0, 19)}Z`,
+      );
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        `${dateRanges[0].end.toISOString().slice(0, 19)}Z`,
+      );
+      expect(global.fetch.secondCall.args[0]).to.contain(
+        `${dateRanges[1].start.toISOString().slice(0, 19)}Z`,
+      );
+      expect(global.fetch.secondCall.args[0]).to.contain(
+        `${dateRanges[1].end.toISOString().slice(0, 19)}Z`,
+      );
+      expect(global.fetch.thirdCall.args[0]).to.contain(
+        `${dateRanges[2].start.toISOString().slice(0, 19)}Z`,
+      );
+      expect(global.fetch.thirdCall.args[0]).to.contain(
+        `${dateRanges[2].end.toISOString().slice(0, 19)}Z`,
+      );
+    });
+  });
+
+  //--------
+
+  describe('isUpcomingAppointmentOrRequest', () => {
+    MockDate.reset();
+    const now = new Date();
+    it('should filter future requests', () => {
+      const apptRequests = [
+        // canceled past - should filter out
+        {
+          status: APPOINTMENT_STATUS.cancelled,
+          requestedPeriod: [setRequestedPeriod(subDays(new Date(), 2), 'AM')],
+          vaos: {
+            isExpressCare: false,
+            appointmentType: APPOINTMENT_TYPES.request,
+          },
+        },
+        // cancelled past - should filter out
+        {
+          status: APPOINTMENT_STATUS.cancelled,
+          requestedPeriod: [setRequestedPeriod(subDays(now, 22), 'AM')],
+          vaos: {
+            isExpressCare: false,
+            appointmentType: APPOINTMENT_TYPES.request,
+          },
+        },
+        // pending past - should filter out
+        {
+          status: APPOINTMENT_STATUS.pending,
+          requestedPeriod: [setRequestedPeriod(subDays(now, 2), 'AM')],
+          vaos: {
+            isExpressCare: false,
+            appointmentType: APPOINTMENT_TYPES.request,
+          },
+        },
+        // future within 13 - should not filter out
+        {
+          status: APPOINTMENT_STATUS.pending,
+          requestedPeriod: [
+            setRequestedPeriod(subDays(addDays(new Date(), 395), 1), 'AM'),
+          ],
+          vaos: {
+            isExpressCare: false,
+            appointmentType: APPOINTMENT_TYPES.request,
+          },
+        },
+        // future - should not filter out
+        {
+          status: APPOINTMENT_STATUS.pending,
+          requestedPeriod: [setRequestedPeriod(addDays(now, 2), 'AM')],
+          vaos: {
+            isExpressCare: false,
+            appointmentType: APPOINTMENT_TYPES.request,
+          },
+        },
+        // future canceled - should not filter out
+        {
+          status: APPOINTMENT_STATUS.cancelled,
+          requestedPeriod: [setRequestedPeriod(addDays(now, 3), 'AM')],
+          vaos: {
+            isExpressCare: false,
+            appointmentType: APPOINTMENT_TYPES.request,
+          },
+        },
+      ];
+
+      const filteredRequests = apptRequests.filter(
+        isUpcomingAppointmentOrRequest,
+      );
+
+      expect(
+        filteredRequests.filter(
+          req => req.status === APPOINTMENT_STATUS.cancelled,
+        ).length,
+      ).to.equal(1);
+      expect(
+        filteredRequests.filter(
+          req => req.status === APPOINTMENT_STATUS.pending,
+        ).length,
+      ).to.equal(3);
+      expect(
+        filteredRequests.filter(req => req.status === 'Booked').length,
+      ).to.equal(0);
+    });
+
+    it('should filter future confirmed appointments', () => {
+      const confirmedAppts = [
+        // appointment more than 395 days should not show
+        {
+          facilityId: '984',
+          vaos: {
+            isUpcomingAppointment: true,
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
+        },
+        // appointment with status 'NO-SHOW' should not show
+        {
+          description: 'NO-SHOW',
+          vaos: {
+            isUpcomingAppointment: true,
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
+        },
+        // appointment with status 'DELETED' should not show
+        {
+          description: 'DELETED',
+          vaos: {
+            isUpcomingAppointment: true,
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
+        },
+      ];
+
+      const filteredConfirmed = confirmedAppts.filter(
+        isUpcomingAppointmentOrRequest,
+      );
+      expect(filteredConfirmed.length).to.equal(1);
+    });
+
+    it('should filter out appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
+      const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(
+        currentStatus => ({
+          description: currentStatus,
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+          facilityId: '984',
+        }),
+      );
+
+      const filtered = hiddenAppts.filter(isUpcomingAppointmentOrRequest);
+      expect(hiddenAppts.length).to.equal(2);
+      expect(filtered.length).to.equal(0);
+    });
+
+    it('should filter out video appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
+      const hiddenAppts = [...FUTURE_APPOINTMENTS_HIDDEN_SET].map(code => ({
+        description: code,
+        vaos: {
+          appointmentType: APPOINTMENT_TYPES.vaAppointment,
+        },
+      }));
+
+      const filtered = hiddenAppts.filter(isUpcomingAppointmentOrRequest);
+      expect(hiddenAppts.length).to.equal(2);
+      expect(filtered.length).to.equal(0);
+    });
+  });
+
+  describe('getVAAppointmentLocationId', () => {
+    it('should return null for undefined appointment', () => {
+      expect(getVAAppointmentLocationId(undefined)).to.be.null;
+    });
+
+    it('should return 612A4 for Vista Site 612', () => {
+      const appointment = {
+        location: {
+          vistaId: '612',
+          stationId: '612Fake',
+        },
+        videoData: {
+          kind: VIDEO_TYPES.mobile,
+        },
+        vaos: {
+          isUpcomingAppointment: true,
+          isVideo: true,
+          appointmentType: APPOINTMENT_TYPES.vaAppointment,
+        },
+      };
+      expect(getVAAppointmentLocationId(appointment)).to.equal('612A4');
+    });
+
+    it('should return sta6aid for regular appointments', () => {
+      const appointment = {
+        location: {
+          vistaId: '983',
+          stationId: '983GC',
+        },
+        videoData: {
+          kind: VIDEO_TYPES.mobile,
+        },
+        vaos: {
+          isUpcomingAppointment: true,
+          isVideo: true,
+          appointmentType: APPOINTMENT_TYPES.vaAppointment,
+        },
+      };
+      expect(getVAAppointmentLocationId(appointment)).to.equal('983GC');
+    });
+  });
+
+  // NOTE: Refactored v0 test
+  describe('filterPastAppointments', () => {
+    it('should not filter appointments that are not in hidden status set', () => {
+      const appointments = [
+        {
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        },
+        {
+          description: 'NO-SHOW',
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        },
+        {
+          description: 'CHECKED IN',
+          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+        },
+      ];
+
+      const filtered = appointments.filter(isValidPastAppointment);
+
+      expect(filtered.length).to.equal(3);
+    });
+  });
+});

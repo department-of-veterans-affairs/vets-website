@@ -140,7 +140,7 @@ export const OTHER_REASONS = Object.freeze({
 export const ESCAPE_HATCH = Object.freeze(
   <div className="vads-u-margin-y--4">
     If you’d like to use VA Form 21-4138 for your statement instead, you can{' '}
-    <a href="/supporting-forms-for-claims/statement-to-support-claim-form-21-4138/personal-information">
+    <a href="/supporting-forms-for-claims/submit-statement-form-21-4138/personal-information">
       go to VA Form 21-4138 now.
     </a>
   </div>,
@@ -149,8 +149,8 @@ export const ESCAPE_HATCH = Object.freeze(
 export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
   <div>
     <p>
-      Based on your answer, you should submit your statement with VA Form
-      21-10210, Lay/Witness Statement.
+      Based on your answer, you should submit a lay or witness statement to
+      support a VA claim (VA Form 21-10210).
     </p>
     <PrimaryActionLink href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction">
       Start your statement
@@ -183,11 +183,8 @@ export const DECISION_REVIEW_HANDOFF = Object.freeze(
     </PrimaryActionLink>
     <p>
       If you disagree with a VA benefit or claim decision, you can choose from 3
-      decision review options (
-      <span className="vads-u-font-weight--bold">Supplemental Claim</span>,{' '}
-      <span className="vads-u-font-weight--bold">Higher-Level Review</span>, or{' '}
-      <span className="vads-u-font-weight--bold">Board Appeal</span>) to
-      continue your case.
+      decision review options (Supplemental Claim, Higher-Level Review, or Board
+      Appeal) to continue your case.
     </p>
     <p>
       If you aren’t satisfied with the results of the first option you choose,
@@ -364,8 +361,8 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
 export const PRIORITY_PROCESSING_HANDOFF = Object.freeze(
   <div>
     <p>
-      Based on your answer, you should consider submitting a priority processing
-      request.
+      Based on your answer, you should request priority processing for an
+      existing claim (VA Form 20-10207).
     </p>
     <PrimaryActionLink href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction">
       Start your priority processing request
@@ -577,9 +574,8 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
 export const RECORDS_REQUEST_HANDOFF = Object.freeze(
   <div>
     <p>
-      Based on your answer, you should request your personal records with VA
-      Form 20-10206, Freedom of Information Act (FOIA) or Privacy Act (PA)
-      Request.
+      Based on your answer, you should make a Freedom of Information Act (FOIA)
+      or Privacy Act (PA) Request (VA Form 20-10206).
     </p>
     <PrimaryActionLink href="/records/request-personal-records-form-20-10206/introduction">
       Start your request
@@ -606,8 +602,8 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
     </PrimaryActionLink>
     <p>
       If you prefer to mail copies of your documents, we recommend filling out
-      and including VA Form 20-10208 (Document Evidence Submission) along with
-      the evidence.
+      Document Evidence Submission (VA Form 20-10208) and submitting it along
+      with the evidence.
     </p>
     <div className="vads-u-margin-y--4">
       <va-link

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   useLoaderData,
   useSearchParams,
@@ -6,37 +6,24 @@ import {
   Link,
   useNavigation,
 } from 'react-router-dom';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaBreadcrumbs,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import api from '../utilities/api';
+import {
+  SEARCH_BC_LABEL,
+  poaSearchBC,
+  SEARCH_PARAMS,
+  SORT_BY,
+  PENDING,
+  PROCESSED,
+  STATUSES,
+} from '../utilities/poaRequests';
 import POARequestCard from '../components/POARequestCard';
 import SortForm from '../components/SortForm';
-
-const SEARCH_PARAMS = {
-  STATUS: 'status',
-  SORT: 'sort',
-};
-
-const SORT_BY = {
-  CREATED_ASC: 'created_at_asc',
-  CREATED_DESC: 'created_at_desc',
-  RESOLVED_ASC: 'resolved_at_asc',
-  RESOLVED_DESC: 'resolved_at_desc',
-};
-
-const PENDING = {
-  ASC_OPTION: 'Expiration date (nearest)',
-  DESC_OPTION: 'Expiration date (farthest)',
-};
-
-const PROCESSED = {
-  ASC_OPTION: 'Processed date (nearest)',
-  DESC_OPTION: 'Processed date (farthest)',
-};
-
-const STATUSES = {
-  PENDING: 'pending',
-  PROCESSED: 'processed',
-};
+import Pagination from '../components/Pagination';
+import PaginationMeta from '../components/PaginationMeta';
 
 const SearchResults = ({ poaRequests }) => {
   if (poaRequests.length === 0) {
@@ -66,7 +53,9 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
   if (active) classNames.push('active');
   return (
     <Link
-      to={`?status=${tabStatus}&sort=${tabSort}`}
+      to={`?status=${tabStatus}&sortOrder=${
+        tabStatus === 'pending' ? 'created_at' : 'resolved_at'
+      }&sortBy=${tabSort}&pageSize=20&pageNumber=1`}
       className={classNames.join(' ')}
       role="tab"
       id={`tab-${tabStatus}`}
@@ -78,12 +67,25 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
   );
 };
 
-const POARequestSearchPage = () => {
-  const poaRequests = useLoaderData();
+const POARequestSearchPage = title => {
+  useEffect(
+    () => {
+      document.title = title.title;
+    },
+    [title],
+  );
+  const poaRequests = useLoaderData().data;
+  const meta = useLoaderData().meta.page;
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
+
   return (
     <section className="poa-request">
+      <VaBreadcrumbs
+        breadcrumbList={poaSearchBC}
+        label={SEARCH_BC_LABEL}
+        homeVeteransAffairs={false}
+      />
       <h1
         data-testid="poa-requests-heading"
         className="poa-request__search-header"
@@ -96,25 +98,28 @@ const POARequestSearchPage = () => {
         from the portal after 60 days.
       </p>
       <p className="poa-request__copy">
-        <strong>Note:</strong> requests need to be submitted using the digital
-        VA Form 21-22 on VA.gov.
+        <strong>Note:</strong> POA requests need to be submitted using the
+        online{' '}
+        <va-link
+          href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
+          text="VA Form 21-22 (on VA.gov)"
+        />
+        .
       </p>
-      <a href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/">
-        VA Form 21-22 (on VA.gov)
-      </a>
+
       <div className="poa-requests-page-table-container">
         <div role="tablist" className="poa-request__tabs">
           <StatusTabLink
             tabStatus={STATUSES.PENDING}
             searchStatus={searchStatus}
-            tabSort={SORT_BY.CREATED_ASC}
+            tabSort={SORT_BY.DESC}
           >
             Pending
           </StatusTabLink>
           <StatusTabLink
             tabStatus={STATUSES.PROCESSED}
             searchStatus={searchStatus}
-            tabSort={SORT_BY.RESOLVED_DESC}
+            tabSort={SORT_BY.DESC}
           >
             Processed
           </StatusTabLink>
@@ -140,11 +145,12 @@ const POARequestSearchPage = () => {
                         Pending POA requests
                       </h2>
                       <SortForm
-                        asc={SORT_BY.CREATED_ASC}
-                        desc={SORT_BY.CREATED_DESC}
+                        asc={SORT_BY.ASC}
+                        desc={SORT_BY.DESC}
                         ascOption={PENDING.ASC_OPTION}
                         descOption={PENDING.DESC_OPTION}
                       />
+                      <PaginationMeta meta={meta} poaRequests={poaRequests} />
                     </>
                   );
                 case STATUSES.PROCESSED:
@@ -157,11 +163,12 @@ const POARequestSearchPage = () => {
                         Processed POA requests
                       </h2>
                       <SortForm
-                        asc={SORT_BY.RESOLVED_ASC}
-                        desc={SORT_BY.RESOLVED_DESC}
+                        asc={SORT_BY.ASC}
+                        desc={SORT_BY.DESC}
                         ascOption={PROCESSED.ASC_OPTION}
                         descOption={PROCESSED.DESC_OPTION}
                       />
+                      <PaginationMeta meta={meta} poaRequests={poaRequests} />
                     </>
                   );
                 default:
@@ -170,6 +177,7 @@ const POARequestSearchPage = () => {
             })()}
 
             <SearchResults poaRequests={poaRequests} />
+            <Pagination meta={meta} />
           </div>
         )}
       </div>
@@ -180,18 +188,24 @@ const POARequestSearchPage = () => {
 POARequestSearchPage.loader = ({ request }) => {
   const { searchParams } = new URL(request.url);
   const status = searchParams.get(SEARCH_PARAMS.STATUS);
-  const sort = searchParams.get(SEARCH_PARAMS.SORT);
+  const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
+  const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
+  const size = searchParams.get(SEARCH_PARAMS.SIZE);
+  const number = searchParams.get(SEARCH_PARAMS.NUMBER);
   if (
     !Object.values(STATUSES).includes(status) &&
     !Object.values(STATUSES).includes(sort)
   ) {
     searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
-    searchParams.set(SEARCH_PARAMS.SORT, SORT_BY.CREATED_ASC);
+    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.CREATED);
+    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.DESC);
+    searchParams.set(SEARCH_PARAMS.SIZE, STATUSES.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, STATUSES.NUMBER);
     throw redirect(`?${searchParams}`);
   }
 
   return api.getPOARequests(
-    { status, sort },
+    { status, sort, size, number, sortBy },
     {
       signal: request.signal,
     },

@@ -1,5 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { signInServiceName } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
+import {
+  isLoggedIn,
+  isLOA3,
+  selectProfile,
+} from '@department-of-veterans-affairs/platform-user/selectors';
 import UnauthenticatedAlert from '../mhv-signin-cta/components/messages/UnauthenticatedAlert';
 import UnverifiedAlert from '../mhv-signin-cta/components/messages/UnverifiedAlert';
 
@@ -20,14 +27,16 @@ export const MhvSimpleSigninCallToAction = ({
   linkText,
   linkUrl,
   headingLevel,
-  mhvAccountLoading = false,
-  profileLoading = false,
-  serviceDescription,
-  serviceName,
-  userIsLoggedIn = false,
-  userIsVerified = false,
+  serviceDescription = '',
 }) => {
   const headerLevel = parseInt(headingLevel, 10) || 3;
+  const {
+    loading: profileLoading,
+    mhvAccount: { loading: mhvAccountLoading },
+  } = useSelector(selectProfile);
+  const serviceName = useSelector(signInServiceName);
+  const userIsLoggedIn = useSelector(isLoggedIn);
+  const userIsVerified = useSelector(isLOA3);
   const loading = profileLoading || mhvAccountLoading;
 
   if (loading) {

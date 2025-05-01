@@ -7,13 +7,13 @@ import YourPersonalInformationAuthenticated from '../../components/YourPersonalI
 import { createMockStore, mockRouterProps } from '../common';
 
 describe('YourPersonalInformationAuthenticated', () => {
-  it('should render with SSN', () => {
+  it('should render with SSN and correctly formatted date', () => {
     const store = createMockStore({
       formData: {
         aboutYourself: {
           first: 'Test',
           last: 'User',
-          dateOfBirth: '1980-01-01',
+          dateOfBirth: '1971-12-08',
           socialOrServiceNum: {
             ssn: '123-45-6789',
           },
@@ -38,6 +38,35 @@ describe('YourPersonalInformationAuthenticated', () => {
     expect(getByRole('heading', { name: /Your personal information/i })).to
       .exist;
     expect(getByText(/Social Security number:/)).to.exist;
+    expect(getByText(/Date of birth: December 8, 1971/)).to.exist;
+  });
+
+  it('should handle dates with timezone information correctly', () => {
+    const store = createMockStore({
+      formData: {
+        aboutYourself: {
+          first: 'Test',
+          last: 'User',
+          dateOfBirth: '1971-12-08T00:00:00Z',
+          socialOrServiceNum: {
+            ssn: '123-45-6789',
+          },
+        },
+      },
+    });
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <YourPersonalInformationAuthenticated
+          router={mockRouterProps}
+          goForward={() => {}}
+          goBack={() => {}}
+          isLoggedIn
+        />
+      </Provider>,
+    );
+
+    expect(getByText(/Date of birth: December 8, 1971/)).to.exist;
   });
 
   it('should render with service number', () => {
@@ -46,7 +75,7 @@ describe('YourPersonalInformationAuthenticated', () => {
         aboutYourself: {
           first: 'Test',
           last: 'User',
-          dateOfBirth: '1980-01-01',
+          dateOfBirth: '1971-12-08',
           socialOrServiceNum: {
             serviceNumber: '12345678',
           },

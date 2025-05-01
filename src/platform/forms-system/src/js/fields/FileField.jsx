@@ -17,7 +17,6 @@ import {
 } from '../../../../utilities/ui';
 
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from '../constants';
-import { ERROR_ELEMENTS } from '../../../../utilities/constants';
 import { $ } from '../utilities/ui';
 import {
   ShowPdfPassword,
@@ -612,8 +611,8 @@ const FileField = props => {
             const fileNameId = `${idSchema.$id}_file_name_${index}`;
 
             if (hasVisibleError) {
-              setTimeout(() => {
-                scrollToFirstError();
+              setTimeout(async () => {
+                await scrollToFirstError();
                 if (enableShortWorkflow) {
                   const retryButton = $(`[name="retry_upload_${index}"]`);
                   if (retryButton) {
@@ -621,8 +620,6 @@ const FileField = props => {
                   }
                 } else if (showPasswordInput) {
                   focusElement(`#${fileListId} .usa-input-error-message`);
-                } else {
-                  focusElement(ERROR_ELEMENTS.join(','));
                 }
               }, 250);
             } else if (showPasswordInput) {
@@ -825,7 +822,11 @@ const FileField = props => {
         <>
           {(maxItems === null || files.length < maxItems) &&
             // Prevent additional upload if any upload has error state
-            checkUploadVisibility() && (
+            checkUploadVisibility() &&
+            !files.some(
+              (file, index) =>
+                errorSchema?.[index]?.__errors?.length > 0 || file.errorMessage,
+            ) && (
               // eslint-disable-next-line jsx-a11y/label-has-associated-control
               <label
                 id={`${idSchema.$id}_add_label`}
