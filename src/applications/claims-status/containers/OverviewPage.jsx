@@ -50,69 +50,75 @@ const OverviewPage = ({
   /* ---------------------- componentDidUpdate ----------------------- */
   const prevLoadingRef = useRef(loading);
 
-  useEffect(() => {
-    const prevLoading = prevLoadingRef.current;
+  useEffect(
+    () => {
+      const prevLoading = prevLoadingRef.current;
 
-    if (!loading && prevLoading && !isTab(lastPage)) {
-      setUpPage(false);
-    }
-    if (loading !== prevLoading) {
-      setTabDocumentTitle(claim, 'Overview');
-    }
+      if (!loading && prevLoading && !isTab(lastPage)) {
+        setUpPage(false);
+      }
+      if (loading !== prevLoading) {
+        setTabDocumentTitle(claim, 'Overview');
+      }
 
-    prevLoadingRef.current = loading;
-  }, [loading, lastPage, claim]);
+      prevLoadingRef.current = loading;
+    },
+    [loading, lastPage, claim],
+  );
 
   /* ------------------ componentWillUnmount ------------------------- */
   useEffect(() => () => clearNotif(), [clearNotif]);
 
   /* -------------------------- helpers ------------------------------ */
-  const getPageContent = useCallback(() => {
-    if (!claimAvailable(claim)) return null;
+  const getPageContent = useCallback(
+    () => {
+      if (!claimAvailable(claim)) return null;
 
-    const { claimPhaseDates, claimDate, claimTypeCode } = claim.attributes;
-    const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
-    const { currentPhaseBack } = claimPhaseDates;
+      const { claimPhaseDates, claimDate, claimTypeCode } = claim.attributes;
+      const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
+      const { currentPhaseBack } = claimPhaseDates;
 
-    return (
-      <div className="overview-container">
-        <ClaimOverviewHeader claimTypeCode={claimTypeCode} />
+      return (
+        <div className="overview-container">
+          <ClaimOverviewHeader claimTypeCode={claimTypeCode} />
 
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstClaimPhases}>
-          <Toggler.Enabled>
-            {isDisabilityCompensationClaim(claimTypeCode) ? (
-              <>
-                <div className="claim-phase-diagram">
-                  <MobileClaimPhaseDiagram currentPhase={currentPhase} />
-                  <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
-                </div>
-                <ClaimPhaseStepper
-                  claimDate={claimDate}
-                  currentClaimPhaseDate={claimPhaseDates.phaseChangeDate}
-                  currentPhase={currentPhase}
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstClaimPhases}>
+            <Toggler.Enabled>
+              {isDisabilityCompensationClaim(claimTypeCode) ? (
+                <>
+                  <div className="claim-phase-diagram">
+                    <MobileClaimPhaseDiagram currentPhase={currentPhase} />
+                    <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
+                  </div>
+                  <ClaimPhaseStepper
+                    claimDate={claimDate}
+                    currentClaimPhaseDate={claimPhaseDates.phaseChangeDate}
+                    currentPhase={currentPhase}
+                    currentPhaseBack={currentPhaseBack}
+                  />
+                </>
+              ) : (
+                <ClaimTimeline
+                  id={claim.id}
+                  phase={currentPhase}
                   currentPhaseBack={currentPhaseBack}
                 />
-              </>
-            ) : (
+              )}
+            </Toggler.Enabled>
+
+            <Toggler.Disabled>
               <ClaimTimeline
                 id={claim.id}
                 phase={currentPhase}
                 currentPhaseBack={currentPhaseBack}
               />
-            )}
-          </Toggler.Enabled>
-
-          <Toggler.Disabled>
-            <ClaimTimeline
-              id={claim.id}
-              phase={currentPhase}
-              currentPhaseBack={currentPhaseBack}
-            />
-          </Toggler.Disabled>
-        </Toggler>
-      </div>
-    );
-  }, [claim]);
+            </Toggler.Disabled>
+          </Toggler>
+        </div>
+      );
+    },
+    [claim],
+  );
 
   /* --------------------------- render ------------------------------ */
   const content = !loading ? getPageContent() : null;
@@ -153,5 +159,8 @@ OverviewPage.propTypes = {
 };
 
 /* --------------------------- export ------------------------------- */
-export default connect(mapStateToProps, mapDispatchToProps)(OverviewPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(OverviewPage);
 export { OverviewPage };

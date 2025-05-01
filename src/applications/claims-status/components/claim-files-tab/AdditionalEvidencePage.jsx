@@ -14,16 +14,16 @@ import FilesNeeded from './FilesNeeded';
 import { benefitsDocumentsUseLighthouse } from '../../selectors';
 import { setFocus, setPageFocus } from '../../utils/page';
 import {
-  addFile,
-  removeFile,
-  submitFiles,
-  submitFilesLighthouse, // lighthouse
-  updateField,
-  cancelUpload,
+  addFile as addFileAction,
+  removeFile as removeFileAction,
+  submitFiles as submitFilesAction,
+  submitFilesLighthouse as submitFilesLighthouseAction, // lighthouse
+  updateField as updateFieldAction,
+  cancelUpload as cancelUploadAction,
   getClaim as getClaimAction,
-  setFieldsDirty,
-  resetUploads,
-  clearAdditionalEvidenceNotification,
+  setFieldsDirty as setFieldsDirtyAction,
+  resetUploads as resetUploadsAction,
+  clearAdditionalEvidenceNotification as clearAdditionalEvidenceNotificationAction,
 } from '../../actions';
 
 import {
@@ -42,7 +42,7 @@ const scrollToError = () => {
   });
 };
 
-const AdditionalEvidencePage = (props) => {
+const AdditionalEvidencePage = props => {
   const {
     addFile,
     cancelUpload,
@@ -64,75 +64,95 @@ const AdditionalEvidencePage = (props) => {
     setFieldsDirty,
     submitFiles,
     submitFilesLighthouse,
-    trackedItem, // from mapState (not explicitly typed but available)
     updateField,
     uploadComplete,
     uploadField,
     uploading,
   } = props;
 
+  /* ------------------------------ helpers ------------------------------- */
+  const scrollToSection = useCallback(
+    () => {
+      if (location.hash === '#add-files') {
+        setPageFocus('h3#add-files');
+      }
+    },
+    [location.hash],
+  );
+
+  const onSubmitFiles = useCallback(
+    () => {
+      if (documentsUseLighthouse) {
+        submitFilesLighthouse(claim.id, null, files);
+      } else {
+        submitFiles(claim.id, null, files);
+      }
+    },
+    [documentsUseLighthouse, submitFilesLighthouse, submitFiles, claim, files],
+  );
+
   /* --------------------------- componentDidMount ------------------------ */
   useEffect(() => {
     resetUploads();
-    scrollToSection();              // initial hash check
+    scrollToSection(); // initial hash check
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* --------------------- UNSAFE_componentWillReceiveProps --------------- */
-  useEffect(() => {
-    if (uploadComplete) {
-      getClaim(claim.id);
-      navigate(filesPath);
-    }
-  }, [uploadComplete, getClaim, claim, navigate]);
+  useEffect(
+    () => {
+      if (uploadComplete) {
+        getClaim(claim.id);
+        navigate(filesPath);
+      }
+    },
+    [uploadComplete, getClaim, claim, navigate],
+  );
 
   /* --------------------------- componentDidUpdate ----------------------- */
   const prevMessageRef = useRef(message);
   const prevLoadingRef = useRef(loading);
   const prevHashRef = useRef(location.hash);
 
-  useEffect(() => {
-    if (message && !prevMessageRef.current) {
-      scrollToError();
-    }
-    prevMessageRef.current = message;
-  }, [message]);
+  useEffect(
+    () => {
+      if (message && !prevMessageRef.current) {
+        scrollToError();
+      }
+      prevMessageRef.current = message;
+    },
+    [message],
+  );
 
-  useEffect(() => {
-    if (!loading && prevLoadingRef.current) {
-      setPageFocus();
-    }
-    prevLoadingRef.current = loading;
-  }, [loading]);
+  useEffect(
+    () => {
+      if (!loading && prevLoadingRef.current) {
+        setPageFocus();
+      }
+      prevLoadingRef.current = loading;
+    },
+    [loading],
+  );
 
-  useEffect(() => {
-    if (location.hash !== prevHashRef.current) {
-      scrollToSection();
-    }
-    prevHashRef.current = location.hash;
-  }, [location.hash]);
+  useEffect(
+    () => {
+      if (location.hash !== prevHashRef.current) {
+        scrollToSection();
+      }
+      prevHashRef.current = location.hash;
+    },
+    [location.hash, scrollToSection],
+  );
 
   /* ------------------------- componentWillUnmount ----------------------- */
-  useEffect(() => {
-    return () => {
-      if (!uploadComplete) clearNotif();
-    };
-  }, [uploadComplete, clearNotif]);
-
-  /* ------------------------------ helpers ------------------------------- */
-  const onSubmitFiles = useCallback(() => {
-    if (documentsUseLighthouse) {
-      submitFilesLighthouse(claim.id, null, files);
-    } else {
-      submitFiles(claim.id, null, files);
-    }
-  }, [documentsUseLighthouse, submitFilesLighthouse, submitFiles, claim, files]);
-
-  function scrollToSection() {
-    if (location.hash === '#add-files') {
-      setPageFocus('h3#add-files');
-    }
-  }
+  useEffect(
+    () => {
+      return () => {
+        if (!uploadComplete) clearNotif();
+      };
+    },
+    [uploadComplete, clearNotif],
+  );
 
   /* ------------------------------ render -------------------------------- */
   const isOpen = isClaimOpen(
@@ -168,7 +188,7 @@ const AdditionalEvidencePage = (props) => {
 
         {isOpen ? (
           <>
-            {filesNeeded.map((item) => (
+            {filesNeeded.map(item => (
               <FilesNeeded
                 key={item.id}
                 id={claim.id}
@@ -180,7 +200,7 @@ const AdditionalEvidencePage = (props) => {
               />
             ))}
 
-            {filesOptional.map((item) => (
+            {filesOptional.map(item => (
               <FilesOptional key={item.id} id={claim.id} item={item} />
             ))}
 
@@ -240,20 +260,23 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  addFile,
-  removeFile,
-  submitFiles,
-  submitFilesLighthouse, // lighthouse
-  updateField,
-  cancelUpload,
+  addFile: addFileAction,
+  removeFile: removeFileAction,
+  submitFiles: submitFilesAction,
+  submitFilesLighthouse: submitFilesLighthouseAction, // lighthouse
+  updateField: updateFieldAction,
+  cancelUpload: cancelUploadAction,
   getClaim: getClaimAction,
-  setFieldsDirty,
-  resetUploads,
-  clearAdditionalEvidenceNotification,
+  setFieldsDirty: setFieldsDirtyAction,
+  resetUploads: resetUploadsAction,
+  clearAdditionalEvidenceNotification: clearAdditionalEvidenceNotificationAction,
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(AdditionalEvidencePage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AdditionalEvidencePage),
 );
 
 /* ------------------------------ types ---------------------------------- */

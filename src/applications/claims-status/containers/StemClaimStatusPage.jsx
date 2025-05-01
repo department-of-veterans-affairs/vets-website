@@ -2,7 +2,9 @@ import React, { useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getStemClaims } from '../actions';
+/* alias the import so it doesn’t collide with the prop name */
+import { getStemClaims as getStemClaimsAction } from '../actions';
+
 import StemAskVAQuestions from '../components/StemAskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
@@ -16,42 +18,51 @@ const setTitle = () =>
 
 const StemClaimStatusPage = ({ claim, loading, getStemClaims }) => {
   /* ----------------------------- mount ---------------------------------- */
-  useEffect(() => {
-    setTitle();
-    setUpPage();
-    getStemClaims();
-  }, [getStemClaims]);
+  useEffect(
+    () => {
+      setTitle();
+      setUpPage();
+      getStemClaims();
+    },
+    [getStemClaims],
+  );
 
   /* ------------------------- main content ------------------------------ */
-  const content = useMemo(() => {
-    if (loading) {
-      return (
-        <va-loading-indicator
-          set-focus
-          message="Loading your claim information..."
-        />
-      );
-    }
+  const content = useMemo(
+    () => {
+      if (loading) {
+        return (
+          <va-loading-indicator
+            set-focus
+            message="Loading your claim information..."
+          />
+        );
+      }
 
-    if (claimAvailable(claim)) {
-      const { deniedAt, isEnrolledStem, isPursuingTeachingCert } =
-        claim.attributes;
-      return (
-        <StemDeniedDetails
-          deniedAt={deniedAt}
-          isEnrolledStem={isEnrolledStem}
-          isPursuingTeachingCert={isPursuingTeachingCert}
-        />
-      );
-    }
+      if (claimAvailable(claim)) {
+        const {
+          deniedAt,
+          isEnrolledStem,
+          isPursuingTeachingCert,
+        } = claim.attributes;
+        return (
+          <StemDeniedDetails
+            deniedAt={deniedAt}
+            isEnrolledStem={isEnrolledStem}
+            isPursuingTeachingCert={isPursuingTeachingCert}
+          />
+        );
+      }
 
-    return (
-      <>
-        <h1>We encountered a problem</h1>
-        <ClaimsUnavailable headerLevel={2} />
-      </>
-    );
-  }, [loading, claim]);
+      return (
+        <>
+          <h1>We encountered a problem</h1>
+          <ClaimsUnavailable headerLevel={2} />
+        </>
+      );
+    },
+    [loading, claim],
+  );
 
   /* ---------------------- breadcrumbs ---------------------------------- */
   const crumb = useMemo(
@@ -87,9 +98,8 @@ const StemClaimStatusPage = ({ claim, loading, getStemClaims }) => {
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   const claim =
-    claimsState.claimsV2.stemClaims.find(
-      sc => sc.id === ownProps.params.id,
-    ) || null;
+    claimsState.claimsV2.stemClaims.find(sc => sc.id === ownProps.params.id) ||
+    null;
 
   return {
     loading: claimsState.claimsV2.stemClaimsLoading,
@@ -97,7 +107,8 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-const mapDispatchToProps = { getStemClaims };
+/* use the aliased name here */
+const mapDispatchToProps = { getStemClaims: getStemClaimsAction };
 
 /* --------------------------- prop types -------------------------------- */
 StemClaimStatusPage.propTypes = {
@@ -107,6 +118,9 @@ StemClaimStatusPage.propTypes = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(StemClaimStatusPage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(StemClaimStatusPage),
 );
 export { StemClaimStatusPage };

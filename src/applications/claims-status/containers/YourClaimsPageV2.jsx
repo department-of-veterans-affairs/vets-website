@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useMemo,
+} from 'react';
 import { connect } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
@@ -90,20 +96,35 @@ const YourClaimsPageV2 = ({
   }, []); // run once
 
   /* -------------- keep `page` in sync with the URL ----------------------- */
-  useEffect(() => {
-    const newPage = getPageFromURL(location);
-    if (newPage !== page) setPage(newPage);
-  }, [location, page]);
+  useEffect(
+    () => {
+      const newPage = getPageFromURL(location);
+      if (newPage !== page) setPage(newPage);
+    },
+    [location, page],
+  );
 
   /* ------ scroll to top on URL path/search change (old componentDidUpdate) */
-  const prevLocRef = useRef({ pathname: location.pathname, search: location.search });
-  useEffect(() => {
-    const prev = prevLocRef.current;
-    if (prev.pathname !== location.pathname || prev.search !== location.search) {
-      window.scrollTo(0, 0);
-    }
-    prevLocRef.current = { pathname: location.pathname, search: location.search };
-  }, [location]);
+  const prevLocRef = useRef({
+    pathname: location.pathname,
+    search: location.search,
+  });
+  useEffect(
+    () => {
+      const prev = prevLocRef.current;
+      if (
+        prev.pathname !== location.pathname ||
+        prev.search !== location.search
+      ) {
+        window.scrollTo(0, 0);
+      }
+      prevLocRef.current = {
+        pathname: location.pathname,
+        search: location.search,
+      };
+    },
+    [location],
+  );
 
   /* --------------------------- callbacks --------------------------------- */
   const changePage = useCallback(
@@ -130,105 +151,119 @@ const YourClaimsPageV2 = ({
   );
 
   /* ----------------------- derived UI pieces ----------------------------- */
-  const errorMessages = useMemo(() => {
-    if (claimsLoading || appealsLoading || stemClaimsLoading) return null;
+  const errorMessages = useMemo(
+    () => {
+      if (claimsLoading || appealsLoading || stemClaimsLoading) return null;
 
-    if (
-      canAccessAppeals &&
-      canAccessClaims &&
-      claimsAvailable !== claimsAvailability.AVAILABLE &&
-      appealsAvailable !== appealsAvailability.AVAILABLE
-    ) {
-      return <ClaimsAppealsUnavailable />;
-    }
-    if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
-      return <ClaimsUnavailable headerLevel={3} />;
-    }
-    if (canAccessAppeals && appealsAvailable !== appealsAvailability.AVAILABLE) {
-      return <AppealsUnavailable />;
-    }
-    return null;
-  }, [
-    appealsAvailable,
-    appealsLoading,
-    canAccessAppeals,
-    canAccessClaims,
-    claimsAvailable,
-    claimsLoading,
-    stemClaimsLoading,
-  ]);
+      if (
+        canAccessAppeals &&
+        canAccessClaims &&
+        claimsAvailable !== claimsAvailability.AVAILABLE &&
+        appealsAvailable !== appealsAvailability.AVAILABLE
+      ) {
+        return <ClaimsAppealsUnavailable />;
+      }
+      if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
+        return <ClaimsUnavailable headerLevel={3} />;
+      }
+      if (
+        canAccessAppeals &&
+        appealsAvailable !== appealsAvailability.AVAILABLE
+      ) {
+        return <AppealsUnavailable />;
+      }
+      return null;
+    },
+    [
+      appealsAvailable,
+      appealsLoading,
+      canAccessAppeals,
+      canAccessClaims,
+      claimsAvailable,
+      claimsLoading,
+      stemClaimsLoading,
+    ],
+  );
 
   /* ---------------------------- main content ----------------------------- */
-  const {
-    content,
-    pageInfo,
-  } = useMemo(() => {
-    const allRequestsLoaded = !claimsLoading && !appealsLoading && !stemClaimsLoading;
-    const allRequestsLoading = claimsLoading && appealsLoading && stemClaimsLoading;
-    const atLeastOneRequestLoading =
-      claimsLoading || appealsLoading || stemClaimsLoading;
-    const emptyList = !(list && list.length);
+  const { content } = useMemo(
+    () => {
+      const allRequestsLoaded =
+        !claimsLoading && !appealsLoading && !stemClaimsLoading;
+      const allRequestsLoading =
+        claimsLoading && appealsLoading && stemClaimsLoading;
+      const atLeastOneRequestLoading =
+        claimsLoading || appealsLoading || stemClaimsLoading;
+      const emptyList = !(list && list.length);
 
-    // 1. All loading or initial fetch and nothing yet
-    if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
-      return {
-        content: <va-loading-indicator message="Loading your claims and appeals..." />,
-        pageInfo: null,
-      };
-    }
-
-    // 2. We have items
-    if (!emptyList) {
-      const listLen = list.length;
-      const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
-      const shouldPaginate = numPages > 1;
-
-      const pageItems = getVisibleRows(list, page);
-      let pageInfoNode = null;
-
-      if (shouldPaginate) {
-        const { start, end } = getPageRange(page, listLen);
-        pageInfoNode = (
-          <p id="pagination-info">
-            {`Showing ${start} \u2012 ${end} of ${listLen} events`}
-          </p>
-        );
+      // 1. All loading or initial fetch and nothing yet
+      if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
+        return {
+          content: (
+            <va-loading-indicator message="Loading your claims and appeals..." />
+          ),
+          pageInfo: null,
+        };
       }
 
-      return {
-        pageInfo: pageInfoNode,
-        content: (
-          <>
-            {pageInfoNode}
-            <div className="claim-list">
-              {atLeastOneRequestLoading && (
-                <va-loading-indicator message="Loading your claims and appeals..." />
-              )}
-              {pageItems.map(renderListItem)}
-              {shouldPaginate && (
-                <VaPagination page={page} pages={numPages} onPageSelect={changePage} />
-              )}
-            </div>
-          </>
-        ),
-      };
-    }
+      // 2. We have items
+      if (!emptyList) {
+        const listLen = list.length;
+        const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
+        const shouldPaginate = numPages > 1;
 
-    // 3. No items and everything finished loading
-    if (allRequestsLoaded) {
-      return { content: <NoClaims />, pageInfo: null };
-    }
+        const pageItems = getVisibleRows(list, page);
+        let pageInfoNode = null;
 
-    return { content: null, pageInfo: null };
-  }, [
-    appealsLoading,
-    claimsLoading,
-    stemClaimsLoading,
-    list,
-    page,
-    changePage,
-    renderListItem,
-  ]);
+        if (shouldPaginate) {
+          const { start, end } = getPageRange(page, listLen);
+          pageInfoNode = (
+            <p id="pagination-info">
+              {`Showing ${start} \u2012 ${end} of ${listLen} events`}
+            </p>
+          );
+        }
+
+        return {
+          pageInfo: pageInfoNode,
+          content: (
+            <>
+              {pageInfoNode}
+              <div className="claim-list">
+                {atLeastOneRequestLoading && (
+                  <va-loading-indicator message="Loading your claims and appeals..." />
+                )}
+                {pageItems.map(renderListItem)}
+                {shouldPaginate && (
+                  <VaPagination
+                    page={page}
+                    pages={numPages}
+                    onPageSelect={changePage}
+                  />
+                )}
+              </div>
+            </>
+          ),
+        };
+      }
+
+      // 3. No items and everything finished loading
+      if (allRequestsLoaded) {
+        return { content: <NoClaims />, pageInfo: null };
+      }
+
+      return { content: null, pageInfo: null };
+    },
+    [
+      appealsLoading,
+      claimsLoading,
+      stemClaimsLoading,
+      list,
+      page,
+      changePage,
+      renderListItem,
+    ],
+  );
 
   /* ---------------------------- render ---------------------------------- */
   return (
@@ -251,20 +286,21 @@ const YourClaimsPageV2 = ({
             trigger="Find out why we sometimes combine claims."
           >
             <div>
-              If you turn in a new claim while we’re reviewing another one from you,
-              we’ll add any new information to the original claim and close the new
-              claim, with no action required from you.
+              If you turn in a new claim while we’re reviewing another one from
+              you, we’ll add any new information to the original claim and close
+              the new claim, with no action required from you.
             </div>
           </va-additional-info>
           {content}
           <ClaimLetterSection />
           <FeaturesWarning />
           <h2 id="what-if-i-dont-see-my-appeal">
-            What if I can't find my claim, decision review, or appeal?
+            What if I can’t find my claim, decision review, or appeal?
           </h2>
           <p>
-            If you recently submitted a claim or requested a Higher Level Review or
-            Board appeal, we might still be processing it. Check back for updates.
+            If you recently submitted a claim or requested a Higher Level Review
+            or Board appeal, we might still be processing it. Check back for
+            updates.
           </p>
           <NeedHelp />
         </div>
@@ -357,6 +393,9 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(YourClaimsPageV2),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(YourClaimsPageV2),
 );
 export { YourClaimsPageV2 };

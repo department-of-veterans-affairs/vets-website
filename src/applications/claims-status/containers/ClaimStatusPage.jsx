@@ -47,63 +47,69 @@ const ClaimStatusPage = ({
   }, []);
 
   // componentDidUpdate
-  useEffect(() => {
-    const prevLoading = prevLoadingRef.current;
+  useEffect(
+    () => {
+      const prevLoading = prevLoadingRef.current;
 
-    if (!loading && prevLoading && !isTab(lastPage)) {
-      setUpPage(false);
-    }
-    if (loading !== prevLoading) {
-      setTabDocumentTitle(claim, 'Status');
-    }
+      if (!loading && prevLoading && !isTab(lastPage)) {
+        setUpPage(false);
+      }
+      if (loading !== prevLoading) {
+        setTabDocumentTitle(claim, 'Status');
+      }
 
-    prevLoadingRef.current = loading;
-  }, [loading, lastPage, claim]);
+      prevLoadingRef.current = loading;
+    },
+    [loading, lastPage, claim],
+  );
 
   /* -------------------------------- render helpers ----------------------- */
-  const getPageContent = useCallback(() => {
-    if (!claimAvailable(claim)) return null;
+  const getPageContent = useCallback(
+    () => {
+      if (!claimAvailable(claim)) return null;
 
-    const {
-      claimPhaseDates,
-      claimTypeCode,
-      closeDate,
-      decisionLetterSent,
-      status,
-    } = claim.attributes;
+      const {
+        claimPhaseDates,
+        claimTypeCode,
+        closeDate,
+        decisionLetterSent,
+        status,
+      } = claim.attributes;
 
-    const claimPhaseType = claimPhaseDates.latestPhaseType;
-    const { currentPhaseBack } = claimPhaseDates;
-    const isOpen = isClaimOpen(status, closeDate);
+      const claimPhaseType = claimPhaseDates.latestPhaseType;
+      const { currentPhaseBack } = claimPhaseDates;
+      const isOpen = isClaimOpen(status, closeDate);
 
-    return (
-      <div className="claim-status">
-        <ClaimStatusHeader claim={claim} />
-        {isOpen ? (
-          <>
-            <WhatYouNeedToDo claim={claim} useLighthouse />
-            <WhatWeAreDoing
-              claimPhaseType={claimPhaseType}
-              claimTypeCode={claimTypeCode}
-              currentPhaseBack={currentPhaseBack}
-              phaseChangeDate={claimPhaseDates.phaseChangeDate}
-              status={status}
-            />
-          </>
-        ) : (
-          <>
-            <ClosedClaimAlert
-              closeDate={closeDate}
-              decisionLetterSent={decisionLetterSent}
-            />
-            <Payments />
-            <NextSteps />
-          </>
-        )}
-        <RecentActivity claim={claim} />
-      </div>
-    );
-  }, [claim]);
+      return (
+        <div className="claim-status">
+          <ClaimStatusHeader claim={claim} />
+          {isOpen ? (
+            <>
+              <WhatYouNeedToDo claim={claim} useLighthouse />
+              <WhatWeAreDoing
+                claimPhaseType={claimPhaseType}
+                claimTypeCode={claimTypeCode}
+                currentPhaseBack={currentPhaseBack}
+                phaseChangeDate={claimPhaseDates.phaseChangeDate}
+                status={status}
+              />
+            </>
+          ) : (
+            <>
+              <ClosedClaimAlert
+                closeDate={closeDate}
+                decisionLetterSent={decisionLetterSent}
+              />
+              <Payments />
+              <NextSteps />
+            </>
+          )}
+          <RecentActivity claim={claim} />
+        </div>
+      );
+    },
+    [claim],
+  );
 
   const content = !loading ? getPageContent() : null;
 
@@ -142,5 +148,8 @@ ClaimStatusPage.propTypes = {
   message: PropTypes.object,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClaimStatusPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ClaimStatusPage);
 export { ClaimStatusPage };

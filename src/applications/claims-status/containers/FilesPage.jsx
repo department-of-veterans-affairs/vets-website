@@ -32,75 +32,94 @@ const FilesPage = ({
   message,
 }) => {
   /* --------------------- componentDidMount ----------------------------- */
-  useEffect(() => {
-    if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Files');
+  useEffect(
+    () => {
+      if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Files');
 
-    if (location?.hash === '') {
-      const timer = setTimeout(() => {
-        setPageFocus(lastPage, loading);
-      });
-      return () => clearTimeout(timer); // cleanup if unmounts early
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // run once
+      let timer;
+      if (location?.hash === '') {
+        timer = setTimeout(() => {
+          setPageFocus(lastPage, loading);
+        });
+      }
+
+      // always return a cleanup function (fixes ESLint consistent-return)
+      return () => {
+        if (timer) clearTimeout(timer);
+      };
+    },
+    [claim, lastPage, loading, location?.hash],
+  );
 
   /* --------------------- componentDidUpdate ---------------------------- */
   const prevLoadingRef = useRef(loading);
 
-  useEffect(() => {
-    const prevLoading = prevLoadingRef.current;
+  useEffect(
+    () => {
+      const prevLoading = prevLoadingRef.current;
 
-    if (!loading && prevLoading && !isTab(lastPage)) {
-      setUpPage(false);
-    }
-    if (loading !== prevLoading) {
-      setTabDocumentTitle(claim, 'Files');
-    }
+      if (!loading && prevLoading && !isTab(lastPage)) {
+        setUpPage(false);
+      }
+      if (loading !== prevLoading) {
+        setTabDocumentTitle(claim, 'Files');
+      }
 
-    prevLoadingRef.current = loading;
-  }, [loading, lastPage, claim]);
+      prevLoadingRef.current = loading;
+    },
+    [loading, lastPage, claim],
+  );
 
   /* -------------------- componentWillUnmount --------------------------- */
   useEffect(() => () => clearNotif(), [clearNotif]);
 
   /* -------------------------- helpers ---------------------------------- */
-  const getPageContent = useCallback(() => {
-    if (!claimAvailable(claim)) return null;
+  const getPageContent = useCallback(
+    () => {
+      if (!claimAvailable(claim)) return null;
 
-    const {
-      closeDate,
-      status,
-      supportingDocuments,
-      trackedItems,
-      evidenceWaiverSubmitted5103,
-      claimPhaseDates,
-    } = claim.attributes;
+      const {
+        closeDate,
+        status,
+        supportingDocuments,
+        trackedItems,
+        evidenceWaiverSubmitted5103,
+        claimPhaseDates,
+      } = claim.attributes;
 
-    const isOpen = isClaimOpen(status, closeDate);
-    const waiverSubmitted = evidenceWaiverSubmitted5103;
+      const isOpen = isClaimOpen(status, closeDate);
+      const waiverSubmitted = evidenceWaiverSubmitted5103;
 
-    const showDecision =
-      claimPhaseDates.latestPhaseType === FIRST_GATHERING_EVIDENCE_PHASE &&
-      !waiverSubmitted;
+      const showDecision =
+        claimPhaseDates.latestPhaseType === FIRST_GATHERING_EVIDENCE_PHASE &&
+        !waiverSubmitted;
 
-    const documentsTurnedIn = [
-      ...trackedItems.filter(item => !item.status.startsWith(NEED_ITEMS_STATUS)),
-      ...supportingDocuments,
-    ].sort((a, b) => (a.date === b.date ? -1 : a.date > b.date ? -1 : 1));
+      const documentsTurnedIn = [
+        ...trackedItems.filter(
+          item => !item.status.startsWith(NEED_ITEMS_STATUS),
+        ),
+        ...supportingDocuments,
+      ].sort((a, b) => {
+        // clearer comparator – avoids nested ternary
+        if (a.date === b.date) return -1;
+        return a.date > b.date ? -1 : 1;
+      });
 
-    return (
-      <div className="claim-files">
-        <ClaimFileHeader isOpen={isOpen} />
-        <AdditionalEvidencePage />
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
-          <Toggler.Disabled>
-            {showDecision && <AskVAToDecide />}
-          </Toggler.Disabled>
-        </Toggler>
-        <DocumentsFiled claim={claim} documents={documentsTurnedIn} />
-      </div>
-    );
-  }, [claim]);
+      return (
+        <div className="claim-files">
+          <ClaimFileHeader isOpen={isOpen} />
+          <AdditionalEvidencePage />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
+            <Toggler.Disabled>
+              {showDecision && <AskVAToDecide />}
+            </Toggler.Disabled>
+          </Toggler>
+          <DocumentsFiled claim={claim} documents={documentsTurnedIn} />
+        </div>
+      );
+    },
+    [claim],
+  );
 
   /* --------------------------- render ---------------------------------- */
   const content = !loading && claim ? getPageContent() : null;
@@ -145,6 +164,9 @@ FilesPage.propTypes = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(FilesPage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FilesPage),
 );
 export { FilesPage };

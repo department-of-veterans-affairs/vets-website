@@ -28,7 +28,8 @@ import { RECORD_NOT_FOUND_ERROR } from '../actions/types';
 
 const AVAILABLE = 'AVAILABLE';
 
-const capitalizeWord = word => word ? `${word[0].toUpperCase()}${word.slice(1)}` : '';
+const capitalizeWord = word =>
+  word ? `${word[0].toUpperCase()}${word.slice(1)}` : '';
 
 const appealsDownMessage = (
   <div className="row" id="appealsDownMessage">
@@ -80,41 +81,44 @@ function AppealInfo({
   }, []);
 
   // -------------------------------------------------------------- helpers --
-  const createHeading = useCallback(() => {
-    if (!appeal) return '';
+  const createHeading = useCallback(
+    () => {
+      if (!appeal) return '';
 
-    let requestEventType;
-    switch (appeal.type) {
-      case APPEAL_TYPES.legacy:
-        requestEventType = EVENT_TYPES.nod;
-        break;
-      case APPEAL_TYPES.supplementalClaim:
-        requestEventType = EVENT_TYPES.scRequest;
-        break;
-      case APPEAL_TYPES.higherLevelReview:
-        requestEventType = EVENT_TYPES.hlrRequest;
-        break;
-      case APPEAL_TYPES.appeal:
-        requestEventType = EVENT_TYPES.amaNod;
-        break;
-      default:
-        requestEventType = null;
-    }
+      let requestEventType;
+      switch (appeal.type) {
+        case APPEAL_TYPES.legacy:
+          requestEventType = EVENT_TYPES.nod;
+          break;
+        case APPEAL_TYPES.supplementalClaim:
+          requestEventType = EVENT_TYPES.scRequest;
+          break;
+        case APPEAL_TYPES.higherLevelReview:
+          requestEventType = EVENT_TYPES.hlrRequest;
+          break;
+        case APPEAL_TYPES.appeal:
+          requestEventType = EVENT_TYPES.amaNod;
+          break;
+        default:
+          requestEventType = null;
+      }
 
-    const requestEvent = appeal.attributes.events.find(
-      event => event.type === requestEventType,
-    );
+      const requestEvent = appeal.attributes.events.find(
+        event => event.type === requestEventType,
+      );
 
-    let appealTitle = capitalizeWord(getTypeName(appeal));
+      let appealTitle = capitalizeWord(getTypeName(appeal));
 
-    if (requestEvent) {
-      appealTitle += ` received ${moment(requestEvent.date).format(
-        'MMMM YYYY',
-      )}`;
-    }
+      if (requestEvent) {
+        appealTitle += ` received ${moment(requestEvent.date).format(
+          'MMMM YYYY',
+        )}`;
+      }
 
-    return appealTitle;
-  }, [appeal]);
+      return appealTitle;
+    },
+    [appeal],
+  );
 
   // -------------------------------------------------------------- content --
   let appealContent;

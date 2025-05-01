@@ -103,7 +103,10 @@ const AddFilesForm = ({
           : await readAndCheckFile(file, checks);
 
         if (!checkResults.checkTypeAndExtensionMatches) {
-          setState(prev => ({ ...prev, errorMessage: FILE_TYPE_MISMATCH_ERROR }));
+          setState(prev => ({
+            ...prev,
+            errorMessage: FILE_TYPE_MISMATCH_ERROR,
+          }));
           return;
         }
 
@@ -117,7 +120,9 @@ const AddFilesForm = ({
         setTimeout(() => {
           scrollToFile(files.length - 1);
           setFocus(
-            document.querySelectorAll('.document-item-container')[files.length - 1],
+            document.querySelectorAll('.document-item-container')[
+              files.length - 1
+            ],
           );
         });
       } else if (!isValidFileType(file)) {
@@ -142,18 +147,21 @@ const AddFilesForm = ({
     [files.length, mockReadAndCheckFile, onAddFile],
   );
 
-  const submit = useCallback(() => {
-    const hasPasswords = files.every(
-      f => !f.isEncrypted || (f.isEncrypted && f.password.value),
-    );
+  const submit = useCallback(
+    () => {
+      const hasPasswords = files.every(
+        f => !f.isEncrypted || (f.isEncrypted && f.password.value),
+      );
 
-    if (files.length > 0 && files.every(isValidDocument) && hasPasswords) {
-      setState(prev => ({ ...prev, canShowUploadModal: true }));
-      onSubmit();
-    } else {
-      onDirtyFields();
-    }
-  }, [files, onSubmit, onDirtyFields]);
+      if (files.length > 0 && files.every(isValidDocument) && hasPasswords) {
+        setState(prev => ({ ...prev, canShowUploadModal: true }));
+        onSubmit();
+      } else {
+        onDirtyFields();
+      }
+    },
+    [files, onSubmit, onDirtyFields],
+  );
 
   const removeFileConfirmation = (fileIndex, fileName) =>
     setState(prev => ({
@@ -275,7 +283,11 @@ const AddFilesForm = ({
         </div>
       ))}
 
-      <VaButton id="submit" text="Submit documents for review" onClick={submit} />
+      <VaButton
+        id="submit"
+        text="Submit documents for review"
+        onClick={submit}
+      />
 
       <va-additional-info
         class="vads-u-margin-y--3"
@@ -300,7 +312,9 @@ const AddFilesForm = ({
 
       <VaModal
         id="upload-status"
-        onCloseEvent={() => setState(prev => ({ ...prev, canShowUploadModal: false }))}
+        onCloseEvent={() =>
+          setState(prev => ({ ...prev, canShowUploadModal: false }))
+        }
         visible={showUploadModal}
       >
         <UploadStatus

@@ -14,18 +14,22 @@ import Notification from '../components/Notification';
 import DefaultPage from '../components/claim-document-request-pages/DefaultPage';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
 
+/* ──────────────────────────────────────────
+   Action creators - aliased to avoid shadowing
+   ────────────────────────────────────────── */
 import {
-  addFile,
-  cancelUpload,
-  clearNotification,
+  addFile as addFileAction,
+  cancelUpload as cancelUploadAction,
+  clearNotification as clearNotificationAction,
   getClaim as getClaimAction, // lighthouse migration
-  removeFile,
-  resetUploads,
-  setFieldsDirty,
-  submitFiles,
-  submitFilesLighthouse, // lighthouse migration
-  updateField,
+  removeFile as removeFileAction,
+  resetUploads as resetUploadsAction,
+  setFieldsDirty as setFieldsDirtyAction,
+  submitFiles as submitFilesAction,
+  submitFilesLighthouse as submitFilesLighthouseAction, // lighthouse migration
+  updateField as updateFieldAction,
 } from '../actions';
+
 import { benefitsDocumentsUseLighthouse } from '../selectors'; // lighthouse migration
 
 import {
@@ -37,6 +41,9 @@ import {
 import { setUpPage, setPageFocus } from '../utils/page';
 import withRouter from '../utils/withRouter';
 
+/* ──────────────────────────────────────────
+   Constants & helpers
+   ────────────────────────────────────────── */
 const scrollToError = () => {
   const options = merge({}, window.VetsGov.scroll, { offset: -25 });
   scrollTo('uploadError', options);
@@ -45,8 +52,9 @@ const scrollToError = () => {
 const filesPath = '../files';
 const statusPath = '../status';
 
-const DocumentRequestPage = (props) => {
+const DocumentRequestPage = props => {
   const {
+    /* Redux-injected props */
     addFile,
     cancelUpload,
     claim,
@@ -71,8 +79,7 @@ const DocumentRequestPage = (props) => {
     uploading,
   } = props;
 
-  /* ------------------------------------------------------------------------
-   *  componentDidMount ---------------------------------------------------- */
+  /* ───────────────────────── componentDidMount */
   useEffect(() => {
     resetUploads();
     setPageTitle(trackedItem);
@@ -85,53 +92,64 @@ const DocumentRequestPage = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // run once
 
-  /* ------------------------------------------------------------------------
-   *  UNSAFE_componentWillReceiveProps equiv -------------------------------- */
-  useEffect(() => {
-    if (!loading && !trackedItem) {
-      navigate('../status', { replace: true });
-    }
-    if (uploadComplete) {
-      getClaim(claim.id);
-      navigate(filesPath);
-    }
-  }, [loading, trackedItem, uploadComplete, navigate, claim, getClaim]);
+  /* ───────────── componentWillReceiveProps equivalent */
+  useEffect(
+    () => {
+      if (!loading && !trackedItem) {
+        navigate('../status', { replace: true });
+      }
+      if (uploadComplete) {
+        getClaim(claim.id);
+        navigate(filesPath);
+      }
+    },
+    [loading, trackedItem, uploadComplete, navigate, claim, getClaim],
+  );
 
-  /* ------------------------------------------------------------------------
-   *  componentDidUpdate equiv --------------------------------------------- */
+  /* ───────────────────── componentDidUpdate equivalents */
   const prevMessageRef = useRef(message);
   const prevLoadingRef = useRef(loading);
 
-  useEffect(() => {
-    // message just appeared
-    if (message && !prevMessageRef.current) {
-      const alert = document.querySelector('.claims-alert');
-      if (alert) alert.focus();
-      scrollToError();
-    }
-    prevMessageRef.current = message;
-  }, [message]);
+  useEffect(
+    () => {
+      if (message && !prevMessageRef.current) {
+        document.querySelector('.claims-alert')?.focus();
+        scrollToError();
+      }
+      prevMessageRef.current = message;
+    },
+    [message],
+  );
 
-  useEffect(() => {
-    const wasLoading = prevLoadingRef.current;
+  useEffect(
+    () => {
+      if (!loading && prevLoadingRef.current) {
+        setPageFocus();
+        setPageTitle(trackedItem);
+      }
+      prevLoadingRef.current = loading;
+    },
+    [loading, trackedItem],
+  );
 
-    if (!loading && wasLoading) {
-      setPageFocus();
-      setPageTitle(trackedItem);
-    }
-
-    prevLoadingRef.current = loading;
-  }, [loading, trackedItem]);
-
-  /* ------------------------------------------------------------------------
-   *  helpers -------------------------------------------------------------- */
-  const handleSubmit = useCallback(() => {
-    if (documentsUseLighthouse) {
-      submitFilesLighthouse(claim.id, trackedItem, files);
-    } else {
-      submitFiles(claim.id, trackedItem, files);
-    }
-  }, [documentsUseLighthouse, submitFilesLighthouse, submitFiles, claim, trackedItem, files]);
+  /* ───────────────────── helpers */
+  const handleSubmit = useCallback(
+    () => {
+      if (documentsUseLighthouse) {
+        submitFilesLighthouse(claim.id, trackedItem, files);
+      } else {
+        submitFiles(claim.id, trackedItem, files);
+      }
+    },
+    [
+      documentsUseLighthouse,
+      submitFilesLighthouse,
+      submitFiles,
+      claim,
+      trackedItem,
+      files,
+    ],
+  );
 
   const getDefaultPage = useCallback(
     () => (
@@ -166,61 +184,56 @@ const DocumentRequestPage = (props) => {
     ],
   );
 
-  /* ------------------------------------------------------------------------
-   *  render content ------------------------------------------------------- */
-  let mainContent;
+  /* ───────────────────── render */
+  const mainContent = loading ? (
+    <va-loading-indicator
+      set-focus
+      message="Loading your claim information..."
+    />
+  ) : (
+    <>
+      {message && (
+        <div>
+          <Element name="uploadError" />
+          <Notification
+            title={message.title}
+            body={message.body}
+            type={message.type}
+          />
+        </div>
+      )}
 
-  if (loading) {
-    mainContent = (
-      <div>
-        <va-loading-indicator set-focus message="Loading your claim information..." />
-      </div>
-    );
-  } else {
-    mainContent = (
-      <>
-        {message && (
-          <div>
-            <Element name="uploadError" />
-            <Notification title={message.title} body={message.body} type={message.type} />
-          </div>
-        )}
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
+        <Toggler.Enabled>
+          {isAutomated5103Notice(trackedItem?.displayName) ? (
+            <Default5103EvidenceNotice item={trackedItem} />
+          ) : (
+            getDefaultPage()
+          )}
+        </Toggler.Enabled>
 
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
-          <Toggler.Enabled>
-            {isAutomated5103Notice(trackedItem?.displayName) ? (
-              <Default5103EvidenceNotice item={trackedItem} />
-            ) : (
-              getDefaultPage()
-            )}
-          </Toggler.Enabled>
+        <Toggler.Disabled>{getDefaultPage()}</Toggler.Disabled>
+      </Toggler>
+    </>
+  );
 
-          <Toggler.Disabled>{getDefaultPage()}</Toggler.Disabled>
-        </Toggler>
-      </>
-    );
-  }
-
-  /* ------------------------------------------------------------------------
-   *  breadcrumbs ---------------------------------------------------------- */
+  /* ───────────────────── breadcrumbs */
   const claimType = getClaimType(claim).toLowerCase();
-
   const previousPageIsFilesTab = () =>
     sessionStorage.getItem('previousPage') === 'files';
 
-  const filesBreadcrumb = {
-    href: filesPath,
-    label: `Files for your ${claimType} claim`,
-    isRouterLink: true,
-  };
-  const statusBreadcrumb = {
-    href: statusPath,
-    label: `Status of your ${claimType} claim`,
-    isRouterLink: true,
-  };
-
   const crumbs = [
-    previousPageIsFilesTab() ? filesBreadcrumb : statusBreadcrumb,
+    previousPageIsFilesTab()
+      ? {
+          href: filesPath,
+          label: `Files for your ${claimType} claim`,
+          isRouterLink: true,
+        }
+      : {
+          href: statusPath,
+          label: `Status of your ${claimType} claim`,
+          isRouterLink: true,
+        },
     {
       href: `../document-request/${params.trackedItemId}`,
       label: setDocumentRequestPageTitle(
@@ -230,7 +243,7 @@ const DocumentRequestPage = (props) => {
     },
   ];
 
-  /* --------------------------------------------------------------------- */
+  /* ───────────────────── markup */
   return (
     <div>
       <div name="topScrollElement" />
@@ -245,7 +258,7 @@ const DocumentRequestPage = (props) => {
   );
 };
 
-/* ------------------------------- Redux ---------------------------------- */
+/* ───────────────────────── Redux wiring */
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   const { claimDetail, uploads } = claimsState;
@@ -255,7 +268,7 @@ function mapStateToProps(state, ownProps) {
     const { trackedItems } = claimDetail.detail.attributes;
     const { trackedItemId } = ownProps.params;
     [trackedItem] = trackedItems.filter(
-      (item) => item.id === parseInt(trackedItemId, 10),
+      item => item.id === parseInt(trackedItemId, 10),
     );
   }
 
@@ -276,23 +289,26 @@ function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = {
-  addFile,
-  cancelUpload,
-  clearNotification,
+  addFile: addFileAction,
+  cancelUpload: cancelUploadAction,
+  clearNotification: clearNotificationAction,
   getClaim: getClaimAction,
-  removeFile,
-  resetUploads,
-  setFieldsDirty,
-  submitFiles,
-  submitFilesLighthouse, // lighthouse
-  updateField,
+  removeFile: removeFileAction,
+  resetUploads: resetUploadsAction,
+  setFieldsDirty: setFieldsDirtyAction,
+  submitFiles: submitFilesAction,
+  submitFilesLighthouse: submitFilesLighthouseAction, // lighthouse
+  updateField: updateFieldAction,
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(DocumentRequestPage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(DocumentRequestPage),
 );
 
-/* ------------------------------- types ---------------------------------- */
+/* ───────────────────────── PropTypes */
 DocumentRequestPage.propTypes = {
   addFile: PropTypes.func,
   cancelUpload: PropTypes.func,

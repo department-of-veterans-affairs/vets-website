@@ -9,13 +9,16 @@ const Timeline = ({ events = [], missingEvents = false }) => {
   const [expanded, setExpanded] = useState(false);
 
   // ---— helpers --------------------------------------------------------------
-  const dateRange = useMemo(() => {
-    if (!events.length) return '';
-    const first = formatDate(events[0].date);
-    if (events.length === 1) return first;
-    const last = formatDate(events[events.length - 1].date);
-    return `${first} – ${last}`;
-  }, [events]);
+  const dateRange = useMemo(
+    () => {
+      if (!events.length) return '';
+      const first = formatDate(events[0].date);
+      if (events.length === 1) return first;
+      const last = formatDate(events[events.length - 1].date);
+      return `${first} – ${last}`;
+    },
+    [events],
+  );
 
   const toggleExpanded = useCallback(e => {
     e.stopPropagation();
