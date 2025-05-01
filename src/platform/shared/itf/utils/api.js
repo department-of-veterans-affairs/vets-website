@@ -1,11 +1,8 @@
 import PropTypes from 'prop-types';
 
-import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
 import {
-  ITF_SUPPORTED_BENEFIT_TYPES,
   ITF_STATUSES,
   ITF_API,
   ITF_FETCH_SUCCEEDED,
@@ -24,27 +21,12 @@ import { isNotExpired, findLastItf } from './index';
  */
 /**
  * Fetch Intent to File from given API
- * @param {String} accountUuid
- * @param {Boolean} includeTypeInFetchApi - Include the itfType in the API URL;
- * added because 526 fetch API doesn't include the type, but Lighthouse API does
- * @param {String} inProgressFormId
- * @param {String} itfApi - API endpoint
- * @param {String} itfType - ITF type (e.g., "compensation")
+ * @param {String} apiUrl - API endpoint
  * @returns {FetchItReturns}
  */
-export const fetchItf = async ({
-  accountUuid,
-  includeTypeInFetchApi = false,
-  inProgressFormId,
-  itfApi = ITF_API,
-  itfType,
-}) => {
-  const apiUrl = `${environment.API_URL}${itfApi}${
-    includeTypeInFetchApi ? `/${itfType}` : ''
-  }`;
+export const fetchItf = async ({ apiUrl = ITF_API }) => {
   let type = ITF_FETCH_FAILED;
   let data = [];
-
   try {
     const response = await apiRequest(apiUrl);
     if (response?.data) {
@@ -52,21 +34,14 @@ export const fetchItf = async ({
       data = response.data.attributes?.intentToFile || [];
     }
   } catch (error) {
-    window.DD_LOGS?.logger.error('ITF fetch failed', {
-      name: 'itf_fetch_failed',
-      accountUuid,
-      inProgressFormId,
-    });
+    // eslint-disable-next-line no-console
+    console.error(error);
   }
   return { type, data };
 };
 
 fetchItf.propTypes = {
-  itfType: PropTypes.string.isRequired,
-  accountUuid: PropTypes.string,
-  inProgressFormId: PropTypes.string,
-  includeTypeInFetchApi: PropTypes.bool,
-  itfApi: PropTypes.string,
+  apiUrl: PropTypes.string,
 };
 
 /**
@@ -77,28 +52,10 @@ fetchItf.propTypes = {
  */
 /**
  * Create Intent to File from given API
- * @param {String} accountUuid
- * @param {Boolean} includeTypeInCreateApi - Include the itfType in the API URL;
- * added because 526 create API includes the type, but Lighthouse API does not
- * @param {String} inProgressFormId
- * @param {String} itfApi - API endpoint
- * @param {String} itfType - ITF type (e.g., "compensation")
+ * @param {String} apiUrl - API endpoint
  * @returns {CreateItReturns}
  */
-export const createItf = async ({
-  accountUuid,
-  includeTypeInCreateApi = true,
-  inProgressFormId,
-  itfApi = ITF_API,
-  itfType,
-}) => {
-  if (!itfType) {
-    throw new Error('itfType is required');
-  }
-
-  const apiUrl = `${environment.API_URL}${itfApi}${
-    includeTypeInCreateApi ? `/${itfType}` : ''
-  }`;
+export const createItf = async ({ apiUrl = ITF_API }) => {
   let type = ITF_CREATION_FAILED;
   let currentITF = {};
 
@@ -112,20 +69,14 @@ export const createItf = async ({
         : response.data.attributes?.intentToFile || {};
     }
   } catch (error) {
-    window.DD_LOGS?.logger.error('ITF creation failed', {
-      name: 'itf_creation_failed',
-      accountUuid,
-      inProgressFormId,
-    });
+    // eslint-disable-next-line no-console
+    console.error(error);
   }
   return { type, currentITF };
 };
 
 createItf.propTypes = {
-  itfType: PropTypes.string.isRequired,
-  accountUuid: PropTypes.string,
-  inProgressFormId: PropTypes.string,
-  itfApi: PropTypes.string,
+  apiUrl: PropTypes.string,
 };
 
 /**
@@ -137,25 +88,11 @@ createItf.propTypes = {
  */
 /**
  * Fetch Intent to File from given API
- * @param {String} accountUuid
- * @param {Boolean} includeTypeInFetchApi - Include the itfType in the API URL;
- * added because 526 fetch API doesn't include the type, but Lighthouse API does
- * @param {String} inProgressFormId
- * @param {String} itfApi - API endpoint
- * @param {String} itfType - ITF type (e.g., "compensation")
+ * @param {String} apiUrl - API endpoint
  * @returns {GetAndProcessItReturns}
  */
 export const getAndProcessItf = async (props = {}) => {
   const { itfType } = props;
-  if (!itfType || !ITF_SUPPORTED_BENEFIT_TYPES.includes(itfType)) {
-    throw new Error(
-      `Intent to File type (itfType) is required and can only include ${readableList(
-        ITF_SUPPORTED_BENEFIT_TYPES,
-        'or',
-      )}`,
-    );
-  }
-
   const { type, data } = await fetchItf(props);
   if (type === ITF_FETCH_SUCCEEDED && data.length > 0) {
     const processedItfList = (data || []).filter(itf => itf.type === itfType);
@@ -179,9 +116,5 @@ export const getAndProcessItf = async (props = {}) => {
 };
 
 getAndProcessItf.propTypes = {
-  itfType: PropTypes.string.isRequired,
-  accountUuid: PropTypes.string,
-  inProgressFormId: PropTypes.string,
-  includeTypeInFetchApi: PropTypes.bool,
-  itfApi: PropTypes.string,
+  apiUrl: PropTypes.string,
 };
