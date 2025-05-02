@@ -4,7 +4,7 @@
   "exports": {
       ".": "./exportsFile.js",
       "./itf/constants": "./itf/constants.js",
-      "./itf/IntentToFile": "./itf/IntentToFile.js",
+      "./itf/IntentToFile": "./itf/IntentToFile.jsx",
       "./itf/content": "./itf/content.js",
       "./itf/utils": "./itf/utils/index.js",
       "./itf/api": "./itf/utils/api.js"
