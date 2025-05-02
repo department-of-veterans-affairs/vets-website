@@ -1,8 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-// import sinon from 'sinon';
-
 import IntroductionPage from '../../containers/IntroductionPage';
 
 describe('22-10216 <IntroductionPage>', () => {
