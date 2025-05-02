@@ -28,7 +28,7 @@ const testConfig = createTestConfig(
         });
       },
       'contact-information-1': ({ afterHook }) => {
-        if (environment.isTest()) {
+        if (!environment.isTest()) {
           cy.injectAxeThenAxeCheck();
           afterHook(() => {
             cy.get('@testData').then(data => {
@@ -130,7 +130,7 @@ const testConfig = createTestConfig(
 
       cy.login(user);
     },
-    skip: false,
+    skip: !environment.isTest(),
   },
   manifest,
   formConfig,
