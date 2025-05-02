@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { LoginContainer } from 'platform/user/authentication/components';
-
 import recordEvent from 'platform/monitoring/record-event';
+import LoginContainer from './LoginContainer';
 
 export default function SignInModal({ visible, onClose, useSiS }) {
   const [prevVisible, setPrevVisible] = useState(null);
