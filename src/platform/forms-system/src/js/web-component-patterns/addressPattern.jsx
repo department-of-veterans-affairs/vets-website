@@ -559,6 +559,7 @@ export function addressUI(options) {
             if (MILITARY_STATE_VALUES?.includes(state) && state?.length > 0) {
               data.state = 'Forced error state';
             }
+
             return {
               type: 'string',
               title: 'State',
