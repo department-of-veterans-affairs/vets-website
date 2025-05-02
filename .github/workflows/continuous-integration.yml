@@ -947,7 +947,7 @@ jobs:
           session_name: vsp-frontendteam-githubaction
           
 
-      - name: Download Cypress E2E Mochawesome test results
+      - name: Download Cypress E2E Mochawesome test 
         uses: ./.github/workflows/download-artifact
         with:
           pattern: cypress-stress-test-results-*
