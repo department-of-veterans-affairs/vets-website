@@ -1210,7 +1210,6 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           pattern: unit-test-stress-test-results-*
-          name: unit-test-stress-test-results
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
 
@@ -1232,10 +1231,9 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           pattern: unit-test-stress-test-results-*
-          name:    unit-test-stress-test-results
-          path:    qa-standards-dashboard-data/src/testing-reports/data
+          path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
-        
+
       - name: Publish Unit Test Stability Review Results
         if: ${{ always() }}
         uses: ./.github/workflows/checks-action
@@ -1244,7 +1242,7 @@ jobs:
           name: Unit Test Stability Review Summary
           conclusion: ${{ needs.unit-tests-stress-test.result }}
           output: |
-            {"summary": ${{ env.MOCHAWESOME_REPORT_RESULTS || '""' }}}
+            {"summary": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{}' }}}
 
   testing-reports-unit-tests-coverage:
     name: Testing Reports - Unit Tests Coverage
