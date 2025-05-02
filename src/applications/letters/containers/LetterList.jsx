@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
-import { Toggler, TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
@@ -111,15 +111,18 @@ export class LetterList extends React.Component {
         <va-accordion-item key={`panel-${index}`}>
           <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
-          <Toggler toggleName={TOGGLE_NAMES.lettersPageNewDesign}>
-            <Toggler.Enabled>{conditionalDownloadElem}</Toggler.Enabled>
-            <Toggler.Disabled>
-              <>
-                {conditionalDownloadButton}
-                {helpText}
-              </>
-            </Toggler.Disabled>
-          </Toggler>
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue ? (
+                <>{conditionalDownloadElem}</>
+              ) : (
+                <>
+                  {conditionalDownloadButton}
+                  {helpText}
+                </>
+              )
+            }
+          </Toggler.Hoc>
         </va-accordion-item>
       );
     });
