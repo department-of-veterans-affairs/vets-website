@@ -495,6 +495,7 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           pattern: unit-test-stress-test-results-*
+          name: unit-test-stress-test-results-${{ matrix.runs }}
           path: qa-standards-dashboard-data/src/allow-list/data
           merge-multiple: true
 
