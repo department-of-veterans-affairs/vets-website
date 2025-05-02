@@ -9,7 +9,7 @@ class MockReferralDetailResponse {
       id: `referral-${Math.random()
         .toString(36)
         .substring(2, 10)}`,
-      typeOfCare: 'Physical Therapy',
+      categoryOfCare: 'Physical Therapy',
       hasAppointments: false,
       notFound: false,
       serverError: false,
@@ -27,7 +27,7 @@ class MockReferralDetailResponse {
     id = `referral-${Math.random()
       .toString(36)
       .substring(2, 10)}`,
-    typeOfCare = 'Physical Therapy',
+    categoryOfCare = 'Physical Therapy',
     hasAppointments = false,
     referralNumber = 'VA0000005681',
     expirationDate = format(addMonths(new Date(), 3), 'yyyy-MM-dd'),
@@ -40,7 +40,7 @@ class MockReferralDetailResponse {
         type: 'referrals',
         attributes: {
           uuid: id,
-          typeOfCare,
+          categoryOfCare,
           status: 'ACTIVE',
           referralNumber,
           expirationDate,
@@ -126,7 +126,7 @@ class MockReferralDetailResponse {
   toJSON() {
     const {
       id,
-      typeOfCare,
+      categoryOfCare,
       hasAppointments,
       notFound,
       serverError,
@@ -145,7 +145,7 @@ class MockReferralDetailResponse {
     // Return successful response
     return MockReferralDetailResponse.createSuccessResponse({
       id,
-      typeOfCare,
+      categoryOfCare,
       hasAppointments,
     });
   }

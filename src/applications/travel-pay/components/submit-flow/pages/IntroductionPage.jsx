@@ -52,6 +52,7 @@ const IntroductionPage = ({ onStart }) => {
             We’ll just ask you a few questions—you won’t need receipts.
           </p>
           {data &&
+            !data.travelPayClaim?.claim &&
             !data.isOutOfBounds &&
             data.isPast && (
               <va-link-action
