@@ -8,7 +8,7 @@ import {
   getPatientReferrals,
   getAppointmentInfo,
 } from '../../services/referral';
-import { filterReferrals } from '../utils/referrals';
+// import { filterReferrals } from '../utils/referrals';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../redux/sitewide';
 
 export const SET_FORM_CURRENT_PAGE = 'SET_FORM_CURRENT_PAGE';
@@ -99,10 +99,11 @@ export function fetchReferrals() {
         type: FETCH_REFERRALS,
       });
       const referrals = await getPatientReferrals();
-      const filteredReferrals = filterReferrals(referrals);
+      // TODO: need to add this back in for production
+      // const filteredReferrals = filterReferrals(referrals);
       dispatch({
         type: FETCH_REFERRALS_SUCCEEDED,
-        data: filteredReferrals,
+        data: referrals,
       });
       return referrals;
     } catch (error) {

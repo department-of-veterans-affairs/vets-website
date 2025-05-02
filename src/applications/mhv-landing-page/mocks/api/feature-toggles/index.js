@@ -4,6 +4,7 @@ const { snakeCase } = require('lodash');
 const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvVaHealthChatEnabled: false,
   mhvLandingPagePersonalization: false,
+  mhvLandingPageShowShareMyHealthDataLink: false,
   travelPayPowerSwitch: false,
 });
 
