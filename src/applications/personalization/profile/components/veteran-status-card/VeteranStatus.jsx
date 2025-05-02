@@ -6,6 +6,7 @@ import { focusElement } from '~/platform/utilities/ui';
 import { captureError } from '~/platform/user/profile/vap-svc/util/analytics';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { apiRequest } from '~/platform/utilities/api';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
 import Headline from '../ProfileSectionHeadline';
@@ -30,6 +31,9 @@ const VeteranStatus = ({
   const [shouldFocusError, setShouldFocusError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { first, middle, last, suffix } = userFullName;
+
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const vetStatusCardToggle = useToggleValue(TOGGLE_NAMES.vetStatusStage1);
 
   const userAgent =
     mockUserAgent || navigator.userAgent || navigator.vendor || window.opera;
@@ -105,6 +109,7 @@ const VeteranStatus = ({
         url: '/img/scissors-black.png',
       },
     },
+    vetStatusCardToggle,
   };
 
   useEffect(() => {
