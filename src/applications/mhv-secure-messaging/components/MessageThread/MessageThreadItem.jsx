@@ -115,14 +115,7 @@ const MessageThreadItem = props => {
       }`}
     >
       <h3 slot="headline">
-        {isDraft
-          ? 'DRAFT'
-          : dateFormat(
-              sentDate,
-              readReceiptsEnabled
-                ? 'MMMM D, YYYY [at] h:mm a z'
-                : 'MMMM D [at] h:mm a z',
-            )}
+        {isDraft ? 'DRAFT' : dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
       </h3>
       {!isSentOrReadOrDraft && (
         <span

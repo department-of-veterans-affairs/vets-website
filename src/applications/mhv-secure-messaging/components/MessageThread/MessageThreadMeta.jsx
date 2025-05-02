@@ -42,8 +42,8 @@ const MessageThreadMeta = props => {
         >
           <>From: </>
           <span data-dd-privacy="mask">
-            {`${senderName} ${
-              !isSent ? `(${suggestedNameDisplay || triageGroupName})` : ''
+            {`${senderName}${
+              !isSent ? ` (${suggestedNameDisplay || triageGroupName})` : ''
             }`}
           </span>
         </p>
@@ -57,7 +57,7 @@ const MessageThreadMeta = props => {
           </span>
         </p>
         {readReceiptsEnabled ? (
-          isSent && <span>{readReceiptMessage}</span>
+          isSent && <p>{readReceiptMessage}</p>
         ) : (
           <p
             className="vads-u-margin-y--0p5"

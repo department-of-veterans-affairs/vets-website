@@ -81,7 +81,7 @@ describe('Message thread item', () => {
     );
     expect(
       screen.getByText(
-        dateFormat(messageResponse.sentDate, 'MMMM D [at] h:mm a z'),
+        dateFormat(messageResponse.sentDate, 'MMMM D, YYYY [at] h:mm a z'),
         { selector: 'h3' },
       ),
     ).to.exist;
@@ -97,7 +97,7 @@ describe('Message thread item', () => {
     );
     // message from patient, no triage group name in 'from' field
     expect(screen.getByTestId('from').textContent).to.equal(
-      `From: ${messageResponse.senderName} `,
+      `From: ${messageResponse.senderName}`,
     );
     expect(screen.getByTestId('to').textContent).to.equal(
       `To: ${messageResponse.recipientName}`,
@@ -149,7 +149,7 @@ describe('Message thread item', () => {
     );
     // message from patient, no triage group name in 'from' field
     expect(screen.getByTestId('from').textContent).to.equal(
-      `From: ${messageResponse.senderName} `,
+      `From: ${messageResponse.senderName}`,
     );
     expect(screen.getByTestId('to').textContent).to.equal(
       `To: ${messageResponse.recipientName}`,
@@ -209,7 +209,7 @@ describe('Message thread item', () => {
     );
     // message from patient, no triage group name in 'from' field
     expect(screen.getByTestId('from').textContent).to.equal(
-      `From: ${messageResponse.senderName} `,
+      `From: ${messageResponse.senderName}`,
     );
     expect(screen.getByTestId('to').textContent).to.equal(
       `To: ${messageResponse.recipientName}`,
