@@ -1,12 +1,25 @@
 
 {
     "unauthenticated": [  
+        "11g.yml",
+        "12g.yml",
+        "14g.yml",
+        "15g.yml",
+        "16g.yml",
+        "18g.yml",
+        "19g.yml"  
     ],
     "authenticated": [ 
         "8c.yml",
         "8d.yml",
         "8e.yml",
         "8f.yml", 
-       "19f.yml"
+       "19f.yml",
+        "7h.yml",
+        "7i.yml",
+        "9a.yml",
+        "9b.yml",
+        "9c.yml",
+        "23e.yml"
     ]
 }
