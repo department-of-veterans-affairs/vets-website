@@ -1,6 +1,4 @@
 import React from 'react';
-import { ReactComponent as LoginGovSVG } from 'site/assets/img/logingov.svg';
-import { ReactComponent as IDMeSVG } from 'site/assets/img/idme.svg';
 import environment from '../../utilities/environment';
 import {
   eauthEnvironmentPrefixes,
@@ -50,15 +48,15 @@ export const SERVICE_PROVIDERS = {
   [CSP_IDS.LOGIN_GOV]: {
     label: 'Login.gov',
     link: 'https://secure.login.gov/account',
-    image: <LoginGovSVG />,
+    image: <img src="/img/logingov.svg" alt="Login.gov Logo" />,
     policy: 'logingov',
     className: `logingov-button`,
   },
   [CSP_IDS.ID_ME]: {
     label: 'ID.me',
     link: 'https://wallet.id.me/settings',
-    image: <IDMeSVG />,
-    altImage: <IDMeSVG />,
+    image: <img src="/img/idme.svg" alt="ID.me Logo" />,
+    altImage: <img src="/img/idme.svg" alt="ID.me Logo" />,
     policy: 'idme',
     className: 'idme-button',
   },
