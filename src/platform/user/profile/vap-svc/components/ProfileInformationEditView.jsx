@@ -143,14 +143,13 @@ export class ProfileInformationEditView extends Component {
     );
   };
 
-  onSubmit = async () => {
+  onSubmit = () => {
     const {
       convertCleanDataToPayload,
       fieldName,
       analyticsSectionName,
       apiRoute,
       field,
-      successCallback,
     } = this.props;
 
     const isAddressField = fieldName.toLowerCase().includes('address');
@@ -209,39 +208,13 @@ export class ProfileInformationEditView extends Component {
       return;
     }
 
-    try {
-      const result = await this.props.createTransaction(
-        apiRoute,
-        method,
-        fieldName,
-        payload,
-        analyticsSectionName,
-      );
-
-      if (result?.formOnlyUpdate && this.context?.updateContactInfoForFormApp) {
-        // Update the form data with the payload format
-        await this.context.updateContactInfoForFormApp(
-          fieldName,
-          payload,
-          'no', // Force form-only update
-        );
-
-        // Update UI state with the schema-compatible structure
-        this.onChangeFormDataAndSchemas(
-          payload,
-          field.formSchema,
-          field.uiSchema,
-        );
-      } else {
-        // For profile updates, make sure we trigger a transaction refresh
-        // so contact info displays reflect the new values without a page refresh
-        this.refreshTransaction();
-      }
-
-      successCallback();
-    } catch (error) {
-      // Silently handle error - form state is preserved
-    }
+    this.props.createTransaction(
+      apiRoute,
+      method,
+      fieldName,
+      payload,
+      analyticsSectionName,
+    );
   };
 
   onInput = (value, schema, uiSchema) => {
