@@ -1,6 +1,6 @@
 import React from 'react';
-import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
-import IDMeSVG from 'platform/user/authentication/components/IDMeSVG';
+import { ReactComponent as LoginGovSVG } from 'site/assets/img/logingov.svg';
+import { ReactComponent as IDMeSVG } from 'site/assets/img/idme.svg';
 import environment from '../../utilities/environment';
 import {
   eauthEnvironmentPrefixes,
