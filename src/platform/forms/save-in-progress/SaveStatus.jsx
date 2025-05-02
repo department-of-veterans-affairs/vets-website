@@ -10,10 +10,13 @@ import {
 } from '../../forms-system/src/js/constants';
 
 function SaveStatus({
-  lastSavedDate,
-  autoSavedStatus,
-  customText,
-  inProgressFormId,
+  form: {
+    lastSavedDate,
+    autoSavedStatus,
+    loadedData,
+    inProgressFormId = loadedData?.metadata?.inProgressFormId,
+  },
+  formConfig,
   isLoggedIn,
   showLoginModal,
   toggleLoginModal,
@@ -29,7 +32,7 @@ function SaveStatus({
     savedAtMessage = '';
   }
 
-  const appType = customText?.appType || APP_TYPE_DEFAULT;
+  const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
   const formIdMessage =
     inProgressFormId && savedAtMessage ? (
@@ -45,7 +48,7 @@ function SaveStatus({
       autoSavedStatus !== SAVE_STATUSES.noAuth);
 
   const appSavedSuccessfullyMessage =
-    customText?.appSavedSuccessfullyMessage ||
+    formConfig?.customText?.appSavedSuccessfullyMessage ||
     APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE;
 
   return (
@@ -96,30 +99,18 @@ function SaveStatus({
 }
 
 SaveStatus.propTypes = {
+  form: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  autoSavedStatus: PropTypes.string,
-  customText: PropTypes.shape({
-    appSavedSuccessfullyMessage: PropTypes.string,
+  formConfig: PropTypes.shape({
+    customText: PropTypes.shape({
+      appSavedSuccessfullyMessage: PropTypes.string,
+    }),
   }),
-  inProgressFormId: PropTypes.string,
-  lastSavedDate: PropTypes.string,
-  loadedData: PropTypes.object,
-  showLoginModal: PropTypes.bool,
-  toggleLoginModal: PropTypes.func,
 };
 
 const mapStateToProps = state => {
-  const { form, formConfig, user } = state;
-  const { loadedData } = form;
-  const inProgressFormId = loadedData?.metadata?.inProgressFormId;
-
   return {
-    lastSavedDate: form.lastSavedDate,
-    autoSavedStatus: form.autoSavedStatus,
-    customText: formConfig?.customText,
-    loadedData,
-    inProgressFormId,
-    isLoggedIn: user?.login?.currentlyLoggedIn,
+    form: state.form,
   };
 };
 
