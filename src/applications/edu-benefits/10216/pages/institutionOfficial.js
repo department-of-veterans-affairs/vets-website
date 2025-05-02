@@ -1,8 +1,7 @@
 import {
-  fullNameSchema,
   textSchema,
   textUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns/textPatterns';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 const uiSchema = {
@@ -35,8 +34,8 @@ const schema = {
     certifyingOfficial: {
       type: 'object',
       properties: {
-        first: fullNameSchema.properties.first,
-        last: fullNameSchema.properties.last,
+        first: textSchema,
+        last: textSchema,
         title: textSchema,
       },
       required: ['first', 'last', 'title'],
