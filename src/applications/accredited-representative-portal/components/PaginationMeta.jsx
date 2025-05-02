@@ -29,7 +29,7 @@ const PaginationMeta = (meta, poaRequests) => {
       requests sorted by “
       <strong>
         {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
-        {sortby === 'asc' ? 'newest' : 'oldest'})
+        {sortby === 'asc' ? 'oldest' : 'newest'})
       </strong>
       ”
     </p>

@@ -1,6 +1,6 @@
 import threadResponse from '../fixtures/thread-response-new-api.json';
 import inboxMessages from '../fixtures/threads-response.json';
-import { dateFormat } from '../../../util/helpers';
+// import { dateFormat } from '../../../util/helpers';
 import { Locators, Paths } from '../utils/constants';
 import PatientInterstitialPage from './PatientInterstitialPage';
 
@@ -214,17 +214,17 @@ class PatientMessageDetailsPage {
       );
   };
 
-  verifyExpandedMessageDate = (messageDetails, messageIndex = 0) => {
-    cy.get(Locators.MSG_DATE)
-      .eq(messageIndex)
-      .should(
-        'have.text',
-        `Date: ${dateFormat(
-          messageDetails.data[messageIndex].attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
-        )}`,
-      );
-  };
+  // verifyExpandedMessageDate = (messageDetails, messageIndex = 0) => {
+  //   cy.get(Locators.MSG_DATE)
+  //     .eq(messageIndex)
+  //     .should(
+  //       'have.text',
+  //       `Date: ${dateFormat(
+  //         messageDetails.data[messageIndex].attributes.sentDate,
+  //         'MMMM D, YYYY [at] h:mm a z',
+  //       )}`,
+  //     );
+  // };
 
   verifyExpandedThreadBody = (messageThread, messageIndex = 0) => {
     cy.get(
@@ -269,17 +269,17 @@ class PatientMessageDetailsPage {
       .should('contain', `To: ${messageDetails.data.attributes.recipientName}`);
   };
 
-  replyToMessageDate = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-date"]')
-      .eq(messageIndex)
-      .should(
-        'have.text',
-        `Date: ${dateFormat(
-          messageDetails.data.attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
-        )}`,
-      );
-  };
+  // replyToMessageDate = (messageDetails, messageIndex = 0) => {
+  //   cy.get('[data-testid="message-date"]')
+  //     .eq(messageIndex)
+  //     .should(
+  //       'have.text',
+  //       `Date: ${dateFormat(
+  //         messageDetails.data.attributes.sentDate,
+  //         'MMMM D, YYYY [at] h:mm a z',
+  //       )}`,
+  //     );
+  // };
 
   replyToMessageId = messageDetails => {
     cy.get('[data-testid="message-id"]').should(

@@ -16,7 +16,7 @@ import { createMockFacility } from '../../tests/mocks/data';
 import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
 import {
   mockFacilitiesApi,
-  mockSchedulingConfigurations,
+  mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
 } from '../../tests/mocks/mockApis';
 import TypeOfEyeCarePage from './TypeOfEyeCarePage';
@@ -35,16 +35,16 @@ const initialState = {
 describe('VAOS Page: TypeOfEyeCarePage', () => {
   beforeEach(() => {
     mockFetch();
-    mockSchedulingConfigurations(
-      [
+    mockSchedulingConfigurationsApi({
+      isCCEnabled: true,
+      response: [
         getSchedulingConfigurationMock({
           id: '983',
           typeOfCareId: 'primaryCare',
           requestEnabled: true,
         }),
       ],
-      true,
-    );
+    });
   });
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
