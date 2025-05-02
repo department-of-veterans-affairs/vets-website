@@ -11,7 +11,7 @@ const PrescriptionsPrintOnly = ({ list, isFullList, hasError = false }) => {
   const { search } = useLocation();
   const { data: allergies } = useGetAllergiesQuery();
   const selectedSortOption = useSelector(
-    state => state.rx.prescriptions.selectedSortOption,
+    state => state.rx.preferences.selectedSortOption,
   );
   const page = useMemo(
     () => {

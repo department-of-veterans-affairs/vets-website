@@ -11,6 +11,9 @@ import {
 } from '../util/helpers';
 import { allergyTypes, EMPTY_FIELD } from '../util/constants';
 
+/**
+ * TODO: implement retry logic
+ */
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
 export const extractLocation = allergy => {

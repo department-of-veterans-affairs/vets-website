@@ -590,16 +590,6 @@ export const convertHtmlForDownload = async (html, option) => {
 };
 
 /**
- * Categorizes prescriptions into refillable and renewable
- */
-export const categorizePrescriptions = ([refillable, renewable], rx) => {
-  if (rx.isRefillable) {
-    return [[...refillable, rx], renewable];
-  }
-  return [refillable, [...renewable, rx]];
-};
-
-/**
  * @param {Object} rx prescription object
  * @returns {Boolean}
  */

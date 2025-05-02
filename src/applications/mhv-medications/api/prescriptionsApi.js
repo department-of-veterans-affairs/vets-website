@@ -4,12 +4,15 @@ import {
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
+  isRefillTakingLongerThanExpected,
+  sanitizeKramesHtmlStr,
+} from '../util/helpers';
+import {
   defaultSelectedSortOption,
-  rxListSortingOptions,
   filterOptions,
   INCLUDE_IMAGE_ENDPOINT,
+  rxListSortingOptions,
 } from '../util/constants';
-import { isRefillTakingLongerThanExpected } from '../util/helpers';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -138,6 +141,11 @@ export const prescriptionsApi = createApi({
       query: id => ({
         path: `${apiBasePath}/prescriptions/${id}/documentation`,
       }),
+      transformResponse: response => {
+        return response?.data?.attributes?.html
+          ? sanitizeKramesHtmlStr(response.data.attributes.html)
+          : null;
+      },
     }),
     refillPrescription: builder.mutation({
       query: id => {

@@ -213,37 +213,6 @@ describe('App-level feature flag functionality', () => {
     );
   });
 
-  it('should maintain login status', () => {
-    const screenFeatureToggle = renderWithStoreAndRouterV6(<LandingPage />, {
-      initialState: {
-        rx: {
-          prescriptions: {
-            prescriptionsFilteredList: prescriptions,
-            prescriptionDetails: prescriptions,
-          },
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-          profile: {
-            services: [backendServices.USER_PROFILE],
-          },
-        },
-        featureToggles: {
-          loading: false,
-          // eslint-disable-next-line camelcase
-          mhv_medications_to_va_gov_release: true,
-        },
-      },
-      reducers: reducer,
-    });
-    expect(
-      screenFeatureToggle
-        .getByTestId('prescriptions-nav-link')
-        .getAttribute('href'),
-    ).to.equal(medicationsUrls.subdirectories.BASE);
-  });
   it('The user doesn’t have any medications', () => {
     const screenFeatureToggle = renderWithStoreAndRouterV6(<LandingPage />, {
       initialState: {

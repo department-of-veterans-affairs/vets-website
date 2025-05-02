@@ -58,7 +58,7 @@ AppWrapper.propTypes = {
 };
 
 const routes = [
-  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
+  // TODO: remove about routes once mhvMedicationsRemoveLandingPage is turned on in prod
   {
     path: 'about/*',
     element: <AppWrapper Component={LandingPage} />,

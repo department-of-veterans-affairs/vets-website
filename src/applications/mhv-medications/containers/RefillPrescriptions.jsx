@@ -77,7 +77,7 @@ const RefillPrescriptions = () => {
 
   // Selectors
   const selectedSortOption = useSelector(
-    state => state.rx.prescriptions?.selectedSortOption,
+    state => state.rx.preferences?.selectedSortOption,
   );
 
   // Get refillable list from RTK Query result
