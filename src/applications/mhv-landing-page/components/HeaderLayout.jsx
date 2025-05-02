@@ -38,9 +38,9 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => (
             </div>
           </div>
         </div>
-        <div>
-          <p className="vads-u-font-family--serif">{ledeContent}</p>
-          <p className="vads-u-font-family--serif">
+        <div className="va-introtext">
+          <p className="vads-u-font-size--md">{ledeContent}</p>
+          <p className="vads-u-font-size--md">
             Want to learn more about what’s new? <VaLink {...learnMoreLink} />
           </p>
         </div>
