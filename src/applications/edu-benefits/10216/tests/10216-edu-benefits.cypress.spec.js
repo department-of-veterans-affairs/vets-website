@@ -36,6 +36,10 @@ const testConfig = createTestConfig(
       }) => {
         afterHook(() => {
           const termStartDate = daysAgoYyyyMmDd(15);
+          cy.fillVaTextInput(
+            'root_institutionDetails_facilityCode',
+            '15012020',
+          );
           cy.fillVaMemorableDate(
             'root_institutionDetails_termStartDate',
             termStartDate,
