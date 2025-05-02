@@ -114,10 +114,10 @@ describe('Student Ratio Calculation page', () => {
     waitFor(() => {
       expect($$('va-text-input[error]', container).length).to.equal(1);
       expect(input.error).to.contain(
-        'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this is an error, contact your ELR',
+        'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this calculation is an error, contact your ELR',
       );
       expect(errors.messages).to.contain(
-        'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this is an error, contact your ELR',
+        'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this calculation is an error, contact your ELR',
       );
       expect($('va-alert[status="error"]', container)).to.exist;
     });

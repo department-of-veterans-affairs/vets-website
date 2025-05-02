@@ -5,7 +5,7 @@ import { formatDateLong } from 'platform/utilities/date';
 import { deductionCodes } from '../constants/deduction-codes';
 import { ignoreFields } from '../constants/ignoreFields';
 
-export const fsrWizardFeatureToggle = state => {
+export const fsrLegacyWizardFeatureToggle = state => {
   return toggleValues(state)[
     FEATURE_FLAG_NAMES.showFinancialStatusReportWizard
   ];
