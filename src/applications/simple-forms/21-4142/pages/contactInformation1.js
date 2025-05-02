@@ -17,53 +17,55 @@ const pageFields = [veteranFields.address];
 
 /** @type {PageSchema} */
 export default {
-  uiSchema: environment.isProduction()
-    ? {
-        [veteranFields.parentObject]: {
-          'ui:description': (
-            <p>
-              We’ll send any updates about your authorization to this address
-            </p>
-          ),
-          [veteranFields.address]: addressUiSchema(
-            `${[veteranFields.parentObject]}.${[veteranFields.address]}`,
-            'The Veteran lives on a United States military base outside of the U.S.',
-            () => true,
-          ),
-        },
-      }
-    : {
-        [veteranFields.parentObject]: {
-          ...titleUI(
-            'Mailing address',
-            'We’ll send any important information about your application to this address.',
-          ),
-          [veteranFields.address]: addressUI({
-            labels: {
-              street2: 'Apartment or unit number',
-            },
-            omit: ['street3'],
-            required: true,
-          }),
-        },
-      },
-  schema: {
-    type: 'object',
-    properties: environment.isProduction()
+  uiSchema:
+    environment.isProduction() && !environment.isTest()
       ? {
           [veteranFields.parentObject]: {
-            type: 'object',
-            required: intersection(required, pageFields),
-            properties: pick(properties, pageFields),
+            'ui:description': (
+              <p>
+                We’ll send any updates about your authorization to this address
+              </p>
+            ),
+            [veteranFields.address]: addressUiSchema(
+              `${[veteranFields.parentObject]}.${[veteranFields.address]}`,
+              'The Veteran lives on a United States military base outside of the U.S.',
+              () => true,
+            ),
           },
         }
       : {
           [veteranFields.parentObject]: {
-            type: 'object',
-            properties: {
-              [veteranFields.address]: addressSchema({ omit: ['street3'] }),
-            },
+            ...titleUI(
+              'Mailing address',
+              'We’ll send any important information about your application to this address.',
+            ),
+            [veteranFields.address]: addressUI({
+              labels: {
+                street2: 'Apartment or unit number',
+              },
+              omit: ['street3'],
+              required: true,
+            }),
           },
         },
+  schema: {
+    type: 'object',
+    properties:
+      environment.isProduction() && !environment.isTest()
+        ? {
+            [veteranFields.parentObject]: {
+              type: 'object',
+              required: intersection(required, pageFields),
+              properties: pick(properties, pageFields),
+            },
+          }
+        : {
+            [veteranFields.parentObject]: {
+              type: 'object',
+              properties: {
+                [veteranFields.address]: addressSchema({ omit: ['street3'] }),
+              },
+            },
+          },
   },
 };
