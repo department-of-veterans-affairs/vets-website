@@ -166,16 +166,12 @@ export default function PastAppointmentsPage() {
         {dateRangeOptions[pastSelectedIndex]?.label}
       </div>
 
-      <div className="vads-u-margin-top--neg1 vads-u-margin-bottom--2">
-        {/* The following line tag is for italics not an icon */}
-        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component */}
-        <i>
-          Showing {pastAppointments.length} appointments between today and{' '}
-          {format(
-            dateRangeOptions[pastSelectedIndex].startDateRaw,
-            'MMMM d, yyyy',
-          )}
-        </i>
+      <div className="vads-u-margin-bottom--2 vads-u-font-style--italic">
+        Showing {pastAppointments.length} appointments between today and{' '}
+        {format(
+          dateRangeOptions[pastSelectedIndex].startDateRaw,
+          'MMMM d, yyyy',
+        )}
       </div>
 
       {keys.map(key => {
@@ -214,7 +210,7 @@ export default function PastAppointmentsPage() {
       })}
 
       {!keys.length && (
-        <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
+        <div className="vads-u-background-color--gray-lightest vads-u-padding--2">
           <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
             {noAppointmentHeading}
           </h2>
