@@ -8,7 +8,6 @@ const viewDependentsUrl = getAppUrl('dependents-view-dependents');
 
 const disabilityBenefitsUrls = {
   '686c': getAppUrl('686C-674'),
-  '2346': getAppUrl('order-form-2346'),
   'view-payments': getAppUrl('view-payments'),
 };
 
