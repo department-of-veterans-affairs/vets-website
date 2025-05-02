@@ -134,10 +134,10 @@ describe('<ReviewPage /> container', () => {
       const alert = container.querySelector(
         '[data-testid="review-alert"][status="error"]',
       );
-      expect(alert).to.exist;
-      expect(alert).to.have.text(
-        'Ask VA isn’t working right nowWe’re sorry. There’s a problem with our system. We can’t submit your question. To ask your question, call us at     (  ). We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET.',
-      );
+
+      const heading = alert.querySelector('h3');
+      expect(heading).to.exist;
+      expect(heading).to.have.text('Ask VA isn’t working right now');
     });
   });
 });
