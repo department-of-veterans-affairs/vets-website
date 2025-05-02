@@ -34,7 +34,7 @@ import EmailReviewField from '../components/EmailReviewField';
 import CustomPreSubmitInfo from '../components/PreSubmitInfo';
 import ObfuscateReviewField from '../components/ObfuscateReviewField';
 import TextNotificationsDisclaimer from '../components/TextNotificationDisclaimer';
-
+import incorrectFormModal from '../components/incorrectFormModal';
 // pages
 import directDeposit from '../pages/directDeposit';
 // import serviceHistory from '../pages/serviceHistory';
@@ -275,31 +275,8 @@ const formConfig = {
               ...ssnUI,
               'ui:reviewField': ObfuscateReviewField,
             },
-            'view:bestFitAlert': {
-              // 'ui:options': {
-              //   hideIf: formData => {
-              //     return false;
-              //   },
-              // },
-              'ui:description': (
-                <>
-                  <va-alert status="warning">
-                    <>
-                      Opting out of receiving electronic notifications will
-                      affect your ability to verify enrollments using email and
-                      text messaging. To verify you will be required to access{' '}
-                      <a
-                        href="https://ask.va.gov/"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Ask VA
-                      </a>{' '}
-                      or use our online system.
-                    </>
-                  </va-alert>
-                </>
-              ),
+            'view:incorrectFormWarning': {
+              'ui:description': incorrectFormModal,
             },
           },
           schema: {
@@ -318,7 +295,7 @@ const formConfig = {
               fullName,
               dateOfBirth: date,
               ssn,
-              'view:bestFitAlert': {
+              'view:incorrectFormWarning': {
                 type: 'object',
                 properties: {},
               },
