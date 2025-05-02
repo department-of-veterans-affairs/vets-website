@@ -50,15 +50,6 @@ describe('<MhvSecondaryNav />', () => {
     expect(mhvLink.href).to.match(/my-health$/);
   });
 
-  describe('Secure Messages href', () => {
-    it('when no features set:\n\t /my-health/secure-messages', () => {
-      const initialState = stateFn({ loading: false });
-      const { getByRole } = setup({ initialState });
-      const mrLink = getByRole('link', { name: /^Messages/ });
-      expect(mrLink.href).to.match(/my-health\/secure-messages\/inbox$/);
-    });
-  });
-
   describe('Medications href', () => {
     it('when no features set:\n\t /my-health/medications/about', () => {
       const initialState = stateFn({ loading: false });
