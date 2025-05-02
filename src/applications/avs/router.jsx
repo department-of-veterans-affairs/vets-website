@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBrowserRouter, useParams } from 'react-router-dom-v5-compat';
 import { authenticatedLoader } from '@department-of-veterans-affairs/platform-startup/exports';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 
 import ErrorBoundary from './components/ErrorBoundary';
 import avsLoader from './loaders/avsLoader';
@@ -33,7 +33,7 @@ const routes = [
   },
   {
     path: '*',
-    element: <PageNotFound />,
+    element: <MhvPageNotFound />,
   },
 ];
 const router = createBrowserRouter(routes);
