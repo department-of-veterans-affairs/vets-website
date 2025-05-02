@@ -180,10 +180,6 @@ describe('Prescription details documentation container', () => {
       };
     });
 
-    afterEach(() => {
-      delete navigator.onLine;
-    });
-
     it('should call downloadFile with TXT format and generate TXT file', async () => {
       mockApiRequest(medicationInformation);
       const screen = setupWithReactRouter();
