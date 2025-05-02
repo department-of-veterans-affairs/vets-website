@@ -6,59 +6,18 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
-import allergiesList from '../fixtures/allergiesList.json';
-import prescriptions from '../fixtures/prescriptions.json';
+import { stubAllergiesApi, stubPrescriptionsListApi } from '../testing-utils';
 import Prescriptions from '../../containers/Prescriptions';
-import prescriptionsList from '../fixtures/prescriptionsList.json';
 import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.json';
 import { medicationsUrls } from '../../util/constants';
-
-const allergyErrorState = {
-  initialState: {
-    rx: {
-      prescriptions: {},
-      breadcrumbs: {
-        list: [
-          { url: medicationsUrls.MEDICATIONS_ABOUT },
-          { label: 'About medications' },
-        ],
-      },
-      allergies: { error: true },
-    },
-  },
-  reducers: reducer,
-  additionalMiddlewares: [
-    allergiesApiModule.allergiesApi.middleware,
-    prescriptionsApiModule.prescriptionsApi.middleware,
-  ],
-};
 
 let sandbox;
 
 describe('Medications Prescriptions container', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-
-    // Mock the RTK Query hooks
-    sandbox.stub(allergiesApiModule, 'useGetAllergiesQuery').returns({
-      data: allergiesList,
-      error: undefined,
-      isLoading: false,
-      isFetching: false,
-    });
-
-    sandbox
-      .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
-      .returns({
-        data: {
-          prescriptions: prescriptionsList.data,
-          meta: prescriptionsList.meta,
-          pagination: prescriptionsList.meta.pagination,
-        },
-        error: undefined,
-        isLoading: false,
-        isFetching: false,
-      });
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsListApi({ sandbox });
   });
 
   afterEach(() => {
@@ -67,14 +26,12 @@ describe('Medications Prescriptions container', () => {
 
   const initialState = {
     rx: {
-      prescriptions: {},
       breadcrumbs: {
         list: [
           { url: medicationsUrls.MEDICATIONS_ABOUT },
           { label: 'About medications' },
         ],
       },
-      allergies: { error: true },
     },
   };
 
@@ -97,17 +54,12 @@ describe('Medications Prescriptions container', () => {
   it('should display loading message when loading prescriptions', async () => {
     const screen = setup({
       rx: {
-        prescriptions: {
-          prescriptionsFilteredList: undefined,
-          prescriptionsFilteredPagination: undefined,
-        },
         breadcrumbs: {
           list: [
             { url: medicationsUrls.MEDICATIONS_ABOUT },
             { label: 'About medications' },
           ],
         },
-        allergies: { error: true },
       },
     });
     waitFor(() => {
@@ -130,43 +82,16 @@ describe('Medications Prescriptions container', () => {
 
   it('displays empty list alert', async () => {
     sandbox.restore();
-    sandbox.stub(allergiesApiModule, 'useGetAllergiesQuery').returns({
-      data: allergiesList,
-      error: undefined,
-      isLoading: false,
-      isFetching: false,
-    });
-    sandbox
-      .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
-      .returns({
-        data: {
-          prescriptions: emptyPrescriptionsList.data,
-          meta: emptyPrescriptionsList.meta,
-          pagination: emptyPrescriptionsList.meta.pagination,
-        },
-        error: undefined,
-        isLoading: false,
-        isFetching: false,
-      });
-    const screen = renderWithStoreAndRouterV6(<Prescriptions />, {
-      initialState: {
-        rx: {
-          prescriptions: {},
-          breadcrumbs: {
-            list: [
-              { url: medicationsUrls.MEDICATIONS_ABOUT },
-              { label: 'About medications' },
-            ],
-          },
-          allergies: {},
-        },
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsListApi({
+      sandbox,
+      data: {
+        prescriptions: emptyPrescriptionsList.data,
+        meta: emptyPrescriptionsList.meta,
+        pagination: emptyPrescriptionsList.meta.pagination,
       },
-      reducers: reducer,
-      additionalMiddlewares: [
-        allergiesApiModule.allergiesApi.middleware,
-        prescriptionsApiModule.prescriptionsApi.middleware,
-      ],
     });
+    const screen = setup();
     expect(
       screen.getByText(
         'You don’t have any VA prescriptions or medication records',
@@ -175,28 +100,7 @@ describe('Medications Prescriptions container', () => {
   });
 
   it('should display a clickable download button', async () => {
-    const screen = renderWithStoreAndRouterV6(<Prescriptions />, {
-      initialState: {
-        rx: {
-          prescriptions: {},
-          breadcrumbs: {
-            list: [
-              { url: medicationsUrls.MEDICATIONS_ABOUT },
-              { label: 'About medications' },
-            ],
-          },
-          allergies: {
-            allergiesList,
-            error: false,
-          },
-        },
-      },
-      reducers: reducer,
-      additionalMiddlewares: [
-        allergiesApiModule.allergiesApi.middleware,
-        prescriptionsApiModule.prescriptionsApi.middleware,
-      ],
-    });
+    const screen = setup();
     const pdfButton = screen.getByTestId('download-pdf-button');
     await waitFor(() => {
       fireEvent.click(pdfButton);
@@ -205,10 +109,10 @@ describe('Medications Prescriptions container', () => {
   });
 
   it('should show the allergy error alert when downloading PDF', async () => {
-    const screen = renderWithStoreAndRouterV6(
-      <Prescriptions fullList={prescriptions} />,
-      allergyErrorState,
-    );
+    sandbox.restore();
+    stubAllergiesApi({ sandbox, error: true });
+    stubPrescriptionsListApi({ sandbox });
+    const screen = setup();
     const pdfButton = screen.getByTestId('download-pdf-button');
     await waitFor(() => {
       fireEvent.click(pdfButton);
@@ -221,10 +125,10 @@ describe('Medications Prescriptions container', () => {
   });
 
   it('should show the allergy error alert when printing', async () => {
-    const screen = renderWithStoreAndRouterV6(
-      <Prescriptions fullList={prescriptions} />,
-      allergyErrorState,
-    );
+    sandbox.restore();
+    stubAllergiesApi({ sandbox, error: true });
+    stubPrescriptionsListApi({ sandbox });
+    const screen = setup();
     const pdfButton = screen.getByTestId('download-print-button');
 
     await waitFor(() => {
@@ -238,10 +142,10 @@ describe('Medications Prescriptions container', () => {
   });
 
   it('should show the allergy error alert when printing all meds', async () => {
-    const screen = renderWithStoreAndRouterV6(
-      <Prescriptions fullList={prescriptions} />,
-      allergyErrorState,
-    );
+    sandbox.restore();
+    stubAllergiesApi({ sandbox, error: true });
+    stubPrescriptionsListApi({ sandbox });
+    const screen = setup();
     const pdfButton = screen.getByTestId('download-print-all-button');
     await waitFor(() => {
       fireEvent.click(pdfButton);
@@ -254,10 +158,10 @@ describe('Medications Prescriptions container', () => {
   });
 
   it('should show the allergy error alert when downloading txt', async () => {
-    const screen = renderWithStoreAndRouterV6(
-      <Prescriptions fullList={prescriptions} />,
-      allergyErrorState,
-    );
+    sandbox.restore();
+    stubAllergiesApi({ sandbox, error: true });
+    stubPrescriptionsListApi({ sandbox });
+    const screen = setup();
     const pdfButton = screen.getByTestId('download-txt-button');
     await waitFor(() => {
       fireEvent.click(pdfButton);

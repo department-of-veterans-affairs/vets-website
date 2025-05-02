@@ -6,11 +6,11 @@ import { waitFor } from '@testing-library/react';
 import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
+import { stubAllergiesApi } from '../testing-utils';
 import RefillPrescriptions from '../../containers/RefillPrescriptions';
 import reducer from '../../reducers';
 import { dateFormat } from '../../util/helpers';
 
-const allergiesList = require('../fixtures/allergiesList.json');
 const refillablePrescriptions = require('../fixtures/refillablePrescriptionsList.json');
 
 let sandbox;
@@ -20,12 +20,7 @@ const initMockApis = ({
   prescriptions = refillablePrescriptions,
   isLoading = false,
 }) => {
-  sinonSandbox.stub(allergiesApiModule, 'useGetAllergiesQuery').returns({
-    data: allergiesList,
-    error: false,
-    isLoading,
-    isFetching: false,
-  });
+  stubAllergiesApi({ sandbox });
 
   sinonSandbox
     .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')

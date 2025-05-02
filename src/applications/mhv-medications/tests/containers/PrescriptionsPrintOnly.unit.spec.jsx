@@ -2,27 +2,16 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import * as allergiesApiModule from '../../api/allergiesApi';
-import * as prescriptionsApiModule from '../../api/prescriptionsApi';
-import prescriptionsList from '../fixtures/prescriptionsList.json';
+import { stubAllergiesApi, stubPrescriptionsListApi } from '../testing-utils';
 import reducers from '../../reducers';
 import PrescriptionsPrintOnly from '../../containers/PrescriptionsPrintOnly';
-import { allergiesList } from '../fixtures/allergiesList.json';
-import { rxListSortingOptions } from '../../util/constants';
 
 let sandbox;
 
 describe('Medications List Print Page', () => {
   const setup = (params = {}) => {
     return renderWithStoreAndRouterV6(<PrescriptionsPrintOnly />, {
-      initialState: {
-        rx: {
-          prescriptions: {
-            selectedSortOption: rxListSortingOptions.alphabeticalOrder,
-          },
-          allergies: {},
-        },
-      },
+      initialState: {},
       reducers,
       initialEntries: ['/?page=1'],
       ...params,
@@ -31,27 +20,8 @@ describe('Medications List Print Page', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-
-    // Mock the RTK Query hooks
-    sandbox.stub(allergiesApiModule, 'useGetAllergiesQuery').returns({
-      data: allergiesList,
-      error: undefined,
-      isLoading: false,
-      isFetching: false,
-    });
-
-    sandbox
-      .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
-      .returns({
-        data: {
-          prescriptions: prescriptionsList.data,
-          meta: prescriptionsList.meta,
-          pagination: prescriptionsList.meta.pagination,
-        },
-        error: undefined,
-        isLoading: false,
-        isFetching: false,
-      });
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsListApi({ sandbox });
   });
 
   afterEach(() => {

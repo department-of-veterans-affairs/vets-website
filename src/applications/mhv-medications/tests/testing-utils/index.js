@@ -57,13 +57,17 @@ export const stubPrescriptionsApiCache = ({
 
 export const stubPrescriptionsListApi = ({
   sandbox,
-  data = prescriptionsList,
+  data = {
+    prescriptions: prescriptionsList.data,
+    meta: prescriptionsList.meta,
+    pagination: prescriptionsList.meta.pagination,
+  },
   error = undefined,
   isLoading = false,
   isFetching = false,
 }) => {
   return sandbox
-    .stub(prescriptionsApiModule, 'useGetPrescriptionsQuery')
+    .stub(prescriptionsApiModule, 'useGetPrescriptionsListQuery')
     .returns({
       data,
       error,
