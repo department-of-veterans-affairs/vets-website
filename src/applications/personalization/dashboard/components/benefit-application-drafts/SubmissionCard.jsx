@@ -202,14 +202,16 @@ const SubmissionCard = ({
         </p>
 
         <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaFormPdfLink}>
-          {pdfSupport && (
-            <SavePdfDownload
-              formId={formId}
-              getPdfDownloadUrl={getPdfDownloadUrl}
-              guid={guid}
-              showLoadingIndicator={showLoadingIndicator}
-            />
-          )}
+          <Toggler.Enabled>
+            {pdfSupport && (
+              <SavePdfDownload
+                formId={formId}
+                getPdfDownloadUrl={getPdfDownloadUrl}
+                guid={guid}
+                showLoadingIndicator={showLoadingIndicator}
+              />
+            )}
+          </Toggler.Enabled>
         </Toggler>
         <p className="vads-u-margin-bottom--0">Submitted on: {submittedDate}</p>
         {status === 'inProgress' && <InProgressContent />}
