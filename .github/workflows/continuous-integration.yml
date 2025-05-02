@@ -435,6 +435,16 @@ jobs:
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
+      - name: Log Job Context
+        run: |
+          echo "Job Context:"
+          echo "GITHUB_RUN_ID: ${{ github.run_id }}"
+          echo "GITHUB_RUN_NUMBER: ${{ github.run_number }}"
+          echo "GITHUB_SHA: ${{ github.sha }}"
+          echo "GITHUB_REF: ${{ github.ref }}"
+          echo "Unit tests stress test result: ${{ needs.unit-tests-stress-test.result }}"
+          echo "Fetch allow lists result: ${{ needs.fetch-allow-lists.result }}"
+
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
@@ -444,7 +454,6 @@ jobs:
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
-          
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -457,6 +466,7 @@ jobs:
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
+
       - name: Get AWS IAM role
         uses: ./.github/workflows/inject-secrets
         with:
@@ -475,7 +485,11 @@ jobs:
           role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role_duration: 900
           session_name: vsp-frontendteam-githubaction
-          
+
+      - name: List Available Artifacts
+        run: |
+          echo "Listing available artifacts for run ${{ github.run_id }}"
+          gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts | jq '.artifacts[] | {name: .name, id: .id, created_at: .created_at}'
 
       - name: Download Unit Test results
         uses: ./.github/workflows/download-artifact
@@ -485,6 +499,13 @@ jobs:
           path: qa-standards-dashboard-data/src/allow-list/data
           merge-multiple: true
 
+      - name: Log Downloaded Artifacts
+        run: |
+          echo "Contents of downloaded artifacts directory:"
+          ls -la qa-standards-dashboard-data/src/allow-list/data || echo "Directory does not exist"
+          echo "Contents of parent directory:"
+          ls -la qa-standards-dashboard-data/src/allow-list || echo "Directory does not exist"
+
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
         with:
@@ -492,7 +513,12 @@ jobs:
           path: qa-standards-dashboard-data
 
       - name: Copy test results to mochawesome directory
-        run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
+        run: |
+          echo "Copying test results to mochawesome directory"
+          mkdir -p qa-standards-dashboard-data/src/testing-reports/data
+          cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data || echo "Copy failed"
+          echo "Contents of testing-reports/data directory:"
+          ls -la qa-standards-dashboard-data/src/testing-reports/data || echo "Directory does not exist"
 
       - name: Update Unit Test Stability Allow List
         run: yarn update-allow-list
