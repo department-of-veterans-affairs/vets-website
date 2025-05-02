@@ -23,11 +23,88 @@ class RoutedSavablePage extends React.Component {
   constructor(props) {
     super(props);
     this.debouncedAutoSave = debounce(1000, this.autoSave);
+    this.cachedContentBeforeButtons = null;
+    this.cachedContentBeforeButtonsProps = {};
+    this.cachedContentAfterButtons = null;
+    this.cachedContentAfterButtonsProps = {};
   }
 
   onChange = formData => {
     this.props.setData(formData);
     this.debouncedAutoSave();
+  };
+
+  getContentBeforeButtons = () => {
+    const finishAppLaterMessage =
+      this.props.formConfig?.customText?.finishAppLaterMessage ||
+      FINISH_APP_LATER_DEFAULT_MESSAGE;
+
+    const nextProps = {
+      locationPathname: this.props.location.pathname,
+      formConfig: this.props.formConfig,
+      route: this.props.route,
+      pageList: this.props.route.pageList,
+      user: this.props.user,
+      showLoginModal: this.props.showLoginModal,
+      saveAndRedirectToReturnUrl: this.props.saveAndRedirectToReturnUrl,
+      toggleLoginModal: this.props.toggleLoginModal,
+      children: finishAppLaterMessage,
+    };
+
+    const same =
+      this.cachedContentBeforeButtons &&
+      Object.keys(nextProps).every(
+        key => this.cachedContentBeforeButtonsProps[key] === nextProps[key],
+      );
+
+    if (!same) {
+      this.cachedContentBeforeButtons = (
+        <SaveFormLink
+          locationPathname={nextProps.locationPathname}
+          formConfig={nextProps.formConfig}
+          route={nextProps.route}
+          pageList={nextProps.pageList}
+          user={nextProps.user}
+          showLoginModal={nextProps.showLoginModal}
+          saveAndRedirectToReturnUrl={nextProps.saveAndRedirectToReturnUrl}
+          toggleLoginModal={nextProps.toggleLoginModal}
+        >
+          {nextProps.children}
+        </SaveFormLink>
+      );
+      this.cachedContentBeforeButtonsProps = nextProps;
+    }
+
+    return this.cachedContentBeforeButtons;
+  };
+
+  getContentAfterButtons = () => {
+    const nextProps = {
+      isLoggedIn: this.props.user.login.currentlyLoggedIn,
+      showLoginModal: this.props.showLoginModal,
+      toggleLoginModal: this.props.toggleLoginModal,
+      formConfig: this.props.formConfig,
+    };
+
+    const same =
+      this.cachedContentAfterButtons &&
+      Object.keys(nextProps).every(
+        key => this.cachedContentAfterButtonsProps[key] === nextProps[key],
+      );
+
+    if (!same) {
+      this.cachedContentAfterButtons = (
+        <SaveStatus
+          isLoggedIn={nextProps.isLoggedIn}
+          showLoginModal={nextProps.showLoginModal}
+          toggleLoginModal={nextProps.toggleLoginModal}
+          formConfig={nextProps.formConfig}
+        />
+      );
+      this.cachedContentAfterButtonsProps = nextProps;
+    }
+
+    return this.cachedContentAfterButtons;
   };
 
   autoSave() {
@@ -41,32 +118,10 @@ class RoutedSavablePage extends React.Component {
   }
 
   render() {
-    const { user, form, formConfig, route } = this.props;
-    const finishAppLaterMessage =
-      formConfig?.customText?.finishAppLaterMessage ||
-      FINISH_APP_LATER_DEFAULT_MESSAGE;
-    const contentBeforeButtons = (
-      <SaveFormLink
-        locationPathname={this.props.location.pathname}
-        formConfig={formConfig}
-        route={route}
-        pageList={route.pageList}
-        user={user}
-        showLoginModal={this.props.showLoginModal}
-        saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-        toggleLoginModal={this.props.toggleLoginModal}
-      >
-        {finishAppLaterMessage}
-      </SaveFormLink>
-    );
-    const contentAfterButtons = (
-      <SaveStatus
-        isLoggedIn={user.login.currentlyLoggedIn}
-        showLoginModal={this.props.showLoginModal}
-        toggleLoginModal={this.props.toggleLoginModal}
-        formConfig={formConfig}
-      />
-    );
+    const { user, form } = this.props;
+
+    const contentBeforeButtons = this.getContentBeforeButtons();
+    const contentAfterButtons = this.getContentAfterButtons();
 
     return (
       <FormPage

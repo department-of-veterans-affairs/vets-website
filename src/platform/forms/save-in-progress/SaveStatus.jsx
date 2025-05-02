@@ -10,13 +10,10 @@ import {
 } from '../../forms-system/src/js/constants';
 
 function SaveStatus({
-  form: {
-    lastSavedDate,
-    autoSavedStatus,
-    loadedData,
-    inProgressFormId = loadedData?.metadata?.inProgressFormId,
-  },
-  formConfig,
+  lastSavedDate,
+  autoSavedStatus,
+  customText,
+  inProgressFormId,
   isLoggedIn,
   showLoginModal,
   toggleLoginModal,
@@ -32,7 +29,7 @@ function SaveStatus({
     savedAtMessage = '';
   }
 
-  const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+  const appType = customText?.appType || APP_TYPE_DEFAULT;
 
   const formIdMessage =
     inProgressFormId && savedAtMessage ? (
@@ -48,7 +45,7 @@ function SaveStatus({
       autoSavedStatus !== SAVE_STATUSES.noAuth);
 
   const appSavedSuccessfullyMessage =
-    formConfig?.customText?.appSavedSuccessfullyMessage ||
+    customText?.appSavedSuccessfullyMessage ||
     APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE;
 
   return (
@@ -99,22 +96,31 @@ function SaveStatus({
 }
 
 SaveStatus.propTypes = {
-  form: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  formConfig: PropTypes.shape({
-    customText: PropTypes.shape({
-      appSavedSuccessfullyMessage: PropTypes.string,
-    }),
+  autoSavedStatus: PropTypes.string,
+  customText: PropTypes.shape({
+    appSavedSuccessfullyMessage: PropTypes.string,
   }),
+  inProgressFormId: PropTypes.string,
+  lastSavedDate: PropTypes.string,
+  loadedData: PropTypes.object,
+  showLoginModal: PropTypes.bool,
+  toggleLoginModal: PropTypes.func,
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
+const mapStateToProps = state => {
+  const { form, formConfig, user } = state;
+  const { loadedData } = form;
+  const inProgressFormId = loadedData?.metadata?.inProgressFormId;
 
-export default connect(
-  mapStateToProps,
-  SaveStatus,
-);
+  return {
+    lastSavedDate: form.lastSavedDate,
+    autoSavedStatus: form.autoSavedStatus,
+    customText: formConfig?.customText,
+    loadedData,
+    inProgressFormId,
+    isLoggedIn: user?.login?.currentlyLoggedIn,
+  };
+};
+
+export default connect(mapStateToProps)(SaveStatus);

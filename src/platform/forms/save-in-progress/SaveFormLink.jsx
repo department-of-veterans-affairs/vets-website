@@ -135,7 +135,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  SaveFormLink,
-);
+export default connect(mapStateToProps)(SaveFormLink);
