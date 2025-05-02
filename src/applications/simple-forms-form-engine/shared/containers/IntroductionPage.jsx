@@ -36,7 +36,7 @@ const IntroductionPage = props => {
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
         pageList={pageList}
-        startText="Start the Application"
+        startText="Start the application"
         hideUnauthedStartLink
       />
       <p />
