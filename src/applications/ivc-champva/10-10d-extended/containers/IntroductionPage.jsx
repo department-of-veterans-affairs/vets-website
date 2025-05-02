@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-// import { useSelector } from 'react-redux';
-// import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { TITLE, SUBTITLE } from '../constants';
 
 const OMB_RES_BURDEN = 30;
@@ -53,9 +51,6 @@ const ProcessList = () => {
 };
 
 export const IntroductionPage = props => {
-  // const userLoggedIn = useSelector(state => isLoggedIn(state));
-  // const userIdVerified = useSelector(state => isLOA3(state));
-  // const showVerifyIdentify = userLoggedIn && !userIdVerified;
   const { route } = props;
   const { formConfig, pageList } = route;
 
