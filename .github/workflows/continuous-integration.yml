@@ -1093,6 +1093,7 @@ jobs:
         run: mkdir -p qa-standards-dashboard-data/coverage
 
       - name: Download Unit Test Mochawesome test results
+        if: needs.unit-tests.outputs.tests_ran == 'true'
         uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-report
