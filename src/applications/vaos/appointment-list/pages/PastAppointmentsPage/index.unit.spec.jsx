@@ -13,11 +13,10 @@ import MockDate from 'mockdate';
 import React from 'react';
 import PastAppointmentsList from '.';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
-import { createMockAppointment } from '../../../tests/mocks/data';
-import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import {
+  mockAppointmentsApi,
   mockFacilitiesApi,
-  mockVAOSAppointmentsFetch,
 } from '../../../tests/mocks/mockApis';
 import {
   getTestDate,
@@ -31,8 +30,8 @@ const initialState = {
   },
 };
 const now = startOfDay(new Date(), 'day');
-const start = format(subMonths(now, 3), 'yyyy-MM-dd');
-const end = format(addMinutes(new Date(now).setMinutes(0), 30), 'yyyy-MM-dd');
+const start = subMonths(now, 3);
+const end = addMinutes(new Date(now).setMinutes(0), 30);
 
 describe('VAOS Page: PastAppointmentsList api', () => {
   beforeEach(() => {
@@ -46,10 +45,11 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   });
 
   it('should show select date range dropdown', async () => {
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [],
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -68,22 +68,20 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       serviceType: null,
     });
 
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [],
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(subMonths(now, 6), 'yyyy-MM-dd'),
-      end: format(now, 'yyyy-MM-dd'),
-      requests: [response],
+    mockAppointmentsApi({
+      start: subMonths(now, 6),
+      end: now,
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [response],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
     });
 
     // Act
@@ -113,13 +111,12 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       status: APPOINTMENT_STATUS.booked,
     }).setLocationId('983GC');
 
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [appointment],
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
     });
 
     // Act
@@ -148,66 +145,17 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   it('should show information with facility name, useFeSourceOfTruthVA=false', async () => {
     // Arrange
     const pastDate = subDays(new Date(), 3);
-    const data = {
-      id: '1234',
-      currentStatus: 'CHECKED OUT',
-      kind: 'clinic',
-      clinic: 'fake',
-      localStartTime: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
-      start: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss"),
-      locationId: '983GC',
-      status: 'fulfilled',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          vastParent: '983',
-          type: 'va_facilities',
-          name: 'Cheyenne VA Medical Center',
-          classification: 'VA Medical Center (VAMC)',
-          timezone: {
-            timeZoneId: 'America/Denver',
-          },
-          lat: 39.744507,
-          long: -104.830956,
-          website: 'https://www.denver.va.gov/locations/directions.asp',
-          phone: {
-            main: '307-778-7550',
-            fax: '307-778-7381',
-            pharmacy: '866-420-6337',
-            afterHours: '307-778-7550',
-            patientAdvocate: '307-778-7550 x7517',
-            mentalHealthClinic: '307-778-7349',
-            enrollmentCoordinator: '307-778-7550 x7579',
-          },
-          physicalAddress: {
-            type: 'physical',
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-          mobile: false,
-          healthService: [],
-          operatingStatus: {
-            code: 'NORMAL',
-          },
-        },
-      },
-    };
-    const appointment = createMockAppointment({
-      ...data,
-    });
 
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [appointment],
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [
+        new MockAppointmentResponse({
+          localStartTime: pastDate,
+        }),
+      ],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
     });
 
     // Act
@@ -239,67 +187,13 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   it('should show information with facility name, useFeSourceOfTruthVA=true', async () => {
     // Arrange
     const pastDate = subDays(new Date(), 3);
-    const data = {
-      id: '1234',
-      currentStatus: 'CHECKED OUT',
-      kind: 'clinic',
-      type: 'VA',
-      clinic: 'fake',
-      localStartTime: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
-      start: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss"),
-      locationId: '983GC',
-      status: 'fulfilled',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          vastParent: '983',
-          type: 'va_facilities',
-          name: 'Cheyenne VA Medical Center',
-          classification: 'VA Medical Center (VAMC)',
-          timezone: {
-            timeZoneId: 'America/Denver',
-          },
-          lat: 39.744507,
-          long: -104.830956,
-          website: 'https://www.denver.va.gov/locations/directions.asp',
-          phone: {
-            main: '307-778-7550',
-            fax: '307-778-7381',
-            pharmacy: '866-420-6337',
-            afterHours: '307-778-7550',
-            patientAdvocate: '307-778-7550 x7517',
-            mentalHealthClinic: '307-778-7349',
-            enrollmentCoordinator: '307-778-7550 x7579',
-          },
-          physicalAddress: {
-            type: 'physical',
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-          mobile: false,
-          healthService: [],
-          operatingStatus: {
-            code: 'NORMAL',
-          },
-        },
-      },
-    };
-    const appointment = createMockAppointment({
-      ...data,
-    });
 
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [appointment],
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [new MockAppointmentResponse({ localStartTime: pastDate })],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
     });
 
     // Act
@@ -331,26 +225,13 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   it('should not display when over 2 years away', () => {
     // Arrange
     const pastDate = subYears(new Date(), 2);
-    const data = {
-      id: '1234',
-      currentStatus: 'FUTURE',
-      kind: 'clinic',
-      clinic: 'fake',
-      start: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss"),
-      locationId: '983GC',
-      status: 'booked',
-    };
-    const appointment = createMockAppointment({
-      ...data,
-    });
 
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [appointment],
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [new MockAppointmentResponse({ localStartTime: pastDate })],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
     });
 
     // Act
@@ -366,36 +247,16 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   it('should show expected video information', async () => {
     // Arrange
     const pastDate = subDays(new Date(), 3);
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '1';
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: null,
-      facilityId: '983',
-      kind: 'telehealth',
-      type: 'VA',
-      locationId: '983',
-      localStartTime: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
-      start: format(pastDate, "yyyy-MM-dd'T'HH:mm:ss"),
-      status: 'booked',
-      extention: {
-        patientHasMobileGfe: false,
-      },
-      telehealth: {
-        atlas: null,
-        url:
-          'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#',
-        vvsKind: 'ADHOC',
-      },
-    };
 
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [appointment],
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: MockAppointmentResponse.createGfeResponses({
+        localStartTime: pastDate,
+        past: true,
+      }),
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      avs: true,
-      fetchClaimStatus: true,
     });
 
     // Act
@@ -432,44 +293,18 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   it('should display past appointments using V2 api call', async () => {
     // Arrange
     const yesterday = subDays(new Date(), 1);
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '1';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'clinic',
-      type: 'VA',
-      modality: 'vaInPerson',
-      minutesDuration: 30,
-      status: 'booked',
-      localStartTime: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
-      start: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss"),
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-    };
-    mockVAOSAppointmentsFetch({
+    const facility = new MockFacilityResponse();
+    const appointment = new MockAppointmentResponse({
+      localStartTime: yesterday,
+    });
+    appointment.setLocation(facility);
+
+    mockAppointmentsApi({
       start,
       end,
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-      avs: true,
-      fetchClaimStatus: true,
+      response: [appointment],
     });
 
     // Act
@@ -491,44 +326,18 @@ describe('VAOS Page: PastAppointmentsList api', () => {
   it('should display past cancel appt, vaOnlineSchedulingDisplayPastCancelledAppointments = true', async () => {
     // Arrange
     const yesterday = subDays(new Date(), 1);
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '1';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'clinic',
-      type: 'VA',
-      modality: 'vaInPerson',
-      minutesDuration: 30,
-      status: 'cancelled',
-      localStartTime: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss.000xx"),
-      start: format(yesterday, "yyyy-MM-dd'T'HH:mm:ss"),
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-    };
-    mockVAOSAppointmentsFetch({
+    const facility = new MockFacilityResponse();
+    const appointment = new MockAppointmentResponse({
+      localStartTime: yesterday,
+    });
+    appointment.setLocation(facility);
+
+    mockAppointmentsApi({
       start,
       end,
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-      avs: true,
-      fetchClaimStatus: true,
+      response: [appointment],
     });
 
     const myInitialState = {

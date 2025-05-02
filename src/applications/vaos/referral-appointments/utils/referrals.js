@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const { addDays, addMonths, format, subMonths } = require('date-fns');
 
-const defaultUUIDBase = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
+const defaultUUIDBase = '6cg8T26YivnL68JzeTaV0w==';
 const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
 
 /**
@@ -16,7 +16,7 @@ const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
 const createReferralListItem = (
   expirationDate,
   uuid,
-  categoryOfCare = 'Physical Therapy',
+  categoryOfCare = 'OPTOMETRY',
 ) => {
   const [year, month, day] = expirationDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
@@ -43,7 +43,7 @@ const createReferralById = (
   uuid,
   providerId = '111',
   expirationDate,
-  categoryOfCare = 'Physical Therapy',
+  categoryOfCare = 'OPTOMETRY',
   noSlots,
 ) => {
   const [year, month, day] = startDate.split('-');
