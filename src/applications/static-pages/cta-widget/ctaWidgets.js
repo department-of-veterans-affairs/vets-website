@@ -147,10 +147,11 @@ export const ctaWidgetsLookup = {
     serviceDescription: 'order hearing aid and CPAP supplies',
     featureToggle: featureFlagNames.haCpapSuppliesCta,
   },
+  // CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES should be removed
   [CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES]: {
     id: CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES,
     deriveToolUrlDetails: () => ({
-      url: disabilityBenefitsUrls['2346'],
+      url: '/health-care/order-hearing-aid-or-CPAP-supplies-form',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
