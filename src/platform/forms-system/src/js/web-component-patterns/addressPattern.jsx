@@ -3,14 +3,17 @@
  */
 import React from 'react';
 import constants from 'vets-json-schema/dist/constants.json';
+import isUndefined from 'lodash/isUndefined';
 
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import utilsOmit from 'platform/utilities/data/omit';
+
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 import VaSelectField from '../web-component-fields/VaSelectField';
 import VaCheckboxField from '../web-component-fields/VaCheckboxField';
+import VaRadioField from '../web-component-fields/VaRadioField';
 
 /**
  * PATTERNS
@@ -36,7 +39,7 @@ const CITY_ERROR_MESSAGES = {
   military: 'Select a post office type: APO, FPO, or DPO',
 };
 
-const MILITARY_CITY_TITLE = 'APO/FPO/DPO';
+const MILITARY_CITY_TITLE = 'Post office';
 const MILITARY_CITY_VALUES = constants.militaryCities.map(city => city.value);
 const MILITARY_CITY_NAMES = constants.militaryCities.map(city => city.label);
 
@@ -371,6 +374,21 @@ export function addressUI(options) {
       'ui:required': requiredFunc('street2', false),
       'ui:options': {
         hideEmptyValueInReview: true,
+        replaceSchema: (formData, schema, _uiSchema, index, path) => {
+          const addressPath = getAddressPath(path); // path is ['address', 'currentField']
+          cachedPath = addressPath;
+          const ui = _uiSchema;
+          const addressFormData = get(addressPath, formData) ?? {};
+          const { isMilitary } = addressFormData;
+          const nonMilitaryTitle =
+            options?.labels?.street2 || 'Street address line 2';
+          const title = isMilitary
+            ? 'Apartment or unit number'
+            : nonMilitaryTitle;
+
+          ui['ui:title'] = title;
+          return { ...schema, title };
+        },
       },
       'ui:webComponentField': VaTextInputField,
     };
@@ -383,6 +401,20 @@ export function addressUI(options) {
       'ui:required': requiredFunc('street3', false),
       'ui:options': {
         hideEmptyValueInReview: true,
+        hideIf: formData => {
+          if (cachedPath) {
+            const addressFormData = get(cachedPath, formData) ?? {};
+            const { isMilitary } = addressFormData;
+            return isMilitary;
+          }
+          return false;
+        },
+        replaceSchema: (formData, schema, _uiSchema, index, path) => {
+          const addressPath = getAddressPath(path); // path is ['address', 'currentField']
+          cachedPath = addressPath;
+
+          return schema;
+        },
       },
       'ui:webComponentField': VaTextInputField,
     };
@@ -412,25 +444,47 @@ export function addressUI(options) {
           cachedPath = addressPath;
           const ui = _uiSchema;
           const addressFormData = get(addressPath, formData) ?? {};
-          const { isMilitary } = addressFormData;
-          if (isMilitary) {
-            ui['ui:webComponentField'] = VaSelectField;
-            ui['ui:errorMessages'].required = CITY_ERROR_MESSAGES.military;
-            return {
-              type: 'string',
-              title: MILITARY_CITY_TITLE,
-              enum: MILITARY_CITY_VALUES,
-              enumNames: MILITARY_CITY_NAMES,
-            };
-          }
+          const { isMilitary, city } = addressFormData;
 
-          ui['ui:webComponentField'] = VaTextInputField;
-          ui['ui:errorMessages'].required = CITY_ERROR_MESSAGES.default;
+          ui['ui:webComponentField'] = isMilitary
+            ? VaRadioField
+            : VaTextInputField;
+
+          const errorMessage = isMilitary
+            ? CITY_ERROR_MESSAGES.military
+            : CITY_ERROR_MESSAGES.default;
+          ui['ui:errorMessages'].required = errorMessage;
+          ui['ui:errorMessages'].pattern = errorMessage;
+
+          if (isUndefined(city) && isUndefined(isMilitary)) {
+            addressFormData.city = '';
+          } else if (
+            isMilitary &&
+            !MILITARY_CITY_VALUES.includes(city) &&
+            city.length > 0
+          ) {
+            addressFormData.city = 'APO';
+          } else if (
+            MILITARY_CITY_VALUES.includes(city) &&
+            isUndefined(isMilitary)
+          ) {
+            addressFormData.city = '';
+          }
+          /**
+           * 1. If city is not there (military or non-military)
+           *    city = should be blank
+           * 2. If city has content (non-military) then switches to military
+           *    city = 'APO' should be selected
+           * 3. If city has content selected (military) then switches to non-military
+           *    city = should be set to an empty string
+           */
+
           return {
             type: 'string',
-            title: 'City',
-            maxLength: cityMaxLength,
-            pattern: NONBLANK_PATTERN,
+            title: isMilitary ? 'Post office' : 'City',
+            ...(isMilitary
+              ? { enum: MILITARY_CITY_VALUES, enumNames: MILITARY_CITY_NAMES }
+              : { maxLength: cityMaxLength, pattern: NONBLANK_PATTERN }),
           };
         },
       },
@@ -483,20 +537,28 @@ export function addressUI(options) {
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const data = get(addressPath, formData) ?? {};
-          const { country } = data;
-          const { isMilitary } = data;
+          const { country, isMilitary, state } = data;
           const ui = _uiSchema;
           if (isMilitary) {
-            ui['ui:webComponentField'] = VaSelectField;
+            ui['ui:webComponentField'] = VaRadioField;
+
+            if (!MILITARY_STATE_VALUES?.includes(state) && state?.length > 0) {
+              data.state = 'AA';
+            }
+
             return {
               type: 'string',
-              title: 'State',
+              title: 'Overseas "state" abbreviation',
               enum: MILITARY_STATE_VALUES,
               enumNames: MILITARY_STATE_NAMES,
             };
           }
           if (!isMilitary && country === 'USA') {
             ui['ui:webComponentField'] = VaSelectField;
+
+            if (MILITARY_STATE_VALUES?.includes(state) && state?.length > 0) {
+              data.state = 'Forced error state';
+            }
             return {
               type: 'string',
               title: 'State',
