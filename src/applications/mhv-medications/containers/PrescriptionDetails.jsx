@@ -72,7 +72,7 @@ const PrescriptionDetails = () => {
 
   let prescription;
   let prescriptionsApiError = false;
-  let prescriptionIsLoading = false;
+  let prescriptionIsLoading = true;
   const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
     selectFromResult: ({ data: prescriptionsList }) => {
       return prescriptionsList?.prescriptions?.find(
@@ -83,6 +83,7 @@ const PrescriptionDetails = () => {
 
   if (cachedPrescription?.prescriptionId) {
     prescription = cachedPrescription;
+    prescriptionIsLoading = false;
   } else {
     const { data, error, isLoading } = getPrescriptionById.useQuery(
       prescriptionId,
