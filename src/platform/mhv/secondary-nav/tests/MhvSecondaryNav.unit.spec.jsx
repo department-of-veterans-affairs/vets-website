@@ -51,7 +51,7 @@ describe('<MhvSecondaryNav />', () => {
   });
 
   describe('Secure Messages href', () => {
-    it('when no features set:\n\t /my-health/secure-messages', () => {
+    it('when no features set:\n\t /my-health/secure-messages/inbox', () => {
       const initialState = stateFn({ loading: false });
       const { getByRole } = setup({ initialState });
       const mrLink = getByRole('link', { name: /^Messages/ });
