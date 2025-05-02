@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
@@ -8,7 +8,6 @@ import {
   reportGeneratedBy,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { getPrescriptionDetails } from '../actions/prescriptions';
 import PrintOnlyPage from './PrintOnlyPage';
 import {
   dateFormat,
@@ -31,35 +30,81 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
-import { PDF_TXT_GENERATE_STATUS, DOWNLOAD_FORMAT } from '../util/constants';
+import {
+  rxListSortingOptions,
+  defaultSelectedSortOption,
+  filterOptions,
+  PDF_TXT_GENERATE_STATUS,
+  DOWNLOAD_FORMAT,
+} from '../util/constants';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
-import { Actions } from '../util/actionTypes';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import { pageType } from '../util/dataDogConstants';
 import { selectGroupingFlag } from '../util/selectors';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
+import {
+  getPrescriptionsList,
+  getPrescriptionById,
+} from '../api/prescriptionsApi';
 
 const PrescriptionDetails = () => {
-  const prescription = useSelector(
-    state => state.rx.prescriptions?.prescriptionDetails,
+  const { prescriptionId } = useParams();
+
+  // Get sort/filter selections from store.
+  const selectedSortOption = useSelector(
+    state => state.rx.preferences.sortOption,
   );
-  const prescriptionsApiError = useSelector(
-    state => state.rx.prescriptions?.apiError,
+  const selectedFilterOption = useSelector(
+    state => state.rx.preferences.filterOption,
   );
+  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
+  // Consolidate query parameters into a single state object to avoid multiple re-renders
+  const showGroupingContent = useSelector(selectGroupingFlag);
+  const [queryParams] = useState({
+    page: currentPage || 1,
+    perPage: showGroupingContent ? 10 : 20,
+    sortEndpoint:
+      rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
+      rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+    filterOption: filterOptions[selectedFilterOption]?.url || '',
+  });
+
+  let prescription;
+  let prescriptionsApiError = false;
+  let prescriptionIsLoading = false;
+  const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
+    selectFromResult: ({ data: prescriptionsList }) => {
+      return prescriptionsList?.prescriptions?.find(
+        item => item.prescriptionId === Number(prescriptionId),
+      );
+    },
+  });
+
+  if (cachedPrescription?.prescriptionId) {
+    prescription = cachedPrescription;
+  } else {
+    const { data, error, isLoading } = getPrescriptionById.useQuery(
+      prescriptionId,
+    );
+    prescription = data;
+    prescriptionsApiError = error;
+    prescriptionIsLoading = isLoading;
+  }
+
+  const isLoading = !prescription && prescriptionIsLoading;
+
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
 
-  const { prescriptionId } = useParams();
   const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
   });
-  const showGroupingContent = useSelector(selectGroupingFlag);
-  const dispatch = useDispatch();
+  // const showGroupingContent = useSelector(selectGroupingFlag);
 
   const prescriptionHeader =
     prescription?.prescriptionName ||
@@ -88,15 +133,6 @@ const PrescriptionDetails = () => {
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
-
-  useEffect(
-    () => {
-      return () => {
-        dispatch({ type: Actions.Prescriptions.CLEAR_DETAILS });
-      };
-    },
-    [dispatch],
-  );
 
   const pdfData = useCallback(
     allergiesPdfList => {
@@ -231,14 +267,6 @@ const PrescriptionDetails = () => {
 
   useEffect(
     () => {
-      if (!prescription && prescriptionId)
-        dispatch(getPrescriptionDetails(prescriptionId));
-    },
-    [prescriptionId, dispatch, prescription],
-  );
-
-  useEffect(
-    () => {
       if (
         allergies &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
@@ -364,6 +392,16 @@ const PrescriptionDetails = () => {
   };
 
   const content = () => {
+    if (isLoading) {
+      return (
+        <va-loading-indicator
+          message="Loading your medication record..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      );
+    }
+
     if (prescription || prescriptionsApiError) {
       return (
         <div>
@@ -483,13 +521,8 @@ const PrescriptionDetails = () => {
         </div>
       );
     }
-    return (
-      <va-loading-indicator
-        message="Loading your medication record..."
-        setFocus
-        data-testid="loading-indicator"
-      />
-    );
+
+    return null;
   };
 
   return <div>{content()}</div>;

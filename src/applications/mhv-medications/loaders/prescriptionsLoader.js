@@ -58,7 +58,7 @@ export const prescriptionsLoader = ({ params }) => {
   if (window.location.pathname.endsWith('/refill')) {
     fetchPromises.push(store.dispatch(getRefillablePrescriptions.initiate()));
     fetchPromises.push(store.dispatch(getRefillAlertPrescriptions.initiate()));
-  } else if (!params?.prescriptionId) {
+  } else if (!rxId) {
     const state = store.getState();
     const prefs = buildQueryParams(state.rx.preferences);
 

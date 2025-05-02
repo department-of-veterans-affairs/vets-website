@@ -95,10 +95,7 @@ const routes = [
     path: 'prescription/:prescriptionId',
     element: <AppWrapper Component={PrescriptionDetails} />,
     loader: (...args) => {
-      return Promise.all([
-        allergiesLoader(...args),
-        prescriptionsLoader(...args),
-      ]);
+      return Promise.all([allergiesLoader(...args)]);
     },
   },
   {
