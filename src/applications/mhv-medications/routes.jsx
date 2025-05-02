@@ -70,26 +70,20 @@ const routes = [
   {
     path: 'refill',
     element: <AppWrapper Component={RefillPrescriptions} />,
-    loader: allergiesLoader,
+    loader: prescriptionsLoader,
   },
   {
     path: ':page',
     element: <AppWrapper Component={Prescriptions} />,
     loader: (...args) => {
-      return Promise.all([
-        allergiesLoader(...args),
-        prescriptionsLoader(...args),
-      ]);
+      return Promise.all([prescriptionsLoader(...args)]);
     },
   },
   {
     path: '/',
     element: <AppWrapper Component={Prescriptions} />,
     loader: (...args) => {
-      return Promise.all([
-        allergiesLoader(...args),
-        prescriptionsLoader(...args),
-      ]);
+      return Promise.all([prescriptionsLoader(...args)]);
     },
   },
   {

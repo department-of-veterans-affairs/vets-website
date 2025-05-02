@@ -13,58 +13,61 @@ import {
 } from '../util/constants';
 
 /**
+ * Builds query parameters for prescription list requests
+ * @param {Object} preferences - The rx preferences from the store
+ * @returns {Object} Query parameters object
+ */
+const buildQueryParams = preferences => {
+  const { pageNumber, filterOption, sortOption } = preferences;
+
+  // Get the sort endpoint from the sort option
+  const sortEndpoint =
+    sortOption && rxListSortingOptions[sortOption]?.API_ENDPOINT
+      ? rxListSortingOptions[sortOption].API_ENDPOINT
+      : rxListSortingOptions[Object.keys(rxListSortingOptions)[0]].API_ENDPOINT;
+
+  // Determine filter option URL
+  const filterOptionUrl =
+    filterOption !== ALL_MEDICATIONS_FILTER_KEY &&
+    filterOptions[filterOption]?.url
+      ? filterOptions[filterOption].url
+      : '';
+
+  return {
+    page: pageNumber || 1,
+    perPage: 10,
+    sortEndpoint,
+    filterOption: filterOptionUrl,
+  };
+};
+
+/**
  * Route loader for prescriptions
  * Loads prescription data when routes that need it are accessed
- * This follows the React Router loader pattern
+ *
+ * N.B.: The order of the fetch promises is important, because
+ *       browsers will only make 6-8 concurrent requests and the
+ *       platform code is already fetching feature toggles,
+ *       user profile, maintenance windows, etc.
  */
 export const prescriptionsLoader = ({ params }) => {
   const fetchPromises = [];
-
-  // For main prescriptions list, load first page of prescriptions
-  if (!params?.prescriptionId) {
-    // Get values from Redux store
-    const state = store.getState();
-    const { pageNumber, filterOption, sortOption } = state.rx.preferences;
-
-    // Get the sort endpoint from the sort option
-    const sortEndpoint =
-      sortOption && rxListSortingOptions[sortOption]?.API_ENDPOINT
-        ? rxListSortingOptions[sortOption].API_ENDPOINT
-        : rxListSortingOptions[Object.keys(rxListSortingOptions)[0]]
-            .API_ENDPOINT;
-
-    // Determine filter option URL
-    const filterOptionUrl =
-      filterOption !== ALL_MEDICATIONS_FILTER_KEY &&
-      filterOptions[filterOption]?.url
-        ? filterOptions[filterOption].url
-        : '';
-
-    const queryParams = {
-      page: pageNumber || 1,
-      perPage: 10,
-      sortEndpoint,
-      filterOption: filterOptionUrl,
-    };
-
-    fetchPromises.push(
-      store.dispatch(getPrescriptionsList.initiate(queryParams)),
-    );
-    fetchPromises.push(store.dispatch(getRefillAlertPrescriptions.initiate()));
-  }
-
-  // If on a prescription detail page, also fetch that specific prescription
-  if (params?.prescriptionId) {
-    fetchPromises.push(
-      store.dispatch(getPrescriptionById.initiate(params.prescriptionId)),
-    );
-  }
+  const rxId = params?.prescriptionId || null;
 
   // For refill pages, load refillable prescriptions
   if (window.location.pathname.endsWith('/refill')) {
-    fetchPromises.push(
-      store.dispatch(getRefillablePrescriptions.initiate(undefined)),
-    );
+    fetchPromises.push(store.dispatch(getRefillablePrescriptions.initiate()));
+    fetchPromises.push(store.dispatch(getRefillAlertPrescriptions.initiate()));
+  } else if (!params?.prescriptionId) {
+    const state = store.getState();
+    const prefs = buildQueryParams(state.rx.preferences);
+
+    // Load the refill alert list
+    fetchPromises.push(store.dispatch(getRefillAlertPrescriptions.initiate()));
+    fetchPromises.push(store.dispatch(getPrescriptionsList.initiate(prefs)));
+  } else if (rxId) {
+    // If on a prescription detail page, fetch that specific prescription
+    fetchPromises.push(store.dispatch(getPrescriptionById.initiate(rxId)));
   }
 
   return defer(Promise.all(fetchPromises));
