@@ -14,6 +14,7 @@ import {
   getTimezoneByFacilityId,
 } from '../../utils/timezone';
 import { getReferralSlotKey } from '../utils/referrals';
+import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
 
 export const DateAndTimeContent = props => {
@@ -118,7 +119,9 @@ export const DateAndTimeContent = props => {
         <p className="vads-u-font-weight--bold vads-u-margin--0">
           {currentReferral.provider.name}
         </p>
-        <p className="vads-u-margin-top--0">{currentReferral.categoryOfCare}</p>
+        <p className="vads-u-margin-top--0">
+          {titleCase(currentReferral.categoryOfCare)}
+        </p>
         <p className="vads-u-margin--0 vads-u-font-weight--bold">
           {draftAppointmentInfo.provider.providerOrganization.name}
         </p>

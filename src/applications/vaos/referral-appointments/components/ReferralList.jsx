@@ -34,7 +34,7 @@ const ReferralList = ({ referrals, referralsError }) => {
   }
   return (
     <ul
-      className="vads-u-padding-left--0 vads-u-margin-top--0"
+      className="usa-unstyled-list vaos-appts__list"
       data-testid="referral-list"
     >
       {referrals.map((referral, index) => {

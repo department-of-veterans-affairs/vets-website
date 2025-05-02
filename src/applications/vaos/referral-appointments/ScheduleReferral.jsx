@@ -7,6 +7,7 @@ import ReferralLayout from './components/ReferralLayout';
 import ReferralAppLink from './components/ReferralAppLink';
 import { setFormCurrentPage, setInitReferralFlow } from './redux/actions';
 import { getReferralSlotKey } from './utils/referrals';
+import { titleCase } from '../utils/formatters';
 
 export default function ScheduleReferral(props) {
   const { attributes: currentReferral } = props.currentReferral;
@@ -21,10 +22,11 @@ export default function ScheduleReferral(props) {
     },
     [location, dispatch, selectedSlotKey],
   );
+  const categoryOfCare = titleCase(currentReferral.categoryOfCare);
   return (
     <ReferralLayout
       hasEyebrow
-      heading={`Referral for ${currentReferral.categoryOfCare}`}
+      heading={`Referral for ${categoryOfCare}`}
       categoryOfCare={currentReferral?.categoryOfCare}
     >
       <div>
@@ -59,7 +61,7 @@ export default function ScheduleReferral(props) {
           ${format(new Date(currentReferral.expirationDate), 'MMMM d, yyyy')}`}
           <br />
           <strong>Type of care: </strong>
-          {currentReferral.categoryOfCare}
+          {categoryOfCare}
           <br />
           <strong>Provider: </strong>
           {currentReferral.provider.name}

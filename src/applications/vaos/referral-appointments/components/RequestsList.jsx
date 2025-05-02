@@ -70,7 +70,7 @@ const RequestList = ({ appointments, requestsError }) => {
             )}
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
-              className="vads-u-padding-left--0 vads-u-margin-top--0"
+              className="usa-unstyled-list vaos-appts__list"
               data-cy="requested-appointment-list"
             >
               {statusBucket[1].map((appt, index) => {
