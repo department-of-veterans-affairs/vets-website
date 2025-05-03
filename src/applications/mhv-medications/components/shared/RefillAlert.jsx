@@ -8,20 +8,12 @@ const RefillAlert = props => {
   const { dataDogActionName, refillStatus } = props;
 
   // Get the refill alert list from the RTK Query hook
-  const { data, isLoading } = useGetRefillAlertPrescriptionsQuery();
+  const { data } = useGetRefillAlertPrescriptionsQuery();
   const refillAlertList = data?.prescriptions || [];
 
   // Don't display the alert when refills are in progress or completed
   const hideAlert =
     refillStatus === 'inProgress' || refillStatus === 'finished';
-
-  if (isLoading) {
-    return (
-      <div className="refill-alert-loading" data-testid="refill-alert-loading">
-        <va-loading-indicator message="Loading refill alerts..." />
-      </div>
-    );
-  }
 
   return (
     <VaAlert
