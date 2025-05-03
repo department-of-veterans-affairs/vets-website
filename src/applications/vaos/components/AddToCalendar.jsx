@@ -5,6 +5,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { zonedTimeToUtc } from 'date-fns-tz';
+import { addMinutes } from 'date-fns';
 import { generateICS } from '../utils/calendar';
 
 /**
@@ -25,16 +27,13 @@ export default function AddToCalendar({
   description,
   location,
   startDateTime,
+  timezone,
   duration,
 }) {
   const filename = `${summary.replace(/\s/g, '_')}.ics`;
-  const text = generateICS(
-    summary,
-    description,
-    location,
-    startDateTime,
-    moment(startDateTime).add(duration, 'minutes'),
-  );
+  const startUtc = zonedTimeToUtc(new Date(startDateTime), timezone);
+  const endUtc = addMinutes(startUtc, duration);
+  const text = generateICS(summary, description, location, startUtc, endUtc);
   const formattedDate = moment.parseZone(startDateTime).format('MMMM D, YYYY');
 
   // IE11 doesn't support the download attribute, so this creates a button
@@ -79,4 +78,5 @@ AddToCalendar.propTypes = {
   location: PropTypes.string,
   startDateTime: PropTypes.string,
   summary: PropTypes.string,
+  timezone: PropTypes.string,
 };

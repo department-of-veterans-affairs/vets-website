@@ -4,7 +4,10 @@ import { useSelector, shallowEqual } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from '../../lib/moment-tz';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { getTimezoneAbbrByFacilityId } from '../../utils/timezone';
+import {
+  getTimezoneAbbrByFacilityId,
+  getTimezoneByFacilityId,
+} from '../../utils/timezone';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
 import { selectConfirmationPage } from '../redux/selectors';
@@ -36,6 +39,7 @@ export default function ConfirmationPage() {
     moment(data.date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
       'dddd, MMMM D, YYYY [at] h:mm a ',
     ) + getTimezoneAbbrByFacilityId(data.vaFacility);
+  const appointmentTimezone = getTimezoneByFacilityId(data.vaFacility);
 
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
@@ -92,6 +96,7 @@ export default function ConfirmationPage() {
             }}
             location={formatFacilityAddress(facilityDetails)}
             startDateTime={data.date1[0]}
+            timezone={appointmentTimezone}
             duration={appointmentLength}
           />
         </div>

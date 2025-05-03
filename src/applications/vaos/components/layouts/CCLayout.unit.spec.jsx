@@ -30,6 +30,8 @@ describe('VAOS Component: CCLayout', () => {
           ],
         },
         location: {},
+        minutesDuration: 60,
+        start: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: true,
@@ -124,6 +126,8 @@ describe('VAOS Component: CCLayout', () => {
           treatmentSpecialty: 'Optometrist',
         },
         location: {},
+        minutesDuration: 60,
+        start: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: true,

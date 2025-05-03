@@ -58,9 +58,6 @@ function ConfirmationPageV2({
   }
 
   const timezone = getTimezoneByFacilityId(data.vaFacility);
-  const momentDate = timezone
-    ? moment(slot.start).tz(timezone, true)
-    : moment(slot.start);
 
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
   return (
@@ -131,7 +128,8 @@ function ConfirmationPageV2({
             ],
           }}
           location={formatFacilityAddress(facilityDetails)}
-          startDateTime={momentDate.format()}
+          startDateTime={slot.start}
+          timezone={timezone}
           duration={appointmentLength}
         />
       </div>

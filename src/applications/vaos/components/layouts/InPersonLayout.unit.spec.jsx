@@ -50,6 +50,8 @@ describe('VAOS Component: InPersonLayout', () => {
           stationId: '983',
           clinicName: 'CHY PC VAR2',
         },
+        minutesDuration: 60,
+        start: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -95,6 +97,8 @@ describe('VAOS Component: InPersonLayout', () => {
 
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        start: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -134,6 +138,8 @@ describe('VAOS Component: InPersonLayout', () => {
       const appointment = {
         type: 'VA',
         modality: 'vaInPerson',
+        minutesDuration: 60,
+        start: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -248,6 +254,8 @@ describe('VAOS Component: InPersonLayout', () => {
         location: {
           stationId: '983',
         },
+        minutesDuration: 60,
+        start: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -277,6 +285,8 @@ describe('VAOS Component: InPersonLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        start: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -325,6 +335,8 @@ describe('VAOS Component: InPersonLayout', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        minutesDuration: 60,
+        start: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -483,6 +495,8 @@ describe('VAOS Component: InPersonLayout', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
+        minutesDuration: 60,
+        start: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,

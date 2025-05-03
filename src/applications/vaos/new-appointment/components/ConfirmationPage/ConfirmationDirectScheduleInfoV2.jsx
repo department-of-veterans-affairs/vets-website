@@ -123,7 +123,8 @@ export default function ConfirmationDirectScheduleInfoV2({
             ],
           }}
           location={formatFacilityAddress(facilityDetails)}
-          startDateTime={momentDate.format()}
+          startDateTime={slot.start}
+          timezone={timezone}
           duration={appointmentLength}
         />
       </div>
