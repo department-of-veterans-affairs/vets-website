@@ -16,14 +16,26 @@ const refillablePrescriptionsFixture = require('../../tests/e2e/fixtures/list-re
 const allergies = require('../../../../platform/mhv/api/mocks/medical-records/allergies');
 const tooltips = require('./tooltips/index');
 
+const delaySingleResponse = (cb, delayInMs = 1000) => {
+  setTimeout(() => {
+    cb();
+  }, delayInMs);
+};
+
 const responses = {
   ...commonResponses,
-  'GET /v0/user': user.defaultUser,
-  'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
-    mhvMedicationsToVaGovRelease: true,
-    mhvMedicationsDisplayRefillContent: true,
-    mhvMedicationsDisplayDocumentationContent: true,
-  }),
+  'GET /v0/user': (_req, res) => {
+    delaySingleResponse(() => res.json(user.defaultUser), 750);
+  },
+  'GET /v0/feature_toggles': (_req, res) => {
+    const toggles = featureToggles.generateFeatureToggles({
+      mhvMedicationsToVaGovRelease: true,
+      mhvMedicationsDisplayRefillContent: true,
+      mhvMedicationsDisplayDocumentationContent: true,
+    });
+
+    delaySingleResponse(() => res.json(toggles), 500);
+  },
   // VAMC facility data that apps query for on startup
   'GET /data/cms/vamc-ehr.json': vamcEhr,
   // Personal information like preferredName
@@ -32,9 +44,19 @@ const responses = {
   'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
   // MHV Medications endpoints below
   'GET /my_health/v1/medical_records/allergies': allergies.all,
-  'GET /my_health/v1/prescriptions': prescriptions.generateMockPrescriptions(),
+  'GET /my_health/v1/prescriptions': (_req, res) => {
+    delaySingleResponse(
+      () => res.json(prescriptions.generateMockPrescriptions()),
+      2250,
+    );
+  },
   // 'GET /my_health/v1/prescriptions': prescriptionsFixture,
-  'GET /my_health/v1/prescriptions/list_refillable_prescriptions': refillablePrescriptionsFixture,
+  'GET /my_health/v1/prescriptions/list_refillable_prescriptions': (
+    _req,
+    res,
+  ) => {
+    delaySingleResponse(() => res.json(refillablePrescriptionsFixture), 2250);
+  },
   'PATCH /my_health/v1/prescriptions/refill_prescriptions': (req, res) => {
     // Get requested IDs from query params.
     const { ids } = req.query;
@@ -98,8 +120,8 @@ const responses = {
         failedStationList: 'string',
       },
     };
-    return res.json(data);
+    delaySingleResponse(() => res.json(data), 2250);
   },
 };
 
-module.exports = delay(responses, 2000);
+module.exports = delay(responses, 0);
