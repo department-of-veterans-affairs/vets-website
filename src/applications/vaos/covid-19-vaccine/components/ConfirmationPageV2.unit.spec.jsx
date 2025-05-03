@@ -1,22 +1,24 @@
 import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
-import moment from 'moment';
+import { addMinutes, format } from 'date-fns';
+import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import React from 'react';
-import ConfirmationPageV2 from './ConfirmationPageV2';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import { FETCH_STATUS } from '../../utils/constants';
 import { getICSTokens } from '../../utils/calendar';
+import { DATE_FORMAT_STRINGS, FETCH_STATUS } from '../../utils/constants';
+import ConfirmationPageV2 from './ConfirmationPageV2';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
   },
 };
-
-const start = moment();
+const timezone = 'America/Denver';
+const start = zonedTimeToUtc(new Date(), timezone);
+const end = addMinutes(start, 30);
 const store = createTestStore({
   covid19Vaccine: {
     submitStatus: FETCH_STATUS.succeeded,
@@ -24,15 +26,18 @@ const store = createTestStore({
       data: {
         vaFacility: '983',
         clinicId: '983_455',
-        date1: [start.format()],
+        date1: [
+          formatInTimeZone(start, timezone, DATE_FORMAT_STRINGS.ISODateTime),
+        ],
       },
       availableSlots: [
         {
-          start: start.format(),
-          end: start
-            .clone()
-            .add(30, 'minutes')
-            .format(),
+          start: formatInTimeZone(
+            start,
+            timezone,
+            DATE_FORMAT_STRINGS.ISODateTime,
+          ),
+          end: formatInTimeZone(end, timezone, DATE_FORMAT_STRINGS.ISODateTime),
         },
       ],
       clinics: {
@@ -80,7 +85,10 @@ describe('VAOS vaccine flow: ConfirmationPageV2', () => {
     ).to.be.ok;
     expect(
       screen.getByText(
-        new RegExp(start.format('MMMM D, YYYY [at] h:mm a'), 'i'),
+        new RegExp(
+          formatInTimeZone(start, timezone, "MMMM d, yyyy 'at' h:mm aaaa"),
+          'i',
+        ),
       ),
     ).to.be.ok;
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
@@ -134,8 +142,9 @@ describe('VAOS vaccine flow: ConfirmationPageV2', () => {
     const ics = decodeURIComponent(
       screen
         .getByTestId('add-to-calendar-link', {
-          name: `Add ${start.format(
-            'MMMM D, YYYY',
+          name: `Add ${format(
+            start,
+            DATE_FORMAT_STRINGS.friendlyDate,
           )} appointment to your calendar`,
         })
         .getAttribute('href')
@@ -168,23 +177,13 @@ describe('VAOS vaccine flow: ConfirmationPageV2', () => {
       '2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
     );
     expect(tokens.get('DTSTAMP')).to.equal(
-      `${moment(start)
-        .tz('America/Denver', true) // Only change the timezone and not the time
-        .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
+      formatInTimeZone(start, 'UTC', DATE_FORMAT_STRINGS.iCalDateTimeUTC),
     );
     expect(tokens.get('DTSTART')).to.equal(
-      `${moment(start)
-        .tz('America/Denver', true) // Only change the timezone and not the time
-        .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
+      formatInTimeZone(start, 'UTC', DATE_FORMAT_STRINGS.iCalDateTimeUTC),
     );
     expect(tokens.get('DTEND')).to.equal(
-      `${moment(start)
-        .tz('America/Denver', true) // Only change the timezone and not the time
-        .utc()
-        .add(30, 'minutes')
-        .format('YYYYMMDDTHHmmss[Z]')}`,
+      formatInTimeZone(end, 'UTC', DATE_FORMAT_STRINGS.iCalDateTimeUTC),
     );
     expect(tokens.get('END')).includes('VEVENT');
     expect(tokens.get('END')).includes('VCALENDAR');

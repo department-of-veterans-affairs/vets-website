@@ -1,5 +1,6 @@
 import { formatInTimeZone } from 'date-fns-tz';
 import guid from 'simple-guid';
+import { DATE_FORMAT_STRINGS } from './constants';
 
 /*
  * ICS files have a 75 character line limit. Longer fields need to be broken
@@ -176,8 +177,16 @@ export function formatDescription(description, location = '') {
 }
 
 export function generateICS(summary, description, location, startUtc, endUtc) {
-  const startDate = formatInTimeZone(startUtc, 'UTC', "yyyyMMdd'T'HHmmss'Z'");
-  const endDate = formatInTimeZone(endUtc, 'UTC', "yyyyMMdd'T'HHmmss'Z'");
+  const startDate = formatInTimeZone(
+    startUtc,
+    'UTC',
+    DATE_FORMAT_STRINGS.iCalDateTimeUTC,
+  );
+  const endDate = formatInTimeZone(
+    endUtc,
+    'UTC',
+    DATE_FORMAT_STRINGS.iCalDateTimeUTC,
+  );
 
   let loc = '';
   if (location) {

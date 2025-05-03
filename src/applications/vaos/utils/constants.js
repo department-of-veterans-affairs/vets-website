@@ -492,3 +492,13 @@ export const TRAVEL_CLAIM_MESSAGES = {
   error: 'Travel Pay service unavailable.',
   success: 'Data retrieved successfully.',
 };
+
+export const DATE_FORMAT_STRINGS = {
+  // Friendly formats for displaying dates to users
+  // e.g. January 1, 2023
+  friendlyDate: 'MMMM d, yyyy',
+  // ISO 8601
+  ISODateTime: "yyyy-MM-dd'T'HH:mm:ss",
+  // iCalendar RFC 5545
+  iCalDateTimeUTC: "yyyyMMdd'T'HHmmss'Z'",
+};

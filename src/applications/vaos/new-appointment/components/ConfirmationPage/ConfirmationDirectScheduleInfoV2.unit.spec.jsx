@@ -1,12 +1,16 @@
 import { expect } from 'chai';
-import moment from 'moment';
+import { addMinutes, format } from 'date-fns';
+import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import React from 'react';
 import ConfirmationPage from '.';
 import { getICSTokens } from '../../../utils/calendar';
-import { FETCH_STATUS, FLOW_TYPES } from '../../../utils/constants';
+import {
+  FETCH_STATUS,
+  FLOW_TYPES,
+  DATE_FORMAT_STRINGS,
+} from '../../../utils/constants';
 import {
   createTestStore,
-  // getTestDate,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
 
@@ -16,8 +20,9 @@ const initialState = {
   },
 };
 
-const start = moment().tz('America/Denver');
-const end = moment(start).tz('America/Denver');
+const timezone = 'America/Denver';
+const start = zonedTimeToUtc(new Date(), timezone);
+const end = addMinutes(start, 30);
 const store = createTestStore({
   ...initialState,
   newAppointment: {
@@ -32,12 +37,18 @@ const store = createTestStore({
       vaParent: '983',
       vaFacility: '983',
       clinicId: '455',
-      selectedDates: [start.format('YYYY-MM-DDTHH:mm:ss')],
+      selectedDates: [
+        formatInTimeZone(start, timezone, DATE_FORMAT_STRINGS.ISODateTime),
+      ],
     },
     availableSlots: [
       {
-        start: start.format('YYYY-MM-DDTHH:mm:ss'),
-        end: end.add(30, 'minutes').format('YYYY-MM-DDTHH:mm:ss'),
+        start: formatInTimeZone(
+          start,
+          timezone,
+          DATE_FORMAT_STRINGS.ISODateTime,
+        ),
+        end: formatInTimeZone(end, timezone, DATE_FORMAT_STRINGS.ISODateTime),
       },
     ],
     parentFacilities: [
@@ -91,7 +102,10 @@ describe('VAOS Page: ConfirmationPage', () => {
     ).to.be.ok;
     expect(
       screen.getByText(
-        new RegExp(start.format('MMMM D, YYYY [at] h:mm a'), 'i'),
+        new RegExp(
+          formatInTimeZone(start, timezone, "MMMM d, yyyy 'at' h:mm aaaa"),
+          'i',
+        ),
       ),
     ).to.be.ok;
     expect(screen.getByText('Primary care')).to.be.ok;
@@ -107,7 +121,10 @@ describe('VAOS Page: ConfirmationPage', () => {
 
     expect(
       screen.getByTestId('add-to-calendar-link', {
-        name: start.format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+        name: `Add ${format(
+          start,
+          DATE_FORMAT_STRINGS.friendlyDate,
+        )} appointment to your calendar`,
       }),
     ).to.be.ok;
 
@@ -137,8 +154,9 @@ describe('VAOS Page: ConfirmationPage', () => {
     const ics = decodeURIComponent(
       screen
         .getByTestId('add-to-calendar-link', {
-          name: `Add ${start.format(
-            'MMMM D, YYYY',
+          name: `Add ${format(
+            start,
+            DATE_FORMAT_STRINGS.friendlyDate,
           )} appointment to your calendar`,
         })
         .getAttribute('href')
@@ -172,20 +190,13 @@ describe('VAOS Page: ConfirmationPage', () => {
       '2360 East Pershing Boulevard\\, Suite 10\\, Cheyenne\\, WY 82001-5356',
     );
     expect(tokens.get('DTSTAMP')).to.equal(
-      `${moment(start)
-        .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
+      formatInTimeZone(start, 'UTC', DATE_FORMAT_STRINGS.iCalDateTimeUTC),
     );
     expect(tokens.get('DTSTART')).to.equal(
-      `${moment(start)
-        .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
+      formatInTimeZone(start, 'UTC', DATE_FORMAT_STRINGS.iCalDateTimeUTC),
     );
     expect(tokens.get('DTEND')).to.equal(
-      `${moment(start)
-        .utc()
-        .add(30, 'minutes')
-        .format('YYYYMMDDTHHmmss[Z]')}`,
+      formatInTimeZone(end, 'UTC', DATE_FORMAT_STRINGS.iCalDateTimeUTC),
     );
     expect(tokens.get('END')).includes('VEVENT');
     expect(tokens.get('END')).includes('VCALENDAR');

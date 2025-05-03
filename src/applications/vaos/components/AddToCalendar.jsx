@@ -4,10 +4,10 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import { zonedTimeToUtc } from 'date-fns-tz';
+import { zonedTimeToUtc, formatInTimeZone } from 'date-fns-tz';
 import { addMinutes } from 'date-fns';
 import { generateICS } from '../utils/calendar';
+import { DATE_FORMAT_STRINGS } from '../utils/constants';
 
 /**
  * Component to add a link to download a calendar ics file.
@@ -34,7 +34,11 @@ export default function AddToCalendar({
   const startUtc = zonedTimeToUtc(new Date(startDateTime), timezone);
   const endUtc = addMinutes(startUtc, duration);
   const text = generateICS(summary, description, location, startUtc, endUtc);
-  const formattedDate = moment.parseZone(startDateTime).format('MMMM D, YYYY');
+  const formattedDate = formatInTimeZone(
+    startUtc,
+    timezone,
+    DATE_FORMAT_STRINGS.friendlyDate,
+  );
 
   // IE11 doesn't support the download attribute, so this creates a button
   // and uses an ms blob save api
@@ -73,10 +77,10 @@ export default function AddToCalendar({
 }
 
 AddToCalendar.propTypes = {
-  description: PropTypes.object,
-  duration: PropTypes.number,
-  location: PropTypes.string,
-  startDateTime: PropTypes.string,
-  summary: PropTypes.string,
-  timezone: PropTypes.string,
+  description: PropTypes.object.isRequired,
+  duration: PropTypes.number.isRequired,
+  location: PropTypes.string.isRequired,
+  startDateTime: PropTypes.string.isRequired,
+  summary: PropTypes.string.isRequired,
+  timezone: PropTypes.string.isRequired,
 };

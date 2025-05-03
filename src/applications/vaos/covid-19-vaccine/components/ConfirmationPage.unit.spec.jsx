@@ -1,14 +1,15 @@
 import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
-import moment from 'moment';
+import { addMinutes, format } from 'date-fns';
+import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import React from 'react';
-import ConfirmationPage from './ConfirmationPage';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import { FETCH_STATUS } from '../../utils/constants';
 import { getICSTokens } from '../../utils/calendar';
+import { DATE_FORMAT_STRINGS, FETCH_STATUS } from '../../utils/constants';
+import ConfirmationPage from './ConfirmationPage';
 
 const initialState = {
   featureToggles: {
@@ -16,54 +17,55 @@ const initialState = {
   },
 };
 
-describe('VAOS vaccine flow: ConfirmationPage', () => {
-  it('should show confirmation details', async () => {
-    const start = moment();
-    const store = createTestStore({
-      covid19Vaccine: {
-        submitStatus: FETCH_STATUS.succeeded,
-        newBooking: {
-          data: {
-            vaFacility: '983',
-            clinicId: '455',
-            date1: [start.format()],
+const timezone = 'America/Denver';
+const start = zonedTimeToUtc(new Date(), timezone);
+const end = addMinutes(start, 30);
+const store = createTestStore({
+  covid19Vaccine: {
+    submitStatus: FETCH_STATUS.succeeded,
+    newBooking: {
+      data: {
+        vaFacility: '983',
+        clinicId: '455',
+        date1: [
+          formatInTimeZone(start, timezone, DATE_FORMAT_STRINGS.ISODateTime),
+        ],
+      },
+      availableSlots: [
+        {
+          start: formatInTimeZone(
+            start,
+            timezone,
+            DATE_FORMAT_STRINGS.ISODateTime,
+          ),
+          end: formatInTimeZone(end, timezone, DATE_FORMAT_STRINGS.ISODateTime),
+        },
+      ],
+      clinics: {},
+      facilities: [
+        {
+          id: '983',
+          name: 'Cheyenne VA Medical Center',
+          address: {
+            postalCode: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            line: ['2360 East Pershing Boulevard'],
           },
-          availableSlots: [
+          telecom: [
             {
-              start: start.format(),
-              end: start
-                .clone()
-                .add(30, 'minutes')
-                .format(),
-            },
-          ],
-          clinics: {},
-          facilities: [
-            {
-              id: '983',
-              name: 'Cheyenne VA Medical Center',
-              address: {
-                postalCode: '82001-5356',
-                city: 'Cheyenne',
-                state: 'WY',
-                line: ['2360 East Pershing Boulevard'],
-              },
-              telecom: [
-                {
-                  system: 'phone',
-                  value: '307-778-7550',
-                },
-                {
-                  system: 'covid',
-                  value: '307-778-7580',
-                },
-              ],
+              system: 'phone',
+              value: '307-778-7550',
             },
           ],
         },
-      },
-    });
+      ],
+    },
+  },
+});
 
+describe('VAOS vaccine flow: ConfirmationPage', () => {
+  it('should show confirmation details', async () => {
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
       store,
     });
@@ -71,7 +73,10 @@ describe('VAOS vaccine flow: ConfirmationPage', () => {
     expect(await screen.findByText(/Your appointment is confirmed/i)).to.be.ok;
     expect(
       screen.getByText(
-        new RegExp(start.format('MMMM D, YYYY [at] h:mm a'), 'i'),
+        new RegExp(
+          formatInTimeZone(start, timezone, "MMMM d, yyyy 'at' h:mm aaaa"),
+          'i',
+        ),
       ),
     ).to.be.ok;
     expect(screen.baseElement).to.contain.text('Confirmed');
@@ -94,9 +99,9 @@ describe('VAOS vaccine flow: ConfirmationPage', () => {
   });
 
   it('should redirect to home page if no form data', async () => {
-    const store = createTestStore(initialState);
+    const emptyStore = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
-      store,
+      store: emptyStore,
     });
 
     // Expect router to route to home page
@@ -106,48 +111,6 @@ describe('VAOS vaccine flow: ConfirmationPage', () => {
   });
 
   it('should verify VA in person calendar ics file format', async () => {
-    const start = moment().tz('America/Denver');
-    const store = createTestStore({
-      covid19Vaccine: {
-        submitStatus: FETCH_STATUS.succeeded,
-        newBooking: {
-          data: {
-            vaFacility: '983',
-            clinicId: '455',
-            date1: [start.format()],
-          },
-          availableSlots: [
-            {
-              start: start.format(),
-              end: start
-                .clone()
-                .add(30, 'minutes')
-                .format(),
-            },
-          ],
-          clinics: {},
-          facilities: [
-            {
-              id: '983',
-              name: 'Cheyenne VA Medical Center',
-              address: {
-                postalCode: '82001-5356',
-                city: 'Cheyenne',
-                state: 'WY',
-                line: ['2360 East Pershing Boulevard'],
-              },
-              telecom: [
-                {
-                  system: 'phone',
-                  value: '307-778-7550',
-                },
-              ],
-            },
-          ],
-        },
-      },
-    });
-
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
       store,
     });
@@ -155,8 +118,9 @@ describe('VAOS vaccine flow: ConfirmationPage', () => {
     const ics = decodeURIComponent(
       screen
         .getByTestId('add-to-calendar-link', {
-          name: `Add ${start.format(
-            'MMMM D, YYYY',
+          name: `Add ${format(
+            start,
+            DATE_FORMAT_STRINGS.friendlyDate,
           )} appointment to your calendar`,
         })
         .getAttribute('href')
@@ -192,20 +156,13 @@ describe('VAOS vaccine flow: ConfirmationPage', () => {
       '2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
     );
     expect(tokens.get('DTSTAMP')).to.equal(
-      `${moment(start)
-        .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
+      formatInTimeZone(start, 'UTC', DATE_FORMAT_STRINGS.iCalDateTimeUTC),
     );
     expect(tokens.get('DTSTART')).to.equal(
-      `${moment(start)
-        .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
+      formatInTimeZone(start, 'UTC', DATE_FORMAT_STRINGS.iCalDateTimeUTC),
     );
     expect(tokens.get('DTEND')).to.equal(
-      `${moment(start)
-        .utc()
-        .add(30, 'minutes')
-        .format('YYYYMMDDTHHmmss[Z]')}`,
+      formatInTimeZone(end, 'UTC', DATE_FORMAT_STRINGS.iCalDateTimeUTC),
     );
     expect(tokens.get('END')).includes('VEVENT');
     expect(tokens.get('END')).includes('VCALENDAR');
