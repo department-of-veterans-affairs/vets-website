@@ -217,7 +217,7 @@ export const prescriptionsApi = createApi({
   }),
 });
 
-// Export the auto-generated hooks for use in React components
+// Auto-generated hooks for use in React components
 export const {
   useGetPrescriptionsListQuery,
   useGetPrescriptionByIdQuery,
@@ -229,7 +229,7 @@ export const {
   useGetRefillAlertPrescriptionsQuery,
   useGetPrescriptionSortedListQuery,
   endpoints: {
-    // The following are auto-generated hooks for the endpoints
+    // Auto-generated hooks for the endpoints
     getPrescriptionsList,
     getPrescriptionById,
     getRefillablePrescriptions,
@@ -240,6 +240,5 @@ export const {
     getRefillAlertPrescriptions,
     getPrescriptionSortedList,
   },
-  // The following are useful utilities provided by RTK Query
   usePrefetch,
 } = prescriptionsApi;

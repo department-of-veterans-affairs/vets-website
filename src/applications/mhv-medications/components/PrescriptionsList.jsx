@@ -8,16 +8,12 @@ import { useGetPrescriptionsListQuery } from '../api/prescriptionsApi';
 import { rxListSortingOptions } from '../util/constants';
 import { dateFormat, validateField } from '../util/helpers';
 
-/**
- * PrescriptionsList component that uses RTK Query to fetch prescriptions
- */
 const PrescriptionsList = ({
   sortOption = rxListSortingOptions.alphabeticalOrder,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(10);
 
-  // Use RTK Query hook to fetch prescriptions with pagination and sorting
   const { data, error, isLoading, isFetching } = useGetPrescriptionsListQuery({
     page: currentPage,
     perPage,

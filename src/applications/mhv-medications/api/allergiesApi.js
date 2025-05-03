@@ -90,7 +90,6 @@ export const allergiesApi = createApi({
             convertAllergy(allergy.resource),
           );
         }
-        // Return empty array if no allergies found
         return [];
       },
     }),
@@ -100,26 +99,21 @@ export const allergiesApi = createApi({
       }),
       // Transform the single allergy response
       transformResponse: response => {
-        // If it's a single allergy (not in an entry array)
         if (response.resource) {
           return convertAllergy(response.resource);
         }
-        // If it's in an entry array format
         if (response?.entry && response.entry[0]?.resource) {
           return convertAllergy(response.entry[0].resource);
         }
-        // Default case
         return response;
       },
     }),
   }),
 });
 
-// Export the auto-generated hooks for use in React components
 export const {
   useGetAllergiesQuery,
   useGetAllergyByIdQuery,
-  // The following are useful utilities provided by RTK Query
   usePrefetch,
   endpoints: { getAllergies, getAllergyById },
 } = allergiesApi;
