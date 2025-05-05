@@ -64,7 +64,6 @@ const SavePdfDownload = ({
       setError(result.error);
     } else {
       setShowSuccess(true);
-      // setShowDownloadingButton(false);
     }
   };
 
