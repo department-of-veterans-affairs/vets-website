@@ -67,6 +67,45 @@ class ApiInitializer {
       }).as('appointment');
     },
   };
+
+  initialMaintenanceWindow = {
+    none: () => {
+      cy.intercept('GET', '/v0/maintenance_windows', {
+        statusCode: 200,
+        body: {
+          data: [],
+        },
+      }).as('maintenanceWindow');
+    },
+    upcoming: () => {
+      const now = new Date();
+      const oneDayAgo = new Date(
+        now.getTime() - 24 * 60 * 60 * 1000,
+      ).toISOString();
+      const oneDayLater = new Date(
+        now.getTime() + 24 * 60 * 60 * 1000,
+      ).toISOString();
+
+      cy.intercept('GET', '/v0/maintenance_windows', {
+        statusCode: 200,
+        body: {
+          data: [
+            {
+              id: '319',
+              type: 'maintenance_window',
+              attributes: {
+                id: 319,
+                externalService: 'travel_pay_api',
+                startTime: oneDayAgo,
+                endTime: oneDayLater,
+                description: '',
+              },
+            },
+          ],
+        },
+      }).as('maintenanceWindow');
+    },
+  };
 }
 
 export default new ApiInitializer();

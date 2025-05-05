@@ -60,7 +60,7 @@ export default {
   // The Image Management System (education forms)
   tims: 'tims',
   // Travel Pay API
-  travelPayApi: 'travel-pay-api',
+  travelPayApi: 'travel_pay_api',
   // Online appointment scheduling
   vaos: 'vaos',
   // Online appointment scheduling warning message
