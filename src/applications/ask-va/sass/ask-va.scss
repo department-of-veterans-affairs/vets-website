@@ -1,3 +1,4 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as mixins;
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
@@ -344,7 +345,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   flex-direction: column;
   align-items: center;
 
-  @include media($medium-screen) {
+  @include mixins.media($medium-screen) {
     flex-direction: row;
   }
 }
@@ -394,7 +395,7 @@ ul.react-tabs__tab-list {
   height: 375px;
   padding: 24px;
 
-  @include media($medium-screen) {
+  @include mixins.media($medium-screen) {
     height: 346px;
   }
 }
@@ -584,7 +585,7 @@ dl.review-row:has(> div.review-page-attachments) {
 
 // fix cancel button in edit mode - reveiw page
 div.vads-u-display--flex > button#cancel {
-  @include media($medium-screen) {
+  @include mixins.media($medium-screen) {
     margin: 26px 9px 9px 0;
   }
 }

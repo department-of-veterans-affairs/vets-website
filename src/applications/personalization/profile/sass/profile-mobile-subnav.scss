@@ -1,9 +1,10 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions" as functions;
 .mobile-nav {
   .menu-wrapper {
     background-color: var(--vads-color-white);
     left: 0;
     right: 0;
-    margin: units(1) units(1) units(2);
+    margin: functions.units(1) functions.units(1) functions.units(2);
     color: var(--vads-color-primary);
     border: 1px solid var(--vads-color-primary);
     border-radius: 4px;
@@ -13,7 +14,7 @@
       background-color: var(--vads-color-white);
       color: var(--vads-color-primary);
       border: 0;
-      padding: units(1.5);
+      padding: functions.units(1.5);
 
       &.open-menu {
         width: 100%;
@@ -24,8 +25,8 @@
     }
 
     i {
-      font-size: units(2);
-      margin-left: units(0.5);
+      font-size: functions.units(2);
+      margin-left: functions.units(0.5);
     }
 
     .menu-header {
@@ -34,8 +35,8 @@
       justify-content: space-between;
 
       strong {
-        padding: units(1.5);
-        line-height: units(2);
+        padding: functions.units(1.5);
+        line-height: functions.units(2);
       }
 
       button {
@@ -45,9 +46,9 @@
     }
 
     ul {
-      padding: units(1) 0;
+      padding: functions.units(1) 0;
       background-color: var(--vads-color-white);
-      margin: 0 units(1) units(1);
+      margin: 0 functions.units(1) functions.units(1);
       border-top: 1px solid var(--vads-color-base-lighter);
 
       li {

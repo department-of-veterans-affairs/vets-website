@@ -1,3 +1,4 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions" as functions;
 .va-subnav {
   border-bottom: 1px solid var(--vads-color-base-lighter);
   display: block;
@@ -7,8 +8,8 @@
     border-left: none;
     border-right: none;
     color: var(--vads-color-black);
-    margin-bottom: units-px(2);
-    margin-top: units-px(4);
+    margin-bottom: functions.units-px(2);
+    margin-top: functions.units-px(4);
     padding: $nav-item-padding;
   }
 

@@ -1,5 +1,5 @@
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as mixins;
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions" as functions;
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "./shared";
 @import "./profile-subnav";
@@ -98,11 +98,11 @@
   .item {
     vertical-align: top;
     counter-increment: listCounter 1;
-    margin-bottom: units(1);
+    margin-bottom: functions.units(1);
     position: relative;
     display: list-item;
     text-align: -webkit-match-parent;
-    border-left: units(1) solid var(--vads-color-base-light);
+    border-left: functions.units(1) solid var(--vads-color-base-light);
     margin: 0px !important;
     padding: 0 0 2rem 2rem;
 
