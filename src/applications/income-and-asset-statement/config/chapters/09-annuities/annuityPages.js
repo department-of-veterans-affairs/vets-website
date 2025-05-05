@@ -13,12 +13,13 @@ import {
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatDateShort } from 'platform/utilities/date';
+import { formatDateLong } from 'platform/utilities/date';
 import {
-  formatCurrency,
   annualReceivedIncomeFromAnnuityRequired,
-  surrenderValueRequired,
+  formatCurrency,
+  generateDeleteDescription,
   isDefined,
+  surrenderValueRequired,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -35,18 +36,20 @@ export const options = {
     typeof item.receivingIncomeFromAnnuity !== 'boolean' ||
     typeof item.canBeLiquidated !== 'boolean', // include all required fields here
   text: {
-    getItemName: () => 'Annuity',
+    getItemName: item =>
+      isDefined(item?.establishedDate) &&
+      `Annuity established on ${formatDateLong(item.establishedDate)}`,
     cardDescription: item =>
       isDefined(item?.marketValueAtEstablishment) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
-            Established date:{' '}
+            Type:{' '}
             <span className="vads-u-font-weight--bold">
-              {formatDateShort(item.establishedDate)}
+              {item.revocable ? 'Revocable' : 'Irrevocable'}
             </span>
           </li>
           <li>
-            Market value:{' '}
+            Market value when established:{' '}
             <span className="vads-u-font-weight--bold">
               {formatCurrency(item.marketValueAtEstablishment)}
             </span>
@@ -66,6 +69,8 @@ export const options = {
     deleteTitle: 'Delete this annuity',
     deleteYes: 'Yes, delete this annuity',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 
