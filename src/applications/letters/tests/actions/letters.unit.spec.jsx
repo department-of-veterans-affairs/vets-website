@@ -23,16 +23,16 @@ import {
   LETTER_ELIGIBILITY_ERROR,
   LETTER_TYPES,
   GET_ENHANCED_LETTERS_DOWNLOADING,
+  GET_ENHANCED_LETTERS_SUCCESS,
 } from '../../utils/constants';
 
-import * as lettersActions from '../../actions/letters';
-const {
+import {
   getLetterList,
   getLetterListAndBSLOptions,
   getBenefitSummaryOptions,
   getLetterPdf,
   getLetterPdfLink,
-} = lettersActions;
+} from '../../actions/letters';
 
 /**
  * Setup() for each test requires setting userToken.
@@ -383,17 +383,21 @@ describe('getLetterPdf', () => {
 });
 
 describe('getLetterPdfLink', () => {
-  let dispatch;
-  let getLetterBlobUrlStub;
-  let recordEventStub;
+  // We can't mock `getLetterBlobUrl` because it is in the same file
+  // as the function we are purposefully calling. Instead,
+  // we will use this to ensure we are grabbing the URL correctly.
+  let stubCreateObjectUrl;
 
-  // beforeEach(setup, () => {
-  //   dispatch = sinon.spy();
-  //   getLetterBlobUrlStub = sinon.stub(lettersActions, 'getLetterBlobUrl');
-  //   // recordEventStub = sinon.stub(analytics, 'recordEvent');
-  // });
+  beforeEach(() => {
+    // setup and create the stub for the window.URL functionality
+    setup();
+    stubCreateObjectUrl = sinon.stub(window.URL, 'createObjectURL');
+  });
 
-  beforeEach(setup);
+  afterEach(() => {
+    // reset / clear mocks for window.URL functionality
+    stubCreateObjectUrl.restore();
+  });
 
   const lettersArr = [
     {
@@ -422,27 +426,45 @@ describe('getLetterPdfLink', () => {
   ];
 
   it("dispatches Trevor's download pending action first", done => {
-    dispatch = sinon.spy();
-    getLetterBlobUrlStub = sinon.stub(lettersActions, 'getLetterBlobUrl');
+    // make our mocks and spies
+    const dispatch = sinon.spy();
+    const mockBlob = () => Promise.resolve(Buffer.from('PDF file content'));
+    const mockUrlBenefitSummary =
+      'http://fake-site.com/benefit-summary-letter.pdf';
+    const mockUrlCivilServiceLetter =
+      'http://fake-site.com/civil-service-letter.pdf';
 
-    // getLetterBlobUrlStub.resolves('http://fake-url.com/letter.pdf');
-    getLetterBlobUrlStub.callsFake(async args => {
-      console.log('we are in the mock function');
-      return 'http://fake-url.com/document.pdf';
-    });
+    // set up first response
+    stubCreateObjectUrl.onCall(0).returns(mockUrlBenefitSummary);
+    setFetchJSONResponse(global.fetch.onCall(0), { blob: mockBlob });
 
-    getLetterPdfLink(dispatch, migrationOptions, lettersArr);
-    //   thunk(dispatch, getState)
-    //     .then(() => {
-    //       const action = dispatch.firstCall.args[0];
-    //       expect(action.type).to.equal(GET_LETTER_PDF_DOWNLOADING);
-    //       expect(action.data).to.equal(letterType);
-    //     })
-    //     .then(done, done);
-    // });
-    const action = dispatch.firstCall.args[0];
-    console.log('action', action);
-    expect(action.type).to.equal(GET_ENHANCED_LETTERS_DOWNLOADING);
-    done();
+    // set up second response
+    stubCreateObjectUrl.onCall(1).returns(mockUrlCivilServiceLetter);
+    setFetchJSONResponse(global.fetch.onCall(1), { blob: mockBlob });
+
+    // do the thing
+    getLetterPdfLink(dispatch, migrationOptions, lettersArr)
+      // check the results
+      .then(() => {
+        const action1 = dispatch.getCall(0).args[0];
+        const action2 = dispatch.getCall(1).args[0];
+
+        // assert first action is download request
+        expect(action1.type).to.equal(GET_ENHANCED_LETTERS_DOWNLOADING);
+
+        // assert second action is success with proper types and URLs
+        expect(action2.type).to.equal(GET_ENHANCED_LETTERS_SUCCESS);
+        expect(action2.data).to.have.length(2);
+        expect(action2.data[0]).to.include({
+          letterType: LETTER_TYPES.benefitSummary,
+          downloadUrl: mockUrlBenefitSummary,
+        });
+        expect(action2.data[1]).to.include({
+          letterType: LETTER_TYPES.civilService,
+          downloadUrl: mockUrlCivilServiceLetter,
+        });
+      })
+      // finish the job
+      .then(done, done);
   });
 });
