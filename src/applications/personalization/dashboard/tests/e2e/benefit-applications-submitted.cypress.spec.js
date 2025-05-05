@@ -160,8 +160,7 @@ describe('The My VA Dashboard', () => {
       cy.intercept('POST', '/v0/my_va/submission_pdf_urls', {
         statusCode: 200,
         body: {
-          url:
-            'https://example.com/form_21-10210_vagov_123fake-submission-id-567.pdf',
+          url: 'https://example.com/form.pdf',
         },
       }).as('pdfEndpoint');
 
@@ -181,7 +180,7 @@ describe('The My VA Dashboard', () => {
       cy.readFile(
         `${Cypress.config(
           'downloadsFolder',
-        )}/Form_22-1990_3b03b5a0-3ad9-4207-b61e-3a13ed1c8b80.pdf`,
+        )}/Form_21-0845_c4845944-87bf-444c-8e6e-5bfeed67fb12.pdf`,
       ).should('exist');
       cy.get('va-alert[status="success"]').should('be.visible');
       cy.injectAxe();
