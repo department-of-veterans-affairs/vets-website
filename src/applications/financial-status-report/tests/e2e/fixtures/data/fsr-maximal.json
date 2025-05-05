@@ -391,8 +391,10 @@
     "view:reviewPageNavigationToggle": true,
     "view:showUpdatedExpensePages": true,
     "income": [
-    {
-        "veteranOrSpouse":   "VETERAN"
+      {
+        "veteranOrSpouse":   "VETERAN",
+        "compensationAndPension": "3261.1",
+        "education": "50"
       }
     ],
     "gmtData": {
