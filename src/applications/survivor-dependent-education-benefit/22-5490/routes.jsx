@@ -1,13 +1,22 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
-import formConfig from './config/form';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { originalFormConfig, newFormConfig } from './config/form';
 import App from './containers/App.jsx';
 
-const route = {
-  path: '/',
-  component: App,
-  indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+const createRoutes = store => {
+  const state = store.getState();
+  const featureFlagEnabled = toggleValues(state)?.showMeb54901990eTextUpdate;
 
-  childRoutes: createRoutesWithSaveInProgress(formConfig),
+  const formConfigToUse = featureFlagEnabled
+    ? newFormConfig
+    : originalFormConfig;
+
+  return {
+    path: '/',
+    component: App,
+    indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+    childRoutes: createRoutesWithSaveInProgress(formConfigToUse),
+  };
 };
 
-export default route;
+export default createRoutes;
