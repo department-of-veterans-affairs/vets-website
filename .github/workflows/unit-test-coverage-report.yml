@@ -45,10 +45,6 @@ jobs:
     needs: [list-apps]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
-    strategy:
-      matrix:
-        app: ${{ fromJson(needs.list-apps.outputs.apps) }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -82,26 +78,20 @@ jobs:
         run: mkdir -p coverage-results
 
       - name: Run unit test coverage report
-        run: yarn test:coverage-app ${{ matrix.app }} --report-dir=coverage-results/${{ matrix.app }}
+        run: yarn test:coverage-app --report-dir=coverage-results
       
       - name: Upload Coverage Report Artifact
-        uses: ./.github/workflows/upload-artifact
         if: ${{ always() && env.NO_APPS_TO_RUN == 'false' }}
+        uses: ./.github/workflows/upload-artifact
         with:
-          name: unit-test-coverage-${{ matrix.app }}
-          path: coverage-results/${{ matrix.app }}
+          name: unit-test-coverage
+          path: coverage-results
         
   publish-coverage-reports-to-s3:
     name: Publish Unit Test Coverage Reports to S3
     needs: [create-unit-test-coverage-reports]
     runs-on: ubuntu-latest
     permissions: write-all
-    strategy:
-      matrix:
-        app: ${{ fromJson(needs.list-apps.outputs.apps) }}
-    outputs:
-      ECR_USERNAME: ${{ steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
-      ECR_PASSWORD: ${{ steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4.0.0
@@ -118,15 +108,15 @@ jobs:
       - name: Download Coverage Reports
         uses: ./.github/workflows/download-artifact
         with:
-          pattern: unit-test-coverage-${{ matrix.app }}
-          path: coverage-results/${{ matrix.app }} 
+          pattern: unit-test-coverage
+          path: coverage-results
 
       - name: Rename coverage results directory
         id: rename
         run: |
           TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
-          NEW_DIR="coverage-results/${{ matrix.app }}-${TIMESTAMP}"
-          mv coverage-results/${{ matrix.app }} $NEW_DIR
+          NEW_DIR="coverage-results-${TIMESTAMP}"
+          mv coverage-results $NEW_DIR
           echo "new_dir=$NEW_DIR" >> $GITHUB_OUTPUT
 
       - name: Upload HTML coverage reports to s3

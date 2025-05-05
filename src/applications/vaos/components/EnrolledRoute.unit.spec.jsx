@@ -15,11 +15,9 @@ import EnrolledRoute from './EnrolledRoute';
 const initialState = {
   featureToggles: {
     vaOnlineScheduling: true,
-    vaOnlineSchedulingPast: true,
     vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
-    vaOnlineSchedulingMhvRouteGuards: false,
+    vaOnlineSchedulingMHVRouteGuards: false,
+    loading: false,
   },
   user: {
     login: {
@@ -126,7 +124,7 @@ describe('VAOS Component: EnrolledRoute', () => {
       ...initialState,
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingMhvRouteGuards: true,
+        vaOnlineSchedulingMHVRouteGuards: true,
       },
       user: {
         ...initialState.user,
@@ -156,7 +154,7 @@ describe('VAOS Component: EnrolledRoute', () => {
       ...initialState,
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingMhvRouteGuards: true,
+        vaOnlineSchedulingMHVRouteGuards: true,
       },
       user: {
         ...initialState.user,

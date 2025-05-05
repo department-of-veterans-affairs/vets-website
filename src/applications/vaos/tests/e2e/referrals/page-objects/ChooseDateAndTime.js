@@ -23,8 +23,8 @@ export class ChooseDateAndTimePageObject extends PageObject {
    */
   assertProviderInfo() {
     // Verify provider information
-    cy.findByText(/You or your referring VA facility selected/).should('exist');
-    cy.findByText(/Dr. Bones/).should('exist');
+    cy.findByText(/You or your VA facility chose this/).should('exist');
+    cy.findByText(/A & D HEALTH CARE PROFS/).should('exist');
     cy.findByText(/Meridian Health/).should('exist');
 
     return this;
@@ -35,15 +35,19 @@ export class ChooseDateAndTimePageObject extends PageObject {
    * @param {Object} options - Options for assertion
    * @param {number} options.count - Expected number of active appointment slots
    */
-  assertAppointmentSlots({ count = 3 } = {}) {
+  assertAppointmentSlots(count = 3) {
+    const buttonCount = count + 1; // Add one for the Prev button
     cy.findByTestId('cal-widget')
       .should('exist')
       .within(() => {
+        // Check that we are on the next month
+        cy.findByLabelText(/Prev/i).should('not.be.disabled');
+
         // Find buttons that are not disabled (active slots)
         cy.findAllByRole('button')
           .not('[disabled]')
           .not('.usa-button-disabled')
-          .should('have.length', count);
+          .should('have.length', buttonCount);
       });
     return this;
   }
@@ -62,9 +66,17 @@ export class ChooseDateAndTimePageObject extends PageObject {
    */
   assertNoSlotsAvailable() {
     cy.findByTestId('no-slots-alert').should('exist');
-    cy.findByText(/We're sorry. We couldn't find any open time slots/).should(
+    cy.findByText(/We’re sorry. We couldn’t find any open time slots/).should(
       'exist',
     );
+    return this;
+  }
+
+  /**
+   * Selects the next month
+   */
+  selectNextMonth() {
+    cy.findByLabelText(/Next/i).click();
     return this;
   }
 
@@ -73,12 +85,16 @@ export class ChooseDateAndTimePageObject extends PageObject {
    * @param {number} index - Index of the slot to select (0-based)
    */
   selectAppointmentSlot(index = 0) {
+    const buttonIndex = index + 1; // Add one for the Prev button
     cy.findByTestId('cal-widget').within(() => {
+      // Check that we are on the next month
+      cy.findByLabelText(/Prev/i).should('not.be.disabled');
+
       // Find active buttons and click the specified one
       cy.findAllByRole('button')
         .not('[disabled]')
         .not('.usa-button-disabled')
-        .eq(index)
+        .eq(buttonIndex)
         .click();
       // Verify that at least one radio button with time information is present
       cy.findAllByRole('radio')

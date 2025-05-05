@@ -21,10 +21,7 @@ import {
   routeToPreviousAppointmentPage,
   updateReasonForAppointmentData,
 } from '../redux/actions';
-import {
-  selectFeatureVAOSServiceRequests,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import { getPageTitle } from '../newAppointmentFlow';
 
 function isValidComment(value) {
@@ -87,7 +84,6 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
   const pageInitialSchema = isCommunityCare
     ? initialSchema.cc
     : initialSchema.default;
-  const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
   const uiSchema = {
     default: {
       reasonForAppointment: {
@@ -131,12 +127,7 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
       dispatch(
-        openReasonForAppointment(
-          pageKey,
-          pageUISchema,
-          pageInitialSchema,
-          useV2,
-        ),
+        openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
       );
       if (featureBreadcrumbUrlUpdate) {
         changeCrumb(pageTitle);
@@ -174,12 +165,7 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
           }
           onChange={newData =>
             dispatch(
-              updateReasonForAppointmentData(
-                pageKey,
-                pageUISchema,
-                newData,
-                useV2,
-              ),
+              updateReasonForAppointmentData(pageKey, pageUISchema, newData),
             )
           }
           data={data}
