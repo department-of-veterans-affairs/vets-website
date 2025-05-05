@@ -1,11 +1,9 @@
 import React from 'react';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { createStore } from 'redux';
-import { fireEvent } from '@testing-library/dom';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
@@ -116,6 +114,8 @@ describe('<AdditionalEvidencePage>', () => {
         type: 'error',
       };
       const clearAdditionalEvidenceNotification = sinon.spy();
+      const navigate = sinon.spy();
+      const getClaim = sinon.spy();
 
       const { container, unmount } = render(
         <Provider store={getStore}>
@@ -126,6 +126,8 @@ describe('<AdditionalEvidencePage>', () => {
               clearAdditionalEvidenceNotification
             }
             message={message}
+            navigate={navigate}
+            getClaim={getClaim}
           />
           ,
         </Provider>,
@@ -144,6 +146,8 @@ describe('<AdditionalEvidencePage>', () => {
         type: 'error',
       };
       const clearAdditionalEvidenceNotification = sinon.spy();
+      const navigate = sinon.spy();
+      const getClaim = sinon.spy();
 
       const { container, unmount } = render(
         <Provider store={getStore}>
@@ -155,6 +159,8 @@ describe('<AdditionalEvidencePage>', () => {
               clearAdditionalEvidenceNotification
             }
             message={message}
+            navigate={navigate}
+            getClaim={getClaim}
           />
           ,
         </Provider>,
@@ -213,23 +219,28 @@ describe('<AdditionalEvidencePage>', () => {
       expect(submitFilesSpy.calledWith(1, null, [file])).to.be.true;
     });
 
-    it('should reset uploads on mount', () => {
+    it('should reset uploads on mount', async () => {
       const resetUploads = sinon.spy();
-      const mainDiv = document.createElement('div');
-      mainDiv.classList.add('va-nav-breadcrumbs');
-      document.body.appendChild(mainDiv);
-      ReactTestUtils.renderIntoDocument(
+      const navigate = sinon.spy();
+      const getClaim = sinon.spy();
+
+      const { unmount } = render(
         <Provider store={uploadStore}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
             uploadField={{ value: null, dirty: false }}
             resetUploads={resetUploads}
+            navigate={navigate}
+            getClaim={getClaim}
           />
         </Provider>,
       );
 
-      expect(resetUploads.called).to.be.true;
+      await waitFor(() => {
+        expect(resetUploads.called).to.be.true;
+      });
+      unmount();
     });
 
     it('should set details and go to files page if complete', () => {
@@ -428,6 +439,8 @@ describe('<AdditionalEvidencePage>', () => {
     };
 
     const resetUploads = sinon.spy();
+    const navigate = sinon.spy();
+    const getClaim = sinon.spy();
 
     it('should render loading div', () => {
       const { container } = render(
@@ -437,6 +450,8 @@ describe('<AdditionalEvidencePage>', () => {
           resetUploads={resetUploads}
           uploadComplete
           loading
+          navigate={navigate}
+          getClaim={getClaim}
         />,
       );
       const additionalEvidenceSection = $(
@@ -455,6 +470,8 @@ describe('<AdditionalEvidencePage>', () => {
             claim={claim}
             resetUploads={resetUploads}
             uploadComplete
+            navigate={navigate}
+            getClaim={getClaim}
           />
           ,
         </Provider>,
