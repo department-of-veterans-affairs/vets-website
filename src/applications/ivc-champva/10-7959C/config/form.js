@@ -152,6 +152,7 @@ const formConfig = {
         benefitApp: {
           path: 'benefit-application',
           title: 'Apply for Benefits',
+          depends: formData => formData.champvaBenefitStatus === false,
           CustomPage: ApplyForBenefits,
           CustomPageReview: null,
           uiSchema: {
