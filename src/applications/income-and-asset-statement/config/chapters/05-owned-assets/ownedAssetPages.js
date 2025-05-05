@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { lowercase } from 'lodash';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -7,18 +7,21 @@ import {
   arrayBuilderYesNoUI,
   currencyUI,
   currencySchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
-  textUI,
-  textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
+  formatFullNameNoSuffix,
+  generateDeleteDescription,
+  isDefined,
+  isRecipientInfoIncomplete,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
-  isDefined,
 } from '../../../helpers';
 import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
 import {
@@ -33,22 +36,23 @@ export const options = {
   nounPlural: 'incomes and net worth associated with owned assets',
   required: false,
   isItemIncomplete: item =>
-    !isDefined(item?.recipientRelationship) ||
+    isRecipientInfoIncomplete(item) ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.ownedPortionValue) ||
     !isDefined(item.assetType), // include all required fields here
   text: {
-    getItemName: item => relationshipLabels[item.recipientRelationship],
+    getItemName: (item, index, formData) =>
+      isDefined(item?.recipientRelationship) &&
+      isDefined(item?.assetType) &&
+      `${
+        item?.recipientRelationship === 'VETERAN'
+          ? formatFullNameNoSuffix(formData?.veteranFullName)
+          : formatFullNameNoSuffix(item?.recipientName)
+      }’s income from a ${lowercase(ownedAssetTypeLabels[item.assetType])}`,
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) &&
       isDefined(item?.ownedPortionValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
-          <li>
-            Asset type:{' '}
-            <span className="vads-u-font-weight--bold">
-              {ownedAssetTypeLabels[item.assetType]}
-            </span>
-          </li>
           <li>
             Gross monthly income:{' '}
             <span className="vads-u-font-weight--bold">
@@ -76,6 +80,8 @@ export const options = {
     deleteTitle: 'Delete this owned asset',
     deleteYes: 'Yes, delete this owned asset',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 
@@ -158,15 +164,12 @@ const recipientNamePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Income and net worth associated with owned assets',
     ),
-    recipientName: textUI({
-      title: 'Tell us the income recipient’s name',
-      hint: 'Only needed if child, parent, custodian of child, or other',
-    }),
+    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
     properties: {
-      recipientName: textSchema,
+      recipientName: fullNameNoSuffixSchema,
     },
     required: ['recipientName'],
   },

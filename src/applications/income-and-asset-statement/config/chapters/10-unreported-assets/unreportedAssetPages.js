@@ -16,8 +16,9 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
-  otherAssetOwnerRelationshipExplanationRequired,
+  generateDeleteDescription,
   isDefined,
+  otherAssetOwnerRelationshipExplanationRequired,
 } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
@@ -33,14 +34,10 @@ export const options = {
     !isDefined(item.assetType) ||
     !isDefined(item.assetLocation), // include all required fields here
   text: {
-    getItemName: () => 'Unreported Asset',
+    getItemName: item => isDefined(item?.assetType) && `${item.assetType}`,
     cardDescription: item =>
       isDefined(item?.ownedPortionValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
-          <li>
-            Asset type:{' '}
-            <span className="vads-u-font-weight--bold">{item.assetType}</span>
-          </li>
           <li>
             Owned portion value:{' '}
             <span className="vads-u-font-weight--bold">
@@ -68,6 +65,8 @@ export const options = {
     deleteTitle: 'Delete this unreported asset',
     deleteYes: 'Yes, delete this unreported asset',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 
