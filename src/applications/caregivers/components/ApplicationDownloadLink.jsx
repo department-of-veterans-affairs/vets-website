@@ -11,7 +11,7 @@ import content from '../locales/en/content.json';
 
 const ApplicationDownloadLink = ({ formConfig }) => {
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   // define local use variables
   const form = useSelector(state => state.form);
@@ -19,18 +19,13 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     formConfig,
     form,
   ]);
-  const { veteranFullName: name } = form.data;
-
-  // fetch a custom error message based on status code
-  const errorMessage = useMemo(
+  const name = useMemo(
     () => {
-      if (!errors.length) return null;
-      const code = errors[0].status[0];
-      return code === '5'
-        ? content['alert-download-message--500']
-        : content['alert-download-message--generic'];
+      const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
+        form.data ?? {};
+      return veteranFullName;
     },
-    [errors],
+    [form.data],
   );
 
   const handlePdfDownload = useCallback(
@@ -53,7 +48,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     async event => {
       event.preventDefault();
       setLoading(true);
-      setErrors([]);
+      setErrorMessage(null);
 
       try {
         await ensureValidCSRFToken('fetchPdf');
@@ -62,11 +57,16 @@ const ApplicationDownloadLink = ({ formConfig }) => {
           body: formData,
           headers: { 'Content-Type': 'application/json' },
         });
+
+        if (!response.ok) {
+          throw new Error();
+        }
+
         const blob = await response.blob();
         handlePdfDownload(blob);
         recordEvent({ event: 'caregivers-pdf-download--success' });
       } catch (error) {
-        setErrors(error.errors);
+        setErrorMessage(content['alert-download-message--generic']);
         recordEvent({ event: 'caregivers-pdf-download--failure' });
       } finally {
         setLoading(false);
@@ -97,10 +97,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   if (errorMessage) {
     return (
       <div className="caregiver-download-error">
-        <va-alert status="error">
-          <h4 slot="headline">{content['alert-heading--generic']}</h4>
-          {errorMessage}
-        </va-alert>
+        <va-alert status="error">{errorMessage}</va-alert>
       </div>
     );
   }
