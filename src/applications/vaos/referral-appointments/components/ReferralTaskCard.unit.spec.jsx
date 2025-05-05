@@ -8,7 +8,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-// skipping for now until we need to test this component
+
 describe('VAOS Component: ReferralTaskCard', () => {
   let sandbox;
   let clock;

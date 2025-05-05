@@ -9,9 +9,8 @@ import {
   createTestStore,
 } from '../../tests/mocks/setup';
 import ReferralTaskCardWithReferral from './ReferralTaskCardWithReferral';
-
 import { createReferralById } from '../utils/referrals';
-// skipping for now until we need to test this component
+
 describe('VAOS Component: ReferralTaskCardWithReferral', () => {
   let apiRequestWithUrlStub;
 
