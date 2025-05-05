@@ -7,16 +7,17 @@ import { isLoggedIn } from 'platform/user/selectors';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
 import formConfig from '../config/form';
-import configService from '../utilities/configService';
-import { getFormSubtitle } from '../utilities/helpers';
 
+import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
+
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { useDefaultFormData } from '../hooks/useDefaultFormData';
 
-import { selectFeatureToggles } from '../utilities/selectors/featureToggles';
-
+import configService from '../utilities/configService';
+import { getFormSubtitle } from '../utilities/helpers';
 import { selectAuthStatus } from '../utilities/selectors/authStatus';
+import { selectFeatureToggles } from '../utilities/selectors/featureToggles';
 
 function App({ location, children, formData }) {
   const subTitle = getFormSubtitle(formData);
@@ -24,23 +25,32 @@ function App({ location, children, formData }) {
   const { isLoadingProfile } = useSelector(selectAuthStatus);
   const isAppLoading = isLoadingFeatureFlags || isLoadingProfile;
 
+  // Use Datadog Real User Monitoring (RUM)
+  useBrowserMonitoring();
+
   // Set default view fields within the form data
   useDefaultFormData();
 
   const { pathname } = location || {};
   const [updatedFormConfig, setUpdatedFormConfig] = useState({ ...formConfig });
 
-  useEffect(() => {
-    if (!pathname?.includes('introduction')) {
-      scrollTo('topScrollElement');
-    }
-  }, [pathname]);
+  useEffect(
+    () => {
+      if (!pathname?.includes('introduction')) {
+        scrollTo('topScrollElement');
+      }
+    },
+    [pathname],
+  );
 
   // dynamically updates the form subtitle to 21-22 or 21-22A
-  useEffect(() => {
-    configService.setFormConfig({ subTitle });
-    setUpdatedFormConfig(configService.getFormConfig());
-  }, [subTitle]);
+  useEffect(
+    () => {
+      configService.setFormConfig({ subTitle });
+      setUpdatedFormConfig(configService.getFormConfig());
+    },
+    [subTitle],
+  );
 
   const content = (
     <RoutedSavableApp formConfig={updatedFormConfig} currentLocation={location}>
@@ -83,4 +93,7 @@ App.propTypes = {
   setFormData: PropTypes.func,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

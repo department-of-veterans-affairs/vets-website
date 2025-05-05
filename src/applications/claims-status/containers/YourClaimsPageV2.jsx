@@ -157,7 +157,7 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
-      return <ClaimsUnavailable />;
+      return <ClaimsUnavailable headerLevel={3} />;
     }
 
     if (
@@ -356,7 +356,10 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(YourClaimsPageV2),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(YourClaimsPageV2),
 );
 
 export { YourClaimsPageV2 };

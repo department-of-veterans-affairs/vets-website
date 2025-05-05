@@ -22,7 +22,7 @@ import { ErrorAlert } from '../components/alerts/Alerts';
 import WizardContainer from '../wizard/WizardContainer';
 import { WIZARD_STATUS } from '../wizard/constants';
 import {
-  fsrWizardFeatureToggle,
+  fsrLegacyWizardFeatureToggle,
   fsrFeatureToggle,
   reviewPageNavigationFeatureToggle,
 } from '../utils/helpers';
@@ -45,7 +45,7 @@ const App = ({
   setFormData,
   showFSR,
   showReviewPageNavigationFeature,
-  showWizard,
+  showLegacyWizard,
 }) => {
   const dispatch = useDispatch();
   const { shouldShowReviewButton } = useDetectFieldChanges(formData);
@@ -56,6 +56,7 @@ const App = ({
   const showStreamlinedWaiver = useToggleValue(
     TOGGLE_NAMES.showFinancialStatusReportStreamlinedWaiver,
   );
+  const showStaticWizard = useToggleValue(TOGGLE_NAMES.fsrWizard);
 
   // Set the document title based on the current page
   useDocumentTitle(location);
@@ -98,32 +99,35 @@ const App = ({
   };
 
   // Contact information data
-  useEffect(() => {
-    if (isLoggedIn) {
-      const { personalData = {} } = formData || {};
-      const { veteranContactInformation = {} } = personalData;
+  useEffect(
+    () => {
+      if (isLoggedIn) {
+        const { personalData = {} } = formData || {};
+        const { veteranContactInformation = {} } = personalData;
 
-      if (
-        email?.emailAddress !== veteranContactInformation.email ||
-        mobilePhone?.updatedAt !==
-          veteranContactInformation.mobilePhone?.updatedAt ||
-        mailingAddress?.updatedAt !==
-          veteranContactInformation.address?.updatedAt
-      ) {
-        setFormData({
-          ...formData,
-          personalData: {
-            ...personalData,
-            veteranContactInformation: {
-              email: email?.emailAddress,
-              mobilePhone,
-              address: mailingAddress,
+        if (
+          email?.emailAddress !== veteranContactInformation.email ||
+          mobilePhone?.updatedAt !==
+            veteranContactInformation.mobilePhone?.updatedAt ||
+          mailingAddress?.updatedAt !==
+            veteranContactInformation.address?.updatedAt
+        ) {
+          setFormData({
+            ...formData,
+            personalData: {
+              ...personalData,
+              veteranContactInformation: {
+                email: email?.emailAddress,
+                mobilePhone,
+                address: mailingAddress,
+              },
             },
-          },
-        });
+          });
+        }
       }
-    }
-  }, [email, formData, isLoggedIn, mobilePhone, mailingAddress, setFormData]);
+    },
+    [email, formData, isLoggedIn, mobilePhone, mailingAddress, setFormData],
+  );
 
   useEffect(() => {
     if (restartShouldRedirect(WIZARD_STATUS)) {
@@ -131,15 +135,21 @@ const App = ({
     }
   });
 
-  useEffect(() => {
-    if (showFSR === false) {
-      setWizardStatus(WIZARD_STATUS_NOT_STARTED);
-    }
-  }, [showFSR]);
+  useEffect(
+    () => {
+      if (showFSR === false) {
+        setWizardStatus(WIZARD_STATUS_NOT_STARTED);
+      }
+    },
+    [showFSR],
+  );
 
-  useEffect(() => {
-    getFormStatus();
-  }, [getFormStatus]);
+  useEffect(
+    () => {
+      getFormStatus();
+    },
+    [getFormStatus],
+  );
 
   useEffect(
     () => {
@@ -187,7 +197,11 @@ const App = ({
     return <ErrorAlert />;
   }
 
-  if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
+  if (
+    !showStaticWizard &&
+    showLegacyWizard &&
+    wizardState !== WIZARD_STATUS_COMPLETE
+  ) {
     return (
       <WizardContainer setWizardStatus={setWizardStatus} showFSR={showFSR} />
     );
@@ -226,7 +240,7 @@ App.propTypes = {
   setFormData: PropTypes.func,
   showFSR: PropTypes.bool,
   showReviewPageNavigationFeature: PropTypes.bool,
-  showWizard: PropTypes.bool,
+  showLegacyWizard: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -235,7 +249,7 @@ const mapStateToProps = state => ({
   isError: state.fsr.isError,
   pending: state.fsr.pending,
   profile: selectProfile(state) || {},
-  showWizard: fsrWizardFeatureToggle(state),
+  showLegacyWizard: fsrLegacyWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
   showReviewPageNavigationFeature: reviewPageNavigationFeatureToggle(state),
   isLoadingFeatures: toggleValues(state).loading,
@@ -247,4 +261,7 @@ const mapDispatchToProps = dispatch => ({
   setFormData: data => dispatch(setData(data)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

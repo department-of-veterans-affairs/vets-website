@@ -19,11 +19,14 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     formConfig,
     form,
   ]);
-  const name = useMemo(() => {
-    const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
-      form.data ?? {};
-    return veteranFullName;
-  }, [form.data]);
+  const name = useMemo(
+    () => {
+      const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
+        form.data ?? {};
+      return veteranFullName;
+    },
+    [form.data],
+  );
 
   const handlePdfDownload = useCallback(
     blob => {
@@ -73,9 +76,12 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   );
 
   // apply focus to the error alert if we have errors set
-  useEffect(() => {
-    if (errorMessage) focusElement('.caregiver-download-error');
-  }, [errorMessage]);
+  useEffect(
+    () => {
+      if (errorMessage) focusElement('.caregiver-download-error');
+    },
+    [errorMessage],
+  );
 
   // render loading indicator while application download is processing
   if (loading) {

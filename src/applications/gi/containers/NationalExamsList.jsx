@@ -21,9 +21,12 @@ const NationalExamsList = () => {
   const { loading, error, nationalExams } = useSelector(
     state => state.nationalExams,
   );
-  useEffect(() => {
-    dispatch(fetchNationalExams());
-  }, [dispatch]);
+  useEffect(
+    () => {
+      dispatch(fetchNationalExams());
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     document.title = `National Exams: GI Bill® Comparison Tool | Veterans Affairs`;
@@ -140,7 +143,9 @@ const NationalExamsList = () => {
           tabIndex="-1"
           className="vads-u-margin-top--3 vads-u-margin-bottom--2"
         >
-          {`Showing ${startIndex} - ${endIndex} of ${nationalExams.length} national exams`}
+          {`Showing ${startIndex} - ${endIndex} of ${
+            nationalExams.length
+          } national exams`}
         </p>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ul className="remove-bullets" role="list">
@@ -156,9 +161,9 @@ const NationalExamsList = () => {
                     href={`/education/gi-bill-comparison-tool/national-exams/${
                       exam.enrichedId
                     }?examName=${encodeURIComponent(examName)}`}
-                    text={`View test amount details for ${examName}`}
+                    text={`Learn more about ${examName}`}
                     type="secondary"
-                    message-aria-describedby={`View test amount details for ${examName}`}
+                    message-aria-describedby={`Learn more about ${examName}`}
                     onClick={handleRouteChange(exam)}
                   />
                 </va-card>

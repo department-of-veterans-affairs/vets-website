@@ -4,7 +4,7 @@ import { DOWNLOAD_FORMAT, PRINT_FORMAT } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const PrintDownload = props => {
-  const { onDownload, isSuccess, list, onPrint, onText, isLoading } = props;
+  const { onDownload, isSuccess, list, onPrint, isLoading } = props;
   const [isError, setIsError] = useState(false);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,11 +30,7 @@ const PrintDownload = props => {
 
     try {
       setIsError(false);
-      if (format === DOWNLOAD_FORMAT.TXT && onText) {
-        onText();
-      } else {
-        await onDownload(format);
-      }
+      await onDownload(format);
     } catch {
       setIsError(true);
     }
@@ -91,19 +87,20 @@ const PrintDownload = props => {
           data-testid="print-download-loading-indicator"
         />
       )}
-      {isSuccess && !isError && (
-        <div
-          className="vads-u-margin-bottom--3"
-          data-testid="download-success-banner"
-        >
-          <va-alert role="alert" status="success" background-only uswds>
-            <h2 slot="headline">Download started</h2>
-            <p className="vads-u-margin--0">
-              Check your device’s downloads location for your file.
-            </p>
-          </va-alert>
-        </div>
-      )}
+      {isSuccess &&
+        !isError && (
+          <div
+            className="vads-u-margin-bottom--3"
+            data-testid="download-success-banner"
+          >
+            <va-alert role="alert" status="success" background-only uswds>
+              <h2 slot="headline">Download started</h2>
+              <p className="vads-u-margin--0">
+                Check your device’s downloads location for your file.
+              </p>
+            </va-alert>
+          </div>
+        )}
       {/* hack to generate va-alert and va-telephone web components in case there is no network at the time of download */}
       <va-alert visible="false" uswds>
         <va-telephone />

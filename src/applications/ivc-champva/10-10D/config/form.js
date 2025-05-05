@@ -33,7 +33,7 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import { flattenApplicantSSN } from './migrations';
+import { flattenApplicantSSN, migrateCardUploadKeys } from './migrations';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
@@ -132,6 +132,7 @@ import { fileWithMetadataSchema } from '../../shared/components/fileUploads/atta
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
+import { singleFileSchema } from '../../shared/components/fileUploads/upload';
 
 // Control whether we show the file overview page by calling `hasReq` to
 // determine if any required files have not been uploaded
@@ -185,8 +186,8 @@ const formConfig = {
       saved: 'Your CHAMPVA benefits application has been saved.',
     },
   },
-  version: 1,
-  migrations: [flattenApplicantSSN],
+  version: 2,
+  migrations: [flattenApplicantSSN, migrateCardUploadKeys],
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
@@ -785,12 +786,12 @@ const formConfig = {
                       'We’ll send any important information about your application to this address';
                     // Prefill message conditionally displays based on `certifierRole`
                     return formContext.pagePerItemIndex === '0' ? (
-                      (<>
+                      <>
                         <p>{txt}</p>
                         {CustomPrefillMessage(formData, 'applicant')}
-                      </>)
+                      </>
                     ) : (
-                      (<p>{txt}</p>)
+                      <p>{txt}</p>
                     );
                   },
                 ),
@@ -848,12 +849,12 @@ const formConfig = {
                     );
                     // Prefill message conditionally displays based on `certifierRole`
                     return formContext.pagePerItemIndex === '0' ? (
-                      (<>
+                      <>
                         <p>{txt}</p>
                         {CustomPrefillMessage(formData, 'applicant')}
-                      </>)
+                      </>
                     ) : (
-                      (<p>{txt}</p>)
+                      <p>{txt}</p>
                     );
                   },
                 ),
@@ -932,10 +933,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (get(
+              get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'child')
+              ) === 'child'
             );
           },
           CustomPage: ApplicantRelOriginPage,
@@ -979,8 +980,8 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (formData.applicants[index]?.applicantRelationshipToSponsor
-                ?.relationshipToVeteran === 'child')
+              formData.applicants[index]?.applicantRelationshipToSponsor
+                ?.relationshipToVeteran === 'child'
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1010,14 +1011,14 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (get(
+              get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
               ) === 'child' &&
               get(
                 'applicantRelationshipOrigin.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'adoption')
+              ) === 'adoption'
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1047,14 +1048,14 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (get(
+              get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
               ) === 'child' &&
               get(
                 'applicantRelationshipOrigin.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'step')
+              ) === 'step'
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1084,13 +1085,13 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (formData.applicants[index]?.applicantRelationshipToSponsor
+              formData.applicants[index]?.applicantRelationshipToSponsor
                 ?.relationshipToVeteran === 'child' &&
               isInRange(
                 getAgeInYears(formData.applicants[index]?.applicantDob),
                 18,
                 23,
-              ))
+              )
             );
           },
           CustomPage: ApplicantDependentStatusPage,
@@ -1134,7 +1135,7 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (formData.applicants[index]?.applicantRelationshipToSponsor
+              formData.applicants[index]?.applicantRelationshipToSponsor
                 ?.relationshipToVeteran === 'child' &&
               isInRange(
                 getAgeInYears(formData.applicants[index]?.applicantDob),
@@ -1143,7 +1144,7 @@ const formConfig = {
               ) &&
               ['enrolled', 'intendsToEnroll'].includes(
                 formData.applicants[index]?.applicantDependentStatus?.status,
-              ))
+              )
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1173,11 +1174,11 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (formData.applicants[index]?.applicantRelationshipToSponsor
+              formData.applicants[index]?.applicantRelationshipToSponsor
                 ?.relationshipToVeteran === 'child' &&
               getAgeInYears(formData.applicants[index]?.applicantDob) >= 18 &&
               formData.applicants[index]?.applicantDependentStatus?.status ===
-                'over18HelplessChild')
+                'over18HelplessChild'
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1224,10 +1225,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (get(
+              get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'spouse' && get('sponsorIsDeceased', formData))
+              ) === 'spouse' && get('sponsorIsDeceased', formData)
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1286,10 +1287,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (get(
+              get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
-              ) === 'enrolled')
+              ) === 'enrolled'
             );
           },
           CustomPage: ApplicantMedicareStatusContinuedPage,
@@ -1324,10 +1325,10 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (get(
+              get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
-              ) === 'enrolled')
+              ) === 'enrolled'
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1337,10 +1338,8 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartAPartBCardsConfig.schema,
-            applicantMedicarePartAPartBCard: fileWithMetadataSchema(
-              acceptableFiles.medicareABCert,
-              2,
-            ),
+            applicantMedicarePartAPartBCardFront: singleFileSchema,
+            applicantMedicarePartAPartBCardBack: singleFileSchema,
           }),
         },
         page20b: {
@@ -1358,14 +1357,14 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (get(
+              get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
               ) === 'enrolled' &&
               get(
                 'applicantMedicarePartD.enrollment',
                 formData?.applicants?.[index],
-              ) === 'enrolled')
+              ) === 'enrolled'
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1375,10 +1374,8 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartDCardsConfig.schema,
-            applicantMedicarePartDCard: fileWithMetadataSchema(
-              acceptableFiles.medicareDCert,
-              2,
-            ),
+            applicantMedicarePartDCardFront: singleFileSchema,
+            applicantMedicarePartDCardBack: singleFileSchema,
           }),
         },
         // If the user is ineligible for Medicare and over 65 years,
@@ -1398,11 +1395,11 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (get(
+              get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
               ) === 'ineligible' &&
-              getAgeInYears(formData.applicants[index]?.applicantDob) >= 65)
+              getAgeInYears(formData.applicants[index]?.applicantDob) >= 65
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1461,8 +1458,8 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (get('applicantHasOhi.hasOhi', formData?.applicants?.[index]) ===
-              'yes')
+              get('applicantHasOhi.hasOhi', formData?.applicants?.[index]) ===
+              'yes'
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1472,10 +1469,8 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantOhiCardsConfig.schema,
-            applicantOhiCard: fileWithMetadataSchema(
-              acceptableFiles.healthInsCert,
-              2,
-            ),
+            applicantOhiCardFront: singleFileSchema,
+            applicantOhiCardBack: singleFileSchema,
           }),
         },
         page22: {
@@ -1493,12 +1488,12 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              (get('applicantHasOhi.hasOhi', formData?.applicants?.[index]) ===
+              get('applicantHasOhi.hasOhi', formData?.applicants?.[index]) ===
                 'yes' ||
               get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
-              ) === 'enrolled')
+              ) === 'enrolled'
             );
           },
           CustomPage: FileFieldWrapped,

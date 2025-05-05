@@ -67,6 +67,7 @@ const ReviewPage = props => {
   const [editSection, setEditSection] = useState([]);
   const [attachments, setAttachments] = useState([]);
   const [editAttachments, setEditAttachments] = useState(false);
+  const [show503Alert, setShow503Alert] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -159,6 +160,7 @@ const ReviewPage = props => {
 
   const handleSubmit = async () => {
     setIsDisabled(true);
+    setShow503Alert(false);
     try {
       await handleFormSubmission({
         formData: props.formData,
@@ -171,14 +173,26 @@ const ReviewPage = props => {
             state: { contactPreference, inquiryNumber },
           });
         },
-        // onError: error => {
-        //   setIsDisabled(false);
-        //   // TODO - need error modal instead of forwarding to confirmation per final design
-        //   // Temporary alert dialog for testing
-        // },
+        onError: () => {
+          // setIsDisabled(false);
+          // TODO - need error modal instead of forwarding to confirmation per final design
+          // Temporary alert dialog for testing
+          setShow503Alert(true);
+          scroller.scrollTo('topScrollElement', {
+            duration: 500,
+            delay: 0,
+            smooth: true,
+          });
+        },
       });
-    } catch (error) {
+    } catch (_error) {
       setIsDisabled(false);
+      setShow503Alert(true);
+      scroller.scrollTo('topScrollElement', {
+        duration: 500,
+        delay: 0,
+        smooth: true,
+      });
       // TODO - need error modal instead of forwarding to confirmation per final design
       // Temporary alert dialog for testing
     }
@@ -239,6 +253,30 @@ const ReviewPage = props => {
 
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
+      <div className="vads-u-margin-y--3">
+        {show503Alert ? (
+          <VaAlert
+            closeBtnAriaLabel="Close notification"
+            onCloseEvent={() => setShowAlert(false)}
+            status="error"
+            visible
+            data-testid="review-alert"
+          >
+            <h3 id="track-your-status-on-mobile" slot="headline">
+              Ask VA isn’t working right now
+            </h3>
+            <div>
+              <p className="vads-u-margin-y--0">
+                We’re sorry. There’s a problem with our system. We can’t submit
+                your question. To ask your question, call us at &nbsp;{' '}
+                <va-telephone contact="8008271000" /> &nbsp;({' '}
+                <va-telephone contact="711" tty="true" /> ). We’re here Monday
+                through Friday, 8:00 a.m to 9:00 p.m ET.
+              </p>
+            </div>
+          </VaAlert>
+        ) : null}
+      </div>
       <div className="vads-u-margin-y--3">
         {showAlert ? (
           <VaAlert
@@ -348,7 +386,9 @@ const ReviewPage = props => {
                 return (
                   <>
                     <div
-                      name={`chapter${chapterTitles.veteransPersonalInformation}ScrollElement`}
+                      name={`chapter${
+                        chapterTitles.veteransPersonalInformation
+                      }ScrollElement`}
                       key={chapter.name}
                     />
                     {!editSection.includes(
@@ -498,7 +538,9 @@ const ReviewPage = props => {
                 return (
                   <>
                     <div
-                      name={`chapter${chapterTitles.familyMembersPersonalInformation}ScrollElement`}
+                      name={`chapter${
+                        chapterTitles.familyMembersPersonalInformation
+                      }ScrollElement`}
                       key={chapter.name}
                     />
                     {!editSection.includes(
@@ -625,7 +667,9 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${chapterTitles.yourInformation}ScrollElement`}
+                    name={`chapter${
+                      chapterTitles.yourInformation
+                    }ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourInformation) ? (
@@ -776,7 +820,9 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${chapterTitles.yourVAHealthFacility}ScrollElement`}
+                    name={`chapter${
+                      chapterTitles.yourVAHealthFacility
+                    }ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourVAHealthFacility) ? (
@@ -830,7 +876,9 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${chapterTitles.stateOfProperty}ScrollElement`}
+                    name={`chapter${
+                      chapterTitles.stateOfProperty
+                    }ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.stateOfProperty) ? (
@@ -884,7 +932,9 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${chapterTitles.yourVREInformation}ScrollElement`}
+                    name={`chapter${
+                      chapterTitles.yourVREInformation
+                    }ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourVREInformation) ? (
@@ -946,7 +996,9 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${chapterTitles.schoolInformation}ScrollElement`}
+                    name={`chapter${
+                      chapterTitles.schoolInformation
+                    }ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.schoolInformation) ? (
@@ -1026,7 +1078,9 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${chapterTitles.yourContactInformation}ScrollElement`}
+                    name={`chapter${
+                      chapterTitles.yourContactInformation
+                    }ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(
@@ -1117,7 +1171,9 @@ const ReviewPage = props => {
               return (
                 <>
                   <div
-                    name={`chapter${chapterTitles.yourMailingAddress}ScrollElement`}
+                    name={`chapter${
+                      chapterTitles.yourMailingAddress
+                    }ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourMailingAddress) ? (
@@ -1267,51 +1323,56 @@ const ReviewPage = props => {
                     hasUnviewedPages={chapter.hasUnviewedPages}
                   />
                 )}
-                {props.formData.allowAttachments && props.isUserLOA3 && (
-                  <div
-                    className="schemaform-chapter-accordion-content vads-u-padding-top--0"
-                    aria-hidden="false"
-                  >
-                    <div className="form-review-panel-page vads-u-margin-bottom--0">
-                      <div name="questionScrollElement" />
-                      <form className="rjsf">
-                        <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
-                          <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
-                            <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
-                              {!editAttachments ? (
-                                nonEditAttachmentsMode()
-                              ) : (
-                                <>
-                                  {attachments.map(file => (
-                                    <div
-                                      key={`${file.fileID}-${file.fileName}-edit`}
-                                      className="review-page-attachments"
-                                    >
-                                      <dt className="form-review-panel-page-header">
-                                        {`${file.fileName} (${file.fileSize})`}
-                                      </dt>
-                                      <dd className="vads-u-margin-right--0">
-                                        <va-button-icon
-                                          button-type="delete"
-                                          onClick={() =>
-                                            deleteFile(file.fileID)
-                                          }
-                                        />
-                                      </dd>
+                {props.formData.allowAttachments &&
+                  props.isUserLOA3 && (
+                    <div
+                      className="schemaform-chapter-accordion-content vads-u-padding-top--0"
+                      aria-hidden="false"
+                    >
+                      <div className="form-review-panel-page vads-u-margin-bottom--0">
+                        <div name="questionScrollElement" />
+                        <form className="rjsf">
+                          <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
+                            <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
+                              <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
+                                {!editAttachments ? (
+                                  nonEditAttachmentsMode()
+                                ) : (
+                                  <>
+                                    {attachments.map(file => (
+                                      <div
+                                        key={`${file.fileID}-${
+                                          file.fileName
+                                        }-edit`}
+                                        className="review-page-attachments"
+                                      >
+                                        <dt className="form-review-panel-page-header">
+                                          {`${file.fileName} (${
+                                            file.fileSize
+                                          })`}
+                                        </dt>
+                                        <dd className="vads-u-margin-right--0">
+                                          <va-button-icon
+                                            button-type="delete"
+                                            onClick={() =>
+                                              deleteFile(file.fileID)
+                                            }
+                                          />
+                                        </dd>
+                                      </div>
+                                    ))}
+                                    <div className="vads-u-margin-y--2">
+                                      <FileUpload />
                                     </div>
-                                  ))}
-                                  <div className="vads-u-margin-y--2">
-                                    <FileUpload />
-                                  </div>
-                                </>
-                              )}
+                                  </>
+                                )}
+                              </dl>
                             </dl>
-                          </dl>
-                        </div>
-                      </form>
+                          </div>
+                        </form>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </VaAccordionItem>
             );
           })}
@@ -1320,7 +1381,7 @@ const ReviewPage = props => {
       <div className="vads-u-margin-top--4 vads-u-display--flex">
         <va-button back onClick={() => props.goBack()} />
         {isDisabled ? (
-          <va-button text="Submit question" disabled />
+          <va-button text="Submit question" disabled loading />
         ) : (
           <va-button text="Submit question" onClick={handleSubmit} />
         )}
@@ -1380,10 +1441,11 @@ function mapStateToProps(state, ownProps) {
         hasErrors || pageKeys.some(key => !viewedPages.has(key));
 
       return {
-        expandedPages: expandedPages.map(page =>
-          page.appStateSelector
-            ? { ...page, appStateData: page.appStateSelector(state) }
-            : page,
+        expandedPages: expandedPages.map(
+          page =>
+            page.appStateSelector
+              ? { ...page, appStateData: page.appStateSelector(state) }
+              : page,
         ),
         formConfig: chapterFormConfig,
         name: chapterName,

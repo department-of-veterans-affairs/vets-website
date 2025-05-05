@@ -250,11 +250,9 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             <li>Websites or forums that appraise the value of vehicles</li>
           </ul>
         </va-additional-info>
-        <p>
-          {automobiles.length > 0
-            ? renderAddCancelButtons()
-            : renderContinueBackButtons()}
-        </p>
+        {automobiles.length > 0
+          ? renderAddCancelButtons()
+          : renderContinueBackButtons()}
       </fieldset>
     </form>
   );

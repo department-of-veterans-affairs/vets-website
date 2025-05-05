@@ -27,29 +27,32 @@ const InProductionEducationFiltering = () => {
     selectDontIncrementIpeCountFlag,
   );
 
-  useEffect(() => {
-    const fetchTooltips = async () => {
-      const filterTooltip = await dispatch(getTooltip());
+  useEffect(
+    () => {
+      const fetchTooltips = async () => {
+        const filterTooltip = await dispatch(getTooltip());
 
-      if (filterTooltip) {
-        dispatch(setTooltip(filterTooltip.id, !filterTooltip.hidden));
+        if (filterTooltip) {
+          dispatch(setTooltip(filterTooltip.id, !filterTooltip.hidden));
 
-        if (!filterTooltip.hidden && !dontIncrementTooltipCount) {
-          dispatch(incrementTooltip(filterTooltip.id));
+          if (!filterTooltip.hidden && !dontIncrementTooltipCount) {
+            dispatch(incrementTooltip(filterTooltip.id));
+          }
+        } else {
+          const newTooltipResponse = await dispatch(createNewTooltip());
+
+          if (newTooltipResponse) {
+            dispatch(
+              setTooltip(newTooltipResponse.id, !newTooltipResponse.hidden),
+            );
+          }
         }
-      } else {
-        const newTooltipResponse = await dispatch(createNewTooltip());
+      };
 
-        if (newTooltipResponse) {
-          dispatch(
-            setTooltip(newTooltipResponse.id, !newTooltipResponse.hidden),
-          );
-        }
-      }
-    };
-
-    fetchTooltips();
-  }, [dispatch]);
+      fetchTooltips();
+    },
+    [dispatch],
+  );
 
   const handleStopShowing = async () => {
     datadogRum.addAction(
@@ -67,7 +70,7 @@ const InProductionEducationFiltering = () => {
           id="rx-ipe-filtering-container"
           data-testid="rx-ipe-filtering-container"
           className="vads-u-margin-top--3 vads-u-padding--2p5"
-          aria-label="Hint for filter list"
+          aria-label="Filter your list to find a specific medication"
         >
           <p
             className="vads-u-margin--0 vads-u-padding-right--5"

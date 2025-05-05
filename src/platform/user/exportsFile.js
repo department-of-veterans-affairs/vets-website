@@ -45,11 +45,19 @@ export {
   VerifyLogingovButton,
   VerifyButton,
 } from './authentication/components/VerifyButton';
-export { default as CreateAccountLink } from './authentication/components/CreateAccountLink';
-export { default as VerifyAccountLink } from './authentication/components/VerifyAccountLink';
-export { default as DowntimeBanners } from './authentication/components/DowntimeBanner';
+export {
+  default as CreateAccountLink,
+} from './authentication/components/CreateAccountLink';
+export {
+  default as VerifyAccountLink,
+} from './authentication/components/VerifyAccountLink';
+export {
+  default as DowntimeBanners,
+} from './authentication/components/DowntimeBanner';
 export { default as IDMeSVG } from './authentication/components/IDMeSVG';
-export { default as LoginActions } from './authentication/components/LoginActions';
+export {
+  default as LoginActions,
+} from './authentication/components/LoginActions';
 export {
   default as LoginButton,
   loginHandler,
@@ -58,16 +66,26 @@ export {
   logoSrc,
   default as LoginContainer,
 } from './authentication/components/LoginContainer';
-export { default as LoginGovSVG } from './authentication/components/LoginGovSVG';
-export { default as LoginHeader } from './authentication/components/LoginHeader';
+export {
+  default as LoginGovSVG,
+} from './authentication/components/LoginGovSVG';
+export {
+  default as LoginHeader,
+} from './authentication/components/LoginHeader';
 export { default as LoginInfo } from './authentication/components/LoginInfo';
-export { default as ServiceProvidersList } from './authentication/components/ServiceProvidersList';
+export {
+  default as ServiceProvidersList,
+} from './authentication/components/ServiceProvidersList';
 export {
   default as ServiceProviders,
   ServiceProvidersTextCreateAcct,
 } from './authentication/components/ServiceProvidersText';
-export { default as SessionTimeoutModal } from './authentication/components/SessionTimeoutModal';
-export { default as SignInModal } from './authentication/components/SignInModal';
+export {
+  default as SessionTimeoutModal,
+} from './authentication/components/SessionTimeoutModal';
+export {
+  default as SignInModal,
+} from './authentication/components/SignInModal';
 
 export {
   defaultSignInProviders,
@@ -90,7 +108,6 @@ export {
   CSP_IDS,
   AUTHN_SETTINGS,
   EXTERNAL_APPS,
-  EBENEFITS_DEFAULT_PATH,
   eAuthURL,
   EXTERNAL_REDIRECTS,
   GA,
@@ -134,17 +151,11 @@ export {
 } from './authentication/utilities';
 
 /* authorization */
-export { default as AcceptTermsPrompt } from './authorization/components/AcceptTermsPrompt';
 export {
   default as RequiredLoginView,
   RequiredLoginLoader,
 } from './authorization/components/RequiredLoginView';
 export { default as VerifyAlert } from './authorization/components/VerifyAlert';
-// TO DO: resolve missing nested import
-// export { MHVApp } from './authorization/containers/MHVApp';
-// export {
-//   RequiredTermsAcceptanceView,
-// } from './authorization/containers/RequiredTermsAcceptanceView';
 
 /* profile */
 
@@ -170,7 +181,9 @@ export {
   fetchMHVAccount,
 } from './profile/actions/mhv';
 
-export { default as backendServices } from './profile/constants/backendServices';
+export {
+  default as backendServices,
+} from './profile/constants/backendServices';
 export { default as profileInformation } from './profile/reducers/index';
 export {
   mapRawUserDataToState,
@@ -245,12 +258,22 @@ export {
   convertNextValueToCleanData,
   convertCleanDataToPayload,
 } from './profile/vap-svc/components/AddressField/AddressField';
-export { default as AddressView } from './profile/vap-svc/components/AddressField/AddressView';
+export {
+  default as AddressView,
+} from './profile/vap-svc/components/AddressField/AddressView';
 
-export { default as VAPServiceEditModalActionButtons } from './profile/vap-svc/components/base/VAPServiceEditModalActionButtons';
-export { default as VAPServiceEditModalErrorMessage } from './profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
-export { default as VAPServiceProfileFieldHeading } from './profile/vap-svc/components/base/VAPServiceProfileFieldHeading';
-export { default as VAPServiceTransaction } from './profile/vap-svc/components/base/VAPServiceTransaction';
+export {
+  default as VAPServiceEditModalActionButtons,
+} from './profile/vap-svc/components/base/VAPServiceEditModalActionButtons';
+export {
+  default as VAPServiceEditModalErrorMessage,
+} from './profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
+export {
+  default as VAPServiceProfileFieldHeading,
+} from './profile/vap-svc/components/base/VAPServiceProfileFieldHeading';
+export {
+  default as VAPServiceTransaction,
+} from './profile/vap-svc/components/base/VAPServiceTransaction';
 export {
   default as VAPServiceTransactionErrorBanner,
   GenericUpdateError,
@@ -258,18 +281,36 @@ export {
   MVILookupFailError,
   MVIError,
 } from './profile/vap-svc/components/base/VAPServiceTransactionErrorBanner';
-export { default as VAPServiceTransactionInlineErrorMessage } from './profile/vap-svc/components/base/VAPServiceTransactionInlineErrorMessage';
-export { default as VAPServiceTransactionPending } from './profile/vap-svc/components/base/VAPServiceTransactionPending';
+export {
+  default as VAPServiceTransactionInlineErrorMessage,
+} from './profile/vap-svc/components/base/VAPServiceTransactionInlineErrorMessage';
+export {
+  default as VAPServiceTransactionPending,
+} from './profile/vap-svc/components/base/VAPServiceTransactionPending';
 
-export { default as CannotEditModal } from './profile/vap-svc/components/ContactInformationFieldInfo/CannotEditModal';
-export { default as ConfirmCancelModal } from './profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
-export { default as ConfirmRemoveModal } from './profile/vap-svc/components/ContactInformationFieldInfo/ConfirmRemoveModal';
-export { default as ContactInformationUpdateSuccessAlert } from './profile/vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
+export {
+  default as CannotEditModal,
+} from './profile/vap-svc/components/ContactInformationFieldInfo/CannotEditModal';
+export {
+  default as ConfirmCancelModal,
+} from './profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
+export {
+  default as ConfirmRemoveModal,
+} from './profile/vap-svc/components/ContactInformationFieldInfo/ConfirmRemoveModal';
+export {
+  default as ContactInformationUpdateSuccessAlert,
+} from './profile/vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 
-export { default as ContactInfoForm } from './profile/vap-svc/components/ContactInfoForm';
+export {
+  default as ContactInfoForm,
+} from './profile/vap-svc/components/ContactInfoForm';
 
-export { default as ProfileInformationFieldController } from './profile/vap-svc/components/ProfileInformationFieldController';
-export { default as ResidentialAddress } from './profile/vap-svc/components/ResidentialAddress';
+export {
+  default as ProfileInformationFieldController,
+} from './profile/vap-svc/components/ProfileInformationFieldController';
+export {
+  default as ResidentialAddress,
+} from './profile/vap-svc/components/ResidentialAddress';
 
 export {
   ADDRESS_VALIDATION_TYPES,
@@ -303,13 +344,25 @@ export {
   COPY_ADDRESS_MODAL_STATUS,
 } from './profile/vap-svc/constants/index';
 
-export { default as AddressValidationModal } from './profile/vap-svc/containers/AddressValidationModal';
-export { default as AddressValidationView } from './profile/vap-svc/containers/AddressValidationView';
-export { default as CopyMailingAddress } from './profile/vap-svc/containers/CopyMailingAddress';
-export { default as InitializeVAPServiceID } from './profile/vap-svc/containers/InitializeVAPServiceID';
-export { default as Vet360PendingTransactionCategory } from './profile/vap-svc/containers/VAPServicePendingTransactionCategory';
+export {
+  default as AddressValidationModal,
+} from './profile/vap-svc/containers/AddressValidationModal';
+export {
+  default as AddressValidationView,
+} from './profile/vap-svc/containers/AddressValidationView';
+export {
+  default as CopyMailingAddress,
+} from './profile/vap-svc/containers/CopyMailingAddress';
+export {
+  default as InitializeVAPServiceID,
+} from './profile/vap-svc/containers/InitializeVAPServiceID';
+export {
+  default as Vet360PendingTransactionCategory,
+} from './profile/vap-svc/containers/VAPServicePendingTransactionCategory';
 
-export { default as VAPServiceTransactionReporter } from './profile/vap-svc/containers/VAPServiceTransactionReporter';
+export {
+  default as VAPServiceTransactionReporter,
+} from './profile/vap-svc/containers/VAPServiceTransactionReporter';
 
 export { default as vapService } from './profile/vap-svc/reducers/index';
 

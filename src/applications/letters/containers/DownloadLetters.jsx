@@ -10,7 +10,9 @@ export function DownloadLetters() {
   const currentPageIndex = findIndex(chapters, ['path', location.pathname]);
   const currentStep = currentPageIndex + 1;
   const total = chapters.length;
-  const headerText = `Step ${currentStep} of ${total}: ${chapters[currentPageIndex].name}`;
+  const headerText = `Step ${currentStep} of ${total}: ${
+    chapters[currentPageIndex].name
+  }`;
 
   return (
     <div className="usa-width-three-fourths letters">
@@ -21,7 +23,11 @@ export function DownloadLetters() {
         To receive some benefits, Veterans need a letter proving their status.
         You can download some of these benefit letters and documents online.
       </p>
-      <va-segmented-progress-bar total={total} current={currentStep} />
+      <va-segmented-progress-bar
+        total={total}
+        current={currentStep}
+        header-level={2}
+      />
       <div className="section-content">
         <h2 id="nav-form-header" className="vads-u-font-size--h4">
           {headerText}

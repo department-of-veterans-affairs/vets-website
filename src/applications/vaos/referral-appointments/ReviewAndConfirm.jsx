@@ -29,6 +29,7 @@ import {
   getTimezoneByFacilityId,
 } from '../utils/timezone';
 import ProviderAddress from './components/ProviderAddress';
+import { titleCase } from '../utils/formatters';
 
 const ReviewAndConfirm = props => {
   const { attributes: currentReferral } = props.currentReferral;
@@ -56,51 +57,63 @@ const ReviewAndConfirm = props => {
     getReferralSlotKey(currentReferral.uuid),
   );
 
-  useEffect(() => {
-    dispatch(setFormCurrentPage('reviewAndConfirm'));
-  }, [dispatch]);
-  useEffect(() => {
-    if (!selectedSlot && !savedSelectedSlot) {
-      routeToCCPage(history, 'scheduleReferral', currentReferral.uuid);
-    }
-  }, [currentReferral.uuid, history, savedSelectedSlot, selectedSlot]);
-
-  useEffect(() => {
-    if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-      dispatch(createDraftReferralAppointment(currentReferral.referralId));
-    } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
-      setLoading(false);
-      scrollAndFocus('h1');
-    } else if (draftAppointmentCreateStatus === FETCH_STATUS.failed) {
-      setLoading(false);
-      setFailed(true);
-      scrollAndFocus('h2');
-    }
-  }, [currentReferral.referralId, dispatch, draftAppointmentCreateStatus]);
-
-  useEffect(() => {
-    if (
-      !selectedSlot &&
-      savedSelectedSlot &&
-      draftAppointmentCreateStatus === FETCH_STATUS.succeeded
-    ) {
-      const savedSlot = getSlotById(
-        draftAppointmentInfo.slots.slots,
-        savedSelectedSlot,
-      );
-      if (!savedSlot) {
-        routeToCCPage(history, 'scheduleReferral');
+  useEffect(
+    () => {
+      dispatch(setFormCurrentPage('reviewAndConfirm'));
+    },
+    [dispatch],
+  );
+  useEffect(
+    () => {
+      if (!selectedSlot && !savedSelectedSlot) {
+        routeToCCPage(history, 'scheduleReferral', currentReferral.uuid);
       }
-      dispatch(setSelectedSlot(savedSlot.id));
-    }
-  }, [
-    dispatch,
-    savedSelectedSlot,
-    draftAppointmentInfo.slots,
-    history,
-    draftAppointmentCreateStatus,
-    selectedSlot,
-  ]);
+    },
+    [currentReferral.uuid, history, savedSelectedSlot, selectedSlot],
+  );
+
+  useEffect(
+    () => {
+      if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
+        dispatch(createDraftReferralAppointment(currentReferral.referralId));
+      } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
+        setLoading(false);
+        scrollAndFocus('h1');
+      } else if (draftAppointmentCreateStatus === FETCH_STATUS.failed) {
+        setLoading(false);
+        setFailed(true);
+        scrollAndFocus('h2');
+      }
+    },
+    [currentReferral.referralId, dispatch, draftAppointmentCreateStatus],
+  );
+
+  useEffect(
+    () => {
+      if (
+        !selectedSlot &&
+        savedSelectedSlot &&
+        draftAppointmentCreateStatus === FETCH_STATUS.succeeded
+      ) {
+        const savedSlot = getSlotById(
+          draftAppointmentInfo.slots.slots,
+          savedSelectedSlot,
+        );
+        if (!savedSlot) {
+          routeToCCPage(history, 'scheduleReferral');
+        }
+        dispatch(setSelectedSlot(savedSlot.id));
+      }
+    },
+    [
+      dispatch,
+      savedSelectedSlot,
+      draftAppointmentInfo.slots,
+      history,
+      draftAppointmentCreateStatus,
+      selectedSlot,
+    ],
+  );
 
   const handleGoBack = e => {
     e.preventDefault();
@@ -113,36 +126,39 @@ const ReviewAndConfirm = props => {
 
   // handle routing to the next page once the appointment is created
   // or show error message if the appointment creation failed
-  useEffect(() => {
-    if (appointmentCreateStatus === FETCH_STATUS.loading) {
-      setCreateLoading(true);
-      setCreateFailed(false);
-    }
-    if (
-      appointmentCreateStatus === FETCH_STATUS.succeeded &&
-      draftAppointmentInfo?.id
-    ) {
-      setCreateLoading(false);
-      routeToNextReferralPage(
-        history,
-        'reviewAndConfirm',
-        null,
-        draftAppointmentInfo.id,
-      );
-    } else if (
-      appointmentCreateStatus === FETCH_STATUS.failed &&
-      draftAppointmentInfo?.id &&
-      draftAppointmentCreateStatus === FETCH_STATUS.succeeded
-    ) {
-      setCreateLoading(false);
-      setCreateFailed(true);
-    }
-  }, [
-    appointmentCreateStatus,
-    draftAppointmentInfo?.id,
-    draftAppointmentCreateStatus,
-    history,
-  ]);
+  useEffect(
+    () => {
+      if (appointmentCreateStatus === FETCH_STATUS.loading) {
+        setCreateLoading(true);
+        setCreateFailed(false);
+      }
+      if (
+        appointmentCreateStatus === FETCH_STATUS.succeeded &&
+        draftAppointmentInfo?.id
+      ) {
+        setCreateLoading(false);
+        routeToNextReferralPage(
+          history,
+          'reviewAndConfirm',
+          null,
+          draftAppointmentInfo.id,
+        );
+      } else if (
+        appointmentCreateStatus === FETCH_STATUS.failed &&
+        draftAppointmentInfo?.id &&
+        draftAppointmentCreateStatus === FETCH_STATUS.succeeded
+      ) {
+        setCreateLoading(false);
+        setCreateFailed(true);
+      }
+    },
+    [
+      appointmentCreateStatus,
+      draftAppointmentInfo?.id,
+      draftAppointmentCreateStatus,
+      history,
+    ],
+  );
 
   if (loading) {
     return (
@@ -169,7 +185,7 @@ const ReviewAndConfirm = props => {
           <div className="vads-l-row">
             <div className="vads-l-col">
               <h2 className={headingStyles}>
-                {`${currentReferral.categoryOfCare} Provider`}
+                {`${titleCase(currentReferral.categoryOfCare)} Provider`}
               </h2>
             </div>
           </div>
@@ -196,7 +212,9 @@ const ReviewAndConfirm = props => {
             </div>
             <div className="vads-l-col vads-u-text-align--right">
               <va-link
-                href={`/my-health/appointments/schedule-referral/date-time?id=${currentReferral.uuid}`}
+                href={`/my-health/appointments/schedule-referral/date-time?id=${
+                  currentReferral.uuid
+                }`}
                 label="Edit date and time"
                 text="Edit"
                 data-testid="edit-when-information-link"
@@ -259,30 +277,31 @@ const ReviewAndConfirm = props => {
             }}
           />
         </div>
-        {createFailed && !createLoading && (
-          <va-alert
-            status="error"
-            data-testid="create-error-alert"
-            class="vads-u-margin-top--4"
-          >
-            <h3>We couldn’t schedule this appointment</h3>
-            <p>
-              We’re sorry. Something went wrong when we tried to submit your
-              appointment. You can try again later, or call your referring VA
-              facility to help with your appointment.
-            </p>
-            <p>
-              <strong>{currentReferral.referringFacilityInfo.name}</strong>
-              <br />
-              <ProviderAddress
-                address={currentReferral.referringFacilityInfo.address}
-                phone={currentReferral.referringFacilityInfo.phone}
-                showDirections
-                directionsName={currentReferral.referringFacilityInfo.name}
-              />
-            </p>
-          </va-alert>
-        )}
+        {createFailed &&
+          !createLoading && (
+            <va-alert
+              status="error"
+              data-testid="create-error-alert"
+              class="vads-u-margin-top--4"
+            >
+              <h3>We couldn’t schedule this appointment</h3>
+              <p>
+                We’re sorry. Something went wrong when we tried to submit your
+                appointment. You can try again later, or call your referring VA
+                facility to help with your appointment.
+              </p>
+              <p>
+                <strong>{currentReferral.referringFacilityInfo.name}</strong>
+                <br />
+                <ProviderAddress
+                  address={currentReferral.referringFacilityInfo.address}
+                  phone={currentReferral.referringFacilityInfo.phone}
+                  showDirections
+                  directionsName={currentReferral.referringFacilityInfo.name}
+                />
+              </p>
+            </va-alert>
+          )}
       </div>
     </ReferralLayout>
   );

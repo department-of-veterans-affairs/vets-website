@@ -34,27 +34,28 @@ const ProviderAddress = props => {
           <>{address}</>
         )}
       </p>
-      {showDirections && directionsName && (
-        <div
-          data-testid="directions-link-wrapper"
-          className="vads-u-display--flex vads-u-color--link-default vads-u-margin-bottom--1"
-        >
-          <va-icon
-            className="vads-u-margin-right--0p5 vads-u-color--link-default"
-            icon="directions"
-            size={3}
-          />
-          <a
-            data-testid="directions-link"
-            href={`https://maps.google.com?addr=Current+Location&daddr=${addressString}`}
-            aria-label={`directions to ${directionsName}`}
-            target="_blank"
-            rel="noreferrer"
+      {showDirections &&
+        directionsName && (
+          <div
+            data-testid="directions-link-wrapper"
+            className="vads-u-display--flex vads-u-color--link-default vads-u-margin-bottom--1"
           >
-            Directions
-          </a>
-        </div>
-      )}
+            <va-icon
+              className="vads-u-margin-right--0p5 vads-u-color--link-default"
+              icon="directions"
+              size={3}
+            />
+            <a
+              data-testid="directions-link"
+              href={`https://maps.google.com?addr=Current+Location&daddr=${addressString}`}
+              aria-label={`directions to ${directionsName}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Directions
+            </a>
+          </div>
+        )}
       <p className="vads-u-margin-bottom--0" data-testid="phone">
         <strong>Main phone:</strong>
       </p>
