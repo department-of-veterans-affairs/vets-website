@@ -197,9 +197,11 @@ const mapStateToProps = (state, ownProps) => {
 
   const authenticatedLinks = [];
 
+  // Handle authenticatedLinks?
   const data = flagCurrentPageInTopLevelLinks(
     getAuthorizedLinkData(loggedIn, defaultLinks, authenticatedLinks),
   );
+
   return {
     currentDropdown: state.megaMenu?.currentDropdown,
     currentSection: state.megaMenu?.currentSection,
