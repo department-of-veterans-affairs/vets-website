@@ -22,14 +22,17 @@ import {
   GET_LETTERS_FAILURE,
   LETTER_ELIGIBILITY_ERROR,
   LETTER_TYPES,
+  GET_ENHANCED_LETTERS_DOWNLOADING,
 } from '../../utils/constants';
 
-import {
+import * as lettersActions from '../../actions/letters';
+const {
   getLetterList,
   getLetterListAndBSLOptions,
   getBenefitSummaryOptions,
   getLetterPdf,
-} from '../../actions/letters';
+  getLetterPdfLink,
+} = lettersActions;
 
 /**
  * Setup() for each test requires setting userToken.
@@ -376,5 +379,70 @@ describe('getLetterPdf', () => {
         expect(action.type).to.equal(GET_LETTER_PDF_FAILURE);
       })
       .then(done, done);
+  });
+});
+
+describe('getLetterPdfLink', () => {
+  let dispatch;
+  let getLetterBlobUrlStub;
+  let recordEventStub;
+
+  // beforeEach(setup, () => {
+  //   dispatch = sinon.spy();
+  //   getLetterBlobUrlStub = sinon.stub(lettersActions, 'getLetterBlobUrl');
+  //   // recordEventStub = sinon.stub(analytics, 'recordEvent');
+  // });
+
+  beforeEach(setup);
+
+  const lettersArr = [
+    {
+      letterName: 'Benefit Summary Letter',
+      letterType: LETTER_TYPES.benefitSummary,
+      letterOptions: {
+        militaryService: true,
+        monthlyAward: true,
+        serviceConnectedEvaluation: true,
+        chapter35Eligibility: true,
+        serviceConnectedDisabilities: true,
+      },
+    },
+    {
+      letterName: 'Civil Service Preference Letter',
+      letterType: LETTER_TYPES.civilService,
+      letterOptions: {
+        // Opts only relevant for BSL but ATM required in every download link
+        militaryService: true,
+        monthlyAward: true,
+        serviceConnectedEvaluation: true,
+        chapter35Eligibility: true,
+        serviceConnectedDisabilities: true,
+      },
+    },
+  ];
+
+  it("dispatches Trevor's download pending action first", done => {
+    dispatch = sinon.spy();
+    getLetterBlobUrlStub = sinon.stub(lettersActions, 'getLetterBlobUrl');
+
+    // getLetterBlobUrlStub.resolves('http://fake-url.com/letter.pdf');
+    getLetterBlobUrlStub.callsFake(async args => {
+      console.log('we are in the mock function');
+      return 'http://fake-url.com/document.pdf';
+    });
+
+    getLetterPdfLink(dispatch, migrationOptions, lettersArr);
+    //   thunk(dispatch, getState)
+    //     .then(() => {
+    //       const action = dispatch.firstCall.args[0];
+    //       expect(action.type).to.equal(GET_LETTER_PDF_DOWNLOADING);
+    //       expect(action.data).to.equal(letterType);
+    //     })
+    //     .then(done, done);
+    // });
+    const action = dispatch.firstCall.args[0];
+    console.log('action', action);
+    expect(action.type).to.equal(GET_ENHANCED_LETTERS_DOWNLOADING);
+    done();
   });
 });
