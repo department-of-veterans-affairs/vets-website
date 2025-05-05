@@ -5,9 +5,9 @@
       "type": "maintenance_window",
       "attributes": {
         "id": 319,
-        "external_service": "travel-pay-api",
-        "start_time": "2025-05-08T05:00:00.000Z",
-        "end_time": "2025-05-08T08:00:00.000Z",
+        "externalService": "travel-pay-api",
+        "startTime": "2025-05-04T00:00:00.000Z",
+        "endTime": "2025-05-05T20:00:00.000Z",
         "description": ""
       }
     }

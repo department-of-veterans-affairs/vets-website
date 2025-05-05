@@ -12,6 +12,7 @@ import Breadcrumbs from './Breadcrumbs';
 import ClaimDetailsContent from './ClaimDetailsContent';
 import { getClaimDetails } from '../redux/actions';
 import { REIMBURSEMENT_URL } from '../constants';
+import DowntimeWindowAlert from '../containers/DownTimeWindowAlert';
 
 export default function TravelClaimDetails() {
   const { id } = useParams();
@@ -75,30 +76,32 @@ export default function TravelClaimDetails() {
   }
 
   return (
-    <Element name="topScrollElement">
-      <article className="usa-grid-full vads-u-padding-bottom--0">
-        <Breadcrumbs />
-        {error && <h1>There was an error loading the claim details.</h1>}
-        {data[id] && <ClaimDetailsContent {...data[id]} />}
-        <hr />
+    <DowntimeWindowAlert appTitle="Travel Pay">
+      <Element name="topScrollElement">
+        <article className="usa-grid-full vads-u-padding-bottom--0">
+          <Breadcrumbs />
+          {error && <h1>There was an error loading the claim details.</h1>}
+          {data[id] && <ClaimDetailsContent {...data[id]} />}
+          <hr />
 
-        <div className="vads-u-margin-bottom--4">
-          <p>
-            If you're eligible for reimbursement, we'll deposit your
-            reimbursement in your bank account.
-          </p>
+          <div className="vads-u-margin-bottom--4">
+            <p>
+              If you're eligible for reimbursement, we'll deposit your
+              reimbursement in your bank account.
+            </p>
 
-          <va-link
-            href={REIMBURSEMENT_URL}
-            text="Learn how to set up direct deposit for travel pay reimbursement"
-          />
-        </div>
-        <va-need-help>
-          <div slot="content">
-            <HelpTextManage />
+            <va-link
+              href={REIMBURSEMENT_URL}
+              text="Learn how to set up direct deposit for travel pay reimbursement"
+            />
           </div>
-        </va-need-help>
-      </article>
-    </Element>
+          <va-need-help>
+            <div slot="content">
+              <HelpTextManage />
+            </div>
+          </va-need-help>
+        </article>
+      </Element>
+    </DowntimeWindowAlert>
   );
 }
