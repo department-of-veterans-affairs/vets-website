@@ -47,26 +47,24 @@ describe('<Timeline/>', () => {
 
   it('should toggle expanded state when toggleExpanded called', () => {
     const wrapper = shallow(<Timeline {...defaultProps} />);
-    const instance = wrapper.instance();
-    // Just so toggleExpanded() doesn't break
-    const clickEvent = {
-      stopPropagation: () => {},
-    };
+    const clickEvent = { stopPropagation: () => {} };
+    const toggle = wrapper.find('Expander').prop('onToggle');
 
-    expect(wrapper.state('expanded')).to.equal(false);
-    instance.toggleExpanded(clickEvent);
-    expect(wrapper.state('expanded')).to.equal(true);
-    instance.toggleExpanded(clickEvent);
-    expect(wrapper.state('expanded')).to.equal(false);
+    expect(wrapper.find('Expander').prop('expanded')).to.equal(false);
+    toggle(clickEvent);
+    wrapper.update();
+    expect(wrapper.find('Expander').prop('expanded')).to.equal(true);
+    toggle(clickEvent);
+    wrapper.update();
+    expect(wrapper.find('Expander').prop('expanded')).to.equal(false);
     wrapper.unmount();
   });
 
   it('should render past events when expanded state is true', () => {
     const wrapper = shallow(<Timeline {...defaultProps} />);
     expect(wrapper.find('PastEvent').length).to.equal(0);
-    // wrapper's instance.toggleExpanded() method doesn't cause a re-render
-    // in enzyme, so need to setState directly (which explicitly does re-render)
-    wrapper.setState({ expanded: true });
+    wrapper.find('Expander').prop('onToggle')({ stopPropagation: () => {} });
+    wrapper.update();
     expect(wrapper.find('PastEvent').length).to.equal(
       defaultProps.events.length,
     );
@@ -77,7 +75,8 @@ describe('<Timeline/>', () => {
     const props = { ...defaultProps, events: [] };
     const wrapper = shallow(<Timeline {...props} />);
     expect(wrapper.find('PastEvent').length).to.equal(0);
-    wrapper.setState({ expanded: true });
+    wrapper.find('Expander').prop('onToggle')({ stopPropagation: () => {} });
+    wrapper.update();
     expect(wrapper.find('PastEvent').length).to.equal(0);
     wrapper.unmount();
   });
@@ -105,7 +104,8 @@ describe('<Timeline/>', () => {
     );
     const date = formatDate(defaultProps.events[0].date);
     const wrapper = shallow(<Timeline {...defaultProps} />);
-    wrapper.setState({ expanded: true });
+    wrapper.find('Expander').prop('onToggle')({ stopPropagation: () => {} });
+    wrapper.update();
     const firstProps = wrapper
       .find('PastEvent')
       .first()
@@ -117,19 +117,21 @@ describe('<Timeline/>', () => {
     wrapper.unmount();
   });
 
+  // Instance methods are not available on functional components; verify onToggle is provided as a function instead
   it('should pass all required props to Expander', () => {
     const wrapper = shallow(<Timeline {...defaultProps} />);
     const expanderProps = wrapper.find('Expander').props();
     expect(expanderProps.expanded).to.be.false;
     expect(expanderProps.missingEvents).to.be.false;
     expect(expanderProps.dateRange).to.equal(formattedDateRange);
-    expect(expanderProps.onToggle).to.equal(wrapper.instance().toggleExpanded);
+    expect(expanderProps.onToggle).to.be.a('function');
     wrapper.unmount();
   });
 
   it('should pass updated props to Expander when state toggled', () => {
     const wrapper = shallow(<Timeline {...defaultProps} />);
-    wrapper.setState({ expanded: true });
+    wrapper.find('Expander').prop('onToggle')({ stopPropagation: () => {} });
+    wrapper.update();
     const expanderProps = wrapper.find('Expander').props();
     expect(expanderProps.expanded).to.be.true;
     wrapper.unmount();
@@ -152,7 +154,8 @@ describe('<Timeline/>', () => {
       missingEvents: false,
     };
     const wrapper = shallow(<Timeline {...props} />);
-    wrapper.setState({ expanded: true });
+    wrapper.find('Expander').prop('onToggle')({ stopPropagation: () => {} });
+    wrapper.update();
     expect(wrapper.find('PastEvent').length).to.equal(1);
     wrapper.unmount();
   });

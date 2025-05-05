@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getEventContent, formatDate } from '../../utils/appeals-v2-helpers';
 import Expander from './Expander';
@@ -7,14 +7,10 @@ import PastEvent from './PastEvent';
 /**
  * Timeline is in charge of the past events.
  */
-class Timeline extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { expanded: false };
-  }
+const Timeline = ({ events, missingEvents }) => {
+  const [expanded, setExpanded] = useState(false);
 
-  formatDateRange = () => {
-    const { events } = this.props;
+  const formatDateRange = () => {
     if (!events.length) {
       return '';
     }
@@ -26,17 +22,13 @@ class Timeline extends React.Component {
     return `${first} – ${last}`;
   };
 
-  toggleExpanded = e => {
+  const toggleExpanded = e => {
     e.stopPropagation();
-    this.setState(prevState => ({ expanded: !prevState.expanded }));
+    setExpanded(prevExpanded => !prevExpanded);
   };
 
-  render() {
-    const { events, missingEvents } = this.props;
-    const { expanded } = this.state;
-    let pastEventsList = [];
-    if (events.length) {
-      pastEventsList = events
+  const pastEventsList = events.length
+    ? events
         .map((event, index) => {
           const content = getEventContent(event);
           if (!content) {
@@ -46,6 +38,7 @@ class Timeline extends React.Component {
           const { title, description, liClass } = content;
           const date = formatDate(event.date);
           const hideSeparator = index === events.length - 1;
+
           return (
             <PastEvent
               key={`past-event-${index}`}
@@ -57,29 +50,28 @@ class Timeline extends React.Component {
             />
           );
         })
-        .filter(e => !!e); // Filter out the nulls
-    }
+        .filter(e => !!e)
+    : [];
 
-    const downArrow = expanded ? <div className="down-arrow" /> : null;
-    const displayedEvents = expanded ? pastEventsList : [];
+  const downArrow = expanded ? <div className="down-arrow" /> : null;
+  const displayedEvents = expanded ? pastEventsList : [];
 
-    return (
-      <div>
-        <ol id="appeal-timeline" className="form-process appeal-timeline">
-          <Expander
-            expanded={expanded}
-            key="expander"
-            dateRange={this.formatDateRange()}
-            onToggle={this.toggleExpanded}
-            missingEvents={missingEvents}
-          />
-          {displayedEvents}
-        </ol>
-        {downArrow}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <ol id="appeal-timeline" className="form-process appeal-timeline">
+        <Expander
+          expanded={expanded}
+          key="expander"
+          dateRange={formatDateRange()}
+          onToggle={toggleExpanded}
+          missingEvents={missingEvents}
+        />
+        {displayedEvents}
+      </ol>
+      {downArrow}
+    </div>
+  );
+};
 
 Timeline.propTypes = {
   events: PropTypes.arrayOf(
