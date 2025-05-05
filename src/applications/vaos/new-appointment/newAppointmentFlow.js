@@ -360,10 +360,6 @@ export default function getNewAppointmentFlow(state) {
       label: 'Choose the type of sleep care you need',
       next: VA_FACILITY_V2_KEY,
     },
-    vaFacility: {
-      url: 'va-facility',
-      next: vaFacilityNext,
-    },
     vaFacilityV2: {
       url: 'location',
       label: isSingleVaFacility
