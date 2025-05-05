@@ -169,10 +169,9 @@ export function NewAppointment() {
         >
           <ReviewPage />
         </Route>
-        <Route
-          path={`${match.url}/confirmation`}
-          component={ConfirmationPage}
-        />
+        <Route path={`${match.url}/confirmation`}>
+          <ConfirmationPage />
+        </Route>
         <Route path={match.url}>
           <TypeOfCarePage />
         </Route>
