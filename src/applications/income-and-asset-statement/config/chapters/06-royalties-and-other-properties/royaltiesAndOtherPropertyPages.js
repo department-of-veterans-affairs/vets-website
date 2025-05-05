@@ -39,7 +39,6 @@ export const options = {
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.fairMarketValue) ||
     !isDefined(item.incomeGenerationMethod), // include all required fields here
-  maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
     cardDescription: item =>
@@ -67,8 +66,6 @@ export const options = {
         </ul>
       ),
     reviewAddButtonText: 'Add another royalty and other property',
-    alertMaxItems:
-      'You have added the maximum number of allowed incomes for this application. You may edit or delete an income or choose to continue the application.',
     alertItemUpdated:
       'Your royalty and other property information has been updated',
     alertItemDeleted:
@@ -97,18 +94,22 @@ const summaryPage = {
       options,
       {
         title:
-          'Are you or your dependents receiving or expecting to receive any income and net worth associated with royalties and other properties?',
+          'Are you or your dependents receiving or expecting to receive any income and intellectual property royalties, mineral royalties, land use, or other royalties/properties?',
+        hint: 'If yes, you’ll need to report at least one income',
         labels: {
-          Y: 'Yes, I have royalties and other properties to report',
-          N: 'No, I don’t have any royalties and other properties to report',
+          Y: 'Yes, I have income from royalties and other properties to report',
+          N:
+            'No, I don’t have income from royalties and other properties to report',
         },
       },
       {
-        title: 'Do you have any more royalties and other properties to report?',
+        title:
+          'Do you have any more income from royalties and other properties to report?',
         labels: {
-          Y: 'Yes, I have more royalties and other properties to report',
+          Y:
+            'Yes, I have more income from royalties and other properties to report',
           N:
-            'No, I don’t have anymore royalties and other properties to report',
+            'No, I don’t have any more income from royalties and other properties to report',
         },
       },
     ),
