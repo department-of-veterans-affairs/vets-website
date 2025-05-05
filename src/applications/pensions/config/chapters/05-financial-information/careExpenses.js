@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import get from 'platform/utilities/data/get';
 import {
   currencyUI,
-  currencySchema,
+  currencyStringSchema,
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
   radioUI,
@@ -142,7 +142,7 @@ export default {
             childName,
             provider,
             careType: radioSchema(Object.keys(careTypeLabels)),
-            ratePerHour: currencySchema,
+            ratePerHour: currencyStringSchema,
             hoursPerWeek: numberSchema,
             careDateRange: {
               ...currentOrPastDateRangeSchema,
@@ -152,7 +152,7 @@ export default {
             paymentFrequency: radioSchema(
               Object.keys(careFrequencyLabelsWithoutOneTime),
             ),
-            paymentAmount: currencySchema,
+            paymentAmount: currencyStringSchema,
           },
         },
       },

@@ -9,7 +9,7 @@ import {
   addressUI,
   addressSchema,
   currencyUI,
-  currencySchema,
+  currencyStringSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
   fullNameUI,
@@ -350,7 +350,7 @@ const addressPage = {
     properties: {
       childAddress: addressSchema({ omit: ['isMilitary', 'street3'] }),
       personWhoLivesWithChild: fullNameSchema,
-      monthlyPayment: currencySchema,
+      monthlyPayment: currencyStringSchema,
     },
   },
 };

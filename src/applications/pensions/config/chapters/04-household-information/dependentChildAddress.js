@@ -3,7 +3,7 @@ import {
   addressUI,
   addressSchema,
   currencyUI,
-  currencySchema,
+  currencyStringSchema,
   fullNameUI,
   fullNameSchema,
   titleUI,
@@ -56,7 +56,7 @@ export default {
           properties: {
             childAddress: addressSchema({ omit: ['isMilitary', 'street3'] }),
             personWhoLivesWithChild: fullNameSchema,
-            monthlyPayment: currencySchema,
+            monthlyPayment: currencyStringSchema,
           },
         },
       },

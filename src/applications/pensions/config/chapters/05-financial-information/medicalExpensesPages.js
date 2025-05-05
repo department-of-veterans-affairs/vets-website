@@ -5,7 +5,7 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currencyUI,
-  currencySchema,
+  currencyStringSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
@@ -151,7 +151,7 @@ const medicalExpensePaymentPage = {
     properties: {
       paymentDate: currentOrPastDateSchema,
       paymentFrequency: radioSchema(Object.keys(careFrequencyLabels)),
-      paymentAmount: currencySchema,
+      paymentAmount: currencyStringSchema,
     },
     required: ['paymentDate', 'paymentFrequency', 'paymentAmount'],
   },

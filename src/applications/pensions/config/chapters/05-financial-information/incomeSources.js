@@ -1,6 +1,6 @@
 import {
   currencyUI,
-  currencySchema,
+  currencyStringSchema,
   radioUI,
   radioSchema,
   titleUI,
@@ -113,7 +113,7 @@ export default {
             receiver: radioSchema(Object.keys(recipientTypeLabels)),
             dependentName,
             payer,
-            amount: currencySchema,
+            amount: currencyStringSchema,
           },
         },
       },

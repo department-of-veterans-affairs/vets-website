@@ -1,6 +1,6 @@
 import {
   currencyUI,
-  currencySchema,
+  currencyStringSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { isHomeAcreageMoreThanTwo } from '../../../helpers';
@@ -19,7 +19,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      homeAcreageValue: currencySchema,
+      homeAcreageValue: currencyStringSchema,
     },
   },
 };

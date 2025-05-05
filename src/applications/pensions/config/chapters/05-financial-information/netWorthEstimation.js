@@ -1,6 +1,6 @@
 import {
   currencyUI,
-  currencySchema,
+  currencyStringSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
@@ -43,7 +43,7 @@ export default {
     type: 'object',
     required: ['netWorthEstimation'],
     properties: {
-      netWorthEstimation: currencySchema,
+      netWorthEstimation: currencyStringSchema,
       'view:warningAlertOnHighValue': {
         type: 'object',
         properties: {},

@@ -5,7 +5,7 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currencyUI,
-  currencySchema,
+  currencyStringSchema,
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
   numberUI,
@@ -166,7 +166,7 @@ const careExpenseTypePage = {
     type: 'object',
     properties: {
       careType: radioSchema(Object.keys(careTypeLabels)),
-      ratePerHour: currencySchema,
+      ratePerHour: currencyStringSchema,
       hoursPerWeek: numberSchema,
     },
     required: ['careType'],
@@ -220,7 +220,7 @@ const careExpensePaymentPage = {
       paymentFrequency: radioSchema(
         Object.keys(careFrequencyLabelsWithoutOneTime),
       ),
-      paymentAmount: currencySchema,
+      paymentAmount: currencyStringSchema,
     },
     required: ['paymentFrequency', 'paymentAmount'],
   },

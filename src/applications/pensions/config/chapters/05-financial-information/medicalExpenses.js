@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import get from 'platform/utilities/data/get';
 import {
   currencyUI,
-  currencySchema,
+  currencyStringSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
@@ -118,7 +118,7 @@ export default {
             purpose,
             paymentDate: currentOrPastDateSchema,
             paymentFrequency: radioSchema(Object.keys(careFrequencyLabels)),
-            paymentAmount: currencySchema,
+            paymentAmount: currencyStringSchema,
           },
         },
       },

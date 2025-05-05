@@ -1,7 +1,7 @@
 import {
   titleUI,
   currencyUI,
-  currencySchema,
+  currencyStringSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { isSeparated } from './helpers';
 
@@ -20,7 +20,7 @@ export default {
     type: 'object',
     required: ['currentSpouseMonthlySupport'],
     properties: {
-      currentSpouseMonthlySupport: currencySchema,
+      currentSpouseMonthlySupport: currencyStringSchema,
     },
   },
 };
