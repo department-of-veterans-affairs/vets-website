@@ -173,47 +173,6 @@ export const macroCase = str => {
 };
 
 /**
- * Cache the dynamic import promise to avoid redundant network requests
- * and improve performance when makePdf is called multiple times.
- */
-let pdfModulePromise = null;
-
-/**
- * Create a pdf using the platform pdf generator tool
- * @param {Boolean} pdfName what the pdf file should be named
- * @param {Object} pdfData data to be passed to pdf generator
- * @param {String} sentryError name of the app feature where the call originated
- * @param {Boolean} runningUnitTest pass true when running unit tests because calling generatePdf will break unit tests
- * @param {String} templateId the template id in the pdfGenerator utility, defaults to medicalRecords
- */
-export const makePdf = async (
-  pdfName,
-  pdfData,
-  sentryError,
-  runningUnitTest,
-  templateId,
-) => {
-  try {
-    // Use cached module promise if available, otherwise create a new one
-    if (!pdfModulePromise) {
-      pdfModulePromise = import('@department-of-veterans-affairs/platform-pdf/exports');
-    }
-
-    // Wait for the module to load and extract the generatePdf function
-    const { generatePdf } = await pdfModulePromise;
-
-    if (!runningUnitTest) {
-      await generatePdf(templateId || 'medicalRecords', pdfName, pdfData);
-    }
-  } catch (error) {
-    // Reset the pdfModulePromise so subsequent calls can try again
-    pdfModulePromise = null;
-
-    sendErrorToSentry(error, sentryError);
-  }
-};
-
-/**
  * Extract a contained resource from a FHIR resource's "contained" array.
  * @param {Object} resource a FHIR resource (e.g. AllergyIntolerance)
  * @param {String} referenceId an internal ID referencing a contained resource
@@ -273,17 +232,6 @@ export const generateTextFile = (content, fileName) => {
   a.click();
   window.URL.revokeObjectURL(url);
   a.remove();
-};
-
-/**
- * Returns the date and time for file download name
- * @param {Object} user user object from redux store
- * @returns the user's name with the date and time in the format John-Doe-M-D-YYYY_hhmmssa
- */
-export const getNameDateAndTime = user => {
-  return `${user.userFullName.first}-${user.userFullName.last}-${moment()
-    .format('M-D-YYYY_hhmmssa')
-    .replace(/\./g, '')}`;
 };
 
 /**
@@ -557,27 +505,6 @@ export const getLastUpdatedText = (refreshStateStatus, extractType) => {
 };
 
 /**
- * @param {Object} nameObject {first, middle, last, suffix}
- * @returns {String} formatted timestamp
- */
-export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
-  let returnName = '';
-
-  let firstName = `${first}`;
-  let lastName = `${last}`;
-
-  if (!first) {
-    return lastName;
-  }
-  if (middle) firstName += ` ${middle}`;
-  if (suffix) lastName += `, ${suffix}`;
-
-  returnName = `${firstName} ${lastName}`;
-
-  return returnName;
-};
-
-/**
  * @param {Object} name data from FHIR object containing name
  * @returns {String} formatted timestamp
  */
@@ -718,10 +645,6 @@ export const focusOnErrorField = () => {
       focusElement(firstError);
     }
   }, 300);
-};
-
-export const formatUserDob = userProfile => {
-  return userProfile?.dob ? formatDateLong(userProfile.dob) : 'Not found';
 };
 
 /**

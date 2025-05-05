@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import {
   updatePageTitle,
   generatePdfScaffold,
+  getNameDateAndTime,
+  makePdf,
+  formatUserDob,
+  formatNameFirstLast,
 } from '@department-of-veterans-affairs/mhv/exports';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { add, compareAsc } from 'date-fns';
@@ -18,14 +22,7 @@ import {
   getSelfEnteredData,
   getAllSelfEnteredData,
 } from '../actions/selfEnteredData';
-import {
-  getNameDateAndTime,
-  makePdf,
-  getLastSuccessfulUpdate,
-  formatUserDob,
-  sendDataDogAction,
-  formatNameFirstLast,
-} from '../util/helpers';
+import { getLastSuccessfulUpdate, sendDataDogAction } from '../util/helpers';
 import { generateSelfEnteredData } from '../util/pdfHelpers/sei';
 import {
   accessAlertTypes,

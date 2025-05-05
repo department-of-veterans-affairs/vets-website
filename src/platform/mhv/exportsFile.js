@@ -17,11 +17,17 @@ export {
   updatePageTitle,
   openCrisisModal,
   pharmacyPhoneNumber,
+  getNameDateAndTime,
+  formatNameFirstLast,
+  makePdf,
+  formatUserDob,
 } from './util/helpers';
 export {
   txtLine,
   txtLineDotted,
   crisisLineHeader,
   reportGeneratedBy,
+  edipiNotFound,
 } from './util/constants';
 export { trapFocus } from './util/ui/index';
+export { generateMilitaryServicePdf } from './pdf-utils/military-service-pdf';
