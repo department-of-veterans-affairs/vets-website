@@ -29,6 +29,7 @@ import {
   getTimezoneByFacilityId,
 } from '../utils/timezone';
 import ProviderAddress from './components/ProviderAddress';
+import { titleCase } from '../utils/formatters';
 
 const ReviewAndConfirm = props => {
   const { attributes: currentReferral } = props.currentReferral;
@@ -184,7 +185,7 @@ const ReviewAndConfirm = props => {
           <div className="vads-l-row">
             <div className="vads-l-col">
               <h2 className={headingStyles}>
-                {`${currentReferral.categoryOfCare} Provider`}
+                {`${titleCase(currentReferral.categoryOfCare)} Provider`}
               </h2>
             </div>
           </div>
