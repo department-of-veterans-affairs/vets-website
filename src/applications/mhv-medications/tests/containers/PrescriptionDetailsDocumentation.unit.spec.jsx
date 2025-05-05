@@ -185,8 +185,7 @@ describe('Prescription details documentation container', () => {
     });
 
     it('should call downloadFile with TXT format and generate TXT file', async () => {
-      mockApiRequest(medicationInformation);
-      const screen = setupWithReactRouter();
+      const screen = setup();
 
       await waitFor(() => {
         const downloadTxtBtn = screen.getByTestId('download-txt-button');
@@ -199,20 +198,18 @@ describe('Prescription details documentation container', () => {
       });
     });
 
-    // TODO: Fix, issue with file-saver and pdf library
-    // it('should call downloadFile with PDF format and generate PDF file', async () => {
-    //   mockApiRequest(medicationInformation);
-    //   const screen = setupWithReactRouter();
+    it('should call downloadFile with PDF format and generate PDF file', async () => {
+      const screen = setup();
 
-    //   await waitFor(() => {
-    //     const downloadPdfBtn = screen.getByTestId('download-pdf-button');
-    //     expect(downloadPdfBtn).to.exist;
-    //     downloadPdfBtn.click();
-    //   });
+      await waitFor(() => {
+        const downloadPdfBtn = screen.getByTestId('download-pdf-button');
+        expect(downloadPdfBtn).to.exist;
+        downloadPdfBtn.click();
+      });
 
-    //   await waitFor(() => {
-    //     expect(screen.getByText('Download started')).to.exist;
-    //   });
-    // });
+      await waitFor(() => {
+        expect(screen.getByText('Download started')).to.exist;
+      });
+    });
   });
 });
