@@ -86,9 +86,10 @@ export const Data = {
   PARTIAL_FILL_TEXT:
     'This fill has a smaller quantity on purpose. This is temporary.',
   DOWNLOAD_TXT_REFILL_HISTORY: 'Medication description',
-  TRACKING_HEADING: 'Track your shipment',
+  TRACKING_HEADING: 'Track the shipment of your most recent refill',
   PRESCRIPTION_INFO_TRACKING: 'Prescriptions in this package',
   FILLED_ON_DATE: 'February 11, 2025',
+  DOWNLOAD_SUCCESS_CONFIRMATION_MESSAGE: 'Download started',
 };
 export const Paths = {
   LANDING_LIST:

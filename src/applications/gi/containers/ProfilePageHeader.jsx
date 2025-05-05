@@ -54,6 +54,7 @@ const ProfilePageHeader = ({
     vetTecProvider,
     programs,
     ownershipName,
+    accredited,
   } = institution;
 
   const lowerType = type && type.toLowerCase();
@@ -187,16 +188,18 @@ const ProfilePageHeader = ({
               {'   '}
               {_.capitalize(lowerType)} school
             </IconWithInfo>
-            <IconWithInfo icon="bookmark" present={accreditationType}>
+            <IconWithInfo icon="bookmark" present={accredited}>
               {'   '}
-              <LearnMoreLabel
-                text={<>{_.capitalize(accreditationType)} Accreditation</>}
-                onClick={() => {
-                  dispatchShowModal('typeAccredited');
-                }}
-                ariaLabel={ariaLabels.learnMore.numberOfStudents}
-                buttonId="typeAccredited-button"
-              />
+              {accredited && !accreditationType ? (
+                <span>Accreditation: Yes</span>
+              ) : (
+                <LearnMoreLabel
+                  text={`${_.capitalize(accreditationType)} Accreditation`}
+                  onClick={() => dispatchShowModal('typeAccredited')}
+                  ariaLabel={ariaLabels.learnMore.numberOfStudents}
+                  buttonId="typeAccredited-button"
+                />
+              )}
             </IconWithInfo>
             <IconWithInfo icon="location_city" present>
               {'   '}

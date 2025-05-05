@@ -54,4 +54,15 @@ describe('VAOS Component: ProviderAddress', () => {
     );
     expect(screen.queryByTestId('directions-link-wrapper')).to.not.exist;
   });
+  it('renders a single line address if address is a string', () => {
+    const screen = render(
+      <ProviderAddress
+        address="123 Main St, Springfield, IL 62704"
+        phone="555-555-5555"
+      />,
+    );
+    expect(screen.getByTestId('address-block')).to.exist;
+    expect(screen.queryByTestId('Address2')).to.not.exist;
+    expect(screen.queryByTestId('Address3')).to.not.exist;
+  });
 });

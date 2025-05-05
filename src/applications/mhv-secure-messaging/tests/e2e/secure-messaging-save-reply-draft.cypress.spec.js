@@ -51,8 +51,7 @@ describe('Secure Messaging Reply', () => {
 
     PatientMessageDetailsPage.replyToMessageRecipientName(singleMessage);
 
-    // temporarily commented out to avoid failing test
-    // PatientMessageDetailsPage.replyToMessageDate(singleMessage);
+    PatientMessageDetailsPage.replyToMessageDate(singleMessage);
 
     PatientMessageDetailsPage.replyToMessageId(singleMessage);
 
