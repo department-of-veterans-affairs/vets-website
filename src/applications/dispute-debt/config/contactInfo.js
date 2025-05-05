@@ -1,7 +1,7 @@
 import React from 'react';
-// import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
+import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
-import profileContactInfo from 'applications/_mock-form-ae-design-patterns/shared/components/ContactInfo/profileContactInfo';
+// import profileContactInfo from 'applications/_mock-form-ae-design-patterns/shared/components/ContactInfo/profileContactInfo';
 
 // Content for the contact information page using VA standards
 const content = {
