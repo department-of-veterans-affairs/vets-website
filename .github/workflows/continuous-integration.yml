@@ -481,6 +481,7 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           pattern: unit-test-stress-test-results-*
+          name: unit-test-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
           merge-multiple: true
 
@@ -1092,6 +1093,7 @@ jobs:
         run: mkdir -p qa-standards-dashboard-data/coverage
 
       - name: Download Unit Test Mochawesome test results
+        if: needs.unit-tests.outputs.tests_ran == 'true'
         uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-report
@@ -1207,7 +1209,7 @@ jobs:
       - name: Download Unit Test Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: unit-test-stress-test-results-*
+          pattern: unit-test-stress-test-results-*
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
 
@@ -1225,6 +1227,12 @@ jobs:
       # -------------------------
       # | Unit Tests Summary |
       # -------------------------
+      - name: Download Unit Test Mochawesome test results
+        uses: ./.github/workflows/download-artifact
+        with:
+          pattern: unit-test-stress-test-results-*
+          path: qa-standards-dashboard-data/src/testing-reports/data
+          merge-multiple: true
 
       - name: Publish Unit Test Stability Review Results
         if: ${{ always() }}
@@ -1234,7 +1242,7 @@ jobs:
           name: Unit Test Stability Review Summary
           conclusion: ${{ needs.unit-tests-stress-test.result }}
           output: |
-            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+            {"summary": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{"total": 0, "passed": 0, "failed": 0, "pending": 0}' }}}
 
   testing-reports-unit-tests-coverage:
     name: Testing Reports - Unit Tests Coverage
@@ -2058,7 +2066,7 @@ jobs:
         if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: stress-test-report
+          name: unit-test-stress-test-results-${{ matrix.ci_node_index }}
           path: mocha/results
 
       - name: Upload Coverage Report Artifact

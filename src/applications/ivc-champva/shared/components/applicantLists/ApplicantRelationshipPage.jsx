@@ -5,7 +5,9 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons, {
+  FormNavButtonContinue,
+} from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 
 import { ADDITIONAL_FILES_HINT } from '../../constants';
@@ -151,7 +153,9 @@ export function ApplicantRelationshipReviewPage(props) {
 }
 
 export default function ApplicantRelationshipPage({
+  contentAfterButtons,
   data,
+  fullData,
   genOp,
   setFormData,
   goBack,
@@ -163,17 +167,26 @@ export default function ApplicantRelationshipPage({
   updatePage,
   onReviewPage,
 }) {
+  // fulldata is present in array builder pages:
+  const fullOrItemData = fullData ?? data;
   const relationshipStructure = {
     [primary]: undefined,
     [secondary]: undefined,
   };
   const [checkValue, setCheckValue] = useState(
-    data?.applicants?.[pagePerItemIndex]?.[keyname] || relationshipStructure,
+    fullOrItemData?.applicants?.[pagePerItemIndex]?.[keyname] ||
+      relationshipStructure,
   );
   const [checkError, setCheckError] = useState(undefined);
   const [inputError, setInputError] = useState(undefined);
   const [dirty, setDirty] = useState(false);
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const useTopBackLink =
+    contentAfterButtons?.props?.formConfig?.useTopBackLink ?? false;
+  const navButtons = useTopBackLink ? (
+    <FormNavButtonContinue submitToContinue />
+  ) : (
+    <FormNavButtons goBack={goBack} submitToContinue />
+  );
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
   const genOps = genOp || generateOptions;
@@ -188,7 +201,7 @@ export default function ApplicantRelationshipPage({
     description,
     customOtherDescription,
   } = genOps({
-    data,
+    data: fullOrItemData,
     pagePerItemIndex,
   });
 
@@ -239,11 +252,11 @@ export default function ApplicantRelationshipPage({
     onGoForward: event => {
       event.preventDefault();
       if (!handlers.validate()) return;
-      const testVal = { ...data };
+      const testVal = { ...fullOrItemData };
       testVal.applicants[pagePerItemIndex][keyname] = checkValue;
       setFormData(testVal);
       if (onReviewPage) updatePage();
-      goForward(data);
+      goForward({ formData: data });
     },
   };
 
@@ -337,7 +350,9 @@ ApplicantRelationshipReviewPage.propTypes = {
 };
 
 ApplicantRelationshipPage.propTypes = {
+  contentAfterButtons: PropTypes.object,
   data: PropTypes.object,
+  fullData: PropTypes.object,
   genOp: PropTypes.func,
   goBack: PropTypes.func,
   goForward: PropTypes.func,

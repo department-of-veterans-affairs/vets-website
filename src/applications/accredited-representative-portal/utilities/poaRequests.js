@@ -139,13 +139,13 @@ export const SORT_BY = {
 };
 
 export const PENDING = {
-  ASC_OPTION: 'Submitted date (newest)',
-  DESC_OPTION: 'Submitted date (oldest)',
+  DESC_OPTION: 'Submitted date (newest)',
+  ASC_OPTION: 'Submitted date (oldest)',
 };
 
 export const PROCESSED = {
-  ASC_OPTION: 'Processed date (newest)',
-  DESC_OPTION: 'Processed date (oldest)',
+  DESC_OPTION: 'Processed date (newest)',
+  ASC_OPTION: 'Processed date (oldest)',
 };
 
 export const STATUSES = {
