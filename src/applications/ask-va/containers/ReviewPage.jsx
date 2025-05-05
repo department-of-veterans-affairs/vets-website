@@ -67,6 +67,7 @@ const ReviewPage = props => {
   const [editSection, setEditSection] = useState([]);
   const [attachments, setAttachments] = useState([]);
   const [editAttachments, setEditAttachments] = useState(false);
+  const [show503Alert, setShow503Alert] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -159,6 +160,7 @@ const ReviewPage = props => {
 
   const handleSubmit = async () => {
     setIsDisabled(true);
+    setShow503Alert(false);
     try {
       await handleFormSubmission({
         formData: props.formData,
@@ -171,14 +173,26 @@ const ReviewPage = props => {
             state: { contactPreference, inquiryNumber },
           });
         },
-        // onError: error => {
-        //   setIsDisabled(false);
-        //   // TODO - need error modal instead of forwarding to confirmation per final design
-        //   // Temporary alert dialog for testing
-        // },
+        onError: () => {
+          // setIsDisabled(false);
+          // TODO - need error modal instead of forwarding to confirmation per final design
+          // Temporary alert dialog for testing
+          setShow503Alert(true);
+          scroller.scrollTo('topScrollElement', {
+            duration: 500,
+            delay: 0,
+            smooth: true,
+          });
+        },
       });
-    } catch (error) {
+    } catch (_error) {
       setIsDisabled(false);
+      setShow503Alert(true);
+      scroller.scrollTo('topScrollElement', {
+        duration: 500,
+        delay: 0,
+        smooth: true,
+      });
       // TODO - need error modal instead of forwarding to confirmation per final design
       // Temporary alert dialog for testing
     }
@@ -239,6 +253,30 @@ const ReviewPage = props => {
 
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
+      <div className="vads-u-margin-y--3">
+        {show503Alert ? (
+          <VaAlert
+            closeBtnAriaLabel="Close notification"
+            onCloseEvent={() => setShowAlert(false)}
+            status="error"
+            visible
+            data-testid="review-alert"
+          >
+            <h3 id="track-your-status-on-mobile" slot="headline">
+              Ask VA isn’t working right now
+            </h3>
+            <div>
+              <p className="vads-u-margin-y--0">
+                We’re sorry. There’s a problem with our system. We can’t submit
+                your question. To ask your question, call us at &nbsp;{' '}
+                <va-telephone contact="8008271000" /> &nbsp;({' '}
+                <va-telephone contact="711" tty="true" /> ). We’re here Monday
+                through Friday, 8:00 a.m to 9:00 p.m ET.
+              </p>
+            </div>
+          </VaAlert>
+        ) : null}
+      </div>
       <div className="vads-u-margin-y--3">
         {showAlert ? (
           <VaAlert
