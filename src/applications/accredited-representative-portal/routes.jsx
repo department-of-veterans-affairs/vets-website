@@ -2,6 +2,8 @@ import React from 'react';
 import { redirect } from 'react-router-dom';
 
 import App from './containers/App';
+import PublicLayoutContainer from './containers/PublicLayoutContainer';
+import AuthenticatedLayoutContainer from './containers/AuthenticatedLayoutContainer';
 import LandingPage from './containers/LandingPage';
 import POARequestSearchPage from './containers/POARequestSearchPage';
 import POARequestIndividualSearchPage from './containers/POARequestIndividualSearchPage';
@@ -52,69 +54,72 @@ const routes = [
   {
     id: 'root',
     path: '/',
-    loader() {
-      return userPromise;
-    },
     element: <App />,
     errorElement: <ErrorBoundary />,
     children: [
       {
-        index: true,
-        element: (
-          <LandingPage title="Accredited Representative Portal | Veterans Affairs" />
-        ),
-      },
-      {
-        path: 'sign-in',
-        element: <LoginContainer />,
-        loader: async () => {
-          // If authenticated, redirect to POA requests
-          if (await userPromise) {
-            throw redirect('/poa-requests');
-          }
-          return null;
-        },
-      },
-      {
-        path: 'auth/login/callback',
-        element: <AuthCallbackHandler />,
-        loader: AuthCallbackHandler.loader,
-      },
-      forEachRoute(addSignInRedirection, {
-        element: <SignedInLayout />,
+        element: <PublicLayoutContainer />,
         children: [
           {
-            path: 'poa-requests',
-            element: (
-              <POARequestSearchPage title="Power of attorney requests | Veterans Affairs" />
-            ),
-            loader: POARequestSearchPage.loader,
+            path: 'sign-in',
+            element: <LoginContainer />,
           },
           {
-            path: 'poa-search',
-            element: <POARequestIndividualSearchPage />,
-          },
-          {
-            path: 'poa-requests/:id',
-            element: (
-              <POARequestDetailsPage title="POA request | Veterans Affairs" />
-            ),
-            loader: POARequestDetailsPage.loader,
-            children: [
-              {
-                path: 'decision',
-                action: POARequestDetailsPage.createDecisionAction,
-              },
-            ],
-          },
-          {
-            path: 'get-help',
-            element: (
-              <GetHelpPage title="Get help using the portal | Veterans Affairs" />
-            ),
+            path: 'auth/login/callback',
+            element: <AuthCallbackHandler />,
+            loader: AuthCallbackHandler.loader,
           },
         ],
-      }),
+      },
+      {
+        element: <AuthenticatedLayoutContainer />,
+        loader() {
+          return userPromise;
+        },
+        children: [
+          {
+            index: true,
+            element: (
+              <LandingPage title="Accredited Representative Portal | Veterans Affairs" />
+            ),
+          },
+          forEachRoute(addSignInRedirection, {
+            element: <SignedInLayout />,
+            children: [
+              {
+                path: 'poa-requests',
+                element: (
+                  <POARequestSearchPage title="Power of attorney requests | Veterans Affairs" />
+                ),
+                loader: POARequestSearchPage.loader,
+              },
+              {
+                path: 'poa-search',
+                element: <POARequestIndividualSearchPage />,
+              },
+              {
+                path: 'poa-requests/:id',
+                element: (
+                  <POARequestDetailsPage title="POA request | Veterans Affairs" />
+                ),
+                loader: POARequestDetailsPage.loader,
+                children: [
+                  {
+                    path: 'decision',
+                    action: POARequestDetailsPage.createDecisionAction,
+                  },
+                ],
+              },
+              {
+                path: 'get-help',
+                element: (
+                  <GetHelpPage title="Get help using the portal | Veterans Affairs" />
+                ),
+              },
+            ],
+          }),
+        ],
+      },
     ],
   },
 ];
