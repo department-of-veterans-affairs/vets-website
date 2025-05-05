@@ -192,7 +192,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data[messageIndex].attributes.senderName} `,
+        `From: ${messageDetails.data[messageIndex].attributes.senderName}`,
       );
   };
 
@@ -258,7 +258,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} `,
+        `From: ${messageDetails.data.attributes.senderName}`,
       );
   };
 
