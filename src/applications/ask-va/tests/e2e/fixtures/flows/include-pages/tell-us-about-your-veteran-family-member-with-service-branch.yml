@@ -15,7 +15,7 @@ steps:
     target: VETERAN_SSN
     value:  789345522
   - action: select
-    target: VETERAN_BRANCH_OF_SERVICE
+    target: BRANCH_OF_SERVICE_VETERAN
     value:  Army
   - action: select
     target: MONTH
