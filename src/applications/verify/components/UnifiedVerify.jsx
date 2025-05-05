@@ -25,7 +25,6 @@ export default function Verify() {
   const loginServiceName = useSelector(signInServiceName);
 
   const [loading, setLoading] = useState(true);
-  const [redirecting, setRedirecting] = useState(false);
   const prevVerified = usePrevious(isVerified);
 
   // Simulate loading (e.g., for OAuth transition)
@@ -38,10 +37,7 @@ export default function Verify() {
   useEffect(
     () => {
       if (prevVerified === false && isVerified === true) {
-        setRedirecting(true);
-        setTimeout(() => {
-          window.location.href = '/my-va';
-        }, 2000);
+        window.location.href = '/my-va'; // Redirect immediately after verification
       }
     },
     [isVerified, prevVerified],
@@ -76,36 +72,21 @@ export default function Verify() {
     return <div>Loading...</div>;
   }
 
-  if (redirecting) {
-    return (
-      <section data-testid="unauthenticated-verify-app" className="verify">
-        <div className="container">
-          <div className="row">
-            <div className="columns small-12 fed-warning--v2 vads-u-margin-y--2">
-              <va-alert status="success" visible>
-                <h2 slot="headline">You’re verified</h2>
-                <p>Redirecting you to My VA...</p>
-              </va-alert>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section data-testid="unauthenticated-verify-app" className="verify">
       <div className="container">
         <div className="row">
           <div className="columns small-12 fed-warning--v2 vads-u-margin-y--2">
+            <h1 className="vads-u-margin-top--2">Verify your identity</h1>
+
             {isVerified ? (
               <>
-                <va-alert status="success" visible>
-                  <h2 slot="headline">You’re already verified</h2>
+                <va-alert status="success">
+                  <h2>You’re verified</h2>
                   <p>
-                    You’ve already completed identity verification. You can now
-                    access all the tools and benefits available to you on
-                    VA.gov.
+                    We confirmed you verified your identity with your{' '}
+                    {renderServiceNames} account. You can now access your VA
+                    benefits, services, and information online.
                   </p>
                 </va-alert>
                 <p>
@@ -114,7 +95,6 @@ export default function Verify() {
               </>
             ) : (
               <>
-                <h1 className="vads-u-margin-top--2">Verify your identity</h1>
                 <p>
                   We need you to verify your identity for your{' '}
                   {renderServiceNames} account. This step helps us protect all
