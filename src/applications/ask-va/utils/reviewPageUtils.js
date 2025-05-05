@@ -165,7 +165,11 @@ export const submitFormData = async ({
     let contentType;
 
     if (response && response.headers) {
-      contentType = response.headers.get('content-type');
+      contentType = response.headers.get('Content-Type');
+      if (!contentType) {
+        // Content-Type is case-sensitive
+        contentType = response.headers.get('content-type');
+      }
     }
 
     if (!response?.ok) {
