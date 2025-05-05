@@ -79,6 +79,7 @@ export const deceasedDependentOptions = {
       );
     },
     summaryTitle: 'Review your dependents who have died',
+    cancelAddButtonText: 'Cancel removing this dependent',
   },
 };
 
