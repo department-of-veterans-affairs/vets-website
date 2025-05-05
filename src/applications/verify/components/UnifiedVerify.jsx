@@ -1,10 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { signInServiceName } from 'platform/user/authentication/selectors';
 import {
   VerifyIdmeButton,
   VerifyLogingovButton,
 } from 'platform/user/authentication/components/VerifyButton';
+
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(
+    () => {
+      ref.current = value;
+    },
+    [value],
+  );
+  return ref.current;
+}
 
 export default function Verify() {
   const isAuthenticated = useSelector(
@@ -14,11 +25,27 @@ export default function Verify() {
   const loginServiceName = useSelector(signInServiceName);
 
   const [loading, setLoading] = useState(true);
+  const [redirecting, setRedirecting] = useState(false);
+  const prevVerified = usePrevious(isVerified);
 
+  // Simulate loading (e.g., for OAuth transition)
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 100);
     return () => clearTimeout(timer);
   }, []);
+
+  // Trigger redirect after verification is completed
+  useEffect(
+    () => {
+      if (prevVerified === false && isVerified === true) {
+        setRedirecting(true);
+        setTimeout(() => {
+          window.location.href = '/my-va';
+        }, 2000);
+      }
+    },
+    [isVerified, prevVerified],
+  );
 
   const renderServiceNames = isAuthenticated ? (
     <strong>{loginServiceName === 'idme' ? 'ID.me' : 'Login.gov'}</strong>
@@ -44,8 +71,26 @@ export default function Verify() {
       </>
     );
   }
+
   if (loading) {
-    return <div>Loading...</div>; // Optional: replace with a spinner
+    return <div>Loading...</div>;
+  }
+
+  if (redirecting) {
+    return (
+      <section data-testid="unauthenticated-verify-app" className="verify">
+        <div className="container">
+          <div className="row">
+            <div className="columns small-12 fed-warning--v2 vads-u-margin-y--2">
+              <va-alert status="success" visible>
+                <h2 slot="headline">You’re verified</h2>
+                <p>Redirecting you to My VA...</p>
+              </va-alert>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (

@@ -1,9 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
-import { cleanup, waitFor } from '@testing-library/react';
+import { cleanup, render, waitFor, act } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import Verify from '../../components/UnifiedVerify';
+
+const mockStore = configureStore([]);
 
 describe('Verify', () => {
   afterEach(cleanup);
@@ -38,10 +42,7 @@ describe('Verify', () => {
         initialState: {
           user: {
             login: { currentlyLoggedIn: true },
-            profile: {
-              verified: false,
-              signIn: { serviceName: 'idme' },
-            },
+            profile: { verified: false, signIn: { serviceName: 'idme' } },
           },
         },
       });
@@ -61,10 +62,7 @@ describe('Verify', () => {
         initialState: {
           user: {
             login: { currentlyLoggedIn: true },
-            profile: {
-              verified: false,
-              signIn: { serviceName: 'logingov' },
-            },
+            profile: { verified: false, signIn: { serviceName: 'logingov' } },
           },
         },
       });
@@ -78,25 +76,114 @@ describe('Verify', () => {
         expect(idmeButton).to.not.exist;
       });
     });
-  });
 
-  it('shows success message when user is verified', async () => {
-    const { container } = renderInReduxProvider(<Verify />, {
-      initialState: {
+    it('shows success alert with link when already verified', async () => {
+      const { container } = renderInReduxProvider(<Verify />, {
+        initialState: {
+          user: {
+            login: { currentlyLoggedIn: true },
+            profile: { verified: true, signIn: { serviceName: 'idme' } },
+          },
+        },
+      });
+
+      await waitFor(() => {
+        const alert = container.querySelector('va-alert[status="success"]');
+        expect(alert).to.exist;
+        expect(alert.textContent).to.include('You’re already verified');
+
+        const link = container.querySelector('a[href="/my-va"]');
+        expect(link).to.exist;
+      });
+    });
+
+    it('shows "Redirecting..." message after verification completes', async () => {
+      const initialState = {
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: { verified: false, signIn: { serviceName: 'idme' } },
+        },
+      };
+
+      const store = mockStore(initialState);
+
+      const { rerender, getByText } = render(
+        <Provider store={store}>
+          <Verify />
+        </Provider>,
+      );
+
+      // Wait for loading to clear
+      await act(() => new Promise(resolve => setTimeout(resolve, 150)));
+
+      // Update to verified = true to simulate completion
+      const updatedState = {
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: { verified: true, signIn: { serviceName: 'idme' } },
+        },
+      };
+
+      const newStore = mockStore(updatedState);
+
+      rerender(
+        <Provider store={newStore}>
+          <Verify />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        expect(getByText(/Redirecting you to My VA/i)).to.exist;
+      });
+    });
+    it('redirects to My VA after verification is completed', async () => {
+      const initialState = {
         user: {
           login: { currentlyLoggedIn: true },
           profile: {
-            verified: true,
+            verified: false,
             signIn: { serviceName: 'idme' },
           },
         },
-      },
-    });
+      };
 
-    await waitFor(() => {
-      const alert = container.querySelector('va-alert[status="success"]');
-      expect(alert).to.exist;
-      expect(alert.textContent).to.include('You’re already verified');
+      const store = mockStore(initialState);
+
+      const originalLocation = window.location;
+      delete window.location;
+      window.location = { href: '' };
+
+      const { rerender } = render(
+        <Provider store={store}>
+          <Verify />
+        </Provider>,
+      );
+
+      await act(() => new Promise(resolve => setTimeout(resolve, 150)));
+
+      const updatedState = {
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: { verified: true, signIn: { serviceName: 'idme' } },
+        },
+      };
+
+      const newStore = mockStore(updatedState);
+
+      rerender(
+        <Provider store={newStore}>
+          <Verify />
+        </Provider>,
+      );
+
+      await waitFor(
+        () => {
+          expect(window.location.href).to.equal('/my-va');
+        },
+        { timeout: 2500 },
+      );
+
+      window.location = originalLocation;
     });
   });
 });
