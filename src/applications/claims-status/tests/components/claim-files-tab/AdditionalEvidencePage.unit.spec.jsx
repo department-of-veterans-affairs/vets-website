@@ -1,11 +1,9 @@
 import React from 'react';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { createStore } from 'redux';
-import { fireEvent } from '@testing-library/dom';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
@@ -32,6 +30,9 @@ const fileFormProps = {
   location: {
     hash: '',
   },
+  // Provide default noop implementations to avoid errors in effects
+  navigate: () => {},
+  getClaim: () => {},
 };
 
 describe('<AdditionalEvidencePage>', () => {
@@ -52,7 +53,7 @@ describe('<AdditionalEvidencePage>', () => {
     it('should render loading div', () => {
       const { container } = render(
         <Provider store={getStore}>
-          <AdditionalEvidencePage {...fileFormProps} claim={claim} loading />,
+          <AdditionalEvidencePage {...fileFormProps} claim={claim} loading />
         </Provider>,
       );
 
@@ -73,7 +74,6 @@ describe('<AdditionalEvidencePage>', () => {
             claim={claim}
             message={message}
           />
-          ,
         </Provider>,
       );
 
@@ -84,7 +84,7 @@ describe('<AdditionalEvidencePage>', () => {
     it('should render upload error alert when rerendered', () => {
       const { container, rerender } = render(
         <Provider store={getStore}>
-          <AdditionalEvidencePage {...fileFormProps} claim={claim} />,
+          <AdditionalEvidencePage {...fileFormProps} claim={claim} />
         </Provider>,
       );
       expect($('va-alert', container)).not.to.exist;
@@ -102,7 +102,6 @@ describe('<AdditionalEvidencePage>', () => {
             claim={claim}
             message={message}
           />
-          ,
         </Provider>,
       );
       expect($('va-alert', container)).to.exist;
@@ -127,7 +126,6 @@ describe('<AdditionalEvidencePage>', () => {
             }
             message={message}
           />
-          ,
         </Provider>,
       );
 
@@ -156,7 +154,6 @@ describe('<AdditionalEvidencePage>', () => {
             }
             message={message}
           />
-          ,
         </Provider>,
       );
 
@@ -203,7 +200,6 @@ describe('<AdditionalEvidencePage>', () => {
             documentsUseLighthouse={false}
             submitFiles={submitFilesSpy}
           />
-          ,
         </Provider>,
       );
 
@@ -215,10 +211,8 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('should reset uploads on mount', () => {
       const resetUploads = sinon.spy();
-      const mainDiv = document.createElement('div');
-      mainDiv.classList.add('va-nav-breadcrumbs');
-      document.body.appendChild(mainDiv);
-      ReactTestUtils.renderIntoDocument(
+
+      render(
         <Provider store={uploadStore}>
           <AdditionalEvidencePage
             {...fileFormProps}
@@ -245,7 +239,6 @@ describe('<AdditionalEvidencePage>', () => {
             getClaim={getClaim}
             resetUploads={resetUploads}
           />
-          ,
         </Provider>,
       );
 
@@ -259,7 +252,6 @@ describe('<AdditionalEvidencePage>', () => {
             getClaim={getClaim}
             resetUploads={resetUploads}
           />
-          ,
         </Provider>,
       );
 
@@ -295,7 +287,6 @@ describe('<AdditionalEvidencePage>', () => {
             filesNeeded={filesNeeded}
             filesOptional={filesOptional}
           />
-          ,
         </Provider>,
       );
 
@@ -370,7 +361,6 @@ describe('<AdditionalEvidencePage>', () => {
             router={getRouter()}
             filesNeeded={filesNeeded}
           />
-          ,
         </Provider>,
       );
 
@@ -405,7 +395,6 @@ describe('<AdditionalEvidencePage>', () => {
             claim={claim}
             router={getRouter()}
           />
-          ,
         </Provider>,
       );
 
@@ -456,7 +445,6 @@ describe('<AdditionalEvidencePage>', () => {
             resetUploads={resetUploads}
             uploadComplete
           />
-          ,
         </Provider>,
       );
       const additionalEvidenceSection = $(
