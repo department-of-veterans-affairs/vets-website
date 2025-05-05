@@ -55,10 +55,10 @@ describe('content unit tests', () => {
           router={router}
         />,
       );
-      $('va-button-pair', container).__events.secondaryClick();
+      $('a.back-link', container).click();
       expect(router.push.calledWith(`${baseUrl}/introduction`)).to.be.true;
     });
-    it('should call dismissMessage when the dismiss button is clicked', () => {
+    it('should call dismissMessage when the dismiss (continue) button is clicked', () => {
       const setMessageDismissedSpy = sinon.spy();
       const { container } = render(
         <WrapPage
@@ -68,7 +68,7 @@ describe('content unit tests', () => {
           router={{}}
         />,
       );
-      $('va-button-pair', container).__events.primaryClick();
+      $('va-button', container).click();
       expect(setMessageDismissedSpy.calledOnce).to.be.true;
     });
   });

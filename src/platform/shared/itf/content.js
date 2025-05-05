@@ -1,7 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 /**
  * Wraps ITF content
@@ -34,11 +33,17 @@ export const WrapPage = ({ content, setMessageDismissed, baseUrl, router }) => {
     <div className="itf-wrapper vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
       <div className="usa-content">
         {content}
-        <VaButtonPair
+        <Link
+          className="back-link vads-u-margin-right--2"
+          to={`${baseUrl}/introduction`}
+          onClick={goHome}
+        >
+          Back
+        </Link>
+        <va-button
           class="vads-u-margin-top--2"
           continue
-          onPrimaryClick={dismissMessage}
-          onSecondaryClick={goHome}
+          onClick={dismissMessage}
         />
       </div>
     </div>
@@ -139,21 +144,23 @@ ItfFoundAlert.propTypes = {
 
 export const ItfFailedAlert = ({ itfType }) =>
   itfMessage({
-    status: 'info',
+    status: 'warning',
     headline: `You may want to confirm your intent to file for ${itfType} benefits`,
     content: (
       <>
         <div>
           We tried to check for your intent to file in our records, but there
-          was a problem with our system. You can still able to work on your
-          application.
+          was a problem with our system. You can still work on your application.
         </div>
         <p>
-          Submitting your intent to file a Veterans pension application is
+          Submitting your intent to file a Veterans ${itfType} application is
           optional, but may help you get more benefits, depending on your
-          situation. To submit or confirm your intent to file, we recommend
-          calling <va-telephone contact="8008271000" /> (
-          <va-telephone contant="711" tty />
+          situation.
+        </p>
+        <p>
+          To submit or confirm your intent to file, we recommend calling{' '}
+          <va-telephone contact="8008271000" /> (
+          <va-telephone contact="711" tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
         </p>
       </>
