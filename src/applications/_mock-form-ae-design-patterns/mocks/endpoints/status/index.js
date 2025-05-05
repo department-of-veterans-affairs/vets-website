@@ -17,7 +17,7 @@ const generateStatusResponse = (req, res) => {
   const { id } = req.params;
 
   // increase to use multiple retries
-  const requiredRetries = 0;
+  const requiredRetries = 2;
 
   if (retries < requiredRetries) {
     retries += 1;

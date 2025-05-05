@@ -68,6 +68,7 @@ export class ProfileInformationEditView extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log('componentDidUpdate');
     if (!prevProps.field && !!this.props.field) {
       this.focusOnFirstFormElement();
     }
@@ -101,7 +102,13 @@ export class ProfileInformationEditView extends Component {
 
   componentWillUnmount() {
     if (this.interval) {
+      console.log('Clearing interval on unmount');
       window.clearInterval(this.interval);
+      this.interval = null;
+    }
+    if (this.safetyTimeout) {
+      window.clearTimeout(this.safetyTimeout);
+      this.safetyTimeout = null;
     }
     const { fieldName } = this.props;
     // Errors returned directly from the API request (as opposed through a transaction lookup) are
@@ -137,6 +144,40 @@ export class ProfileInformationEditView extends Component {
   };
 
   refreshTransaction = () => {
+    // this.props.refreshTransaction(
+    //   this.props.transaction,
+    //   this.props.analyticsSectionName,
+    // );
+
+    console.log(
+      'refreshTransaction called in component with transaction:',
+      this.props.transaction?.data?.attributes?.transactionId,
+    );
+
+    // Make sure transaction exists
+    if (!this.props.transaction) {
+      console.error('No transaction to refresh');
+      return;
+    }
+
+    // Start polling on a regular interval if not already polling
+    if (!this.interval) {
+      console.log('Setting up polling interval');
+      this.interval = window.setInterval(() => {
+        console.log('Polling from interval');
+        this.props.refreshTransaction(this.props.transaction, 'phone-numbers');
+      }, 1000); // Poll every second
+
+      // Safety timeout to clear interval after 15 seconds
+      this.safetyTimeout = window.setTimeout(() => {
+        if (this.interval) {
+          console.log('Safety timeout clearing interval');
+          window.clearInterval(this.interval);
+          this.interval = null;
+        }
+      }, 15000);
+    }
+
     this.props.refreshTransaction(
       this.props.transaction,
       this.props.analyticsSectionName,
@@ -209,6 +250,14 @@ export class ProfileInformationEditView extends Component {
       return;
     }
 
+    // this.props.createTransaction(
+    //   apiRoute,
+    //   method,
+    //   fieldName,
+    //   payload,
+    //   analyticsSectionName,
+    // );
+
     try {
       const result = await this.props.createTransaction(
         apiRoute,
@@ -217,6 +266,8 @@ export class ProfileInformationEditView extends Component {
         payload,
         analyticsSectionName,
       );
+
+      console.log('result', result);
 
       if (result?.formOnlyUpdate && this.context?.updateContactInfoForFormApp) {
         // Update the form data with the payload format
@@ -233,6 +284,7 @@ export class ProfileInformationEditView extends Component {
           field.uiSchema,
         );
       } else {
+        console.log('else profile');
         // For profile updates, make sure we trigger a transaction refresh
         // so contact info displays reflect the new values without a page refresh
         this.refreshTransaction();

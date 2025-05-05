@@ -103,6 +103,16 @@ export function refreshTransaction(
     try {
       const { transactionId } = transaction.data.attributes;
       const state = getState();
+
+      console.log('Checking transaction ID:', transactionId);
+      console.log(
+        'Transactions awaiting update:',
+        state.vapService.transactionsAwaitingUpdate,
+      );
+      console.log(
+        'Is transaction already awaiting update:',
+        state.vapService.transactionsAwaitingUpdate.includes(transactionId),
+      );
       const isAlreadyAwaitingUpdate = state.vapService.transactionsAwaitingUpdate.includes(
         transactionId,
       );
@@ -110,6 +120,7 @@ export function refreshTransaction(
       if (isAlreadyAwaitingUpdate) {
         return;
       }
+      console.log('Polling transaction:', transactionId, new Date().toISOString());
 
       dispatch({
         type: VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED,
@@ -119,7 +130,13 @@ export function refreshTransaction(
       const route = _route || `/profile/status/${transactionId}`;
       const transactionRefreshed = await apiRequest(route);
 
+      console.log(
+        'Transaction status:',
+        transactionRefreshed?.data?.attributes?.transactionStatus,
+      );
+
       if (isSuccessfulTransaction(transactionRefreshed)) {
+        console.log('isSuccessfulTransaction', isSuccessfulTransaction(transactionRefreshed));
         const forceCacheClear = true;
         await dispatch(refreshProfile(forceCacheClear));
         dispatch(clearTransaction(transactionRefreshed));
@@ -134,7 +151,10 @@ export function refreshTransaction(
           transaction: transactionRefreshed,
         });
 
+        console.log('else');
+
         if (isFailedTransaction(transactionRefreshed) && analyticsSectionName) {
+          console.log('isFailedTransaction', isFailedTransaction(transactionRefreshed));
           const errorMetadata =
             transactionRefreshed?.data?.attributes?.metadata?.[0] ?? {};
           const errorCode = errorMetadata.code ?? 'unknown-code';
@@ -152,6 +172,7 @@ export function refreshTransaction(
         }
       }
     } catch (err) {
+      console.log('catch');
       dispatch({
         type: VAP_SERVICE_TRANSACTION_UPDATE_FAILED,
         transaction,
