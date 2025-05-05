@@ -48,8 +48,6 @@ export default function CurrencyField(fieldProps) {
         props.onChange(value);
       }
     }
-
-    // props.onChange(value);
   };
 
   const handleBlur = event => {
