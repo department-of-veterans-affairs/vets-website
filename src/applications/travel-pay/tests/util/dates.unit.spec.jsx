@@ -230,6 +230,10 @@ describe('formatDateTime', () => {
       'Tuesday, June 25, 2024',
       '2:00 PM',
     ]);
+
+    expect(formatDateTime('2024-06-25T08:00:00.000+02:00', true)).to.deep.equal(
+      ['Tuesday, June 25, 2024', '8:00 AM'],
+    );
   });
 });
 
