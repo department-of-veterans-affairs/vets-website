@@ -25,6 +25,7 @@ const PendingReferralCard = ({ referral, index }) => {
       borderTop={first}
       borderBottom
       status="pending"
+      ariaDescribedby={`${categoryOfCare} referral`}
     >
       <AppointmentFlexGrid idClickable={idClickable} link={link}>
         <AppointmentRow className="vads-u-margin-x--0p5 mobile:vads-u-flex-direction--row">

@@ -8,9 +8,13 @@ export default function ListItem({
   borderBottom,
   children,
   status,
+  ariaDescribedby = '',
 }) {
   const uniqueIdentifier = appointment.id || appointment.uuid;
   const idClickable = `id-${uniqueIdentifier.replace(/[.=\\]/g, '\\$&')}`;
+  const ariaDescribedbyProp = ariaDescribedby
+    ? { 'aria-describedby': ariaDescribedby }
+    : {};
 
   return (
     <li
@@ -27,6 +31,7 @@ export default function ListItem({
         },
       )}
       data-testid="appointment-list-item"
+      {...ariaDescribedbyProp}
     >
       {children}
     </li>
@@ -35,6 +40,7 @@ export default function ListItem({
 
 ListItem.propTypes = {
   appointment: PropTypes.object.isRequired,
+  ariaDescribedby: PropTypes.string,
   borderBottom: PropTypes.bool,
   borderTop: PropTypes.bool,
   children: PropTypes.object,
