@@ -70,7 +70,7 @@ const InProductionEducationFiltering = () => {
           id="rx-ipe-filtering-container"
           data-testid="rx-ipe-filtering-container"
           className="vads-u-margin-top--3 vads-u-padding--2p5"
-          aria-label="Hint for filter list"
+          aria-label="Filter your list to find a specific medication"
         >
           <p
             className="vads-u-margin--0 vads-u-padding-right--5"
