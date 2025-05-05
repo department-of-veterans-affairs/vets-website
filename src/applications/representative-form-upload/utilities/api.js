@@ -88,51 +88,8 @@ const wrapApiRequest = fn => {
 };
 
 const api = {
-  getPOARequests: wrapApiRequest(query => {
-    let size;
-    let number;
-    let status;
-    let sort;
-    if (query.status) {
-      status = `status=${query.status}`;
-    }
-    if (query.size) {
-      size = `&page[size]=${query.size}`;
-    }
-    if (query.number) {
-      number = `&page[number]=${query.number}`;
-    }
-    if (query.sort) {
-      sort = `&sort[by]=${query.sort}&sort[order]=${query.sortBy}`;
-    }
-    return [`/power_of_attorney_requests?${status}${size}${number}${sort}`];
-  }),
-  claimantSearch: wrapApiRequest(data => {
-    return [
-      `/claimant/search`,
-      {
-        body: JSON.stringify({ ...data }),
-        method: 'POST',
-      },
-    ];
-  }),
-
-  getPOARequest: wrapApiRequest(id => {
-    return [`/power_of_attorney_requests/${id}`];
-  }),
-
   getUser: wrapApiRequest(() => {
     return ['/user'];
-  }),
-
-  createPOARequestDecision: wrapApiRequest((id, decision) => {
-    return [
-      `/power_of_attorney_requests/${id}/decision`,
-      {
-        body: JSON.stringify({ decision }),
-        method: 'POST',
-      },
-    ];
   }),
 };
 
