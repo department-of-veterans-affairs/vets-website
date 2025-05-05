@@ -165,11 +165,8 @@ export const submitFormData = async ({
 
     // check if response.status is undefined or not a success code
     const successCodes = [200, 201, 202, 204, '200', '201', '202', '204'];
-    if (
-      !successCodes.includes(response.status) ||
-      !successCodes.includes(response.headers.status)
-    ) {
-      throw new Error('Calling Backed API failed');
+    if (!successCodes.includes(response.status)) {
+      throw new Error(`Backend API call failed with status ${response.status}`);
     }
 
     const result = await response.json();
