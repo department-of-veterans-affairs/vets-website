@@ -139,15 +139,6 @@ async function vaFacilityNext(state, dispatch) {
   return VA_FACILITY_V2_KEY;
 }
 
-// const flow = {
-//   typeOfAppointment: {
-//     url: '/new-appointment',
-//     // Temporary stub for typeOfAppointment which will eventually be first step
-//     // Next will direct to type of care or provider once both flows are complete
-//     next: 'typeOfFacility',
-//   },
-// };
-
 /**
  * Function to get new appointment workflow.
  * The URL displayed in the browser address bar is changed when the feature flag
