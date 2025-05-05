@@ -49,7 +49,7 @@ const DownloadLetterBlobLink = ({ letterTitle, letterType }) => {
         </VaAlert>
       );
     default:
-      return <div>Something else</div>;
+      return <div>Your letter should begin loading shortly.</div>;
   }
 };
 
