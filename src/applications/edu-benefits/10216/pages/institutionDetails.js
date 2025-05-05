@@ -42,7 +42,7 @@ const institutionDetails = () => ({
         ],
       },
       institutionName: {
-        'ui:title': 'Institution Name',
+        'ui:title': 'Institution name',
         'ui:field': InstitutionName,
         'ui:options': {
           classNames: 'vads-u-margin-top--2',
