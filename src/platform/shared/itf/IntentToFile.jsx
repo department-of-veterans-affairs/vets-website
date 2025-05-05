@@ -23,6 +23,7 @@ import {
   ITF_API,
   ITF_STATUSES,
   ITF_SUPPORTED_BENEFIT_TYPES,
+  ITF_CREATION_SUCCEEDED,
 } from './constants';
 import { isOutsideForm } from './utils';
 import { getAndProcessItf, createItf } from './utils/api';
@@ -145,7 +146,7 @@ const IntentToFile = ({
             createItf({ apiUrl })
               .then(resultingItf => {
                 const { type } = resultingItf;
-                if (type === 'ITF_CREATION_SUCCEEDED') {
+                if (type === ITF_CREATION_SUCCEEDED) {
                   const itf = { ...localItf, ...resultingItf };
                   dispatch(setItf(itf));
                   setLocalItf(itf);

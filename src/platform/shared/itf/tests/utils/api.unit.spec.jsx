@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 
 import {
+  ITF_API,
   ITF_FETCH_SUCCEEDED,
   ITF_FETCH_FAILED,
   ITF_CREATION_SUCCEEDED,
@@ -12,10 +13,11 @@ import { fetchItf, createItf, getAndProcessItf } from '../../utils/api';
 import { activeItf, nonActiveItf, mockItfData } from '../helpers';
 
 describe('ITF api utils', () => {
+  const itfApi = `http://localhost:3000/${ITF_API}/compensation`;
   const mockProps = {
     accountUuid: 'abcd-1234',
     inProgressFormId: '5678',
-    itfApi: '/v0/intent_to_file',
+    itfApi,
     itfType: 'compensation',
   };
 
@@ -46,6 +48,7 @@ describe('ITF api utils', () => {
     };
     it('should throw an error if itfType is not provided', () => {
       try {
+        mockApiRequest({});
         createItf({});
       } catch (error) {
         expect(error).to.be.an('Error');
@@ -79,6 +82,7 @@ describe('ITF api utils', () => {
   describe('getAndProcessItf', () => {
     it('should throw an error if itfType is not provided', () => {
       try {
+        mockApiRequest({});
         getAndProcessItf();
       } catch (error) {
         expect(error).to.be.an('Error');
