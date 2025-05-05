@@ -48,6 +48,7 @@ export const Paths = {
     MESSAGES: '/my_health/v1/messaging/messages',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
+    DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
   },
 };
 
@@ -80,6 +81,7 @@ export const Locators = {
   THREADS: '[data-testid="thread-list-item"]',
   MES_COUNT: '[data-testid="message-count"]',
   REPLY_FORM: '[data-testid="reply-form"]',
+  REPLY_TO: '[data-testid="draft-reply-to"]',
   CLEAR_FILTERS: '[text="Clear Filters"]',
   FILTER_INPUT: '#filter-input',
   ADDITIONAL_FILTER: '#additional-filter-accordion',
@@ -89,6 +91,8 @@ export const Locators = {
   BACK_TO: '.sm-breadcrumb-list-item > a',
   FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
   INBOX_FOOTER: `[data-testid="inbox-footer"]`,
+  COMBO_BOX: '.usa-combo-box',
+  SEARCH_RESULT: `[data-testid="search-messages"]`,
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -164,7 +168,7 @@ export const Locators = {
     EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
   },
   ALERTS: {
-    HEADER: `#heading`,
+    HEADER: `[data-testid="error-folder-not-empty"]`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
     CLOSE_NOTIFICATION: '.va-alert',
@@ -221,6 +225,9 @@ export const Locators = {
     REMOVE_THIS_FOLDER: `[data-testid="remove-this-folder"]`,
     OLD_MSG_HEAD: `[data-testid=expired-alert-message]`,
     NO_ASSOCIATION: '[data-testid="not-connected-alert"]',
+    COMBO_BOX: '.usa-error-message',
+    EL_SIGN_NAME: '#input-error-message .usa-error-message',
+    EL_SIGN_CHECK: `#checkbox-error-message .usa-error-message`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -238,6 +245,7 @@ export const Locators = {
     EL_SIGN: `[message-aria-describedby="Electronic signature"]`,
     MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
     MESSAGE_BODY: `[data-testid="message-body-field"]`,
+    RECIPIENTS_COMBO: `#options`,
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
@@ -263,6 +271,7 @@ export const Locators = {
     RECIPIENTS: `select#options`,
     ADD_INFO: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
+    RECIPIENTS_COMBO: `#options--list`,
   },
   ICONS: {
     ATTCH_ICON: '[data-testid="attachment-icon"]',
@@ -348,6 +357,7 @@ export const Data = {
   FOLDER_RENAMED_SUCCESSFULLY: 'Folder was successfully renamed.',
   SECURE_MSG_SENT_SUCCESSFULLY: 'Message Sent.',
   PLEASE_SELECT_RECIPIENT: 'Please select a recipient.',
+  PLEASE_SELECT_VALID_RECIPIENT: 'Please select a valid recipient.',
   PLEASE_SELECT_CATEGORY: 'Please select a category.',
   SUBJECT_CANNOT_BLANK: 'Subject cannot be blank.',
   BODY_CANNOT_BLANK: 'Message body cannot be blank.',

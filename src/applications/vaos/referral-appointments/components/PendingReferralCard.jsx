@@ -1,6 +1,7 @@
 import React from 'react';
 import { format, parseISO } from 'date-fns';
 import PropTypes from 'prop-types';
+import { titleCase } from '../../utils/formatters';
 import AppointmentFlexGrid from '../../components/AppointmentFlexGrid';
 import ListItem from '../../components/ListItem';
 import AppointmentRow from '../../components/AppointmentRow';
@@ -8,8 +9,7 @@ import AppointmentColumn from '../../components/AppointmentColumn';
 
 const PendingReferralCard = ({ referral, index }) => {
   const first = index === 0;
-  const idClickable = `id-${referral.uuid.replace('.', '\\.')}`;
-  const typeOfCareName = referral.categoryOfCare;
+  const idClickable = `id-${referral.uuid.replace(/[.=\\]/g, '\\$&')}`;
 
   const link = `schedule-referral?id=${
     referral.uuid
@@ -17,6 +17,7 @@ const PendingReferralCard = ({ referral, index }) => {
 
   const parsedDate = parseISO(referral.expirationDate);
   const expiration = format(parsedDate, 'MMMM d, yyyy');
+  const categoryOfCare = titleCase(referral.categoryOfCare);
 
   return (
     <ListItem
@@ -37,7 +38,7 @@ const PendingReferralCard = ({ referral, index }) => {
                     className="vads-u-font-weight--bold vaos-appts__display--table"
                     data-testid="typeOfCare"
                   >
-                    {`${typeOfCareName} referral`}
+                    {`${categoryOfCare} referral`}
                   </AppointmentColumn>
                   <AppointmentColumn
                     padding="0p5"
@@ -52,18 +53,16 @@ const PendingReferralCard = ({ referral, index }) => {
               </AppointmentColumn>
 
               <AppointmentColumn
-                id={`vaos-referral-detail-${referral.uuid}`}
                 className="vaos-hide-for-print"
                 padding="0p5"
                 size="1"
-                aria-label="schedule your appointment"
               >
                 <va-link-action
                   type="secondary"
                   href={link}
-                  aria-describedby={`vaos-referral-detail-${referral.uuid}`}
-                  message-aria-describedby="Custom message"
+                  aria-label={`Schedule your appointment for ${categoryOfCare} referral`}
                   text="Schedule your appointment"
+                  data-testid="schedule-appointment-link"
                   onClick={e => e.preventDefault()}
                 />
               </AppointmentColumn>

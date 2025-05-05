@@ -5,10 +5,12 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
-  fullNameUI,
-  fullNameSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
   textUI,
@@ -17,16 +19,17 @@ import {
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatDateShort } from 'platform/utilities/date';
+import { formatDateLong } from 'platform/utilities/date';
 import { relationshipLabels, transferMethodLabels } from '../../../labels';
 
 import {
   formatCurrency,
+  formatFullNameNoSuffix,
+  generateDeleteDescription,
+  isDefined,
   otherNewOwnerRelationshipExplanationRequired,
   otherTransferMethodExplanationRequired,
-  isDefined,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -46,27 +49,32 @@ export const options = {
     typeof item.assetTransferredUnderFairMarketValue !== 'boolean' ||
     !isDefined(item.fairMarketValue) ||
     !isDefined(item.capitalGainValue), // include all required fields here
-  maxItems: 5,
   text: {
-    getItemName: item => item.assetType,
+    getItemName: item =>
+      isDefined(item?.newOwnerName) &&
+      `Asset transferred to ${formatFullNameNoSuffix(item?.newOwnerName)}`,
     cardDescription: item =>
       isDefined(item?.fairMarketValue) &&
       isDefined(item?.capitalGainValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
-            Transfer Method:{' '}
+            Transfer method:{' '}
             <span className="vads-u-font-weight--bold">
               {transferMethodLabels[item.transferMethod]}
             </span>
           </li>
           <li>
-            Transfer Date:{' '}
+            Asset transferred:{' '}
+            <span className="vads-u-font-weight--bold">{item.assetType}</span>
+          </li>
+          <li>
+            Transfer date:{' '}
             <span className="vads-u-font-weight--bold">
-              {formatDateShort(item.transferDate)}
+              {formatDateLong(item.transferDate)}
             </span>
           </li>
           <li>
-            Fair Market Value:{' '}
+            Fair market value:{' '}
             <span className="vads-u-font-weight--bold">
               {formatCurrency(item.fairMarketValue)}
             </span>
@@ -80,8 +88,6 @@ export const options = {
         </ul>
       ),
     reviewAddButtonText: 'Add another asset transfer',
-    alertMaxItems:
-      'You have added the maximum number of allowed asset transfers for this application. You may edit or delete an asset transfer or choose to continue the application.',
     alertItemUpdated: 'Your asset transfer information has been updated',
     alertItemDeleted: 'Your asset transfer information has been deleted',
     cancelAddTitle: 'Cancel adding this asset transfer',
@@ -94,6 +100,8 @@ export const options = {
     deleteTitle: 'Delete this asset transfer',
     deleteYes: 'Yes, delete this asset transfer',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 
@@ -108,17 +116,18 @@ const summaryPage = {
       options,
       {
         title:
-          'In the current year and/or prior 3 tax years, did you or your dependents sell, convey, trade, or give away any assets?',
+          'In this year or in the past 3 tax years, did you or your dependents transfer any assets?',
+        hint: 'If yes, you’ll need to report at least one asset transfer',
         labels: {
           Y: 'Yes, I have an asset transfer to report',
           N: 'No, I don’t have an asset transfer to report',
         },
       },
       {
-        title: 'Do you have any more asset transfers to report?',
+        title: 'Do you have more asset transfers to report?',
         labels: {
-          Y: 'Yes, I have another asset transfer to report',
-          N: 'No, I don’t have anymore asset transfers to report',
+          Y: 'Yes, I have more asset transfers to report',
+          N: 'No, I don’t have more asset transfers to report',
         },
       },
     ),
@@ -210,7 +219,7 @@ const newOwnerPage = {
       {
         'ui:title': 'Who received the asset?',
       },
-      fullNameUI(),
+      fullNameNoSuffixUI(),
     ),
     newOwnerRelationship: textUI({
       title: 'What is the relationship to the new owner?',
@@ -223,7 +232,7 @@ const newOwnerPage = {
   schema: {
     type: 'object',
     properties: {
-      newOwnerName: fullNameSchema,
+      newOwnerName: fullNameNoSuffixSchema,
       newOwnerRelationship: textSchema,
       saleReportedToIrs: yesNoSchema,
     },
@@ -271,18 +280,18 @@ const valuePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Asset transfer value information',
     ),
-    fairMarketValue: currencyUI({
-      title: 'What was the fair market value when transferred?',
-    }),
-    saleValue: currencyUI({ title: 'What was the sale price?' }),
-    capitalGainValue: currencyUI({ title: 'What was the gain?' }),
+    fairMarketValue: currencyUI(
+      'What was the fair market value when transferred?',
+    ),
+    saleValue: currencyUI('What was the sale price?'),
+    capitalGainValue: currencyUI('What was the gain?'),
   },
   schema: {
     type: 'object',
     properties: {
-      fairMarketValue: { type: 'number' },
-      saleValue: { type: 'number' },
-      capitalGainValue: { type: 'number' },
+      fairMarketValue: currencySchema,
+      saleValue: currencySchema,
+      capitalGainValue: currencySchema,
     },
     required: ['fairMarketValue', 'capitalGainValue'],
   },

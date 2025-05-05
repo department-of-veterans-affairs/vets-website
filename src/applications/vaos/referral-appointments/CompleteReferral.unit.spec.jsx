@@ -101,10 +101,23 @@ describe('CompleteReferral', () => {
     );
 
     expect(getByTestId('appointment-modality')).to.have.text(
-      'In Person at Test Medical Complex',
+      'Office Visit at Test Medical Complex',
     );
     expect(getByTestId('appointment-clinic')).to.have.text(
       'Clinic: Meridian Health',
+    );
+    expect(getByTestId('survey-info-block')).to.exist;
+    expect(getByTestId('survey-info-block')).to.contain.text(
+      'Please consider taking our pilot feedback surveys',
+    );
+    expect(getByTestId('survey-link')).to.exist;
+    expect(getByTestId('survey-link')).to.have.attribute(
+      'text',
+      'Start the sign-up survey',
+    );
+    expect(getByTestId('survey-link')).to.have.attribute(
+      'href',
+      'https://forms.gle/7Lh5H2fab7Qv3DbA9',
     );
   });
 });

@@ -57,15 +57,19 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
 
       apiRequest('/form1095_bs/available_forms')
         .then(response => {
-          if (response.errors || response.availableForms.length === 0) {
+          if (response.availableForms.length === 0) {
+            recordEvent({ event: '1095b-available-forms-not-found' });
             updateFormError({ error: true, type: errorTypes.NOT_FOUND });
-          }
-          const mostRecentYearData = response.availableForms[0];
-          if (mostRecentYearData?.year) {
-            updateYear(mostRecentYearData.year);
+          } else {
+            recordEvent({ event: '1095b-available-forms-found' });
+            const mostRecentYearData = response.availableForms[0];
+            if (mostRecentYearData.year) {
+              updateYear(mostRecentYearData.year);
+            }
           }
         })
         .catch(() => {
+          recordEvent({ event: '1095b-available-forms-system-error' });
           updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
         })
         .finally(() => {
@@ -91,6 +95,7 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
         return window.URL.createObjectURL(blob);
       })
       .catch(() => {
+        recordEvent({ event: `1095b-${format}-download-error` });
         updateFormError({ error: true, type: errorTypes.DOWNLOAD_ERROR });
         return false;
       });
@@ -174,7 +179,7 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
                 `${environment.API_URL}/v0/form1095_bs/download_pdf/${year}`,
               )}
               id="pdf-download-link"
-              label="Download PDF (best for printing)"
+              label={`Download ${year} 10 95-B PDF (best for printing)`}
               text="Download PDF (best for printing)"
               onClick={e => {
                 e.preventDefault();
@@ -190,7 +195,7 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
                 `${environment.API_URL}/v0/form1095_bs/download_txt/${year}`,
               )}
               id="txt-download-link"
-              label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
+              label={`Download ${year} 10 95-B Text file (best for screen readers, enlargers, and refreshable Braille displays)`}
               text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
               onClick={e => {
                 e.preventDefault();

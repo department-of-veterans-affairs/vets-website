@@ -154,7 +154,7 @@ export const traumaticEventsExamples = (
           You experienced offensive comments about your body or sexual
           activities
         </li>
-        <li>You experienced unwanted sexual advances</li>
+        <li>You experienced repeated unwanted sexual advances</li>
         <li>
           You experienced someone touching or grabbing you against your will,
           including during hazing
@@ -389,7 +389,7 @@ const WorkflowChoicePage = props => {
   const [
     selectedMentalHealthWorkflowChoice,
     setSelectedMentalHealthWorkflowChoice,
-  ] = useState(data?.['view:mentalHealthWorkflowChoice'] ?? null);
+  ] = useState(data?.mentalHealthWorkflowChoice ?? null);
 
   const [hasError, setHasError] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -409,14 +409,13 @@ const WorkflowChoicePage = props => {
     () => {
       if (
         shouldGoForward &&
-        data?.['view:mentalHealthWorkflowChoice'] ===
-          selectedMentalHealthWorkflowChoice
+        data?.mentalHealthWorkflowChoice === selectedMentalHealthWorkflowChoice
       ) {
         setShouldGoForward(false);
         goForward(data);
       }
     },
-    [data?.['view:mentalHealthWorkflowChoice'], shouldGoForward],
+    [data?.mentalHealthWorkflowChoice, shouldGoForward],
   );
 
   const missingSelectionErrorMessage =
@@ -482,7 +481,7 @@ const WorkflowChoicePage = props => {
     const formData = {
       ...data,
       'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
-      'view:mentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
+      mentalHealthWorkflowChoice: selectedMentalHealthWorkflowChoice,
     };
     setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);
     setFormData(formData);
@@ -528,7 +527,7 @@ const WorkflowChoicePage = props => {
         const formData = {
           ...data,
           'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
-          'view:mentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
+          mentalHealthWorkflowChoice: selectedMentalHealthWorkflowChoice,
         };
         setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);
         setFormData(formData);
@@ -566,10 +565,12 @@ const WorkflowChoicePage = props => {
       >
         {alertContent}
         <p>
-          <va-link
-            text="Continue with your claim"
-            onClick={handlers.onSubmit}
-          />
+          {!onReviewPage ? (
+            <va-link
+              text="Continue with your claim"
+              onClick={handlers.onSubmit}
+            />
+          ) : null}
         </p>
       </VaAlert>
       <fieldset className="vads-u-margin-bottom--2">
@@ -632,8 +633,12 @@ const WorkflowChoicePage = props => {
               />
             </VaRadio>
           </div>
-          {traumaticEventsExamples}
-          {mstAlert()}
+          {!onReviewPage ? (
+            <>
+              {traumaticEventsExamples}
+              {mstAlert()}
+            </>
+          ) : null}
         </div>
         <VaModal
           clickToClose

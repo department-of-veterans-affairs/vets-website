@@ -35,6 +35,7 @@ import {
   selectVaRadio,
   selectVaSelect,
   checkVaCheckbox,
+  comboBoxVaSelect,
 } from '../../../util/testUtils';
 import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json';
 
@@ -975,6 +976,41 @@ describe('Compose form component', () => {
     });
   });
 
+  it('displays modal on attempt to manual save with electronic signature populated', async () => {
+    const customProps = {
+      ...draftMessage,
+      messageValid: true,
+      isSignatureRequired: true,
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+
+    const val = initialState.sm.recipients.allowedRecipients.find(
+      r => r.signatureRequired,
+    ).id;
+    selectVaSelect(screen.container, val);
+
+    const electronicSignature = await screen.findByText(
+      ElectronicSignatureBox.TITLE,
+      {
+        selector: 'h2',
+      },
+    );
+    expect(electronicSignature).to.exist;
+    const signatureTextFieldSelector = 'va-text-input[label="Your full name"]';
+    inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
+    let modal = null;
+
+    fireEvent.click(screen.getByTestId('save-draft-button'));
+    await waitFor(() => {
+      modal = screen.queryByTestId('navigation-warning-modal');
+      expect(modal).to.exist;
+    });
+    expect(modal).to.have.attribute(
+      'modal-title',
+      "We can't save your signature in a draft message",
+    );
+  });
+
   it('should display an error message when a file is 0B', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     const file = new File([''], 'test.png', { type: 'image/png' });
@@ -1195,5 +1231,56 @@ describe('Compose form component', () => {
     customState.sm.preferences.signature.includeSignature = true;
     const screen = setup(customState, Paths.COMPOSE);
     expect(screen.getByText('Edit signature for all messages')).to.exist;
+  });
+
+  it('renders combobox when combobox feauture flag is true', () => {
+    const customState = { ...initialState, featureToggles: { loading: false } };
+    // eslint-disable-next-line camelcase
+    customState.featureToggles.mhv_secure_messaging_recipient_combobox = true;
+    customState.sm.preferences.signature.includeSignature = true;
+    const screen = setup(customState, Paths.COMPOSE);
+    expect(screen.getByTestId('compose-recipient-combobox')).to.exist;
+  });
+
+  it('renders without errors to recipient selection in combobox', () => {
+    const customState = { ...initialState, featureToggles: { loading: false } };
+    // eslint-disable-next-line camelcase
+    customState.featureToggles.mhv_secure_messaging_recipient_combobox = true;
+    customState.sm.preferences.signature.includeSignature = true;
+    const screen = setup(customState, Paths.COMPOSE);
+    const val = initialState.sm.recipients.allowedRecipients[0].id;
+    comboBoxVaSelect(screen.container, val);
+    waitFor(() => {
+      expect(screen.getByTestId('compose-recipient-combobox')).to.have.value(
+        val,
+      );
+    });
+  });
+
+  it('displays error states on empty fields when send button is clicked (combobox empty)', async () => {
+    const customState = { ...initialState, featureToggles: { loading: false } };
+    // eslint-disable-next-line camelcase
+    customState.featureToggles.mhv_secure_messaging_recipient_combobox = true;
+    customState.sm.preferences.signature.includeSignature = true;
+
+    const screen = setup(customState, Paths.COMPOSE);
+
+    const sendButton = screen.getByTestId('send-button');
+
+    fireEvent.click(sendButton);
+
+    const comboBoxInput = await screen.getByTestId(
+      'compose-recipient-combobox',
+    );
+
+    const subjectInput = await screen.getByTestId('message-subject-field');
+    const subjectInputError = subjectInput[getProps(subjectInput)].error;
+
+    const messageInput = await screen.getByTestId('message-body-field');
+    const messageInputError = messageInput[getProps(messageInput)].error;
+
+    expect(comboBoxInput.error).to.equal('Please select a recipient.');
+    expect(subjectInputError).to.equal('Subject cannot be blank.');
+    expect(messageInputError).to.equal('Message body cannot be blank.');
   });
 });

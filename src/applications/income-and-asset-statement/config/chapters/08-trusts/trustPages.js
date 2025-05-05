@@ -5,6 +5,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
@@ -12,16 +14,16 @@ import {
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatDateShort } from 'platform/utilities/date';
+import { formatDateLong } from 'platform/utilities/date';
 import { trustTypeLabels } from '../../../labels';
 
 import {
   annualReceivedIncomeFromTrustRequired,
   formatCurrency,
-  monthlyMedicalReimbursementAmountRequired,
+  generateDeleteDescription,
   isDefined,
+  monthlyMedicalReimbursementAmountRequired,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -38,20 +40,21 @@ export const options = {
     typeof item.trustUsedForMedicalExpenses !== 'boolean' ||
     typeof item.trustEstablishedForVeteransChild !== 'boolean' ||
     typeof item.haveAuthorityOrControlOfTrust !== 'boolean', // include all required fields here
-  maxItems: 5,
   text: {
-    getItemName: () => 'Trust',
+    getItemName: item =>
+      isDefined(item?.establishedDate) &&
+      `Trust established on ${formatDateLong(item.establishedDate)}`,
     cardDescription: item =>
       isDefined(item?.marketValueAtEstablishment) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
-            Established date:{' '}
+            Type:{' '}
             <span className="vads-u-font-weight--bold">
-              {formatDateShort(item.establishedDate)}
+              {trustTypeLabels[item.trustType]}
             </span>
           </li>
           <li>
-            Market value:{' '}
+            Market value when established:{' '}
             <span className="vads-u-font-weight--bold">
               {formatCurrency(item.marketValueAtEstablishment)}
             </span>
@@ -59,8 +62,6 @@ export const options = {
         </ul>
       ),
     reviewAddButtonText: 'Add another trust',
-    alertMaxItems:
-      'You have added the maximum number of allowed trusts for this application. You may edit or delete a trust or choose to continue the application.',
     alertItemUpdated: 'Your trust information has been updated',
     alertItemDeleted: 'Your trust information has been deleted',
     cancelAddTitle: 'Cancel adding this trust',
@@ -73,6 +74,8 @@ export const options = {
     deleteTitle: 'Delete this trust',
     deleteYes: 'Yes, delete this trust',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 
@@ -88,16 +91,17 @@ const summaryPage = {
       {
         title:
           'Have you or your dependents established a trust or do you or your dependents have access to a trust?',
+        hint: 'If yes, you’ll need to report at least one trust',
         labels: {
           Y: 'Yes, I have a trust to report',
           N: 'No, I don’t have a trust to report',
         },
       },
       {
-        title: 'Do you or your dependents have another trust to report?',
+        title: 'Do you have more trusts to report?',
         labels: {
-          Y: 'Yes, I have another trust to report',
-          N: 'No, I don’t have anymore trusts to report',
+          Y: 'Yes, I have more trusts to report',
+          N: 'No, I don’t have more trusts to report',
         },
       },
     ),
@@ -119,16 +123,15 @@ const informationPage = {
       nounSingular: options.nounSingular,
     }),
     establishedDate: currentOrPastDateUI('When was the trust established?'),
-    marketValueAtEstablishment: currencyUI({
-      title:
-        'What was the market value of all assets within the trust at the time of establishment?',
-    }),
+    marketValueAtEstablishment: currencyUI(
+      'What was the market value of all assets within the trust at the time of establishment?',
+    ),
   },
   schema: {
     type: 'object',
     properties: {
       establishedDate: currentOrPastDateSchema,
-      marketValueAtEstablishment: { type: 'number' },
+      marketValueAtEstablishment: currencySchema,
     },
     required: ['establishedDate', 'marketValueAtEstablishment'],
   },
@@ -159,18 +162,20 @@ const incomePage = {
     receivingIncomeFromTrust: yesNoUI(
       'Are you receiving income from the trust?',
     ),
-    annualReceivedIncome: currencyUI({
-      title: 'How much is the annual amount received?',
-      expandUnder: 'receivingIncomeFromTrust',
-      expandUnderCondition: true,
-      required: annualReceivedIncomeFromTrustRequired,
-    }),
+    annualReceivedIncome: {
+      ...currencyUI({
+        title: 'How much is the annual amount received?',
+        expandUnder: 'receivingIncomeFromTrust',
+        expandUnderCondition: true,
+      }),
+      'ui:required': annualReceivedIncomeFromTrustRequired,
+    },
   },
   schema: {
     type: 'object',
     properties: {
       receivingIncomeFromTrust: yesNoSchema,
-      annualReceivedIncome: { type: 'number' },
+      annualReceivedIncome: currencySchema,
     },
     required: ['receivingIncomeFromTrust'],
   },
@@ -183,18 +188,20 @@ const medicalExpensePage = {
     trustUsedForMedicalExpenses: yesNoUI(
       'Is the trust being used to pay for or to reimburse someone else for your medical expenses?',
     ),
-    monthlyMedicalReimbursementAmount: currencyUI({
-      title: 'How much is the amount being reimbursed monthly?',
-      expandUnder: 'trustUsedForMedicalExpenses',
-      expandUnderCondition: true,
-      required: monthlyMedicalReimbursementAmountRequired,
-    }),
+    monthlyMedicalReimbursementAmount: {
+      ...currencyUI({
+        title: 'How much is the amount being reimbursed monthly?',
+        expandUnder: 'trustUsedForMedicalExpenses',
+        expandUnderCondition: true,
+      }),
+      'ui:required': monthlyMedicalReimbursementAmountRequired,
+    },
   },
   schema: {
     type: 'object',
     properties: {
       trustUsedForMedicalExpenses: yesNoSchema,
-      monthlyMedicalReimbursementAmount: { type: 'number' },
+      monthlyMedicalReimbursementAmount: currencySchema,
     },
     required: ['trustUsedForMedicalExpenses'],
   },
@@ -256,13 +263,13 @@ const addedFundsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Trust'),
     addedFundsDate: currentOrPastDateUI('When did you add funds?'),
-    addedFundsAmount: currencyUI({ title: 'How much did you add?' }),
+    addedFundsAmount: currencyUI('How much did you add?'),
   },
   schema: {
     type: 'object',
     properties: {
       addedFundsDate: currentOrPastDateSchema,
-      addedFundsAmount: { type: 'number' },
+      addedFundsAmount: currencySchema,
     },
     required: ['addedFundsDate', 'addedFundsAmount'],
   },

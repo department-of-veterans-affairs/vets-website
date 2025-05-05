@@ -74,9 +74,6 @@ export {
 } from './authentication/components/LoginHeader';
 export { default as LoginInfo } from './authentication/components/LoginInfo';
 export {
-  default as LogoutAlert,
-} from './authentication/components/LogoutAlert';
-export {
   default as ServiceProvidersList,
 } from './authentication/components/ServiceProvidersList';
 export {
@@ -111,16 +108,12 @@ export {
   CSP_IDS,
   AUTHN_SETTINGS,
   EXTERNAL_APPS,
-  EBENEFITS_DEFAULT_PATH,
   eAuthURL,
   EXTERNAL_REDIRECTS,
   GA,
   IDME_TYPES,
   POLICY_TYPES,
   SIGNUP_TYPES,
-  MHV_TRANSITION_DATE,
-  MHV_TRANSITION_TIME,
-  ACCOUNT_TRANSITION_DISMISSED,
   LINK_TYPES,
   AUTH_PARAMS,
 } from './authentication/constants';
@@ -159,18 +152,10 @@ export {
 
 /* authorization */
 export {
-  default as AcceptTermsPrompt,
-} from './authorization/components/AcceptTermsPrompt';
-export {
   default as RequiredLoginView,
   RequiredLoginLoader,
 } from './authorization/components/RequiredLoginView';
 export { default as VerifyAlert } from './authorization/components/VerifyAlert';
-// TO DO: resolve missing nested import
-// export { MHVApp } from './authorization/containers/MHVApp';
-// export {
-//   RequiredTermsAcceptanceView,
-// } from './authorization/containers/RequiredTermsAcceptanceView';
 
 /* profile */
 

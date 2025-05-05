@@ -145,6 +145,7 @@ const POARequestDetailsPage = title => {
   const state = poaRequest?.powerOfAttorneyForm.claimant.address.stateCode;
   const zipCode = poaRequest?.powerOfAttorneyForm.claimant.address.zipCode;
   const phone = poaRequest?.powerOfAttorneyForm.claimant.phone;
+  const formattedPhone = phone.replace(/[^a-zA-Z0-9]/g, '');
   const email = poaRequest?.powerOfAttorneyForm.claimant.email;
   const claimantFirstName = poaRequest?.powerOfAttorneyForm.claimant.name.first;
   const claimantLastName = poaRequest?.powerOfAttorneyForm.claimant.name.last;
@@ -334,7 +335,9 @@ const POARequestDetailsPage = title => {
               </li>
               <li>
                 <p>Phone</p>
-                <p>{phone}</p>
+                <p>
+                  <va-telephone contact={formattedPhone} />
+                </p>
               </li>
               <li>
                 <p>Email</p>
@@ -495,7 +498,10 @@ POARequestDetailsPage.loader = ({ params, request }) => {
 
 POARequestDetailsPage.createDecisionAction = async ({ params, request }) => {
   const key = (await request.formData()).get('decision');
-  const decision = DECISION_OPTIONS[key];
+  const decision = {
+    ...DECISION_OPTIONS[key], // Spread the existing decision object
+    key, // Add the key field with the value of the key
+  };
 
   await api.createPOARequestDecision(params.id, decision, {
     signal: request.signal,

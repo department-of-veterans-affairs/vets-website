@@ -1,32 +1,29 @@
-import React from 'react';
-import MockDate from 'mockdate';
-import { expect } from 'chai';
-import moment from 'moment';
-import { waitFor, within } from '@testing-library/dom';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   mockFetch,
   setFetchJSONResponse,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { waitFor, within } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
+import { expect } from 'chai';
+import { addDays, format, subDays, subMonths } from 'date-fns';
+import MockDate from 'mockdate';
+import React from 'react';
+import AppointmentsPage from '.';
+import { createReferralById } from '../../../referral-appointments/utils/referrals';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
+import { mockAppointmentsApi } from '../../../tests/mocks/mockApis';
 import {
   createTestStore,
-  renderWithStoreAndRouter,
   getTestDate,
+  renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import AppointmentsPage from '.';
-import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
-import { getVAOSRequestMock } from '../../../tests/mocks/mock';
-import { createReferralById } from '../../../referral-appointments/utils/referrals';
 import { FETCH_STATUS } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingRequests: true,
-    vaOnlineSchedulingPast: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: false,
   },
@@ -36,6 +33,40 @@ describe('VAOS Page: AppointmentsPage', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
+
+    mockAppointmentsApi({
+      start: subDays(new Date(), 30),
+      end: addDays(new Date(), 395),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      response: [new MockAppointmentResponse()],
+    });
+    mockAppointmentsApi({
+      start: subDays(new Date(), 30),
+      end: addDays(new Date(), 395),
+      includes: ['facilities', 'clinics', 'eps'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      response: [new MockAppointmentResponse()],
+    });
+    mockAppointmentsApi({
+      start: subMonths(new Date(), 3),
+      end: new Date(),
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      response: [new MockAppointmentResponse()],
+    });
+    mockAppointmentsApi({
+      start: subDays(new Date(), 120),
+      end: addDays(new Date(), 1),
+      statuses: ['proposed', 'cancelled'],
+      response: [MockAppointmentResponse.createCCResponse()],
+    });
+    mockAppointmentsApi({
+      start: subDays(new Date(), 120),
+      end: addDays(new Date(), 1),
+      includes: ['facilities', 'clinics', 'eps'],
+      statuses: ['proposed', 'cancelled'],
+      response: [MockAppointmentResponse.createCCResponse()],
+    });
   });
   afterEach(() => {
     MockDate.reset();
@@ -58,8 +89,8 @@ describe('VAOS Page: AppointmentsPage', () => {
             attributes: {
               externalService: 'vaosWarning',
               description: 'My description',
-              startTime: moment.utc().subtract('1', 'days'),
-              endTime: moment.utc().add('1', 'days'),
+              startTime: subDays(new Date(), '1'),
+              endTime: addDays(new Date(), '1'),
             },
           },
         ],
@@ -111,9 +142,7 @@ describe('VAOS Page: AppointmentsPage', () => {
       }),
     );
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Appointments | VA online scheduling | Veterans Affairs`,
-      );
+      expect(global.document.title).to.equal(`Appointments | Veterans Affairs`);
     });
 
     // and breadcrumbs should be updated
@@ -147,36 +176,6 @@ describe('VAOS Page: AppointmentsPage', () => {
 
   it('should display updated appointment request page', async () => {
     // Given the veteran lands on the VAOS homepage
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1';
-    appointment.attributes = {
-      id: '1',
-      kind: 'clinic',
-      locationId: '983',
-      requestedPeriods: [{}],
-      serviceType: 'primaryCare',
-      status: 'proposed',
-    };
-
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(1, 'month')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
-
     // When the page displays
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
@@ -207,7 +206,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     });
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Pending appointments | VA online scheduling | Veterans Affairs`,
+        `Pending appointments | Veterans Affairs`,
       );
     });
 
@@ -267,7 +266,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     ).to.be.ok;
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Past appointments | VA online scheduling | Veterans Affairs`,
+        `Past appointments | Veterans Affairs`,
       );
     });
 
@@ -324,7 +323,6 @@ describe('VAOS Page: AppointmentsPage', () => {
         ...initialState.featureToggles,
         vaOnlineSchedulingDirect: true,
         vaOnlineSchedulingCommunityCare: false,
-        vaOnlineSchedulingBreadcrumbUrlUpdate: true,
       },
       user: userState,
     };
@@ -376,36 +374,6 @@ describe('VAOS Page: AppointmentsPage', () => {
 
     it('should display updated title on pending appointments page', async () => {
       // Given the veteran lands on the VAOS homepage
-      const appointment = getVAOSRequestMock();
-      appointment.id = '1';
-      appointment.attributes = {
-        id: '1',
-        kind: 'clinic',
-        locationId: '983',
-        requestedPeriods: [{}],
-        serviceType: 'primaryCare',
-        status: 'proposed',
-      };
-
-      mockVAOSAppointmentsFetch({
-        start: moment()
-          .subtract(1, 'month')
-          .format('YYYY-MM-DD'),
-        end: moment()
-          .add(395, 'days')
-          .format('YYYY-MM-DD'),
-        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-        requests: [appointment],
-      });
-      mockVAOSAppointmentsFetch({
-        start: moment()
-          .subtract(120, 'days')
-          .format('YYYY-MM-DD'),
-        end: moment().format('YYYY-MM-DD'),
-        statuses: ['proposed', 'cancelled'],
-        requests: [appointment],
-      });
-
       // When the page displays
       const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
@@ -496,36 +464,6 @@ describe('VAOS Page: AppointmentsPage', () => {
 
     it('should display reivew request and referrals link', async () => {
       // Given the veteran lands on the VAOS homepage
-      const appointment = getVAOSRequestMock();
-      appointment.id = '1';
-      appointment.attributes = {
-        id: '1',
-        kind: 'clinic',
-        locationId: '983',
-        requestedPeriods: [{}],
-        serviceType: 'primaryCare',
-        status: 'proposed',
-      };
-
-      mockVAOSAppointmentsFetch({
-        start: moment()
-          .subtract(1, 'month')
-          .format('YYYY-MM-DD'),
-        end: moment()
-          .add(395, 'days')
-          .format('YYYY-MM-DD'),
-        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-        requests: [appointment],
-      });
-      mockVAOSAppointmentsFetch({
-        start: moment()
-          .subtract(120, 'days')
-          .format('YYYY-MM-DD'),
-        end: moment().format('YYYY-MM-DD'),
-        statuses: ['proposed', 'cancelled'],
-        requests: [appointment],
-      });
-      // Given the veteran lands on the VAOS homepage
       // When the page displays
       const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
@@ -533,7 +471,6 @@ describe('VAOS Page: AppointmentsPage', () => {
 
       // Then it should display the upcoming appointments
       await screen.findByRole('heading', { name: 'Appointments' });
-
       expect(await screen.findByTestId('review-requests-and-referrals')).to
         .exist;
 
@@ -555,7 +492,7 @@ describe('VAOS Page: AppointmentsPage', () => {
               facility: null,
               referralDetails: [
                 createReferralById(
-                  moment().format('YYYY-MM-DD'),
+                  format(new Date(), 'yyyy-MM-dd'),
                   'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
                 ),
               ],

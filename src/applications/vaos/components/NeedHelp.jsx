@@ -35,11 +35,6 @@ export default function NeedHelp() {
         (<VaTelephone contact="711" tty />
         ). We’re here 24/7.
       </p>
-      <p className="vads-u-margin-top--0">
-        <a href="https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE">
-          Leave feedback about this application
-        </a>
-      </p>
     </div>
   );
 }

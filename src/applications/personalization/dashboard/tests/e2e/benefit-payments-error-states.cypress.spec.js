@@ -15,7 +15,6 @@ import { mockLocalStorage } from '~/applications/personalization/dashboard/tests
 import manifest from 'applications/personalization/dashboard/manifest.json';
 import { paymentsServerError } from '../fixtures/test-payments-response';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
-import { debtsSuccessEmpty } from '../fixtures/test-debts-response';
 import { copaysSuccessEmpty } from '../fixtures/test-copays-response';
 import { notificationsSuccessEmpty } from '../fixtures/test-notifications-response';
 
@@ -26,7 +25,12 @@ describe('My VA - Benefit payments - error-states', () => {
     mockLocalStorage();
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
-        features: [],
+        features: [
+          {
+            name: 'showGenericDebtCard',
+            value: false,
+          },
+        ],
       },
     });
     cy.intercept('/v0/profile/service_history', serviceHistory);
@@ -41,7 +45,10 @@ describe('My VA - Benefit payments - error-states', () => {
       data: [],
     });
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
-    cy.intercept('/v0/debts', debtsSuccessEmpty()).as('noDebts');
+    cy.intercept('/v0/debts?countOnly=true', {
+      debtsCount: 0,
+      hasDependentDebts: false,
+    }).as('noDebts');
     cy.intercept('/v0/medical_copays', copaysSuccessEmpty()).as('noCopays');
     cy.intercept('/v0/onsite_notifications', notificationsSuccessEmpty()).as(
       'notifications1',

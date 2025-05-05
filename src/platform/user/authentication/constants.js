@@ -87,7 +87,6 @@ export const AUTHN_SETTINGS = {
 export const EXTERNAL_APPS = {
   MHV: CSP_IDS.MHV,
   MY_VA_HEALTH: 'myvahealth',
-  EBENEFITS: 'ebenefits',
   VA_FLAGSHIP_MOBILE: 'vamobile',
   VA_OCC_MOBILE: 'vaoccmobile',
   ARP: 'arp',
@@ -98,8 +97,6 @@ export const TEST_APPS = {
   OKTA: 'okta_test',
 };
 
-export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
-
 export const eAuthURL = `https://${
   eauthEnvironmentPrefixes[environment.BUILDTYPE]
 }eauth.va.gov`;
@@ -109,7 +106,6 @@ export const EXTERNAL_REDIRECTS = {
     cernerEnvPrefixes[environment.BUILDTYPE]
   }patientportal.myhealth.va.gov`,
   [EXTERNAL_APPS.MHV]: `${eAuthURL}/mhv-portal-web/eauth`,
-  [EXTERNAL_APPS.EBENEFITS]: `${eAuthURL}/ebenefits`,
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: '',
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
   [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
@@ -147,10 +143,6 @@ export const SIGNUP_TYPES = {
   [CSP_IDS.LOGIN_GOV]: 'logingov_signup',
 };
 
-export const MHV_TRANSITION_DATE = null;
-export const MHV_TRANSITION_TIME = '[x]';
-export const ACCOUNT_TRANSITION_DISMISSED = 'accountTransitionDismissed';
-
 export const LINK_TYPES = {
   CREATE: 'create',
   SIGNIN: 'signin',
@@ -168,4 +160,5 @@ export const AUTH_PARAMS = {
   scope: 'scope',
   verification: 'verification',
   operation: 'operation',
+  state: 'state',
 };

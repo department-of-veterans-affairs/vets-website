@@ -5,21 +5,28 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { currencyUI } from 'platform/forms-system/src/js/web-component-patterns/currencyPattern';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
+  formatFullNameNoSuffix,
+  generateDeleteDescription,
+  isDefined,
+  isIncomeTypeInfoIncomplete,
+  isRecipientInfoIncomplete,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
-  isDefined,
 } from '../../../helpers';
 import { incomeFrequencyLabels, relationshipLabels } from '../../../labels';
 
@@ -30,24 +37,24 @@ export const options = {
   nounPlural: 'discontinued incomes',
   required: false,
   isItemIncomplete: item =>
-    !isDefined(item?.recipientRelationship) ||
+    isRecipientInfoIncomplete(item) ||
     !isDefined(item.payer) ||
-    !isDefined(item.incomeType) ||
+    isIncomeTypeInfoIncomplete(item) ||
     !isDefined(item.incomeFrequency) ||
     !isDefined(item.incomeLastReceivedDate) ||
     !isDefined(item.grossAnnualAmount), // include all required fields here
-  maxItems: 5,
   text: {
-    getItemName: () => 'Discontinued income',
+    getItemName: (item, index, formData) =>
+      isDefined(item?.recipientRelationship) &&
+      isDefined(item?.payer) &&
+      `${
+        item?.recipientRelationship === 'VETERAN'
+          ? formatFullNameNoSuffix(formData?.veteranFullName)
+          : formatFullNameNoSuffix(item?.recipientName)
+      }’s income from ${item.payer}`,
     cardDescription: item =>
       isDefined(item?.grossAnnualAmount) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
-          <li>
-            Income relationship:{' '}
-            <span className="vads-u-font-weight--bold">
-              {relationshipLabels[item.recipientRelationship]}
-            </span>
-          </li>
           <li>
             Income type:{' '}
             <span className="vads-u-font-weight--bold">{item.incomeType}</span>
@@ -61,8 +68,6 @@ export const options = {
         </ul>
       ),
     reviewAddButtonText: 'Add another discontinued income',
-    alertMaxItems:
-      'You have added the maximum number of allowed discontinued incomes for this application. You may edit or delete an discontinued income or choose to continue the application.',
     alertItemUpdated: 'Your discontinued income information has been updated',
     alertItemDeleted: 'Your discontinued income information has been deleted',
     cancelAddTitle: 'Cancel adding this discontinued income',
@@ -75,6 +80,8 @@ export const options = {
     deleteTitle: 'Delete this discontinued income',
     deleteYes: 'Yes, delete this discontinued income',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 
@@ -90,9 +97,10 @@ const summaryPage = {
       {
         title:
           'Did you or your dependents receive income that has stopped or is no longer being received within the last calendar year?',
+        hint: 'If yes, you’ll need to report at least one income',
         labels: {
           Y: 'Yes, I have a discontinued income to report',
-          N: 'No, I don’t have any discontinued incomes to report',
+          N: 'No, I don’t have a discontinued income to report',
         },
       },
       {
@@ -155,15 +163,12 @@ const recipientNamePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Discontinued income recipient name',
     ),
-    recipientName: textUI({
-      title: 'Tell us the income recipient’s name',
-      hint: 'Only needed if child, parent, custodian of child, or other',
-    }),
+    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
     properties: {
-      recipientName: textSchema,
+      recipientName: fullNameNoSuffixSchema,
     },
     required: ['recipientName'],
   },
@@ -244,14 +249,14 @@ const incomeDatePage = {
 const incomeAmountPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Discontinued income amount'),
-    grossAnnualAmount: currencyUI({
-      title: 'What was the gross annual amount reported to the IRS?',
-    }),
+    grossAnnualAmount: currencyUI(
+      'What was the gross annual amount reported to the IRS?',
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      grossAnnualAmount: { type: 'number' },
+      grossAnnualAmount: currencySchema,
     },
     required: ['grossAnnualAmount'],
   },
