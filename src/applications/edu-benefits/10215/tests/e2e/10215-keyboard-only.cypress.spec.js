@@ -49,15 +49,15 @@ describe('22-10215 Edu Benefits Form', () => {
       },
     });
     // Go to application, should go to about page
-    cy.visit(`${manifest.rootUrl}`);
+    cy.visit(`${manifest.rootUrl}/introduction`);
     cy.injectAxeThenAxeCheck();
+    // H1 should be focused on load
+    cy.focused().should('contain.text', 'Report 85/15 Rule enrollment ratios');
 
-    // Uncomment when about page is created
-    // cy.tabToElement('va-link-action');
-    // cy.realPress('Enter');
-
-    cy.tabToElement(
-      'va-accordion-item[header="What are the due dates for submitting my 85/15 rule enrollment ratios?"]',
+    cy.repeatKey('Tab', 6);
+    cy.focused().should(
+      'contain.text',
+      'What are the due dates for submitting my 85/15 rule enrollment ratios?',
     );
     cy.realPress('Space');
     cy.realPress('Tab');
@@ -98,18 +98,21 @@ describe('22-10215 Edu Benefits Form', () => {
         .path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.repeatKey('Tab', 1);
+    cy.realPress('Tab');
     cy.fillVaTextInput(
       'root_institutionDetails_facilityCode',
       institutionDetail.facilityCode,
     );
-    cy.repeatKey('Tab', 1);
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(200);
+
+    cy.realPress('Tab');
     cy.fillVaMemorableDate(
       'root_institutionDetails_termStartDate',
       institutionDetail.termStartDate,
       true,
     );
-    cy.repeatKey('Tab', 1);
+    cy.realPress('Tab');
     cy.fillVaMemorableDate(
       'root_institutionDetails_dateOfCalculations',
       institutionDetail.dateOfCalculations,
@@ -157,7 +160,7 @@ describe('22-10215 Edu Benefits Form', () => {
 
     cy.tabToContinueForm();
 
-    //   Program Summary Page
+    // Program Summary Page
     cy.url().should(
       'include',
       formConfig.chapters.programsChapter.pages.programsSummary.path,
@@ -169,7 +172,7 @@ describe('22-10215 Edu Benefits Form', () => {
     );
     cy.tabToContinueForm();
 
-    //   How to submit your form
+    // How to submit your form
     cy.injectAxeThenAxeCheck();
     cy.tabToContinueForm();
 
@@ -186,5 +189,13 @@ describe('22-10215 Edu Benefits Form', () => {
     );
     cy.tabToElementAndPressSpace('va-checkbox');
     cy.tabToSubmitForm();
+    // Confirmation page
+    cy.location('pathname').should('include', '/confirmation');
+    cy.injectAxeThenAxeCheck();
+    // Default focus to h2
+    cy.focused().should(
+      'contain.text',
+      'To submit your form, follow the steps below',
+    );
   });
 });
