@@ -90,57 +90,5 @@ describe('Verify', () => {
         expect(container.querySelector('a[href="/my-va"]')).to.exist;
       });
     });
-
-    //   it('shows redirect message and navigates to My VA after successful verification', async () => {
-    //     const initialState = {
-    //       user: {
-    //         login: { currentlyLoggedIn: true },
-    //         profile: { verified: false, signIn: { serviceName: 'idme' } },
-    //       },
-    //     };
-
-    //     const store = mockStore(initialState);
-
-    //     // Backup and mock window.location
-    //     const originalLocation = window.location;
-    //     delete window.location;
-    //     window.location = { href: '' };
-
-    //     // Render the Verify component
-    //     const { getByText, rerender } = render(
-    //       <Provider store={store}>
-    //         <Verify />
-    //       </Provider>,
-    //     );
-
-    //     // Check that no redirect message is shown initially
-    //     expect(window.location.href).to.equal('');
-
-    //     // Simulate the verification process by dispatching an action to update the state
-    //     store.dispatch({
-    //       type: 'USER_VERIFIED', // You should replace this with the actual action type that updates the verification state
-    //       payload: { verified: true },
-    //     });
-
-    //     // Trigger a re-render with the updated state
-    //     rerender(
-    //       <Provider store={store}>
-    //         <Verify />
-    //       </Provider>,
-    //     );
-
-    //     // // Check for the redirect message (only if the user is verified)
-    //     // await waitFor(() => {
-    //     //   expect(getByText(/Redirecting you to My VA/i)).to.exist;
-    //     // });
-
-    //     // Confirm the redirect happens
-    //     await waitFor(() => {
-    //       expect(window.location.href).to.equal('/my-va');
-    //     });
-
-    //     // Restore original window.location
-    //     window.location = originalLocation;
-    //   });
   });
 });
