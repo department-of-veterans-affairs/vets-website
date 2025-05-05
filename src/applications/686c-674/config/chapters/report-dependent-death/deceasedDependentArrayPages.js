@@ -72,7 +72,11 @@ export const deceasedDependentOptions = {
     cardDescription: item => {
       const firstName = capitalize(item?.fullName?.first || '');
       const lastName = capitalize(item?.fullName?.last || '');
-      return `${firstName} ${lastName}`.trim();
+      return (
+        <span className="dd-privacy" data-dd-privacy="mask">
+          {`${firstName} ${lastName}`.trim()}
+        </span>
+      );
     },
     summaryTitle: 'Review your dependents who have died',
   },
