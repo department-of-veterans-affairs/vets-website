@@ -279,12 +279,6 @@ export default function getNewAppointmentFlow(state) {
       label: 'Which provider do you want to schedule with?',
       next: 'preferredDate',
     },
-    typeOfAppointment: {
-      url: '/new-appointment',
-      // Temporary stub for typeOfAppointment which will eventually be first step
-      // Next will direct to type of care or provider once both flows are complete
-      next: 'typeOfFacility',
-    },
     typeOfCare: {
       url: '/schedule/type-of-care',
       label: 'What type of care do you need?',
