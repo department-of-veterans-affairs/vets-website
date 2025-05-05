@@ -2,6 +2,7 @@ import React from 'react';
 import { useLoaderData, redirect } from 'react-router-dom';
 import { AUTH_ERRORS } from 'platform/user/authentication/errors';
 import { userPromise } from '../utilities/auth';
+// eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
 import { handleTokenRequest } from '../../auth/helpers';
 
 /**
