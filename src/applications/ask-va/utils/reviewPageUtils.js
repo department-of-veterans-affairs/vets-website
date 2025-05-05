@@ -162,25 +162,14 @@ export const submitFormData = async ({
     };
 
     const response = await apiRequest(url, options);
-    let contentType;
 
-    if (response && response.headers) {
-      contentType = response.headers.get('Content-Type');
-      if (!contentType) {
-        // Content-Type is case-sensitive
-        contentType = response.headers.get('content-type');
-      }
-    }
-
-    if (!response?.ok) {
-      // If the response is not ok and not JSON, assume 503 from gateway
-      if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('Non-JSON error response (likely 503 from gateway)');
-      }
-
-      // Otherwise handle typical JSON error response
-      const errorJson = await response.json();
-      throw new Error(errorJson.message || 'Unknown API error');
+    // check if response.status is undefined or not a success code
+    const successCodes = [200, 201, 202, 204, '200', '201', '202', '204'];
+    if (
+      !successCodes.includes(response.status) ||
+      !successCodes.includes(response.headers.status)
+    ) {
+      throw new Error('Calling Backed API failed');
     }
 
     const result = await response.json();
