@@ -135,9 +135,7 @@ export const selectPastAppointments = state => {
         return null;
       }
 
-      return past
-        .filter(isValidPastAppointment)
-        .sort(sortByDateDescending);
+      return past.filter(isValidPastAppointment).sort(sortByDateDescending);
     },
   );
   return selector(state);
