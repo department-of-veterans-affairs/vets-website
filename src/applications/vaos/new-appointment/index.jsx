@@ -76,7 +76,7 @@ export function NewAppointment() {
             `${match.url}/contact-information`,
           ]}
         >
-          <ContactInfoPage c />
+          <ContactInfoPage />
         </Route>
         <Route path={`${match.url}/facility-type`}>
           <TypeOfFacilityPage />
