@@ -32,20 +32,34 @@ const {
 } = AVAILABILITY_STATUSES;
 
 export class Main extends React.Component {
+  // componentDidMount() {
+  //   const { shouldUseLighthouse, shouldUseLettersDiscrepancies } = this.props;
+
+  //   // eslint-disable-next-line -- LH_MIGRATION
+  //   const LH_MIGRATION__options = LH_MIGRATION__getOptions(shouldUseLighthouse);
+
+  //   if (!this.props.emptyAddress) {
+  //     // eslint-disable-next-line -- LH_MIGRATION
+  //     return this.props.getLetterListAndBSLOptions(
+  //       LH_MIGRATION__options,
+  //       shouldUseLettersDiscrepancies,
+  //     );
+  //   }
+  //   return this.props.profileHasEmptyAddress();
+  // }
+
   componentDidMount() {
     const { shouldUseLighthouse, shouldUseLettersDiscrepancies } = this.props;
-
     // eslint-disable-next-line -- LH_MIGRATION
     const LH_MIGRATION__options = LH_MIGRATION__getOptions(shouldUseLighthouse);
-
-    if (!this.props.emptyAddress) {
-      // eslint-disable-next-line -- LH_MIGRATION
-      return this.props.getLetterListAndBSLOptions(
-        LH_MIGRATION__options,
-        shouldUseLettersDiscrepancies,
-      );
-    }
-    return this.props.profileHasEmptyAddress();
+    // if (!this.props.emptyAddress) {
+    //   // eslint-disable-next-line -- LH_MIGRATION
+    return this.props.getLetterListAndBSLOptions(
+      LH_MIGRATION__options,
+      shouldUseLettersDiscrepancies,
+    );
+    // }
+    // return this.props.profileHasEmptyAddress();
   }
 
   render() {
