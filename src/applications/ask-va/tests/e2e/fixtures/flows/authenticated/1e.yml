@@ -28,11 +28,15 @@ flow:
 
     - action: include
       target: page
-      value: who-is-your-question-about-veteran-or-someone-else
+      value: who-is-your-question-about-someone-else-or-veteran
 
     - action: include
       target: page
-      value: what-is-your-relationship-to-the-family-member-spouse
+      value: what-is-their-relationship-to-the-veteran-spouse
+
+    - action: include
+      target: page
+      value: tell-us-about-your-veteran-family-member
 
     - action: include
       target: page
@@ -44,7 +48,7 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-you
+      value: tell-us-about-yourself-general
 
     - action: include
       target: page
