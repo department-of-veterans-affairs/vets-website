@@ -7,7 +7,7 @@ import Alert from '../components/Alert';
 import GetFormHelp from '../components/GetFormHelp';
 import ProcessList from '../components/ProcessList';
 
-const CLAIM_ID = '10216claimID';
+const CLAIM_ID = '10216ClaimId';
 
 export const setClaimIdInLocalStage = submission => {
   if (submission?.response?.id) {
@@ -21,7 +21,7 @@ export const getClaimIdFromLocalStage = () => {
 
 export const ConfirmationPage = ({ router, route }) => {
   const isAccredited = localStorage.getItem('isAccredited') === 'true';
-  const [claimID, setClaimID] = React.useState(null);
+  const [claimId, setClaimId] = React.useState(null);
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const submitDate = submission?.timestamp;
@@ -35,7 +35,7 @@ export const ConfirmationPage = ({ router, route }) => {
   useEffect(
     () => {
       setClaimIdInLocalStage(submission);
-      setClaimID(getClaimIdFromLocalStage());
+      setClaimId(getClaimIdFromLocalStage());
     },
     [submission],
   );
@@ -55,7 +55,7 @@ export const ConfirmationPage = ({ router, route }) => {
         To submit your {!isAccredited ? 'forms' : 'form'}, follow the steps
         below
       </h2>
-      <ProcessList isAccredited={isAccredited} id={claimID} />
+      <ProcessList isAccredited={isAccredited} id={claimId} />
       <p>
         <va-button
           secondary
