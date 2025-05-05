@@ -153,7 +153,7 @@ export const ItfFailedAlert = ({ itfType }) =>
           was a problem with our system. You can still work on your application.
         </div>
         <p>
-          Submitting your intent to file a Veterans ${itfType} application is
+          Submitting your intent to file a Veterans {itfType} application is
           optional, but may help you get more benefits, depending on your
           situation.
         </p>
