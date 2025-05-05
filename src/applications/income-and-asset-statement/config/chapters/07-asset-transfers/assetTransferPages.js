@@ -49,7 +49,6 @@ export const options = {
     typeof item.assetTransferredUnderFairMarketValue !== 'boolean' ||
     !isDefined(item.fairMarketValue) ||
     !isDefined(item.capitalGainValue), // include all required fields here
-  maxItems: 5,
   text: {
     getItemName: item =>
       isDefined(item?.newOwnerName) &&
@@ -89,8 +88,6 @@ export const options = {
         </ul>
       ),
     reviewAddButtonText: 'Add another asset transfer',
-    alertMaxItems:
-      'You have added the maximum number of allowed asset transfers for this application. You may edit or delete an asset transfer or choose to continue the application.',
     alertItemUpdated: 'Your asset transfer information has been updated',
     alertItemDeleted: 'Your asset transfer information has been deleted',
     cancelAddTitle: 'Cancel adding this asset transfer',
@@ -119,17 +116,18 @@ const summaryPage = {
       options,
       {
         title:
-          'In the current year and/or prior 3 tax years, did you or your dependents sell, convey, trade, or give away any assets?',
+          'In this year or in the past 3 tax years, did you or your dependents transfer any assets?',
+        hint: 'If yes, you’ll need to report at least one asset transfer',
         labels: {
           Y: 'Yes, I have an asset transfer to report',
           N: 'No, I don’t have an asset transfer to report',
         },
       },
       {
-        title: 'Do you have any more asset transfers to report?',
+        title: 'Do you have more asset transfers to report?',
         labels: {
-          Y: 'Yes, I have another asset transfer to report',
-          N: 'No, I don’t have anymore asset transfers to report',
+          Y: 'Yes, I have more asset transfers to report',
+          N: 'No, I don’t have more asset transfers to report',
         },
       },
     ),

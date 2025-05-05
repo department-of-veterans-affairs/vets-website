@@ -42,7 +42,6 @@ export const options = {
     isRecipientInfoIncomplete(item) ||
     !isDefined(item.payer) ||
     !isDefined(item.waivedGrossMonthlyIncome), // include all required fields here
-  maxItems: 5,
   text: {
     getItemName: (item, index, formData) =>
       isDefined(item?.recipientRelationship) &&
@@ -67,8 +66,6 @@ export const options = {
         </ul>
       ),
     reviewAddButtonText: 'Add another income receipt waiver',
-    alertMaxItems:
-      'You have added the maximum number of allowed income receipt waivers for this application. You may edit or delete an income receipt waiver or choose to continue the application.',
     alertItemUpdated: 'Your income receipt waiver information has been updated',
     alertItemDeleted: 'Your income receipt waiver information has been deleted',
     cancelAddTitle: 'Cancel adding this income receipt waiver',
@@ -98,16 +95,18 @@ const summaryPage = {
       {
         title:
           'Did you or your dependents waive or expect to waive any receipt of income in the next 12 months?',
+        hint:
+          'If yes, you’ll need to report at least one income receipt waiver',
         labels: {
           Y: 'Yes, I have an income receipt waiver to report',
-          N: 'No, I don’t have any income receipt waivers to report',
+          N: 'No, I don’t have an income receipt waiver to report',
         },
       },
       {
         title: 'Do you have any more income receipt waivers to report?',
         labels: {
           Y: 'Yes, I have another income receipt waiver to report',
-          N: 'No, I don’t have anymore income receipt waivers to report',
+          N: 'No, I don’t have another income receipt waiver to report',
         },
       },
     ),

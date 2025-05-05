@@ -35,7 +35,6 @@ export const options = {
     typeof item.revocable !== 'boolean' ||
     typeof item.receivingIncomeFromAnnuity !== 'boolean' ||
     typeof item.canBeLiquidated !== 'boolean', // include all required fields here
-  maxItems: 5,
   text: {
     getItemName: item =>
       isDefined(item?.establishedDate) &&
@@ -58,8 +57,6 @@ export const options = {
         </ul>
       ),
     reviewAddButtonText: 'Add another annuity',
-    alertMaxItems:
-      'You have added the maximum number of allowed annuities for this application. You may edit or delete an annuity or choose to continue the application.',
     alertItemUpdated: 'Your annuity information has been updated',
     alertItemDeleted: 'Your annuity information has been deleted',
     cancelAddTitle: 'Cancel adding this annuity',
@@ -88,16 +85,17 @@ const summaryPage = {
       options,
       {
         title: 'Have you or your dependents established an annuity?',
+        hint: 'If yes, you’ll need to report at least one annuity',
         labels: {
           Y: 'Yes, I have an annuity to report',
-          N: 'No, I don’t have any annuities to report',
+          N: 'No, I don’t have an annuity  to report',
         },
       },
       {
-        title: 'Do you have any more annuities to report?',
+        title: 'Do you have more annuities to report?',
         labels: {
           Y: 'Yes, I have more annuities to report',
-          N: 'No, I don’t have anymore annuities to report',
+          N: 'No, I don’t have more annuities to report',
         },
       },
     ),

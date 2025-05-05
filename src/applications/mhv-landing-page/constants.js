@@ -60,6 +60,7 @@ const HEALTH_TOOL_LINKS = freeze({
       isExternal: true,
     },
   ]),
+
   MEDICAL_SUPPLIES: freeze([
     {
       href: '/health-care/order-hearing-aid-or-CPAP-supplies-form/introduction',

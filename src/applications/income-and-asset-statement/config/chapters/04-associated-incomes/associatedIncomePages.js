@@ -41,7 +41,6 @@ export const options = {
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.accountValue) ||
     !isDefined(item.payer), // include all required fields here
-  maxItems: 5,
   text: {
     getItemName: (item, index, formData) =>
       isDefined(item?.recipientRelationship) &&
@@ -69,8 +68,6 @@ export const options = {
         </ul>
       ),
     reviewAddButtonText: 'Add another financial account',
-    alertMaxItems:
-      'You have added the maximum number of allowed incomes for this application. You may edit or delete an income or choose to continue the application.',
     alertItemUpdated: 'Your financial account information has been updated',
     alertItemDeleted: 'Your financial account information has been deleted',
     cancelAddTitle: 'Cancel adding this financial account',
@@ -100,16 +97,17 @@ const summaryPage = {
       {
         title:
           'Are you or your dependents receiving or expecting to receive any income in the next 12 months that is related to financial accounts?',
+        hint: 'If yes, you’ll need to report at least one income',
         labels: {
           Y: 'Yes, I have income to report',
           N: 'No, I don’t have any income to report',
         },
       },
       {
-        title: 'Do you have any more income to report?',
+        title: 'Do you have any more recurring income to report?',
         labels: {
           Y: 'Yes, I have more income to report',
-          N: 'No, I don’t have anymore income to report',
+          N: 'No, I don’t have any more income to report',
         },
       },
     ),

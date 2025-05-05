@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import { fetchMapBoxGeocoding } from '../../../actions/fetchMapBoxGeocoding';
 import { mockMapBoxClient } from '../../mocks/mapBoxClient';
-import { replaceStrValues } from '../../../utils/helpers';
 import content from '../../../locales/en/content.json';
 
 // declare error message content
@@ -72,30 +71,21 @@ describe('CG fetchMapBoxGeocoding action', () => {
       clientStub.returns({ send: sinon.stub().rejects(error) });
 
       await fetchMapBoxGeocoding(query, mockClient);
-      expect(mockLogger.error.calledWith(loggerMessage, {}, error)).to.be.true;
+      sinon.assert.calledOnceWithExactly(
+        mockLogger.error,
+        loggerMessage,
+        {},
+        error,
+      );
     });
 
-    it('should render the error message string when error origin is not `mapbox.com`', async () => {
+    it('should render error message on error', async () => {
       clientStub.returns({
         send: sinon.stub().rejects(errorMessage),
       });
 
       const response = await fetchMapBoxGeocoding(query, mockClient);
-      const expectedMessage = replaceStrValues(ERROR_MSG_FAILED, errorMessage);
-      expect(response.errorMessage).to.eq(expectedMessage);
-    });
-
-    it('should render the error body string when error origin is not `mapbox.com`', async () => {
-      clientStub.returns({
-        send: sinon.stub().rejects({
-          request: { origin: 'https://api.mapbox.com' },
-          body: { message: errorMessage },
-        }),
-      });
-
-      const response = await fetchMapBoxGeocoding(query, mockClient);
-      const expectedMessage = replaceStrValues(ERROR_MSG_FAILED, errorMessage);
-      expect(response.errorMessage).to.eq(expectedMessage);
+      expect(response.errorMessage).to.eq(ERROR_MSG_FAILED);
     });
   });
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -8,18 +8,18 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionError from '../../shared/components/SubmissionError';
 import GetFormHelp from '../../shared/components/GetFormHelp';
-import { applicantWording } from '../../shared/utilities';
-import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
 import {
-  applicantIdentificationInfoSchema,
-  applicantInfoIntroSchema,
-  applicantNameDobSchema,
-  applicantSharedAddressSchema,
-} from '../chapters/applicantInformation';
-import { onReviewPage, page15aDepends } from '../helpers/utilities';
+  certifierRoleSchema,
+  certifierNameSchema,
+  certifierAddressSchema,
+  signerContactInfoPage,
+  SignerContactInfoPage,
+  certifierRelationshipSchema,
+} from '../chapters/signerInformation';
 
 // import mockData from '../tests/fixtures/data/test-data.json';
+import { applicantPages } from '../chapters/applicantInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -71,63 +71,43 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    applicantInformation: {
-      title: 'Applicant information',
+    certifierInformation: {
+      title: 'Signer information',
       pages: {
-        page13: {
+        page1: {
           // initialData: mockData.data,
-          title: 'Applicant information ',
-          path: 'applicant-info',
-          ...applicantNameDobSchema,
+          path: 'signer-type',
+          title: 'Which of these best describes you?',
+          ...certifierRoleSchema,
         },
-        page13a: {
-          path: 'applicant-info-intro/:index',
-          arrayPath: 'applicants',
-          title: item => (
-            <>
-              <span className="dd-privacy-hidden">
-                {applicantWording(item)}
-              </span>{' '}
-              information
-            </>
-          ),
-          showPagePerItem: true,
-          depends: () => !onReviewPage(),
-          ...applicantInfoIntroSchema,
+        page2: {
+          path: 'signer-info',
+          title: 'Your name',
+          ...certifierNameSchema,
         },
-        page14: {
-          path: 'applicant-identification-info/:index',
-          arrayPath: 'applicants',
-          title: item => (
-            <>
-              <span className="dd-privacy-hidden">
-                {applicantWording(item)}
-              </span>{' '}
-              identification information
-            </>
-          ),
-          showPagePerItem: true,
-          ...applicantIdentificationInfoSchema,
+        page3: {
+          path: 'signer-mailing-address',
+          title: 'Your mailing address',
+          ...certifierAddressSchema,
         },
-        page15a: {
-          path: 'applicant-mailing-same/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          keepInPageOnReview: false,
-          title: item => (
-            <>
-              <span className="dd-privacy-hidden">
-                {applicantWording(item)}
-              </span>
-              address selection
-            </>
-          ),
-          depends: (formData, index) => page15aDepends(formData, index),
-          CustomPage: ApplicantAddressCopyPage,
+        page4: {
+          path: 'signer-contact-info',
+          title: 'Your contact information',
+          CustomPage: SignerContactInfoPage,
           CustomPageReview: null,
-          ...applicantSharedAddressSchema,
+          ...signerContactInfoPage,
+        },
+        page5: {
+          path: 'signer-relationship',
+          title: 'Your relationship to applicant',
+          depends: formData => get('certifierRole', formData) === 'other',
+          ...certifierRelationshipSchema,
         },
       },
+    },
+    applicantInformation: {
+      title: 'Applicant information',
+      pages: applicantPages,
     },
   },
   footerContent: GetFormHelp,
