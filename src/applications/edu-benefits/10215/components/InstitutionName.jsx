@@ -7,7 +7,7 @@ const InstitutionName = () => {
   const { loader, institutionName } = useValidateFacilityCode(formData);
   return (
     <div>
-      <p>Institution Name</p>
+      <p>Institution name</p>
       <div>
         {loader ? (
           <va-loading-indicator set-focus message="Finding your institution" />

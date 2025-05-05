@@ -81,6 +81,7 @@ export const Locators = {
   THREADS: '[data-testid="thread-list-item"]',
   MES_COUNT: '[data-testid="message-count"]',
   REPLY_FORM: '[data-testid="reply-form"]',
+  REPLY_TO: '[data-testid="draft-reply-to"]',
   CLEAR_FILTERS: '[text="Clear Filters"]',
   FILTER_INPUT: '#filter-input',
   ADDITIONAL_FILTER: '#additional-filter-accordion',
