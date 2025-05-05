@@ -5458,7 +5458,6 @@
           "modality": "vaInPerson",
           "pending": false,
           "past": false,
-          "future": true,
           "travelPayClaim": {
               "metadata": {
                   "status": 500,
@@ -5600,7 +5599,6 @@
           "modality": "vaInPerson",
           "pending": false,
           "past": false,
-          "future": true,
           "travelPayClaim": {
               "metadata": {
                   "status": 500,
@@ -5788,8 +5786,7 @@
           "type": "VA",
           "modality": "vaInPerson",
           "pending": false,
-          "past": true,
-          "future": false,
+          "past": false,
           "travelPayClaim": {
               "metadata": {
                   "status": 500,

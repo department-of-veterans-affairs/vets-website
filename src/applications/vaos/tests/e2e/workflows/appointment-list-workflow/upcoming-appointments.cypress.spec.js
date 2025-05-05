@@ -1,11 +1,6 @@
 // @ts-check
 import { addDays, addMinutes, addMonths, format, subMinutes } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
-import {
-  APPOINTMENT_STATUS,
-  DATE_FORMAT_STRINGS,
-  VIDEO_TYPES,
-} from '../../../../utils/constants';
+import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
@@ -111,9 +106,7 @@ describe('VAOS upcoming appointment flow', () => {
       // Arrange
       const startDate = addDays(new Date(), 1);
       const responses = MockAppointmentResponse.createClinicResponses({
-        localStartTime: new Date(
-          formatInTimeZone(startDate, 'UTC', DATE_FORMAT_STRINGS.ISODateTime),
-        ),
+        localStartTime: startDate,
         future: true,
       });
       responses[0].setLocationId('983');

@@ -47,7 +47,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
         type: 'VA',
         modality: 'vaVideoCareAtAnAtlasLocation',
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -173,7 +173,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           stationId: '983',
         },
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -231,7 +231,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       const appointment = {
         location: {},
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -297,7 +297,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           clinicPhoneExtension: '1234',
         },
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {

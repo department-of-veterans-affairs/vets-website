@@ -31,7 +31,7 @@ describe('VAOS Component: CCLayout', () => {
         },
         location: {},
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: true,
@@ -127,7 +127,7 @@ describe('VAOS Component: CCLayout', () => {
         },
         location: {},
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: true,

@@ -17,7 +17,7 @@ describe('VAOS Component: DetailsVA', () => {
       const appointment = {
         location: {},
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -57,7 +57,7 @@ describe('VAOS Component: DetailsVA', () => {
       const appointment = {
         location: {},
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -95,7 +95,7 @@ describe('VAOS Component: DetailsVA', () => {
       const appointment = {
         location: {},
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,

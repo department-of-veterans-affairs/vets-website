@@ -40,7 +40,7 @@ describe('VAOS Component: PhoneLayout', () => {
         type: 'VA',
         modality: 'phone',
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {},
         practitioners: [
           {
@@ -164,7 +164,7 @@ describe('VAOS Component: PhoneLayout', () => {
           stationId: '983',
         },
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -198,7 +198,7 @@ describe('VAOS Component: PhoneLayout', () => {
       const appointment = {
         location: {},
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -242,7 +242,7 @@ describe('VAOS Component: PhoneLayout', () => {
           clinicPhoneExtension: '1234',
         },
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         practitioners: [
           {
             name: {
@@ -404,7 +404,7 @@ describe('VAOS Component: PhoneLayout', () => {
           clinicPhysicalLocation: 'CHEYENNE',
         },
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,

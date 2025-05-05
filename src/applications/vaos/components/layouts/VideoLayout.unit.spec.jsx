@@ -44,7 +44,7 @@ describe('VAOS Component: VideoLayout', () => {
         modality: 'vaVideoCareAtHome',
         location: {},
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: null,
@@ -160,7 +160,7 @@ describe('VAOS Component: VideoLayout', () => {
           stationId: '983',
         },
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -201,7 +201,7 @@ describe('VAOS Component: VideoLayout', () => {
       const appointment = {
         location: {},
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -250,7 +250,7 @@ describe('VAOS Component: VideoLayout', () => {
           clinicPhoneExtension: '1234',
         },
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',

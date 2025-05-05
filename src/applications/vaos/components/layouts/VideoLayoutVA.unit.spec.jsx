@@ -52,7 +52,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
           clinicPhysicalLocation: 'CHEYENNE',
         },
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -108,7 +108,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
       const appointment = {
         location: {},
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -158,7 +158,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         type: 'VA',
         modality: 'vaVideoCareAtAVaLocation',
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -274,7 +274,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
           stationId: '983',
         },
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -313,7 +313,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
       const appointment = {
         location: {},
         minutesDuration: 60,
-        start: new Date(),
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: null,
@@ -362,7 +362,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
             clinicPhoneExtension: '1234',
           },
           minutesDuration: 60,
-          start: new Date(),
+          startUtc: new Date(),
           videoData: {
             isVideo: true,
             facilityId: '983',
@@ -556,7 +556,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
             clinicPhoneExtension: '1234',
           },
           minutesDuration: 60,
-          start: new Date(),
+          startUtc: new Date(),
           videoData: {
             isVideo: true,
             facilityId: '983',
