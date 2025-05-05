@@ -15,14 +15,15 @@ import {
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatDateShort } from 'platform/utilities/date';
+import { formatDateLong } from 'platform/utilities/date';
 import { trustTypeLabels } from '../../../labels';
 
 import {
   annualReceivedIncomeFromTrustRequired,
   formatCurrency,
-  monthlyMedicalReimbursementAmountRequired,
+  generateDeleteDescription,
   isDefined,
+  monthlyMedicalReimbursementAmountRequired,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -39,20 +40,21 @@ export const options = {
     typeof item.trustUsedForMedicalExpenses !== 'boolean' ||
     typeof item.trustEstablishedForVeteransChild !== 'boolean' ||
     typeof item.haveAuthorityOrControlOfTrust !== 'boolean', // include all required fields here
-  maxItems: 5,
   text: {
-    getItemName: () => 'Trust',
+    getItemName: item =>
+      isDefined(item?.establishedDate) &&
+      `Trust established on ${formatDateLong(item.establishedDate)}`,
     cardDescription: item =>
       isDefined(item?.marketValueAtEstablishment) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
-            Established date:{' '}
+            Type:{' '}
             <span className="vads-u-font-weight--bold">
-              {formatDateShort(item.establishedDate)}
+              {trustTypeLabels[item.trustType]}
             </span>
           </li>
           <li>
-            Market value:{' '}
+            Market value when established:{' '}
             <span className="vads-u-font-weight--bold">
               {formatCurrency(item.marketValueAtEstablishment)}
             </span>
@@ -60,8 +62,6 @@ export const options = {
         </ul>
       ),
     reviewAddButtonText: 'Add another trust',
-    alertMaxItems:
-      'You have added the maximum number of allowed trusts for this application. You may edit or delete a trust or choose to continue the application.',
     alertItemUpdated: 'Your trust information has been updated',
     alertItemDeleted: 'Your trust information has been deleted',
     cancelAddTitle: 'Cancel adding this trust',
@@ -74,6 +74,8 @@ export const options = {
     deleteTitle: 'Delete this trust',
     deleteYes: 'Yes, delete this trust',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 
@@ -89,16 +91,17 @@ const summaryPage = {
       {
         title:
           'Have you or your dependents established a trust or do you or your dependents have access to a trust?',
+        hint: 'If yes, you’ll need to report at least one trust',
         labels: {
           Y: 'Yes, I have a trust to report',
           N: 'No, I don’t have a trust to report',
         },
       },
       {
-        title: 'Do you or your dependents have another trust to report?',
+        title: 'Do you have more trusts to report?',
         labels: {
-          Y: 'Yes, I have another trust to report',
-          N: 'No, I don’t have anymore trusts to report',
+          Y: 'Yes, I have more trusts to report',
+          N: 'No, I don’t have more trusts to report',
         },
       },
     ),

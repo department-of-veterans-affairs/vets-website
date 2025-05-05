@@ -70,7 +70,7 @@ describe('22-10215 - Institution Details', () => {
         .uiSchema.institutionDetails.facilityCode['ui:validations'][0];
     validateFacilityCode(errors, '1234567');
     expect(errors.messages).to.include(
-      'Please enter a valid 8-digit facility code',
+      'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
     );
 
     errors.messages = [];
@@ -100,7 +100,7 @@ describe('22-10215 - Institution Details', () => {
     expect(form.find('va-memorable-date[error]').length).to.equal(1);
     form.unmount();
   });
-  it("institutionName 'Not Found' Generates Error: 'Please enter a valid facility code. To determine...' ", () => {
+  it("institutionName 'Not Found' Generates Error: 'Please enter a valid 8-character facility code. To determine...' ", () => {
     const onSubmit = sinon.spy();
     render(
       <DefinitionTester
