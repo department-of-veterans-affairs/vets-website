@@ -25,7 +25,7 @@ import { focusElement } from 'platform/utilities/ui';
 import useInterval from '../../hooks/use-interval';
 import { Alerts, Categories, Errors } from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
-import { retrieveFolder } from '../../actions/folders';
+import { getFolders } from '../../actions/folders';
 import { formatPathName } from '../../util/helpers';
 
 const AlertBackgroundBox = props => {
@@ -167,7 +167,7 @@ const AlertBackgroundBox = props => {
       folder?.folderId === undefined;
 
     if (shouldRetrieveFolders) {
-      dispatch(retrieveFolder(folder?.folderId));
+      getFolders();
       dispatch(closeAlert());
     }
   }, 60000); // 1 minute
