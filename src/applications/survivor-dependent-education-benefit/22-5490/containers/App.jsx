@@ -9,7 +9,7 @@ import {
   fetchDuplicateContactInfo,
   fetchPersonalInformation,
 } from '../actions';
-import formConfig from '../config/form';
+import createFormConfig from '../config/form';
 import { getAppData } from '../selectors';
 
 function App({
@@ -21,10 +21,13 @@ function App({
   getPersonalInformation,
   location,
   mebDpoAddressOptionEnabled,
+  showMeb54901990eTextUpdate,
   setFormData,
   user,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
+
+  const formConfig = createFormConfig(showMeb54901990eTextUpdate);
 
   useEffect(
     () => {
@@ -152,6 +155,7 @@ App.propTypes = {
   getPersonalInformation: PropTypes.func,
   location: PropTypes.object,
   mebDpoAddressOptionEnabled: PropTypes.bool,
+  showMeb54901990eTextUpdate: PropTypes.bool,
   setFormData: PropTypes.func,
   user: PropTypes.object,
 };
