@@ -57,6 +57,7 @@ import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
+import ApplyForBenefits from '../components/ApplyForBenefits';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
@@ -146,6 +147,19 @@ const formConfig = {
           path: 'champva-screen',
           ...champvaScreenSchema,
           title: 'CHAMPVA screen',
+          scrollAndFocusTarget,
+        },
+        benefitApp: {
+          path: 'benefit-application',
+          title: 'Apply for Benefits',
+          CustomPage: ApplyForBenefits,
+          CustomPageReview: null,
+          uiSchema: {
+            'ui:options': {
+              keepInPageOnReview: false,
+            },
+          },
+          schema: blankSchema,
           scrollAndFocusTarget,
         },
         signerEmail: {
