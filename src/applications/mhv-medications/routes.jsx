@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
+import { authenticatedLoader } from '@department-of-veterans-affairs/platform-startup/exports';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
 
@@ -70,7 +71,7 @@ const routes = [
   {
     path: 'refill',
     element: <AppWrapper Component={RefillPrescriptions} />,
-    loader: prescriptionsLoader,
+    loader: authenticatedLoader({ loader: prescriptionsLoader }),
   },
   {
     path: ':page',
@@ -82,21 +83,26 @@ const routes = [
   {
     path: '/',
     element: <AppWrapper Component={Prescriptions} />,
-    loader: (...args) => {
-      return Promise.all([prescriptionsLoader(...args)]);
-    },
+    // loader: prescriptionsLoader,
+    loader: authenticatedLoader({
+      loader: (...args) => {
+        return Promise.all([prescriptionsLoader(...args)]);
+      },
+    }),
   },
   {
     path: 'prescription/:prescriptionId/documentation',
     element: <AppWrapper Component={PrescriptionDetailsDocumentation} />,
-    loader: prescriptionsLoader,
+    loader: authenticatedLoader({ loader: prescriptionsLoader }),
   },
   {
     path: 'prescription/:prescriptionId',
     element: <AppWrapper Component={PrescriptionDetails} />,
-    loader: (...args) => {
-      return Promise.all([allergiesLoader(...args)]);
-    },
+    loader: authenticatedLoader({
+      loader: (...args) => {
+        return Promise.all([allergiesLoader(...args)]);
+      },
+    }),
   },
   {
     path: '*',
