@@ -11,14 +11,12 @@ import { activeItf, nonActiveItf, mockItfData } from './helpers';
 describe('IntentToFile', () => {
   const getData = ({
     baseUrl = '/path-to-app',
-    itfApi = '/v0/intent_to_file',
     itfType = 'compensation',
     loggedIn = true,
     path = '/inside-form',
   } = {}) => ({
     props: {
       baseUrl,
-      itfApi,
       itfType,
       location: { pathname: path },
     },
@@ -57,6 +55,7 @@ describe('IntentToFile', () => {
     );
 
   it('should render searching for ITF loading indicator', () => {
+    mockApiRequest({});
     const { container } = renderPage(getData());
 
     waitFor(() => {
@@ -106,18 +105,21 @@ describe('IntentToFile', () => {
   });
 
   it('should not render if not logged in', () => {
+    mockApiRequest({});
     const { container } = renderPage(getData({ loggedIn: false }));
     expect($('.itf-wrapper', container)).to.not.exist;
     expect($('#test').innerHTML).to.equal('');
   });
 
   it('should not render if missing itfType', () => {
+    mockApiRequest({});
     const { container } = renderPage(getData({ itfType: '' }));
     expect($('.itf-wrapper', container)).to.not.exist;
     expect($('#test').innerHTML).to.equal('');
   });
 
   it('should not render if unsupported itfType & throw an error', () => {
+    mockApiRequest({});
     let page;
     try {
       page = renderPage(getData({ itfType: 'test' }));
@@ -148,7 +150,7 @@ describe('IntentToFile', () => {
     await waitFor(() => {
       expect($('.itf-wrapper', container)).to.exist;
       expect($('#test', container)).to.not.exist;
-      $('va-button-pair', container).__events.primaryClick();
+      $('va-button', container).click();
     }).then(() => {
       expect($('.itf-wrapper', container)).to.not.exist;
       expect($('#test', container)).to.exist;
