@@ -44,6 +44,9 @@ const PrescriptionDetailsDocumentation = () => {
     dob: state.user.profile.dob,
   }));
 
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     data: htmlContent,
     isLoading: isLoadingDoc,
@@ -72,6 +75,8 @@ const PrescriptionDetailsDocumentation = () => {
   let prescription;
   let hasPrescriptionApiError = false;
   let prescriptionIsLoading = true;
+
+  // Check if the prescription data is already available in RTK's query cache
   const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
     selectFromResult: ({ data: prescriptionsList }) => {
       return prescriptionsList?.prescriptions?.find(
@@ -80,16 +85,19 @@ const PrescriptionDetailsDocumentation = () => {
     },
   });
 
+  // If the data is not found in the cache, fetch it from the API
   if (cachedPrescription?.prescriptionId) {
     prescription = cachedPrescription;
     prescriptionIsLoading = false;
   } else {
-    const { data, error, isLoading } = getPrescriptionById.useQuery(
-      prescriptionId,
-    );
+    const {
+      data,
+      error,
+      isLoading: prescriptionQueryIsLoading,
+    } = getPrescriptionById.useQuery(prescriptionId);
     prescription = data;
     hasPrescriptionApiError = error;
-    prescriptionIsLoading = isLoading;
+    prescriptionIsLoading = prescriptionQueryIsLoading;
   }
 
   const isLoadingRx = !prescription && prescriptionIsLoading;
