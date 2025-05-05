@@ -37,7 +37,6 @@ export const options = {
     !isDefined(item.incomeFrequency) ||
     !isDefined(item.incomeLastReceivedDate) ||
     !isDefined(item.grossAnnualAmount), // include all required fields here
-  maxItems: 5,
   text: {
     getItemName: () => 'Discontinued income',
     cardDescription: item =>
@@ -62,8 +61,6 @@ export const options = {
         </ul>
       ),
     reviewAddButtonText: 'Add another discontinued income',
-    alertMaxItems:
-      'You have added the maximum number of allowed discontinued incomes for this application. You may edit or delete an discontinued income or choose to continue the application.',
     alertItemUpdated: 'Your discontinued income information has been updated',
     alertItemDeleted: 'Your discontinued income information has been deleted',
     cancelAddTitle: 'Cancel adding this discontinued income',
@@ -91,9 +88,10 @@ const summaryPage = {
       {
         title:
           'Did you or your dependents receive income that has stopped or is no longer being received within the last calendar year?',
+        hint: 'If yes, you’ll need to report at least one income',
         labels: {
           Y: 'Yes, I have a discontinued income to report',
-          N: 'No, I don’t have any discontinued incomes to report',
+          N: 'No, I don’t have a discontinued income to report',
         },
       },
       {
