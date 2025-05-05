@@ -12,24 +12,21 @@ import ProcessTimeline from '../components/IntroductionPage/ProcessTimeline';
 import content from '../locales/en/content.json';
 
 export const IntroductionPage = ({ route, router }) => {
-  const startBtn = useMemo(
-    () => {
-      const startForm = () => {
-        recordEvent({ event: 'caregivers-10-10cg-start-form' });
-        return router.push(route.pageList[1].path);
-      };
-      return (
-        <a
-          href="#start"
-          className="vads-c-action-link--green"
-          onClick={startForm}
-        >
-          {content['button-start-app']}
-        </a>
-      );
-    },
-    [route.pageList, router],
-  );
+  const startBtn = useMemo(() => {
+    const startForm = () => {
+      recordEvent({ event: 'caregivers-10-10cg-start-form' });
+      return router.push(route.pageList[1].path);
+    };
+    return (
+      <a
+        href="#start"
+        className="vads-c-action-link--green"
+        onClick={startForm}
+      >
+        {content['button-start-app']}
+      </a>
+    );
+  }, [route.pageList, router]);
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');

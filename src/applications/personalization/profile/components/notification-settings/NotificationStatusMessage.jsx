@@ -4,23 +4,20 @@ import classNames from 'classnames';
 
 export const NotificationStatusMessage = ({ children, classes, id }) => {
   // legacy can be removed as a prop when the radio buttons are removed
-  const computedClasses = useMemo(
-    () => {
-      return classNames([
-        'vads-u-font-family--sans',
-        'vads-u-font-size--base',
-        'vads-u-margin-top--2',
-        'vads-u-margin-bottom--0p5',
-        'vads-u-display--block',
-        'vads-u-padding-y--1p5',
-        'vads-u-padding-x--2',
-        'vads-u-margin-left--neg1p5',
-        'focus-ring',
-        classes,
-      ]);
-    },
-    [classes],
-  );
+  const computedClasses = useMemo(() => {
+    return classNames([
+      'vads-u-font-family--sans',
+      'vads-u-font-size--base',
+      'vads-u-margin-top--2',
+      'vads-u-margin-bottom--0p5',
+      'vads-u-display--block',
+      'vads-u-padding-y--1p5',
+      'vads-u-padding-x--2',
+      'vads-u-margin-left--neg1p5',
+      'focus-ring',
+      classes,
+    ]);
+  }, [classes]);
 
   const statusMessage = useRef(null);
 

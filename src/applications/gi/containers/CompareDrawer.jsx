@@ -141,9 +141,7 @@ export function CompareDrawer({
                   onClick={() => {
                     setPromptingFacilityCode(facilityCode);
                   }}
-                  aria-label={`Remove ${
-                    institutions[facilityCode].name
-                  } from comparison`}
+                  aria-label={`Remove ${institutions[facilityCode].name} from comparison`}
                 />
               </div>
             </div>
@@ -153,56 +151,47 @@ export function CompareDrawer({
     );
   };
 
-  useEffect(
-    () => {
-      if (loaded.length === 0) {
+  useEffect(() => {
+    if (loaded.length === 0) {
+      makeHeaderLabel();
+      makeLoadedCards();
+      setBlanks(renderBlanks());
+      dispatchCompareDrawerOpened(false);
+    } else if (loaded.length === 1 && !open) {
+      dispatchCompareDrawerOpened(true);
+      setTimeout(() => {
         makeHeaderLabel();
         makeLoadedCards();
         setBlanks(renderBlanks());
-        dispatchCompareDrawerOpened(false);
-      } else if (loaded.length === 1 && !open) {
-        dispatchCompareDrawerOpened(true);
         setTimeout(() => {
-          makeHeaderLabel();
-          makeLoadedCards();
-          setBlanks(renderBlanks());
-          setTimeout(() => {
-            dispatchCompareDrawerOpened(false);
-          }, 800);
-        }, 300);
-      } else if (loaded.length >= 1 && loaded.length <= 3) {
-        makeHeaderLabel();
-        makeLoadedCards();
-        setBlanks(renderBlanks());
-        dispatchCompareDrawerOpened(true);
-      }
+          dispatchCompareDrawerOpened(false);
+        }, 800);
+      }, 300);
+    } else if (loaded.length >= 1 && loaded.length <= 3) {
+      makeHeaderLabel();
+      makeLoadedCards();
+      setBlanks(renderBlanks());
+      dispatchCompareDrawerOpened(true);
+    }
 
-      setPreviousLoaded(loaded);
-      setPreviousInstitutions(institutions);
-    },
-    [loaded],
-  );
+    setPreviousLoaded(loaded);
+    setPreviousInstitutions(institutions);
+  }, [loaded]);
 
-  useEffect(
-    () => {
-      if (sizeChanged) {
-        setScrollable(tooTall());
-        setSizeChanged(false);
-      }
-    },
-    [sizeChanged],
-  );
+  useEffect(() => {
+    if (sizeChanged) {
+      setScrollable(tooTall());
+      setSizeChanged(false);
+    }
+  }, [sizeChanged]);
 
   const checkSize = () => {
     setSizeChanged(true);
   };
 
-  useEffect(
-    () => {
-      checkSize();
-    },
-    [open],
-  );
+  useEffect(() => {
+    checkSize();
+  }, [open]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, true);
@@ -346,7 +335,4 @@ CompareDrawer.propTypes = {
   alwaysDisplay: PropTypes.bool,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CompareDrawer);
+export default connect(mapStateToProps, mapDispatchToProps)(CompareDrawer);

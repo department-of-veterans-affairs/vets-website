@@ -157,14 +157,11 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
     [dispatch, location.pathname, selectedSortOption, refillStatus, allergies],
   );
 
-  useEffect(
-    () => {
-      if (!isLoading) {
-        focusElement(document.querySelector('h1'));
-      }
-    },
-    [isLoading],
-  );
+  useEffect(() => {
+    if (!isLoading) {
+      focusElement(document.querySelector('h1'));
+    }
+  }, [isLoading]);
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);

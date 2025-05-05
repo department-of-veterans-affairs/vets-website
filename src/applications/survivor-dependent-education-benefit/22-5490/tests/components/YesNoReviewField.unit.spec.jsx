@@ -10,7 +10,7 @@ describe('YesNoReviewField component', () => {
     };
     const wrapper = mount(
       <YesNoReviewField uiSchema={uiSchema}>
-        <div formData="yes" />
+        <div />
       </YesNoReviewField>,
     );
     expect(wrapper.text()).to.include('test title');

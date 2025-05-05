@@ -47,21 +47,15 @@ const FailureToExhaust = ({
     ];
   }
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   return (
     <RadioGroup
@@ -98,7 +92,4 @@ const mapDispatchToProps = {
   setFailureToExhaust: updateFailureToExhaust,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FailureToExhaust);
+export default connect(mapStateToProps, mapDispatchToProps)(FailureToExhaust);

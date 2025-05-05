@@ -38,28 +38,22 @@ const HealthCareContent = ({
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
 
-  useEffect(
-    () => {
-      if (!dataLoadingDisabled && isVAPatient) {
-        fetchConfirmedFutureAppointments();
-      }
-    },
-    [dataLoadingDisabled, fetchConfirmedFutureAppointments, isVAPatient],
-  );
+  useEffect(() => {
+    if (!dataLoadingDisabled && isVAPatient) {
+      fetchConfirmedFutureAppointments();
+    }
+  }, [dataLoadingDisabled, fetchConfirmedFutureAppointments, isVAPatient]);
 
-  useEffect(
-    () => {
-      if (shouldFetchUnreadMessages && !dataLoadingDisabled && isVAPatient) {
-        fetchUnreadMessages();
-      }
-    },
-    [
-      shouldFetchUnreadMessages,
-      fetchUnreadMessages,
-      dataLoadingDisabled,
-      isVAPatient,
-    ],
-  );
+  useEffect(() => {
+    if (shouldFetchUnreadMessages && !dataLoadingDisabled && isVAPatient) {
+      fetchUnreadMessages();
+    }
+  }, [
+    shouldFetchUnreadMessages,
+    fetchUnreadMessages,
+    dataLoadingDisabled,
+    isVAPatient,
+  ]);
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
@@ -133,8 +127,9 @@ const HealthCareContent = ({
     <div className="vads-l-row">
       <DashboardWidgetWrapper>
         {hasAppointmentsError && <HealthcareError />}
-        {hasUpcomingAppointment &&
-          !isLOA1 && <AppointmentsCard appointments={appointments} />}
+        {hasUpcomingAppointment && !isLOA1 && (
+          <AppointmentsCard appointments={appointments} />
+        )}
         {!isVAPatient && !isLOA1 && <NoHealthcareText />}
         {isVAPatient &&
           !hasUpcomingAppointment &&
@@ -240,7 +235,4 @@ HealthCareContent.propTypes = {
 
 export const UnconnectedHealthCareContent = HealthCareContent;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(HealthCareContent);
+export default connect(mapStateToProps, mapDispatchToProps)(HealthCareContent);

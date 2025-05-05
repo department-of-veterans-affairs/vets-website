@@ -7,33 +7,30 @@ const DownloadFormPDF = ({ pdfContent }) => {
   const [pdfBlob, setPdfBlob] = useState(null);
   const buttonText = 'Download completed form';
 
-  useEffect(
-    () => {
-      const fetchData = async () => {
-        try {
-          const pdfData = await fetch(
-            `data:application/pdf;base64,${pdfContent}`,
-          );
-          setPdfBlob(await pdfData.blob());
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const pdfData = await fetch(
+          `data:application/pdf;base64,${pdfContent}`,
+        );
+        setPdfBlob(await pdfData.blob());
 
-          return recordEvent({
-            event: 'debt-fsr-pdf-content-fetch',
-          });
-        } catch (error) {
-          Sentry.withScope(scope => {
-            scope.setExtra(`Error: ${error}`);
-            Sentry.captureMessage(`debt-fsr-pdf-content-fetch-fail`);
-          });
+        return recordEvent({
+          event: 'debt-fsr-pdf-content-fetch',
+        });
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra(`Error: ${error}`);
+          Sentry.captureMessage(`debt-fsr-pdf-content-fetch-fail`);
+        });
 
-          return recordEvent({
-            event: 'debt-fsr-pdf-content-fetch-fail',
-          });
-        }
-      };
-      fetchData();
-    },
-    [pdfContent],
-  );
+        return recordEvent({
+          event: 'debt-fsr-pdf-content-fetch-fail',
+        });
+      }
+    };
+    fetchData();
+  }, [pdfContent]);
 
   const handlePdfDownload = () => {
     const url = window.URL.createObjectURL(pdfBlob);

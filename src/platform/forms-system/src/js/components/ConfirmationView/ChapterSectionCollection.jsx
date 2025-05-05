@@ -267,11 +267,10 @@ const useChapterSectionCollection = formConfig => {
       const chapterFormConfig = formConfig.chapters[chapterName];
 
       return {
-        expandedPages: expandedPages.map(
-          page =>
-            page.appStateSelector
-              ? { ...page, appStateData: page.appStateSelector(state) }
-              : page,
+        expandedPages: expandedPages.map(page =>
+          page.appStateSelector
+            ? { ...page, appStateData: page.appStateSelector(state) }
+            : page,
         ),
         formConfig: chapterFormConfig,
         name: chapterName,

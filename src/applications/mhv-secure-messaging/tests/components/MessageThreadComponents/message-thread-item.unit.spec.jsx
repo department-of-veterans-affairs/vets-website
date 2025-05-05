@@ -47,9 +47,7 @@ describe('Message thread item', () => {
     expect(attachmentIcon).to.exist;
     expect(attachmentIcon.getAttribute('slot')).to.equal('subheader-icon');
     expect(screen.getByTestId('from').textContent).to.equal(
-      `From: ${messageResponse.senderName} (${
-        messageResponse.triageGroupName
-      })`,
+      `From: ${messageResponse.senderName} (${messageResponse.triageGroupName})`,
     );
     expect(screen.getByTestId('to').textContent).to.equal(
       `To: ${messageResponse.recipientName}`,

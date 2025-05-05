@@ -43,194 +43,166 @@ function ToeApp({
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
   const [lightHouseFlag, setLighthouseFlag] = useState(false);
 
-  useEffect(
-    () => {
-      if (!user?.login?.currentlyLoggedIn) {
-        return;
-      }
-      if (!fetchedUserInfo) {
-        setFetchedUserInfo(true);
-        getPersonalInformation();
-      }
+  useEffect(() => {
+    if (!user?.login?.currentlyLoggedIn) {
+      return;
+    }
+    if (!fetchedUserInfo) {
+      setFetchedUserInfo(true);
+      getPersonalInformation();
+    }
 
-      if (
-        !sponsors?.loadedFromSavedState &&
-        isArray(sponsorsSavedState?.sponsors)
-      ) {
-        setFormData(mapFormSponsors(formData, sponsorsSavedState));
-      } else if (sponsorsInitial && !sponsors) {
-        setFormData(mapFormSponsors(formData, sponsorsInitial));
-      }
-    },
-    [
-      fetchedUserInfo,
-      formData,
-      getPersonalInformation,
-      user?.login?.currentlyLoggedIn,
-      setFormData,
-      sponsors,
-      sponsorsInitial,
-      sponsorsSavedState,
-    ],
-  );
+    if (
+      !sponsors?.loadedFromSavedState &&
+      isArray(sponsorsSavedState?.sponsors)
+    ) {
+      setFormData(mapFormSponsors(formData, sponsorsSavedState));
+    } else if (sponsorsInitial && !sponsors) {
+      setFormData(mapFormSponsors(formData, sponsorsInitial));
+    }
+  }, [
+    fetchedUserInfo,
+    formData,
+    getPersonalInformation,
+    user?.login?.currentlyLoggedIn,
+    setFormData,
+    sponsors,
+    sponsorsInitial,
+    sponsorsSavedState,
+  ]);
 
-  useEffect(
-    () => {
-      if (isLOA3 !== formData.isLOA3) {
-        setFormData({
-          ...formData,
-          isLOA3,
-        });
-      }
-    },
-    [formData, setFormData, isLOA3],
-  );
+  useEffect(() => {
+    if (isLOA3 !== formData.isLOA3) {
+      setFormData({
+        ...formData,
+        isLOA3,
+      });
+    }
+  }, [formData, setFormData, isLOA3]);
 
-  useEffect(
-    () => {
-      if (
-        showMeb1990ER6MaintenanceMessage !==
-        formData.showMeb1990ER6MaintenanceMessage
-      ) {
-        setFormData({
-          ...formData,
-          showMeb1990ER6MaintenanceMessage,
-        });
-      }
-    },
-    [formData, setFormData, showMeb1990ER6MaintenanceMessage],
-  );
+  useEffect(() => {
+    if (
+      showMeb1990ER6MaintenanceMessage !==
+      formData.showMeb1990ER6MaintenanceMessage
+    ) {
+      setFormData({
+        ...formData,
+        showMeb1990ER6MaintenanceMessage,
+      });
+    }
+  }, [formData, setFormData, showMeb1990ER6MaintenanceMessage]);
 
-  useEffect(
-    () => {
-      if (toeDupContactInfoCall !== formData.toeDupContactInfoCall) {
-        setFormData({
-          ...formData,
-          toeDupContactInfoCall,
-        });
-      }
+  useEffect(() => {
+    if (toeDupContactInfoCall !== formData.toeDupContactInfoCall) {
+      setFormData({
+        ...formData,
+        toeDupContactInfoCall,
+      });
+    }
 
-      if (
-        formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
-        formData?.email?.email &&
-        !formData?.duplicateEmail &&
-        !formData?.duplicatePhone &&
-        formData?.toeDupContactInfoCall
-      ) {
-        getDuplicateContactInfo(
-          [{ value: formData?.email?.email, dupe: '' }],
-          [
-            {
-              value: formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
-              dupe: '',
-            },
-          ],
-        );
-      }
+    if (
+      formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
+      formData?.email?.email &&
+      !formData?.duplicateEmail &&
+      !formData?.duplicatePhone &&
+      formData?.toeDupContactInfoCall
+    ) {
+      getDuplicateContactInfo(
+        [{ value: formData?.email?.email, dupe: '' }],
+        [
+          {
+            value: formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
+            dupe: '',
+          },
+        ],
+      );
+    }
 
-      if (
-        duplicateEmail?.length > 0 &&
-        duplicateEmail !== formData?.duplicateEmail
-      ) {
-        setFormData({
-          ...formData,
-          duplicateEmail,
-        });
-      }
+    if (
+      duplicateEmail?.length > 0 &&
+      duplicateEmail !== formData?.duplicateEmail
+    ) {
+      setFormData({
+        ...formData,
+        duplicateEmail,
+      });
+    }
 
-      if (
-        duplicatePhone?.length > 0 &&
-        duplicatePhone !== formData?.duplicatePhone
-      ) {
-        setFormData({
-          ...formData,
-          duplicatePhone,
-        });
-      }
-    },
-    [
-      formData,
-      setFormData,
-      toeDupContactInfoCall,
-      duplicateEmail,
-      duplicatePhone,
-      getDuplicateContactInfo,
-    ],
-  );
+    if (
+      duplicatePhone?.length > 0 &&
+      duplicatePhone !== formData?.duplicatePhone
+    ) {
+      setFormData({
+        ...formData,
+        duplicatePhone,
+      });
+    }
+  }, [
+    formData,
+    setFormData,
+    toeDupContactInfoCall,
+    duplicateEmail,
+    duplicatePhone,
+    getDuplicateContactInfo,
+  ]);
 
-  useEffect(
-    () => {
-      if (
-        toeLightHouseDgiDirectDeposit !==
-        formData?.toeLightHouseDgiDirectDeposit
-      ) {
-        setLighthouseFlag(true);
-        setFormData({
-          ...formData,
-          toeLightHouseDgiDirectDeposit,
-        });
-      }
-    },
-    [formData, setFormData, toeLightHouseDgiDirectDeposit],
-  );
+  useEffect(() => {
+    if (
+      toeLightHouseDgiDirectDeposit !== formData?.toeLightHouseDgiDirectDeposit
+    ) {
+      setLighthouseFlag(true);
+      setFormData({
+        ...formData,
+        toeLightHouseDgiDirectDeposit,
+      });
+    }
+  }, [formData, setFormData, toeLightHouseDgiDirectDeposit]);
 
-  useEffect(
-    () => {
-      if (!user?.login?.currentlyLoggedIn) {
-        return;
-      }
+  useEffect(() => {
+    if (!user?.login?.currentlyLoggedIn) {
+      return;
+    }
 
-      if (!fetchedDirectDeposit && lightHouseFlag && isLoggedIn && isLOA3) {
-        setFetchedDirectDeposit(true);
-        getDirectDeposit(formData?.toeLightHouseDgiDirectDeposit);
-      }
-    },
-    [
-      isLoggedIn,
-      isLOA3,
-      fetchedDirectDeposit,
-      getDirectDeposit,
-      user?.login?.currentlyLoggedIn,
-      lightHouseFlag,
-      formData?.toeLightHouseDgiDirectDeposit,
-    ],
-  );
+    if (!fetchedDirectDeposit && lightHouseFlag && isLoggedIn && isLOA3) {
+      setFetchedDirectDeposit(true);
+      getDirectDeposit(formData?.toeLightHouseDgiDirectDeposit);
+    }
+  }, [
+    isLoggedIn,
+    isLOA3,
+    fetchedDirectDeposit,
+    getDirectDeposit,
+    user?.login?.currentlyLoggedIn,
+    lightHouseFlag,
+    formData?.toeLightHouseDgiDirectDeposit,
+  ]);
 
-  useEffect(
-    () => {
-      if (toeHighSchoolInfoChange !== formData.toeHighSchoolInfoChange) {
-        setFormData({
-          ...formData,
-          toeHighSchoolInfoChange,
-        });
-      }
-    },
-    [formData, setFormData, toeHighSchoolInfoChange],
-  );
+  useEffect(() => {
+    if (toeHighSchoolInfoChange !== formData.toeHighSchoolInfoChange) {
+      setFormData({
+        ...formData,
+        toeHighSchoolInfoChange,
+      });
+    }
+  }, [formData, setFormData, toeHighSchoolInfoChange]);
 
-  useEffect(
-    () => {
-      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
-        setFormData({
-          ...formData,
-          mebDpoAddressOptionEnabled,
-        });
-      }
-    },
-    [formData, setFormData, mebDpoAddressOptionEnabled],
-  );
+  useEffect(() => {
+    if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
+      setFormData({
+        ...formData,
+        mebDpoAddressOptionEnabled,
+      });
+    }
+  }, [formData, setFormData, mebDpoAddressOptionEnabled]);
 
-  useEffect(
-    () => {
-      if (dob !== formData?.dob) {
-        setFormData({
-          ...formData,
-          dob,
-        });
-      }
-    },
-    [dob, formData, setFormData],
-  );
+  useEffect(() => {
+    if (dob !== formData?.dob) {
+      setFormData({
+        ...formData,
+        dob,
+      });
+    }
+  }, [dob, formData, setFormData]);
   return (
     <>
       <div className="row">
@@ -315,7 +287,4 @@ const mapDispatchToProps = {
   getDuplicateContactInfo: fetchDuplicateContactInfo,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ToeApp);
+export default connect(mapStateToProps, mapDispatchToProps)(ToeApp);

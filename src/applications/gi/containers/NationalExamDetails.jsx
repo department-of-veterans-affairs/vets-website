@@ -16,24 +16,18 @@ const NationalExamDetails = () => {
   const { examDetails, loadingDetails, error } = useSelector(
     state => state.nationalExams,
   );
-  useEffect(
-    () => {
-      window.scrollTo(0, 0);
-      dispatch(fetchNationalExamDetails(examId));
-    },
-    [examId, dispatch],
-  );
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    dispatch(fetchNationalExamDetails(examId));
+  }, [examId, dispatch]);
 
-  useEffect(
-    () => {
-      if (examDetails?.name) {
-        document.title = `${formatNationalExamName(
-          examDetails.name,
-        )}: GI Bill® Comparison Tool | Veterans Affairs`;
-      }
-    },
-    [examDetails],
-  );
+  useEffect(() => {
+    if (examDetails?.name) {
+      document.title = `${formatNationalExamName(
+        examDetails.name,
+      )}: GI Bill® Comparison Tool | Veterans Affairs`;
+    }
+  }, [examDetails]);
 
   useEffect(() => {
     function handleResize() {
@@ -218,6 +212,7 @@ const NationalExamDetails = () => {
 };
 
 NationalExamDetails.propTypes = {
+  error: PropTypes.string,
   examDetails: PropTypes.shape({
     name: PropTypes.string,
     tests: PropTypes.arrayOf(
@@ -241,7 +236,6 @@ NationalExamDetails.propTypes = {
     }),
   }),
   loadingDetails: PropTypes.bool,
-  error: PropTypes.string,
 };
 
 export default NationalExamDetails;

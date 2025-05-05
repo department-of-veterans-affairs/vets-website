@@ -23,18 +23,15 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
 
   const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      if (pendingStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchPendingAppointments());
-      } else if (hasTypeChanged && pendingStatus === FETCH_STATUS.succeeded) {
-        scrollAndFocus('#type-dropdown');
-      } else if (hasTypeChanged && pendingStatus === FETCH_STATUS.failed) {
-        scrollAndFocus('h3');
-      }
-    },
-    [fetchPendingAppointments, pendingStatus, hasTypeChanged],
-  );
+  useEffect(() => {
+    if (pendingStatus === FETCH_STATUS.notStarted) {
+      dispatch(fetchPendingAppointments());
+    } else if (hasTypeChanged && pendingStatus === FETCH_STATUS.succeeded) {
+      scrollAndFocus('#type-dropdown');
+    } else if (hasTypeChanged && pendingStatus === FETCH_STATUS.failed) {
+      scrollAndFocus('h3');
+    }
+  }, [fetchPendingAppointments, pendingStatus, hasTypeChanged]);
 
   if (
     pendingStatus === FETCH_STATUS.loading ||

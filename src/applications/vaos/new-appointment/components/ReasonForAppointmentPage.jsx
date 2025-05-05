@@ -136,14 +136,11 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      if (schema) {
-        focusFormHeader();
-      }
-    },
-    [schema],
-  );
+  useEffect(() => {
+    if (schema) {
+      focusFormHeader();
+    }
+  }, [schema]);
 
   return (
     <div

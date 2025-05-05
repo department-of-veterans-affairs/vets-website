@@ -50,25 +50,19 @@ const EvidenceSummary = ({
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
 
-  useEffect(
-    () => {
-      setHasErrors(
-        containerRef?.current.querySelectorAll('.usa-input-error-message')
-          .length > 0,
-      );
-    },
-    [containerRef, evidenceLength],
-  );
+  useEffect(() => {
+    setHasErrors(
+      containerRef?.current.querySelectorAll('.usa-input-error-message')
+        .length > 0,
+    );
+  }, [containerRef, evidenceLength]);
 
-  useEffect(
-    () => {
-      if (evidenceLength === 0) {
-        focusElement('#no-evidence');
-        scrollTo('evidenceSummaryScrollElement');
-      }
-    },
-    [evidenceLength],
-  );
+  useEffect(() => {
+    if (evidenceLength === 0) {
+      focusElement('#no-evidence');
+      scrollTo('evidenceSummaryScrollElement');
+    }
+  }, [evidenceLength]);
 
   const callbacks = {
     va: () => {
@@ -217,7 +211,7 @@ const EvidenceSummary = ({
           }
         >
           <p>
-            {content.removeEvidence[(removeData?.type)] || ''}
+            {content.removeEvidence[removeData?.type] || ''}
             {removeData?.name ? <strong>{` ${removeData.name}`}</strong> : null}
           </p>
         </VaModal>

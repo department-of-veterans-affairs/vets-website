@@ -79,7 +79,4 @@ ClearFiltersBtn.propTypes = {
   onClick: PropTypes.func,
   onKeyDown: PropTypes.func,
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ClearFiltersBtn);
+export default connect(mapStateToProps, mapDispatchToProps)(ClearFiltersBtn);

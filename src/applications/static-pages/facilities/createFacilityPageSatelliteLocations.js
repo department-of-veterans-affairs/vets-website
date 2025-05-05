@@ -10,9 +10,9 @@ export default async function createFacilityPageSatelliteLocations(store) {
     `[data-widget-type="${widgetTypes.FACILITY_MAP_SATELLITE_LOCATIONS}"]`,
   );
   if (mapWidgets) {
-    const {
-      default: FacilityMapWidgetDynamic,
-    } = await import(/* webpackChunkName: "facility-detail" */ './FacilityMapWidgetDynamic');
+    const { default: FacilityMapWidgetDynamic } = await import(
+      /* webpackChunkName: "facility-detail" */ './FacilityMapWidgetDynamic'
+    );
 
     mapWidgets.forEach((mapWidget, index) => {
       facilityID = window.satteliteVetCenters[index];

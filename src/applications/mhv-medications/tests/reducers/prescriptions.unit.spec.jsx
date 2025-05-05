@@ -73,10 +73,10 @@ describe('Prescriptions reducer', () => {
       })
       .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName));
 
-    const [refillableList, renewableList] = refillablePrescriptionsList.reduce(
-      categorizePrescriptions,
-      [[], []],
-    );
+    const [
+      refillableList,
+      renewableList,
+    ] = refillablePrescriptionsList.reduce(categorizePrescriptions, [[], []]);
 
     const rxState = {
       ...initialState,

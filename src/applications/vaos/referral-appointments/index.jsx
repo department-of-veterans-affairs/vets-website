@@ -28,16 +28,13 @@ export default function ReferralAppointments() {
     skip: !id,
   });
 
-  useEffect(
-    () => {
-      if (referral) {
-        scrollAndFocus('h1');
-      } else if (error) {
-        scrollAndFocus('h2');
-      }
-    },
-    [error, referral],
-  );
+  useEffect(() => {
+    if (referral) {
+      scrollAndFocus('h1');
+    } else if (error) {
+      scrollAndFocus('h2');
+    }
+  }, [error, referral]);
 
   if (!isInCCPilot) {
     return <Redirect from={basePath.url} to="/" />;

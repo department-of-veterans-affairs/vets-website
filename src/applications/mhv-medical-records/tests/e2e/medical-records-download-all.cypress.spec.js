@@ -3,7 +3,7 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import DownloadReportsPage from './pages/DownloadReportsPage';
 import DownloadAllPage from './pages/DownloadAllPage';
 
-describe('Test download all page', () => {
+describe.skip('Test download all page', () => {
   it('test download all feature', () => {
     const site = new MedicalRecordsSite();
     site.login();

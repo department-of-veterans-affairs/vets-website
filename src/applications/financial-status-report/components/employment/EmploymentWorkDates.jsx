@@ -76,8 +76,8 @@ const EmploymentWorkDates = props => {
 
     // Past this point, we know the date(s) are valid
     if (isEditing) {
-      const updatedRecords = employmentRecords.map(
-        (item, idx) => (idx === index ? employmentRecord : item),
+      const updatedRecords = employmentRecords.map((item, idx) =>
+        idx === index ? employmentRecord : item,
       );
 
       setFormData({

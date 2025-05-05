@@ -26,7 +26,7 @@ const RenderBar = ({ label, avgRating }) => {
             &nbsp;
           </div>
         </div>
-        <span className="vads-u-margin-left--2&quot;">
+        <span className='vads-u-margin-left--2"'>
           {' '}
           {`${avgRating} / ${starMax}`}{' '}
         </span>

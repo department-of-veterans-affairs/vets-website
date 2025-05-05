@@ -18,14 +18,11 @@ const PersonalAuthenticatedInformation = ({
 }) => {
   const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      if (!hasPrefillInformation(formData)) {
-        goForward(formData);
-      }
-    },
-    [isLoggedIn, formData, goForward],
-  );
+  useEffect(() => {
+    if (!hasPrefillInformation(formData)) {
+      goForward(formData);
+    }
+  }, [isLoggedIn, formData, goForward]);
 
   const handleGoBack = () => {
     dispatch(clearFormData());
@@ -47,12 +44,9 @@ const PersonalAuthenticatedInformation = ({
     ssnLastFour = ssn.substr(ssn.length - 4);
   }
 
-  useEffect(
-    () => {
-      focusElement('h2');
-    },
-    [formData.aboutYourself],
-  );
+  useEffect(() => {
+    focusElement('h2');
+  }, [formData.aboutYourself]);
 
   return (
     <>

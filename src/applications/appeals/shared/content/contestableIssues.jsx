@@ -84,14 +84,11 @@ export const MessageAlert = ({
   const wrapAlert = useRef(null);
   const Header = `h${headerLevel}`;
 
-  useEffect(
-    () => {
-      if (wrapAlert?.current) {
-        scrollAndFocus(wrapAlert.current);
-      }
-    },
-    [wrapAlert],
-  );
+  useEffect(() => {
+    if (wrapAlert?.current) {
+      scrollAndFocus(wrapAlert.current);
+    }
+  }, [wrapAlert]);
 
   recordEvent({
     event: 'visible-alert-box',

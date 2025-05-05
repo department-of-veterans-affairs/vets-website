@@ -22,43 +22,40 @@ const useSendDemographicsFlags = () => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
 
-  useLayoutEffect(
-    () => {
-      if (demographicsFlagsEmpty || !getShouldSendDemographicsFlags(window))
-        return;
+  useLayoutEffect(() => {
+    if (demographicsFlagsEmpty || !getShouldSendDemographicsFlags(window))
+      return;
 
-      if (token && !isComplete && !isLoading) {
-        setIsLoading(true);
-        api.v2
-          .patchDayOfDemographicsData(demographicsData)
-          .then(resp => {
-            if (resp.data.error || resp.data.errors) {
-              setError(true);
-            } else {
-              setShouldSendDemographicsFlags(window, false);
-            }
-          })
-          .catch(() => {
+    if (token && !isComplete && !isLoading) {
+      setIsLoading(true);
+      api.v2
+        .patchDayOfDemographicsData(demographicsData)
+        .then(resp => {
+          if (resp.data.error || resp.data.errors) {
             setError(true);
-          })
-          .finally(() => {
-            setIsComplete(true);
-            setIsLoading(false);
-          });
-      }
-    },
-    [
-      token,
-      demographicsData,
-      demographicsFlagsEmpty,
-      isLoading,
-      setIsLoading,
-      isComplete,
-      setIsComplete,
-      getShouldSendDemographicsFlags,
-      setShouldSendDemographicsFlags,
-    ],
-  );
+          } else {
+            setShouldSendDemographicsFlags(window, false);
+          }
+        })
+        .catch(() => {
+          setError(true);
+        })
+        .finally(() => {
+          setIsComplete(true);
+          setIsLoading(false);
+        });
+    }
+  }, [
+    token,
+    demographicsData,
+    demographicsFlagsEmpty,
+    isLoading,
+    setIsLoading,
+    isComplete,
+    setIsComplete,
+    getShouldSendDemographicsFlags,
+    setShouldSendDemographicsFlags,
+  ]);
   return {
     demographicsFlagsEmpty,
     isLoading,

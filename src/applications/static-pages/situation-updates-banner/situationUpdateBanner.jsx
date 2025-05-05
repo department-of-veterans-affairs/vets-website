@@ -26,20 +26,19 @@ export default function SituationUpdateBanner({
     >
       {/* eslint-disable-next-line react/no-danger */}
       <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
-      {operatingStatusCta &&
-        operatingStatusPage && (
-          <p>
-            <va-link
-              disable-analytics
-              onclick={recordEvent({
-                event: 'nav-warning-alert-box-content-link-click',
-                alertBoxHeading: headline,
-              })}
-              href={operatingStatusPage}
-              text="Get updates on affected services and facilities"
-            />
-          </p>
-        )}
+      {operatingStatusCta && operatingStatusPage && (
+        <p>
+          <va-link
+            disable-analytics
+            onclick={recordEvent({
+              event: 'nav-warning-alert-box-content-link-click',
+              alertBoxHeading: headline,
+            })}
+            href={operatingStatusPage}
+            text="Get updates on affected services and facilities"
+          />
+        </p>
+      )}
       {findFacilitiesCta && (
         <p>
           <va-link

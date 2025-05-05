@@ -75,14 +75,11 @@ export default function TypeOfEyeCarePage({ changeCrumb }) {
       changeCrumb(pageTitle);
     }
   }, []);
-  useEffect(
-    () => {
-      if (schema) {
-        focusFormHeader();
-      }
-    },
-    [schema],
-  );
+  useEffect(() => {
+    if (schema) {
+      focusFormHeader();
+    }
+  }, [schema]);
 
   return (
     <div className="vaos-form__radio-field-descriptive">

@@ -13,7 +13,7 @@ describe('alertsReducer function', () => {
         errorMessage: 'An error',
         errorStackTrace:
           'Error: An error\n' +
-          '    at Context.<anonymous> (/Users/matthewwright/Projects/va/vets-website/src/applications/mhv/medical-records/tests/reducers/alerts.unit.spec.js:13:16)\n' +
+          '    at Context.<anonymous> (/Users/matthewwright/Projects/va/vets-website/src/applications/mhv/medical-records/tests/reducers/alerts.unit.spec.jsx:13:16)\n' +
           '    at callFn (/Users/matthewwright/Projects/va/vets-website/node_modules/mocha/lib/runnable.js:366:21)\n' +
           '    at Test.Runnable.run (/Users/matthewwright/Projects/va/vets-website/node_modules/mocha/lib/runnable.js:354:5)\n' +
           '    at Test.Runnable.run (/Users/matthewwright/Projects/va/vets-website/node_modules/mocha-snapshots/src/index.js:19:22)\n' +

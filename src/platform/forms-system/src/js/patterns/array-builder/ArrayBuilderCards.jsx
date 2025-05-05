@@ -303,7 +303,4 @@ ArrayBuilderCards.propTypes = {
   titleHeaderLevel: PropTypes.string,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ArrayBuilderCards);
+export default connect(mapStateToProps, mapDispatchToProps)(ArrayBuilderCards);

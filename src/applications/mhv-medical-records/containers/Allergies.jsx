@@ -96,13 +96,10 @@ const Allergies = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
+  }, [dispatch]);
 
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,

@@ -122,13 +122,12 @@ export default function InstitutionProfile({
           <h2 className="vads-u-padding-top--2 small-screen-header">
             On this page
           </h2>
-          {showSchoolContentBasedOnType(type) &&
-            type !== 'FOREIGN' && (
-              <JumpLink
-                label="Calculate your benefits"
-                jumpToId="calculate-your-benefits"
-              />
-            )}
+          {showSchoolContentBasedOnType(type) && type !== 'FOREIGN' && (
+            <JumpLink
+              label="Calculate your benefits"
+              jumpToId="calculate-your-benefits"
+            />
+          )}
           {institution.yr === true && (
             <JumpLink
               label="Yellow Ribbon Program information"
@@ -139,10 +138,9 @@ export default function InstitutionProfile({
             label="Getting started with benefits"
             jumpToId="getting-started-with-benefits"
           />
-          {displayStars &&
-            isShowRatingsToggle && (
-              <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
-            )}
+          {displayStars && isShowRatingsToggle && (
+            <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
+          )}
           <JumpLink
             label="Cautionary information"
             jumpToId="cautionary-information"
@@ -175,18 +173,17 @@ export default function InstitutionProfile({
           onClose={() => setVisibleAlert(false)}
         />
       )}
-      {showSchoolContentBasedOnType(type) &&
-        type !== 'FOREIGN' && (
-          <ProfileSection
-            label="Calculate your benefits"
-            id="calculate-your-benefits"
-          >
-            <CalculateYourBenefits
-              gibctEybBottomSheet={gibctEybBottomSheet}
-              isOJT={isOJT}
-            />
-          </ProfileSection>
-        )}
+      {showSchoolContentBasedOnType(type) && type !== 'FOREIGN' && (
+        <ProfileSection
+          label="Calculate your benefits"
+          id="calculate-your-benefits"
+        >
+          <CalculateYourBenefits
+            gibctEybBottomSheet={gibctEybBottomSheet}
+            isOJT={isOJT}
+          />
+        </ProfileSection>
+      )}
 
       {type === 'FOREIGN' && (
         <p>
@@ -242,20 +239,17 @@ export default function InstitutionProfile({
       >
         <GettingStartedWithBenefits />
       </ProfileSection>
-      {displayStars &&
-        isShowRatingsToggle && (
-          <ProfileSection label="Veteran ratings" id="veteran-ratings">
-            <div>
-              <SchoolRatings
-                ratingAverage={institution.institutionRating.overallAvg}
-                ratingCount={
-                  institution.institutionRating.institutionRatingCount
-                }
-                institutionCategoryRatings={institution.institutionRating}
-              />
-            </div>
-          </ProfileSection>
-        )}
+      {displayStars && isShowRatingsToggle && (
+        <ProfileSection label="Veteran ratings" id="veteran-ratings">
+          <div>
+            <SchoolRatings
+              ratingAverage={institution.institutionRating.overallAvg}
+              ratingCount={institution.institutionRating.institutionRatingCount}
+              institutionCategoryRatings={institution.institutionRating}
+            />
+          </div>
+        </ProfileSection>
+      )}
 
       <ProfileSection
         label="Cautionary information"

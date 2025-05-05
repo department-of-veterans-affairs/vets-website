@@ -367,8 +367,8 @@ const getDerivedValues = createSelector(
       isOJT ||
       oldGiBill ||
       (giBillChapter === 31 && isFlightOrCorrespondence) ||
-      (inputs.calendar === 'semesters' ||
-        (inputs.calendar === 'nontraditional' && numberOfTerms < 3));
+      inputs.calendar === 'semesters' ||
+      (inputs.calendar === 'nontraditional' && numberOfTerms < 3);
 
     if (shouldHaveNoTuitionFeesTerm3) {
       tuitionFeesTerm3 = 0;

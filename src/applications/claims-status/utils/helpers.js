@@ -447,7 +447,7 @@ export function getDocTypeDescription(docType) {
 }
 
 export const isPopulatedClaim = ({ claimDate, claimType, contentions }) =>
-  !!claimType && (contentions && !!contentions.length) && !!claimDate;
+  !!claimType && contentions && !!contentions.length && !!claimDate;
 
 export function hasBeenReviewed(trackedItem) {
   const reviewedStatuses = ['INITIAL_REVIEW_COMPLETE', 'ACCEPTED'];

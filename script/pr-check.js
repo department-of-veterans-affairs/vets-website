@@ -148,14 +148,13 @@ function identifyAdditions(diffLines) {
 function findPattern(arr) {
   return Promise.resolve(
     arr.filter(({ line }) => new RegExp(CODE_PATTERN).test(line)),
-  ).then(
-    matchList =>
-      isEmpty(matchList)
-        ? finish(
-            `No additions found matching the pattern: "${CODE_PATTERN}"`,
-            matchList,
-          )
-        : matchList,
+  ).then(matchList =>
+    isEmpty(matchList)
+      ? finish(
+          `No additions found matching the pattern: "${CODE_PATTERN}"`,
+          matchList,
+        )
+      : matchList,
   );
 }
 
@@ -182,11 +181,10 @@ function filterAgainstPreviousComments(additions) {
           ),
       ),
     )
-    .then(
-      newAdditions =>
-        isEmpty(newAdditions)
-          ? finish('No new comments to make', additions)
-          : newAdditions,
+    .then(newAdditions =>
+      isEmpty(newAdditions)
+        ? finish('No new comments to make', additions)
+        : newAdditions,
     );
 }
 

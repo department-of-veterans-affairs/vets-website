@@ -55,12 +55,9 @@ export default function AppointmentsPage() {
   //   selectFeatureBookingExclusion(state),
   // );
 
-  useEffect(
-    () => {
-      dispatch(setFormCurrentPage('appointments'));
-    },
-    [location, dispatch],
-  );
+  useEffect(() => {
+    dispatch(setFormCurrentPage('appointments'));
+  }, [location, dispatch]);
 
   let prefix = 'Your';
   const isPending = location.pathname.endsWith('/pending');
@@ -91,29 +88,22 @@ export default function AppointmentsPage() {
   //     ? !!hasRegisteredOHTransitionSite && !hasRegisteredNonTransitionSite
   //     : false;
 
-  useEffect(
-    () => {
-      document.title = `${pageTitle} | Veterans Affairs`;
-      scrollAndFocus('h1');
-    },
-    [location.pathname, prefix, pageTitle],
-  );
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus('h1');
+  }, [location.pathname, prefix, pageTitle]);
 
   const [count, setCount] = useState(0);
-  useEffect(
-    () => {
-      // Get non cancelled appointment requests from store
-      setCount(
-        pendingAppointments
-          ? pendingAppointments.filter(
-              appointment =>
-                appointment.status !== APPOINTMENT_STATUS.cancelled,
-            ).length
-          : 0,
-      );
-    },
-    [pendingAppointments],
-  );
+  useEffect(() => {
+    // Get non cancelled appointment requests from store
+    setCount(
+      pendingAppointments
+        ? pendingAppointments.filter(
+            appointment => appointment.status !== APPOINTMENT_STATUS.cancelled,
+          ).length
+        : 0,
+    );
+  }, [pendingAppointments]);
 
   const handleCCLinkClick = e => {
     e.preventDefault();

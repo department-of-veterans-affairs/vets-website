@@ -11,14 +11,11 @@ const NoSuggestedAddress = ({
   // This Function checks if there suggested Address
   const isThereNoSuggestedAddress = noSuggestedAddress(deliveryPointValidation);
   // This Effect reset setChooseAddress to entered if there is no suggested address.
-  useEffect(
-    () => {
-      if (isThereNoSuggestedAddress) {
-        setChooseAddress('entered');
-      }
-    },
-    [isThereNoSuggestedAddress, setChooseAddress],
-  );
+  useEffect(() => {
+    if (isThereNoSuggestedAddress) {
+      setChooseAddress('entered');
+    }
+  }, [isThereNoSuggestedAddress, setChooseAddress]);
 
   return (
     <div>

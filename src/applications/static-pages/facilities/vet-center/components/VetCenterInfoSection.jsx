@@ -29,12 +29,8 @@ function VetCenterInfoSection(props) {
       {opStatusConfig && (
         <div className="vads-u-margin-bottom--1">
           <va-alert-expandable
-            id={`operating-status-alert-${
-              props.vetCenter.fieldFacilityLocatorApiId
-            }`}
-            data-testid={`operating-status-alert-${
-              props.vetCenter.fieldFacilityLocatorApiId
-            }`}
+            id={`operating-status-alert-${props.vetCenter.fieldFacilityLocatorApiId}`}
+            data-testid={`operating-status-alert-${props.vetCenter.fieldFacilityLocatorApiId}`}
             status={opStatusConfig.statusType}
             trigger={opStatusConfig.statusLabel}
             class="vads-u-margin-y--0 vamc-facility-expandable-alert"

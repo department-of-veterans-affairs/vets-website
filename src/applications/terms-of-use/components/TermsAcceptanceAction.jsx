@@ -18,41 +18,40 @@ export default function TermsAcceptance({
     isFullyAuthenticated && !isMiddleAuth ? 'Continue to accept' : 'Accept';
   return (
     <>
-      {(isMiddleAuth || isFullyAuthenticated) &&
-        termsOfUseAuthorized && (
-          <>
-            <h2 id="do-you-accept-of-terms-of-use" className={className}>
-              Do you accept these terms of use?
-            </h2>
-            {error.isError && (
-              <va-alert
-                status="error"
-                slim
-                visible
-                uswds
-                data-testid="error-non-modal"
-                class="vads-u-margin-y--1p5"
-              >
-                {error.message}
-              </va-alert>
-            )}
-            <va-button
-              disabled={isDisabled}
-              data-testid="accept"
-              text={acceptBtnText}
-              onClick={() => handleTouClick('accept')}
-              ariaLabel="Accept the VA online services terms of use"
-            />
-            <va-button
-              disabled={isDisabled}
-              data-testid="decline"
-              text="Decline"
-              secondary
-              ariaLabel="Decline the VA online services terms of use"
-              onClick={() => setShowDeclineModal(true)}
-            />
-          </>
-        )}
+      {(isMiddleAuth || isFullyAuthenticated) && termsOfUseAuthorized && (
+        <>
+          <h2 id="do-you-accept-of-terms-of-use" className={className}>
+            Do you accept these terms of use?
+          </h2>
+          {error.isError && (
+            <va-alert
+              status="error"
+              slim
+              visible
+              uswds
+              data-testid="error-non-modal"
+              class="vads-u-margin-y--1p5"
+            >
+              {error.message}
+            </va-alert>
+          )}
+          <va-button
+            disabled={isDisabled}
+            data-testid="accept"
+            text={acceptBtnText}
+            onClick={() => handleTouClick('accept')}
+            ariaLabel="Accept the VA online services terms of use"
+          />
+          <va-button
+            disabled={isDisabled}
+            data-testid="decline"
+            text="Decline"
+            secondary
+            ariaLabel="Decline the VA online services terms of use"
+            onClick={() => setShowDeclineModal(true)}
+          />
+        </>
+      )}
     </>
   );
 }

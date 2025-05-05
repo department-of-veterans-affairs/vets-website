@@ -44,17 +44,14 @@ export const usePrevious = nextValue => {
 export const useStaggeredFeatureRelease = (displayThreshold, storageKey) => {
   const [restriction, setRestriction] = useState(null);
 
-  useEffect(
-    () => {
-      let restrictVar = localStorage.getItem(storageKey);
-      if (!restrictVar) {
-        restrictVar = Math.random().toFixed(2) * 100;
-        localStorage.setItem(storageKey, restrictVar.toString());
-      }
-      setRestriction(restrictVar);
-    },
-    [storageKey],
-  );
+  useEffect(() => {
+    let restrictVar = localStorage.getItem(storageKey);
+    if (!restrictVar) {
+      restrictVar = Math.random().toFixed(2) * 100;
+      localStorage.setItem(storageKey, restrictVar.toString());
+    }
+    setRestriction(restrictVar);
+  }, [storageKey]);
 
   return Number.parseInt(restriction, 10) <= displayThreshold;
 };

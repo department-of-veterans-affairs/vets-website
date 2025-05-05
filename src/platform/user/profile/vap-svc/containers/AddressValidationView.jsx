@@ -40,7 +40,7 @@ class AddressValidationView extends React.Component {
   // the updateProfileChoice in the vapService.formFields state
   updateProfileChoice =
     this.context?.fieldName &&
-    this.props.vapServiceFormFields[(this.context?.fieldName)]?.value
+    this.props.vapServiceFormFields[this.context?.fieldName]?.value
       ?.updateProfileChoice;
 
   componentDidMount() {
@@ -401,16 +401,15 @@ class AddressValidationView extends React.Component {
 
           <div className="vads-u-display--flex mobile-lg:vads-u-display--block vads-u-flex-direction--column">
             {this.renderPrimaryButton()}
-            {!addressValidationError &&
-              !isLoading && (
-                <button
-                  type="button"
-                  className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
-                  onClick={this.onEditClick}
-                >
-                  Edit address
-                </button>
-              )}
+            {!addressValidationError && !isLoading && (
+              <button
+                type="button"
+                className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
+                onClick={this.onEditClick}
+              >
+                Edit address
+              </button>
+            )}
           </div>
         </form>
       </>

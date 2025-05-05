@@ -161,10 +161,11 @@ export async function setTypeOfFacility(store, value) {
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setTypeOfCare(store, label) {
-  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
-    <TypeOfCarePage />,
-    { store },
-  );
+  const {
+    findByLabelText,
+    getByText,
+    history,
+  } = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
   const radioButton = await findByLabelText(label);
   fireEvent.click(radioButton);

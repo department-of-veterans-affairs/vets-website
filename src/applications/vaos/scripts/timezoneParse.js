@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 /*
  * How to run:
- * 
+ *
  * 1. Download https://coderepo.mobilehealth.va.gov/projects/VDMS/repos/mobile-facility-service/browse/mobile-facility-service/src/main/resources/Sta6aid-TimezoneId.csv
  * 2. Run node timezoneParse.js <path to file>
- * 
+ *
  * Output will be in timezone.json.
  */
 const fs = require('fs');

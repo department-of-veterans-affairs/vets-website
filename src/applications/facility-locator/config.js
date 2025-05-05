@@ -101,11 +101,7 @@ export const resolveParamsWithUrl = ({
   // specialties[]=282NW0100X
   if (multiSpecialties) {
     const sNchar = 'specialties[]=';
-    service = `${EMERGENCY_CARE_SERVICES[0]}&${sNchar}${
-      EMERGENCY_CARE_SERVICES[1]
-    }&${sNchar}${EMERGENCY_CARE_SERVICES[2]}&${sNchar}${
-      EMERGENCY_CARE_SERVICES[3]
-    }&${sNchar}${EMERGENCY_CARE_SERVICES[4]}`;
+    service = `${EMERGENCY_CARE_SERVICES[0]}&${sNchar}${EMERGENCY_CARE_SERVICES[1]}&${sNchar}${EMERGENCY_CARE_SERVICES[2]}&${sNchar}${EMERGENCY_CARE_SERVICES[3]}&${sNchar}${EMERGENCY_CARE_SERVICES[4]}`;
   }
 
   const locationParams = [

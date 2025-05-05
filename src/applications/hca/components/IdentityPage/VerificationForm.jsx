@@ -22,27 +22,24 @@ const IdentityVerificationForm = ({ data, onChange, onLogin, onSubmit }) => {
     vesRecordFound,
   ]);
 
-  const schemaFormFooter = useMemo(
-    () => {
-      if (hasServerError) return <ServerErrorAlert />;
-      if (loginRequired) return <LoginRequiredAlert handleLogin={onLogin} />;
-      return isSubmittingForm ? (
-        <va-loading-indicator
-          message={content['identity-verification--loading-message']}
-          class="vads-u-margin-bottom--4 hca-idform-submit-loader"
-          set-focus
-        />
-      ) : (
-        <ProgressButton
-          buttonClass="vads-u-width--auto hca-idform-submit-button"
-          buttonText={content['identity-verification--submit-button-text']}
-          afterText="»"
-          submitButton
-        />
-      );
-    },
-    [hasServerError, isSubmittingForm, loginRequired, onLogin],
-  );
+  const schemaFormFooter = useMemo(() => {
+    if (hasServerError) return <ServerErrorAlert />;
+    if (loginRequired) return <LoginRequiredAlert handleLogin={onLogin} />;
+    return isSubmittingForm ? (
+      <va-loading-indicator
+        message={content['identity-verification--loading-message']}
+        class="vads-u-margin-bottom--4 hca-idform-submit-loader"
+        set-focus
+      />
+    ) : (
+      <ProgressButton
+        buttonClass="vads-u-width--auto hca-idform-submit-button"
+        buttonText={content['identity-verification--submit-button-text']}
+        afterText="»"
+        submitButton
+      />
+    );
+  }, [hasServerError, isSubmittingForm, loginRequired, onLogin]);
 
   return (
     <div className="vads-u-margin-top--2p5">

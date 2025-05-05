@@ -199,25 +199,22 @@ const FileField = props => {
     [formData],
   );
 
-  useEffect(
-    () => {
-      // The File object is not preserved in the save-in-progress data
-      // We need to remove these entries; an empty `file` is included in the
-      // entry, but if API File Object still exists (within the same session), we
-      // can't use Object.keys() on it because it returns an empty array
-      const newData = files.filter(
-        // keep - file may not exist (already uploaded)
-        // keep - file may contain File object; ensure name isn't empty
-        // remove - file may be an empty object
-        data => !data.file || (data.file?.name || '') !== '',
-      );
-      if (newData.length !== files.length) {
-        onChange(newData);
-      }
-      setInitialized(true);
-    },
-    [files, onChange],
-  );
+  useEffect(() => {
+    // The File object is not preserved in the save-in-progress data
+    // We need to remove these entries; an empty `file` is included in the
+    // entry, but if API File Object still exists (within the same session), we
+    // can't use Object.keys() on it because it returns an empty array
+    const newData = files.filter(
+      // keep - file may not exist (already uploaded)
+      // keep - file may contain File object; ensure name isn't empty
+      // remove - file may be an empty object
+      data => !data.file || (data.file?.name || '') !== '',
+    );
+    if (newData.length !== files.length) {
+      onChange(newData);
+    }
+    setInitialized(true);
+  }, [files, onChange]);
 
   /**
    * Add file to list and upload
@@ -600,55 +597,49 @@ const FileField = props => {
                       />
                     </Tag>
                   )}
-                {!file.uploading &&
-                  hasVisibleError && (
-                    <span className="usa-input-error-message" role="alert">
-                      <span className="sr-only">Error</span> {errors[0]}
-                    </span>
-                  )}
-                {!formContext.reviewMode &&
-                  !isUploading && (
-                    <div className="vads-u-margin-top--2">
-                      {hasVisibleError && (
-                        <va-button
-                          name={`retry_upload_${index}`}
-                          class="retry-upload vads-u-width--auto vads-u-margin-right--2"
-                          onClick={getRetryFunction(
-                            allowRetry,
-                            index,
-                            file.file,
-                          )}
-                          label={
-                            allowRetry
-                              ? content.tryAgainLabel(file.name)
-                              : content.newFile
+                {!file.uploading && hasVisibleError && (
+                  <span className="usa-input-error-message" role="alert">
+                    <span className="sr-only">Error</span> {errors[0]}
+                  </span>
+                )}
+                {!formContext.reviewMode && !isUploading && (
+                  <div className="vads-u-margin-top--2">
+                    {hasVisibleError && (
+                      <va-button
+                        name={`retry_upload_${index}`}
+                        class="retry-upload vads-u-width--auto vads-u-margin-right--2"
+                        onClick={getRetryFunction(allowRetry, index, file.file)}
+                        label={
+                          allowRetry
+                            ? content.tryAgainLabel(file.name)
+                            : content.newFile
+                        }
+                        text={retryButtonText}
+                        uswds
+                      />
+                    )}
+                    {!showPasswordInput && (
+                      <va-button
+                        secondary
+                        class="delete-upload vads-u-width--auto"
+                        onClick={() => {
+                          if (hasVisibleError) {
+                            // Cancelling with error should not show the remove
+                            // file modal
+                            removeFile(index);
+                          } else {
+                            openRemoveModal(index);
                           }
-                          text={retryButtonText}
-                          uswds
-                        />
-                      )}
-                      {!showPasswordInput && (
-                        <va-button
-                          secondary
-                          class="delete-upload vads-u-width--auto"
-                          onClick={() => {
-                            if (hasVisibleError) {
-                              // Cancelling with error should not show the remove
-                              // file modal
-                              removeFile(index);
-                            } else {
-                              openRemoveModal(index);
-                            }
-                          }}
-                          label={content[
-                            hasVisibleError ? 'cancelLabel' : 'deleteLabel'
-                          ](file.name)}
-                          text={deleteButtonText}
-                          uswds
-                        />
-                      )}
-                    </div>
-                  )}
+                        }}
+                        label={content[
+                          hasVisibleError ? 'cancelLabel' : 'deleteLabel'
+                        ](file.name)}
+                        text={deleteButtonText}
+                        uswds
+                      />
+                    )}
+                  </div>
+                )}
               </li>
             );
           })}

@@ -158,33 +158,30 @@ const PreSubmitCheckboxGroup = props => {
   );
 
   // remove party signature box if yes/no question is answered falsy
-  useEffect(
-    () => {
-      removePartyIfFalsy(hasPrimary, content['primary-signature-label']);
-      removePartyIfFalsy(
-        hasSecondaryOne,
-        content['secondary-one-signature-label'],
-      );
-      removePartyIfFalsy(
-        hasSecondaryTwo,
-        content['secondary-two-signature-label'],
-      );
-      removePartyIfFalsy(
-        showRepresentativeSignatureBox,
-        content['representative-signature-label'],
-      );
-      removePartyIfFalsy(
-        !showRepresentativeSignatureBox,
-        content['vet-input-label'],
-      );
-    },
-    [
-      hasPrimary,
+  useEffect(() => {
+    removePartyIfFalsy(hasPrimary, content['primary-signature-label']);
+    removePartyIfFalsy(
       hasSecondaryOne,
+      content['secondary-one-signature-label'],
+    );
+    removePartyIfFalsy(
       hasSecondaryTwo,
+      content['secondary-two-signature-label'],
+    );
+    removePartyIfFalsy(
       showRepresentativeSignatureBox,
-    ],
-  );
+      content['representative-signature-label'],
+    );
+    removePartyIfFalsy(
+      !showRepresentativeSignatureBox,
+      content['vet-input-label'],
+    );
+  }, [
+    hasPrimary,
+    hasSecondaryOne,
+    hasSecondaryTwo,
+    showRepresentativeSignatureBox,
+  ]);
 
   /*
     - Vet first && last name must match, and be checked

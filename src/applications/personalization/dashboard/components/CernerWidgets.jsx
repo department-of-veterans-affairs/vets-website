@@ -22,10 +22,9 @@ const FacilityList = ({ facilities, separator, finalSeparator }) => {
         return (
           <strong key={i}>
             {facility}
-            {facility !== orig.at(-2) &&
-              facility !== orig.at(-1) && (
-                <SeparatorSpan>{separator}</SeparatorSpan>
-              )}
+            {facility !== orig.at(-2) && facility !== orig.at(-1) && (
+              <SeparatorSpan>{separator}</SeparatorSpan>
+            )}
             {facility === orig.at(-2) && (
               <SeparatorSpan>{finalSeparator}</SeparatorSpan>
             )}

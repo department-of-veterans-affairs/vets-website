@@ -99,11 +99,8 @@ class ServicesAtFacility extends Component {
 
         <div className="vads-u-margin-bottom--4">
           <ul>
-            {services.health.map(
-              s =>
-                s.sl1
-                  ? this.renderService(s.sl1[0])
-                  : this.renderService(s.name),
+            {services.health.map(s =>
+              s.sl1 ? this.renderService(s.sl1[0]) : this.renderService(s.name),
             )}
           </ul>
         </div>

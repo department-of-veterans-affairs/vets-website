@@ -119,9 +119,7 @@ export default function AuthApp({ location }) {
     } catch (err) {
       const message = err?.error;
       if (message === 'Agreement not accepted') {
-        window.location = `${
-          environment.BASE_URL
-        }/terms-of-use/myvahealth/?ssoeTarget=${returnUrl}`;
+        window.location = `${environment.BASE_URL}/terms-of-use/myvahealth/?ssoeTarget=${returnUrl}`;
       } else if (message === 'Account not Provisioned') {
         handleAuthError(null, '111');
       } else {
@@ -187,18 +185,15 @@ export default function AuthApp({ location }) {
     }
   };
 
-  useEffect(
-    () => {
-      if (!isFeatureToggleLoading) {
-        if (hasError) {
-          handleAuthError();
-        } else {
-          validateSession();
-        }
+  useEffect(() => {
+    if (!isFeatureToggleLoading) {
+      if (hasError) {
+        handleAuthError();
+      } else {
+        validateSession();
       }
-    },
-    [isFeatureToggleLoading],
-  );
+    }
+  }, [isFeatureToggleLoading]);
 
   const openLoginModal = () => {
     dispatch(toggleLoginModal(true));

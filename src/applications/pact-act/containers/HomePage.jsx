@@ -67,7 +67,4 @@ const mapDispatchToProps = {
   setIntroPageViewed: updateIntroPageViewed,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(HomePage);
+export default connect(null, mapDispatchToProps)(HomePage);

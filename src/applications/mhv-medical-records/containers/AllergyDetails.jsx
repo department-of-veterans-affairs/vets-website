@@ -58,48 +58,36 @@ const AllergyDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  const allergyData = useMemo(
-    () => {
-      if (!allergy) {
-        return null;
-      }
-      return {
-        ...allergy,
-        isOracleHealthData: isAcceleratingAllergies,
-      };
-    },
-    [allergy, isAcceleratingAllergies],
-  );
+  const allergyData = useMemo(() => {
+    if (!allergy) {
+      return null;
+    }
+    return {
+      ...allergy,
+      isOracleHealthData: isAcceleratingAllergies,
+    };
+  }, [allergy, isAcceleratingAllergies]);
 
-  useEffect(
-    () => {
-      if (allergyId && !isLoading) {
-        dispatch(
-          getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
-        );
-      }
-    },
-    [allergyId, allergyList, dispatch, isAcceleratingAllergies, isLoading],
-  );
+  useEffect(() => {
+    if (allergyId && !isLoading) {
+      dispatch(
+        getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
+      );
+    }
+  }, [allergyId, allergyList, dispatch, isAcceleratingAllergies, isLoading]);
 
-  useEffect(
-    () => {
-      return () => {
-        dispatch(clearAllergyDetails());
-      };
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    return () => {
+      dispatch(clearAllergyDetails());
+    };
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (allergyData) {
-        focusElement(document.querySelector('h1'));
-        updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
-      }
-    },
-    [dispatch, allergyData],
-  );
+  useEffect(() => {
+    if (allergyData) {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
+    }
+  }, [dispatch, allergyData]);
 
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,

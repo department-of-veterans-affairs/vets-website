@@ -14,14 +14,11 @@ function ErrorMessage(props) {
   const { active, children, message, testId, title } = props;
   const alertRef = useRef(null);
 
-  useEffect(
-    () => {
-      if (active && alertRef?.current) {
-        waitForRenderThenFocus('.schemaform-failure-alert');
-      }
-    },
-    [active, alertRef],
-  );
+  useEffect(() => {
+    if (active && alertRef?.current) {
+      waitForRenderThenFocus('.schemaform-failure-alert');
+    }
+  }, [active, alertRef]);
 
   return !active ? null : (
     <va-alert

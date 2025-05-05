@@ -2,7 +2,7 @@ import React from 'react';
 
 export const notSelfSufficientDescription = (
   <div>
-    <va-additional-info trigger="What does &quot;unable to support themself&quot; mean?">
+    <va-additional-info trigger='What does "unable to support themself" mean?'>
       <p className="vads-u-margin-bottom--4">
         We consider a child to be <strong>unable to support themself</strong> if
         both of these are true:

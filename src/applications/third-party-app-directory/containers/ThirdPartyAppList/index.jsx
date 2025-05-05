@@ -14,8 +14,8 @@ export class ThirdPartyAppList extends Component {
     // From mapStateToProps.
     error: PropTypes.string.isRequired,
     fetching: PropTypes.bool.isRequired,
-    results: PropTypes.arrayOf(SearchResultPropTypes),
     scopes: PropTypes.object.isRequired,
+    results: PropTypes.arrayOf(SearchResultPropTypes),
     totalResults: PropTypes.number,
   };
 
@@ -94,7 +94,4 @@ const mapDispatchToProps = dispatch => ({
   fetchResults: () => fetchResultsThunk()(dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ThirdPartyAppList);
+export default connect(mapStateToProps, mapDispatchToProps)(ThirdPartyAppList);

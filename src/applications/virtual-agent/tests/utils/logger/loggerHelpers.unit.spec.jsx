@@ -124,9 +124,7 @@ describe('loggerHelpers', () => {
       process.env.DATADOG_APP_NAME = 'some_app_name';
       const httpTransportOptions = {
         host: 'http-intake.logs.ddog-gov.com',
-        path: `/api/v2/logs?dd-api-key=${
-          process.env.DATADOG_API_KEY
-        }&ddsource=nodejs&service=${process.env.DATADOG_APP_NAME}`,
+        path: `/api/v2/logs?dd-api-key=${process.env.DATADOG_API_KEY}&ddsource=nodejs&service=${process.env.DATADOG_APP_NAME}`,
         ssl: true,
         handleExceptions: true,
         handleRejections: true, // handle promise rejections

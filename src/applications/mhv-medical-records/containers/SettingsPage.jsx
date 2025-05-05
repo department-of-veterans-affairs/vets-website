@@ -33,20 +33,14 @@ const SettingsPage = () => {
       ],
   );
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.SETTINGS_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.SETTINGS_PAGE_TITLE);
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      dispatch(fetchSharingStatus());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(fetchSharingStatus());
+  }, [dispatch]);
 
   const handleUpdateSharing = currentOptInStatus => {
     setShowSharingModal(false);

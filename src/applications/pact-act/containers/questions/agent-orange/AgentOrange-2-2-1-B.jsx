@@ -22,21 +22,15 @@ const Orange221B = ({
   const H1 = QUESTION_MAP[shortName];
   const orange221B = formResponses[shortName];
 
-  useEffect(
-    () => {
-      pageSetup(H1);
-    },
-    [H1],
-  );
+  useEffect(() => {
+    pageSetup(H1);
+  }, [H1]);
 
-  useEffect(
-    () => {
-      if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
-      }
-    },
-    [router, viewedIntroPage],
-  );
+  useEffect(() => {
+    if (!viewedIntroPage) {
+      router.push(ROUTES.HOME);
+    }
+  }, [router, viewedIntroPage]);
 
   const locations = [
     RESPONSES.AMERICAN_SAMOA,
@@ -81,7 +75,4 @@ Orange221B.propTypes = {
   viewedIntroPage: PropTypes.bool.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Orange221B);
+export default connect(mapStateToProps, mapDispatchToProps)(Orange221B);

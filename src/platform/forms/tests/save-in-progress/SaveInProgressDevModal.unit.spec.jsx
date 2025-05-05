@@ -35,9 +35,7 @@ describe('Schemaform <SipsDevModal>', () => {
   };
 
   function setLoc(dev = 'on') {
-    window.location = {
-      hash: `#dev-${dev}`,
-    };
+    window.location.hash = `#dev-${dev}`;
   }
 
   it('should not render sips-modal link when disabled', () => {

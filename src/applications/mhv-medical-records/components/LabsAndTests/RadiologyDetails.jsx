@@ -86,6 +86,7 @@ const RadiologyDetails = props => {
 
   const activeAlert = useAlerts(dispatch);
 
+
   useEffect(
     () => {
       dispatch(fetchImageRequestStatus());
@@ -113,23 +114,17 @@ const RadiologyDetails = props => {
     [dispatch, studyJobs, studyRequestLimitReached],
   );
 
-  useEffect(
-    () => {
-      if (processingAlertHeadingRef.current) {
-        setImageProcessingAlertRendered(true);
-      }
-    },
-    [processingAlertHeadingRef.current],
-  );
+  useEffect(() => {
+    if (processingAlertHeadingRef.current) {
+      setImageProcessingAlertRendered(true);
+    }
+  }, [processingAlertHeadingRef.current]);
 
-  useEffect(
-    () => {
-      if (imageProcessingAlertRendered && isImageRequested) {
-        focusElement(processingAlertHeadingRef.current);
-      }
-    },
-    [imageProcessingAlertRendered, isImageRequested],
-  );
+  useEffect(() => {
+    if (imageProcessingAlertRendered && isImageRequested) {
+      focusElement(processingAlertHeadingRef.current);
+    }
+  }, [imageProcessingAlertRendered, isImageRequested]);
 
   const studyJob = useMemo(
     () =>
@@ -173,12 +168,9 @@ const RadiologyDetails = props => {
     [studyJob?.status, pollInterval, dispatch],
   );
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-    },
-    [record],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+  }, [record]);
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,

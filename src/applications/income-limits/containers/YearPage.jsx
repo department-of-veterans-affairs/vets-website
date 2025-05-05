@@ -21,21 +21,18 @@ const YearPage = ({
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  useEffect(
-    () => {
-      // If pastMode is null, the home screen hasn't been used yet
-      const shouldRedirectToHome = pastMode === null;
+  useEffect(() => {
+    // If pastMode is null, the home screen hasn't been used yet
+    const shouldRedirectToHome = pastMode === null;
 
-      if (shouldRedirectToHome) {
-        router.push(ROUTES.HOME);
-        return;
-      }
+    if (shouldRedirectToHome) {
+      router.push(ROUTES.HOME);
+      return;
+    }
 
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      waitForRenderThenFocus('h1');
-    },
-    [pastMode, router],
-  );
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    waitForRenderThenFocus('h1');
+  }, [pastMode, router]);
 
   const yearIsValid = year =>
     year && +year >= 2001 && +year <= new Date().getFullYear();
@@ -125,7 +122,4 @@ YearPage.propTypes = {
   yearInput: PropTypes.string,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(YearPage);
+export default connect(mapStateToProps, mapDispatchToProps)(YearPage);

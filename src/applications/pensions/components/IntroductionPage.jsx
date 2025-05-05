@@ -10,12 +10,9 @@ const IntroductionPage = props => {
   const { route } = props;
   const { formConfig, pageList } = route;
 
-  useEffect(
-    () => {
-      focusElement('va-breadcrumbs');
-    },
-    [props],
-  );
+  useEffect(() => {
+    focusElement('va-breadcrumbs');
+  }, [props]);
 
   return (
     <article className="schemaform-intro">

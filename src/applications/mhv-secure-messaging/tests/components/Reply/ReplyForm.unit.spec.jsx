@@ -195,9 +195,7 @@ describe('Reply form component', () => {
     await waitFor(() => {
       expect(
         document.querySelector(
-          `va-modal[modal-title="${
-            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.title
-          }"]`,
+          `va-modal[modal-title="${ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.title}"]`,
         ),
       ).to.have.attribute('visible', 'true');
     });

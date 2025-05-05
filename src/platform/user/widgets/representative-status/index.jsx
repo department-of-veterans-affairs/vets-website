@@ -12,8 +12,10 @@ if (process.env.NODE_ENV !== 'test') {
 export default (store, widgetType, baseHeader = 3, verbose = true) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(/* webpackChunkName: "representative-status" */
-    './components/App').then(module => {
+    import(
+      /* webpackChunkName: "representative-status" */
+      './components/App'
+    ).then(module => {
       const App = module.default;
 
       ReactDOM.render(

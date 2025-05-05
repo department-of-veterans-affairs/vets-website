@@ -35,19 +35,16 @@ const ContactInfoReview = ({
   contactInfoPageKey,
 }) => {
   const editRef = useRef(null);
-  useEffect(
-    () => {
-      if (getReturnState() === 'true,' && editRef?.current) {
-        // focus on edit button _after_ editing and returning
-        clearReturnState();
-        setTimeout(
-          () => focusElement('va-button', {}, editRef.current?.shadowRoot),
-          0,
-        );
-      }
-    },
-    [editRef],
-  );
+  useEffect(() => {
+    if (getReturnState() === 'true,' && editRef?.current) {
+      // focus on edit button _after_ editing and returning
+      clearReturnState();
+      setTimeout(
+        () => focusElement('va-button', {}, editRef.current?.shadowRoot),
+        0,
+      );
+    }
+  }, [editRef]);
 
   const dataWrap = data[keys.wrapper] || {};
   const emailString = dataWrap[keys.email] || '';

@@ -42,19 +42,13 @@ const LandingPageAuth = () => {
   const inbox = useSelector(state => state.sm.folders?.folder);
   const [prefLink, setPrefLink] = useState('');
 
-  useEffect(
-    () => {
-      setPrefLink(mhvUrl(isAuthenticatedWithSSOe(fullState), 'preferences'));
-    },
-    [fullState],
-  );
+  useEffect(() => {
+    setPrefLink(mhvUrl(isAuthenticatedWithSSOe(fullState), 'preferences'));
+  }, [fullState]);
 
-  useEffect(
-    () => {
-      dispatch(retrieveFolder(Folder.INBOX.id));
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(retrieveFolder(Folder.INBOX.id));
+  }, [dispatch]);
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));

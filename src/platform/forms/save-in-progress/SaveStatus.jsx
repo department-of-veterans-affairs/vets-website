@@ -76,21 +76,20 @@ function SaveStatus({
             `We’re sorry. We’re unable to connect to VA.gov. Please check that you’re connected to the Internet, so we can save your ${appType} in progress.`}
           {autoSavedStatus === SAVE_STATUSES.failure &&
             `We’re sorry, but we’re having some issues and are working to fix them. You can continue filling out the ${appType}, but it will not be automatically saved as you fill it out.`}
-          {!isLoggedIn &&
-            autoSavedStatus === SAVE_STATUSES.noAuth && (
-              <span>
-                Sorry, you’re no longer signed in.{' '}
-                <SignInLink
-                  className="va-button-link"
-                  isLoggedIn={isLoggedIn}
-                  showLoginModal={showLoginModal}
-                  toggleLoginModal={toggleLoginModal}
-                >
-                  Sign in to save your {appType} in progress
-                </SignInLink>
-                .
-              </span>
-            )}
+          {!isLoggedIn && autoSavedStatus === SAVE_STATUSES.noAuth && (
+            <span>
+              Sorry, you’re no longer signed in.{' '}
+              <SignInLink
+                className="va-button-link"
+                isLoggedIn={isLoggedIn}
+                showLoginModal={showLoginModal}
+                toggleLoginModal={toggleLoginModal}
+              >
+                Sign in to save your {appType} in progress
+              </SignInLink>
+              .
+            </span>
+          )}
         </va-alert>
       )}
     </div>

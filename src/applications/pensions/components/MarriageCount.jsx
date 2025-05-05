@@ -42,28 +42,25 @@ const MarriageCount = props => {
     return null;
   };
 
-  useEffect(
-    () => {
-      if (marriageCount !== prevMarriageCountRef.current) {
-        const count = Number(marriageCount);
-        if (
-          !Number.isNaN(count) &&
-          count >= 1 &&
-          count <= MAXIMUM_MARRIAGE_COUNT
-        ) {
-          setFormData({
-            ...data,
-            marriages:
-              marriages.length > count
-                ? marriages.slice(marriages.length - count) // Remove from the beginning when reducing
-                : [...Array(count - marriages.length).fill({}), ...marriages], // Add empty objects at the beginning when increasing
-          });
-        }
-        prevMarriageCountRef.current = marriageCount;
+  useEffect(() => {
+    if (marriageCount !== prevMarriageCountRef.current) {
+      const count = Number(marriageCount);
+      if (
+        !Number.isNaN(count) &&
+        count >= 1 &&
+        count <= MAXIMUM_MARRIAGE_COUNT
+      ) {
+        setFormData({
+          ...data,
+          marriages:
+            marriages.length > count
+              ? marriages.slice(marriages.length - count) // Remove from the beginning when reducing
+              : [...Array(count - marriages.length).fill({}), ...marriages], // Add empty objects at the beginning when increasing
+        });
       }
-    },
-    [marriageCount, data, marriages, setFormData],
-  );
+      prevMarriageCountRef.current = marriageCount;
+    }
+  }, [marriageCount, data, marriages, setFormData]);
 
   const handlers = {
     onInput: event => {
@@ -149,7 +146,4 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MarriageCount);
+export default connect(mapStateToProps, mapDispatchToProps)(MarriageCount);

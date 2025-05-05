@@ -45,9 +45,7 @@ const NearByVetCenters = props => {
     if (!mainAddress) {
       return;
     }
-    const query = `${mainAddress.addressLine1}, ${mainAddress.locality} ${
-      mainAddress.administrativeArea
-    } ${mainAddress.postalCode}`;
+    const query = `${mainAddress.addressLine1}, ${mainAddress.locality} ${mainAddress.administrativeArea} ${mainAddress.postalCode}`;
     const mapboxResponse = await getFeaturesFromAddress(query);
     const coordinates = mapboxResponse?.body.features[0].center; // [longitude,latitude]
 
@@ -73,70 +71,64 @@ const NearByVetCenters = props => {
     }
   };
 
-  useEffect(
-    () => {
-      if (!props.togglesLoading) {
-        fetchNearbyVetCenters();
+  useEffect(() => {
+    if (!props.togglesLoading) {
+      fetchNearbyVetCenters();
+    }
+  }, [props.togglesLoading]);
+
+  useEffect(() => {
+    const noDistancesToMeasure =
+      originalCoordinates.length === 0 || fetchedVetCenters.length === 0;
+
+    if (nearbyVetCenterDistances || noDistancesToMeasure) {
+      return false;
+    }
+
+    const vetCentersCoordinates = fetchedVetCenters
+      .filter(center => center.id !== props.mainVetCenterId)
+      .map(center => {
+        return {
+          id: center.id,
+          coordinates: [center.attributes.long, center.attributes.lat],
+        };
+      });
+
+    const fetchDrivingData = async () => {
+      if (vetCentersCoordinates.length === 0) {
+        return;
       }
-    },
-    [props.togglesLoading],
-  );
+      const response = await fetch(
+        distancesToNearbyVetCenters(
+          originalCoordinates,
+          vetCentersCoordinates.map(center => center.coordinates),
+        ),
+      );
+      const data = await response.json();
+      const nearbyDistances = data.distances.map(distance =>
+        convertMetersToMiles(distance[0]),
+      );
 
-  useEffect(
-    () => {
-      const noDistancesToMeasure =
-        originalCoordinates.length === 0 || fetchedVetCenters.length === 0;
-
-      if (nearbyVetCenterDistances || noDistancesToMeasure) {
-        return false;
-      }
-
-      const vetCentersCoordinates = fetchedVetCenters
-        .filter(center => center.id !== props.mainVetCenterId)
-        .map(center => {
-          return {
-            id: center.id,
-            coordinates: [center.attributes.long, center.attributes.lat],
-          };
-        });
-
-      const fetchDrivingData = async () => {
-        if (vetCentersCoordinates.length === 0) {
-          return;
-        }
-        const response = await fetch(
-          distancesToNearbyVetCenters(
-            originalCoordinates,
-            vetCentersCoordinates.map(center => center.coordinates),
-          ),
-        );
-        const data = await response.json();
-        const nearbyDistances = data.distances.map(distance =>
-          convertMetersToMiles(distance[0]),
-        );
-
-        const vetCentersCoordinatesWithDistances = [
-          ...vetCentersCoordinates,
-        ].map((center, index) => {
+      const vetCentersCoordinatesWithDistances = [...vetCentersCoordinates].map(
+        (center, index) => {
           return {
             ...center,
             distance: nearbyDistances[index],
           };
-        });
+        },
+      );
 
-        setNearbyVetCenterDistances(vetCentersCoordinatesWithDistances);
-      };
+      setNearbyVetCenterDistances(vetCentersCoordinatesWithDistances);
+    };
 
-      fetchDrivingData();
-      return false;
-    },
-    [
-      props.mainVetCenterId,
-      originalCoordinates,
-      fetchedVetCenters,
-      nearbyVetCenterDistances,
-    ],
-  );
+    fetchDrivingData();
+    return false;
+  }, [
+    props.mainVetCenterId,
+    originalCoordinates,
+    fetchedVetCenters,
+    nearbyVetCenterDistances,
+  ]);
 
   if (props.facilitiesLoading) {
     return <va-loading-indicator message="Loading facilities..." />;

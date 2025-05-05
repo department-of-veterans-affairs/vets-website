@@ -55,24 +55,18 @@ const SubTopicSelectPage = props => {
       });
   };
 
-  useEffect(
-    () => {
-      getApiData(
-        getApiUrl(URL.GET_SUBTOPICS, {
-          PARENT_ID: `${topicID}`,
-        }),
-      );
-      focusElement('h2');
-    },
-    [loggedIn, topicID],
-  );
+  useEffect(() => {
+    getApiData(
+      getApiUrl(URL.GET_SUBTOPICS, {
+        PARENT_ID: `${topicID}`,
+      }),
+    );
+    focusElement('h2');
+  }, [loggedIn, topicID]);
 
-  useEffect(
-    () => {
-      focusElement('h2');
-    },
-    [loading],
-  );
+  useEffect(() => {
+    focusElement('h2');
+  }, [loading]);
 
   // render loading indicator while we fetch
   if (loading) {

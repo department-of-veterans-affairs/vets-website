@@ -208,19 +208,11 @@ describe('Connect Devices Container When Connections Unavailable', () => {
 });
 
 describe('Device connection url parameters', () => {
-  const successUrl = `${
-    environment.BASE_URL
-  }/health-care/connected-devices/?vendor-1=${CONNECTION_SUCCESSFUL_STATUS}#_=_`;
-  const failureUrl = `${
-    environment.BASE_URL
-  }/health-care/connected-devices/?vendor-1=${CONNECTION_FAILED_STATUS}#_=_`;
-  const successfulDisconnectUrl = `${
-    environment.BASE_URL
-  }/health-care/connected-devices/?vendor-1=${DISCONNECTION_SUCCESSFUL_STATUS}#_=_`;
+  const successUrl = `${environment.BASE_URL}/health-care/connected-devices/?vendor-1=${CONNECTION_SUCCESSFUL_STATUS}#_=_`;
+  const failureUrl = `${environment.BASE_URL}/health-care/connected-devices/?vendor-1=${CONNECTION_FAILED_STATUS}#_=_`;
+  const successfulDisconnectUrl = `${environment.BASE_URL}/health-care/connected-devices/?vendor-1=${DISCONNECTION_SUCCESSFUL_STATUS}#_=_`;
 
-  const failedDisconnectUrl = `${
-    environment.BASE_URL
-  }/health-care/connected-devices/?vendor-1=${DISCONNECTION_FAILED_STATUS}#_=_`;
+  const failedDisconnectUrl = `${environment.BASE_URL}/health-care/connected-devices/?vendor-1=${DISCONNECTION_FAILED_STATUS}#_=_`;
   const savedLocation = window.location;
 
   beforeEach(() => {

@@ -39,11 +39,10 @@ export function titleCaseRepresentativeName(str) {
   return str
     .toLowerCase()
     .split(' ')
-    .map(
-      word =>
-        acronyms.includes(word)
-          ? word.toUpperCase()
-          : word.charAt(0).toUpperCase() + word.slice(1),
+    .map(word =>
+      acronyms.includes(word)
+        ? word.toUpperCase()
+        : word.charAt(0).toUpperCase() + word.slice(1),
     )
     .join(' ');
 }

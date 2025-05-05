@@ -35,30 +35,23 @@ export const BuildPage = ({
   const modalState = useSelector(state => state?.vapService.modal);
   const prevModalState = usePrevious(modalState);
 
-  useEffect(
-    () => {
-      if (headerRef?.current) {
+  useEffect(() => {
+    if (headerRef?.current) {
+      focusElement(headerRef?.current);
+    }
+  }, [headerRef]);
+
+  useEffect(() => {
+    const shouldFocusOnHeaderRef =
+      prevModalState === 'addressValidation' && modalState === 'mailingAddress';
+
+    // we do this to make sure focus is set when cancelling out of address validation UI
+    if (shouldFocusOnHeaderRef) {
+      setTimeout(() => {
         focusElement(headerRef?.current);
-      }
-    },
-    [headerRef],
-  );
-
-  useEffect(
-    () => {
-      const shouldFocusOnHeaderRef =
-        prevModalState === 'addressValidation' &&
-        modalState === 'mailingAddress';
-
-      // we do this to make sure focus is set when cancelling out of address validation UI
-      if (shouldFocusOnHeaderRef) {
-        setTimeout(() => {
-          focusElement(headerRef?.current);
-        }, 250);
-      }
-    },
-    [modalState, prevModalState],
-  );
+      }, 250);
+    }
+  }, [modalState, prevModalState]);
 
   const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
   const returnPath = onReviewPage ? '/review-and-submit' : `/${contactPath}`;

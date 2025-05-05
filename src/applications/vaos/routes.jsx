@@ -42,7 +42,9 @@ export default function createRoutesWithStore(store) {
           <EnrolledRoute
             path={vaccinePaths}
             component={asyncLoader(() =>
-              import(/* webpackChunkName: "covid-19-vaccine" */ './covid-19-vaccine')
+              import(
+                /* webpackChunkName: "covid-19-vaccine" */ './covid-19-vaccine'
+              )
                 .then(({ NewBookingSection, reducer }) => {
                   store.injectReducer('covid19Vaccine', reducer);
                   return NewBookingSection;

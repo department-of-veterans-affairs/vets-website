@@ -11,9 +11,7 @@ import { getFormContent } from '../helpers';
 import { CustomAlertPage } from './helpers';
 
 const { formNumber, title } = getFormContent();
-const fileUploadUrl = `${
-  environment.API_URL
-}/simple_forms_api/v1/scanned_form_upload`;
+const fileUploadUrl = `${environment.API_URL}/simple_forms_api/v1/scanned_form_upload`;
 const warningsPresent = formData => formData.uploadedFile?.warnings?.length > 0;
 
 export const uploadPage = {

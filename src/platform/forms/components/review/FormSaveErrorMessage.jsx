@@ -110,20 +110,17 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    state => {
-      const form = formSelector(state);
-      const showLoginModal = showLoginModalSelector(state);
-      const user = userSelector(state);
+  connect(state => {
+    const form = formSelector(state);
+    const showLoginModal = showLoginModalSelector(state);
+    const user = userSelector(state);
 
-      return {
-        form,
-        showLoginModal,
-        user,
-      };
-    },
-    mapDispatchToProps,
-  )(FormSaveErrorMessage),
+    return {
+      form,
+      showLoginModal,
+      user,
+    };
+  }, mapDispatchToProps)(FormSaveErrorMessage),
 );
 
 FormSaveErrorMessage.propTypes = {

@@ -121,13 +121,10 @@ const Prescriptions = () => {
     format: undefined,
   });
   const scrollLocation = useRef();
-  const page = useMemo(
-    () => {
-      const query = new URLSearchParams(search);
-      return Number(query.get('page'));
-    },
-    [search],
-  );
+  const page = useMemo(() => {
+    const query = new URLSearchParams(search);
+    return Number(query.get('page'));
+  }, [search]);
 
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
     setLoading(newIsLoading);
@@ -201,29 +198,23 @@ const Prescriptions = () => {
     }
   }, []);
 
-  useEffect(
-    () => {
-      if (
-        !isLoading &&
-        filteredList?.length === 0 &&
-        filterCount &&
-        Object.values(filterCount).some(value => value !== 0)
-      ) {
-        focusElement(document.getElementById('no-matches-msg'));
-      }
-    },
-    [filteredList, isLoading, filterCount],
-  );
+  useEffect(() => {
+    if (
+      !isLoading &&
+      filteredList?.length === 0 &&
+      filterCount &&
+      Object.values(filterCount).some(value => value !== 0)
+    ) {
+      focusElement(document.getElementById('no-matches-msg'));
+    }
+  }, [filteredList, isLoading, filterCount]);
 
-  useEffect(
-    () => {
-      if (sortingInProgress && !isLoading) {
-        focusElement(document.getElementById('showingRx'));
-        setSortingInProgress(false);
-      }
-    },
-    [sortingInProgress, isLoading],
-  );
+  useEffect(() => {
+    if (sortingInProgress && !isLoading) {
+      focusElement(document.getElementById('showingRx'));
+      setSortingInProgress(false);
+    }
+  }, [sortingInProgress, isLoading]);
 
   useEffect(
     () => {
@@ -347,9 +338,7 @@ const Prescriptions = () => {
                       'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
                   },
                   {
-                    value: `Showing ${
-                      allergiesList.length
-                    } records from newest to oldest`,
+                    value: `Showing ${allergiesList.length} records from newest to oldest`,
                   },
                 ],
               }),
@@ -493,40 +482,41 @@ const Prescriptions = () => {
             if (pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT_FULL_LIST) {
               listForPrint = filteredList;
             } else {
-              listForPrint = prescriptionsFullList;
+              listForPrint = paginatedPrescriptionsList;
             }
-            setPrintedList(listForPrint);
-            setPdfTxtGenerateStatus({
-              status: PDF_TXT_GENERATE_STATUS.NotStarted,
-            });
-            printRxList();
+          } else {
+            listForPrint = prescriptionsFullList;
           }
-          updateLoadingStatus(false, '');
+          setPrintedList(listForPrint);
+          setPdfTxtGenerateStatus({
+            status: PDF_TXT_GENERATE_STATUS.NotStarted,
+          });
+          printRxList();
         }
-      } else if (
-        ((prescriptionsFullList?.length &&
-          pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
-          (paginatedPrescriptionsList?.length &&
-            pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT)) &&
-        allergiesError &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
-      ) {
         updateLoadingStatus(false, '');
       }
-    },
-    [
-      allergies,
-      allergiesError,
-      prescriptionsFullList,
-      pdfTxtGenerateStatus.status,
-      pdfTxtGenerateStatus.format,
-      isLoading,
-      loadingMessage,
-      generatePDF,
-      generateTXT,
-      isRetrievingFullList,
-    ],
-  );
+    } else if (
+      ((prescriptionsFullList?.length &&
+        pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
+        (paginatedPrescriptionsList?.length &&
+          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT)) &&
+      allergiesError &&
+      pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
+    ) {
+      updateLoadingStatus(false, '');
+    }
+  }, [
+    allergies,
+    allergiesError,
+    prescriptionsFullList,
+    pdfTxtGenerateStatus.status,
+    pdfTxtGenerateStatus.format,
+    isLoading,
+    loadingMessage,
+    generatePDF,
+    generateTXT,
+    isRetrievingFullList,
+  ]);
 
   const handleFullListDownload = async format => {
     setHasFullListDownloadError(false);
@@ -723,6 +713,7 @@ const Prescriptions = () => {
                           updateLoadingStatus={updateLoadingStatus}
                         />
                       )}
+
                       {!isLoading && (
                         <>
                           <PrintDownload

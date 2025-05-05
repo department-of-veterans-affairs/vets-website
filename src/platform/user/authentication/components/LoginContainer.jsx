@@ -46,14 +46,13 @@ export default function LoginContainer({
           />
           <LoginInfo />
         </div>
-        {isUnifiedSignIn &&
-          isOccMobile && (
-            <div className="row">
-              <div className="columns">
-                <va-link href={href} text="VA staff" onClick={onClick} />
-              </div>
+        {isUnifiedSignIn && isOccMobile && (
+          <div className="row">
+            <div className="columns">
+              <va-link href={href} text="VA staff" onClick={onClick} />
             </div>
-          )}
+          </div>
+        )}
       </section>
     </>
   );

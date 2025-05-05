@@ -39,32 +39,26 @@ const TravelMileage = props => {
   );
   const [error, setError] = useState(false);
 
-  useEffect(
-    () => {
-      if (appointmentToFile) {
-        setSelectedAppointment(appointmentToFile);
-      }
-    },
-    [appointmentToFile, setSelectedAppointment],
-  );
-  const continueClick = useCallback(
-    () => {
-      if (selectedAppointment) {
-        recordEvent({
-          event: createAnalyticsSlug(
-            'continue-from-travel-mileage-clicked',
-            'nav',
-            APP_NAMES.TRAVEL_CLAIM,
-          ),
-        });
-        dispatch(setFormData({ appointmentToFile: selectedAppointment }));
-        goToNextPage();
-      } else {
-        setError(true);
-      }
-    },
-    [dispatch, goToNextPage, selectedAppointment, setError],
-  );
+  useEffect(() => {
+    if (appointmentToFile) {
+      setSelectedAppointment(appointmentToFile);
+    }
+  }, [appointmentToFile, setSelectedAppointment]);
+  const continueClick = useCallback(() => {
+    if (selectedAppointment) {
+      recordEvent({
+        event: createAnalyticsSlug(
+          'continue-from-travel-mileage-clicked',
+          'nav',
+          APP_NAMES.TRAVEL_CLAIM,
+        ),
+      });
+      dispatch(setFormData({ appointmentToFile: selectedAppointment }));
+      goToNextPage();
+    } else {
+      setError(true);
+    }
+  }, [dispatch, goToNextPage, selectedAppointment, setError]);
   let header = t('file-mileage-only-claim-todays-appointment', {
     count: 1,
   });

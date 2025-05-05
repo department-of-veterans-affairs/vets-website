@@ -24,10 +24,10 @@ export function distanceBetween(lat1, lng1, lat2, lng2) {
 
 /*
  * Adapted from node-geopoint: https://github.com/davidwood/node-geopoint
- * 
+ *
  * This will end up creating a 2 * radius by 2 * radius box around the lat
- * long passed in. 
- * 
+ * long passed in.
+ *
  * This is different than the FL bounding box calc, which adds a fixed amount
  * of lat/long degrees to create a box
  */

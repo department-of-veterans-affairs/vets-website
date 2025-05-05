@@ -87,9 +87,7 @@ describe('scrollToFirstError', () => {
         <div id="first" className="usa-input">
           not an error
         </div>
-        <div id="second" error="some error">
-          error 1
-        </div>
+        <div id="second">error 1</div>
         <div id="third" className="usa-input-error input-error-date">
           error 2
         </div>
@@ -104,17 +102,11 @@ describe('scrollToFirstError', () => {
   it('should scroll & apply focus fo first element with error attribute and ignore empty error attributes', async () => {
     renderForm(
       <>
-        <div id="first" className="usa-input" error>
+        <div id="first" className="usa-input">
           not an error
         </div>
-        <div id="second" error="">
-          error 1
-        </div>
-        <div
-          id="third"
-          className="usa-input-error input-error-date"
-          error="some error"
-        >
+        <div id="second">error 1</div>
+        <div id="third" className="usa-input-error input-error-date">
           error 2
         </div>
       </>,
@@ -185,9 +177,7 @@ describe('scrollToFirstError', () => {
         <div id="first" className="usa-input">
           not an error
         </div>
-        <div id="second" error="some error">
-          error 1
-        </div>
+        <div id="second">error 1</div>
         <div id="third" className="usa-input-error input-error-date">
           error 2
         </div>

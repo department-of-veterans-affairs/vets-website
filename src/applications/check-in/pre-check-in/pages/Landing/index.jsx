@@ -56,69 +56,66 @@ const Index = props => {
 
   const { updateError } = useUpdateError();
 
-  useEffect(
-    () => {
-      const token = getTokenFromLocation(router.location);
-      if (!token) {
-        updateError('no-token');
-      } else if (!isUUID(token)) {
-        updateError('bad-token');
-      }
+  useEffect(() => {
+    const token = getTokenFromLocation(router.location);
+    if (!token) {
+      updateError('no-token');
+    } else if (!isUUID(token)) {
+      updateError('bad-token');
+    }
 
-      if (token && isUUID(token)) {
-        // call the sessions api
-        const checkInType = APP_NAMES.PRE_CHECK_IN;
+    if (token && isUUID(token)) {
+      // call the sessions api
+      const checkInType = APP_NAMES.PRE_CHECK_IN;
 
-        if (token && !sessionCallMade) {
-          setSessionCallMade(true);
-          api.v2
-            .getSession({ token, checkInType })
-            .then(session => {
-              // if successful, dispatch session data into redux and current window
-              if (session.error || session.errors) {
-                clearCurrentStorage(window);
-                updateError('session-error');
-              } else {
-                setCurrentToken(window, token);
-                setPreCheckinComplete(window, false);
-                const pages = createForm();
-                const firstPage = pages[0];
-                initForm(pages, firstPage);
-                setSession(token, session.permissions);
-                if (session.permissions === SCOPES.READ_FULL) {
-                  // redirect if already full access
-                  jumpToPage(URLS.APPOINTMENTS);
-                } else {
-                  // TODO: dispatch to redux
-                  jumpToPage(URLS.VERIFY);
-                }
-              }
-            })
-            .catch(e => {
-              // @TODO move clear current session to hook or HOC
+      if (token && !sessionCallMade) {
+        setSessionCallMade(true);
+        api.v2
+          .getSession({ token, checkInType })
+          .then(session => {
+            // if successful, dispatch session data into redux and current window
+            if (session.error || session.errors) {
               clearCurrentStorage(window);
-              if (e?.errors[0]?.status === '404') {
-                updateError('uuid-not-found');
+              updateError('session-error');
+            } else {
+              setCurrentToken(window, token);
+              setPreCheckinComplete(window, false);
+              const pages = createForm();
+              const firstPage = pages[0];
+              initForm(pages, firstPage);
+              setSession(token, session.permissions);
+              if (session.permissions === SCOPES.READ_FULL) {
+                // redirect if already full access
+                jumpToPage(URLS.APPOINTMENTS);
               } else {
-                updateError('session-error');
+                // TODO: dispatch to redux
+                jumpToPage(URLS.VERIFY);
               }
-            });
-        }
+            }
+          })
+          .catch(e => {
+            // @TODO move clear current session to hook or HOC
+            clearCurrentStorage(window);
+            if (e?.errors[0]?.status === '404') {
+              updateError('uuid-not-found');
+            } else {
+              updateError('session-error');
+            }
+          });
       }
-    },
-    [
-      clearCurrentStorage,
-      dispatch,
-      initForm,
-      jumpToPage,
-      router,
-      sessionCallMade,
-      setCurrentToken,
-      setPreCheckinComplete,
-      setSession,
-      updateError,
-    ],
-  );
+    }
+  }, [
+    clearCurrentStorage,
+    dispatch,
+    initForm,
+    jumpToPage,
+    router,
+    sessionCallMade,
+    setCurrentToken,
+    setPreCheckinComplete,
+    setSession,
+    updateError,
+  ]);
   return (
     <div>
       <va-loading-indicator message={loadMessage} />

@@ -15,14 +15,11 @@ const SearchResults = () => {
   } = useSelector(state => state.sm.search);
   const history = useHistory();
 
-  useEffect(
-    () => {
-      if (!awaitingResults && !searchResults) {
-        history.goBack();
-      }
-    },
-    [awaitingResults, searchResults],
-  );
+  useEffect(() => {
+    if (!awaitingResults && !searchResults) {
+      history.goBack();
+    }
+  }, [awaitingResults, searchResults]);
 
   const content = () => {
     if (!searchResults) {
@@ -45,17 +42,16 @@ const SearchResults = () => {
 
       {content()}
 
-      {searchResults &&
-        searchResults.length > 0 && (
-          <MessageList
-            messages={searchResults}
-            folder={searchFolder}
-            keyword={keyword}
-            isSearch
-            sortOrder={searchSort}
-            page={page}
-          />
-        )}
+      {searchResults && searchResults.length > 0 && (
+        <MessageList
+          messages={searchResults}
+          folder={searchFolder}
+          keyword={keyword}
+          isSearch
+          sortOrder={searchSort}
+          page={page}
+        />
+      )}
     </div>
   );
 };

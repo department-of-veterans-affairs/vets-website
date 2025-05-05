@@ -213,24 +213,23 @@ const BenefitsForm = ({
             </div>
           )}
 
-          {militaryStatus === 'active duty' &&
-            chapter33Check && (
-              <div className="military-status-info warning form-group">
-                <va-icon icon="warning" />
-                <a
-                  title="Post 9/11 GI Bill"
-                  href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
-                  id="anch_378"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Post 9/11 GI Bill
-                </a>{' '}
-                recipients serving on Active Duty (or transferee spouses of a
-                service member on active duty) are not eligible to receive a
-                monthly housing allowance.
-              </div>
-            )}
+          {militaryStatus === 'active duty' && chapter33Check && (
+            <div className="military-status-info warning form-group">
+              <va-icon icon="warning" />
+              <a
+                title="Post 9/11 GI Bill"
+                href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
+                id="anch_378"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Post 9/11 GI Bill
+              </a>{' '}
+              recipients serving on Active Duty (or transferee spouses of a
+              service member on active duty) are not eligible to receive a
+              monthly housing allowance.
+            </div>
+          )}
           {giBillChapter === '31' && (
             <div className="military-status-info info form-group">
               <va-icon icon="info" />

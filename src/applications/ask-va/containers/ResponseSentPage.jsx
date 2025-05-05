@@ -20,14 +20,11 @@ const ResponseSentPage = () => {
   const showAlertAndHideForm =
     !isLoadingFeatureFlags && isOldPortalAlertEnabled;
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        focusElement(alertRef.current);
-      }
-    },
-    [alertRef],
-  );
+  useEffect(() => {
+    if (alertRef?.current) {
+      focusElement(alertRef.current);
+    }
+  }, [alertRef]);
 
   if (showAlertAndHideForm) {
     return (

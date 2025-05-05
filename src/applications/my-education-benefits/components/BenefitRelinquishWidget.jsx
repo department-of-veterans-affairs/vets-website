@@ -26,14 +26,11 @@ const BenefitRelinquishWidget = ({ formData, setFormData }) => {
     ? 'NotEligible'
     : 'CannotRelinquish';
 
-  useEffect(
-    () => {
-      if (formData['view:benefitSelection']?.benefitRelinquished) {
-        setSelected(formData['view:benefitSelection']?.benefitRelinquished);
-      }
-    },
-    [setFormData],
-  );
+  useEffect(() => {
+    if (formData['view:benefitSelection']?.benefitRelinquished) {
+      setSelected(formData['view:benefitSelection']?.benefitRelinquished);
+    }
+  }, [setFormData]);
 
   const handlers = {
     onSelection: event => {

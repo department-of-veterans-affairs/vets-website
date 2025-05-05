@@ -75,24 +75,27 @@ const LandingPage = () => {
     sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
   }, []);
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle('About medications | Veterans Affairs');
-      if (
-        location.hash.includes('accordion-renew-rx') &&
-        !featureTogglesLoading &&
-        !isPrescriptionsLoading
-      ) {
-        setIsRxRenewAccordionOpen(true);
-        focusElement(manageMedicationsHeader.current);
-        if (!featureTogglesLoading && appEnabled) {
-          manageMedicationsAccordionSection.current?.scrollIntoView();
-        }
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle('About medications | Veterans Affairs');
+    if (
+      location.hash.includes('accordion-renew-rx') &&
+      !featureTogglesLoading &&
+      !isPrescriptionsLoading
+    ) {
+      setIsRxRenewAccordionOpen(true);
+      focusElement(manageMedicationsHeader.current);
+      if (!featureTogglesLoading && appEnabled) {
+        manageMedicationsAccordionSection.current?.scrollIntoView();
       }
-    },
-    [location.hash, featureTogglesLoading, appEnabled, isPrescriptionsLoading],
-  );
+    }
+  }, [
+    location.hash,
+    featureTogglesLoading,
+    appEnabled,
+    isPrescriptionsLoading,
+  ]);
+
 
   useEffect(
     () => {

@@ -114,9 +114,7 @@ describe('RouteLeavingGuard component', () => {
     expect(shouldBlockSpy.calledOnce).to.be.true;
   });
 
-  it(`save draft handler not called if a secondary button name is not ${
-    ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.confirmButtonText
-  }`, async () => {
+  it(`save draft handler not called if a secondary button name is not ${ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.confirmButtonText}`, async () => {
     const updateModalVisibleSpy = sinon.spy();
     const shouldBlockSpy = sinon.spy(() => {
       return false;

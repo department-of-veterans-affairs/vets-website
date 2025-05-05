@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 /* run-local-cy-with-reports.js
-  * Script to run an app's Cypress specs locally with mochawesome reports
-  * Usage:
-  * yarn cy:run:localreports my-app-folder
-  */
+ * Script to run an app's Cypress specs locally with mochawesome reports
+ * Usage:
+ * yarn cy:run:localreports my-app-folder
+ */
 const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');

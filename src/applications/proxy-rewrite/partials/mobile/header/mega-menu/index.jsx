@@ -19,28 +19,22 @@ const MegaMenu = ({
   const [previouslyClickedMenu, setPreviouslyClickedMenu] = useState(null);
   const [linkShouldFocus, setLinkShouldFocus] = useState(false);
 
-  useEffect(
-    () => {
-      if (previouslyClickedMenu && linkShouldFocus) {
-        const menu = document.getElementById(previouslyClickedMenu);
-        focusElement(menu);
-      }
-    },
-    [previouslyClickedMenu, linkShouldFocus],
-  );
+  useEffect(() => {
+    if (previouslyClickedMenu && linkShouldFocus) {
+      const menu = document.getElementById(previouslyClickedMenu);
+      focusElement(menu);
+    }
+  }, [previouslyClickedMenu, linkShouldFocus]);
 
-  useEffect(
-    () => {
-      const search = document.getElementById('search');
+  useEffect(() => {
+    const search = document.getElementById('search');
 
-      if (levelTwoMenuOpen !== null && search) {
-        search.setAttribute('hidden', true);
-      } else {
-        search.removeAttribute('hidden');
-      }
-    },
-    [levelTwoMenuOpen],
-  );
+    if (levelTwoMenuOpen !== null && search) {
+      search.setAttribute('hidden', true);
+    } else {
+      search.removeAttribute('hidden');
+    }
+  }, [levelTwoMenuOpen]);
 
   const toggleLevelOne = index => {
     // i.e. the click was meant to close the menu

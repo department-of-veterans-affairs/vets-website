@@ -27,29 +27,19 @@ function generateOptions({ data, pagePerItemIndex }) {
 
   const customTitle = `${bp.applicant}’s marriage to the ${bp.personTitle}`;
 
-  const description = `Which of these best describes ${
-    bp.applicant
-  }’s marriage to their ${bp.personTitle}?`;
+  const description = `Which of these best describes ${bp.applicant}’s marriage to their ${bp.personTitle}?`;
 
   const options = [
     {
-      label: `${bp.relative} was married to the ${
-        bp.personTitle
-      } at the time of their death and didn’t remarry`,
+      label: `${bp.relative} was married to the ${bp.personTitle} at the time of their death and didn’t remarry`,
       value: 'marriedTillDeathNoRemarriage',
     },
     {
-      label: `${bp.relative} was legally separated from ${
-        bp.personTitle
-      } before their death`,
+      label: `${bp.relative} was legally separated from ${bp.personTitle} before their death`,
       value: 'marriageDissolved',
     },
     {
-      label: `${bp.relative} was married to the ${
-        bp.personTitle
-      } at the time of their death and remarried someone else on or after ${
-        bp.relativePossessive
-      } 55th birthday`,
+      label: `${bp.relative} was married to the ${bp.personTitle} at the time of their death and remarried someone else on or after ${bp.relativePossessive} 55th birthday`,
       value: 'marriedTillDeathRemarriedAfter55',
     },
     {

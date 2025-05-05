@@ -32,25 +32,25 @@ Each of your VA facilities may have different demographic information for you.
 If you need to update your information, contact your facility.
 
 ${records
-    .map(record => {
-      // Generate content and format it as text
-      let demographicsContent;
-      try {
-        demographicsContent = generateDemographicsContent(record);
+  .map(record => {
+    // Generate content and format it as text
+    let demographicsContent;
+    try {
+      demographicsContent = generateDemographicsContent(record);
 
-        // Format content into plain text
-        demographicsContent = formatDemographicsContentToText(
-          demographicsContent,
-        );
-      } catch (error) {
-        demographicsContent = 'Error formatting demographics content';
-      }
+      // Format content into plain text
+      demographicsContent = formatDemographicsContentToText(
+        demographicsContent,
+      );
+    } catch (error) {
+      demographicsContent = 'Error formatting demographics content';
+    }
 
-      return `
+    return `
 VA Facility: ${record.facility || 'Unknown Facility'}
 ${demographicsContent}
       `;
-    })
-    .join('\n\n')}
+  })
+  .join('\n\n')}
 `;
 };

@@ -26,18 +26,15 @@ const GroupedMedications = props => {
   const [currentGroupedList, setCurrentGroupedList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(
-    () => {
-      const indexOfLastItem = currentPage * MAX_PAGE_LIST_LENGTH;
-      const indexOfFirstItem = indexOfLastItem - MAX_PAGE_LIST_LENGTH;
-      const currentItems = truncatedGroupedMedicationsList?.slice(
-        indexOfFirstItem,
-        indexOfLastItem,
-      );
-      setCurrentGroupedList(currentItems);
-    },
-    [currentPage, groupedMedicationsList],
-  );
+  useEffect(() => {
+    const indexOfLastItem = currentPage * MAX_PAGE_LIST_LENGTH;
+    const indexOfFirstItem = indexOfLastItem - MAX_PAGE_LIST_LENGTH;
+    const currentItems = truncatedGroupedMedicationsList?.slice(
+      indexOfFirstItem,
+      indexOfLastItem,
+    );
+    setCurrentGroupedList(currentItems);
+  }, [currentPage, groupedMedicationsList]);
 
   const onPageChange = page => {
     datadogRum.addAction(dataDogActionNames.detailsPage.REFILLS_PAGINATION);
@@ -63,9 +60,7 @@ const GroupedMedications = props => {
         >
           {totalListCount === 1
             ? `Showing ${totalListCount} prescription`
-            : `Showing ${displayNums[0]} to ${
-                displayNums[1]
-              } of ${totalListCount} prescriptions, from newest to oldest`}
+            : `Showing ${displayNums[0]} to ${displayNums[1]} of ${totalListCount} prescriptions, from newest to oldest`}
         </p>
       </section>
       <section>
@@ -99,9 +94,7 @@ const GroupedMedications = props => {
                 </dd>
                 <dd data-testid="provider-name">
                   {rx.providerFirstName && rx.providerLastName
-                    ? `Prescribed by ${rx.providerLastName}, ${
-                        rx.providerFirstName
-                      }`
+                    ? `Prescribed by ${rx.providerLastName}, ${rx.providerFirstName}`
                     : validateIfAvailable('Provider name')}
                 </dd>
               </dl>

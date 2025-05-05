@@ -40,9 +40,7 @@ export default class ReviewCardField extends React.Component {
       !isReactComponent(get('ui:options.viewComponent', this.props.uiSchema))
     ) {
       throw new Error(
-        `No viewComponent found in uiSchema for ReviewCardField ${
-          this.props.idSchema.$id
-        }.`,
+        `No viewComponent found in uiSchema for ReviewCardField ${this.props.idSchema.$id}.`,
       );
     }
 
@@ -440,6 +438,19 @@ export default class ReviewCardField extends React.Component {
 }
 
 ReviewCardField.propTypes = {
+  errorSchema: PropTypes.object.isRequired,
+  formContext: PropTypes.shape({
+    onError: PropTypes.func.isRequired,
+  }).isRequired,
+  formData: PropTypes.object.isRequired,
+  idSchema: PropTypes.object.isRequired,
+  registry: PropTypes.shape({
+    fields: PropTypes.shape({
+      SchemaField: PropTypes.elementType.isRequired,
+    }),
+    definitions: PropTypes.object.isRequired,
+  }).isRequired,
+  schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
       /**
@@ -508,18 +519,5 @@ ReviewCardField.propTypes = {
     ]),
     saveClickTrackEvent: PropTypes.object,
   }).isRequired,
-  schema: PropTypes.object.isRequired,
-  errorSchema: PropTypes.object.isRequired,
-  idSchema: PropTypes.object.isRequired,
-  registry: PropTypes.shape({
-    fields: PropTypes.shape({
-      SchemaField: PropTypes.elementType.isRequired,
-    }),
-    definitions: PropTypes.object.isRequired,
-  }).isRequired,
-  formData: PropTypes.object.isRequired,
   onBlur: PropTypes.func.isRequired,
-  formContext: PropTypes.shape({
-    onError: PropTypes.func.isRequired,
-  }).isRequired,
 };

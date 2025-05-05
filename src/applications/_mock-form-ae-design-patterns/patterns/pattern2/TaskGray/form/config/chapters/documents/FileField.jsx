@@ -455,12 +455,11 @@ class FileField extends React.Component {
                         />
                       </Tag>
                     )}
-                  {!file.uploading &&
-                    hasErrors && (
-                      <span className="usa-input-error-message" role="alert">
-                        <span className="sr-only">Error</span> {errors[0]}
-                      </span>
-                    )}
+                  {!file.uploading && hasErrors && (
+                    <span className="usa-input-error-message" role="alert">
+                      <span className="sr-only">Error</span> {errors[0]}
+                    </span>
+                  )}
                   {showPasswordInput && (
                     <ShowPdfPassword
                       file={file.file}
@@ -471,22 +470,21 @@ class FileField extends React.Component {
                   )}
                   {showButtons && (
                     <div className="vads-u-margin-top--2">
-                      {hasErrors &&
-                        enableShortWorkflow && (
-                          <button
-                            name={`retry_upload_${index}`}
-                            type="button"
-                            className="usa-button-primary vads-u-width--auto vads-u-margin-right--2"
-                            onClick={this.getRetryFunction(
-                              allowRetry,
-                              index,
-                              file.file,
-                            )}
-                            aria-describedby={fileId}
-                          >
-                            {retryButtonText}
-                          </button>
-                        )}
+                      {hasErrors && enableShortWorkflow && (
+                        <button
+                          name={`retry_upload_${index}`}
+                          type="button"
+                          className="usa-button-primary vads-u-width--auto vads-u-margin-right--2"
+                          onClick={this.getRetryFunction(
+                            allowRetry,
+                            index,
+                            file.file,
+                          )}
+                          aria-describedby={fileId}
+                        >
+                          {retryButtonText}
+                        </button>
+                      )}
                       <button
                         type="button"
                         className="usa-button-secondary vads-u-width--auto"

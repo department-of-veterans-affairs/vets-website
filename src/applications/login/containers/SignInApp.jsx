@@ -31,26 +31,23 @@ export function UnifiedSigninPage({ router, location }) {
   }, []);
 
   // Immediately check if OAuthEnabled
-  useEffect(
-    () => {
-      if (
-        isAuthenticated ||
-        (isQueryAlreadySet &&
-          OAuthEnabledApplications.includes(externalApplication))
-      ) {
-        return;
-      }
+  useEffect(() => {
+    if (
+      isAuthenticated ||
+      (isQueryAlreadySet &&
+        OAuthEnabledApplications.includes(externalApplication))
+    ) {
+      return;
+    }
 
-      router.push(
-        appendQuery(
-          '',
-          { ...query, oauth: isSiSEnabled && OAuthEnabled },
-          { removeNull: true },
-        ),
-      );
-    },
-    [isSiSEnabled],
-  );
+    router.push(
+      appendQuery(
+        '',
+        { ...query, oauth: isSiSEnabled && OAuthEnabled },
+        { removeNull: true },
+      ),
+    );
+  }, [isSiSEnabled]);
 
   const css = `
   #legacy-header > div:nth-child(3) > div.menu-rule.usa-one-whole,   div .profile-nav-container, .menu-rule.usa-one-whole,  .hidden-header {

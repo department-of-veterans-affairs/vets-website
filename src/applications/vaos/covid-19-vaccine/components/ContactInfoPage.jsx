@@ -140,7 +140,4 @@ const mapDispatchToProps = {
   updateFormData: actions.updateFormData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ContactInfoPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactInfoPage);

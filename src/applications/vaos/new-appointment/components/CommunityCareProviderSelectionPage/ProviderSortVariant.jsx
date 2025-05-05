@@ -42,22 +42,19 @@ export default function ProviderSortVariant({
     }),
   ];
 
-  useEffect(
-    () => {
-      if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
-        dispatch(requestProvidersList(currentLocation));
-      } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
-        dispatch(requestProvidersList(address));
-      } else {
-        dispatch(requestProvidersList(selectedCCFacility?.position));
-      }
+  useEffect(() => {
+    if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+      dispatch(requestProvidersList(currentLocation));
+    } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
+      dispatch(requestProvidersList(address));
+    } else {
+      dispatch(requestProvidersList(selectedCCFacility?.position));
+    }
 
-      if (communityCareProviderList) {
-        scrollAndFocus('#providerSelectionHeader');
-      }
-    },
-    [selectedCCFacility, sortMethod],
-  );
+    if (communityCareProviderList) {
+      scrollAndFocus('#providerSelectionHeader');
+    }
+  }, [selectedCCFacility, sortMethod]);
 
   const onValueChange = option => {
     if (Object.values(FACILITY_SORT_METHODS).includes(option.detail.value)) {

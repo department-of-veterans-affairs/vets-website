@@ -15,9 +15,7 @@ describe('Edit page', () => {
   describe('Cancelling from edit page with no unsaved changes', () => {
     it('should allow breadcrumb to send user back to notification settings page', () => {
       cy.visit(
-        `${
-          PROFILE_PATHS.EDIT
-        }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
+        `${PROFILE_PATHS.EDIT}?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
       cy.findByRole('link', { name: /Back to/i }).click();
@@ -29,9 +27,7 @@ describe('Edit page', () => {
 
     it('should allow the form cancel button to send user back to notification settings page', () => {
       cy.visit(
-        `${
-          PROFILE_PATHS.EDIT
-        }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
+        `${PROFILE_PATHS.EDIT}?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
       cy.findByText('Cancel').click();
@@ -45,9 +41,7 @@ describe('Edit page', () => {
   describe('Cancelling from edit page with unsaved changes', () => {
     it('should show modal when breadcrumb is clicked', () => {
       cy.visit(
-        `${
-          PROFILE_PATHS.EDIT
-        }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
+        `${PROFILE_PATHS.EDIT}?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
       cy.fillVaTextInput('root_inputPhoneNumber', '970-867-5309');
@@ -72,9 +66,7 @@ describe('Edit page', () => {
 
     it('should show modal when the form cancel button is clicked and allow user to cancel edit and return to notification settings page', () => {
       cy.visit(
-        `${
-          PROFILE_PATHS.EDIT
-        }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
+        `${PROFILE_PATHS.EDIT}?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
       cy.fillVaTextInput('root_inputPhoneNumber', '970-867-5309');
@@ -99,9 +91,7 @@ describe('Edit page', () => {
 
     it('should show modal when cancelling changes and a single change is made to an input field', () => {
       cy.visit(
-        `${
-          PROFILE_PATHS.EDIT
-        }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
+        `${PROFILE_PATHS.EDIT}?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
       cy.fillVaTextInput('root_inputPhoneNumber', ' ');
@@ -127,9 +117,7 @@ describe('Edit page', () => {
 
     it('redirects to notification settings when no changes are made and the save button is clicked', () => {
       cy.visit(
-        `${
-          PROFILE_PATHS.EDIT
-        }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
+        `${PROFILE_PATHS.EDIT}?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
       cy.intercept('PUT', '/v0/profile/telephones', {

@@ -78,9 +78,7 @@ function setLoggerOutput(logger) {
   if (!isLocalHost()) {
     const httpTransportOptions = {
       host: HOST,
-      path: `/api/v2/logs?dd-api-key=${
-        process.env.DATADOG_API_KEY
-      }&ddsource=nodejs&service=${process.env.DATADOG_APP_NAME}`,
+      path: `/api/v2/logs?dd-api-key=${process.env.DATADOG_API_KEY}&ddsource=nodejs&service=${process.env.DATADOG_APP_NAME}`,
       ssl: true,
       handleExceptions: true,
       handleRejections: true, // handle promise rejections

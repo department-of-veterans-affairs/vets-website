@@ -10,9 +10,9 @@ export default async function createOtherFacilityListWidget() {
   );
 
   if (widgets.length) {
-    const {
-      default: OtherFacilityListWidget,
-    } = await import(/* webpackChunkName: "other-facility-locations-list" */ './OtherFacilityListWidget');
+    const { default: OtherFacilityListWidget } = await import(
+      /* webpackChunkName: "other-facility-locations-list" */ './OtherFacilityListWidget'
+    );
 
     widgets.forEach(el => {
       ReactDOM.render(

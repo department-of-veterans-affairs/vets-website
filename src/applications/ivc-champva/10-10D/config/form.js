@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-closing-tag-location */
+/* eslint-disable react/jsx-wrap-multilines */
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import React from 'react';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';

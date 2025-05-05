@@ -83,8 +83,20 @@ for (const featureSet of featuresToTest) {
         cy.get('#mapbox-gl-container').click({ waitForAnimations: true });
 
         cy.get('canvas').swipe(
-          [[310, 300], [310, 320], [310, 340], [310, 360], [310, 380]],
-          [[50, 300], [50, 320], [50, 340], [50, 360], [50, 380]],
+          [
+            [310, 300],
+            [310, 320],
+            [310, 340],
+            [310, 360],
+            [310, 380],
+          ],
+          [
+            [50, 300],
+            [50, 320],
+            [50, 340],
+            [50, 360],
+            [50, 380],
+          ],
         );
 
         cy.get('#mapbox-gl-container').click({ waitForAnimations: true });

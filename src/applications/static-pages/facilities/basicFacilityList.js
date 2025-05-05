@@ -9,9 +9,9 @@ export default async function createBasicFacilityListWidget() {
   );
 
   if (widgets.length) {
-    const {
-      default: BasicFacilityListWidget,
-    } = await import(/* webpackChunkName: "basic-facility-locations-list" */ './BasicFacilityListWidget');
+    const { default: BasicFacilityListWidget } = await import(
+      /* webpackChunkName: "basic-facility-locations-list" */ './BasicFacilityListWidget'
+    );
 
     // since these widgets are on content pages, we don't want to focus on them
     widgets.forEach(el => {

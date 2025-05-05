@@ -117,9 +117,7 @@ export const getFilteredList = (
  */
 export const getRecentlyRequestedList = () => {
   return apiRequest(
-    `${apiBasePath}/prescriptions?${filterOptions.RECENTLY_REQUESTED.url}${
-      rxListSortingOptions.alphabeticalOrder.API_ENDPOINT
-    }`,
+    `${apiBasePath}/prescriptions?${filterOptions.RECENTLY_REQUESTED.url}${rxListSortingOptions.alphabeticalOrder.API_ENDPOINT}`,
     { headers },
   );
 };

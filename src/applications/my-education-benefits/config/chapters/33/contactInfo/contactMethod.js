@@ -76,7 +76,7 @@ const contactMethod33 = {
         'ui:validations': [
           (errors, field, formData) => {
             const isYes = field.slice(0, 4).includes('Yes');
-            const phoneExist = !!formData[(formFields?.viewPhoneNumbers)]
+            const phoneExist = !!formData[formFields?.viewPhoneNumbers]
               .mobilePhoneNumber?.phone;
             const { isInternational } = formData[
               formFields.viewPhoneNumbers
@@ -245,7 +245,7 @@ const contactMethod33 = {
             entry => entry?.dupe === true,
           );
           const mobilePhone =
-            formData[(formFields?.viewPhoneNumbers)]?.[
+            formData[formFields?.viewPhoneNumbers]?.[
               formFields?.mobilePhoneNumber
             ]?.phone;
 

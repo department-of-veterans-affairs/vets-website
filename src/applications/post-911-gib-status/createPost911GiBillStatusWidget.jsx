@@ -16,15 +16,15 @@ export default (store, widgetType) => {
     return;
   }
 
-  import(/* webpackChunkName: "gibs-status-availability-widget" */ './containers/ServiceAvailabilityBanner').then(
-    module => {
-      const ServiceAvailabilityBanner = module.default;
-      ReactDOM.render(
-        <Provider store={store}>
-          <ServiceAvailabilityBanner />
-        </Provider>,
-        root,
-      );
-    },
-  );
+  import(
+    /* webpackChunkName: "gibs-status-availability-widget" */ './containers/ServiceAvailabilityBanner'
+  ).then(module => {
+    const ServiceAvailabilityBanner = module.default;
+    ReactDOM.render(
+      <Provider store={store}>
+        <ServiceAvailabilityBanner />
+      </Provider>,
+      root,
+    );
+  });
 };

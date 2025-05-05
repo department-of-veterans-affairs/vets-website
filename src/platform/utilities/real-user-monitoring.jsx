@@ -82,25 +82,19 @@ const useBrowserMonitoring = ({ location, toggleName }) => {
   const isLoadingFeatureFlags = useToggleLoadingValue();
   const isBrowserMonitoringEnabled = useToggleValue(toggleName);
 
-  useEffect(
-    () => {
-      datadogRum.startView({ name: location.basename + location.pathname });
-    },
-    [location],
-  );
+  useEffect(() => {
+    datadogRum.startView({ name: location.basename + location.pathname });
+  }, [location]);
 
-  useEffect(
-    () => {
-      if (isLoadingFeatureFlags) return;
-      if (isBrowserMonitoringEnabled) {
-        initializeRealUserMonitoring();
-        initializeBrowserLogging();
-      } else {
-        delete window.DD_RUM;
-      }
-    },
-    [isBrowserMonitoringEnabled, isLoadingFeatureFlags],
-  );
+  useEffect(() => {
+    if (isLoadingFeatureFlags) return;
+    if (isBrowserMonitoringEnabled) {
+      initializeRealUserMonitoring();
+      initializeBrowserLogging();
+    } else {
+      delete window.DD_RUM;
+    }
+  }, [isBrowserMonitoringEnabled, isLoadingFeatureFlags]);
 };
 
 export { useBrowserMonitoring };

@@ -67,7 +67,7 @@ export const OptionIndicatorReviewField = ({ children }) => (
   <div className="review-row">
     <dt>{optionIndicatorLabel}</dt>
     <dd>
-      {optionIndicatorChoices[(children.props?.formData)] || 'Not answered'}
+      {optionIndicatorChoices[children.props?.formData] || 'Not answered'}
     </dd>
   </div>
 );

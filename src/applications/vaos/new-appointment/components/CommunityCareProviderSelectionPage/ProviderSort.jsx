@@ -24,20 +24,17 @@ export default function ProviderSort({
     sortMethod,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
 
-  useEffect(
-    () => {
-      if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
-        dispatch(requestProvidersList(currentLocation));
-      } else {
-        dispatch(requestProvidersList(address));
-      }
+  useEffect(() => {
+    if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+      dispatch(requestProvidersList(currentLocation));
+    } else {
+      dispatch(requestProvidersList(address));
+    }
 
-      if (communityCareProviderList) {
-        scrollAndFocus('#providerSelectionHeader');
-      }
-    },
-    [sortMethod],
-  );
+    if (communityCareProviderList) {
+      scrollAndFocus('#providerSelectionHeader');
+    }
+  }, [sortMethod]);
 
   const showSortByDistanceFromResidential =
     !loadingLocations && sortByDistanceFromResidential;

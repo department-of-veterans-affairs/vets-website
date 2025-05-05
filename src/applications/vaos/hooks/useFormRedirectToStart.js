@@ -25,18 +25,14 @@ export default function useFormRedirectToStart({
 }) {
   // using a ref here to hold state that we don't need to trigger a re-render
   const hadEnabledRender = useRef(false);
-  useEffect(
-    () => {
-      if (enabled) {
-        hadEnabledRender.current = true;
-      }
-    },
-    [enabled],
-  );
+  useEffect(() => {
+    if (enabled) {
+      hadEnabledRender.current = true;
+    }
+  }, [enabled]);
 
   if (!enabled || hadEnabledRender.current) {
     return false;
-  } else {
-    return shouldRedirect();
   }
+  return shouldRedirect();
 }

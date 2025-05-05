@@ -17,9 +17,7 @@ export default async function createFacilityPage(store) {
   );
   const waitTimeWidgets = Array.from(
     document.querySelectorAll(
-      `[data-widget-type="${
-        widgetTypes.FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET
-      }"]`,
+      `[data-widget-type="${widgetTypes.FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET}"]`,
     ),
   );
 
@@ -38,9 +36,9 @@ export default async function createFacilityPage(store) {
   if (facilityID) {
     store.dispatch(fetchFacility(facilityID));
     if (mapWidget) {
-      const {
-        default: FacilityMapWidget,
-      } = await import(/* webpackChunkName: "facility-detail" */ './FacilityMapWidget');
+      const { default: FacilityMapWidget } = await import(
+        /* webpackChunkName: "facility-detail" */ './FacilityMapWidget'
+      );
       ReactDOM.render(
         <Provider store={store}>
           <FacilityMapWidget />
@@ -49,9 +47,9 @@ export default async function createFacilityPage(store) {
       );
     }
     if (detailWidget) {
-      const {
-        default: FacilityDetailWidget,
-      } = await import(/* webpackChunkName: "facility-detail" */ './FacilityDetailWidget');
+      const { default: FacilityDetailWidget } = await import(
+        /* webpackChunkName: "facility-detail" */ './FacilityDetailWidget'
+      );
       ReactDOM.render(
         <Provider store={store}>
           <FacilityDetailWidget />
@@ -60,9 +58,9 @@ export default async function createFacilityPage(store) {
       );
     }
     if (scoreWidget) {
-      const {
-        default: FacilityPatientSatisfactionScoresWidget,
-      } = await import(/* webpackChunkName: "facility-detail" */ './FacilityPatientSatisfactionScoresWidget');
+      const { default: FacilityPatientSatisfactionScoresWidget } = await import(
+        /* webpackChunkName: "facility-detail" */ './FacilityPatientSatisfactionScoresWidget'
+      );
       ReactDOM.render(
         <Provider store={store}>
           <FacilityPatientSatisfactionScoresWidget />
@@ -71,9 +69,9 @@ export default async function createFacilityPage(store) {
       );
     }
     if (waitTimeWidgets.length) {
-      const {
-        default: FacilityAppointmentWaitTimesWidget,
-      } = await import(/* webpackChunkName: "facility-detail" */ './FacilityAppointmentWaitTimesWidget');
+      const { default: FacilityAppointmentWaitTimesWidget } = await import(
+        /* webpackChunkName: "facility-detail" */ './FacilityAppointmentWaitTimesWidget'
+      );
 
       waitTimeWidgets.forEach(el => {
         ReactDOM.render(

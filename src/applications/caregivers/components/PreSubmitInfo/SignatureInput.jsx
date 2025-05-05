@@ -68,8 +68,8 @@ const SignatureInput = props => {
     () => {
       const isDirty = data.dirty;
 
-      /* 
-       * show error if the user has touched input and the value does not match OR 
+      /*
+       * show error if the user has touched input and the value does not match OR
        * if there is a form error and the form has not been submitted
        */
       if ((isDirty && !signatureMatches) || (showError && !hasSubmittedForm)) {
@@ -77,9 +77,9 @@ const SignatureInput = props => {
         setError(errorMessage);
       }
 
-      /* 
-       * allow submission if we need to validate the input and the value matches the 
-       * desired string OR if the user is a filling out as a third party and no string 
+      /*
+       * allow submission if we need to validate the input and the value matches the
+       * desired string OR if the user is a filling out as a third party and no string
        * validation is necessary
        */
       if (

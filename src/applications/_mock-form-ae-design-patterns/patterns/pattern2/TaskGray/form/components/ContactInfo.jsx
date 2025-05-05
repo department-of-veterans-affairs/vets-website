@@ -221,39 +221,33 @@ export const ContactInfo = ({
     [contactInfo, setFormData, data, keys],
   );
 
-  useEffect(
-    () => {
-      if (editState) {
-        const [lastEdited, returnState] = editState.split(',');
-        setTimeout(() => {
-          const target =
-            returnState === 'canceled'
-              ? `#edit-${lastEdited}`
-              : `#updated-${lastEdited}`;
-          scrollTo(
-            onReviewPage
-              ? `${contactInfoPageKey}ScrollElement`
-              : 'topScrollElement',
-          );
-          focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
-        });
-      }
-    },
-    [contactInfoPageKey, editState, onReviewPage],
-  );
-
-  useEffect(
-    () => {
-      if ((hasInitialized && missingInfo.length) || testContinueAlert) {
-        // page had an error flag, so we know when to show a success alert
-        setHadError(true);
-      }
+  useEffect(() => {
+    if (editState) {
+      const [lastEdited, returnState] = editState.split(',');
       setTimeout(() => {
-        setHasInitialized(true);
+        const target =
+          returnState === 'canceled'
+            ? `#edit-${lastEdited}`
+            : `#updated-${lastEdited}`;
+        scrollTo(
+          onReviewPage
+            ? `${contactInfoPageKey}ScrollElement`
+            : 'topScrollElement',
+        );
+        focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
       });
-    },
-    [missingInfo, hasInitialized, testContinueAlert],
-  );
+    }
+  }, [contactInfoPageKey, editState, onReviewPage]);
+
+  useEffect(() => {
+    if ((hasInitialized && missingInfo.length) || testContinueAlert) {
+      // page had an error flag, so we know when to show a success alert
+      setHadError(true);
+    }
+    setTimeout(() => {
+      setHasInitialized(true);
+    });
+  }, [missingInfo, hasInitialized, testContinueAlert]);
 
   const Headers = onReviewPage ? 'h5' : 'h3';
   const headerClassNames = [

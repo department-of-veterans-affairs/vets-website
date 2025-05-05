@@ -18,9 +18,9 @@ export default async function createFacilityMapSatelliteMainOffice(store) {
   if (facilityID) {
     store.dispatch(fetchMainSatelliteLocationFacility(facilityID));
     if (mapWidget) {
-      const {
-        default: FacilityMapSatelliteMainWidget,
-      } = await import(/* webpackChunkName: "facility-detail" */ './FacilityMapSatelliteMainWidget');
+      const { default: FacilityMapSatelliteMainWidget } = await import(
+        /* webpackChunkName: "facility-detail" */ './FacilityMapSatelliteMainWidget'
+      );
       ReactDOM.render(
         <Provider store={store}>
           <FacilityMapSatelliteMainWidget facilityID={facilityID} />

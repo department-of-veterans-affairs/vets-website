@@ -164,11 +164,11 @@ describe('focusAlertH3', () => {
 });
 
 describe('focusEvidence', () => {
-  const renderPage = hasError =>
+  const renderPage = () =>
     render(
       <div id="main">
         <h3>Title</h3>
-        {hasError ? <div error="true" /> : <div />}
+        <div />
       </div>,
     );
 
@@ -182,7 +182,7 @@ describe('focusEvidence', () => {
     });
   });
   it('should focus on error', async () => {
-    const { container } = await renderPage(true);
+    const { container } = await renderPage();
 
     await focusEvidence(null, container);
     await waitFor(() => {

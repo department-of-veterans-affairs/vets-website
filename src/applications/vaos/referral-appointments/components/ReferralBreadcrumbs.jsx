@@ -16,12 +16,9 @@ export default function ReferralBreadcrumbs({ categoryOfCare = '' }) {
     getReferralUrlLabel(currentPage, categoryOfCare),
   );
 
-  useEffect(
-    () => {
-      setBreadcrumb(() => getReferralUrlLabel(currentPage, categoryOfCare));
-    },
-    [location, categoryOfCare, currentPage],
-  );
+  useEffect(() => {
+    setBreadcrumb(() => getReferralUrlLabel(currentPage, categoryOfCare));
+  }, [location, categoryOfCare, currentPage]);
 
   const isBackLink = breadcrumb?.startsWith('Back');
 

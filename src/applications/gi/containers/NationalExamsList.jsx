@@ -185,8 +185,8 @@ const NationalExamsList = () => {
 };
 
 NationalExamsList.propTypes = {
-  loading: PropTypes.bool,
   error: PropTypes.string,
+  loading: PropTypes.bool,
   nationalExams: PropTypes.arrayOf(
     PropTypes.shape({
       enrichedId: PropTypes.string.isRequired,

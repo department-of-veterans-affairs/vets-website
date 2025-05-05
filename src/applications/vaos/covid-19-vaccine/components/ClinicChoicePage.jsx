@@ -57,9 +57,7 @@ export default function ClinicChoicePage({ changeCrumb }) {
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       <p>
-        {`${
-          facilityDetails.name
-        } clinics offer vaccine appointments at different times.`}
+        {`${facilityDetails.name} clinics offer vaccine appointments at different times.`}
       </p>
       {!!schema && (
         <SchemaForm

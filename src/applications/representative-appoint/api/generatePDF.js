@@ -22,9 +22,7 @@ export const generatePDF = async formData => {
 
   const formType = formIs2122A(formData) ? '2122a' : '2122';
 
-  const requestUrl = `${
-    environment.API_URL
-  }/representation_management/v0/pdf_generator${formType}`;
+  const requestUrl = `${environment.API_URL}/representation_management/v0/pdf_generator${formType}`;
 
   try {
     const response = await apiRequest(requestUrl, apiSettings);

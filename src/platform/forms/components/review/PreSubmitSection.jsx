@@ -79,10 +79,10 @@ function statementOfTruthBodyElement(formData, statementOfTruthBody) {
 }
 
 /*
-*  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent
-*  PreSubmitSection - ~Default component that renders if no CustomComponent is provided~ (this describes a decision in RenderPreSubmitSection- describe what PreSubmitSection is, remove this since it's not a prop, or add it as a prop with a default value)
-*  preSubmitInfo.CustomComponent - property that can be added to `preSubmitInfo` object that overwrites `PreSubmitSection`
-*/
+ *  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent
+ *  PreSubmitSection - ~Default component that renders if no CustomComponent is provided~ (this describes a decision in RenderPreSubmitSection- describe what PreSubmitSection is, remove this since it's not a prop, or add it as a prop with a default value)
+ *  preSubmitInfo.CustomComponent - property that can be added to `preSubmitInfo` object that overwrites `PreSubmitSection`
+ */
 
 export function PreSubmitSection(props) {
   const {
@@ -271,22 +271,19 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(
-    (state, ownProps) => {
-      const { form, user } = state;
-      const { formConfig } = ownProps || {};
+  connect((state, ownProps) => {
+    const { form, user } = state;
+    const { formConfig } = ownProps || {};
 
-      const preSubmit = preSubmitSelector(formConfig);
-      const showPreSubmitError = form?.submission?.hasAttemptedSubmit;
-      return {
-        form,
-        preSubmit,
-        showPreSubmitError,
-        formConfig,
-        user,
-        showLoginModal: state.navigation.showLoginModal,
-      };
-    },
-    mapDispatchToProps,
-  )(PreSubmitSection),
+    const preSubmit = preSubmitSelector(formConfig);
+    const showPreSubmitError = form?.submission?.hasAttemptedSubmit;
+    return {
+      form,
+      preSubmit,
+      showPreSubmitError,
+      formConfig,
+      user,
+      showLoginModal: state.navigation.showLoginModal,
+    };
+  }, mapDispatchToProps)(PreSubmitSection),
 );

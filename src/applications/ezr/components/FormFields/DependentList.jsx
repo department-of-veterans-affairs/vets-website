@@ -62,30 +62,24 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
   };
 
   // call onDelete and close modal when dependents list updates on modal confirmation
-  useAfterRenderEffect(
-    () => {
-      onDelete(dependents);
-      setModal(DEFAULT_STATE.modal);
-      setTimeout(() => {
-        focusElement('#root__title');
-      }, 5);
-    },
-    [dependents],
-  );
+  useAfterRenderEffect(() => {
+    onDelete(dependents);
+    setModal(DEFAULT_STATE.modal);
+    setTimeout(() => {
+      focusElement('#root__title');
+    }, 5);
+  }, [dependents]);
 
   // apply focus to specific list item when coming back from edit flow
-  useEffect(
-    () => {
-      if (listItemsRef.current.length) {
-        const elRef = listItemsRef.current.find(item => scrollId === item?.id);
-        if (elRef) {
-          focusElement(elRef);
-          window.sessionStorage.removeItem(SESSION_ITEMS.dependent);
-        }
+  useEffect(() => {
+    if (listItemsRef.current.length) {
+      const elRef = listItemsRef.current.find(item => scrollId === item?.id);
+      if (elRef) {
+        focusElement(elRef);
+        window.sessionStorage.removeItem(SESSION_ITEMS.dependent);
       }
-    },
-    [scrollId, listItemsRef],
-  );
+    }
+  }, [scrollId, listItemsRef]);
 
   // create dependent list items
   const listItems = dependents.map((item, index) => {

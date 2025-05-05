@@ -387,7 +387,7 @@ export function createRelinquishedBenefit(submissionForm) {
   }
   const benefitRelinquished =
     submissionForm[formFields.viewBenefitSelection][
-      (formFields?.benefitRelinquished)
+      formFields?.benefitRelinquished
     ];
   // if the dgiRudisillHideBenefitSelectionStep feature flag is ON return null as the relinquished benefit
   if (submissionForm?.dgiRudisillHideBenefitsSelectionStep) {

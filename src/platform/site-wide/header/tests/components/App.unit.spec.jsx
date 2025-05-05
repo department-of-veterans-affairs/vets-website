@@ -32,6 +32,7 @@ describe('Header <App>', () => {
   });
 
   afterEach(() => {
+    sandbox.reset();
     sandbox.restore();
     cleanup();
     staticDom = null;

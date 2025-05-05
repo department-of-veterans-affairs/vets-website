@@ -37,17 +37,14 @@ const useBrowserMonitoring = () => {
   const featureToggles = useSelector(selectFeatureToggles);
   const { isBrowserMonitoringEnabled, isLoadingFeatureFlags } = featureToggles;
 
-  useEffect(
-    () => {
-      if (isLoadingFeatureFlags) return;
-      if (isBrowserMonitoringEnabled) {
-        initializeRealUserMonitoring();
-      } else {
-        delete window.DD_RUM;
-      }
-    },
-    [isBrowserMonitoringEnabled, isLoadingFeatureFlags],
-  );
+  useEffect(() => {
+    if (isLoadingFeatureFlags) return;
+    if (isBrowserMonitoringEnabled) {
+      initializeRealUserMonitoring();
+    } else {
+      delete window.DD_RUM;
+    }
+  }, [isBrowserMonitoringEnabled, isLoadingFeatureFlags]);
 };
 
 export { useBrowserMonitoring };

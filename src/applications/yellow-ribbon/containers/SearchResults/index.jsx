@@ -356,7 +356,4 @@ const mapDispatchToProps = dispatch => ({
   toggleAlertToolTip: () => dispatch(toggleSearchResultsToolTip()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchResults);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);

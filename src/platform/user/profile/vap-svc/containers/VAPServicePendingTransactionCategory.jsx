@@ -65,6 +65,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(VAPServicePendingTransactionCategory);
-export {
-  VAPServicePendingTransactionCategory as Vet360PendingTransactionCategory,
-};
+export { VAPServicePendingTransactionCategory as Vet360PendingTransactionCategory };

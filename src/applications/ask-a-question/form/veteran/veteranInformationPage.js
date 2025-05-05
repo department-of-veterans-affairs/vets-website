@@ -1,7 +1,7 @@
-import { veteranServiceInformationUI } from './service/veteranServiceInformationUI';
-import { dependentInformationUI } from './dependent/dependentInformationUI';
 import _ from 'lodash';
 import { schema } from 'platform/forms/definitions/address';
+import { veteranServiceInformationUI } from './service/veteranServiceInformationUI';
+import { dependentInformationUI } from './dependent/dependentInformationUI';
 import fullSchema from '../0873-schema.json';
 import { veteranInformationUI } from './veteranInformationUI';
 
@@ -22,8 +22,8 @@ const showVeteranInformation = formData => {
     formData.veteranStatus.veteranStatus &&
     (formData.veteranStatus.veteranStatus === 'behalf of vet' ||
       formData.veteranStatus.veteranStatus === 'dependent') &&
-    (formData.veteranStatus.relationshipToVeteran &&
-      formData.veteranStatus.relationshipToVeteran !== 'Veteran')
+    formData.veteranStatus.relationshipToVeteran &&
+    formData.veteranStatus.relationshipToVeteran !== 'Veteran'
   );
 };
 

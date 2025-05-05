@@ -30,33 +30,21 @@ export const EnrollmentVerificationPage = ({
 }) => {
   const history = useHistory();
 
-  useEffect(
-    () => {
-      if (hasCheckedKeepAlive && !isLoggedIn) {
-        history.push(STATIC_CONTENT_ENROLLMENT_URL);
-      }
-    },
-    [hasCheckedKeepAlive, isLoggedIn, history],
-  );
-  useEffect(
-    () => {
-      if (!enrollmentVerification) {
-        getPost911GiBillEligibility();
-      }
-    },
-    [getPost911GiBillEligibility, enrollmentVerification],
-  );
-  useEffect(
-    () => {
-      if (
-        submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS &&
-        isLoggedIn
-      ) {
-        focusElement('va-alert');
-      }
-    },
-    [submissionResult, isLoggedIn],
-  );
+  useEffect(() => {
+    if (hasCheckedKeepAlive && !isLoggedIn) {
+      history.push(STATIC_CONTENT_ENROLLMENT_URL);
+    }
+  }, [hasCheckedKeepAlive, isLoggedIn, history]);
+  useEffect(() => {
+    if (!enrollmentVerification) {
+      getPost911GiBillEligibility();
+    }
+  }, [getPost911GiBillEligibility, enrollmentVerification]);
+  useEffect(() => {
+    if (submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS && isLoggedIn) {
+      focusElement('va-alert');
+    }
+  }, [submissionResult, isLoggedIn]);
   if (
     !enrollmentVerificationFetchComplete ||
     (!isLoggedIn && !hasCheckedKeepAlive)

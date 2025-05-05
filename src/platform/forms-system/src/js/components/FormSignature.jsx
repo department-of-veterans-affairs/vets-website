@@ -55,38 +55,31 @@ export const FormSignature = ({
   const [sectionComplete, setSectionComplete] = useState(false);
 
   // Signature input validation
-  useEffect(
-    () => {
-      // Required validation always comes first
-      if (required)
-        validations.unshift(
-          signatureValue =>
-            !signatureValue ? 'Please enter your name' : undefined,
-        );
-
-      // First validation error in the array gets displayed
-      setSignatureError(
-        validations.reduce(
-          (errorMessage, validator) =>
-            errorMessage || validator(signature.value, formData),
-          null,
-        ),
+  useEffect(() => {
+    // Required validation always comes first
+    if (required)
+      validations.unshift(signatureValue =>
+        !signatureValue ? 'Please enter your name' : undefined,
       );
-    },
-    [required, signature, formData, validations],
-  );
+
+    // First validation error in the array gets displayed
+    setSignatureError(
+      validations.reduce(
+        (errorMessage, validator) =>
+          errorMessage || validator(signature.value, formData),
+        null,
+      ),
+    );
+  }, [required, signature, formData, validations]);
 
   // Checkbox validation
-  useEffect(
-    () => {
-      setCheckboxError(
-        required && !checked
-          ? 'Please check the box to certify the information is correct'
-          : null,
-      );
-    },
-    [required, checked],
-  );
+  useEffect(() => {
+    setCheckboxError(
+      required && !checked
+        ? 'Please check the box to certify the information is correct'
+        : null,
+    );
+  }, [required, checked]);
 
   // Update signature in formData
   useEffect(
@@ -100,16 +93,13 @@ export const FormSignature = ({
 
   // Call onCompleteSection with true or false when switching between valid
   // and invalid states respectively
-  useEffect(
-    () => {
-      const isComplete = checked && !signatureError;
-      if (sectionComplete !== isComplete) {
-        setSectionComplete(isComplete);
-        onSectionComplete(isComplete);
-      }
-    },
-    [checked, signatureError, sectionComplete, onSectionComplete],
-  );
+  useEffect(() => {
+    const isComplete = checked && !signatureError;
+    if (sectionComplete !== isComplete) {
+      setSectionComplete(isComplete);
+      onSectionComplete(isComplete);
+    }
+  }, [checked, signatureError, sectionComplete, onSectionComplete]);
 
   return (
     <>
@@ -199,7 +189,4 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(FormSignature);
+export default connect(null, mapDispatchToProps)(FormSignature);

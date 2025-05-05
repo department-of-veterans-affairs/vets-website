@@ -84,81 +84,78 @@ export function useTransformForReview(formData) {
     );
   };
 
-  return useMemo(
-    () => {
-      return (
-        <>
-          <h3>Accredited representative information</h3>
-          {renderField('Name', representative?.fullName)}
-          {renderField('Organization', organization)}
-          {renderField(
-            'Type',
-            convertRepType(formData?.['view:selectedRepresentative']?.type),
-          )}
-          <p className="light-gray vads-u-margin-bottom--1">Mailing address</p>
-          {representative?.addressLine1 && (
-            <p className="vads-u-margin-y--0">{representative.addressLine1}</p>
-          )}
-          {representative?.addressLine2 && (
-            <p className="vads-u-margin-y--0">{representative.addressLine2}</p>
-          )}
-          {representative?.addressLine3 && (
-            <p className="vads-u-margin-y--0">{representative.addressLine3}</p>
-          )}
-          <p className="vads-u-margin-y--0">
-            {representative.city && representative.city}
-            {representative.stateCode && `, ${representative.stateCode}`}{' '}
-            {representative.zipCode && representative.zipCode}
-          </p>
-          {renderField('Phone number', representative?.phone)}
-          {renderField('Email address', representative?.email)}
-          <h3>Your information</h3>
-          {renderField('First name', claimant.firstName)}
-          {renderField('Middle name', claimant.middleName)}
-          {renderField('Last name', claimant.lastName)}
-          {renderField('Social security number', claimant.ssn)}
-          {renderField('VA file number', claimant.vaFileNumber)}
-          {renderField('Date of birth', claimant.dateOfBirth)}
-          {renderField('Relationship', claimant.relationship)}
-          {renderField('Primary number', claimant.phone)}
-          {renderField('Email address', claimant.email)}
-          <p className="light-gray vads-u-margin-bottom--1">Mailing address</p>
-          {claimant.street && (
-            <p className="vads-u-margin-y--0">{claimant.street}</p>
-          )}
-          {claimant.street2 && (
-            <p className="vads-u-margin-y--0">{claimant.street2}</p>
-          )}
-          <p className="vads-u-margin-y--0">
-            {claimant.city && claimant.city}
-            {claimant.state && `, ${claimant.state}`}{' '}
-            {claimant.postalCode && claimant.postalCode}
-          </p>
-          {!applicantIsVeteran && renderVeteranForNonVeteranClaimant()}
-          <h3>Accredited representative authorizations</h3>
-          {renderField(
-            'Do you authorize this accredited VSO to access your medical records?',
-            formData?.authorizationRadio,
-          )}
-          {renderField(
-            'Do you authorize this accredited VSO Representative to change your address on VA records?',
-            formData?.authorizeAddressRadio,
-          )}
-          {renderField(
-            'Do you authorize this accredited Attorney’s team to access your records through VA’s information technology systems?',
-            formData?.authorizeInsideVARadio,
-          )}
-          {renderField(
-            'Do you authorize this accredited Attorney’s team to access your records outside VA’s information technology systems?',
-            formData?.authorizeOutsideVARadio,
-          )}
-          {renderField(
-            'Enter the name of each team member who can access your records outside of VA’s information technology systems',
-            formData?.authorizeNamesTextArea,
-          )}
-        </>
-      );
-    },
-    [formData],
-  );
+  return useMemo(() => {
+    return (
+      <>
+        <h3>Accredited representative information</h3>
+        {renderField('Name', representative?.fullName)}
+        {renderField('Organization', organization)}
+        {renderField(
+          'Type',
+          convertRepType(formData?.['view:selectedRepresentative']?.type),
+        )}
+        <p className="light-gray vads-u-margin-bottom--1">Mailing address</p>
+        {representative?.addressLine1 && (
+          <p className="vads-u-margin-y--0">{representative.addressLine1}</p>
+        )}
+        {representative?.addressLine2 && (
+          <p className="vads-u-margin-y--0">{representative.addressLine2}</p>
+        )}
+        {representative?.addressLine3 && (
+          <p className="vads-u-margin-y--0">{representative.addressLine3}</p>
+        )}
+        <p className="vads-u-margin-y--0">
+          {representative.city && representative.city}
+          {representative.stateCode && `, ${representative.stateCode}`}{' '}
+          {representative.zipCode && representative.zipCode}
+        </p>
+        {renderField('Phone number', representative?.phone)}
+        {renderField('Email address', representative?.email)}
+        <h3>Your information</h3>
+        {renderField('First name', claimant.firstName)}
+        {renderField('Middle name', claimant.middleName)}
+        {renderField('Last name', claimant.lastName)}
+        {renderField('Social security number', claimant.ssn)}
+        {renderField('VA file number', claimant.vaFileNumber)}
+        {renderField('Date of birth', claimant.dateOfBirth)}
+        {renderField('Relationship', claimant.relationship)}
+        {renderField('Primary number', claimant.phone)}
+        {renderField('Email address', claimant.email)}
+        <p className="light-gray vads-u-margin-bottom--1">Mailing address</p>
+        {claimant.street && (
+          <p className="vads-u-margin-y--0">{claimant.street}</p>
+        )}
+        {claimant.street2 && (
+          <p className="vads-u-margin-y--0">{claimant.street2}</p>
+        )}
+        <p className="vads-u-margin-y--0">
+          {claimant.city && claimant.city}
+          {claimant.state && `, ${claimant.state}`}{' '}
+          {claimant.postalCode && claimant.postalCode}
+        </p>
+        {!applicantIsVeteran && renderVeteranForNonVeteranClaimant()}
+        <h3>Accredited representative authorizations</h3>
+        {renderField(
+          'Do you authorize this accredited VSO to access your medical records?',
+          formData?.authorizationRadio,
+        )}
+        {renderField(
+          'Do you authorize this accredited VSO Representative to change your address on VA records?',
+          formData?.authorizeAddressRadio,
+        )}
+        {renderField(
+          'Do you authorize this accredited Attorney’s team to access your records through VA’s information technology systems?',
+          formData?.authorizeInsideVARadio,
+        )}
+        {renderField(
+          'Do you authorize this accredited Attorney’s team to access your records outside VA’s information technology systems?',
+          formData?.authorizeOutsideVARadio,
+        )}
+        {renderField(
+          'Enter the name of each team member who can access your records outside of VA’s information technology systems',
+          formData?.authorizeNamesTextArea,
+        )}
+      </>
+    );
+  }, [formData]);
 }

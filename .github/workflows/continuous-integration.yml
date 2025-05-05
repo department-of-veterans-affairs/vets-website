@@ -64,7 +64,7 @@ jobs:
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
-        timeout-minutes: 30
+        timeout-minutes: 45
         env:
           ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}
 
@@ -690,9 +690,6 @@ jobs:
       # requires the cypress-tests job to run was not satisfied. This update forces
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
-      
-          
-
       - name: Checkout vets-website
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -766,8 +763,19 @@ jobs:
           TEST_PROPERTY: 'TESTS'
 
       - name: Start server
+        id: start-server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --host=0.0.0.0 --port=3001 > $GITHUB_OUTPUT 2>&1 &
+
+      - name: Inspect hosts file
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: grep -i localhost /etc/hosts
+        continue-on-error: true
+
+      - name: Check localhost connectivity
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: curl --verbose http://127.0.0.1:3001/track-claims
+        continue-on-error: true
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -778,6 +786,15 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
+
+      - name: Re-check localhost connectivity
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: curl --verbose http://127.0.0.1:3001/track-claims
+        continue-on-error: true
+
+      - name: Show test server output
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: echo ${{ steps.start-server.outputs[*] }}
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
@@ -856,7 +873,7 @@ jobs:
             node_modules
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --host=0.0.0.0 --port=3001 &
 
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact

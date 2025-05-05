@@ -12,8 +12,10 @@ const eduForms = new Set([
 export default function createEducationApplicationStatus(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(/* webpackChunkName: "education-application-status" */
-    '../utils/educationStatus').then(module => {
+    import(
+      /* webpackChunkName: "education-application-status" */
+      '../utils/educationStatus'
+    ).then(module => {
       const { ApplicationStatus, EducationWizard } = module.default;
       ReactDOM.render(
         <Provider store={store}>

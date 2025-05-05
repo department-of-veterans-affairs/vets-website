@@ -2,11 +2,11 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
-import Form from '@department-of-veterans-affairs/react-jsonschema-form';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import uiSchema from '../../../src/js/definitions/bankAccount';
 import definitions from 'vets-json-schema/dist/definitions.json';
+import uiSchema from '../../../src/js/definitions/bankAccount';
 
 describe('Schemaform definition bankAccount', () => {
   it('should render bankAccount', () => {
@@ -25,24 +25,25 @@ describe('Schemaform definition bankAccount', () => {
     expect(inputs[2].id).to.equal('root_accountNumber');
     expect(inputs[3].id).to.equal('root_routingNumber');
   });
-  it('should render bankAccount with routing number error', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+  it('should render bankAccount with routing number error', async () => {
+    const form = render(
       <DefinitionTester schema={definitions.bankAccount} uiSchema={uiSchema} />,
     );
 
-    const formDOM = findDOMNode(form);
-    const find = formDOM.querySelector.bind(formDOM);
-    ReactTestUtils.Simulate.change(find('#root_routingNumber'), {
-      target: {
-        value: '123456789',
-      },
-    });
+    const input = form.container.querySelector('#root_routingNumber');
+    fireEvent.change(input, { target: { value: '123456789' } });
+    const submitButton = form.getByRole('button', { name: 'Submit' });
 
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f,
+    const mouseClick = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
     });
-    expect(find('.usa-input-error-message').textContent).to.equal(
-      `Error ${uiSchema.routingNumber['ui:errorMessages'].pattern}`,
-    );
+    fireEvent(submitButton, mouseClick);
+    await waitFor(() => {
+      const error = form.container.querySelector('.usa-input-error-message');
+      expect(error.textContent).to.equal(
+        `Error ${uiSchema.routingNumber['ui:errorMessages'].pattern}`,
+      );
+    });
   });
 });

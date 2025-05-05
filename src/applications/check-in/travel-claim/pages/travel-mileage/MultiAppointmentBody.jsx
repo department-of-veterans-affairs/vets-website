@@ -37,9 +37,7 @@ const MultipleAppointmentBody = props => {
       >
         {appointments.map((appointment, index) => (
           <VaRadioOption
-            data-testid={`radio-${appointment.stationNo}-${
-              appointment.appointmentIen
-            }`}
+            data-testid={`radio-${appointment.stationNo}-${appointment.appointmentIen}`}
             key={`${appointment.stationNo}-${appointment.appointmentIen}`}
             uswds
             value={index}
@@ -50,9 +48,8 @@ const MultipleAppointmentBody = props => {
             }${appointment.doctorName &&
               ` ${t('with')} ${appointment.doctorName}`}`}
             checked={
-              `${selectedAppointment?.stationNo}-${
-                selectedAppointment?.appointmentIen
-              }` === `${appointment.stationNo}-${appointment.appointmentIen}`
+              `${selectedAppointment?.stationNo}-${selectedAppointment?.appointmentIen}` ===
+              `${appointment.stationNo}-${appointment.appointmentIen}`
             }
           />
         ))}

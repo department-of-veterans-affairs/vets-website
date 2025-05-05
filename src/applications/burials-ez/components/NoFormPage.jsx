@@ -71,7 +71,7 @@ const generateData = (type, formData) => {
         'Relationship to the deceased Veterans': formData?.relationship?.type
           ?.other
           ? formData?.relationship?.other
-          : relationshipType[(formData?.relationship?.type)],
+          : relationshipType[formData?.relationship?.type],
       };
     case 'deceased-veteran-information':
       return {
@@ -102,7 +102,7 @@ const generateData = (type, formData) => {
           'Where did the Veteran’s death occur?': formData?.locationOfDeath
             ?.other
             ? formData?.locationOfDeath?.other
-            : locationOfDeath[(formData?.locationOfDeath?.location)],
+            : locationOfDeath[formData?.locationOfDeath?.location],
         },
       };
     case 'military-history':

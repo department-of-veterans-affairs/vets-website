@@ -35,9 +35,7 @@ describe('sendNextStepsEmail', () => {
 
     await sendNextStepsEmail(body);
 
-    const expectedUrl = `${
-      environment.API_URL
-    }/representation_management/v0/next_steps_email`;
+    const expectedUrl = `${environment.API_URL}/representation_management/v0/next_steps_email`;
 
     sinon.assert.calledWith(fetchStub, expectedUrl, {
       body: JSON.stringify(body),

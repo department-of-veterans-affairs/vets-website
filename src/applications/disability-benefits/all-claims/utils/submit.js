@@ -111,9 +111,10 @@ export function getClaimedConditionNames(
   formData,
   includeDisabilityActionTypeNone = true,
 ) {
-  return getDisabilities(formData, includeDisabilityActionTypeNone).map(
-    disability => getDisabilityName(disability),
-  );
+  return getDisabilities(
+    formData,
+    includeDisabilityActionTypeNone,
+  ).map(disability => getDisabilityName(disability));
 }
 
 export const setActionType = disability =>

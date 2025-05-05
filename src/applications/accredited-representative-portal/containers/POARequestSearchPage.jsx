@@ -38,7 +38,7 @@ const SearchResults = ({ poaRequests }) => {
     <ul
       data-testid="poa-requests-card"
       className="poa-request__list"
-      sort-column={1}
+      data-sort-column={1}
     >
       {poaRequests.map((request, index) => {
         return <POARequestCard poaRequest={request} key={index} />;

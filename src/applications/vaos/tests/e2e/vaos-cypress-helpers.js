@@ -320,15 +320,14 @@ export function mockSchedulingConfigurationApi({
           )
           .map(facility => {
             const services = facility.attributes.services
-              .map(
-                service =>
-                  service.id === typeOfCareId
-                    ? {
-                        ...service,
-                        direct: { ...service.direct, enabled: isDirect },
-                        request: { ...service.request, enabled: isRequest },
-                      }
-                    : null,
+              .map(service =>
+                service.id === typeOfCareId
+                  ? {
+                      ...service,
+                      direct: { ...service.direct, enabled: isDirect },
+                      request: { ...service.request, enabled: isRequest },
+                    }
+                  : null,
               )
               // Remove all falsey values from array
               .filter(Boolean);

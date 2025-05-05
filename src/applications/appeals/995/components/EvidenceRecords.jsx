@@ -198,8 +198,7 @@ export const FacilityAddress = ({
   handlers,
   showError,
 }) => {
-  const hasStates =
-    states[(currentData.providerFacilityAddress?.country)] || [];
+  const hasStates = states[currentData.providerFacilityAddress?.country] || [];
   return (
     <>
       <VaSelect

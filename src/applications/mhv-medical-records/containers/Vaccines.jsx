@@ -87,13 +87,10 @@ const Vaccines = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
+  }, [dispatch]);
 
   usePrintTitle(
     pageTitles.VACCINES_PAGE_TITLE,

@@ -31,9 +31,12 @@ const RefillNotification = ({ refillStatus }) => {
           focusElement(element);
         }
       }
-    },
-    [refillStatus, successfulMeds, failedMeds],
-  );
+      const element = document.getElementById(elemId);
+      if (element) {
+        focusElement(element);
+      }
+    }
+  }, [refillStatus, successfulMeds, failedMeds]);
 
   const handleGoToMedicationsListOnSuccess = () => {
     if (!sessionStorage.getItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT)) {

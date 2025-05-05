@@ -6,11 +6,10 @@ import ObfuscateReviewField from '../../components/ObfuscateReviewField';
 describe('ObfuscateReviewField component', () => {
   it('renders without crashing', () => {
     const uiSchema = { 'ui:title': 'Obfuscated Title' };
-    const formData = 'Sensitive Information';
 
     const wrapper = mount(
       <ObfuscateReviewField uiSchema={uiSchema}>
-        <span formData={formData} />
+        <span />
       </ObfuscateReviewField>,
     );
 
@@ -20,11 +19,10 @@ describe('ObfuscateReviewField component', () => {
 
   it('displays the title from uiSchema', () => {
     const uiSchema = { 'ui:title': 'Obfuscated Title' };
-    const formData = 'Sensitive Information';
 
     const wrapper = mount(
       <ObfuscateReviewField uiSchema={uiSchema}>
-        <span formData={formData} />
+        <span />
       </ObfuscateReviewField>,
     );
 
@@ -38,7 +36,7 @@ describe('ObfuscateReviewField component', () => {
 
     const wrapper = mount(
       <ObfuscateReviewField uiSchema={uiSchema}>
-        <span formData={formData} />
+        <span />
       </ObfuscateReviewField>,
     );
 

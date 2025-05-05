@@ -62,64 +62,59 @@ export const App = ({
     subTaskBenefitType,
   );
 
-  useEffect(
-    () => {
-      if (hasSupportedBenefitType) {
-        // form data is reset after logging in and from the save-in-progress data,
-        // so get it from the session storage
-        if (!formData.benefitType) {
+  useEffect(() => {
+    if (hasSupportedBenefitType) {
+      // form data is reset after logging in and from the save-in-progress data,
+      // so get it from the session storage
+      if (!formData.benefitType) {
+        setFormData({
+          ...formData,
+          benefitType: subTaskBenefitType,
+        });
+      } else if (
+        loggedIn &&
+        // internalTesting is used to test the get contestable issues API call
+        // in unit tests; Setting up the unit test to get RoutedSavableApp to
+        // work properly is overly complicated
+        (!isOutsideForm(pathname) || formData.internalTesting) &&
+        formData.benefitType
+      ) {
+        if (!isLoadingIssues && (contestableIssues.status || '') === '') {
+          // load benefit type contestable issues
+          setIsLoadingIssues(true);
+          getContestableIssues({ benefitType: formData.benefitType });
+        } else if (
+          contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
+          (issuesNeedUpdating(
+            contestableIssues.issues,
+            formData?.contestedIssues,
+          ) ||
+            contestableIssues.legacyCount !== formData.legacyCount)
+        ) {
+          // resetStoredSubTask();
           setFormData({
             ...formData,
-            benefitType: subTaskBenefitType,
+            contestedIssues: processContestableIssues(contestableIssues.issues),
+            legacyCount: contestableIssues.legacyCount,
           });
-        } else if (
-          loggedIn &&
-          // internalTesting is used to test the get contestable issues API call
-          // in unit tests; Setting up the unit test to get RoutedSavableApp to
-          // work properly is overly complicated
-          (!isOutsideForm(pathname) || formData.internalTesting) &&
-          formData.benefitType
-        ) {
-          if (!isLoadingIssues && (contestableIssues.status || '') === '') {
-            // load benefit type contestable issues
-            setIsLoadingIssues(true);
-            getContestableIssues({ benefitType: formData.benefitType });
-          } else if (
-            contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
-            (issuesNeedUpdating(
-              contestableIssues.issues,
-              formData?.contestedIssues,
-            ) ||
-              contestableIssues.legacyCount !== formData.legacyCount)
-          ) {
-            // resetStoredSubTask();
-            setFormData({
-              ...formData,
-              contestedIssues: processContestableIssues(
-                contestableIssues.issues,
-              ),
-              legacyCount: contestableIssues.legacyCount,
-            });
-          } else if (evidenceNeedsUpdating(formData)) {
-            // update evidence issues
-            setFormData(removeNonSelectedIssuesFromEvidence(formData));
-          }
+        } else if (evidenceNeedsUpdating(formData)) {
+          // update evidence issues
+          setFormData(removeNonSelectedIssuesFromEvidence(formData));
         }
       }
-    },
-    [
-      contestableIssues,
-      formData,
-      getContestableIssues,
-      hasSupportedBenefitType,
-      isLoadingIssues,
-      legacyCount,
-      loggedIn,
-      setFormData,
-      subTaskBenefitType,
-      pathname,
-    ],
-  );
+    }
+  }, [
+    contestableIssues,
+    formData,
+    getContestableIssues,
+    hasSupportedBenefitType,
+    isLoadingIssues,
+    legacyCount,
+    loggedIn,
+    setFormData,
+    subTaskBenefitType,
+    pathname,
+  ]);
 
   let content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -210,7 +205,4 @@ const mapDispatchToProps = {
   getContestableIssues: getContestableIssuesAction,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -53,7 +53,4 @@ const mapStateToProps = state => ({
   subMenu: state.headerMenuReducer.subMenu,
 });
 
-export default connect(
-  mapStateToProps,
-  null,
-)(Menu);
+export default connect(mapStateToProps, null)(Menu);

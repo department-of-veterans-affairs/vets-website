@@ -36,69 +36,57 @@ export default function BackToTop({
    * Accounts for if CompareDrawer is open or not
    * Using an useEffect so can correctly access the value of compareOpen
    */
-  useEffect(
-    () => {
-      if (smallScreen && compare.open) {
-        setFloating(false);
-        setScrolled(false);
-      } else if (scrolled || (smallScreen && !compare.open)) {
-        const profilePageHeader = document.getElementById(profilePageHeaderId);
-        if (!profilePageHeader || !placeholder.current) return;
+  useEffect(() => {
+    if (smallScreen && compare.open) {
+      setFloating(false);
+      setScrolled(false);
+    } else if (scrolled || (smallScreen && !compare.open)) {
+      const profilePageHeader = document.getElementById(profilePageHeaderId);
+      if (!profilePageHeader || !placeholder.current) return;
 
-        const headerNotVisible =
-          profilePageHeader.getBoundingClientRect().bottom < 0;
+      const headerNotVisible =
+        profilePageHeader.getBoundingClientRect().bottom < 0;
 
-        // Values below are based on whether Compare Drawer is open or closed as this component needs to sit 0.8em above
-        // the Compare Drawer when open or closed
-        // See _gi-back-to-top.scss: 212 = 13.3em, 52 = 3.3em
-        // These values are the 2 heights of compare drawer plus 0.8em
-        const adjustment = compareOpen ? 212 : 52;
+      // Values below are based on whether Compare Drawer is open or closed as this component needs to sit 0.8em above
+      // the Compare Drawer when open or closed
+      // See _gi-back-to-top.scss: 212 = 13.3em, 52 = 3.3em
+      // These values are the 2 heights of compare drawer plus 0.8em
+      const adjustment = compareOpen ? 212 : 52;
 
-        // Has a consistent adjustment 52 because placeholder ends up above the Button in the dom
-        const footerNotVisible =
-          placeholder.current.getBoundingClientRect().bottom >=
-          window.innerHeight - 52 - adjustment;
+      // Has a consistent adjustment 52 because placeholder ends up above the Button in the dom
+      const footerNotVisible =
+        placeholder.current.getBoundingClientRect().bottom >=
+        window.innerHeight - 52 - adjustment;
 
-        setFloating(headerNotVisible && footerNotVisible);
-        setScrolled(false);
+      setFloating(headerNotVisible && footerNotVisible);
+      setScrolled(false);
+    }
+    setCompareOpen(compare.open);
+  }, [scrolled, smallScreen, compare.open, profilePageHeaderId, compareOpen]);
+
+  const resize = useCallback(() => {
+    if (floating) {
+      const parentElement = document.getElementById(parentId);
+      if (parentElement) {
+        const parentX = parentElement.getBoundingClientRect().x;
+        setBackToTopContainerStyle({ right: parentX });
       }
-      setCompareOpen(compare.open);
-    },
-    [scrolled, smallScreen, compare.open, profilePageHeaderId, compareOpen],
-  );
+    }
+  }, [floating, parentId]);
 
-  const resize = useCallback(
-    () => {
-      if (floating) {
-        const parentElement = document.getElementById(parentId);
-        if (parentElement) {
-          const parentX = parentElement.getBoundingClientRect().x;
-          setBackToTopContainerStyle({ right: parentX });
-        }
-      }
-    },
-    [floating, parentId],
-  );
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, true);
+    window.addEventListener('resize', resize);
 
-  useEffect(
-    () => {
-      window.addEventListener('scroll', handleScroll, true);
-      window.addEventListener('resize', resize);
+    return () => {
+      window.removeEventListener('scroll', handleScroll, true);
+      window.removeEventListener('scroll', resize, true);
+    };
+  }, [resize]);
 
-      return () => {
-        window.removeEventListener('scroll', handleScroll, true);
-        window.removeEventListener('scroll', resize, true);
-      };
-    },
-    [resize],
-  );
-
-  useEffect(
-    () => {
-      resize();
-    },
-    [floating, resize],
-  );
+  useEffect(() => {
+    resize();
+  }, [floating, resize]);
 
   const backToTopClasses = classNames('back-to-top', {
     'back-to-top-floating': floating,
