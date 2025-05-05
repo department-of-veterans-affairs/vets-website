@@ -89,7 +89,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       initialState,
     });
 
-    await screen.findByText(/You don’t have any past appointments/i);
+    await screen.findByText(/We didn’t find any results in this date range/i);
 
     const dropdown = await screen.findByTestId('vaosSelect');
     dropdown.__events.vaSelect({
@@ -240,7 +240,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     });
 
     // Assert
-    return expect(screen.findByText(/You don’t have any past appointments/i)).to
+    return expect(screen.findByText(/We didn’t find any results/i)).to
       .eventually.be.ok;
   });
 
