@@ -2,13 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { clearReferralTimer, getReferralElapsedSeconds } from './utils/timer';
 import ReferralLayout from './components/ReferralLayout';
+import { titleCase } from '../utils/formatters';
 
 export default function ConfirmReferral(props) {
   const { currentReferral } = props;
   return (
     <ReferralLayout
       hasEyebrow
-      heading={`Confirm Referral for ${currentReferral.categoryOfCare}`}
+      heading={`Confirm Referral for ${titleCase(
+        currentReferral.categoryOfCare,
+      )}`}
     >
       <p>{currentReferral.uuid}</p>
       <va-button

@@ -1,3 +1,4 @@
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -7,6 +8,17 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionError from '../../shared/components/SubmissionError';
 import GetFormHelp from '../../shared/components/GetFormHelp';
+
+import {
+  certifierRoleSchema,
+  certifierNameSchema,
+  certifierAddressSchema,
+  signerContactInfoPage,
+  SignerContactInfoPage,
+  certifierRelationshipSchema,
+} from '../chapters/signerInformation';
+
+// import mockData from '../tests/fixtures/data/test-data.json';
 import { applicantPages } from '../chapters/applicantInformation';
 
 /** @type {FormConfig} */
@@ -59,6 +71,40 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
+    certifierInformation: {
+      title: 'Signer information',
+      pages: {
+        page1: {
+          // initialData: mockData.data,
+          path: 'signer-type',
+          title: 'Which of these best describes you?',
+          ...certifierRoleSchema,
+        },
+        page2: {
+          path: 'signer-info',
+          title: 'Your name',
+          ...certifierNameSchema,
+        },
+        page3: {
+          path: 'signer-mailing-address',
+          title: 'Your mailing address',
+          ...certifierAddressSchema,
+        },
+        page4: {
+          path: 'signer-contact-info',
+          title: 'Your contact information',
+          CustomPage: SignerContactInfoPage,
+          CustomPageReview: null,
+          ...signerContactInfoPage,
+        },
+        page5: {
+          path: 'signer-relationship',
+          title: 'Your relationship to applicant',
+          depends: formData => get('certifierRole', formData) === 'other',
+          ...certifierRelationshipSchema,
+        },
+      },
+    },
     applicantInformation: {
       title: 'Applicant information',
       pages: applicantPages,
