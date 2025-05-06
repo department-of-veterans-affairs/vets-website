@@ -105,7 +105,7 @@ describe('go bill CT before search by name', () => {
   });
   it('should visited https://www.va.gov/ogc/apps/accreditation/index.asp when Search Accredited Attorneys, Claims Agents, or Veterans Service Organizations (VSO) Representatives link is click', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('a[id="disclaimer-link"]').then(link => {
+    cy.get('a[id="disclaimer-link-vso"]').then(link => {
       const href = link.prop('href');
       cy.visit(href);
     });
