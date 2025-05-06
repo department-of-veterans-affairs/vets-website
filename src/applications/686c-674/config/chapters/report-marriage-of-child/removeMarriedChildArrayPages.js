@@ -37,6 +37,7 @@ export const removeMarriedChildOptions = {
       `${capitalize(item?.fullName?.first) || ''} ${capitalize(
         item?.fullName?.last,
       ) || ''}`,
+    cancelAddButtonText: 'Cancel removing this child',
   },
 };
 

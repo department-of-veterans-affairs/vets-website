@@ -12,7 +12,6 @@ import {
   selectFeatureCommunityCare,
   selectSystemIds,
   selectRegisteredCernerFacilityIds,
-  selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
@@ -905,7 +904,6 @@ export function checkCommunityCareEligibility() {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
@@ -953,12 +951,7 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-
-        if (featureBreadcrumbUrlUpdate) {
-          history.push(`/${appointment.id}?confirmMsg=true`);
-        } else {
-          history.push(`/va/${appointment.id}?confirmMsg=true`);
-        }
+        history.push(`/${appointment.id}?confirmMsg=true`);
       } catch (error) {
         const extraData = {
           vaFacility: data?.vaFacility,
@@ -1047,11 +1040,7 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        history.push(
-          `${featureBreadcrumbUrlUpdate ? '/pending' : '/requests'}/${
-            requestData.id
-          }?confirmMsg=true`,
-        );
+        history.push(`/pending/${requestData.id}?confirmMsg=true`);
       } catch (error) {
         let extraData = null;
         if (requestBody) {
