@@ -23,7 +23,7 @@ const IntroductionPage = ({ onStart }) => {
   return (
     <div>
       <h1 tabIndex="-1">{title}</h1>
-      <DowntimeWindowAlert appTitle="File a travel reimbursement claim">
+      <DowntimeWindowAlert appTitle={title}>
         {isLoading && (
           <va-loading-indicator
             label="Loading"
@@ -91,6 +91,16 @@ const IntroductionPage = ({ onStart }) => {
             text="Set up direct deposit"
           />
         </va-alert>
+        <div
+          className="omb-info--container vads-u-margin-y--3"
+          style={{ paddingLeft: '0px' }}
+        >
+          <va-omb-info
+            res-burden={10}
+            omb-number="2900-0798"
+            exp-date="11/30/2027"
+          />
+        </div>
       </DowntimeWindowAlert>
     </div>
   );

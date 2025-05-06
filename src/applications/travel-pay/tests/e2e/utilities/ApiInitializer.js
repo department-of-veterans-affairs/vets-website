@@ -21,6 +21,21 @@ class ApiInitializer {
     happyPath: () => {
       cy.intercept('GET', '/travel_pay/v0/claims', claims).as('sm');
     },
+    errorPath: () => {
+      cy.intercept('GET', '/travel_pay/v0/claims', {
+        statusCode: 503,
+        body: {
+          errors: [
+            {
+              title: 'Service unavailable',
+              status: 503,
+              detail: 'An unknown error has occurred.',
+              code: 'VA900',
+            },
+          ],
+        },
+      }).as('smError');
+    },
   };
 
   initializeClaimDetails = {
@@ -29,6 +44,21 @@ class ApiInitializer {
         fixture:
           'applications/travel-pay/tests/fixtures/travel-claim-details-v1.json',
       }).as('details');
+    },
+    errorPath: () => {
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        statusCode: 503,
+        body: {
+          errors: [
+            {
+              title: 'Service unavailable',
+              status: 503,
+              detail: 'An unknown error has occurred.',
+              code: 'VA900',
+            },
+          ],
+        },
+      }).as('detailsError');
     },
   };
 

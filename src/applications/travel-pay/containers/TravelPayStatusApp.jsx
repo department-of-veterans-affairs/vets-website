@@ -349,7 +349,7 @@ export default function TravelPayStatusApp({ children }) {
         <h1 tabIndex="-1" data-testid="header">
           {title}
         </h1>
-        <DowntimeWindowAlert appTitle="Travel Pay">
+        <DowntimeWindowAlert appTitle={title}>
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
             {smocEnabled ? (
               <SmocEntryContent />
