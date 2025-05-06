@@ -489,7 +489,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       fireEvent.click(screen.getByText(/Continue/));
       await waitFor(() => {
         expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/new-appointment/clinics',
+          '/schedule/clinic',
         );
       });
     });
@@ -538,7 +538,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       fireEvent.click(screen.getByText(/Continue/));
       await waitFor(() => {
         expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/new-appointment/clinics',
+          '/schedule/clinic',
         );
       });
     });
@@ -800,9 +800,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       fireEvent.click(screen.getByText(/Continue/));
 
       await waitFor(() =>
-        expect(screen.history.push.firstCall.args[0]).to.equal(
-          '/new-appointment/request-date',
-        ),
+        expect(screen.history.push.firstCall.args[0]).to.equal('va-request/'),
       );
     });
   });

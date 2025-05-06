@@ -822,9 +822,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     userEvent.click(screen.getByTestId('earlier-request-btn'));
 
     await waitFor(() =>
-      expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-appointment/request-date',
-      ),
+      expect(screen.history.push.firstCall.args[0]).to.equal('va-request/'),
     );
   });
 
