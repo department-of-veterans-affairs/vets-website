@@ -163,12 +163,12 @@ export const submitFormData = async ({
 
     const response = await apiRequest(url, options);
 
-    // check if response has properties for inquiryNumber and listOfAttachments
-    if (Object.hasOwn(response, 'inquiryNumber')) {
+    const result = await response.json();
+
+    if (!result?.inquiryNumber) {
       throw new Error(`Backend API call failed. Inquiry number not found.`);
     }
 
-    const result = await response.json();
     onSuccess?.(result);
     return result;
   } catch (error) {
