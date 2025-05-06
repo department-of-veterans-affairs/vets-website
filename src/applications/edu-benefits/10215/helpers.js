@@ -158,7 +158,7 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
       What are my next steps?
     </h2>
     <p>
-      After you submit your 85/15 Rule enrollment ratios, we will review them
+      After you submit your 85/15 rule enrollment ratios, we will review them
       within 7-10 business days. Once we review your submission, we will email
       you with our determinations, and any next steps.
     </p>
