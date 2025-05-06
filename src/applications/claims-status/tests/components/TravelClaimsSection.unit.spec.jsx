@@ -1,15 +1,15 @@
 import React from 'react';
-import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import { render } from '@testing-library/react';
+import { expect } from 'chai';
 import sinon from 'sinon';
 import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
-import TravelClaimSection from '../../components/TravelClaimSection';
+import TravelClaimsSection from '../../components/TravelClaimsSection';
 
 describe('<TravelClaimSection>', () => {
   it('should render a TravelClaimSection section', () => {
-    const { getByRole, getByText } = render(<TravelClaimSection />);
+    const { getByRole, getByText } = render(<TravelClaimsSection />);
     const heading = getByRole('heading', {
       name: 'Your travel claims',
     });
@@ -27,7 +27,7 @@ describe('<TravelClaimSection>', () => {
 
   it('should call recordLinkClick when link is clicked', () => {
     const recordLinkClickStub = sinon.stub(recordEventModule, 'default');
-    const { getByRole } = render(<TravelClaimSection />);
+    const { getByRole } = render(<TravelClaimsSection />);
     const link = getByRole('link', {
       name: 'Review and file travel claims',
     });

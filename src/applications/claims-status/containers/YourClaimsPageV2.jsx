@@ -25,7 +25,7 @@ import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import FeaturesWarning from '../components/FeaturesWarning';
 import NoClaims from '../components/NoClaims';
 import StemClaimListItem from '../components/StemClaimListItem';
-import TravelClaimsSection from '../components/TravelClaimSection';
+import TravelClaimsSection from '../components/TravelClaimsSection';
 
 import { ITEMS_PER_PAGE } from '../constants';
 
