@@ -9,7 +9,7 @@ describe(`${appName} -- Status Page`, () => {
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeClaims.happyPath();
     ApiInitializer.initializeClaimDetails.happyPath();
-    ApiInitializer.initialMaintenanceWindow.upcoming();
+    ApiInitializer.initialMaintenanceWindow.current();
   });
 
   it('shows the maintenance window if the API call returns maintenance data', () => {

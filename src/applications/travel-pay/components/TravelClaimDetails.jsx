@@ -80,9 +80,7 @@ export default function TravelClaimDetails() {
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <Breadcrumbs />
         {error && <h1>There was an error loading the claim details.</h1>}
-        <DowntimeWindowAlert appTitle="Travel Pay">
-          <></>
-        </DowntimeWindowAlert>
+        <DowntimeWindowAlert appTitle="Travel Pay" />
 
         {data[id] && <ClaimDetailsContent {...data[id]} />}
         <hr />

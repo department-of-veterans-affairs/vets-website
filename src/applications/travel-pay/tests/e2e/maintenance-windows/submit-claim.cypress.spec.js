@@ -5,7 +5,7 @@ import ApiInitializer from '../utilities/ApiInitializer';
 describe('Submit Mileage Only Claims', () => {
   beforeEach(() => {
     cy.intercept('/data/cms/vamc-ehr.json', {});
-    ApiInitializer.initialMaintenanceWindow.upcoming();
+    ApiInitializer.initialMaintenanceWindow.current();
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeClaims.happyPath();
     ApiInitializer.initializeClaimDetails.happyPath();

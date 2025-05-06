@@ -11,7 +11,7 @@ const DowntimeWindowAlert = ({ children, appTitle }) => {
       appTitle={appTitle}
       dependencies={[externalServices.travelPay, externalServices.vaos]}
     >
-      {children}
+      {children || <></>}
     </DowntimeNotification>
   );
 };

@@ -1,9 +1,18 @@
 import claims from '../../fixtures/test-data.json';
 
+const API_PATHS = {
+  FEATURE_TOGGLES: '/v0/feature_toggles*',
+  MAINTENANCE_WINDOWS: '/v0/maintenance_windows',
+  CLAIMS: '/travel_pay/v0/claims',
+  CLAIMS_SUBMISSION: '/travel_pay/v0/claims',
+  CLAIM_DETAILS: '/travel_pay/v0/claims/*',
+  APPOINTMENT: '/vaos/v2/appointments/*',
+};
+
 class ApiInitializer {
   initializeFeatureToggle = {
     withAllFeatures: () => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
+      cy.intercept('GET', API_PATHS.FEATURE_TOGGLES, {
         data: {
           type: 'feature_toggles',
           features: [
@@ -19,10 +28,10 @@ class ApiInitializer {
 
   initializeClaims = {
     happyPath: () => {
-      cy.intercept('GET', '/travel_pay/v0/claims', claims).as('sm');
+      cy.intercept('GET', API_PATHS.CLAIMS, claims).as('sm');
     },
     errorPath: () => {
-      cy.intercept('GET', '/travel_pay/v0/claims', {
+      cy.intercept('GET', API_PATHS.CLAIMS, {
         statusCode: 503,
         body: {
           errors: [
@@ -40,13 +49,13 @@ class ApiInitializer {
 
   initializeClaimDetails = {
     happyPath: () => {
-      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+      cy.intercept('GET', API_PATHS.CLAIM_DETAILS, {
         fixture:
           'applications/travel-pay/tests/fixtures/travel-claim-details-v1.json',
       }).as('details');
     },
     errorPath: () => {
-      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+      cy.intercept('GET', API_PATHS.CLAIM_DETAILS, {
         statusCode: 503,
         body: {
           errors: [
@@ -64,7 +73,7 @@ class ApiInitializer {
 
   submitClaim = {
     happyPath: () => {
-      cy.intercept('POST', '/travel_pay/v0/claims', {
+      cy.intercept('POST', API_PATHS.CLAIMS_SUBMISSION, {
         statusCode: 200,
         body: {
           data: {
@@ -74,7 +83,7 @@ class ApiInitializer {
       });
     },
     errorPath: () => {
-      cy.intercept('POST', '/travel_pay/v0/claims', {
+      cy.intercept('POST', API_PATHS.CLAIMS_SUBMISSION, {
         statusCode: 503,
         body: {
           errors: [
@@ -92,7 +101,7 @@ class ApiInitializer {
 
   initializeAppointment = {
     happyPath: () => {
-      cy.intercept('GET', '/vaos/v2/appointments/*', {
+      cy.intercept('GET', API_PATHS.APPOINTMENT, {
         fixture: 'applications/travel-pay/tests/fixtures/appointment.json',
       }).as('appointment');
     },
@@ -107,7 +116,7 @@ class ApiInitializer {
         },
       }).as('maintenanceWindow');
     },
-    upcoming: () => {
+    current: () => {
       const now = new Date();
       const oneDayAgo = new Date(
         now.getTime() - 24 * 60 * 60 * 1000,
@@ -116,7 +125,7 @@ class ApiInitializer {
         now.getTime() + 24 * 60 * 60 * 1000,
       ).toISOString();
 
-      cy.intercept('GET', '/v0/maintenance_windows', {
+      cy.intercept('GET', API_PATHS.MAINTENANCE_WINDOWS, {
         statusCode: 200,
         body: {
           data: [

@@ -9,7 +9,7 @@ describe(`${appName} -- claim detail`, () => {
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeClaims.errorPath();
     ApiInitializer.initializeClaimDetails.errorPath();
-    ApiInitializer.initialMaintenanceWindow.upcoming();
+    ApiInitializer.initialMaintenanceWindow.current();
   });
 
   it('shows the maintenance window if the API call returns maintenance data', () => {

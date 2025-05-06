@@ -26,7 +26,7 @@ const maintenanceWindows = {
 
 const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
-  'GET /v0/maintenance_windows': maintenanceWindows.enabled,
+  'GET /v0/maintenance_windows': maintenanceWindows.none,
   'GET /v0/user': user.withAddress,
   'GET /v0/feature_toggles': {
     data: {

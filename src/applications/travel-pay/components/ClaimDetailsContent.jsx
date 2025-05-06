@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -33,19 +33,11 @@ export default function ClaimDetailsContent(props) {
   const [createDate, createTime] = formatDateTime(createdOn);
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
 
-  const headingText = useMemo(
-    () => {
-      if (appointmentDate) {
-        return `${title} for ${appointmentDate}`;
-      }
-      return title;
-    },
-    [appointmentDate],
-  );
-
   return (
     <>
-      <h1>{headingText}</h1>
+      <h1>
+        {title} for {appointmentDate}
+      </h1>
       <span
         className="vads-u-font-size--h2 vads-u-font-weight--bold"
         data-testid="claim-details-claim-number"
