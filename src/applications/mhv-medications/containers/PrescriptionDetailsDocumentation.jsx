@@ -15,16 +15,10 @@ import {
 } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import { buildMedicationInformationPDF } from '../util/pdfConfigs';
-import {
-  rxListSortingOptions,
-  defaultSelectedSortOption,
-  filterOptions,
-  DOWNLOAD_FORMAT,
-} from '../util/constants';
+import { DOWNLOAD_FORMAT } from '../util/constants';
 import { pageType } from '../util/dataDogConstants';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import CallPharmacyPhone from '../components/shared/CallPharmacyPhone';
-import { selectGroupingFlag } from '../util/selectors';
 import { useGetPrescriptionDocumentationQuery } from '../api/prescriptionsApi';
 import usePrescriptionData from '../hooks/usePrescriptionData';
 
@@ -50,30 +44,11 @@ const PrescriptionDetailsDocumentation = () => {
     error: hasDocApiError,
   } = useGetPrescriptionDocumentationQuery(prescriptionId);
 
-  // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences.sortOption,
-  );
-  const selectedFilterOption = useSelector(
-    state => state.rx.preferences.filterOption,
-  );
-  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
-  // Consolidate query parameters into a single state object to avoid multiple re-renders
-  const showGroupingContent = useSelector(selectGroupingFlag);
-  const [queryParams] = useState({
-    page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
-    sortEndpoint:
-      rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
-      rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-    filterOption: filterOptions[selectedFilterOption]?.url || '',
-  });
-
   const {
     prescription,
     error: hasPrescriptionApiError,
     isLoading: prescriptionIsLoading,
-  } = usePrescriptionData(prescriptionId, queryParams);
+  } = usePrescriptionData(prescriptionId);
 
   const isLoadingRx = prescriptionIsLoading;
   const pharmacyPhone = pharmacyPhoneNumber(prescription);

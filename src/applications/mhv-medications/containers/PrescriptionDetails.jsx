@@ -30,13 +30,7 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
-import {
-  rxListSortingOptions,
-  defaultSelectedSortOption,
-  filterOptions,
-  PDF_TXT_GENERATE_STATUS,
-  DOWNLOAD_FORMAT,
-} from '../util/constants';
+import { PDF_TXT_GENERATE_STATUS, DOWNLOAD_FORMAT } from '../util/constants';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -49,30 +43,13 @@ import { usePrefetch } from '../api/prescriptionsApi';
 const PrescriptionDetails = () => {
   const { prescriptionId } = useParams();
 
-  // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences.sortOption,
-  );
-  const selectedFilterOption = useSelector(
-    state => state.rx.preferences.filterOption,
-  );
-  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
-  // Consolidate query parameters into a single state object to avoid multiple re-renders
   const showGroupingContent = useSelector(selectGroupingFlag);
-  const [queryParams] = useState({
-    page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
-    sortEndpoint:
-      rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
-      rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-    filterOption: filterOptions[selectedFilterOption]?.url || '',
-  });
 
   const {
     prescription,
     error: prescriptionsApiError,
     isLoading: prescriptionIsLoading,
-  } = usePrescriptionData(prescriptionId, queryParams);
+  } = usePrescriptionData(prescriptionId);
 
   const isLoading = !prescription && prescriptionIsLoading;
 
