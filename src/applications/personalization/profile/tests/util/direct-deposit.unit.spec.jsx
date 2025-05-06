@@ -111,5 +111,22 @@ describe('DirectDepositClient', () => {
         'api-status': API_STATUS.SUCCESSFUL,
       });
     });
+
+    it('records lighthouse GET analytics event without error', () => {
+      client.recordDirectDepositEvent({
+        status: API_STATUS.SUCCESSFUL,
+        method: 'GET',
+        extraProperties: {
+          veteranStatus: 'DEPENDENT',
+        },
+      });
+
+      expect(recordEventSpy.firstCall.args[0]).to.deep.equal({
+        event: 'api_call',
+        'api-name': 'GET /profile/direct_deposits/disability_compensations',
+        'api-status': API_STATUS.SUCCESSFUL,
+        'veteran-status': 'DEPENDENT',
+      });
+    });
   });
 });

@@ -105,7 +105,7 @@ export function createMockClinic({ id = null, stationId = null, name = null }) {
       primaryStopCodeName: null,
       secondaryStopCode: null,
       secondaryStopCodeName: null,
-      patientDirectScheduling: null,
+      patientDirectScheduling: true,
       patientDisplay: null,
       char4: null,
     },
