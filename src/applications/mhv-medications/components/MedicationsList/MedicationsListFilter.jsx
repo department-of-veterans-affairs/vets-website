@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { datadogRum } from '@datadog/browser-rum';
@@ -25,6 +25,9 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
     state => state.rx.preferences.filterOpenByDefault,
   );
   const filterOption = useSelector(state => state.rx.preferences.filterOption);
+  const [selectedFilterOption, setSelectedFilterOption] = useState(
+    filterOption,
+  );
 
   const mapFilterCountToFilterLabels = label => {
     switch (label) {
@@ -59,7 +62,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
   );
 
   const handleFilterOptionChange = ({ detail }) => {
-    dispatch(setFilterOption(detail.value));
+    setSelectedFilterOption(detail.value);
   };
 
   const handleFilterSubmit = () => {
@@ -73,12 +76,12 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
       // eslint-disable-next-line camelcase
       form_field_option_label: filterOption,
     });
-    updateFilter(filterOption);
+
+    updateFilter(selectedFilterOption);
     focusElement(document.getElementById('showingRx'));
   };
 
   const handleFilterReset = () => {
-    dispatch(setFilterOption(ALL_MEDICATIONS_FILTER_KEY));
     updateFilter(ALL_MEDICATIONS_FILTER_KEY);
     focusElement(document.getElementById('showingRx'));
   };

@@ -158,8 +158,8 @@ const Prescriptions = () => {
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
 
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
-    setLoading(newIsLoading);
-    setLoadingMessage(newLoadingMessage);
+    if (newIsLoading !== null) setLoading(newIsLoading);
+    if (newLoadingMessage) setLoadingMessage(newLoadingMessage);
   };
 
   // Update filter and sort in a single function
@@ -169,7 +169,7 @@ const Prescriptions = () => {
 
     const isFiltering = newFilterOption !== null;
     updateLoadingStatus(
-      true,
+      null,
       `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
     );
 
@@ -263,7 +263,7 @@ const Prescriptions = () => {
     () => {
       focusElement(document.getElementById('showingRx'));
     },
-    [isPrescriptionsLoading, isPrescriptionsFetching],
+    [isLoading],
   );
 
   // Update page title
@@ -277,10 +277,7 @@ const Prescriptions = () => {
   // Update loading state based on RTK Query states
   useEffect(
     () => {
-      updateLoadingStatus(
-        isPrescriptionsLoading || isPrescriptionsFetching,
-        isPrescriptionsLoading ? 'Loading your medications...' : '',
-      );
+      updateLoadingStatus(isPrescriptionsLoading || isPrescriptionsFetching);
     },
     [isPrescriptionsLoading, isPrescriptionsFetching],
   );
@@ -566,10 +563,7 @@ const Prescriptions = () => {
   };
 
   const isShowingErrorNotification = Boolean(
-    (((prescriptionsFullList?.length &&
-      pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
-      paginatedPrescriptionsList) &&
-      pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+    (pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
       allergiesError) ||
       hasFullListDownloadError,
   );
@@ -581,10 +575,10 @@ const Prescriptions = () => {
     contentMarginTop = isShowingErrorNotification ? '5' : '3';
   }
 
-  const renderLoadingIndicator = (message = 'Loading your medications...') => (
+  const renderLoadingIndicator = () => (
     <div className="vads-u-height--viewport vads-u-padding-top--3">
       <va-loading-indicator
-        message={message}
+        message={loadingMessage || 'Loading your medications...'}
         setFocus
         data-testid="loading-indicator"
       />
@@ -775,9 +769,11 @@ const Prescriptions = () => {
           </>
           {hasMedications && (
             <>
-              {!isLoading && <MedicationsListSort />}
+              {!isLoading && (
+                <MedicationsListSort sortRxList={updateFilterAndSort} />
+              )}
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
-              {renderMedicationsList()}
+              {!isLoading && renderMedicationsList()}
               {!isLoading && (
                 <>
                   <PrintDownload
@@ -818,9 +814,7 @@ const Prescriptions = () => {
             <CernerFacilityAlert />
             {renderRefillAlert()}
             {renderMedicationsContent()}
-            {isLoading &&
-              (!filteredList || filteredList?.length === 0) &&
-              renderLoadingIndicator()}
+            {isLoading && renderLoadingIndicator()}
           </>
         )}
         {removeLandingPage && !isLoading && <NeedHelp page={pageType.LIST} />}

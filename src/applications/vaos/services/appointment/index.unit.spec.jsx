@@ -18,8 +18,13 @@ import {
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
 } from '.';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
 import { createMockAppointment } from '../../tests/mocks/data';
-import { getDateRanges, mockAppointmentsApi } from '../../tests/mocks/mockApis';
+import {
+  getDateRanges,
+  mockAppointmentApi,
+  mockAppointmentsApi,
+} from '../../tests/mocks/mockApis';
 import { generateAppointmentUrl } from '../../utils/appointment';
 import {
   APPOINTMENT_STATUS,
@@ -44,29 +49,18 @@ describe('VAOS Services: Appointment ', () => {
     beforeEach(() => mockFetch());
 
     it('should return data for an in person VA appointment', async () => {
-      const data = {
-        id: '1234',
-        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-        email: 'test@va.gov',
-        kind: 'clinic',
-        locationId: '552GA',
-        clinic: '5544',
-        clinicFriendlyName: 'Friendly clinic name',
-        serviceType: 'primaryCare',
-        status: 'booked',
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: MockAppointmentResponse.createVAResponse({ id: '1234' }),
+      });
 
       const v2Result = await fetchBookedAppointment({
-        id: data.id,
+        id: '1234',
         useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
+      expect(v2Result.vaos.apiData.modality).to.equal('vaInPerson');
     });
 
     it('should return data for a cancelled VA appointment', async () => {

@@ -7,6 +7,8 @@ import {
   arrayBuilderYesNoUI,
   currencyUI,
   currencySchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
   textUI,
@@ -16,10 +18,14 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
-  otherRecipientRelationshipExplanationRequired,
-  otherIncomeTypeExplanationRequired,
-  recipientNameRequired,
+  formatFullNameNoSuffix,
+  generateDeleteDescription,
   isDefined,
+  isIncomeTypeInfoIncomplete,
+  isRecipientInfoIncomplete,
+  otherIncomeTypeExplanationRequired,
+  otherRecipientRelationshipExplanationRequired,
+  recipientNameRequired,
 } from '../../../helpers';
 import { relationshipLabels, incomeTypeEarnedLabels } from '../../../labels';
 
@@ -30,14 +36,20 @@ export const options = {
   nounPlural: 'incomes and net worth associated with financial accounts',
   required: false,
   isItemIncomplete: item =>
-    !isDefined(item?.recipientRelationship) ||
-    !isDefined(item.incomeType) ||
+    isRecipientInfoIncomplete(item) ||
+    isIncomeTypeInfoIncomplete(item) ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.accountValue) ||
     !isDefined(item.payer), // include all required fields here
-  maxItems: 5,
   text: {
-    getItemName: item => relationshipLabels[item.recipientRelationship],
+    getItemName: (item, index, formData) =>
+      isDefined(item?.recipientRelationship) &&
+      isDefined(item?.payer) &&
+      `${
+        item?.recipientRelationship === 'VETERAN'
+          ? formatFullNameNoSuffix(formData?.veteranFullName)
+          : formatFullNameNoSuffix(item?.recipientName)
+      }’s income from ${item.payer}`,
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
@@ -53,15 +65,9 @@ export const options = {
               {formatCurrency(item.grossMonthlyIncome)}
             </span>
           </li>
-          <li>
-            Income recipient:{' '}
-            <span className="vads-u-font-weight--bold">{item.payer}</span>
-          </li>
         </ul>
       ),
     reviewAddButtonText: 'Add another financial account',
-    alertMaxItems:
-      'You have added the maximum number of allowed incomes for this application. You may edit or delete an income or choose to continue the application.',
     alertItemUpdated: 'Your financial account information has been updated',
     alertItemDeleted: 'Your financial account information has been deleted',
     cancelAddTitle: 'Cancel adding this financial account',
@@ -74,6 +80,8 @@ export const options = {
     deleteTitle: 'Delete this financial account',
     deleteYes: 'Yes, delete this financial account',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 
@@ -89,16 +97,17 @@ const summaryPage = {
       {
         title:
           'Are you or your dependents receiving or expecting to receive any income in the next 12 months that is related to financial accounts?',
+        hint: 'If yes, you’ll need to report at least one income',
         labels: {
           Y: 'Yes, I have income to report',
           N: 'No, I don’t have any income to report',
         },
       },
       {
-        title: 'Do you have any more income to report?',
+        title: 'Do you have any more recurring income to report?',
         labels: {
           Y: 'Yes, I have more income to report',
-          N: 'No, I don’t have anymore income to report',
+          N: 'No, I don’t have any more income to report',
         },
       },
     ),
@@ -155,15 +164,12 @@ const recipientNamePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Income and net worth associated with financial accounts',
     ),
-    recipientName: textUI({
-      title: 'Tell us the income recipient’s name',
-      hint: 'Only needed if child, parent, custodian of child, or other',
-    }),
+    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
     properties: {
-      recipientName: textSchema,
+      recipientName: fullNameNoSuffixSchema,
     },
     required: ['recipientName'],
   },

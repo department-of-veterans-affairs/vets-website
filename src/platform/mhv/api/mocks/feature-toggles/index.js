@@ -30,6 +30,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
+    mhvMedicalRecordsMilestoneTwo = false,
 
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,
@@ -154,6 +155,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_update_landing_page',
           value: mhvMedicalRecordsMarch17Updates,
+        },
+        {
+          name: 'mhv_medical_records_milestone_two',
+          value: mhvMedicalRecordsMilestoneTwo,
         },
 
         // secure messaging

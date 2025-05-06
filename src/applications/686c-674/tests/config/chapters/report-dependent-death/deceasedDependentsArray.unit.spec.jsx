@@ -7,7 +7,6 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { deceasedDependentOptions } from '../../../../config/chapters/report-dependent-death/deceasedDependentArrayPages';
 import formConfig from '../../../../config/form';
-import { relationshipLabels } from '../../../../config/chapters/report-dependent-death/helpers';
 
 const defaultStore = createCommonStore();
 
@@ -91,15 +90,13 @@ describe('deceasedDependentOptions', () => {
   describe('text.getItemName + cardDescription', () => {
     it('should return the relationship label if dependentType is valid', () => {
       const item = {
-        dependentType: 'SPOUSE',
+        dependentType: 'CHILD',
         fullName: { first: 'John', last: 'Doe' },
       };
-      expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
-        relationshipLabels.SPOUSE,
+      const { container } = render(
+        deceasedDependentOptions.text.cardDescription(item),
       );
-      expect(deceasedDependentOptions.text.cardDescription(item)).to.equal(
-        'John Doe',
-      );
+      expect(container.textContent).to.equal('John Doe');
     });
 
     it('should return partial name', () => {
@@ -107,12 +104,10 @@ describe('deceasedDependentOptions', () => {
         dependentType: 'CHILD',
         fullName: { first: 'John' },
       };
-      expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
-        relationshipLabels.CHILD,
+      const { container } = render(
+        deceasedDependentOptions.text.cardDescription(item),
       );
-      expect(deceasedDependentOptions.text.cardDescription(item)).to.equal(
-        'John',
-      );
+      expect(container.textContent).to.equal('John');
     });
 
     it('should return "Dependent" if dependentType is missing', () => {
@@ -133,28 +128,24 @@ describe('deceasedDependentOptions', () => {
   describe('text.cardDescription', () => {
     it('should return a formatted full name with capitalized first and last names', () => {
       const item = {
-        fullName: { first: 'john', last: 'doe' },
+        dependentType: 'CHILD',
+        fullName: { first: 'jOhN', last: 'dOe' },
       };
-      expect(deceasedDependentOptions.text.cardDescription(item)).to.equal(
-        'John Doe',
+      const { container } = render(
+        deceasedDependentOptions.text.cardDescription(item),
       );
+      expect(container.textContent).to.equal('John Doe');
     });
 
     it('should handle missing first or last name gracefully', () => {
-      const missingLastName = { fullName: { first: 'John' } };
-      expect(
-        deceasedDependentOptions.text.cardDescription(missingLastName),
-      ).to.equal('John');
-
-      const missingFirstName = { fullName: { last: 'Doe' } };
-      expect(
-        deceasedDependentOptions.text.cardDescription(missingFirstName),
-      ).to.equal('Doe');
-
-      const missingBoth = { fullName: {} };
-      expect(
-        deceasedDependentOptions.text.cardDescription(missingBoth),
-      ).to.equal('');
+      const item = {
+        dependentType: 'CHILD',
+        fullName: { first: 'John', last: '' },
+      };
+      const { container } = render(
+        deceasedDependentOptions.text.cardDescription(item),
+      );
+      expect(container.textContent).to.equal('John');
     });
   });
 });
