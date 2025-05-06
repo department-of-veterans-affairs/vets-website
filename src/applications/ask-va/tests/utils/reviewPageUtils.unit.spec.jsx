@@ -451,9 +451,10 @@ describe('Review Page Utils', () => {
         const onError = sinon.spy();
 
         sandbox.stub(apiUtils, 'apiRequest').resolves({
+          status: 503,
           ok: false,
-          headers: { get: () => 'text/html' },
-          text: () => Promise.resolve('<html>503 Service Unavailable</html>'),
+          headers: { get: () => 'application/json' },
+          json: () => Promise.resolve({ inquiryNumber: null }),
         });
 
         try {
@@ -464,11 +465,11 @@ describe('Review Page Utils', () => {
           });
         } catch (e) {
           expect(e.message).to.equal(
-            'Non-JSON error response (likely 503 from gateway)',
+            `Backend API call failed. Inquiry number not found.`,
           );
           expect(onError.calledOnce).to.be.true;
           expect(onError.firstCall.args[0].message).to.equal(
-            'Non-JSON error response (likely 503 from gateway)',
+            `Backend API call failed. Inquiry number not found.`,
           );
         }
       });
