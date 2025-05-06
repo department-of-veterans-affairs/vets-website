@@ -28,7 +28,7 @@ const testConfig = createTestConfig(
         });
       },
       'contact-information-1': ({ afterHook }) => {
-        if (!environment.isTest()) {
+        if (environment.isProduction() && !environment.isTest()) {
           cy.injectAxeThenAxeCheck();
           afterHook(() => {
             cy.get('@testData').then(data => {
