@@ -3,13 +3,21 @@ import manifest from '../../manifest.json';
 import formConfig from '../../config/form';
 import testData from '../fixtures/data/test-data.json';
 import { SUBMIT_URL } from '../../config/constants';
+import { daysAgoYyyyMmDd } from '../../helpers';
 
 describe('22-10215 Edu Benefits Form', () => {
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
   });
   it('should be keyboard-only navigable', () => {
-    cy.intercept('POST', SUBMIT_URL, testData);
+    const testDataShallowCopy = { ...testData };
+    testDataShallowCopy.data.institutionDetails.termStartDate = daysAgoYyyyMmDd(
+      14,
+    );
+    testDataShallowCopy.data.institutionDetails.dateOfCalculations = daysAgoYyyyMmDd(
+      10,
+    );
+    cy.intercept('POST', SUBMIT_URL, testDataShallowCopy);
     const institutionOfficial = {
       first: 'Jane',
       last: 'Doe',
@@ -19,8 +27,8 @@ describe('22-10215 Edu Benefits Form', () => {
     const institutionDetail = {
       institutionName: 'Test Institution Name',
       facilityCode: '15012020',
-      termStartDate: '2000-01-01',
-      dateOfCalculations: '2010-01-01',
+      termStartDate: daysAgoYyyyMmDd(15),
+      dateOfCalculations: daysAgoYyyyMmDd(10),
     };
 
     const calculationDetail = {
@@ -49,19 +57,19 @@ describe('22-10215 Edu Benefits Form', () => {
     // cy.realPress('Enter');
 
     cy.tabToElement(
-      'va-accordion-item[header="What are the due dates for submitting my 85/15 Rule enrollment ratios?"]',
+      'va-accordion-item[header="What are the due dates for submitting my 85/15 rule enrollment ratios?"]',
     );
     cy.realPress('Space');
     cy.realPress('Tab');
     cy.focused().should(
       'contain.text',
-      'What happens after I submit my 85/15 Rule enrollment ratios?',
+      'What happens after I submit my 85/15 rule enrollment ratios?',
     );
     cy.realPress('Space');
     cy.realPress('Tab');
     cy.focused().should(
       'contain.text',
-      'How do I request an exemption from routine 85/15 Rule enrollment ratio reporting?',
+      'How do I request an exemption from routine 85/15 rule enrollment ratio reporting? ',
     );
 
     // // Tab to and press 'Start your form without signing in' to go to the introduction page
@@ -104,7 +112,7 @@ describe('22-10215 Edu Benefits Form', () => {
     cy.repeatKey('Tab', 1);
     cy.fillVaMemorableDate(
       'root_institutionDetails_dateOfCalculations',
-      '2010-01-01',
+      institutionDetail.dateOfCalculations,
       true,
     );
     cy.tabToContinueForm();

@@ -4,7 +4,7 @@ import { login } from 'platform/user/authentication/utilities';
 export default function MhvTemporaryAccess() {
   useEffect(() => {
     document.title = 'Access the My HealtheVet sign-in option';
-  });
+  }, []);
   return (
     <section className="container row login vads-u-padding--3">
       <div className="columns small-12 vads-u-padding--0">

@@ -1,9 +1,9 @@
-import React from 'react';
-import { expect } from 'chai';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { expect } from 'chai';
+import React from 'react';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -12,9 +12,9 @@ import {
 } from '../../../tests/mocks/setup';
 
 import ClinicChoicePage from '.';
-import { getV2ClinicMock } from '../../../tests/mocks/mock';
 import { createMockCheyenneFacility } from '../../../tests/mocks/data';
-import { mockEligibilityFetches } from '../../../tests/mocks/fetch';
+import { getV2ClinicMock } from '../../../tests/mocks/mock';
+import { mockEligibilityFetches } from '../../../tests/mocks/mockApis';
 
 const initialState = {
   featureToggles: {
@@ -140,9 +140,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     userEvent.click(screen.getByText(/continue/i));
 
     await waitFor(() =>
-      expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-appointment/preferred-date',
-      ),
+      expect(screen.history.push.firstCall.args[0]).to.equal('preferred-date'),
     );
 
     // choosing the third option sends you to request flow
@@ -153,9 +151,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     userEvent.click(screen.getByText(/continue/i));
 
     await waitFor(() =>
-      expect(screen.history.push.secondCall.args[0]).to.equal(
-        '/new-appointment/request-date',
-      ),
+      expect(screen.history.push.secondCall.args[0]).to.equal('va-request/'),
     );
 
     await cleanup();
@@ -218,9 +214,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
 
     userEvent.click(screen.getByText(/continue/i));
     await waitFor(() =>
-      expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-appointment/preferred-date',
-      ),
+      expect(screen.history.push.firstCall.args[0]).to.equal('preferred-date'),
     );
 
     // No sends you to the request flow
@@ -231,9 +225,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
 
     userEvent.click(screen.getByText(/continue/i));
     await waitFor(() =>
-      expect(screen.history.push.secondCall.args[0]).to.equal(
-        '/new-appointment/request-date',
-      ),
+      expect(screen.history.push.secondCall.args[0]).to.equal('va-request/'),
     );
 
     await cleanup();

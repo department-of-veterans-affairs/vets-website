@@ -8,7 +8,7 @@ import {
 import {
   SecondaryEnhancedNotListedAlert,
   SecondaryEnhancedOptionsConflictingAlert,
-} from '../../content/conditions';
+} from '../../content/secondaryEnhanced';
 import { arrayBuilderOptions, createNewConditionName } from '../shared/utils';
 import { CONDITION_NOT_LISTED_OPTION } from '../../constants';
 

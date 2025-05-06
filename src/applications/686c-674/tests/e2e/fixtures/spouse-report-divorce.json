@@ -76,7 +76,7 @@
         "country": "AUS"
       },
       "date": "2009-04-01",
-      "type": "CIVIL",
+      "typeOfMarriage": "CIVIL",
       "view:marriageTypeInformation": {}
     },
     "spouseInformation": {
@@ -135,15 +135,6 @@
       "reasonMarriageEnded": "Other",
       "explanationOfOther": "Other reason",
       "spouseIncome": false
-    },
-    "veteranInformation": {
-      "fullName": {
-        "first": "Greg",
-        "middle": "A",
-        "last": "Anderson"
-      },
-      "ssn": "796121200",
-      "birthDate": "1933-05-04"
     },
     "childSupportingDocuments": [
       {

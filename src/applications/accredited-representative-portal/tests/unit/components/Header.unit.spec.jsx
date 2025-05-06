@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import Header from '../../../components/Header';
 import UserNav from '../../../components/Header/UserNav';
-import { renderTestComponent } from '../helpers';
+import { renderTestComponent, renderTestApp } from '../helpers';
 
 const profile = {
   firstName: 'HECTOR',
@@ -20,9 +20,12 @@ const getStore = () =>
     featureToggles: {
       // eslint-disable-next-line camelcase
       accredited_representative_portal_search: true,
+      // eslint-disable-next-line camelcase
+      accredited_representative_portal_help: true,
+      // eslint-disable-next-line camelcase
+      accredited_representative_portal_profile: true,
     },
   }));
-
 describe('Header', () => {
   it('renders header', () => {
     const { getByTestId } = renderTestComponent(<Header />);
@@ -35,12 +38,20 @@ describe('Header', () => {
   });
 
   it('shows logged in nav items', () => {
-    const { getByTestId } = renderTestComponent(<UserNav profile={profile} />);
+    const { getByTestId } = renderTestComponent(
+      <Provider store={getStore()}>
+        <UserNav profile={profile} />
+      </Provider>,
+    );
     expect(getByTestId('desktop-user-nav')).to.exist;
   });
 
   it('account dropdown exists and toggles account list', () => {
-    const { getByTestId } = renderTestComponent(<UserNav profile={profile} />);
+    const { getByTestId } = renderTestComponent(
+      <Provider store={getStore()}>
+        <UserNav profile={profile} />
+      </Provider>,
+    );
     fireEvent.click(getByTestId('account_circle-toggle-dropdown-desktop'));
     expect(getByTestId('account_circle-toggle-dropdown-desktop-list')).to.exist;
     const profileLink = getByTestId('user-nav-profile-link');
@@ -51,7 +62,7 @@ describe('Header', () => {
   });
 
   it('mobile menu exists and toggles dropdown with poa requests link', () => {
-    const { getByTestId } = renderTestComponent(
+    const { getByTestId } = renderTestApp(
       <Provider store={getStore()}>
         <UserNav profile={profile} />
       </Provider>,

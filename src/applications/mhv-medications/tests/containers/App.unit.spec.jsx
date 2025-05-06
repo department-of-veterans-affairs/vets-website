@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { waitFor } from '@testing-library/dom';
+import sinon from 'sinon';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
@@ -9,8 +10,11 @@ import {
   mockFetch,
   resetFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import * as mhvExports from '~/platform/mhv/hooks/useDatadogRum';
 import reducer from '../../reducers';
 import App from '../../containers/App';
+
+let sandbox;
 
 describe('Medications <App>', () => {
   const downtime = maintenanceWindows => {
@@ -59,10 +63,12 @@ describe('Medications <App>', () => {
 
   beforeEach(() => {
     mockFetch();
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
     resetFetch();
+    sandbox.restore();
   });
 
   it('feature flags are still loading', () => {
@@ -322,5 +328,49 @@ describe('Medications <App>', () => {
       },
     );
     expect(downtimeComponent).to.be.null;
+  });
+
+  it('should call setDatadogRumUser with the correct user ID', async () => {
+    const testAccountUuid = '12345678-1234-1234-1234-123456789012';
+    const setDatadogRumUserStub = sandbox.stub(mhvExports, 'setDatadogRumUser');
+
+    renderWithStoreAndRouter(
+      <App>
+        <p data-testid="app-unit-test-p">unit test paragraph</p>
+      </App>,
+      {
+        initialState: {
+          featureToggles: {
+            loading: false,
+            // eslint-disable-next-line camelcase
+            mhv_medications_to_va_gov_release: true,
+          },
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
+            profile: {
+              verified: true,
+              services: [backendServices.RX],
+              accountUuid: testAccountUuid,
+            },
+          },
+          scheduledDowntime: {
+            globalDowntime: null,
+            isReady: true,
+            isPending: false,
+            serviceMap: downtime([]),
+            dismissedDowntimeWarnings: [],
+          },
+        },
+      },
+    );
+
+    await waitFor(() => {
+      expect(setDatadogRumUserStub.calledOnce).to.be.true;
+      expect(setDatadogRumUserStub.firstCall.args[0]).to.deep.equal({
+        id: testAccountUuid,
+      });
+    });
   });
 });

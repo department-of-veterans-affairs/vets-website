@@ -26,7 +26,7 @@ const conditionPage = {
     }),
     ratedDisability: radioUI({
       title:
-        'Select if you’d like to add a new condition or select which of your service-connected disabilities have gotten worse.',
+        'Select if you’d like to add a new condition or select which of your service-connected disabilities have worsened.',
       hint:
         'Choose one, you will return to this screen if you need to add more.',
       updateUiSchema: (_formData, fullData) => ({

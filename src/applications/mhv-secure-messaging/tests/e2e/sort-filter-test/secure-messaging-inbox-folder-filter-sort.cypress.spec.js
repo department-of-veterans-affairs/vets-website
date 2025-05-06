@@ -5,12 +5,11 @@ import { Locators, AXE_CONTEXT } from '../utils/constants';
 import PatientFilterPage from '../pages/PatientFilterPage';
 
 describe('SM INBOX FOLDER FILTER-SORT CHECKS', () => {
-  const {
-    data: [, secondElement, thirdElement],
-    ...rest
-  } = mockMessages;
-
-  const mockFilterResults = { data: [secondElement, thirdElement], ...rest };
+  const filterData = 'test';
+  const filteredResponse = PatientFilterPage.filterMockResponse(
+    mockMessages,
+    filterData,
+  );
 
   beforeEach(() => {
     SecureMessagingSite.login();
@@ -18,16 +17,16 @@ describe('SM INBOX FOLDER FILTER-SORT CHECKS', () => {
   });
 
   it('verify filter works correctly', () => {
-    PatientFilterPage.inputFilterData('test');
-    PatientFilterPage.clickApplyFilterButton(mockFilterResults);
-    PatientFilterPage.verifyFilterResults('test', mockFilterResults);
+    PatientFilterPage.inputFilterData(filterData);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
+    PatientFilterPage.verifyFilterResults(filterData, filteredResponse);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify clear filter btn works correctly', () => {
-    PatientFilterPage.inputFilterData('test');
-    PatientFilterPage.clickApplyFilterButton(mockFilterResults);
+    PatientFilterPage.inputFilterData(filterData);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
     PatientFilterPage.clickClearFilterButton();
     PatientFilterPage.verifyFilterFieldCleared();
 
@@ -40,6 +39,18 @@ describe('SM INBOX FOLDER FILTER-SORT CHECKS', () => {
     PatientFilterPage.verifySorting(sortedResponse);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify filter with no matches', () => {
+    const noMatchResponse = PatientFilterPage.filterMockResponse(
+      mockMessages,
+      'no match',
+    );
+
+    PatientFilterPage.inputFilterData('no match');
+    PatientFilterPage.clickApplyFilterButton(noMatchResponse);
+
+    PatientFilterPage.verifyNoMatchFilterFocusAndText();
   });
 });
 

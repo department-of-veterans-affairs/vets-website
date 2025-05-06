@@ -136,7 +136,8 @@ describe('ArrayBuilderCards', () => {
     expect($modal.getAttribute('visible')).to.eq('true');
     $modal.__events.primaryButtonClick();
     expect(setFormData.called).to.be.true;
-    expect(setFormData.args[0][0].employers).to.eql([]);
+    expect(setFormData.args[0][0].employers).to.be.undefined;
+    expect(setFormData.args[0][0]).to.contains({ otherData: 'test' });
     expect(onRemoveAll.called).to.be.true;
   });
 

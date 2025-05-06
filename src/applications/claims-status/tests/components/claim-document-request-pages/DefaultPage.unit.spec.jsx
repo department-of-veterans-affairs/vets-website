@@ -119,6 +119,73 @@ describe('<DefaultPage>', () => {
       expect($('va-additional-info', container)).to.exist;
       expect($('va-file-input', container)).to.exist;
     });
+    it('should render updated UI  when status is NEEDED_FROM_OTHERS', () => {
+      const item = {
+        closedDate: null,
+        description: 'Buddy statement text',
+        friendlyName: 'Friendly name',
+        displayName: 'Submit buddy statement(s)',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-07',
+        status: 'NEEDED_FROM_OTHERS',
+        suspenseDate: nineMonthsAgoSuspenseDate,
+        uploadsAllowed: true,
+        canUploadFile: true,
+        documents: [],
+        date: '2024-03-07',
+      };
+      const { getByText, container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />
+        </Provider>,
+      );
+      expect($('#default-page', container)).to.exist;
+      expect($('.add-files-form', container)).to.exist;
+      expect($('.due-date-header', container)).to.not.exist;
+      const formattedRequestedDate = formatDate(item.requestedDate);
+      getByText(
+        new RegExp(`Requested to others on\\s+${formattedRequestedDate}`, 'i'),
+      );
+      expect($('.optional-upload', container)).to.exist;
+      getByText('Friendly name');
+      getByText('This is just a notice. No action is needed by you.');
+      getByText(
+        'But, if you have documents related to this request, uploading them on this page may help speed up the evidence review for your claim.',
+      );
+      getByText(scrubDescription(item.description));
+      getByText('What we’re notifying you about');
+      expect($('va-additional-info', container)).to.exist;
+      expect($('va-file-input', container)).to.exist;
+    });
+    it('should render updated RV1 reserve records content', () => {
+      const item = {
+        closedDate: null,
+        description: 'old description',
+        friendlyName: 'Friendly RV1 name',
+        displayName: 'RV1 - Reserve Records Request',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-07',
+        status: 'NEEDED_FROM_OTHERS',
+        suspenseDate: nineMonthsAgoSuspenseDate,
+        uploadsAllowed: true,
+        canUploadFile: true,
+        documents: [],
+        date: '2024-03-07',
+      };
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />
+        </Provider>,
+      );
+      getByText('Friendly RV1 name');
+      getByText(
+        'For your benefits claim, we’ve requested your service records or treatment records from your reserve unit.',
+      );
+    });
   });
 
   it('should render component when status is NEEDED_FROM_YOU', () => {

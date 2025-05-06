@@ -46,7 +46,9 @@ const VaPrescription = prescription => {
       ],
   );
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const originalFill = createOriginalFillRecord(prescription);
+  const originalFill = prescription?.dispensedDate
+    ? createOriginalFillRecord(prescription)
+    : null;
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
   const pendingMed =
     prescription?.prescriptionSource === 'PD' &&
@@ -54,7 +56,9 @@ const VaPrescription = prescription => {
   const pendingRenewal =
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'Renew';
-  refillHistory.push(originalFill);
+  if (originalFill) {
+    refillHistory.push(originalFill);
+  }
   const hasBeenDispensed =
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
@@ -291,7 +295,7 @@ const VaPrescription = prescription => {
                 )}
 
                 {prescription && <ExtraDetails {...prescription} />}
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                   Prescription number
                 </h3>
                 <p data-testid="prescription-number" data-dd-privacy="mask">
@@ -299,11 +303,11 @@ const VaPrescription = prescription => {
                 </p>
               </>
             )}
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Status
             </h3>
             {determineStatus()}
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Refills left
             </h3>
             <p data-testid="refills-left">
@@ -315,7 +319,7 @@ const VaPrescription = prescription => {
             {!pendingMed &&
               !pendingRenewal && (
                 <>
-                  <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                  <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                     Request refills by this prescription expiration date
                   </h3>
                   <p data-testid="expiration-date">
@@ -331,7 +335,7 @@ const VaPrescription = prescription => {
             {!showGroupingContent && (
               <>
                 <h3
-                  className="vads-u-font-size--base vads-u-font-family--sans"
+                  className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans"
                   data-dd-privacy="mask"
                 >
                   Prescription number
@@ -339,7 +343,7 @@ const VaPrescription = prescription => {
                 <p data-testid="prescription-number" data-dd-privacy="mask">
                   {prescription.prescriptionNumber}
                 </p>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                   Prescribed on
                 </h3>
                 <p datat-testid="ordered-date">
@@ -349,7 +353,7 @@ const VaPrescription = prescription => {
                     'Date not available',
                   )}
                 </p>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                   Prescribed by
                 </h3>
                 <p>
@@ -364,13 +368,13 @@ const VaPrescription = prescription => {
                 </p>
               </>
             )}
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Facility
             </h3>
             <p data-testid="facility-name">
               {validateIfAvailable('Facility', prescription.facilityName)}
             </p>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Pharmacy phone number
             </h3>
             <div className="no-print" data-testid="pharmacy-phone">
@@ -389,13 +393,13 @@ const VaPrescription = prescription => {
             {/* TODO: clean after grouping flag is gone */}
             {showGroupingContent && (
               <>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                   Instructions
                 </h3>
                 <p data-testid="rx-instructions">
                   {validateIfAvailable('Instructions', prescription?.sig)}
                 </p>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                   Reason for use
                 </h3>
                 <p data-testid="rx-reason-for-use">
@@ -404,11 +408,11 @@ const VaPrescription = prescription => {
                     prescription?.indicationForUse,
                   )}
                 </p>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                   Quantity
                 </h3>
                 <p>{validateIfAvailable('Quantity', prescription.quantity)}</p>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                   Prescribed on
                 </h3>
                 <p datat-testid="ordered-date">
@@ -418,7 +422,7 @@ const VaPrescription = prescription => {
                     'Date not available',
                   )}
                 </p>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                   Prescribed by
                 </h3>
                 <p>
@@ -439,16 +443,16 @@ const VaPrescription = prescription => {
                 <h2 className="vads-u-margin-top--3">
                   About this medication or supply
                 </h2>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                   Instructions
                 </h3>
                 <p>{validateField(prescription?.sig)}</p>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                   Reason for use
                 </h3>
                 <p>{validateField(prescription?.indicationForUse)}</p>
                 <h3
-                  className="vads-u-font-size--base vads-u-font-family--sans"
+                  className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans"
                   data-testid="rx-quantity"
                 >
                   Quantity
@@ -563,7 +567,7 @@ const VaPrescription = prescription => {
                                 : `Refill ${refillPosition}`}
                             </h3>
                             <h4
-                              className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
+                              className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
                               data-testid="fill-date"
                             >
                               Filled by pharmacy on
@@ -579,7 +583,7 @@ const VaPrescription = prescription => {
                               )}
                             </p>
                             <h4
-                              className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
+                              className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
                               data-testid="shipped-date"
                             >
                               Shipped on
@@ -597,7 +601,7 @@ const VaPrescription = prescription => {
                               )}
                             </p>
                             <h4
-                              className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
+                              className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
                               data-testid="med-image"
                               aria-hidden="true"
                             >
@@ -624,7 +628,7 @@ const VaPrescription = prescription => {
                                 </p>
                               )}
                             </div>
-                            <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                            <h4 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
                               Medication description
                             </h4>
                             <div data-testid="rx-description">
@@ -688,7 +692,7 @@ const VaPrescription = prescription => {
                       }))}
                   {showGroupingContent &&
                     (refillHistory?.length > 1 ||
-                      refillHistory[0].dispensedDate !== undefined) && (
+                      refillHistory[0]?.dispensedDate !== undefined) && (
                       <>
                         <p
                           className="vads-u-margin-top--2 vads-u-margin-bottom--0"
@@ -700,7 +704,7 @@ const VaPrescription = prescription => {
                               : ''
                           }`}
                         </p>
-                        <VaAccordion //
+                        <VaAccordion
                           bordered
                           data-testid="refill-history-accordion"
                           uswds
@@ -725,6 +729,7 @@ const VaPrescription = prescription => {
                             );
                             return (
                               <va-accordion-item
+                                data-testid="accordion-fill-date-info"
                                 bordered="true"
                                 key={i}
                                 subHeader={dateFormat(
@@ -750,7 +755,7 @@ const VaPrescription = prescription => {
                                         This fill has a smaller quantity on
                                         purpose. This is temporary.
                                       </p>
-                                      <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
+                                      <h4 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0">
                                         Quantity
                                       </h4>
                                       <p
@@ -767,7 +772,7 @@ const VaPrescription = prescription => {
                                 {i === 0 && (
                                   <>
                                     <h4
-                                      className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0"
+                                      className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0"
                                       data-testid="shipped-date"
                                     >
                                       Shipped on
@@ -790,7 +795,7 @@ const VaPrescription = prescription => {
                                 <h4
                                   className={`${
                                     i === 0 ? 'vads-u-margin-top--2 ' : ''
-                                  }vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0`}
+                                  }vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0`}
                                   data-testid="med-image"
                                   aria-hidden="true"
                                 >
@@ -818,7 +823,7 @@ const VaPrescription = prescription => {
                                   )}
                                 </div>
                                 <h4
-                                  className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
+                                  className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
                                   data-testid="med-description"
                                 >
                                   Medication description
@@ -887,7 +892,7 @@ const VaPrescription = prescription => {
                       </>
                     )}
                   {refillHistory?.length <= 1 &&
-                    refillHistory[0].dispensedDate === undefined && (
+                    refillHistory[0]?.dispensedDate === undefined && (
                       <p>You haven’t filled this prescription yet.</p>
                     )}
                 </>

@@ -1,3 +1,4 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -27,7 +28,11 @@ import {
   childTypeEnums,
   childTypeLabels,
 } from './helpers';
-import { customLocationSchema, generateHelpText } from '../../helpers';
+import {
+  customLocationSchema,
+  generateHelpText,
+  CancelButton,
+} from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const deceasedDependentOptions = {
@@ -70,6 +75,7 @@ export const deceasedDependentOptions = {
       return `${firstName} ${lastName}`.trim();
     },
     summaryTitle: 'Review your dependents who have died',
+    cancelAddButtonText: 'Cancel removing this dependent',
   },
 };
 
@@ -78,8 +84,20 @@ export const deceasedDependentIntroPage = {
   uiSchema: {
     ...titleUI({
       title: 'Your dependents who have died',
-      description:
-        'In the next few questions, we’ll ask you about your dependents who have died. You must add at least one dependent who has died.',
+      description: () => {
+        return (
+          <>
+            <p>
+              In the next few questions, we’ll ask you about your dependents who
+              have died. You must add at least one dependent who has died.
+            </p>
+            <CancelButton
+              dependentType="dependents who have died"
+              isAddChapter={false}
+            />
+          </>
+        );
+      },
     }),
   },
   schema: {
@@ -91,13 +109,23 @@ export const deceasedDependentIntroPage = {
 /** @returns {PageSchema} */
 export const deceasedDependentSummaryPage = {
   uiSchema: {
-    'view:completedDependent': arrayBuilderYesNoUI(deceasedDependentOptions, {
-      title: 'Do you have another deceased dependent to report?',
-      labels: {
-        Y: 'Yes, I have another dependent to report',
-        N: 'No, I don’t have another dependent to report',
+    'view:completedDependent': arrayBuilderYesNoUI(
+      deceasedDependentOptions,
+      {
+        title: 'Do you have a deceased dependent to report?',
+        labels: {
+          Y: 'Yes, I have a dependent to report',
+          N: 'No, I don’t have a dependent to report',
+        },
       },
-    }),
+      {
+        title: 'Do you have another deceased dependent to report?',
+        labels: {
+          Y: 'Yes, I have another dependent to report',
+          N: 'No, I don’t have another dependent to report',
+        },
+      },
+    ),
   },
   schema: {
     type: 'object',
@@ -282,7 +310,7 @@ export const deceasedDependentIncomePage = {
     deceasedDependentIncome: radioUI({
       title: 'Did this dependent have an income in the last 365 days?',
       hint:
-        'Answer this question only if you are adding this dependent to your pension.',
+        'Answer this question only if you are removing this dependent from your pension.',
       labels: {
         Y: 'Yes',
         N: 'No',

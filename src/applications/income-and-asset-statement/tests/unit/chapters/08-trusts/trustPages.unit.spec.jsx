@@ -4,6 +4,8 @@ import {
   trustPages,
   options,
 } from '../../../../config/chapters/08-trusts/trustPages';
+import { trustTypeLabels } from '../../../../labels';
+
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
 
@@ -51,15 +53,18 @@ describe('trust list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return text', () => {
-      expect(options.text.getItemName()).to.equal('Trust');
+    it('should return "Trust established on `establishedDate`', () => {
+      const item = testData.data.trusts[0];
+      expect(options.text.getItemName(item)).to.equal(
+        'Trust established on March 15, 2020',
+      );
     });
   });
 
   describe('text cardDescription function', () => {
     /* eslint-disable no-unused-vars */
     const {
-      trustType,
+      establishedDate,
       addedFundsAfterEstablishment,
       addedFundsDate,
       addedFundsAmount,
@@ -72,13 +77,13 @@ describe('trust list and loop pages', () => {
       ...baseItem
     } = testData.data.trusts[0];
     /* eslint-enable no-unused-vars */
-    testOptionsTextCardDescription(options, baseItem);
+    testOptionsTextCardDescription(options, baseItem, trustTypeLabels);
   });
 
   describe('text cardDescription function with zero values', () => {
     /* eslint-disable no-unused-vars */
     const {
-      trustType,
+      establishedDate,
       addedFundsAfterEstablishment,
       addedFundsDate,
       addedFundsAmount,
@@ -91,7 +96,7 @@ describe('trust list and loop pages', () => {
       ...baseItem
     } = testDataZeroes.data.trusts[0];
     /* eslint-enable no-unused-vars */
-    testOptionsTextCardDescription(options, baseItem);
+    testOptionsTextCardDescription(options, baseItem, trustTypeLabels);
   });
 
   describe('summary page', () => {
@@ -131,7 +136,7 @@ describe('trust list and loop pages', () => {
       uiSchema,
       {
         'va-memorable-date': 1,
-        input: 1,
+        'va-text-input': 1,
       },
       'information',
     );
@@ -139,7 +144,7 @@ describe('trust list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'information',
     );
     testSubmitsWithoutErrors(
@@ -350,14 +355,14 @@ describe('trust list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-memorable-date': 1, input: 1 },
+      { 'va-memorable-date': 1, 'va-text-input': 1 },
       'added funds',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'added funds',
     );
     testSubmitsWithoutErrors(

@@ -15,7 +15,7 @@ import {
 export default {
   default: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    legacySignInProviders: { ...legacySignInProviders, mhv: false },
+    legacySignInProviders,
     isMobile: false,
     queryParams: {
       allowOAuth: true,
@@ -28,7 +28,7 @@ export default {
   },
   [EXTERNAL_APPS.MHV]: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    legacySignInProviders: { ...legacySignInProviders, mhv: false },
+    legacySignInProviders,
     isMobile: false,
     queryParams: {
       allowOAuth: false,
@@ -41,7 +41,7 @@ export default {
   },
   [EXTERNAL_APPS.MY_VA_HEALTH]: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    legacySignInProviders: { ...legacySignInProviders, mhv: false },
+    legacySignInProviders,
     isMobile: false,
     queryParams: {
       allowOAuth: false,
@@ -53,22 +53,9 @@ export default {
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
     alternateRedirectUrl: EXTERNAL_REDIRECTS_ALT[EXTERNAL_APPS.MY_VA_HEALTH],
   },
-  [EXTERNAL_APPS.EBENEFITS]: {
-    allowedSignInProviders: { ...defaultSignInProviders },
-    legacySignInProviders: { ...legacySignInProviders, mhv: false },
-    isMobile: false,
-    queryParams: {
-      allowOAuth: false,
-      allowPostLogin: false,
-      allowRedirect: false,
-    },
-    OAuthEnabled: false,
-    requiresVerification: false,
-    externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.EBENEFITS],
-  },
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    legacySignInProviders: { ...legacySignInProviders, mhv: false },
+    legacySignInProviders,
     isMobile: true,
     queryParams: { ...defaultMobileQueryParams },
     OAuthEnabled: true,
@@ -81,7 +68,7 @@ export default {
       logingov: true,
       idme: true,
     },
-    legacySignInProviders: { ...legacySignInProviders, mhv: false },
+    legacySignInProviders,
     isMobile: true,
     queryParams: { ...defaultMobileQueryParams },
     OAuthEnabled: false,
@@ -118,7 +105,6 @@ export default {
       logingov: true,
     },
     legacySignInProviders: {
-      mhv: false,
       dslogon: false,
     },
     isMobile: false,

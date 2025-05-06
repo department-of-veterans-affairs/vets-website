@@ -37,9 +37,11 @@ describe('asset transfer list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return asset type text', () => {
-      const item = { assetType: 'Real Estate Property' };
-      expect(options.text.getItemName(item)).to.equal('Real Estate Property');
+    it('should return "Asset transferred to `newOwnerName`', () => {
+      const item = testData.data.assetTransfers[0];
+      expect(options.text.getItemName(item)).to.equal(
+        'Asset transferred to Alice Johnson',
+      );
     });
   });
 
@@ -47,7 +49,6 @@ describe('asset transfer list and loop pages', () => {
     /* eslint-disable no-unused-vars */
     const {
       originalOwnerRelationship,
-      assetType,
       newOwnerName,
       newOwnerRelationship,
       saleReportedToIrs,
@@ -63,7 +64,6 @@ describe('asset transfer list and loop pages', () => {
     /* eslint-disable no-unused-vars */
     const {
       originalOwnerRelationship,
-      assetType,
       newOwnerName,
       newOwnerRelationship,
       saleReportedToIrs,
@@ -185,7 +185,6 @@ describe('asset transfer list and loop pages', () => {
       {
         'va-radio': 1,
         'va-text-input': 4,
-        'va-select': 1,
       },
       'new owner information',
     );
@@ -283,7 +282,7 @@ describe('asset transfer list and loop pages', () => {
       schema,
       uiSchema,
       {
-        input: 3,
+        'va-text-input': 3,
       },
       'value',
     );

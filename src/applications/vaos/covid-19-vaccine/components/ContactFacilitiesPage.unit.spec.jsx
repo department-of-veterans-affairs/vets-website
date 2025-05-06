@@ -1,16 +1,19 @@
-import React from 'react';
 import { expect } from 'chai';
+import React from 'react';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import ContactFacilitiesPage from './ContactFacilitiesPage';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
+import { createMockFacility } from '../../tests/mocks/data';
+import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import {
+  mockFacilitiesApi,
+  mockSchedulingConfigurationsApi,
+} from '../../tests/mocks/mockApis';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
-import { createMockFacility } from '../../tests/mocks/data';
-import { mockFacilitiesFetch } from '../../tests/mocks/fetch';
-import { mockSchedulingConfigurations } from '../../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import ContactFacilitiesPage from './ContactFacilitiesPage';
 
 describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   const initialState = {
@@ -44,12 +47,17 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
 
   beforeEach(() => {
     mockFetch();
+
+    mockFacilitiesApi({
+      ids: ['983', '984'],
+      response: [new MockFacilityResponse()],
+    });
   });
 
   it('should show closest two registered facilities', async () => {
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
-      facilities: [
+      response: [
         createMockFacility({
           id: '983',
           name: 'Facility that is enabled',
@@ -74,18 +82,20 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
         }),
       ],
     });
-    mockSchedulingConfigurations([
-      getSchedulingConfigurationMock({
-        id: '983',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-      getSchedulingConfigurationMock({
-        id: '984',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-    ]);
+    mockSchedulingConfigurationsApi({
+      response: [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ],
+    });
 
     const store = createTestStore({
       ...initialState,
@@ -132,9 +142,9 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   });
 
   it('should show five facilities in alpha order when no residential address', async () => {
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
-      facilities: [
+      response: [
         createMockFacility({
           id: '983',
           name: 'A facility',
@@ -145,18 +155,20 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
         }),
       ],
     });
-    mockSchedulingConfigurations([
-      getSchedulingConfigurationMock({
-        id: '983',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-      getSchedulingConfigurationMock({
-        id: '984',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-    ]);
+    mockSchedulingConfigurationsApi({
+      response: [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ],
+    });
 
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ContactFacilitiesPage />, {
@@ -170,10 +182,27 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   });
 
   it('should show error message', async () => {
+    // Act
     const store = createTestStore(initialState);
+
+    mockSchedulingConfigurationsApi({
+      response: [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'covid',
+          requestEnabled: true,
+          directEnabled: true,
+        }),
+      ],
+      responseCode: 500,
+    });
+
+    // Act
     const screen = renderWithStoreAndRouter(<ContactFacilitiesPage />, {
       store,
     });
+
+    // Assert
     expect(
       await screen.findByRole('heading', {
         name: 'We’re sorry. We’ve run into a problem',
@@ -183,9 +212,9 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   });
 
   it('should show no facilities for online vaccine scheduling view', async () => {
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
-      facilities: [
+      response: [
         createMockFacility({
           id: '983',
           name: 'Facility that is enabled',
@@ -210,18 +239,20 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
         }),
       ],
     });
-    mockSchedulingConfigurations([
-      getSchedulingConfigurationMock({
-        id: '983',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-      getSchedulingConfigurationMock({
-        id: '984',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-    ]);
+    mockSchedulingConfigurationsApi({
+      response: [
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'primaryCare',
+          requestEnabled: true,
+        }),
+      ],
+    });
 
     const store = createTestStore({
       ...initialState,

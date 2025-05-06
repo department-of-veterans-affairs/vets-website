@@ -1,28 +1,32 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
-  textUI,
   textareaUI,
   textareaSchema,
-  textSchema,
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
-  otherRecipientRelationshipExplanationRequired,
-  otherGeneratedIncomeTypeExplanationRequired,
-  recipientNameRequired,
+  formatFullNameNoSuffix,
+  generateDeleteDescription,
   isDefined,
+  isRecipientInfoIncomplete,
+  otherGeneratedIncomeTypeExplanationRequired,
+  otherRecipientRelationshipExplanationRequired,
+  recipientNameRequired,
 } from '../../../helpers';
 import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 
@@ -33,20 +37,25 @@ export const options = {
   nounPlural: 'royalties and other properties',
   required: false,
   isItemIncomplete: item =>
-    !isDefined(item?.recipientRelationship) ||
+    isRecipientInfoIncomplete(item) ||
     typeof item.canBeSold !== 'boolean' ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.fairMarketValue) ||
     !isDefined(item.incomeGenerationMethod), // include all required fields here
-  maxItems: 5,
   text: {
-    getItemName: item => relationshipLabels[item.recipientRelationship],
+    getItemName: (item, index, formData) =>
+      isDefined(item?.recipientRelationship) &&
+      `${
+        item?.recipientRelationship === 'VETERAN'
+          ? formatFullNameNoSuffix(formData?.veteranFullName)
+          : formatFullNameNoSuffix(item?.recipientName)
+      }’s income`,
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) &&
       isDefined(item?.fairMarketValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
-            Income Generation Method:{' '}
+            Income generation method:{' '}
             <span className="vads-u-font-weight--bold">
               {generatedIncomeTypeLabels[item.incomeGenerationMethod]}
             </span>
@@ -66,8 +75,6 @@ export const options = {
         </ul>
       ),
     reviewAddButtonText: 'Add another royalty and other property',
-    alertMaxItems:
-      'You have added the maximum number of allowed incomes for this application. You may edit or delete an income or choose to continue the application.',
     alertItemUpdated:
       'Your royalty and other property information has been updated',
     alertItemDeleted:
@@ -82,6 +89,8 @@ export const options = {
     deleteTitle: 'Delete this royalty and other property',
     deleteYes: 'Yes, delete this royalty and other property',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 
@@ -96,18 +105,22 @@ const summaryPage = {
       options,
       {
         title:
-          'Are you or your dependents receiving or expecting to receive any income and net worth associated with royalties and other properties?',
+          'Are you or your dependents receiving or expecting to receive any income and intellectual property royalties, mineral royalties, land use, or other royalties/properties?',
+        hint: 'If yes, you’ll need to report at least one income',
         labels: {
-          Y: 'Yes, I have royalties and other properties to report',
-          N: 'No, I don’t have any royalties and other properties to report',
+          Y: 'Yes, I have income from royalties and other properties to report',
+          N:
+            'No, I don’t have income from royalties and other properties to report',
         },
       },
       {
-        title: 'Do you have any more royalties and other properties to report?',
+        title:
+          'Do you have any more income from royalties and other properties to report?',
         labels: {
-          Y: 'Yes, I have more royalties and other properties to report',
+          Y:
+            'Yes, I have more income from royalties and other properties to report',
           N:
-            'No, I don’t have anymore royalties and other properties to report',
+            'No, I don’t have any more income from royalties and other properties to report',
         },
       },
     ),
@@ -165,15 +178,12 @@ const recipientNamePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Income and net worth associated with royalties and other properties',
     ),
-    recipientName: textUI({
-      title: 'Tell us the income recipient’s name',
-      hint: 'Only needed if child, parent, custodian of child, or other',
-    }),
+    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
     properties: {
-      recipientName: textSchema,
+      recipientName: fullNameNoSuffixSchema,
     },
     required: ['recipientName'],
   },
@@ -198,16 +208,8 @@ const generatedIncomeTypePage = {
       },
       'ui:required': otherGeneratedIncomeTypeExplanationRequired,
     },
-    grossMonthlyIncome: merge({}, currencyUI('Gross monthly income'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
-    fairMarketValue: merge({}, currencyUI('Fair market value of this asset'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    grossMonthlyIncome: currencyUI('Gross monthly income'),
+    fairMarketValue: currencyUI('Fair market value of this asset'),
     canBeSold: yesNoUI({
       title: 'Can the asset be sold?',
     }),
@@ -226,8 +228,8 @@ const generatedIncomeTypePage = {
         properties: {},
       },
       otherIncomeType: { type: 'string' },
-      grossMonthlyIncome: { type: 'number' },
-      fairMarketValue: { type: 'number' },
+      grossMonthlyIncome: currencySchema,
+      fairMarketValue: currencySchema,
       canBeSold: yesNoSchema,
       mitigatingCircumstances: textareaSchema,
     },
