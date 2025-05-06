@@ -764,8 +764,8 @@ describe('removeTrailingSlash', () => {
 
 describe('getAppointmentsDateRange', () => {
   let clock;
-  // Freeze "now" at Jan 1, 2022 UTC
-  const fakeNow = new Date('2022-01-01T00:00:00Z');
+  // Freeze "now" at Jan 1, 2022 local time
+  const fakeNow = new Date(2022, 0, 1, 0, 0, 0);
   const earliestFormatted = formatISO(startOfDay(subYears(fakeNow, 2)));
   const latestFormatted = formatISO(endOfDay(addMonths(fakeNow, 13)));
 
@@ -779,6 +779,24 @@ describe('getAppointmentsDateRange', () => {
   afterEach(() => {
     clock.restore();
   });
+
+  function assertDateComponents(
+    isoString,
+    year,
+    month,
+    day,
+    hours,
+    minutes,
+    seconds,
+  ) {
+    const d = parseISO(isoString);
+    expect(d.getFullYear()).to.equal(year);
+    expect(d.getMonth()).to.equal(month);
+    expect(d.getDate()).to.equal(day);
+    expect(d.getHours()).to.equal(hours);
+    expect(d.getMinutes()).to.equal(minutes);
+    expect(d.getSeconds()).to.equal(seconds);
+  }
 
   it('returns the full allowed window when both inputs are null', () => {
     const { startDate, endDate } = getAppointmentsDateRange(null, null);
@@ -874,5 +892,23 @@ describe('getAppointmentsDateRange', () => {
 
     expect(startDate).to.equal(formatISO(startOfDay(parseISO(date))));
     expect(endDate).to.equal(formatISO(endOfDay(parseISO(date))));
+  });
+
+  it('uses the correct start and end dates', () => {
+    const from = '2021-06-01';
+    const to = '2022-06-01';
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    assertDateComponents(startDate, 2021, 5, 1, 0, 0, 0); // 2021-06-01T00:00:00 local time
+    assertDateComponents(endDate, 2022, 5, 1, 23, 59, 59); // 2022-06-01T23:59:59 local time
+  });
+
+  it('uses the correct start and end dates for maximum window', () => {
+    const from = '2018-01-01';
+    const to = '2025-01-01';
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    assertDateComponents(startDate, 2020, 0, 1, 0, 0, 0); // 2020-01-01T00:00:00 local time
+    assertDateComponents(endDate, 2023, 1, 1, 23, 59, 59); // 2023-02-01T23:59:59 local time
   });
 });
