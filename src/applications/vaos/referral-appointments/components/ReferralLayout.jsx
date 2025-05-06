@@ -25,20 +25,14 @@ export default function ReferralLayout({
   const content = apiFailure ? <ErrorAlert body={errorBody} /> : children;
   const h1Ref = React.createRef();
 
-  useEffect(() => {
-    // only on load
-    if (h1Ref.current) {
-      scrollAndFocus(h1Ref.current);
-    }
-  }, []);
-
   useEffect(
     () => {
-      if (location.pathname.includes('complete')) {
+      // only on load
+      if (h1Ref.current) {
         scrollAndFocus(h1Ref.current);
       }
     },
-    [location.pathname, h1Ref],
+    [h1Ref],
   );
 
   return (
