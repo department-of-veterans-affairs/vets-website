@@ -120,10 +120,9 @@ export function NewAppointment() {
         <Route path={`${match.url}/provider`}>
           <ProviderSelectPage />
         </Route>
-        <Route
-          path={`${match.url}/how-to-schedule`}
-          component={ScheduleCernerPage}
-        />
+        <Route path={`${match.url}/how-to-schedule`}>
+          <ScheduleCernerPage />
+        </Route>
         <Route
           path={[
             `${match.url}/va-request/community-care-preferences`,
