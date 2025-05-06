@@ -262,6 +262,18 @@ export default class MockAppointmentResponse {
       );
   }
 
+  static createVAResponse({ id, localStartTime, future, past, pending } = {}) {
+    return new MockAppointmentResponse({
+      id,
+      future,
+      kind: 'clinic',
+      localStartTime,
+      past,
+      pending,
+      status: APPOINTMENT_STATUS.booked,
+    });
+  }
+
   static createVAResponses({ localStartTime, future = false, count = 1 }) {
     return Array(count)
       .fill(count)
