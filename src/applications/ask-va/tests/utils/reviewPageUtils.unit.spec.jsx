@@ -396,6 +396,7 @@ describe('Review Page Utils', () => {
         const expectedResponse = { success: true };
 
         sandbox.stub(apiUtils, 'apiRequest').resolves({
+          status: 200,
           ok: true,
           headers: { get: () => 'application/json' },
           json: () => Promise.resolve(expectedResponse),
@@ -428,9 +429,9 @@ describe('Review Page Utils', () => {
 
       it('should handle errors', async () => {
         const onError = sinon.spy();
-        const error = new Error('API Error');
         sandbox.stub(apiUtils, 'apiRequest').resolves({
-          ok: true,
+          status: 503,
+          ok: false,
           headers: { get: () => 'application/json' },
           json: () => Promise.resolve({ success: true }),
         });
@@ -442,8 +443,11 @@ describe('Review Page Utils', () => {
             onError,
           });
         } catch (e) {
-          expect(e).to.equal(error);
-          expect(onError.calledWith(error)).to.be.true;
+          expect(e.message).to.equal('Backend API call failed with status 503');
+          expect(onError.calledOnce).to.be.true;
+          expect(onError.firstCall.args[0].message).to.equal(
+            'Backend API call failed with status 503',
+          );
         }
       });
 
