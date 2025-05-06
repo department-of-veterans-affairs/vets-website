@@ -111,16 +111,6 @@ describe('Medications List Filter component', () => {
     const resetButton = screen.getByTestId('filter-reset-button');
     resetButton.click();
 
-    // Verify dispatch was called with setFilterOption action
-    expect(
-      dispatchSpy.calledWith(
-        sandbox.match({
-          type: 'preferences/setFilterOption',
-          payload: ALL_MEDICATIONS_FILTER_KEY,
-        }),
-      ),
-    ).to.be.true;
-
     // Verify updateFilter prop was called
     expect(updateFilter.calledWith(ALL_MEDICATIONS_FILTER_KEY)).to.be.true;
   });

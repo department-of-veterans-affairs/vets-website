@@ -82,7 +82,6 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
   };
 
   const handleFilterReset = () => {
-    dispatch(setFilterOption(ALL_MEDICATIONS_FILTER_KEY));
     updateFilter(ALL_MEDICATIONS_FILTER_KEY);
     focusElement(document.getElementById('showingRx'));
   };

@@ -170,7 +170,7 @@ const Prescriptions = () => {
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
 
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
-    setLoading(newIsLoading);
+    if (newIsLoading !== null) setLoading(newIsLoading);
     if (newLoadingMessage) setLoadingMessage(newLoadingMessage);
   };
 
@@ -181,7 +181,7 @@ const Prescriptions = () => {
 
     const isFiltering = newFilterOption !== null;
     updateLoadingStatus(
-      true,
+      null,
       `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
     );
 
@@ -275,7 +275,7 @@ const Prescriptions = () => {
     () => {
       focusElement(document.getElementById('showingRx'));
     },
-    [isPrescriptionsLoading, isPrescriptionsFetching],
+    [isLoading],
   );
 
   // Update page title
