@@ -1,33 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import {
+  Switch,
+  Route,
+  useRouteMatch,
+  useLocation,
+  Redirect,
+} from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-
+import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import {
   fetchDuplicateContactInfo,
   fetchPersonalInformation,
 } from '../actions';
-import createFormConfig from '../config/form';
+import createFormConfigFromFeatureFlag from '../config/form';
 import { getAppData } from '../selectors';
 
 function App({
-  children,
-  duplicateEmail,
-  duplicatePhone,
   formData,
   getDuplicateContactInfo,
   getPersonalInformation,
-  location,
   mebDpoAddressOptionEnabled,
   showMeb54901990eTextUpdate,
   setFormData,
   user,
+  duplicateEmail,
+  duplicatePhone,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
+  const [dynamicFormConfig, setDynamicFormConfig] = useState(null);
+  const [dynamicRoutes, setDynamicRoutes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const formConfig = createFormConfig(showMeb54901990eTextUpdate);
+  const match = useRouteMatch();
+  const location = useLocation();
+
+  useEffect(
+    () => {
+      setIsLoading(true);
+      const config = createFormConfigFromFeatureFlag(
+        showMeb54901990eTextUpdate,
+      );
+      setDynamicFormConfig(config);
+      const generatedRoutes = createRoutesWithSaveInProgress(config);
+      setDynamicRoutes(generatedRoutes);
+      setIsLoading(false);
+    },
+    [showMeb54901990eTextUpdate],
+  );
 
   useEffect(
     () => {
@@ -38,39 +61,29 @@ function App({
         setFetchedUserInfo(true);
         getPersonalInformation();
       }
-
-      // if (
-      //   !sponsors?.loadedFromSavedState &&
-      //   isArray(sponsorsSavedState?.sponsors)
-      // ) {
-      //   setFormData(mapFormSponsors(formData, sponsorsSavedState));
-      // } else if (sponsorsInitial && !sponsors) {
-      //   setFormData(mapFormSponsors(formData, sponsorsInitial));
-      // }
     },
-    [
-      fetchedUserInfo,
-      formData,
-      getPersonalInformation,
-      user?.login?.currentlyLoggedIn,
-      setFormData,
-    ],
+    [fetchedUserInfo, getPersonalInformation, user?.login?.currentlyLoggedIn],
   );
 
   useEffect(
     () => {
-      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
+      if (
+        dynamicFormConfig &&
+        mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled
+      ) {
         setFormData({
           ...formData,
           mebDpoAddressOptionEnabled,
         });
       }
     },
-    [mebDpoAddressOptionEnabled, formData, setFormData],
+    [mebDpoAddressOptionEnabled, formData, setFormData, dynamicFormConfig],
   );
 
   useEffect(
     () => {
+      if (!dynamicFormConfig) return;
+
       if (
         duplicateEmail?.length > 0 &&
         duplicateEmail !== formData?.duplicateEmail
@@ -107,8 +120,34 @@ function App({
         );
       }
     },
-    [getDuplicateContactInfo, formData],
+    [
+      getDuplicateContactInfo,
+      formData,
+      setFormData,
+      dynamicFormConfig,
+      duplicateEmail,
+      duplicatePhone,
+    ],
   );
+
+  if (isLoading || !dynamicFormConfig) {
+    return <div>Loading form application...</div>;
+  }
+
+  if (location.pathname === match.path && dynamicFormConfig.introduction) {
+    const introPathObj = dynamicRoutes.find(
+      r => r.path === 'introduction' || r.path === '/introduction',
+    );
+    if (introPathObj) {
+      const relativeIntroPath = introPathObj.path.startsWith('/')
+        ? introPathObj.path.substring(1)
+        : introPathObj.path;
+      const targetPath = `${
+        match.path === '/' ? '' : match.path
+      }/${relativeIntroPath}`.replace('//', '/');
+      return <Redirect to={targetPath} />;
+    }
+  }
 
   return (
     <>
@@ -139,32 +178,71 @@ function App({
           />
         </div>
       </div>
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
+      <RoutedSavableApp
+        formConfig={dynamicFormConfig}
+        currentLocation={location}
+      >
+        <Switch>
+          {dynamicRoutes.map(route => {
+            const relativePath = route.path.startsWith('/')
+              ? route.path.substring(1)
+              : route.path;
+            let basePath = match.path;
+            if (basePath !== '/' && !basePath.endsWith('/')) {
+              basePath += '/';
+            }
+            if (basePath === '/') {
+              basePath = '';
+            }
+            const fullPath = `${basePath}${relativePath}`.replace('//', '/');
+            const PageComponent = route.component;
+            return (
+              <Route
+                key={fullPath || 'index'}
+                exact
+                path={fullPath}
+                render={routerProps => (
+                  <PageComponent
+                    {...routerProps}
+                    {...route}
+                    form={dynamicFormConfig}
+                  />
+                )}
+              />
+            );
+          })}
+        </Switch>
       </RoutedSavableApp>
     </>
   );
 }
 
 App.propTypes = {
-  children: PropTypes.node,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   formData: PropTypes.object,
   getDuplicateContactInfo: PropTypes.func,
   getPersonalInformation: PropTypes.func,
-  location: PropTypes.object,
   mebDpoAddressOptionEnabled: PropTypes.bool,
   showMeb54901990eTextUpdate: PropTypes.bool,
   setFormData: PropTypes.func,
   user: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  ...getAppData(state),
-  formData: state.form?.data || {},
-  user: state.user,
-});
+const mapStateToProps = state => {
+  const appData = getAppData(state);
+  return {
+    ...appData,
+    formData: state.form?.data || {},
+    user: state.user,
+    showMeb54901990eTextUpdate:
+      state.featureToggles?.showMeb54901990eTextUpdate,
+    mebDpoAddressOptionEnabled:
+      state.featureToggles?.mebDpoAddressOptionEnabled,
+    duplicateEmail: appData.duplicateEmail || state.data?.duplicateEmail,
+    duplicatePhone: appData.duplicatePhone || state.data?.duplicatePhone,
+  };
+};
 
 const mapDispatchToProps = {
   getPersonalInformation: fetchPersonalInformation,
