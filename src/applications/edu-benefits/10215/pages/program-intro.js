@@ -14,7 +14,6 @@ const ProgramIntro = {
           your institution. Submit calculations for all approved programs listed
           on your most recent WEAMS 22-1998 Report. List every program, even if
           a program has a supported student or Total Enrollment of "0."
-
         </p>
         <p>
           Review the calculation instructions we provided before proceeding. You
