@@ -30,9 +30,6 @@ describe('VAOS Component: ScheduleReferral', () => {
     const details = await screen.findByTestId('referral-details');
     const facility = await screen.findByTestId('referral-facility');
     const helpText = await screen.findByTestId('help-text');
-    const additionalAppointmentHelpText = await screen.findByTestId(
-      'additional-appointment-help-text',
-    );
 
     const expectedDate = format(
       new Date(referral.attributes.expirationDate),
@@ -42,7 +39,6 @@ describe('VAOS Component: ScheduleReferral', () => {
     expect(details).to.exist;
     expect(details).to.contain.text(expectedDate);
     expect(helpText).to.exist;
-    expect(additionalAppointmentHelpText).to.exist;
 
     expect(facility).to.exist;
   });

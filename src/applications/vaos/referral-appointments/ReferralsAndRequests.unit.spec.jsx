@@ -114,7 +114,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     });
     expect(
       screen.getByText(
-        'We’re sorry. We can’t retrieve your community care referrals at this time. Please try again later.',
+        'We’re having trouble getting your community care referrals. Please try again later.',
       ),
     ).to.exist;
   });
@@ -135,7 +135,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     });
     expect(
       screen.getByText(
-        'We’re having trouble getting your appointment requests. Please try again later.',
+        'We’re having trouble getting your requests. Please try again later.',
       ),
     ).to.exist;
   });
