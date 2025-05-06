@@ -82,7 +82,7 @@ export const addStudentsOptions = {
     summaryTitle: 'Review your students',
     getItemName: () => 'Student',
     cardDescription: item => (
-      <span className="dd-privacy-mask">
+      <span className="dd-privacy" data-dd-privacy="mask">
         {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
           item?.fullName?.last,
         ) || ''}`.trim()}
