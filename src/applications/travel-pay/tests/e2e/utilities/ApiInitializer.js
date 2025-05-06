@@ -107,7 +107,7 @@ class ApiInitializer {
     },
   };
 
-  initialMaintenanceWindow = {
+  initializeMaintenanceWindow = {
     none: () => {
       cy.intercept('GET', '/v0/maintenance_windows', {
         statusCode: 200,
