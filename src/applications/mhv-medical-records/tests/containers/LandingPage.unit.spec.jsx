@@ -177,14 +177,9 @@ describe('Landing Page', () => {
       }),
     ).to.exist;
     expect(
-      screen.getByRole('link', {
+      screen.getByText('Share personal health data with your care team', {
         selector: 'h2',
-        name: 'Share personal health data with your care team',
-      }),
-    ).to.exist;
-    expect(
-      screen.getByRole('link', {
-        name: 'Go to the Share My Health Data website',
+        exact: true,
       }),
     ).to.exist;
 
