@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -7,8 +7,8 @@ import * as recordEventModule from '@department-of-veterans-affairs/platform-mon
 
 import TravelClaimsSection from '../../components/TravelClaimsSection';
 
-describe('<TravelClaimSection>', () => {
-  it('should render a TravelClaimSection section', () => {
+describe('<TravelClaimsSection>', () => {
+  it('renders the travel claims section', () => {
     const { getByRole, getByText } = render(<TravelClaimsSection />);
     const heading = getByRole('heading', {
       name: 'Your travel claims',
@@ -22,24 +22,27 @@ describe('<TravelClaimSection>', () => {
 
     expect(heading).to.be.visible;
     expect(link).to.be.visible;
+    expect(link).to.have.attribute('href', '/my-health/travel-pay/claims');
     expect(details).to.be.visible;
   });
 
-  it('should call recordLinkClick when link is clicked', () => {
-    const recordLinkClickStub = sinon.stub(recordEventModule, 'default');
+  it('records an analytics event when the link is clicked', async () => {
+    const recordEventStub = sinon.stub(recordEventModule, 'default');
     const { getByRole } = render(<TravelClaimsSection />);
     const link = getByRole('link', {
       name: 'Review and file travel claims',
     });
-    fireEvent.click(link);
+
+    await userEvent.click(link);
 
     expect(
-      recordLinkClickStub.calledWith({
+      recordEventStub.calledWith({
         event: 'nav-link-click',
         'link-label': 'Review and file travel claims',
         'link-destination': '/my-health/travel-pay/claims',
       }),
     ).to.be.true;
-    recordLinkClickStub.restore();
+
+    recordEventStub.restore();
   });
 });
