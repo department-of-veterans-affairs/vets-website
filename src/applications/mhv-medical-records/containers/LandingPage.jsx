@@ -60,7 +60,7 @@ const LandingPage = () => {
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
   );
-  const killhealthDataLink = useSelector(
+  const killHealthDataLink = useSelector(
     state =>
       state.featureToggles.mhv_landing_page_show_share_my_health_data_link,
   );
@@ -378,7 +378,7 @@ const LandingPage = () => {
                   You can share your personal health data with your care team
                   using the Share My Health Data website.
                 </p>
-                {!killhealthDataLink && (
+                {!killHealthDataLink && (
                   <Link
                     to={
                       environment.isProduction()
