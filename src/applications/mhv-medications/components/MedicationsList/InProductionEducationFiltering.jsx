@@ -59,10 +59,8 @@ const InProductionEducationFiltering = () => {
       dataDogActionNames.medicationsListPage.STOP_SHOWING_IPE_FILTERING_HINT,
     );
     await dispatch(updateTooltipVisibility(tooltipId, false));
-    const filterAccordionShadowRootButton = document
-      .getElementById('filter')
-      .shadowRoot.querySelector('button');
-    focusElement(filterAccordionShadowRootButton);
+    const filterAccordionShadowRoot = document.getElementById('filter');
+    focusElement('button', {}, filterAccordionShadowRoot);
   };
 
   return (
