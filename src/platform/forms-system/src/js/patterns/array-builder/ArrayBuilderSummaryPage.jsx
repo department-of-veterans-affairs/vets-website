@@ -580,7 +580,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         }
         return <Alerts />;
       },
-      [Alerts, Cards],
+      [Alerts, Cards, arrayData],
     );
 
     const newUiSchema = { ...uiSchema };
