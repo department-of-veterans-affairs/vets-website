@@ -60,6 +60,10 @@ const LandingPage = () => {
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
   );
+  const killhealthDataLink = useSelector(
+    state =>
+      state.featureToggles.mhv_landing_page_show_share_my_health_data_link,
+  );
 
   const { isLoading } = useAcceleratedData();
 
@@ -374,24 +378,24 @@ const LandingPage = () => {
                   You can share your personal health data with your care team
                   using the Share My Health Data website.
                 </p>
-                <Link
-                  to="/care-team"
-                  className="vads-c-action-link--blue"
-                  data-testid="care-team-landing-page-link"
-                  onClick={() => {
-                    if (environment.isProduction()) {
+                {!killhealthDataLink && (
+                  <Link
+                    to={
+                      environment.isProduction()
+                        ? 'https://veteran.apps.va.gov/smhdWeb'
+                        : 'https://veteran.apps-staging.va.gov/smhdWeb'
+                    }
+                    className="vads-c-action-link--blue"
+                    data-testid="health-data-landing-page-link"
+                    onClick={() => {
                       sendDataDogAction(
                         SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM,
                       );
-                    } else if (environment.isStaging()) {
-                      sendDataDogAction(
-                        `STAGING_${SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}`,
-                      );
-                    }
-                  }}
-                >
-                  {SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}
-                </Link>
+                    }}
+                  >
+                    {SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}
+                  </Link>
+                )}
               </section>
             </>
           )}
