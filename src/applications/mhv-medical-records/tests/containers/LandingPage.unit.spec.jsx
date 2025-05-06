@@ -178,7 +178,8 @@ describe('Landing Page', () => {
     ).to.exist;
     expect(
       screen.getByRole('link', {
-        name: 'Go to manage your electronic sharing settings',
+        selector: 'h2',
+        name: 'Share personal health data with your care team',
       }),
     ).to.exist;
     expect(
