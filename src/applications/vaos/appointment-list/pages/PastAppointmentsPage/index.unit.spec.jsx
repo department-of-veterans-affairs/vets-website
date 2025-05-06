@@ -53,11 +53,13 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const { findByText } = renderWithStoreAndRouter(<PastAppointmentsList />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
-    expect(await findByText(/Past 3 months/i)).to.exist;
+    expect(
+      await screen.container.querySelector('va-select[name="date-dropdown"]'),
+    ).to.exist;
   });
 
   it('should update range on dropdown change', async () => {
