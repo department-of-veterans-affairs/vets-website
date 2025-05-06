@@ -187,7 +187,22 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         setSelfEnteredPdfRequested(false);
         const title = 'Self-entered information report';
         const subject = 'VA Medical Record';
-        const scaffold = generatePdfScaffold(userProfile, title, subject);
+        const preface = {
+          selectMilestoneTwoCheck: selectMilestoneTwoFlag,
+          messages: [
+            {
+              value:
+                'This report includes health information you entered yourself in the past. You can no longer enter or edit health information in My HealtheVet.',
+            },
+          ],
+        };
+
+        const scaffold = generatePdfScaffold(
+          userProfile,
+          title,
+          subject,
+          preface,
+        );
         const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
           userProfile,
         )}`;
@@ -218,6 +233,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       runningUnitTest,
       seiRecords,
       selfEnteredPdfRequested,
+      selectMilestoneTwoFlag,
       userProfile,
     ],
   );
@@ -411,8 +427,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           <h3 slot="headline">Self-entered health information</h3>
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
-            in the previous version of My HealtheVet. You can no longer enter or
-            edit health information in My HealtheVet.
+            in the previous version of My HealtheVet.
+            {selectMilestoneTwoFlag &&
+              ` You can no longer enter or
+            edit health information in My HealtheVet.`}
           </p>
           <p>
             Your VA health care team can’t access this self-entered information
@@ -438,7 +456,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               data-testid="downloadSelfEnteredButton"
             />
           )}
-          {selectMilestoneTwoFlag && (
+          {!selectMilestoneTwoFlag && (
             <>
               <p>
                 <strong>Note:</strong> Self-entered My Goals are no longer
