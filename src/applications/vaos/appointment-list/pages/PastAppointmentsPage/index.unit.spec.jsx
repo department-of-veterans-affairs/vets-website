@@ -57,6 +57,8 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       initialState,
     });
 
+    await screen.findByText(/We didn’t find any results in this date range/i);
+
     expect(
       await screen.container.querySelector('va-select[name="date-dropdown"]'),
     ).to.exist;

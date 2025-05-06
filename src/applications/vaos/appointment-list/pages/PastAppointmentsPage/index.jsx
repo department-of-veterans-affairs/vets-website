@@ -73,20 +73,6 @@ export default function PastAppointmentsPage() {
     },
     [isInitialMount, pastStatus, hasTypeChanged],
   );
-  useEffect(
-    () => {
-      if (
-        !isInitialMount &&
-        pastStatus === FETCH_STATUS.loading &&
-        document.querySelector('va-select')
-      ) {
-        document
-          .querySelector('va-select')
-          .shadowRoot.querySelector('select').disabled = true;
-      }
-    },
-    [isInitialMount, pastStatus],
-  );
 
   const onDateRangeChange = index => {
     const selectedDateRange = dateRangeOptions[index];
@@ -114,7 +100,6 @@ export default function PastAppointmentsPage() {
   ) {
     return (
       <>
-        {dropdown}
         <div className="vads-u-margin-y--8">
           <va-loading-indicator
             set-focus={hasTypeChanged || !isInitialMount}
