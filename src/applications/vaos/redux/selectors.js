@@ -64,9 +64,6 @@ export const selectHasVAPResidentialAddress = state =>
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 
-export const selectFeatureClinicFilter = state =>
-  toggleValues(state).vaOnlineSchedulingClinicFilter;
-
 export const selectFeatureBreadcrumbUrlUpdate = state =>
   toggleValues(state).vaOnlineSchedulingBreadcrumbUrlUpdate;
 
@@ -116,9 +113,6 @@ export const selectFeatureMhvRouteGuards = state =>
 
 export const selectFeatureDirectScheduleAppointmentConflict = state =>
   toggleValues(state).vaOnlineSchedulingDirectScheduleAppointmentConflict;
-
-export const selectFeaturePatientHistoryFutureAppts = state =>
-  toggleValues(state).vaOnlineSchedulingPatientHistoryFutureAppts;
 
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;
