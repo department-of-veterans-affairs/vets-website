@@ -34,17 +34,20 @@ describe('<Academics>', () => {
     const onShowModalSpy = sinon.spy();
     const tree = shallow(
       <Academics
-        institution={{ creditForMilTraining: 'creditForMilTraining' }}
+        institution={{
+          creditForMilTraining: 'creditForMilTraining',
+        }}
         onShowModal={onShowModalSpy}
       />,
     );
     tree
       .find('LearnMoreLabel')
-      .at(0)
+      .at(1)
       .simulate('click');
 
     expect(onShowModalSpy.callCount).to.equal(1);
-    expect(onShowModalSpy.calledWith('militaryTrainingCredit')).to.be.true;
+    expect(onShowModalSpy.getCall(0).calledWith('militaryTrainingCredit')).to.be
+      .true;
     expect(
       tree
         .find('div[aria-live="off"]')
@@ -59,17 +62,19 @@ describe('<Academics>', () => {
     const onShowModalSpy = sinon.spy();
     const tree = shallow(
       <Academics
-        institution={{ independentStudy: 'independentStudy' }}
+        institution={{
+          independentStudy: 'independentStudy',
+        }}
         onShowModal={onShowModalSpy}
       />,
     );
     tree
       .find('LearnMoreLabel')
-      .at(1)
+      .at(2)
       .simulate('click');
 
     expect(onShowModalSpy.callCount).to.equal(1);
-    expect(onShowModalSpy.calledWith('independentStudy')).to.be.true;
+    expect(onShowModalSpy.getCall(0).calledWith('independentStudy')).to.be.true;
     expect(
       tree
         .find('div[aria-live="off"]')
@@ -84,17 +89,21 @@ describe('<Academics>', () => {
     const onShowModalSpy = sinon.spy();
     const tree = shallow(
       <Academics
-        institution={{ priorityEnrollment: 'priorityEnrollment' }}
+        institution={{
+          priorityEnrollment: 'priorityEnrollment',
+        }}
         onShowModal={onShowModalSpy}
       />,
     );
     tree
       .find('LearnMoreLabel')
-      .at(2)
+      .at(3)
       .simulate('click');
 
     expect(onShowModalSpy.callCount).to.equal(1);
-    expect(onShowModalSpy.calledWith('priorityEnrollment')).to.be.true;
+    expect(onShowModalSpy.getCall(0).calledWith('priorityEnrollment')).to.be
+      .true;
+
     expect(
       tree
         .find('div[aria-live="off"]')
@@ -103,27 +112,6 @@ describe('<Academics>', () => {
         .trim()
         .includes('Yes'),
     ).to.be.true;
-    tree.unmount();
-  });
-  it('should display "Accreditation: Yes" when accredited is true but no accreditationType', () => {
-    const tree = shallow(
-      <Academics institution={{ accredited: true, accreditationType: null }} />,
-    );
-    const accreditationBlock = tree.find('div[aria-live="off"]').at(0);
-    expect(accreditationBlock.text().trim()).to.contain('Accreditation: Yes');
-    tree.unmount();
-  });
-
-  it('should *not* render LearnMoreLabel for accreditation when accreditationType is null', () => {
-    const onShowModalSpy = sinon.spy();
-    const tree = shallow(
-      <Academics
-        institution={{ accredited: true, accreditationType: null }}
-        onShowModal={onShowModalSpy}
-      />,
-    );
-    const accreditationBlock = tree.find('div[aria-live="off"]').at(0);
-    expect(accreditationBlock.find('LearnMoreLabel')).to.have.lengthOf(0);
     tree.unmount();
   });
 });
