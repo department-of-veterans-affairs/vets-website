@@ -65,9 +65,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-facility-type',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('facility-type'),
     );
   });
 
@@ -92,9 +90,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/va-facility-2',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('location'),
     );
   });
 
@@ -157,9 +153,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-appointment/va-facility-2',
-      ),
+      expect(screen.history.push.lastCall.args[0]).to.equal('location'),
     );
   });
 
@@ -176,9 +170,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-appointment/va-facility-2',
-      ),
+      expect(screen.history.push.lastCall.args[0]).to.equal('location'),
     );
     await cleanup();
 
@@ -263,9 +255,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/eye care/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-eye-care',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('eye-care'),
     );
   });
 
@@ -279,9 +269,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/sleep/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-sleep-care',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('sleep-care'),
     );
   });
 
@@ -445,9 +433,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     fireEvent.click(await screen.findByLabelText(/COVID-19 vaccine/i));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-appointment',
-      ),
+      expect(screen.history.push.lastCall.args[0]).to.equal('covid-vaccine/'),
     );
   });
 });
