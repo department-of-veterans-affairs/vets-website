@@ -393,7 +393,7 @@ describe('Review Page Utils', () => {
     describe('submitFormData', () => {
       it('should handle successful submission', async () => {
         const onSuccess = sinon.spy();
-        const expectedResponse = { success: true };
+        const expectedResponse = { success: true, inquiryNumber: '12345' };
 
         sandbox.stub(apiUtils, 'apiRequest').resolves({
           status: 200,
@@ -427,36 +427,12 @@ describe('Review Page Utils', () => {
         expect(onSuccess.calledWith(mockSubmitResponse)).to.be.true;
       });
 
-      it('should handle errors', async () => {
-        const onError = sinon.spy();
-        sandbox.stub(apiUtils, 'apiRequest').resolves({
-          status: 503,
-          ok: false,
-          headers: { get: () => 'application/json' },
-          json: () => Promise.resolve({ success: true }),
-        });
-
-        try {
-          await submitFormData({
-            url: 'test-url',
-            data: { test: true },
-            onError,
-          });
-        } catch (e) {
-          expect(e.message).to.equal('Backend API call failed with status 503');
-          expect(onError.calledOnce).to.be.true;
-          expect(onError.firstCall.args[0].message).to.equal(
-            'Backend API call failed with status 503',
-          );
-        }
-      });
-
-      it('should call onError for 503 error with HTML response (non-JSON)', async () => {
+      it('should call onError for a response that does not include a inquiryNumber property', async () => {
         const onError = sinon.spy();
 
         sandbox.stub(apiUtils, 'apiRequest').resolves({
-          status: 503,
-          ok: false,
+          status: 200,
+          ok: true,
           headers: { get: () => 'application/json' },
           json: () => Promise.resolve({ inquiryNumber: null }),
         });
