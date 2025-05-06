@@ -5,6 +5,7 @@ import ResBurdenPrivacyPolicy from './ResBurdenPrivacyAct';
 
 const PrivacyPolicy = () => {
   const [showModal, setShowModal] = useState(false);
+
   const removeNoteText = async () => {
     const noteText = await querySelectorWithShadowRoot(
       'p.font-sans-6',

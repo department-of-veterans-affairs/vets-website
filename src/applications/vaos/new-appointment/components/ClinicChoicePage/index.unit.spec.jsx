@@ -140,9 +140,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     userEvent.click(screen.getByText(/continue/i));
 
     await waitFor(() =>
-      expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-appointment/preferred-date',
-      ),
+      expect(screen.history.push.firstCall.args[0]).to.equal('preferred-date'),
     );
 
     // choosing the third option sends you to request flow
@@ -153,9 +151,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     userEvent.click(screen.getByText(/continue/i));
 
     await waitFor(() =>
-      expect(screen.history.push.secondCall.args[0]).to.equal(
-        '/new-appointment/request-date',
-      ),
+      expect(screen.history.push.secondCall.args[0]).to.equal('va-request/'),
     );
 
     await cleanup();
@@ -218,9 +214,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
 
     userEvent.click(screen.getByText(/continue/i));
     await waitFor(() =>
-      expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-appointment/preferred-date',
-      ),
+      expect(screen.history.push.firstCall.args[0]).to.equal('preferred-date'),
     );
 
     // No sends you to the request flow
@@ -231,9 +225,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
 
     userEvent.click(screen.getByText(/continue/i));
     await waitFor(() =>
-      expect(screen.history.push.secondCall.args[0]).to.equal(
-        '/new-appointment/request-date',
-      ),
+      expect(screen.history.push.secondCall.args[0]).to.equal('va-request/'),
     );
 
     await cleanup();

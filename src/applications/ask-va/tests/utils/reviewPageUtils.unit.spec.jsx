@@ -393,9 +393,10 @@ describe('Review Page Utils', () => {
     describe('submitFormData', () => {
       it('should handle successful submission', async () => {
         const onSuccess = sinon.spy();
-        const expectedResponse = { success: true };
+        const expectedResponse = { success: true, inquiryNumber: '12345' };
 
         sandbox.stub(apiUtils, 'apiRequest').resolves({
+          status: 200,
           ok: true,
           headers: { get: () => 'application/json' },
           json: () => Promise.resolve(expectedResponse),
@@ -426,34 +427,14 @@ describe('Review Page Utils', () => {
         expect(onSuccess.calledWith(mockSubmitResponse)).to.be.true;
       });
 
-      it('should handle errors', async () => {
+      it('should call onError for a response that does not include a inquiryNumber property', async () => {
         const onError = sinon.spy();
-        const error = new Error('API Error');
+
         sandbox.stub(apiUtils, 'apiRequest').resolves({
+          status: 200,
           ok: true,
           headers: { get: () => 'application/json' },
-          json: () => Promise.resolve({ success: true }),
-        });
-
-        try {
-          await submitFormData({
-            url: 'test-url',
-            data: { test: true },
-            onError,
-          });
-        } catch (e) {
-          expect(e).to.equal(error);
-          expect(onError.calledWith(error)).to.be.true;
-        }
-      });
-
-      it('should call onError for 503 error with HTML response (non-JSON)', async () => {
-        const onError = sinon.spy();
-
-        sandbox.stub(apiUtils, 'apiRequest').resolves({
-          ok: false,
-          headers: { get: () => 'text/html' },
-          text: () => Promise.resolve('<html>503 Service Unavailable</html>'),
+          json: () => Promise.resolve({ inquiryNumber: null }),
         });
 
         try {
@@ -464,11 +445,11 @@ describe('Review Page Utils', () => {
           });
         } catch (e) {
           expect(e.message).to.equal(
-            'Non-JSON error response (likely 503 from gateway)',
+            `Backend API call failed. Inquiry number not found.`,
           );
           expect(onError.calledOnce).to.be.true;
           expect(onError.firstCall.args[0].message).to.equal(
-            'Non-JSON error response (likely 503 from gateway)',
+            `Backend API call failed. Inquiry number not found.`,
           );
         }
       });

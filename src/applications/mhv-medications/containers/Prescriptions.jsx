@@ -575,10 +575,7 @@ const Prescriptions = () => {
   };
 
   const isShowingErrorNotification = Boolean(
-    (((prescriptionsFullList?.length &&
-      pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
-      paginatedPrescriptionsList) &&
-      pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+    (pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
       allergiesError) ||
       hasFullListDownloadError,
   );
