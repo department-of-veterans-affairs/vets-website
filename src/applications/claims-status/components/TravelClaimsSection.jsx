@@ -2,15 +2,12 @@ import React from 'react';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 export default function TravelClaimsSection() {
-  const handler = {
-    recordLinkClick: () => {
-      recordEvent({
-        event: 'nav-link-click',
-        'link-label': 'Review and file travel claims',
-        'link-destination': '/my-health/travel-pay/claims',
-      });
-    },
-  };
+  const recordLinkClick = () =>
+    recordEvent({
+      event: 'nav-link-click',
+      'link-label': 'Review and file travel claims',
+      'link-destination': '/my-health/travel-pay/claims',
+    });
 
   return (
     <div className="vads-u-margin-y--4">
@@ -18,7 +15,7 @@ export default function TravelClaimsSection() {
       <a
         className="active-va-link"
         href="/my-health/travel-pay/claims"
-        onClick={handler.recordLinkClick}
+        onClick={recordLinkClick}
       >
         Review and file travel claims
         <va-icon icon="chevron_right" size={3} aria-hidden="true" />
