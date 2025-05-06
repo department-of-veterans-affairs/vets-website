@@ -134,19 +134,11 @@ function App({
     return <div>Loading form application...</div>;
   }
 
-  if (location.pathname === match.path && dynamicFormConfig.introduction) {
-    const introPathObj = dynamicRoutes.find(
-      r => r.path === 'introduction' || r.path === '/introduction',
-    );
-    if (introPathObj) {
-      const relativeIntroPath = introPathObj.path.startsWith('/')
-        ? introPathObj.path.substring(1)
-        : introPathObj.path;
-      const targetPath = `${
-        match.path === '/' ? '' : match.path
-      }/${relativeIntroPath}`.replace('//', '/');
-      return <Redirect to={targetPath} />;
-    }
+  if (location.pathname === match.url && dynamicFormConfig.introduction) {
+    const baseRedirectUrl = match.url.endsWith('/')
+      ? match.url.slice(0, -1)
+      : match.url;
+    return <Redirect to={`${baseRedirectUrl}/introduction`} />;
   }
 
   return (
@@ -184,17 +176,16 @@ function App({
       >
         <Switch>
           {dynamicRoutes.map(route => {
-            const relativePath = route.path.startsWith('/')
+            const formRouteBasePath = match.url.endsWith('/')
+              ? match.url.slice(0, -1)
+              : match.url;
+            const formRouteRelativePath = route.path.startsWith('/')
               ? route.path.substring(1)
               : route.path;
-            let basePath = match.path;
-            if (basePath !== '/' && !basePath.endsWith('/')) {
-              basePath += '/';
-            }
-            if (basePath === '/') {
-              basePath = '';
-            }
-            const fullPath = `${basePath}${relativePath}`.replace('//', '/');
+            const fullPath = `${formRouteBasePath}/${formRouteRelativePath}`.replace(
+              '//',
+              '/',
+            );
             const PageComponent = route.component;
             return (
               <Route
