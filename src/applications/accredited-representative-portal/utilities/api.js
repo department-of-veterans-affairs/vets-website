@@ -107,6 +107,25 @@ const api = {
     }
     return [`/power_of_attorney_requests?${status}${size}${number}${sort}`];
   }),
+  getSubmissions: wrapApiRequest(query => {
+    let size;
+    let number;
+    let status;
+    let sort;
+    if (query.status) {
+      status = `status=${query.status}`;
+    }
+    if (query.size) {
+      size = `&page[size]=${query.size}`;
+    }
+    if (query.number) {
+      number = `&page[number]=${query.number}`;
+    }
+    if (query.sort) {
+      sort = `&sort[by]=${query.sort}&sort[order]=${query.sortBy}`;
+    }
+    return [`/submissions?${status}${size}${number}${sort}`];
+  }),
   claimantSearch: wrapApiRequest(data => {
     return [
       `/claimant/search`,
