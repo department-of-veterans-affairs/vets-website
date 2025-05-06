@@ -93,7 +93,9 @@ class GeneralFunctionsPage {
   };
 
   verifyHeaderFocused = () => {
-    cy.get(`h1`).should(`be.focused`);
+    cy.get('h1');
+    cy.focused();
+    cy.get(`h1`).should(`have.focus`);
   };
 
   verifyMaintenanceBanner = (startDate, endDate, text) => {

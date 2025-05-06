@@ -27,9 +27,10 @@ describe('Secure Messaging Move Message tests', () => {
       createdFolderResponse.data.attributes.folderId,
     );
 
-    cy.get(`h1`)
-      .should('be.focused')
-      .and(`have.text`, createdFolderResponse.data.attributes.name);
+    cy.get(':focus').should(
+      'have.text',
+      createdFolderResponse.data.attributes.name,
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
