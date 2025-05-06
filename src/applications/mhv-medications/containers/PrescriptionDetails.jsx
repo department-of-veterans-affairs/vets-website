@@ -46,6 +46,7 @@ import { useGetAllergiesQuery } from '../api/allergiesApi';
 import {
   getPrescriptionsList,
   getPrescriptionById,
+  usePrefetch,
 } from '../api/prescriptionsApi';
 
 const PrescriptionDetails = () => {
@@ -92,6 +93,20 @@ const PrescriptionDetails = () => {
     prescriptionsApiError = error;
     prescriptionIsLoading = isLoading;
   }
+
+  // Prefetch prescription documentation for faster loading when
+  // going to the documentation page
+  const prefetchPrescriptionDocumentation = usePrefetch(
+    'getPrescriptionDocumentation',
+  );
+  useEffect(
+    () => {
+      if (!prescriptionIsLoading && prescriptionId) {
+        prefetchPrescriptionDocumentation(prescriptionId);
+      }
+    },
+    [prescriptionIsLoading, prescriptionId, prefetchPrescriptionDocumentation],
+  );
 
   const isLoading = !prescription && prescriptionIsLoading;
 
