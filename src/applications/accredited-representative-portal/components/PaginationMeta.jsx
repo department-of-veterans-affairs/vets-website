@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { SEARCH_PARAMS } from '../utilities/poaRequests';
+import { SEARCH_PARAMS } from '../utilities/constants';
 
-const PaginationMeta = (meta, poaRequests) => {
+const PaginationMeta = (meta, results) => {
   const [searchParams] = useSearchParams();
   const pageSize = Number(searchParams.get('pageSize'));
   const pageNumber = Number(searchParams.get('pageNumber'));
@@ -15,7 +15,7 @@ const PaginationMeta = (meta, poaRequests) => {
     pageSizeCount = pageSize + (totalCount - pageSize);
   }
   if (pageNumber > 1) {
-    if (poaRequests.length < pageSize) {
+    if (results.length < pageSize) {
       initCount = pageSize * (pageNumber - 1) + 1;
     } else {
       initCount = pageSizeCount - (pageSize - 1);
