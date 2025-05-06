@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { merge } from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -12,25 +12,26 @@ import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import Notification from '../components/Notification';
 import DefaultPage from '../components/claim-document-request-pages/DefaultPage';
+import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
+
+/* ──────────────────────────────────────────
+   Action creators - aliased to avoid shadowing
+   ────────────────────────────────────────── */
 import {
-  addFile,
-  cancelUpload,
-  clearNotification,
-  // START lighthouse_migration
-  getClaim as getClaimAction,
-  // END lighthouse_migration
-  removeFile,
-  resetUploads,
-  setFieldsDirty,
-  submitFiles,
-  // START lighthouse_migration
-  submitFilesLighthouse,
-  // END lighthouse_migration
-  updateField,
+  addFile as addFileAction,
+  cancelUpload as cancelUploadAction,
+  clearNotification as clearNotificationAction,
+  getClaim as getClaimAction, // lighthouse migration
+  removeFile as removeFileAction,
+  resetUploads as resetUploadsAction,
+  setFieldsDirty as setFieldsDirtyAction,
+  submitFiles as submitFilesAction,
+  submitFilesLighthouse as submitFilesLighthouseAction, // lighthouse migration
+  updateField as updateFieldAction,
 } from '../actions';
-// START lighthouse_migration
-import { benefitsDocumentsUseLighthouse } from '../selectors';
-// END lighthouse_migration
+
+import { benefitsDocumentsUseLighthouse } from '../selectors'; // lighthouse migration
+
 import {
   setDocumentRequestPageTitle,
   getClaimType,
@@ -39,8 +40,10 @@ import {
 } from '../utils/helpers';
 import { setUpPage, setPageFocus } from '../utils/page';
 import withRouter from '../utils/withRouter';
-import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
 
+/* ──────────────────────────────────────────
+   Constants & helpers
+   ────────────────────────────────────────── */
 const scrollToError = () => {
   const options = merge({}, window.VetsGov.scroll, { offset: -25 });
   scrollTo('uploadError', options);
@@ -49,174 +52,213 @@ const scrollToError = () => {
 const filesPath = '../files';
 const statusPath = '../status';
 
-class DocumentRequestPage extends React.Component {
-  componentDidMount() {
-    this.props.resetUploads();
-    setPageTitle(this.props.trackedItem);
-    if (!this.props.loading) {
+const DocumentRequestPage = props => {
+  const {
+    /* Redux-injected props */
+    addFile,
+    cancelUpload,
+    claim,
+    documentsUseLighthouse,
+    files,
+    getClaim,
+    lastPage,
+    loading,
+    message,
+    navigate,
+    params,
+    progress,
+    removeFile,
+    resetUploads,
+    setFieldsDirty,
+    submitFiles,
+    submitFilesLighthouse,
+    trackedItem,
+    updateField,
+    uploadComplete,
+    uploadField,
+    uploading,
+  } = props;
+
+  /* ───────────────────────── componentDidMount */
+  useEffect(() => {
+    resetUploads();
+    setPageTitle(trackedItem);
+
+    if (!loading) {
       setUpPage();
     } else {
       scrollToTop();
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // run once
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(props) {
-    if (!props.loading && !props.trackedItem) {
-      this.props.navigate(`../status`, {
-        replace: true,
-      });
-    }
-    if (props.uploadComplete) {
-      this.goToFilesPage();
-    }
-  }
+  /* ───────────── componentWillReceiveProps equivalent */
+  useEffect(
+    () => {
+      if (!loading && !trackedItem) {
+        navigate('../status', { replace: true });
+      }
+      if (uploadComplete) {
+        getClaim(claim.id);
+        navigate(filesPath);
+      }
+    },
+    [loading, trackedItem, uploadComplete, navigate, claim, getClaim],
+  );
 
-  componentDidUpdate(prevProps) {
-    if (this.props.message && !prevProps.message) {
-      document.querySelector('.claims-alert').focus();
-      scrollToError();
-    }
-    if (!this.props.loading && prevProps.loading) {
-      setPageFocus();
-      setPageTitle(this.props.trackedItem);
-    }
-  }
+  /* ───────────────────── componentDidUpdate equivalents */
+  const prevMessageRef = useRef(message);
+  const prevLoadingRef = useRef(loading);
 
-  getDefaultPage() {
-    return (
-      <>
-        <DefaultPage
-          backUrl={this.props.lastPage ? `/${this.props.lastPage}` : filesPath}
-          field={this.props.uploadField}
-          files={this.props.files}
-          item={this.props.trackedItem}
-          onAddFile={this.props.addFile}
-          onCancel={this.props.cancelUpload}
-          onDirtyFields={this.props.setFieldsDirty}
-          onFieldChange={this.props.updateField}
-          onSubmit={() => {
-            // START lighthouse_migration
-            if (this.props.documentsUseLighthouse) {
-              this.props.submitFilesLighthouse(
-                this.props.claim.id,
-                this.props.trackedItem,
-                this.props.files,
-              );
-            } else {
-              this.props.submitFiles(
-                this.props.claim.id,
-                this.props.trackedItem,
-                this.props.files,
-              );
-            }
-            // END lighthouse_migration
-          }}
-          onRemoveFile={this.props.removeFile}
-          progress={this.props.progress}
-          uploading={this.props.uploading}
-        />
-      </>
-    );
-  }
+  useEffect(
+    () => {
+      if (message && !prevMessageRef.current) {
+        document.querySelector('.claims-alert')?.focus();
+        scrollToError();
+      }
+      prevMessageRef.current = message;
+    },
+    [message],
+  );
 
-  goToFilesPage() {
-    this.props.getClaim(this.props.claim.id);
-    this.props.navigate(filesPath);
-  }
+  useEffect(
+    () => {
+      if (!loading && prevLoadingRef.current) {
+        setPageFocus();
+        setPageTitle(trackedItem);
+      }
+      prevLoadingRef.current = loading;
+    },
+    [loading, trackedItem],
+  );
 
-  render() {
-    let content;
+  /* ───────────────────── helpers */
+  const handleSubmit = useCallback(
+    () => {
+      if (documentsUseLighthouse) {
+        submitFilesLighthouse(claim.id, trackedItem, files);
+      } else {
+        submitFiles(claim.id, trackedItem, files);
+      }
+    },
+    [
+      documentsUseLighthouse,
+      submitFilesLighthouse,
+      submitFiles,
+      claim,
+      trackedItem,
+      files,
+    ],
+  );
 
-    if (this.props.loading) {
-      content = (
+  const getDefaultPage = useCallback(
+    () => (
+      <DefaultPage
+        backUrl={lastPage ? `/${lastPage}` : filesPath}
+        field={uploadField}
+        files={files}
+        item={trackedItem}
+        onAddFile={addFile}
+        onCancel={cancelUpload}
+        onDirtyFields={setFieldsDirty}
+        onFieldChange={updateField}
+        onSubmit={handleSubmit}
+        onRemoveFile={removeFile}
+        progress={progress}
+        uploading={uploading}
+      />
+    ),
+    [
+      lastPage,
+      uploadField,
+      files,
+      trackedItem,
+      addFile,
+      cancelUpload,
+      setFieldsDirty,
+      updateField,
+      handleSubmit,
+      removeFile,
+      progress,
+      uploading,
+    ],
+  );
+
+  /* ───────────────────── render */
+  const mainContent = loading ? (
+    <va-loading-indicator
+      set-focus
+      message="Loading your claim information..."
+    />
+  ) : (
+    <>
+      {message && (
         <div>
-          <va-loading-indicator
-            set-focus
-            message="Loading your claim information..."
+          <Element name="uploadError" />
+          <Notification
+            title={message.title}
+            body={message.body}
+            type={message.type}
           />
         </div>
-      );
-    } else {
-      const { message, trackedItem } = this.props;
+      )}
 
-      content = (
-        <>
-          {message && (
-            <div>
-              <Element name="uploadError" />
-              <Notification
-                title={message.title}
-                body={message.body}
-                type={message.type}
-              />
-            </div>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
+        <Toggler.Enabled>
+          {isAutomated5103Notice(trackedItem?.displayName) ? (
+            <Default5103EvidenceNotice item={trackedItem} />
+          ) : (
+            getDefaultPage()
           )}
-          <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
-            <Toggler.Enabled>
-              {isAutomated5103Notice(trackedItem.displayName) ? (
-                <Default5103EvidenceNotice item={trackedItem} />
-              ) : (
-                <>{this.getDefaultPage()}</>
-              )}
-            </Toggler.Enabled>
-            <Toggler.Disabled>
-              <>{this.getDefaultPage()}</>
-            </Toggler.Disabled>
-          </Toggler>
-        </>
-      );
-    }
+        </Toggler.Enabled>
 
-    const { claim, params, trackedItem } = this.props;
-    const claimType = getClaimType(claim).toLowerCase();
+        <Toggler.Disabled>{getDefaultPage()}</Toggler.Disabled>
+      </Toggler>
+    </>
+  );
 
-    const previousPageIsFilesTab = () => {
-      const previousPage = sessionStorage.getItem('previousPage');
-      return previousPage === 'files';
-    };
+  /* ───────────────────── breadcrumbs */
+  const claimType = getClaimType(claim).toLowerCase();
+  const previousPageIsFilesTab = () =>
+    sessionStorage.getItem('previousPage') === 'files';
 
-    const filesBreadcrumb = {
-      href: filesPath,
-      label: `Files for your ${claimType} claim`,
+  const crumbs = [
+    previousPageIsFilesTab()
+      ? {
+          href: filesPath,
+          label: `Files for your ${claimType} claim`,
+          isRouterLink: true,
+        }
+      : {
+          href: statusPath,
+          label: `Status of your ${claimType} claim`,
+          isRouterLink: true,
+        },
+    {
+      href: `../document-request/${params.trackedItemId}`,
+      label: setDocumentRequestPageTitle(
+        trackedItem?.friendlyName || trackedItem?.displayName,
+      ),
       isRouterLink: true,
-    };
-    const statusBreadcrumb = {
-      href: statusPath,
-      label: `Status of your ${claimType} claim`,
-      isRouterLink: true,
-    };
+    },
+  ];
 
-    const previousPageBreadcrumb = previousPageIsFilesTab()
-      ? filesBreadcrumb
-      : statusBreadcrumb;
-
-    const crumbs = [
-      previousPageBreadcrumb,
-      {
-        href: `../document-request/${params.trackedItemId}`,
-        label: setDocumentRequestPageTitle(
-          trackedItem?.friendlyName || trackedItem?.displayName,
-        ),
-        isRouterLink: true,
-      },
-    ];
-
-    return (
-      <div>
-        <div name="topScrollElement" />
-        <div className="row">
-          <div className="usa-width-two-thirds medium-8 columns">
-            <ClaimsBreadcrumbs crumbs={crumbs} />
-            <div>{content}</div>
-            <NeedHelp item={trackedItem} />
-          </div>
+  /* ───────────────────── markup */
+  return (
+    <div>
+      <div name="topScrollElement" />
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 columns">
+          <ClaimsBreadcrumbs crumbs={crumbs} />
+          {mainContent}
+          <NeedHelp item={trackedItem} />
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
+/* ───────────────────────── Redux wiring */
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   const { claimDetail, uploads } = claimsState;
@@ -232,9 +274,7 @@ function mapStateToProps(state, ownProps) {
 
   return {
     claim: claimDetail.detail,
-    // START lighthouse_migration
-    documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
-    // END lighthouse_migration
+    documentsUseLighthouse: benefitsDocumentsUseLighthouse(state), // lighthouse
     files: uploads.files,
     lastPage: claimsState.routing.lastPage,
     loading: claimDetail.loading,
@@ -249,18 +289,16 @@ function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = {
-  addFile,
-  cancelUpload,
-  clearNotification,
+  addFile: addFileAction,
+  cancelUpload: cancelUploadAction,
+  clearNotification: clearNotificationAction,
   getClaim: getClaimAction,
-  removeFile,
-  resetUploads,
-  setFieldsDirty,
-  submitFiles,
-  // START lighthouse_migration
-  submitFilesLighthouse,
-  // END lighthouse_migration
-  updateField,
+  removeFile: removeFileAction,
+  resetUploads: resetUploadsAction,
+  setFieldsDirty: setFieldsDirtyAction,
+  submitFiles: submitFilesAction,
+  submitFilesLighthouse: submitFilesLighthouseAction, // lighthouse
+  updateField: updateFieldAction,
 };
 
 export default withRouter(
@@ -270,14 +308,13 @@ export default withRouter(
   )(DocumentRequestPage),
 );
 
+/* ───────────────────────── PropTypes */
 DocumentRequestPage.propTypes = {
   addFile: PropTypes.func,
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
-  // START lighthouse_migration
   documentsUseLighthouse: PropTypes.bool,
-  // END lighthouse_migration
   files: PropTypes.array,
   getClaim: PropTypes.func,
   lastPage: PropTypes.string,
@@ -290,9 +327,7 @@ DocumentRequestPage.propTypes = {
   resetUploads: PropTypes.func,
   setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
-  // START lighthouse_migration
   submitFilesLighthouse: PropTypes.func,
-  // END lighthouse_migration
   trackedItem: PropTypes.object,
   updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,

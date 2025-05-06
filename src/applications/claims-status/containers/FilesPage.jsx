@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { clearNotification } from '../actions';
@@ -24,109 +23,121 @@ import { setUpPage, isTab } from '../utils/page';
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
 
-class FilesPage extends React.Component {
-  componentDidMount() {
-    const { claim, location } = this.props;
-    // Only set the document title at mount-time if the claim is already available.
-    if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Files');
+const FilesPage = ({
+  claim,
+  clearNotification: clearNotif,
+  lastPage,
+  loading,
+  location,
+  message,
+}) => {
+  useEffect(
+    () => {
+      if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Files');
 
-    if (location?.hash === '') {
-      setTimeout(() => {
-        const { lastPage, loading } = this.props;
-        setPageFocus(lastPage, loading);
+      let timer;
+      if (location?.hash === '') {
+        timer = setTimeout(() => {
+          setPageFocus(lastPage, loading);
+        });
+      }
+
+      // always return a cleanup function (fixes ESLint consistent-return)
+      return () => {
+        if (timer) clearTimeout(timer);
+      };
+    },
+    [claim, lastPage, loading, location?.hash],
+  );
+
+  const prevLoadingRef = useRef(loading);
+
+  useEffect(
+    () => {
+      const prevLoading = prevLoadingRef.current;
+
+      if (!loading && prevLoading && !isTab(lastPage)) {
+        setUpPage(false);
+      }
+      if (loading !== prevLoading) {
+        setTabDocumentTitle(claim, 'Files');
+      }
+
+      prevLoadingRef.current = loading;
+    },
+    [loading, lastPage, claim],
+  );
+
+  /* -------------------- componentWillUnmount --------------------------- */
+  useEffect(() => () => clearNotif(), [clearNotif]);
+
+  /* -------------------------- helpers ---------------------------------- */
+  const getPageContent = useCallback(
+    () => {
+      if (!claimAvailable(claim)) return null;
+
+      const {
+        closeDate,
+        status,
+        supportingDocuments,
+        trackedItems,
+        evidenceWaiverSubmitted5103,
+        claimPhaseDates,
+      } = claim.attributes;
+
+      const isOpen = isClaimOpen(status, closeDate);
+      const waiverSubmitted = evidenceWaiverSubmitted5103;
+
+      const showDecision =
+        claimPhaseDates.latestPhaseType === FIRST_GATHERING_EVIDENCE_PHASE &&
+        !waiverSubmitted;
+
+      const documentsTurnedIn = [
+        ...trackedItems.filter(
+          item => !item.status.startsWith(NEED_ITEMS_STATUS),
+        ),
+        ...supportingDocuments,
+      ].sort((a, b) => {
+        // clearer comparator – avoids nested ternary
+        if (a.date === b.date) return -1;
+        return a.date > b.date ? -1 : 1;
       });
-    }
-  }
 
-  componentDidUpdate(prevProps) {
-    const { claim, lastPage, loading } = this.props;
+      return (
+        <div className="claim-files">
+          <ClaimFileHeader isOpen={isOpen} />
+          <AdditionalEvidencePage />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
+            <Toggler.Disabled>
+              {showDecision && <AskVAToDecide />}
+            </Toggler.Disabled>
+          </Toggler>
+          <DocumentsFiled claim={claim} documents={documentsTurnedIn} />
+        </div>
+      );
+    },
+    [claim],
+  );
 
-    if (!loading && prevProps.loading && !isTab(lastPage)) {
-      setUpPage(false);
-    }
-    // Set the document title when loading completes.
-    //   If loading was successful it will display a title specific to the claim.
-    //   Otherwise it will display a default title of "Files for Your Claim".
-    if (loading !== prevProps.loading) {
-      setTabDocumentTitle(claim, 'Files');
-    }
-  }
+  /* --------------------------- render ---------------------------------- */
+  const content = !loading && claim ? getPageContent() : null;
 
-  componentWillUnmount() {
-    this.props.clearNotification();
-  }
+  return (
+    <ClaimDetailLayout
+      claim={claim}
+      loading={loading}
+      clearNotification={clearNotif}
+      currentTab="Files"
+      message={message}
+    >
+      {content}
+    </ClaimDetailLayout>
+  );
+};
 
-  getPageContent() {
-    const { claim } = this.props;
-
-    // Return null if the claim/ claim.attributes dont exist
-    if (!claimAvailable(claim)) {
-      return null;
-    }
-
-    const {
-      closeDate,
-      status,
-      supportingDocuments,
-      trackedItems,
-      evidenceWaiverSubmitted5103,
-      claimPhaseDates,
-    } = claim.attributes;
-    const isOpen = isClaimOpen(status, closeDate);
-    const waiverSubmitted = evidenceWaiverSubmitted5103;
-    const showDecision =
-      claimPhaseDates.latestPhaseType === FIRST_GATHERING_EVIDENCE_PHASE &&
-      !waiverSubmitted;
-
-    const documentsTurnedIn = trackedItems.filter(
-      item => !item.status.startsWith(NEED_ITEMS_STATUS),
-    );
-
-    documentsTurnedIn.push(...supportingDocuments);
-    documentsTurnedIn.sort((a, b) => {
-      if (a.date === b.date) return -1;
-      return a.date > b.date ? -1 : 1;
-    });
-
-    return (
-      <div className="claim-files">
-        <ClaimFileHeader isOpen={isOpen} />
-        <AdditionalEvidencePage />
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
-          <Toggler.Disabled>
-            {showDecision && <AskVAToDecide />}
-          </Toggler.Disabled>
-        </Toggler>
-        <DocumentsFiled claim={claim} />
-      </div>
-    );
-  }
-
-  render() {
-    const { claim, loading, message } = this.props;
-
-    let content = null;
-    if (!loading && claim) {
-      content = this.getPageContent();
-    }
-
-    return (
-      <ClaimDetailLayout
-        claim={claim}
-        loading={loading}
-        clearNotification={this.props.clearNotification}
-        currentTab="Files"
-        message={message}
-      >
-        {content}
-      </ClaimDetailLayout>
-    );
-  }
-}
-
+/* --------------------------- Redux wiring ------------------------------ */
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
-
   return {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
@@ -135,9 +146,7 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  clearNotification,
-};
+const mapDispatchToProps = { clearNotification };
 
 FilesPage.propTypes = {
   claim: PropTypes.object,
@@ -158,5 +167,4 @@ export default withRouter(
     mapDispatchToProps,
   )(FilesPage),
 );
-
 export { FilesPage };

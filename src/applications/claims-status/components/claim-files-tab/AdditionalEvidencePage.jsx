@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -14,19 +14,18 @@ import FilesNeeded from './FilesNeeded';
 import { benefitsDocumentsUseLighthouse } from '../../selectors';
 import { setFocus, setPageFocus } from '../../utils/page';
 import {
-  addFile,
-  removeFile,
-  submitFiles,
-  // START lighthouse_migration
-  submitFilesLighthouse,
-  // END lighthouse_migration
-  updateField,
-  cancelUpload,
+  addFile as addFileAction,
+  removeFile as removeFileAction,
+  submitFiles as submitFilesAction,
+  submitFilesLighthouse as submitFilesLighthouseAction, // lighthouse
+  updateField as updateFieldAction,
+  cancelUpload as cancelUploadAction,
   getClaim as getClaimAction,
-  setFieldsDirty,
-  resetUploads,
-  clearAdditionalEvidenceNotification,
+  setFieldsDirty as setFieldsDirtyAction,
+  resetUploads as resetUploadsAction,
+  clearAdditionalEvidenceNotification as clearAdditionalEvidenceNotificationAction,
 } from '../../actions';
+
 import {
   getFilesNeeded,
   getFilesOptional,
@@ -34,155 +33,210 @@ import {
 } from '../../utils/helpers';
 import withRouter from '../../utils/withRouter';
 
+const filesPath = '../files';
 const scrollToError = () => {
   const options = getScrollOptions({ offset: -25 });
-
   setTimeout(() => {
     scrollTo('uploadError', options);
     setFocus('.usa-alert-error');
   });
 };
 
-const filesPath = `../files`;
+const AdditionalEvidencePage = props => {
+  const {
+    addFile,
+    cancelUpload,
+    claim,
+    clearAdditionalEvidenceNotification: clearNotif,
+    documentsUseLighthouse,
+    files,
+    filesNeeded,
+    filesOptional,
+    getClaim,
+    lastPage,
+    loading,
+    location,
+    message,
+    navigate,
+    progress,
+    removeFile,
+    resetUploads,
+    setFieldsDirty,
+    submitFiles,
+    submitFilesLighthouse,
+    updateField,
+    uploadComplete,
+    uploadField,
+    uploading,
+  } = props;
 
-class AdditionalEvidencePage extends React.Component {
-  componentDidMount() {
-    this.props.resetUploads();
-    this.scrollToSection();
-  }
+  /* ------------------------------ helpers ------------------------------- */
+  const scrollToSection = useCallback(
+    () => {
+      if (location.hash === '#add-files') {
+        setPageFocus('h3#add-files');
+      }
+    },
+    [location.hash],
+  );
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(props) {
-    if (props.uploadComplete) {
-      this.goToFilesPage();
-    }
-  }
+  const onSubmitFiles = useCallback(
+    () => {
+      if (documentsUseLighthouse) {
+        submitFilesLighthouse(claim.id, null, files);
+      } else {
+        submitFiles(claim.id, null, files);
+      }
+    },
+    [documentsUseLighthouse, submitFilesLighthouse, submitFiles, claim, files],
+  );
 
-  componentDidUpdate(prevProps) {
-    if (this.props.message && !prevProps.message) {
-      scrollToError();
-    }
-    if (!this.props.loading && prevProps.loading) {
-      setPageFocus();
-    }
-    if (this.props.location.hash !== prevProps.location.hash) {
-      this.scrollToSection();
-    }
-  }
+  /* --------------------------- componentDidMount ------------------------ */
+  useEffect(() => {
+    resetUploads();
+    scrollToSection(); // initial hash check
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  componentWillUnmount() {
-    if (!this.props.uploadComplete) {
-      this.props.clearAdditionalEvidenceNotification();
-    }
-  }
+  /* --------------------- UNSAFE_componentWillReceiveProps --------------- */
+  useEffect(
+    () => {
+      if (uploadComplete) {
+        getClaim(claim.id);
+        navigate(filesPath);
+      }
+    },
+    [uploadComplete, getClaim, claim, navigate],
+  );
 
-  onSubmitFiles(claimId) {
-    // START lighthouse_migration
-    if (this.props.documentsUseLighthouse) {
-      this.props.submitFilesLighthouse(claimId, null, this.props.files);
-    } else {
-      this.props.submitFiles(claimId, null, this.props.files);
-    }
-    // END lighthouse_migration
-  }
+  /* --------------------------- componentDidUpdate ----------------------- */
+  const prevMessageRef = useRef(message);
+  const prevLoadingRef = useRef(loading);
+  const prevHashRef = useRef(location.hash);
 
-  scrollToSection = () => {
-    if (this.props.location.hash === '#add-files') {
-      setPageFocus('h3#add-files');
-    }
-  };
+  useEffect(
+    () => {
+      if (message && !prevMessageRef.current) {
+        scrollToError();
+      }
+      prevMessageRef.current = message;
+    },
+    [message],
+  );
 
-  goToFilesPage() {
-    this.props.getClaim(this.props.claim.id);
-    this.props.navigate(filesPath);
-  }
+  useEffect(
+    () => {
+      if (!loading && prevLoadingRef.current) {
+        setPageFocus();
+      }
+      prevLoadingRef.current = loading;
+    },
+    [loading],
+  );
 
-  render() {
-    const { claim, lastPage } = this.props;
+  useEffect(
+    () => {
+      if (location.hash !== prevHashRef.current) {
+        scrollToSection();
+      }
+      prevHashRef.current = location.hash;
+    },
+    [location.hash, scrollToSection],
+  );
 
-    let content;
+  /* ------------------------- componentWillUnmount ----------------------- */
+  useEffect(
+    () => {
+      return () => {
+        if (!uploadComplete) clearNotif();
+      };
+    },
+    [uploadComplete, clearNotif],
+  );
 
-    const isOpen = isClaimOpen(
-      claim.attributes.status,
-      claim.attributes.closeDate,
+  /* ------------------------------ render -------------------------------- */
+  const isOpen = isClaimOpen(
+    claim.attributes.status,
+    claim.attributes.closeDate,
+  );
+
+  let mainContent;
+  if (loading) {
+    mainContent = (
+      <va-loading-indicator
+        set-focus
+        message="Loading your claim information..."
+      />
     );
+  } else {
+    mainContent = (
+      <div className="additional-evidence-container">
+        {message && (
+          <>
+            <Element name="uploadError" />
+            <Notification
+              title={message.title}
+              body={message.body}
+              type={message.type}
+            />
+          </>
+        )}
 
-    if (this.props.loading) {
-      content = (
-        <va-loading-indicator
-          set-focus
-          message="Loading your claim information..."
-        />
-      );
-    } else {
-      const { message, filesNeeded } = this.props;
+        <h3 id="add-files" className="vads-u-margin-bottom--3">
+          Additional evidence
+        </h3>
 
-      content = (
-        <div className="additional-evidence-container">
-          {message && (
-            <>
-              <Element name="uploadError" />
-              <Notification
-                title={message.title}
-                body={message.body}
-                type={message.type}
+        {isOpen ? (
+          <>
+            {filesNeeded.map(item => (
+              <FilesNeeded
+                key={item.id}
+                id={claim.id}
+                item={item}
+                evidenceWaiverSubmitted5103={
+                  claim.attributes.evidenceWaiverSubmitted5103
+                }
+                previousPage="files"
               />
-            </>
-          )}
-          <h3 id="add-files" className="vads-u-margin-bottom--3">
-            Additional evidence
-          </h3>
-          {isOpen ? (
-            <>
-              {filesNeeded.map(item => (
-                <FilesNeeded
-                  key={item.id}
-                  id={claim.id}
-                  item={item}
-                  evidenceWaiverSubmitted5103={
-                    claim.attributes.evidenceWaiverSubmitted5103
-                  }
-                  previousPage="files"
-                />
-              ))}
-              {this.props.filesOptional.map(item => (
-                <FilesOptional key={item.id} id={claim.id} item={item} />
-              ))}
-              <AddFilesForm
-                field={this.props.uploadField}
-                progress={this.props.progress}
-                uploading={this.props.uploading}
-                files={this.props.files}
-                backUrl={lastPage ? `/${lastPage}` : filesPath}
-                onSubmit={() => {
-                  this.onSubmitFiles(claim.id);
-                }}
-                onAddFile={this.props.addFile}
-                onRemoveFile={this.props.removeFile}
-                onFieldChange={this.props.updateField}
-                onCancel={this.props.cancelUpload}
-                onDirtyFields={this.props.setFieldsDirty}
-              />
-            </>
-          ) : (
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-              The claim is closed so you can no longer submit any additional
-              evidence.
-            </p>
-          )}
-        </div>
-      );
-    }
+            ))}
 
-    return (
-      <>
-        <div name="topScrollElement" />
-        {content}
-      </>
+            {filesOptional.map(item => (
+              <FilesOptional key={item.id} id={claim.id} item={item} />
+            ))}
+
+            <AddFilesForm
+              field={uploadField}
+              progress={progress}
+              uploading={uploading}
+              files={files}
+              backUrl={lastPage ? `/${lastPage}` : filesPath}
+              onSubmit={onSubmitFiles}
+              onAddFile={addFile}
+              onRemoveFile={removeFile}
+              onFieldChange={updateField}
+              onCancel={cancelUpload}
+              onDirtyFields={setFieldsDirty}
+            />
+          </>
+        ) : (
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+            The claim is closed so you can no longer submit any additional
+            evidence.
+          </p>
+        )}
+      </div>
     );
   }
-}
 
+  return (
+    <>
+      <div name="topScrollElement" />
+      {mainContent}
+    </>
+  );
+};
+
+/* --------------------------- Redux wiring ------------------------------ */
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
   const claim = claimsState.claimDetail.detail;
@@ -201,33 +255,37 @@ function mapStateToProps(state) {
     message: claimsState.notifications.additionalEvidenceMessage,
     filesNeeded: getFilesNeeded(trackedItems),
     filesOptional: getFilesOptional(trackedItems),
-    // START lighthouse_migration
-    documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
-    // END lighthouse_migration
+    documentsUseLighthouse: benefitsDocumentsUseLighthouse(state), // lighthouse
   };
 }
 
 const mapDispatchToProps = {
-  addFile,
-  removeFile,
-  submitFiles,
-  updateField,
-  cancelUpload,
+  addFile: addFileAction,
+  removeFile: removeFileAction,
+  submitFiles: submitFilesAction,
+  submitFilesLighthouse: submitFilesLighthouseAction, // lighthouse
+  updateField: updateFieldAction,
+  cancelUpload: cancelUploadAction,
   getClaim: getClaimAction,
-  submitFilesLighthouse,
-  setFieldsDirty,
-  resetUploads,
-  clearAdditionalEvidenceNotification,
+  setFieldsDirty: setFieldsDirtyAction,
+  resetUploads: resetUploadsAction,
+  clearAdditionalEvidenceNotification: clearAdditionalEvidenceNotificationAction,
 };
 
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AdditionalEvidencePage),
+);
+
+/* ------------------------------ types ---------------------------------- */
 AdditionalEvidencePage.propTypes = {
   addFile: PropTypes.func,
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,
-  // START lighthouse_migration
   documentsUseLighthouse: PropTypes.bool,
-  // END lighthouse_migration
   files: PropTypes.array,
   filesNeeded: PropTypes.array,
   filesOptional: PropTypes.array,
@@ -237,26 +295,16 @@ AdditionalEvidencePage.propTypes = {
   location: PropTypes.object,
   message: PropTypes.object,
   navigate: PropTypes.func,
-  params: PropTypes.object,
   progress: PropTypes.number,
   removeFile: PropTypes.func,
   resetUploads: PropTypes.func,
   setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
-  // START lighthouse_migration
   submitFilesLighthouse: PropTypes.func,
-  // END lighthouse_migration
   updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,
   uploadField: PropTypes.object,
   uploading: PropTypes.bool,
 };
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(AdditionalEvidencePage),
-);
 
 export { AdditionalEvidencePage };
