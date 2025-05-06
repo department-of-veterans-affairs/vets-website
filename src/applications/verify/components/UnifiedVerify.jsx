@@ -85,8 +85,12 @@ export default function Verify() {
                   <h2>You’re verified</h2>
                   <p>
                     We confirmed you verified your identity with your{' '}
-                    {renderServiceNames} account. You can now access your VA
-                    benefits, services, and information online.
+                    {renderServiceNames} account.{' '}
+                  </p>
+                  <p>
+                    This one-time step helps protect your information and
+                    prevents scammers from stealing your benefits. You can now
+                    access your VA benefits, services, and information online.
                   </p>
                 </va-alert>
                 <p>
