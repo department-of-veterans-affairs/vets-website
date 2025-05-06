@@ -145,7 +145,6 @@ const formConfig = {
         },
         ohiScreen: {
           path: 'champva-screen',
-          depends: () => !window?.location?.href?.includes('review-and-submit'),
           ...champvaScreenSchema,
           title: 'CHAMPVA screen',
           scrollAndFocusTarget,
@@ -153,7 +152,7 @@ const formConfig = {
         benefitApp: {
           path: 'benefit-application',
           title: 'Apply for Benefits',
-          depends: formData => formData.champvaBenefitStatus === false,
+          depends: formData => !get('champvaBenefitStatus', formData),
           CustomPage: ApplyForBenefits,
           CustomPageReview: null,
           uiSchema: {
