@@ -370,7 +370,7 @@ const LandingPage = () => {
                   {MEDICAL_RECORDS_SETTINGS_LABEL}
                 </Link>
               </section>
-              {!SMHDL && (
+              {SMHDL && (
                 <section className="vads-u-padding-bottom--3">
                   <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
                     Share personal health data with your care team
