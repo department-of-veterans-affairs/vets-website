@@ -13,7 +13,7 @@ export default function TravelClaimsSection() {
   };
 
   return (
-    <>
+    <div className="vads-u-margin-y--4">
       <h2>Your travel claims</h2>
       <a
         className="active-va-link"
@@ -23,10 +23,10 @@ export default function TravelClaimsSection() {
         Review and file travel claims
         <va-icon icon="chevron_right" size={3} aria-hidden="true" />
       </a>
-      <p>
+      <p className="vads-u-margin-y--0p5">
         File new claims for travel reimbursement and review the status of all
         your travel claims.
       </p>
-    </>
+    </div>
   );
 }
