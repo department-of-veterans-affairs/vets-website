@@ -1,4 +1,3 @@
-/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import { rootUrl } from '../../../manifest.json';
 import user from '../../fixtures/user.json';
 import ApiInitializer from '../utilities/ApiInitializer';
