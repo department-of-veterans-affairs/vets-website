@@ -145,48 +145,43 @@ describe('addStudentsOptions', () => {
   });
   describe('getItemName + cardDescription', () => {
     it('should return a full name when both first and last names are provided', () => {
-      const item = { fullName: { first: 'john', last: 'doe' } };
-      const expectedName = 'John Doe';
-      expect(addStudentsOptions.text.getItemName()).to.equal('Student');
-      expect(addStudentsOptions.text.cardDescription(item)).to.equal(
-        expectedName,
+      const item = { fullName: { first: 'John', last: 'Doe' } };
+      const { container } = render(
+        addStudentsOptions.text.cardDescription(item),
       );
+      expect(container.textContent).to.equal('John Doe');
     });
 
     it('should return only the first name when the last name is missing', () => {
-      const item = { fullName: { first: 'john' } };
-      const expectedName = 'John ';
-      expect(addStudentsOptions.text.getItemName()).to.equal('Student');
-      expect(addStudentsOptions.text.cardDescription(item)).to.equal(
-        expectedName,
+      const item = { fullName: { first: 'John' } };
+      const { container } = render(
+        addStudentsOptions.text.cardDescription(item),
       );
+      expect(container.textContent).to.equal('John');
     });
 
     it('should return only the last name when the first name is missing', () => {
-      const item = { fullName: { last: 'doe' } };
-      const expectedName = ' Doe';
-      expect(addStudentsOptions.text.getItemName()).to.equal('Student');
-      expect(addStudentsOptions.text.cardDescription(item)).to.equal(
-        expectedName,
+      const item = { fullName: { last: 'Doe' } };
+      const { container } = render(
+        addStudentsOptions.text.cardDescription(item),
       );
+      expect(container.textContent).to.equal('Doe');
     });
 
     it('should return an empty string when both first and last names are missing', () => {
-      const item = { fullName: {} };
-      const expectedName = ' ';
-      expect(addStudentsOptions.text.getItemName()).to.equal('Student');
-      expect(addStudentsOptions.text.cardDescription(item)).to.equal(
-        expectedName,
+      const item = { fullName: { first: '', last: '' } };
+      const { container } = render(
+        addStudentsOptions.text.cardDescription(item),
       );
+      expect(container.textContent).to.equal('');
     });
 
     it('should return an empty string when fullName is not provided', () => {
       const item = {};
-      const expectedName = ' ';
-      expect(addStudentsOptions.text.getItemName()).to.equal('Student');
-      expect(addStudentsOptions.text.cardDescription(item)).to.equal(
-        expectedName,
+      const { container } = render(
+        addStudentsOptions.text.cardDescription(item),
       );
+      expect(container.textContent).to.equal('');
     });
   });
 });
