@@ -23,6 +23,8 @@ const selectorShorthand = {
   SELECT_BRANCH_OF_SERVICE: "va-select[name='root_yourBranchOfService']",
   SELECT_BRANCH_OF_SERVICE_ABOUT_YOU:
     "va-select[name='root_aboutYourself_branchOfService']",
+  SELECT_BRANCH_OF_SERVICE_VETERAN:
+    "va-select[name='root_aboutTheVeteran_branchOfService']",
   SELECT_COUNTRY: "va-select[name='root_address_country']",
   SELECT_STATE: "va-select[name='root_address_state']",
   SELECT_MONTH: 'va-select.usa-form-group--month-select',
