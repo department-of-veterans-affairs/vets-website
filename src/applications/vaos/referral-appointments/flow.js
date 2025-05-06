@@ -1,4 +1,5 @@
 import { startReferralTimer } from './utils/timer';
+import { titleCase } from '../utils/formatters';
 
 /**
  * Function to get referral page flow.
@@ -131,7 +132,10 @@ export function getReferralUrlLabel(currentPage, categoryOfCare = '') {
     case 'complete':
       return 'Back to appointments';
     case 'scheduleReferral':
-      return result.label.replace('{{ categoryOfCare }}', categoryOfCare);
+      return result.label.replace(
+        '{{ categoryOfCare }}',
+        titleCase(categoryOfCare),
+      );
     case 'reviewAndConfirm':
     case 'scheduleAppointment':
       return 'Back';
