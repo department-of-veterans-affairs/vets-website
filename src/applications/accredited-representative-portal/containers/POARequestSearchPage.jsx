@@ -148,12 +148,17 @@ const POARequestSearchPage = title => {
                         Pending representation requests
                       </h2>
                       <SortForm
+                        api={api.getPOARequests}
                         asc={SORT_BY.ASC}
                         desc={SORT_BY.DESC}
                         ascOption={PENDING.ASC_OPTION}
                         descOption={PENDING.DESC_OPTION}
                       />
-                      <PaginationMeta meta={meta} poaRequests={poaRequests} />
+                      <PaginationMeta
+                        meta={meta}
+                        results={poaRequests}
+                        searchLabels={SEARCH_PARAMS}
+                      />
                     </>
                   );
                 case STATUSES.PROCESSED:
@@ -171,7 +176,11 @@ const POARequestSearchPage = title => {
                         ascOption={PROCESSED.ASC_OPTION}
                         descOption={PROCESSED.DESC_OPTION}
                       />
-                      <PaginationMeta meta={meta} poaRequests={poaRequests} />
+                      <PaginationMeta
+                        meta={meta}
+                        results={poaRequests}
+                        searchLabels={SEARCH_PARAMS}
+                      />
                     </>
                   );
                 default:
