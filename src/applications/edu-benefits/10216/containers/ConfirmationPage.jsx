@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
+import { scrollAndFocus } from 'platform/utilities/ui';
 import Alert from '../components/Alert';
 import GetFormHelp from '../components/GetFormHelp';
 import ProcessList from '../components/ProcessList';
@@ -26,6 +27,11 @@ export const ConfirmationPage = ({ router, route }) => {
   const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
 
+  useEffect(() => {
+    const h2 = document.querySelector('#submit-steps-header');
+    scrollAndFocus(h2);
+  }, []);
+
   useEffect(
     () => {
       setClaimIdInLocalStage(submission);
@@ -41,8 +47,8 @@ export const ConfirmationPage = ({ router, route }) => {
   const childContent = (
     <div>
       <Alert />
-
       <h2
+        id="submit-steps-header"
         className="vads-u-font-size--h3 vads-u-margin-bottom--2"
         data-testid="confirmation-header"
       >
