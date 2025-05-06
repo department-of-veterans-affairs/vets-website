@@ -295,6 +295,7 @@ export function getLetterBlobUrl(
         );
       });
   });
+  // return Promise.resolve('http://fake-url.com/letter.pdf');
 }
 
 // Enhanced Letter functions to generate blob URLs on first render
