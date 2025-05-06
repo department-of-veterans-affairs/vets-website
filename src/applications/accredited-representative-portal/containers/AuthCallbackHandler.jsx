@@ -2,8 +2,6 @@ import React from 'react';
 import { useLoaderData, redirect } from 'react-router-dom';
 import { AUTH_ERRORS } from 'platform/user/authentication/errors';
 import { userPromise } from '../utilities/auth';
-// eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
-import { handleTokenRequest } from '../../auth/helpers';
 
 /**
  * Component to handle OAuth callback from Login.gov
@@ -114,6 +112,11 @@ AuthCallbackHandler.loader = async () => {
 
   // If we have code and state, process the OAuth callback
   if (code && state) {
+    // import the handleTokenRequest function dynamically to avoid circular dependencies
+    const {
+      handleTokenRequest,
+    } = await import('platform/user/authentication/utilities');
+
     try {
       // Set state in localStorage for token validation
       localStorage.setItem('logingov_state', state);
