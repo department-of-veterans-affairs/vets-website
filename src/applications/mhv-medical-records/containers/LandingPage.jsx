@@ -15,6 +15,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
+import environment from 'platform/utilities/environment';
 import {
   CernerAlertContent,
   downtimeNotificationParams,
@@ -44,6 +45,8 @@ const MEDICAL_RECORDS_DOWNLOAD_LABEL =
   'Go to download your medical records reports';
 const MEDICAL_RECORDS_SETTINGS_LABEL =
   'Go to manage your electronic sharing settings';
+const SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM =
+  'Go to the Share My Health Data website';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -361,6 +364,33 @@ const LandingPage = () => {
                   }}
                 >
                   {MEDICAL_RECORDS_SETTINGS_LABEL}
+                </Link>
+              </section>
+              <section className="vads-u-padding-bottom--3">
+                <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                  Share personal health data with your care team
+                </h2>
+                <p className="vads-u-margin-bottom--2">
+                  You can share your personal health data with your care team
+                  using the Share My Health Data website.
+                </p>
+                <Link
+                  to="/care-team"
+                  className="vads-c-action-link--blue"
+                  data-testid="care-team-landing-page-link"
+                  onClick={() => {
+                    if (environment.isProduction()) {
+                      sendDataDogAction(
+                        SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM,
+                      );
+                    } else if (environment.isStaging()) {
+                      sendDataDogAction(
+                        `STAGING_${SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}`,
+                      );
+                    }
+                  }}
+                >
+                  {SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}
                 </Link>
               </section>
             </>

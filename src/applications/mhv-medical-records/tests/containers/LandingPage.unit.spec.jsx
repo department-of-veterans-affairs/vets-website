@@ -191,6 +191,11 @@ describe('Landing Page', () => {
         name: 'Go to manage your electronic sharing settings',
       }),
     ).to.exist;
+    expect(
+      screen.getByRole('link', {
+        name: 'Go to the Share My Health Data website',
+      }),
+    ).to.exist;
 
     // help section
     expect(
