@@ -66,7 +66,7 @@ export const Nav = () => {
                     size={2}
                     className="people-search-icon"
                   />
-                  Search People
+                  Find Claimant
                 </Link>
               </Toggler.Enabled>
             </Toggler>

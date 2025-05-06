@@ -40,7 +40,7 @@ export const CalculationInstructions = () => {
           </li>
           <li>
             For students taking more than one program, or concentration/track,
-            which requires its own 85/15% calculation, they must be counted for
+            which requires its own 85/15 calculation, they must be counted for
             each program in which they are enrolled. A student is counted as a
             full-time or part-time student under each approved program,
             concentration or track based on the student’s overall rate of
@@ -54,11 +54,9 @@ export const CalculationInstructions = () => {
         <h2 className="vads-u-margin-top--2  vads-u-margin-bottom--2">
           Total number of students enrolled in the program
         </h2>
-        <ul className="vads-u-margin-left--2 list-style  vads-u-margin-bottom--2">
-          <li>
-            Enter the total number of students who are enrolled in the program.
-          </li>
-        </ul>
+        <p className="vads-u-margin-bottom--2">
+          Enter the total number of students who are enrolled in the program.
+        </p>
       </div>
       <div className="bottom-border">
         <h2 className="vads-u-margin-top--2">
@@ -169,8 +167,8 @@ export const CalculationInstructions = () => {
         </p>
         <ul className="vads-u-margin-left--2 list-style">
           <li>
-            The Student is not using Gl Bill benefits under Title 10 or Title 38
-            (chapters 30, 31, 33, 35, 36, 1606); <strong> AND</strong>
+            The Student is not using GI Bill&reg; benefits under Title 10 or
+            Title 38 (chapters 30, 31, 33, 35, 36, 1606); <strong> AND</strong>
           </li>
           <li>
             The student is not using institutional aid (Note: Institutional aid
