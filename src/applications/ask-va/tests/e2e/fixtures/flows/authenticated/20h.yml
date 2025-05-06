@@ -24,7 +24,7 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-yourself
+      value: tell-us-about-you
 
     - action: include
       target: page
