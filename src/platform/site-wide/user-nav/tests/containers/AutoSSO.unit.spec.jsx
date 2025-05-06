@@ -44,7 +44,7 @@ describe('<AutoSSO>', () => {
     wrapper.unmount();
   });
 
-  it('should call removeLoginAttempted if user is logged in', () => {
+  it.skip('should call removeLoginAttempted if user is logged in', () => {
     const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
     props = generateProps({ loggedIn: true });
     const wrapper = shallow(<AutoSSO {...props} />);

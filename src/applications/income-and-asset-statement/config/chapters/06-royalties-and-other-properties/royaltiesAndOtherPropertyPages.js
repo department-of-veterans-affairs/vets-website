@@ -7,12 +7,12 @@ import {
   arrayBuilderYesNoUI,
   currencyUI,
   currencySchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
-  textUI,
   textareaUI,
   textareaSchema,
-  textSchema,
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
@@ -20,10 +20,13 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
-  otherRecipientRelationshipExplanationRequired,
-  otherGeneratedIncomeTypeExplanationRequired,
-  recipientNameRequired,
+  formatFullNameNoSuffix,
+  generateDeleteDescription,
   isDefined,
+  isRecipientInfoIncomplete,
+  otherGeneratedIncomeTypeExplanationRequired,
+  otherRecipientRelationshipExplanationRequired,
+  recipientNameRequired,
 } from '../../../helpers';
 import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 
@@ -34,19 +37,25 @@ export const options = {
   nounPlural: 'royalties and other properties',
   required: false,
   isItemIncomplete: item =>
-    !isDefined(item?.recipientRelationship) ||
+    isRecipientInfoIncomplete(item) ||
     typeof item.canBeSold !== 'boolean' ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.fairMarketValue) ||
     !isDefined(item.incomeGenerationMethod), // include all required fields here
   text: {
-    getItemName: item => relationshipLabels[item.recipientRelationship],
+    getItemName: (item, index, formData) =>
+      isDefined(item?.recipientRelationship) &&
+      `${
+        item?.recipientRelationship === 'VETERAN'
+          ? formatFullNameNoSuffix(formData?.veteranFullName)
+          : formatFullNameNoSuffix(item?.recipientName)
+      }’s income`,
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) &&
       isDefined(item?.fairMarketValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
-            Income Generation Method:{' '}
+            Income generation method:{' '}
             <span className="vads-u-font-weight--bold">
               {generatedIncomeTypeLabels[item.incomeGenerationMethod]}
             </span>
@@ -80,6 +89,8 @@ export const options = {
     deleteTitle: 'Delete this royalty and other property',
     deleteYes: 'Yes, delete this royalty and other property',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 
@@ -167,15 +178,12 @@ const recipientNamePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Income and net worth associated with royalties and other properties',
     ),
-    recipientName: textUI({
-      title: 'Tell us the income recipient’s name',
-      hint: 'Only needed if child, parent, custodian of child, or other',
-    }),
+    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
     properties: {
-      recipientName: textSchema,
+      recipientName: fullNameNoSuffixSchema,
     },
     required: ['recipientName'],
   },
