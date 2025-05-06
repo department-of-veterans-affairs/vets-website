@@ -89,12 +89,12 @@ const ClaimEstimationPage = () => {
   );
 };
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   const claimsState = state.disability.status;
   return {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
   };
-}
+};
 
 export default connect(mapStateToProps)(ClaimEstimationPage);
