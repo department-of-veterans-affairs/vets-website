@@ -48,6 +48,7 @@ export const removeChildHouseholdOptions = {
       `${capitalize(item?.fullName?.first) || ''} ${capitalize(
         item?.fullName?.last,
       ) || ''}`,
+    cancelAddButtonText: 'Cancel removing this child',
   },
 };
 

@@ -237,11 +237,6 @@ export const Prompts = {
       'If you remove an attachment, you will have to attach it again.',
   },
   Compose: {
-    EDIT_PREFERENCES_TITLE: 'Edit your message preferences',
-    EDIT_PREFERENCES_CONTENT:
-      'You can edit your contact list or signature settings on the My HealtheVet website. Then refresh this page to review your updated list.',
-    EDIT_PREFERENCES_LINK: `Edit your message preferences on the My HealtheVet website 
-    (opens in a new tab)`,
     SIGNATURE_REQUIRED:
       'Messages to this team require a signature. We added a signature box to this page.',
     SIGNATURE_NOT_REQUIRED:

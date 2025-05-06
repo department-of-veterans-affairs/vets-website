@@ -75,6 +75,7 @@ export const deceasedDependentOptions = {
       return `${firstName} ${lastName}`.trim();
     },
     summaryTitle: 'Review your dependents who have died',
+    cancelAddButtonText: 'Cancel removing this dependent',
   },
 };
 
