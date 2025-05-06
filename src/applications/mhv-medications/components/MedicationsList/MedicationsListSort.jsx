@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { datadogRum } from '@datadog/browser-rum';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { rxListSortingOptions } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
-import { setSortOption } from '../../redux/preferencesSlice';
 
-const MedicationsListSort = () => {
+const MedicationsListSort = props => {
+  const { sortRxList } = props;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const selectedSortOption = useSelector(
     state => state.rx.preferences.sortOption,
@@ -34,8 +33,7 @@ const MedicationsListSort = () => {
           value={selectedSortOption}
           onVaSelect={e => {
             const newSortOption = e.detail.value;
-            dispatch(setSortOption(newSortOption));
-
+            sortRxList(null, newSortOption);
             navigate(`/?page=1`, {
               replace: true,
             });

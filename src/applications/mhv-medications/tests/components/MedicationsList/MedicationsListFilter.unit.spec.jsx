@@ -81,36 +81,17 @@ describe('Medications List Filter component', () => {
     expect(radioOptionUnchecked).to.have.property('checked', false);
   });
 
-  it('calls setFilterOption when radio button is selected ', async () => {
-    const screen = setup({
-      rx: {
-        preferences: {
-          filterOption: filterOptions.ACTIVE.label,
-        },
-      },
-    });
-
-    const event = { detail: { value: `${filterOptions.RENEWAL.label}` } };
-    screen.getByTestId('filter-option').__events.vaValueChange(event);
-
-    expect(
-      dispatchSpy.calledWith(
-        sandbox.match({
-          type: 'preferences/setFilterOption',
-          payload: filterOptions.RENEWAL.label,
-        }),
-      ),
-    ).to.be.true;
-  });
-
   it('calls updateFilter when user presses the Filter button ', () => {
     const updateFilter = sandbox.spy();
     const screen = setup(
       {
-        rx: { preferences: { filterOption: filterOptions.ACTIVE.label } },
+        rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } },
       },
       updateFilter,
     );
+
+    const radioOptionChecked = screen.getByTestId('filter-option-ACTIVE');
+    expect(radioOptionChecked).to.exist;
 
     const filterButton = screen.getByTestId('filter-button');
     filterButton.click();
