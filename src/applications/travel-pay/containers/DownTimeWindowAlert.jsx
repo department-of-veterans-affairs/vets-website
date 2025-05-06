@@ -9,7 +9,7 @@ const DowntimeWindowAlert = ({ children, appTitle }) => {
   return (
     <DowntimeNotification
       appTitle={appTitle}
-      dependencies={[externalServices.travelPayApi, externalServices.vaos]}
+      dependencies={[externalServices.travelPay, externalServices.vaos]}
     >
       {children}
     </DowntimeNotification>

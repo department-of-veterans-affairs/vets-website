@@ -95,7 +95,7 @@ class ApiInitializer {
               type: 'maintenance_window',
               attributes: {
                 id: 319,
-                externalService: 'travel_pay_api',
+                externalService: 'travel_pay',
                 startTime: oneDayAgo,
                 endTime: oneDayLater,
                 description: '',
