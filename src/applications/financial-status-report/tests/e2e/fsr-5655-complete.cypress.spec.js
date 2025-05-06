@@ -16,6 +16,7 @@ import {
   fillInputList,
   verifySummaryPage,
   verifyEditPage,
+  verifyAddPage,
 } from './pages/ChecklistSummaryFlow';
 import { data } from './fixtures/data/fsr-maximal.json';
 import {
@@ -223,6 +224,7 @@ const testConfig = createTestConfig(
             additionalIncome.addlIncRecords,
             'Update other income',
           );
+          verifyAddPage(additionalIncome.addlIncRecords, 'Add other income');
           customButtonGroupContinue();
         });
       },
@@ -286,6 +288,7 @@ const testConfig = createTestConfig(
 
           // add-other-income
           verifyEditPage(spouse.spAddlIncome, 'Update other income');
+          verifyAddPage(spouse.spAddlIncome, 'Add other income');
           customButtonGroupContinue();
         });
       },
@@ -458,6 +461,7 @@ const testConfig = createTestConfig(
 
           // add-other-asset
           verifyEditPage(otherAssets, 'Update asset');
+          verifyAddPage(otherAssets, 'Add asset');
           customButtonGroupContinue();
         });
       },
@@ -512,6 +516,7 @@ const testConfig = createTestConfig(
 
           // add-utility-bill
           verifyEditPage(utilityRecords, 'Update utility bill');
+          verifyAddPage(utilityRecords, 'Add utility bill');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -674,6 +679,7 @@ const testConfig = createTestConfig(
 
           // add-other-expense
           verifyEditPage(otherExpenses, 'Update expense');
+          verifyAddPage(otherExpenses, 'Add expense');
           customButtonGroupContinue();
         });
       },
@@ -785,7 +791,7 @@ const testConfig = createTestConfig(
             .check({ force: true });
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
-          }).click();
+          }).click({ force: true });
         });
       },
     },
