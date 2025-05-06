@@ -117,7 +117,7 @@ const formConfig = {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your form.',
   },
-  title: 'Report 85/15 Rule enrollment ratios',
+  title: 'Report 85/15 rule enrollment ratios',
   subTitle: () => (
     <p className="vads-u-margin-bottom--0">
       Statement of Assurance of Compliance with 85% Enrollment Ratios (VA Form
