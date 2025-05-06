@@ -33,7 +33,7 @@ const IntroProcessList = ({ showLegacyWizard, showStaticWizard }) => {
           <p>Not sure if this is the right form for you?</p>
           <va-link
             data-testid="learn-more-about-options-link"
-            href="/resources/options-to-help-with-va-debt"
+            href="/resources/options-to-request-help-with-va-debt/"
             text="Learn more about options for requesting help with VA debts"
           />
         </va-process-list-item>

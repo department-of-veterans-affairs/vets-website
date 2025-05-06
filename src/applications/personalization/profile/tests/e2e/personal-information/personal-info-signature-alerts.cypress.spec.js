@@ -4,12 +4,9 @@ import { Locators, Data } from '../../fixtures/constants';
 
 describe('PERSONAL INFORMATION SIGNATURE ALERTS', () => {
   it('verify empty fields alerts', () => {
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
+    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles(
+      [],
+    );
 
     PersonalInformationPage.load(updatedFeatureToggles);
 
@@ -42,12 +39,9 @@ describe('PERSONAL INFORMATION ADD SIGNATURE ALERTS', () => {
       },
     };
 
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
+    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles(
+      [],
+    );
     PersonalInformationPage.load(updatedFeatureToggles, noSignatureResponse);
   });
 
@@ -117,12 +111,9 @@ describe('PERSONAL INFORMATION ADD SIGNATURE ALERTS', () => {
 
 describe('PERSONAL INFORMATION EDIT SIGNATURE ALERTS', () => {
   beforeEach(() => {
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
+    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles(
+      [],
+    );
     PersonalInformationPage.load(updatedFeatureToggles);
   });
 

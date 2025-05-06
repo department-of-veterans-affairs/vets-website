@@ -23,8 +23,8 @@ export const ConfirmationPage = ({ router, route }) => {
   const form = useSelector(state => state?.form);
   const { submission } = form;
 
-  const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.confirmationNumber;
+  const submitDate = submission?.timestamp;
+  const confirmationNumber = submission?.response?.confirmationNumber;
   const goBack = e => {
     e.preventDefault();
     router.push('/review-and-submit');
@@ -34,7 +34,6 @@ export const ConfirmationPage = ({ router, route }) => {
       setClaimIdInLocalStage(submission);
       setClaimId(getClaimIdFromLocalStage());
     },
-
     [submission],
   );
 
@@ -60,12 +59,12 @@ export const ConfirmationPage = ({ router, route }) => {
       formConfig={route?.formConfig}
       confirmationNumber={confirmationNumber}
       submitDate={submitDate}
-      pdfUrl={`${
-        environment.API_URL
-      }/v0/education_benefits_claims/download_pdf/${claimId}`}
     >
       {childContent(
-        <ConfirmationView.SavePdfDownload className="custom-classname" />,
+        `${
+          environment.API_URL
+        }/v0/education_benefits_claims/download_pdf/${claimId}`,
+        route?.formConfig?.trackingPrefix,
         goBack,
       )}
       <ConfirmationView.NeedHelp content={<GetFormHelp />} />
