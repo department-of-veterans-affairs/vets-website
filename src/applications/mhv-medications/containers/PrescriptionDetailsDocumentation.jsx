@@ -25,11 +25,8 @@ import { pageType } from '../util/dataDogConstants';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import CallPharmacyPhone from '../components/shared/CallPharmacyPhone';
 import { selectGroupingFlag } from '../util/selectors';
-import {
-  getPrescriptionsList,
-  getPrescriptionById,
-  useGetPrescriptionDocumentationQuery,
-} from '../api/prescriptionsApi';
+import { useGetPrescriptionDocumentationQuery } from '../api/prescriptionsApi';
+import usePrescriptionData from '../hooks/usePrescriptionData';
 
 const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
@@ -72,35 +69,13 @@ const PrescriptionDetailsDocumentation = () => {
     filterOption: filterOptions[selectedFilterOption]?.url || '',
   });
 
-  let prescription;
-  let hasPrescriptionApiError = false;
-  let prescriptionIsLoading = true;
+  const {
+    prescription,
+    error: hasPrescriptionApiError,
+    isLoading: prescriptionIsLoading,
+  } = usePrescriptionData(prescriptionId, queryParams);
 
-  // Check if the prescription data is already available in RTK's query cache
-  const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
-    selectFromResult: ({ data: prescriptionsList }) => {
-      return prescriptionsList?.prescriptions?.find(
-        item => item.prescriptionId === Number(prescriptionId),
-      );
-    },
-  });
-
-  // If the data is not found in the cache, fetch it from the API
-  if (cachedPrescription?.prescriptionId) {
-    prescription = cachedPrescription;
-    prescriptionIsLoading = false;
-  } else {
-    const {
-      data,
-      error,
-      isLoading: prescriptionQueryIsLoading,
-    } = getPrescriptionById.useQuery(prescriptionId);
-    prescription = data;
-    hasPrescriptionApiError = error;
-    prescriptionIsLoading = prescriptionQueryIsLoading;
-  }
-
-  const isLoadingRx = !prescription && prescriptionIsLoading;
+  const isLoadingRx = prescriptionIsLoading;
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
 
   const buildMedicationInformationTxt = useCallback(

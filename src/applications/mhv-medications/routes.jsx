@@ -93,7 +93,6 @@ const routes = [
   {
     path: 'prescription/:prescriptionId/documentation',
     element: <AppWrapper Component={PrescriptionDetailsDocumentation} />,
-    loader: authenticatedLoader({ loader: prescriptionsLoader }),
   },
   {
     path: 'prescription/:prescriptionId',

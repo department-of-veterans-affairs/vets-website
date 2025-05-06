@@ -43,11 +43,8 @@ import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import { pageType } from '../util/dataDogConstants';
 import { selectGroupingFlag } from '../util/selectors';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
-import {
-  getPrescriptionsList,
-  getPrescriptionById,
-  usePrefetch,
-} from '../api/prescriptionsApi';
+import usePrescriptionData from '../hooks/usePrescriptionData';
+import { usePrefetch } from '../api/prescriptionsApi';
 
 const PrescriptionDetails = () => {
   const { prescriptionId } = useParams();
@@ -71,31 +68,16 @@ const PrescriptionDetails = () => {
     filterOption: filterOptions[selectedFilterOption]?.url || '',
   });
 
-  let prescription;
-  let prescriptionsApiError = false;
-  let prescriptionIsLoading = true;
-  const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
-    selectFromResult: ({ data: prescriptionsList }) => {
-      return prescriptionsList?.prescriptions?.find(
-        item => item.prescriptionId === Number(prescriptionId),
-      );
-    },
-  });
+  const {
+    prescription,
+    error: prescriptionsApiError,
+    isLoading: prescriptionIsLoading,
+  } = usePrescriptionData(prescriptionId, queryParams);
 
-  if (cachedPrescription?.prescriptionId) {
-    prescription = cachedPrescription;
-    prescriptionIsLoading = false;
-  } else {
-    const { data, error, isLoading } = getPrescriptionById.useQuery(
-      prescriptionId,
-    );
-    prescription = data;
-    prescriptionsApiError = error;
-    prescriptionIsLoading = isLoading;
-  }
+  const isLoading = !prescription && prescriptionIsLoading;
 
-  // Prefetch prescription documentation for faster loading when
-  // going to the documentation page
+  // Prefetch prescription documentation for faster
+  // loading when going to the documentation page.
   const prefetchPrescriptionDocumentation = usePrefetch(
     'getPrescriptionDocumentation',
   );
@@ -107,8 +89,6 @@ const PrescriptionDetails = () => {
     },
     [prescriptionIsLoading, prescriptionId, prefetchPrescriptionDocumentation],
   );
-
-  const isLoading = !prescription && prescriptionIsLoading;
 
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
   const userName = useSelector(state => state.user.profile.userFullName);
