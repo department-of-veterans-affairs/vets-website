@@ -70,11 +70,7 @@ const Calcs = ({ data }) => {
   return (
     <>
       <div className="vads-u-margin-bottom--1">
-        <label
-          className="vads-u-margin-bottom--1"
-          data-testid="num-fte"
-          htmlFor="totalEnrolledFTE"
-        >
+        <label className="vads-u-margin-bottom--1" data-testid="num-fte">
           Total Enrolled FTE
         </label>
         <span
