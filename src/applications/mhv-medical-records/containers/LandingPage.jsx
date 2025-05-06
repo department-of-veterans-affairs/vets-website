@@ -370,15 +370,15 @@ const LandingPage = () => {
                   {MEDICAL_RECORDS_SETTINGS_LABEL}
                 </Link>
               </section>
-              <section className="vads-u-padding-bottom--3">
-                <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                  Share personal health data with your care team
-                </h2>
-                <p className="vads-u-margin-bottom--2">
-                  You can share your personal health data with your care team
-                  using the Share My Health Data website.
-                </p>
-                {!killHealthDataLink && (
+              {!killHealthDataLink && (
+                <section className="vads-u-padding-bottom--3">
+                  <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                    Share personal health data with your care team
+                  </h2>
+                  <p className="vads-u-margin-bottom--2">
+                    You can share your personal health data with your care team
+                    using the Share My Health Data website.
+                  </p>
                   <Link
                     to={
                       environment.isProduction()
@@ -395,8 +395,8 @@ const LandingPage = () => {
                   >
                     {SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}
                   </Link>
-                )}
-              </section>
+                </section>
+              )}
             </>
           )}
 
