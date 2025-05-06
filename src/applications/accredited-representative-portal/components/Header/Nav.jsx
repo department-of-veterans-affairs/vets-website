@@ -66,7 +66,7 @@ export const Nav = () => {
                     size={2}
                     className="people-search-icon"
                   />
-                  Search People
+                  Find Claimant
                 </Link>
               </Toggler.Enabled>
             </Toggler>
@@ -77,13 +77,21 @@ export const Nav = () => {
             >
               Power of Attorney Requests
             </Link>
-            <Link
-              to="/get-help"
-              className="nav__btn desktop vads-u-display--none"
-              data-testid="desktop-help-link"
+            <Toggler
+              toggleName={
+                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp
+              }
             >
-              Get Help
-            </Link>
+              <Toggler.Enabled>
+                <Link
+                  to="/get-help"
+                  className="nav__btn desktop"
+                  data-testid="desktop-help-link"
+                >
+                  Get Help
+                </Link>
+              </Toggler.Enabled>
+            </Toggler>
           </div>
         </div>
       )}

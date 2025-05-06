@@ -128,12 +128,26 @@ export const selectUpcomingAppointments = createSelector(
   },
 );
 
-export const selectPastAppointments = createSelector(
-  state => state.appointments.past,
-  past => {
-    return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
-  },
-);
+export const selectPastAppointments = state => {
+  const selector = createSelector(
+    () => state.appointments.past,
+    past => {
+      if (!past) {
+        return null;
+      }
+
+      return past
+        ?.filter(item =>
+          isValidPastAppointment(
+            item,
+            selectFeatureDisplayPastCancelledAppointments(state),
+          ),
+        )
+        .sort(sortByDateDescending);
+    },
+  );
+  return selector(state);
+};
 
 /*
  * V2 Past appointments state selectors
@@ -147,16 +161,7 @@ export const selectPastAppointmentsV2 = state => {
         return null;
       }
 
-      const sortedAppointments = past
-        .filter(item =>
-          isValidPastAppointment(
-            item,
-            selectFeatureDisplayPastCancelledAppointments(state),
-          ),
-        )
-        .sort(sortByDateDescending);
-
-      return groupAppointmentsByMonth(sortedAppointments);
+      return groupAppointmentsByMonth(selectPastAppointments(state));
     },
   );
   return selector(state);
