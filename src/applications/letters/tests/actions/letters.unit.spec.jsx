@@ -425,8 +425,7 @@ describe('getLetterPdfLink', () => {
     },
   ];
 
-  it("dispatches Trevor's download pending action first", done => {
-    // make our mocks and spies
+  it('dispatches enhanced letter downloading and success actions', done => {
     const dispatch = sinon.spy();
     const mockBlob = () => Promise.resolve(Buffer.from('PDF file content'));
     const mockUrlBenefitSummary =
@@ -442,9 +441,7 @@ describe('getLetterPdfLink', () => {
     stubCreateObjectUrl.onCall(1).returns(mockUrlCivilServiceLetter);
     setFetchJSONResponse(global.fetch.onCall(1), { blob: mockBlob });
 
-    // do the thing
     getLetterPdfLink(dispatch, migrationOptions, lettersArr)
-      // check the results
       .then(() => {
         const action1 = dispatch.getCall(0).args[0];
         const action2 = dispatch.getCall(1).args[0];
@@ -464,7 +461,32 @@ describe('getLetterPdfLink', () => {
           downloadUrl: mockUrlCivilServiceLetter,
         });
       })
-      // finish the job
+      .then(done, done);
+  });
+
+  it('dispatches enhanced letter failure action', done => {
+    const dispatch = sinon.spy();
+    const mockBlob = () => Promise.resolve(Buffer.from('PDF file content'));
+
+    // set up first response
+    stubCreateObjectUrl.onCall(0).returns('http://fake-site.com/letter.pdf');
+    setFetchJSONResponse(global.fetch.onCall(0), { blob: mockBlob });
+
+    // set up second response
+    stubCreateObjectUrl.onCall(1).returns('http://fake-site.com/letter.pdf');
+    setFetchJSONFailure(global.fetch.onCall(1), new Error('Letter error'));
+
+    getLetterPdfLink(dispatch, migrationOptions, lettersArr)
+      .then(() => {
+        const action1 = dispatch.getCall(0).args[0];
+        const action2 = dispatch.getCall(1).args[0];
+
+        expect(action1.type).to.equal(GET_ENHANCED_LETTERS_DOWNLOADING);
+
+        // assert we're dispatching the failure action
+        expect(action2.type).to.equal(GET_LETTER_PDF_FAILURE);
+        expect(action2.data).to.equal(LETTER_TYPES.civilService);
+      })
       .then(done, done);
   });
 });
