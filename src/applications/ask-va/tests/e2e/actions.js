@@ -15,12 +15,16 @@ export const HEADING_SELECTORS = [
 
 const selectorShorthand = {
   SELECT_RESIDENCE: "va-select[name='root_yourLocationOfResidence']",
+  SELECT_VETERAN_RESIDENCE:
+    "va-select[name='root_veteransLocationOfResidence']",
   SELECT_FAMILY_MEMBER_RESIDENCE:
     "va-select[name='root_familyMembersLocationOfResidence']",
   SELECT_CATEGORY: 'va-select#root_selectCategory',
   SELECT_BRANCH_OF_SERVICE: "va-select[name='root_yourBranchOfService']",
   SELECT_BRANCH_OF_SERVICE_ABOUT_YOU:
     "va-select[name='root_aboutYourself_branchOfService']",
+  SELECT_BRANCH_OF_SERVICE_VETERAN:
+    "va-select[name='root_aboutTheVeteran_branchOfService']",
   SELECT_COUNTRY: "va-select[name='root_address_country']",
   SELECT_STATE: "va-select[name='root_address_state']",
   SELECT_MONTH: 'va-select.usa-form-group--month-select',
@@ -46,6 +50,7 @@ const selectorShorthand = {
   TYPE_BUSINESS_EMAIL: "va-text-input[name='root_businessEmail']",
   TYPE_EMAIL: "va-text-input[name='root_emailAddress']",
   TYPE_COUNSELOR_NAME: "va-text-input[name='root_yourVRECounselor']",
+  TYPE_THEIR_COUNSELOR_NAME: "va-text-input[name='root_theirVRECounselor']",
   TYPE_STREET_ADDRESS: "va-text-input[name='root_address_street']",
   TYPE_CITY: "va-text-input[name='root_address_city']",
   TYPE_POSTAL_CODE: "va-text-input[name='root_address_postalCode']",

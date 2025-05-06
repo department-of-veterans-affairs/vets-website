@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import { FACILITY_TYPES } from '../../utils/constants';
 import { getFormPageInfo } from '../redux/selectors';
 import { focusFormHeader } from '../../utils/scrollAndFocus';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   openFormPage,
   routeToNextAppointmentPage,
@@ -31,11 +29,7 @@ const initialSchema = {
 
 const pageKey = 'typeOfFacility';
 
-export default function TypeOfFacilityPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-
+export default function TypeOfFacilityPage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const uiSchema = {
@@ -64,10 +58,6 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
-
     dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
   }, []);
 
@@ -119,7 +109,3 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
     </div>
   );
 }
-
-TypeOfFacilityPage.propTypes = {
-  changeCrumb: PropTypes.func,
-};
