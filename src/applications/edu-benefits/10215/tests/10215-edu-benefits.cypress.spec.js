@@ -42,6 +42,8 @@ const testConfig = createTestConfig(
             'root_institutionDetails_facilityCode',
             '15012020',
           );
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(200);
           cy.fillVaMemorableDate(
             'root_institutionDetails_termStartDate',
             termStartDate,
