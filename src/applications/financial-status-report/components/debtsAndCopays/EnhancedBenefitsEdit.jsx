@@ -41,7 +41,7 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
   };
 
   const handleBlur = event => {
-    const { value } = event.target;
+    const { value } = event?.target;
     if (!value) {
       setError(ERROR_MESSAGES.EMPTY_VALUE);
     } else if (!validateNumber(value)) {
