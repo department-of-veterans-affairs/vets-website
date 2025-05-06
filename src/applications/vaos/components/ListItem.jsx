@@ -8,19 +8,9 @@ export default function ListItem({
   borderBottom,
   children,
   status,
-  ariaDescribedby = '',
-  ariaLabelledby = '',
 }) {
   const uniqueIdentifier = appointment.id || appointment.uuid;
   const idClickable = `id-${uniqueIdentifier.replace(/[.=\\]/g, '\\$&')}`;
-  let arias = ariaDescribedby ? { 'aria-describedby': ariaDescribedby } : {};
-
-  if (ariaLabelledby) {
-    arias = {
-      ...arias,
-      'aria-labelledby': ariaLabelledby,
-    };
-  }
 
   return (
     <li
@@ -37,7 +27,6 @@ export default function ListItem({
         },
       )}
       data-testid="appointment-list-item"
-      {...arias}
     >
       {children}
     </li>
@@ -46,8 +35,6 @@ export default function ListItem({
 
 ListItem.propTypes = {
   appointment: PropTypes.object.isRequired,
-  ariaDescribedby: PropTypes.string,
-  ariaLabelledby: PropTypes.string,
   borderBottom: PropTypes.bool,
   borderTop: PropTypes.bool,
   children: PropTypes.object,
