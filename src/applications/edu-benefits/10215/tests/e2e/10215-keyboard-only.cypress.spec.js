@@ -48,12 +48,10 @@ describe('22-10215 Edu Benefits Form', () => {
         features: [],
       },
     });
-    // Go to application, should go to about page
+    // Go to application intro page
     cy.visit(`${manifest.rootUrl}/introduction`);
     cy.injectAxeThenAxeCheck();
-    // H1 should be focused on load
     cy.focused().should('contain.text', 'Report 85/15 Rule enrollment ratios');
-
     cy.repeatKey('Tab', 6);
     cy.focused().should(
       'contain.text',
@@ -72,7 +70,7 @@ describe('22-10215 Edu Benefits Form', () => {
       'How do I request an exemption from routine 85/15 rule enrollment ratio reporting? ',
     );
 
-    // // Tab to and press 'Start your form without signing in' to go to the introduction page
+    // Tab to and press 'Start your form without signing in' to go to the introduction page
     cy.repeatKey('Tab', 2);
     cy.realPress('Enter');
 
@@ -132,32 +130,31 @@ describe('22-10215 Edu Benefits Form', () => {
     cy.injectAxeThenAxeCheck();
     cy.repeatKey('Tab', 2);
     cy.fillVaTextInput('root_programName', calculationDetail.programName);
-    cy.repeatKey('Tab', 1);
+    cy.realPress('Tab');
     cy.fillVaTextInput(
       'root_studentsEnrolled',
       calculationDetail.totalNumberOfStudentsEnrolled,
     );
-    cy.repeatKey('Tab', 1);
+    cy.realPress('Tab');
     cy.fillVaTextInput(
       'root_studentsEnrolled',
       calculationDetail.totalNumberOfStudentsEnrolled,
     );
-    cy.repeatKey('Tab', 1);
+    cy.realPress('Tab');
     cy.fillVaTextInput(
       'root_supportedStudents',
       calculationDetail.totalNumberOfSupportedStudentsEnrolled,
     );
-    cy.repeatKey('Tab', 1);
+    cy.realPress('Tab');
     cy.fillVaTextInput(
       'root_fte_supported',
       calculationDetail.numberOfSupportedStudentsFTE,
     );
-    cy.repeatKey('Tab', 1);
+    cy.realPress('Tab');
     cy.fillVaTextInput(
       'root_fte_nonSupported',
       calculationDetail.numberOfNonSupportedStudentsFTE,
     );
-
     cy.tabToContinueForm();
 
     // Program Summary Page
@@ -173,6 +170,11 @@ describe('22-10215 Edu Benefits Form', () => {
     cy.tabToContinueForm();
 
     // How to submit your form
+    cy.url().should(
+      'include',
+      formConfig.chapters.submissionInstructionsChapter.pages
+        .submissionInstructions.path,
+    );
     cy.injectAxeThenAxeCheck();
     cy.tabToContinueForm();
 
@@ -189,6 +191,7 @@ describe('22-10215 Edu Benefits Form', () => {
     );
     cy.tabToElementAndPressSpace('va-checkbox');
     cy.tabToSubmitForm();
+
     // Confirmation page
     cy.location('pathname').should('include', '/confirmation');
     cy.injectAxeThenAxeCheck();

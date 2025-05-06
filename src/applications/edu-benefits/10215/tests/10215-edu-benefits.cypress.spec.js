@@ -36,7 +36,7 @@ const testConfig = createTestConfig(
         afterHook,
       }) => {
         afterHook(() => {
-          const termStartDate = daysAgoYyyyMmDd(15);
+          const termStartDate = daysAgoYyyyMmDd(10);
           const dateOfCalculations = daysAgoYyyyMmDd(10);
           cy.fillVaTextInput(
             'root_institutionDetails_facilityCode',
