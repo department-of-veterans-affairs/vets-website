@@ -145,6 +145,7 @@ const formConfig = {
         },
         ohiScreen: {
           path: 'champva-screen',
+          depends: () => !window?.location?.href?.includes('review-and-submit'),
           ...champvaScreenSchema,
           title: 'CHAMPVA screen',
           scrollAndFocusTarget,

@@ -1,7 +1,11 @@
 import React from 'react';
-import { CHAMPVA_FAX_NUMBER } from '../../shared/constants';
+import PropTypes from 'prop-types';
+import {
+  CHAMPVA_FAX_NUMBER,
+  CHAMPVA_ELIGIBILITY_ADDRESS,
+} from '../../shared/constants';
 
-export default function ApplyForBenefits() {
+export default function ApplyForBenefits({ goBack }) {
   return (
     <div>
       <h3>
@@ -21,10 +25,12 @@ export default function ApplyForBenefits() {
         <strong>Option 1: Online</strong>
       </h3>
       <p>You can apply online now.</p>
-      <va-link-action
-        href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d/introduction"
-        text="Apply for CHAMPVA online"
-      />
+      <div style={{ marginLeft: '3.125rem' }}>
+        <va-link-action
+          href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d/introduction"
+          text="Apply for CHAMPVA online"
+        />
+      </div>
       <h3>
         <strong>Option 2: By mail or fax</strong>
       </h3>
@@ -37,16 +43,8 @@ export default function ApplyForBenefits() {
         text="Get VA Form 10-10d to download"
       />
       <p>Mail your completed form and supporting documents to this address:</p>
-      <p className="va-address-block">
-        VHA Office of Integrated Veteran Care
-        <br />
-        CHAMPVA Eligibility
-        <br />
-        P.O. Box 137
-        <br />
-        Spring City, PA 19475
-        <br />
-      </p>
+      {CHAMPVA_ELIGIBILITY_ADDRESS}
+      <br />
       Or fax it to:
       <va-telephone contact={CHAMPVA_FAX_NUMBER} />
       <div className="vads-u-margin-top--1">
@@ -55,6 +53,12 @@ export default function ApplyForBenefits() {
           text="Learn about CHAMPVA benefits"
         />
       </div>
+      <br />
+      <va-button back onClick={goBack} full-width />
     </div>
   );
 }
+
+ApplyForBenefits.propTypes = {
+  goBack: PropTypes.func,
+};
