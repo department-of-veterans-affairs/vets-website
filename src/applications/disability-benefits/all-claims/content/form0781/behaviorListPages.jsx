@@ -14,7 +14,7 @@ export const behaviorIntroDescription = (
   <>
     <p>
       The next few questions are about behavioral changes that happened after
-      your your traumatic experiences.
+      your traumatic experiences.
     </p>
     <p>
       These questions are optional. Any information you provide will help us
