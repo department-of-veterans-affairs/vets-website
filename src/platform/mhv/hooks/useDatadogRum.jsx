@@ -54,7 +54,7 @@ const useDatadogRum = config => {
   );
 };
 
-// REMINDER: Always be conscience of PII and Datadog
+// REMINDER: Always be conscious of PII and Datadog
 /**
  * Sets the Datadog RUM user information if the environment is not local/CI,
  * Datadog is configured, and the user object has an id.
@@ -88,11 +88,11 @@ const setDatadogRumUser = user => {
   }
 };
 
-// REMINDER: Always be conscience of PII and Datadog
+// REMINDER: Always be conscious of PII and Datadog
 /**
  * Adds user properties to existing Datadog RUM user object if the environment is not local/CI,
  *
- * @param {Object} user - The user object containing user information.
+ * @param {Object} userData - The user object containing user information.
  */
 const addUserProperties = userData => {
   if (
