@@ -219,6 +219,7 @@ const formConfig = {
               'ui:title': 'Veteran or service member information',
               first: {
                 ...fullNameUI.first,
+                'ui:title': 'Veteran first name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -235,6 +236,7 @@ const formConfig = {
               },
               middle: {
                 ...fullNameUI.middle,
+                'ui:title': 'Veteran middle name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -251,6 +253,7 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
+                'ui:title': 'Veteran last name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidLastName(field)) {
@@ -270,9 +273,11 @@ const formConfig = {
             },
             dateOfBirth: {
               ...currentOrPastDateUI('Date of birth'),
+              'ui:title': 'Veteran date of birth',
             },
             ssn: {
               ...ssnUI,
+              'ui:title': 'Veteran social security number',
               'ui:reviewField': ObfuscateReviewField,
             },
             'view:incorrectFormWarning': {
