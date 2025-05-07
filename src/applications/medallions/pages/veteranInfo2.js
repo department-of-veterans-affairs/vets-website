@@ -19,6 +19,7 @@ export default {
           pattern:
             'Please enter a valid 9 digit Social Security number (dashes allowed)',
         },
+        'ui:title': 'Veteran’s Social Security number',
       },
       vaFileNumber: {
         'ui:errorMessages': {

@@ -47,6 +47,7 @@ export default {
                 maxLength: 100,
               };
             },
+            hideEmptyValueInReview: false,
           },
         },
       },
