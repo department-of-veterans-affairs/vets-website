@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   updatePageTitle,
@@ -34,12 +33,6 @@ const FolderHeader = props => {
   const showInnerNav =
     folder.folderId === Folders.INBOX.id || folder.folderId === Folders.SENT.id;
 
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
   const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
@@ -94,13 +87,12 @@ const FolderHeader = props => {
     () => {
       if (location.pathname.includes(folder?.folderId)) {
         const pageTitleTag = getPageTitle({
-          removeLandingPageFF,
           folderName: folder.name,
         });
         updatePageTitle(pageTitleTag);
       }
     },
-    [folder, location.pathname, removeLandingPageFF],
+    [folder, location.pathname],
   );
 
   const { folderName, ddTitle, ddPrivacy } = handleHeader(folder);
@@ -113,7 +105,7 @@ const FolderHeader = props => {
         data-dd-action-name={ddTitle}
         data-dd-privacy={ddPrivacy}
       >
-        {removeLandingPageFF ? `Messages: ${folderName}` : folderName}
+        {`Messages: ${folderName}`}
       </h1>
 
       {folder.folderId === Folders.INBOX.id && (
