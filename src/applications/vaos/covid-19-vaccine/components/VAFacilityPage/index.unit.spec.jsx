@@ -10,10 +10,8 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '.';
-import {
-  createMockClinic,
-  createMockFacility,
-} from '../../../tests/mocks/data';
+import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
+import { createMockFacility } from '../../../tests/mocks/data';
 import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import {
   mockClinicsApi,
@@ -597,11 +595,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
         children: true,
         response: [facility983, facility984],
       });
-      const clinic = createMockClinic({
-        id: '1',
-        stationId: '983',
-        name: '',
-      });
+      const clinic = new MockClinicResponse({ id: '1' });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: TYPE_OF_CARE_ID,
