@@ -13,8 +13,8 @@ export const behaviorPageTitle = 'Behavioral changes';
 export const behaviorIntroDescription = (
   <>
     <p>
-      The next few questions are about behavioral changes you experienced after
-      your traumatic experiences.
+      The next few questions are about behavioral changes that happened after
+      your your traumatic experiences.
     </p>
     <p>
       These questions are optional. Any information you provide will help us
