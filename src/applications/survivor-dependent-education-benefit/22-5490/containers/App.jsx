@@ -38,6 +38,8 @@ function App({
   const match = useRouteMatch();
   const location = useLocation();
 
+  // console.log('App Props match.url:', match.url, 'App Props location.pathname:', location.pathname); // DEBUGGING
+
   useEffect(
     () => {
       setIsLoading(true);
@@ -45,8 +47,10 @@ function App({
         showMeb54901990eTextUpdate,
       );
       setDynamicFormConfig(config);
+      // console.log('Dynamic Form Config:', config); // DEBUGGING
       const generatedRoutes = createRoutesWithSaveInProgress(config);
       setDynamicRoutes(generatedRoutes);
+      // console.log('Dynamic Routes:', generatedRoutes); // DEBUGGING
       setIsLoading(false);
     },
     [showMeb54901990eTextUpdate],
@@ -186,11 +190,11 @@ function App({
               '//',
               '/',
             );
+            /* console.log('Final path for route:', fullPath); // DEBUGGING */
             const PageComponent = route.component;
             return (
               <Route
                 key={fullPath || 'index'}
-                exact
                 path={fullPath}
                 render={routerProps => (
                   <PageComponent
@@ -202,6 +206,12 @@ function App({
               />
             );
           })}
+          <Route
+            path="*"
+            render={({ location: routeLocation }) => (
+              <p>App Internal Router: No match for {routeLocation.pathname}</p>
+            )}
+          />
         </Switch>
       </RoutedSavableApp>
     </>
