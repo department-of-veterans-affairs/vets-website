@@ -116,7 +116,7 @@ export const poaDetailsBreadcrumbs = [
   },
   {
     href:
-      '/representative/poa-requests?status=pending&pageSize=20&pageNumber=1',
+      '/representative/poa-requests?status=pending&sortOrder=created_at&sortBy=desc&pageSize=20&pageNumber=1',
     label: 'Power of attorney requests',
   },
   {

@@ -3,8 +3,12 @@
 .arp-container {
   max-width: 1000px;
   width: 100%;
-  margin: 0 auto $units-5;
-  padding: 0 16px;
+  padding: 0 $vads-spacing-2;
+  margin: 0 auto $vads-spacing-6;
+
+  &:has(.poa-request) {
+    margin: 0 auto 32px;
+  }
 }
 
 .status {
