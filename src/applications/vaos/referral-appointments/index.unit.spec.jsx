@@ -3,10 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { waitFor } from '@testing-library/react';
+import * as servicesUtils from 'applications/vaos/services/utils';
 import ReferralAppointments from './index';
 import { renderWithStoreAndRouter } from '../tests/mocks/setup';
 import { FETCH_STATUS } from '../utils/constants';
-import { createReferralById } from './utils/referrals';
+import { createReferrals, createReferralById } from './utils/referrals';
 import * as useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import * as useIsInCCPilot from './hooks/useIsInCCPilot';
 import * as vaosApi from '../redux/api/vaosApi';
@@ -104,7 +105,32 @@ describe('ReferralAppointments', () => {
     });
   });
 
-  // TODO: Add tests for other routes (e.g., ReviewAndConfirm, ChooseDateAndTime)
-  // path isn't being passed correctly to the test so it just
-  // renders the base path which renders the schedule referral component
+  it('should redirect to referrals-requests page if referral has appointments', async () => {
+    const referralWithAppointments = createReferralById(
+      '2024-11-29',
+      'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    );
+    referralWithAppointments.attributes.hasAppointments = true;
+
+    servicesUtils.apiRequestWithUrl.resolves({
+      data: referralWithAppointments,
+    });
+
+    const initialState = {
+      ...initialStateVAOSService,
+      referral: {
+        referrals: createReferrals(3),
+        referralsFetchStatus: FETCH_STATUS.succeeded,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<ReferralAppointments />, {
+      initialState,
+      path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    });
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal('/referrals-requests');
+    });
+  });
 });

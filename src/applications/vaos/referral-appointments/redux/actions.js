@@ -53,6 +53,7 @@ export function createDraftReferralAppointment(referralId) {
       dispatch({
         type: CREATE_DRAFT_REFERRAL_APPOINTMENT,
       });
+
       const providerDetails = await postDraftReferralAppointment(referralId);
 
       dispatch({

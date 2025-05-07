@@ -59,9 +59,12 @@ export class DirectDepositClient {
     };
 
     const errorKey = extraProperties?.['error-key'];
-
     if (errorKey) {
       payload['error-key'] = errorKey;
+    }
+    const veteranStatus = extraProperties?.veteranStatus;
+    if (veteranStatus) {
+      payload['veteran-status'] = veteranStatus;
     }
 
     this.recordAnalyticsEvent(payload);
