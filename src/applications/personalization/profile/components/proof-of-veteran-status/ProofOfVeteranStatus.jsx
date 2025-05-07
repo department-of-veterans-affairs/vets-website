@@ -7,9 +7,11 @@ import { focusElement } from '~/platform/utilities/ui';
 import { captureError } from '~/platform/user/profile/vap-svc/util/analytics';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { apiRequest } from '~/platform/utilities/api';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
 import ProofOfVeteranStatusCard from './ProofOfVeteranStatusCard/ProofOfVeteranStatusCard';
+import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
 
 const ProofOfVeteranStatus = ({
   serviceHistory = [],
@@ -140,16 +142,25 @@ const ProofOfVeteranStatus = ({
     [shouldFocusError, errors],
   );
 
+  useBrowserMonitoring();
+
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
+  const isLoadingFeatureFlags = useToggleLoadingValue();
+  const monitorPdfGeneration = useToggleValue(TOGGLE_NAMES.vetStatusPdfLogging);
+  const monitoringEnabled =
+    isLoadingFeatureFlags === false && monitorPdfGeneration === true;
+
   const createPdf = async () => {
     setErrors(null);
-
+    const pdfTemplate = monitoringEnabled
+      ? 'fakeTemplateName'
+      : 'veteranStatusNew';
     try {
-      await generatePdf(
-        'veteranStatusNew',
-        'Veteran status card',
-        pdfData,
-        !isMobile,
-      );
+      await generatePdf(pdfTemplate, 'Veteran status card', pdfData, !isMobile);
     } catch (error) {
       setErrors([
         "We're sorry. Something went wrong on our end. Please try to download your Veteran status card later.",

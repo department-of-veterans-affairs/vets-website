@@ -8,7 +8,6 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
-import { selectFeatureUseVaDate } from '../redux/selectors';
 import { selectIsNewAppointmentStarted } from './redux/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
@@ -18,7 +17,6 @@ import TypeOfVisitPage from './components/TypeOfVisitPage';
 import TypeOfSleepCarePage from './components/TypeOfSleepCarePage';
 import TypeOfEyeCarePage from './components/TypeOfEyeCarePage';
 import TypeOfAudiologyCarePage from './components/TypeOfAudiologyCarePage';
-import PreferredDatePage from './components/PreferredDatePage';
 import PreferredDatePageVaDate from './components/PreferredDatePageVaDate';
 import VARequest from './components/DateTimeRequestPage/VA';
 import CCRequest from './components/DateTimeRequestPage/CommunityCare';
@@ -41,7 +39,6 @@ import ScheduleCernerPage from './components/ScheduleCernerPage';
 export function NewAppointment() {
   const isCernerOnlyPatient = useSelector(selectIsCernerOnlyPatient);
   const isNewAppointmentStarted = useSelector(selectIsNewAppointmentStarted);
-  const featureUseVaDate = useSelector(state => selectFeatureUseVaDate(state));
   const match = useRouteMatch();
   const location = useLocation();
   const pageTitle = 'Schedule an appointment';
@@ -99,11 +96,7 @@ export function NewAppointment() {
           <TypeOfAudiologyCarePage />
         </Route>
         <Route path={`${match.url}/preferred-date`}>
-          {featureUseVaDate ? (
-            <PreferredDatePageVaDate />
-          ) : (
-            <PreferredDatePage />
-          )}
+          <PreferredDatePageVaDate />
         </Route>
         <Route path={`${match.url}/date-time`}>
           <DateTimeSelectPage />
