@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { generatePdf } from '~/platform/pdf';
-import { focusElement } from '~/platform/utilities/ui';
 import { captureError } from '~/platform/user/profile/vap-svc/util/analytics';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { apiRequest } from '~/platform/utilities/api';
+import { focusElement } from '~/platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
@@ -15,7 +15,6 @@ import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
 
 const VeteranStatus = ({
   serviceHistory = [],
-  vetStatusEligibility = {},
   totalDisabilityRating,
   userFullName = {
     first: '',
@@ -26,10 +25,11 @@ const VeteranStatus = ({
   edipi,
   mockUserAgent,
 }) => {
-  const [errors, setErrors] = useState([]);
   const [data, setData] = useState(null);
-  const [shouldFocusError, setShouldFocusError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [pdfError, setPdfError] = useState(false);
+  const [shouldFocusError, setShouldFocusError] = useState(false);
+  const [systemError, setSystemError] = useState(false);
   const { first, middle, last, suffix } = userFullName;
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -41,6 +41,46 @@ const VeteranStatus = ({
   const isMobile =
     (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
     /android/i.test(userAgent);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchVerificationStatus = async () => {
+      setIsLoading(true);
+
+      try {
+        const path = '/profile/vet_verification_status';
+        const response = await apiRequest(path);
+        if (isMounted) {
+          setData(response.data);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setSystemError(true);
+          captureError(error, { eventName: 'vet-status-fetch-verification' });
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+    fetchVerificationStatus();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(
+    () => {
+      if (pdfError && shouldFocusError) {
+        focusElement('va-alert[status="error"]');
+        setShouldFocusError(false);
+      }
+    },
+    [pdfError, shouldFocusError],
+  );
 
   const formattedFullName = formatFullName({
     first,
@@ -77,18 +117,6 @@ const VeteranStatus = ({
 
   const latestService = getLatestService();
 
-  const userHasRequiredCardData = !!(
-    serviceHistory.length && formattedFullName
-  );
-
-  const hasConfirmationData = !!(data && data.attributes);
-
-  const canCreatePdf =
-    !isLoading &&
-    userHasRequiredCardData &&
-    hasConfirmationData &&
-    data?.attributes?.veteranStatus === 'confirmed';
-
   const pdfData = {
     title: `Veteran status card for ${formattedFullName}`,
     details: {
@@ -112,51 +140,7 @@ const VeteranStatus = ({
     vetStatusCardToggle,
   };
 
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchVerificationStatus = async () => {
-      setIsLoading(true);
-
-      try {
-        const path = '/profile/vet_verification_status';
-        const response = await apiRequest(path);
-        if (isMounted) {
-          setData(response.data);
-        }
-      } catch (error) {
-        if (isMounted) {
-          setErrors([
-            "We're sorry. There's a problem with our system. We can't show your Veteran status card right now. Try again later.",
-          ]);
-          captureError(error, { eventName: 'vet-status-fetch-verification' });
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
-    };
-    fetchVerificationStatus();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  useEffect(
-    () => {
-      if (shouldFocusError && errors.length > 0) {
-        focusElement('.vet-status-pdf-download-error');
-        setShouldFocusError(false);
-      }
-    },
-    [shouldFocusError, errors],
-  );
-
   const createPdf = async () => {
-    setErrors([]);
-
     try {
       await generatePdf(
         'veteranStatusNew',
@@ -165,99 +149,94 @@ const VeteranStatus = ({
         !isMobile,
       );
     } catch (error) {
-      setErrors([
-        "We're sorry. Something went wrong on our end. Please try to download your Veteran status card later.",
-      ]);
+      setPdfError(true);
+      setShouldFocusError(true);
       captureError(error, { eventName: 'vet-status-pdf-download' });
     }
   };
 
-  const isVetStatusEligibilityPopulated =
-    Object.keys(vetStatusEligibility).length !== 0;
+  const userHasRequiredCardData = !!(
+    data?.attributes?.veteranStatus === 'confirmed' &&
+    serviceHistory.length &&
+    formattedFullName
+  );
 
-  const buildContactElements = item => {
-    const contactNumber = `${CONTACTS.DS_LOGON.slice(
-      0,
-      3,
-    )}-${CONTACTS.DS_LOGON.slice(3, 6)}-${CONTACTS.DS_LOGON.slice(6)}`;
-    const startIndex = item.indexOf(contactNumber);
-
-    if (startIndex === -1) {
-      return item;
+  const renderAlert = () => {
+    const notConfirmedReason = data?.attributes?.notConfirmedReason;
+    if (pdfError) {
+      return (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="error"
+          class="vads-u-margin-bottom--3"
+          visible
+        >
+          <h2 slot="headline">Something went wrong</h2>
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+            We’re sorry. Try to download your Veteran Status Card later.
+          </p>
+        </va-alert>
+      );
     }
-
-    const before = item.slice(0, startIndex);
-    const telephone = item.slice(
-      startIndex,
-      startIndex + contactNumber.length + 11,
-    );
-    const after = item.slice(startIndex + telephone.length);
-
-    return (
-      <>
-        {before}
-        <va-telephone contact={contactNumber} /> (
-        <va-telephone contact={CONTACTS[711]} tty />){after}
-      </>
-    );
+    if (!formattedFullName || systemError || notConfirmedReason === 'ERROR') {
+      return (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="error"
+          visible
+        >
+          <h2 slot="headline">Something went wrong</h2>
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+            We’re sorry. Try to view your Veteran Status Card later.
+          </p>
+        </va-alert>
+      );
+    }
+    if (!userHasRequiredCardData) {
+      if (notConfirmedReason === 'NOT_TITLE_38') {
+        return (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="warning"
+            visible
+          >
+            <h2 slot="headline">
+              You’re not eligible for a Veteran Status Card
+            </h2>
+            <p className="vads-u-margin-top--0">
+              To get a Veteran Status Card, you must have received an honorable
+              discharge for at least one period of service.
+            </p>
+            <p className="vads-u-margin-bottom--0">
+              If you think your discharge status is incorrect, call the Defense
+              Manpower Data Center at{' '}
+              <va-telephone contact={CONTACTS.DS_LOGON} /> (
+              <va-telephone contact={CONTACTS[711]} tty />
+              ). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+            </p>
+          </va-alert>
+        );
+      }
+      return (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="warning"
+          visible
+        >
+          <h2 slot="headline">
+            There’s a problem with your discharge status records
+          </h2>
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+            We’re sorry. To fix the problem with your records, call the Defense
+            Manpower Data Center at <va-telephone contact={CONTACTS.DS_LOGON} />{' '}
+            (<va-telephone contact={CONTACTS[711]} tty />
+            ). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          </p>
+        </va-alert>
+      );
+    }
+    return null;
   };
-
-  const componentizedMessage = isVetStatusEligibilityPopulated
-    ? vetStatusEligibility?.message.map(item => {
-        return buildContactElements(item);
-      })
-    : null;
-
-  const contactInfoElements = data?.message?.map(item => {
-    return buildContactElements(item);
-  });
-
-  const systemErrrorAlert = (
-    <va-alert close-btn-aria-label="Close notification" status="error" visible>
-      <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-        We’re sorry. There’s a problem with our system. We can’t show your
-        Veteran status card right now. Try again later.
-      </p>
-    </va-alert>
-  );
-
-  const lighthouseApiErrorMessage = (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="warning"
-      visible
-    >
-      {contactInfoElements?.map((message, i) => {
-        if (i === 0) {
-          return (
-            <p key={i} className="vads-u-margin-top--0">
-              {message}
-            </p>
-          );
-        }
-        return <p key={i}>{message}</p>;
-      })}
-    </va-alert>
-  );
-
-  const profileApiErrorMessage = (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="warning"
-      visible
-    >
-      {componentizedMessage.map((message, i) => {
-        if (i === 0) {
-          return (
-            <p key={i} className="vads-u-margin-top--0">
-              {message}
-            </p>
-          );
-        }
-        return <p key={i}>{message}</p>;
-      })}
-    </va-alert>
-  );
 
   return (
     <>
@@ -275,74 +254,25 @@ const VeteranStatus = ({
           />
         ) : (
           <>
-            {userHasRequiredCardData ? (
-              <>
-                {hasConfirmationData ? (
-                  <>
-                    {data?.attributes?.veteranStatus === 'confirmed' ? (
-                      <>
-                        {errors.length > 0 ? (
-                          <div className="vet-status-pdf-download-error vads-u-padding-y--2">
-                            <va-alert status="error" uswds>
-                              {errors[0]}
-                            </va-alert>
-                          </div>
-                        ) : null}
-                        <div className="vads-l-grid-container--full">
-                          <div className="vads-l-row">
-                            <VeteranStatusCard
-                              edipi={edipi}
-                              formattedFullName={formattedFullName}
-                              latestService={latestService}
-                              totalDisabilityRating={totalDisabilityRating}
-                            />
-                          </div>
-                        </div>
-                      </>
-                    ) : null}
-
-                    {isVetStatusEligibilityPopulated &&
-                    data?.attributes?.veteranStatus === 'not confirmed' &&
-                    data?.message?.length > 0 ? (
-                      <>{lighthouseApiErrorMessage}</>
-                    ) : null}
-                  </>
-                ) : null}
-
-                {!hasConfirmationData ? <>{systemErrrorAlert}</> : null}
-              </>
-            ) : null}
-
-            {!userHasRequiredCardData ? (
-              <>
-                {!formattedFullName ? (
-                  <>{systemErrrorAlert}</>
-                ) : (
-                  <>
-                    {errors.length > 0 ? (
-                      <>
-                        <div className="vet-status-pdf-download-error vads-u-padding-y--2">
-                          <va-alert status="error" uswds>
-                            {errors[0]}
-                          </va-alert>
-                        </div>
-                      </>
-                    ) : null}
-
-                    {data?.attributes?.veteranStatus === 'confirmed' ? (
-                      <>{profileApiErrorMessage}</>
-                    ) : null}
-                    {data?.attributes?.veteranStatus === 'not confirmed' ? (
-                      <>{lighthouseApiErrorMessage}</>
-                    ) : null}
-                  </>
-                )}
-              </>
-            ) : null}
+            {renderAlert()}
+            {userHasRequiredCardData && (
+              <div className="vads-l-grid-container--full">
+                <div className="vads-l-row">
+                  <VeteranStatusCard
+                    edipi={edipi}
+                    formattedFullName={formattedFullName}
+                    latestService={latestService}
+                    totalDisabilityRating={totalDisabilityRating}
+                  />
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>
-      <FrequentlyAskedQuestions createPdf={canCreatePdf ? createPdf : null} />
+      <FrequentlyAskedQuestions
+        createPdf={!isLoading && userHasRequiredCardData ? createPdf : null}
+      />
     </>
   );
 };
@@ -359,14 +289,11 @@ VeteranStatus.propTypes = {
   ),
   totalDisabilityRating: PropTypes.number,
   userFullName: PropTypes.object,
-  vetStatusEligibility: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   serviceHistory:
     state.vaProfile?.militaryInformation.serviceHistory.serviceHistory,
-  vetStatusEligibility:
-    state.vaProfile?.militaryInformation.serviceHistory.vetStatusEligibility,
   totalDisabilityRating: state.totalRating?.totalDisabilityRating,
   userFullName: state.vaProfile?.hero?.userFullName,
   edipi: state.user?.profile?.edipi,
