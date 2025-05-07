@@ -3,21 +3,25 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
+
 import { clearThread } from '../actions/threadDetails';
 import { getListOfThreads } from '../actions/threads';
-
+import { closeAlert } from '../actions/alerts';
+import { getPatientSignature } from '../actions/preferences';
 import { retrieveMessageThread } from '../actions/messages';
+
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
-import { closeAlert } from '../actions/alerts';
 import {
   PageTitles,
   Paths,
   BlockedTriageAlertStyles,
   DefaultFolders,
 } from '../util/constants';
-import { getPatientSignature } from '../actions/preferences';
+import { getRecentMessages } from '../util/threads';
+import { getUniqueTriageGroups } from '../util/recipients';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -41,7 +45,6 @@ const Compose = () => {
   const [acknowledged, setAcknowledged] = useState(false);
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState('Start a new message');
-  const [uniqueTriageGroups, setUniqueTriageGroups] = useState([]);
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
@@ -132,22 +135,16 @@ const Compose = () => {
   useEffect(
     () => {
       if (threadList?.length > 0 && !isLoading && recipients) {
-        const uniqueHash = threadList.reduce((acc, thread) => {
-          if (!acc[thread.recipientId]) {
-            acc[thread.recipientId] = {
-              triageGroupName: thread.triageGroupName,
-              sentDate: thread.sentDate,
-              triageGroupId: thread.recipientId,
-            };
-          }
-          return acc;
-        }, {});
-
-        const groups = Object.values(uniqueHash);
-        // sort the unique triage groups by sentDate in descending order
-        groups.sort((a, b) => new Date(b.sentDate) - new Date(a.sentDate));
-        // take the first 5 unique triage groups
-        setUniqueTriageGroups(groups.slice(0, 5));
+        const groups = getUniqueTriageGroups(threadList);
+        const recentMessages = getRecentMessages(threadList);
+        const dataForDataDog = {
+          allowedSMRecipients: recipients.allowedRecipients.length,
+          countOfSentMessagesInTheLastSixMonths: recentMessages.length,
+          uniqueRecentTriageGroups: groups.length,
+        };
+        addUserProperties({
+          ...dataForDataDog,
+        });
       }
     },
     [threadList, isLoading, recipients],
@@ -163,7 +160,6 @@ const Compose = () => {
             draft={draftMessage}
             recipients={!recipients.error && recipients}
             signature={signature}
-            recentRecipients={uniqueTriageGroups}
           />
         </>
       );

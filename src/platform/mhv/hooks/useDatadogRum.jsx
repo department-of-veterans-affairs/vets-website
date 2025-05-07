@@ -88,4 +88,27 @@ const setDatadogRumUser = user => {
   }
 };
 
-export { useDatadogRum, setDatadogRumUser };
+// REMINDER: Always be conscience of PII and Datadog
+/**
+ * Adds user properties to existing Datadog RUM user object if the environment is not local/CI,
+ *
+ * @param {Object} user - The user object containing user information.
+ */
+const addUserProperties = userData => {
+  if (
+    // Prevent RUM from running on local/CI environments.
+    environment.BASE_URL.indexOf('localhost') < 0 &&
+    // Only run if DD is configured.
+    window.DD_RUM?.getInitConfiguration() &&
+    // Not during unit tests
+    !window.Mocha &&
+    userData
+  ) {
+    const userProps = Object.entries(userData);
+    userProps.forEach(([key, val]) => {
+      datadogRum.setUserProperty(key, val);
+    });
+  }
+};
+
+export { addUserProperties, setDatadogRumUser, useDatadogRum };
