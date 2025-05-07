@@ -64,6 +64,30 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     ).to.exist;
   });
 
+  it('should not show date range dropdown when loading indicator is present', async () => {
+    mockAppointmentsApi({
+      start,
+      end,
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
+      initialState: {
+        ...initialState,
+        appointments: {
+          pastStatus: 'loading',
+        },
+      },
+    });
+
+    expect(screen.container.querySelector('va-loading-indicator')).to.exist;
+
+    expect(screen.container.querySelector('va-select[name="date-dropdown"]'))
+      .not.to.exist;
+  });
+
   it('should update range on dropdown change', async () => {
     // Arrange
     const pastDate = subMonths(new Date(), 4);
