@@ -165,7 +165,6 @@ export const medicalClaimUploadSchema = {
         }/ivc_champva/v1/forms/submit_supporting_documents`,
         title: 'Upload supporting documents',
         formNumber: '10-7959A',
-        required: () => true,
       }),
     },
   },
