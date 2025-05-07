@@ -27,6 +27,10 @@ export default function ReferralAppointments() {
     skip: !id,
   });
 
+  if (referral?.attributes?.hasAppointments) {
+    return <Redirect to="/referrals-requests" />;
+  }
+
   if (!isInCCPilot) {
     return <Redirect from={basePath.url} to="/" />;
   }

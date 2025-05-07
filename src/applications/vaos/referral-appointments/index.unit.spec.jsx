@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { waitFor } from '@testing-library/react';
-import * as servicesUtils from 'applications/vaos/services/utils';
 import ReferralAppointments from './index';
 import { renderWithStoreAndRouter } from '../tests/mocks/setup';
 import { FETCH_STATUS } from '../utils/constants';
@@ -112,8 +111,10 @@ describe('ReferralAppointments', () => {
     );
     referralWithAppointments.attributes.hasAppointments = true;
 
-    servicesUtils.apiRequestWithUrl.resolves({
+    vaosApi.useGetReferralByIdQuery.returns({
       data: referralWithAppointments,
+      error: false,
+      isLoading: true,
     });
 
     const initialState = {
