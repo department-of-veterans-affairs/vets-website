@@ -25,7 +25,7 @@ const usePrescriptionData = prescriptionId => {
 
   let prescription;
   let prescriptionApiError = false;
-  let prescriptionIsLoading = true;
+  let prescriptionIsLoading = false;
 
   if (cachedPrescription?.prescriptionId) {
     prescription = cachedPrescription;

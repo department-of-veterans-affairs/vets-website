@@ -47,10 +47,9 @@ const PrescriptionDetailsDocumentation = () => {
   const {
     prescription,
     error: hasPrescriptionApiError,
-    isLoading: prescriptionIsLoading,
+    isLoading: isLoadingRx,
   } = usePrescriptionData(prescriptionId);
 
-  const isLoadingRx = prescriptionIsLoading;
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
 
   const buildMedicationInformationTxt = useCallback(
