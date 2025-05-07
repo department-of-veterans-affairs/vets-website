@@ -63,6 +63,8 @@ const SavePdfDownload = ({
     if (result.error) {
       setError(result.error);
     } else {
+      // Open the PDF in a new tab to allow the browser to handle the download
+      window.open(result.url, '_blank');
       setShowSuccess(true);
     }
   };
