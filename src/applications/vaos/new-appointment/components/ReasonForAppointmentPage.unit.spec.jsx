@@ -191,7 +191,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
 
       await waitFor(() =>
         expect(screen.history.push.lastCall?.args[0]).to.equal(
-          '/new-appointment/choose-visit-type',
+          'preferred-method',
         ),
       );
     });
@@ -282,7 +282,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
 
       await waitFor(() =>
         expect(screen.history.push.lastCall?.args[0]).to.equal(
-          '/new-appointment/contact-info',
+          'contact-information',
         ),
       );
     });
