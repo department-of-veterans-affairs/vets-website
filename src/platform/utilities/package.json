@@ -3,7 +3,9 @@
     "version": "1.0.0",
     "exports": {
         ".": "./exportsFile.js",
+        "./api": "./api/index.js",
         "./asyncLoader": "./ui/asyncLoader.jsx",
+        "./data/*": "./data/*.js",
         "./DelayedRender": "./ui/DelayedRender.jsx",
         "./environment": "./environment/index.js",
         "./feature-toggles": "./feature-toggles/index.js",
@@ -15,7 +17,6 @@
         "./loginAttempted": "./sso/loginAttempted.js",
         "./medical-centers": "./medical-centers/medical-centers.js",
         "./mockKeepAliveSSO": "./sso/mockKeepAliveSSO.js",
-        "./oauth": "./oauth/utilities.js",
         "./scrollTo": "./ui/scrollTo.js",
         "./scrollToTop": "./ui/scrollToTop.js",
         "./sso": "./sso/index.js",

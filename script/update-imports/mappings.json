@@ -1,0 +1,59 @@
+{
+  "forms": {
+    "address/data": "*",
+    "components/FormFooter": "<",
+    "constants": "*",
+    "save-in-progress/reducers": "<",
+    "save-in-progress/RoutedSavableApp": "<",
+    "save-in-progress/helpers": "*",
+    "save-in-progress/(.+)": "<<",
+    "validations": "*"
+  },
+  "forms-system": {
+    "src/js/actions": "<",
+    "src/js/components/FormTitle": "<",
+    "src/js/definitions/currentOrPastDate": "<",
+    "src/js/definitions/email": "<",
+    "src/js/definitions/file": "<<",
+    "src/js/definitions/ssn": "<",
+    "src/js/definitions/vaFileNumber": "<",
+    "src/js/helpers": "<",
+    "src/js/patterns/array-builder": "<<",
+    "src/js/utilities/ui": "<",
+    "src/js/web-component-fields/(.+)": "<<",
+    "src/js/web-component-patterns": "<",
+    "src/js/validation": "<",
+    "test/config/helpers": "test-helpers"
+  },
+  "monitoring": {
+    "DowntimeNotification": "*",
+    "record-event": "*"
+  },
+  "polyfills": {},
+  "site-wide": {
+    "feature-toggles/selectors": "<"
+  },
+  "startup": {
+    "store": "*"
+  },
+  "testing": {
+    "e2e/cypress/support/form-tester": "<",
+    "e2e/cypress/support/form-tester/utilities": "<<",
+    "unit/helpers": "<",
+    "unit/schemaform-utils": "<"
+  },
+  "user": {
+    "profile/utilities": "*"
+  },
+  "utilities": {
+    "api": "*",
+    "data": "*",
+    "data/(.+)": "<<",
+    "date": "*",
+    "environment": "*",
+    "feature-toggles": "*",
+    "real-user-monitoring": "*",
+    "ui/scrollToTop": "<",
+    "ui": "*"
+  }
+}
