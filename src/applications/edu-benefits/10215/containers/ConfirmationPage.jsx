@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { scrollAndFocus } from 'platform/utilities/ui';
 import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
 import environment from '~/platform/utilities/environment';
 import GetFormHelp from '../components/GetFormHelp';
@@ -23,8 +24,8 @@ export const ConfirmationPage = ({ router, route }) => {
   const form = useSelector(state => state?.form);
   const { submission } = form;
 
-  const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.confirmationNumber;
+  const submitDate = submission?.timestamp;
+  const confirmationNumber = submission?.response?.confirmationNumber;
   const goBack = e => {
     e.preventDefault();
     router.push('/review-and-submit');
@@ -34,9 +35,13 @@ export const ConfirmationPage = ({ router, route }) => {
       setClaimIdInLocalStage(submission);
       setClaimId(getClaimIdFromLocalStage());
     },
-
     [submission],
   );
+
+  useEffect(() => {
+    const firsth2 = document.querySelector('va-alert + h2');
+    scrollAndFocus(firsth2);
+  }, []);
 
   useEffect(() => {
     const h2Element = document.querySelector('.custom-classname h2');
@@ -60,12 +65,12 @@ export const ConfirmationPage = ({ router, route }) => {
       formConfig={route?.formConfig}
       confirmationNumber={confirmationNumber}
       submitDate={submitDate}
-      pdfUrl={`${
-        environment.API_URL
-      }/v0/education_benefits_claims/download_pdf/${claimId}`}
     >
       {childContent(
-        <ConfirmationView.SavePdfDownload className="custom-classname" />,
+        `${
+          environment.API_URL
+        }/v0/education_benefits_claims/download_pdf/${claimId}`,
+        route?.formConfig?.trackingPrefix,
         goBack,
       )}
       <ConfirmationView.NeedHelp content={<GetFormHelp />} />

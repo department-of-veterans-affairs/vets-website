@@ -65,11 +65,13 @@ describe('Folder Thread List View container', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Inbox ${PageTitles.PAGE_TITLE_TAG}`,
+        `Messages: Inbox${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
       );
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
-      expect(folderName).to.have.text(DefaultFolders.INBOX.header);
+      expect(folderName).to.have.text(
+        `Messages: ${DefaultFolders.INBOX.header}`,
+      );
     });
     expect(screen.queryByText('Start a new message')).to.exist;
     const startANewMessageLink = screen.getByTestId('compose-message-link');
@@ -90,11 +92,13 @@ describe('Folder Thread List View container', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Sent ${PageTitles.PAGE_TITLE_TAG}`,
+        `Messages: Sent${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
       );
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
-      expect(folderName).to.have.text(DefaultFolders.SENT.header);
+      expect(folderName).to.have.text(
+        `Messages: ${DefaultFolders.SENT.header}`,
+      );
     });
     expect(screen.queryByText('Start a new message')).to.exist;
   });
@@ -111,11 +115,13 @@ describe('Folder Thread List View container', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Drafts ${PageTitles.PAGE_TITLE_TAG}`,
+        `Messages: Drafts${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
       );
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
-      expect(folderName).to.have.text(DefaultFolders.DRAFTS.header);
+      expect(folderName).to.have.text(
+        `Messages: ${DefaultFolders.DRAFTS.header}`,
+      );
 
       expect(screen.queryByText('Start a new message')).to.not.exist;
     });
@@ -141,12 +147,14 @@ describe('Folder Thread List View container', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Trash ${PageTitles.PAGE_TITLE_TAG}`,
+        `Messages: Trash${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
       );
     });
     const folderName = screen.getByRole('heading', { level: 1 });
     expect(folderName).to.exist;
-    expect(folderName).to.have.text(DefaultFolders.DELETED.header);
+    expect(folderName).to.have.text(
+      `Messages: ${DefaultFolders.DELETED.header}`,
+    );
 
     const folderDescription = screen.getByTestId('folder-description');
     expect(folderDescription).to.exist;
@@ -221,20 +229,17 @@ describe('Folder Thread List View container', () => {
         state = initialStateCustomFolder,
         path = `/folders/${customFolder.folderId}/`,
       ) => {
-        return renderWithStoreAndRouter(
-          <FolderThreadListView testing removeLandingPageFF />,
-          {
-            initialState: state,
-            reducers: reducer,
-            path,
-          },
-        );
+        return renderWithStoreAndRouter(<FolderThreadListView testing />, {
+          initialState: state,
+          reducers: reducer,
+          path,
+        });
       };
 
       const screen = await customSetup();
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
-      expect(folderName).to.have.text(customFolder.name);
+      expect(folderName).to.have.text(`Messages: ${customFolder.name}`);
       const folderDescription = screen.getByTestId('folder-description');
       expect(folderDescription).to.exist;
       expect(folderDescription).to.have.text(DefaultFolders.CUSTOM_FOLDER.desc);
@@ -252,7 +257,7 @@ describe('Folder Thread List View container', () => {
       expect(folderNotEmptyModal).to.have.attribute('status', 'warning');
 
       expect(global.document.title).to.equal(
-        `${customFolder.name} ${PageTitles.PAGE_TITLE_TAG}`,
+        `Messages: More folders${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
       );
       expect(screen.getByText(Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_BODY))
         .to.exist;
