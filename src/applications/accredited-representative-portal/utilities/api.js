@@ -109,7 +109,7 @@ const api = {
   }),
   claimantSearch: wrapApiRequest(data => {
     return [
-      `/claimant/power_of_attorney_requests`,
+      `/claimant/search`,
       {
         body: JSON.stringify({ ...data }),
         method: 'POST',

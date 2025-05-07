@@ -21,7 +21,7 @@ steps:
     target: YEAR
     value: 2005
   - action: select
-    target: SELECT_BRANCH_OF_SERVICE_ABOUT_YOU
+    target: BRANCH_OF_SERVICE_ABOUT_YOU
     value: Air Force
   - action: click
     target: call-to-action

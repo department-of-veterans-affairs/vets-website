@@ -49,8 +49,11 @@ describe('annuity list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return text', () => {
-      expect(options.text.getItemName()).to.equal('Annuity');
+    it('should return "Annuity established on `establishedDate`', () => {
+      const item = testData.data.trusts[0];
+      expect(options.text.getItemName(item)).to.equal(
+        'Annuity established on March 15, 2020',
+      );
     });
   });
 
@@ -60,7 +63,7 @@ describe('annuity list and loop pages', () => {
       addedFundsAfterEstablishment,
       addedFundsDate,
       addedFundsAmount,
-      revocable,
+      establishedDate,
       receivingIncomeFromAnnuity,
       annualReceivedIncome,
       canBeLiquidated,
@@ -77,7 +80,7 @@ describe('annuity list and loop pages', () => {
       addedFundsAfterEstablishment,
       addedFundsDate,
       addedFundsAmount,
-      revocable,
+      establishedDate,
       receivingIncomeFromAnnuity,
       annualReceivedIncome,
       canBeLiquidated,

@@ -52,7 +52,7 @@ FormSignatureCheckbox.propTypes = {
 
 FormSignatureCheckbox.defaultProps = {
   checkboxLabel:
-    'I certify the information above is correct and true to the best of my knowledge and belief.',
+    'I certify the information above is true and correct to the best of my knowledge and belief.',
   required: true,
 };
 
