@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { scrollAndFocus } from 'platform/utilities/ui';
 import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
 import environment from '~/platform/utilities/environment';
 import { setSubmission } from 'platform/forms-system/src/js/actions';
@@ -48,6 +49,11 @@ export const ConfirmationPage = ({ router, route }) => {
     },
     [submission],
   );
+
+  useEffect(() => {
+    const firsth2 = document.querySelector('va-alert + h2');
+    scrollAndFocus(firsth2);
+  }, []);
 
   useEffect(() => {
     const h2Element = document.querySelector('.custom-classname h2');
