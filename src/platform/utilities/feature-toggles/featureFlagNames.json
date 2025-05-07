@@ -181,6 +181,8 @@
   "myVaHideNotificationsSection": "my_va_hide_notifications_section",
   "myVaLighthouseUploadsReport": "my_va_lighthouse_uploads_report",
   "myVaNotificationDotIndicator": "my_va_notification_dot_indicator",
+  "myVaFormSubmissionStatuses": "my_va_form_submission_statuses",
+  "myVaFormPdfLink": "my_va_form_submission_pdf_link",
   "myVaUpdateErrorsWarnings": "my_va_update_errors_warnings",
   "myVaUseExperimental": "my_va_experimental",
   "myVaUseExperimentalFrontend": "my_va_experimental_frontend",
