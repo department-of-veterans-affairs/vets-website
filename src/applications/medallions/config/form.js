@@ -20,15 +20,11 @@ import applicantMailingAddress from '../pages/applicantMailingAddress';
 import applicantMailingAddress2 from '../pages/applicantMailingAddress2';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
-import { isUserSignedIn } from '../utils/helpers';
-
-const CustomHeader = () => {
-  return (
-    <h3 className="vads-u-margin-bottom--3">
-      Confirm the personal information we have on file for you
-    </h3>
-  );
-};
+import {
+  ApplicantNameHeader,
+  ApplicantNameNote,
+  isUserSignedIn,
+} from '../utils/helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -78,7 +74,8 @@ const formConfig = {
             gender: { show: false, required: false },
             name: { show: true, required: false },
           },
-          header: <CustomHeader />,
+          header: <ApplicantNameHeader />,
+          note: <ApplicantNameNote />,
           depends: formData => isUserSignedIn(formData),
         }),
         applicantName: {
