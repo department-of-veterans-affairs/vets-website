@@ -126,8 +126,7 @@ export const poaDetailsBreadcrumbs = [
     label: 'VA.gov/representative home',
   },
   {
-    href:
-      '/representative/poa-requests?status=pending&sortOrder=created_at&sortBy=desc&pageSize=20&pageNumber=1',
+    href: '/representative/poa-requests',
     label: 'Power of attorney requests',
   },
   {
