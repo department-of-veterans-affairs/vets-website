@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import { UnknownRep } from './alerts';
-import { CurrentRep, NoRep } from './cards';
+import { UnknownRep } from '../components/alerts';
+import { CurrentRep, NoRep } from '../components/cards';
 
-// Todo: rename this component
-export const CheckUsersRep = ({
+export const RepresentativeStatusContainer = ({
   DynamicHeader,
   DynamicSubheader,
   useRepresentativeStatus,
@@ -78,7 +77,7 @@ export const CheckUsersRep = ({
   return <UnknownRep DynamicHeader={DynamicHeader} />;
 };
 
-CheckUsersRep.propTypes = {
+RepresentativeStatusContainer.propTypes = {
   DynamicHeader: PropTypes.string,
   DynamicSubheader: PropTypes.string,
   useRepresentativeStatus: PropTypes.func,
