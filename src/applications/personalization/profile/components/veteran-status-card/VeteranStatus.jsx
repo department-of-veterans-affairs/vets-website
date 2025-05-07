@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { generatePdf } from '~/platform/pdf';
 import { captureError } from '~/platform/user/profile/vap-svc/util/analytics';
 import { apiRequest } from '~/platform/utilities/api';
+import { focusElement } from '~/platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import DowntimeNotification, {
   externalServices,
@@ -46,6 +47,46 @@ const VeteranStatus = ({
   const isMobile =
     (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
     /android/i.test(userAgent);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchVerificationStatus = async () => {
+      setIsLoading(true);
+
+      try {
+        const path = '/profile/vet_verification_status';
+        const response = await apiRequest(path);
+        if (isMounted) {
+          setData(response.data);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setSystemError(true);
+          captureError(error, { eventName: 'vet-status-fetch-verification' });
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+    fetchVerificationStatus();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(
+    () => {
+      if (pdfError && shouldFocusError) {
+        focusElement('va-alert[status="error"]');
+        setShouldFocusError(false);
+      }
+    },
+    [pdfError, shouldFocusError],
+  );
 
   const formattedFullName = formatFullName({
     first,
