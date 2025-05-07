@@ -86,17 +86,29 @@ describe('Landing Page', () => {
 
   it('displays features when feature flags are true', () => {
     const customState = {
-      drupalStaticData: { vamcEhrData: { loading: false } },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
+      },
       featureToggles: {
-        loading: false, // eslint-disable-next-line camelcase
-        mhv_medical_records_display_conditions: true, // eslint-disable-next-line camelcase
-        mhv_medical_records_display_labs_and_tests: true, // eslint-disable-next-line camelcase
-        mhv_medical_records_display_notes: true, // eslint-disable-next-line camelcase
-        mhv_medical_records_display_vaccines: true, // eslint-disable-next-line camelcase
-        mhv_medical_records_display_vitals: true, // eslint-disable-next-line camelcase
-        mhv_medical_records_display_settings_page: true, // eslint-disable-next-line camelcase
-        mhv_medical_records_update_landing_page: true, // eslint-disable-next-line camelcase
-        mhv_landing_page_show_share_my_health_data_link: true, // eslint-disable-next-line camelcase
+        loading: false,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_display_conditions: true,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_display_labs_and_tests: true,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_display_notes: true,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_display_vaccines: true,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_display_vitals: true,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_display_settings_page: true,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_update_landing_page: true,
+        // eslint-disable-next-line camelcase
+        mhv_landing_page_show_share_my_health_data_link: true,
       },
       ...initialState,
     };
@@ -174,6 +186,11 @@ describe('Landing Page', () => {
     expect(
       screen.getByRole('link', {
         name: 'Go to your vitals',
+      }),
+    ).to.exist;
+    expect(
+      screen.getByRole('link', {
+        name: 'Go to manage your electronic sharing settings',
       }),
     ).to.exist;
     expect(
