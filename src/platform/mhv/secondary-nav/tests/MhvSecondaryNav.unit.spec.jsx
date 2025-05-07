@@ -51,11 +51,11 @@ describe('<MhvSecondaryNav />', () => {
   });
 
   describe('Secure Messages href', () => {
-    it('when no features set:\n\t /my-health/secure-messages/inbox', () => {
+    it('when no features set:\n\t /my-health/secure-messages', () => {
       const initialState = stateFn({ loading: false });
       const { getByRole } = setup({ initialState });
       const mrLink = getByRole('link', { name: /^Messages/ });
-      expect(mrLink.href).to.match(/my-health\/secure-messages\/inbox$/);
+      expect(mrLink.href).to.match(/my-health\/secure-messages/);
     });
   });
 

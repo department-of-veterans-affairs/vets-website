@@ -28,7 +28,6 @@ export const mhvSecNavItems = [
     actionName: `${actionPrefix} - Messages`,
     icon: 'forum',
     href: `/my-health/secure-messages`,
-    appRootUrl: '/my-health/secure-messages/inbox',
   },
   {
     title: 'Medications',
