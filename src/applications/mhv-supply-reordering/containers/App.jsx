@@ -6,7 +6,10 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  MhvSecondaryNav,
+  MhvPageNotFound,
+} from '@department-of-veterans-affairs/mhv/exports';
 import MhvRegisteredUserGuard from 'platform/mhv/components/MhvRegisteredUserGuard';
 import formConfig from '../config/form';
 import { signInServiceEnabled } from '../selectors';
@@ -36,12 +39,9 @@ const App = ({ location, children }) => {
     },
   );
 
-  // Redirect to classic app and render nothing if feature toggle is not enabled.
+  // Render 404 page when feature toggle is disabled
   if (!isMhvSupplyReorderingEnabled && !featureTogglesLoading) {
-    window.location.replace(
-      '/health-care/order-hearing-aid-or-CPAP-supplies-form',
-    );
-    return null;
+    return <MhvPageNotFound />;
   }
 
   return (
