@@ -112,7 +112,7 @@ describe('DirectDepositClient', () => {
       });
     });
 
-    it('records lighthouse analytics event with supplied endpoint and veteranStatus', () => {
+    it('records lighthouse analytics event with veteranStatus and a supplied endpoint', () => {
       client.recordDirectDepositEvent({
         endpoint: '/profile/direct_deposits',
         status: API_STATUS.SUCCESSFUL,
