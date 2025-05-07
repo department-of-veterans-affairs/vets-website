@@ -105,6 +105,7 @@ App.propTypes = {
   location: PropTypes.object.isRequired,
   children: PropTypes.node,
   featureToggles: PropTypes.object,
+  fetchFormStatus: PropTypes.func,
   isError: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   pending: PropTypes.bool,
