@@ -30,4 +30,4 @@ export {
   edipiNotFound,
 } from './util/constants';
 export { trapFocus } from './util/ui/index';
-export { generateMilitaryServicePdf } from './pdf-utils/military-service-pdf';
+export { generateMilitaryServicePdf } from './dod-history/military-service-pdf';
