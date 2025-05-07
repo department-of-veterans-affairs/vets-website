@@ -141,7 +141,7 @@ export const CalculationInstructions = () => {
         </h2>
         <ul className="vads-u-margin-left--2 list-style">
           <li>
-            Provide the number of Non-supported students for identified approved
+            Provide the number of non-supported students for identified approved
             program.
           </li>
           <li>
