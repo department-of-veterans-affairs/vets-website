@@ -1,6 +1,5 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT, Paths } from '../utils/constants';
-import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PilotEnvPage from '../pages/PilotEnvPage';
 import PatientFilterPage from '../pages/PatientFilterPage';
@@ -21,11 +20,7 @@ describe('Secure Messaging Pilot feature flag', () => {
   );
 
   beforeEach(() => {
-    SecureMessagingSite.login();
-    SecureMessagingLandingPage.loadMainPage(
-      updatedFeatureToggles,
-      Paths.UI_PILOT,
-    );
+    SecureMessagingSite.login(updatedFeatureToggles);
 
     PilotEnvPage.loadInboxMessages(Paths.UI_PILOT, mockMessages);
     PilotEnvPage.verifyUrl(Paths.UI_PILOT);

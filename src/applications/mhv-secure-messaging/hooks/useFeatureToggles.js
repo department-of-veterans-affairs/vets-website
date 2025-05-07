@@ -4,17 +4,12 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 const useFeatureToggles = () => {
   const {
     featureTogglesLoading,
-    isSignatureSettingsEnabled,
     isComboBoxEnabled,
     readReceiptsEnabled,
   } = useSelector(
     state => {
       return {
         featureTogglesLoading: state.featureToggles.loading,
-        isSignatureSettingsEnabled:
-          state.featureToggles[
-            FEATURE_FLAG_NAMES.mhvSecureMessagingSignatureSettings
-          ],
         isComboBoxEnabled:
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientCombobox
@@ -28,12 +23,7 @@ const useFeatureToggles = () => {
     state => state.featureToggles,
   );
 
-  return {
-    featureTogglesLoading,
-    isSignatureSettingsEnabled,
-    isComboBoxEnabled,
-    readReceiptsEnabled,
-  };
+  return { featureTogglesLoading, isComboBoxEnabled, readReceiptsEnabled };
 };
 
 export default useFeatureToggles;

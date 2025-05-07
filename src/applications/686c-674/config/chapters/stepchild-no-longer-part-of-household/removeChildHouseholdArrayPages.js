@@ -44,10 +44,14 @@ export const removeChildHouseholdOptions = {
   text: {
     summaryTitle: 'Review your stepchildren who have left your household',
     getItemName: () => 'Stepchild',
-    cardDescription: item =>
-      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
-        item?.fullName?.last,
-      ) || ''}`,
+    cardDescription: item => (
+      <span className="dd-privacy" data-dd-privacy="mask">
+        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
+          item?.fullName?.last,
+        ) || ''}`.trim()}
+      </span>
+    ),
+    cancelAddButtonText: 'Cancel removing this child',
   },
 };
 
