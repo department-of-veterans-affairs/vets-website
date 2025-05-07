@@ -24,9 +24,10 @@ const ProcessList = ({ stepGuideProps }) => {
   const trackingInfo = trackingList?.length > 0 ? trackingList[0] : {};
   const { trackingNumber, carrier, completeDateTime } = trackingInfo;
   const carrierConfig = trackingConfig[carrier?.toLowerCase()];
-  const mostRecentDispensedDate = prescription?.rxRfRecords
-    ? prescription?.rxRfRecords[0]?.dispensedDate
-    : prescription?.dispensedDate;
+  const mostRecentDispensedDate =
+    prescription?.rxRfRecords && prescription?.rxRfRecords?.length > 0
+      ? prescription?.rxRfRecords[0]?.dispensedDate
+      : prescription?.dispensedDate;
 
   const getCompletedDateOrDefaultMessage = date => {
     return dateFormat(
