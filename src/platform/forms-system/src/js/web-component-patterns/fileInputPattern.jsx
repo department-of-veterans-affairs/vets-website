@@ -81,6 +81,7 @@ export const fileInputUI = options => {
     'ui:title': title,
     'ui:description': description,
     'ui:webComponentField': VaFileInputField,
+    'ui:required': typeof required === 'function' ? required : () => !!required,
     'ui:errorMessages': {
       required: 'A file is required to submit your application',
       ...errorMessages,
@@ -88,7 +89,7 @@ export const fileInputUI = options => {
     'ui:validations': [
       (errors, data, formData, schema, uiErrorMessages) => {
         const isRequired =
-          typeof required === 'function' ? required(formData) : required;
+          typeof required === 'function' ? required(formData) : !!required;
         if (isRequired) {
           filePresenceValidation(
             errors,
