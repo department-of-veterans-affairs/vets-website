@@ -167,7 +167,7 @@ export const CalculationInstructions = () => {
         </p>
         <ul className="vads-u-margin-left--2 list-style">
           <li>
-            The Student is not using GI Bill&reg; benefits under Title 10 or
+            The student is not using GI Bill&reg; benefits under Title 10 or
             Title 38 (chapters 30, 31, 33, 35, 36, 1606); <strong> AND</strong>
           </li>
           <li>
