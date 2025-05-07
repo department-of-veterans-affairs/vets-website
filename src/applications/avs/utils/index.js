@@ -1,7 +1,7 @@
 import { parse } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { datadogRum } from '@datadog/browser-rum';
+import { addDatadogError } from '../hooks/useDatadogRum';
 
 const parseProblemDateTime = dateString => {
   try {
@@ -19,7 +19,7 @@ const parseProblemDateTime = dateString => {
     }
     return parsedDate;
   } catch (error) {
-    datadogRum.addError(error);
+    addDatadogError(error);
   }
 
   return 'N/A';
@@ -33,7 +33,7 @@ const parseVistaDateTime = date => {
     }
     return parsedDate;
   } catch (error) {
-    datadogRum.addError(error);
+    addDatadogError(error);
   }
 
   return 'N/A';
@@ -47,7 +47,7 @@ const parseVistaDate = date => {
     }
     return parsedDate;
   } catch (error) {
-    datadogRum.addError(error);
+    addDatadogError(error);
   }
 
   return 'N/A';
@@ -57,7 +57,7 @@ const formatImmunizationDate = date => {
   try {
     return formatDateLong(parseVistaDate(date));
   } catch (error) {
-    datadogRum.addError(error);
+    addDatadogError(error);
   }
   return 'N/A';
 };
@@ -87,7 +87,7 @@ const getShortTimezone = avs => {
     // Strip out middle char in short timezone.
     return stripDst(timeZone, shortTimezone);
   } catch (error) {
-    datadogRum.addError(error);
+    addDatadogError(error);
   }
 
   return '';
@@ -101,7 +101,7 @@ const getFormattedAppointmentTime = twentyFourHourTime => {
     }
     return format(time, 'h:mm aaaa');
   } catch (error) {
-    datadogRum.addError(error);
+    addDatadogError(error);
   }
 
   return '';
@@ -119,7 +119,7 @@ const getFormattedAppointmentDate = avs => {
     }
     return formattedDate;
   } catch (error) {
-    datadogRum.addError(error);
+    addDatadogError(error);
   }
 
   return '';
@@ -142,7 +142,7 @@ const getFormattedGenerationDate = avs => {
       timeZone,
     )} ${shortTimeZone}`;
   } catch (error) {
-    datadogRum.addError(error);
+    addDatadogError(error);
   }
 
   return 'N/A';

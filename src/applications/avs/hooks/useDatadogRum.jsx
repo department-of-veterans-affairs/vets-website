@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { datadogRum } from '@datadog/browser-rum';
+import { useEffect, useState } from 'react';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
@@ -26,7 +25,7 @@ const datadogRumConfig = {
   },
 };
 
-const initializeDatadogRum = () => {
+const initializeDatadogRum = async () => {
   if (
     // Prevent RUM from running on local/CI environments.
     environment.BASE_URL.indexOf('localhost') < 0 &&
@@ -34,21 +33,57 @@ const initializeDatadogRum = () => {
     !window.DD_RUM?.getInitConfiguration() &&
     !window.Mocha
   ) {
-    if (!datadogRumConfig.env) {
-      datadogRumConfig.env = environment.vspEnvironment();
+    try {
+      const {
+        datadogRum,
+      } = await import(/* webpackChunkName: "datadog-rum" */ '@datadog/browser-rum');
+
+      if (!datadogRumConfig.env) {
+        datadogRumConfig.env = environment.vspEnvironment();
+      }
+      datadogRum.init(datadogRumConfig);
+      datadogRum.startSessionReplayRecording();
+
+      return datadogRum;
+    } catch (error) {
+      // Silent fail if the datadog library fails to load
+      // eslint-disable-next-line no-console
+      console.error('Failed to load DataDog RUM library:', error);
     }
-    datadogRum.init(datadogRumConfig);
-    datadogRum.startSessionReplayRecording();
+  }
+  return null;
+};
+
+// Function to add errors to DataDog
+export const addDatadogError = async error => {
+  try {
+    const {
+      datadogRum,
+    } = await import(/* webpackChunkName: "datadog-rum" */ '@datadog/browser-rum');
+    datadogRum.addError(error);
+  } catch (e) {
+    // Silent fail if the datadog library fails to load
+    // eslint-disable-next-line no-console
+    console.error('Failed to record error in DataDog:', e);
   }
 };
 
 const useDatadogRum = config => {
+  const [datadogInstance, setDatadogInstance] = useState(null);
+
   useEffect(
     () => {
-      initializeDatadogRum();
+      const loadDatadog = async () => {
+        const instance = await initializeDatadogRum();
+        setDatadogInstance(instance);
+      };
+
+      loadDatadog();
     },
     [config],
   );
+
+  return datadogInstance;
 };
 
 export { useDatadogRum };
