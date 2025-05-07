@@ -100,24 +100,6 @@ export default function PastAppointmentsPage() {
   ) {
     return (
       <>
-        {dropdown}
-        <div className="vads-u-margin-y--8">
-          <va-loading-indicator
-            set-focus={hasTypeChanged || !isInitialMount}
-            message="Loading your past appointments..."
-          />
-        </div>
-      </>
-    );
-  }
-
-  if (
-    pastStatus === FETCH_STATUS.loading ||
-    pastStatus === FETCH_STATUS.notStarted
-  ) {
-    return (
-      <>
-        {dropdown}
         <div className="vads-u-margin-y--8">
           <va-loading-indicator
             set-focus={hasTypeChanged || !isInitialMount}
