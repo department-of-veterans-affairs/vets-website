@@ -19,7 +19,7 @@ export const behaviorIntroDescription = (
     <p>
       These questions are optional. Any information you provide will help us
       understand your situation and identify evidence to support your claim. You
-      can provide only details you’re comfortable sharing.
+      only need to provide details you’re comfortable sharing.
     </p>
     <h4>Information we’ll ask you for</h4>
     <p>
@@ -38,8 +38,8 @@ export const behaviorIntroDescription = (
     <h4>You can take a break at any time</h4>
     <p>
       We understand that some of the questions may be difficult to answer. You
-      can take a break at any time and come back to continue your application
-      later. We’ll save the information you’ve entered so far.
+      can take a break at any time. We’ll save the information you enter so you
+      can finish your application later.
     </p>
   </>
 );
