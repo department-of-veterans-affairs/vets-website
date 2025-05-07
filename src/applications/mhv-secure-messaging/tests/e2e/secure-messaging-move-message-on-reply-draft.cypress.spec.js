@@ -24,7 +24,7 @@ describe('SM DELETE REPLY DRAFT', () => {
     FolderManagementPage.confirmMovingMessageToFolder();
     FolderManagementPage.verifyMoveMessageSuccessConfirmationMessage();
     FolderManagementPage.verifyMoveMessageSuccessConfirmationHasFocus();
-    GeneralFunctionsPage.verifyPageHeader('Inbox');
+    GeneralFunctionsPage.verifyPageHeader('Messages: Inbox');
     GeneralFunctionsPage.verifyUrl(`inbox`);
 
     cy.injectAxe();

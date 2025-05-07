@@ -206,7 +206,7 @@ export const handleHeader = folder => {
   };
 };
 
-export const getPageTitle = ({ removeLandingPageFF, folderName, pathname }) => {
+export const getPageTitle = ({ folderName, pathname }) => {
   const systemFolderHeaders = [
     Folders.INBOX.header,
     Folders.SENT.header,
@@ -217,26 +217,16 @@ export const getPageTitle = ({ removeLandingPageFF, folderName, pathname }) => {
   const isSystemFolder = systemFolderHeaders.includes(folderName);
 
   if (folderName) {
-    const titleTag = removeLandingPageFF
-      ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
-      : PageTitles.PAGE_TITLE_TAG;
-    return `${
-      removeLandingPageFF
-        ? `Messages: ${
-            folderName && isSystemFolder ? folderName : 'More folders'
-          } ${titleTag}`
-        : `${folderName} ${titleTag}`
-    }`;
+    const titleTag = PageTitles.DEFAULT_PAGE_TITLE_TAG;
+    return `${`Messages: ${
+      folderName && isSystemFolder ? folderName : 'More folders'
+    } ${titleTag}`}`;
   }
 
-  const folderTitleTag = removeLandingPageFF
-    ? PageTitles.NEW_MY_FOLDERS_PAGE_TITLE_TAG
-    : PageTitles.MY_FOLDERS_PAGE_TITLE_TAG;
-  const conversationTitleTag = removeLandingPageFF
-    ? PageTitles.NEW_CONVERSATION_TITLE_TAG
-    : PageTitles.CONVERSATION_TITLE_TAG;
+  const folderTitleTag = PageTitles.MY_FOLDERS_PAGE_TITLE_TAG;
+  const conversationTitleTag = PageTitles.CONVERSATION_TITLE_TAG;
 
-  return `${removeLandingPageFF ? `Messages: ` : ''} ${
+  return `Messages: ${
     pathname === Paths.FOLDERS ? folderTitleTag : conversationTitleTag
   }`;
 };
