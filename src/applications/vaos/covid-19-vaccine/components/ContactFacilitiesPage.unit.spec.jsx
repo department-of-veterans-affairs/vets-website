@@ -3,7 +3,6 @@ import React from 'react';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
-import { createMockFacility } from '../../tests/mocks/data';
 import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
 import {
   mockFacilitiesApi,
@@ -44,6 +43,22 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
       },
     },
   };
+  const facility1 = new MockFacilityResponse({
+    id: '983',
+    name: 'Facility that is enabled',
+  })
+    .setLatitude(39.1362562)
+    .setLongitude(-83.1804804)
+    .setPhoneNumber('5555555555x1234')
+    .setAddress({ city: 'Bozeman', state: 'MT' });
+  const facility2 = new MockFacilityResponse({
+    id: '984',
+    name: 'Facility that is furthest away',
+  })
+    .setLatitude(39.1362562)
+    .setLongitude(-82.1804804)
+    .setPhoneNumber('5555555555x1234')
+    .setAddress({ city: 'Bozeman', state: 'MT' });
 
   beforeEach(() => {
     mockFetch();
@@ -55,32 +70,10 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   });
 
   it('should show closest two registered facilities', async () => {
+    // Arrange
     mockFacilitiesApi({
       children: true,
-      response: [
-        createMockFacility({
-          id: '983',
-          name: 'Facility that is enabled',
-          lat: 39.1362562,
-          long: -83.1804804,
-          address: {
-            city: 'Bozeman',
-            state: 'MT',
-          },
-          phone: '5555555555x1234',
-        }),
-        createMockFacility({
-          id: '984',
-          name: 'Facility that is furthest away',
-          lat: 39.1362562,
-          long: -82.1804804,
-          address: {
-            city: 'Bozeman',
-            state: 'MT',
-          },
-          phone: '5555555555x1234',
-        }),
-      ],
+      response: [facility1, facility2],
     });
     mockSchedulingConfigurationsApi({
       response: [
@@ -112,9 +105,13 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
         },
       },
     });
+
+    // Act
     const screen = renderWithStoreAndRouter(<ContactFacilitiesPage />, {
       store,
     });
+
+    // Assert
     expect(
       await screen.findByRole('link', { name: /Facility that is enabled/i }),
     ).to.be.ok;
@@ -141,19 +138,13 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
     );
   });
 
-  it('should show five facilities in alpha order when no residential address', async () => {
+  it('should show two facilities in alpha order when no residential address', async () => {
+    // Arrange
     mockFacilitiesApi({
       children: true,
-      response: [
-        createMockFacility({
-          id: '983',
-          name: 'A facility',
-        }),
-        createMockFacility({
-          id: '984',
-          name: 'B facility',
-        }),
-      ],
+      response: MockFacilityResponse.createResponses({
+        facilityIds: ['983', '984'],
+      }),
     });
     mockSchedulingConfigurationsApi({
       response: [
@@ -171,12 +162,16 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
     });
 
     const store = createTestStore(initialState);
+
+    // Act
     const screen = renderWithStoreAndRouter(<ContactFacilitiesPage />, {
       store,
     });
-    expect(await screen.findByRole('link', { name: /A facility/i })).to.be.ok;
+
+    // Assert
+    expect(await screen.findByRole('link', { name: /Facility 983/i })).to.be.ok;
     expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
-      ['A facility', 'B facility'],
+      ['Facility 983', 'Facility 984'],
     );
     expect(screen.getAllByTestId('tty-telephone')).to.exist;
   });
@@ -214,30 +209,7 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   it('should show no facilities for online vaccine scheduling view', async () => {
     mockFacilitiesApi({
       children: true,
-      response: [
-        createMockFacility({
-          id: '983',
-          name: 'Facility that is enabled',
-          lat: 39.1362562,
-          long: -83.1804804,
-          address: {
-            city: 'Bozeman',
-            state: 'MT',
-          },
-          phone: '5555555555x1234',
-        }),
-        createMockFacility({
-          id: '984',
-          name: 'Facility that is furthest away',
-          lat: 39.1362562,
-          long: -82.1804804,
-          address: {
-            city: 'Bozeman',
-            state: 'MT',
-          },
-          phone: '5555555555x1234',
-        }),
-      ],
+      response: [facility1, facility2],
     });
     mockSchedulingConfigurationsApi({
       response: [

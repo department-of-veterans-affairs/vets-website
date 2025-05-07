@@ -361,7 +361,7 @@ export function mockEligibilityRequestApi({
 export function mockFacilitiesApi({
   ids,
   children = true,
-  response: data,
+  response: data = [],
   responseCode = 200,
 }) {
   let idList = ids;

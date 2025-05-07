@@ -9,6 +9,7 @@ import {
   renderWithStoreAndRouter,
   setVaccineFacility,
 } from '../../tests/mocks/setup';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 
 import MockClinicResponse from '../../tests/fixtures/MockClinicResponse';
 import { mockEligibilityFetches } from '../../tests/mocks/mockApis';
@@ -41,20 +42,7 @@ describe('VAOS vaccine flow: ClinicChoicePage', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983', {
-      name: 'Cheyenne VA Medical Center',
-      address: {
-        physical: {
-          zip: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          address1: '2360 East Pershing Boulevard',
-        },
-      },
-      phone: {
-        main: '307-778-7550',
-      },
-    });
+    await setVaccineFacility(store, new MockFacilityResponse());
 
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
@@ -99,7 +87,7 @@ describe('VAOS vaccine flow: ClinicChoicePage', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
 
     let screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
