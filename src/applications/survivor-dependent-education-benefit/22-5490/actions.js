@@ -1,7 +1,5 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-// Import the fixture data
-import { claimantResponse } from './tests/fixtures/data/claimantInfoResponse';
 
 export const CLAIMANT_INFO_ENDPOINT = `${
   environment.API_URL
@@ -91,20 +89,12 @@ const poll = ({
 export function fetchPersonalInformation() {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFORMATION });
-    // --- Mocked Response ---
-    // Use the imported fixture data directly
-    // Dispatch success with the 'data' part of the fixture,
-    dispatch({
-      type: FETCH_PERSONAL_INFORMATION_SUCCESS,
-      response: claimantResponse.data,
-    });
-    // --- Original API Call (commented out) ---
-    // try {
-    //   const response = await apiRequest(CLAIMANT_INFO_ENDPOINT);
-    //   dispatch({ type: FETCH_PERSONAL_INFORMATION_SUCCESS, response });
-    // } catch (errors) {
-    //   dispatch({ type: FETCH_PERSONAL_INFORMATION_FAILED, errors });
-    // }
+    try {
+      const response = await apiRequest(CLAIMANT_INFO_ENDPOINT);
+      dispatch({ type: FETCH_PERSONAL_INFORMATION_SUCCESS, response });
+    } catch (errors) {
+      dispatch({ type: FETCH_PERSONAL_INFORMATION_FAILED, errors });
+    }
   };
 }
 
