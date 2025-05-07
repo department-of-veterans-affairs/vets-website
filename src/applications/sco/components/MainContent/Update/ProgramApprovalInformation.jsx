@@ -9,17 +9,17 @@ const ProgramApprovalInformation = () => {
       header="Program approval information"
     >
       <LiSpanAndVaLinkAndPTag
-        href="https://www.va.gov/education/gi-bill-comparison-tool/schools-and-employers"
+        href="https://inquiry.vba.va.gov/weamspub/buildSearchInstitutionCriteria.do"
         hrefText="WEAMS Institution Search"
         pText="Use the Web Enabled Approval Management System (WEAMS) to identify educational institutions offering programs approved for Veterans training."
       />
       <LiSpanAndVaLinkAndPTag
-        href="https://www.va.gov/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses"
+        href="https://inquiry.vba.va.gov/weamspub/buildSearchCountryLCCriteria.do"
         hrefText="Licensing and certification"
         pText="Search WEAMS for approved Licensing and Certifications and Test Prep Courses by country and state."
       />
       <LiSpanAndVaLinkAndPTag
-        href="https://www.va.gov/education/gi-bill-comparison-tool/national-exams"
+        href="https://inquiry.vba.va.gov/weamspub/buildSearchNE.do"
         hrefText="National exams"
         pText="Search WEAMS to identify approved National Exams such as ACT, CLEP, MCAT, and more."
       />
