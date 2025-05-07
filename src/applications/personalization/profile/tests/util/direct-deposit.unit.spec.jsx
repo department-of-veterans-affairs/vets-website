@@ -112,8 +112,9 @@ describe('DirectDepositClient', () => {
       });
     });
 
-    it('records lighthouse GET analytics event without error', () => {
+    it('records lighthouse analytics event with veteranStatus and a supplied endpoint', () => {
       client.recordDirectDepositEvent({
+        endpoint: '/profile/direct_deposits',
         status: API_STATUS.SUCCESSFUL,
         method: 'GET',
         extraProperties: {
@@ -123,7 +124,7 @@ describe('DirectDepositClient', () => {
 
       expect(recordEventSpy.firstCall.args[0]).to.deep.equal({
         event: 'api_call',
-        'api-name': 'GET /profile/direct_deposits/disability_compensations',
+        'api-name': 'GET /profile/direct_deposits',
         'api-status': API_STATUS.SUCCESSFUL,
         'veteran-status': 'DEPENDENT',
       });

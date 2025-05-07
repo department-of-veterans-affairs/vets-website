@@ -159,9 +159,10 @@ export const medicalClaimUploadSchema = {
         <va-alert status="warning">
           <p className="vads-u-margin-y--0">
             You’ll need to submit a copy of an <b>itemized billing statement</b>
-            , often called a superbill, for this claim. Ask your provider for an
-            itemized bill as the patient copy is often missing critical
-            information required by CHAMPVA to process claims.
+            , often called a superbill, for this claim. Ask{' '}
+            {nameWording(formData, true, false, true)} provider for an itemized
+            bill as the patient copy is often missing critical information
+            required by CHAMPVA to process claims.
           </p>
         </va-alert>
         <p>

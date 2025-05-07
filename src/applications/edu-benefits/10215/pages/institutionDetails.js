@@ -96,7 +96,10 @@ const uiSchema = {
     },
     institutionName: {
       'ui:title': 'Institution name',
-      'ui:webComponentField': InstitutionName,
+      'ui:field': InstitutionName,
+      'ui:options': {
+        classNames: 'vads-u-margin-top--2',
+      },
     },
     termStartDate: {
       ...currentOrPastDateUI({
