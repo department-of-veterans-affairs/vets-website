@@ -109,6 +109,7 @@ const formConfig = {
           schema: movingYesNoPage.schema,
         },
         newMailingAddressPage: {
+          depends: formData => formData.movingYesNo,
           path: 'new-mailing-address',
           title:
             CONTACT_INFORMATION_CHAPTER_CONSTANTS.newMailingAddressPageTitle,
