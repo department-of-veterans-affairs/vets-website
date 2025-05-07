@@ -287,7 +287,6 @@ export function getLetterBlobUrl(
             ),
           );
         });
-
         return reject(
           dispatch(
             getLetterPdfFailure(letterType, 'enhanced-letter-pdf-failure'),
