@@ -92,7 +92,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/pending/fake_id?confirmMsg=true',
       );
     });
 
@@ -141,7 +141,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/pending/fake_id?confirmMsg=true',
       );
     });
 
@@ -191,7 +191,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/pending/fake_id?confirmMsg=true',
       );
     });
 

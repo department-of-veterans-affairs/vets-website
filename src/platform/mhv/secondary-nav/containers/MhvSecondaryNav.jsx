@@ -28,7 +28,6 @@ export const mhvSecNavItems = [
     actionName: `${actionPrefix} - Messages`,
     icon: 'forum',
     href: `/my-health/secure-messages`,
-    appRootUrl: '/my-health/secure-messages',
   },
   {
     title: 'Medications',
@@ -54,18 +53,9 @@ const MhvSecondaryNav = () => {
   const {
     loading = true,
     mhvMedicationsRemoveLandingPage = false,
-    mhvSecureMessagingRemoveLandingPage = false,
   } = useSelector(toggleValuesSelector);
 
   const updatedNavItems = mhvSecNavItems.map(item => {
-    // Current URL: /my-health/secure-messages
-    // Replace with milestone1 URL: /my-health/secure-messages/inbox
-    if (
-      mhvSecureMessagingRemoveLandingPage &&
-      item.href === '/my-health/secure-messages'
-    ) {
-      return { ...item, href: '/my-health/secure-messages/inbox' };
-    }
     // Current URL: /my-health/medications/about
     // Replace with milestone1 URL: /my-health/medications
     if (
