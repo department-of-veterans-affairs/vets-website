@@ -18,7 +18,7 @@ const UserHelpLinks = () => {
               to="/poa-search"
             >
               <va-icon icon="search" size={2} className="people-search-icon" />
-              Search People
+              Find Claimant
             </Link>
           </li>
         </Toggler.Enabled>
@@ -32,15 +32,21 @@ const UserHelpLinks = () => {
           Power of Attorney Requests
         </Link>
       </li>
-      <li className="vads-u-display--none">
-        <Link
-          data-testid="user-nav-profile-link"
-          className="vads-u-color--white"
-          to="/get-help"
-        >
-          Get Help
-        </Link>
-      </li>
+      <Toggler
+        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
+      >
+        <Toggler.Enabled>
+          <li>
+            <Link
+              data-testid="user-nav-profile-link"
+              className="vads-u-color--white"
+              to="/get-help"
+            >
+              Get Help
+            </Link>
+          </li>
+        </Toggler.Enabled>
+      </Toggler>
     </>
   );
 };
@@ -48,15 +54,21 @@ const UserHelpLinks = () => {
 const UserNavLinks = () => {
   return (
     <>
-      <li className="vads-u-display--none">
-        <Link
-          data-testid="user-nav-profile-link"
-          className="vads-u-color--black"
-          to="/profile"
-        >
-          Profile
-        </Link>
-      </li>
+      <Toggler
+        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalProfile}
+      >
+        <Toggler.Enabled>
+          <li>
+            <Link
+              data-testid="user-nav-profile-link"
+              className="vads-u-color--black"
+              to="/profile"
+            >
+              Profile
+            </Link>
+          </li>
+        </Toggler.Enabled>
+      </Toggler>
       <li>
         <a
           data-testid="user-nav-sign-out-link"

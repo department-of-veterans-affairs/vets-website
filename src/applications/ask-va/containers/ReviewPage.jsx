@@ -67,6 +67,7 @@ const ReviewPage = props => {
   const [editSection, setEditSection] = useState([]);
   const [attachments, setAttachments] = useState([]);
   const [editAttachments, setEditAttachments] = useState(false);
+  const [show503Alert, setShow503Alert] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -159,6 +160,7 @@ const ReviewPage = props => {
 
   const handleSubmit = async () => {
     setIsDisabled(true);
+    setShow503Alert(false);
     try {
       await handleFormSubmission({
         formData: props.formData,
@@ -171,14 +173,26 @@ const ReviewPage = props => {
             state: { contactPreference, inquiryNumber },
           });
         },
-        // onError: error => {
-        //   setIsDisabled(false);
-        //   // TODO - need error modal instead of forwarding to confirmation per final design
-        //   // Temporary alert dialog for testing
-        // },
+        onError: () => {
+          // setIsDisabled(false);
+          // TODO - need error modal instead of forwarding to confirmation per final design
+          // Temporary alert dialog for testing
+          scroller.scrollTo('topScrollElement', {
+            duration: 500,
+            delay: 0,
+            smooth: true,
+          });
+          setShow503Alert(true);
+        },
       });
-    } catch (error) {
+    } catch (_error) {
       setIsDisabled(false);
+      scroller.scrollTo('topScrollElement', {
+        duration: 500,
+        delay: 0,
+        smooth: true,
+      });
+      setShow503Alert(true);
       // TODO - need error modal instead of forwarding to confirmation per final design
       // Temporary alert dialog for testing
     }
@@ -239,6 +253,30 @@ const ReviewPage = props => {
 
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
+      <div className="vads-u-margin-y--3">
+        {show503Alert ? (
+          <VaAlert
+            closeBtnAriaLabel="Close notification"
+            onCloseEvent={() => setShowAlert(false)}
+            status="error"
+            visible
+            data-testid="review-alert"
+          >
+            <h3 id="track-your-status-on-mobile" slot="headline">
+              Ask VA isn’t working right now
+            </h3>
+            <div>
+              <p className="vads-u-margin-y--0">
+                We’re sorry. There’s a problem with our system. We can’t submit
+                your question. To ask your question, call us at &nbsp;{' '}
+                <va-telephone contact="8008271000" /> &nbsp;({' '}
+                <va-telephone contact="711" tty="true" /> ). We’re here Monday
+                through Friday, 8:00 a.m to 9:00 p.m ET.
+              </p>
+            </div>
+          </VaAlert>
+        ) : null}
+      </div>
       <div className="vads-u-margin-y--3">
         {showAlert ? (
           <VaAlert
@@ -1296,7 +1334,7 @@ const ReviewPage = props => {
                         <form className="rjsf">
                           <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
                             <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
-                              <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
+                              <div className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
                                 {!editAttachments ? (
                                   nonEditAttachmentsMode()
                                 ) : (
@@ -1328,7 +1366,7 @@ const ReviewPage = props => {
                                     </div>
                                   </>
                                 )}
-                              </dl>
+                              </div>
                             </dl>
                           </div>
                         </form>
@@ -1343,7 +1381,7 @@ const ReviewPage = props => {
       <div className="vads-u-margin-top--4 vads-u-display--flex">
         <va-button back onClick={() => props.goBack()} />
         {isDisabled ? (
-          <va-button text="Submit question" disabled />
+          <va-button text="Submit question" disabled loading />
         ) : (
           <va-button text="Submit question" onClick={handleSubmit} />
         )}

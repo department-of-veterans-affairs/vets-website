@@ -24,6 +24,17 @@ export const expiresSoon = expDate => {
   return null;
 };
 
+export const requestsContainStatus = (status, requests) => {
+  if (status === 'pending') {
+    return requests.find(poaRequest => poaRequest.resolution === null);
+  }
+  return requests.find(
+    poaRequest =>
+      (poaRequest.resolution?.decisionType || poaRequest.resolution?.type) ===
+      status,
+  );
+};
+
 export const formatStatus = x => {
   if (x === 'declination') {
     return 'Declined';
@@ -99,14 +110,14 @@ export const poaSearchBC = [
     label: 'Power of attorney requests',
   },
 ];
-export const searchPeopleBC = [
+export const findClaimantBC = [
   {
     href: '/representative',
-    label: '/representative home',
+    label: 'Representative.va.gov home',
   },
   {
     href: window.location.href,
-    label: 'Search People',
+    label: 'Find claimant',
   },
 ];
 export const poaDetailsBreadcrumbs = [
@@ -139,13 +150,13 @@ export const SORT_BY = {
 };
 
 export const PENDING = {
-  ASC_OPTION: 'Submitted date (newest)',
-  DESC_OPTION: 'Submitted date (oldest)',
+  DESC_OPTION: 'Submitted date (newest)',
+  ASC_OPTION: 'Submitted date (oldest)',
 };
 
 export const PROCESSED = {
-  ASC_OPTION: 'Processed date (newest)',
-  DESC_OPTION: 'Processed date (oldest)',
+  DESC_OPTION: 'Processed date (newest)',
+  ASC_OPTION: 'Processed date (oldest)',
 };
 
 export const STATUSES = {

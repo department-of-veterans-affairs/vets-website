@@ -30,7 +30,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
-    mhvIntegrationMedicalRecordsToPhase1 = true,
+    mhvMedicalRecordsMilestoneTwo = false,
 
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,
@@ -109,10 +109,6 @@ const generateFeatureToggles = (toggles = {}) => {
 
         // medical records
         {
-          name: 'mhv_integration_medical_records_to_phase_1',
-          value: mhvIntegrationMedicalRecordsToPhase1,
-        },
-        {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
         },
@@ -159,6 +155,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_update_landing_page',
           value: mhvMedicalRecordsMarch17Updates,
+        },
+        {
+          name: 'mhv_medical_records_milestone_two',
+          value: mhvMedicalRecordsMilestoneTwo,
         },
 
         // secure messaging
