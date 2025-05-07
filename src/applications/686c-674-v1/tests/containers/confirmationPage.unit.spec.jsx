@@ -48,7 +48,7 @@ describe('Dependents Form (686c-674) confirmation page', () => {
       </Provider>,
     );
 
-    expect($$('h2', container).length).to.eql(5);
+    expect($$('h2', container).length).to.eql(6);
     expect($$('va-link', container).length).to.eql(5);
     expect($$('va-alert[status="success', container).length).to.equal(1);
     expect($('va-button', container).getAttribute('text')).to.eq(
