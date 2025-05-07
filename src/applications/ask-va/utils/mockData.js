@@ -1310,7 +1310,8 @@ export const mockInquiries = {
         queueId: '527de9d5-1b6b-eb11-b0b0-001dd8309f34',
         queueName: 'Muskogee OJT/Apprenticeship',
         status: 'Solved',
-        submitterQuestion: 'Testing Dec 19 files',
+        submitterQuestion:
+          'Testing Dec 19 files. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt quae a officia temporibus aperiam vel vitae dolores, nisi doloremque quas.',
         schoolFacilityCode: null,
         veteranRelationship: null,
       },

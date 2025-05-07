@@ -1,3 +1,5 @@
+import React from 'react';
+
 function isFieldMissing(value) {
   return value === undefined || value === null || value === '';
 }
@@ -127,11 +129,11 @@ export const arrayBuilderOptions = {
   maxItems: 20,
   text: {
     getItemName: () => 'Child',
-    cardDescription: item => {
-      return (
-        `${item?.fullName?.first ?? ''} ${item?.fullName?.last ?? ''}`.trim() ||
-        ' '
-      );
-    },
+    cardDescription: item => (
+      <span className="dd-privacy" data-dd-privacy="mask">
+        {`${item?.fullName?.first ?? ''} ${item?.fullName?.last ??
+          ''}`.trim() || ' '}
+      </span>
+    ),
   },
 };

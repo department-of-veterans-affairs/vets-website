@@ -80,6 +80,11 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const fullState = useSelector(state => state);
 
+  const selectMilestoneTwoFlag = useSelector(
+    state =>
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsMilestoneTwo],
+  );
+
   const useUnifiedSelfEnteredAPI = useSelector(
     state =>
       state.featureToggles[
@@ -182,7 +187,22 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         setSelfEnteredPdfRequested(false);
         const title = 'Self-entered information report';
         const subject = 'VA Medical Record';
-        const scaffold = generatePdfScaffold(userProfile, title, subject);
+        const preface = {
+          selectMilestoneTwoCheck: selectMilestoneTwoFlag,
+          messages: [
+            {
+              value:
+                'This report includes health information you entered yourself in the past. You can no longer enter or edit health information in My HealtheVet.',
+            },
+          ],
+        };
+
+        const scaffold = generatePdfScaffold(
+          userProfile,
+          title,
+          subject,
+          preface,
+        );
         const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
           userProfile,
         )}`;
@@ -213,6 +233,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       runningUnitTest,
       seiRecords,
       selfEnteredPdfRequested,
+      selectMilestoneTwoFlag,
       userProfile,
     ],
   );
@@ -407,6 +428,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
             in the previous version of My HealtheVet.
+            {selectMilestoneTwoFlag &&
+              ` You can no longer enter or
+            edit health information in My HealtheVet.`}
           </p>
           <p>
             Your VA health care team can’t access this self-entered information
@@ -432,17 +456,24 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               data-testid="downloadSelfEnteredButton"
             />
           )}
-          <p>
-            <strong>Note:</strong> Self-entered My Goals are no longer available
-            on My HealtheVet and not included in this report. To download your
-            historical goals you can go to the previous version of My
-            HealtheVet.
-          </p>
-          <ExternalLink
-            href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'va-blue-button')}
-            text="Go to the previous version of My HealtheVet to download historical
-            goals"
-          />
+          {!selectMilestoneTwoFlag && (
+            <>
+              <p>
+                <strong>Note:</strong> Self-entered My Goals are no longer
+                available on My HealtheVet and not included in this report. To
+                download your historical goals you can go to the previous
+                version of My HealtheVet.
+              </p>
+              <ExternalLink
+                href={mhvUrl(
+                  isAuthenticatedWithSSOe(fullState),
+                  'va-blue-button',
+                )}
+                text="Go to the previous version of My HealtheVet to download historical
+                goals"
+              />
+            </>
+          )}
         </va-accordion-item>
       </va-accordion>
       <p className="vads-u-margin--0 vads-u-margin-top--2">
