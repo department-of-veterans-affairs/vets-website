@@ -31,6 +31,7 @@ const testConfig = createTestConfig(
     variations designed to trigger the conditionals in the form/follow different paths. 
     */
     dataSets: [
+      'not-enrolled-champva.json',
       'test-data.json',
       'maximal-test.json',
       'minimal-test.json',
@@ -46,6 +47,24 @@ const testConfig = createTestConfig(
           cy.findAllByText(/start/i, { selector: 'a' })
             .first()
             .click();
+        });
+      },
+      // When we land on this screener page, progressing through the form is
+      // blocked (by design). To successfully complete the test,
+      // once we land here, change `champvaBenefitStatus` to `true`
+      // and click '<< Back' so that we can proceed past the screener
+      [ALL_PAGES.benefitApp.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.axeCheck();
+            if (data.champvaBenefitStatus === false) {
+              // eslint-disable-next-line no-param-reassign
+              data.champvaBenefitStatus = true;
+              // This targets the '<< Back' button
+              cy.get('va-button').click();
+            }
+          });
         });
       },
       [ALL_PAGES.applicantAddressInfo.path]: ({ afterHook }) => {

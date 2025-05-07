@@ -38,7 +38,7 @@ const AlertMhvNoAction = ({ errorCode, testId, recordEvent }) => {
           If the problem persists, call the My HealtheVet helpdesk at
           877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m.
           to 8 p.m. ET. Tell the representative that you received{' '}
-          <b>error code {errorCode}</b>.
+          <b>error code: {errorCode}</b>.
         </p>
 
         <p>
