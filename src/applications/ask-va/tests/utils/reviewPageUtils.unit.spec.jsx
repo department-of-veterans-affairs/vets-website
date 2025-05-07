@@ -393,14 +393,12 @@ describe('Review Page Utils', () => {
     describe('submitFormData', () => {
       it('should handle successful submission', async () => {
         const onSuccess = sinon.spy();
-        const expectedResponse = { success: true, inquiryNumber: '12345' };
+        const expectedResponse = {
+          success: true,
+          inquiryNumber: 'A-20230622-306458',
+        };
 
-        sandbox.stub(apiUtils, 'apiRequest').resolves({
-          status: 200,
-          ok: true,
-          headers: { get: () => 'application/json' },
-          json: () => Promise.resolve(expectedResponse),
-        });
+        sandbox.stub(apiUtils, 'apiRequest').resolves(expectedResponse);
 
         await submitFormData({
           url: 'test-url',
@@ -430,12 +428,7 @@ describe('Review Page Utils', () => {
       it('should call onError for a response that does not include a inquiryNumber property', async () => {
         const onError = sinon.spy();
 
-        sandbox.stub(apiUtils, 'apiRequest').resolves({
-          status: 200,
-          ok: true,
-          headers: { get: () => 'application/json' },
-          json: () => Promise.resolve({ inquiryNumber: null }),
-        });
+        sandbox.stub(apiUtils, 'apiRequest').resolves({ success: true });
 
         try {
           await submitFormData({

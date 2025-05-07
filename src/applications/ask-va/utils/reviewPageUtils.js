@@ -163,14 +163,12 @@ export const submitFormData = async ({
 
     const response = await apiRequest(url, options);
 
-    const result = await response.json();
-
-    if (!result?.inquiryNumber) {
-      throw new Error(`Backend API call failed. Inquiry number not found.`);
+    if (!response || !response.inquiryNumber) {
+      onError?.(`Backend API call failed. Inquiry number not found.`);
+      return `Backend API call failed. Inquiry number not found.`;
     }
-
-    onSuccess?.(result);
-    return result;
+    onSuccess?.(response);
+    return response;
   } catch (error) {
     onError?.(error);
     throw error;
