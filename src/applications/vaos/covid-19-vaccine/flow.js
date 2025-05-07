@@ -33,8 +33,9 @@ export default function getPageFlow() {
       url: '/schedule/type-of-care',
     },
     planAhead: {
-      url: './',
+      url: 'covid-vaccine/',
       next: 'receivedDoseScreener',
+      label: 'COVID-19 vaccine appointment',
     },
     receivedDoseScreener: {
       url: 'doses-received',
@@ -131,11 +132,9 @@ export function routeToNextAppointmentPage(history, current, data) {
 
 export function getCovidUrlLabel(location) {
   const _flow = getPageFlow();
-  const home = '/';
-  const results = Object.values(_flow).filter(
-    value => location.pathname.endsWith(value.url) && value.url !== home,
+  const results = Object.values(_flow).filter(value =>
+    location.pathname.endsWith(value.url),
   );
-
   if (results && results.length) {
     return results[0].label;
   }

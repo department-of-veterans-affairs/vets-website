@@ -15,7 +15,7 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
   const [breadcrumb, setBreadcrumb] = useState([]);
 
   const label = useSelector(state => getUrlLabel(state, location));
-  const covidLabel = useSelector(() => getCovidUrlLabel(location));
+  const covidLabel = getCovidUrlLabel(location);
   const isCovid = location.pathname.includes('covid-vaccine/');
   const newLabel = isCovid ? covidLabel : labelOverride || label;
 
