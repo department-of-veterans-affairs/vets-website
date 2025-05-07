@@ -22,6 +22,9 @@ import {
   phoneSchema,
   yesNoUI,
   yesNoSchema,
+  fileInputMultipleUI,
+  fileInputSchema,
+  fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import transformForSubmit from './submitTransformer';
@@ -46,7 +49,7 @@ import {
   UploadDocumentsProvider,
 } from '../components/UploadDocuments';
 
-// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -107,7 +110,7 @@ const formConfig = {
       title: 'Personal information',
       pages: {
         page1: {
-          // initialData: mockdata.data,
+          initialData: mockdata.data,
           path: 'veteran-information',
           title: 'Name and date of birth',
           uiSchema: {
@@ -322,6 +325,7 @@ const formConfig = {
     fileUpload: {
       title: 'Supporting files',
       pages: {
+        /*
         page7: {
           path: 'upload-supporting-documents',
           title: 'Included files',
@@ -360,6 +364,40 @@ const formConfig = {
             },
           },
         },
+        */
+        // TODO: add back in the UI components with instructions, etc
+        page7: {
+          path: 'upload-supporting-documents',
+          title: 'Included files',
+          depends: formData => formData.sendPayment === 'Veteran',
+          uiSchema: {
+            uploadSectionVeteran: {
+              ...fileInputMultipleUI({
+                errorMessages: { required: 'This document is required.' },
+                name: 'pharmacy-upload',
+                fileUploadUrl: `${
+                  environment.API_URL
+                }/ivc_champva/v1/forms/submit_supporting_documents`,
+                title: 'Upload supporting document',
+                formNumber: '10-7959A',
+              }),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['uploadSectionVeteran'],
+            properties: {
+              titleSchema,
+              'view:UploadDocuments': {
+                type: 'object',
+                properties: {},
+              },
+              uploadSectionVeteran: fileInputMultipleSchema,
+            },
+          },
+        },
+        // TODO: bring this page back.
+        /*
         page8: {
           path: 'upload-supporting-documents-provider',
           title: 'Included files',
@@ -398,6 +436,7 @@ const formConfig = {
             },
           },
         },
+        */
       },
     },
   },

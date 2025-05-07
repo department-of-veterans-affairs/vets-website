@@ -20,6 +20,16 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
 
+  // Add attachment IDs to veteran upload (TODO: this is wack)
+  transformedData.uploadSectionVeteran = transformedData.uploadSectionVeteran.map(
+    el => {
+      return {
+        attachmentId: 'some attachment type (TODO)',
+        ...el,
+      };
+    },
+  );
+
   const dataPostTransform = {
     veteran: {
       date_of_birth: formatDateShort(transformedData.veteranDateOfBirth),
@@ -57,6 +67,7 @@ export default function transformForSubmit(formConfig, form) {
       phone: transformedData.veteranPhoneNumber,
       email: transformedData.veteranEmailAddress,
     },
+    // This workflow may no longer make sense with v3 file upload
     supportingDocs: getObjectsWithAttachmentId(transformedData),
   };
 
