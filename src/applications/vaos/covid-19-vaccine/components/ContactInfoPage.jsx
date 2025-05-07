@@ -99,7 +99,6 @@ export function ContactInfoPage({
           onChange={newData => updateFormData(pageKey, uiSchema, newData)}
           data={data}
         >
-          test
           <FormButtons
             onBack={() =>
               dispatch(routeToPreviousAppointmentPage(history, pageKey))
