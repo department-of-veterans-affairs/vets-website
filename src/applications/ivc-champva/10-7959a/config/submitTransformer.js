@@ -33,8 +33,7 @@ export default function transformForSubmit(formConfig, form) {
 
   // ---
   // Add type/category info to file uploads:
-  debugger;
-  const medicalUpload = [copyOfData?.medicalUpload]?.map(el => {
+  const medicalUpload = copyOfData?.medicalUpload?.map(el => {
     return { ...el, documentType: 'itemized billing statement' };
   });
   copyOfData.medicalUpload = medicalUpload;
