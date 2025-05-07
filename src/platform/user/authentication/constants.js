@@ -48,15 +48,15 @@ export const SERVICE_PROVIDERS = {
   [CSP_IDS.LOGIN_GOV]: {
     label: 'Login.gov',
     link: 'https://secure.login.gov/account',
-    image: <img src="/img/logingov.svg" alt="Login.gov Logo" />,
+    image: <img src="/img/logingov.svg" alt="Login.gov" />,
     policy: 'logingov',
     className: `logingov-button`,
   },
   [CSP_IDS.ID_ME]: {
     label: 'ID.me',
     link: 'https://wallet.id.me/settings',
-    image: <img src="/img/idme.svg" alt="ID.me Logo" />,
-    altImage: <img src="/img/idme.svg" alt="ID.me Logo" />,
+    image: <img src="/img/idme.svg" alt="ID.me" />,
+    altImage: <img src="/img/idme.svg" alt="ID.me" />,
     policy: 'idme',
     className: 'idme-button',
   },
