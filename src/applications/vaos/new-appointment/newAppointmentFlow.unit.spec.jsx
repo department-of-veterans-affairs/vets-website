@@ -3,16 +3,16 @@ import sinon from 'sinon';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
-import getNewAppointmentFlow from './newAppointmentFlow';
-import { FACILITY_TYPES } from '../utils/constants';
-import { mockFacilitiesFetch } from '../tests/mocks/fetch';
-import {
-  mockSchedulingConfigurations,
-  mockV2CommunityCareEligibility,
-  mockVAOSParentSites,
-} from '../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../tests/mocks/mock';
+import MockFacilityResponse from '../tests/fixtures/MockFacilityResponse';
 import { createMockFacility } from '../tests/mocks/data';
+import { getSchedulingConfigurationMock } from '../tests/mocks/mock';
+import {
+  mockFacilitiesApi,
+  mockSchedulingConfigurationsApi,
+  mockV2CommunityCareEligibility,
+} from '../tests/mocks/mockApis';
+import { FACILITY_TYPES } from '../utils/constants';
+import getNewAppointmentFlow from './newAppointmentFlow';
 
 const userState = {
   user: {
@@ -36,25 +36,25 @@ describe('VAOS newAppointmentFlow', () => {
     describe('next page', () => {
       it('should be vaFacility page if no systems have CC support', async () => {
         mockFetch();
-        mockFacilitiesFetch({
+        mockFacilitiesApi({
           children: true,
           ids: ['983'],
-          facilities: [
+          response: [
             createMockFacility({
               id: '983',
             }),
           ],
         });
-        mockSchedulingConfigurations(
-          [
+        mockSchedulingConfigurationsApi({
+          isCCEnabled: true,
+          response: [
             getSchedulingConfigurationMock({
               id: '983',
               typeOfCareId: 'primaryCare',
               requestEnabled: true,
             }),
           ],
-          true,
-        );
+        });
 
         const state = {
           user: {
@@ -86,6 +86,16 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be vaFacility page if CC check has an error', async () => {
         mockFetch();
+        mockFacilitiesApi({
+          ids: ['983', '984'],
+          response: [new MockFacilityResponse({ id: '1' })],
+        });
+        mockSchedulingConfigurationsApi({
+          facilityIds: ['1'],
+          isCCEnabled: true,
+          response: [],
+        });
+
         const state = {
           ...userState,
           featureToggles: {
@@ -112,6 +122,16 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be typeOfCare page if CC check has an error and podiatry chosen', async () => {
         mockFetch();
+        mockFacilitiesApi({
+          ids: ['983', '984'],
+          response: [new MockFacilityResponse({ id: 1 })],
+        });
+        mockSchedulingConfigurationsApi({
+          facilityIds: ['1'],
+          isCCEnabled: true,
+          response: [],
+        });
+
         const state = {
           ...userState,
           featureToggles: {
@@ -137,31 +157,31 @@ describe('VAOS newAppointmentFlow', () => {
       });
 
       it('should be the current page if no CC support and typeOfCare is podiatry', async () => {
-        const siteIds = ['983'];
+        const ids = ['983'];
 
         mockFetch();
-        mockVAOSParentSites(
-          siteIds,
-          [
+        mockFacilitiesApi({
+          ids,
+          response: [
             createMockFacility({
               id: '983',
               name: 'Cheyenne VA Medical Center',
               isParent: true,
             }),
           ],
-          true,
-        );
-        mockFacilitiesFetch({
+        });
+        mockFacilitiesApi({
           children: true,
           ids: ['983', '984'],
-          facilities: [
+          response: [
             createMockFacility({
               id: '983',
             }),
           ],
         });
-        mockSchedulingConfigurations(
-          [
+        mockSchedulingConfigurationsApi({
+          isCCEnabled: true,
+          response: [
             getSchedulingConfigurationMock({
               id: '983',
               typeOfCareId: '411',
@@ -169,8 +189,7 @@ describe('VAOS newAppointmentFlow', () => {
               communityCare: false,
             }),
           ],
-          true,
-        );
+        });
         mockV2CommunityCareEligibility({
           parentSites: [],
           careType: 'Podiatry',
@@ -208,17 +227,18 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be ccRequestDateTime if CC support and typeOfCare is podiatry', async () => {
         mockFetch();
-        mockFacilitiesFetch({
+        mockFacilitiesApi({
           children: true,
           ids: ['983', '984'],
-          facilities: [
+          response: [
             createMockFacility({
               id: '983',
             }),
           ],
         });
-        mockSchedulingConfigurations(
-          [
+        mockSchedulingConfigurationsApi({
+          isCCEnabled: true,
+          response: [
             getSchedulingConfigurationMock({
               id: '983',
               typeOfCareId: '411',
@@ -226,8 +246,7 @@ describe('VAOS newAppointmentFlow', () => {
               communityCare: true,
             }),
           ],
-          true,
-        );
+        });
         mockV2CommunityCareEligibility({
           parentSites: [],
           careType: 'Podiatry',
@@ -281,23 +300,26 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be typeOfFacility page if site has CC support', async () => {
         mockFetch();
-        mockFacilitiesFetch({
+        mockFacilitiesApi({
           children: true,
           ids: ['983', '984'],
-          facilities: [
+          response: [
             createMockFacility({
               id: '983',
             }),
           ],
         });
-        mockSchedulingConfigurations(
-          [
-            getSchedulingConfigurationMock({
-              id: '983',
-              typeOfCareId: 'primaryCare',
-              requestEnabled: true,
-            }),
-          ],
+        mockSchedulingConfigurationsApi(
+          {
+            isCCEnabled: true,
+            response: [
+              getSchedulingConfigurationMock({
+                id: '983',
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+              }),
+            ],
+          },
           true,
         );
         mockV2CommunityCareEligibility({
@@ -464,7 +486,7 @@ describe('VAOS newAppointmentFlow', () => {
               loading: false,
               data: {
                 ehrDataByVhaId: {
-                  '692': {
+                  692: {
                     vhaId: '692',
                     vamcFacilityName: 'White City VA Medical Center',
                     vamcSystemName: 'VA Southern Oregon health care',
@@ -490,7 +512,7 @@ describe('VAOS newAppointmentFlow', () => {
               typeOfCareId: '123',
             },
             facilities: {
-              '123': [
+              123: [
                 {
                   id: '692',
                 },
@@ -712,25 +734,25 @@ describe('VAOS newAppointmentFlow', () => {
 
     it('should be typeOfFacility page when optometry selected', async () => {
       mockFetch();
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities: [
+        response: [
           createMockFacility({
             id: '983',
           }),
         ],
       });
-      mockSchedulingConfigurations(
-        [
+      mockSchedulingConfigurationsApi({
+        isCCEnabled: true,
+        response: [
           getSchedulingConfigurationMock({
             id: '983',
             typeOfCareId: 'Optometry',
             requestEnabled: true,
           }),
         ],
-        true,
-      );
+      });
       mockV2CommunityCareEligibility({
         parentSites: [],
         careType: 'Optometry',

@@ -126,25 +126,26 @@ export const poaDetailsBreadcrumbs = [
 ];
 export const SEARCH_PARAMS = {
   STATUS: 'status',
-  SORT: 'sort',
+  SORTBY: 'sortBy',
+  SORTORDER: 'sortOrder',
   SIZE: 'pageSize',
   NUMBER: 'pageNumber',
 };
 export const SORT_BY = {
-  CREATED_ASC: 'created_at_asc',
-  CREATED_DESC: 'created_at_desc',
-  RESOLVED_ASC: 'resolved_at_asc',
-  RESOLVED_DESC: 'resolved_at_desc',
+  CREATED: 'created_at',
+  RESOLVED: 'resolved_at',
+  ASC: 'asc',
+  DESC: 'desc',
 };
 
 export const PENDING = {
-  ASC_OPTION: 'Expiration date (nearest)',
-  DESC_OPTION: 'Expiration date (farthest)',
+  DESC_OPTION: 'Submitted date (newest)',
+  ASC_OPTION: 'Submitted date (oldest)',
 };
 
 export const PROCESSED = {
-  ASC_OPTION: 'Processed date (nearest)',
-  DESC_OPTION: 'Processed date (farthest)',
+  DESC_OPTION: 'Processed date (newest)',
+  ASC_OPTION: 'Processed date (oldest)',
 };
 
 export const STATUSES = {

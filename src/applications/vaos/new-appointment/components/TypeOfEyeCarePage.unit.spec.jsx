@@ -1,8 +1,8 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Route } from 'react-router-dom';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
@@ -12,14 +12,14 @@ import {
   setTypeOfCare,
 } from '../../tests/mocks/setup';
 
-import TypeOfEyeCarePage from './TypeOfEyeCarePage';
-import {
-  mockSchedulingConfigurations,
-  mockV2CommunityCareEligibility,
-} from '../../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
 import { createMockFacility } from '../../tests/mocks/data';
-import { mockFacilitiesFetch } from '../../tests/mocks/fetch';
+import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import {
+  mockFacilitiesApi,
+  mockSchedulingConfigurationsApi,
+  mockV2CommunityCareEligibility,
+} from '../../tests/mocks/mockApis';
+import TypeOfEyeCarePage from './TypeOfEyeCarePage';
 
 const initialState = {
   featureToggles: {
@@ -35,16 +35,16 @@ const initialState = {
 describe('VAOS Page: TypeOfEyeCarePage', () => {
   beforeEach(() => {
     mockFetch();
-    mockSchedulingConfigurations(
-      [
+    mockSchedulingConfigurationsApi({
+      isCCEnabled: true,
+      response: [
         getSchedulingConfigurationMock({
           id: '983',
           typeOfCareId: 'primaryCare',
           requestEnabled: true,
         }),
       ],
-      true,
-    );
+    });
   });
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
@@ -126,9 +126,9 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
       supportedSites: ['983GC'],
       careType: 'Optometry',
     });
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
-      facilities: [
+      response: [
         createMockFacility({
           id: '983',
         }),

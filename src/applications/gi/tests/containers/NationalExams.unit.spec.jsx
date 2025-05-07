@@ -1,11 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import { cleanup } from '@testing-library/react';
-import { mount } from 'enzyme';
+import { render, cleanup } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
+import { mount } from 'enzyme';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { MemoryRouter } from 'react-router-dom';
 import NationalExamsList from '../../containers/NationalExamsList';
 import { formatNationalExamName } from '../../utils/helpers';
@@ -40,10 +39,6 @@ describe('NationalExamsList', () => {
     nationalExams: { nationalExams: mockExams, loading: false, error: null },
   };
 
-  beforeEach(() => {
-    store = mockStore(initialState);
-  });
-
   afterEach(() => {
     cleanup();
   });
@@ -63,50 +58,144 @@ describe('NationalExamsList', () => {
       </Provider>,
     );
   };
+  const renderWithProviders = (location = '/national-exams') => {
+    store = mockStore(initialState);
+    return render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={[location]}>
+          <NationalExamsList />
+        </MemoryRouter>
+      </Provider>,
+    );
+  };
 
   it('should render National exams when not loading', () => {
-    const wrapper = mountComponent();
-    expect(wrapper.exists()).to.be.true;
-    expect(wrapper.find('h1').text()).to.equal('National exams');
-    expect(wrapper.find('p').exists()).to.be.true;
-    expect(wrapper.find(VaPagination).length).to.equal(1);
-    expect(wrapper.find(VaPagination).props().page).to.equal(1);
-    wrapper.unmount();
+    const { container, getByRole } = renderWithProviders();
+    const heading = getByRole('heading', {
+      level: 1,
+    });
+    expect(heading.textContent).to.equal('National exams');
+    const paragraph = container.querySelector('p');
+    expect(paragraph).to.exist;
+    const pagination = container.querySelector('va-pagination');
+    expect(pagination).to.exist;
+    expect(pagination.getAttribute('page')).to.equal('1');
   });
   it('should render the GI Bill reimbursement link correctly', () => {
-    const wrapper = mountComponent();
-    const link = wrapper.find('va-link').at(0);
-    expect(link.prop('href')).to.equal(
+    const { container } = renderWithProviders();
+    const link = container.querySelector('va-link');
+    expect(link).to.exist;
+    expect(link.getAttribute('href')).to.equal(
       'https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/national-tests/',
     );
-    expect(link.prop('text')).to.equal(
+    expect(link.getAttribute('text')).to.equal(
       'Find out how to get reimbursed for national tests',
     );
-    wrapper.unmount();
   });
 
   it('should render the correct number of exams for the first page', () => {
-    const wrapper = mountComponent();
-    const examItems = wrapper.find('va-card');
-    expect(examItems.length).to.equal(10);
+    const { container } = renderWithProviders();
+    const examCards = container.querySelectorAll('va-card');
+    expect(examCards.length).to.equal(10);
+  });
+  it('should calculate the correct total number of pages', () => {
+    const { container } = renderWithProviders();
+    const pagination = container.querySelector('va-pagination');
+    expect(Number(pagination.getAttribute('pages'))).to.equal(2);
   });
 
-  it('should calculate the correct total number of pages', () => {
-    const wrapper = mountComponent();
-    const totalPages = wrapper.find(VaPagination).props().pages;
-    expect(totalPages).to.equal(2);
-  });
   it('calculates the total number of pages correctly in VaPagination', () => {
-    const wrapper = mountComponent();
+    const { container } = renderWithProviders();
     const itemsPerPage = 10;
     const totalItems = store.getState().nationalExams.nationalExams.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
-    const paginationComponent = wrapper.find('VaPagination');
-    expect(paginationComponent.prop('pages')).to.equal(totalPages);
-
-    wrapper.unmount();
+    const pagination = container.querySelector('va-pagination');
+    expect(Number(pagination.getAttribute('pages'))).to.equal(totalPages);
   });
 
+  it('displays the loading indicator when loading is true', () => {
+    const loadingState = {
+      nationalExams: { nationalExams: [], loading: true, error: null },
+    };
+    const loadingStore = mockStore(loadingState);
+    const { container } = render(
+      <Provider store={loadingStore}>
+        <MemoryRouter initialEntries={['/national-exams']}>
+          <NationalExamsList />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const loader = container.querySelector('va-loading-indicator');
+    expect(loader).to.exist;
+    expect(loader.getAttribute('label')).to.equal('Loading');
+    expect(loader.getAttribute('message')).to.equal(
+      'Loading your national exams...',
+    );
+  });
+
+  it('hides the loading indicator once loading is complete', () => {
+    const loadingState = {
+      nationalExams: { nationalExams: mockExams, loading: true, error: null },
+    };
+    const { container, rerender } = render(
+      <Provider store={mockStore(loadingState)}>
+        <MemoryRouter initialEntries={['/national-exams']}>
+          <NationalExamsList />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(container.querySelector('va-loading-indicator')).to.exist;
+
+    const loadedState = {
+      nationalExams: { nationalExams: mockExams, loading: false, error: null },
+    };
+    rerender(
+      <Provider store={mockStore(loadedState)}>
+        <MemoryRouter initialEntries={['/national-exams']}>
+          <NationalExamsList />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(container.querySelector('va-loading-indicator')).to.be.null;
+  });
+
+  it('displays an error message when there is an error in the state', () => {
+    const errorState = {
+      nationalExams: {
+        nationalExams: mockExams,
+        loading: false,
+        error: 'Server error occurred',
+      },
+    };
+    const errorStore = mockStore(errorState);
+    const { container } = render(
+      <Provider store={errorStore}>
+        <MemoryRouter initialEntries={['/national-exams']}>
+          <NationalExamsList />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const alert = container.querySelector('va-alert');
+    expect(alert).to.exist;
+    expect(alert.getAttribute('status')).to.equal('error');
+    const headline = container.querySelector('h2[slot="headline"]');
+    expect(headline.textContent).to.equal(
+      'We can’t load the national exams list right now',
+    );
+    const paragraph = alert.querySelector('p');
+    expect(paragraph.textContent).to.include(
+      'We’re sorry. There’s a problem with our system. Try again later.',
+    );
+    const heading = container.querySelector('h1');
+    expect(heading.textContent).to.equal('National exams');
+  });
+
+  it('should correctly reflect the page number in URL query parameters', () => {
+    const { container } = renderWithProviders('/national-exams?page=2');
+    const pagination = container.querySelector('va-pagination');
+    expect(pagination.getAttribute('page')).to.equal('2');
+  });
+  // TODO: Convert to use RTL
   it('simulates page change in VaPagination to page 2 and verifies displayed items', async () => {
     const wrapper = mountComponent();
     const newPage = 2;
@@ -130,111 +219,6 @@ describe('NationalExamsList', () => {
     wrapper.unmount();
   });
 
-  it('displays the loading indicator when loading is true', () => {
-    // Mount the component with loading state set to true
-    store = mockStore({
-      nationalExams: {
-        ...initialState.nationalExams,
-        loading: true,
-        error: null,
-      },
-    });
-
-    const wrapper = mount(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[location]}>
-          <NationalExamsList location={location} />
-        </MemoryRouter>
-      </Provider>,
-    );
-
-    // Check if the loading indicator is rendered
-    const loadingIndicator = wrapper.find('va-loading-indicator');
-    expect(loadingIndicator.exists()).to.be.true;
-    expect(loadingIndicator.prop('label')).to.equal('Loading');
-    expect(loadingIndicator.prop('message')).to.equal(
-      'Loading your national exams...',
-    );
-    wrapper.unmount();
-  });
-  it('should hide the loading indicator once loading is complete', () => {
-    store = mockStore({
-      nationalExams: {
-        nationalExams: mockExams,
-        loading: true,
-        error: null,
-      },
-    });
-
-    const wrapper = mount(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[location]}>
-          <NationalExamsList location={location} />
-        </MemoryRouter>
-      </Provider>,
-    );
-
-    // Initially, loading indicator is visible
-    expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
-
-    // Update store to set loading to false
-    store = mockStore({
-      nationalExams: {
-        nationalExams: mockExams,
-        loading: false,
-        error: null,
-      },
-    });
-
-    wrapper.setProps({
-      store,
-    });
-
-    // Check if loading indicator is no longer present
-    expect(wrapper.find('va-loading-indicator').exists()).to.be.false;
-    wrapper.unmount();
-  });
-
-  it('displays an error message when there is an error in the state', () => {
-    store = mockStore({
-      nationalExams: {
-        ...initialState.nationalExams,
-        loading: false,
-        error: 'Server error occurred',
-      },
-    });
-
-    const wrapper = mount(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[location]}>
-          <NationalExamsList location={location} />
-        </MemoryRouter>
-      </Provider>,
-    );
-
-    // Check that the error alert is displayed
-    const alert = wrapper.find('va-alert');
-    expect(alert.exists()).to.be.true;
-    expect(alert.prop('status')).to.equal('error');
-    expect(alert.find('h2[slot="headline"]').text()).to.equal(
-      'We can’t load the national exams list right now',
-    );
-    expect(alert.find('p').text()).to.include(
-      'We’re sorry. There’s a problem with our system. Try again later.',
-    );
-
-    // Check institution name and program type are displayed
-    expect(wrapper.find('h1').text()).to.equal('National exams');
-
-    wrapper.unmount();
-  });
-  it('should correctly reflect the page number in URL query parameters', () => {
-    const wrapper = mountComponent({
-      search: '?page=2',
-    });
-    expect(wrapper.find(VaPagination).props().page).to.equal(2);
-    wrapper.unmount();
-  });
   it('should navigate to the correct national exam details page when an exam link is clicked', () => {
     const testExam = mockExams[0];
     const expectedExamName = formatNationalExamName(testExam.name);

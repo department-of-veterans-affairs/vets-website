@@ -79,8 +79,8 @@ export default function CompleteReferral() {
         hasEyebrow
         heading={
           appointmentInfoTimeout
-            ? "We're having trouble scheduling this appointment"
-            : "We can't schedule this appointment online"
+            ? 'We’re having trouble scheduling this appointment'
+            : 'We can’t schedule this appointment online'
         }
       >
         <va-alert
@@ -88,9 +88,8 @@ export default function CompleteReferral() {
           data-testid={appointmentInfoTimeout ? 'warning-alert' : 'error-alert'}
         >
           <p className="vads-u-margin-y--0">
-            {appointmentInfoTimeout
-              ? "Try refreshing this page. If it still doesn't work, call us at [Phone number]. We’re here [day] through [day], [time] to [time]."
-              : 'We’re sorry. Call us at [Phone number]. We’re here [day] through [day], [time] to [time].'}
+            Try refreshing the page. If it still doesn't work, then please try
+            again later.
           </p>
         </va-alert>
       </ReferralLayout>
@@ -105,7 +104,7 @@ export default function CompleteReferral() {
 
   const referralLoaded = !!referralAppointmentInfo?.attributes?.id;
 
-  const { attributes, provider } = referralAppointmentInfo;
+  const { attributes } = referralAppointmentInfo;
 
   const appointmentDate = format(
     new Date(attributes.start),
@@ -147,7 +146,7 @@ export default function CompleteReferral() {
               {appointmentTime}
             </h2>
             <strong data-testid="appointment-type">
-              {attributes.typeOfCare} with {provider.name}
+              {attributes.typeOfCare} with {attributes.provider.name}
             </strong>
             <p
               className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--0"
@@ -161,21 +160,50 @@ export default function CompleteReferral() {
                   size={3}
                 />
               </span>
-              {attributes.modality} at {provider.location.name}
+              {attributes.modality} at {attributes.provider.location.name}
             </p>
             <p
               className="vads-u-margin-left--4 vads-u-margin-top--0p5"
               data-testid="appointment-clinic"
             >
-              Clinic: {provider.organization?.name}
+              Clinic: {attributes.provider.organization?.name}
             </p>
             <p>
               <va-link
-                href={`/appointments/${attributes.id}`}
+                href={`/my-health/appointments/${attributes.id}?eps=true`}
                 data-testid="cc-details-link"
                 text="Details"
               />
             </p>
+          </div>
+          <div className="vads-u-margin-top--2">
+            <va-alert
+              status="info"
+              data-testid="survey-info-block"
+              className="vads-u-padding--2"
+            >
+              <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
+                Please consider taking our pilot feedback surveys
+              </h3>
+              <p className="vads-u-margin-top--0">
+                First, you will follow the link below to the{' '}
+                <strong>sign-up survey</strong> with our recruitment partner.
+              </p>
+              <p>
+                Next, you will be contacted by our recruitment partner and
+                provided the <strong>feedback</strong> survey.
+              </p>
+              <p className="vads-u-margin-y--1">
+                Our recruiting partner will provide compensation.
+              </p>
+              <p className="vads-u-margin-bottom--0">
+                <va-link
+                  href="https://forms.gle/7Lh5H2fab7Qv3DbA9"
+                  text="Start the sign-up survey"
+                  data-testid="survey-link"
+                />
+              </p>
+            </va-alert>
           </div>
           <div className="vads-u-margin-top--6">
             <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">

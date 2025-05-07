@@ -74,7 +74,7 @@ const formConfig = {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your form.',
   },
-  title: 'Request exemption from the 85/15 Rule reporting requirements',
+  title: 'Request exemption from the 85/15 rule reporting requirements',
   subTitle,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
