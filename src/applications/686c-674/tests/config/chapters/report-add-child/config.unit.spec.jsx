@@ -1,3 +1,4 @@
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { arrayBuilderOptions } from '../../../../config/chapters/report-add-child/config';
 
@@ -238,14 +239,19 @@ describe('arrayBuilderOptions', () => {
 
     it('should return the correct card description from cardDescription', () => {
       const item = { fullName: { first: 'John', last: 'Doe' } };
-      const cardDesc = arrayBuilderOptions.text.cardDescription(item);
-      expect(cardDesc).to.equal('John Doe');
+      const { getByText } = render(
+        arrayBuilderOptions.text.cardDescription(item),
+      );
+      expect(getByText('John Doe')).to.exist;
     });
 
     it('should return a space for cardDescription when fullName is incomplete', () => {
       const incompleteItem = { fullName: {} };
-      const cardDesc = arrayBuilderOptions.text.cardDescription(incompleteItem);
-      expect(cardDesc).to.equal(' ');
+      const { container } = render(
+        arrayBuilderOptions.text.cardDescription(incompleteItem),
+      );
+      const text = container.textContent;
+      expect(text).to.equal(' ');
     });
   });
 });

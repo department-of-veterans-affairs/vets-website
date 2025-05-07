@@ -196,4 +196,48 @@ describe('<ResultCard>', () => {
     );
     expect(screen.getByText('10 - 100 hours')).to.exist;
   });
+  it('shows the accreditationType when accredited AND accreditationType is present', () => {
+    const inst = {
+      ...INSTITUTION,
+      accredited: true,
+      accreditationType: 'regional',
+      vetTecProvider: false,
+      schoolProvider: true,
+    };
+    const { getByText } = renderWithStoreAndRouter(
+      <ResultCard institution={inst} version={null} />,
+      { initialState: { constants: mockConstants() } },
+    );
+    expect(getByText(/regional/)).to.exist;
+  });
+
+  it('shows "Yes" when accredited is true but accreditationType is null', () => {
+    const inst = {
+      ...INSTITUTION,
+      accredited: true,
+      accreditationType: null,
+      vetTecProvider: false,
+      schoolProvider: true,
+    };
+    const { getByText } = renderWithStoreAndRouter(
+      <ResultCard institution={inst} version={null} />,
+      { initialState: { constants: mockConstants() } },
+    );
+    expect(getByText(/^Yes$/)).to.exist;
+  });
+
+  it('shows "N/A" when accredited is false (regardless of accreditationType)', () => {
+    const inst = {
+      ...INSTITUTION,
+      accredited: false,
+      accreditationType: 'ignoredValue',
+      vetTecProvider: false,
+      schoolProvider: true,
+    };
+    const { getByText } = renderWithStoreAndRouter(
+      <ResultCard institution={inst} version={null} />,
+      { initialState: { constants: mockConstants() } },
+    );
+    expect(getByText(/^N\/A$/)).to.exist;
+  });
 });

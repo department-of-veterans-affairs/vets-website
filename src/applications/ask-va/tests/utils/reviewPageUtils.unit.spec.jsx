@@ -393,14 +393,12 @@ describe('Review Page Utils', () => {
     describe('submitFormData', () => {
       it('should handle successful submission', async () => {
         const onSuccess = sinon.spy();
-        const expectedResponse = { success: true };
+        const expectedResponse = {
+          success: true,
+          inquiryNumber: 'A-20230622-306458',
+        };
 
-        sandbox.stub(apiUtils, 'apiRequest').resolves({
-          status: 200,
-          ok: true,
-          headers: { get: () => 'application/json' },
-          json: () => Promise.resolve(expectedResponse),
-        });
+        sandbox.stub(apiUtils, 'apiRequest').resolves(expectedResponse);
 
         await submitFormData({
           url: 'test-url',
@@ -427,14 +425,10 @@ describe('Review Page Utils', () => {
         expect(onSuccess.calledWith(mockSubmitResponse)).to.be.true;
       });
 
-      it('should handle errors', async () => {
+      it('should call onError for a response that does not include a inquiryNumber property', async () => {
         const onError = sinon.spy();
-        sandbox.stub(apiUtils, 'apiRequest').resolves({
-          status: 503,
-          ok: false,
-          headers: { get: () => 'application/json' },
-          json: () => Promise.resolve({ success: true }),
-        });
+
+        sandbox.stub(apiUtils, 'apiRequest').resolves({ success: true });
 
         try {
           await submitFormData({
@@ -443,35 +437,12 @@ describe('Review Page Utils', () => {
             onError,
           });
         } catch (e) {
-          expect(e.message).to.equal('Backend API call failed with status 503');
-          expect(onError.calledOnce).to.be.true;
-          expect(onError.firstCall.args[0].message).to.equal(
-            'Backend API call failed with status 503',
+          expect(e.message).to.equal(
+            `Backend API call failed. Inquiry number not found.`,
           );
-        }
-      });
-
-      it('should call onError for 503 error with HTML response (non-JSON)', async () => {
-        const onError = sinon.spy();
-
-        sandbox.stub(apiUtils, 'apiRequest').resolves({
-          status: 503,
-          ok: false,
-          headers: { get: () => 'text/html' },
-          text: () => Promise.resolve('<html>503 Service Unavailable</html>'),
-        });
-
-        try {
-          await submitFormData({
-            url: 'test-url',
-            data: { test: true },
-            onError,
-          });
-        } catch (e) {
-          expect(e.message).to.equal(`Backend API call failed with status 503`);
           expect(onError.calledOnce).to.be.true;
           expect(onError.firstCall.args[0].message).to.equal(
-            `Backend API call failed with status 503`,
+            `Backend API call failed. Inquiry number not found.`,
           );
         }
       });
