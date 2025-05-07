@@ -48,23 +48,32 @@ const RefillPrescriptions = () => {
     result,
   ] = useBulkRefillPrescriptionsMutation();
   const { isLoading: isRefilling, error: bulkRefillError } = result;
-  const successfulMeds =
-    result?.data?.successfulIds && refillableData
-      ? result.data.successfulIds.map(successfulId => {
-          return refillableData.prescriptions.find(
-            prescription =>
-              prescription.prescriptionId === Number(successfulId),
-          );
-        })
-      : [];
-  const failedMeds =
-    result?.data?.failedIds && refillableData
-      ? result.data.failedIds.map(failedId => {
-          return refillableData.prescriptions.find(
-            prescription => prescription.prescriptionId === Number(failedId),
-          );
-        })
-      : [];
+
+  const getMedicationsByIds = (ids, prescriptions) => {
+    if (!ids || !prescriptions) return [];
+    return ids.map(id =>
+      prescriptions.find(
+        prescription => prescription.prescriptionId === Number(id),
+      ),
+    );
+  };
+
+  const successfulMeds = useMemo(
+    () =>
+      getMedicationsByIds(
+        result?.data?.successfulIds,
+        refillableData?.prescriptions,
+      ),
+    [result?.data?.successfulIds, refillableData],
+  );
+  const failedMeds = useMemo(
+    () =>
+      getMedicationsByIds(
+        result?.data?.failedIds,
+        refillableData?.prescriptions,
+      ),
+    [result?.data?.failedIds, refillableData],
+  );
 
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
     false,
