@@ -34,7 +34,7 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     PatientComposePage.verifySendMessageConfirmationMessageText();
     PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
 
-    PatientComposePage.verifyHeader('Inbox');
+    PatientComposePage.verifyHeader('Messages: Inbox');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
