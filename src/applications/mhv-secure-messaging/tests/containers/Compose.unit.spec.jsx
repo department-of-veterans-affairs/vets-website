@@ -93,6 +93,13 @@ describe('Compose container', () => {
           noAssociations: false,
           allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         },
+        preferences: {
+          signature: {
+            signatureName: 'TEST',
+            signatureTitle: 'TITLE',
+            includeSignature: true,
+          },
+        },
       },
     };
 
@@ -111,15 +118,12 @@ describe('Compose container', () => {
     const body = waitFor(() => {
       screen.getByTestId('message-body-field');
     });
-    expect(screen.getByText('Edit preferences')).to.exist;
-    expect(screen.getByTestId('edit-list')).to.have.attribute(
-      'visible',
-      'false',
-    );
+
     expect(recipient).to.exist;
     expect(categoryRadioButtons).to.have.length(6);
     expect(subject).to.exist;
     expect(body).to.exist;
+    expect(screen.getByTestId('edit-signature-link')).to.exist;
   });
 
   it(`displays compose action buttons if path is ${Paths.COMPOSE}`, () => {
