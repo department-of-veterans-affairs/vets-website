@@ -12,6 +12,7 @@ import Breadcrumbs from './Breadcrumbs';
 import ClaimDetailsContent from './ClaimDetailsContent';
 import { getClaimDetails } from '../redux/actions';
 import { REIMBURSEMENT_URL } from '../constants';
+import DowntimeWindowAlert from '../containers/DownTimeWindowAlert';
 
 export default function TravelClaimDetails() {
   const { id } = useParams();
@@ -79,6 +80,8 @@ export default function TravelClaimDetails() {
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <Breadcrumbs />
         {error && <h1>There was an error loading the claim details.</h1>}
+        <DowntimeWindowAlert appTitle="Travel Pay" />
+
         {data[id] && <ClaimDetailsContent {...data[id]} />}
         <hr />
 
