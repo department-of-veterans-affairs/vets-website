@@ -4,13 +4,15 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
+
 import {
   veteranInformation,
   debtSelection,
   disputeReason,
   supportStatement,
 } from '../pages';
+
+import contactInfo from './contactInfo';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -74,13 +76,7 @@ const formConfig = {
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
-        ...profileContactInfo({
-          contactInfoPageKey: 'confirmContactInfo2',
-          contactPath: 'contact-information',
-          contactInfoRequiredKeys: ['mobilePhone', 'mailingAddress', 'email'],
-          included: ['mobilePhone', 'mailingAddress', 'email'], // default
-          wrapperKey: 'veteranInformation',
-        }),
+        ...contactInfo,
       },
     },
     debtSelectionChapter: {

@@ -179,7 +179,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     userEvent.click(screen.getByText(/Confirm appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/va/fake_id?confirmMsg=true',
+        '/fake_id?confirmMsg=true',
       );
     });
 

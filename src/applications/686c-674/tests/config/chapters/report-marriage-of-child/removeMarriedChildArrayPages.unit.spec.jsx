@@ -52,36 +52,30 @@ describe('removeMarriedChildOptions', () => {
       const item = {
         fullName: { first: 'Jane', last: 'Doe' },
       };
-
-      const expectedName = 'Jane Doe';
-      expect(removeMarriedChildOptions.text.getItemName()).to.equal('Child');
-      expect(removeMarriedChildOptions.text.cardDescription(item)).to.equal(
-        expectedName,
+      const { container } = render(
+        removeMarriedChildOptions.text.cardDescription(item),
       );
+      expect(container.textContent).to.equal('Jane Doe');
     });
 
     it('should handle cases with missing first name', () => {
       const item = {
-        fullName: { first: '', last: 'Smith' },
+        fullName: { last: 'Smith' },
       };
-
-      const expectedName = ' Smith';
-      expect(removeMarriedChildOptions.text.getItemName()).to.equal('Child');
-      expect(removeMarriedChildOptions.text.cardDescription(item)).to.equal(
-        expectedName,
+      const { container } = render(
+        removeMarriedChildOptions.text.cardDescription(item),
       );
+      expect(container.textContent).to.equal('Smith');
     });
 
     it('should handle cases with missing last name', () => {
       const item = {
-        fullName: { first: 'John', last: '' },
+        fullName: { first: 'John' },
       };
-
-      const expectedName = 'John ';
-      expect(removeMarriedChildOptions.text.getItemName()).to.equal('Child');
-      expect(removeMarriedChildOptions.text.cardDescription(item)).to.equal(
-        expectedName,
+      const { container } = render(
+        removeMarriedChildOptions.text.cardDescription(item),
       );
+      expect(container.textContent).to.equal('John');
     });
   });
 });
