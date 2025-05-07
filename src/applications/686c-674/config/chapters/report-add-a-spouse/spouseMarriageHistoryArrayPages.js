@@ -1,3 +1,4 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -48,10 +49,13 @@ export const spouseMarriageHistoryOptions = {
   text: {
     summaryTitle: 'Review your spouse’s marital history',
     getItemName: () => 'Spouse’s former marriage',
-    cardDescription: item =>
-      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
-        item?.fullName?.last,
-      ) || ''}`,
+    cardDescription: item => (
+      <span className="dd-privacy" data-dd-privacy="mask">
+        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
+          item?.fullName?.last,
+        ) || ''}`.trim()}
+      </span>
+    ),
   },
 };
 

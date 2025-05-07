@@ -103,10 +103,10 @@ const Calcs = ({ data }) => {
           {programData?.supportedFTEPercent || '--%'}
         </span>
       </div>
-      <va-additional-info trigger="How is Supported student percentage FTE calculated?">
+      <va-additional-info trigger="How is supported student percentage FTE calculated?">
         <p>
           (Number of supported students FTE divided by Total enrollment FTE)
-          multiplied by 100 = Supported student percentage FTE.
+          multiplied by 100 = supported student percentage FTE.
         </p>
         <br />
         <p>
