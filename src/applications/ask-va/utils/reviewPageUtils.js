@@ -162,26 +162,13 @@ export const submitFormData = async ({
     };
 
     const response = await apiRequest(url, options);
-    let contentType;
 
-    if (response && response.headers) {
-      contentType = response.headers.get('content-type');
+    if (!response || !response.inquiryNumber) {
+      onError?.(`Backend API call failed. Inquiry number not found.`);
+      return `Backend API call failed. Inquiry number not found.`;
     }
-
-    if (!response?.ok) {
-      // If the response is not ok and not JSON, assume 503 from gateway
-      if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('Non-JSON error response (likely 503 from gateway)');
-      }
-
-      // Otherwise handle typical JSON error response
-      const errorJson = await response.json();
-      throw new Error(errorJson.message || 'Unknown API error');
-    }
-
-    const result = await response.json();
-    onSuccess?.(result);
-    return result;
+    onSuccess?.(response);
+    return response;
   } catch (error) {
     onError?.(error);
     throw error;
