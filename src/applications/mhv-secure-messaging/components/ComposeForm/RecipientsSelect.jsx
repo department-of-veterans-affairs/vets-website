@@ -58,7 +58,6 @@ const RecipientsSelect = ({
   setCheckboxMarked,
   setElectronicSignature,
   setComboBoxInputValue,
-  recentRecipients,
 }) => {
   const alertRef = useRef(null);
   const isSignatureRequiredRef = useRef();
@@ -179,19 +178,6 @@ const RecipientsSelect = ({
       const options = [];
       let groupedOptions = [];
 
-      // add recent recipients to the top of the list
-      if (recentRecipients && recentRecipients.length > 0) {
-        options.push(
-          <optgroup key="recent-recipients" label="Recent Recipients">
-            {recentRecipients.map(item => (
-              <option key={item.triageGroupId} value={item.triageGroupId}>
-                {item.triageGroupName || item.name}
-              </option>
-            ))}
-          </optgroup>,
-        );
-      }
-
       recipientsListSorted.forEach(item => {
         if (item.vamcSystemName === undefined) {
           options.push(
@@ -301,7 +287,6 @@ RecipientsSelect.propTypes = {
   defaultValue: PropTypes.number,
   error: PropTypes.string,
   isSignatureRequired: PropTypes.bool,
-  recentRecipients: PropTypes.array,
   setCheckboxMarked: PropTypes.func,
   setComboBoxInputValue: PropTypes.func,
   setElectronicSignature: PropTypes.func,

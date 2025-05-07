@@ -51,14 +51,7 @@ import EditSignatureLink from './EditSignatureLink';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const ComposeForm = props => {
-  const {
-    pageTitle,
-    headerRef,
-    draft,
-    recipients,
-    signature,
-    recentRecipients,
-  } = props;
+  const { pageTitle, headerRef, draft, recipients, signature } = props;
   const {
     noAssociations,
     allTriageGroupsBlocked,
@@ -870,7 +863,6 @@ const ComposeForm = props => {
                 setCheckboxMarked={setCheckboxMarked}
                 setElectronicSignature={setElectronicSignature}
                 setComboBoxInputValue={setComboBoxInputValue}
-                recentRecipients={recentRecipients}
               />
             )}
 
@@ -1022,14 +1014,6 @@ ComposeForm.propTypes = {
     ),
   }).isRequired,
   draft: PropTypes.object,
-  recentRecipients: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      name: PropTypes.string,
-      type: PropTypes.string,
-      status: PropTypes.string,
-    }),
-  ),
   signature: PropTypes.string,
 };
 
