@@ -522,7 +522,14 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         getText,
         updatedItemData,
         props.data,
+        props.reviewErrors,
+        onDismissUpdatedAlert,
+        onDismissRemovedAlert,
+        nounSingular,
         updateItemIndex,
+        removedItemText,
+        removedItemIndex,
+        hasItemsKey,
       ],
     );
 
