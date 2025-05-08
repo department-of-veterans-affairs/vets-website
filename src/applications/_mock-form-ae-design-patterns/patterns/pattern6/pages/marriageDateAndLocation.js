@@ -1,0 +1,95 @@
+import {
+  titleUI,
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import constants from 'vets-json-schema/dist/constants.json';
+
+// Get military states to filter them out
+const MILITARY_STATE_VALUES = constants.militaryStates.map(
+  state => state.value,
+);
+
+// Get states from the same source as the addressUI component
+const filteredStates = constants.states.USA.filter(
+  state => !MILITARY_STATE_VALUES.includes(state.value),
+);
+const STATE_VALUES = filteredStates.map(state => state.value);
+const STATE_NAMES = filteredStates.map(state => state.label);
+
+// Get countries from the same source as the addressUI component
+const COUNTRY_VALUES = constants.countries
+  .filter(country => country.value !== 'USA')
+  .map(country => country.value);
+const COUNTRY_NAMES = constants.countries
+  .filter(country => country.value !== 'USA')
+  .map(country => country.label);
+
+export default {
+  title: 'Place and date of marriage',
+  path: 'marriage-date-location',
+  uiSchema: {
+    ...titleUI('Place and date of marriage'),
+    dateOfMarriage: currentOrPastDateUI('Date of marriage'),
+    'view:marriedOutsideUS': {
+      'ui:title': 'I got married outside the U.S.',
+      'ui:webComponentField': VaCheckboxField,
+    },
+    city: {
+      'ui:title': 'City',
+      'ui:webComponentField': VaTextInputField,
+      'ui:required': true,
+      'ui:errorMessages': {
+        required: 'Please enter the city where you got married',
+      },
+    },
+    state: {
+      'ui:title': 'State',
+      'ui:webComponentField': VaSelectField,
+      'ui:required': formData => !formData['view:marriedOutsideUS'],
+      'ui:options': {
+        hideIf: formData => formData['view:marriedOutsideUS'],
+      },
+      'ui:errorMessages': {
+        required: 'Please select a state',
+      },
+    },
+    country: {
+      'ui:title': 'Country',
+      'ui:webComponentField': VaSelectField,
+      'ui:required': formData => formData['view:marriedOutsideUS'],
+      'ui:options': {
+        hideIf: formData => !formData['view:marriedOutsideUS'],
+      },
+      'ui:errorMessages': {
+        required: 'Please select a country',
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['dateOfMarriage', 'city'],
+    properties: {
+      dateOfMarriage: currentOrPastDateSchema,
+      'view:marriedOutsideUS': {
+        type: 'boolean',
+      },
+      city: {
+        type: 'string',
+      },
+      state: {
+        type: 'string',
+        enum: STATE_VALUES,
+        enumNames: STATE_NAMES,
+      },
+      country: {
+        type: 'string',
+        enum: COUNTRY_VALUES,
+        enumNames: COUNTRY_NAMES,
+      },
+    },
+  },
+};

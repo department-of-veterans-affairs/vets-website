@@ -2,27 +2,29 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
 import ConfirmationPage from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
-import IntroductionPage from 'applications/_mock-form-ae-design-patterns/patterns/pattern6/components/Introduction';
+import IntroductionPage from 'applications/_mock-form-ae-design-patterns/patterns/pattern6/components/IntroductionPage';
 import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
 
 // Import marital status chapter pages
-import currentMaritalStatus from '../chapters/maritalStatus/currentMaritalStatus';
-import marriageType from '../chapters/maritalStatus/marriageType';
-import marriageLocation from '../chapters/maritalStatus/marriageLocation';
-import marriageEnd from '../chapters/maritalStatus/marriageEnd';
-import spouseDeathInfo from '../chapters/maritalStatus/spouseDeathInfo';
+import currentMaritalStatus from '../pages/currentMaritalStatus';
+import marriageType from '../pages/marriageType';
+import marriageDateAndLocation from '../pages/marriageDateAndLocation';
+import marriageEnd from '../pages/marriageEnd';
+import spouseDeathInfo from '../pages/spouseDeathInfo';
 
 // Import spouse information chapter pages
-import spousePersonalInfo from '../chapters/spouseInformation/spousePersonalInfo';
-import spouseVeteranStatus from '../chapters/spouseInformation/spouseVeteranStatus';
-import livingArrangements from '../chapters/spouseInformation/livingArrangements';
-import financialSupport from '../chapters/spouseInformation/financialSupport';
+import spousePersonalInfo from '../pages/spousePersonalInfo';
+import spouseMilitaryHistory from '../pages/spouseMilitaryHistory';
+import spouseContactInfo from '../pages/spouseContactInfo';
+import livingSituation from '../pages/livingSituation';
+import additionalLivingSituation from '../pages/additionalLivingSituation';
+import financialSupport from '../pages/financialSupport';
 
 // Import other marriages chapter pages
-import veteranPreviousMarriages from '../chapters/otherMarriages/veteranPreviousMarriages';
-import spousePreviousMarriages from '../chapters/otherMarriages/spousePreviousMarriages';
-import previousMarriageDetails from '../chapters/otherMarriages/previousMarriageDetails';
-import spouseMarriageDetails from '../chapters/otherMarriages/spouseMarriageDetails';
+import veteranPreviousMarriages from '../pages/veteranPreviousMarriages';
+import spousePreviousMarriages from '../pages/spousePreviousMarriages';
+import previousMarriageDetails from '../pages/previousMarriageDetails';
+import spouseMarriageDetails from '../pages/spouseMarriageDetails';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -66,22 +68,55 @@ const formConfig = {
       pages: {
         currentMaritalStatus: {
           title: "What's your current marital status?",
-          path: 'marital-status/current',
+          path: 'current-marital-status',
           depends: () => true,
           // Use the imported page configurations once created
           ...currentMaritalStatus,
+        },
+        spousePersonalInfo: {
+          title: "Spouse's Personal Information",
+          path: 'spouse-personal-information',
+          depends: formData => formData?.maritalStatus === 'MARRIED',
+          ...spousePersonalInfo,
+        },
+        spouseMilitaryHistory: {
+          title: 'Spouse’s military history',
+          path: 'spouse-military-history',
+          depends: formData => formData?.maritalStatus === 'MARRIED',
+          ...spouseMilitaryHistory,
+        },
+        livingSituation: {
+          title: 'Living Situation',
+          path: 'living-situation',
+          depends: formData => formData?.maritalStatus === 'MARRIED',
+          ...livingSituation,
+        },
+        additionalLivingSituation: {
+          title: 'Additional Living Situation Information',
+          path: 'additional-living-situation',
+          depends: formData => formData?.maritalStatus === 'MARRIED',
+          ...additionalLivingSituation,
+        },
+        spouseContactInfo: {
+          title: "Spouse's address and phone number",
+          path: 'spouse-contact-information',
+          depends: formData => {
+            const status = formData?.maritalStatus || 'MARRIED';
+            return status === 'MARRIED';
+          },
+          ...spouseContactInfo,
+        },
+        marriageDateAndLocation: {
+          title: 'Place and date of marriage',
+          path: 'marriage-date-location',
+          depends: formData => formData?.maritalStatus === 'MARRIED',
+          ...marriageDateAndLocation,
         },
         marriageType: {
           title: 'What type of marriage do you have?',
           path: 'marital-status/type',
           depends: formData => formData?.maritalStatus === 'MARRIED',
           ...marriageType,
-        },
-        marriageLocation: {
-          title: 'Date and location of marriage',
-          path: 'marital-status/location',
-          depends: formData => formData?.maritalStatus === 'MARRIED',
-          ...marriageLocation,
         },
         marriageEnd: {
           title: 'How did your marriage end?',
@@ -102,25 +137,6 @@ const formConfig = {
     spouseInformationChapter: {
       title: 'Spouse Information',
       pages: {
-        spousePersonalInfo: {
-          title: "Your Spouse's Personal Information",
-          path: 'spouse-information/personal',
-          depends: formData => formData?.maritalStatus === 'MARRIED',
-          ...spousePersonalInfo,
-        },
-        spouseVeteranStatus: {
-          title: 'Is your spouse a Veteran?',
-          path: 'spouse-information/veteran-status',
-          depends: formData => formData?.maritalStatus === 'MARRIED',
-          ...spouseVeteranStatus,
-        },
-        livingArrangements: {
-          title:
-            'Did you live with your spouse for any part of the previous year?',
-          path: 'spouse-information/living-arrangements',
-          depends: formData => formData?.maritalStatus === 'MARRIED',
-          ...livingArrangements,
-        },
         financialSupport: {
           title:
             'Did you provide any financial support for your spouse in the last year?',
