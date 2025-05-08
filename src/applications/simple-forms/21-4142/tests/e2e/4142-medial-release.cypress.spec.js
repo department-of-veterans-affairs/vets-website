@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { fillProviderFacility } from './helpers';
 import {
-  // fillAddressWebComponentPattern,
+  fillAddressWebComponentPattern,
   reviewAndSubmitPageFlow,
 } from '../../../shared/tests/e2e/helpers';
 
@@ -50,6 +50,18 @@ const testConfig = createTestConfig(
             }
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+        // if !environment.isProduction()
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'veteran_address',
+              data.veteran.address,
+            );
+            cy.findByText(/continue/i, { selector: 'button' })
+              .last()
+              .click();
           });
         });
         // if (environment.isProduction() && !environment.isTest()) {
