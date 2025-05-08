@@ -110,7 +110,6 @@ src/applications/686c-674 @department-of-veterans-affairs/va-platform-cop-fronte
 
 # VSA Debt
 
-src/applications/disability-benefits/2346 @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/financial-status-report @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/manage-va-debt @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/medical-copays-cta @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
