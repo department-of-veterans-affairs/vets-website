@@ -13,6 +13,8 @@ describe('Medical Records download page', () => {
 
     DownloadReportsPage.verifySelfEnteredDownloadButton();
 
+    // cy.get('[data-testid="downloadSelfEnteredButton"]').click();
+
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');

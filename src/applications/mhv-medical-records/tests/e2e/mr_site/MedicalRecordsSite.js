@@ -95,6 +95,10 @@ class MedicalRecordsSite {
             name: 'mhv_medical_records_display_sidenav',
             value: true,
           },
+          {
+            name: 'mhv_medical_records_use_unified_sei_api',
+            value: true,
+          },
         ],
       },
     }).as('featureToggles');
