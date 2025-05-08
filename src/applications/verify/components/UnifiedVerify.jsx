@@ -1,21 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { signInServiceName } from 'platform/user/authentication/selectors';
 import {
   VerifyIdmeButton,
   VerifyLogingovButton,
 } from 'platform/user/authentication/components/VerifyButton';
-
-function usePrevious(value) {
-  const ref = useRef();
-  useEffect(
-    () => {
-      ref.current = value;
-    },
-    [value],
-  );
-  return ref.current;
-}
 
 export default function Verify() {
   const isAuthenticated = useSelector(
@@ -25,23 +14,11 @@ export default function Verify() {
   const loginServiceName = useSelector(signInServiceName);
 
   const [loading, setLoading] = useState(true);
-  const prevVerified = usePrevious(isVerified);
 
-  // Simulate loading (e.g., for OAuth transition)
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 100);
     return () => clearTimeout(timer);
   }, []);
-
-  // Trigger redirect after verification is completed
-  useEffect(
-    () => {
-      if (prevVerified === false && isVerified === true) {
-        window.location.href = '/my-va'; // Redirect immediately after verification
-      }
-    },
-    [isVerified, prevVerified],
-  );
 
   const renderServiceNames = isAuthenticated ? (
     <strong>{loginServiceName === 'idme' ? 'ID.me' : 'Login.gov'}</strong>
@@ -84,8 +61,8 @@ export default function Verify() {
                 <va-alert status="success">
                   <h2>You’re verified</h2>
                   <p>
-                    We confirmed you verified your identity with your{' '}
-                    {renderServiceNames} account.{' '}
+                    We confirmed you’ve already completed the identity
+                    verification process for VA online services.
                   </p>
                   <p>
                     This one-time step helps protect your information and
