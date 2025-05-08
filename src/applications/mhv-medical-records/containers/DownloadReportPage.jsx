@@ -5,6 +5,7 @@ import {
   updatePageTitle,
   generatePdfScaffold,
 } from '@department-of-veterans-affairs/mhv/exports';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { add, compareAsc } from 'date-fns';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -15,6 +16,7 @@ import MissingRecordsError from '../components/DownloadRecords/MissingRecordsErr
 import {
   clearFailedList,
   getSelfEnteredData,
+  getAllSelfEnteredData,
 } from '../actions/selfEnteredData';
 import {
   getNameDateAndTime,
@@ -77,6 +79,18 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   } = useSelector(state => state);
 
   const fullState = useSelector(state => state);
+
+  const selectMilestoneTwoFlag = useSelector(
+    state =>
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsMilestoneTwo],
+  );
+
+  const useUnifiedSelfEnteredAPI = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsUseUnifiedSeiApi
+      ],
+  );
 
   // Extract user info
   const name = formatNameFirstLast(userProfile.userFullName);
@@ -145,64 +159,83 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const generateSEIPdf = useCallback(
     async () => {
       try {
-        setSelfEnteredPdfRequested(true);
-        setSeiPdfGenerationError(false);
+        if (!selfEnteredPdfRequested) {
+          setSelfEnteredPdfRequested(true);
+          setSeiPdfGenerationError(false);
 
-        if (!isDataFetched) {
           // Fetch data if not all defined
           dispatch(clearFailedList());
-          dispatch(getSelfEnteredData());
-        } else {
-          // If already defined, generate the PDF directly
-          setSelfEnteredPdfRequested(false);
-          const title = 'Self-entered information report';
-          const subject = 'VA Medical Record';
-          const scaffold = generatePdfScaffold(userProfile, title, subject);
-          const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
-            userProfile,
-          )}`;
-
-          Object.keys(seiRecords).forEach(key => {
-            const item = seiRecords[key];
-            if (item && Array.isArray(item) && !item.length) {
-              seiRecords[key] = null;
-            }
-          });
-
-          const pdfData = {
-            recordSets: generateSelfEnteredData(seiRecords),
-            ...scaffold,
-            name,
-            dob,
-            lastUpdated: UNKNOWN,
-          };
-          makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo')
-            .then(() => setSuccessfulSeiDownload(true))
-            .catch(() => setSeiPdfGenerationError(true));
+          if (useUnifiedSelfEnteredAPI) {
+            dispatch(getAllSelfEnteredData());
+          } else {
+            dispatch(getSelfEnteredData());
+          }
         }
       } catch (error) {
         dispatch(addAlert(ALERT_TYPE_SEI_ERROR, error));
+        throw error;
       }
     },
-    [
-      dispatch,
-      isDataFetched,
-      userProfile,
-      seiRecords,
-      name,
-      dob,
-      runningUnitTest,
-    ],
+    [dispatch, selfEnteredPdfRequested, useUnifiedSelfEnteredAPI],
   );
 
   // Trigger PDF generation if data arrives after being requested
   useEffect(
     () => {
       if (selfEnteredPdfRequested && isDataFetched) {
-        generateSEIPdf();
+        // If already defined, generate the PDF directly
+        setSelfEnteredPdfRequested(false);
+        const title = 'Self-entered information report';
+        const subject = 'VA Medical Record';
+        const preface = {
+          selectMilestoneTwoCheck: selectMilestoneTwoFlag,
+          messages: [
+            {
+              value:
+                'This report includes health information you entered yourself in the past. You can no longer enter or edit health information in My HealtheVet.',
+            },
+          ],
+        };
+
+        const scaffold = generatePdfScaffold(
+          userProfile,
+          title,
+          subject,
+          preface,
+        );
+        const pdfName = `VA-self-entered-information-report-${getNameDateAndTime(
+          userProfile,
+        )}`;
+
+        Object.keys(seiRecords).forEach(key => {
+          const item = seiRecords[key];
+          if (item && Array.isArray(item) && !item.length) {
+            seiRecords[key] = null;
+          }
+        });
+
+        const pdfData = {
+          recordSets: generateSelfEnteredData(seiRecords),
+          ...scaffold,
+          name,
+          dob,
+          lastUpdated: UNKNOWN,
+        };
+        makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo')
+          .then(() => setSuccessfulSeiDownload(true))
+          .catch(() => setSeiPdfGenerationError(true));
       }
     },
-    [selfEnteredPdfRequested, seiRecords, generateSEIPdf, isDataFetched],
+    [
+      dob,
+      isDataFetched,
+      name,
+      runningUnitTest,
+      seiRecords,
+      selfEnteredPdfRequested,
+      selectMilestoneTwoFlag,
+      userProfile,
+    ],
   );
 
   const accessErrors = () => {
@@ -395,6 +428,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
             in the previous version of My HealtheVet.
+            {selectMilestoneTwoFlag &&
+              ` You can no longer enter or
+            edit health information in My HealtheVet.`}
           </p>
           <p>
             Your VA health care team can’t access this self-entered information
@@ -420,17 +456,24 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               data-testid="downloadSelfEnteredButton"
             />
           )}
-          <p>
-            <strong>Note:</strong> Self-entered My Goals are no longer available
-            on My HealtheVet and not included in this report. To download your
-            historical goals you can go to the previous version of My
-            HealtheVet.
-          </p>
-          <ExternalLink
-            href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'va-blue-button')}
-            text="Go to the previous version of My HealtheVet to download historical
-            goals"
-          />
+          {!selectMilestoneTwoFlag && (
+            <>
+              <p>
+                <strong>Note:</strong> Self-entered My Goals are no longer
+                available on My HealtheVet and not included in this report. To
+                download your historical goals you can go to the previous
+                version of My HealtheVet.
+              </p>
+              <ExternalLink
+                href={mhvUrl(
+                  isAuthenticatedWithSSOe(fullState),
+                  'va-blue-button',
+                )}
+                text="Go to the previous version of My HealtheVet to download historical
+                goals"
+              />
+            </>
+          )}
         </va-accordion-item>
       </va-accordion>
       <p className="vads-u-margin--0 vads-u-margin-top--2">

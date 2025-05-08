@@ -1,6 +1,8 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
     mhvLandingPagePersonalization = true,
+
+    // medications
     mhvMedicationsToVaGovRelease = true,
     mhvMedicationsDisplayRefillContent = true,
     mhvMedicationsDisplayDocumentationContent = true,
@@ -11,6 +13,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
+    mhvMedicationsRemoveLandingPage = true,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
@@ -24,13 +27,15 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvMedicalRecordsMarch17Updates = true,
-    mhvSecureMessagingTriageGroupPlainLanguage = false,
-    mhvSecureMessagingRecipientOptGroups = true,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
-    mhvIntegrationMedicalRecordsToPhase1 = true,
-    mhvMedicationsRemoveLandingPage = true,
+    mhvMedicalRecordsMilestoneTwo = false,
+
+    // secure messaging
+    mhvSecureMessagingTriageGroupPlainLanguage = false,
+    mhvSecureMessagingRecipientOptGroups = true,
+    mhvSecureMessagingRecipientCombobox = true,
   } = toggles;
 
   return {
@@ -104,10 +109,6 @@ const generateFeatureToggles = (toggles = {}) => {
 
         // medical records
         {
-          name: 'mhv_integration_medical_records_to_phase_1',
-          value: mhvIntegrationMedicalRecordsToPhase1,
-        },
-        {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
         },
@@ -156,6 +157,12 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicalRecordsMarch17Updates,
         },
         {
+          name: 'mhv_medical_records_milestone_two',
+          value: mhvMedicalRecordsMilestoneTwo,
+        },
+
+        // secure messaging
+        {
           name: 'mhv_secure_messaging_triage_group_plain_language',
           value: mhvSecureMessagingTriageGroupPlainLanguage,
         },
@@ -164,8 +171,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvSecureMessagingRecipientOptGroups,
         },
         {
-          name: 'mhv_secure_messaging_remove_landing_page',
-          value: true,
+          name: 'mhv_secure_messaging_recipient_combobox',
+          value: mhvSecureMessagingRecipientCombobox,
         },
       ],
     },

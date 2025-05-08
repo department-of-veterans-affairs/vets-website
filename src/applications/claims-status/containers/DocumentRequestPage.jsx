@@ -33,11 +33,11 @@ import { benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
 import {
   setDocumentRequestPageTitle,
-  setDocumentTitle,
   getClaimType,
   isAutomated5103Notice,
+  setPageTitle,
 } from '../utils/helpers';
-import { setPageFocus, setUpPage } from '../utils/page';
+import { setUpPage, setPageFocus } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
 
@@ -52,14 +52,7 @@ const statusPath = '../status';
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    if (this.props.trackedItem) {
-      const pageTitle = setDocumentRequestPageTitle(
-        this.props.trackedItem.displayName,
-      );
-      setDocumentTitle(pageTitle);
-    } else {
-      setDocumentTitle('Document Request');
-    }
+    setPageTitle(this.props.trackedItem);
     if (!this.props.loading) {
       setUpPage();
     } else {
@@ -86,6 +79,7 @@ class DocumentRequestPage extends React.Component {
     }
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
+      setPageTitle(this.props.trackedItem);
     }
   }
 
@@ -132,46 +126,6 @@ class DocumentRequestPage extends React.Component {
   }
 
   render() {
-    let content;
-
-    if (this.props.loading) {
-      content = (
-        <va-loading-indicator
-          set-focus
-          message="Loading your claim information..."
-        />
-      );
-    } else {
-      const { message, trackedItem } = this.props;
-
-      content = (
-        <>
-          {message && (
-            <div>
-              <Element name="uploadError" />
-              <Notification
-                title={message.title}
-                body={message.body}
-                type={message.type}
-              />
-            </div>
-          )}
-          <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
-            <Toggler.Enabled>
-              {isAutomated5103Notice(trackedItem.displayName) ? (
-                <Default5103EvidenceNotice item={trackedItem} />
-              ) : (
-                <>{this.getDefaultPage()}</>
-              )}
-            </Toggler.Enabled>
-            <Toggler.Disabled>
-              <>{this.getDefaultPage()}</>
-            </Toggler.Disabled>
-          </Toggler>
-        </>
-      );
-    }
-
     const { claim, params, trackedItem } = this.props;
     const claimType = getClaimType(claim).toLowerCase();
 
@@ -195,26 +149,83 @@ class DocumentRequestPage extends React.Component {
       ? filesBreadcrumb
       : statusBreadcrumb;
 
-    const crumbs = [
-      previousPageBreadcrumb,
-      {
-        href: `../document-request/${params.trackedItemId}`,
-        label: setDocumentRequestPageTitle(trackedItem?.displayName),
-        isRouterLink: true,
-      },
-    ];
-
     return (
-      <div>
-        <div name="topScrollElement" />
-        <div className="row">
-          <div className="usa-width-two-thirds medium-8 columns">
-            <ClaimsBreadcrumbs crumbs={crumbs} />
-            <div>{content}</div>
-            <NeedHelp item={trackedItem} />
-          </div>
-        </div>
-      </div>
+      <Toggler.Hoc
+        toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}
+      >
+        {toggleValue => {
+          const crumbs = [
+            previousPageBreadcrumb,
+            {
+              href: toggleValue
+                ? `../${
+                    trackedItem?.status === 'NEEDED_FROM_YOU'
+                      ? 'needed-from-you'
+                      : 'needed-from-others'
+                  }/${params.trackedItemId}`
+                : `../document-request/${params.trackedItemId}`,
+              label: setDocumentRequestPageTitle(
+                trackedItem?.friendlyName || trackedItem?.displayName,
+              ),
+              isRouterLink: true,
+            },
+          ];
+
+          let content;
+          if (this.props.loading) {
+            content = (
+              <div>
+                <va-loading-indicator
+                  set-focus
+                  message="Loading your claim information..."
+                />
+              </div>
+            );
+          } else {
+            const { message } = this.props;
+
+            content = (
+              <>
+                {message && (
+                  <div>
+                    <Element name="uploadError" />
+                    <Notification
+                      title={message.title}
+                      body={message.body}
+                      type={message.type}
+                    />
+                  </div>
+                )}
+                <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
+                  <Toggler.Enabled>
+                    {isAutomated5103Notice(trackedItem.displayName) ? (
+                      <Default5103EvidenceNotice item={trackedItem} />
+                    ) : (
+                      <>{this.getDefaultPage()}</>
+                    )}
+                  </Toggler.Enabled>
+                  <Toggler.Disabled>
+                    <>{this.getDefaultPage()}</>
+                  </Toggler.Disabled>
+                </Toggler>
+              </>
+            );
+          }
+
+          return (
+            <div>
+              <div name="topScrollElement" />
+              <div className="row">
+                <div className="usa-width-two-thirds medium-8 columns">
+                  <ClaimsBreadcrumbs crumbs={crumbs} />
+                  <div>{content}</div>
+                  <NeedHelp item={trackedItem} />
+                </div>
+              </div>
+            </div>
+          );
+        }}
+      </Toggler.Hoc>
     );
   }
 }

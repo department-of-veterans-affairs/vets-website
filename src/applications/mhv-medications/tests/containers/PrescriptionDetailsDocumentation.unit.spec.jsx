@@ -10,6 +10,7 @@ import { MemoryRouter, Route } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import sinon from 'sinon';
 import reducer from '../../reducers';
 import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
 import PrescriptionDetailsDocumentation from '../../containers/PrescriptionDetailsDocumentation';
@@ -164,5 +165,50 @@ describe('Prescription details documentation container', () => {
       expect(noInfoAlert).to.not.exist;
       expect(errorAlert).to.exist;
     });
+  });
+
+  describe('PrescriptionDetailsDocumentation', () => {
+    beforeEach(() => {
+      HTMLAnchorElement.prototype.click = sinon.spy();
+      window.URL = {
+        createObjectURL: sinon.stub().returns('test'),
+        revokeObjectURL: sinon.spy(),
+      };
+      window.location = { assign: sinon.spy() };
+      global.navigator = {
+        onLine: true,
+      };
+    });
+
+    it('should call downloadFile with TXT format and generate TXT file', async () => {
+      mockApiRequest(medicationInformation);
+      const screen = setupWithReactRouter();
+
+      await waitFor(() => {
+        const downloadTxtBtn = screen.getByTestId('download-txt-button');
+        expect(downloadTxtBtn).to.exist;
+        downloadTxtBtn.click();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText('Download started')).to.exist;
+      });
+    });
+
+    // TODO: Fix, issue with file-saver and pdf library
+    // it('should call downloadFile with PDF format and generate PDF file', async () => {
+    //   mockApiRequest(medicationInformation);
+    //   const screen = setupWithReactRouter();
+
+    //   await waitFor(() => {
+    //     const downloadPdfBtn = screen.getByTestId('download-pdf-button');
+    //     expect(downloadPdfBtn).to.exist;
+    //     downloadPdfBtn.click();
+    //   });
+
+    //   await waitFor(() => {
+    //     expect(screen.getByText('Download started')).to.exist;
+    //   });
+    // });
   });
 });

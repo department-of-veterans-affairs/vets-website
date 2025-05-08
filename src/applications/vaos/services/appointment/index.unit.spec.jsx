@@ -8,6 +8,7 @@ import { expect } from 'chai';
 import MockDate from 'mockdate';
 import sinon from 'sinon';
 
+import { addDays, format, subDays } from 'date-fns';
 import {
   FUTURE_APPOINTMENTS_HIDDEN_SET,
   fetchBookedAppointment,
@@ -17,11 +18,12 @@ import {
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
 } from '.';
-import moment from '../../lib/moment-tz';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
 import { createMockAppointment } from '../../tests/mocks/data';
 import {
   getDateRanges,
-  mockVAOSAppointmentsFetch,
+  mockAppointmentApi,
+  mockAppointmentsApi,
 } from '../../tests/mocks/mockApis';
 import { generateAppointmentUrl } from '../../utils/appointment';
 import {
@@ -33,10 +35,10 @@ import {
 function setRequestedPeriod(date, amOrPm) {
   const isAM = amOrPm.toUpperCase() === 'AM';
   return {
-    start: `${date.format('YYYY-MM-DD')}T${
+    start: `${format(date, 'yyyy-MM-dd')}T${
       isAM ? '00:00:00.000Z' : `12:00:00.000Z`
     }`,
-    end: `${date.format('YYYY-MM-DD')}T${
+    end: `${format(date, 'yyyy-MM-dd')}T${
       isAM ? '11:59:59.999Z' : `23:59:59.999Z`
     }`,
   };
@@ -47,40 +49,24 @@ describe('VAOS Services: Appointment ', () => {
     beforeEach(() => mockFetch());
 
     it('should return data for an in person VA appointment', async () => {
-      const data = {
-        id: '1234',
-        start: moment()
-          .add(3, 'days')
-          .format(),
-        email: 'test@va.gov',
-        kind: 'clinic',
-        locationId: '552GA',
-        clinic: '5544',
-        clinicFriendlyName: 'Friendly clinic name',
-        serviceType: 'primaryCare',
-        status: 'booked',
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
+      mockAppointmentApi({
+        includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+        response: MockAppointmentResponse.createVAResponse({ id: '1234' }),
+      });
 
       const v2Result = await fetchBookedAppointment({
-        id: data.id,
-        useV2: true,
+        id: '1234',
         useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
+      expect(v2Result.vaos.apiData.modality).to.equal('vaInPerson');
     });
 
     it('should return data for a cancelled VA appointment', async () => {
       const data = {
         id: '1234',
-        start: moment()
-          .add(3, 'days')
-          .format(),
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
         email: 'test@va.gov',
         kind: 'clinic',
         locationId: '552GA',
@@ -95,7 +81,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -105,9 +90,7 @@ describe('VAOS Services: Appointment ', () => {
     it('should return data for a past VA appointment', async () => {
       const data = {
         id: '1234',
-        start: moment()
-          .subtract(3, 'days')
-          .format(),
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
         email: 'test@va.gov',
         kind: 'clinic',
         locationId: '552GA',
@@ -122,7 +105,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -132,9 +114,7 @@ describe('VAOS Services: Appointment ', () => {
     it('should return data for a VA phone appointment', async () => {
       const data = {
         id: '1234',
-        start: moment()
-          .subtract(3, 'days')
-          .format(),
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
         email: 'test@va.gov',
         kind: 'phone',
         locationId: '552GA',
@@ -149,7 +129,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -159,9 +138,7 @@ describe('VAOS Services: Appointment ', () => {
     it('should return data for a VA covid vaccine appointment', async () => {
       const data = {
         id: '1234',
-        start: moment()
-          .subtract(3, 'days')
-          .format(),
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
         email: 'test@va.gov',
         kind: 'clinic',
         locationId: '552GA',
@@ -177,7 +154,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -187,9 +163,7 @@ describe('VAOS Services: Appointment ', () => {
     it('should return data for a VVC at home video appointment', async () => {
       const data = {
         id: '1234',
-        start: moment()
-          .add(3, 'days')
-          .format(),
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
         email: 'test@va.gov',
         kind: 'telehealth',
         locationId: '552',
@@ -216,7 +190,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -226,9 +199,7 @@ describe('VAOS Services: Appointment ', () => {
     it('should return data for an ATLAS video appointment', async () => {
       const data = {
         id: '1234',
-        start: moment()
-          .add(3, 'days')
-          .format(),
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
         email: 'test@va.gov',
         kind: 'telehealth',
         locationId: '552',
@@ -268,7 +239,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -278,9 +248,7 @@ describe('VAOS Services: Appointment ', () => {
     it('should return data for a clinic based video appointment', async () => {
       const data = {
         id: '1234',
-        start: moment()
-          .add(3, 'days')
-          .format(),
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
         email: 'test@va.gov',
         kind: 'telehealth',
         locationId: '552',
@@ -299,7 +267,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -309,9 +276,7 @@ describe('VAOS Services: Appointment ', () => {
     it('should return data for a store forward video appointment', async () => {
       const data = {
         id: '1234',
-        start: moment()
-          .add(3, 'days')
-          .format(),
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
         email: 'test@va.gov',
         kind: 'telehealth',
         locationId: '552',
@@ -330,7 +295,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -340,9 +304,7 @@ describe('VAOS Services: Appointment ', () => {
     it('should return data for a mobile any video appointment', async () => {
       const data = {
         id: '1234',
-        start: moment()
-          .add(3, 'days')
-          .format(),
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
         email: 'test@va.gov',
         kind: 'telehealth',
         status: 'booked',
@@ -359,7 +321,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -369,9 +330,7 @@ describe('VAOS Services: Appointment ', () => {
     it('should return data for a community care appointment', async () => {
       const data = {
         id: '1234',
-        start: moment()
-          .add(3, 'days')
-          .format(),
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
         kind: 'cc',
         status: 'booked',
         minutesDuration: 60,
@@ -399,7 +358,6 @@ describe('VAOS Services: Appointment ', () => {
 
       const v2Result = await fetchBookedAppointment({
         id: data.id,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -424,7 +382,6 @@ describe('VAOS Services: Appointment ', () => {
       try {
         await fetchBookedAppointment({
           id: '1234',
-          useV2: true,
           useFeSourceOfTruth: true,
         });
       } catch (e) {
@@ -442,9 +399,7 @@ describe('VAOS Services: Appointment ', () => {
       // Given VA appointment request
       const data = {
         id: '1234',
-        start: moment()
-          .add(3, 'days')
-          .format(),
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
         email: 'test@va.gov',
         phone: '2125551212',
         kind: 'clinic',
@@ -452,20 +407,16 @@ describe('VAOS Services: Appointment ', () => {
         clinicFriendlyName: 'Friendly clinic name',
         requestedPeriods: [
           {
-            start: `${moment().format('YYYY-MM-DD')}T00:00:00.000`,
-            end: `${moment().format('YYYY-MM-DD')}T11:59:59.999`,
+            start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00.000`,
+            end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59.999`,
           },
         ],
         serviceType: 'primaryCare',
         status: 'proposed',
         visitType: 'Office Visit',
       };
-      const startDate = moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD');
-      const endDate = moment()
-        .add(30, 'days')
-        .format('YYYY-MM-DD');
+      const startDate = format(subDays(new Date(), 30), 'yyyy-MM-dd');
+      const endDate = format(addDays(new Date(), 30, 'days'), 'yyyy-MM-dd');
 
       // And the developer fetched that request through both the v2 APIs
       const url = generateAppointmentUrl(startDate, endDate, [
@@ -479,8 +430,8 @@ describe('VAOS Services: Appointment ', () => {
             ...data,
             requestedPeriods: [
               {
-                start: `${moment().format('YYYY-MM-DD')}T00:00:00Z`,
-                end: `${moment().format('YYYY-MM-DD')}T11:59:59Z`,
+                start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00Z`,
+                end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59Z`,
               },
             ],
           }),
@@ -490,7 +441,6 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await getAppointmentRequests({
         startDate,
         endDate,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -508,8 +458,8 @@ describe('VAOS Services: Appointment ', () => {
         clinicFriendlyName: 'Friendly clinic name',
         requestedPeriods: [
           {
-            start: `${moment().format('YYYY-MM-DD')}T00:00:00.000`,
-            end: `${moment().format('YYYY-MM-DD')}T11:59:59.999`,
+            start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00.000`,
+            end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59.999`,
           },
         ],
         serviceType: 'primaryCare',
@@ -517,12 +467,8 @@ describe('VAOS Services: Appointment ', () => {
         typeOfCareId: 'CCPRMYRTNE',
         visitType: 'Office Visit',
       };
-      const startDate = moment()
-        .subtract(30, 'days')
-        .format();
-      const endDate = moment()
-        .add(30, 'days')
-        .format();
+      const startDate = format(subDays(new Date(), 30), 'yyyy-MM-dd');
+      const endDate = format(addDays(new Date(), 30), 'yyyy-MM-dd');
 
       // And the developer fetched that request through both the v2 and v0 APIs
       setFetchJSONResponse(
@@ -537,8 +483,8 @@ describe('VAOS Services: Appointment ', () => {
               ...data,
               requestedPeriods: [
                 {
-                  start: `${moment().format('YYYY-MM-DD')}T00:00:00Z`,
-                  end: `${moment().format('YYYY-MM-DD')}T11:59:59Z`,
+                  start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00Z`,
+                  end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59Z`,
                 },
               ],
             }),
@@ -549,7 +495,6 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await getAppointmentRequests({
         startDate,
         endDate,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -561,9 +506,7 @@ describe('VAOS Services: Appointment ', () => {
       // Given cancelled VA appointment request
       const data = {
         id: '1234',
-        start: moment()
-          .add(3, 'days')
-          .format(),
+        start: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
         email: 'test@va.gov',
         phone: '2125551212',
         kind: 'clinic',
@@ -571,20 +514,16 @@ describe('VAOS Services: Appointment ', () => {
         clinicFriendlyName: 'Friendly clinic name',
         requestedPeriods: [
           {
-            start: `${moment().format('YYYY-MM-DD')}T00:00:00.000`,
-            end: `${moment().format('YYYY-MM-DD')}T11:59:59.999`,
+            start: `${format(new Date(), 'yyyy-MM-dd')}T00:00:00.000`,
+            end: `${format(new Date(), 'yyyy-MM-dd')}T11:59:59.999`,
           },
         ],
         serviceType: 'primaryCare',
         status: 'cancelled',
         visitType: 'Office Visit',
       };
-      const startDate = moment()
-        .subtract(30, 'days')
-        .format();
-      const endDate = moment()
-        .add(30, 'days')
-        .format();
+      const startDate = format(subDays(new Date(), 30), 'yyyy-MM-dd');
+      const endDate = format(addDays(new Date(), 30), 'yyyy-MM-dd');
 
       // And the developer fetched that request through both the v2 and v0 APIs
       setFetchJSONResponse(
@@ -605,7 +544,6 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await getAppointmentRequests({
         startDate,
         endDate,
-        useV2: true,
         useFeSourceOfTruth: true,
       });
 
@@ -613,7 +551,7 @@ describe('VAOS Services: Appointment ', () => {
       expect(v2Result.length).to.be.gt(0);
     });
 
-    it('should return data for an error fetching requests', async () => {
+    it('should return data for an error fetching response', async () => {
       // Given VAOS error
       const error = {
         code: 'VAOS_504',
@@ -622,12 +560,8 @@ describe('VAOS Services: Appointment ', () => {
         source: 'stack trace',
       };
 
-      const startDate = moment()
-        .subtract(30, 'days')
-        .format();
-      const endDate = moment()
-        .add(30, 'days')
-        .format();
+      const startDate = format(subDays(new Date(), 30), 'yyyy-MM-dd');
+      const endDate = format(addDays(new Date(), 30), 'yyyy-MM-dd');
 
       // And the developer fetched that request through both the v2 and v0 APIs
       setFetchJSONFailure(
@@ -647,7 +581,6 @@ describe('VAOS Services: Appointment ', () => {
         await getAppointmentRequests({
           startDate,
           endDate,
-          useV2: true,
           useFeSourceOfTruth: true,
         });
       } catch (e) {
@@ -667,22 +600,35 @@ describe('VAOS Services: Appointment ', () => {
     it('should fetch 3 years of appointment history', async () => {
       const dateRanges = getDateRanges(3);
       dateRanges.forEach(range => {
-        mockVAOSAppointmentsFetch({
+        mockAppointmentsApi({
           start: range.start,
           end: range.end,
-          requests: [],
+          useRFC3339: true,
+          response: [],
           statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
         });
       });
 
       await getLongTermAppointmentHistoryV2(true, true, true);
       expect(global.fetch.callCount).to.equal(3);
-      expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].start);
-      expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].end);
-      expect(global.fetch.secondCall.args[0]).to.contain(dateRanges[1].start);
-      expect(global.fetch.secondCall.args[0]).to.contain(dateRanges[1].end);
-      expect(global.fetch.thirdCall.args[0]).to.contain(dateRanges[2].start);
-      expect(global.fetch.thirdCall.args[0]).to.contain(dateRanges[2].end);
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        `${dateRanges[0].start.toISOString().slice(0, 19)}Z`,
+      );
+      expect(global.fetch.firstCall.args[0]).to.contain(
+        `${dateRanges[0].end.toISOString().slice(0, 19)}Z`,
+      );
+      expect(global.fetch.secondCall.args[0]).to.contain(
+        `${dateRanges[1].start.toISOString().slice(0, 19)}Z`,
+      );
+      expect(global.fetch.secondCall.args[0]).to.contain(
+        `${dateRanges[1].end.toISOString().slice(0, 19)}Z`,
+      );
+      expect(global.fetch.thirdCall.args[0]).to.contain(
+        `${dateRanges[2].start.toISOString().slice(0, 19)}Z`,
+      );
+      expect(global.fetch.thirdCall.args[0]).to.contain(
+        `${dateRanges[2].end.toISOString().slice(0, 19)}Z`,
+      );
     });
   });
 
@@ -690,15 +636,13 @@ describe('VAOS Services: Appointment ', () => {
 
   describe('isUpcomingAppointmentOrRequest', () => {
     MockDate.reset();
-    const now = moment();
+    const now = new Date();
     it('should filter future requests', () => {
       const apptRequests = [
         // canceled past - should filter out
         {
           status: APPOINTMENT_STATUS.cancelled,
-          requestedPeriod: [
-            setRequestedPeriod(now.clone().add(-2, 'days'), 'AM'),
-          ],
+          requestedPeriod: [setRequestedPeriod(subDays(new Date(), 2), 'AM')],
           vaos: {
             isExpressCare: false,
             appointmentType: APPOINTMENT_TYPES.request,
@@ -707,9 +651,7 @@ describe('VAOS Services: Appointment ', () => {
         // cancelled past - should filter out
         {
           status: APPOINTMENT_STATUS.cancelled,
-          requestedPeriod: [
-            setRequestedPeriod(now.clone().subtract(22, 'days'), 'AM'),
-          ],
+          requestedPeriod: [setRequestedPeriod(subDays(now, 22), 'AM')],
           vaos: {
             isExpressCare: false,
             appointmentType: APPOINTMENT_TYPES.request,
@@ -718,9 +660,7 @@ describe('VAOS Services: Appointment ', () => {
         // pending past - should filter out
         {
           status: APPOINTMENT_STATUS.pending,
-          requestedPeriod: [
-            setRequestedPeriod(now.clone().add(-2, 'days'), 'AM'),
-          ],
+          requestedPeriod: [setRequestedPeriod(subDays(now, 2), 'AM')],
           vaos: {
             isExpressCare: false,
             appointmentType: APPOINTMENT_TYPES.request,
@@ -730,13 +670,7 @@ describe('VAOS Services: Appointment ', () => {
         {
           status: APPOINTMENT_STATUS.pending,
           requestedPeriod: [
-            setRequestedPeriod(
-              now
-                .clone()
-                .add(395, 'days')
-                .add(-1, 'days'),
-              'AM',
-            ),
+            setRequestedPeriod(subDays(addDays(new Date(), 395), 1), 'AM'),
           ],
           vaos: {
             isExpressCare: false,
@@ -746,9 +680,7 @@ describe('VAOS Services: Appointment ', () => {
         // future - should not filter out
         {
           status: APPOINTMENT_STATUS.pending,
-          requestedPeriod: [
-            setRequestedPeriod(now.clone().add(2, 'days'), 'AM'),
-          ],
+          requestedPeriod: [setRequestedPeriod(addDays(now, 2), 'AM')],
           vaos: {
             isExpressCare: false,
             appointmentType: APPOINTMENT_TYPES.request,
@@ -757,9 +689,7 @@ describe('VAOS Services: Appointment ', () => {
         // future canceled - should not filter out
         {
           status: APPOINTMENT_STATUS.cancelled,
-          requestedPeriod: [
-            setRequestedPeriod(now.clone().add(3, 'days'), 'AM'),
-          ],
+          requestedPeriod: [setRequestedPeriod(addDays(now, 3), 'AM')],
           vaos: {
             isExpressCare: false,
             appointmentType: APPOINTMENT_TYPES.request,

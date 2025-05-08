@@ -16,7 +16,7 @@ import { createMockFacility } from '../../tests/mocks/data';
 import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
 import {
   mockFacilitiesApi,
-  mockSchedulingConfigurations,
+  mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
 } from '../../tests/mocks/mockApis';
 import TypeOfEyeCarePage from './TypeOfEyeCarePage';
@@ -35,21 +35,21 @@ const initialState = {
 describe('VAOS Page: TypeOfEyeCarePage', () => {
   beforeEach(() => {
     mockFetch();
-    mockSchedulingConfigurations(
-      [
+    mockSchedulingConfigurationsApi({
+      isCCEnabled: true,
+      response: [
         getSchedulingConfigurationMock({
           id: '983',
           typeOfCareId: 'primaryCare',
           requestEnabled: true,
         }),
       ],
-      true,
-    );
+    });
   });
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
     const nextPage = await setTypeOfCare(store, /eye care/i);
-    expect(nextPage).to.equal('/new-appointment/choose-eye-care');
+    expect(nextPage).to.equal('eye-care');
 
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfEyeCarePage} />,
@@ -90,9 +90,7 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/va-facility-2',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('location'),
     );
   });
 
@@ -137,7 +135,7 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
 
     const store = createTestStore(initialState);
     const nextPage = await setTypeOfCare(store, /eye care/i);
-    expect(nextPage).to.equal('/new-appointment/choose-eye-care');
+    expect(nextPage).to.equal('eye-care');
 
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfEyeCarePage} />,
@@ -155,9 +153,7 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     fireEvent.click(screen.getByText(/Continue/));
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-facility-type',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('facility-type'),
     );
   });
 });

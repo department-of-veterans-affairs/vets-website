@@ -8,7 +8,7 @@ import {
   getPatientReferrals,
   getAppointmentInfo,
 } from '../../services/referral';
-import { filterReferrals } from '../utils/referrals';
+// import { filterReferrals } from '../utils/referrals';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../redux/sitewide';
 
 export const SET_FORM_CURRENT_PAGE = 'SET_FORM_CURRENT_PAGE';
@@ -53,6 +53,7 @@ export function createDraftReferralAppointment(referralId) {
       dispatch({
         type: CREATE_DRAFT_REFERRAL_APPOINTMENT,
       });
+
       const providerDetails = await postDraftReferralAppointment(referralId);
 
       dispatch({
@@ -98,10 +99,11 @@ export function fetchReferrals() {
         type: FETCH_REFERRALS,
       });
       const referrals = await getPatientReferrals();
-      const filteredReferrals = filterReferrals(referrals);
+      // TODO: need to add this back in for production
+      // const filteredReferrals = filterReferrals(referrals);
       dispatch({
         type: FETCH_REFERRALS_SUCCEEDED,
-        data: filteredReferrals,
+        data: referrals,
       });
       return referrals;
     } catch (error) {
@@ -146,7 +148,7 @@ export function pollFetchAppointmentInfo(
       });
       const appointmentInfo = await getAppointmentInfo(appointmentId);
       // If the appointment is still in draft state, retry the request in 1 second to avoid spamming the api with requests
-      if (appointmentInfo.attributes.status === 'draft') {
+      if (appointmentInfo.attributes.status !== 'booked') {
         setTimeout(() => {
           dispatch(
             pollFetchAppointmentInfo(appointmentId, {

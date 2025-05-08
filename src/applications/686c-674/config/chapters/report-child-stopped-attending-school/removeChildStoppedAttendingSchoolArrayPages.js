@@ -33,10 +33,14 @@ export const removeChildStoppedAttendingSchoolOptions = {
   text: {
     summaryTitle: 'Review your children between ages 18 and 23 who left school',
     getItemName: () => 'Child',
-    cardDescription: item =>
-      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
-        item?.fullName?.last,
-      ) || ''}`,
+    cardDescription: item => (
+      <span className="dd-privacy" data-dd-privacy="mask">
+        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
+          item?.fullName?.last,
+        ) || ''}`.trim()}
+      </span>
+    ),
+    cancelAddButtonText: 'Cancel removing this child',
   },
 };
 
@@ -72,6 +76,14 @@ export const removeChildStoppedAttendingSchoolSummaryPage = {
   uiSchema: {
     'view:completedChildStoppedAttendingSchool': arrayBuilderYesNoUI(
       removeChildStoppedAttendingSchoolOptions,
+      {
+        title:
+          'Do you have a child between ages 18 and 23 who left school to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
       {
         title:
           'Do you have another child between ages 18 and 23 who left school to add?',

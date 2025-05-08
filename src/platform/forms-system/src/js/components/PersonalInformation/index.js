@@ -68,6 +68,7 @@ const personalInformationPage = ({
     ...personalInfoConfig,
   };
 
+  // Create a CustomPage component with proper PropTypes
   const CustomPage = props => (
     <PersonalInformation
       {...props}

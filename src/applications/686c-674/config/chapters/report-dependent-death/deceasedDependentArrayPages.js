@@ -72,9 +72,14 @@ export const deceasedDependentOptions = {
     cardDescription: item => {
       const firstName = capitalize(item?.fullName?.first || '');
       const lastName = capitalize(item?.fullName?.last || '');
-      return `${firstName} ${lastName}`.trim();
+      return (
+        <span className="dd-privacy" data-dd-privacy="mask">
+          {`${firstName} ${lastName}`.trim()}
+        </span>
+      );
     },
     summaryTitle: 'Review your dependents who have died',
+    cancelAddButtonText: 'Cancel removing this dependent',
   },
 };
 
@@ -108,13 +113,23 @@ export const deceasedDependentIntroPage = {
 /** @returns {PageSchema} */
 export const deceasedDependentSummaryPage = {
   uiSchema: {
-    'view:completedDependent': arrayBuilderYesNoUI(deceasedDependentOptions, {
-      title: 'Do you have another deceased dependent to report?',
-      labels: {
-        Y: 'Yes, I have another dependent to report',
-        N: 'No, I don’t have another dependent to report',
+    'view:completedDependent': arrayBuilderYesNoUI(
+      deceasedDependentOptions,
+      {
+        title: 'Do you have a deceased dependent to report?',
+        labels: {
+          Y: 'Yes, I have a dependent to report',
+          N: 'No, I don’t have a dependent to report',
+        },
       },
-    }),
+      {
+        title: 'Do you have another deceased dependent to report?',
+        labels: {
+          Y: 'Yes, I have another dependent to report',
+          N: 'No, I don’t have another dependent to report',
+        },
+      },
+    ),
   },
   schema: {
     type: 'object',

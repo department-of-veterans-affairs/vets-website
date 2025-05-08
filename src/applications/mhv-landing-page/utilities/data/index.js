@@ -127,13 +127,37 @@ const resolveLandingPageLinks = (
     },
   ];
 
-  const paymentsLinks = [
-    HEALTH_TOOL_LINKS.PAYMENTS[0],
-    featureToggles[FEATURE_FLAG_NAMES.travelPayPowerSwitch] && {
-      href: '/my-health/travel-pay/claims',
-      text: 'Check travel reimbursement claim status',
+  const paymentsLinks = (featureToggles[
+    FEATURE_FLAG_NAMES.travelPaySubmitMileageExpense
+  ]
+    ? [
+        HEALTH_TOOL_LINKS.PAYMENTS[0],
+        {
+          href: '/my-health/travel-pay/claims',
+          text: 'Review and file travel claims',
+        },
+      ]
+    : [
+        HEALTH_TOOL_LINKS.PAYMENTS[0],
+        featureToggles[FEATURE_FLAG_NAMES.travelPayPowerSwitch] && {
+          href: '/my-health/travel-pay/claims',
+          text: 'Check travel reimbursement claim status',
+        },
+        HEALTH_TOOL_LINKS.PAYMENTS[1],
+      ]
+  ).filter(isLinkData);
+
+  const medicalRecordsLinks = [
+    HEALTH_TOOL_LINKS.MEDICAL_RECORDS[0],
+    featureToggles[
+      FEATURE_FLAG_NAMES.mhvLandingPageShowShareMyHealthDataLink
+    ] && {
+      href: 'https://veteran.apps.va.gov/smhdWeb',
+      text:
+        'Share your personal health data on the Share My Health Data website',
+      isExternal: true,
+      omitExternalLinkText: true,
     },
-    HEALTH_TOOL_LINKS.PAYMENTS[1],
   ].filter(isLinkData);
 
   const cards = [
@@ -155,9 +179,13 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
       icon: 'note_add',
-      introduction:
-        'Get quick, easy access to your medical records. Now you can print or download what you need, when you need it.',
-      links: HEALTH_TOOL_LINKS.MEDICAL_RECORDS,
+      ...(!featureToggles[
+        FEATURE_FLAG_NAMES.mhvLandingPageShowShareMyHealthDataLink
+      ] && {
+        introduction:
+          'Get quick, easy access to your medical records. Now you can print or download what you need, when you need it.',
+      }),
+      links: medicalRecordsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,

@@ -1,3 +1,4 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -34,6 +35,7 @@ export const veteranMarriageHistoryOptions = {
   nounSingular: 'former marriage',
   nounPlural: 'former marriages',
   required: false,
+  minItems: 0,
   isItemIncomplete: item =>
     !item?.fullName?.first ||
     !item?.fullName?.last ||
@@ -54,10 +56,13 @@ export const veteranMarriageHistoryOptions = {
   text: {
     summaryTitle: 'Review your marital history',
     getItemName: () => 'Your former marriage',
-    cardDescription: item =>
-      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
-        item?.fullName?.last,
-      ) || ''}`,
+    cardDescription: item => (
+      <span className="dd-privacy" data-dd-privacy="mask">
+        {`${capitalize(item?.fullName?.first || '')} ${capitalize(
+          item?.fullName?.last || '',
+        )}`.trim()}
+      </span>
+    ),
   },
 };
 

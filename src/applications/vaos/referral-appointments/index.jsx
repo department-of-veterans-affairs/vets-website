@@ -39,6 +39,10 @@ export default function ReferralAppointments() {
     [error, referral],
   );
 
+  if (referral?.attributes?.hasAppointments) {
+    return <Redirect to="/referrals-requests" />;
+  }
+
   if (!isInCCPilot) {
     return <Redirect from={basePath.url} to="/" />;
   }
@@ -49,12 +53,7 @@ export default function ReferralAppointments() {
   }
 
   if ((!referral || isLoading) && !appointmentId) {
-    return (
-      <ReferralLayout
-        loadingMessage="Loading your data..."
-        heading="Review Approved Referral"
-      />
-    );
+    return <ReferralLayout loadingMessage="Loading your data..." />;
   }
 
   return (

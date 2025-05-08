@@ -81,10 +81,13 @@ export const addStudentsOptions = {
   text: {
     summaryTitle: 'Review your students',
     getItemName: () => 'Student',
-    cardDescription: item =>
-      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
-        item?.fullName?.last,
-      ) || ''}`,
+    cardDescription: item => (
+      <span className="dd-privacy" data-dd-privacy="mask">
+        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
+          item?.fullName?.last,
+        ) || ''}`.trim()}
+      </span>
+    ),
   },
 };
 
@@ -111,13 +114,23 @@ export const addStudentsIntroPage = {
 /** @returns {PageSchema} */
 export const addStudentsSummaryPage = {
   uiSchema: {
-    'view:completedStudent': arrayBuilderYesNoUI(addStudentsOptions, {
-      title: 'Do you have another student to add?',
-      labels: {
-        Y: 'Yes',
-        N: 'No',
+    'view:completedStudent': arrayBuilderYesNoUI(
+      addStudentsOptions,
+      {
+        title: 'Do you have a student to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
       },
-    }),
+      {
+        title: 'Do you have another student to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
+    ),
   },
   schema: {
     type: 'object',

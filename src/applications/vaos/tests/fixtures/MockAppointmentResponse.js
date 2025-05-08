@@ -10,11 +10,12 @@ import {
  * Mock appointment response.
  *
  * @export
- * @class MockAppointment
+ * @class MockAppointmentResponse
  */
 export default class MockAppointmentResponse {
   /**
-   * Creates an instance of MockAppointment.
+   * Creates an instance of MockAppointmentResponse.
+   *
    * @param {Object} props - Properties used to determine what type of mock appointment to create.
    * @param {Object=} props.atlas - Set this to create an atlas appointment.
    * @param {Date} props.localStartTime - Set appointment start time.
@@ -31,7 +32,7 @@ export default class MockAppointmentResponse {
    * @param {boolean} [props.past=false] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [props.pending=false] - Flag to determine if appointment is a pending appointment.
    * @param {boolean} [props.future=false] - Flag to determine if appointment is a pending appointment.
-   * @memberof MockAppointment
+   * @memberof MockAppointmentResponse
    */
   constructor({
     atlas,
@@ -44,6 +45,7 @@ export default class MockAppointmentResponse {
     future = false,
     id = '1',
     kind = TYPE_OF_VISIT_ID.clinic,
+    locationId = '983',
     modality = 'vaInPerson',
     past = false,
     patientHasMobileGfe = false,
@@ -74,6 +76,7 @@ export default class MockAppointmentResponse {
     this.type = 'MockAppointment';
     this.attributes = {
       id,
+      locationId,
       cancellable,
       extension: {
         patientHasMobileGfe,
@@ -260,6 +263,18 @@ export default class MockAppointmentResponse {
       );
   }
 
+  static createVAResponse({ id, localStartTime, future, past, pending } = {}) {
+    return new MockAppointmentResponse({
+      id,
+      future,
+      kind: 'clinic',
+      localStartTime,
+      past,
+      pending,
+      status: APPOINTMENT_STATUS.booked,
+    });
+  }
+
   static createVAResponses({ localStartTime, future = false, count = 1 }) {
     return Array(count)
       .fill(count)
@@ -273,7 +288,7 @@ export default class MockAppointmentResponse {
       );
   }
 
-  static createCCResponse({ serviceType }) {
+  static createCCResponse({ serviceType } = {}) {
     return new MockAppointmentResponse({
       kind: 'cc',
       modality: 'communityCare',
@@ -321,8 +336,15 @@ export default class MockAppointmentResponse {
     return this;
   }
 
-  setLocation(location) {
-    this.attributes.location = location;
+  /**
+   *
+   *
+   * @param {MockFacilityResponse} value
+   * @returns
+   * @memberof MockAppointmentResponse
+   */
+  setLocation(value) {
+    this.attributes.location = value;
     return this;
   }
 

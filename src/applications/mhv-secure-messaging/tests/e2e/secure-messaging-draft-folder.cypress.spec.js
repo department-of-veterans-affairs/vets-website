@@ -18,7 +18,7 @@ describe('SM DRAFT FOLDER VERIFICATION', () => {
   it('Verify folder header', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    GeneralFunctionsPage.verifyPageHeader(`Drafts`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Drafts`);
     PatientMessagesSentPage.verifyResponseBodyLength();
   });
 
