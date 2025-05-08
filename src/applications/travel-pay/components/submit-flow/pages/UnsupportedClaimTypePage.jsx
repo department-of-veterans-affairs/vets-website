@@ -1,22 +1,21 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useContext } from 'react';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
+import { SmocContext } from '../../../context/SmocContext';
 import {
   recordSmocButtonClick,
   recordSmocPageview,
 } from '../../../util/events-helpers';
 
 const title = 'We can’t file this claim in this tool at this time';
+const UnsupportedClaimTypePage = () => {
+  const { pageIndex, setIsUnsupportedClaimType, setPageIndex } = useContext(
+    SmocContext,
+  );
 
-const UnsupportedClaimTypePage = ({
-  pageIndex,
-  setIsUnsupportedClaimType,
-  setPageIndex,
-}) => {
   useEffect(() => {
     recordSmocPageview('unsupported');
     focusElement('h1');
@@ -48,12 +47,6 @@ const UnsupportedClaimTypePage = ({
       />
     </div>
   );
-};
-
-UnsupportedClaimTypePage.propTypes = {
-  pageIndex: PropTypes.number,
-  setIsUnsupportedClaimType: PropTypes.func,
-  setPageIndex: PropTypes.func,
 };
 
 export default UnsupportedClaimTypePage;

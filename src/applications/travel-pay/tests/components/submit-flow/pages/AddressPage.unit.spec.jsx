@@ -9,6 +9,7 @@ import * as recordEventModule from 'platform/monitoring/record-event';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import AddressPage from '../../../../components/submit-flow/pages/AddressPage';
+import SmocContextProvider from '../../../../context/SmocContext';
 
 const home = {
   addressLine1: '345 Home Address St.',
@@ -63,7 +64,7 @@ describe('Address page', () => {
   });
 
   it('should render with user home address and records the pageview', () => {
-    const screen = renderWithStoreAndRouter(<AddressPage {...props} />, {
+    const screen = renderWithStoreAndRouter(<AddressPage />, {
       initialState: getData({
         homeAddress: home,
       }),
@@ -100,7 +101,7 @@ describe('Address page', () => {
   });
 
   it('should show an alert if no address and records the pageview', () => {
-    const screen = renderWithStoreAndRouter(<AddressPage {...props} />, {
+    const screen = renderWithStoreAndRouter(<AddressPage />, {
       initialState: getData(),
     });
 
@@ -124,7 +125,7 @@ describe('Address page', () => {
   });
 
   it('should render an error if no selection made', () => {
-    renderWithStoreAndRouter(<AddressPage {...props} />, {
+    renderWithStoreAndRouter(<AddressPage />, {
       initialState: getData({
         homeAddress: home,
       }),
@@ -138,7 +139,11 @@ describe('Address page', () => {
 
   it('should render an error if selection is "no"', async () => {
     renderWithStoreAndRouter(
-      <AddressPage {...props} yesNo={{ ...props.yesNo, address: 'no' }} />,
+      <SmocContextProvider
+        value={{ ...props, yesNo: { ...props.yesNo, address: 'no' } }}
+      >
+        <AddressPage />
+      </SmocContextProvider>,
       {
         initialState: getData({
           homeAddress: home,
@@ -162,7 +167,11 @@ describe('Address page', () => {
 
   it('should move on to the next step if selection is "yes"', () => {
     renderWithStoreAndRouter(
-      <AddressPage {...props} yesNo={{ ...props.yesNo, address: 'yes' }} />,
+      <SmocContextProvider
+        value={{ ...props, yesNo: { ...props.yesNo, address: 'yes' } }}
+      >
+        <AddressPage />
+      </SmocContextProvider>,
       {
         initialState: getData({
           homeAddress: home,
@@ -186,11 +195,16 @@ describe('Address page', () => {
   });
 
   it('should move back a step', () => {
-    renderWithStoreAndRouter(<AddressPage {...props} />, {
-      initialState: getData({
-        homeAddress: home,
-      }),
-    });
+    renderWithStoreAndRouter(
+      <SmocContextProvider value={props}>
+        <AddressPage />
+      </SmocContextProvider>,
+      {
+        initialState: getData({
+          homeAddress: home,
+        }),
+      },
+    );
     $('va-button-pair').__events.secondaryClick(); // back
 
     expect(

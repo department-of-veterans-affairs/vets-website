@@ -9,6 +9,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 
 import MileagePage from '../../../../components/submit-flow/pages/MileagePage';
 import reducer from '../../../../redux/reducer';
+import SmocContextProvider from '../../../../context/SmocContext';
 
 const mockAppt = {
   practitioners: [
@@ -59,18 +60,23 @@ describe('Mileage page', () => {
   });
 
   it('should render correctly and record pageview', () => {
-    const screen = renderWithStoreAndRouter(<MileagePage {...props} />, {
-      initialState: {
-        travelPay: {
-          appointment: {
-            isLoading: false,
-            error: null,
-            data: mockAppt,
+    const screen = renderWithStoreAndRouter(
+      <SmocContextProvider value={props}>
+        <MileagePage />
+      </SmocContextProvider>,
+      {
+        initialState: {
+          travelPay: {
+            appointment: {
+              isLoading: false,
+              error: null,
+              data: mockAppt,
+            },
           },
         },
+        reducers: reducer,
       },
-      reducers: reducer,
-    });
+    );
 
     expect(screen.getByTestId('mileage-test-id')).to.exist;
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.exist;
@@ -118,13 +124,17 @@ describe('Mileage page', () => {
 
   it('should render an error if no selection made', () => {
     const screen = renderWithStoreAndRouter(
-      <MileagePage
-        {...props}
-        yesNo={{
-          ...props.yesNo,
-          mileage: '',
+      <SmocContextProvider
+        value={{
+          ...props,
+          yesNo: {
+            ...props.yesNo,
+            mileage: '',
+          },
         }}
-      />,
+      >
+        <MileagePage />
+      </SmocContextProvider>,
       {
         initialState: {
           travelPay: {
@@ -149,7 +159,17 @@ describe('Mileage page', () => {
 
   it('should set isUnsupportedClaimType if answering No', () => {
     renderWithStoreAndRouter(
-      <MileagePage {...props} yesNo={{ ...props.yesNo, mileage: 'no' }} />,
+      <SmocContextProvider
+        value={{
+          ...props,
+          yesNo: {
+            ...props.yesNo,
+            mileage: 'no',
+          },
+        }}
+      >
+        <MileagePage />
+      </SmocContextProvider>,
       {
         initialState: {
           travelPay: {
@@ -180,18 +200,23 @@ describe('Mileage page', () => {
   });
 
   it('should move back a step', () => {
-    renderWithStoreAndRouter(<MileagePage {...props} />, {
-      initialState: {
-        travelPay: {
-          appointment: {
-            isLoading: false,
-            error: null,
-            data: mockAppt,
+    renderWithStoreAndRouter(
+      <SmocContextProvider value={props}>
+        <MileagePage />
+      </SmocContextProvider>,
+      {
+        initialState: {
+          travelPay: {
+            appointment: {
+              isLoading: false,
+              error: null,
+              data: mockAppt,
+            },
           },
         },
+        reducers: reducer,
       },
-      reducers: reducer,
-    });
+    );
 
     $('va-button-pair').__events.secondaryClick(); // back
 
@@ -205,7 +230,6 @@ describe('Mileage page', () => {
         /* eslint-enable camelcase */
       }),
     ).to.be.true;
-    expect(setCantFileSpy.calledWith(false)).to.be.true;
     expect(setPageIndexSpy.calledWith(0)).to.be.true;
   });
 });

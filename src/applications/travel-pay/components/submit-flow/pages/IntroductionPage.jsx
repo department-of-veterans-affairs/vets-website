@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
 import { selectAppointment } from '../../../redux/selectors';
+import { SmocContext } from '../../../context/SmocContext';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 import { AppointmentInfoText } from '../../AppointmentDetails';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
@@ -12,13 +12,18 @@ import DowntimeWindowAlert from '../../../containers/DownTimeWindowAlert';
 
 const title = 'File a travel reimbursement claim';
 
-const IntroductionPage = ({ onStart }) => {
+const IntroductionPage = () => {
   useEffect(() => {
     recordSmocPageview('intro');
   }, []);
 
   useSetPageTitle(title);
   const { data, error, isLoading } = useSelector(selectAppointment);
+  const { pageIndex, setPageIndex } = useContext(SmocContext);
+  const onStart = e => {
+    e.preventDefault();
+    setPageIndex(pageIndex + 1);
+  };
 
   return (
     <div>
@@ -104,10 +109,6 @@ const IntroductionPage = ({ onStart }) => {
       </DowntimeWindowAlert>
     </div>
   );
-};
-
-IntroductionPage.propTypes = {
-  onStart: PropTypes.func,
 };
 
 export default IntroductionPage;
