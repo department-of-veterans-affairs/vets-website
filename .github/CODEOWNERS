@@ -250,8 +250,8 @@ src/applications/representative-search @department-of-veterans-affairs/accredite
 src/applications/income-and-asset-statement @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Ask VA
-src/applications/ask-va @department-of-veterans-affairs/ask-va-devs @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/ask-va @department-of-veterans-affairs/ask-va-devs @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/ask-va @department-of-veterans-affairs/ask-va-team @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/ask-va @department-of-veterans-affairs/ask-va-team @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Virtual Agent Chatbot
 src/applications/virtual-agent @department-of-veterans-affairs/vfs-virtual-agent-chatbot @department-of-veterans-affairs/va-platform-cop-frontend

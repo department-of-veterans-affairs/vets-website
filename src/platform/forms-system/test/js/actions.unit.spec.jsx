@@ -17,6 +17,8 @@ import {
   uploadFile,
   setFormErrors,
   SET_FORM_ERRORS,
+  setItf,
+  SET_ITF,
 } from '../../src/js/actions';
 
 describe('Schemaform actions:', () => {
@@ -972,6 +974,15 @@ describe('Schemaform actions:', () => {
       const action = setFormErrors(data);
       expect(action.data).to.equal(data);
       expect(action.type).to.equal(SET_FORM_ERRORS);
+    });
+  });
+
+  describe('setItf', () => {
+    it('should return action', () => {
+      const data = { test: 'foo' };
+      const action = setItf(data);
+      expect(action.data).to.equal(data);
+      expect(action.type).to.equal(SET_ITF);
     });
   });
 });
