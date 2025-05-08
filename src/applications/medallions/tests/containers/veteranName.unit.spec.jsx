@@ -9,7 +9,7 @@ const {
   uiSchema,
 } = formConfig.chapters.veteranInformation.pages.veteranName;
 
-const pageTitle = 'Vereran name';
+const pageTitle = 'Veteran name';
 
 const expectedNumberOfFields = 4;
 testNumberOfWebComponentFields(
