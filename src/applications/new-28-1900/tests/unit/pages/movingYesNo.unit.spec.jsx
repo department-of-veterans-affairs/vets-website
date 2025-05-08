@@ -6,7 +6,7 @@ describe('28‑1900 movingYesNo page', () => {
     expect(movingYesNo.uiSchema).to.have.property('movingYesNo');
   });
 
-  it('flags the moving question radio buttoms as required in the schema', () => {
+  it('flags the moving question radio buttons as required in the schema', () => {
     expect(movingYesNo.schema.required).to.deep.equal(['movingYesNo']);
   });
 });
