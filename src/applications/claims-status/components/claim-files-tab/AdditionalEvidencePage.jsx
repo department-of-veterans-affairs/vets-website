@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -45,143 +45,175 @@ const scrollToError = () => {
 
 const filesPath = `../files`;
 
-class AdditionalEvidencePage extends React.Component {
-  componentDidMount() {
-    this.props.resetUploads();
-    this.scrollToSection();
-  }
+const AdditionalEvidencePage = props => {
+  const prevMessage = useRef();
+  const prevLoading = useRef(props.loading);
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(props) {
-    if (props.uploadComplete) {
-      this.goToFilesPage();
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.message && !prevProps.message) {
-      scrollToError();
-    }
-    if (!this.props.loading && prevProps.loading) {
-      setPageFocus();
-    }
-    if (this.props.location.hash !== prevProps.location.hash) {
-      this.scrollToSection();
-    }
-  }
-
-  componentWillUnmount() {
-    if (!this.props.uploadComplete) {
-      this.props.clearAdditionalEvidenceNotification();
-    }
-  }
-
-  onSubmitFiles(claimId) {
-    // START lighthouse_migration
-    if (this.props.documentsUseLighthouse) {
-      this.props.submitFilesLighthouse(claimId, null, this.props.files);
-    } else {
-      this.props.submitFiles(claimId, null, this.props.files);
-    }
-    // END lighthouse_migration
-  }
-
-  scrollToSection = () => {
-    if (this.props.location.hash === '#add-files') {
+  const scrollToSection = () => {
+    if (props.location?.hash === '#add-files') {
       setPageFocus('h3#add-files');
     }
   };
 
-  goToFilesPage() {
-    this.props.getClaim(this.props.claim.id);
-    this.props.navigate(filesPath);
-  }
+  const goToFilesPage = () => {
+    props.getClaim(props.claim.id);
+    props.navigate(filesPath);
+  };
 
-  render() {
-    const { claim, lastPage } = this.props;
-
-    let content;
-
-    const isOpen = isClaimOpen(
-      claim.attributes.status,
-      claim.attributes.closeDate,
-    );
-
-    if (this.props.loading) {
-      content = (
-        <va-loading-indicator
-          set-focus
-          message="Loading your claim information..."
-        />
-      );
+  const onSubmitFiles = claimId => {
+    // START lighthouse_migration
+    if (props.documentsUseLighthouse) {
+      props.submitFilesLighthouse(claimId, null, props.files);
     } else {
-      const { message, filesNeeded } = this.props;
-
-      content = (
-        <div className="additional-evidence-container">
-          {message && (
-            <>
-              <Element name="uploadError" />
-              <Notification
-                title={message.title}
-                body={message.body}
-                type={message.type}
-              />
-            </>
-          )}
-          <h3 id="add-files" className="vads-u-margin-bottom--3">
-            Additional evidence
-          </h3>
-          {isOpen ? (
-            <>
-              {filesNeeded.map(item => (
-                <FilesNeeded
-                  key={item.id}
-                  id={claim.id}
-                  item={item}
-                  evidenceWaiverSubmitted5103={
-                    claim.attributes.evidenceWaiverSubmitted5103
-                  }
-                  previousPage="files"
-                />
-              ))}
-              {this.props.filesOptional.map(item => (
-                <FilesOptional key={item.id} id={claim.id} item={item} />
-              ))}
-              <AddFilesForm
-                field={this.props.uploadField}
-                progress={this.props.progress}
-                uploading={this.props.uploading}
-                files={this.props.files}
-                backUrl={lastPage ? `/${lastPage}` : filesPath}
-                onSubmit={() => {
-                  this.onSubmitFiles(claim.id);
-                }}
-                onAddFile={this.props.addFile}
-                onRemoveFile={this.props.removeFile}
-                onFieldChange={this.props.updateField}
-                onCancel={this.props.cancelUpload}
-                onDirtyFields={this.props.setFieldsDirty}
-              />
-            </>
-          ) : (
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-              The claim is closed so you can no longer submit any additional
-              evidence.
-            </p>
-          )}
-        </div>
-      );
+      props.submitFiles(claimId, null, props.files);
     }
+    // END lighthouse_migration
+  };
 
-    return (
-      <>
-        <div name="topScrollElement" />
-        {content}
-      </>
+  // componentDidMount
+  useEffect(
+    () => {
+      props.resetUploads();
+      scrollToSection();
+    },
+    [props.resetUploads],
+  );
+
+  // uploadComplete change
+  useEffect(
+    () => {
+      if (props.uploadComplete) {
+        goToFilesPage();
+      }
+    },
+    [props.uploadComplete],
+  );
+
+  // message change
+  useEffect(
+    () => {
+      if (props.message && !prevMessage.current) {
+        scrollToError();
+      }
+      prevMessage.current = props.message;
+    },
+    [props.message],
+  );
+
+  // loading change
+  useEffect(
+    () => {
+      if (!props.loading && prevLoading.current) {
+        setPageFocus();
+      }
+      prevLoading.current = props.loading;
+    },
+    [props.loading],
+  );
+
+  // location hash change
+  useEffect(
+    () => {
+      scrollToSection();
+    },
+    [props.location?.hash],
+  );
+
+  // componentWillUnmount
+  useEffect(
+    () => {
+      return () => {
+        if (!props.uploadComplete) {
+          props.clearAdditionalEvidenceNotification();
+        }
+      };
+    },
+    [props.uploadComplete, props.clearAdditionalEvidenceNotification],
+  );
+
+  const { claim, lastPage } = props;
+
+  let content;
+
+  const isOpen = isClaimOpen(
+    claim.attributes.status,
+    claim.attributes.closeDate,
+  );
+
+  if (props.loading) {
+    content = (
+      <va-loading-indicator
+        set-focus
+        message="Loading your claim information..."
+      />
+    );
+  } else {
+    const { message, filesNeeded } = props;
+
+    content = (
+      <div className="additional-evidence-container">
+        {message && (
+          <>
+            <Element name="uploadError" />
+            <Notification
+              title={message.title}
+              body={message.body}
+              type={message.type}
+            />
+          </>
+        )}
+        <h3 id="add-files" className="vads-u-margin-bottom--3">
+          Additional evidence
+        </h3>
+        {isOpen ? (
+          <>
+            {filesNeeded.map(item => (
+              <FilesNeeded
+                key={item.id}
+                id={claim.id}
+                item={item}
+                evidenceWaiverSubmitted5103={
+                  claim.attributes.evidenceWaiverSubmitted5103
+                }
+                previousPage="files"
+              />
+            ))}
+            {props.filesOptional.map(item => (
+              <FilesOptional key={item.id} id={claim.id} item={item} />
+            ))}
+            <AddFilesForm
+              field={props.uploadField}
+              progress={props.progress}
+              uploading={props.uploading}
+              files={props.files}
+              backUrl={lastPage ? `/${lastPage}` : filesPath}
+              onSubmit={() => {
+                onSubmitFiles(claim.id);
+              }}
+              onAddFile={props.addFile}
+              onRemoveFile={props.removeFile}
+              onFieldChange={props.updateField}
+              onCancel={props.cancelUpload}
+              onDirtyFields={props.setFieldsDirty}
+            />
+          </>
+        ) : (
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+            The claim is closed so you can no longer submit any additional
+            evidence.
+          </p>
+        )}
+      </div>
     );
   }
-}
+
+  return (
+    <>
+      <div name="topScrollElement" />
+      {content}
+    </>
+  );
+};
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
