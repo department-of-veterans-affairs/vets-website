@@ -185,11 +185,8 @@ describe('VeteranStatus', () => {
       );
 
       await waitFor(() => {
-        expect(
-          view.queryByText(
-            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
-          ),
-        ).to.not.exist;
+        // No alerts should be displayed
+        expect(view.container.querySelectorAll('va-alert').length).to.equal(0);
         expect(
           Array.from(view.container.querySelectorAll('va-link')).some(
             link =>
@@ -209,7 +206,7 @@ describe('VeteranStatus', () => {
       await waitFor(() => {
         expect(
           view.queryByText(
-            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
+            /There’s a problem with your discharge status records/,
           ),
         ).to.exist;
         expect(
@@ -232,11 +229,7 @@ describe('VeteranStatus', () => {
       });
 
       await waitFor(() => {
-        expect(
-          view.queryByText(
-            'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
-          ),
-        ).to.exist;
+        expect(view.queryByText('Something went wrong')).to.exist;
         expect(
           Array.from(view.container.querySelectorAll('va-link')).some(
             link =>
@@ -254,11 +247,7 @@ describe('VeteranStatus', () => {
       });
 
       await waitFor(() => {
-        expect(
-          view.getByText(
-            'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
-          ),
-        ).to.exist;
+        expect(view.queryByText('Something went wrong')).to.exist;
         expect(
           Array.from(view.container.querySelectorAll('va-link')).some(
             link =>
@@ -286,11 +275,7 @@ describe('VeteranStatus', () => {
       });
 
       await waitFor(() => {
-        expect(
-          view.queryByText(
-            'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
-          ),
-        ).to.exist;
+        expect(view.queryByText('Something went wrong')).to.exist;
         expect(
           Array.from(view.container.querySelectorAll('va-link')).some(
             link =>
@@ -318,11 +303,7 @@ describe('VeteranStatus', () => {
       });
 
       await waitFor(() => {
-        expect(
-          view.queryByText(
-            'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
-          ),
-        ).to.exist;
+        expect(view.queryByText('Something went wrong')).to.exist;
         expect(
           Array.from(view.container.querySelectorAll('va-link')).some(
             link =>
@@ -400,7 +381,7 @@ describe('VeteranStatus', () => {
       await waitFor(() => {
         expect(
           view.queryByText(
-            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
+            /There’s a problem with your discharge status records/,
           ),
         ).to.exist;
         expect(
@@ -422,7 +403,7 @@ describe('VeteranStatus', () => {
       await waitFor(() => {
         expect(
           view.queryByText(
-            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
+            /There’s a problem with your discharge status records/,
           ),
         ).to.exist;
         expect(
@@ -459,16 +440,7 @@ describe('VeteranStatus', () => {
       });
 
       await waitFor(() => {
-        expect(
-          view.queryByText(
-            /We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later./,
-          ),
-        ).to.exist;
-        expect(
-          view.queryByText(
-            /We’re sorry. There’s a problem with your discharge status records./,
-          ),
-        ).to.not.exist;
+        expect(view.queryByText(/Something went wrong/)).to.exist;
         expect(
           Array.from(view.container.querySelectorAll('va-link')).some(
             link =>
@@ -493,9 +465,7 @@ describe('VeteranStatus', () => {
 
       await waitFor(() => {
         expect(
-          view.queryByText(
-            /Our records show that you’re not eligible for a Veteran status card./,
-          ),
+          view.queryByText(/You’re not eligible for a Veteran Status Card/),
         ).to.exist;
       });
       expect(

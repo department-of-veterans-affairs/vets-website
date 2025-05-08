@@ -155,7 +155,10 @@ const VeteranStatus = ({
     }
   };
 
+  const hasConfirmationData = !!(data && data.attributes);
+
   const userHasRequiredCardData = !!(
+    hasConfirmationData &&
     data?.attributes?.veteranStatus === 'confirmed' &&
     serviceHistory.length &&
     formattedFullName
@@ -178,7 +181,12 @@ const VeteranStatus = ({
         </va-alert>
       );
     }
-    if (!formattedFullName || systemError || notConfirmedReason === 'ERROR') {
+    if (
+      !formattedFullName ||
+      !hasConfirmationData ||
+      systemError ||
+      notConfirmedReason === 'ERROR'
+    ) {
       return (
         <va-alert
           close-btn-aria-label="Close notification"
