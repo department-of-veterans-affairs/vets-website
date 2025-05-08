@@ -390,15 +390,6 @@ class PatientInboxPage {
     cy.realPress(['Enter']);
   };
 
-  loadLandingPageByTabbingAndEnterKey = () => {
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE +
-        Paths.FOLDERS}/0/messages?per_page=-1&useCache=false`,
-      mockFolders,
-    ).as('folders');
-  };
-
   selectAdvancedSearchCategoryCustomFolder = () => {
     cy.get(Locators.FIELDS.CATEGORY_DROPDOWN)
       .find('select')
