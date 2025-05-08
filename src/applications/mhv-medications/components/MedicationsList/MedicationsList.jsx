@@ -61,7 +61,8 @@ const MedicationsList = props => {
   const selectedFilterOption = useSelector(
     state => state.rx.preferences.filterOption,
   );
-  const selectedFilterDisplay = filterOptions[selectedFilterOption]?.label;
+  const selectedFilterDisplay =
+    filterOptions[selectedFilterOption]?.showingContentDisplayName;
 
   const filterAndSortContent = () => {
     const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;
