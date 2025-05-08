@@ -7,7 +7,7 @@ const AccreditedRepresentative = () => {
   const store = useStore();
 
   useEffect(() => {
-    repStatusLoader(store, 'representative-status', 3);
+    repStatusLoader(store, 'representative-status', 2);
   }, []);
 
   return (
