@@ -90,11 +90,11 @@ export const ProfileTabContainer = ({
   }
 
   if (id) {
-    renderHasRepresentative();
+    return renderHasRepresentative();
   }
 
   if (!error && !id) {
-    renderNoRepresentative();
+    return renderNoRepresentative();
   }
 
   return <UnknownRep DynamicHeader={DynamicHeader} />;
