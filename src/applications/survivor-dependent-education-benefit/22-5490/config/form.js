@@ -219,14 +219,24 @@ const formConfig = {
               'ui:title': 'Veteran or service member information',
               first: {
                 ...fullNameUI.first,
-                'ui:title': 'Veteran first name',
+                'ui:title': 'First name',
+                'ui:options': {
+                  updateSchema: (formData, schema) => {
+                    const flag = formData?.showMeb54901990eTextUpdate;
+
+                    return {
+                      ...schema,
+                      title: flag ? 'Veteran first name' : 'First name',
+                    };
+                  },
+                },
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
                       if (field.length > 20) {
                         errors.addError('Must be 20 characters or less');
                       }
-                    } else if (!isValidName(field)) {
+                    } else {
                       errors.addError(
                         'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
                       );
@@ -236,7 +246,17 @@ const formConfig = {
               },
               middle: {
                 ...fullNameUI.middle,
-                'ui:title': 'Veteran middle name',
+                'ui:title': 'middle name',
+                'ui:options': {
+                  updateSchema: (formData, schema) => {
+                    const flag = formData?.showMeb54901990eTextUpdate;
+
+                    return {
+                      ...schema,
+                      title: flag ? 'Veteran middle name' : 'Middle name',
+                    };
+                  },
+                },
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -253,7 +273,17 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
-                'ui:title': 'Veteran last name',
+                'ui:title': 'last name',
+                'ui:options': {
+                  updateSchema: (formData, schema) => {
+                    const flag = formData?.showMeb54901990eTextUpdate;
+
+                    return {
+                      ...schema,
+                      title: flag ? 'Veteran last name' : 'Last name',
+                    };
+                  },
+                },
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidLastName(field)) {
@@ -273,11 +303,33 @@ const formConfig = {
             },
             dateOfBirth: {
               ...currentOrPastDateUI('Date of birth'),
-              'ui:title': 'Veteran date of birth',
+              'ui:title': 'Date of birth',
+              'ui:options': {
+                updateSchema: (formData, schema) => {
+                  const flag = formData?.showMeb54901990eTextUpdate;
+
+                  return {
+                    ...schema,
+                    title: flag ? 'Veteran date of birth' : 'Date of birth',
+                  };
+                },
+              },
             },
             ssn: {
               ...ssnUI,
-              'ui:title': 'Veteran social security number',
+              'ui:title': 'Social security number',
+              'ui:options': {
+                updateSchema: (formData, schema) => {
+                  const flag = formData?.showMeb54901990eTextUpdate;
+
+                  return {
+                    ...schema,
+                    title: flag
+                      ? 'Veteran social security number'
+                      : 'Social security number',
+                  };
+                },
+              },
               'ui:reviewField': ObfuscateReviewField,
             },
             'view:incorrectFormWarning': {
@@ -323,7 +375,7 @@ const formConfig = {
                     <h3>Choose the benefit you’d like to apply for:</h3>
                     <p>
                       <strong>Note:</strong> If you are eligible for both the
-                      Fry Scholarship and Survivors’ and Dependents’ Educational
+                      Fry Scholarship and Survivors' and Dependents' Educational
                       Assistance benefits, you’ll need to choose which one to
                       use. Once you make this choice, you can’t switch to the
                       other program.
@@ -460,7 +512,7 @@ const formConfig = {
                 labels: {
                   fry: 'Fry Scholarship (Chapter 33)',
                   dea:
-                    'Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35)',
+                    "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
                 },
                 widgetProps: {
                   fry: { 'data-info': 'fry' },
