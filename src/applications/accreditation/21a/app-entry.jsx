@@ -6,7 +6,7 @@ import { Router, useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
 
 import startReactApp from '@department-of-veterans-affairs/platform-startup/react';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
+import { connectFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 import './sass/21a.scss';
 

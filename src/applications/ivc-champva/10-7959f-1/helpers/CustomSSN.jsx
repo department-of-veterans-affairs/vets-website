@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { validateSSN } from 'platform/forms-system/src/js/validation';
-import SSNReviewWidget from 'platform/forms-system/src/js/review/SSNWidget';
-import get from 'platform/utilities/data/get';
-import { vaFileNumberUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { validateSSN } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import SSNReviewWidget from '@department-of-veterans-affairs/platform-forms-system/SSNWidget';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+import { vaFileNumberUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import HandlePrefilledSSN, { maskSSN } from '../../shared/components/maskSSN';
 
 const SSN_DEFAULT_TITLE = 'Social Security number';

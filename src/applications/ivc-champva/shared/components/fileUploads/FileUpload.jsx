@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import MissingFileOverview, { hasReq } from './MissingFileOverview';
 

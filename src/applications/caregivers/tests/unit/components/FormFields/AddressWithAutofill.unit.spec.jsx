@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
-import { inputVaTextInput } from 'platform/testing/unit/helpers';
+import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { FULL_SCHEMA } from '../../../../utils/imports';
 import { addressWithAutofillSchema } from '../../../../definitions/sharedSchema';
 import AddressWithAutofill from '../../../../components/FormFields/AddressWithAutofill';

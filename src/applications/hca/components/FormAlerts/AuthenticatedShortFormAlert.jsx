@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 const AuthenticatedShortFormAlert = () => {
   // use logging to compare number of short forms started vs completed

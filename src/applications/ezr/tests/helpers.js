@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 
 // simulate v1 forms library input change
 export const simulateInputChange = (formDOM, querySelectorElement, value) => {

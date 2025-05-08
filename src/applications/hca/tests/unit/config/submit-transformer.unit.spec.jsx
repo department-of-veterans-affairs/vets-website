@@ -3,7 +3,7 @@ import { omit } from 'lodash';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
-import * as recordEventModule from 'platform/monitoring/record-event';
+import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import formConfig from '../../../config/form';
 import { submitTransformer } from '../../../config/submit-transformer';
 import maximumTest from '../../e2e/fixtures/data/maximal-test.json';

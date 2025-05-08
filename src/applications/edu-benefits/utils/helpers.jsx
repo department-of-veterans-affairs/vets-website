@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import { hasSession } from 'platform/user/profile/utilities';
-import { dateFieldToDate } from 'platform/utilities/date';
-import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
+import { hasSession } from '@department-of-veterans-affairs/platform-user/profile/utilities';
+import { dateFieldToDate } from '@department-of-veterans-affairs/platform-utilities/date';
+import { waitForShadowRoot } from '@department-of-veterans-affairs/platform-utilities/ui/webComponents';
 import { format, isBefore, isValid, parse } from 'date-fns';
 
 export function getLabel(options, value) {

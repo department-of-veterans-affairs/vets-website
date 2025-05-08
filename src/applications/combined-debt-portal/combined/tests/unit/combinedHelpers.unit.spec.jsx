@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { addMonths, subMonths } from 'date-fns';
-import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import { getMedicalCenterNameByID } from '@department-of-veterans-affairs/platform-utilities/medical-centers';
 import {
   APP_TYPES,
   ALERT_TYPES,

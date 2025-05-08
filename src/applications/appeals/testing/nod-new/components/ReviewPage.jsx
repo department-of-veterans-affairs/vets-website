@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 
 import { setupPages } from '../utils/taskListPages';
 

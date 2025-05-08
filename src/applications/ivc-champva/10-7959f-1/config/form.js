@@ -1,5 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { cloneDeep } from 'lodash';
 import merge from 'lodash/merge';
 
@@ -19,7 +19,7 @@ import {
   phoneSchema,
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import SubmissionError from '../../shared/components/SubmissionError';

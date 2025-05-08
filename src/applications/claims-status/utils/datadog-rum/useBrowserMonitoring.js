@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { datadogLogs } from '@datadog/browser-logs';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import { initializeRealUserMonitoring } from './initializeRealUserMonitoring';
 
 // https://docs.datadoghq.com/logs/log_collection/javascript/?tab=us#configuration

@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 
 import { VeteranBenefitSummaryLetter } from '../../containers/VeteranBenefitSummaryLetter';
 

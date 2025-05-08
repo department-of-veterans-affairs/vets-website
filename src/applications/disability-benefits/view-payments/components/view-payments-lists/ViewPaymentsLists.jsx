@@ -3,7 +3,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
+import { isLOA3 as isLOA3Selector } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import { getAllPayments } from '../../actions';
 import {

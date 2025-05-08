@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import moment from 'moment';
 
-import { requestStates } from 'platform/utilities/constants';
+import { requestStates } from '@department-of-veterans-affairs/platform-utilities/constants';
 import { itfStatuses } from '../constants';
 
 import {

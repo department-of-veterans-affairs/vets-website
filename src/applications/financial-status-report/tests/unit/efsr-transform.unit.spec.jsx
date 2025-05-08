@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { formatDateShort } from 'platform/utilities/date';
+import { formatDateShort } from '@department-of-veterans-affairs/platform-utilities/date';
 import { transform } from '../../utils/transform';
 // import inputObject from './unit-maximal.json';
 import inputObject from './efsr-unit-maximal.json';

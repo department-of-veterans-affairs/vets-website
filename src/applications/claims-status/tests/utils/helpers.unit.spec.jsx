@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import * as scroll from 'platform/utilities/ui/scroll';
+import * as scroll from '@department-of-veterans-affairs/platform-utilities/ui/scroll';
 import * as page from '../../utils/page';
 
 import {

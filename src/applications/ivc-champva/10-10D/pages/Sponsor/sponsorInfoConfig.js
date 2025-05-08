@@ -6,7 +6,7 @@ import {
   fullNameSchema,
   titleUI,
   titleSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import CustomPrefillMessage from '../../components/CustomPrefillAlert';
 import { sponsorWording } from '../../helpers/utilities';

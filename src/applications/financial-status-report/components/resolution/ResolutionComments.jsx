@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { VaTextarea } from '@department-of-veterans-affairs/web-components/react-bindings';
 import ButtonGroup from '../shared/ButtonGroup';
 

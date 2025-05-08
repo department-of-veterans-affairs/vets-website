@@ -4,8 +4,8 @@ import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import formConfig from '../../config/form';
 

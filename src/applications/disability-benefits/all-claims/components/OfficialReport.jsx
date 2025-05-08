@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { SchemaForm } from 'platform/forms-system/exportsFile';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { useEditOrAddForm } from 'platform/forms-system/src/js/patterns/array-builder';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
+import { useEditOrAddForm } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
 import ArrayBuilderCancelButton from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderCancelButton';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {

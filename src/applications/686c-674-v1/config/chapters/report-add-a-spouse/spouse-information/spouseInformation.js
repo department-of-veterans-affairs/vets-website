@@ -1,6 +1,6 @@
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import vaFileNumberUI from 'platform/forms-system/src/js/definitions/vaFileNumber';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
+import vaFileNumberUI from '@department-of-veterans-affairs/platform-forms-system/vaFileNumber';
 import { isChapterFieldRequired } from '../../../helpers';
 import { validateName, addSpouse } from '../../../utilities';
 

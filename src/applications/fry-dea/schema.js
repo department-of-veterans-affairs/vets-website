@@ -1,4 +1,4 @@
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 const { usaPhone } = commonDefinitions;

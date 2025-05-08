@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { usePrevious } from 'platform/utilities/react-hooks';
-import { apiRequest } from 'platform/utilities/api';
-import { focusElement } from 'platform/utilities/ui';
+import { usePrevious } from '@department-of-veterans-affairs/platform-utilities/react-hooks';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { STATES_USA, VaSelect } from '../../utils/imports';
 import { API_ENDPOINTS } from '../../utils/constants';
 import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';

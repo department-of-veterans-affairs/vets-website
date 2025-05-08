@@ -4,8 +4,8 @@ import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 
-import { uploadStore } from 'platform/forms-system/test/config/helpers';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { uploadStore } from '@department-of-veterans-affairs/platform-forms-system/test-helpers';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 
 import formConfig from '../../config/form';
 

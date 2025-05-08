@@ -1,6 +1,6 @@
 import React from 'react';
 
-import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
+import VaTextareaField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextareaField';
 
 import { content } from '../content/extensionReason';
 import { showExtensionReason } from '../../../10182/utils/helpers';

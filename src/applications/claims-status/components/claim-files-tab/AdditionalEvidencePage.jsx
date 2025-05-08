@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
-import { Element } from 'platform/utilities/scroll';
+import { Element } from '@department-of-veterans-affairs/platform-utilities/scroll';
 
 import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';

@@ -1,5 +1,5 @@
-import { recordEventOnce } from 'platform/monitoring/record-event';
-import get from 'platform/utilities/data/get';
+import { recordEventOnce } from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 import { HOMELESSNESS_TYPES } from './constants';
 
 const objectIsEmpty = (obj, path) =>

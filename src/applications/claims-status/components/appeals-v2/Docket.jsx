@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { flow, sortBy, toPairs } from 'lodash';
-import omit from 'platform/utilities/data/omit';
+import omit from '@department-of-veterans-affairs/platform-utilities/data/omit';
 
 import DocketCard from './DocketCard';
 import {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { mount } from 'enzyme';
 import { DeviceConnectionCard } from '../../components/DeviceConnectionCard';
 

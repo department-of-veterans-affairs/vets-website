@@ -2,8 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import fullName from 'platform/forms-system/src/js/definitions/fullName';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import fullName from '@department-of-veterans-affairs/platform-forms-system/definitions/fullName';
 import ContactInformationPage from '../../../../form/contactInformation/contactInformationPage';
 import formConfig from '../../../../form/form';
 

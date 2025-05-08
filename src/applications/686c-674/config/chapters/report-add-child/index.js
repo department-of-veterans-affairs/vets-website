@@ -1,5 +1,5 @@
-import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
+import { arrayBuilderPages } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
+import { getUrlPathIndex } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { isChapterFieldRequired } from '../../helpers';
 import { TASK_KEYS } from '../../constants';
 import { intro } from './intro';

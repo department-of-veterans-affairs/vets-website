@@ -1,6 +1,6 @@
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { format } from 'date-fns-tz';
 
 export function replacer(key, value) {

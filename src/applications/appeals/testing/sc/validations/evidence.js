@@ -1,4 +1,4 @@
-import { isValidUSZipCode } from 'platform/forms/address';
+import { isValidUSZipCode } from '@department-of-veterans-affairs/platform-forms/address';
 
 import { errorMessages, REGEX_EMPTY_DATE } from '../constants';
 import { validateDate, validateYMDate } from './date';

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Outlet } from 'react-router-dom-v5-compat';
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-user/selectors';
 

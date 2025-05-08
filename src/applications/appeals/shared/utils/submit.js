@@ -1,4 +1,4 @@
-import countries from 'platform/user/profile/vap-svc/constants/countries.json';
+import countries from '@department-of-veterans-affairs/platform-user/countries.json';
 
 import { MAX_LENGTH, SELECTED, SUBMITTED_DISAGREEMENTS } from '../constants';
 import { fixDateFormat, replaceSubmittedData } from './replace';

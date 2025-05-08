@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
-import createCommonStore from 'platform/startup/store';
+import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import { Provider } from 'react-redux';
 import ConfirmEligibilityView from '../../containers/ConfirmEligibilityView';
 

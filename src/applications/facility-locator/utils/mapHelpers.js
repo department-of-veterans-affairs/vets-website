@@ -4,7 +4,7 @@ import {
   CountriesList,
   mapboxClient,
   isPostcode,
-} from 'platform/utilities/facilities-and-mapbox';
+} from '@department-of-veterans-affairs/platform-utilities/facilities-and-mapbox';
 
 const mbxClient = mbxGeo(mapboxClient);
 

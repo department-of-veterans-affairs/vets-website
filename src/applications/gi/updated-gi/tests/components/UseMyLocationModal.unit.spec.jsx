@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import configureStore from 'redux-mock-store';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import SearchByProgram from '../../containers/SearchByProgram';

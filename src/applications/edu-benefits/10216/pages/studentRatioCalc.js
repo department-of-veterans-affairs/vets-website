@@ -6,7 +6,7 @@ import {
   titleUI,
   numberSchema,
   numberUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import PercentageCalc from '../components/PercentageCalc';
 import CustomReviewField from '../ReviewPage/CustomReviewField';
 import { isDateThirtyDaysOld, isValidStudentRatio } from '../utilities';

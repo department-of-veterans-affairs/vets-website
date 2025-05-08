@@ -1,5 +1,5 @@
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import environment from 'platform/utilities/environment';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { TASK_KEYS } from '../../../constants';
 import {
   isChapterFieldRequired,

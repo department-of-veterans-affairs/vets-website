@@ -8,8 +8,8 @@ import sinon from 'sinon';
 
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { SET_DATA } from 'platform/forms-system/src/js/actions';
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
+import { SET_DATA } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { mockApiRequest, resetFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import App from '../../containers/App';
 

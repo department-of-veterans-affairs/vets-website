@@ -1,6 +1,6 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms/definitions/address';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
+import * as address from '@department-of-veterans-affairs/platform-forms/definitions/address';
 import createContactInformationPage from '../../pages/contactInformation';
 
 const addressUiSchema = address.uiSchema('Your address');

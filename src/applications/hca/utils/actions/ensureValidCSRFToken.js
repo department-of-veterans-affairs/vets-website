@@ -1,5 +1,5 @@
-import recordEvent from 'platform/monitoring/record-event';
-import { apiRequest } from 'platform/utilities/api';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { API_ENDPOINTS } from '../constants';
 
 const fetchNewCSRFToken = async methodName => {

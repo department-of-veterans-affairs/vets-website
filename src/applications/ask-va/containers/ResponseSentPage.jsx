@@ -1,6 +1,6 @@
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import React, { useEffect, useRef } from 'react';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import BreadCrumbs from '../components/BreadCrumbs';
 import NeedHelpFooter from '../components/NeedHelpFooter';

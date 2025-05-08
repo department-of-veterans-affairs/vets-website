@@ -1,4 +1,4 @@
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 // https://dmitripavlutin.com/timeout-fetch-request/
 const fetchWithTimeout = async (resource, options = {}) => {

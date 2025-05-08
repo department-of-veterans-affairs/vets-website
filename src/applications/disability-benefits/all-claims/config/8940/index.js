@@ -1,4 +1,4 @@
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { SHOW_8940_4192 } from '../../constants';
 import {
   unemployabilityAdditionalInformation,

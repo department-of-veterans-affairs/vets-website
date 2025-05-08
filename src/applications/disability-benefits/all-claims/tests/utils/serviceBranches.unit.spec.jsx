@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
+import { mockApiRequest, resetFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import {
   processBranches,

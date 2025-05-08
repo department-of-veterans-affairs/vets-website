@@ -1,5 +1,5 @@
 import React from 'react';
-import * as api from 'platform/utilities/api';
+import * as api from '@department-of-veterans-affairs/platform-utilities/api';
 import { Provider } from 'react-redux';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';

@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
-import * as apiModule from 'platform/utilities/api';
-import * as environmentModule from 'platform/utilities/environment';
-import * as recordEventModule from 'platform/monitoring/record-event';
+import * as apiModule from '@department-of-veterans-affairs/platform-utilities/api';
+import * as environmentModule from '@department-of-veterans-affairs/platform-utilities/environment';
+import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import {
   DEBTS_FETCH_INITIATED,
   DEBTS_FETCH_SUCCESS,

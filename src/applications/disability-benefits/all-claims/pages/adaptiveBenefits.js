@@ -1,4 +1,4 @@
-import get from 'platform/utilities/data/get';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 import {
   benefitDescription,
   doubleAllowanceAlert,

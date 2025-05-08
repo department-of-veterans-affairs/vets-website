@@ -1,8 +1,8 @@
 import React from 'react';
 import pick from 'lodash/pick';
 
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
+import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
+import ServicePeriodView from '@department-of-veterans-affairs/platform-forms/ServicePeriodView';
 
 /**
  * Returns schema for toursOfDuty based on the property names passed to it.

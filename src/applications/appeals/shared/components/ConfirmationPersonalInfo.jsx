@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getPhoneString } from '~/platform/forms-system/src/js/utilities/data/profile';
+import { getPhoneString } from '@department-of-veterans-affairs/platform-forms-system/utilities/data/profile';
 
 import { renderFullName, maskVafn } from '../utils/data';
 import { getReadableDate } from '../utils/dates';

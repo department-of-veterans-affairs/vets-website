@@ -1,5 +1,5 @@
-import _ from 'platform/utilities/data';
-import { isValidPhone, isValidEmail } from 'platform/forms/validations';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
+import { isValidPhone, isValidEmail } from '@department-of-veterans-affairs/platform-forms/validations';
 import {
   MILITARY_CITY_CODES,
   MILITARY_STATE_CODES,

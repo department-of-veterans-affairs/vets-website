@@ -1,4 +1,4 @@
-import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import * as Sentry from '@sentry/browser';
 import {

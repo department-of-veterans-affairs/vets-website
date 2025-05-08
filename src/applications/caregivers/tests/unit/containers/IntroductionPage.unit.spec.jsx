@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon-v20';
-import * as recordEventModule from 'platform/monitoring/record-event';
+import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import IntroductionPage from '../../../containers/IntroductionPage';
 import formConfig from '../../../config/form';
 

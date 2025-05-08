@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
-import * as api from 'platform/utilities/api';
-import { setData } from 'platform/forms-system/src/js/actions';
+import * as api from '@department-of-veterans-affairs/platform-utilities/api';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import InstitutionName from '../../components/InstitutionName';
 
 const mockStore = configureStore([]);

@@ -4,10 +4,10 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import { uploadStore } from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from '@department-of-veterans-affairs/platform-forms-system/test-helpers';
 import {
   DefinitionTester, // selectCheckbox
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 

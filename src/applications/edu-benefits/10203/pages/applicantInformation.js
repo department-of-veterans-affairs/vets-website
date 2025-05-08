@@ -1,4 +1,4 @@
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
 import ApplicantDescription from '../content/ApplicantDescription';
 
 export const uiSchema = {

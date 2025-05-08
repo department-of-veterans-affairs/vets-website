@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import Sinon from 'sinon';
 import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import * as behaviorSummaryPage from '../../../pages/form0781/behaviorSummaryPage';
 
 describe('Behavior Summary Page', () => {

@@ -1,5 +1,5 @@
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 export const FETCH_POST_911_GI_BILL_ELIGIBILITY =
   'FETCH_POST_911_GI_BILL_ELIGIBILITY';

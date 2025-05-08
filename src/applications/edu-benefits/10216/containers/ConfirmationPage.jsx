@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
+import { ConfirmationView } from '@department-of-veterans-affairs/platform-forms-system/ConfirmationView';
 import Alert from '../components/Alert';
 import GetFormHelp from '../components/GetFormHelp';
 import ProcessList from '../components/ProcessList';

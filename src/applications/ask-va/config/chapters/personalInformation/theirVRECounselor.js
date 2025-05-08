@@ -2,7 +2,7 @@ import {
   textSchema,
   textUI,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { CHAPTER_3 } from '../../../constants';
 
 const theirVRECounselorPage = {

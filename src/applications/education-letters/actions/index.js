@@ -1,5 +1,5 @@
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 // export const MEB_CLAIM_STATUS_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_status`;
 // export const TOE_CLAIM_STATUS_ENDPOINT = `${environment.API_URL}/meb_api/v0/forms_claim_status`;

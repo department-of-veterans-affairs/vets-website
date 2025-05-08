@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { DevicesToConnectSection } from './DevicesToConnectSection';
 import { ConnectedDevicesSection } from './ConnectedDevicesSection';
 import { FETCH_CONNECTED_DEVICES } from '../actions/api';

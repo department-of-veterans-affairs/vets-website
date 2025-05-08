@@ -6,7 +6,7 @@ import {
   radioSchema,
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { nameWording } from '../../shared/utilities';

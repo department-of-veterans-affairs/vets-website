@@ -5,7 +5,7 @@ import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID'
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACT_INFO_PATH, REVIEW_CONTACT } from '../../constants';
 import { setReturnState } from '../../utils/contactInformation';
 

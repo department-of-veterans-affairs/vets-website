@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
+import { setSubmission as setSubmissionAction } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { VaSelect } from '@department-of-veterans-affairs/web-components/react-bindings';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';

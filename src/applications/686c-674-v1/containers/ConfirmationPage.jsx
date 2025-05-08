@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import GetFormHelp from '../components/GetFormHelp';
 
 import manifest from '../manifest.json';

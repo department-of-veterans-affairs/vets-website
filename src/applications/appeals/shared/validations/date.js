@@ -1,6 +1,6 @@
 import { isValid, isToday, isAfter, startOfToday } from 'date-fns';
 
-import { parseISODate } from '~/platform/forms-system/src/js/helpers';
+import { parseISODate } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 
 import { FORMAT_YMD_DATE_FNS } from '../constants';
 import { parseDateToDateObj } from '../utils/dates';

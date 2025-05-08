@@ -8,9 +8,9 @@ import { createStore } from 'redux';
 import { fireEvent } from '@testing-library/dom';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { uploadStore } from '~/platform/forms-system/test/config/helpers';
+import { uploadStore } from '@department-of-veterans-affairs/platform-forms-system/test-helpers';
 
-import { fileTypeSignatures } from 'platform/forms-system/src/js/utilities/file';
+import { fileTypeSignatures } from '@department-of-veterans-affairs/platform-forms-system/utilities/file';
 import { AdditionalEvidencePage } from '../../../components/claim-files-tab/AdditionalEvidencePage';
 import { renderWithRouter } from '../../utils';
 

@@ -7,7 +7,7 @@ import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form.js';
 
 describe('526 All Claims Private medical records', () => {

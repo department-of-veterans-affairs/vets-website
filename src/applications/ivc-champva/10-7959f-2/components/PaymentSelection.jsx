@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { radioUI } from 'platform/forms-system/src/js/web-component-patterns/radioPattern';
+import { radioUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns/radioPattern';
 
 const PaymentSelectionUI = () => {
   return radioUI({

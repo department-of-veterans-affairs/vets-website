@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
-import { inputVaTextInput } from 'platform/testing/unit/helpers';
+import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
 import PreSubmitInfo from '../../../../components/PreSubmitInfo';
 
 describe('CG <PreSubmitCheckboxGroup>', () => {

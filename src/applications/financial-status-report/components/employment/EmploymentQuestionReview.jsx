@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import ReviewPageHeader from '../shared/ReviewPageHeader';
 
 const formatTrueFalse = value => {

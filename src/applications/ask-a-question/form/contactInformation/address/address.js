@@ -1,6 +1,6 @@
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
-import unset from 'platform/utilities/data/unset';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
+import unset from '@department-of-veterans-affairs/platform-utilities/data/unset';
 import { createSelector } from 'reselect';
 
 import {
@@ -8,7 +8,7 @@ import {
   states,
   isValidUSZipCode,
   isValidCanPostalCode,
-} from 'platform/forms/address';
+} from '@department-of-veterans-affairs/platform-forms/address';
 
 import {
   canadaStateTitle,

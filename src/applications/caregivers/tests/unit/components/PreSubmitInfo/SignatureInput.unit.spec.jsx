@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
-import { inputVaTextInput } from 'platform/testing/unit/helpers';
+import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
 import SignatureInput from '../../../../components/PreSubmitInfo/SignatureInput';
 import { replaceStrValues } from '../../../../utils/helpers';
 import content from '../../../../locales/en/content.json';

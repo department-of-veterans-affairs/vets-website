@@ -1,9 +1,9 @@
 import merge from 'lodash/merge';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
-} from 'platform/forms/definitions/address';
+} from '@department-of-veterans-affairs/platform-forms/definitions/address';
 import { FULL_SCHEMA } from '../../../utils/imports';
 
 const { spouseAddress: address, spousePhone } = FULL_SCHEMA.properties;

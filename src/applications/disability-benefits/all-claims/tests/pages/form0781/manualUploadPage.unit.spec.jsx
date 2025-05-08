@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { uploadStore } from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from '@department-of-veterans-affairs/platform-forms-system/test-helpers';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { fireEvent, render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';

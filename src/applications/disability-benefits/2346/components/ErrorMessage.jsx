@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();

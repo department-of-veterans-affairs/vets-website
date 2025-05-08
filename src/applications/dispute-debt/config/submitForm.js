@@ -1,4 +1,4 @@
-import { submitToUrl } from 'platform/forms-system/src/js/actions';
+import { submitToUrl } from '@department-of-veterans-affairs/platform-forms-system/actions';
 
 export const buildEventData = formData => {
   const debtCount = formData?.selectedDebts?.length;

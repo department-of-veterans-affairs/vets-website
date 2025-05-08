@@ -1,7 +1,7 @@
-import set from 'platform/utilities/data/set';
-import environment from 'platform/utilities/environment';
-import * as address from 'platform/forms/definitions/address';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import * as address from '@department-of-veterans-affairs/platform-forms/definitions/address';
+import dateUI from '@department-of-veterans-affairs/platform-forms-system/date';
 
 export default function createOldSchoolPage(schema) {
   const { trainingEndDate, reasonForChange } = schema.properties;

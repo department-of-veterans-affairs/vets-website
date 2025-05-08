@@ -1,4 +1,4 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { FacilityLocatorDescription } from '../../../components/FormDescriptions';
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
 import { emptyObjectSchema } from '../../../definitions';

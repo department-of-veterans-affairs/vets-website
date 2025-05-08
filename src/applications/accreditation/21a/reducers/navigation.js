@@ -1,4 +1,4 @@
-import { TOGGLE_LOGIN_MODAL } from 'platform/site-wide/user-nav/actions';
+import { TOGGLE_LOGIN_MODAL } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
 /**
  * The `save-in-progress` module expects our redux store to have a

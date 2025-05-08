@@ -7,7 +7,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import {
   ConfirmationTitle,

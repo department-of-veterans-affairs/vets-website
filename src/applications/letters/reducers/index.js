@@ -1,6 +1,6 @@
 import vapService from '@@vap-svc/reducers';
 
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 import {
   benefitOptionsMap,
   optionsToAlwaysDisplay,

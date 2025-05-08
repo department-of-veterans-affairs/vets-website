@@ -1,9 +1,9 @@
 import {
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import {
   individualsDescription,

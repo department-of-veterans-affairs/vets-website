@@ -1,5 +1,5 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
-import get from '~/platform/utilities/data/get';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 
 export const schemaIsActiveDuty = {

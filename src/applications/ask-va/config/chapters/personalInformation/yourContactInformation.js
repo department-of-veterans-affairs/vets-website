@@ -1,5 +1,5 @@
 import { mapValues } from 'lodash';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
 import {
   emailSchema,
   emailUI,
@@ -9,7 +9,7 @@ import {
   internationalPhoneSchema,
   radioSchema,
   radioUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import PrefillAlertAndTitle from '../../../components/PrefillAlertAndTitle';
 import { CHAPTER_3, contactOptions } from '../../../constants';
 import { getContactMethods, isEqualToOnlyEmail } from '../../helpers';

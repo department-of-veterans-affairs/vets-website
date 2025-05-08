@@ -3,7 +3,7 @@ import {
   fullNameUI,
   ssnUI,
   dateOfBirthUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import PrefillMessage from '../../../components/PrefillMessage';
 import { generateTitle } from '../../../utils/helpers';
 

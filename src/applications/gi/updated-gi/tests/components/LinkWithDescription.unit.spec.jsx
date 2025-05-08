@@ -1,7 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import * as featureToggles from 'platform/utilities/feature-toggles';
+import * as featureToggles from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import { shallow } from 'enzyme';
 import LinkWithDescription from '../../components/LinkWithDescription';
 

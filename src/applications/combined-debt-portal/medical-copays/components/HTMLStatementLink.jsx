@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import recordEvent from '~/platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { formatDate } from '../../combined/utils/helpers';
 
 const HTMLStatementLink = ({ id, statementDate }) => {

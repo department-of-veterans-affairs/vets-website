@@ -2,7 +2,7 @@
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-import footerContent from 'platform/forms/components/FormFooter';
+import footerContent from '@department-of-veterans-affairs/platform-forms/FormFooter';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';

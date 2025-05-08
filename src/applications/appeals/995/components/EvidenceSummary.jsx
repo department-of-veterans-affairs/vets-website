@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { focusElement, scrollTo } from 'platform/utilities/ui';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { Element } from 'platform/utilities/scroll';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
+import { focusElement, scrollTo } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { Element } from '@department-of-veterans-affairs/platform-utilities/scroll';
 
 import {
   getVAEvidence,

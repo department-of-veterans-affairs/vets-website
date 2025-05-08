@@ -1,5 +1,5 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import environment from '~/platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 export const FETCH_USER = 'FETCH_USER';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';

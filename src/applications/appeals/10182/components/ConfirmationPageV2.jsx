@@ -6,7 +6,7 @@ import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollT
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { selectProfile } from '~/platform/user/selectors';
+import { selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import { boardReviewConfirmationLabels } from '../content/boardReview';
 import { hearingTypeLabels } from '../content/hearingType';

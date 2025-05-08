@@ -6,7 +6,7 @@ import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFoote
 
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
-import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
+import { externalServices as services } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 
 import submitFormFor from './submitForm';
 

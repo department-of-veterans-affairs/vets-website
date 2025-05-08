@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import EmploymentHistorySummaryCard from './EmploymentHistorySummaryCard';
 import { EmptyMiniSummaryCard } from '../shared/MiniSummaryCard';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import {
   clearJobIndex,
   setJobButton,

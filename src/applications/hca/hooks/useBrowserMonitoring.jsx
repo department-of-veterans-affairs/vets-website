@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
 import { datadogLogs } from '@datadog/browser-logs';
-import environment from 'platform/utilities/environment';
-import { isProfileLoading } from 'platform/user/selectors';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { isProfileLoading } from '@department-of-veterans-affairs/platform-user/selectors';
 import { selectFeatureToggles, selectRumUser } from '../utils/selectors';
 
 // declare shared config between Logs and RUM

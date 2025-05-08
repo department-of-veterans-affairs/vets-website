@@ -1,9 +1,9 @@
 import {
   titleUI,
   selectUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
-import { states } from 'platform/forms/address';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { createUSAStateLabels } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { states } from '@department-of-veterans-affairs/platform-forms/address';
 import {
   MED_CENTER_LABELS,
   MED_CENTERS_BY_STATE,

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
+import { srSubstitute } from '@department-of-veterans-affairs/platform-forms-system/mask-string';
 
 /**
  * Helper that visually-masks the Veteran's Social Security number and separates

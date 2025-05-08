@@ -1,7 +1,7 @@
-import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
+import { externalServices as services } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import FormFooter from 'platform/forms/components/FormFooter';
+import preSubmitInfo from '@department-of-veterans-affairs/platform-forms/preSubmitInfo';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
 
 import migrations from '../migrations';
 import prefillTransformer from './prefill-transformer';

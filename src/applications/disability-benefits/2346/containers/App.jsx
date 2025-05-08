@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';

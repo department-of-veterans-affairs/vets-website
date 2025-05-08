@@ -2,7 +2,7 @@ import fullSchema from 'vets-json-schema/dist/22-1995-schema.json';
 import {
   radioSchema,
   radioUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import React from 'react';
 import { benefitsLabelsUpdate } from '../../utils/labels';
 import { showRudisill1995 } from '../helpers';

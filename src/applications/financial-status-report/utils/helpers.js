@@ -1,7 +1,7 @@
 import { parse, addDays, format, isAfter, isFuture, isValid } from 'date-fns';
-import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
-import { formatDateLong } from 'platform/utilities/date';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/date';
 import { deductionCodes } from '../constants/deduction-codes';
 import { ignoreFields } from '../constants/ignoreFields';
 

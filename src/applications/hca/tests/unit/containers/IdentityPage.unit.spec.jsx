@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { HCA_ENROLLMENT_STATUSES } from '../../../utils/constants';
 import { simulateInputChange } from '../../helpers';
 import formConfig from '../../../config/form';

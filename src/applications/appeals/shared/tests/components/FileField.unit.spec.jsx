@@ -9,17 +9,17 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { uploadStore } from '~/platform/forms-system/test/config/helpers';
+import { uploadStore } from '@department-of-veterans-affairs/platform-forms-system/test-helpers';
 import {
   DefinitionTester,
   getFormDOM,
-} from '~/platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from '~/platform/forms-system/src/js/constants';
 import { fileTypeSignatures } from '~/platform/forms-system/src/js/utilities/file';
 import fileUploadUI, {
   fileSchema,
-} from '~/platform/forms-system/src/js/definitions/file';
+} from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
 import FileField from '../../components/FileField';
 
 import {

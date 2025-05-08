@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
-import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+import readableList from '@department-of-veterans-affairs/platform-forms-system/utilities/data/readableList';
 
 import { title4142WithId } from '../content/title';
 import { content } from '../content/evidenceSummary';

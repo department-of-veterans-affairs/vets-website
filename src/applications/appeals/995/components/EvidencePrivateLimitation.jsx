@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 
 import {
   EVIDENCE_LIMIT,

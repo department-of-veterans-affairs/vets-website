@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   fillData,
   fillDate,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form.js';
 import initialData from '../initialData.js';
 import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';

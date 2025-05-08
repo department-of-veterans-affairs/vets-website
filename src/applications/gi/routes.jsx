@@ -1,6 +1,6 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
 import React from 'react';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import GiBillApp from './containers/GiBillApp';
 import SearchPage from './containers/SearchPage';
 import ComparePage from './containers/ComparePage';

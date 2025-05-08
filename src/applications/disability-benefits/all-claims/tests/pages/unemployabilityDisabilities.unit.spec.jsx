@@ -6,8 +6,8 @@ import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import { commonReducer } from 'platform/startup/store';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { commonReducer } from '@department-of-veterans-affairs/platform-startup/store';
 
 import formConfig from '../../config/form.js';
 import initialData from '../initialData.js';

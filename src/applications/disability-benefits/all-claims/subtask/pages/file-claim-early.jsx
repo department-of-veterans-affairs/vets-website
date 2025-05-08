@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Link } from 'react-router';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 import pageNames from './pageNames';
 import { DISABILITY_526_V2_ROOT_URL } from '../../constants';

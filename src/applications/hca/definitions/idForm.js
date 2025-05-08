@@ -1,5 +1,5 @@
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
 
 // define ID form schema
 export const idFormSchema = {

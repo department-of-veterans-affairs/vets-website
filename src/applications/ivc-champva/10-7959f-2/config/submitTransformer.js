@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { formatDateShort } from 'platform/utilities/date';
+import { transformForSubmit as formsSystemTransformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { formatDateShort } from '@department-of-veterans-affairs/platform-utilities/date';
 import {
   concatStreets,
   getObjectsWithAttachmentId,

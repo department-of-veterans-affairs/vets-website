@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import { scrubDescription, buildDateFormatter } from '../../utils/helpers';
 import AddFilesForm from '../claim-files-tab/AddFilesForm';
 import DueDate from '../DueDate';

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { first, includes, last, split, toLower } from 'lodash';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { recordMarkerEvents } from './analytics';
 
 // https://stackoverflow.com/a/50171440/1000622

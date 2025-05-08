@@ -2,7 +2,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import {
   AUTH_PARAMS as USIP_QUERY_PARAMS,
   EXTERNAL_APPS as USIP_APPLICATIONS,
-} from 'platform/user/authentication/constants';
+} from '@department-of-veterans-affairs/platform-user/authentication/constants';
 
 import {
   API_SIGN_IN_SERVICE_URL as SIS_API_URL,

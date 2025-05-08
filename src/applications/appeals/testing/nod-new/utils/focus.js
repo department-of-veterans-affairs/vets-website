@@ -2,8 +2,8 @@ import {
   focusElement,
   waitForRenderThenFocus,
   scrollTo,
-} from 'platform/utilities/ui';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+} from '@department-of-veterans-affairs/platform-utilities/ui';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 export const scrollAndFocusTarget = () => {
   // May switch to topScrollElement (form ID at top), but using

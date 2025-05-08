@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import {
   mockFetch,
   setFetchJSONResponse as setFetchResponse,
-} from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import {
   conditionallyShowPrefillMessage,

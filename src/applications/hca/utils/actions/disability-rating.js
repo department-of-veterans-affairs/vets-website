@@ -1,4 +1,4 @@
-import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { API_ENDPOINTS, DISABILITY_RATING_ACTIONS } from '../constants';
 import { parseResponseErrors } from '../helpers';
 

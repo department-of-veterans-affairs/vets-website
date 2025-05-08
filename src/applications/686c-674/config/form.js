@@ -1,9 +1,9 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
-import environment from 'platform/utilities/environment';
-import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import FormFooter from 'platform/forms/components/FormFooter';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { arrayBuilderPages } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
 import IntroductionPage from '../containers/IntroductionPage';

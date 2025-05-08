@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import environment from 'platform/utilities/environment';
-import recordEvent from 'platform/monitoring/record-event';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/web-components/react-bindings';
 import {

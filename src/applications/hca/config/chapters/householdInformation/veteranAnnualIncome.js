@@ -1,4 +1,4 @@
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
 import { validateCurrency } from '../../../utils/validation';
 import { LAST_YEAR } from '../../../utils/helpers';
 import { FULL_SCHEMA } from '../../../utils/imports';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
-import recordEvent from 'platform/monitoring/record-event';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
+import EbenefitsLink from '@department-of-veterans-affairs/platform-site-wide/EbenefitsLink';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import PropTypes from 'prop-types';
 import LearnMoreLabel from './LearnMoreLabel';
 import Dropdown from './Dropdown';

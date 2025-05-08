@@ -1,10 +1,10 @@
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import moment from 'moment';
 import sortBy from 'lodash/sortBy';
 import head from 'lodash/head';
 import get from 'lodash/get';
-import localStorage from 'platform/utilities/storage/localStorage';
+import localStorage from '@department-of-veterans-affairs/platform-utilities/localStorage';
 import {
   MDOT_API_ERROR,
   MDOT_RESET_ERRORS,

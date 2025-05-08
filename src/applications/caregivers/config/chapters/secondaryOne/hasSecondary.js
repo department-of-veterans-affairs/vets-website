@@ -3,7 +3,7 @@ import {
   yesNoUI,
   yesNoSchema,
   descriptionUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { hasPrimaryCaregiver } from '../../../utils/helpers';
 import { validateCaregivers } from '../../../utils/validation';
 import { SecondayCaregiverOneIntro } from '../../../components/FormDescriptions/SecondayCaregiverIntros';

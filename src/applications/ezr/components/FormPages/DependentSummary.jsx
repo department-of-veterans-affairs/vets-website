@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import DependentDeclarationField from '../FormFields/DependentDeclarationField';
 import DependentDescription from '../FormDescriptions/DependentDescription';
 import DependentList from '../FormFields/DependentList';

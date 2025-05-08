@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { formatCurrency, isPresent, createId } from '../../utils/helpers';
 
 const DEFAULT_ROWS_VIEWABLE = 5;

@@ -1,6 +1,6 @@
 // import fullSchema from 'vets-json-schema/dist/21P-0969-schema.json';
-import environment from 'platform/utilities/environment';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
 import manifest from '../manifest.json';
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import VeteranInfoBox from './VeteranInfoBox';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
 const VeteranInformation = ({

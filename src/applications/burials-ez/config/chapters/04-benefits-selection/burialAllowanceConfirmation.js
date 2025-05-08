@@ -1,5 +1,5 @@
 import React from 'react';
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import VaCheckboxField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaCheckboxField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { generateTitle } from '../../../utils/helpers';
 

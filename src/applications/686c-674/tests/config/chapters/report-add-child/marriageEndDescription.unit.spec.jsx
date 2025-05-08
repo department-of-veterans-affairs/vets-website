@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import React from 'react';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();

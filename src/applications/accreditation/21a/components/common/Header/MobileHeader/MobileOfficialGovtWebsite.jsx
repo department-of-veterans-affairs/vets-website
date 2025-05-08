@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import recordEvent from '~/platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 export const MobileOfficialGovtWebsite = () => {
   const [expanded, setExpanded] = useState(false);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 

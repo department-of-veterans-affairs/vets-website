@@ -5,8 +5,8 @@ import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
 
-import createCommonStore, { commonReducer } from 'platform/startup/store';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import createCommonStore, { commonReducer } from '@department-of-veterans-affairs/platform-startup/store';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import reducers from '../reducers';
 

@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
+import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
+import confirmationEmailUI from '@department-of-veterans-affairs/platform-forms-system/confirmationEmail';
 import fullNameUI from './fullName/fullName';
 
 import fullSchema from '../0873-schema.json';

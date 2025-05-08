@@ -4,11 +4,11 @@ import sinon from 'sinon';
 import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
-import { uploadStore } from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from '@department-of-veterans-affairs/platform-forms-system/test-helpers';
 import {
   DefinitionTester, // selectCheckbox
-} from 'platform/testing/unit/schemaform-utils';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import formConfig from '../../config/form';
 import { EVIDENCE_OTHER } from '../../constants';

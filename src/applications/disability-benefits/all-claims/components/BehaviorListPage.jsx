@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import cloneDeep from '@department-of-veterans-affairs/platform-utilities/data/cloneDeep';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import {
   VaCheckboxGroup,
   VaModal,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { scrollToFirstError, scrollAndFocus } from 'platform/utilities/ui';
+import { scrollToFirstError, scrollAndFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   behaviorListDescription,

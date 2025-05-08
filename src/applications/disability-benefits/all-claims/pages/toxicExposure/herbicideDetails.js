@@ -1,6 +1,6 @@
 import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import { currentOrPastDateUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import VaCheckboxField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaCheckboxField';
 import {
   dateRangeAdditionalInfo,
   detailsPageBegin,

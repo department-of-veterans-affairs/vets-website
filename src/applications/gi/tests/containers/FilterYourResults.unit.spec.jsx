@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { waitFor, fireEvent } from '@testing-library/react';
-// import environment from 'platform/utilities/environment';
+// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { mockConstants, renderWithStoreAndRouter } from '../helpers';
 import FilterYourResults from '../../containers/FilterYourResults';
 // import { isProductionOrTestProdEnv } from '../../utils/helpers';

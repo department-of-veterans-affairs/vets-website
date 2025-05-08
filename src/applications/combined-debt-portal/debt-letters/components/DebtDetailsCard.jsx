@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // import { deductionCodes } from '../const/deduction-codes';
 // import { setActiveDebt } from '../../combined/actions/debts';
 import { format, isValid } from 'date-fns';
-import recordEvent from '~/platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardContent';
 import { currency } from '../utils/page';
 

@@ -9,8 +9,8 @@ import {
   phoneUI,
   emailSchema,
   emailUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import { populateFirstApplicant } from '../helpers/utilities';
 import {
   certifierPhoneValidation,

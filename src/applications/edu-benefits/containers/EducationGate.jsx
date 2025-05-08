@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
-import backendServices from 'platform/user/profile/constants/backendServices';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 
 export function EducationGate({ user, location, children }) {
   // Short-circuit the check on the intro page

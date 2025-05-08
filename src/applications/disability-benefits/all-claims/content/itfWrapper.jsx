@@ -3,7 +3,7 @@ import moment from 'moment';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { recordEventOnce } from 'platform/monitoring/record-event';
+import { recordEventOnce } from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
 const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';

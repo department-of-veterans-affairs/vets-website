@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 

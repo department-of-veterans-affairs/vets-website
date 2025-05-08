@@ -3,7 +3,7 @@ import {
   descriptionUI,
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import SpouseInfoDescription from '../../../components/FormDescriptions/SpouseInfoDescription';
 import { replaceStrValues } from '../../../utils/helpers/general';
 import { LAST_YEAR } from '../../../utils/constants';

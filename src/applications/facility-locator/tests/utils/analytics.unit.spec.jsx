@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
-import * as recordEvent from 'platform/monitoring/record-event';
+import * as recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import {
   recordMarkerEvents,
   recordPanEvent,

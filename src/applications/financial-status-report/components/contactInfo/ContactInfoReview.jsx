@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import { focusElement } from 'platform/utilities/ui';
-import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
-import { Element } from 'platform/utilities/scroll';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { ADDRESS_TYPES } from '@department-of-veterans-affairs/platform-forms/address/helpers';
+import { Element } from '@department-of-veterans-affairs/platform-utilities/scroll';
 
 import { getFormattedPhone } from '../../utils/contactInformation';
 import { content } from '../../pages/veteran/contactInformationContent';

@@ -1,4 +1,4 @@
-import _ from 'platform/utilities/data';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 
 import { eligiblePrograms, checkBenefit } from '../content/stemEligibility';

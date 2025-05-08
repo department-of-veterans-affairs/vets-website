@@ -3,7 +3,7 @@ import {
   isLOA3,
   isLoggedIn,
   isProfileLoading,
-} from 'platform/user/selectors';
+} from '@department-of-veterans-affairs/platform-user/selectors';
 
 /**
  * Map state values to create selector for user authentication properties

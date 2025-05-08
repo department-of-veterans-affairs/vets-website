@@ -2,7 +2,7 @@ import {
   API_ROUTES,
   FIELD_TITLES,
   FIELD_NAMES,
-} from 'platform/user/profile/vap-svc/constants';
+} from '@department-of-veterans-affairs/platform-user/vap-svc/constants';
 
 import {
   getFormSchema as addressFormSchema,
@@ -12,7 +12,7 @@ import {
   emailConvertCleanDataToPayload,
   emailUiSchema,
   emailFormSchema,
-} from 'platform/user/profile/vap-svc/util/contact-information/emailUtils';
+} from '@department-of-veterans-affairs/platform-user/vap-svc/emailUtils';
 import { addressConvertCleanDataToPayload } from 'platform/user/profile/vap-svc/util/contact-information/addressUtils';
 import {
   personalInformationFormSchemas,

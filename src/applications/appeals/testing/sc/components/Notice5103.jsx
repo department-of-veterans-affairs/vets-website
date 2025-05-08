@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollToFirstError } from 'platform/utilities/ui';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
+import { scrollToFirstError } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { Notice5103Description, content } from '../content/notice5103';
 

@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
-import * as api from 'platform/utilities/api';
-import * as recordEventModule from 'platform/monitoring/record-event';
+import * as api from '@department-of-veterans-affairs/platform-utilities/api';
+import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { ensureValidCSRFToken } from '../../../../utils/actions/ensureValidCSRFToken';
 import { API_ENDPOINTS } from '../../../../utils/constants';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { selectUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { selectUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import {
   characterOfDischargeTypes,
   characterOfDischargeTypeLabels,

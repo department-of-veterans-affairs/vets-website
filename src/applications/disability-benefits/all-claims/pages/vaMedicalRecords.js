@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
-import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
-import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+import VaCheckboxGroupField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaCheckboxGroupField';
+import { yesNoUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { treatmentView } from '../content/vaMedicalRecords';
 import { hasVAEvidence } from '../utils';
 import { makeSchemaForAllDisabilities } from '../utils/schemas';

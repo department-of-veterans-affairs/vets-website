@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { displayFileSize } from 'platform/utilities/ui';
+import { displayFileSize } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { additionalInfoUploadUI } from '../utils/additionalInfoUpload';
 

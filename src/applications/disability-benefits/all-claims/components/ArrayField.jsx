@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 import classNames from 'classnames';
 
 import {
@@ -8,17 +8,17 @@ import {
   getDefaultFormState,
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import { getScrollOptions, isReactComponent } from 'platform/utilities/ui';
-import { Element } from 'platform/utilities/scroll';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import { getScrollOptions, isReactComponent } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { Element } from '@department-of-veterans-affairs/platform-utilities/scroll';
 
 import {
   scrollToFirstError,
   focusElement,
-} from 'platform/forms-system/src/js/utilities/ui';
-import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
-import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
-import findDuplicateIndexes from 'platform/forms-system/src/js/utilities/data/findDuplicateIndexes';
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { setArrayRecordTouched } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { errorSchemaIsValid } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import findDuplicateIndexes from '@department-of-veterans-affairs/platform-forms-system/utilities/data/findDuplicateIndexes';
 
 import { NULL_CONDITION_STRING } from '../constants';
 

@@ -9,12 +9,12 @@ import { combineReducers, createStore } from 'redux';
 
 import {
   DefinitionTester, // selectCheckbox
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
   STATE_VALUES,
   MILITARY_STATE_VALUES,
 } from 'applications/disability-benefits/all-claims/constants';
-import { commonReducer } from 'platform/startup/store';
+import { commonReducer } from '@department-of-veterans-affairs/platform-startup/store';
 import formConfig from '../../config/form.js';
 import reducers from '../../reducers';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import PrefillMessage from '@department-of-veterans-affairs/platform-forms/save-in-progress/PrefillMessage';
 
 const ApplicantDescription = ({ formContext }) => (
   <div>

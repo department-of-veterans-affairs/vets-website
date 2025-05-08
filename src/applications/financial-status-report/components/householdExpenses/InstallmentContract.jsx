@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import {
   VaTextInput,
   VaDate,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { parseISODate } from 'platform/forms-system/src/js/helpers';
+import { parseISODate } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { isValidCurrency } from '../../utils/validations';
 import ContractsExplainer from './ContractsExplainer';
 import ButtonGroup from '../shared/ButtonGroup';

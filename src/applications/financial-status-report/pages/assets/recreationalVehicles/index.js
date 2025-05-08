@@ -2,7 +2,7 @@ import React from 'react';
 import {
   yesNoSchema,
   yesNoUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 export const title = 'Do you own any trailers, campers, or boats?';
 export const uiSchema = {

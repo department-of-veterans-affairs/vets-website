@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { requestStates } from 'platform/utilities/constants';
+import { requestStates } from '@department-of-veterans-affairs/platform-utilities/constants';
 import ITFBanner from '../components/ITFBanner';
 import { isActiveITF } from '../utils';
 import { itfStatuses } from '../constants';

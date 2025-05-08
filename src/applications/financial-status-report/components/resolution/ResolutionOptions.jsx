@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import {
   VaRadio,
   VaRadioOption,

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 import DetailCopayPage from './DetailCopayPage';
 import DetailPage from './DetailPage';

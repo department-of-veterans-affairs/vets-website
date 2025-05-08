@@ -1,10 +1,10 @@
 import React from 'react';
-import { validateCurrentOrPastMemorableDate } from 'platform/forms-system/src/js/validation.js';
+import { validateCurrentOrPastMemorableDate } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
   titleUI,
   dateOfDeathUI,
   dateOfDeathSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { CHAPTER_3 } from '../../../constants';
 
 const deathDatePage = {

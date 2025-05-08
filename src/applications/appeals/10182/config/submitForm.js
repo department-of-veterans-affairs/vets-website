@@ -1,5 +1,5 @@
-import { submitToUrl } from 'platform/forms-system/src/js/actions';
-import environment from 'platform/utilities/environment';
+import { submitToUrl } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 // Analytics event
 export const buildEventData = () => {};

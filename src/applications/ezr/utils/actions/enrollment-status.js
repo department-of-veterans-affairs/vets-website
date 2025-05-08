@@ -1,4 +1,4 @@
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { selectEnrollmentStatus } from '../selectors/entrollment-status';
 import { ENROLLMENT_STATUS_ACTIONS } from '../constants';
 import { callAPI, callFakeSuccess } from '../helpers/enrollment-status';

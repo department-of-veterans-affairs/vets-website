@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
-import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
 import { getRemainingEntitlement } from '../actions/post-911-gib-status';
 
 export class IntroductionPage extends React.Component {

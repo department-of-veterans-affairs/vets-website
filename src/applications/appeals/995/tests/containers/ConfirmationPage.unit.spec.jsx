@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 
-import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import formConfig from '../../config/form';
 

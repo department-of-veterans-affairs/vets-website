@@ -1,6 +1,6 @@
 import appendQuery from 'append-query';
 
-import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { api, apiV0 } from '../config';
 

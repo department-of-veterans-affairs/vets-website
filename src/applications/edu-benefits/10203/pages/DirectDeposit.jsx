@@ -1,4 +1,4 @@
-import { isValidRoutingNumber } from 'platform/forms/validations';
+import { isValidRoutingNumber } from '@department-of-veterans-affairs/platform-forms/validations';
 import merge from 'lodash/merge';
 import DirectDepositDescription from '../components/ShowDirectDepositDropdown';
 

@@ -1,9 +1,9 @@
 import {
   titleUI,
   descriptionUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import environment from 'platform/utilities/environment';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   ALLOWED_FILE_TYPES,
   API_ENDPOINTS,

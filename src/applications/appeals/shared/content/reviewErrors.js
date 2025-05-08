@@ -1,4 +1,4 @@
-import { profileReviewErrorOverride } from 'platform/forms-system/src/js/definitions/profileContactInfo';
+import { profileReviewErrorOverride } from '@department-of-veterans-affairs/platform-forms-system/profileContactInfo';
 import { errorMessages } from './areaOfDisagreement';
 
 const isNumberString = /^\d+$/;

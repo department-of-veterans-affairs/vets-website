@@ -1,4 +1,4 @@
-import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { transformForSubmit as formsSystemTransformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { FILE_UPLOAD_ORDER } from './constants';
 import {
   adjustYearString,

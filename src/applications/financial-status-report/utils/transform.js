@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/browser';
-import { formatDateShort } from 'platform/utilities/date';
+import { formatDateShort } from '@department-of-veterans-affairs/platform-utilities/date';
 import { isValid } from 'date-fns';
 import {
   isStreamlinedShortForm,

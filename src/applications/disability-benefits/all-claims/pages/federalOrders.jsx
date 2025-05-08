@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import dateUI from 'platform/forms-system/src/js/definitions/date';
-import { validateDate } from 'platform/forms-system/src/js/validation';
+import { validateDate } from '@department-of-veterans-affairs/platform-forms-system/validation';
 
 import { title10DatesRequired } from '../utils';
 import {

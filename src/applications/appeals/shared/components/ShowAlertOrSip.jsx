@@ -2,10 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { isLoggedIn, selectProfile } from 'platform/user/selectors';
-import environment from 'platform/utilities/environment';
-import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
+import { isLoggedIn, selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import readableList from '@department-of-veterans-affairs/platform-forms-system/utilities/data/readableList';
 
 import NeedsToVerifyAlert from './NeedsToVerifyAlert';
 import NeedsMissingInfoAlert from './NeedsMissingInfoAlert';

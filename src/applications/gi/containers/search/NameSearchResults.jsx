@@ -6,9 +6,9 @@ import {
   VaLoadingIndicator,
   VaPagination,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { fetchSearchByNameResults } from '../../actions/index';
 import ResultCard from './ResultCard';
 import FilterYourResults from '../FilterYourResults';

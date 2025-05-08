@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { focusElement } from 'platform/utilities/ui';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 

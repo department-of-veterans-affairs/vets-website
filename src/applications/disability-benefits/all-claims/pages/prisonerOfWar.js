@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import VaCheckboxGroupField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaCheckboxGroupField';
+import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
 import PeriodOfConfinement from '../components/PeriodOfConfinement';
 import { claimingNew, formatDate } from '../utils';
 import { makeSchemaForNewDisabilities } from '../utils/schemas';

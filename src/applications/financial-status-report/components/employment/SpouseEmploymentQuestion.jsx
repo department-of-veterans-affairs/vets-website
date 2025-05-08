@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import {
   clearJobIndex,
   setJobButton,

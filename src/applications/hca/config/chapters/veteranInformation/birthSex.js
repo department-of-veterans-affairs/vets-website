@@ -1,5 +1,5 @@
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import { genderLabels } from 'platform/static-data/labels';
+import PrefillMessage from '@department-of-veterans-affairs/platform-forms/save-in-progress/PrefillMessage';
+import { genderLabels } from '@department-of-veterans-affairs/platform-static-data/labels';
 import { FULL_SCHEMA } from '../../../utils/imports';
 
 const { gender } = FULL_SCHEMA.properties;

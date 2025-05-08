@@ -1,6 +1,6 @@
-import { removeFormApi } from 'platform/forms/save-in-progress/api';
-import recordEvent from 'platform/monitoring/record-event';
-import { REMOVING_SAVED_FORM_SUCCESS } from 'platform/user/profile/actions';
+import { removeFormApi } from '@department-of-veterans-affairs/platform-forms/save-in-progress/api';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { REMOVING_SAVED_FORM_SUCCESS } from '@department-of-veterans-affairs/platform-user/profile/actions';
 
 export const SET_CATEGORY_ID = 'SET_CATEGORY_ID';
 export const SET_TOPIC_ID = 'SET_TOPIC_ID';

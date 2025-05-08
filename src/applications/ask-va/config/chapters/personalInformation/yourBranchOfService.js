@@ -1,7 +1,7 @@
 import {
   selectUI,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import { branchesOfService, CHAPTER_3 } from '../../../constants';
 

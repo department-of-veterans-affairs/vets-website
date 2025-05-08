@@ -1,6 +1,6 @@
 // TODO: [#89197 Create internationalPhone pattern in form patterns](https://app.zenhub.com/workspaces/accredited-representative-facing-team-65453a97a9cc36069a2ad1d6/issues/gh/department-of-veterans-affairs/va.gov-team/89197)
-import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import PhoneNumberReviewWidget from '@department-of-veterans-affairs/platform-forms-system/review/PhoneNumberWidget';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
 
 /**
  * Web component v3 uiSchema for international phone number

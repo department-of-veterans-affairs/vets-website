@@ -1,6 +1,6 @@
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 
-import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
+import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs/platform-forms/reducers';
 import formConfig from '../config/form';
 import {
   VERIFY_VA_FILE_NUMBER_SUCCEEDED,

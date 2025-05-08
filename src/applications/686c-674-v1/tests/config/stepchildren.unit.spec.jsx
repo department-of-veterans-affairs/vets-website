@@ -5,8 +5,8 @@ import sinon from 'sinon';
 import {
   DefinitionTester,
   fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import { changeDropdown } from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { changeDropdown } from '@department-of-veterans-affairs/platform-testing/helpers';
 import formConfig from '../../config/form.js';
 
 describe('686 stepchildren', () => {

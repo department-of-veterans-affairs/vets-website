@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
-} from '~/platform/monitoring/DowntimeNotification';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
 
 const IntroductionPage = ({ route }) => {

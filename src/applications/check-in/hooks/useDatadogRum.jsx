@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { datadogRum } from '@datadog/browser-rum';
 
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useSelector } from 'react-redux';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 

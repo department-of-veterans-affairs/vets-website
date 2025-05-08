@@ -1,9 +1,9 @@
-import _ from 'platform/utilities/data';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
 import {
   transformForSubmit,
   filterViewFields,
-} from 'platform/forms-system/src/js/helpers';
-import removeDeeplyEmptyObjects from 'platform/utilities/data/removeDeeplyEmptyObjects';
+} from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import removeDeeplyEmptyObjects from '@department-of-veterans-affairs/platform-utilities/data/removeDeeplyEmptyObjects';
 
 import {
   causeTypes,

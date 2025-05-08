@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getNextPagePath,
   getPreviousPagePath,
-} from 'platform/forms-system/src/js/routing';
-import { setData } from 'platform/forms-system/src/js/actions';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+} from '@department-of-veterans-affairs/platform-forms-system/routing';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import definition from '../config/chapters/vaBenefits/benefitsPackage';
 import FormFooter from '../components/FormFooter';
 import content from '../locales/en/content.json';

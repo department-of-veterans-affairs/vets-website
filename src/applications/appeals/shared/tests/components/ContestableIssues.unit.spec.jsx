@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { ContestableIssues } from '../../components/ContestableIssues';
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../../actions';

@@ -1,4 +1,4 @@
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { arrayBuilderPages } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
 import {
   addressSchema,
   addressUI,
@@ -13,7 +13,7 @@ import {
   textareaUI,
   textSchema,
   textUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import { createDateRangeText } from '../helpers/createDateRangeText';
 import { createName } from '../helpers/createName';

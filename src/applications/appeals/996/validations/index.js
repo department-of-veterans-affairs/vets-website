@@ -1,4 +1,4 @@
-import { isValidPhone } from '~/platform/forms/validations';
+import { isValidPhone } from '@department-of-veterans-affairs/platform-forms/validations';
 
 import { errorMessages } from '../constants';
 

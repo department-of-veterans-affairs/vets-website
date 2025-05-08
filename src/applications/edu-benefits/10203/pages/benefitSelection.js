@@ -1,5 +1,5 @@
 import { benefitsLabels } from '../content/benefitSelection';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
 
 const uiSchemaCheckboxes = () => {
   const uiSchemaCheckbox = {};

@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import { connectFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 import WizardLink from './WizardLink';
 import { WIZARD_STATUS } from '../all-claims/constants';

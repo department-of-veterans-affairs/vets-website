@@ -1,5 +1,5 @@
 import { pick } from 'lodash';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
 import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
 
 /**

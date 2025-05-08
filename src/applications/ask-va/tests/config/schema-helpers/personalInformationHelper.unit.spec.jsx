@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
 import sinon from 'sinon';
 
 import {

@@ -2,8 +2,8 @@ import merge from 'lodash/merge';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
-} from 'platform/forms/definitions/address';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms/definitions/address';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 

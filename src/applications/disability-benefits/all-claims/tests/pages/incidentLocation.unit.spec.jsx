@@ -8,7 +8,7 @@ import { ERR_MSG_CSS_CLASS } from '../../constants';
 import {
   DefinitionTester,
   fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('PTSD Incident location', () => {

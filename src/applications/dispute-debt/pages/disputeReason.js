@@ -1,4 +1,4 @@
-import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
+import VaRadioField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaRadioField';
 
 const EXISTENCE = `I don't think I owe this debt to VA`;
 const AMOUNT = `I don’t think the amount is correct on this debt`;

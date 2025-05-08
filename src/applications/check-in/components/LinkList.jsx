@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { makeSelectApp } from '../selectors';
 

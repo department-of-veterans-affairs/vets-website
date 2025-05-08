@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { apiRequest } from 'platform/utilities/api';
-import { formatSSN } from 'platform/utilities/ui';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { formatSSN } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 const convertDateFormat = date => {

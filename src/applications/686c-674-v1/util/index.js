@@ -1,4 +1,4 @@
-import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
 const CLIENT_ERROR_REGEX = /^4\d{2}$/;

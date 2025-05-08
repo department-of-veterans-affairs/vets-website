@@ -2,9 +2,9 @@ import { isAfter } from 'date-fns';
 import {
   stringifyFormReplacer,
   transformForSubmit,
-} from 'platform/forms-system/src/js/helpers';
-import set from 'platform/utilities/data/set';
-import recordEvent from 'platform/monitoring/record-event';
+} from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { hasLowDisabilityRating } from '../utils/helpers';
 
 /**

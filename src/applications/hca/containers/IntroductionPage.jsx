@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import {
   DowntimeNotification,
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
-import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import VerifyAlert from '@department-of-veterans-affairs/platform-user/VerifyAlert';
 import { selectAuthStatus, selectEnrollmentStatus } from '../utils/selectors';
 import GetStarted from '../components/IntroductionPage/GetStarted';
 import content from '../locales/en/content.json';

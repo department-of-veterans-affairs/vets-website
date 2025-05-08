@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   DowntimeNotification,
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
-import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
+import { isProfileLoading, isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { fetchDebtLetters } from '../actions/debts';
 import { getStatements } from '../actions/copays';
 import {

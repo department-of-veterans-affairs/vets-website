@@ -1,4 +1,4 @@
-import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { getAppUrl } from '@department-of-veterans-affairs/platform-utilities/registry-helpers';
 
 // declare global app URLs for use with content links
 export const APP_URLS = {

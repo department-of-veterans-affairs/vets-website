@@ -1,8 +1,8 @@
 import React from 'react';
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
-import { isValidRoutingNumber } from 'platform/forms/validations';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
+import bankAccountUI from '@department-of-veterans-affairs/platform-forms/bankAccount';
+import { isValidRoutingNumber } from '@department-of-veterans-affairs/platform-forms/validations';
 
 import { bankAccountChangeLabelsUpdate } from '../utils/labels';
 

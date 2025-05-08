@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import * as api from 'platform/forms/save-in-progress/api';
-import * as recordEventModule from 'platform/monitoring/record-event';
-import { REMOVING_SAVED_FORM_SUCCESS } from 'platform/user/profile/actions';
+import * as api from '@department-of-veterans-affairs/platform-forms/save-in-progress/api';
+import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { REMOVING_SAVED_FORM_SUCCESS } from '@department-of-veterans-affairs/platform-user/profile/actions';
 import sinon from 'sinon';
 
 import {

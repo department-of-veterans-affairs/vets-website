@@ -1,5 +1,5 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
 import { inlineTitleUI } from '../../../components/FormPatterns/TitlePatterns';
 import {
   GrossIncomeDescription,

@@ -1,5 +1,5 @@
-import { makeField, dirtyAllFields } from 'platform/forms/fields';
-import set from 'platform/utilities/data/set';
+import { makeField, dirtyAllFields } from '@department-of-veterans-affairs/platform-forms/fields';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 
 import {
   RESET_UPLOADS,

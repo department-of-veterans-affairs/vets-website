@@ -4,7 +4,7 @@ import { find, get, startCase } from 'lodash';
 import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router-dom-v5-compat';
 
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 import Decision from '../components/appeals-v2/Decision';
 import { ITEMS_PER_PAGE } from '../constants';

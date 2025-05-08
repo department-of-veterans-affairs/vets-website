@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { isLoggedIn } from 'platform/user/selectors';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/feature-toggles/selectors';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
+import { DowntimeNotification } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import formConfig from '../config/form';
 import { fetchDebts } from '../actions';
 

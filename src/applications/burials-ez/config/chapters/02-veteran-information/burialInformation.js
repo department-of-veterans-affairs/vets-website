@@ -4,7 +4,7 @@ import {
   currentOrPastDateSchema,
   dateOfDeathUI,
   dateOfDeathSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import differenceInCalendarMonths from 'date-fns/differenceInCalendarMonths';
 import { generateTitle } from '../../../utils/helpers';
 

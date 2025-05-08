@@ -6,9 +6,9 @@ import {
   VaLoadingIndicator,
   VaBreadcrumbs,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import SsnField from 'platform/forms-system/src/js/web-component-fields/SsnField';
+import SsnField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/SsnField';
 import { useSearchParams, useNavigation } from 'react-router-dom';
-import { Toggler, useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { Toggler, useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import api from '../utilities/api';
 import { SEARCH_BC_LABEL, searchPeopleBC } from '../utilities/poaRequests';
 import POARequestSearchCard from '../components/POARequestSearchCard';

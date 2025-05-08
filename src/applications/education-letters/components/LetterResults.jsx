@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import environment from 'platform/utilities/environment';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { format } from 'date-fns';
 
 export const LETTER_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_letter`;

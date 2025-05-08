@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { apiRequest } from 'platform/utilities/api';
-import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { API_ENDPOINTS } from '../utils/constants';
 import { submitTransformer } from '../config/submit-transformer';
 import { ensureValidCSRFToken } from '../utils/actions/ensureValidCSRFToken';

@@ -5,8 +5,8 @@ import {
   DowntimeNotification,
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { Toggler } from 'platform/utilities/feature-toggles';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import formConfig from '../config/form';
 import WIP from '../../shared/components/WIP';
 import { useBrowserMonitoring } from '../helpers/useBrowserMonitoring';

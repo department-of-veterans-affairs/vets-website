@@ -7,7 +7,7 @@ import {
   CSP_IDS,
   SIGNUP_TYPES,
   POLICY_TYPES,
-} from 'platform/user/authentication/constants';
+} from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import AuthMetrics from '../containers/AuthMetrics';
 
 const createPayload = (serviceName = 'idme', loaEnabled = false) => ({

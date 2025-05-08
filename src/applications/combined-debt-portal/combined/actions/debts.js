@@ -11,9 +11,9 @@ export const MCP_STATEMENTS_FETCH_SUCCESS = 'MCP_STATEMENTS_FETCH_SUCCESS';
 export const MCP_STATEMENTS_FETCH_FAILURE = 'MCP_STATEMENTS_FETCH_FAILURE';
 
 import * as Sentry from '@sentry/browser';
-import environment from '~/platform/utilities/environment';
-import { apiRequest } from '~/platform/utilities/api';
-import recordEvent from '~/platform/monitoring/record-event';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 
 const fetchDebtsInitiated = () => ({ type: DEBTS_FETCH_INITIATED });

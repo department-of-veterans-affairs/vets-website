@@ -4,7 +4,7 @@ import {
   textSchema,
   currentOrPastDateSchema,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { isInvalidTermStartDate, isCurrentOrpastDate } from '../utilities';
 import InstitutionName from '../components/InstitutionName';
 

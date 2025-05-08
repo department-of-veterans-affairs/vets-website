@@ -2,7 +2,7 @@ import {
   radioSchema,
   radioUI,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import YourSchool from '../../../components/FormFields/YourSchool';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import { CHAPTER_3, schoolInYourProfileOptions } from '../../../constants';

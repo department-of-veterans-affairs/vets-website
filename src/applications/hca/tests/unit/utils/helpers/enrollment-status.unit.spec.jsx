@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as api from 'platform/utilities/api';
+import * as api from '@department-of-veterans-affairs/platform-utilities/api';
 import {
   callAPI,
   callFake404,

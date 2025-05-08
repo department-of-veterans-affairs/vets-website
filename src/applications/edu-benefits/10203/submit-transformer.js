@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { applicantInformationTransform } from '../utils/helpers';
 
 export function transform(formConfig, form) {

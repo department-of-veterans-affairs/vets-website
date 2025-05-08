@@ -8,7 +8,7 @@ import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import * as treatmentReceivedPage from '../../../pages/form0781/treatmentReceivedPage';
 import {
   treatmentReceivedTitle,

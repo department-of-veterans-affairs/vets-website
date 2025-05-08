@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { getScrollOptions } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';

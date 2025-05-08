@@ -1,7 +1,7 @@
 import {
   radioSchema,
   radioUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import React from 'react';
 import FormElementTitle from '../../../components/FormElementTitle';
 import PageFieldSummary from '../../../components/PageFieldSummary';

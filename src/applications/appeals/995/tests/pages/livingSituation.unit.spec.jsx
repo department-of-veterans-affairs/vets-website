@@ -2,9 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import readableList from '@department-of-veterans-affairs/platform-forms-system/utilities/data/readableList';
+import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import formConfig from '../../config/form';
 

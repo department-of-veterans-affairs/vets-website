@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { parse } from 'date-fns';
 import { formatDate } from '../../combined/utils/helpers';
 

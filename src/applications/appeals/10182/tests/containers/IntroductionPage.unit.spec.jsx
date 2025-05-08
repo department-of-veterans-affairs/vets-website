@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import IntroductionPage from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';

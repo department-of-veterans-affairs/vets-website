@@ -1,7 +1,7 @@
 import {
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { generateTitle } from '../../../utils/helpers';
 
 export default {

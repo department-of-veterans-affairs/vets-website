@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import AlertBox from '../AlertBox';
 
 const CautionFlagHeading = ({ cautionFlags, onViewWarnings }) => {

@@ -1,4 +1,4 @@
-import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { arrayBuilderPages } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
 import { insuranceTextOverrides } from '../../../utils/helpers';
 import { validateInsurancePolicy } from '../../../utils/validation';
 import {

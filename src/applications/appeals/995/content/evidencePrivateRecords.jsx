@@ -1,4 +1,4 @@
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
+import numberToWords from '@department-of-veterans-affairs/platform-forms-system/utilities/data/numberToWords';
 
 export const content = {
   title: (addOrEdit, index) =>

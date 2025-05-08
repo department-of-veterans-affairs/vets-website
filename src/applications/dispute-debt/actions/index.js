@@ -1,9 +1,9 @@
 import * as Sentry from '@sentry/browser';
 import { isValid } from 'date-fns';
 import { head } from 'lodash';
-import { formatDateShort } from 'platform/utilities/date';
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
+import { formatDateShort } from '@department-of-veterans-affairs/platform-utilities/date';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   deductionCodes,
   DEBT_TYPES,

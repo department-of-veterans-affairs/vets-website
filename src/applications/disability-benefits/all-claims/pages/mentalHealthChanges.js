@@ -1,4 +1,4 @@
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import VaCheckboxField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaCheckboxField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { PTSD_CHANGE_LABELS } from '../constants';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';

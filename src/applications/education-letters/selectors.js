@@ -1,9 +1,9 @@
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   isLOA1 as isLOA1Selector,
   isLOA3 as isLOA3Selector,
-} from 'platform/user/selectors';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+} from '@department-of-veterans-affairs/platform-user/selectors';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/feature-toggles/selectors';
 
 export const getLettersData = state => ({
   featureTogglesLoaded: state.featureToggles?.loading === false,

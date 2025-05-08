@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   fillDate,
   selectRadio,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 

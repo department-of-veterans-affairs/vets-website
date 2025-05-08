@@ -2,9 +2,9 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import set from 'platform/utilities/data/set';
+import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 import React from 'react';
 import sinon from 'sinon';
 

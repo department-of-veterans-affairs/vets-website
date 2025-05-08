@@ -1,4 +1,4 @@
-const { VA_FORM_IDS } = require('platform/forms/constants');
+const { VA_FORM_IDS } = require('@department-of-veterans-affairs/platform-forms/constants');
 
 /* eslint-disable camelcase */
 const mockUser = {

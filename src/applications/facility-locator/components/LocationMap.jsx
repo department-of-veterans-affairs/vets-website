@@ -2,7 +2,7 @@ import React from 'react';
 import {
   mapboxToken,
   staticMapURL,
-} from 'platform/utilities/facilities-and-mapbox';
+} from '@department-of-veterans-affairs/platform-utilities/facilities-and-mapbox';
 
 function LocationMap({ info }) {
   if (!info) {

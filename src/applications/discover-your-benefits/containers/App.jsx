@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import SubmitHelper from '../components/SubmitHelper';
 import formConfig from '../config/form';
 

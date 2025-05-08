@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import omit from 'platform/utilities/data/omit';
+import omit from '@department-of-veterans-affairs/platform-utilities/data/omit';
 import {
   sanitizeAddress,
   prefillTransformer,

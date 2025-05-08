@@ -7,7 +7,7 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import { selectProfile } from 'platform/user/selectors';
+import { selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import {
   informalConferenceLabel,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import { blankSchema } from '@department-of-veterans-affairs/platform-forms-system/utilities/data/profile';
 import { fileUploadBlurbCustom } from '../../../shared/components/fileUploads/attachments';
 
 const marriagePapers = [

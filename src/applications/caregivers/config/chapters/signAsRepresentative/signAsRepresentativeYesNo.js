@@ -3,7 +3,7 @@ import {
   radioUI,
   titleUI,
   descriptionUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import RepresentativeDescription from '../../../components/FormDescriptions/ApplicationSignatureDescription';
 import RepresentativeReviewField from '../../../components/FormReview/RepresentativeReviewField';
 import content from '../../../locales/en/content.json';

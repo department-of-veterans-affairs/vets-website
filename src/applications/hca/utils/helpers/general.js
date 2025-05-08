@@ -1,5 +1,5 @@
 import { format, parseISO, isValid } from 'date-fns';
-import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
+import { srSubstitute } from '@department-of-veterans-affairs/platform-forms-system/mask-string';
 
 // declare previous year for form questions and content
 export const LAST_YEAR = new Date().getFullYear() - 1;

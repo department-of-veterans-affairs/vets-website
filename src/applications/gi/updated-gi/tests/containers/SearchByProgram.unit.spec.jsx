@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import userEvent from '@testing-library/user-event';
 import SearchByProgram from '../../containers/SearchByProgram';
 

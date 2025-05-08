@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as recordEventModule from 'platform/monitoring/record-event';
+import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import analyticFunction from '../analytics-functions';
 
 describe('AnalyticFunction Tests', () => {

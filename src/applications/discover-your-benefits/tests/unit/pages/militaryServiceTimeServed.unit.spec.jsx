@@ -2,7 +2,7 @@ import React from 'react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { Provider } from 'react-redux';
 import { getData } from '../mocks/mockFormData';
 import militaryServiceTotalTimeServedConfig from '../../../pages/militaryServiceTimeServed';

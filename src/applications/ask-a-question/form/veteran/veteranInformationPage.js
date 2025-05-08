@@ -1,7 +1,7 @@
 import { veteranServiceInformationUI } from './service/veteranServiceInformationUI';
 import { dependentInformationUI } from './dependent/dependentInformationUI';
 import _ from 'lodash';
-import { schema } from 'platform/forms/definitions/address';
+import { schema } from '@department-of-veterans-affairs/platform-forms/definitions/address';
 import fullSchema from '../0873-schema.json';
 import { veteranInformationUI } from './veteranInformationUI';
 

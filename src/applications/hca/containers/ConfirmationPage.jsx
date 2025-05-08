@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { isLoggedIn, selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
 import ConfirmationScreenView from '../components/ConfirmationPage/ConfirmationScreenView';
 import ConfirmationPrintView from '../components/ConfirmationPage/ConfirmationPrintView';
 import ConfirmationFAQ from '../components/ConfirmationPage/ConfirmationFAQ';

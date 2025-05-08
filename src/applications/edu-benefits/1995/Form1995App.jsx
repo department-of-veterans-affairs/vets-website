@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import formConfig from './config/form';
 import { useSetToggleParam } from '../hooks/useSetToggleParam';
 

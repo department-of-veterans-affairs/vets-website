@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 
-import { focusElement } from 'platform/utilities/ui';
-import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
-import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import VerifyAlert from '@department-of-veterans-affairs/platform-user/VerifyAlert';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 export const heading =
   'You’ll need to verify your identity to access more VA.gov tools and features';

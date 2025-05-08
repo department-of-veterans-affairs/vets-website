@@ -1,7 +1,7 @@
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import content from '../../../locales/en/content.json';
 
 export default {

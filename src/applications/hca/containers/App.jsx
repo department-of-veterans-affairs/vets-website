@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { selectAuthStatus, selectFeatureToggles } from '../utils/selectors';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { useDefaultFormData } from '../hooks/useDefaultFormData';

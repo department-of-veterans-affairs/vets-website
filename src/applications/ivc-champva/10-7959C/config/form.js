@@ -1,8 +1,8 @@
 import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import get from 'platform/utilities/data/get';
-import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';

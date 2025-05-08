@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
+import EbenefitsLink from '@department-of-veterans-affairs/platform-site-wide/EbenefitsLink';
 import {
   ariaLabels,
   POST_911_ARRAY,

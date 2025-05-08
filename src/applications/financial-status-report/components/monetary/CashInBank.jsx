@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setData } from 'platform/forms-system/src/js/actions';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { safeNumber } from '../../utils/calculateIncome';

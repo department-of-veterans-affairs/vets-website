@@ -1,8 +1,8 @@
-import FormFooter from 'platform/forms/components/FormFooter';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import recordEvent from 'platform/monitoring/record-event';
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import FooterInfo from '../components/FooterInfo';
 import IntroductionPage from '../components/IntroductionPage';

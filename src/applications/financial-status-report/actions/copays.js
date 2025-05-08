@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser';
-import { apiRequest } from 'platform/utilities/api';
-import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
-import environment from 'platform/utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { getMedicalCenterNameByID } from '@department-of-veterans-affairs/platform-utilities/medical-centers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { DEBT_TYPES } from '../constants';
 import copays from '../tests/e2e/fixtures/mocks/copays.json';
 import { USE_COPAY_MOCK_DATA } from '../mocks/development';

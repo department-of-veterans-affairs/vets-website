@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash';
-import { isInMPI, selectProfile } from 'platform/user/selectors';
-import set from 'platform/utilities/data/set';
+import { isInMPI, selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 
 /**
  * Map address object to match the key names in the schema

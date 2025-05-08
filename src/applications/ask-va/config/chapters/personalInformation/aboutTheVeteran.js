@@ -1,6 +1,6 @@
 import React from 'react';
 
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
@@ -13,8 +13,8 @@ import {
   titleUI,
   yesNoSchema,
   yesNoUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import VaSelectField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaSelectField';
 import {
   branchesOfService,
   CHAPTER_3,

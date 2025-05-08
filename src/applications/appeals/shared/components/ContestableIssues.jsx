@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import set from 'platform/utilities/data/set';
-import { setData } from 'platform/forms-system/src/js/actions';
-import { focusElement, scrollTo } from 'platform/utilities/ui';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { focusElement, scrollTo } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { LAST_ISSUE, MAX_LENGTH, REVIEW_ISSUES, SELECTED } from '../constants';
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../actions';

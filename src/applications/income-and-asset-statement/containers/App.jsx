@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import formConfig from '../config/form';
 import { NoFormPage } from '../components/NoFormPage';
 

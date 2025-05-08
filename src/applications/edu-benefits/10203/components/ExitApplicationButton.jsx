@@ -1,5 +1,5 @@
 import React from 'react';
-import { removeFormApi } from 'platform/forms/save-in-progress/api';
+import { removeFormApi } from '@department-of-veterans-affairs/platform-forms/save-in-progress/api';
 import captureEvents from '../analytics-functions';
 
 export const ExitApplicationButton = ({ formId, isLoggedIn }) => {

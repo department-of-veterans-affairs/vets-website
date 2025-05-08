@@ -9,4 +9,4 @@ export const { BASE_URL } = environment;
 export {
   AUTH_PARAMS as QUERY_PARAMS,
   EXTERNAL_APPS as APPLICATIONS,
-} from 'platform/user/authentication/constants';
+} from '@department-of-veterans-affairs/platform-user/authentication/constants';

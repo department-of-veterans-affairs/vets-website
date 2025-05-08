@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
+import { querySelectorWithShadowRoot } from '@department-of-veterans-affairs/platform-utilities/ui/webComponents';
 import { getFTECalcs } from '../helpers';
 
 const Calcs = ({ data }) => {

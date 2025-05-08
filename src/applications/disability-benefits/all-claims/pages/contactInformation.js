@@ -1,12 +1,12 @@
 import React from 'react';
-// import _ from 'platform/utilities/data';
+// import _ from '@department-of-veterans-affairs/platform-utilities/data';
 import merge from 'lodash/merge';
-import omit from 'platform/utilities/data/omit';
+import omit from '@department-of-veterans-affairs/platform-utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 // import dateUI from 'platform/forms-system/src/js/definitions/date';
-// import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
+// import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
+import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 

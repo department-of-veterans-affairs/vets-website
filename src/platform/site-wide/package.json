@@ -11,7 +11,9 @@
       "./actionTypes": "./feature-toggles/actionTypes.js",
       "./AutoSSO": "./user-nav/containers/AutoSSO.jsx",
       "./EbenefitsLink": "./ebenefits/containers/EbenefitsLink.jsx",
+      "./feature-toggles/actionTypes": "./feature-toggles/actionTypes.js",
       "./feature-toggles/reducers": "./feature-toggles/reducers/index.js",
+      "./feature-toggles/selectors": "./feature-toggles/selectors.js",
       "./header": "./header/index.js",
       "./legacy/mega-menu": "./legacy/mega-menu.js",
       "./LoadingButton": "./loading-button/LoadingButton.jsx",
@@ -37,6 +39,7 @@
       "./user-nav/reducers": "./user-nav/reducers/index.js",
       "./utilities": "./mhv/utilities.js",
       "./va-footer": "./va-footer/index.js",
+      "./va-health-services/connnect": "./drupal-static-data/source-files/va-health-services/connect",
       "./va-medallia-style": "./sass/va-medallia-style.scss",
       "./wc-loader": "./wc-loader.js",
       "./wizard": "./wizard/index.js"

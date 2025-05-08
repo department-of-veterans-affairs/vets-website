@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 const PreferredFacilityAlert = () => {
   // use logging to track the volume of users who receive this alert

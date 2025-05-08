@@ -2,9 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
-import FormFooter from 'platform/forms/components/FormFooter';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
 
 import GetFormHelp from '../../components/GetFormHelp';
 

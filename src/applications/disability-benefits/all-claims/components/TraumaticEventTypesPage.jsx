@@ -5,9 +5,9 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useRef, useEffect, useState } from 'react';
 
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { scrollAndFocus } from 'platform/utilities/ui';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
+import { scrollAndFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
+import cloneDeep from '@department-of-veterans-affairs/platform-utilities/data/cloneDeep';
 import PropTypes from 'prop-types';
 import {
   form0781HeadingTag,

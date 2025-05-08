@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect } from 'react';
 import { debounce } from 'lodash';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import Downshift from 'downshift';
 import classNames from 'classnames';
 import { connect } from 'react-redux';

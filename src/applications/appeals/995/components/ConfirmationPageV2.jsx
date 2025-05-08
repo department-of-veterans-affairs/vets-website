@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { selectProfile } from 'platform/user/selectors';
+import { selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import { title995 } from '../content/title';
 

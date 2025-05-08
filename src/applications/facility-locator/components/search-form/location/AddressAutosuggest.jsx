@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import vaDebounce from 'platform/utilities/data/debounce';
+import vaDebounce from '@department-of-veterans-affairs/platform-utilities/data/debounce';
 import PropTypes from 'prop-types';
 import UseMyLocation from './UseMyLocation';
 import AddressInputError from './AddressInputError';

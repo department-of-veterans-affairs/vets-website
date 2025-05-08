@@ -1,4 +1,4 @@
-import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
+import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs/platform-forms/reducers';
 import { FETCH_VETERANS_FAILED, FETCH_VETERANS_SUCCESS } from './actions';
 import formConfig from './config/form';
 import { RELATIONSHIP } from './constants';

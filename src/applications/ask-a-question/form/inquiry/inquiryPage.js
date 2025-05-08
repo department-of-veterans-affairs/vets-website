@@ -1,4 +1,4 @@
-import { validateWhiteSpace } from 'platform/forms/validations';
+import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
 import * as topic from './topic/topic';
 import { veteranStatusUI } from './status/veteranStatusUI';
 

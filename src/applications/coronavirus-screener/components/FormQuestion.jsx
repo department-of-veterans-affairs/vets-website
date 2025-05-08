@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import classnames from 'classnames';
-import { Element } from 'platform/utilities/scroll';
+import { Element } from '@department-of-veterans-affairs/platform-utilities/scroll';
 import { scrollerTo } from '../lib';
 
 export default function FormQuestion({

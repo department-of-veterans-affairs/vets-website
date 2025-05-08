@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
 const eduForms = new Set([
   VA_FORM_IDS.FORM_22_0994,

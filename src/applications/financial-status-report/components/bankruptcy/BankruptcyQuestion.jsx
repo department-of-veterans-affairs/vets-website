@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import { setData } from 'platform/forms-system/src/js/actions';
-import { focusElement } from 'platform/utilities/ui';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
 const BankruptcyQuestion = ({

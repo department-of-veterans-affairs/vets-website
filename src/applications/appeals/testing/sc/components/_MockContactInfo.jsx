@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getPhoneString } from '~/platform/forms-system/src/js/utilities/data/profile';
+import { getPhoneString } from '@department-of-veterans-affairs/platform-forms-system/utilities/data/profile';
 
 const MockContactInfo = ({
   formData: {

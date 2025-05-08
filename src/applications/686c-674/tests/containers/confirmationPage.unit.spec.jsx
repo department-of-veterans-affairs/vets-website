@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
 const getData = ({

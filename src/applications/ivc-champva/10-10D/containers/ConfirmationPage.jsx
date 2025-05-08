@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   VaAlert,
   VaLink,

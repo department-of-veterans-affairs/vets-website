@@ -1,8 +1,8 @@
-import set from 'platform/utilities/data/set';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
+import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
+import { validateCurrentOrPastDate } from '@department-of-veterans-affairs/platform-forms-system/validation';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
 import ArrayField from '../components/ArrayField';

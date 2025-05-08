@@ -2,7 +2,7 @@ import {
   titleUI,
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { addressWithAutofillSchema } from '../../../definitions/sharedSchema';
 import { addressWithAutofillUI } from '../../../definitions/sharedUI';
 import { replaceStrValues } from '../../../utils/helpers';

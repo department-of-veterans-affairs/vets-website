@@ -3,7 +3,7 @@ import camelCase from 'lodash/camelCase';
 import {
   yesNoSchema,
   yesNoUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 /** @type {PageSchema} */
 const yesNoPageSchema = ({ title, path, depends, question, description }) => {

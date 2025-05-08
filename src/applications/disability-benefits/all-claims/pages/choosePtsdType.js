@@ -1,5 +1,5 @@
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
+import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import VaCheckboxGroupField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaCheckboxGroupField';
 
 import { ptsdTypeHelp, ptsdTypeEnum } from '../content/ptsdTypeInfo';
 

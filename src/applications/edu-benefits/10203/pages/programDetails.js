@@ -1,7 +1,7 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
+import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
 import constants from 'vets-json-schema/dist/constants.json';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
   schoolStudentIdTitle,

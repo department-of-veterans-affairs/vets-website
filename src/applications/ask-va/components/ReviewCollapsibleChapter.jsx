@@ -22,7 +22,7 @@ import {
   getFocusableElements,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { Element } from 'platform/utilities/scroll';
+import { Element } from '@department-of-veterans-affairs/platform-utilities/scroll';
 
 import { removeDuplicatesByChapterAndPageKey } from '../utils/reviewPageHelper';
 import ArrayField from './ArrayField';

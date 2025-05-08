@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AUTH_ERRORS, AUTH_LEVEL } from 'platform/user/authentication/errors';
-import ContactCenterInformation from 'platform/user/authentication/components/ContactCenterInformation';
+import { AUTH_ERRORS, AUTH_LEVEL } from '@department-of-veterans-affairs/platform-user/authentication/errors';
+import ContactCenterInformation from '@department-of-veterans-affairs/platform-user/ContactCenterInformation';
 
 export default function RenderErrorContainer({
   code = AUTH_ERRORS.DEFAULT.errorCode,

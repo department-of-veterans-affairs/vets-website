@@ -5,7 +5,7 @@ import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import Notice5103 from '../../components/Notice5103';
 

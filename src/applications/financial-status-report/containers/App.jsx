@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import MetaTags from 'react-meta-tags';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { connect, useDispatch } from 'react-redux';
-import { selectProfile } from 'platform/user/selectors';
-import environment from 'platform/utilities/environment';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/feature-toggles/selectors';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
-import { setData } from 'platform/forms-system/src/js/actions';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
   WIZARD_STATUS_RESTARTED,
   restartShouldRedirect,
-} from 'platform/site-wide/wizard';
+} from '@department-of-veterans-affairs/platform-site-wide/wizard';
 
 import formConfig from '../config/form';
 import { fetchFormStatus } from '../actions';

@@ -2,19 +2,19 @@ import * as Sentry from '@sentry/browser';
 import {
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
-} from 'platform/user/authentication/constants';
+} from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import {
   SENTRY_TAGS,
   getAuthError,
   AUTH_ERRORS,
-} from 'platform/user/authentication/errors';
+} from '@department-of-veterans-affairs/platform-user/authentication/errors';
 import {
   OAUTH_ERRORS,
   OAUTH_ERROR_RESPONSES,
   OAUTH_EVENTS,
   OAUTH_KEYS,
-} from 'platform/utilities/oauth/constants';
-import { requestToken } from 'platform/utilities/oauth/utilities';
+} from '@department-of-veterans-affairs/platform-utilities/oauth/constants';
+import { requestToken } from '@department-of-veterans-affairs/platform-utilities/oauth/utilities';
 
 export const checkReturnUrl = passedUrl => {
   return (

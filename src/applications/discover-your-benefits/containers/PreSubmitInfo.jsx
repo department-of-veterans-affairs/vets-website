@@ -5,7 +5,7 @@ import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-li
 import { connect } from 'react-redux';
 
 // platform - form-system actions
-import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
+import { setPreSubmit as setPreSubmitAction } from '@department-of-veterans-affairs/platform-forms-system/actions';
 
 function PreSubmitInfo({ formData, showError, setPreSubmit }) {
   const privacyAgreementAccepted = formData.privacyAgreementAccepted || false;

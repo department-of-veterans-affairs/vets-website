@@ -4,7 +4,7 @@ import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import { getClaimLetters } from '../../actions';
 import ClaimsBreadcrumbs from '../../components/ClaimsBreadcrumbs';
 import ClaimLetterList from '../../components/claim-letters/ClaimLetterList';

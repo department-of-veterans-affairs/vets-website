@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
-import { apiRequest } from 'platform/utilities/api';
-import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { getMedicalCenterNameByID } from '@department-of-veterans-affairs/platform-utilities/medical-centers';
 
 export const MCP_STATEMENTS_FETCH_INIT = 'MCP_STATEMENTS_FETCH_INIT';
 export const MCP_STATEMENTS_FETCH_SUCCESS = 'MCP_STATEMENTS_FETCH_SUCCESS';

@@ -1,8 +1,8 @@
 import merge from 'lodash/merge';
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 
 import { showSchoolAddress } from '../utils/helpers';
-import * as address from 'platform/forms/definitions/address';
+import * as address from '@department-of-veterans-affairs/platform-forms/definitions/address';
 import educationTypeUISchema from './educationType';
 
 export const uiSchema = {

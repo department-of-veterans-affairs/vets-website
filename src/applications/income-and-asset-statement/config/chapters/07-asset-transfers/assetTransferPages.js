@@ -17,10 +17,10 @@ import {
   textSchema,
   yesNoUI,
   yesNoSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatDateShort } from 'platform/utilities/date';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import { arrayBuilderPages } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
+import { formatDateShort } from '@department-of-veterans-affairs/platform-utilities/date';
 import { relationshipLabels, transferMethodLabels } from '../../../labels';
 
 import {

@@ -1,4 +1,4 @@
-import clone from 'platform/utilities/data/clone';
+import clone from '@department-of-veterans-affairs/platform-utilities/data/clone';
 
 import { sippableId } from '../utils';
 

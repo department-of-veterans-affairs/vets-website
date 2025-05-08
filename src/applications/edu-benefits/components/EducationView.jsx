@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+import { formatReviewDate } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 
 export default function EducationView({ formData }) {
   let from = '';

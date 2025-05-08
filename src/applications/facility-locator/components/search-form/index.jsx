@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // Utils

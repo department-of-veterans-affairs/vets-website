@@ -1,6 +1,6 @@
-import { apiRequest } from 'platform/utilities/api';
-import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 const fetchNewCSRFToken = async () => {
   const url = '/v0/maintenance_windows';

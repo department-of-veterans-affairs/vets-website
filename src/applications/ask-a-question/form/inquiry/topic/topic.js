@@ -1,7 +1,7 @@
 import { flatten, orderBy } from 'lodash';
-import clone from 'platform/utilities/data/clone';
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
+import clone from '@department-of-veterans-affairs/platform-utilities/data/clone';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 import { createSelector } from 'reselect';
 import constants from 'vets-json-schema/dist/constants.json';
 
@@ -28,7 +28,7 @@ import {
   vaMedicalCentersLabels,
   vaMedicalCentersValues,
 } from './medicalCenters';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
 
 const topicSchemaCopy = clone(fullSchema.properties.topic);
 topicSchemaCopy.anyOf.pop();

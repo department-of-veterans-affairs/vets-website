@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import PrefillMessage from '@department-of-veterans-affairs/platform-forms/save-in-progress/PrefillMessage';
 import {
   addressUI,
   addressSchema,
@@ -9,7 +9,7 @@ import {
   titleSchema,
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import content from '../../../locales/en/content.json';
 
 const {

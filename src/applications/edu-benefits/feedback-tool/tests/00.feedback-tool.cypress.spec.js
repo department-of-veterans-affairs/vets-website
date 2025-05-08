@@ -2,7 +2,7 @@ import mockFeedbackPost from './fixtures/mocks/feedback-post.json';
 import mockFeedbackGet from './fixtures/mocks/feedback-1234.json';
 import testData from './schema/maximal-test.json';
 
-const Timeouts = require('~/platform/testing/e2e/timeouts');
+const Timeouts = require('@department-of-veterans-affairs/platform-testing/e2e/timeouts');
 
 describe('Feedback Tool Test', () => {
   // TODO: Temporarily commenting out this test line as it's causing consistent CI failures.

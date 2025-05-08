@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { focusElement, scrollToTop } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { isLOA3, isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { TITLE, SUBTITLE } from '../constants';
 
 const OMB_RES_BURDEN = 30;

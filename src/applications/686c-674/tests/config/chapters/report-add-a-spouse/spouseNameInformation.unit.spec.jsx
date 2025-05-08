@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import React from 'react';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import formConfig from '../../../../config/form';
 import { SupportingEvidenceNeeded } from '../../../../config/chapters/report-add-a-spouse/current-marriage-information/helpers';
 

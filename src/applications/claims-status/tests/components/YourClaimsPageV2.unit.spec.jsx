@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import cloneDeep from '~/platform/utilities/data/cloneDeep';
+import cloneDeep from '@department-of-veterans-affairs/platform-utilities/data/cloneDeep';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 

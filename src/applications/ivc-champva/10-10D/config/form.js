@@ -1,6 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import React from 'react';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import {
   checkboxGroupSchema,
   checkboxGroupUI,
@@ -25,10 +25,10 @@ import {
   titleUI,
   ssnUI,
   ssnSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import { blankSchema } from '@department-of-veterans-affairs/platform-forms-system/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 import { flattenApplicantSSN } from './migrations';

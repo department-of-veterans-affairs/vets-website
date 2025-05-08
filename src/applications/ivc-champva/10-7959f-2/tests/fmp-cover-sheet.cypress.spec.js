@@ -1,8 +1,8 @@
 import path from 'path';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import testForm from 'platform/testing/e2e/cypress/support/form-tester';
-import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import testForm from '@department-of-veterans-affairs/platform-testing/form-tester';
+import { createTestConfig } from '@department-of-veterans-affairs/platform-testing/form-tester/utilities';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';

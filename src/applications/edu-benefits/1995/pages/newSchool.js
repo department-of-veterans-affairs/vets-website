@@ -1,8 +1,8 @@
 import educationTypeUISchema from '../../definitions/educationType';
 import merge from 'lodash/merge';
 import { showSchoolAddress } from '../../utils/helpers';
-import * as address from 'platform/forms/definitions/address';
-import { validateWhiteSpace } from 'platform/forms/validations';
+import * as address from '@department-of-veterans-affairs/platform-forms/definitions/address';
+import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
 const {

@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import { apiRequest } from '~/platform/utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
 const GET_REMAINING_ENTITLEMENT_SUCCESS = 'GET_REMAINING_ENTITLEMENT_SUCCESS';
 

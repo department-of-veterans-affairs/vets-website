@@ -8,7 +8,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import * as focusUtils from '~/platform/utilities/ui/focus';
+import * as focusUtils from '@department-of-veterans-affairs/platform-utilities/focus';
 
 import EvidencePrivateRecords from '../../components/EvidencePrivateRecords';
 import {

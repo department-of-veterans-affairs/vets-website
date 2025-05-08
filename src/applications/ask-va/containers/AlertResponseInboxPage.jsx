@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ResponseInboxPage from './ResponseInboxPage';
 

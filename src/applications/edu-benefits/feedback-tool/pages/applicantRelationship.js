@@ -3,7 +3,7 @@ import {
   emailSchema,
   radioSchema,
   radioUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import merge from 'lodash/merge';
 

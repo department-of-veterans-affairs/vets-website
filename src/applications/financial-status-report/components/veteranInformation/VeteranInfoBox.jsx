@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { isValid } from 'date-fns';
-import { formatDateShort } from 'platform/utilities/date';
+import { formatDateShort } from '@department-of-veterans-affairs/platform-utilities/date';
 
 const VeteranInfoBox = ({
   first,

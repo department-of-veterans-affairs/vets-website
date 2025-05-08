@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Element } from 'platform/utilities/scroll';
+import { Element } from '@department-of-veterans-affairs/platform-utilities/scroll';
 
 // Relative Imports
 import { answerReview, shouldShowQuestion } from '../helpers';

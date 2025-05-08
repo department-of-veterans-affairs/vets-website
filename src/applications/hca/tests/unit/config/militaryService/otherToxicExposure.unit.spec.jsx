@@ -6,7 +6,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   submitForm,
   DefinitionTester,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../../config/form';
 
 describe('hca Other Toxic Exposures config', () => {

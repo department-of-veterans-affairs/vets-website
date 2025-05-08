@@ -1,4 +1,4 @@
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
 import { addSpouse } from '../../../utilities';
 import { SpouseTitle } from '../../../../components/ArrayPageItemSpouseTitle';
 import { locationUISchema } from '../../../location-schema';

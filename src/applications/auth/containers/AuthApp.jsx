@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import appendQuery from 'append-query';
 
-import recordEvent from 'platform/monitoring/record-event';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
   FORCE_NEEDED,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
-} from 'platform/user/authentication/constants';
-import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
-// import { useDatadogRum } from 'platform/user/authentication/hooks/useDatadogRum';
-import { setupProfileSession } from 'platform/user/profile/utilities';
-import { apiRequest } from 'platform/utilities/api';
+} from '@department-of-veterans-affairs/platform-user/authentication/constants';
+import { AUTH_LEVEL, getAuthError } from '@department-of-veterans-affairs/platform-user/authentication/errors';
+// import { useDatadogRum } from '@department-of-veterans-affairs/platform-user/authentication/hooks/useDatadogRum';
+import { setupProfileSession } from '@department-of-veterans-affairs/platform-user/profile/utilities';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { generateReturnURL } from 'platform/user/authentication/utilities';
-import { OAUTH_EVENTS } from 'platform/utilities/oauth/constants';
+import { generateReturnURL } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
+import { OAUTH_EVENTS } from '@department-of-veterans-affairs/platform-utilities/oauth/constants';
 import RenderErrorUI from '../components/RenderErrorContainer';
 import AuthMetrics from './AuthMetrics';
 import {

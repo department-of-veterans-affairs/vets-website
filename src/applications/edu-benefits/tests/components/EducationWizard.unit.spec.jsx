@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-// import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+// import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 import configureMockStore from 'redux-mock-store';
 

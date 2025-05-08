@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import { payrollDeductionOptions } from '../../constants/checkboxSelections';
 import { getJobIndex } from '../../utils/session';
 import Checklist from '../shared/CheckList';

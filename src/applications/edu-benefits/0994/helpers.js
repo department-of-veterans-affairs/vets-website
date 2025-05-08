@@ -1,4 +1,4 @@
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);

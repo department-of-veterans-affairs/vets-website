@@ -3,7 +3,7 @@ import {
   addressUI,
   emailSchema,
   emailUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
 
 import ReviewCardField from '../components/ReviewCardField';

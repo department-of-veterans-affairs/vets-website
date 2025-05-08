@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { getScrollOptions } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import NameSearchForm from '../../containers/search/NameSearchForm';
 import LocationSearchForm from '../../containers/search/LocationSearchForm';
 import { TABS } from '../../constants';

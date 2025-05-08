@@ -1,8 +1,8 @@
-import get from 'platform/utilities/data/get';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 import {
   vaFileNumberUI,
   ssnUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 // Using different hint text from the standard ssnOrVaFileNumberUI
 export const ssnOrVaFileNumberCustomUI = () => {

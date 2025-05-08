@@ -1,4 +1,4 @@
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { arrayBuilderPages } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
@@ -9,7 +9,7 @@ import {
   selectUI,
   textSchema,
   textUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import { agenciesOrCourtsOptions } from '../../constants/agenciesOrCourts';
 import { formatReviewDate } from '../helpers/formatReviewDate';

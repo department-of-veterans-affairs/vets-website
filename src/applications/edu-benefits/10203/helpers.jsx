@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
-import unset from 'platform/utilities/data/unset';
-import { states } from 'platform/forms/address';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
+import unset from '@department-of-veterans-affairs/platform-utilities/data/unset';
+import { states } from '@department-of-veterans-affairs/platform-forms/address';
 
 export const isChapter33 = form =>
   !!form['view:benefit']?.chapter33 || !!form['view:benefit']?.fryScholarship;

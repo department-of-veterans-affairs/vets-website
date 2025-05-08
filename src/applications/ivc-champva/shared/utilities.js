@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
+import { waitForShadowRoot } from '@department-of-veterans-affairs/platform-utilities/ui/webComponents';
 
 /**
  * Returns either a form of 'you', or the applicant's full name based

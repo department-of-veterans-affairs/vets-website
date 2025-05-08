@@ -11,9 +11,9 @@ import {
   currentOrPastDateSchema,
   yesNoUI,
   yesNoSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatDateShort } from 'platform/utilities/date';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { arrayBuilderPages } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
+import { formatDateShort } from '@department-of-veterans-affairs/platform-utilities/date';
 import {
   formatCurrency,
   annualReceivedIncomeFromAnnuityRequired,

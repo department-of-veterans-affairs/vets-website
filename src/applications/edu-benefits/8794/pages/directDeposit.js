@@ -1,4 +1,4 @@
-import directDepositDefinition from 'platform/forms-system/src/js/definitions/directDeposit';
+import directDepositDefinition from '@department-of-veterans-affairs/platform-forms-system/directDeposit';
 
 export default directDepositDefinition({
   affectedBenefits: 'disability compensation',

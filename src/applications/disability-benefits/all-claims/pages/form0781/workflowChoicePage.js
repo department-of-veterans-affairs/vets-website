@@ -1,4 +1,4 @@
-import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { radioUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { form0781HeadingTag, titleWithTag } from '../../content/form0781';
 import {
   form0781WorkflowChoiceDescription,

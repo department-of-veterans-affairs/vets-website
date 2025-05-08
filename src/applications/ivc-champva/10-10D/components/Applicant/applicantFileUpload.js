@@ -1,5 +1,5 @@
 import React from 'react';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { fileUploadBlurbCustom } from 'applications/ivc-champva/shared/components/fileUploads/attachments';
 import { applicantWording } from '../../../shared/utilities';
 import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';

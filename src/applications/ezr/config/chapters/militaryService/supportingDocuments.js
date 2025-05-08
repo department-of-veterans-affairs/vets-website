@@ -1,5 +1,5 @@
-import environment from 'platform/utilities/environment';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
 import SupportingDocumentsDescription from '../../../components/FormDescriptions/SupportingDocumentsDescription';
 import content from '../../../locales/en/content.json';
 import { ezrAttachmentsSchema } from '../../../definitions/attachments';

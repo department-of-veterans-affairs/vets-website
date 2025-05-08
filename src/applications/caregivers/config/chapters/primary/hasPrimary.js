@@ -3,7 +3,7 @@ import {
   yesNoUI,
   yesNoSchema,
   descriptionUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import PrimaryCaregiverIntro from '../../../components/FormDescriptions/PrimaryCaregiverIntro';
 import CustomYesNoReviewField from '../../../components/FormReview/CustomYesNoReviewField';
 import content from '../../../locales/en/content.json';

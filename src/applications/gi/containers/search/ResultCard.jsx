@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 import {
   addCompareInstitution,

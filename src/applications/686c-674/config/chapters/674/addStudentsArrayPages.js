@@ -26,10 +26,10 @@ import {
   checkboxGroupSchema,
   currencyUI,
   currencyStringSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import VaMemorableDateField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaMemorableDateField';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
+import { validateCurrentOrFutureDate } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
   AccreditedSchool,
   AddStudentsIntro,

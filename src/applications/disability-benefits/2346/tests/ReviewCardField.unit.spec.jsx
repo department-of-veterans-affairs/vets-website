@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import flow from 'lodash/flow';
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 import React from 'react';
 import { spy } from 'sinon';
 import ReviewCardField from '../components/ReviewCardField';

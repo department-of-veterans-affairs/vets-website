@@ -5,7 +5,7 @@
 import React from 'react';
 import dropWhile from 'lodash/dropWhile';
 import classNames from 'classnames';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,

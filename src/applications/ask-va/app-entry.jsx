@@ -1,7 +1,7 @@
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/ask-va.scss';
 
-import startApp from 'platform/startup';
+import startApp from '@department-of-veterans-affairs/platform-startup';
 
 import manifest from './manifest.json';
 import reducer from './reducers';

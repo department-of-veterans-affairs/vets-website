@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { DEPENDENT_AGE_LABELS } from '../../constants/dependentLabels';
 import { isNumber } from '../../utils/helpers';
 import DependentExplainer from './DependentExplainer';

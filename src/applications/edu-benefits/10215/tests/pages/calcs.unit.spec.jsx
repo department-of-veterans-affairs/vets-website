@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import * as webComponents from 'platform/utilities/ui/webComponents';
+import * as webComponents from '@department-of-veterans-affairs/platform-utilities/ui/webComponents';
 import Calcs from '../../pages/calcs';
 import * as helpers from '../../helpers';
 

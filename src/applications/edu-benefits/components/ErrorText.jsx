@@ -1,5 +1,5 @@
 import React from 'react';
-import CallHRC from 'platform/static-data/CallHRC';
+import CallHRC from '@department-of-veterans-affairs/platform-static-data/CallHRC';
 
 export default function ErrorText() {
   return (

@@ -1,4 +1,4 @@
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
@@ -6,8 +6,8 @@ import {
   ssnSchema,
   ssnUI,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import VaSelectField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaSelectField';
 import { CHAPTER_3, suffixes } from '../../../constants';
 
 const aboutYourselfRelationshipFamilyMemberPage = {

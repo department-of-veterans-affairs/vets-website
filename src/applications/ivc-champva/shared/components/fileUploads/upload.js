@@ -1,7 +1,7 @@
-import environment from 'platform/utilities/environment';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import { focusElement } from 'platform/utilities/ui';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import VaSelectField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaSelectField';
 import { fileTypes } from './attachments';
 
 // Modified version of the file upload from applications/appeals/995

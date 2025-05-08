@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { months } from 'platform/static-data/options-for-select';
+import { months } from '@department-of-veterans-affairs/platform-static-data/options-for-select';
 import {
   QUESTION_MAP,
   SHORT_NAME_MAP,

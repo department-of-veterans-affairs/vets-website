@@ -1,4 +1,4 @@
-import { isValidEmail } from 'platform/forms/validations';
+import { isValidEmail } from '@department-of-veterans-affairs/platform-forms/validations';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import BatteriesAndAccessories from '../components/BatteriesAndAccessories';
 import ReviewPageSupplies from '../components/ReviewPageSupplies';

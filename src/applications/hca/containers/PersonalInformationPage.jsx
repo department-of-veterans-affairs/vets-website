@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux';
 import {
   getNextPagePath,
   getPreviousPagePath,
-} from 'platform/forms-system/src/js/routing';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+} from '@department-of-veterans-affairs/platform-forms-system/routing';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import AuthProfileInformation from '../components/VeteranInformation/AuthProfileInformation';
 import GuestVerifiedInformation from '../components/VeteranInformation/GuestVerifiedInformation';
 import FormFooter from '../components/FormFooter';

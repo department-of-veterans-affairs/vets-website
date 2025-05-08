@@ -14,17 +14,17 @@ import {
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
 import {
   VerifyIdmeButton,
   VerifyLogingovButton,
-} from 'platform/user/authentication/components/VerifyButton';
+} from '@department-of-veterans-affairs/platform-user/VerifyButton';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router';
-import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
-import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
+import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import Announcements from '../components/Announcements';
 import {
   getVAStatusFromCRM,

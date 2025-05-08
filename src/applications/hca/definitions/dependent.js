@@ -1,7 +1,7 @@
-import fullNameUI from 'platform/forms/definitions/fullName';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import fullNameUI from '@department-of-veterans-affairs/platform-forms/fullName';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
+import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
 import { validateCurrency, validateDependentDate } from '../utils/validation';
 import { LAST_YEAR } from '../utils/helpers';
 import { FULL_SCHEMA } from '../utils/imports';

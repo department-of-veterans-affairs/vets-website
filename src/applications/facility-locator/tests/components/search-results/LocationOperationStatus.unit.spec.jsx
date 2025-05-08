@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { axeCheck } from '@department-of-veterans-affairs/platform-forms-system/test-helpers';
 import LocationOperationStatus from '../../../components/search-results-items/common/LocationOperationStatus';
 
 describe('facility-locator', () => {

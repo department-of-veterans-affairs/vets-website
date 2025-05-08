@@ -2,9 +2,9 @@ import {
   uiSchema,
   validateCity,
   validateStreet,
-} from 'platform/forms/definitions/address';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+} from '@department-of-veterans-affairs/platform-forms/definitions/address';
+import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
 import _ from 'lodash';
 import {
   daytimePhoneAreaCodeTitle,

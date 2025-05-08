@@ -1,4 +1,4 @@
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import _ from 'lodash';
 
 export default {

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import { selectProfile } from '~/platform/user/selectors';
+import { selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import { DateSubmitted } from './DateSubmitted';
 import { IssuesSubmitted } from './IssuesSubmitted';

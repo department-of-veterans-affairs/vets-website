@@ -8,8 +8,8 @@ import thunk from 'redux-thunk';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-import { mockApiRequest, resetFetch } from '~/platform/testing/unit/helpers';
-import { SET_DATA } from '~/platform/forms-system/src/js/actions';
+import { mockApiRequest, resetFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { SET_DATA } from '@department-of-veterans-affairs/platform-forms-system/actions';
 
 import Form0996App from '../../containers/Form0996App';
 import { CONTESTABLE_ISSUES_API } from '../../constants/apis';

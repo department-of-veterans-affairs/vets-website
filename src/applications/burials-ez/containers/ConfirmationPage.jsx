@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
-import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { ConfirmationView } from '@department-of-veterans-affairs/platform-forms-system/ConfirmationView';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import { benefitsLabels } from '../utils/labels';
 
 const ConfirmationPage = ({ form, isLoggedIn, route }) => {

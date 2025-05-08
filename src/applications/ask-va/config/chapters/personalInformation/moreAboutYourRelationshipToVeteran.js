@@ -1,8 +1,8 @@
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
 import {
   radioSchema,
   radioUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { CHAPTER_3, aboutRelationship } from '../../../constants';
 
 const moreAboutYourRelationshipToVeteranPage = {

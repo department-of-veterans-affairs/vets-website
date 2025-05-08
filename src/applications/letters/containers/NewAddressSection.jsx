@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectVAPMailingAddress } from 'platform/user/selectors';
+import { selectVAPMailingAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import { TRANSACTION_CATEGORY_TYPES } from '@@vap-svc/constants';
 import PropTypes from 'prop-types';
 

@@ -6,12 +6,12 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import {
   VerifyIdmeButton,
   VerifyLogingovButton,
-} from 'platform/user/authentication/components/VerifyButton';
+} from '@department-of-veterans-affairs/platform-user/VerifyButton';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import ProgressButton from '~/platform/forms-system/src/js/components/ProgressButton';
-import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import manifest from '../manifest.json';
 

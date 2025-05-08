@@ -1,24 +1,24 @@
 import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
+import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
+import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
 
-import FormFooter from 'platform/forms/components/FormFooter';
-import fullNameUI from 'platform/forms/definitions/fullName';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import dataUtils from 'platform/utilities/data/index';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import fullNameUI from '@department-of-veterans-affairs/platform-forms/fullName';
+import PrefillMessage from '@department-of-veterans-affairs/platform-forms/save-in-progress/PrefillMessage';
+import dataUtils from '@department-of-veterans-affairs/platform-utilities/data/index';
+import preSubmitInfo from '@department-of-veterans-affairs/platform-forms/preSubmitInfo';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
 import {
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 const { get, omit, set } = dataUtils;
 
-import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
+import VaCheckboxGroupField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaCheckboxGroupField';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../components/SchoolSelectField.jsx';

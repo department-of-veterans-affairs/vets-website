@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import _ from 'platform/utilities/data';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
 
 import formConfig from '../../config/form';
 import {

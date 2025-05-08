@@ -1,4 +1,4 @@
-const Timeouts = require('platform/testing/e2e/timeouts.js');
+const Timeouts = require('@department-of-veterans-affairs/platform-testing/e2e/timeouts');
 const inputs = require('./utils/inputs.json');
 
 const componentSelector =

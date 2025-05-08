@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import { getSignInUrl } from '../../utilities/constants';
 import UserNav from './UserNav';
 

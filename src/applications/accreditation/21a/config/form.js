@@ -1,6 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import FormFooter from 'platform/forms/components/FormFooter';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
 import manifest from '../manifest.json';
 import transformForSubmit from './submit-transformer';

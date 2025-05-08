@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockApiRequest } from 'platform/testing/unit/helpers';
-import * as apiUtils from 'platform/utilities/api';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import * as apiUtils from '@department-of-veterans-affairs/platform-utilities/api';
 
 import { getContestableIssues } from '../../actions';
 import {

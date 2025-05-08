@@ -1,5 +1,5 @@
-import environment from 'platform/utilities/environment';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
 import { marriageTypeInformation } from '../current-marriage-information/helpers';
 import { AdditionalEvidence } from '../../../../components/AdditionalEvidence';
 import { addSpouse } from '../../../utilities';

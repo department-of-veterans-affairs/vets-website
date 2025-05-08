@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import recordEvent from '~/platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import OverviewPage from './containers/OverviewPage';
 import CombinedPortalApp from './containers/CombinedPortalApp';
 import CombinedStatements from './containers/CombinedStatements';

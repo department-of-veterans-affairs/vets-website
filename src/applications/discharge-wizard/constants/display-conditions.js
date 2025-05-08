@@ -1,5 +1,5 @@
 import { range } from 'lodash';
-import { months } from 'platform/static-data/options-for-select';
+import { months } from '@department-of-veterans-affairs/platform-static-data/options-for-select';
 import { RESPONSES } from './question-data-map';
 
 const get15YearsPast = () => `${new Date().getFullYear() - 15}`;

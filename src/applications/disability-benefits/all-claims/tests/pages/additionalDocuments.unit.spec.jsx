@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import moment from 'moment';
-import { uploadStore } from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from '@department-of-veterans-affairs/platform-forms-system/test-helpers';
 import {
   DefinitionTester, // selectCheckbox
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';

@@ -1,7 +1,7 @@
 import {
   selectUI,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 
 const { country } = fullSchema10282.definitions;

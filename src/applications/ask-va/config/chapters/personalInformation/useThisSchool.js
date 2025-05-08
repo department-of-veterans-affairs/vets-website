@@ -1,7 +1,7 @@
 import {
   yesNoSchema,
   yesNoUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import FormElementTitle from '../../../components/FormElementTitle';
 import SelectedSchool from '../../../components/FormFields/SelectedSchool';
 import PageFieldSummary from '../../../components/PageFieldSummary';

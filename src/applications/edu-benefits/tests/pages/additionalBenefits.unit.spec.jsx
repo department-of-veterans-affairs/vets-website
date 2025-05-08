@@ -5,7 +5,7 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 

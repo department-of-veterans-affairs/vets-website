@@ -1,6 +1,6 @@
 import React from 'react';
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import VaCheckboxField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaCheckboxField';
+import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
 
 const filingClaimContent = <strong>I’m filing a claim for:</strong>;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import set from 'platform/utilities/data/set'; // it doesn't look like this is exported by platform-utilities
+import set from '@department-of-veterans-affairs/platform-utilities/data/set'; // it doesn't look like this is exported by platform-utilities
 
 import AppealListItem from '../../../components/appeals-v2/AppealListItem';
 import { STATUS_TYPES, EVENT_TYPES } from '../../../utils/appeals-v2-helpers';

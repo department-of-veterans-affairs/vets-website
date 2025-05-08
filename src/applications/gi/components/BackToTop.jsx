@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import classNames from 'classnames';
-import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 /**
  * This thing has a hack in it to make sure the when the element is floating at bottom of page it is on the right side

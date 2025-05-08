@@ -1,7 +1,7 @@
-import get from 'platform/utilities/data/get';
-import omit from 'platform/utilities/data/omit';
-import set from 'platform/utilities/data/set';
-import unset from 'platform/utilities/data/unset';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+import omit from '@department-of-veterans-affairs/platform-utilities/data/omit';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
+import unset from '@department-of-veterans-affairs/platform-utilities/data/unset';
 
 export default [
   // 0 -> 1, we had a bug where isSpanishHispanicLatino was defaulted in the wrong place

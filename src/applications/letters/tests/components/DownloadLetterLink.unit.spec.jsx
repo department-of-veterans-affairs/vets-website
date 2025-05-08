@@ -2,9 +2,9 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 
-import { getFormDOM } from 'platform/testing/unit/schemaform-utils';
+import { getFormDOM } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { DownloadLetterLink } from '../../components/DownloadLetterLink.jsx';
 import { DOWNLOAD_STATUSES } from '../../utils/constants';
 

@@ -6,7 +6,7 @@ import {
   selectAddressValidationType,
   selectCurrentlyOpenEditModal,
 } from 'platform/user/profile/vap-svc/selectors';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { useNavigate } from 'react-router-dom-v5-compat';
 

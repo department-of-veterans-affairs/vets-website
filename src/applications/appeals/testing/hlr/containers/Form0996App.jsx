@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import { selectProfile, isLoggedIn } from 'platform/user/selectors';
-import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
-import { setData } from '~/platform/forms-system/src/js/actions';
+import { selectProfile, isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 
 import formConfig from '../config/form';
 import {

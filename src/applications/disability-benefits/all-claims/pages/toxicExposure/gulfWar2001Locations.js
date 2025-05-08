@@ -1,7 +1,7 @@
 import {
   checkboxGroupUI,
   checkboxGroupSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import { formTitle } from '../../utils';
 import { GULF_WAR_2001_LOCATIONS } from '../../constants';

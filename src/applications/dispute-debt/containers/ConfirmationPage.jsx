@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { useSelector } from 'react-redux';
-import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
+import { scrollTo, waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelp from '../components/NeedHelp';
 
 export const ConfirmationPage = () => {

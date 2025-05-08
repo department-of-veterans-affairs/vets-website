@@ -5,10 +5,10 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
 
-import { commonReducer } from 'platform/startup/store';
-import localStorage from 'platform/utilities/storage/localStorage';
+import { commonReducer } from '@department-of-veterans-affairs/platform-startup/store';
+import localStorage from '@department-of-veterans-affairs/platform-utilities/localStorage';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers.js';
+import { mockApiRequest, resetFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import Form526Entry, {
   serviceRequired,

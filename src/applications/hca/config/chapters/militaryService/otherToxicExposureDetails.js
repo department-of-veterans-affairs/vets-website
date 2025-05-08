@@ -1,4 +1,4 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { ExposureCategoriesLink } from '../../../components/FormDescriptions/OtherExposureDescriptions';
 import { FULL_SCHEMA } from '../../../utils/imports';
 

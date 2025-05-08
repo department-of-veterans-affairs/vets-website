@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
-import { TOGGLE_LOGIN_MODAL } from '~/platform/site-wide/user-nav/actions';
+import { TOGGLE_LOGIN_MODAL } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import * as constants from '../../constants';
 import IntroductionPage from '../../containers/IntroductionPage';
 import { mockInquiryStatusResponse } from '../../utils/mockData';

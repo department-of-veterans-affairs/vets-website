@@ -1,5 +1,5 @@
-import { FETCH_TOGGLE_VALUES_STARTED } from 'platform/site-wide/feature-toggles/actionTypes';
-import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
+import { FETCH_TOGGLE_VALUES_STARTED } from '@department-of-veterans-affairs/platform-site-wide/feature-toggles/actionTypes';
+import { UPDATE_LOGGEDIN_STATUS } from '@department-of-veterans-affairs/platform-user/authentication/actions';
 import { combineReducers } from 'redux';
 import {
   MCP_STATEMENTS_FETCH_INIT,

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as actions from 'platform/forms-system/src/js/actions';
-import * as helpers from 'platform/forms-system/src/js/helpers';
+import * as actions from '@department-of-veterans-affairs/platform-forms-system/actions';
+import * as helpers from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { get } from 'lodash';
 import submitForm from '../submitForm';
 

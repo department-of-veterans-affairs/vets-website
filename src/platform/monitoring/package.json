@@ -12,8 +12,10 @@
       "./DowntimeNotification/components/DowntimeApproaching" : "./DowntimeNotification/components/DowntimeApproaching.jsx",
       "./DowntimeNotification/components/Wrapper" : "./DowntimeNotification/components/Wrapper.jsx",
       "./DowntimeNotification/containers/DowntimeNotification" : "./DowntimeNotification/containers/DowntimeNotification.jsx",
+      "./DowntimeNotification/reducer": "./DowntimeNotifications/reducer/index.js",
       "./DowntimeNotification/util/helpers" : "./DowntimeNotification/util/helpers.js",
-      "./external-services/ExternalServicesError" : "./external-services/ExternalServicesError.jsx"
+      "./external-services/ExternalServicesError" : "./external-services/ExternalServicesError.jsx",
+      "./externsalServiceStatus": "./DowntimeNotification/config/externalServiceStatus.js"
      },
      "peerDependencies": {
       "react": "*",

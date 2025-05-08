@@ -21,12 +21,12 @@
 
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
-import ADDRESS_DATA from 'platform/forms/address/data';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
+import ADDRESS_DATA from '@department-of-veterans-affairs/platform-forms/address/data';
+import cloneDeep from '@department-of-veterans-affairs/platform-utilities/data/cloneDeep';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 import constants from 'vets-json-schema/dist/constants.json';
-import { isValidZipcode } from 'platform/forms/validations';
+import { isValidZipcode } from '@department-of-veterans-affairs/platform-forms/validations';
 
 /**
  * CONSTANTS:

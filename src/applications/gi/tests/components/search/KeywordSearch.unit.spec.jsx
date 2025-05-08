@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import createCommonStore from 'platform/startup/store';
+import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import { Provider } from 'react-redux';
 import reducer from '../../../reducers';
 import KeywordSearch from '../../../components/search/KeywordSearch';

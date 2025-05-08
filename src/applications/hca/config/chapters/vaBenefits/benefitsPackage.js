@@ -1,7 +1,7 @@
 import {
   titleUI,
   descriptionUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import HealthEnrollmentDescription from '../../../components/FormDescriptions/HealthEnrollmentDescription';
 import RegistrationOnlyNote from '../../../components/FormDescriptions/RegistrationOnlyNote';
 import { emptyObjectSchema } from '../../../definitions';

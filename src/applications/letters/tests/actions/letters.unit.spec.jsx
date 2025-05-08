@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { testkit } from 'platform/testing/unit/sentry';
+import { testkit } from '@department-of-veterans-affairs/platform-testing/sentry';
 import {
   mockFetch,
   setFetchBlobFailure,
   setFetchBlobResponse,
   setFetchJSONFailure,
   setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import {
   BACKEND_SERVICE_ERROR,

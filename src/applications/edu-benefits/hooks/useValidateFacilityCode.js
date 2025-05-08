@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { apiRequest } from 'platform/utilities/api';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 
 export const useValidateFacilityCode = formData => {
   const [loader, setLoader] = useState(false);

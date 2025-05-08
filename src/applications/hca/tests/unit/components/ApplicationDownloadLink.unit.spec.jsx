@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as api from 'platform/utilities/api';
-import * as recordEventModule from 'platform/monitoring/record-event';
+import * as api from '@department-of-veterans-affairs/platform-utilities/api';
+import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import ApplicationDownloadLink from '../../../components/ApplicationDownloadLink';
 import content from '../../../locales/en/content.json';
 

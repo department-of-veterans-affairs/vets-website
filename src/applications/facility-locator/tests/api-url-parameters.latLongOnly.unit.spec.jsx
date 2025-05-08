@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { resolveParamsWithUrl } from '../config';
 
 const center = [35.78, -78.68];

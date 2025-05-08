@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 export default function ClaimLetterSection() {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();

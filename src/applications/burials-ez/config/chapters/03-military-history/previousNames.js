@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {
   fullNameUI,
   textUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
 import { generateTitle } from '../../../utils/helpers';
 

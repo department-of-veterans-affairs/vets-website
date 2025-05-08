@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import { V2_LAUNCH_DATE } from '../config/constants';
 
 export default function CustomTopContent() {

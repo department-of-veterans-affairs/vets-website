@@ -1,7 +1,7 @@
-import set from 'platform/utilities/data/set';
-import unset from 'platform/utilities/data/unset';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
+import unset from '@department-of-veterans-affairs/platform-utilities/data/unset';
 
-import nonMilitaryJobsUi from 'platform/forms/definitions/nonMilitaryJobs';
+import nonMilitaryJobsUi from '@department-of-veterans-affairs/platform-forms/nonMilitaryJobs';
 
 export default function employmentHistoryPage(
   schema,

@@ -6,7 +6,7 @@ import {
   dateOfBirthUI,
   dateOfBirthSchema,
   fullNameSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { AltReviewRowView } from '../../../components/ReviewRowView';
 import {
   benefitsIntakeFullNameUI,

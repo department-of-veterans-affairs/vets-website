@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
-import * as apiModule from 'platform/utilities/api';
-import * as medicalCentersModule from 'platform/utilities/medical-centers/medical-centers';
+import * as apiModule from '@department-of-veterans-affairs/platform-utilities/api';
+import * as medicalCentersModule from '@department-of-veterans-affairs/platform-utilities/medical-centers';
 import {
   MCP_STATEMENTS_FETCH_INIT,
   MCP_STATEMENTS_FETCH_SUCCESS,

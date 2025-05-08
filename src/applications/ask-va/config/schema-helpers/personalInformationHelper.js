@@ -1,4 +1,4 @@
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
@@ -8,9 +8,9 @@ import {
   ssnSchema,
   ssnUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import React from 'react';
-import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
+import VaSelectField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaSelectField';
 import { branchesOfService, suffixes } from '../../constants';
 import { isBranchOfServiceRequired } from '../helpers';
 

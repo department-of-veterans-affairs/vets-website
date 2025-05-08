@@ -1,6 +1,6 @@
 import React from 'react';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 import { pageNames } from './pageList';
 import { formStartButton } from '../wizard-utils';

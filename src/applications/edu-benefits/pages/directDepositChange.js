@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
-import get from 'platform/utilities/data/get';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
+import bankAccountUI from '@department-of-veterans-affairs/platform-forms/bankAccount';
 
 import { bankAccountChangeLabels, directDepositWarning } from '../utils/labels';
 

@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
-import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
-import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
+import { minYear, maxYear } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { checkboxGroupSchema } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import {
   SAVED_SEPARATION_DATE,

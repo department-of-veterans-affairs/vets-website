@@ -1,11 +1,11 @@
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/feature-toggles/selectors';
 import { addDays, format, isBefore, isEqual, isValid } from 'date-fns';
-import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import { getMedicalCenterNameByID } from '@department-of-veterans-affairs/platform-utilities/medical-centers';
 import React from 'react';
 import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 export const APP_TYPES = Object.freeze({
   DEBT: 'DEBT',

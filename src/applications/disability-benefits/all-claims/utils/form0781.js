@@ -1,5 +1,5 @@
 // All flippers for the 0781 Papersync should be added to this file
-import _ from 'platform/utilities/data';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { isClaimingNew } from '.';
 import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';

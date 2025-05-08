@@ -1,4 +1,4 @@
-import { textUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { textUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import CountrySelect from '../../components/CountrySelect';
 import {
   policeReportLocationPageTitle,

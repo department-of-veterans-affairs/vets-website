@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import {
   mockApiRequest,
   mockMultipleApiRequests,
-} from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';

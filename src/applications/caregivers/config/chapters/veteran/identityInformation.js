@@ -1,4 +1,4 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { ssnUI } from '../../../definitions/sharedUI';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';

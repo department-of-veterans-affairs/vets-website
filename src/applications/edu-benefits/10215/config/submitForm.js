@@ -1,4 +1,4 @@
-import { submitToUrl } from 'platform/forms-system/src/js/actions';
+import { submitToUrl } from '@department-of-veterans-affairs/platform-forms-system/actions';
 
 const submitForm = (form, formConfig) => {
   const body = formConfig.transformForSubmit(form);

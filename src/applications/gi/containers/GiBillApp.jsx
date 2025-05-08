@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
+import DowntimeNotification from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { useLocation } from 'react-router-dom';
 import {
   enterPreviewMode,

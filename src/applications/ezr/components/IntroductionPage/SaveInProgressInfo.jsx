@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
 import { selectEnrollmentStatus } from '../../utils/selectors/entrollment-status';
 import { selectAuthStatus } from '../../utils/selectors/auth-status';
 import EnrollmentStatusAlert from '../FormAlerts/EnrollmentStatusAlert';

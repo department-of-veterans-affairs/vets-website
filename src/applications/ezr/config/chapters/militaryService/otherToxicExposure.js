@@ -1,5 +1,5 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import content from '../../../locales/en/content.json';
 import { OtherExposureDescription } from '../../../components/FormDescriptions/OtherToxicExposureDescription';
 

@@ -1,4 +1,4 @@
-import _ from 'platform/utilities/data';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
 import {
   SERVICE_CONNECTION_TYPES,
   disabilityActionTypes,

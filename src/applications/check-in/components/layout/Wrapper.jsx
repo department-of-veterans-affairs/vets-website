@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next';
 import {
   DowntimeNotification,
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
-import { focusElement } from 'platform/utilities/ui';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { makeSelectApp } from '../../selectors';
 import { APP_NAMES } from '../../utils/appConstants';

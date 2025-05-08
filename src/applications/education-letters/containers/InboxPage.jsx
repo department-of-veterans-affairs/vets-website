@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
+import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import Layout from '../components/Layout';
 import { HasLetters, NoLetters } from '../components/LetterResults';
 import { fetchClaimStatus } from '../actions';

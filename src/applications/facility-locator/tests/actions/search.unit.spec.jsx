@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import {
   CLEAR_SEARCH_RESULTS,
   CLEAR_SEARCH_TEXT,

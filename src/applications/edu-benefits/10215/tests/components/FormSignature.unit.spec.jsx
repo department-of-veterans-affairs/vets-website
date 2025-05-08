@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import FormSignature from '../../components/FormSignature';
 
 describe('<FormSignature>', () => {

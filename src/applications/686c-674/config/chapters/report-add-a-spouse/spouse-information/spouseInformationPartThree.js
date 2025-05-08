@@ -4,7 +4,7 @@ import {
   serviceNumberUI,
   serviceNumberSchema,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import NoHintReviewField from '../../../../components/CustomReviewFields';
 import { generateHelpText } from '../../../helpers';
 

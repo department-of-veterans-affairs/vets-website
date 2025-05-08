@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
-import { uploadStore } from 'platform/forms-system/test/config/helpers';
+import { uploadStore } from '@department-of-veterans-affairs/platform-forms-system/test-helpers';
 import { certifyingOfficial } from '../../pages/institutionOfficial';
 
 const { uiSchema, schema } = certifyingOfficial;

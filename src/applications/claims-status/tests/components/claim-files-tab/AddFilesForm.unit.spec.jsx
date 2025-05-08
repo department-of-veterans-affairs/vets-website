@@ -10,7 +10,7 @@ import sinon from 'sinon';
 import {
   fileTypeSignatures,
   FILE_TYPE_MISMATCH_ERROR,
-} from 'platform/forms-system/src/js/utilities/file';
+} from '@department-of-veterans-affairs/platform-forms-system/utilities/file';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import AddFilesForm from '../../../components/claim-files-tab/AddFilesForm';

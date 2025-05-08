@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { requestStates } from 'platform/utilities/constants';
+import { requestStates } from '@department-of-veterans-affairs/platform-utilities/constants';
 
 import ITFBanner from '../components/ITFBanner';
 import { ITF_STATUSES } from '../constants';

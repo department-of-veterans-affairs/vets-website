@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as api from 'platform/utilities/api';
+import * as api from '@department-of-veterans-affairs/platform-utilities/api';
 import sinon from 'sinon-v20';
 import { fetchFacilities } from '../../../actions/fetchFacilities';
 import { API_ENDPOINTS } from '../../../utils/constants';

@@ -1,5 +1,5 @@
 import React from 'react';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import { LAST_YEAR } from '../../utils/constants';
 import content from '../../locales/en/content.json';
 

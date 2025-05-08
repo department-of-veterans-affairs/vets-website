@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import set from 'platform/utilities/data/set';
-import { setData } from 'platform/forms-system/src/js/actions';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 
 import { getContestableIssues as getContestableIssuesAction } from '../../../10182/actions';
 

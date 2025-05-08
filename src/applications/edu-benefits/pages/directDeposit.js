@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
+import bankAccountUI from '@department-of-veterans-affairs/platform-forms/bankAccount';
 
 const defaults = {
   required: [],

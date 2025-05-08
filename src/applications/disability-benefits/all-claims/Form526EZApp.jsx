@@ -10,10 +10,10 @@ import {
   WIZARD_STATUS_COMPLETE,
   WIZARD_STATUS_RESTARTING,
 } from '@department-of-veterans-affairs/platform-site-wide/wizard';
-import { isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';

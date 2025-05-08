@@ -6,16 +6,16 @@ import React, {
   useLayoutEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import _ from 'lodash';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import {
   fetchProfile,
   setPageTitle,

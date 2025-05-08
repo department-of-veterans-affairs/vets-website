@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import sinon from 'sinon';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import * as recordEventModule from '~/platform/monitoring/record-event';
+import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { renderWithRouter } from '../utils';
 
 import StemClaimListItem from '../../components/StemClaimListItem';

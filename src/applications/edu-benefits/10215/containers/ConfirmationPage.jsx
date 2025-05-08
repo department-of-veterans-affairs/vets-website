@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
-import environment from '~/platform/utilities/environment';
+import { ConfirmationView } from '@department-of-veterans-affairs/platform-forms-system/ConfirmationView';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import GetFormHelp from '../components/GetFormHelp';
 import { childContent } from '../helpers';
 

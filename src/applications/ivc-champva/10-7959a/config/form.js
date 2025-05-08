@@ -1,5 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import manifest from '../manifest.json';

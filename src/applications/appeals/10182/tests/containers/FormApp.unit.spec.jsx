@@ -6,9 +6,9 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
-import { SET_DATA } from 'platform/forms-system/src/js/actions';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { mockApiRequest, resetFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { SET_DATA } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import FormApp from '../../containers/FormApp';
 import { CONTESTABLE_ISSUES_API } from '../../constants/apis';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import moment from 'moment';
 import { isEqual } from 'lodash';
 import FormResult from './FormResult';

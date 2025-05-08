@@ -3,7 +3,7 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
 import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import preSubmitInfo from '@department-of-veterans-affairs/platform-forms/preSubmitInfo';
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 import GetFormHelp from '../components/GetFormHelp';
 

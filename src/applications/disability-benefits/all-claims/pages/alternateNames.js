@@ -1,10 +1,10 @@
 import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import get from 'platform/utilities/data/get';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 import {
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 const { alternateNames: alternateNamesSchema } = fullSchema.properties;
 

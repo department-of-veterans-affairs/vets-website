@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 
 import {
   DEPENDENT_VIEW_FIELDS,

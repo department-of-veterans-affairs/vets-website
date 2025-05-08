@@ -5,9 +5,9 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import cloneDeep from 'platform/utilities/data/cloneDeep';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import cloneDeep from '@department-of-veterans-affairs/platform-utilities/data/cloneDeep';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { DISAGREEMENT_TYPES, MAX_LENGTH } from '../../../shared/constants';
 import { DISAGREEMENT_DETAILS } from '../constants';

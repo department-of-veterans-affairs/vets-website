@@ -7,8 +7,8 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-8794-schema.json';
 
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
+import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
+import ServicePeriodView from '@department-of-veterans-affairs/platform-forms/ServicePeriodView';
 
 const { toursOfDuty } = commonDefinitions;
 

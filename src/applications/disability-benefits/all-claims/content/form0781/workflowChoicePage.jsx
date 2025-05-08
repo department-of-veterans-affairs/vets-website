@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import {
   VaRadio,
   VaModal,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { scrollToFirstError, scrollTo } from 'platform/utilities/ui';
+import { scrollToFirstError, scrollTo } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { form0781HeadingTag, titleWithTag } from '../form0781';
 import { checkValidations } from '../../utils/submit';
 

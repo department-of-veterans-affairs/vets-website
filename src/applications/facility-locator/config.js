@@ -1,4 +1,4 @@
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import compact from 'lodash/compact';
 import {
   LocationType,

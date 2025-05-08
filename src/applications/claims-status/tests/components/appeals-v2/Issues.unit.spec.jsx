@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 
 import Issues from '../../../components/appeals-v2/Issues';
 import { addStatusToIssues } from '../../../utils/appeals-v2-helpers';

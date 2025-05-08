@@ -1,4 +1,4 @@
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { arrayBuilderPages } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
@@ -8,7 +8,7 @@ import {
   selectUI,
   textareaSchema,
   textareaUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import MilitaryServiceIntro from '../../components/02-military-service-chapter/MilitaryServiceIntro';
 import {

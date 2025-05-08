@@ -199,7 +199,7 @@
           "@department-of-veterans-affairs/platform-forms/address/data": "./src/platform/forms/address/data/index.js",
           "@department-of-veterans-affairs/platform-forms/labels": "./src/platform/forms/address/data/labels.js",
           "@department-of-veterans-affairs/platform-forms/preSubmitInfo": "./src/platform/forms/preSubmitInfo.js",
-          "@department-of-veterans-affairs/platform-forms/addressHelpers": "./src/platform/forms/address/helpers.js",
+          "@department-of-veterans-affairs/platform-forms/address/helpers": "./src/platform/forms/address/helpers.js",
           "@department-of-veterans-affairs/platform-forms/address": "./src/platform/forms/address/index.js",
           "@department-of-veterans-affairs/platform-forms/validations": "./src/platform/forms/validations.js",
           "@department-of-veterans-affairs/platform-forms/ErrorMessage": "./src/platform/forms/components/common/alerts/ErrorMessage.jsx",

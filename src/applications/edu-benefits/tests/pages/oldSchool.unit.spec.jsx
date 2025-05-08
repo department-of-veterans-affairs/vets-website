@@ -6,7 +6,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import createOldSchoolPage from '../../pages/oldSchool';
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 

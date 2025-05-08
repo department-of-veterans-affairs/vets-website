@@ -1,7 +1,7 @@
 // platform imports
-import environment from 'platform/utilities/environment';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 
 // internal app imports

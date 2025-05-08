@@ -3,7 +3,7 @@ import { differenceInDays } from 'date-fns';
 import {
   formatDateParsedZoneLong,
   timeFromNow,
-} from 'platform/utilities/date/index';
+} from '@department-of-veterans-affairs/platform-utilities/date';
 
 export const BANNER_TYPES = {
   PROCESSING: 'PENDING',

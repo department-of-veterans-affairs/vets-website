@@ -1,7 +1,7 @@
-import environment from 'platform/utilities/environment';
-import fileUiSchema from 'platform/forms-system/src/js/definitions/file';
-import { focusElement } from 'platform/utilities/ui';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import fileUiSchema from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import {
   SUPPORTED_UPLOAD_TYPES,

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import DependentDeclarationField from '../FormFields/DependentDeclarationField';
 import DependentList from '../FormFields/DependentList';
 import { DEPENDENT_VIEW_FIELDS, SHARED_PATHS } from '../../utils/constants';

@@ -1,10 +1,10 @@
-import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
+import VaCheckboxGroupField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaCheckboxGroupField';
 import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
-import _ from 'platform/utilities/data';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
 import {
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { validateIfHasEvidence } from '../validations';
 

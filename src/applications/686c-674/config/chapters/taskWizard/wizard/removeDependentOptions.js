@@ -1,7 +1,7 @@
 import {
   checkboxGroupUI,
   checkboxGroupSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { TASK_KEYS } from '../../../constants';
 import { removeDependentOptions } from './helpers';
 

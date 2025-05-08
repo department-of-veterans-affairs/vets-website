@@ -12,8 +12,8 @@ import {
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { countries, states } from 'platform/forms/address';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { countries, states } from '@department-of-veterans-affairs/platform-forms/address';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 
 import { NO_ISSUES_SELECTED } from '../constants';
 

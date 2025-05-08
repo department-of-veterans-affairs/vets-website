@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 // import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
-import { isLoggedIn } from '~/platform/user/selectors';
-import { setData } from '~/platform/forms-system/src/js/actions';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 

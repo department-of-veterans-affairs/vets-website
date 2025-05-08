@@ -1,4 +1,4 @@
-import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
 export const validateFacilityCode = async field => {
   try {

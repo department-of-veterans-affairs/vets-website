@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui/';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import {
+  scrollTo,
+  waitForRenderThenFocus,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
 
 import { verifyVaFileNumber } from '../actions';
 import { IntroductionPageHeader } from '../components/IntroductionPageHeader';

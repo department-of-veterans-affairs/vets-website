@@ -4,7 +4,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 export const schema = {
   type: 'object',

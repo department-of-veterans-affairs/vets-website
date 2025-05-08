@@ -1,7 +1,7 @@
 // Link text for review & submit page errors
 // key = "name" from `form.formErrors.errors`
 // see src/platform/forms-system/docs/reviewErrors.md
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
+import numberToWords from '@department-of-veterans-affairs/platform-forms-system/utilities/data/numberToWords';
 
 export default {
   hasBeenAdjudicatedBankrupt:

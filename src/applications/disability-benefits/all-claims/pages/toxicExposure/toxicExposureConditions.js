@@ -1,4 +1,4 @@
-import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
+import { checkboxGroupSchema } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import {
   conditionsDescription,
   conditionsPageTitle,

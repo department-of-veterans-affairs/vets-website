@@ -12,7 +12,7 @@ import {
   scrollTo,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import unset from '~/platform/utilities/data/unset';
+import unset from '@department-of-veterans-affairs/platform-utilities/data/unset';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from '~/platform/forms-system/src/js/constants';
 import {
   PasswordLabel,
@@ -21,7 +21,7 @@ import {
   checkTypeAndExtensionMatches,
   FILE_TYPE_MISMATCH_ERROR,
 } from '~/platform/forms-system/src/js/utilities/file';
-import { usePreviousValue } from '~/platform/forms-system/src/js/helpers';
+import { usePreviousValue } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 
 import {
   focusAddAnotherButton,

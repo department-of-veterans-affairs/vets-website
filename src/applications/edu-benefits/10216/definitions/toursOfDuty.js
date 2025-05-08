@@ -1,5 +1,5 @@
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
+import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
+import ServicePeriodView from '@department-of-veterans-affairs/platform-forms/ServicePeriodView';
 
 export default {
   'ui:title': 'Service periods',

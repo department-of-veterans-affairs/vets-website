@@ -3,7 +3,7 @@ import {
   emailUI,
   phoneUI,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import ContactInfoDescription from '../../../components/FormDescriptions/ContactInfoDescription';
 import content from '../../../locales/en/content.json';
 

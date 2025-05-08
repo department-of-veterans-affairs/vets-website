@@ -9,8 +9,8 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { inputVaTextInput } from 'platform/testing/unit/helpers';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import formConfig from '../../config/form';
 import { mockStore } from '../../../shared/tests/test-helpers';

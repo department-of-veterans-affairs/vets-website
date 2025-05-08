@@ -4,7 +4,7 @@ import {
   currentOrPastDateSchema,
   titleUI,
   titleSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { applicantWording } from '../../shared/utilities';
 import { applicantListSchema } from '../helpers/utilities';
 import ApplicantRelationshipPage, {

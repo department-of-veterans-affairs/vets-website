@@ -1,4 +1,4 @@
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 import { FULL_SCHEMA } from '../../../utils/imports';
 
 const { mothersMaidenName } = FULL_SCHEMA.properties;

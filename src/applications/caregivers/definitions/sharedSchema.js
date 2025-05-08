@@ -3,7 +3,7 @@ import {
   yesNoSchema,
   addressNoMilitarySchema,
   fullNameSchema as platformFullNameSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { ADDRESS_REGEX } from '../utils/constants';
 
 // declare schema for use with non-autofill address definitions

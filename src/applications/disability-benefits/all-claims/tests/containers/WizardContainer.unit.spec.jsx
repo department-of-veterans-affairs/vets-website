@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import WizardContainer from '../../containers/WizardContainer';
 import { WIZARD_STATUS } from '../../constants';

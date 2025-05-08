@@ -1,8 +1,8 @@
 import * as Sentry from '@sentry/browser';
 import merge from 'lodash/merge';
-import { fetchAndUpdateSessionExpiration } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
-import localStorage from 'platform/utilities/storage/localStorage';
+import { fetchAndUpdateSessionExpiration } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import localStorage from '@department-of-veterans-affairs/platform-utilities/localStorage';
 import manifest from '../manifest.json';
 import { getSignInUrl } from './constants';
 

@@ -1,6 +1,6 @@
-import environment from '~/platform/utilities/environment';
-import fileUiSchema from '~/platform/forms-system/src/js/definitions/file';
-import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import fileUiSchema from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
+import VaSelectField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaSelectField';
 
 import { EVIDENCE_UPLOAD_API } from '../constants';
 

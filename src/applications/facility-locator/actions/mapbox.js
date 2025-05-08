@@ -5,7 +5,7 @@ import {
   CountriesList,
   mapboxClient,
   toRadians,
-} from 'platform/utilities/facilities-and-mapbox';
+} from '@department-of-veterans-affairs/platform-utilities/facilities-and-mapbox';
 import {
   GEOCODE_CLEAR_ERROR,
   GEOCODE_COMPLETE,

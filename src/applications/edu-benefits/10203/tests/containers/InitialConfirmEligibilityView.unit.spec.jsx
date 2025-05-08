@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { expect } from 'chai';
 
 import InitialConfirmEligibilityView from '../../containers/InitialConfirmEligibilityView';
-import createCommonStore from 'platform/startup/store';
+import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import { Provider } from 'react-redux';
 
 const createStore = (data = {}) =>

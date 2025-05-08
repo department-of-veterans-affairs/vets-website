@@ -6,8 +6,8 @@ import {
   VaPrivacyAgreement,
   VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 
 import {
   isStreamlinedLongForm,

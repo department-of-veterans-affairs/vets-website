@@ -1,4 +1,4 @@
-import { normal, slow } from 'platform/testing/e2e/timeouts';
+import { normal, slow } from '@department-of-veterans-affairs/platform-testing/e2e/timeouts';
 
 // visitor travel passing answers
 const visitorPassTravel459 = {

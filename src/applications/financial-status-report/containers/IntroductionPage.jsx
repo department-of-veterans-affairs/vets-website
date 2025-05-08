@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import recordEvent from 'platform/monitoring/record-event';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ShowAlertOrSip from '../components/shared/ShowAlertOrSip';
 import { WIZARD_STATUS } from '../wizard/constants';

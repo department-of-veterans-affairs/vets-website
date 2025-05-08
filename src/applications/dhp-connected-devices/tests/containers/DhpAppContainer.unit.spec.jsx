@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { shallow } from 'enzyme';
 import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { DhpAppContainer } from '../../containers/DhpAppContainer';

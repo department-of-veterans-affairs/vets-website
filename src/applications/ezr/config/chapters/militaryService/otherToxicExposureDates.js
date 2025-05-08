@@ -1,6 +1,6 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import currentOrPastMonthYearUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastMonthYear';
 import { ServiceDateRangeDescription } from '../../../components/FormDescriptions/ServiceDateRangeDescription';
 import DateRangeDescription from '../../../components/FormDescriptions/DateRangeDescription';
 import { validateExposureDates } from '../../../utils/validation';

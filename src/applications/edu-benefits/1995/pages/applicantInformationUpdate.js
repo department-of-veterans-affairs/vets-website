@@ -1,6 +1,6 @@
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import { validateCurrentOrFutureDate } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import { genderLabels } from '../../utils/labels';
 import { ageWarning, isEighteenOrOlder } from '../helpers';
 

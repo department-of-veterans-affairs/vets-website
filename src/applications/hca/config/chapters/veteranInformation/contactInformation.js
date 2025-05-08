@@ -1,5 +1,5 @@
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import { ContactInfoDescription } from '../../../components/FormDescriptions';
 

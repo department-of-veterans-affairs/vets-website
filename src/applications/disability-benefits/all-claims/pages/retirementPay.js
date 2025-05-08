@@ -1,4 +1,4 @@
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { hasMilitaryRetiredPay } from '../validations';
 import { getBranches } from '../utils/serviceBranches';

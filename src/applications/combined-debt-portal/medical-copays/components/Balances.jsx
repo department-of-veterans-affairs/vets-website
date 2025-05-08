@@ -1,5 +1,5 @@
 import React from 'react';
-import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import { getMedicalCenterNameByID } from '@department-of-veterans-affairs/platform-utilities/medical-centers';
 import PropTypes from 'prop-types';
 import BalanceCard from './BalanceCard';
 

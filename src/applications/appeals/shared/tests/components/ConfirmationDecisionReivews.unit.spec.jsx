@@ -5,7 +5,7 @@ import { render, waitFor } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import ConfirmationDecisionReviews from '../../components/ConfirmationDecisionReviews';
 import { parseDate } from '../../utils/dates';

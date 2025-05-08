@@ -2,11 +2,11 @@ import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 
-import dataUtils from 'platform/utilities/data/index';
-import { apiRequest } from 'platform/utilities/api';
-import recordEvent from 'platform/monitoring/record-event';
+import dataUtils from '@department-of-veterans-affairs/platform-utilities/data/index';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import UserInteractionRecorder from '../components/UserInteractionRecorder';

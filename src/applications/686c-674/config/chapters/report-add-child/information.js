@@ -4,7 +4,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
   arrayBuilderItemFirstPageTitleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { arrayBuilderOptions } from './config';
 
 export const information = {

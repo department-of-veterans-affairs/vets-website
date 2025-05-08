@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
 
 const IntroductionPage = props => {
   const { route } = props;

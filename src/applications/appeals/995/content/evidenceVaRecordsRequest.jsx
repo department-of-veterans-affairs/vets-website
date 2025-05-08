@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 export const requestVaRecordsTitleOld =
   'Would you like us to request your VA medical records for you?';

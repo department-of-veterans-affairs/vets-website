@@ -1,7 +1,7 @@
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import recordEvent from 'platform/monitoring/record-event';
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import * as Sentry from '@sentry/browser';
-import localStorage from 'platform/utilities/storage/localStorage';
+import localStorage from '@department-of-veterans-affairs/platform-utilities/localStorage';
 
 const submitFormFor = eventName =>
   function submitForm(form, formConfig, { mode } = {}) {

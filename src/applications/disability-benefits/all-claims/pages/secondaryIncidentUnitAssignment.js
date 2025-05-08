@@ -1,4 +1,4 @@
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 

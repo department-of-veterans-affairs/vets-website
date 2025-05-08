@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { isLoggedIn, selectProfile } from 'platform/user/selectors';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { isLoggedIn, selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
 import NeedsToVerifyAlert from './NeedsToVerifyAlert';
 
 export const ShowAlertOrSip = ({ basename, sipOptions, bottom }) => {

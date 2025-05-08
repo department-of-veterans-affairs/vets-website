@@ -5,9 +5,9 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import appendQuery from 'append-query';
 import mapboxgl from 'mapbox-gl';
 import { isEmpty } from 'lodash';
-import vaDebounce from 'platform/utilities/data/debounce';
-import recordEvent from 'platform/monitoring/record-event';
-import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
+import vaDebounce from '@department-of-veterans-affairs/platform-utilities/data/debounce';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { mapboxToken } from '@department-of-veterans-affairs/platform-utilities/facilities-and-mapbox';
 
 // Components
 import Alert from '../components/Alert';

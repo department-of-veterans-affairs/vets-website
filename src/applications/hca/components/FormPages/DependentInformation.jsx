@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
-import { getActivePages } from 'platform/forms-system/src/js/helpers';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { getActivePages } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import DependentListLoopForm from '../FormFields/DependentListLoopForm';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
 import {

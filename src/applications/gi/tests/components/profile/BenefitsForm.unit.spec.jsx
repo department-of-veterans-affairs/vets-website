@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
-import createCommonStore from 'platform/startup/store';
+import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import { Provider } from 'react-redux';
 import BenefitsForm from '../../../components/profile/BenefitsForm';
 import reducer from '../../../reducers';

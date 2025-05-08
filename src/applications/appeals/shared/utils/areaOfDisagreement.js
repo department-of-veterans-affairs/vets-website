@@ -1,4 +1,4 @@
-import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+import readableList from '@department-of-veterans-affairs/platform-forms-system/utilities/data/readableList';
 
 import {
   MAX_LENGTH,

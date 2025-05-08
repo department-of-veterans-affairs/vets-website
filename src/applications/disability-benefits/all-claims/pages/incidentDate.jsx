@@ -1,6 +1,6 @@
 import React from 'react';
 
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
 
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { PtsdDateDescription } from '../content/incidentDate';

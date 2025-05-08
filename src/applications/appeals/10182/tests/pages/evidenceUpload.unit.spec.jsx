@@ -4,11 +4,11 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import { uploadStore } from 'platform/forms-system/test/config/helpers';
-import environment from '~/platform/utilities/environment';
+import { uploadStore } from '@department-of-veterans-affairs/platform-forms-system/test-helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   DefinitionTester, // selectCheckbox
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 
 import formConfig from '../../config/form';
 import { EVIDENCE_UPLOAD_API } from '../../constants/apis';

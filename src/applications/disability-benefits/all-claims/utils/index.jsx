@@ -5,14 +5,14 @@ import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import { createSelector } from 'reselect';
 import fastLevenshtein from 'fast-levenshtein';
-import { apiRequest } from 'platform/utilities/api';
-import _ from 'platform/utilities/data';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
-import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
+import { isValidYear } from '@department-of-veterans-affairs/platform-forms-system/validations';
 import {
   checkboxGroupUI,
   checkboxGroupSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import Validate from './pages/Validate';
 import AppointmentsPage from '../components/pages/Appointments';
 import UpcomingAppointmentsPage from '../components/pages/UpcomingAppointments';

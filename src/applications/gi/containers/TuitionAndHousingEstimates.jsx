@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import classNames from 'classnames';
 import SearchAccordion from '../components/SearchAccordion';
 import SearchBenefits from '../components/SearchBenefits';

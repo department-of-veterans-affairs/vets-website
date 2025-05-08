@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import environment from 'platform/utilities/environment';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { validateName, reportDivorce } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
 import {

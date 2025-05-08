@@ -3,7 +3,7 @@ import React from 'react';
 import appendQuery from 'append-query';
 import DowntimeNotification, {
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { validateIdString } from '../utils/helpers';
 

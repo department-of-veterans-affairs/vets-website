@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import { SIGN_OUT_URL } from '../../utilities/constants';
 import NavDropdown from './NavDropdown';
 

@@ -1,5 +1,5 @@
-import environment from '~/platform/utilities/environment';
-import fileUiSchema from '~/platform/forms-system/src/js/definitions/file';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import fileUiSchema from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
 import {
   EvidenceUploadLabel,
   EvidenceUploadDescription,

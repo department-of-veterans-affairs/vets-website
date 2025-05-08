@@ -1,5 +1,5 @@
-import { submitToUrl } from 'platform/forms-system/src/js/actions';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { submitToUrl } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import _ from 'lodash';
 
 const submitForm = (form, formConfig) => {

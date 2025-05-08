@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { locationInfo } from '../../utils/helpers';

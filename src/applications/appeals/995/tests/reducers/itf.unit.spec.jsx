@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { requestStates } from '~/platform/utilities/constants';
+import { requestStates } from '@department-of-veterans-affairs/platform-utilities/constants';
 import { ITF_STATUSES } from '../../constants';
 
 import {

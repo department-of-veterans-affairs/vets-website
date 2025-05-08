@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import formConfig from '../config/form';
 
 const IntroductionPage = ({ router }) => {

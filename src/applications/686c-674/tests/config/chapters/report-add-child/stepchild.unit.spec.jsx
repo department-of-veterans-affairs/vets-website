@@ -6,7 +6,7 @@ import createCommonStore from '@department-of-veterans-affairs/platform-startup/
 import {
   DefinitionTester,
   getFormDOM,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();

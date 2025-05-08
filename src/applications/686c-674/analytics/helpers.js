@@ -1,4 +1,4 @@
-import { submitToUrl } from 'platform/forms-system/src/js/actions';
+import { submitToUrl } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { customTransformForSubmit } from '../config/utilities';
 
 export const buildEventData = formData => {

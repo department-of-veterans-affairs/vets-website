@@ -6,25 +6,25 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
 
-import * as address from 'platform/forms/definitions/address';
-import FormFooter from 'platform/forms/components/FormFooter';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
-// import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-// import dateRangeUi from 'platform/forms-system/src/js/definitions/dateRange';
-// import dateUI from 'platform/forms-system/src/js/definitions/date';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import environment from 'platform/utilities/environment';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-// import fullNameUi from 'platform/forms/definitions/fullName';
-// import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
-// import * as personId from 'platform/forms/definitions/personId';
-// import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import * as address from '@department-of-veterans-affairs/platform-forms/definitions/address';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import bankAccountUI from '@department-of-veterans-affairs/platform-forms/bankAccount';
+// import createNonRequiredFullName from '@department-of-veterans-affairs/platform-forms/nonRequiredFullName';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+// import dateRangeUi from '@department-of-veterans-affairs/platform-forms-system/dateRange';
+// import dateUI from '@department-of-veterans-affairs/platform-forms-system/date';
+import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import fullNameUI from '@department-of-veterans-affairs/platform-forms-system/definitions/fullName';
+// import fullNameUi from '@department-of-veterans-affairs/platform-forms/fullName';
+// import monthYearUI from '@department-of-veterans-affairs/platform-forms-system/monthYear';
+// import * as personId from '@department-of-veterans-affairs/platform-forms/personId';
+// import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 // import {
 //   validateMonthYear,
 //   validateFutureDateIfExpectedGrad,
-// } from 'platform/forms-system/src/js/validation';
+// } from '@department-of-veterans-affairs/platform-forms-system/validation';
 
 import manifest from '../manifest.json';
 

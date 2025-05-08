@@ -10,8 +10,8 @@ import VeteranInformationPage from './veteran/veteranInformationPage';
 import ContactInformationPage from './contactInformation/contactInformationPage';
 import InquiryPage from './inquiry/inquiryPage';
 import * as topic from './inquiry/topic/topic';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import environment from 'platform/utilities/environment';
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   contactInformationChapterTitle,
   contactInformationPageTitle,
@@ -29,7 +29,7 @@ import {
 
 import manifest from '../manifest.json';
 import CallMyVA311 from './review/error/CallMyVA311';
-import FormFooter from 'platform/forms/components/FormFooter';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
 import NeedHelpFooter from '../components/NeedHelpFooter';
 
 const {

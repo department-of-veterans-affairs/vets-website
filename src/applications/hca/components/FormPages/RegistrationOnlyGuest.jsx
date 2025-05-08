@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
 import RegistrationOnlyAlert from '../FormAlerts/RegistrationOnlyAlert';
 import content from '../../locales/en/content.json';
 

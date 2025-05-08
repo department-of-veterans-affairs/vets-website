@@ -1,5 +1,5 @@
 import React from 'react';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 class CalculatedDisabilityRating extends React.Component {
   constructor(props) {

@@ -3,8 +3,8 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import configureStore from 'redux-mock-store';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import formConfig from '../../config/form';
 
 const mockStore = configureStore([]);

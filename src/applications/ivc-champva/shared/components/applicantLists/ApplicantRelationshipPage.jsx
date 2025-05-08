@@ -4,8 +4,8 @@ import {
   VaRadio,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import PropTypes from 'prop-types';
 
 import { ADDITIONAL_FILES_HINT } from '../../constants';

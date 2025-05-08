@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import SearchTabs from '../components/search/SearchTabs';
 import { TABS } from '../constants';
 import NameSearchResults from './search/NameSearchResults';

@@ -1,6 +1,6 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { inlineTitleUI } from '../../../components/FormPatterns/TitlePatterns';
 import { validateCurrency } from '../../../utils/validation';
 import {

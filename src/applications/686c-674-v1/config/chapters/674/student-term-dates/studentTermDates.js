@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import { validateDate } from 'platform/forms-system/src/js/validation';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import { validateDate } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import { isChapterFieldRequired } from '../../../helpers';
 import { report674 } from '../../../utilities';
 import { generateHelpText } from '../helpers';

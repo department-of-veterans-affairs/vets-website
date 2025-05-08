@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 import {
   VaFileInput,
@@ -15,11 +15,11 @@ import {
   checkTypeAndExtensionMatches,
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
-} from 'platform/forms-system/src/js/utilities/file';
+} from '@department-of-veterans-affairs/platform-forms-system/utilities/file';
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 
-import { Element } from 'platform/utilities/scroll';
+import { Element } from '@department-of-veterans-affairs/platform-utilities/scroll';
 
 import { displayFileSize, DOC_TYPES } from '../../utils/helpers';
 import { setFocus } from '../../utils/page';

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import recordEvent from 'platform/monitoring/record-event';
-import FormFooter from 'platform/forms/components/FormFooter';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   WIZARD_STATUS_COMPLETE,
   WIZARD_STATUS_RESTARTING,

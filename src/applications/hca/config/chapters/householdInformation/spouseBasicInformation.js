@@ -1,6 +1,6 @@
-import fullNameUI from 'platform/forms/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import fullNameUI from '@department-of-veterans-affairs/platform-forms/fullName';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import { SpouseBasicInformationDescription } from '../../../components/FormDescriptions';
 

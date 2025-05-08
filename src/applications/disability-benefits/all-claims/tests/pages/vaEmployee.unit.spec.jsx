@@ -1,5 +1,5 @@
 import React from 'react';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import formConfig from '../../config/form';

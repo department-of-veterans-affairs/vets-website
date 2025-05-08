@@ -6,8 +6,8 @@
  */
 
 import * as Sentry from '@sentry/browser';
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   USE_GEOGRAPHIC_MOCK_DATA,
   MOCK_GMT_VALUE,

@@ -1,7 +1,7 @@
 import {
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { replaceStrValues } from '../../../utils/helpers/general';
 import { LAST_YEAR } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';

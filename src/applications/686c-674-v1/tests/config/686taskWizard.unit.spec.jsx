@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   selectCheckbox,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 
 import formConfig from '../../config/form';
 

@@ -9,8 +9,8 @@ import {
   phoneUI as platformPhoneUI,
   emailUI as platformEmailUI,
   ssnUI as platformSsnUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import { genderLabels } from 'platform/static-data/labels';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { genderLabels } from '@department-of-veterans-affairs/platform-static-data/labels';
 import {
   validateSsnIsUnique,
   validateAddressFields,

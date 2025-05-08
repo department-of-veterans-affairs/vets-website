@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
-import _ from 'platform/utilities/data';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
-import { validateWhiteSpace } from 'platform/forms/validations';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
+import cloneDeep from '@department-of-veterans-affairs/platform-utilities/data/cloneDeep';
+import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
 import {
   filterInactivePageData,
   getActivePages,
@@ -9,8 +9,8 @@ import {
   stringifyFormReplacer,
   expandArrayPages,
   createFormPageList,
-} from 'platform/forms-system/src/js/helpers';
-import { apiRequest } from 'platform/utilities/api';
+} from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
 const CLIENT_ERROR_REGEX = /^4\d{2}$/;

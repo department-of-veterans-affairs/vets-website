@@ -1,4 +1,4 @@
-import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+import { createRoutesWithSaveInProgress } from '@department-of-veterans-affairs/platform-forms/save-in-progress/helpers';
 
 import Form10203App from './Form10203App';
 import formConfig from './config/form';

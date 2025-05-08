@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-// import { focusElement } from 'platform/utilities/ui';
+// import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { createPayload, dependentsUploadUI } from '../../config/upload';
 
 describe('createPayload', () => {

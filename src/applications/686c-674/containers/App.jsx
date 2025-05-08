@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { useBrowserMonitoring } from '~/platform/utilities/real-user-monitoring';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
+import { useBrowserMonitoring } from '@department-of-veterans-affairs/platform-utilities/real-user-monitoring';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';

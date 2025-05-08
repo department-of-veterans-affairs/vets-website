@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/react';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import allPayments from '../../../reducers/index';

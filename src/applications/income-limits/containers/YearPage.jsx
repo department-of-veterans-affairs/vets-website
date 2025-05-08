@@ -5,7 +5,7 @@ import {
   VaButtonPair,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { ROUTES } from '../constants';
 import { updateEditMode, updateYear } from '../actions';

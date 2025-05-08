@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import {
   fetchDebtLetters,
   DEBTS_FETCH_INITIATED,

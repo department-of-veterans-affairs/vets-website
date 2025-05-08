@@ -1,9 +1,9 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
 import {
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { replaceStrValues } from '../../../utils/helpers/general';
 import { validateCurrency } from '../../../utils/validation';
 import { LAST_YEAR } from '../../../utils/constants';

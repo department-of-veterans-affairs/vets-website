@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 
-import * as api from 'platform/utilities/api';
-import { fullNameUI } from 'platform/forms-system/src/js/web-component-patterns';
-import * as recordEventModule from 'platform/monitoring/record-event';
+import * as api from '@department-of-veterans-affairs/platform-utilities/api';
+import { fullNameUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { benefitsIntakeFullNameUI } from '../utils/helpers';
 import { submit } from '../config/submit';
 

@@ -1,8 +1,8 @@
 import pick from 'lodash/pick';
-import get from 'platform/utilities/data/get';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 
 import * as educationProgram from '../definitions/educationProgram';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
+import dateUI from '@department-of-veterans-affairs/platform-forms-system/date';
 import { civilianBenefitsLabel } from '../utils/labels';
 
 // Exported like this so we can share the fields between the formConfig and the tests.

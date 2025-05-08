@@ -6,8 +6,8 @@ import {
   DefinitionTester,
   fillData,
   selectCheckbox,
-} from 'platform/testing/unit/schemaform-utils';
-import { changeDropdown } from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { changeDropdown } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import formConfig from '../../config/form';
 

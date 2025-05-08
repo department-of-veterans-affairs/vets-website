@@ -1,7 +1,7 @@
-import { arrayBuilderItemSubsequentPageTitleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import { arrayBuilderItemSubsequentPageTitleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import VaCheckboxField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaCheckboxField';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
+import VaSelectField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaSelectField';
 import {
   customLocationSchemaStatePostal,
   generateHelpText,

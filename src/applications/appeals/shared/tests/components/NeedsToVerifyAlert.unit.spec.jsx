@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/react';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import NeedsToVerifyAlert, {
   heading,

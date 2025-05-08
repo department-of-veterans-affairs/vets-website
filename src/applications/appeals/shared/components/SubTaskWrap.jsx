@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SubTask from '~/platform/forms/sub-task';
+import SubTask from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import GetFormHelp from '../content/GetFormHelp';
 

@@ -3,8 +3,8 @@ import { add, format, isAfter, isValid, isWithinInterval } from 'date-fns';
 import {
   convertToDateField,
   validateCurrentOrPastDate,
-} from 'platform/forms-system/src/js/validation';
-import { isValidDateRange } from 'platform/forms/validations';
+} from '@department-of-veterans-affairs/platform-forms-system/validation';
+import { isValidDateRange } from '@department-of-veterans-affairs/platform-forms/validations';
 import content from '../locales/en/content.json';
 import { replaceStrValues } from './helpers';
 

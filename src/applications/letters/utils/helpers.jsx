@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 import React from 'react';
 
-import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
+import EbenefitsLink from '@department-of-veterans-affairs/platform-site-wide/EbenefitsLink';
 import { apiRequest as commonApiClient } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { formatDateShort } from 'platform/utilities/date';
+import { formatDateShort } from '@department-of-veterans-affairs/platform-utilities/date';
 
 import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
 import { BENEFIT_OPTIONS } from './constants';

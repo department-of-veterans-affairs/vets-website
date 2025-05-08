@@ -1,7 +1,7 @@
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/gi.scss';
 
-import startApp from 'platform/startup/router';
+import startApp from '@department-of-veterans-affairs/platform-startup/router';
 import { buildRoutes } from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';

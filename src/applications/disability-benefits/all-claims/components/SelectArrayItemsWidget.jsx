@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
-import { setData } from 'platform/forms-system/src/js/actions';
-import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
-import environment from 'platform/utilities/environment';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { autoSaveForm } from '@department-of-veterans-affairs/platform-forms/save-in-progress/actions';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { disabilityActionTypes } from '../constants';
 

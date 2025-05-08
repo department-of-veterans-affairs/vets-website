@@ -6,10 +6,10 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-8794-schema.json';
 
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
+import fullNameUI from '@department-of-veterans-affairs/platform-forms-system/definitions/fullName';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
+import * as address from '@department-of-veterans-affairs/platform-forms-system/address';
 import fullSchema from '../22-8794-schema.json';
 
 // import fullSchema from 'vets-json-schema/dist/22-8794-schema.json';

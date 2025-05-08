@@ -1,4 +1,4 @@
-import { isValidEmail } from 'platform/forms/validations';
+import { isValidEmail } from '@department-of-veterans-affairs/platform-forms/validations';
 import { compareAsc } from 'date-fns';
 import { formFields } from './constants';
 

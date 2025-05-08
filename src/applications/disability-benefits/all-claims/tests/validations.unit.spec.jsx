@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import moment from 'moment';
 
-import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import { minYear, maxYear } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 
 import {
   isValidYear,

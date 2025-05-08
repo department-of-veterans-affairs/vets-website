@@ -3,16 +3,16 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+import { focusElement, getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import recordEvent from 'platform/monitoring/record-event';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ResultCard from './ResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';

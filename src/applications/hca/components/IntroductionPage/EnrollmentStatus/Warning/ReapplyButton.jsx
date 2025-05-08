@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
 import content from '../../../../locales/en/content.json';
 

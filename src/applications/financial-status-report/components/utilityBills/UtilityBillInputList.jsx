@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import PropTypes from 'prop-types';
 import InputList from '../shared/InputList';
 import { VALIDATION_LIMITS } from '../../constants';

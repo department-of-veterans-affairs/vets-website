@@ -1,5 +1,5 @@
 import EducationView from '../components/EducationView';
-import monthYearRange from 'platform/forms-system/src/js/definitions/monthYearRange';
+import monthYearRange from '@department-of-veterans-affairs/platform-forms-system/monthYearRange';
 
 import { hoursTypeLabels, stateLabels } from '../utils/labels';
 

@@ -1,4 +1,4 @@
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { selectEnrollmentStatus } from '../selectors';
 import {
   HCA_ENROLLMENT_STATUSES,

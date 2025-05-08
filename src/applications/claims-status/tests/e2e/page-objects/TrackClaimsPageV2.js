@@ -6,7 +6,7 @@ import featureToggle5103UpdateEnabled from '../fixtures/mocks/lighthouse/feature
 import featureToggle5103UpdateEnabledV2 from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled-v2.json';
 // END lighthouse_migration
 
-const Timeouts = require('platform/testing/e2e/timeouts.js');
+const Timeouts = require('@department-of-veterans-affairs/platform-testing/e2e/timeouts');
 
 /* eslint-disable class-methods-use-this */
 class TrackClaimsPageV2 {

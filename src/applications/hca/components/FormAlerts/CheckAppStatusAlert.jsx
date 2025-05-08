@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
 const CheckAppStatusAlert = () => {
   const dispatch = useDispatch();

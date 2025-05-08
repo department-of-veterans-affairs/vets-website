@@ -1,5 +1,5 @@
 import React from 'react';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
 import {
   validateCurrency,
   validateSpouseBenefitsVaCompensationimits,

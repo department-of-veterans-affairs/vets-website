@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
+import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
 
 const formData = {
   street: 'MILITARY ADDY 3',

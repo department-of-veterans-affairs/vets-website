@@ -14,11 +14,11 @@ import {
   textSchema,
   yesNoUI,
   yesNoSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
-import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
-import { validateDate } from 'platform/forms-system/src/js/validation';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import VaMemorableDateField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaMemorableDateField';
+import { validateDate } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import { arrayBuilderPages } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
 import {
   formatCurrency,
   otherRecipientRelationshipExplanationRequired,

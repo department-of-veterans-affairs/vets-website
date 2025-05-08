@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
-import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
-import { isValidRoutingNumber } from 'platform/forms/validations';
+import ReviewCardField from '@department-of-veterans-affairs/platform-forms-system/ReviewCardField';
+import { isValidRoutingNumber } from '@department-of-veterans-affairs/platform-forms/validations';
 import { hasNewBankInformation, hasPrefillBankInformation } from '../utils';
 import PaymentView from '../components/PaymentView';
 import PaymentReviewView from '../components/PaymentReviewView';

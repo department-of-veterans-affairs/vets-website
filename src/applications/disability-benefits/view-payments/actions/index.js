@@ -1,5 +1,5 @@
-import recordEvent from 'platform/monitoring/record-event';
-import { apiRequest } from 'platform/utilities/api';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { isServerError, isClientError } from '../utils';
 
 export const PAYMENTS_RECEIVED_STARTED = 'PAYMENTS_RECEIVED_STARTED';

@@ -1,9 +1,9 @@
 import * as Sentry from '@sentry/browser';
 
-import recordEvent from 'platform/monitoring/record-event';
-import { CSP_IDS, POLICY_TYPES } from 'platform/user/authentication/constants';
-import { SENTRY_TAGS } from 'platform/user/authentication/errors';
-import get from 'platform/utilities/data/get';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { CSP_IDS, POLICY_TYPES } from '@department-of-veterans-affairs/platform-user/authentication/constants';
+import { SENTRY_TAGS } from '@department-of-veterans-affairs/platform-user/authentication/errors';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 
 export default class AuthMetrics {
   constructor(type, payload, requestId, errorCode) {

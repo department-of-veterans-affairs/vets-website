@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import recordEvent from 'platform/monitoring/record-event';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import {
   DowntimeNotification,
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
-import { focusElement } from 'platform/utilities/ui';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CaregiversPrivacyActStatement from '../components/IntroductionPage/CaregiversPrivacyActStatement';
 import ProcessTimeline from '../components/IntroductionPage/ProcessTimeline';
 import content from '../locales/en/content.json';

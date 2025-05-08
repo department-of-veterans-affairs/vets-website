@@ -1,6 +1,6 @@
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import cookie from 'js-cookie';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';

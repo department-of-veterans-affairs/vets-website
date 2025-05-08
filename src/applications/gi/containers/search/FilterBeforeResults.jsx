@@ -4,12 +4,12 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import {
   VaLoadingIndicator,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import environment from 'platform/utilities/environment';
+// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import JumpLink from '../../components/profile/JumpLink';
 // import LearnMoreLabel from '../../components/LearnMoreLabel';
 // import AccordionItem from '../../components/AccordionItem';

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { states } from 'platform/forms/address';
-import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
+import { states } from '@department-of-veterans-affairs/platform-forms/address';
+import { createUSAStateLabels } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 
 export const chapterNames = {
   veteranInformation: 'Veteran Information',

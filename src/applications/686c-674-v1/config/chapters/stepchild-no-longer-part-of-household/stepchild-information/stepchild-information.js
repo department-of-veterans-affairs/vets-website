@@ -1,4 +1,4 @@
-import cloneDeep from 'platform/utilities/data/cloneDeep';
+import cloneDeep from '@department-of-veterans-affairs/platform-utilities/data/cloneDeep';
 import {
   buildAddressSchema,
   addressUISchema,

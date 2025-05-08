@@ -1,5 +1,5 @@
 import React from 'react';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import PropTypes from 'prop-types';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports

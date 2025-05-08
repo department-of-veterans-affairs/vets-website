@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { getLabelText, getText } from '../../helpers/queryHelper';
 
 import VeteranInformationPage from '../../../../form/veteran/veteranInformationPage';

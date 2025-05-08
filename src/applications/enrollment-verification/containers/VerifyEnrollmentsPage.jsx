@@ -5,8 +5,8 @@ import { useHistory } from 'react-router-dom';
 
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   postEnrollmentVerifications,

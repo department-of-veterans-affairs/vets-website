@@ -1,5 +1,5 @@
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
 import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 

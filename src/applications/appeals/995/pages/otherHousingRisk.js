@@ -1,4 +1,4 @@
-import { textareaUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { textareaUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import {
   OtherHousingRisksTitle,

@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import copays from '../e2e/fixtures/mocks/copays.json';
 import { transform } from '../../../combined/utils/helpers';
 import {

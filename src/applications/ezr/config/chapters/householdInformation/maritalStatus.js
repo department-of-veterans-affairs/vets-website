@@ -1,10 +1,10 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import PrefillMessage from '@department-of-veterans-affairs/platform-forms/save-in-progress/PrefillMessage';
 import {
   titleUI,
   descriptionUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import VaSelectField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaSelectField';
 import MaritalStatusDescription from '../../../components/FormDescriptions/MaritalStatusDescription';
 import content from '../../../locales/en/content.json';
 

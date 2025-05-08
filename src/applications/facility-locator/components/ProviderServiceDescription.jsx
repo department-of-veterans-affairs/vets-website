@@ -1,5 +1,5 @@
 import React from 'react';
-import get from 'platform/utilities/data/get';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 
 /**
  * Description block for a CC Provider

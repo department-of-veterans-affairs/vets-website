@@ -3,7 +3,7 @@ import { startOfToday, addYears, isAfter, isValid } from 'date-fns';
 import {
   getNextPagePath,
   checkValidPagePath,
-} from 'platform/forms-system/src/js/routing';
+} from '@department-of-veterans-affairs/platform-forms-system/routing';
 
 import {
   processContestableIssues,

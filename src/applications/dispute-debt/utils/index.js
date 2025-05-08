@@ -1,5 +1,5 @@
 import { addDays, parse, parseISO, isValid } from 'date-fns';
-import { formatDateLong } from 'platform/utilities/date';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/date';
 /**
  * parseDateToDateObj from ISO8601 or JS number date (not unix time)
  * @param {string, number, Date} date - date to format

@@ -1,8 +1,8 @@
 // platform imports
-import environment from 'platform/utilities/environment';
-import FormFooter from 'platform/forms/components/FormFooter';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 
 // internal imports
 import { prefillTransformer } from './prefill-transformer';

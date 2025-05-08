@@ -1,7 +1,7 @@
 import {
   radioSchema,
   radioUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import RoleDescription from '../../components/01-personal-information-chapter/RoleDescription';
 import { roleOptions } from '../../constants/options';

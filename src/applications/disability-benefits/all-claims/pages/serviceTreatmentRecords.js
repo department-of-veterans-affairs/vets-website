@@ -1,8 +1,8 @@
-import _ from 'platform/utilities/data';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
 import {
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { serviceTreatmentRecordsSubmitLater } from '../content/serviceTreatmentRecords';
 
 export const uiSchema = {

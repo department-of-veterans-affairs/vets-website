@@ -19,10 +19,10 @@
  * 1. State/Province/Region - shows up if the country is NOT the US, but NOT required.
  */
 
-import { countries } from 'platform/forms/address';
-import ADDRESS_DATA from 'platform/forms/address/data';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
-import get from 'platform/utilities/data/get';
+import { countries } from '@department-of-veterans-affairs/platform-forms/address';
+import ADDRESS_DATA from '@department-of-veterans-affairs/platform-forms/address/data';
+import cloneDeep from '@department-of-veterans-affairs/platform-utilities/data/cloneDeep';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 import React from 'react';
 import ReviewCardField from '../components/ReviewCardField';
 import { militaryCities, states50AndDC } from '../constants';

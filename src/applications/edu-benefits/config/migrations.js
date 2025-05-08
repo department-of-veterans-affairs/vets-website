@@ -1,5 +1,5 @@
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 
 export function urlMigration(urlPrefix) {
   // 0 -> 1, we have split the edu bundle into form-specific bundles with a new urlPrefix

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockApiRequest } from 'platform/testing/unit/helpers.js';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import {
   fetchITF,

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { buildAddressArray } from 'platform/utilities/facilities-and-mapbox';
+import { buildAddressArray } from '@department-of-veterans-affairs/platform-utilities/facilities-and-mapbox';
 
 function LocationDirectionsLink({ location }) {
   let address = buildAddressArray(location);

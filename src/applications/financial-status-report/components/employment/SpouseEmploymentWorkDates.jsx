@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { parseISODate } from 'platform/forms-system/src/js/helpers';
+import { parseISODate } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import PropTypes from 'prop-types';
 
 import ButtonGroup from '../shared/ButtonGroup';

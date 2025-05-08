@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectProfile } from 'platform/user/selectors';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { selectAuthStatus, selectFeatureToggles } from '../utils/selectors';
 import { validateVeteranDob } from '../utils/validation';
 

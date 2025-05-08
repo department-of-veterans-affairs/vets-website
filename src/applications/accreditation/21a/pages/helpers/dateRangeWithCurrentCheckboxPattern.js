@@ -1,8 +1,8 @@
-import VaCheckboxField from '~/platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import VaCheckboxField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaCheckboxField';
 import {
   currentOrPastMonthYearDateRangeSchema,
   currentOrPastMonthYearDateRangeUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 /**
  * Generates the uiSchema for a date range with a current checkbox.

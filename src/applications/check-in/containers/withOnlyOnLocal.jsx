@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose } from 'redux';
 
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 const withOnlyOnLocal = WrappedComponent => props => {
   if (!environment.isLocalhost()) {

@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import merge from 'lodash/merge';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import {
   addressUI,
   addressSchema,
@@ -16,8 +16,8 @@ import {
   emailSchema,
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { blankSchema } from '@department-of-veterans-affairs/platform-forms-system/utilities/data/profile';
 import {
   validAddressCharsOnly,
   validFieldCharsOnly,

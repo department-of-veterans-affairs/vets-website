@@ -1,8 +1,8 @@
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import FormFooter from 'platform/forms/components/FormFooter';
-import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
+import preSubmitInfo from '@department-of-veterans-affairs/platform-forms/preSubmitInfo';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import { externalServices as services } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 
 import migrations from '../migrations';
 

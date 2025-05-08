@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import {
   dependentSchema as schema,
   dependentUISchema as uiSchema,

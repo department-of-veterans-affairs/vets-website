@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import ApplicationDownloadLink from '../ApplicationDownloadLink';
 
 const ConfirmationScreenView = ({ name, timestamp }) => {

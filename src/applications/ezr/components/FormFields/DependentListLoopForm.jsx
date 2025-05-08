@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import {
   dependentSchema as schema,

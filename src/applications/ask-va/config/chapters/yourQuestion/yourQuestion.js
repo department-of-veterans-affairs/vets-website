@@ -1,4 +1,4 @@
-import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
+import VaTextareaField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextareaField';
 import FileUpload from '../../../components/FileUpload';
 import FormElementTitle from '../../../components/FormElementTitle';
 import PageFieldSummary from '../../../components/PageFieldSummary';

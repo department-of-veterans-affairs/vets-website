@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
-import { AUTH_ERRORS, getAuthError } from 'platform/user/authentication/errors';
+import { AUTH_ERRORS, getAuthError } from '@department-of-veterans-affairs/platform-user/authentication/errors';
 import RenderErrorContainer from '../components/RenderErrorContainer';
 
 describe('RenderErrorContainer', () => {

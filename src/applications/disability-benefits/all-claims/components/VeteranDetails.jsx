@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { genderLabels } from 'platform/static-data/labels';
+import { genderLabels } from '@department-of-veterans-affairs/platform-static-data/labels';
 import { srSubstitute, formatDate } from '../utils';
 import { editNote } from '../content/common';
 

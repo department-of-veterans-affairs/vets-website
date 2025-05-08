@@ -1,12 +1,12 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import VaSelectField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaSelectField';
 import {
   fullNameUI,
   ssnUI,
   ssnSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { validateDependentDate } from '../../../utils/validation';
 import content from '../../../locales/en/content.json';
 

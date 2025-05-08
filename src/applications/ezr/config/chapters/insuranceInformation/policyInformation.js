@@ -2,8 +2,8 @@ import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import {
   titleUI,
   descriptionUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
 
 import {
   PolicyOrGroupDescription,

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import formConfig from '../../config/form';
 
 describe('Dispute Debt - Downtime Implementation', () => {

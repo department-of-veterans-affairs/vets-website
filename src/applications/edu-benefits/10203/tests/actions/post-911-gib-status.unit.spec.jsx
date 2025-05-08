@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { getRemainingEntitlement } from '../../actions/post-911-gib-status';
 
 const GET_REMAINING_ENTITLEMENT_SUCCESS = 'GET_REMAINING_ENTITLEMENT_SUCCESS';

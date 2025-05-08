@@ -1,5 +1,5 @@
-import { convertToDateField } from 'platform/forms-system/src/js/validation';
-import { isValidDateRange } from 'platform/forms-system/src/js/utilities/validations';
+import { convertToDateField } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import { isValidDateRange } from '@department-of-veterans-affairs/platform-forms-system/validations';
 
 import { getIssueName, getSelected } from '../utils/issues';
 

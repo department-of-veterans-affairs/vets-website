@@ -1,10 +1,10 @@
 import { differenceInMilliseconds } from 'date-fns';
-import environment from 'platform/utilities/environment';
-import localStorage from 'platform/utilities/storage/localStorage';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import localStorage from '@department-of-veterans-affairs/platform-utilities/localStorage';
 import {
   fetchAndUpdateSessionExpiration as fetch,
   apiRequest,
-} from 'platform/utilities/api';
+} from '@department-of-veterans-affairs/platform-utilities/api';
 import * as Sentry from '@sentry/browser';
 import { deductionCodes } from '../constants/deduction-codes';
 import {

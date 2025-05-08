@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DowntimeNotification,
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
-import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import VerifyAlert from '@department-of-veterans-affairs/platform-user/VerifyAlert';
 
 import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';

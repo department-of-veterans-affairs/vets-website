@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import { ExitApplicationButton } from '../../components/ExitApplicationButton';
 import formConfig from '../../config/form';
-import * as saveInProgressApi from 'platform/forms/save-in-progress/api';
+import * as saveInProgressApi from '@department-of-veterans-affairs/platform-forms/save-in-progress/api';
 import captureEvents from '../../analytics-functions';
 
 const props = {

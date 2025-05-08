@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser';
 
-import _ from 'platform/utilities/data';
-import { apiRequest } from 'platform/utilities/api';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
 import branches from '../tests/fixtures/mocks/service-branches.json';
 import { SERVICE_BRANCHES } from '../constants';

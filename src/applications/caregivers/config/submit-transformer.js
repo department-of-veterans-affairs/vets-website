@@ -1,5 +1,5 @@
 import { camelCase, isEmpty, omit } from 'lodash';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import {
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,

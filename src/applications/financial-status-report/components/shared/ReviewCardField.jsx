@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
-import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
-import get from 'platform/utilities/data/get';
-import omit from 'platform/utilities/data/omit';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { errorSchemaIsValid } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+import omit from '@department-of-veterans-affairs/platform-utilities/data/omit';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import { isReactComponent } from 'platform/utilities/ui';
+import { isReactComponent } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const ReviewCardField = ({
   uiSchema,

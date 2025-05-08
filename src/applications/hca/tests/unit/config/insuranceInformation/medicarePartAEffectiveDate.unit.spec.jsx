@@ -7,7 +7,7 @@ import {
   submitForm,
   getFormDOM,
   DefinitionTester,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../../config/form';
 import { simulateInputChange } from '../../../helpers';
 

@@ -1,4 +1,4 @@
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 import {
   MVI_ADD_NOT_ATTEMPTED,
   MVI_ADD_INITIATED,

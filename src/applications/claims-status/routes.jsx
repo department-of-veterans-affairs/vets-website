@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Navigate, Routes } from 'react-router-dom-v5-compat';
 
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 import TogglerRoute from './components/TogglerRoute';
 import YourClaimsPageV2 from './containers/YourClaimsPageV2';

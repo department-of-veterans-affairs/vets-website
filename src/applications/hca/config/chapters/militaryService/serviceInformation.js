@@ -1,6 +1,6 @@
-import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import MilitaryPrefillMessage from '@department-of-veterans-affairs/platform-forms/save-in-progress/MilitaryPrefillMessage';
+import dateUI from '@department-of-veterans-affairs/platform-forms-system/date';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
 import {
   DISCHARGE_TYPE_LABELS,
   SERVICE_BRANCH_LABELS,

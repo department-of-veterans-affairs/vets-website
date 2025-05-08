@@ -2,8 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
-import * as recordEventModule from 'platform/monitoring/record-event';
-import * as scrollToTopModule from 'platform/utilities/ui/scrollToTop';
+import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import * as scrollToTopModule from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 import BackToTop from '../../components/BackToTop';
 

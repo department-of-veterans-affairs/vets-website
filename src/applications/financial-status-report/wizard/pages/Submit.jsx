@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
+import externalServiceStatus from '@department-of-veterans-affairs/platform-monitoring/externalServiceStatus';
 import {
   DowntimeNotification,
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { PAGE_NAMES } from '../constants';
 import StartFormButton from '../components/StartFormButton';
 import ContactDMC from '../components/Contacts';

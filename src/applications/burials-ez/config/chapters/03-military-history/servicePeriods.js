@@ -6,14 +6,14 @@ import parseISO from 'date-fns/parseISO';
 import {
   currentOrPastDateUI,
   textUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { validateDateRange } from '@department-of-veterans-affairs/platform-forms-system/validation';
-import { VaSelectField } from 'platform/forms-system/src/js/web-component-fields';
+import { VaSelectField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 
 import {
   serviceNumberSchema,
   serviceNumberUI,
-} from 'platform/forms-system/src/js/web-component-patterns/ssnPattern';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns/ssnPattern';
 import { generateTitle, generateHelpText } from '../../../utils/helpers';
 import ListItemView from '../../../components/ListItemView';
 import ReviewRowView from '../../../components/ReviewRowView';

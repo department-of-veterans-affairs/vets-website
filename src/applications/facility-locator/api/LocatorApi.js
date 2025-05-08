@@ -1,4 +1,4 @@
-import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
 import { getAPI, resolveParamsWithUrl } from '../config';
 import manifest from '../manifest.json';
 

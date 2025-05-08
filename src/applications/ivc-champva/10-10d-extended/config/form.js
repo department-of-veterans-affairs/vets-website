@@ -1,7 +1,7 @@
 import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { minimalHeaderFormConfigOptions } from '@department-of-veterans-affairs/platform-forms-system/patterns/minimal-header';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';

@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   selectRadio,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 import formConfig from '../../config/form';
 

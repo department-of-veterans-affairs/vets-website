@@ -1,4 +1,4 @@
-import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
 import {
   SUPPORTED_BENEFIT_TYPES,

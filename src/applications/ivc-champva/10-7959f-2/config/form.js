@@ -1,7 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { cloneDeep } from 'lodash';
 import merge from 'lodash/merge';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import React from 'react';
 
 import {
@@ -22,7 +22,7 @@ import {
   phoneSchema,
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import transformForSubmit from './submitTransformer';
 import prefillTransformer from './prefillTransformer';

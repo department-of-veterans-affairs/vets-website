@@ -1,5 +1,5 @@
-import testForm from 'platform/testing/e2e/cypress/support/form-tester';
-import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import testForm from '@department-of-veterans-affairs/platform-testing/form-tester';
+import { createTestConfig } from '@department-of-veterans-affairs/platform-testing/form-tester/utilities';
 
 import maximalFixture from '../schema/maximal-test.json';
 import minimalFixture from '../schema/minimal-test.json';

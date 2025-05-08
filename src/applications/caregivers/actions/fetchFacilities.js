@@ -1,4 +1,4 @@
-import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { API_ENDPOINTS } from '../utils/constants';
 import { ensureValidCSRFToken } from './ensureValidCSRFToken';
 import content from '../locales/en/content.json';

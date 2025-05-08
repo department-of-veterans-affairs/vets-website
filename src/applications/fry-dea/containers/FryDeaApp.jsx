@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 
-import { setData } from 'platform/forms-system/src/js/actions';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/feature-toggles/selectors';
 import formConfig from '../config/form';
 import { fetchVeterans } from '../actions';
 import { VETERANS_TYPE } from '../constants';

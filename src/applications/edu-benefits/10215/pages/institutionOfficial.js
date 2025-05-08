@@ -1,8 +1,8 @@
 import {
   textSchema,
   textUI,
-} from 'platform/forms-system/src/js/web-component-patterns/textPatterns';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns/textPatterns';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns/titlePattern';
 
 const uiSchema = {
   certifyingOfficial: {

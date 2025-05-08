@@ -1,7 +1,7 @@
 import React from 'react';
 
-import FormFooter from 'platform/forms/components/FormFooter';
-import SubTask from 'platform/forms/sub-task';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import SubTask from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import { getPageTitle, wrapWithBreadcrumb } from '../utils';
 import pages from './pages';

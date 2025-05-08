@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import React from 'react';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 
 import VeteranInfoBox from './VeteranInfoBox';
 import ReviewPageHeader from '../shared/ReviewPageHeader';

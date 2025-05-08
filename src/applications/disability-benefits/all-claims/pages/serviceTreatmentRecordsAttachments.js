@@ -1,5 +1,5 @@
-import _ from 'platform/utilities/data';
-import { validateFileField } from 'platform/forms-system/src/js/validation';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
+import { validateFileField } from '@department-of-veterans-affairs/platform-forms-system/validation';
 
 import { ancillaryFormUploadUi } from '../utils/schemas';
 import { UploadDescription } from '../content/fileUploadDescriptions';

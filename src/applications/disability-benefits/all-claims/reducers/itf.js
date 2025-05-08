@@ -1,5 +1,5 @@
-import set from 'platform/utilities/data/set';
-import { requestStates } from 'platform/utilities/constants';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
+import { requestStates } from '@department-of-veterans-affairs/platform-utilities/constants';
 import { itfStatuses } from '../constants';
 import { isNotExpired } from '../utils';
 import {

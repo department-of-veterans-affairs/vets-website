@@ -2,7 +2,7 @@ import {
   titleUI,
   radioSchema,
   radioUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 const labels = {
   veteran: "I'm a Veteran",

@@ -1,5 +1,5 @@
-import { SET_SUBMISSION } from 'platform/forms-system/src/js/actions';
-import recordEvent from 'platform/monitoring/record-event';
+import { SET_SUBMISSION } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import _ from 'lodash';
 
 const analyticsEvents = [

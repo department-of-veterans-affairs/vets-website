@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { ConfirmationView } from '@department-of-veterans-affairs/platform-forms-system/ConfirmationView';
 import {
   submissionStatuses,
   WIZARD_STATUS,

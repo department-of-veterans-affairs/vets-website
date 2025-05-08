@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import recordEvent from 'platform/monitoring/record-event';
-import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import externalServiceStatus from '@department-of-veterans-affairs/platform-monitoring/externalServiceStatus';
 import {
   DowntimeNotification,
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import Wizard from 'applications/static-pages/wizard';
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
+import { WIZARD_STATUS_COMPLETE } from '@department-of-veterans-affairs/platform-site-wide/wizard';
 import { MaintenanceAlert } from '../components/alerts/Alerts';
 import pages from './pages';
 import GetFormHelp from '../components/shared/GetFormHelp';

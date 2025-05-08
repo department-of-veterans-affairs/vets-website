@@ -1,5 +1,5 @@
 import React from 'react';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import { PAGE_TITLE } from '../config/constants';
 
 export const IntroductionPageHeader = () => (

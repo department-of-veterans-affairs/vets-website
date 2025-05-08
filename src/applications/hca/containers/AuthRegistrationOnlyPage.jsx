@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { getPreviousPagePath } from 'platform/forms-system/src/js/routing';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import { getPreviousPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
+import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
 import RegistrationOnlyAlert from '../components/FormAlerts/RegistrationOnlyAlert';
 import FormFooter from '../components/FormFooter';
 import content from '../locales/en/content.json';

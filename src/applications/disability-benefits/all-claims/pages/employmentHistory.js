@@ -1,8 +1,8 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import VaCheckboxField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaCheckboxField';
+import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import { employmentDescription } from '../content/employmentHistory';

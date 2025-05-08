@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { checkVaCheckbox } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

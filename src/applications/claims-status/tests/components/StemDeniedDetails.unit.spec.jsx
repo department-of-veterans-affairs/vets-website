@@ -4,7 +4,7 @@ import { fireEvent } from '@testing-library/dom';
 import sinon from 'sinon';
 import { renderWithRouter } from '../utils';
 
-import * as recordEventModule from '~/platform/monitoring/record-event';
+import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 import StemDeniedDetails from '../../components/StemDeniedDetails';
 

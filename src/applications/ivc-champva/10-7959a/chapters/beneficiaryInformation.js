@@ -16,7 +16,7 @@ import {
   textUI,
   emailUI,
   emailSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { nameWording } from '../../shared/utilities';
 import {
   validAddressCharsOnly,

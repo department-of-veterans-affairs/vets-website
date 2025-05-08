@@ -6,9 +6,9 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 import { itfNotice } from '../content/introductionPage';
 import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';

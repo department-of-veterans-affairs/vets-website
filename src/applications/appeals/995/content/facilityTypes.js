@@ -1,6 +1,6 @@
 import React from 'react';
 
-import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+import readableList from '@department-of-veterans-affairs/platform-forms-system/utilities/data/readableList';
 
 export const facilityTypeTitle =
   'Select all the types of facilities or providers that treated you';

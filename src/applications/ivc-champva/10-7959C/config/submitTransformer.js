@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { transformForSubmit as formsSystemTransformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import {
   concatStreets,
   getObjectsWithAttachmentId,

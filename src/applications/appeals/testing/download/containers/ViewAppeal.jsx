@@ -3,8 +3,8 @@ import { format } from 'date-fns';
 
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import { focusElement } from 'platform/utilities/ui';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import extraData from '../tests/fixtures/data/extra-data.json';
 import testData from '../tests/fixtures/data/test-data.json';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 const redirect = <Navigate to="../status" replace />;
 

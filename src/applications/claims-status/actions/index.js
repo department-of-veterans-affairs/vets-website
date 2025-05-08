@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import localStorage from 'platform/utilities/storage/localStorage';
+import localStorage from '@department-of-veterans-affairs/platform-utilities/localStorage';
 
 import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
 import {

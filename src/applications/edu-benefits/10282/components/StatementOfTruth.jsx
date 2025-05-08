@@ -1,5 +1,5 @@
 import React from 'react';
-import FormSignature from 'platform/forms-system/src/js/components/FormSignature';
+import FormSignature from '@department-of-veterans-affairs/platform-forms-system/FormSignature';
 import { capitalizeFirstLetter } from '../../utils/helpers';
 /**
  * Checks that the provided signature string matches the existing

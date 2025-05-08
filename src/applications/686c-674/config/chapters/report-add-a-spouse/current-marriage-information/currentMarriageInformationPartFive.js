@@ -1,8 +1,8 @@
 import {
   radioUI,
   radioSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
 import { separationLabelArr, separationLabels } from './helpers';
 
 export const schema = {

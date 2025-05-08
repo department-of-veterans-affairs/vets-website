@@ -1,5 +1,5 @@
-import { scrollAndFocus } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollAndFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 export function setFocus(selector) {
   const el =

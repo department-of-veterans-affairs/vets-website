@@ -6,8 +6,8 @@ import {
   checkTypeAndExtensionMatches,
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
-} from 'platform/forms-system/src/js/utilities/file';
-import { getScrollOptions } from 'platform/utilities/ui';
+} from '@department-of-veterans-affairs/platform-forms-system/utilities/file';
+import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   isValidFile,

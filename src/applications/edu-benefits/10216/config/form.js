@@ -1,7 +1,7 @@
 import React from 'react';
 
-import FormFooter from 'platform/forms/components/FormFooter';
-import environment from 'platform/utilities/environment';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 

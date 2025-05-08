@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 

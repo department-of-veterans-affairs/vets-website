@@ -1,14 +1,14 @@
 import { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
-import ADDRESS_DATA from 'platform/forms/address/data';
+import ADDRESS_DATA from '@department-of-veterans-affairs/platform-forms/address/data';
 
 import constants from 'vets-json-schema/dist/constants.json';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
 import { scroller } from 'react-scroll';
-import { getScrollOptions } from 'platform/utilities/ui';
-import environment from 'platform/utilities/environment';
+import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import mapboxClient from '../components/MapboxClient';
 
 const mbxClient = mbxGeo(mapboxClient);

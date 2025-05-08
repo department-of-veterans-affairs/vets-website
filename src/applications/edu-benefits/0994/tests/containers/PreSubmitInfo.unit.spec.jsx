@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
-import { commonReducer } from 'platform/startup/store';
+import { commonReducer } from '@department-of-veterans-affairs/platform-startup/store';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 
 const fakeStore = createStore(

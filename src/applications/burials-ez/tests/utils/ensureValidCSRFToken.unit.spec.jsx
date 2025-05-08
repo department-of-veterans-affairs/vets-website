@@ -1,9 +1,9 @@
 import { expect } from 'chai';
-import * as api from 'platform/utilities/api';
+import * as api from '@department-of-veterans-affairs/platform-utilities/api';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
-import environment from 'platform/utilities/environment';
-import * as recordEventModule from 'platform/monitoring/record-event';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { ensureValidCSRFToken } from '../../utils/ensureValidCSRFToken';
 
 describe('Burials ensureValidCSRFToken action', () => {

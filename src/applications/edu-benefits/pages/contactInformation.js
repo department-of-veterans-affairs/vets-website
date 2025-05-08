@@ -2,15 +2,15 @@ import merge from 'lodash/merge';
 
 import schemaDefinitions from 'vets-json-schema/dist/definitions.json';
 
-import { validateMatch } from 'platform/forms-system/src/js/validation';
+import { validateMatch } from '@department-of-veterans-affairs/platform-forms-system/validation';
 
 import { preferredContactMethodLabels } from '../utils/labels';
 
 const { preferredContactMethod } = schemaDefinitions;
 
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import * as address from 'platform/forms/definitions/address';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
+import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
+import * as address from '@department-of-veterans-affairs/platform-forms/definitions/address';
 
 export default function createContactInformationPage(
   schema,

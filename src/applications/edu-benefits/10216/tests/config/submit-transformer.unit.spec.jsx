@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as transformHelpers from 'platform/forms-system/src/js/helpers';
+import * as transformHelpers from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import * as utilities from '../../utilities';
 import { transform } from '../../config/submit-transformer';
 

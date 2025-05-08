@@ -1,14 +1,14 @@
 import React from 'react';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import FormFooter from 'platform/forms/components/FormFooter';
-import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   titleUI,
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {

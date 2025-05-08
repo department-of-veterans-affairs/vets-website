@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import { submitToUrl } from 'platform/forms-system/src/js/actions';
+import { submitToUrl } from '@department-of-veterans-affairs/platform-forms-system/actions';
 
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import recordEvent from 'platform/monitoring/record-event';
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 const submitForm = (form, formConfig) => {
   const body = formConfig.transformForSubmit

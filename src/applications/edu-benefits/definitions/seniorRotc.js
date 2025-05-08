@@ -1,5 +1,5 @@
-import yearUI from 'platform/forms-system/src/js/definitions/year';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import yearUI from '@department-of-veterans-affairs/platform-forms-system/year';
+import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
 import ScholarshipPeriodField from '../components/ScholarshipPeriodField';
 
 export default {

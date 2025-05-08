@@ -13,7 +13,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-forms-sys
 
 import findDuplicateIndexes from '@department-of-veterans-affairs/platform-forms-system/findDuplicateIndexes';
 
-import { Element } from 'platform/utilities/scroll';
+import { Element } from '@department-of-veterans-affairs/platform-utilities/scroll';
 
 const { scroller } = Scroll;
 const scrollToTimeout = process.env.NODE_ENV === 'test' ? 0 : 100;

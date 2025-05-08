@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import merge from 'lodash/merge';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
+import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
 import { veteranInformation } from '../../../utilities';
 import {
   buildAddressSchema,

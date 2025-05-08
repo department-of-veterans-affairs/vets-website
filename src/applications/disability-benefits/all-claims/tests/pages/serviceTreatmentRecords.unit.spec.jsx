@@ -7,7 +7,7 @@ import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('serviceTreatmentRecords', () => {

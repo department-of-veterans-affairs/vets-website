@@ -4,9 +4,9 @@ import { format } from 'date-fns';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 
 import extraData from '../tests/fixtures/data/extra-data.json';
 import testData from '../tests/fixtures/data/test-data.json';

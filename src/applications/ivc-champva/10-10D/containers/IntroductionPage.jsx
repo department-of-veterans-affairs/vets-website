@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro'; // '@' import not working
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro'; // '@' import not working
 import PropTypes from 'prop-types';
 
 const IntroductionPage = props => {

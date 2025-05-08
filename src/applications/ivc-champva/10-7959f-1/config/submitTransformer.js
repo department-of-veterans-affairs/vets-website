@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import CONSTANTS from 'vets-json-schema/dist/constants.json'; // For countries
-import { formatDateShort } from 'platform/utilities/date';
-import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { formatDateShort } from '@department-of-veterans-affairs/platform-utilities/date';
+import { transformForSubmit as formsSystemTransformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { concatStreets } from '../../shared/utilities';
 
 // Take an address object and turn it into a string with line breaks

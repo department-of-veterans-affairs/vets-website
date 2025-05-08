@@ -1,9 +1,9 @@
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import PrefillMessage from '@department-of-veterans-affairs/platform-forms/save-in-progress/PrefillMessage';
 import {
   yesNoUI,
   yesNoSchema,
   descriptionUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import MedicaidDescription from '../../../components/FormDescriptions/MedicaidDescription';
 import content from '../../../locales/en/content.json';
 

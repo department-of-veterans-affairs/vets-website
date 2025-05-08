@@ -1,4 +1,4 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { emailUI, phoneUI } from '../../../definitions/sharedUI';
 import ContactInfoDescription from '../../../components/FormDescriptions/VeteranContactInfoDescription';
 import { FULL_SCHEMA } from '../../../utils/imports';

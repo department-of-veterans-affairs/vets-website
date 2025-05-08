@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   removeNonNumberCharacters,
   formatDollarAmount,

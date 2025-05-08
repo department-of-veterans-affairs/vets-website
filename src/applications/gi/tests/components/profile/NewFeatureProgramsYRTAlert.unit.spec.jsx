@@ -3,8 +3,8 @@ import { render, fireEvent, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import * as scrollUtils from 'platform/utilities/ui/scrollTo';
-import * as uiUtils from 'platform/utilities/ui';
+import * as scrollUtils from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import * as uiUtils from '@department-of-veterans-affairs/platform-utilities/ui';
 import NewFeatureProgramsYRTAlert from '../../../components/profile/NewFeatureProgramsYRTAlert';
 
 describe('NewFeatureProgramsYRTAlert', () => {

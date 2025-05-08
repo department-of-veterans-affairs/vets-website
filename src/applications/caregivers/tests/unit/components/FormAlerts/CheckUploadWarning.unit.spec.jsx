@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
-import * as focusUtils from 'platform/utilities/ui/focus';
+import * as focusUtils from '@department-of-veterans-affairs/platform-utilities/focus';
 import CheckUploadWarning from '../../../../components/FormAlerts/CheckUploadWarning';
 
 describe('CG <CheckUploadWarning>', () => {

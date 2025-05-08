@@ -1,9 +1,9 @@
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect, useSelector } from 'react-redux';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import SignInMayBeRequired from '../components/SignInMyBeRequired';
 import { CHAPTER_2, whoIsYourQuestionAboutLabels } from '../constants';
 

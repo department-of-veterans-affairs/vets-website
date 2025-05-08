@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
 import { isChapterFieldRequired } from '../../../helpers';
 import { addSpouse } from '../../../utilities';
 import { marriageTypeInformation } from './helpers';

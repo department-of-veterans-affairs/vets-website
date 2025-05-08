@@ -3,7 +3,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
-import { SET_DATA } from 'platform/forms-system/src/js/actions';
+import { SET_DATA } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import * as helpers from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
 import OfficialReport, {

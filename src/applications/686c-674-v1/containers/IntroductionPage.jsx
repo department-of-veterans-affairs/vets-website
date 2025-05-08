@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
-import { hasSession } from 'platform/user/profile/utilities';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { hasSession } from '@department-of-veterans-affairs/platform-user/profile/utilities';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
 
 import { verifyVaFileNumber } from '../actions';
 import { IntroductionPageHeader } from '../components/IntroductionPageHeader';

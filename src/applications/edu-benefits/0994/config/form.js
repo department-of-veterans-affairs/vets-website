@@ -1,6 +1,6 @@
-import environment from 'platform/utilities/environment';
-import FormFooter from 'platform/forms/components/FormFooter';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 

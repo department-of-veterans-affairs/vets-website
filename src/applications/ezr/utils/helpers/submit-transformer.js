@@ -5,9 +5,9 @@ import {
   getActivePages,
   expandArrayPages,
   createFormPageList,
-} from 'platform/forms-system/src/js/helpers';
-import set from 'platform/utilities/data/set';
-import { getInactivePages } from 'platform/forms/helpers';
+} from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
+import { getInactivePages } from '@department-of-veterans-affairs/platform-forms/helpers';
 
 /**
  * Maps & format form data to ensure submission matches schema needs

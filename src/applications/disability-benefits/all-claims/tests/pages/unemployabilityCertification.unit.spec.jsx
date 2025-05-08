@@ -5,7 +5,7 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('Recent Job Applications', () => {

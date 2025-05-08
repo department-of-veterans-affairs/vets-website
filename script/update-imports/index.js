@@ -4,9 +4,15 @@
 const fs = require('fs').promises;
 const path = require('path');
 
+// src/applications/686c-674*/**/{*.js,*.jsx}
+// VS Code search helpers
+// {*.js,*.jsx}: Search all files with .js or .jsx extension
+// 686c-674*/**/: Recursively search in all directories starting from 686c-674 or 686c-674-v1
+
 // At the top of the script, add a constant for the workspace prefix
 const MAPPINGS_FILE = path.resolve(__dirname, './mappings.json');
 const WORKSPACE_PREFIX = '@department-of-veterans-affairs/';
+const DIR_PREFIX = 'platform';
 
 // Function to replace capture groups with $n
 function replaceWithGroupNumbers(pattern) {
@@ -31,13 +37,13 @@ async function loadMappings(filePath = MAPPINGS_FILE) {
     const mappings = JSON.parse(content);
 
     Object.entries(mappings).forEach(([dir, entries]) => {
-      const WORKSPACE_SUBPREFIX = `platform-${dir}`;
-      const DIR = `platform/${dir}`;
+      const WORKSPACE_SUBPREFIX = `${DIR_PREFIX}-${dir}`;
+      const DIR = `${DIR_PREFIX}/${dir}`;
 
       flattened.set(DIR, WORKSPACE_SUBPREFIX);
 
       for (const [key, value] of Object.entries(entries)) {
-        const newKey = `platform/${dir}/${key}`;
+        const newKey = `${DIR_PREFIX}/${dir}/${key}`;
 
         if (value === '*') {
           flattened.set(newKey, `${WORKSPACE_SUBPREFIX}/${key}`);
@@ -46,6 +52,10 @@ async function loadMappings(filePath = MAPPINGS_FILE) {
           const newValue = replaceWithGroupNumbers(
             splitValue.slice(-value.length).join('/'),
           );
+          flattened.set(newKey, `${WORKSPACE_SUBPREFIX}/${newValue}`);
+        } else if (/^>+$/.test(value)) {
+          const splitValue = key.split('/');
+          const newValue = splitValue.slice(0, value.length).join('/');
           flattened.set(newKey, `${WORKSPACE_SUBPREFIX}/${newValue}`);
         } else {
           flattened.set(newKey, `${WORKSPACE_SUBPREFIX}/${value}`);
@@ -73,41 +83,37 @@ async function loadMappings(filePath = MAPPINGS_FILE) {
 // Get root path from command line arguments
 function getRootPath() {
   const args = process.argv.slice(2);
-  const rootPathIndex = args.findIndex(arg => arg.startsWith('--rootDir='));
 
-  if (rootPathIndex === -1) {
-    console.error(
-      'Error: Please specify root path using --rootDir=/path/to/root',
-    );
+  if (args.length === 0) {
+    console.error('Error: Please specify a directory');
     process.exit(1);
   }
 
-  const rootPath = args[rootPathIndex].replace('--rootDir=', '');
-  return path.resolve(process.cwd(), rootPath);
+  return path.resolve(process.cwd(), args[0]);
 }
 
 async function updateImports() {
   const rootDir = getRootPath();
   const importMapping = await loadMappings();
 
-  // Helper function to escape regex special characters
-  const escapeRegExp = string => {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  };
-
   // Helper function to transform import statements
   const transformImport = line => {
     return Array.from(importMapping.entries()).reduce(
       (currentLine, [oldPath, newPath]) => {
+        const platformPattern = `['"](?:~\\/)?platform(.+)['"]`;
+        const platformRegex = new RegExp(platformPattern);
         // Match ES6 imports: import { something } from './old/path';
         // console.log(`['"](?:~\\/)?${escapeRegExp(oldPath)}['"]`);
-        const pattern = new RegExp(`['"](?:~\\/)?${oldPath}['"]`);
+
+        // We know all imports start with platform or ~platform
+        if (!platformRegex.test(currentLine)) return currentLine;
+        const pattern = new RegExp(
+          `['"](?:~\\/)?${oldPath}(?:\\.jsx?|\\/)?['"]`,
+        );
 
         // Only replace the path part, preserving the rest of the import statement
         const fullNewPath = `${WORKSPACE_PREFIX}${newPath}`;
         return currentLine.replace(pattern, `'${fullNewPath}'`);
-
-        return currentLine;
       },
       line,
     );

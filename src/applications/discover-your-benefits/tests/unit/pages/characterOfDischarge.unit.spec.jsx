@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { Provider } from 'react-redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import characterOfDischargeConfig from '../../../pages/characterOfDischarge';

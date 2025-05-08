@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { Toggler } from 'platform/utilities/feature-toggles';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 import {
   Notice5103Description,

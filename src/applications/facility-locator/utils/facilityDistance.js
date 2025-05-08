@@ -1,4 +1,4 @@
-import { toRadians } from 'platform/utilities/facilities-and-mapbox';
+import { toRadians } from '@department-of-veterans-affairs/platform-utilities/facilities-and-mapbox';
 import {
   LocationType,
   MIN_RADIUS,

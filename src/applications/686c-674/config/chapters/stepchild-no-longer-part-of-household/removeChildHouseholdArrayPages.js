@@ -18,7 +18,7 @@ import {
   ssnSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { CancelButton } from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */

@@ -1,10 +1,10 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { states } from '@department-of-veterans-affairs/platform-forms/address';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import { CHAPTER_3 } from '../constants';
 
 const isValid = formData =>

@@ -1,6 +1,6 @@
-import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
-import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
-import set from 'platform/utilities/data/set';
+import profileContactInfo from '@department-of-veterans-affairs/platform-forms-system/profileContactInfo';
+import { getContent } from '@department-of-veterans-affairs/platform-forms-system/utilities/data/profile';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 
 import { contactInfo995Validation } from '../../shared/validations/contactInfo';
 

@@ -7,7 +7,7 @@ import { expect } from 'chai';
 import {
   /* $, */ $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { render } from '@testing-library/react';
 import formConfig from '../../config/form';
 

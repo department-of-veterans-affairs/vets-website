@@ -1,11 +1,11 @@
 import { parseISO } from 'date-fns';
 import format from 'date-fns/format';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
 import { clearFormData, removeAskVaForm } from '../actions';
 import { hasPrefillInformation } from '../constants';
 

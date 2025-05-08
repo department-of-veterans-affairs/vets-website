@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import {
   mockApiRequest,
   setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fetchEnrollmentStatus } from '../../../../utils/actions/enrollment-status';
 import {
   ENROLLMENT_STATUS_ACTIONS,

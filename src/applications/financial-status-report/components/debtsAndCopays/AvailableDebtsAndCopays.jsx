@@ -4,10 +4,10 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import PropTypes from 'prop-types';
 import { uniqBy, head } from 'lodash';
 import { isValid } from 'date-fns';
-import { setData } from 'platform/forms-system/src/js/actions';
-import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { getMedicalCenterNameByID } from '@department-of-veterans-affairs/platform-utilities/medical-centers';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { formatDateShort } from 'platform/utilities/date';
+import { formatDateShort } from '@department-of-veterans-affairs/platform-utilities/date';
 import { setFocus } from '../../utils/fileValidation';
 
 import { getStatements } from '../../actions/copays';

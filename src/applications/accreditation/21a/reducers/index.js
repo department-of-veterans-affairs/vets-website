@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import { FeatureToggleReducer as featureToggles } from 'platform/site-wide/feature-toggles/reducers';
-import scheduledDowntime from 'platform/monitoring/DowntimeNotification/reducer';
+import { FeatureToggleReducer as featureToggles } from '@department-of-veterans-affairs/platform-site-wide/feature-toggles/reducers';
+import scheduledDowntime from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification/reducer';
 import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs/platform-forms/reducers';
 
 import user from './user';

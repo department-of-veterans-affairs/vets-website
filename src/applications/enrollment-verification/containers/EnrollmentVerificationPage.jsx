@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
-import { focusElement } from 'platform/utilities/ui';
+import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   fetchPost911GiBillEligibility,
   UPDATE_VERIFICATION_STATUS_SUCCESS,

@@ -1,7 +1,7 @@
 import {
   checkboxGroupSchema,
   checkboxGroupUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import EmploymentActivitiesDescription from '../../components/03-employment-information-chapter/EmploymentActivitiesDescription';
 import { employmentActivitiesOptions } from '../../constants/options';

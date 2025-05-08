@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import {
   VERIFY_VA_FILE_NUMBER_SUCCEEDED,
   VERIFY_VA_FILE_NUMBER_FAILED,

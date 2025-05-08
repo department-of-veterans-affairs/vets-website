@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
-import recordEvent from 'platform/monitoring/record-event';
+import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 const DisabilityConfirmation = ({ data, goBack, goForward }) => {
   // use logging to compare number of short forms started vs completed

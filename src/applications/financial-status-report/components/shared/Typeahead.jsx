@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import classNames from 'classnames';
-import sortListByFuzzyMatch from 'platform/forms-system/src/js/utilities/fuzzy-matching';
+import sortListByFuzzyMatch from '@department-of-veterans-affairs/platform-forms-system/fuzzy-matching';
 
 const Typeahead = ({ uiSchema, idSchema, formData, onChange, onBlur }) => {
   const [input, setInput] = useState('');

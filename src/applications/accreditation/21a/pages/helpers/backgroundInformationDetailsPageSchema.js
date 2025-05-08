@@ -7,7 +7,7 @@ import {
   checkboxGroupUI,
   textareaSchema,
   textareaUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 /** @type {PageSchema} */

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 
 import {
   startText,

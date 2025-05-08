@@ -9,7 +9,7 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import Dropdown from '../../components/Dropdown';
 import FilterBeforeResults from './FilterBeforeResults';
 import {

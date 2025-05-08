@@ -11,9 +11,9 @@ import {
   radioSchema,
   textUI,
   textSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import { arrayBuilderPages } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
 import {
   formatCurrency,
   otherAssetOwnerRelationshipExplanationRequired,

@@ -6,9 +6,9 @@ import {
   scrollToFirstError,
   waitForRenderThenFocus,
   scrollAndFocus,
-} from '~/platform/utilities/ui';
-import { focusReview } from '~/platform/forms-system/src/js/utilities/ui/focus-review';
-import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
+} from '@department-of-veterans-affairs/platform-utilities/ui';
+import { focusReview } from '@department-of-veterans-affairs/platform-forms-system/utilities/ui/focus-review';
+import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { getStorage, removeStorage } from './addIssue';
 

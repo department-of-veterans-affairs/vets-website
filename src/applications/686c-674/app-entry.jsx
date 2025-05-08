@@ -1,5 +1,5 @@
-import 'platform/polyfills';
-import startApp from 'platform/startup';
+import '@department-of-veterans-affairs/platform-polyfills';
+import startApp from '@department-of-veterans-affairs/platform-startup';
 // import App from './containers/App';
 import './sass/new-686.scss';
 

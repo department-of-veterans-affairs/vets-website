@@ -1,4 +1,4 @@
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { arrayBuilderPages } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
 import {
   addressSchema,
   addressUI,
@@ -15,7 +15,7 @@ import {
   textUI,
   yesNoSchema,
   yesNoUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import EducationHistoryIntro from '../../components/04-education-history-chapter/EducationHistoryIntro';
 import { degreeOptions } from '../../constants/options';

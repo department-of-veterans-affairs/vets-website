@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { submitToUrl } from 'platform/forms-system/src/js/actions';
+import { submitToUrl } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import submitForm from '../../config/submitForm';
 
 describe('submitForm', () => {

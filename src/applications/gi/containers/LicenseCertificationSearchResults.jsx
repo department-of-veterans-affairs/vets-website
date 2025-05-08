@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import ADDRESS_DATA from 'platform/forms/address/data';
+import ADDRESS_DATA from '@department-of-veterans-affairs/platform-forms/address/data';
 
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 

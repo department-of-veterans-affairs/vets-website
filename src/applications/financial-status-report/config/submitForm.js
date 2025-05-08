@@ -1,6 +1,6 @@
-import { submitToUrl } from 'platform/forms-system/src/js/actions';
-import environment from 'platform/utilities/environment';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { submitToUrl } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { DEBT_TYPES } from '../constants';
 import {
   isStreamlinedShortForm,

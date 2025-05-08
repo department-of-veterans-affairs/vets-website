@@ -1,5 +1,5 @@
-import get from 'platform/utilities/data/get';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import React from 'react';
 import {
   titleUI,
@@ -16,8 +16,8 @@ import {
   textSchema,
   radioUI,
   radioSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { arrayBuilderPages } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
 import { nameWording } from '../../shared/utilities';
 import { validFieldCharsOnly } from '../../shared/validations';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import createCommonStore from 'platform/startup/store';
+import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import { Provider } from 'react-redux';
 import FilterBeforeResults from '../../../containers/search/FilterBeforeResults';
 import reducer from '../../../reducers';

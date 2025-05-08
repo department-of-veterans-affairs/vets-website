@@ -1,4 +1,4 @@
-import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { radioUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import { checkConferenceTimes } from '../validations';
 import { errorMessages, CONFERENCE_TIMES_V2_5 } from '../constants';

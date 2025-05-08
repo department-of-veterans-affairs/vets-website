@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { focusElement } from 'platform/utilities/ui';
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import { CONTACTS } from '../../utils/imports';
 import ApplicationDownloadLink from '../ApplicationDownloadLink';
 

@@ -1,4 +1,4 @@
-import { isProfileLoading } from 'platform/user/selectors';
+import { isProfileLoading } from '@department-of-veterans-affairs/platform-user/selectors';
 import { VALID_ENROLLMENT_STATUSES } from '../constants';
 
 /**

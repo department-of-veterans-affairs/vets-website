@@ -1,9 +1,9 @@
-import FormFooter from 'platform/forms/components/FormFooter';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import recordEvent from 'platform/monitoring/record-event';
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import { countryValueToName } from '../utils/addresses';

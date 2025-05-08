@@ -1,5 +1,5 @@
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+import set from '@department-of-veterans-affairs/platform-utilities/data/set';
 
 export default [
   // 0 > 1, convert keys to camel case

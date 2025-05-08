@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
-import { $ } from '~/platform/forms-system/src/js/utilities/ui';
-import * as focusUtils from '~/platform/utilities/ui/focus';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import * as focusUtils from '@department-of-veterans-affairs/platform-utilities/focus';
 
 import {
   focusH3,

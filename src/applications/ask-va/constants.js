@@ -1,4 +1,4 @@
-// import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+// import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 export const envUrl = environment.API_URL;

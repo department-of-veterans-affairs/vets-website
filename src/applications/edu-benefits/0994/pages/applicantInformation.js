@@ -1,10 +1,10 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import fullNameUI from 'platform/forms/definitions/fullName';
-import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import { genderLabels } from 'platform/static-data/labels';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
+import fullNameUI from '@department-of-veterans-affairs/platform-forms/fullName';
+import ApplicantDescription from '@department-of-veterans-affairs/platform-forms/ApplicantDescription';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import { genderLabels } from '@department-of-veterans-affairs/platform-static-data/labels';
 
 const {
   applicantFullName,

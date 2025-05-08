@@ -1,6 +1,6 @@
 import React from 'react';
-import FormSignature from 'platform/forms-system/src/js/components/FormSignature';
-import get from 'platform/utilities/data/get';
+import FormSignature from '@department-of-veterans-affairs/platform-forms-system/FormSignature';
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 import { nameWording } from '../../shared/utilities';
 import { validateText } from '../../shared/validations';
 

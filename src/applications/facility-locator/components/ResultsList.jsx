@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import DelayedRender from 'platform/utilities/ui/DelayedRender';
+import DelayedRender from '@department-of-veterans-affairs/platform-utilities/DelayedRender';
 import { facilityTypes } from '../config';
 import { Error } from '../constants';
 import { recordSearchResultsEvents } from '../utils/analytics';

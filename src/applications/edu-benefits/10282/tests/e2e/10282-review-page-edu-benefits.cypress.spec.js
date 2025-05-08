@@ -1,4 +1,4 @@
-// import Timeouts from 'platform/testing/e2e/timeouts';
+// import Timeouts from '@department-of-veterans-affairs/platform-testing/e2e/timeouts';
 
 // describe('10282 Review Page', () => {
 //   beforeEach(() => {

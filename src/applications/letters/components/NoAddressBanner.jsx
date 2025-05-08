@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 export default function NoAddressBanner() {
   return (

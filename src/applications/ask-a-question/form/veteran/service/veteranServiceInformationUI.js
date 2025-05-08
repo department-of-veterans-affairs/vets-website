@@ -1,6 +1,6 @@
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
 
 import {
   branchOfServiceError,

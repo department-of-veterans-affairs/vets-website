@@ -7,8 +7,8 @@ import { fireEvent } from '@testing-library/dom';
 import { createStore } from 'redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { fileTypeSignatures } from '~/platform/forms-system/src/js/utilities/file';
-import { uploadStore } from '~/platform/forms-system/test/config/helpers';
+import { fileTypeSignatures } from '@department-of-veterans-affairs/platform-forms-system/utilities/file';
+import { uploadStore } from '@department-of-veterans-affairs/platform-forms-system/test-helpers';
 
 import { DocumentRequestPage } from '../../containers/DocumentRequestPage';
 import { renderWithRouter, rerenderWithRouter } from '../utils';

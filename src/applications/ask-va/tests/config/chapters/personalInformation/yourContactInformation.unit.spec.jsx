@@ -9,7 +9,7 @@ import {
   emailSchema,
   phoneSchema,
   internationalPhoneSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import React from 'react';
 import { Provider } from 'react-redux';
 

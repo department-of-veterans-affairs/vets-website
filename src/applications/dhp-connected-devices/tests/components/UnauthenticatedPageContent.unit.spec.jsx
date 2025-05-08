@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor, render } from '@testing-library/react';
 import { UnauthenticatedPageContent } from '../../components/UnauthenticatedPageContent';
 

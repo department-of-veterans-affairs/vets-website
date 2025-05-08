@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
 const UnverifiedPrefillAlert = props => (
   <div className="usa-alert usa-alert-info schemaform-sip-alert">

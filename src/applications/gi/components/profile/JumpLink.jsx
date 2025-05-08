@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getScrollOptions, focusElement } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import recordEvent from 'platform/monitoring/record-event';
+import { getScrollOptions, focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { isProductionOrTestProdEnv } from '../../utils/helpers';
 
 export default function JumpLink({

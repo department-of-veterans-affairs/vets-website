@@ -1,4 +1,4 @@
-import { parseISODate } from 'platform/forms-system/src/js/helpers';
+import { parseISODate } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 
 import { REGEXP } from '../constants';
 

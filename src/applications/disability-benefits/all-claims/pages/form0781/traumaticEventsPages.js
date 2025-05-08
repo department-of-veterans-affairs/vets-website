@@ -1,6 +1,6 @@
 import React from 'react';
-import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { focusByOrder, scrollToTop } from 'platform/utilities/ui';
+import { arrayBuilderPages } from '@department-of-veterans-affairs/platform-forms-system/patterns/array-builder';
+import { focusByOrder, scrollToTop } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { isCompletingForm0781 } from '../../utils/form0781';
 import eventDetails from './traumaticEventDetails';
 import { officialReportCustom } from './officialReport';

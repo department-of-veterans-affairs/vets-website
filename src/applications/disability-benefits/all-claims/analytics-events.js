@@ -1,4 +1,4 @@
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 import {
   ITF_FETCH_SUCCEEDED,
   ITF_FETCH_FAILED,

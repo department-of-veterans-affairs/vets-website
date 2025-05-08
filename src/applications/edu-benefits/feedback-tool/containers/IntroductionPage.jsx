@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import EducationModalContent from 'platform/forms/components/OMBInfoModalContent/EducationModalContent';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import environment from 'platform/utilities/environment';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import EducationModalContent from '@department-of-veterans-affairs/platform-forms/EducationModalContent';
+import SaveInProgressIntro from '@department-of-veterans-affairs/platform-forms/save-in-progress/SaveInProgressIntro';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import Table from '../components/Table';
 import PageLink from '../components/PageLink';
 import Lists from '../components/Lists';

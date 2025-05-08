@@ -1,4 +1,4 @@
-import FormFooter from 'platform/forms/components/FormFooter';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
 
 // import CustomPageWrapper from '../components/CustomPageWrapper';
 import IntroductionPage from '../containers/IntroductionPage';

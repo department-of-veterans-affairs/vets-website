@@ -13,7 +13,7 @@ import {
   ADDRESS_TYPES,
   FIELD_NAMES,
   USA,
-} from 'platform/user/profile/vap-svc/constants';
+} from '@department-of-veterans-affairs/platform-user/vap-svc/constants';
 
 const isOverseasMilitaryMailingAddress = data =>
   data?.addressPou === ADDRESS_POU.CORRESPONDENCE &&

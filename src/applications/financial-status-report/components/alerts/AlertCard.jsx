@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { DEBT_TYPES } from '../../constants';
 
 const AlertCard = ({ debtType }) => {

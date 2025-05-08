@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
-import { setData } from 'platform/forms-system/src/js/actions';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { isLoggedIn } from 'platform/user/selectors';
+import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { fetchEnrollmentStatus, resetEnrollmentStatus } from '../utils/actions';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
 import { selectEnrollmentStatus } from '../utils/selectors';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../../config/form';
 
 const {

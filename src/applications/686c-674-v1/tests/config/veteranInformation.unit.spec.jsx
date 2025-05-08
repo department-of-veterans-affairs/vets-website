@@ -2,8 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { getFormDOM } from 'platform/testing/unit/schemaform-utils.jsx';
-import createCommonStore from 'platform/startup/store';
+import { getFormDOM } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import VeteranInformationComponent from '../../config/chapters/veteran-information/veteran-information/VeteranInformationComponent';
 
 const defaultStore = createCommonStore();

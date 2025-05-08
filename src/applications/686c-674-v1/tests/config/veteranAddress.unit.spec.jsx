@@ -2,12 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { changeDropdown } from 'platform/testing/unit/helpers';
+import { changeDropdown } from '@department-of-veterans-affairs/platform-testing/helpers';
 import {
   DefinitionTester,
   fillData,
   selectCheckbox,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 
 import formConfig from '../../config/form';
 

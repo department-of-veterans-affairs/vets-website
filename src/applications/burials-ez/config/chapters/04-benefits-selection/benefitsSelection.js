@@ -1,5 +1,5 @@
 import React from 'react';
-import { checkboxGroupUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { checkboxGroupUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
   generateTitle,

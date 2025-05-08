@@ -1,4 +1,4 @@
-import { validateWhiteSpace } from 'platform/forms/validations';
+import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
 
 export function validateName(errors, pageData) {
   const { first, last } = pageData;

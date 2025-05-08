@@ -5,12 +5,12 @@ import {
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useSelector } from 'react-redux';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import {
   selectProfile,
   selectVAPMailingAddress,
-} from '~/platform/user/selectors';
-import environment from 'platform/utilities/environment';
+} from '@department-of-veterans-affairs/platform-user/selectors';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import last from 'lodash/last';
 import { parse, format } from 'date-fns';
 import Modals from '../../medical-copays/components/Modals';

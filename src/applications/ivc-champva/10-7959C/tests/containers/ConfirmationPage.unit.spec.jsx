@@ -1,5 +1,5 @@
 import React from 'react';
-import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
+import PreSubmitSection from '@department-of-veterans-affairs/platform-forms/PreSubmitSection';
 import { Provider } from 'react-redux';
 import userEvent from '@testing-library/user-event';
 import { render, fireEvent } from '@testing-library/react';

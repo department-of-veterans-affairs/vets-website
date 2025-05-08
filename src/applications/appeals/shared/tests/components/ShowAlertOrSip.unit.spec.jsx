@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { add, getUnixTime } from 'date-fns';
 
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { heading as missingHeading } from '../../components/NeedsMissingInfoAlert';
 import ShowAlertOrSip from '../../components/ShowAlertOrSip';

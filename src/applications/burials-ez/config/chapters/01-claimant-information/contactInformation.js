@@ -1,11 +1,11 @@
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
+import VaTextInputField from '@department-of-veterans-affairs/platform-forms-system/web-component-fields/VaTextInputField';
+import PhoneNumberReviewWidget from '@department-of-veterans-affairs/platform-forms-system/review/PhoneNumberWidget';
 import {
   phoneUI,
   emailUI,
   phoneSchema,
   emailSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { generateTitle } from '../../../utils/helpers';
 
 /**

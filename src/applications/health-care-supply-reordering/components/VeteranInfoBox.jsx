@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { genderLabels } from 'platform/static-data/labels';
+import { genderLabels } from '@department-of-veterans-affairs/platform-static-data/labels';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';

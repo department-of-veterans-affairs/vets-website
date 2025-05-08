@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
 import { isChapterFieldRequired } from '../../../helpers';
 import { TASK_KEYS } from '../../../constants';
 import { addChild } from '../../../utilities';

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import backendServices from 'platform/user/profile/constants/backendServices';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { EducationGate } from '../../../containers/EducationGate';
 
 const user = {

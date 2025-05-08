@@ -2,11 +2,11 @@ import { createSelector } from 'reselect';
 import { merge, omit } from 'lodash';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-import _ from 'platform/utilities/data';
+import _ from '@department-of-veterans-affairs/platform-utilities/data';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import ReviewCardField from '@department-of-veterans-affairs/platform-forms-system/ReviewCardField';
 import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {

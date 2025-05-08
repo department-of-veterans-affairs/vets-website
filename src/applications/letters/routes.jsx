@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom-v5-compat';
 
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 import AddressSection from './containers/AddressSection';
 import App from './containers/App';
 import DownloadLetters from './containers/DownloadLetters';

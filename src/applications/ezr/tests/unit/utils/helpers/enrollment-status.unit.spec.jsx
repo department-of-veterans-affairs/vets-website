@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import sinon from 'sinon';
 
 import {

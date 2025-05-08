@@ -5,8 +5,8 @@ import sinon from 'sinon';
 import { merge } from 'lodash';
 import moment from 'moment';
 
-import { requestStates } from 'platform/utilities/constants';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { requestStates } from '@department-of-veterans-affairs/platform-utilities/constants';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { ITFWrapper } from '../../containers/ITFWrapper';
 import { itfStatuses } from '../../constants';
 

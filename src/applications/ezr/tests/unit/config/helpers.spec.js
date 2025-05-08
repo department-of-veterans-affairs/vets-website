@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 
 const expectedFieldTypes = 'input, select, textarea';
 const expectedFieldTypesWebComponents =

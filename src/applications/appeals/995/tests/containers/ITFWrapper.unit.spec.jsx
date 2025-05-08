@@ -5,9 +5,9 @@ import { add } from 'date-fns';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { requestStates } from '~/platform/utilities/constants';
-import { mockApiRequest, resetFetch } from '~/platform/testing/unit/helpers';
-import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
+import { requestStates } from '@department-of-veterans-affairs/platform-utilities/constants';
+import { mockApiRequest, resetFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import ITFWrapper from '../../containers/ITFWrapper';
 import { ITF_STATUSES } from '../../constants';

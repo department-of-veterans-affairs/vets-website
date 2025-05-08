@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import { REMOVING_SAVED_FORM_SUCCESS } from 'platform/user/profile/actions';
-import { LOG_OUT } from 'platform/user/authentication/actions';
+import { REMOVING_SAVED_FORM_SUCCESS } from '@department-of-veterans-affairs/platform-user/profile/actions';
+import { LOG_OUT } from '@department-of-veterans-affairs/platform-user/authentication/actions';
 import {
   FETCH_USER,
   FETCH_USER_FAILURE,

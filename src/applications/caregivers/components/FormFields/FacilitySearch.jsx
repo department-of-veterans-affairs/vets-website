@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { focusElement } from 'platform/utilities/ui';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { fetchMapBoxGeocoding } from '../../actions/fetchMapBoxGeocoding';
 import { fetchFacilities } from '../../actions/fetchFacilities';
 import { replaceStrValues } from '../../utils/helpers';

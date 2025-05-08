@@ -1,6 +1,6 @@
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import Timeouts from 'platform/testing/e2e/timeouts';
+import Timeouts from '@department-of-veterans-affairs/platform-testing/e2e/timeouts';
 
 import { getPastItf, fetchItf } from '../../995/tests/995.cypress.helpers';
 

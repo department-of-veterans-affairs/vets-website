@@ -9,8 +9,8 @@ import {
   titleSchema,
   ssnUI,
   ssnSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { blankSchema } from '@department-of-veterans-affairs/platform-forms-system/utilities/data/profile';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 import { applicantWording } from '../../shared/utilities';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';

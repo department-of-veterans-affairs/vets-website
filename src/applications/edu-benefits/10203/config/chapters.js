@@ -1,5 +1,5 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
-import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
+import createApplicantInformationPage from '@department-of-veterans-affairs/platform-forms/applicantInformation';
 import { displayConfirmEligibility, isChapter33 } from '../helpers';
 import captureEvents from '../analytics-functions';
 import createDirectDepositPage10203 from '../pages/DirectDeposit';

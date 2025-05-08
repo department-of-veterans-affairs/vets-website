@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { scrollAndFocus } from 'platform/utilities/ui';
-import YesNoWidget from 'platform/forms-system/src/js/widgets/YesNoWidget';
+import { scrollAndFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
+import YesNoWidget from '@department-of-veterans-affairs/platform-forms-system/YesNoWidget';
 import { DependentDescription } from '../FormDescriptions';
 
 const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {

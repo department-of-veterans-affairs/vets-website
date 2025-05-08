@@ -1,6 +1,6 @@
 import moment from 'moment';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
-import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
+import { validateCurrentOrFutureDate } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
   notActiveBenefitNotice,
   remainingDaysGreaterThan180Notice,
