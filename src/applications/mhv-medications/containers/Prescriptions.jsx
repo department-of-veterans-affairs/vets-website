@@ -290,6 +290,11 @@ const Prescriptions = () => {
   useEffect(
     () => {
       updateLoadingStatus(isPrescriptionsLoading || isPrescriptionsFetching);
+
+      // Reset the loading message after finishing loading.
+      if (!isPrescriptionsFetching && !isPrescriptionsLoading) {
+        setLoadingMessage('');
+      }
     },
     [isPrescriptionsLoading, isPrescriptionsFetching],
   );
