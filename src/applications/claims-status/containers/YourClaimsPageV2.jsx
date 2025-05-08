@@ -190,7 +190,12 @@ class YourClaimsPageV2 extends React.Component {
     const emptyList = !(list && list.length);
     if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = (
-        <va-loading-indicator message="Loading your claims and appeals..." />
+        <div className="all-requests-loading-container">
+          <va-loading-indicator
+            data-testid="all-requests-loading"
+            message="Loading your claims and appeals..."
+          />
+        </div>
       );
     } else if (!emptyList) {
       const listLen = list.length;
@@ -212,10 +217,15 @@ class YourClaimsPageV2 extends React.Component {
         <>
           {pageInfo}
           <div className="claim-list">
-            {atLeastOneRequestLoading && (
-              <va-loading-indicator message="Loading your claims and appeals..." />
-            )}
             {pageItems.map(claim => this.renderListItem(claim))}
+            {atLeastOneRequestLoading && (
+              <div className="vads-u-margin-y--5">
+                <va-loading-indicator
+                  data-testid="at-least-one-request-loading"
+                  message="Loading your claims and appeals..."
+                />
+              </div>
+            )}
             {shouldPaginate && (
               <VaPagination
                 page={this.state.page}
