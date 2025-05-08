@@ -181,8 +181,8 @@ class SaveInProgressIntro extends React.Component {
           <div>
             <va-alert status="info" uswds visible slim>
               <div className="usa-alert-body">
-                You can save this {appType} in progress, and come back later to
-                finish filling it out.
+                We'll save your request on every change. You can stop anytime,
+                and come back later to finish.
               </div>
             </va-alert>
             <br />
