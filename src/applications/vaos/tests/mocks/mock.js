@@ -90,7 +90,7 @@ export function getSchedulingConfigurationMock({
   typeOfCareId = 'fake',
   requestEnabled = false,
   directEnabled = false,
-  patientHistoryRequired = 'No',
+  patientHistoryRequired = true,
   patientHistoryDuration = 365,
   communityCare = false,
 } = {}) {
@@ -143,7 +143,7 @@ export function getV2ClinicMock({ id, stationId, serviceName }) {
       primaryStopCodeName: null,
       secondaryStopCode: null,
       secondaryStopCodeName: null,
-      patientDirectScheduling: null,
+      patientDirectScheduling: true,
       patientDisplay: null,
       char4: null,
     },

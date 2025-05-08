@@ -1,6 +1,7 @@
 {
   "description": "Has Medicare (ABD), no OHI, US address (new), third party signer",
   "data": {
+    "champvaBenefitStatus": true,
     "applicantHasPrimary": false,
     "applicantMedicareStatus": true,
     "applicantMedicarePartACarrier": "Test A Carrier",

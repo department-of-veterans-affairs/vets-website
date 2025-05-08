@@ -1,4 +1,3 @@
-// import { Redirect } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -43,7 +42,7 @@ const DocumentRedirectPage = ({ trackedItem, trackedItemId }) => {
     );
 
   return cstFriendlyEvidenceRequests ? (
-    <Navigate to={redirectPath} />
+    <Navigate to={redirectPath} replace />
   ) : (
     <DocumentRequestPage />
   );
