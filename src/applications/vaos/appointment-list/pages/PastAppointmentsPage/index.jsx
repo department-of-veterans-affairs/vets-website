@@ -62,7 +62,7 @@ export default function PastAppointmentsPage() {
   }, []);
   useEffect(
     () => {
-      if (pastStatus === FETCH_STATUS.succeeded) {
+      if (pastStatus === FETCH_STATUS.succeeded && !isInitialMount) {
         scrollAndFocus('#appointment-count');
       } else if (pastStatus === FETCH_STATUS.failed) {
         scrollAndFocus('h3');
