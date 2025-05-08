@@ -86,7 +86,7 @@ describe('<DocumentRequestPage>', () => {
       };
 
       const { container } = renderWithRouter(
-        <Provider store={getStore()}>
+        <Provider store={getStore(true, false)}>
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
@@ -120,7 +120,7 @@ describe('<DocumentRequestPage>', () => {
       };
 
       const { container } = renderWithRouter(
-        <Provider store={getStore()}>
+        <Provider store={getStore(true, false)}>
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
@@ -546,7 +546,7 @@ describe('<DocumentRequestPage>', () => {
         );
         const breadcrumbs = $('va-breadcrumbs', container);
         expect(breadcrumbs.breadcrumbList[3].href).to.equal(
-          `../document-request/${item.id}`,
+          `../needed-from-you/${item.id}`,
         );
         expect(breadcrumbs.breadcrumbList[3].label).to.equal(
           'Authorization to Disclose Information',
