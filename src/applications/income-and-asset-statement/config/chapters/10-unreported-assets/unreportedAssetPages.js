@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -11,9 +13,8 @@ import {
   radioSchema,
   textUI,
   textSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+} from 'platform/forms-system/src/js/web-component-patterns';
+
 import {
   formatCurrency,
   generateDeleteDescription,

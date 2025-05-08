@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import formConfig from '../config/form';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
+
 import { NoFormPage } from '../components/NoFormPage';
+import formConfig from '../config/form';
 
 export default function App({ location, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();

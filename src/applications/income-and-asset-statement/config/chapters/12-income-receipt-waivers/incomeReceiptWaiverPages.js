@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -16,11 +18,10 @@ import {
   textSchema,
   yesNoUI,
   yesNoSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
-import { validateDate } from 'platform/forms-system/src/js/validation';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { validateDate } from '@department-of-veterans-affairs/platform-forms-system/validation';
+
 import {
   formatCurrency,
   formatFullNameNoSuffix,

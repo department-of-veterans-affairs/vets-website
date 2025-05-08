@@ -1,5 +1,8 @@
 import React from 'react';
 import merge from 'lodash/merge';
+
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -17,11 +20,8 @@ import {
   textSchema,
   yesNoUI,
   yesNoSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { formatDateLong } from 'platform/utilities/date';
-import { relationshipLabels, transferMethodLabels } from '../../../labels';
 
 import {
   formatCurrency,
@@ -31,6 +31,7 @@ import {
   otherNewOwnerRelationshipExplanationRequired,
   otherTransferMethodExplanationRequired,
 } from '../../../helpers';
+import { relationshipLabels, transferMethodLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {

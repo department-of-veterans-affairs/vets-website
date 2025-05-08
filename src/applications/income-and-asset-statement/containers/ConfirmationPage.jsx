@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
-import environment from 'platform/utilities/environment';
+
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
 let mockData;

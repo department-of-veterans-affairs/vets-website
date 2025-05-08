@@ -1,5 +1,5 @@
-import veteranInformation from './veteranInformation';
 import applicantIsVeteran from './applicantIsVeteran';
+import veteranInformation from './veteranInformation';
 
 export default {
   title: 'Veteran information',

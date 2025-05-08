@@ -1,11 +1,11 @@
 // import fullSchema from 'vets-json-schema/dist/21P-0969-schema.json';
-import environment from 'platform/utilities/environment';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import manifest from '../manifest.json';
 
-import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import { submit } from './submit';
 import veteranInformation from './chapters/01-veteran-information';
 import claimantInformation from './chapters/02-claimant-information';

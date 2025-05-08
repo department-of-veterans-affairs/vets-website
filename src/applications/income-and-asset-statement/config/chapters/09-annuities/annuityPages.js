@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -11,9 +12,9 @@ import {
   currentOrPastDateSchema,
   yesNoUI,
   yesNoSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { formatDateLong } from 'platform/utilities/date';
+
 import {
   annualReceivedIncomeFromAnnuityRequired,
   formatCurrency,

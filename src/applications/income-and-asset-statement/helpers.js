@@ -1,5 +1,6 @@
-import get from 'platform/utilities/data/get';
 import { capitalize } from 'lodash';
+
+import get from 'platform/utilities/data/get';
 
 export const annualReceivedIncomeFromAnnuityRequired = (form, index) =>
   get(['annuities', index, 'receivingIncomeFromAnnuity'], form);

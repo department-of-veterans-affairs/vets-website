@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import { formatFullNameNoSuffix, isDefined } from '../../helpers';
 
 describe('formatFullNameNoSuffix', () => {
