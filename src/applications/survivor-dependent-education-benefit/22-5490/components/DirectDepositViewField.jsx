@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { obfuscate, titleCase } from '../helpers';
+import { obfuscate, obfuscateAriaLabel, titleCase } from '../helpers';
 
 function DirectDepositViewField({ formData }) {
   const bankAccount = formData?.bankAccount || {};
@@ -28,14 +28,14 @@ function DirectDepositViewField({ formData }) {
           </dt>
           <dd className="survivor-benefit-definition-list_definition">
             <span aria-hidden="true">{obfuscate(routingNumber)}</span>
-            <span className="sr-only">Ending in {routingNumber.slice(-4)}</span>
+            <span className="sr-only">{obfuscateAriaLabel(routingNumber)}</span>
           </dd>
           <dt className="survivor-benefit-definition-list_term">
             Bank account number:
           </dt>
           <dd className="survivor-benefit-definition-list_definition">
             <span aria-hidden="true">{obfuscate(accountNumber)}</span>
-            <span className="sr-only">Ending in {accountNumber.slice(-4)}</span>
+            <span className="sr-only">{obfuscateAriaLabel(accountNumber)}</span>
           </dd>
         </dl>
       </div>

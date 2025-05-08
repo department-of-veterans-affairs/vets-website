@@ -17,6 +17,10 @@ export function isAlphaNumeric(str) {
 }
 
 export function titleCase(str) {
+  if (!str) {
+    return '';
+  }
+
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
 
@@ -33,6 +37,22 @@ export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
     obfuscateChar.repeat(str.length - numVisibleChars) +
     str.substring(str.length - numVisibleChars, str.length)
   );
+}
+
+export function obfuscateAriaLabel(str, numVisibleChars = 4) {
+  if (!str) {
+    return '';
+  }
+
+  if (str.length <= numVisibleChars) {
+    return str;
+  }
+
+  const charsAria = obfuscate(str, numVisibleChars, '')
+    .split('')
+    .join(',');
+
+  return `Ending in ${charsAria}`;
 }
 
 /**
