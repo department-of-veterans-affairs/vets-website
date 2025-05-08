@@ -327,9 +327,6 @@ const formConfig = {
           path: 'upload-supporting-documents',
           title: 'Included files',
           depends: formData => formData.sendPayment === 'Veteran',
-          initialData: {
-            uploadSectionVeteran: [],
-          },
           uiSchema: {
             ...titleUI('Upload billing statements and supporting documents'),
             'view:UploadDocuments': {
@@ -364,10 +361,6 @@ const formConfig = {
           path: 'upload-supporting-documents-provider',
           title: 'Included files',
           depends: formData => formData.sendPayment === 'Provider',
-          // TODO: is this initial data still necessary?
-          initialData: {
-            uploadSectionProvider: [],
-          },
           uiSchema: {
             ...titleUI('Upload billing statements and supporting documents'),
             'view:UploadDocuments': {

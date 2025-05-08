@@ -10,10 +10,9 @@ export const filePresenceValidation = (
   _schema,
   errorMessages,
 ) => {
-  const currentFile = Array.isArray(uploadedFile)
-    ? uploadedFile.slice(-1) // for VaFileInputMultiple
-    : uploadedFile;
-  if (!(currentFile.confirmationCode && currentFile.name && currentFile.size)) {
+  if (
+    !(uploadedFile.confirmationCode && uploadedFile.name && uploadedFile.size)
+  ) {
     errors.addError(errorMessages.required);
   }
 };
@@ -184,15 +183,6 @@ export const fileInputMultipleUI = stringOrOptions => {
     'ui:webComponentField': VaFileInputMultipleField,
     'ui:reviewField': reviewField,
     'ui:hidden': hidden,
-    'ui:validations': [
-      (errors, data, formData, schema, errMessages) => {
-        const isRequired =
-          typeof required === 'function' ? required(formData) : required;
-        if (isRequired) {
-          filePresenceValidation(errors, data, formData, schema, errMessages);
-        }
-      },
-    ],
     'ui:options': {
       ...uiOptions,
     },
