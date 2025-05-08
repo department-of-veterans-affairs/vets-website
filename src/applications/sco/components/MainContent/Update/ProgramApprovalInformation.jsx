@@ -51,17 +51,12 @@ const ProgramApprovalInformation = () => {
           />
         </p>
       </li>
-      <li
-        href="https://inquiry.vba.va.gov/weamspub/buildSearchNE.do"
-        hrefText="National exams"
-        pText="Search WEAMS to identify approved National Exams such as ACT, CLEP, MCAT, and more."
-      />
-      <li
+      <LiSpanAndVaLinkAndPTag
         href="https://benefits.va.gov/gibill/School_Program_Approval.asp"
         hrefText="Program approvals"
         pText="Identify general approval guidelines for programs of education broken down by various types of training programs."
       />
-      <li
+      <LiSpanAndVaLinkAndPTag
         href="https://www.benefits.va.gov/gibill/foreign_program_approval_information_for_schools.asp"
         hrefText="Foreign program approvals"
         pText="Identify general approval guidelines for programs of education offered at foreign institutions."
