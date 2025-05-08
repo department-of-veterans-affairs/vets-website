@@ -1,5 +1,5 @@
 // libs
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -24,6 +24,7 @@ import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
 import { FINISH_APP_LATER_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
 import { saveAndRedirectToReturnUrl as saveAndRedirectToReturnUrlAction } from 'platform/forms/save-in-progress/actions';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 /**
  *
  * @param {*} formData
@@ -78,6 +79,32 @@ function statementOfTruthBodyElement(formData, statementOfTruthBody) {
   }
 }
 
+function waitForInternalRenders(element) {
+  if (element?.shadowRoot) {
+    const observerConfig = { childList: true };
+    new MutationObserver((mutations, observer) => {
+      for (const { target } of mutations) {
+        const input = target && $('va-text-input', target);
+        if (input) {
+          new MutationObserver((inputMutations, inputObserver) => {
+            for (const { target: inputTarget } of inputMutations) {
+              const error =
+                inputTarget && $('#input-error-message', inputTarget);
+              // Hide PII within signature error from Datadog RUM
+              if (error) {
+                error.classList.add('dd-privacy-hidden');
+                // Done, disconnect the statement of truth observer
+                observer.disconnect();
+              }
+            }
+            // Always disconnect the input observer
+            inputObserver.disconnect();
+          }).observe(input.shadowRoot, observerConfig);
+        }
+      }
+    }).observe(element.shadowRoot, observerConfig);
+  }
+}
 /*
 *  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent
 *  PreSubmitSection - ~Default component that renders if no CustomComponent is provided~ (this describes a decision in RenderPreSubmitSection- describe what PreSubmitSection is, remove this since it's not a prop, or add it as a prop with a default value)
@@ -106,6 +133,17 @@ export function PreSubmitSection(props) {
     statementOfTruthSignatureBlurred,
     setStatementOfTruthSignatureBlurred,
   ] = useState(false);
+  const statementOfTruthRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (statementOfTruth && statementOfTruthRef?.current) {
+        // Wait for va-statement-of-truth to render internal elements
+        waitForInternalRenders(statementOfTruthRef.current);
+      }
+    },
+    [statementOfTruth, statementOfTruthRef],
+  );
 
   const finishAppLaterMessage =
     formConfig?.customText?.finishAppLaterMessage ||
@@ -146,6 +184,7 @@ export function PreSubmitSection(props) {
     <>
       {statementOfTruth ? (
         <VaStatementOfTruth
+          ref={statementOfTruthRef}
           heading={statementOfTruth.heading || 'Statement of truth'}
           inputLabel={statementOfTruth.textInputLabel || 'Your full name'}
           inputValue={form?.data.statementOfTruthSignature}
