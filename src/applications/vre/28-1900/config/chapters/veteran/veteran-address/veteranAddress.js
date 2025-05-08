@@ -1,15 +1,9 @@
 import fullSchema from 'vets-json-schema/dist/28-1900_V2-schema.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import get from 'platform/utilities/data/get';
-import addressUiSchema, {
-  COUNTRY_NAMES,
-  STATE_NAMES,
-  STATE_VALUES,
-  MILITARY_STATE_NAMES,
-  MILITARY_STATE_VALUES,
-} from 'platform/forms-system/src/js/definitions/profileAddress';
+import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
 
 import { VeteranAddressDescription } from '../../../../components/VeteranAddressDescription';
+import updateAddressUiSchema from '../../../../utils/updateAddressSchema';
 
 const { veteranAddress, mainPhone, cellPhone, email } = fullSchema.properties;
 
@@ -33,62 +27,14 @@ export const schema = {
   },
   required: ['email'],
 };
-const veteranAddressUiSchema = addressUiSchema(
+const originalVeteranAddressUiSchema = addressUiSchema(
   'veteranAddress',
   checkboxTitle,
   () => true,
 );
-
-veteranAddressUiSchema.country['ui:options'].updateSchema = (
-  _,
-  _schema,
-  uiSchema,
-  __,
-) => {
-  const countryUI = uiSchema;
-  countryUI['ui:disabled'] = false;
-  return {
-    type: 'string',
-    enum: COUNTRY_NAMES,
-    enumNames: COUNTRY_NAMES,
-  };
-};
-
-veteranAddressUiSchema.state['ui:options'].replaceSchema = (
-  formData,
-  _schema,
-  _,
-  index,
-) => {
-  const insertArrayIndex = (key, idx) => key.replace('[INDEX]', `[${idx}]`);
-  const getPath = (pathToData, idx) =>
-    typeof idx === 'number' ? insertArrayIndex(pathToData, idx) : pathToData;
-
-  const formDataPath = getPath('veteranAddress', index);
-  const data = get(formDataPath, formData) ?? {};
-  const { country } = data;
-  const { isMilitary } = data;
-  if (isMilitary) {
-    return {
-      type: 'string',
-      title: 'State',
-      enum: MILITARY_STATE_VALUES,
-      enumNames: MILITARY_STATE_NAMES,
-    };
-  }
-  if (!isMilitary && country === 'United States') {
-    return {
-      type: 'string',
-      title: 'State',
-      enum: STATE_VALUES,
-      enumNames: STATE_NAMES,
-    };
-  }
-  return {
-    type: 'string',
-    title: 'State/Province/Region',
-  };
-};
+const veteranAddressUiSchema = updateAddressUiSchema(
+  originalVeteranAddressUiSchema,
+);
 
 export const uiSchema = {
   'view:addressDescription': {
