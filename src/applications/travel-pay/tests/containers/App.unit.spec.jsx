@@ -46,6 +46,13 @@ describe('App', () => {
           verified: !!isLOA3,
         },
       },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: { get() {} },
+        dismissedDowntimeWarnings: [],
+      },
     };
   };
 
@@ -118,6 +125,7 @@ describe('App', () => {
       reducers: reducer,
     });
     expect($('va-alert-sign-in[variant="verifyLoginGov"]')).to.exist;
+    screen.debug();
     expect(screen.getByText(/login.gov/i)).to.exist;
   });
 
