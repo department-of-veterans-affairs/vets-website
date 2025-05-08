@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -6,12 +6,7 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { datadogRum } from '@datadog/browser-rum';
 import MedicationsListCard from './MedicationsListCard';
-import {
-  ALL_MEDICATIONS_FILTER_KEY,
-  SESSION_SELECTED_FILTER_OPTION,
-  filterOptions,
-  rxListSortingOptions,
-} from '../../util/constants';
+import { filterOptions, rxListSortingOptions } from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
 import { selectGroupingFlag } from '../../util/selectors';
@@ -59,21 +54,19 @@ const MedicationsList = props => {
     perPage,
   );
 
-  const selectedFilterOption =
-    filterOptions[
-      sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
-        ALL_MEDICATIONS_FILTER_KEY
-    ]?.showingContentDisplayName;
+  const filterOption = useSelector(state => state.rx.preferences.filterOption);
+  const [selectedFilterOption] = useState(filterOption);
+  const selectedFilterDisplay = filterOptions[selectedFilterOption]?.label;
 
   const filterAndSortContent = () => {
     return (
       <>
         {!isFullList &&
-          selectedFilterOption?.length > 0 && (
-            <strong>{selectedFilterOption} medications</strong>
+          selectedFilterDisplay?.length > 0 && (
+            <strong>{selectedFilterDisplay} medications</strong>
           )}
         {`${
-          !isFullList && selectedFilterOption?.length > 0 ? '' : ' medications'
+          !isFullList && selectedFilterDisplay?.length > 0 ? '' : ' medications'
         }, ${sortOptionLowercase}`}
       </>
     );
@@ -93,7 +86,7 @@ const MedicationsList = props => {
           {filterAndSortContent()}
         </span>
         <span className="print-only">
-          {`Showing ${totalMedications}`}
+          {`Showing ${totalMedications} `}
           {filterAndSortContent()}
         </span>
       </p>
