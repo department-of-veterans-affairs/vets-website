@@ -629,9 +629,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
 
       fireEvent.click(await screen.findByText(/Continue/));
       await waitFor(() =>
-        expect(screen.history.push.firstCall.args[0]).to.equal(
-          '/new-covid-19-vaccine-appointment/choose-clinic',
-        ),
+        expect(screen.history.push.firstCall.args[0]).to.equal('clinic'),
       );
     });
 
