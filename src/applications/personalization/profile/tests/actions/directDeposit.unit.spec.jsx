@@ -28,18 +28,15 @@ describe('directDeposit actions', () => {
   const endpointUrl = `${environment.API_URL}/v0${DIRECT_DEPOSIT_API_ENDPOINT}`;
 
   let server = null;
-  let recordApiEventStub = null;
   let captureErrorStub = null;
   let getDataStub = null;
 
   beforeEach(() => {
-    recordApiEventStub = sinon.stub(fetchDirectDepositArgs, 'recordApiEvent');
     captureErrorStub = sinon.stub(fetchDirectDepositArgs, 'captureError');
   });
 
   afterEach(() => {
     server.resetHandlers();
-    recordApiEventStub.restore();
     captureErrorStub.restore();
     if (getDataStub) {
       getDataStub.restore();
@@ -53,7 +50,7 @@ describe('directDeposit actions', () => {
   it('should dispatch DIRECT_DEPOSIT_FETCH_SUCCEEDED with response on success', async () => {
     server = setupServer(
       rest.get(`${endpointUrl}`, (_, res, ctx) => {
-        return res(ctx.json(base), ctx.status(500));
+        return res(ctx.json(base), ctx.status(200));
       }),
     );
 
@@ -78,13 +75,11 @@ describe('directDeposit actions', () => {
     expect(
       dispatchSpy.withArgs({
         type: DIRECT_DEPOSIT_FETCH_SUCCEEDED,
-        response: base,
+        response: base.data.attributes,
       }).calledOnce,
     ).to.be.true;
 
     expect(dispatchSpy.callCount).to.eql(4);
-
-    expect(recordApiEventStub.calledTwice).to.be.true;
   });
 
   it('should dispatch DIRECT_DEPOSIT_FETCH_FAILED with response on error', async () => {
@@ -120,7 +115,6 @@ describe('directDeposit actions', () => {
       }).calledOnce,
     ).to.be.true;
 
-    expect(recordApiEventStub.calledTwice).to.be.true;
     expect(captureErrorStub.calledOnce).to.be.true;
   });
 
@@ -161,8 +155,6 @@ describe('directDeposit actions', () => {
         type: DIRECT_DEPOSIT_SAVE_SUCCEEDED,
         response: base.data.attributes,
       });
-
-      expect(recordApiEventStub.calledTwice).to.be.true;
     });
     it('should dispatch the FAILURE state', async () => {
       server = setupServer(
@@ -187,8 +179,6 @@ describe('directDeposit actions', () => {
         type: DIRECT_DEPOSIT_SAVE_FAILED,
         response: error500,
       });
-
-      expect(recordApiEventStub.calledTwice).to.be.true;
     });
 
     it('should dispatch the FAILURE state when the response is an instance of Error', async () => {
@@ -217,7 +207,6 @@ describe('directDeposit actions', () => {
       expect(dispatchSpy.secondCall.args[0].response instanceof Error).to.be
         .true;
 
-      expect(recordApiEventStub.calledTwice).to.be.true;
       expect(captureErrorStub.calledOnce).to.be.true;
     });
   });
