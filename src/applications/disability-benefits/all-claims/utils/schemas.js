@@ -276,26 +276,24 @@ export const ancillaryFormUploadUi = (
     isDisabled = false,
     buttonText = '',
     addAnotherLabel = 'Add Another',
+    deleteAlertText,
   } = {},
 ) => {
-  // a11y focus management. Move focus to select after upload
-  // see va.gov-team/issues/19688
   const findAndFocusLastSelect = () => {
-    // focus on last document type select since all new uploads are appended
     const lastSelect = [...document.querySelectorAll('select')].slice(-1);
     if (lastSelect.length) {
       focusElement(lastSelect[0]);
     }
   };
+
   return fileUploadUI(label, {
     itemDescription,
     hideLabelText: !label,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     buttonText,
     addAnotherLabel,
+    deleteAlertText,
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
-    // not sure what to do here... we need to differentiate pdf vs everything
-    // else; the check is in the actions.js > uploadFile function
     maxSize: MAX_FILE_SIZE_BYTES,
     maxPdfSize: MAX_PDF_FILE_SIZE_BYTES,
     minSize: 1,

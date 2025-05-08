@@ -5,6 +5,7 @@ import {
   manualUploadPageTitle,
   manualUploadRequirementsText,
   manualUploadRequirementsTextTitle,
+  manualUploadAlertText,
 } from '../../content/form0781/manualUploadPage';
 import {
   ancillaryFormUploadUi,
@@ -28,6 +29,7 @@ export const uiSchema = {
         customClasses: 'upload-completed-form',
         isDisabled: true,
         attachmentName: true,
+        deleteAlertText: manualUploadAlertText,
       },
     ),
     'ui:description': manualUploadRequirementsText,
