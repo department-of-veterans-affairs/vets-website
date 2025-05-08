@@ -48,7 +48,7 @@ import {
   UploadDocumentsProvider,
 } from '../components/UploadDocuments';
 
-import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -109,7 +109,7 @@ const formConfig = {
       title: 'Personal information',
       pages: {
         page1: {
-          initialData: mockdata.data,
+          // initialData: mockdata.data,
           path: 'veteran-information',
           title: 'Name and date of birth',
           uiSchema: {
