@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
@@ -21,7 +20,6 @@ import {
   routeToPreviousAppointmentPage,
   updateReasonForAppointmentData,
 } from '../redux/actions';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import { getPageTitle } from '../newAppointmentFlow';
 
 function isValidComment(value) {
@@ -68,10 +66,7 @@ const initialSchema = {
 
 const pageKey = 'reasonForAppointment';
 
-export default function ReasonForAppointmentPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function ReasonForAppointmentPage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const dispatch = useDispatch();
@@ -129,9 +124,6 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
       dispatch(
         openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
       );
-      if (featureBreadcrumbUrlUpdate) {
-        changeCrumb(pageTitle);
-      }
     },
     [dispatch],
   );
@@ -212,7 +204,3 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
     </div>
   );
 }
-
-ReasonForAppointmentPage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

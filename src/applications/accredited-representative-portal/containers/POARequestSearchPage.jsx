@@ -97,7 +97,7 @@ const POARequestSearchPage = title => {
         Accredited Representative Portal. Requests will expire and be removed
         from the portal after 60 days.
       </p>
-      <p className="poa-request__copy">
+      <p className="poa-request__copy vads-u-margin--0">
         <strong>Note:</strong> POA requests need to be submitted using the
         online{' '}
         <va-link

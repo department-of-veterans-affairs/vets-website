@@ -49,15 +49,13 @@ export const currencyUI = options => {
     min = 0,
     // large numbers converted to scientific notation; so add limit
     max = 999999999,
+    validations = [],
     ...uiOptions
   } = typeof options === 'object' ? options : { title: options };
 
-  let validations = {};
-
-  if (typeof min !== 'undefined' || typeof max !== 'undefined') {
-    validations = {
-      'ui:validations': [minMaxValidation(min, max)],
-    };
+  // if the title is a string, set it to the title property
+  if (min !== null || max !== null) {
+    validations.push(minMaxValidation(min, max));
   }
 
   return {
@@ -75,13 +73,12 @@ export const currencyUI = options => {
       pattern: 'Enter a valid dollar amount',
       // error shows when CurrencyField is expecting a number & gets a string
       type: 'Enter a valid dollar amount',
-      min:
-        typeof min !== 'undefined' ? `Enter a number greater than ${min}` : '',
-      max: typeof max !== 'undefined' ? `Enter a number less than ${max}` : '',
+      min: min !== null ? `Enter a number greater than or equal to ${min}` : '',
+      max: max !== null ? `Enter a number less than or equal to ${max}` : '',
       ...errorMessages,
     },
     'ui:reviewWidget': CurrencyWidget,
-    ...validations,
+    'ui:validations': validations,
   };
 };
 

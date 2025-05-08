@@ -22,6 +22,7 @@ import locationOfDeath from './chapters/02-veteran-information/locationOfDeath';
 
 import separationDocuments from './chapters/03-military-history/separationDocuments';
 import uploadDD214 from './chapters/03-military-history/uploadDD214';
+import serviceNumber from './chapters/03-military-history/serviceNumber';
 import servicePeriods from './chapters/03-military-history/servicePeriods';
 import previousNamesQuestion from './chapters/03-military-history/previousNamesQuestion';
 import previousNames from './chapters/03-military-history/previousNames';
@@ -268,6 +269,16 @@ const formConfig = {
           depends: form => get('view:separationDocuments', form),
           uiSchema: uploadDD214.uiSchema,
           schema: uploadDD214.schema,
+        },
+        serviceNumber: {
+          title: 'Service number',
+          reviewTitle: () => (
+            <span className="vads-u-font-size--h3">Service number</span>
+          ),
+          path: 'military-history/service-number',
+          depends: form => !get('view:separationDocuments', form),
+          uiSchema: serviceNumber.uiSchema,
+          schema: serviceNumber.schema,
         },
         servicePeriods: {
           title: 'Service periods',
