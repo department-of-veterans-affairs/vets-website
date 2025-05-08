@@ -1,4 +1,4 @@
-import { snakeCase } from 'lodash';
+import { snakeCase, capitalize } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
 import ADDRESS_DATA from 'platform/forms/address/data';
@@ -1133,4 +1133,56 @@ export const focusElement = (ref, delay = 0) => {
       ref.focus();
     }
   }, delay);
+};
+
+export const deriveModalText = lowerType => {
+  let modalName;
+  switch (lowerType) {
+    case 'public':
+      modalName = 'publicSchool';
+      break;
+    case 'private':
+      modalName = 'privateSchool';
+      break;
+    case 'for profit':
+      modalName = 'proprietarySchool';
+      break;
+    case 'foreign':
+      modalName = 'foreignSchool';
+      break;
+    default:
+      modalName = undefined;
+  }
+  return modalName;
+};
+
+export const deriveLearnMoreAriaLabel = (lowerType, ariaLabels) => {
+  let ariaLabel;
+  switch (lowerType) {
+    case 'public':
+      ariaLabel = ariaLabels.learnMore.publicSchool;
+      break;
+    case 'private':
+      ariaLabel = ariaLabels.learnMore.privateSchool;
+      break;
+    case 'for profit':
+      ariaLabel = ariaLabels.learnMore.proprietarySchool;
+      break;
+    case 'foreign':
+      ariaLabel = ariaLabels.learnMore.foreignSchool;
+      break;
+    default:
+      ariaLabel = undefined;
+  }
+  return ariaLabel;
+};
+
+export const deriveInstitutionTitle = localType => {
+  if (localType === 'private') {
+    return 'Private Nonprofit Institution';
+  }
+  if (localType === 'for profit') {
+    return 'Proprietary Institution';
+  }
+  return `${capitalize(localType)} Institution`;
 };
