@@ -504,7 +504,12 @@ const Prescriptions = () => {
             setPdfTxtGenerateStatus({
               status: PDF_TXT_GENERATE_STATUS.NotStarted,
             });
-            printRxList();
+
+            // Delay the print action to ensure that the
+            // PDF Text generation status is updated.
+            setTimeout(() => {
+              printRxList();
+            }, 0);
           }
           updateLoadingStatus(false, '');
         }
@@ -540,6 +545,10 @@ const Prescriptions = () => {
     setHasFullListDownloadError(false);
     const isTxtOrPdf =
       format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT;
+    setPdfTxtGenerateStatus({
+      status: PDF_TXT_GENERATE_STATUS.InProgress,
+      format,
+    });
     if (
       (isTxtOrPdf ||
         !allergies ||
@@ -567,11 +576,6 @@ const Prescriptions = () => {
       }
       setIsRetrievingFullList(false);
     }
-
-    setPdfTxtGenerateStatus({
-      status: PDF_TXT_GENERATE_STATUS.InProgress,
-      format,
-    });
   };
 
   const isShowingErrorNotification = Boolean(
