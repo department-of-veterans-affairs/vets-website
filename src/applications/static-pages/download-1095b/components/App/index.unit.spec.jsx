@@ -43,9 +43,6 @@ describe('App component', () => {
   setupAvailableFormsResponse(server, 200, goodAvailableFormsResponse);
 
   const unauthenticatedState = {
-    featureToggles: {
-      loading: false,
-    },
     user: {
       login: {
         currentlyLoggedIn: false,
@@ -58,9 +55,6 @@ describe('App component', () => {
     },
   };
   const unverifiedState = {
-    featureToggles: {
-      loading: false,
-    },
     user: {
       login: {
         currentlyLoggedIn: true,
@@ -76,9 +70,6 @@ describe('App component', () => {
     },
   };
   const authedAndVerifiedState = {
-    featureToggles: {
-      loading: false,
-    },
     user: {
       login: {
         currentlyLoggedIn: true,
