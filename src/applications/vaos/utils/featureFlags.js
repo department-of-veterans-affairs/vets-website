@@ -13,7 +13,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingOhDirectSchedule', value: true },
   { name: 'vaOnlineSchedulingOhRequest', value: true },
   { name: 'vaOnlineSchedulingRemovePodiatry', value: false },
-  { name: 'vaosOnlineSchedulingUseVADate', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruth', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruthVA', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruthCC', value: true },
