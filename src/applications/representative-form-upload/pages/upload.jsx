@@ -6,8 +6,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import PropTypes from 'prop-types';
-import { fetchAndUpdateSessionExpiration } from 'platform/utilities/api';
-import merge from 'lodash/merge';
 import {
   UPLOAD_TITLE,
   UPLOAD_DESCRIPTION,
@@ -18,6 +16,7 @@ import { getFormContent, getPdfDownloadUrl, onCloseAlert } from '../helpers';
 import { CustomAlertPage } from './helpers';
 import { getSignInUrl } from '../utilities/constants';
 import manifest from '../manifest.json';
+import api from '../utilities/api';
 
 const { formNumber, title } = getFormContent();
 const baseURL = `${environment.API_URL}/accredited_representative_portal/v0`;
@@ -25,34 +24,14 @@ const fileUploadUrl = `${baseURL}/representative_form_upload`;
 const warningsPresent = formData => formData.uploadedFile?.warnings?.length > 0;
 
 const fetchNewAccessToken = async () => {
-  window.appName = manifest.entryName;
-  const csrfTokenStored = localStorage.getItem('csrfToken');
+  const response = await api.getUser();
 
-  const defaultSettings = {
-    method: 'GET',
-    credentials: 'include',
-    headers: {
-      'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
-      'X-CSRF-Token': csrfTokenStored,
-      'Content-Type': 'application/json',
-    },
-  };
-
-  const settings = merge(defaultSettings, {}, {});
-  const response = await fetchAndUpdateSessionExpiration(
-    `${baseURL}/user`,
-    settings,
-  );
   if (response.ok || response.status === 304) {
     return response;
   }
 
   if (
     response.status === 401 &&
-    // Don't redirect to login for our app's root / landing page experience.
-    // People are allowed to be unauthenticated there.
-    // TODO: probably need a more sound & principled solution here.
     ![manifest.rootUrl, `${manifest.rootUrl}/`].includes(
       window.location.pathname,
     )
