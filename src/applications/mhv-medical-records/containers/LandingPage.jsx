@@ -380,7 +380,7 @@ const LandingPage = () => {
                     using the Share My Health Data website.
                   </p>
                   <va-link
-                    to={
+                    href={
                       environment.isProduction()
                         ? 'https://veteran.apps.va.gov/smhdWeb'
                         : 'https://veteran.apps-staging.va.gov/smhdWeb'
