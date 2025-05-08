@@ -7,10 +7,8 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import {
-  createMockClinic,
-  createMockFacility,
-} from '../../../tests/mocks/data';
+import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
+import { createMockFacility } from '../../../tests/mocks/data';
 import {
   getSchedulingConfigurationMock,
   getV2ClinicMock,
@@ -118,14 +116,14 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         clinics: [
-          createMockClinic({
+          new MockClinicResponse({
             id: '308',
-            stationId: '983',
+            locationId: '983',
             name: 'Green team clinic',
           }),
-          createMockClinic({
+          new MockClinicResponse({
             id: '309',
-            stationId: '983',
+            locationId: '983',
             name: 'Red team clinic',
           }),
         ],
@@ -162,9 +160,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         clinics: [
-          createMockClinic({
+          new MockClinicResponse({
             id: '308',
-            stationId: '983',
+            locationId: '983',
             name: 'Green team clinic',
           }),
         ],
