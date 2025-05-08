@@ -124,7 +124,7 @@ const Compose = () => {
             100,
             threadSort.page,
             threadSort.value,
-            true,
+            false,
           ),
         );
       }
@@ -182,7 +182,7 @@ const Compose = () => {
 
   return (
     <>
-      {!draftType && (
+      {(!draftType || isLoading || allTriageGroupsBlocked === undefined) && (
         <va-loading-indicator
           message="Loading your secure message..."
           setFocus
