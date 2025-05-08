@@ -21,7 +21,7 @@ import {
   setVaccineFacility,
 } from '../../tests/mocks/setup';
 
-import { createMockClinic } from '../../tests/mocks/data';
+import MockClinicResponse from '../../tests/fixtures/MockClinicResponse';
 import {
   mockAppointmentSlotApi,
   mockEligibilityFetches,
@@ -41,18 +41,12 @@ const initialState = {
 };
 
 describe('VAOS vaccine flow: SelectDate1Page', () => {
-  const clinic1 = createMockClinic({
-    id: '308',
-    stationId: '983',
-    name: 'Green team clinic',
+  const clinics = MockClinicResponse.createResponses({
+    clinics: [
+      { id: '308', name: 'Green team clinic' },
+      { id: '309', name: 'Red team clinic' },
+    ],
   });
-
-  const clinic2 = createMockClinic({
-    id: '309',
-    stationId: '983',
-    name: 'Red team clinic',
-  });
-  const clinics = [clinic1, clinic2];
 
   beforeEach(() => {
     mockFetch();

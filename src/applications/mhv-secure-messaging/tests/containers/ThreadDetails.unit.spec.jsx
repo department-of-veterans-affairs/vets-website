@@ -59,7 +59,7 @@ describe('Thread Details container', () => {
     } = threadDetails.messages[0];
 
     expect(
-      await screen.findByText(`${category}: ${subject}`, {
+      await screen.findByText(`Messages: ${category} - ${subject}`, {
         exact: false,
         selector: 'h1',
       }),
@@ -139,7 +139,7 @@ describe('Thread Details container', () => {
     } = message;
 
     expect(
-      await screen.findByText(`${category}: ${subject}`, {
+      await screen.findByText(`Messages: ${category} - ${subject}`, {
         exact: false,
         selector: 'h1',
       }),
@@ -264,7 +264,9 @@ describe('Thread Details container', () => {
     expect(await screen.findByText(`${category}: ${subject}`, { exact: false }))
       .to.exist;
 
-    expect(global.document.title).to.equal(PageTitles.CONVERSATION_TITLE_TAG);
+    expect(global.document.title).to.equal(
+      `Messages: ${PageTitles.CONVERSATION_TITLE_TAG}`,
+    );
 
     expect(document.querySelector('va-textarea')).to.not.exist;
 
