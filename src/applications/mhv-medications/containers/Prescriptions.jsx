@@ -32,7 +32,6 @@ import {
   PRINT_FORMAT,
   filterOptions,
   ALL_MEDICATIONS_FILTER_KEY,
-  defaultSelectedSortOption,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -44,7 +43,6 @@ import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
 import {
   selectAllergiesFlag,
-  selectGroupingFlag,
   selectRefillContentFlag,
   selectRefillProgressFlag,
   selectRemoveLandingPageFlag,
@@ -68,6 +66,7 @@ import {
   setFilterOption,
   setPageNumber,
 } from '../redux/preferencesSlice';
+import useMedicationPreferences from '../hooks/useMedicationPreferences';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -87,7 +86,6 @@ const Prescriptions = () => {
   const currentPage = useSelector(state => state.rx.preferences.pageNumber);
 
   // Get feature flags
-  const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
@@ -97,17 +95,7 @@ const Prescriptions = () => {
   // Track if we've initialized from session storage
   const initializedFromSession = useRef(false);
 
-  // Consolidate query parameters into a single state object to avoid multiple re-renders
-  const [queryParams, setQueryParams] = useState({
-    page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
-    sortEndpoint:
-      rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
-      rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-    filterOption: filterOptions[selectedFilterOption]?.url || '',
-  });
-
-  // Use the consolidated query parameters for RTK Query
+  const [queryParams, setQueryParams] = useMedicationPreferences();
   const {
     data: prescriptionsData,
     error: prescriptionsApiError,

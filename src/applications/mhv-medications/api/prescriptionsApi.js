@@ -141,6 +141,7 @@ export const prescriptionsApi = createApi({
       query: id => ({
         path: `${apiBasePath}/prescriptions/${id}/documentation`,
       }),
+      keepUnusedDataFor: 600,
       transformResponse: response => {
         return response?.data?.attributes?.html
           ? sanitizeKramesHtmlStr(response.data.attributes.html)
