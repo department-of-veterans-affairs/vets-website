@@ -21,7 +21,15 @@ export default function transformForSubmit(formConfig, form) {
   );
 
   // Add attachment IDs to veteran upload (TODO: this is wack)
-  transformedData.uploadSectionVeteran = transformedData.uploadSectionVeteran.map(
+  transformedData.uploadSectionVeteran = transformedData?.uploadSectionVeteran?.map(
+    el => {
+      return {
+        attachmentId: 'some attachment type (TODO)',
+        ...el,
+      };
+    },
+  );
+  transformedData.uploadSectionProvider = transformedData?.uploadSectionProvider?.map(
     el => {
       return {
         attachmentId: 'some attachment type (TODO)',

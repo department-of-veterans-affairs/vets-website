@@ -23,7 +23,6 @@ import {
   yesNoUI,
   yesNoSchema,
   fileInputMultipleUI,
-  fileInputSchema,
   fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -43,7 +42,6 @@ import PaymentSelectionUI, {
   loggedInPaymentInfo,
   loggedOutPaymentInfo,
 } from '../components/PaymentSelection';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import {
   UploadDocumentsVeteran,
   UploadDocumentsProvider,
@@ -325,61 +323,27 @@ const formConfig = {
     fileUpload: {
       title: 'Supporting files',
       pages: {
-        /*
         page7: {
           path: 'upload-supporting-documents',
           title: 'Included files',
           depends: formData => formData.sendPayment === 'Veteran',
+          initialData: {
+            uploadSectionVeteran: [],
+          },
           uiSchema: {
             ...titleUI('Upload billing statements and supporting documents'),
             'view:UploadDocuments': {
               'ui:description': UploadDocumentsVeteran,
             },
-            uploadSectionVeteran: fileUploadUI({
-              label: 'Upload file',
-              attachmentName: false,
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['uploadSectionVeteran'],
-            properties: {
-              titleSchema,
-              'view:UploadDocuments': {
-                type: 'object',
-                properties: {},
-              },
-              uploadSectionVeteran: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  properties: {
-                    name: {
-                      type: 'string',
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-        */
-        // TODO: add back in the UI components with instructions, etc
-        page7: {
-          path: 'upload-supporting-documents',
-          title: 'Included files',
-          depends: formData => formData.sendPayment === 'Veteran',
-          uiSchema: {
             uploadSectionVeteran: {
               ...fileInputMultipleUI({
                 errorMessages: { required: 'This document is required.' },
-                name: 'pharmacy-upload',
+                name: 'veteran-payment',
                 fileUploadUrl: `${
                   environment.API_URL
                 }/ivc_champva/v1/forms/submit_supporting_documents`,
                 title: 'Upload supporting document',
-                formNumber: '10-7959A',
+                formNumber: '10-7959F-2',
               }),
             },
           },
@@ -396,21 +360,30 @@ const formConfig = {
             },
           },
         },
-        // TODO: bring this page back.
-        /*
         page8: {
           path: 'upload-supporting-documents-provider',
           title: 'Included files',
           depends: formData => formData.sendPayment === 'Provider',
+          // TODO: is this initial data still necessary?
+          initialData: {
+            uploadSectionProvider: [],
+          },
           uiSchema: {
             ...titleUI('Upload billing statements and supporting documents'),
             'view:UploadDocuments': {
               'ui:description': UploadDocumentsProvider,
             },
-            uploadSectionProvider: fileUploadUI({
-              label: 'Upload file',
-              attachmentName: false,
-            }),
+            uploadSectionProvider: {
+              ...fileInputMultipleUI({
+                errorMessages: { required: 'This document is required.' },
+                name: 'provider-payment',
+                fileUploadUrl: `${
+                  environment.API_URL
+                }/ivc_champva/v1/forms/submit_supporting_documents`,
+                title: 'Upload supporting document',
+                formNumber: '10-7959F-2',
+              }),
+            },
           },
           schema: {
             type: 'object',
@@ -421,22 +394,10 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              uploadSectionProvider: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  properties: {
-                    name: {
-                      type: 'string',
-                    },
-                  },
-                },
-              },
+              uploadSectionProvider: fileInputMultipleSchema,
             },
           },
         },
-        */
       },
     },
   },
