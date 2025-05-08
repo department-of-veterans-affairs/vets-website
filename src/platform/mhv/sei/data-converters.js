@@ -1,25 +1,6 @@
 import { format } from 'date-fns';
-import { Actions } from '../util/actionTypes';
-import * as Const from '../util/seiConstants';
-
-const initialState = {
-  vitals: undefined,
-  allergies: undefined,
-  familyHistory: undefined,
-  vaccines: undefined,
-  testEntries: undefined,
-  medicalEvents: undefined,
-  militaryHistory: undefined,
-  providers: undefined,
-  healthInsurance: undefined,
-  treatmentFacilities: undefined,
-  foodJournal: undefined,
-  activityJournal: undefined,
-  medications: undefined,
-  failedDomains: [],
-};
-
-export const NONE_ENTERED = 'None entered';
+import * as Const from './sei-constants';
+import { NONE_ENTERED, selfEnteredDomains } from '../util/constants';
 
 /**
  * @param {*} map an object containing key value pairs
@@ -820,144 +801,39 @@ export const convertEmergencyContacts = contacts => {
   }));
 };
 
-export const selfEnteredReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case Actions.SelfEntered.GET_ALL: {
-      const { responses = {}, errors = {} } = action.payload;
-
-      return {
-        ...state,
-        vitals: convertVitals(responses.vitals),
-        allergies: convertAllergies(responses.allergies),
-        familyHistory: convertFamilyHealthHistory(responses.familyHistory),
-        vaccines: convertVaccines(responses.vaccines),
-        testEntries: convertLabsAndTests(responses.testEntries),
-        medicalEvents: convertMedicalEvents(responses.medicalEvents),
-        militaryHistory: convertMilitaryHistory(responses.militaryHistory),
-        providers: convertHealthcareProviders(responses.providers),
-        healthInsurance: convertHealthInsurance(responses.healthInsurance),
-        treatmentFacilities: convertTreatmentFacilities(
-          responses.treatmentFacilities,
-        ),
-        foodJournal: convertFoodJournal(responses.foodJournal),
-        activityJournal: convertActivityJournal(responses.activityJournal),
-        medications: convertMedications(responses.medications),
-        emergencyContacts: convertEmergencyContacts(
-          responses.emergencyContacts,
-        ),
-        demographics: convertDemographics(responses.demographics),
-
-        // Track all domains that had an error
-        failedDomains: Object.keys(errors),
-      };
-    }
-    case Actions.SelfEntered.GET_VITALS: {
-      return {
-        ...state,
-        vitals: convertVitals(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_ALLERGIES: {
-      return {
-        ...state,
-        allergies: convertAllergies(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_FAMILY_HISTORY: {
-      return {
-        ...state,
-        familyHistory: convertFamilyHealthHistory(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_VACCINES: {
-      return {
-        ...state,
-        vaccines: convertVaccines(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_TEST_ENTRIES: {
-      return {
-        ...state,
-        testEntries: convertLabsAndTests(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_MEDICAL_EVENTS: {
-      return {
-        ...state,
-        medicalEvents: convertMedicalEvents(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_MILITARY_HISTORY: {
-      return {
-        ...state,
-        militaryHistory: convertMilitaryHistory(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_PROVIDERS: {
-      return {
-        ...state,
-        providers: convertHealthcareProviders(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_HEALTH_INSURANCE: {
-      return {
-        ...state,
-        healthInsurance: convertHealthInsurance(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_TREATMENT_FACILITIES: {
-      return {
-        ...state,
-        treatmentFacilities: convertTreatmentFacilities(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_FOOD_JOURNAL: {
-      return {
-        ...state,
-        foodJournal: convertFoodJournal(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_ACTIVITY_JOURNAL: {
-      return {
-        ...state,
-        activityJournal: convertActivityJournal(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_MEDICATIONS: {
-      return {
-        ...state,
-        medications: convertMedications(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_DEMOGRAPHICS: {
-      return {
-        ...state,
-        demographics: convertDemographics(action.payload),
-      };
-    }
-    case Actions.SelfEntered.GET_EMERGENCY_CONTACTS: {
-      return {
-        ...state,
-        emergencyContacts: convertEmergencyContacts(action.payload),
-      };
-    }
-    case Actions.SelfEntered.ADD_FAILED: {
-      const failedDomain = action.payload;
-
-      return {
-        ...state,
-        failedDomains: state.failedDomains.includes(failedDomain)
-          ? state.failedDomains
-          : [...state.failedDomains, failedDomain],
-      };
-    }
-    case Actions.SelfEntered.CLEAR_FAILED: {
-      return {
-        ...state,
-        failedDomains: [],
-      };
-    }
+export const convertSeiRecords = (type, data) => {
+  switch (type) {
+    case selfEnteredDomains.ACTIVITY_JOURNAL:
+      return convertActivityJournal(data);
+    case selfEnteredDomains.ALLERGIES:
+      return convertAllergies(data);
+    case selfEnteredDomains.DEMOGRAPHICS:
+      return convertDemographics(data);
+    case selfEnteredDomains.EMERGENCY_CONTACTS:
+      return convertEmergencyContacts(data);
+    case selfEnteredDomains.FAMILY_HISTORY:
+      return convertFamilyHealthHistory(data);
+    case selfEnteredDomains.FOOD_JOURNAL:
+      return convertFoodJournal(data);
+    case selfEnteredDomains.HEALTH_PROVIDERS:
+      return convertHealthcareProviders(data);
+    case selfEnteredDomains.HEALTH_INSURANCE:
+      return convertHealthInsurance(data);
+    case selfEnteredDomains.TEST_ENTRIES:
+      return convertLabsAndTests(data);
+    case selfEnteredDomains.MEDICAL_EVENTS:
+      return convertMedicalEvents(data);
+    case selfEnteredDomains.MEDICATIONS:
+      return convertMedications(data);
+    case selfEnteredDomains.MILITARY_HISTORY:
+      return convertMilitaryHistory(data);
+    case selfEnteredDomains.TREATMENT_FACILITIES:
+      return convertTreatmentFacilities(data);
+    case selfEnteredDomains.VACCINES:
+      return convertVaccines(data);
+    case selfEnteredDomains.VITALS:
+      return convertVitals(data);
     default:
-      return state;
+      return null;
   }
 };

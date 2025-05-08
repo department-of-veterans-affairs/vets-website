@@ -1,4 +1,4 @@
-import { NONE_ENTERED } from '../../../reducers/selfEnteredData';
+import { NONE_ENTERED } from '../../util/constants';
 
 export const generateDemographicsContent = record => {
   const demographicInfo = {

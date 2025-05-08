@@ -86,8 +86,6 @@ const selfEnteredTypes = {
 };
 
 const generateTitleSection = (doc, parent, data) => {
-  const { preface } = data;
-
   const titleSection = doc.struct('Sect', {
     title: 'Introduction',
   });
@@ -100,35 +98,19 @@ const generateTitleSection = (doc, parent, data) => {
   );
   const subTitleOptions = { lineGap: 3 };
 
-  if (preface.selectMilestoneTwoCheck) {
-    preface.messages.map(message =>
-      titleSection.add(
-        doc.struct('P', () => {
-          doc
-            .font(config.text.font)
-            .fontSize(config.text.size)
-            .text(`${message.value}`, config.margins.left, doc.y, {
-              ...subTitleOptions,
-              paragraphGap: 12,
-            });
-        }),
-      ),
-    );
-  } else {
-    titleSection.add(
-      doc.struct('P', () => {
-        doc
-          .font(config.text.font)
-          .fontSize(config.text.size)
-          .text(
-            'This report includes health information you entered yourself in the past. You can no longer enter or edit health information in My HealtheVet.',
-            config.margins.left,
-            doc.y,
-            { ...subTitleOptions, paragraphGap: 12 },
-          );
-      }),
-    );
-  }
+  titleSection.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .text(
+          'This report includes health information you entered yourself in the past. You can no longer enter or edit health information in My HealtheVet.',
+          config.margins.left,
+          doc.y,
+          { ...subTitleOptions, paragraphGap: 12 },
+        );
+    }),
+  );
   titleSection.add(
     doc.struct('P', () => {
       doc
