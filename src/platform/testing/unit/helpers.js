@@ -125,12 +125,6 @@ function mockFetch(returnVal, shouldResolve = true) {
 }
 
 export function setFetchJSONResponse(stub, data = null) {
-  // const response = new Response(null, {
-  //   status: 200,
-  //   headers: { 'Content-Type': 'application/json' },
-  //   url: environment.API_URL,
-  // });
-
   const response = new Response();
   response.ok = true;
   response.url = environment.API_URL;
@@ -138,7 +132,6 @@ export function setFetchJSONResponse(stub, data = null) {
     response.headers.set('Content-Type', 'application/json');
     response.json = () => Promise.resolve(data);
   }
-  // console.log(response);
   stub.resolves(response);
 }
 
