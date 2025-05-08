@@ -179,7 +179,6 @@ describe('VAOS Referral API Error Handling', () => {
     });
   });
 
-  // TODO: This test is failing because the submit appointment page does not display an error
   describe('Submit Appointment API Errors', () => {
     const referralId = 'referral-123';
     const appointmentId = 'EEKoGzEf';
