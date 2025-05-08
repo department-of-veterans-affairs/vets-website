@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -6,7 +6,11 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { datadogRum } from '@datadog/browser-rum';
 import MedicationsListCard from './MedicationsListCard';
-import { filterOptions, rxListSortingOptions } from '../../util/constants';
+import {
+  ALL_MEDICATIONS_FILTER_KEY,
+  filterOptions,
+  rxListSortingOptions,
+} from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
 import { selectGroupingFlag } from '../../util/selectors';
@@ -54,19 +58,22 @@ const MedicationsList = props => {
     perPage,
   );
 
-  const filterOption = useSelector(state => state.rx.preferences.filterOption);
-  const [selectedFilterOption] = useState(filterOption);
+  const selectedFilterOption = useSelector(
+    state => state.rx.preferences.filterOption,
+  );
   const selectedFilterDisplay = filterOptions[selectedFilterOption]?.label;
 
   const filterAndSortContent = () => {
     return (
       <>
         {!isFullList &&
-          selectedFilterDisplay?.length > 0 && (
+          selectedFilterOption !== ALL_MEDICATIONS_FILTER_KEY && (
             <strong>{selectedFilterDisplay} medications</strong>
           )}
         {`${
-          !isFullList && selectedFilterDisplay?.length > 0 ? '' : ' medications'
+          !isFullList && selectedFilterOption !== ALL_MEDICATIONS_FILTER_KEY
+            ? ''
+            : ' medications'
         }, ${sortOptionLowercase}`}
       </>
     );
