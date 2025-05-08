@@ -15,7 +15,6 @@ import * as useIsInCCPilot from './hooks/useIsInCCPilot';
 const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingVAOSServiceRequests: true,
     vaOnlineSchedulingCCDirectScheduling: true,
   },
 };
@@ -112,6 +111,35 @@ describe('ReferralAppointments', () => {
     await waitFor(() => {
       expect(utils.scrollAndFocus.called).to.be.true;
       expect(utils.scrollAndFocus.calledWith('h1')).to.be.true;
+    });
+  });
+
+  it('should redirect to referrals-requests page if referral has appointments', async () => {
+    const referralWithAppointments = createReferralById(
+      '2024-11-29',
+      'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    );
+    referralWithAppointments.attributes.hasAppointments = true;
+
+    servicesUtils.apiRequestWithUrl.resolves({
+      data: referralWithAppointments,
+    });
+
+    const initialState = {
+      ...initialStateVAOSService,
+      referral: {
+        referrals: createReferrals(3),
+        referralsFetchStatus: FETCH_STATUS.succeeded,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<ReferralAppointments />, {
+      initialState,
+      path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    });
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal('/referrals-requests');
     });
   });
 });

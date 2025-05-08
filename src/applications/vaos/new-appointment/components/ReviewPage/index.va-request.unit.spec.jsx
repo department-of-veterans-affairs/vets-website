@@ -18,17 +18,16 @@ import {
 import { FACILITY_TYPES } from '../../../utils/constants';
 
 import ReviewPage from '.';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { createMockCheyenneFacility } from '../../../tests/mocks/data';
 import {
-  mockAppointmentSubmit,
+  mockAppointmentSubmitApi,
   mockFacilityApi,
 } from '../../../tests/mocks/mockApis';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
   },
 };
 
@@ -37,7 +36,6 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
   const defaultState = {
     ...initialState,
-    featureToggles: { vaOnlineSchedulingVAOSServiceRequests: true },
     newAppointment: {
       pages: {},
       data: {
@@ -55,7 +53,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
       clinics: {},
       parentFacilities: [],
       facilities: {
-        '323': [
+        323: [
           {
             id: '983',
             name: 'Cheyenne VA Medical Center',
@@ -81,11 +79,8 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
   it('should submit successfully', async () => {
     store = createTestStore(defaultState);
-    mockAppointmentSubmit({
-      id: 'fake_id',
-      attributes: {
-        reasonCode: {},
-      },
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 'fake_id' }),
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -97,7 +92,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/pending/fake_id?confirmMsg=true',
       );
     });
 
@@ -133,11 +128,8 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
         },
       },
     });
-    mockAppointmentSubmit({
-      id: 'fake_id',
-      attributes: {
-        reasonCode: {},
-      },
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 'fake_id' }),
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -149,7 +141,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/pending/fake_id?confirmMsg=true',
       );
     });
 
@@ -186,11 +178,8 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
         },
       },
     });
-    mockAppointmentSubmit({
-      id: 'fake_id',
-      attributes: {
-        reasonCode: {},
-      },
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 'fake_id' }),
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -202,7 +191,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/pending/fake_id?confirmMsg=true',
       );
     });
 
@@ -219,7 +208,9 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
   it('should show error message on failure', async () => {
     store = createTestStore(defaultState);
     mockFacilityApi({
+      id: ['983'],
       response: createMockCheyenneFacility({}),
+      responseCode: 404,
     });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),

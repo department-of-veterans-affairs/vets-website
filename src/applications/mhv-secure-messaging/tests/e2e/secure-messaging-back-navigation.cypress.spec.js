@@ -26,7 +26,10 @@ describe('SM back navigation', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
 
-    cy.get(Locators.HEADER).should('have.text', DefaultFolders.INBOX.header);
+    cy.get(Locators.HEADER).should(
+      'have.text',
+      `Messages: ${DefaultFolders.INBOX.header}`,
+    );
     cy.location().should(loc => {
       expect(loc.pathname).to.eq(Paths.UI_MAIN + Paths.INBOX);
     });
@@ -40,7 +43,7 @@ describe('SM back navigation', () => {
       Alerts.Message.SEND_MESSAGE_SUCCESS,
     );
 
-    GeneralFunctionsPage.verifyPageHeader(`Drafts`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Drafts`);
     GeneralFunctionsPage.verifyUrl(`drafts`);
 
     cy.injectAxe();

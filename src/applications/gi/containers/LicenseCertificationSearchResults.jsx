@@ -424,9 +424,7 @@ export default function LicenseCertificationSearchResults() {
                                 href={`/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/${
                                   result.enrichedId
                                 }/${result.lacNm}`}
-                                text={`View test amount details for ${
-                                  result.lacNm
-                                }`}
+                                text={`Learn more about ${result.lacNm}`}
                                 type="secondary"
                                 onClick={e =>
                                   handleGoToDetails(
