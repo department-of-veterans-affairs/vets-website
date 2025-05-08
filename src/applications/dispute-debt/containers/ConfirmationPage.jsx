@@ -8,10 +8,9 @@ import NeedHelp from '../components/NeedHelp';
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
   const form = useSelector(state => state.form || {});
-  const { submission, formId, data = {} } = form;
+  const { submission, data = {} } = form;
   const { fullName } = data;
   const submitDate = submission?.timestamp;
-  const confirmationNumber = submission?.response?.confirmationNumber;
 
   useEffect(
     () => {
@@ -34,15 +33,13 @@ export const ConfirmationPage = () => {
       </div>
 
       <va-alert status="success" ref={alertRef}>
-        <h2 slot="headline">Your application has been submitted</h2>
+        <h2 slot="headline">We’ve received your dispute</h2>
       </va-alert>
 
-      <p>We may contact you for more information or documents.</p>
       <p className="screen-only">Please print this page for your records.</p>
       <div className="inset">
         <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-          Dispute your VA debt Claim{' '}
-          <span className="vads-u-font-weight--normal">(Form {formId})</span>
+          Your submission information
         </h3>
         {fullName ? (
           <span>
@@ -51,10 +48,16 @@ export const ConfirmationPage = () => {
           </span>
         ) : null}
 
-        {confirmationNumber ? (
+        {data ? (
           <>
-            <h4>Confirmation number</h4>
-            <p>{confirmationNumber}</p>
+            <h4>Requested Dispute</h4>
+            <ul>
+              {data.selectedDebts.map(item => (
+                <li key={item.id}>
+                  <span>{item.label}</span>
+                </li>
+              ))}
+            </ul>
           </>
         ) : null}
 
@@ -66,8 +69,20 @@ export const ConfirmationPage = () => {
           </p>
         ) : null}
 
+        <p>
+          <strong>Confirmation for your records </strong>
+          <br />
+          <span>You can print this confirmation page for your records.</span>
+        </p>
         <va-button onClick={window.print} text="Print this for your records" />
       </div>
+      <h2>What to expect next</h2>
+      <p>You don’t need to do anything else at this time</p>
+      <p>
+        If you don’t receive your letter in the next 30 days or have any
+        questions, call us at <va-telephone contact="8664001238" tty />. We’re
+        here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </p>
       <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
         Go back to VA.gov
       </a>
