@@ -97,7 +97,10 @@ const YourVAHealthFacilityPage = props => {
       goForward(formData);
     }
 
-    if (searchQuery.length === 0) {
+    if (
+      searchQuery.length === 0 ||
+      (formData.yourHealthFacility === null && pageURL === '/error')
+    ) {
       focusElement('#street-city-state-zip');
       return setValidationError({ ...validationError, searchInputError: true });
     }
@@ -106,6 +109,7 @@ const YourVAHealthFacilityPage = props => {
     return setValidationError({
       ...validationError,
       radioError: 'Please select a facility',
+      searchInputError: false,
     });
   };
 
