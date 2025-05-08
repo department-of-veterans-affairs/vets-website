@@ -3,6 +3,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
 import { waitFor } from '@testing-library/dom';
+import { loadStates } from '../../util/constants';
 import reducer from '../../reducers';
 import user from '../fixtures/user.json';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
@@ -19,6 +20,7 @@ describe('LabsAndTests details container', () => {
     mr: {
       labsAndTests: {
         labsAndTestsDetails: convertLabsAndTestsRecord(chemhem),
+        listState: loadStates.FETCHED,
       },
     },
   };
@@ -91,6 +93,7 @@ describe('LabAndTestDetails microbiology', () => {
     mr: {
       labsAndTests: {
         labsAndTestsDetails: convertLabsAndTestsRecord(microbiology),
+        listState: loadStates.FETCHED,
       },
     },
   };
@@ -120,6 +123,7 @@ describe('LabAndTestDetails pathology', () => {
     mr: {
       labsAndTests: {
         labsAndTestsDetails: convertLabsAndTestsRecord(pathology),
+        listState: loadStates.FETCHED,
       },
     },
   };
@@ -149,6 +153,7 @@ describe('LabAndTestDetails pathology', () => {
 //     mr: {
 //       labsAndTests: {
 //         labsAndTestsDetails: convertLabsAndTestsRecord(ekg),
+//         listState: loadStates.FETCHED,
 //       },
 //     },
 //   };
@@ -179,6 +184,7 @@ describe('LabAndTestDetails radiology', () => {
       mr: {
         labsAndTests: {
           labsAndTestsDetails: convertLabsAndTestsRecord(radiologyMhv),
+          listState: loadStates.FETCHED,
         },
       },
     };

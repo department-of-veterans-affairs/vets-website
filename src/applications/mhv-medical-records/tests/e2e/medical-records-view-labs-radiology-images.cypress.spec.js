@@ -24,6 +24,7 @@ describe('Medical Records - Radiology images are shown when requested', () => {
 
     const studyId = statusResponseComplete[0].studyIdUrn;
     RadiologyDetailsPage.clickViewImages(studyId, viewImagesResponse);
+    cy.get('.radiology-images').should('exist');
 
     RadiologyDetailsPage.verifyFocus();
 
@@ -34,6 +35,6 @@ describe('Medical Records - Radiology images are shown when requested', () => {
     RadiologyDetailsPage.verifyShowingImageRecords(1, 10, 11);
 
     cy.injectAxe();
-    cy.axeCheck('main', {});
+    cy.axeCheck('main', { retries: 2 });
   });
 });

@@ -113,14 +113,11 @@ const RadiologyDetails = props => {
     [dispatch, studyJobs, studyRequestLimitReached],
   );
 
-  useEffect(
-    () => {
-      if (processingAlertHeadingRef.current) {
-        setImageProcessingAlertRendered(true);
-      }
-    },
-    [processingAlertHeadingRef.current],
-  );
+  useEffect(() => {
+    if (processingAlertHeadingRef.current) {
+      setImageProcessingAlertRendered(true);
+    }
+  }, []);
 
   useEffect(
     () => {
