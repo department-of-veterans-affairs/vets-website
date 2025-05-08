@@ -33,7 +33,7 @@ export default function ReferralBreadcrumbs({ categoryOfCare = '' }) {
           aria-label="Back link"
           data-testid="back-link"
           text={breadcrumb}
-          href="#"
+          href={currentPage === 'complete' ? '/my-health/appointments' : '#'}
           onClick={e => {
             e.preventDefault();
             const params = new URLSearchParams(history.location.search);
