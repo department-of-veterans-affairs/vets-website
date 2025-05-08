@@ -64,16 +64,15 @@ const MedicationsList = props => {
   const selectedFilterDisplay = filterOptions[selectedFilterOption]?.label;
 
   const filterAndSortContent = () => {
+    const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;
     return (
       <>
         {!isFullList &&
-          selectedFilterOption !== ALL_MEDICATIONS_FILTER_KEY && (
+          !allMedsSelected && (
             <strong>{selectedFilterDisplay} medications</strong>
           )}
         {`${
-          !isFullList && selectedFilterOption !== ALL_MEDICATIONS_FILTER_KEY
-            ? ''
-            : ' medications'
+          !isFullList && !allMedsSelected ? '' : ' medications'
         }, ${sortOptionLowercase}`}
       </>
     );

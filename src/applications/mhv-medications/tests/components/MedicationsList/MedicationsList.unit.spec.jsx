@@ -57,7 +57,7 @@ describe('Medications List component', () => {
     const paginationInfo = screen.getByTestId('page-total-info');
 
     expect(paginationInfo).to.contain.text(
-      'Showing 1 - 20 of 113 medications, alphabetically by status',
+      'Showing 1 - 20 of 113  medications, alphabetically by status',
     );
   });
 
