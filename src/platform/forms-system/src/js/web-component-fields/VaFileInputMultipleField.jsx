@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -41,6 +41,7 @@ const VaFileInputMultipleField = props => {
   const [localFile, setLocalFile] = useState(null);
   const [uploadArray, setUploadArray] = useState([]);
   const [uploadInProgress, setUploadInProgress] = useState(false);
+  const pendingUpdate = useRef(null);
   const { formNumber } = props?.uiOptions;
   const { fileUploadUrl } = mappedProps;
 
@@ -49,7 +50,7 @@ const VaFileInputMultipleField = props => {
     // uploaded files when you navigate away and back, this re-produces them
     // by creating File objects from the files stored in the formData object.
     const fd = props.childrenProps.formData;
-    if (fd.length === 0) return;
+    if (fd?.length === 0 || fd?.length === undefined) return;
 
     const fetchFile = async () => {
       const representations = await Promise.all(
@@ -63,7 +64,21 @@ const VaFileInputMultipleField = props => {
     };
 
     fetchFile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // This useEffect + the pendingUpdate state are used to prevent the
+  // "Cannot update a component while rendering a different component" warning
+  // by preventing interruptions.
+  useEffect(
+    () => {
+      if (pendingUpdate.current !== null) {
+        props.childrenProps.onChange(pendingUpdate.current);
+        pendingUpdate.current = null;
+      }
+    },
+    [props.childrenProps, uploadArray],
+  );
 
   const onFileUploaded = async uploadedFile => {
     if (uploadedFile.file) {
@@ -80,10 +95,9 @@ const VaFileInputMultipleField = props => {
         localFilePath,
       };
 
-      // Use functional updates here as well to ensure latest state
       setUploadArray(prevArray => {
         const newArray = [...prevArray, fileObj];
-        props.childrenProps.onChange(newArray); // Move this inside the setter
+        pendingUpdate.current = newArray;
         return newArray;
       });
 
@@ -92,6 +106,12 @@ const VaFileInputMultipleField = props => {
     }
   };
 
+  /**
+   * Finds the index of an object in an array that matches the given properties
+   * @param {Array} arr - The array to search
+   * @param {Object} properties - The properties to match, e.g., {size: 123, name: 'test.png'}
+   * @returns {number} The index of the matching object, or -1 if not found
+   */
   function indexOfMatch(arr, properties) {
     return arr.findIndex(obj => {
       return Object.keys(properties).every(key => obj[key] === properties[key]);
@@ -104,7 +124,8 @@ const VaFileInputMultipleField = props => {
     if (e.detail.action === 'FILE_REMOVED') {
       const idx = indexOfMatch(
         uploadArray,
-        _.pick(fileFromEvent, ['name', 'size', 'lastModified']), // identifying properties from newly removed file
+        // identifying properties from newly removed file
+        _.pick(fileFromEvent, ['name', 'size', 'lastModified']),
       );
 
       setLocalFile(null);
@@ -113,7 +134,7 @@ const VaFileInputMultipleField = props => {
       // Use functional updates to ensure we're using the latest state
       setUploadArray(prevArray => {
         const newArray = prevArray.toSpliced(idx, 1);
-        props.childrenProps.onChange(newArray); // Update form data with the new array
+        pendingUpdate.current = newArray;
         return newArray;
       });
       return;
@@ -122,7 +143,7 @@ const VaFileInputMultipleField = props => {
     if (e.detail.action === 'FILE_UPDATED') {
       const idx = indexOfMatch(
         e.detail.state, // the list of uploaded files
-        ['changed'], // the file that was updated
+        { changed: true }, // to identify the target to be replaced
       );
 
       setLocalFile(null);
@@ -131,9 +152,11 @@ const VaFileInputMultipleField = props => {
       // Use functional updates here too
       setUploadArray(prevArray => {
         const newArray = prevArray.toSpliced(idx, 1);
-        props.childrenProps.onChange(newArray);
+        pendingUpdate.current = newArray;
         return newArray;
       });
+      // With target file removed, fall through to the main dispatch() call
+      // to upload the replacement
     }
 
     if (
@@ -144,6 +167,7 @@ const VaFileInputMultipleField = props => {
       return;
     }
 
+    // Default behavior for when action is FILE_ADDED:
     dispatch(
       uploadScannedForm(
         fileUploadUrl,
