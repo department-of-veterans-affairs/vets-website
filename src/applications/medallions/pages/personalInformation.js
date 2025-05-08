@@ -1,28 +1,22 @@
 import {
-  textUI,
   titleUI,
+  firstNameLastNameNoSuffixUI,
+  firstNameLastNameNoSuffixSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { MedallionsDescription } from '../components/MedallionsDescription';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Your organization'),
+    ...titleUI('Your name'),
     'ui:description': formContext => MedallionsDescription(formContext),
-    yourOrganizationText: textUI({
-      title:
-        'Enter the name of the Veterans Service Organization (VSO) you represent',
-    }),
+    fullName: firstNameLastNameNoSuffixUI(),
   },
-
   schema: {
     type: 'object',
     properties: {
-      yourOrganizationText: {
-        type: 'string',
-        maxLength: 60,
-      },
+      fullName: firstNameLastNameNoSuffixSchema,
     },
-    required: ['yourOrganizationText'],
+    required: ['fullName'],
   },
 };
