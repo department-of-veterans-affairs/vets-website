@@ -61,7 +61,6 @@ describe('VAOS Page: ClinicChoicePage', () => {
       store,
       '983',
       'primaryCare',
-      // { facilityData }
       new MockFacilityResponse(),
     );
 
