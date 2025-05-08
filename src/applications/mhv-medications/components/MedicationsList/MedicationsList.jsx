@@ -82,7 +82,7 @@ const MedicationsList = props => {
         <span className="no-print">
           {`Showing ${displayNums[0]} - ${
             displayNums[1]
-          } of ${totalMedications}`}
+          } of ${totalMedications} `}
           {filterAndSortContent()}
         </span>
         <span className="print-only">
