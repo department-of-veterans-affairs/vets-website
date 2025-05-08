@@ -350,6 +350,10 @@ const formConfig = {
             required: ['uploadSectionVeteran'],
             properties: {
               titleSchema,
+              'view:UploadDocuments': {
+                type: 'object',
+                properties: {},
+              },
               uploadSectionVeteran: fileInputMultipleSchema,
             },
           },
@@ -388,6 +392,10 @@ const formConfig = {
             required: ['uploadSectionProvider'],
             properties: {
               titleSchema,
+              'view:UploadDocuments': {
+                type: 'object',
+                properties: {},
+              },
               uploadSectionProvider: fileInputMultipleSchema,
             },
           },
