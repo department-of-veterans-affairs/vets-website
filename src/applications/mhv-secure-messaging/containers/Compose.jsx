@@ -139,7 +139,7 @@ const Compose = () => {
         const recentMessages = getRecentMessages(threadList);
         const dataForDataDog = {
           allowedSMRecipients: recipients.allowedRecipients.length,
-          countOfSentMessagesInTheLastSixMonths: recentMessages.length,
+          countOfSentMessagesInTheLastSixMonths: recentMessages.length || 0,
           uniqueRecentTriageGroups: groups.length,
         };
         addUserProperties({
