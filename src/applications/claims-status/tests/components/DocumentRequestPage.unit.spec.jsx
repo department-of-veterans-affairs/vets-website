@@ -174,7 +174,7 @@ describe('<DocumentRequestPage>', () => {
       );
 
       await waitFor(() => {
-        expect(document.activeElement).to.equal($('va-breadcrumbs', container));
+        expect(document.activeElement).to.equal($('h1', container));
       });
     });
 
