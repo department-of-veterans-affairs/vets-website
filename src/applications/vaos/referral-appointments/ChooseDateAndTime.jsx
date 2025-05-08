@@ -13,7 +13,6 @@ import {
 import { fetchFutureAppointments } from '../appointment-list/redux/actions';
 import { getDraftAppointmentInfo } from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
 import DateAndTimeContent from './components/DateAndTimeContent';
 
 export const ChooseDateAndTime = props => {
@@ -49,14 +48,12 @@ export const ChooseDateAndTime = props => {
         futureStatus === FETCH_STATUS.succeeded
       ) {
         setLoading(false);
-        scrollAndFocus('h1');
       } else if (
         draftAppointmentCreateStatus === FETCH_STATUS.failed ||
         futureStatus === FETCH_STATUS.failed
       ) {
         setLoading(false);
         setFailed(true);
-        scrollAndFocus('h1');
       }
     },
     [
