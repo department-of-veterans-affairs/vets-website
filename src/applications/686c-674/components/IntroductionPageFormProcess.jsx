@@ -60,13 +60,11 @@ export const IntroductionPageFormProcess = () => (
           you’ll need to complete a Statement of Dependency of Parent(s) (VA
           Form 21P-509) instead.
           <br />
-          <a
+          <va-link
+            text="Download VA Form 21P-509 (PDF)"
             href="/find-forms/about-form-21p-509/"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Download VA Form 21P-509 (PDF)
-          </a>
+            external="true"
+          />
         </p>
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
