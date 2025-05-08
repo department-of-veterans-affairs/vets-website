@@ -36,9 +36,7 @@ const App = props => {
 
   useEffect(
     () => {
-      if (isUserLOA3) {
-        fetchEnrollmentStatus();
-      }
+      fetchEnrollmentStatus();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [isUserLOA3],

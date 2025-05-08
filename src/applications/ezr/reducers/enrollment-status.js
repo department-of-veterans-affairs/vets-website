@@ -28,6 +28,7 @@ function enrollmentStatus(state = ENROLLMENT_STATUS_INIT_STATE, action) {
         canSubmitFinancialInfo,
         parsedStatus,
         preferredFacility,
+        nonPrefill,
       } = response;
       return {
         ...state,
@@ -36,6 +37,7 @@ function enrollmentStatus(state = ENROLLMENT_STATUS_INIT_STATE, action) {
         canSubmitFinancialInfo,
         preferredFacility,
         parsedStatus,
+        nonPrefill,
       };
     },
     [FETCH_ENROLLMENT_STATUS_FAILED]: () => ({
