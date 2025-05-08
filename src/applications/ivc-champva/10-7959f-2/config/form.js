@@ -41,6 +41,7 @@ import PaymentSelectionUI, {
   PaymentReviewScreen,
   loggedInPaymentInfo,
   loggedOutPaymentInfo,
+  FileReviewScreen,
 } from '../components/PaymentSelection';
 import {
   UploadDocumentsVeteran,
@@ -325,7 +326,7 @@ const formConfig = {
       pages: {
         page7: {
           path: 'upload-supporting-documents',
-          title: 'Included files',
+          title: 'Veteran payment docs',
           depends: formData => formData.sendPayment === 'Veteran',
           uiSchema: {
             ...titleUI('Upload billing statements and supporting documents'),
@@ -349,17 +350,21 @@ const formConfig = {
             required: ['uploadSectionVeteran'],
             properties: {
               titleSchema,
-              'view:UploadDocuments': {
-                type: 'object',
-                properties: {},
-              },
               uploadSectionVeteran: fileInputMultipleSchema,
             },
           },
+          CustomPageReview: props =>
+            FileReviewScreen({
+              ...props,
+              ...{
+                uploadPath: 'uploadSectionVeteran',
+                attachmentId: 'Veteran Billing Doc',
+              },
+            }),
         },
         page8: {
           path: 'upload-supporting-documents-provider',
-          title: 'Included files',
+          title: 'Provider payment docs',
           depends: formData => formData.sendPayment === 'Provider',
           uiSchema: {
             ...titleUI('Upload billing statements and supporting documents'),
@@ -383,13 +388,17 @@ const formConfig = {
             required: ['uploadSectionProvider'],
             properties: {
               titleSchema,
-              'view:UploadDocuments': {
-                type: 'object',
-                properties: {},
-              },
               uploadSectionProvider: fileInputMultipleSchema,
             },
           },
+          CustomPageReview: props =>
+            FileReviewScreen({
+              ...props,
+              ...{
+                uploadPath: 'uploadSectionProvider',
+                attachmentId: 'Provider Billing Doc',
+              },
+            }),
         },
       },
     },
