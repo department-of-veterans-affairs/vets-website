@@ -55,7 +55,6 @@ export const submissionForm = {
       phone: '5125554585',
     },
     email: 'test@test.com',
-    confirmEmail: 'test@test.com',
     'view:confirmDuplicateData': {},
     felonyOrWarrant: 'no',
     remarriageDate: '2020-01-01',
@@ -1276,21 +1275,6 @@ export const submissionForm = {
             compare: null,
           },
         },
-        confirmEmail: {
-          'ui:title': 'Confirm email address',
-          'ui:errorMessages': {
-            format:
-              'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
-            pattern:
-              'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
-            required: 'Please enter an email address',
-          },
-          'ui:autocomplete': 'email',
-          'ui:options': {
-            inputType: 'email',
-            hideOnReview: true,
-          },
-        },
         'ui:validations': [null],
         'view:confirmDuplicateData': {
           'ui:description': {
@@ -1300,7 +1284,7 @@ export const submissionForm = {
       },
       schema: {
         type: 'object',
-        required: ['email', 'confirmEmail'],
+        required: ['email'],
         properties: {
           'view:subHeadings': {
             type: 'object',
@@ -1336,10 +1320,6 @@ export const submissionForm = {
             },
           },
           email: {
-            type: 'string',
-            format: 'email',
-          },
-          confirmEmail: {
             type: 'string',
             format: 'email',
           },
