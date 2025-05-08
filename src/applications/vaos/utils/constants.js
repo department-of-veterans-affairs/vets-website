@@ -498,8 +498,6 @@ export const DATE_FORMAT_STRINGS = {
   // e.g. January 1, 2023
   friendlyDate: 'MMMM d, yyyy',
   // ISO 8601
-  // e.g. 2025-05-06T21:00:00
-  ISODateTime: "yyyy-MM-dd'T'HH:mm:ss",
   // e.g. 2025-05-06T21:00:00Z
   ISODateTimeUTC: "yyyy-MM-dd'T'HH:mm:ss'Z'",
   // iCalendar RFC 5545
