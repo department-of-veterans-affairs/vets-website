@@ -26,7 +26,7 @@ describe('Secure Messaging Compose', () => {
     });
     PatientComposePage.sendMessageByKeyboard();
     PatientComposePage.verifySendMessageConfirmationMessageText();
-    PatientComposePage.verifyHeader('Inbox');
+    PatientComposePage.verifyHeader('Messages: Inbox');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

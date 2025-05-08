@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
 
@@ -29,12 +28,7 @@ const Compose = () => {
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
   const signature = useSelector(state => state.sm.preferences.signature);
   const { noAssociations } = useSelector(state => state.sm.recipients);
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
+
   const threadSort = useSelector(state => state.sm.threads.threadSort);
   const { threadList, isLoading } = useSelector(state => state.sm.threads);
 
@@ -106,13 +100,9 @@ const Compose = () => {
   useEffect(
     () => {
       if (acknowledged && header) focusElement(document.querySelector('h1'));
-      document.title = `${pageTitle} ${
-        removeLandingPageFF
-          ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
-          : PageTitles.PAGE_TITLE_TAG
-      }`;
+      document.title = `${pageTitle} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
     },
-    [header, acknowledged, removeLandingPageFF, pageTitle],
+    [header, acknowledged, pageTitle],
   );
   // make sure the thread list is fetched when navigating to the compose page
   useEffect(

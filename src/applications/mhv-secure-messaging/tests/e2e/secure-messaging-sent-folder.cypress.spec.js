@@ -15,7 +15,7 @@ describe('secure Messaging Sent Folder checks', () => {
   });
 
   it('Verify folder header', () => {
-    GeneralFunctionsPage.verifyPageHeader(`Sent`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Sent`);
     GeneralFunctionsPage.verifyHeaderFocused();
     PatientMessageSentPage.verifyResponseBodyLength();
 
@@ -42,11 +42,10 @@ describe('secure Messaging Sent Folder checks', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    FolderLoadPage.verifyBreadCrumbsLength(4);
+    FolderLoadPage.verifyBreadCrumbsLength(3);
     FolderLoadPage.verifyBreadCrumbText(0, 'VA.gov home');
     FolderLoadPage.verifyBreadCrumbText(1, 'My HealtheVet');
-    FolderLoadPage.verifyBreadCrumbText(2, 'Messages');
-    FolderLoadPage.verifyBreadCrumbText(3, 'Sent');
+    FolderLoadPage.verifyBreadCrumbText(2, 'Messages: Sent');
   });
 });
 
