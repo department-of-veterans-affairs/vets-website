@@ -28,6 +28,19 @@ const testConfig = createTestConfig(
         });
       },
       'contact-information-1': ({ afterHook }) => {
+        // if !environment.isProduction()
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'veteran_address',
+              data.veteran.address,
+            );
+            cy.findByText(/continue/i, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+        // else
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -50,18 +63,6 @@ const testConfig = createTestConfig(
             }
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-        // if !environment.isProduction()
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
-              'veteran_address',
-              data.veteran.address,
-            );
-            cy.findByText(/continue/i, { selector: 'button' })
-              .last()
-              .click();
           });
         });
         // if (environment.isProduction() && !environment.isTest()) {
