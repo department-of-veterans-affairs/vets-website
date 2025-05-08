@@ -1221,6 +1221,22 @@ const formConfig = {
                 })(),
               },
             },
+          },
+          schema: {
+            type: 'object',
+            required: ['contactMethod'],
+            properties: {
+              contactMethod: {
+                type: 'string',
+                enum: ['email', 'mobilePhone', 'homePhone', 'mail'],
+              },
+            },
+          },
+        },
+        chooseNotificationMethod: {
+          title: 'Choose your contact method for follow-up questions',
+          path: 'contact-information/notification-method',
+          uiSchema: {
             'view:subHeadings': {
               'ui:description': (
                 <>
@@ -1450,12 +1466,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['contactMethod'],
             properties: {
-              contactMethod: {
-                type: 'string',
-                enum: ['email', 'mobilePhone', 'homePhone', 'mail'],
-              },
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
