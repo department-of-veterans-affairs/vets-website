@@ -11,6 +11,7 @@ export default function transformForSubmit(formConfig, form) {
 
   if (preparerIsVeteranAndHasPrefill({ formData })) {
     formData.veteranFullName = formData['view:veteranPrefillStore'].fullName;
+    formData.veteranId = { ssn: formData['view:veteranPrefillStore'].ssn };
   }
 
   // remove all view: fields
