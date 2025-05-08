@@ -15,29 +15,34 @@ const textHeaders = {
   'Content-Type': 'text/plain',
 };
 
-// make api call
 /**
  * Get a patient's military service info
- * @returns patient's military service info
+ * @returns {Promise<{ data: any, isEdipiFallback: boolean } | { error: any }>}
  */
 const getMilitaryService = async () => {
   try {
-    return await apiRequest(`${apiBasePath}/medical_records/military_service`, {
-      textHeaders,
-    });
+    const result = await apiRequest(
+      `${apiBasePath}/medical_records/military_service`,
+      {
+        textHeaders,
+      },
+    );
+    return { data: result };
   } catch (error) {
     // Handle special case of missing EDIPI
     if (error?.error === 'No EDIPI found for the current user') {
-      return edipiNotFound;
+      return { data: edipiNotFound };
     }
     // Rethrow if it’s another error we don’t want to specially handle
-    throw error;
+    return { error };
   }
 };
 
-// generate pdf
 /**
+ * Generate PDF of military service info
  * @param {Object} userProfile user profile object from redux store (state.user.profile)
+ * @param {boolean} runningUnitTest
+ * @returns {Promise<{ success: boolean, error?: any }>}
  */
 export const generateMilitaryServicePdf = async (
   userProfile,
@@ -45,7 +50,12 @@ export const generateMilitaryServicePdf = async (
 ) => {
   const name = formatNameFirstLast(userProfile.userFullName);
   const dob = formatUserDob(userProfile);
-  const data = await getMilitaryService();
+
+  const serviceResponse = await getMilitaryService();
+
+  if ('error' in serviceResponse) {
+    return { success: false, error: serviceResponse.error };
+  }
 
   const title = 'DOD military service information report';
   const subject = 'VA Medical Record';
@@ -61,7 +71,7 @@ export const generateMilitaryServicePdf = async (
     details: {
       monospace: true,
       lineGap: 0,
-      value: data,
+      value: serviceResponse.data,
       indent: 16,
     },
     ...scaffold,
@@ -70,11 +80,10 @@ export const generateMilitaryServicePdf = async (
     lastUpdated: 'Unknown',
   };
 
-  return makePdf(pdfName, pdfData, title, runningUnitTest, 'militaryService')
-    .then(() => {
-      return { success: true };
-    })
-    .catch(error => {
-      return { success: false, error };
-    });
+  try {
+    await makePdf(pdfName, pdfData, title, runningUnitTest, 'militaryService');
+    return { success: true };
+  } catch (pdfError) {
+    return { success: false, error: pdfError };
+  }
 };
