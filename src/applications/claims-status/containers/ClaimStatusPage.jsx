@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable no-shadow */
+import React, { useEffect, useRef, useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -20,109 +21,112 @@ import {
 } from '../utils/helpers';
 import { setUpPage, isTab } from '../utils/page';
 
-class ClaimStatusPage extends React.Component {
-  componentDidMount() {
-    const { claim } = this.props;
-    // Only set the document title at mount-time if the claim is already available.
-    if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Status');
+const ClaimStatusPage = ({
+  claim,
+  clearNotification,
+  lastPage,
+  loading,
+  message,
+}) => {
+  const prevLoading = useRef(loading);
 
-    setTimeout(() => {
-      const { lastPage, loading } = this.props;
-      setPageFocus(lastPage, loading);
-    }, 100);
-  }
-
-  componentDidUpdate(prevProps) {
-    const { claim, lastPage, loading } = this.props;
-
-    if (!loading && prevProps.loading && !isTab(lastPage)) {
-      setUpPage(false);
-    }
-    // Set the document title when loading completes.
-    //   If loading was successful it will display a title specific to the claim.
-    //   Otherwise it will display a default title of "Status of Your Claim".
-    if (loading !== prevProps.loading) {
+  // componentDidMount
+  useEffect(() => {
+    if (claimAvailable(claim)) {
       setTabDocumentTitle(claim, 'Status');
     }
-  }
 
-  componentWillUnmount() {
-    this.props.clearNotification();
-  }
+    const id = setTimeout(() => setPageFocus(lastPage, loading), 100);
+    return () => clearTimeout(id);
+  }, []);
 
-  getPageContent() {
-    const { claim } = this.props;
+  // componentDidUpdate (loading / lastPage)
+  useEffect(
+    () => {
+      if (!loading && prevLoading.current && !isTab(lastPage)) {
+        setUpPage(false);
+      }
+      if (loading !== prevLoading.current) {
+        setTabDocumentTitle(claim, 'Status');
+      }
+      prevLoading.current = loading;
+    },
+    [loading, lastPage, claim],
+  );
 
-    // Return null if the claim/ claim.attributes dont exist
-    if (!claimAvailable(claim)) {
-      return null;
-    }
+  // componentWillUnmount
+  useEffect(
+    () => () => {
+      clearNotification();
+    },
+    [clearNotification],
+  );
 
-    const {
-      claimPhaseDates,
-      claimTypeCode,
-      closeDate,
-      decisionLetterSent,
-      status,
-    } = claim.attributes;
-    const claimPhaseType = claimPhaseDates.latestPhaseType;
-    const { currentPhaseBack } = claimPhaseDates;
-    const isOpen = isClaimOpen(status, closeDate);
+  const getPageContent = useCallback(
+    () => {
+      if (!claimAvailable(claim)) {
+        return null;
+      }
 
-    return (
-      <div className="claim-status">
-        <ClaimStatusHeader claim={claim} />
-        {isOpen ? (
-          <>
-            <WhatYouNeedToDo claim={claim} useLighthouse />
-            <WhatWeAreDoing
-              claimPhaseType={claimPhaseType}
-              claimTypeCode={claimTypeCode}
-              currentPhaseBack={currentPhaseBack}
-              phaseChangeDate={claimPhaseDates.phaseChangeDate}
-              status={status}
-            />
-          </>
-        ) : (
-          <>
-            <ClosedClaimAlert
-              closeDate={closeDate}
-              decisionLetterSent={decisionLetterSent}
-            />
-            <Payments />
-            <NextSteps />
-          </>
-        )}
-        <RecentActivity claim={claim} />
-      </div>
-    );
-  }
+      const {
+        claimPhaseDates,
+        claimTypeCode,
+        closeDate,
+        decisionLetterSent,
+        status,
+      } = claim.attributes;
+      const {
+        latestPhaseType: claimPhaseType,
+        currentPhaseBack,
+      } = claimPhaseDates;
+      const isOpen = isClaimOpen(status, closeDate);
 
-  render() {
-    const { claim, loading, message } = this.props;
+      return (
+        <div className="claim-status">
+          <ClaimStatusHeader claim={claim} />
+          {isOpen ? (
+            <>
+              <WhatYouNeedToDo claim={claim} useLighthouse />
+              <WhatWeAreDoing
+                claimPhaseType={claimPhaseType}
+                claimTypeCode={claimTypeCode}
+                currentPhaseBack={currentPhaseBack}
+                phaseChangeDate={claimPhaseDates.phaseChangeDate}
+                status={status}
+              />
+            </>
+          ) : (
+            <>
+              <ClosedClaimAlert
+                closeDate={closeDate}
+                decisionLetterSent={decisionLetterSent}
+              />
+              <Payments />
+              <NextSteps />
+            </>
+          )}
+          <RecentActivity claim={claim} />
+        </div>
+      );
+    },
+    [claim],
+  );
 
-    let content = null;
-    if (!loading) {
-      content = this.getPageContent();
-    }
-
-    return (
-      <ClaimDetailLayout
-        claim={claim}
-        clearNotification={this.props.clearNotification}
-        currentTab="Status"
-        loading={loading}
-        message={message}
-      >
-        {content}
-      </ClaimDetailLayout>
-    );
-  }
-}
+  return (
+    <ClaimDetailLayout
+      claim={claim}
+      clearNotification={clearNotification}
+      currentTab="Status"
+      loading={loading}
+      message={message}
+    >
+      {!loading && getPageContent()}
+    </ClaimDetailLayout>
+  );
+};
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
-
   return {
     claim: claimsState.claimDetail.detail,
     lastPage: claimsState.routing.lastPage,
@@ -131,9 +135,7 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  clearNotification,
-};
+const mapDispatchToProps = { clearNotification };
 
 ClaimStatusPage.propTypes = {
   claim: PropTypes.object,
@@ -147,5 +149,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ClaimStatusPage);
-
 export { ClaimStatusPage };
