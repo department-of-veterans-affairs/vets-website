@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import ReferralLayout from './components/ReferralLayout';
+import { routeToNextReferralPage } from './flow';
 import {
   pollFetchAppointmentInfo,
   setFormCurrentPage,
@@ -15,6 +16,7 @@ import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
 import {
   getAppointmentCreateStatus,
   getReferralAppointmentInfo,
+  selectCurrentPage,
 } from './redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 
@@ -30,8 +32,10 @@ function handleScheduleClick(dispatch) {
 export default function CompleteReferral() {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const [, appointmentId] = pathname.split('/schedule-referral/complete/');
+  const history = useHistory();
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
+  const currentPage = useSelector(selectCurrentPage);
+  const [, appointmentId] = pathname.split('/schedule-referral/complete/');
   const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
   const {
     appointmentInfoError,
@@ -39,6 +43,14 @@ export default function CompleteReferral() {
     appointmentInfoLoading,
     referralAppointmentInfo,
   } = useSelector(getReferralAppointmentInfo);
+
+  function goToDetailsView(e) {
+    e.preventDefault();
+    recordEvent({
+      event: `${GA_PREFIX}-view-eps-appointment-details-button-clicked`,
+    });
+    routeToNextReferralPage(history, currentPage, null, appointmentId);
+  }
 
   useEffect(
     () => {
@@ -170,9 +182,10 @@ export default function CompleteReferral() {
             </p>
             <p>
               <va-link
-                href={`/my-health/appointments/${attributes.id}?eps=true`}
+                href={`${root.url}/${attributes.id}?eps=true`}
                 data-testid="cc-details-link"
                 text="Details"
+                onClick={e => goToDetailsView(e)}
               />
             </p>
           </div>
