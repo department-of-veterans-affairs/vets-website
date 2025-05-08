@@ -30,8 +30,11 @@ import { uploadScannedForm } from './vaFileInputFieldHelpers';
  * Usage schema:
  * ```
  * uploadedFile: {
- *   type: 'object',
- *   properties: {},
+ *   type: 'array'
+ *   items: {
+ *     type: 'object',
+ *     properties {},
+ *   },
  * },
  * ```
  * @param {WebComponentFieldProps} props */
