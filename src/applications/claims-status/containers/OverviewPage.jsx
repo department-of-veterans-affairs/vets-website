@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -27,39 +27,53 @@ const STATUSES = getStatusMap();
 const getPhaseFromStatus = latestStatus =>
   [...STATUSES.keys()].indexOf(latestStatus.toUpperCase()) + 1;
 
-class OverviewPage extends React.Component {
-  componentDidMount() {
-    const { claim } = this.props;
+const OverviewPage = props => {
+  const {
+    claim,
+    lastPage,
+    loading,
+    clearNotification: clearNotificationProp,
+    message,
+  } = props;
+  const prevLoadingRef = useRef();
+
+  useEffect(() => {
     // Only set the document title at mount-time if the claim is already available.
     if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Overview');
 
     setTimeout(() => {
-      const { lastPage, loading } = this.props;
       setPageFocus(lastPage, loading);
     }, 100);
-  }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  componentDidUpdate(prevProps) {
-    const { claim, lastPage, loading } = this.props;
+  useEffect(
+    () => {
+      const prevLoading = prevLoadingRef.current;
 
-    if (!loading && prevProps.loading && !isTab(lastPage)) {
-      setUpPage(false);
-    }
-    // Set the document title when loading completes.
-    //   If loading was successful it will display a title specific to the claim.
-    //   Otherwise it will display a default title of "Overview of Your Claim".
-    if (loading !== prevProps.loading) {
-      setTabDocumentTitle(claim, 'Overview');
-    }
-  }
+      if (prevLoading !== undefined) {
+        if (!loading && prevLoading && !isTab(lastPage)) {
+          setUpPage(false);
+        }
+        if (loading !== prevLoading) {
+          setTabDocumentTitle(claim, 'Overview');
+        }
+      }
 
-  componentWillUnmount() {
-    this.props.clearNotification();
-  }
+      prevLoadingRef.current = loading;
+    },
+    [loading, lastPage, claim],
+  );
 
-  getPageContent() {
-    const { claim } = this.props;
+  useEffect(
+    () => {
+      return () => {
+        clearNotificationProp();
+      };
+    },
+    [clearNotificationProp],
+  );
 
+  const getPageContent = () => {
     // Return null if the claim/ claim.attributes dont exist
     if (!claimAvailable(claim)) {
       return null;
@@ -105,29 +119,25 @@ class OverviewPage extends React.Component {
         </Toggler>
       </div>
     );
+  };
+
+  let content = null;
+  if (!loading) {
+    content = getPageContent();
   }
 
-  render() {
-    const { claim, loading, message } = this.props;
-
-    let content = null;
-    if (!loading) {
-      content = this.getPageContent();
-    }
-
-    return (
-      <ClaimDetailLayout
-        claim={claim}
-        loading={loading}
-        clearNotification={this.props.clearNotification}
-        currentTab="Overview"
-        message={message}
-      >
-        {content}
-      </ClaimDetailLayout>
-    );
-  }
-}
+  return (
+    <ClaimDetailLayout
+      claim={claim}
+      loading={loading}
+      clearNotification={clearNotificationProp}
+      currentTab="Overview"
+      message={message}
+    >
+      {content}
+    </ClaimDetailLayout>
+  );
+};
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
