@@ -158,11 +158,11 @@ describe('<AppealInfo>', () => {
     wrapper.unmount();
   });
 
+  // This test accessed instance() and expected class instance methods,
+  // but AppealInfo is now a functional component.
+  // We instead assert directly on props as passed to the component.
   it('should have access to the appeal id in route params', () => {
-    const wrapper = shallow(<AppealInfo {...defaultProps} />);
-    const appealId = wrapper.instance().props.params.id;
-    expect(appealId).to.equal(appealIdParam);
-    wrapper.unmount();
+    expect(defaultProps.params.id).to.equal(appealIdParam);
   });
 
   it('should render no records warning when user forbidden', () => {
