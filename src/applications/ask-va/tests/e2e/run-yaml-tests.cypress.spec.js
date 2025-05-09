@@ -1,7 +1,9 @@
 /// <reference types="cypress" />
 
 import YAML from 'yaml';
-import mockUser from './fixtures/user.json';
+import mockUserDefault from './fixtures/userDefault.json';
+import mockUserMissingInfo from './fixtures/userOld.json';
+// import mockUserSchool from './fixtures/userSchool.json';
 import mockXX123Get from './fixtures/userAVAProfile.json';
 
 import interceptAskVaResponses from './fixtures/api-mocks-for-ask-va';
@@ -153,7 +155,7 @@ describe('YAML tests', () => {
         intercept3rdPartyResponses();
 
         // Intercept the user API request and log in
-        cy.intercept('GET', `/v0/user`, mockUser);
+        cy.intercept('GET', `/v0/user`, mockUserDefault);
         // cy.login();
         // cy.clearAllCookies();
 
@@ -181,7 +183,15 @@ describe('YAML tests', () => {
               let flowYML = EMPTY_FLOW_YML;
 
               if (path === 'authenticated') {
-                cy.login(mockUser);
+                if (['13g.yml', '17g.yml'].includes(file)) {
+                  cy.login(mockUserMissingInfo);
+                }
+                // else if (['4i.yml', '7i.yml', '24a.yml', '24b.yml', '24c.yml'].includes(file)) {
+                //   cy.login(mockUserSchool);
+                // }
+                else {
+                  cy.login(mockUserDefault);
+                }
               } else {
                 cy.clearAllCookies();
               }
