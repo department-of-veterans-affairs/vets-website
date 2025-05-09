@@ -69,6 +69,7 @@ export const App = ({
   const [isDesktop, setIsDesktop] = useState(
     window.innerWidth >= MOBILE_BREAKPOINT_PX,
   );
+  const [updatedMegaMenuData, setUpdatedMegaMenuData] = useState(megaMenuData);
 
   useEffect(() => {
     const deriveIsDesktop = () =>
@@ -80,6 +81,17 @@ export const App = ({
 
     return () => window.removeEventListener('resize', onResize);
   }, []);
+
+  useEffect(
+    () => {
+      if (featureToggleMhvHeaderLinks) {
+        setUpdatedMegaMenuData([...megaMenuData, MY_VA_LINK, MY_HEALTH_LINK]);
+      } else {
+        setUpdatedMegaMenuData(megaMenuData);
+      }
+    },
+    [megaMenuData, featureToggleMhvHeaderLinks],
+  );
 
   useEffect(
     () => {
@@ -108,14 +120,9 @@ export const App = ({
     return null;
   }
 
-  // Use feature toggle to conditionally add links
-  if (featureToggleMhvHeaderLinks) {
-    megaMenuData.push(MY_VA_LINK, MY_HEALTH_LINK);
-  }
-
   return (
     <MobileHeader
-      megaMenuData={megaMenuData}
+      megaMenuData={updatedMegaMenuData}
       showMegaMenu={showMegaMenu}
       showNavLogin={showNavLogin}
     />
