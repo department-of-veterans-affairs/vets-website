@@ -13,6 +13,42 @@ const textHeaders = {
   'Content-Type': 'text/plain',
 };
 
+/**
+ * Send an Account Activity Log entry to the backend.
+ *
+ * @param {Object}   params
+ * @param {string}   params.activityType    e.g. "Allergy"
+ * @param {string}   params.action          e.g. "View"
+ * @param {string}   params.performerType   e.g. "Self"
+ * @param {string?}  params.detailValue     e.g. "..." or null
+ * @param {number}   params.status          e.g. 1
+ * @param {boolean}  [params.oncePerSession=false]  whether to dedupe per session
+ */
+export function postCreateAAL({
+  activityType,
+  action,
+  performerType,
+  detailValue = null,
+  status,
+  oncePerSession = false,
+}) {
+  return apiRequest(`${apiBasePath}/aal`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      aal: {
+        activityType,
+        action,
+        performerType,
+        detailValue,
+        status,
+      },
+      product: 'mr',
+      oncePerSession,
+    }),
+  });
+}
+
 export const createSession = () => {
   return apiRequest(`${apiBasePath}/medical_records/session`, {
     method: 'POST',
