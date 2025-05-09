@@ -7,8 +7,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { submit } from './submit';
-import veteranInformation from './chapters/01-veteran-information';
-import claimantInformation from './chapters/02-claimant-information';
+import veteranAndClaimantInformation from './chapters/01-veteran-and-claimant-information';
 import unassociatedIncomes from './chapters/03-unassociated-incomes';
 import associatedIncomes from './chapters/04-associated-incomes';
 import ownedAssets from './chapters/05-owned-assets';
@@ -43,7 +42,7 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillEnabled: false,
+  prefillEnabled: true,
   dev: {
     disableWindowUnloadInCI: true,
   },
@@ -58,7 +57,7 @@ const formConfig = {
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: formData =>
-        formData['view:applicantIsVeteran']
+        formData?.claimantType === 'VETERAN'
           ? 'veteranFullName'
           : 'claimantFullName',
     },
@@ -67,8 +66,7 @@ const formConfig = {
   subTitle: 'VA Form 21P-0969',
   defaultDefinitions: {},
   chapters: {
-    veteranInformation,
-    claimantInformation,
+    veteranAndClaimantInformation,
     unassociatedIncomes,
     associatedIncomes,
     ownedAssets,
