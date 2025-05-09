@@ -952,6 +952,19 @@
     }
   }
 
+  #mega-menu .my-va-top-nav,
+  .mega-menu .my-va-top-nav {
+    margin-left: auto;
+  }
+  #mega-menu .my-va-top-nav.current-page,
+  .mega-menu .my-va-top-nav.current-page {
+    margin-left: auto;
+  }
+
+  #mega-menu .login-container .row.va-flex {
+    display: grid;
+  }
+
   #mega-menu {
     flex: 1 0 100%;
     color: #005ea2;

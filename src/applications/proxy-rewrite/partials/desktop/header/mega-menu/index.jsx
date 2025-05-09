@@ -86,9 +86,8 @@ const MegaMenu = ({ megaMenuData }) => {
         </li>
       );
     }
-
     return (
-      <li key={index}>
+      <li key={index} className={`${sectionData.className || ''}`}>
         <a
           className="vetnav-level1 medium-screen:vads-u-padding--2"
           href={updateLinkDomain(sectionData.href)}
@@ -104,7 +103,7 @@ const MegaMenu = ({ megaMenuData }) => {
       <div className="menu-rule" />
       <div id="mega-menu">
         <div className="login-container">
-          <div className="row vads-u-display--flex">
+          <div className="row va-flex">
             <div id="vetnav" role="navigation">
               <ul
                 id="vetnav-menu"
