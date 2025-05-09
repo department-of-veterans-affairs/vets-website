@@ -13,22 +13,22 @@ import {
 
 import { utcToZonedTime } from 'date-fns-tz';
 
+export function stripTZOffset(datetimeString) {
+  // We need the local time with no TZ indicators for the external API
+  // There are 19 characters in the string required by the external API
+  // i.e. 2024-06-25T08:00:00
+  return datetimeString.slice(0, 19);
+}
+
 export function formatDateTime(datetimeString, stripUTCIndicator = false) {
   const str = stripUTCIndicator
-    ? (datetimeString ?? '').split('Z')[0]
+    ? stripTZOffset(datetimeString)
     : datetimeString;
   const dateTime = new Date(str);
   const formattedDate = format(dateTime, 'eeee, MMMM d, yyyy');
   const formattedTime = format(dateTime, 'h:mm a');
 
   return [formattedDate, formattedTime];
-}
-
-export function stripTZOffset(datetimeString) {
-  // We need the local time with no TZ indicators for the external API
-  // There are 19 characters in the string required by the external API
-  // i.e. 2024-06-25T08:00:00
-  return datetimeString.slice(0, 19);
 }
 
 /**
