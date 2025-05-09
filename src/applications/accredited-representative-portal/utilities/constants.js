@@ -31,3 +31,11 @@ export const SIGN_OUT_URL = (() => {
 
   return url;
 })();
+
+export const SEARCH_PARAMS = {
+  STATUS: 'status',
+  SORTBY: 'sortBy',
+  SORTORDER: 'sortOrder',
+  SIZE: 'pageSize',
+  NUMBER: 'pageNumber',
+};

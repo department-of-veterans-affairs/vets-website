@@ -79,6 +79,21 @@ export const Nav = () => {
             </Link>
             <Toggler
               toggleName={
+                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
+              }
+            >
+              <Toggler.Enabled>
+                <Link
+                  className="nav__btn desktop"
+                  to="/submissions"
+                  data-testid="desktop-search-link"
+                >
+                  Submissions
+                </Link>
+              </Toggler.Enabled>
+            </Toggler>
+            <Toggler
+              toggleName={
                 Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp
               }
             >

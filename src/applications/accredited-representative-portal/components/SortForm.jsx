@@ -2,9 +2,8 @@ import React from 'react';
 import { Form, useNavigate, useSearchParams } from 'react-router-dom';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { SEARCH_PARAMS } from '../utilities/poaRequests';
-import api from '../utilities/api';
 
-const SortForm = ({ asc, desc, ascOption, descOption }) => {
+const SortForm = ({ api, asc, desc, ascOption, descOption }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const sortby = searchParams.get(SEARCH_PARAMS.SORTBY);
@@ -19,7 +18,7 @@ const SortForm = ({ asc, desc, ascOption, descOption }) => {
     navigate(
       `?status=${status}&sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${number}&pageSize=${size}`,
     );
-    return api.getPOARequests({ status, sort, sortBy, size, number });
+    return api({ status, sort, sortBy, size, number });
   };
 
   return (

@@ -15,6 +15,10 @@ export const setFeatureToggles = toggles => {
           name: 'accredited_representative_portal_search',
           value: toggles.isSearchEnabled,
         },
+        {
+          name: 'accredited_representative_portal_submissions',
+          value: toggles.isSubmissionsEnabled,
+        },
       ],
     },
   });
