@@ -77,8 +77,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const [selfEnteredPdfLoading, setSelfEnteredPdfLoading] = useState(false);
   const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
-  const [failedSeiDomains, setFailedSeiDomains] = useState(false);
-  const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(false);
+  const [failedSeiDomains, setFailedSeiDomains] = useState([]);
+  const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(null);
 
   const activeAlert = useAlerts(dispatch);
 
@@ -172,10 +172,15 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     setSelfEnteredPdfLoading(true);
     generateSEIPdf(userProfile, useUnifiedSelfEnteredAPI, runningUnitTest)
       .then(res => {
-        const { failedDomains } = res;
-        setFailedSeiDomains(failedDomains);
-        setSuccessfulSeiDownload(true);
-        setSelfEnteredPdfLoading(false);
+        if (res.success) {
+          const { failedDomains } = res;
+          setFailedSeiDomains(failedDomains);
+          setSuccessfulSeiDownload(true);
+          setSelfEnteredPdfLoading(false);
+        } else {
+          setSeiPdfGenerationError(true);
+          setSelfEnteredPdfLoading(false);
+        }
       })
       .catch(err => {
         setSeiPdfGenerationError(err);

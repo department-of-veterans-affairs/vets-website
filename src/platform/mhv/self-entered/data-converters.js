@@ -801,6 +801,35 @@ export const convertEmergencyContacts = contacts => {
   }));
 };
 
+export const processAllDomainResponse = allData => {
+  const { responses = {}, errors = {} } = allData;
+
+  return {
+    seiRecords: {
+      activityJournal: convertActivityJournal(responses.activityJournal),
+      allergies: convertAllergies(responses.allergies),
+      demographics: convertDemographics(responses.demographics),
+      emergencyContacts: convertEmergencyContacts(responses.emergencyContacts),
+      familyHistory: convertFamilyHealthHistory(responses.familyHistory),
+      foodJournal: convertFoodJournal(responses.foodJournal),
+      healthInsurance: convertHealthInsurance(responses.healthInsurance),
+      medicalEvents: convertMedicalEvents(responses.medicalEvents),
+      medications: convertMedications(responses.medications),
+      militaryHistory: convertMilitaryHistory(responses.militaryHistory),
+      providers: convertHealthcareProviders(responses.providers),
+      testEntries: convertLabsAndTests(responses.testEntries),
+      treatmentFacilities: convertTreatmentFacilities(
+        responses.treatmentFacilities,
+      ),
+      vaccines: convertVaccines(responses.vaccines),
+      vitals: convertVitals(responses.vitals),
+    },
+
+    // Track all domains that had an error
+    failedDomains: Object.keys(errors),
+  };
+};
+
 export const convertSeiRecords = (type, data) => {
   switch (type) {
     case selfEnteredDomains.ACTIVITY_JOURNAL:
