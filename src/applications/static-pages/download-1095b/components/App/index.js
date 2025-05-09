@@ -255,4 +255,7 @@ const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
-export default connect(mapDispatchToProps)(App);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(App);
