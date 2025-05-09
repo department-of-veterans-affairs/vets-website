@@ -1250,7 +1250,7 @@ const formConfig = {
               },
               middle: {
                 ...fullNameUI.middle,
-                'ui:title': 'middle name',
+                'ui:title': 'Middle name',
                 'ui:options': {
                   updateSchema: (formData, schema) => {
                     const flag = formData?.showMeb54901990eTextUpdate;
@@ -1277,7 +1277,7 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
-                'ui:title': 'last name',
+                'ui:title': 'Last name',
                 'ui:options': {
                   updateSchema: (formData, schema) => {
                     const flag = formData?.showMeb54901990eTextUpdate;
