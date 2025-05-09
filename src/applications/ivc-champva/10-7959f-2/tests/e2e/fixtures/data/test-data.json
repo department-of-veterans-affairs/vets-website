@@ -33,7 +33,8 @@
         "name": "file.png",
         "confirmationCode": "36650811-4af5-4992-87d2-1aea872245c9",
         "attachmentId": "",
-        "isEncrypted": false
+        "isEncrypted": false,
+        "type": "image/png"
       }
     ],
     "statementOfTruthSignature": "First middle last"
