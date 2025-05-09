@@ -42,6 +42,20 @@ describe('Cerner Facility Alert', () => {
     });
   };
 
+  let fetchStub;
+
+  beforeEach(() => {
+    fetchStub = sinon.stub(global, 'fetch').resolves({
+      ok: true,
+      status: 204,
+      json: () => Promise.resolve({}),
+    });
+  });
+
+  afterEach(() => {
+    fetchStub.restore();
+  });
+
   it(`does not render CernerFacilityAlert if cernerFacilities is empty`, async () => {
     const screen = setup();
 
@@ -96,11 +110,7 @@ describe('Cerner Facility Alert', () => {
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
     const link = screen.getByText('Go to My VA Health (opens in new tab)');
     expect(link).to.exist;
-    const fetchStub = sinon.stub(global, 'fetch').resolves({
-      ok: true,
-      status: 204,
-      json: () => Promise.resolve({}),
-    });
+    fetchStub.resetHistory();
     fireEvent.click(link);
     await waitFor(() => {
       expect(fetchStub.calledOnce).to.be.false;
@@ -121,11 +131,7 @@ describe('Cerner Facility Alert', () => {
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
     const link = screen.getByText('Go to My VA Health (opens in new tab)');
     expect(link).to.exist;
-    const fetchStub = sinon.stub(global, 'fetch').resolves({
-      ok: true,
-      status: 204,
-      json: () => Promise.resolve({}),
-    });
+    fetchStub.resetHistory();
     fireEvent.click(link);
     await waitFor(() => {
       expect(fetchStub.calledOnce).to.be.true;
