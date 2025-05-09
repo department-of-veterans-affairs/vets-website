@@ -32,7 +32,10 @@ describe('Verify', () => {
         initialState: {
           user: {
             login: { currentlyLoggedIn: true },
-            profile: { signIn: { serviceName: 'idme' } },
+            profile: {
+              signIn: { serviceName: 'idme' },
+              verified: false,
+            },
           },
         },
       });
@@ -48,7 +51,10 @@ describe('Verify', () => {
         initialState: {
           user: {
             login: { currentlyLoggedIn: true },
-            profile: { signIn: { serviceName: 'logingov' } },
+            profile: {
+              signIn: { serviceName: 'logingov' },
+              verified: false,
+            },
           },
         },
       });
@@ -57,6 +63,33 @@ describe('Verify', () => {
 
       const idmeButton = container.querySelector('.idme-verify-button');
       expect(idmeButton).to.not.exist;
+    });
+
+    it('displays a success message when user is verified', () => {
+      const { container } = renderInReduxProvider(<Verify />, {
+        initialState: {
+          user: {
+            login: { currentlyLoggedIn: true },
+            profile: {
+              signIn: { serviceName: 'idme' },
+              verified: true,
+            },
+          },
+        },
+      });
+
+      const alert = container.querySelector('va-alert[status="success"]');
+      expect(alert).to.exist;
+      expect(alert.innerHTML).to.contain('You’re verified');
+
+      const goToMyVALink = container.querySelector('a[href="/my-va"]');
+      expect(goToMyVALink).to.exist;
+      expect(goToMyVALink.textContent).to.contain('Go to My VA');
+
+      const buttonGroup = container.querySelector(
+        '[data-testid="verify-button-group"]',
+      );
+      expect(buttonGroup).to.not.exist;
     });
   });
 });

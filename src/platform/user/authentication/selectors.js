@@ -23,3 +23,5 @@ export const signInServiceEnabled = state =>
 
 export const termsOfUseEnabled = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.termsOfUse];
+
+export const userIsVerified = state => selectProfile(state)?.verified;
