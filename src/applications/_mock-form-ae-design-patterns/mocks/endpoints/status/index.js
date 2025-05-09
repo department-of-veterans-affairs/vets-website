@@ -11,13 +11,14 @@ const getEmptyStatus = (_req, res) => {
 };
 
 // state for retries, only used when requiredRetries > 0
-let retries = 0;
+// let retries = 0;
+let retries = 3;
 
 const generateStatusResponse = (req, res) => {
   const { id } = req.params;
 
   // increase to use multiple retries
-  const requiredRetries = 0;
+  const requiredRetries = 2;
 
   if (retries < requiredRetries) {
     retries += 1;

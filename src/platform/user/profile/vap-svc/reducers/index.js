@@ -151,10 +151,11 @@ export default function vapService(state = initialState, action) {
           },
         },
         hasUnsavedEdits: false,
-        initialFormFields: pickBy(
-          state.initialFormFields,
-          (_, key) => key !== action.fieldName,
-        ),
+        initialFormFields: {},
+        // initialFormFields: pickBy(
+        //   state.initialFormFields,
+        //   (_, key) => key !== action.fieldName,
+        // ),
       };
     }
 

@@ -69,6 +69,11 @@ class IntroductionPage extends React.Component {
                 Place and date of marriage
               </Link>
             </li>
+            <li>
+              <Link to={`${formConfig.urlPrefix}marriage-type`}>
+                How did you get married?
+              </Link>
+            </li>
           </ul>
         </div>
         <va-omb-info

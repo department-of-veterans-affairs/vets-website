@@ -41,7 +41,6 @@ export default {
     city: {
       'ui:title': 'City',
       'ui:webComponentField': VaTextInputField,
-      'ui:required': true,
       'ui:errorMessages': {
         required: 'Please enter the city where you got married',
       },
@@ -61,17 +60,26 @@ export default {
       'ui:title': 'Country',
       'ui:webComponentField': VaSelectField,
       'ui:required': formData => formData['view:marriedOutsideUS'],
-      'ui:options': {
-        hideIf: formData => !formData['view:marriedOutsideUS'],
-      },
       'ui:errorMessages': {
         required: 'Please select a country',
+      },
+      'ui:options': {
+        updateSchema: formData => {
+          if (formData['view:marriedOutsideUS']) {
+            return {
+              'ui:hidden': false,
+            };
+          }
+          return {
+            'ui:hidden': true,
+          };
+        },
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['dateOfMarriage', 'city'],
+    required: ['dateOfMarriage', 'city', 'state'],
     properties: {
       dateOfMarriage: currentOrPastDateSchema,
       'view:marriedOutsideUS': {
