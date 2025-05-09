@@ -4,8 +4,12 @@ import { useSelector } from 'react-redux';
 
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  MhvSecondaryNav,
+  MhvPageNotFound,
+} from '@department-of-veterans-affairs/mhv/exports';
 import MhvRegisteredUserGuard from 'platform/mhv/components/MhvRegisteredUserGuard';
 import formConfig from '../config/form';
 import { signInServiceEnabled } from '../selectors';
@@ -24,6 +28,21 @@ const App = ({ location, children }) => {
   const showMhvSecondaryNav =
     location.pathname.includes('/introduction') ||
     location.pathname.includes('/confirmation');
+
+  const { isMhvSupplyReorderingEnabled, featureTogglesLoading } = useSelector(
+    state => {
+      return {
+        featureTogglesLoading: state.featureToggles.loading,
+        isMhvSupplyReorderingEnabled:
+          state.featureToggles[FEATURE_FLAG_NAMES.mhvSupplyReorderingEnabled],
+      };
+    },
+  );
+
+  // Render 404 page when feature toggle is disabled
+  if (!isMhvSupplyReorderingEnabled && !featureTogglesLoading) {
+    return <MhvPageNotFound />;
+  }
 
   return (
     <RequiredLoginView
