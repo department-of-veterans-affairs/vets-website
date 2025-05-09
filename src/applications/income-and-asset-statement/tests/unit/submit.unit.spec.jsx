@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockFetch } from 'platform/testing/unit/helpers';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+
 import { replacer, submit } from '../../config/submit';
 
 describe('Income and asset submit', () => {

@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+
 import { formatDateLong } from 'platform/utilities/date';
+
 import { formatCurrency, formatFullNameNoSuffix } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 

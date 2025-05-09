@@ -1,5 +1,8 @@
 import React from 'react';
 import { lowercase } from 'lodash';
+
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -11,9 +14,12 @@ import {
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+} from 'platform/forms-system/src/js/web-component-patterns';
+
+import {
+  RequestPropertyOrBusinessIncomeFormAlert,
+  RequestFarmIncomeFormAlert,
+} from '../../../components/FormAlerts';
 import {
   formatCurrency,
   formatFullNameNoSuffix,
@@ -24,10 +30,6 @@ import {
   recipientNameRequired,
 } from '../../../helpers';
 import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
-import {
-  RequestPropertyOrBusinessIncomeFormAlert,
-  RequestFarmIncomeFormAlert,
-} from '../../../components/FormAlerts';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {

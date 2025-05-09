@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -13,10 +14,8 @@ import {
   radioSchema,
   yesNoUI,
   yesNoSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { formatDateLong } from 'platform/utilities/date';
-import { trustTypeLabels } from '../../../labels';
 
 import {
   annualReceivedIncomeFromTrustRequired,
@@ -25,6 +24,7 @@ import {
   isDefined,
   monthlyMedicalReimbursementAmountRequired,
 } from '../../../helpers';
+import { trustTypeLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {

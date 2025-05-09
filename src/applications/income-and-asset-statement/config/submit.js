@@ -1,9 +1,10 @@
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { format } from 'date-fns-tz';
 
-export function replacer(key, value) {
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
+export function replacer(_, value) {
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);
