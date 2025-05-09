@@ -458,13 +458,12 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         screen.queryByText(/You have canceled your appointment/i);
       });
 
-      const link = screen.container.querySelector(
-        'va-link[text="Back to pending appointments"]',
-      );
-
       await waitFor(() => {
-        expect(link).to.be.ok;
+        const link = screen.container.querySelector(
+          'va-link[text="Back to pending appointments"]',
+        );
 
+        expect(link).to.be.ok;
         fireEvent.click(link);
       });
       await waitFor(

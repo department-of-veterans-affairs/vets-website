@@ -16,6 +16,8 @@ describe('VAOS Component: DetailsVA', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -54,6 +56,8 @@ describe('VAOS Component: DetailsVA', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -90,6 +94,8 @@ describe('VAOS Component: DetailsVA', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
