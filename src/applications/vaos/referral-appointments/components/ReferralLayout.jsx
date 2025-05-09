@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { scrollAndFocus } from 'platform/utilities/ui';
 import NeedHelp from '../../components/NeedHelp';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
@@ -23,17 +22,6 @@ export default function ReferralLayout({
   const location = useLocation();
 
   const content = apiFailure ? <ErrorAlert body={errorBody} /> : children;
-  const h1Ref = React.createRef();
-
-  useEffect(
-    () => {
-      // only on load
-      if (h1Ref.current) {
-        scrollAndFocus(h1Ref.current);
-      }
-    },
-    [h1Ref],
-  );
 
   return (
     <>
@@ -58,9 +46,7 @@ export default function ReferralLayout({
               </span>
             )}
             {heading && (
-              <h1 ref={h1Ref} data-testid="referral-layout-heading">
-                {heading}
-              </h1>
+              <h1 data-testid="referral-layout-heading">{heading}</h1>
             )}
             <ErrorBoundary>
               {!!loadingMessage && (

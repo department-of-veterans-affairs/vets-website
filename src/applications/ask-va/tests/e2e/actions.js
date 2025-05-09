@@ -64,7 +64,6 @@ const selectorShorthand = {
     "va-text-input[name='root_aboutTheFamilyMember_socialOrServiceNum_ssn']",
   SELECT_SCHOOL: "va-select[name='schoolState']",
   SELECT_FACILITY: "va-select[name='root_stateOfTheFacility']",
-  SELECT_PROPERTY_STATE: "va-select[name='root_stateOfProperty']",
 };
 /*
 

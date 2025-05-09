@@ -2,11 +2,10 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 import { isLoggedIn } from 'platform/user/selectors';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { setData } from 'platform/forms-system/src/js/actions';
 import SaveInProgressIntro from './SaveInProgressIntro';
 import SaveInProgressIntroLink from './SaveInProgressIntroLink';
 import { TITLE, SUBTITLE } from '../constants';
@@ -92,26 +91,7 @@ const ProcessList = () => {
 };
 
 export const IntroductionPage = props => {
-  const dispatch = useDispatch();
-
-  const storeData = useSelector(reduxState => reduxState);
-  const userLoggedIn = isLoggedIn(storeData);
-  const formData = storeData.form.data;
-
-  useEffect(
-    () => {
-      if (userLoggedIn !== formData?.isLoggedIn) {
-        dispatch(
-          setData({
-            ...formData,
-            isLoggedIn: userLoggedIn,
-          }),
-        );
-      }
-    },
-    [dispatch, userLoggedIn],
-  );
-
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
   const { route } = props;
   const { formConfig, pageList } = route;
 

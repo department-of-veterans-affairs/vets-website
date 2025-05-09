@@ -9,13 +9,9 @@ import MessageThreadAttachments from './MessageThreadAttachments';
 import { markMessageAsReadInThread } from '../../actions/messages';
 import { dateFormat } from '../../util/helpers';
 import { DefaultFolders, MessageReadStatus } from '../../util/constants';
-import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const MessageThreadItem = props => {
   const dispatch = useDispatch();
-
-  const { readReceiptsEnabled } = useFeatureToggles();
-
   const accordionItemRef = useRef();
   const { message, isDraftThread, open, forPrint } = props;
   const {
@@ -115,7 +111,7 @@ const MessageThreadItem = props => {
       }`}
     >
       <h3 slot="headline">
-        {isDraft ? 'DRAFT' : dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
+        {isDraft ? 'DRAFT' : dateFormat(sentDate, 'MMMM D [at] h:mm a z')}
       </h3>
       {!isSentOrReadOrDraft && (
         <span
@@ -151,23 +147,12 @@ const MessageThreadItem = props => {
           forPrint={forPrint}
           messageId={messageId}
         />
+
         {attachments?.length > 0 && (
           <MessageThreadAttachments
             attachments={attachments}
             forPrint={forPrint}
           />
-        )}
-        {readReceiptsEnabled && (
-          <>
-            <HorizontalRule />
-            <p
-              className="vads-u-margin-y--2"
-              data-testid={!forPrint ? 'message-id' : ''}
-            >
-              <>Message ID: </>
-              <span data-dd-privacy="mask">{messageId}</span>
-            </p>
-          </>
         )}
       </div>
     </VaAccordionItem>

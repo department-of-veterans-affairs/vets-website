@@ -1,32 +1,66 @@
 import React from 'react';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
-import { render, fireEvent } from '@testing-library/react';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import sinon from 'sinon';
+import { Provider } from 'react-redux';
+import { cleanup } from '@testing-library/react';
+import { createStore } from 'redux';
+import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
+import { mount } from 'enzyme';
+import testData from '../fixtures/data/test-data.json';
+import formConfig from '../../config/form';
 import {
   ConfirmationPage,
   setClaimIdInLocalStage,
   getClaimIdFromLocalStage,
 } from '../../containers/ConfirmationPage';
 
-const storeBase = {
+const submitDate = new Date();
+const initialState = {
   form: {
+    ...createInitialState(formConfig),
+    testData,
     submission: {
-      timestamp: false,
-      status: false,
+      response: {
+        confirmationNumber: '1234567890',
+      },
+      timestamp: submitDate,
     },
-    data: {},
   },
 };
+const mockStore = state => createStore(() => state);
 
-describe('<ConfirmationPage>', () => {
+const mountPage = (state = initialState) => {
+  const safeState = {
+    form: {
+      submission: {
+        response: { confirmationNumber: '1234567890', pdfUrl: '' },
+        timestamp: '',
+      },
+      ...state.form,
+    },
+  };
+
+  const store = mockStore(safeState);
+  return mount(
+    <Provider store={store}>
+      <ConfirmationPage route={{ formConfig }} />
+    </Provider>,
+  );
+};
+
+describe('ConfirmationPage', () => {
+  let wrapper;
+
   beforeEach(() => {
-    localStorage.clear();
+    wrapper = mountPage();
   });
-  const middleware = [thunk];
-  const mockStore = configureStore(middleware);
+
+  afterEach(() => {
+    if (wrapper) {
+      wrapper.unmount();
+    }
+    cleanup();
+  });
   it('should set claim id in local stage', () => {
     const submission = {
       response: {
@@ -37,39 +71,25 @@ describe('<ConfirmationPage>', () => {
     const result = getClaimIdFromLocalStage();
     expect(result).to.equal(submission.response.id);
   });
-  it('should render with data', () => {
-    const router = {
-      push: () => {},
-    };
-    const { getByTestId } = render(
-      <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage router={router} />
-      </Provider>,
-    );
-    expect(getByTestId('download-link')).to.exist;
+  it('passes the correct props to ConfirmationPageView', () => {
+    const confirmationViewProps = wrapper.find('ConfirmationView').props();
+
+    expect(confirmationViewProps.submitDate).to.equal(submitDate);
+    expect(confirmationViewProps.confirmationNumber).to.equal('1234567890');
   });
-  it('should call window.print when print button is clicked', () => {
-    const printSpy = sinon.spy(window, 'print');
-    const { getByTestId } = render(
-      <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage />
-      </Provider>,
+
+  it('should select form from state when state.form is defined', () => {
+    expect(wrapper.text()).to.includes(
+      'Complete all submission stepsThis form requires additional steps for successful submission.',
     );
-    fireEvent.click(getByTestId('print-page'));
+  });
+
+  it('should print the page', () => {
+    const printSpy = sinon.spy(window, 'print');
+
+    expect(wrapper.find('[data-testid="print-page"]')).to.exist;
+    wrapper.find('[data-testid="print-page"]').simulate('click');
     expect(printSpy.calledOnce).to.be.true;
     printSpy.restore();
-  });
-  it("should call router.push('/review-and-submit') when back button is clicked", () => {
-    const router = {
-      push: sinon.spy(),
-    };
-    const { getByTestId } = render(
-      <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage router={router} />
-      </Provider>,
-    );
-    fireEvent.click(getByTestId('back-button'));
-    expect(router.push.calledOnce).to.be.true;
-    expect(router.push.calledWith('/review-and-submit')).to.be.true;
   });
 });

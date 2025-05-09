@@ -3,13 +3,14 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { waitFor } from '@testing-library/react';
+import * as servicesUtils from 'applications/vaos/services/utils';
 import ReferralAppointments from './index';
 import { renderWithStoreAndRouter } from '../tests/mocks/setup';
 import { FETCH_STATUS } from '../utils/constants';
 import { createReferrals, createReferralById } from './utils/referrals';
 import * as useManualScrollRestoration from '../hooks/useManualScrollRestoration';
+import * as utils from '../utils/scrollAndFocus';
 import * as useIsInCCPilot from './hooks/useIsInCCPilot';
-import * as vaosApi from '../redux/api/vaosApi';
 
 const initialStateVAOSService = {
   featureToggles: {
@@ -19,18 +20,14 @@ const initialStateVAOSService = {
 };
 
 describe('ReferralAppointments', () => {
-  const sandbox = sinon.createSandbox();
+  let sandbox;
 
   beforeEach(() => {
-    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
-      data: createReferralById(
-        '2024-11-29',
-        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-      ),
-      error: false,
-      isLoading: false,
-    });
+    sandbox = sinon.createSandbox();
+
+    sandbox.stub(servicesUtils, 'apiRequestWithUrl');
     sandbox.stub(useManualScrollRestoration, 'default');
+    sandbox.stub(utils, 'scrollAndFocus');
     sandbox.stub(useIsInCCPilot, 'useIsInCCPilot').returns({
       isInCCPilot: true,
     });
@@ -40,67 +37,80 @@ describe('ReferralAppointments', () => {
     sandbox.restore();
   });
 
-  it('should render loading layout when referral is loading', async () => {
-    vaosApi.useGetReferralByIdQuery.returns({
-      data: null,
-      error: false,
-      isLoading: true,
-    });
+  it('should call useManualScrollRestoration() on loading component', () => {
     const initialState = {
       ...initialStateVAOSService,
       referral: {
-        referralsFetchStatus: FETCH_STATUS.loading,
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(<ReferralAppointments />, {
-      initialState,
-      path: '/?id=445e2d1b-7150-4631-97f2-f6f473bdef00',
-    });
-
-    expect(screen.getByTestId('loading-container')).to.exist;
-  });
-
-  it('should render error layout when there is an error fetching referral', async () => {
-    vaosApi.useGetReferralByIdQuery.returns({
-      data: null,
-      error: true,
-      isLoading: false,
-    });
-    const initialState = {
-      ...initialStateVAOSService,
-      referral: {
+        referrals: createReferrals(3, '2024-11-20'),
         referralsFetchStatus: FETCH_STATUS.succeeded,
       },
+      appointments: {
+        pending: [],
+        pendingStatus: FETCH_STATUS.succeeded,
+      },
     };
 
-    const screen = renderWithStoreAndRouter(<ReferralAppointments />, {
+    renderWithStoreAndRouter(<ReferralAppointments />, {
+      initialState,
+    });
+
+    expect(useManualScrollRestoration.default.called).to.be.true;
+  });
+
+  it('should call scrollAndFocus h2 if error', async () => {
+    servicesUtils.apiRequestWithUrl.rejects(new Error('Internal Server Error'));
+
+    const initialState = {
+      ...initialStateVAOSService,
+      referral: {
+        referrals: createReferrals(3, '2024-11-20'),
+        referralsFetchStatus: FETCH_STATUS.succeeded,
+      },
+      appointments: {
+        pending: [],
+        pendingStatus: FETCH_STATUS.succeeded,
+      },
+    };
+
+    renderWithStoreAndRouter(<ReferralAppointments />, {
       initialState,
       path: '/?id=445e2d1b-7150-4631-97f2-f6f473bdef00',
     });
 
     await waitFor(() => {
-      expect(screen.getByText('We’re sorry. We’ve run into a problem.')).to
-        .exist;
+      expect(utils.scrollAndFocus.called).to.be.true;
+      expect(utils.scrollAndFocus.calledWith('h2')).to.be.true;
     });
   });
 
-  it('should render ScheduleReferral for the base path', async () => {
+  it('should call scrollAndFocus with h1 if referral is available', async () => {
+    servicesUtils.apiRequestWithUrl.resolves({
+      data: createReferralById(
+        '2024-11-29',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+      ),
+    });
+
     const initialState = {
       ...initialStateVAOSService,
       referral: {
+        referrals: createReferrals(3, '2024-11-20'),
         referralsFetchStatus: FETCH_STATUS.succeeded,
+      },
+      appointments: {
+        pending: [],
+        pendingStatus: FETCH_STATUS.succeeded,
       },
     };
 
-    const screen = renderWithStoreAndRouter(<ReferralAppointments />, {
+    renderWithStoreAndRouter(<ReferralAppointments />, {
       initialState,
-      path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+      path: '/?id=445e2d1b-7150-4631-97f2-f6f473bdef00',
     });
 
     await waitFor(() => {
-      // Looking for elements that would be in ScheduleReferral component
-      expect(screen.getByText('Schedule your appointment')).to.exist;
+      expect(utils.scrollAndFocus.called).to.be.true;
+      expect(utils.scrollAndFocus.calledWith('h1')).to.be.true;
     });
   });
 
@@ -111,10 +121,8 @@ describe('ReferralAppointments', () => {
     );
     referralWithAppointments.attributes.hasAppointments = true;
 
-    vaosApi.useGetReferralByIdQuery.returns({
+    servicesUtils.apiRequestWithUrl.resolves({
       data: referralWithAppointments,
-      error: false,
-      isLoading: true,
     });
 
     const initialState = {

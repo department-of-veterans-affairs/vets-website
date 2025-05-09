@@ -782,8 +782,8 @@ const VaPrescription = prescription => {
                                       data-testid="shipped-on"
                                     >
                                       {dateFormat(
-                                        prescription?.trackingList
-                                          ? prescription.trackingList[0]
+                                        entry?.trackingList
+                                          ? entry.trackingList[0]
                                               ?.completeDateTime
                                           : null,
                                         'MMMM D, YYYY',

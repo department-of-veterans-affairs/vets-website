@@ -10,12 +10,13 @@ import { getPageFlow } from '../referral-appointments/flow';
 
 export default function VAOSBreadcrumbs({ children, labelOverride }) {
   const location = useLocation();
+  // get boolean if single va location
+
   const [breadcrumb, setBreadcrumb] = useState([]);
-  const covidLabel = getCovidUrlLabel(location) || null;
+
   const label = useSelector(state => getUrlLabel(state, location));
-  const isCovid = location.pathname.includes('covid-vaccine/');
-  let newLabel = labelOverride || label;
-  if (isCovid) newLabel = covidLabel;
+  const covidLabel = useSelector(state => getCovidUrlLabel(state, location));
+  const newLabel = labelOverride || label || covidLabel;
 
   // get referrer query param
   const searchParams = new URLSearchParams(location.search);

@@ -37,7 +37,6 @@ const PendingReferralCard = ({ referral, index }) => {
                     // canceled={isCanceled}
                     className="vads-u-font-weight--bold vaos-appts__display--table"
                     data-testid="typeOfCare"
-                    id={`ref-title-${index}`}
                   >
                     {`${categoryOfCare} referral`}
                   </AppointmentColumn>
@@ -46,10 +45,7 @@ const PendingReferralCard = ({ referral, index }) => {
                     size="1"
                     className="vaos-appts__display--table"
                   >
-                    <span
-                      id={`ref-desc-${index}`}
-                      className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center"
-                    >
+                    <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
                       {`We’ve approved your community care referral. You must schedule all appointments for this referral by ${expiration}.`}
                     </span>
                   </AppointmentColumn>
@@ -64,7 +60,7 @@ const PendingReferralCard = ({ referral, index }) => {
                 <va-link-action
                   type="secondary"
                   href={link}
-                  aria-labelledby={`ref-title-${index} ref-desc-${index}`}
+                  aria-label={`Schedule your appointment for ${categoryOfCare} referral`}
                   text="Schedule your appointment"
                   data-testid="schedule-appointment-link"
                   onClick={e => e.preventDefault()}

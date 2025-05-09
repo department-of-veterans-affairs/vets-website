@@ -7,14 +7,10 @@ import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-sub
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { fillProviderFacility } from './helpers';
-import {
-  fillAddressWebComponentPattern,
-  reviewAndSubmitPageFlow,
-} from '../../../shared/tests/e2e/helpers';
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
   {
-    useWebComponentFields: true,
     dataPrefix: 'data',
     dataSets: ['minimal-test', 'maximal-test'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
@@ -30,39 +26,25 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.get('body').then(body => {
-              // if the environment is production
-              if (
-                !body.find(`va-text-input[name="root_veteran_address_street"]`)
-                  .length
-              ) {
-                cy.fillPage();
-                // fillPage doesn't catch state select, so select state manually
-                cy.get('select#root_veteran_address_state').select(
-                  data.veteran.address.state,
+            cy.fillPage();
+            // fillPage doesn't catch state select, so select state manually
+            cy.get('select#root_veteran_address_state').select(
+              data.veteran.address.state,
+            );
+            if (data.veteran.address.city) {
+              if (data.veteran.address.isMilitary) {
+                // there is a select dropdown instead when military is checked
+                cy.get('select#root_veteran_address_city').select(
+                  data.veteran.address.city,
                 );
-                if (data.veteran.address.city) {
-                  if (data.veteran.address.isMilitary) {
-                    // there is a select dropdown instead when military is checked
-                    cy.get('select#root_veteran_address_city').select(
-                      data.veteran.address.city,
-                    );
-                  } else {
-                    cy.get('#root_veteran_address_city').type(
-                      data.veteran.address.city,
-                    );
-                  }
-                }
               } else {
-                fillAddressWebComponentPattern(
-                  'veteran_address',
-                  data.veteran.address,
+                cy.get('#root_veteran_address_city').type(
+                  data.veteran.address.city,
                 );
               }
-            });
-            cy.findByText(/continue/i, { selector: 'button' })
-              .last()
-              .click();
+            }
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },

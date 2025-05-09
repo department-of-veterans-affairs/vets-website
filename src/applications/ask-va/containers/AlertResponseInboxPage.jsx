@@ -1,6 +1,5 @@
 import React from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import cookie from 'js-cookie';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ResponseInboxPage from './ResponseInboxPage';
 
@@ -13,14 +12,11 @@ const AlertResponseInboxPage = () => {
     useToggleValue,
   } = useFeatureToggle();
 
-  // manually set cookie to true to force new VA.gov experience
-  const isAppEnabledViaCookie = cookie.get('askVaEnableAppOverride') === 'true';
-
   const toggleOldPortalAlert = TOGGLE_NAMES.askVaAlertLinkToOldPortal;
   const isOldPortalAlertEnabled = useToggleValue(toggleOldPortalAlert);
   const isLoadingFeatureFlags = useToggleLoadingValue(toggleOldPortalAlert);
   const showAlertAndHideForm =
-    !isLoadingFeatureFlags && isOldPortalAlertEnabled && !isAppEnabledViaCookie;
+    !isLoadingFeatureFlags && isOldPortalAlertEnabled;
 
   if (showAlertAndHideForm) {
     return (

@@ -324,20 +324,19 @@ export default function TravelPayStatusApp({ children }) {
           <h1 tabIndex="-1" data-testid="header">
             {title}
           </h1>
-          <DowntimeWindowAlert appTitle={title}>
-            <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-              {smocEnabled ? (
-                <SmocEntryContent />
-              ) : (
-                <h2 className="vads-u-font-size--h4 vads-u-margin-bottom--4">
-                  You can use this tool to check the status of your VA travel
-                  claims.
-                </h2>
-              )}
-              <ErrorAlert errorStatus={error.errors[0].status} />
-              <VaBackToTop />
-            </div>
-          </DowntimeWindowAlert>
+
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            {smocEnabled ? (
+              <SmocEntryContent />
+            ) : (
+              <h2 className="vads-u-font-size--h4 vads-u-margin-bottom--4">
+                You can use this tool to check the status of your VA travel
+                claims.
+              </h2>
+            )}
+            <ErrorAlert errorStatus={error.errors[0].status} />
+            <VaBackToTop />
+          </div>
         </article>
       </Element>
     );

@@ -18,7 +18,6 @@ import radio from '../pages/mockRadio';
 import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
-import fileInput from '../pages/mockFileInput';
 import dynamicFields from '../pages/mockDynamicFields';
 import formsPatternSingleRadio from '../pages/mockFormsPatternSingleRadio';
 import formsPatternSingleCheckboxGroup from '../pages/mockFormsPatternSingleCheckboxGroup';
@@ -48,7 +47,6 @@ const initialData = {
     arraySinglePage: true,
     checkbox: true,
     date: true,
-    fileInput: true,
     formsPattern: true,
     miscellaneous: true,
     numberInput: true,
@@ -247,18 +245,6 @@ const formConfig = {
           uiSchema: date.uiSchema,
           schema: date.schema,
           depends: includeChapter('date'),
-        },
-      },
-    },
-    fileInput: {
-      title: 'File input',
-      pages: {
-        fileInput: {
-          title: 'File input',
-          path: 'file-input',
-          uiSchema: fileInput.uiSchema,
-          schema: fileInput.schema,
-          depends: includeChapter('fileInput'),
         },
       },
     },

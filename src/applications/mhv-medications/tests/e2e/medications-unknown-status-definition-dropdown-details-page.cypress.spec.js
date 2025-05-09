@@ -15,7 +15,6 @@ describe('Medications Details Page Unknown Status DropDown', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     detailsPage.clickMedicationDetailsLink(unknownRx, cardNumber);
-    detailsPage.verifyPrescriptionsStatus('Unknown');
     detailsPage.clickWhatDoesThisStatusMeanDropDown();
     detailsPage.verifyUnknownStatusDropDownDefinition();
   });

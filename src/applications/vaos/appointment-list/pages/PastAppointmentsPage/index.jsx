@@ -45,6 +45,7 @@ export default function PastAppointmentsPage() {
     pastAppointmentsByMonth,
     pastStatus,
     pastSelectedIndex,
+    hasTypeChanged,
   } = useSelector(state => getPastAppointmentListInfo(state), shallowEqual);
   const pastAppointments = useSelector(state => selectPastAppointments(state));
 
@@ -63,12 +64,14 @@ export default function PastAppointmentsPage() {
   useEffect(
     () => {
       if (pastStatus === FETCH_STATUS.succeeded && !isInitialMount) {
-        scrollAndFocus('#appointment-count');
-      } else if (pastStatus === FETCH_STATUS.failed) {
+        scrollAndFocus('h3');
+      } else if (hasTypeChanged && pastStatus === FETCH_STATUS.succeeded) {
+        scrollAndFocus('#type-dropdown');
+      } else if (hasTypeChanged && pastStatus === FETCH_STATUS.failed) {
         scrollAndFocus('h3');
       }
     },
-    [isInitialMount, pastStatus],
+    [isInitialMount, pastStatus, hasTypeChanged],
   );
 
   const onDateRangeChange = index => {
@@ -99,7 +102,7 @@ export default function PastAppointmentsPage() {
       <>
         <div className="vads-u-margin-y--8">
           <va-loading-indicator
-            set-focus={!isInitialMount}
+            set-focus={hasTypeChanged || !isInitialMount}
             message="Loading your past appointments..."
           />
         </div>
@@ -145,10 +148,7 @@ export default function PastAppointmentsPage() {
         {dateRangeOptions[pastSelectedIndex]?.label}
       </div>
 
-      <div
-        id="appointment-count"
-        className="vads-u-margin-bottom--2 vads-u-font-style--italic"
-      >
+      <div className="vads-u-margin-bottom--2 vads-u-font-style--italic">
         Showing {pastAppointments.length} appointments between today and{' '}
         {format(
           dateRangeOptions[pastSelectedIndex].startDateRaw,

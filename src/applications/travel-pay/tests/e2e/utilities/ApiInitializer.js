@@ -105,21 +105,6 @@ class ApiInitializer {
         fixture: 'applications/travel-pay/tests/fixtures/appointment.json',
       }).as('appointment');
     },
-    errorPath: () => {
-      cy.intercept('GET', API_PATHS.APPOINTMENT, {
-        statusCode: 503,
-        body: {
-          errors: [
-            {
-              title: 'Service unavailable',
-              status: 503,
-              detail: 'An unknown error has occurred.',
-              code: 'VA900',
-            },
-          ],
-        },
-      }).as('appointmentError');
-    },
   };
 
   initializeMaintenanceWindow = {

@@ -6,7 +6,6 @@
       "arraySinglePage": true,
       "checkbox": true,
       "date": true,
-      "fileInput": true,
       "formsPattern": true,
       "miscellaneous": true,
       "numberInput": true,
@@ -24,12 +23,6 @@
     "dateMonthYearRange": {
       "from": "1999-01",
       "to": "1999-01"
-    },
-    "wcv3FileInput": {
-      "name": "my_form.pdf",
-      "size": 12345,
-      "fileType": "pdf",
-      "confirmationCode": 7564298
     },
     "vaCompensationType": "none",
     "isCurrentlyActiveDuty": false,

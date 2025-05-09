@@ -5,7 +5,7 @@ const NoHintReviewField = ({
     props: { uiSchema, formData },
   },
 }) => (
-  <div className="dd-privacy review-row" data-dd-privacy="mask">
+  <div className="review-row">
     <dt>{uiSchema['ui:title']}</dt>
     <dd>{formData}</dd>
   </div>

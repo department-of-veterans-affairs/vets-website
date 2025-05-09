@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   VaFileInputField,
   VaFileInputMultipleField,
@@ -65,65 +64,47 @@ export const filePresenceValidation = (
  *  formHeading?: UIOptions['formHeading'],
  *  formDescription?: UIOptions['formDescription'],
  *  formHeadingLevel?: UIOptions['formHeadingLevel'],
- * }} options
+ * }} stringOrOptions
  * @returns {UISchemaOptions}
  */
-export const fileInputUI = options => {
-  const { title, description, errorMessages, required, ...uiOptions } = options;
-
-  if (required === undefined) {
-    throw new Error(
-      `"required" property should be explicitly set for fileInputUI for
-      title: "${title}". Please set "required" to a boolean, or a function
-      that returns a boolean. Also you will still need to set required in
-      the schema as well.`,
-    );
+export const fileInputUI = stringOrOptions => {
+  if (typeof stringOrOptions === 'string') {
+    return {
+      'ui:title': stringOrOptions,
+      'ui:webComponentField': VaFileInputField,
+    };
   }
+
+  const {
+    title,
+    description,
+    errorMessages,
+    required,
+    reviewField,
+    hidden,
+    ...uiOptions
+  } = stringOrOptions;
 
   return {
     'ui:title': title,
     'ui:description': description,
+    'ui:required': required,
     'ui:webComponentField': VaFileInputField,
-    'ui:required': typeof required === 'function' ? required : () => !!required,
-    'ui:errorMessages': {
-      required: 'A file is required to submit your application',
-      ...errorMessages,
-    },
+    'ui:reviewField': reviewField,
+    'ui:hidden': hidden,
     'ui:validations': [
-      (errors, data, formData, schema, uiErrorMessages) => {
+      (errors, data, formData, schema, errMessages) => {
         const isRequired =
-          typeof required === 'function' ? required(formData) : !!required;
+          typeof required === 'function' ? required(formData) : required;
         if (isRequired) {
-          filePresenceValidation(
-            errors,
-            data,
-            formData,
-            schema,
-            uiErrorMessages,
-          );
+          filePresenceValidation(errors, data, formData, schema, errMessages);
         }
       },
     ],
     'ui:options': {
       ...uiOptions,
     },
-    'ui:reviewField': ({ children }) => {
-      return (
-        <div className="review-row">
-          <dt>{title}</dt>
-          <dd>{children.props?.formData?.name}</dd>
-        </div>
-      );
-    },
-    'ui:confirmationField': ({ formData }) => ({
-      data: formData?.name,
-      label: title,
-    }),
-    warnings: {
-      'ui:options': {
-        keepInPageOnReview: true,
-      },
-    },
+    'ui:errorMessages': errorMessages,
   };
 };
 
@@ -177,24 +158,31 @@ export const fileInputUI = options => {
  * }} stringOrOptions
  * @returns {UISchemaOptions}
  */
-export const fileInputMultipleUI = options => {
-  const { title, description, errorMessages, required, ...uiOptions } = options;
-
-  if (required === undefined) {
-    throw new Error(
-      `"required" property should be explicitly set for fileInputUI for
-      title: "${title}". Please set "required" to a boolean, or a function
-      that returns a boolean. Also you will still need to set required in
-      the schema as well.`,
-    );
+export const fileInputMultipleUI = stringOrOptions => {
+  if (typeof stringOrOptions === 'string') {
+    return {
+      'ui:title': stringOrOptions,
+      'ui:webComponentField': VaFileInputMultipleField,
+    };
   }
+
+  const {
+    title,
+    description,
+    errorMessages,
+    required,
+    reviewField,
+    hidden,
+    ...uiOptions
+  } = stringOrOptions;
 
   return {
     'ui:title': title,
     'ui:description': description,
     'ui:required': required,
     'ui:webComponentField': VaFileInputMultipleField,
-    // 'ui:reviewField': reviewField,
+    'ui:reviewField': reviewField,
+    'ui:hidden': hidden,
     'ui:options': {
       ...uiOptions,
     },

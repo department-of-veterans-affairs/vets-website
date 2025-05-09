@@ -15,7 +15,6 @@ export default {
   radioRelationshipToVeteran:
     formChapters.radio.pages.radioRelationshipToVeteran.path,
   date: formChapters.date.pages.date.path,
-  fileInput: formChapters.fileInput.pages.fileInput.path,
   arraySinglePage: formChapters.arraySinglePage.pages.arraySinglePage.path,
   arrayMultiPageAggregate:
     formChapters.arrayMultiPageAggregate.pages.multiPageStart.path,

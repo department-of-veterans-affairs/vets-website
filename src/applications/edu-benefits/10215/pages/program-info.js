@@ -8,7 +8,6 @@ import {
   arrayBuilderItemFirstPageTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import Calcs from './calcs';
-import { decimalSchema } from '../helpers';
 
 /**
  * On the review page, the *formData* contains a single *program*
@@ -102,8 +101,8 @@ const programInfo = {
       fte: {
         type: 'object',
         properties: {
-          supported: decimalSchema,
-          nonSupported: decimalSchema,
+          supported: numberSchema,
+          nonSupported: numberSchema,
         },
       },
       'view:calcs': { type: 'object', properties: {} },

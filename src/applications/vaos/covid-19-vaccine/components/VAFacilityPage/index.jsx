@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { usePrevious } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -18,6 +18,7 @@ import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
 import InfoAlert from '../../../components/InfoAlert';
 import useFormState from '../../../hooks/useFormState';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -42,15 +43,24 @@ function VAFacilityPage({
   sortMethod,
   updateFacilitySortMethod,
   supportedFacilities,
+  changeCrumb,
 }) {
   const history = useHistory();
   const loadingClinics = clinicsStatus === FETCH_STATUS.loading;
-
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
   const dispatch = useDispatch();
 
   const pageTitle = singleValidVALocation
     ? 'Your appointment location'
     : 'Choose a VA location';
+
+  useEffect(() => {
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
+  }, []);
 
   useEffect(
     () => {
@@ -330,6 +340,7 @@ function VAFacilityPage({
 VAFacilityPage.propTypes = {
   address: PropTypes.object,
   canScheduleAtChosenFacility: PropTypes.bool,
+  changeCrumb: PropTypes.func,
   clinicsStatus: PropTypes.string,
   facilitiesStatus: PropTypes.string,
   hideEligibilityModal: PropTypes.func,

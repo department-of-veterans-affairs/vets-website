@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Switch,
   Route,
@@ -11,6 +11,7 @@ import ReviewAndConfirm from './ReviewAndConfirm';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { useIsInCCPilot } from './hooks/useIsInCCPilot';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import CompleteReferral from './CompleteReferral';
 import ReferralLayout from './components/ReferralLayout';
 import { useGetReferralByIdQuery } from '../redux/api/vaosApi';
@@ -26,6 +27,17 @@ export default function ReferralAppointments() {
   const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
     skip: !id,
   });
+
+  useEffect(
+    () => {
+      if (referral) {
+        scrollAndFocus('h1');
+      } else if (error) {
+        scrollAndFocus('h2');
+      }
+    },
+    [error, referral],
+  );
 
   if (referral?.attributes?.hasAppointments) {
     return <Redirect to="/referrals-requests" />;

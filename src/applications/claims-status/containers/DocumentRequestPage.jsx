@@ -54,7 +54,7 @@ class DocumentRequestPage extends React.Component {
     this.props.resetUploads();
     setPageTitle(this.props.trackedItem);
     if (!this.props.loading) {
-      setUpPage(true, 'h1');
+      setUpPage();
     } else {
       scrollToTop();
     }
@@ -78,7 +78,7 @@ class DocumentRequestPage extends React.Component {
       scrollToError();
     }
     if (!this.props.loading && prevProps.loading) {
-      setPageFocus('h1');
+      setPageFocus();
       setPageTitle(this.props.trackedItem);
     }
   }

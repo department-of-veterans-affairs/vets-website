@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { FETCH_STATUS } from '../../utils/constants';
@@ -14,6 +15,7 @@ import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
 import { confirmAppointment } from '../redux/actions';
 import AppointmentDate from '../../new-appointment/components/ReviewPage/AppointmentDate';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 const pageTitle = 'Review your appointment details';
 
@@ -26,7 +28,7 @@ function handleClick(history, contactInfo) {
   };
 }
 
-export default function ReviewPage() {
+export default function ReviewPage({ changeCrumb }) {
   const {
     data,
     facility,
@@ -36,6 +38,9 @@ export default function ReviewPage() {
     submitStatusVaos400,
   } = useSelector(state => getReviewPage(state), shallowEqual);
   const history = useHistory();
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
 
   const { date1, vaFacility } = data;
   const dispatch = useDispatch();
@@ -44,6 +49,9 @@ export default function ReviewPage() {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   useEffect(
@@ -179,3 +187,7 @@ export default function ReviewPage() {
     </div>
   );
 }
+
+ReviewPage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

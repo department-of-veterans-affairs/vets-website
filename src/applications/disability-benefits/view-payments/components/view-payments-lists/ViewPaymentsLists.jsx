@@ -21,6 +21,7 @@ import {
   filterReturnPayments,
   reformatReturnPaymentDates,
   reformatPaymentDates,
+  alertMessage,
 } from './helpers';
 import Payments from './payments/Payments';
 
@@ -77,6 +78,7 @@ class ViewPaymentsLists extends Component {
           fields={paymentsReceivedFields}
           data={reformattedPayments}
           textContent={paymentsReceivedContent}
+          alertMessage={alertMessage}
         />
       );
     } else {

@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { openClinicPage, updateFormData } from '../redux/actions';
@@ -31,7 +33,10 @@ const uiSchema = {
 };
 const pageKey = 'clinicChoice';
 const pageTitle = 'Choose a clinic';
-export default function ClinicChoicePage() {
+export default function ClinicChoicePage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
   const history = useHistory();
   const { data, facilityDetails, pageChangeInProgress, schema } = useSelector(
     state => getClinicPageInfo(state, pageKey),
@@ -43,6 +48,9 @@ export default function ClinicChoicePage() {
     dispatch(openClinicPage(pageKey, uiSchema, initialSchema));
     scrollAndFocus();
     document.title = `${pageTitle} | Veterans Affairs`;
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   return (
@@ -79,3 +87,7 @@ export default function ClinicChoicePage() {
     </div>
   );
 }
+
+ClinicChoicePage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

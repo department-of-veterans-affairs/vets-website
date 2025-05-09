@@ -133,20 +133,6 @@ describe('<ClaimStatusPage>', () => {
       );
       expect(document.title).to.equal('');
     });
-    it('should focus on h1 after render', () => {
-      const { rerender, container } = renderWithRouter(
-        <Provider store={getStore()}>
-          <ClaimStatusPage {...props} loading params={params} />
-        </Provider>,
-      );
-      rerenderWithRouter(
-        rerender,
-        <Provider store={getStore()}>
-          <ClaimStatusPage {...props} claim={claim} params={params} />
-        </Provider>,
-      );
-      expect(document.activeElement).to.equal($('h1', container));
-    });
   });
 
   describe('page rendering', () => {

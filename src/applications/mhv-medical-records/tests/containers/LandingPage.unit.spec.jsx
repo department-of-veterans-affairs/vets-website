@@ -107,8 +107,6 @@ describe('Landing Page', () => {
         mhv_medical_records_display_settings_page: true,
         // eslint-disable-next-line camelcase
         mhv_medical_records_update_landing_page: true,
-        // eslint-disable-next-line camelcase
-        mhv_landing_page_show_share_my_health_data_link: true,
       },
       ...initialState,
     };
@@ -191,12 +189,6 @@ describe('Landing Page', () => {
     expect(
       screen.getByRole('link', {
         name: 'Go to manage your electronic sharing settings',
-      }),
-    ).to.exist;
-    expect(
-      screen.getByText('Share personal health data with your care team', {
-        selector: 'h2',
-        exact: true,
       }),
     ).to.exist;
 

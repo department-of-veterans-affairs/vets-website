@@ -84,7 +84,9 @@ describe('VAOS vaccine flow: ClinicChoicePage', () => {
     userEvent.click(screen.getByText(/continue/i));
 
     await waitFor(() =>
-      expect(screen.history.push.firstCall.args[0]).to.equal('date-time'),
+      expect(screen.history.push.firstCall.args[0]).to.equal(
+        '/new-covid-19-vaccine-appointment/select-date',
+      ),
     );
   });
 

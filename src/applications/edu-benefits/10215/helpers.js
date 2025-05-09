@@ -164,8 +164,3 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
     </p>
   </div>
 );
-export const decimalSchema = {
-  type: 'string',
-  // zero or more digits, optionally “.” plus one or two digits
-  pattern: '^\\d*(?:\\.\\d{1,2})?$',
-};

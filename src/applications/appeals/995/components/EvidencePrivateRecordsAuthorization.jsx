@@ -82,7 +82,7 @@ const EvidencePrivateRecordsAuthorization = ({
   return (
     <>
       <form onSubmit={handlers.onSubmit}>
-        <va-alert status="error" visible={hasError} uswds role="alert">
+        <va-alert status="error" visible={hasError} uswds>
           {hasError && authorizationAlertContent(handlers.onAnchorClick)}
         </va-alert>
         {authorizationHeader}

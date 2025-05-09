@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import set from 'platform/utilities/data/set';
+import { focusElement } from 'platform/utilities/ui/focus';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import AddressConfirmation from '../../components/AddressConfirmation';
 import SuggestedAddressRadio from '../../components/SuggestedAddressRadio';
@@ -38,6 +39,7 @@ function SponsorSuggestedAddress({ formData }) {
     };
 
     fetchData();
+    focusElement('#address-validation-alert-heading');
   }, []);
 
   // Handle Address Selection Change

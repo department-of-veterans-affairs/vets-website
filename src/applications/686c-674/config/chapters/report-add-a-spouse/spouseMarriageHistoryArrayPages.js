@@ -35,7 +35,6 @@ export const spouseMarriageHistoryOptions = {
     !item?.startDate ||
     !item?.endDate ||
     !item?.reasonMarriageEnded ||
-    (item.reasonMarriageEnded === 'Other' && !item.otherReasonMarriageEnded) ||
     !item?.startLocation?.location?.city ||
     !item?.endLocation?.location?.city ||
     (item?.startLocation?.outsideUsa === false &&

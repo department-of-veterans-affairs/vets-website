@@ -46,9 +46,11 @@ export const arrayBuilderOptions = {
       return convertPercentageToText(percent);
     },
     summaryTitle: props =>
-      `Review your ${
-        props?.formData?.programs.length > 1 ? 'programs' : 'program'
-      }`,
+      location?.pathname.includes('review-and-submit')
+        ? ''
+        : `Review your ${
+            props?.formData?.programs.length > 1 ? 'programs' : 'program'
+          }`,
   },
 };
 

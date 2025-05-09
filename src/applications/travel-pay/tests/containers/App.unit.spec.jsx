@@ -46,13 +46,6 @@ describe('App', () => {
           verified: !!isLOA3,
         },
       },
-      scheduledDowntime: {
-        globalDowntime: null,
-        isReady: true,
-        isPending: false,
-        serviceMap: { get() {} },
-        dismissedDowntimeWarnings: [],
-      },
     };
   };
 
@@ -113,7 +106,7 @@ describe('App', () => {
   });
 
   it('should render a verify identity message for logingov sign in service if user is not LOA3', () => {
-    renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
@@ -125,10 +118,11 @@ describe('App', () => {
       reducers: reducer,
     });
     expect($('va-alert-sign-in[variant="verifyLoginGov"]')).to.exist;
+    expect(screen.getByText(/login.gov/i)).to.exist;
   });
 
   it('should render a verify identity message for idme sign in service if user is not LOA3', () => {
-    renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
@@ -140,5 +134,6 @@ describe('App', () => {
       reducers: reducer,
     });
     expect($('va-alert-sign-in[variant="verifyIdMe"]')).to.exist;
+    expect(screen.getByText(/id.me/i)).to.exist;
   });
 });
