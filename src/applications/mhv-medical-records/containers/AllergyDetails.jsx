@@ -11,19 +11,17 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
+  formatNameFirstLast,
+  getNameDateAndTime,
+  makePdf,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import {
-  formatNameFirstLast,
-  generateTextFile,
-  getNameDateAndTime,
-  makePdf,
-  formatUserDob,
-} from '../util/helpers';
+import { generateTextFile } from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,

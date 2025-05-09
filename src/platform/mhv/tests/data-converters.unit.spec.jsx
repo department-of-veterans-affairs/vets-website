@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { Actions } from '../../util/actionTypes';
 import {
   convertActivityJournal,
   convertAllergies,
@@ -30,12 +29,10 @@ import {
   formatTime,
   formatTimestamp,
   mapValue,
-  NONE_ENTERED,
-  selfEnteredReducer,
   sortDesc,
-} from '../../reducers/selfEnteredData';
-import { selfEnteredTypes } from '../../util/constants';
-import seiVitals from '../fixtures/sei/seiVitals.json';
+} from '../self-entered/data-converters';
+import seiVitals from './fixtures/sei/seiVitals.json';
+import { NONE_ENTERED } from '../util/constants';
 
 describe('mapValue', () => {
   it('returns the corresponding value for a valid key', () => {
@@ -1567,53 +1564,6 @@ describe('convertMedications', () => {
   });
 });
 
-describe('selfEnteredReducer', () => {
-  it('adds failed domains', () => {
-    let newState = selfEnteredReducer(
-      { failedDomains: [] },
-      {
-        type: Actions.SelfEntered.ADD_FAILED,
-        payload: selfEnteredTypes.VITALS,
-      },
-    );
-
-    expect(newState.failedDomains.length).to.equal(1);
-    expect(newState.failedDomains[0]).to.equal(selfEnteredTypes.VITALS);
-
-    // Adding a different failed domain
-    newState = selfEnteredReducer(newState, {
-      type: Actions.SelfEntered.ADD_FAILED,
-      payload: selfEnteredTypes.ALLERGIES,
-    });
-
-    expect(newState.failedDomains.length).to.equal(2);
-    expect(newState.failedDomains[1]).to.equal(selfEnteredTypes.ALLERGIES);
-  });
-
-  it('does not add a duplicate failed domain', () => {
-    const initialState = { failedDomains: [selfEnteredTypes.VITALS] };
-    const newState = selfEnteredReducer(initialState, {
-      type: Actions.SelfEntered.ADD_FAILED,
-      payload: selfEnteredTypes.VITALS,
-    });
-
-    // The failedDomains array should remain unchanged
-    expect(newState.failedDomains.length).to.equal(1);
-    expect(newState.failedDomains[0]).to.equal(selfEnteredTypes.VITALS);
-  });
-
-  it('clears failed domains', () => {
-    const initialState = {
-      failedDomains: [selfEnteredTypes.VITALS, selfEnteredTypes.ALLERGIES],
-    };
-    const newState = selfEnteredReducer(initialState, {
-      type: Actions.SelfEntered.CLEAR_FAILED,
-    });
-
-    expect(newState.failedDomains.length).to.equal(0);
-  });
-});
-
 describe('convertDemographics', () => {
   it('should return a correctly transformed object for valid input', () => {
     const input = {
@@ -1714,60 +1664,5 @@ describe('convertEmergencyContacts', () => {
 
   it('should return null when input is null', () => {
     expect(convertEmergencyContacts(null)).to.be.null;
-  });
-});
-
-describe('selfEnteredReducer', () => {
-  it('sets all SEI data with GET_ALL action', () => {
-    const payload = {
-      responses: {
-        allergies: { pojoObject: [{ comments: 'Allergy 1' }] },
-        demographics: { name: { firstName: 'Test', lastName: 'User' } },
-        familyHistory: { pojoObject: [{ comments: 'Family history 1' }] },
-        vitals: {
-          heartRateReadings: [
-            { comments: 'Heart rate 1' },
-            { comments: 'Heart rate 2' },
-          ],
-          painReadings: [{ comments: 'Pain 1' }],
-        },
-      },
-    };
-
-    const newState = selfEnteredReducer(
-      {},
-      {
-        type: Actions.SelfEntered.GET_ALL,
-        payload,
-      },
-    );
-
-    expect(newState.vitals.heartRate.length).to.equal(2);
-    expect(newState.vitals.pain.length).to.equal(1);
-    expect(newState.allergies.length).to.equal(1);
-    expect(newState.familyHistory.length).to.equal(1);
-    expect(newState.demographics.firstName).to.equal('Test');
-    expect(newState.failedDomains.length).to.equal(0);
-  });
-
-  it('sets SEI errors with the GET_ALL action', () => {
-    const payload = {
-      errors: {
-        vaccines: { message: 'message', class: 'class' },
-        vitals: { message: 'message', class: 'class' },
-      },
-    };
-
-    const newState = selfEnteredReducer(
-      {},
-      {
-        type: Actions.SelfEntered.GET_ALL,
-        payload,
-      },
-    );
-
-    expect(newState.failedDomains.length).to.equal(2);
-    expect(newState.failedDomains).to.include('vitals');
-    expect(newState.failedDomains).to.include('vaccines');
   });
 });

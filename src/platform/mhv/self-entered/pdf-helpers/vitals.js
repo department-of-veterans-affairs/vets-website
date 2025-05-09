@@ -1,4 +1,4 @@
-import { seiVitalTypes } from '../../constants';
+import { seiVitalTypes } from '../../util/constants';
 
 const vitalHeaders = {
   [seiVitalTypes.BLOOD_PRESSURE]: 'Blood Pressure',

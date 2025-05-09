@@ -101,3 +101,19 @@ export const getSeiEmergencyContacts = () => {
     },
   );
 };
+
+/**
+ * Get a patient's account summary (treatment facilities)
+ * @returns patient profile including a list of patient's treatment facilities
+ */
+export const getPatient = async () => {
+  return apiRequest(`${apiBasePath}/medical_records/patient`, {
+    headers,
+  });
+};
+
+export const getSelfEnteredInformation = () => {
+  return apiRequest(`${apiBasePath}/medical_records/self_entered`, {
+    headers,
+  });
+};

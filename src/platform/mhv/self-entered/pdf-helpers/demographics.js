@@ -1,4 +1,4 @@
-import { NONE_ENTERED } from '../../../reducers/selfEnteredData';
+import { NONE_ENTERED } from '../../util/constants';
 
 export const generateDemographicsContent = record => {
   const demographicInfo = {
@@ -116,7 +116,11 @@ export const generateDemographicsContent = record => {
   const emergencyContacts = {
     title: 'Emergency contacts',
     moveDown: 0.75,
-    details: record.emergencyContacts.map(contact => ({
+    details: [{ items: [{ value: NONE_ENTERED }] }],
+  };
+
+  if (record.emergencyContacts.length) {
+    emergencyContacts.details = record.emergencyContacts.map(contact => ({
       items: [
         {
           value: [
@@ -157,8 +161,8 @@ export const generateDemographicsContent = record => {
           isRich: true,
         },
       ],
-    })),
-  };
+    }));
+  }
 
   return [demographicInfo, emergencyContacts];
 };

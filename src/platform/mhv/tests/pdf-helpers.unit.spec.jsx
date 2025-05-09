@@ -1,7 +1,6 @@
 import { expect } from 'chai';
-
-import { generateSelfEnteredData } from '../../../../util/pdfHelpers/sei';
-import { selfEnteredTypes, seiVitalTypes } from '../../../../util/constants';
+import { generateSelfEnteredData } from '../self-entered/generate-pdf-data';
+import { seiVitalTypes, selfEnteredDocSections } from '../util/constants';
 
 describe('generateSelfEnteredData', () => {
   it('should return an empty array when no data is provided', () => {
@@ -23,7 +22,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const activityJournalSection = result.find(
-      section => section.type === selfEnteredTypes.ACTIVITY_JOURNAL,
+      section => section.type === selfEnteredDocSections.ACTIVITY_JOURNAL,
     );
     expect(activityJournalSection).to.exist;
     expect(activityJournalSection.records).to.have.lengthOf(1);
@@ -43,7 +42,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const allergiesSection = result.find(
-      section => section.type === selfEnteredTypes.ALLERGIES,
+      section => section.type === selfEnteredDocSections.ALLERGIES,
     );
     expect(allergiesSection).to.exist;
     expect(allergiesSection.records).to.have.lengthOf(1);
@@ -77,7 +76,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const demographicsSection = result.find(
-      section => section.type === selfEnteredTypes.DEMOGRAPHICS,
+      section => section.type === selfEnteredDocSections.DEMOGRAPHICS,
     );
     expect(demographicsSection).to.exist;
     expect(demographicsSection.records)
@@ -98,7 +97,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const familyHistorySection = result.find(
-      section => section.type === selfEnteredTypes.FAMILY_HISTORY,
+      section => section.type === selfEnteredDocSections.FAMILY_HISTORY,
     );
     expect(familyHistorySection).to.exist;
     expect(familyHistorySection.records).to.have.lengthOf(1);
@@ -130,7 +129,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const foodJournalSection = result.find(
-      section => section.type === selfEnteredTypes.FOOD_JOURNAL,
+      section => section.type === selfEnteredDocSections.FOOD_JOURNAL,
     );
     expect(foodJournalSection).to.exist;
     expect(foodJournalSection.records).to.have.lengthOf(1);
@@ -146,7 +145,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const providersSection = result.find(
-      section => section.type === selfEnteredTypes.HEALTH_PROVIDERS,
+      section => section.type === selfEnteredDocSections.HEALTH_PROVIDERS,
     );
     expect(providersSection).to.exist;
     expect(providersSection.records).to.have.lengthOf(1);
@@ -162,7 +161,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const healthInsuranceSection = result.find(
-      section => section.type === selfEnteredTypes.HEALTH_INSURANCE,
+      section => section.type === selfEnteredDocSections.HEALTH_INSURANCE,
     );
     expect(healthInsuranceSection).to.exist;
     expect(healthInsuranceSection.records).to.have.lengthOf(1);
@@ -179,7 +178,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const testEntriesSection = result.find(
-      section => section.type === selfEnteredTypes.TEST_ENTRIES,
+      section => section.type === selfEnteredDocSections.TEST_ENTRIES,
     );
     expect(testEntriesSection).to.exist;
     expect(testEntriesSection.records).to.have.lengthOf(1);
@@ -198,7 +197,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const medicalEventsSection = result.find(
-      section => section.type === selfEnteredTypes.MEDICAL_EVENTS,
+      section => section.type === selfEnteredDocSections.MEDICAL_EVENTS,
     );
     expect(medicalEventsSection).to.exist;
     expect(medicalEventsSection.records).to.have.lengthOf(1);
@@ -215,7 +214,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const medicationsSection = result.find(
-      section => section.type === selfEnteredTypes.MEDICATIONS,
+      section => section.type === selfEnteredDocSections.MEDICATIONS,
     );
     expect(medicationsSection).to.exist;
     expect(medicationsSection.records).to.have.lengthOf(1);
@@ -234,7 +233,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const militaryHistorySection = result.find(
-      section => section.type === selfEnteredTypes.MILITARY_HISTORY,
+      section => section.type === selfEnteredDocSections.MILITARY_HISTORY,
     );
     expect(militaryHistorySection).to.exist;
     expect(militaryHistorySection.records).to.have.lengthOf(1);
@@ -255,7 +254,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const treatmentFacilitiesSection = result.find(
-      section => section.type === selfEnteredTypes.TREATMENT_FACILITIES,
+      section => section.type === selfEnteredDocSections.TREATMENT_FACILITIES,
     );
     expect(treatmentFacilitiesSection).to.exist;
     expect(treatmentFacilitiesSection.records).to.have.lengthOf(1);
@@ -274,7 +273,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const vaccinesSection = result.find(
-      section => section.type === selfEnteredTypes.VACCINES,
+      section => section.type === selfEnteredDocSections.VACCINES,
     );
     expect(vaccinesSection).to.exist;
     expect(vaccinesSection.records).to.have.lengthOf(1);
@@ -359,7 +358,7 @@ describe('generateSelfEnteredData', () => {
     const result = generateSelfEnteredData(data);
     expect(result).to.be.an('array').that.is.not.empty;
     const vitalsSection = result.find(
-      section => section.type === selfEnteredTypes.VITALS,
+      section => section.type === selfEnteredDocSections.VITALS,
     );
     expect(vitalsSection).to.exist;
     expect(vitalsSection.records).to.be.an('array');

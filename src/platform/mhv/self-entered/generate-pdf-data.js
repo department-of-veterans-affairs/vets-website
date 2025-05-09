@@ -1,18 +1,18 @@
-import { selfEnteredTypes } from '../../constants';
-import { generateActivityJournalContent } from './activityJournal';
-import { generateAllergiesContent } from './allergies';
-import { generateDemographicsContent } from './demographics';
-import { generateFamilyHistoryContent } from './familyHistory';
-import { generateFoodJournalContent } from './foodJournal';
-import { generateHealthInsuranceContent } from './healthInsurance';
-import { generateHealthProvidersContent } from './healthProviders';
-import { generateMedicalEventsContent } from './medicalEvents';
-import { generateMedicationsContent } from './medications';
-import { generateMilitaryHistoryContent } from './militaryHistory';
-import { generateTestEntriesContent } from './testEntries';
-import { generateTreatmentFacilitiesContent } from './treatmentFacilities';
-import { generateVaccinesContent } from './vaccines';
-import { generateVitalsContent } from './vitals';
+import { selfEnteredDocSections } from '../util/constants';
+import { generateActivityJournalContent } from './pdf-helpers/activityJournal';
+import { generateAllergiesContent } from './pdf-helpers/allergies';
+import { generateDemographicsContent } from './pdf-helpers/demographics';
+import { generateFamilyHistoryContent } from './pdf-helpers/familyHistory';
+import { generateFoodJournalContent } from './pdf-helpers/foodJournal';
+import { generateHealthInsuranceContent } from './pdf-helpers/healthInsurance';
+import { generateHealthProvidersContent } from './pdf-helpers/healthProviders';
+import { generateMedicalEventsContent } from './pdf-helpers/medicalEvents';
+import { generateMedicationsContent } from './pdf-helpers/medications';
+import { generateMilitaryHistoryContent } from './pdf-helpers/militaryHistory';
+import { generateTestEntriesContent } from './pdf-helpers/testEntries';
+import { generateTreatmentFacilitiesContent } from './pdf-helpers/treatmentFacilities';
+import { generateVaccinesContent } from './pdf-helpers/vaccines';
+import { generateVitalsContent } from './pdf-helpers/vitals';
 
 export const generateSelfEnteredData = ({
   activityJournal,
@@ -35,8 +35,8 @@ export const generateSelfEnteredData = ({
 
   if (activityJournal) {
     data.push({
-      type: selfEnteredTypes.ACTIVITY_JOURNAL,
-      title: `Self-entered ${selfEnteredTypes.ACTIVITY_JOURNAL}`,
+      type: selfEnteredDocSections.ACTIVITY_JOURNAL,
+      title: `Self-entered ${selfEnteredDocSections.ACTIVITY_JOURNAL}`,
       subtitles: [
         `Showing ${activityJournal.length} records, from newest to oldest`,
       ],
@@ -48,8 +48,8 @@ export const generateSelfEnteredData = ({
 
   if (allergies) {
     data.push({
-      type: selfEnteredTypes.ALLERGIES,
-      title: `Self-entered ${selfEnteredTypes.ALLERGIES}`,
+      type: selfEnteredDocSections.ALLERGIES,
+      title: `Self-entered ${selfEnteredDocSections.ALLERGIES}`,
       subtitles: [
         'Remember to share all information about your allergies with your health care team.',
         `Showing ${allergies.length} records, from newest to oldest`,
@@ -60,8 +60,8 @@ export const generateSelfEnteredData = ({
 
   if (demographics && emergencyContacts) {
     data.push({
-      type: selfEnteredTypes.DEMOGRAPHICS,
-      title: `Self-entered ${selfEnteredTypes.DEMOGRAPHICS}`,
+      type: selfEnteredDocSections.DEMOGRAPHICS,
+      title: `Self-entered ${selfEnteredDocSections.DEMOGRAPHICS}`,
       titleMoveDownAmount: 0,
       titleParagraphGap: 0,
       records: generateDemographicsContent({
@@ -73,8 +73,8 @@ export const generateSelfEnteredData = ({
 
   if (familyHistory) {
     data.push({
-      type: selfEnteredTypes.FAMILY_HISTORY,
-      title: `Self-entered ${selfEnteredTypes.FAMILY_HISTORY}`,
+      type: selfEnteredDocSections.FAMILY_HISTORY,
+      title: `Self-entered ${selfEnteredDocSections.FAMILY_HISTORY}`,
       subtitles: [
         `Showing ${
           familyHistory.length
@@ -88,8 +88,8 @@ export const generateSelfEnteredData = ({
 
   if (foodJournal) {
     data.push({
-      type: selfEnteredTypes.FOOD_JOURNAL,
-      title: `Self-entered ${selfEnteredTypes.FOOD_JOURNAL}`,
+      type: selfEnteredDocSections.FOOD_JOURNAL,
+      title: `Self-entered ${selfEnteredDocSections.FOOD_JOURNAL}`,
       subtitles: [
         `Showing ${foodJournal.length} records, from newest to oldest`,
       ],
@@ -99,8 +99,8 @@ export const generateSelfEnteredData = ({
 
   if (providers) {
     data.push({
-      type: selfEnteredTypes.HEALTH_PROVIDERS,
-      title: `Self-entered ${selfEnteredTypes.HEALTH_PROVIDERS}`,
+      type: selfEnteredDocSections.HEALTH_PROVIDERS,
+      title: `Self-entered ${selfEnteredDocSections.HEALTH_PROVIDERS}`,
       subtitles: [
         `Showing ${providers.length} records, alphabetically by last name`,
       ],
@@ -110,8 +110,8 @@ export const generateSelfEnteredData = ({
 
   if (healthInsurance) {
     data.push({
-      type: selfEnteredTypes.HEALTH_INSURANCE,
-      title: `Self-entered ${selfEnteredTypes.HEALTH_INSURANCE}`,
+      type: selfEnteredDocSections.HEALTH_INSURANCE,
+      title: `Self-entered ${selfEnteredDocSections.HEALTH_INSURANCE}`,
       subtitles: [
         `Showing ${healthInsurance.length} records, alphabetically by name`,
       ],
@@ -123,8 +123,8 @@ export const generateSelfEnteredData = ({
 
   if (testEntries) {
     data.push({
-      type: selfEnteredTypes.TEST_ENTRIES,
-      title: `Self-entered ${selfEnteredTypes.TEST_ENTRIES}`,
+      type: selfEnteredDocSections.TEST_ENTRIES,
+      title: `Self-entered ${selfEnteredDocSections.TEST_ENTRIES}`,
       subtitles: [
         `Showing ${testEntries.length} records, from newest to oldest`,
       ],
@@ -134,8 +134,8 @@ export const generateSelfEnteredData = ({
 
   if (medicalEvents) {
     data.push({
-      type: selfEnteredTypes.MEDICAL_EVENTS,
-      title: `Self-entered ${selfEnteredTypes.MEDICAL_EVENTS}`,
+      type: selfEnteredDocSections.MEDICAL_EVENTS,
+      title: `Self-entered ${selfEnteredDocSections.MEDICAL_EVENTS}`,
       subtitles: [
         `Showing ${
           medicalEvents.length
@@ -149,8 +149,8 @@ export const generateSelfEnteredData = ({
 
   if (medications) {
     data.push({
-      type: selfEnteredTypes.MEDICATIONS,
-      title: `Self-entered ${selfEnteredTypes.MEDICATIONS}`,
+      type: selfEnteredDocSections.MEDICATIONS,
+      title: `Self-entered ${selfEnteredDocSections.MEDICATIONS}`,
       subtitles: [
         `Showing ${medications.length} records, alphabetically by name`,
       ],
@@ -160,8 +160,8 @@ export const generateSelfEnteredData = ({
 
   if (militaryHistory) {
     data.push({
-      type: selfEnteredTypes.MILITARY_HISTORY,
-      title: `Self-entered ${selfEnteredTypes.MILITARY_HISTORY}`,
+      type: selfEnteredDocSections.MILITARY_HISTORY,
+      title: `Self-entered ${selfEnteredDocSections.MILITARY_HISTORY}`,
       subtitles: [
         `Showing ${militaryHistory.length} records, from newest to oldest`,
       ],
@@ -173,8 +173,8 @@ export const generateSelfEnteredData = ({
 
   if (treatmentFacilities) {
     data.push({
-      type: selfEnteredTypes.TREATMENT_FACILITIES,
-      title: `Self-entered ${selfEnteredTypes.TREATMENT_FACILITIES}`,
+      type: selfEnteredDocSections.TREATMENT_FACILITIES,
+      title: `Self-entered ${selfEnteredDocSections.TREATMENT_FACILITIES}`,
       subtitles: [
         `Showing ${treatmentFacilities.length} records, alphabetically by name`,
       ],
@@ -186,8 +186,8 @@ export const generateSelfEnteredData = ({
 
   if (vaccines) {
     data.push({
-      type: selfEnteredTypes.VACCINES,
-      title: `Self-entered ${selfEnteredTypes.VACCINES}`,
+      type: selfEnteredDocSections.VACCINES,
+      title: `Self-entered ${selfEnteredDocSections.VACCINES}`,
       subtitles: [`Showing ${vaccines.length} records, from newest to oldest`],
       records: vaccines.map(record => generateVaccinesContent(record)),
     });
@@ -195,8 +195,8 @@ export const generateSelfEnteredData = ({
 
   if (vitals) {
     data.push({
-      type: selfEnteredTypes.VITALS,
-      title: `Self-entered ${selfEnteredTypes.VITALS}`,
+      type: selfEnteredDocSections.VITALS,
+      title: `Self-entered ${selfEnteredDocSections.VITALS}`,
       records: generateVitalsContent(vitals),
     });
   }
