@@ -149,7 +149,7 @@ describe('<DocumentRequestPage>', () => {
       expect(document.title).to.equal('Document Request | Veterans Affairs');
     });
 
-    it('when component mounts should scroll to breadcrumbs', async () => {
+    it('when component mounts should scroll to h1', async () => {
       const trackedItem = {
         status: 'NEEDED_FROM_YOU',
         displayName: 'Testing',
