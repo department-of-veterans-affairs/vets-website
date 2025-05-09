@@ -25,22 +25,18 @@ const VeteranStatusCard = ({
           <dt className="vads-u-font-weight--bold vads-u-margin-top--1">
             Latest period of service
           </dt>
-          <dd>{latestService}</dd>
-          <div className="vads-u-margin-top--1">
-            <div className="status-card-row">
-              <div>
-                <dt className="vads-u-font-weight--bold">DoD ID Number</dt>
-                <dd>{edipi}</dd>
-              </div>
-              {!!totalDisabilityRating && (
-                <div>
-                  <dt className="vads-u-font-weight--bold">
-                    VA disability rating
-                  </dt>
-                  <dd>{`${totalDisabilityRating}%`}</dd>
-                </div>
-              )}
-            </div>
+          <dd className="vads-u-margin-bottom--1">{latestService}</dd>
+          <div className="vets-status-card-row">
+            <dt className="vads-u-font-weight--bold">DoD ID Number</dt>
+            <dd>{edipi}</dd>
+            {!!totalDisabilityRating && (
+              <>
+                <dt className="vads-u-font-weight--bold">
+                  VA disability rating
+                </dt>
+                <dd>{`${totalDisabilityRating}%`}</dd>
+              </>
+            )}
           </div>
         </dl>
         <small className="vads-u-font-size--sm">
