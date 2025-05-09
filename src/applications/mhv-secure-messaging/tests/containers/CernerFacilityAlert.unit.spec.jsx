@@ -1,4 +1,6 @@
 import React from 'react';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import sinon from 'sinon';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { inbox } from '../fixtures/folder-inbox-response.json';
@@ -84,5 +86,47 @@ describe('Cerner Facility Alert', () => {
       'Some of your secure messages may be in a different portal. To send a secure message to a provider at VA Spokane health care, go to My VA Health.',
     );
     expect(screen.queryByRole('ul')).to.not.exist;
+  });
+
+  it('does not send AAL request when the link is clicked and feature toggle disabled', async () => {
+    const screen = setup(initialStateMock, Paths.INBOX, {
+      facilities: userProfileFacilities.filter(f => f.facilityId === '668'),
+    });
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
+    const link = screen.getByText('Go to My VA Health (opens in new tab)');
+    expect(link).to.exist;
+    const fetchStub = sinon.stub(global, 'fetch').resolves({
+      ok: true,
+      status: 204,
+      json: () => Promise.resolve({}),
+    });
+    fireEvent.click(link);
+    waitFor(() => {
+      expect(fetchStub.calledOnce).to.be.false;
+    });
+  });
+
+  it('sends AAL request when the link is clicked and feature toggle enabled', async () => {
+    const customState = {
+      ...initialStateMock,
+    };
+    customState.featureToggles.mhvSecureMessagingMilestone2AAL = true;
+
+    const screen = setup(customState, Paths.INBOX, {
+      facilities: userProfileFacilities.filter(f => f.facilityId === '668'),
+    });
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
+    const link = screen.getByText('Go to My VA Health (opens in new tab)');
+    expect(link).to.exist;
+    const fetchStub = sinon.stub(global, 'fetch').resolves({
+      ok: true,
+      status: 204,
+      json: () => Promise.resolve({}),
+    });
+    fireEvent.click(link);
+    waitFor(() => {
+      expect(fetchStub.calledOnce).to.be.true;
+      expect(fetchStub.firstCall.args[0]).to.contain('/my_health/v1/aal');
+    });
   });
 });
