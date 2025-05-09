@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
 import { scrollAndFocus } from 'platform/utilities/ui';
+import { setSubmission } from 'platform/forms-system/src/js/actions';
 import Alert from '../components/Alert';
 import GetFormHelp from '../components/GetFormHelp';
 import ProcessList from '../components/ProcessList';
@@ -27,6 +28,15 @@ export const ConfirmationPage = ({ router, route }) => {
   const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
 
+  const dispatch = useDispatch();
+
+  const resetSubmissionStatus = () => {
+    const now = new Date().getTime();
+
+    dispatch(setSubmission('status', false));
+    dispatch(setSubmission('timestamp', now));
+  };
+
   useEffect(() => {
     const h2 = document.querySelector('#submit-steps-header');
     scrollAndFocus(h2);
@@ -42,8 +52,10 @@ export const ConfirmationPage = ({ router, route }) => {
 
   const goBack = e => {
     e.preventDefault();
+    resetSubmissionStatus();
     router.push('/review-and-submit');
   };
+
   const childContent = (
     <div>
       <Alert />
