@@ -6,6 +6,7 @@ const useFeatureToggles = () => {
     featureTogglesLoading,
     isComboBoxEnabled,
     isAalEnabled,
+    readReceiptsEnabled,
   } = useSelector(
     state => {
       return {
@@ -18,12 +19,21 @@ const useFeatureToggles = () => {
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingMilestone2AAL
           ],
+        readReceiptsEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingReadReceipts
+          ],
       };
     },
     state => state.featureToggles,
   );
 
-  return { featureTogglesLoading, isComboBoxEnabled, isAalEnabled };
+  return {
+    featureTogglesLoading,
+    isComboBoxEnabled,
+    readReceiptsEnabled,
+    isAalEnabled,
+  };
 };
 
 export default useFeatureToggles;
