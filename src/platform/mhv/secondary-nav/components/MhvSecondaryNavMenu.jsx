@@ -13,7 +13,7 @@ import MhvSecondaryNavItem from './MhvSecondaryNavItem';
  * @property {Object[]} items the list of items to display in the navigation bar
  * @returns the navigation bar
  */
-const MhvSecondaryNavMenu = ({ items, loading }) => {
+const MhvSecondaryNavMenu = ({ items }) => {
   /**
    * Strip the trailing slash in a path if it exists.
    * @param {String} path the path
@@ -63,7 +63,6 @@ const MhvSecondaryNavMenu = ({ items, loading }) => {
       className={classNames(
         'vads-u-background-color--primary',
         'vads-u-color--white',
-        { 'vads-u-visibility--hidden': loading },
       )}
       aria-label="My HealtheVet"
     >
