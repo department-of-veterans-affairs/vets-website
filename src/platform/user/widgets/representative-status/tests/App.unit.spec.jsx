@@ -86,7 +86,7 @@ describe('App component', () => {
     });
 
     it('should render error message when rep api fails', async () => {
-      const MockCheckUsersRep = ({ DynamicHeader }) => (
+      const MockRepresentativeStatusContainer = ({ DynamicHeader }) => (
         <va-alert status="error" visible uswds>
           <DynamicHeader slot="headline">
             We can’t check if you have an accredited representative.
@@ -103,8 +103,11 @@ describe('App component', () => {
       );
 
       sandbox
-        .stub(require('../components/CheckUsersRep'), 'CheckUsersRep')
-        .value(MockCheckUsersRep);
+        .stub(
+          require('../containers/RepresentativeStatusContainer'),
+          'RepresentativeStatusContainer',
+        )
+        .value(MockRepresentativeStatusContainer);
 
       server.use(
         rest.get(

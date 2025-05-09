@@ -46,11 +46,9 @@ export const arrayBuilderOptions = {
       return convertPercentageToText(percent);
     },
     summaryTitle: props =>
-      location?.pathname.includes('review-and-submit')
-        ? ''
-        : `Review your ${
-            props?.formData?.programs.length > 1 ? 'programs' : 'program'
-          }`,
+      `Review your ${
+        props?.formData?.programs.length > 1 ? 'programs' : 'program'
+      }`,
   },
 };
 
@@ -132,6 +130,7 @@ const formConfig = {
     date,
   },
   transformForSubmit: transform,
+  useCustomScrollAndFocus: true,
   chapters: {
     institutionDetailsChapter: {
       title: 'Identifying details',

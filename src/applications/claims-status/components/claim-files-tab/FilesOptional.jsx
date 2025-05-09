@@ -32,7 +32,7 @@ function FilesOptional({ item }) {
             aria-label={`About this notice for ${item.friendlyName ||
               item.displayName}`}
             className="add-your-claims-link"
-            to={`../document-request/${item.id}`}
+            to={`../needed-from-others/${item.id}`}
           >
             About this notice
           </Link>
