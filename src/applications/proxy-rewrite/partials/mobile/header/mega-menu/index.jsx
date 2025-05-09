@@ -125,9 +125,9 @@ const MegaMenu = ({
       >
         <a
           className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--3 vads-u-color--white vads-u-width--full"
-          href="https://www.va.gov/find-locations"
+          href={sectionData?.hrefInjectedHeader || sectionData?.href}
         >
-          Find a VA Location
+          {sectionData.title}
         </a>
       </li>
     );
