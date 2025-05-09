@@ -5,14 +5,14 @@ describe('fullNamePath', () => {
   it('should be `veteranFullName` when applicant is veteran', () => {
     expect(
       formConfig.preSubmitInfo.statementOfTruth.fullNamePath({
-        'view:applicantIsVeteran': true,
+        claimantType: 'VETERAN',
       }),
     ).to.equal('veteranFullName');
   });
   it('should be `claimantFullName` when applicant is not veteran', () => {
     expect(
       formConfig.preSubmitInfo.statementOfTruth.fullNamePath({
-        'view:applicantIsVeteran': false,
+        claimantType: 'SPOUSE',
       }),
     ).to.equal('claimantFullName');
   });

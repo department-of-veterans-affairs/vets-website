@@ -1,37 +1,37 @@
 import testData from '../../../e2e/fixtures/data/test-data.json';
 
 import formConfig from '../../../../config/form';
-import veteranInformation from '../../../../config/chapters/01-veteran-information/veteranInformation';
+import claimantInformation from '../../../../config/chapters/01-veteran-and-claimant-information/claimantInformation';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
-const { schema, uiSchema } = veteranInformation;
+const { schema, uiSchema } = claimantInformation;
 
-describe('income and asset veteran information page', () => {
+describe('income and asset claimant information page', () => {
   testNumberOfFieldsByType(
     formConfig,
     schema,
     uiSchema,
     {
-      'va-text-input': 5,
+      'va-text-input': 4,
     },
-    'veteran information',
+    'claimant information',
   );
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
     3,
-    'veteran information',
+    'claimant information',
   );
   testSubmitsWithoutErrors(
     formConfig,
     schema,
     uiSchema,
-    'veteran information',
+    'claimant information',
     testData.data,
     { loggedIn: true },
   );

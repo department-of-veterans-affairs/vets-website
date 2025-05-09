@@ -1,7 +1,7 @@
 import {
   radioUI,
   radioSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '~/platform/forms-system/src/js/web-component-patterns';
 import { claimantTypeLabels } from '../../../labels';
 
 /** @type {PageSchema} */
@@ -10,18 +10,16 @@ export default {
   path: 'claimant/type',
   uiSchema: {
     claimantType: radioUI({
-      title: 'What is the type of claimant?',
+      title: 'Which of these best describes you?',
+      labelHeaderLevel: '4',
       labels: claimantTypeLabels,
-      errorMessages: {
-        required: 'Please select a type',
-      },
     }),
   },
   schema: {
     type: 'object',
-    required: ['claimantType'],
     properties: {
       claimantType: radioSchema(Object.keys(claimantTypeLabels)),
     },
+    required: ['claimantType'],
   },
 };

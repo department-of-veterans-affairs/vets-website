@@ -18,11 +18,11 @@ export const transferMethodLabels = {
 };
 
 export const claimantTypeLabels = {
-  VETERAN: 'Veteran',
-  SPOUSE: 'Surviving spouse',
-  CHILD: 'Surviving child',
-  PARENT: 'Parent',
-  CUSTODIAN: 'Custodian of child beneficiary',
+  VETERAN: "I'm a Veteran submitting this form to support my own claim",
+  SPOUSE: "I'm the Veteran's surviving spouse",
+  CHILD: "I'm the Veteran's surviving child",
+  CUSTODIAN: "I'm the custodian of a Veteran's surviving child",
+  PARENT: "I'm the Veteran's surviving parent",
 };
 
 export const incomeFrequencyLabels = {
