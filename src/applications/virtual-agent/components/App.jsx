@@ -8,10 +8,13 @@ import WebChat from './WebChat';
 export default function App(props) {
   // Default to complete because when feature toggles are loaded we assume paramLoadingStatus is complete and will error out otherwise
   const [paramLoadingStatus, setParamLoadingStatus] = useState(COMPLETE);
-  const { token, webChatFramework, loadingStatus, apiSession } = useWebChat(
-    props,
-    paramLoadingStatus,
-  );
+  const {
+    token,
+    code,
+    webChatFramework,
+    loadingStatus,
+    apiSession,
+  } = useWebChat(props, paramLoadingStatus);
 
   switch (loadingStatus) {
     case ERROR:
@@ -22,6 +25,7 @@ export default function App(props) {
       return (
         <WebChat
           token={token}
+          code={code}
           webChatFramework={webChatFramework}
           apiSession={apiSession}
           setParamLoadingStatus={setParamLoadingStatus}
