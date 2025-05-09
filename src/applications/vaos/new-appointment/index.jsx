@@ -29,7 +29,6 @@ import ClinicChoicePage from './components/ClinicChoicePage';
 import ProviderSelectPage from './components/ProviderSelectPage';
 import ReasonForAppointmentPage from './components/ReasonForAppointmentPage';
 import ReviewPage from './components/ReviewPage';
-import ConfirmationPage from './components/ConfirmationPage';
 import TypeOfFacilityPage from './components/TypeOfFacilityPage';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
@@ -160,9 +159,6 @@ export function NewAppointment() {
           ]}
         >
           <ReviewPage />
-        </Route>
-        <Route path={`${match.url}/confirmation`}>
-          <ConfirmationPage />
         </Route>
         <Route path={match.url}>
           <TypeOfCarePage />
