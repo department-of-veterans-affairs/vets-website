@@ -67,7 +67,7 @@ describe('EpsAppointmentDetailsPage', () => {
       .returns({ type: 'SET_FORM_CURRENT_PAGE' });
     sandbox
       .stub(actionsModule, 'fetchAppointmentInfo')
-      .returns({ type: 'FETCH_APPOINTMENT_INFO' });
+      .returns(referralAppointmentInfo);
   });
 
   afterEach(() => {
@@ -79,7 +79,6 @@ describe('EpsAppointmentDetailsPage', () => {
       store: createTestStore(initialState),
       path: `/${appointmentId}`,
     });
-
     expect(actionsModule.setFormCurrentPage.calledWith('details')).to.be.true;
   });
 
@@ -142,12 +141,15 @@ describe('EpsAppointmentDetailsPage', () => {
   });
 
   it('should render error alert when there is an error', () => {
-    const container = renderWithStoreAndRouter(<EpsAppointmentDetailsPage />, {
-      store: createTestStore(errorState),
-      path: `/${appointmentId}`,
-    });
+    const { getByTestId } = renderWithStoreAndRouter(
+      <EpsAppointmentDetailsPage />,
+      {
+        store: createTestStore(errorState),
+        path: `/${appointmentId}`,
+      },
+    );
 
-    expect(container.getByTestId('error-alert')).to.exist;
+    expect(getByTestId('error-alert')).to.exist;
   });
 
   it('should render appointment details when appointment is loaded', () => {
@@ -246,12 +248,14 @@ describe('EpsAppointmentDetailsPage', () => {
       },
     };
 
-    const container = renderWithStoreAndRouter(<EpsAppointmentDetailsPage />, {
-      store: createTestStore(stateWithPhone),
-      path: `/${appointmentId}`,
-    });
-
+    const { getByTestId } = renderWithStoreAndRouter(
+      <EpsAppointmentDetailsPage />,
+      {
+        store: createTestStore(stateWithPhone),
+        path: `/${appointmentId}`,
+      },
+    );
     // FacilityPhone component should be rendered
-    expect(container.getByTestId('facility-telephone')).to.exist;
+    expect(getByTestId('facility-telephone')).to.exist;
   });
 });
