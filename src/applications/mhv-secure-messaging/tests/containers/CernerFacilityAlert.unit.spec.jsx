@@ -3,6 +3,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import sinon from 'sinon';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { inbox } from '../fixtures/folder-inbox-response.json';
 import messageResponse from '../fixtures/message-response.json';
 import folderList from '../fixtures/folder-response.json';
@@ -101,7 +102,7 @@ describe('Cerner Facility Alert', () => {
       json: () => Promise.resolve({}),
     });
     fireEvent.click(link);
-    waitFor(() => {
+    await waitFor(() => {
       expect(fetchStub.calledOnce).to.be.false;
     });
   });
@@ -110,7 +111,9 @@ describe('Cerner Facility Alert', () => {
     const customState = {
       ...initialStateMock,
     };
-    customState.featureToggles.mhvSecureMessagingMilestone2AAL = true;
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingMilestone2AAL
+    ] = true;
 
     const screen = setup(customState, Paths.INBOX, {
       facilities: userProfileFacilities.filter(f => f.facilityId === '668'),
@@ -124,9 +127,13 @@ describe('Cerner Facility Alert', () => {
       json: () => Promise.resolve({}),
     });
     fireEvent.click(link);
-    waitFor(() => {
+    await waitFor(() => {
       expect(fetchStub.calledOnce).to.be.true;
-      expect(fetchStub.firstCall.args[0]).to.contain('/my_health/v1/aal');
     });
+    expect(fetchStub.firstCall.args[0]).to.contain('/my_health/v1/aal');
+    expect(fetchStub.firstCall.args[1].method).to.equal('POST');
+    expect(fetchStub.firstCall.args[1].body).to.equal(
+      '{"aal":{"activityType":"Messaging","action":"Launch My VA Health","performerType":"Self","status":"1"},"product":"sm"}',
+    );
   });
 });
