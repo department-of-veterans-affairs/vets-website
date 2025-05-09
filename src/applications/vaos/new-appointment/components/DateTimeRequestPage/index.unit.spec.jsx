@@ -15,7 +15,7 @@ import {
 } from 'date-fns';
 import { Route } from 'react-router-dom';
 import DateTimeRequestPage from '.';
-import { createMockFacility } from '../../../tests/mocks/data';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import {
   mockFacilitiesApi,
@@ -459,14 +459,9 @@ describe('VAOS Page: DateTimeRequestPage', () => {
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        response: [
-          createMockFacility({
-            id: '983',
-          }),
-          createMockFacility({
-            id: '984',
-          }),
-        ],
+        response: MockFacilityResponse.createResponses({
+          facilityIds: ['983', '984'],
+        }),
       });
       mockSchedulingConfigurationsApi({
         isCCEnabled: true,

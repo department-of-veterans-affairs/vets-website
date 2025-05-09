@@ -5,8 +5,8 @@ import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import React from 'react';
 import CommunityCareProviderSelectionPage from '.';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import { CC_PROVIDERS_DATA } from '../../../tests/mocks/cc_providers_data';
-import { createMockFacility } from '../../../tests/mocks/data';
 import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import {
   mockCCEligibilityApi,
@@ -47,6 +47,13 @@ const initialState = {
 };
 
 describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
+  const facility = new MockFacilityResponse({
+    id: '983',
+    name: 'Facility that is enabled',
+  })
+    .setLatitude(38.5615)
+    .setLongitude(122.9988);
+
   beforeEach(() => {
     mockFetch();
     mockCCEligibilityApi({ serviceType: 'PrimaryCare' });
@@ -63,17 +70,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     mockFacilitiesApi({
       children: true,
       ids: ['983'],
-      response: [
-        createMockFacility({
-          id: '983',
-          address: {
-            line: [],
-            city: 'Belgrade',
-          },
-          lat: 38.5615,
-          long: 122.9988,
-        }),
-      ],
+      response: [facility],
     });
     mockSchedulingConfigurationsApi({
       isCCEnabled: true,

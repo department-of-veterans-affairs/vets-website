@@ -12,7 +12,7 @@ import {
   setTypeOfCare,
 } from '../../tests/mocks/setup';
 
-import { createMockFacility } from '../../tests/mocks/data';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
 import {
   mockFacilitiesApi,
@@ -126,11 +126,7 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     });
     mockFacilitiesApi({
       children: true,
-      response: [
-        createMockFacility({
-          id: '983',
-        }),
-      ],
+      response: [new MockFacilityResponse({ id: '983' })],
     });
 
     const store = createTestStore(initialState);

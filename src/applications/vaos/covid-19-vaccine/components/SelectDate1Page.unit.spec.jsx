@@ -28,6 +28,7 @@ import {
 } from '../../tests/mocks/mockApis';
 import { TYPE_OF_CARE_ID } from '../utils';
 import SelectDate1Page from './SelectDate1Page';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 
 const initialState = {
   featureToggles: {
@@ -70,7 +71,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /green team/i);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -115,7 +116,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /green team/i);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -206,7 +207,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /green team/i);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -301,7 +302,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /green team/i);
 
     const screen = renderWithStoreAndRouter(<SelectDate1Page />, {
@@ -378,7 +379,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /Green team/i);
 
     // First pass check to make sure the slots associated with green team are displayed

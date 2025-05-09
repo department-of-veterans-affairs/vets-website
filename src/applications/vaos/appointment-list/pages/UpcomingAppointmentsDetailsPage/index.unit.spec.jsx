@@ -54,8 +54,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       });
 
       mockFacilityApi({
-        id: 983,
-        response: new MockFacilityResponse({ id: 983 }),
+        id: '983',
+        response: new MockFacilityResponse({ id: '983' }),
       });
 
       // Act
@@ -90,8 +90,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       });
 
       mockFacilityApi({
-        id: 983,
-        response: new MockFacilityResponse({ id: 983 }),
+        id: '983',
+        response: new MockFacilityResponse({ id: '983' }),
       });
 
       // Act
@@ -138,8 +138,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       });
 
       mockFacilityApi({
-        id: 983,
-        response: new MockFacilityResponse({ id: 983 }),
+        id: '983',
+        response: new MockFacilityResponse({ id: '983' }),
       });
 
       // Act
@@ -173,8 +173,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         mockFacilityApi({
-          id: 983,
-          response: new MockFacilityResponse({ id: 983 }),
+          id: '983',
+          response: new MockFacilityResponse({ id: '983' }),
         });
 
         // Act
@@ -208,8 +208,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         mockFacilityApi({
-          id: 983,
-          response: new MockFacilityResponse({ id: 983 }),
+          id: '983',
+          response: new MockFacilityResponse({ id: '983' }),
         });
 
         // Act
@@ -243,8 +243,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         mockFacilityApi({
-          id: 983,
-          response: new MockFacilityResponse({ id: 983 }),
+          id: '983',
+          response: new MockFacilityResponse({ id: '983' }),
         });
 
         // Act
@@ -277,8 +277,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         mockFacilityApi({
-          id: 983,
-          response: new MockFacilityResponse({ id: 983 }),
+          id: '983',
+          response: new MockFacilityResponse({ id: '983' }),
         });
 
         // Act
@@ -312,8 +312,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         mockFacilityApi({
-          id: 983,
-          response: new MockFacilityResponse({ id: 983 }),
+          id: '983',
+          response: new MockFacilityResponse({ id: '983' }),
         });
 
         // Act
@@ -347,8 +347,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         mockFacilityApi({
-          id: 983,
-          response: new MockFacilityResponse({ id: 983 }),
+          id: '983',
+          response: new MockFacilityResponse({ id: '983' }),
         });
 
         // Act
@@ -381,8 +381,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         mockFacilityApi({
-          id: 983,
-          response: new MockFacilityResponse({ id: 983 }),
+          id: '983',
+          response: new MockFacilityResponse({ id: '983' }),
         });
 
         // Act
@@ -416,8 +416,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         mockFacilityApi({
-          id: 983,
-          response: new MockFacilityResponse({ id: 983 }),
+          id: '983',
+          response: new MockFacilityResponse({ id: '983' }),
         });
 
         // Act
@@ -451,8 +451,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         mockFacilityApi({
-          id: 983,
-          response: new MockFacilityResponse({ id: 983 }),
+          id: '983',
+          response: new MockFacilityResponse({ id: '983' }),
         });
 
         // Act
@@ -488,8 +488,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
           });
 
           mockFacilityApi({
-            id: 983,
-            response: new MockFacilityResponse({ id: 983 }),
+            id: '983',
+            response: new MockFacilityResponse({ id: '983' }),
           });
 
           // Act
@@ -524,8 +524,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
           });
 
           mockFacilityApi({
-            id: 983,
-            response: new MockFacilityResponse({ id: 983 }),
+            id: '983',
+            response: new MockFacilityResponse({ id: '983' }),
           });
 
           // Act

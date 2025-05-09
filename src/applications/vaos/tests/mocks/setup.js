@@ -31,7 +31,7 @@ import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityP
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import { vaosApi } from '../../redux/api/vaosApi';
 import { TYPES_OF_CARE } from '../../utils/constants';
-import { createMockFacility } from './data';
+import MockFacilityResponse from '../fixtures/MockFacilityResponse';
 import { getSchedulingConfigurationMock } from './mock';
 import {
   mockFacilitiesApi,
@@ -222,10 +222,7 @@ export async function setVAFacility(
   // const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
   const facilities = [
-    facilityData ||
-      createMockFacility({
-        id: facilityId,
-      }),
+    facilityData || new MockFacilityResponse({ id: facilityId }),
   ];
 
   mockFacilitiesApi({ children: true, response: facilities });
@@ -259,16 +256,11 @@ export async function setVAFacility(
  * @param {string} facilityId The facility id of the facility to be selected
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setVaccineFacility(store, facilityId, facilityData = {}) {
+export async function setVaccineFacility(store, facilityData = {}) {
   // TODO: Make sure this works in staging before removal
   // const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
-  const facilities = [
-    createMockFacility({
-      id: facilityId,
-      ...facilityData,
-    }),
-  ];
+  const facilities = [facilityData];
 
   mockFacilitiesApi({ children: true, response: facilities });
   mockSchedulingConfigurationsApi({
@@ -426,9 +418,14 @@ export async function setCommunityCareFlow({
 
   mockFacilitiesApi({
     ids: registered,
-    response: parentSites.map(data =>
-      createMockFacility({ ...data, isParent: true }),
-    ),
+    response: parentSites.map(data => {
+      const facility = new MockFacilityResponse({
+        id: data.id,
+        isParent: true,
+      });
+      if (data.address) facility.setAddress(data.address);
+      return facility;
+    }),
   });
   mockV2CommunityCareEligibility({
     parentSites: parentSites.map(data => data.id),

@@ -18,7 +18,7 @@ import {
 
 import ReviewPage from '.';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
-import { createMockCheyenneFacility } from '../../../tests/mocks/data';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import {
   mockAppointmentSubmitApi,
   mockFacilityApi,
@@ -54,7 +54,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
           preferredDate: '2021-05-06',
         },
         facilityDetails: {
-          '983': {
+          983: {
             id: '983',
             name: 'Cheyenne VA Medical Center',
             address: {
@@ -66,7 +66,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
           },
         },
         facilities: {
-          '323': [
+          323: [
             {
               id: '983',
               name: 'Cheyenne VA Medical Center',
@@ -202,7 +202,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
   it('should show error message on failure', async () => {
     mockFacilityApi({
-      response: createMockCheyenneFacility({}),
+      response: new MockFacilityResponse(),
     });
 
     setFetchJSONFailure(

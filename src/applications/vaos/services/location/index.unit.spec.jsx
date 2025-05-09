@@ -12,7 +12,7 @@ import {
   getLocations,
   getLocationsByTypeOfCareAndSiteIds,
 } from '.';
-import { createMockFacility } from '../../tests/mocks/data';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
 import {
   mockFacilitiesApi,
@@ -106,13 +106,8 @@ describe('VAOS Services: Location ', () => {
       mockFacilitiesApi({
         children: true,
         response: [
-          createMockFacility({
-            id: '983',
-            name: 'Cheyenne VA Medical Center',
-          }),
-          createMockFacility({
-            id: '984',
-          }),
+          new MockFacilityResponse(),
+          new MockFacilityResponse({ id: '984' }),
         ],
       });
       mockSchedulingConfigurationsApi({

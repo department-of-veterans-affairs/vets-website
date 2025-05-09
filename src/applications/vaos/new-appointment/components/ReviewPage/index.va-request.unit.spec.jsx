@@ -19,7 +19,7 @@ import { FACILITY_TYPES } from '../../../utils/constants';
 
 import ReviewPage from '.';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
-import { createMockCheyenneFacility } from '../../../tests/mocks/data';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import {
   mockAppointmentSubmitApi,
   mockFacilityApi,
@@ -209,7 +209,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     store = createTestStore(defaultState);
     mockFacilityApi({
       id: ['983'],
-      response: createMockCheyenneFacility({}),
+      response: new MockFacilityResponse(),
       responseCode: 404,
     });
     setFetchJSONFailure(
