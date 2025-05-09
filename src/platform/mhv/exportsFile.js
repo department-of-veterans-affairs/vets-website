@@ -9,7 +9,11 @@ export {
 } from './secondary-nav/containers/MhvSecondaryNav';
 export { default as MhvPageNotFound } from './components/MhvPageNotFound';
 export { renderMHVDowntime } from './downtime';
-export { useDatadogRum, setDatadogRumUser } from './hooks/useDatadogRum';
+export {
+  useDatadogRum,
+  setDatadogRumUser,
+  addUserProperties,
+} from './hooks/useDatadogRum';
 export { default as usePrintTitle } from './hooks/usePrintTitle';
 export {
   formatName,

@@ -2,14 +2,25 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
+
 import { clearThread } from '../actions/threadDetails';
+import { getListOfThreads } from '../actions/threads';
+import { closeAlert } from '../actions/alerts';
+import { getPatientSignature } from '../actions/preferences';
 import { retrieveMessageThread } from '../actions/messages';
+
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
-import { closeAlert } from '../actions/alerts';
-import { PageTitles, Paths, BlockedTriageAlertStyles } from '../util/constants';
-import { getPatientSignature } from '../actions/preferences';
+import {
+  PageTitles,
+  Paths,
+  BlockedTriageAlertStyles,
+  DefaultFolders,
+} from '../util/constants';
+import { getRecentMessages } from '../util/threads';
+import { getUniqueTriageGroups } from '../util/recipients';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -17,6 +28,10 @@ const Compose = () => {
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
   const signature = useSelector(state => state.sm.preferences.signature);
   const { noAssociations } = useSelector(state => state.sm.recipients);
+
+  const threadSort = useSelector(state => state.sm.threads.threadSort);
+  const { threadList, isLoading } = useSelector(state => state.sm.threads);
+
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
   const { allTriageGroupsBlocked } = recipients;
@@ -89,6 +104,41 @@ const Compose = () => {
     },
     [header, acknowledged, pageTitle],
   );
+  // make sure the thread list is fetched when navigating to the compose page
+  useEffect(
+    () => {
+      if (!threadList || threadList.length === 0) {
+        dispatch(
+          getListOfThreads(
+            DefaultFolders.SENT.id,
+            100,
+            threadSort.page,
+            threadSort.value,
+            false,
+          ),
+        );
+      }
+    },
+    [dispatch, threadList, threadSort.page, threadSort.value],
+  );
+
+  useEffect(
+    () => {
+      if (threadList?.length > 0 && !isLoading && recipients) {
+        const groups = getUniqueTriageGroups(threadList);
+        const recentMessages = getRecentMessages(threadList);
+        const dataForDataDog = {
+          allowedSMRecipients: recipients.allowedRecipients.length,
+          countOfSentMessagesInTheLastSixMonths: recentMessages.length || 0,
+          uniqueRecentTriageGroups: groups.length,
+        };
+        addUserProperties({
+          ...dataForDataDog,
+        });
+      }
+    },
+    [threadList, isLoading, recipients],
+  );
 
   const content = () => {
     if (!isDraftPage && recipients) {
@@ -122,7 +172,7 @@ const Compose = () => {
 
   return (
     <>
-      {!draftType && (
+      {(!draftType || isLoading || allTriageGroupsBlocked === undefined) && (
         <va-loading-indicator
           message="Loading your secure message..."
           setFocus
