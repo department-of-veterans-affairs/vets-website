@@ -11,15 +11,12 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
-} from '@department-of-veterans-affairs/mhv/exports';
-import {
   formatNameFirstLast,
-  generateTextFile,
   getNameDateAndTime,
   makePdf,
-  processList,
   formatUserDob,
-} from '../util/helpers';
+} from '@department-of-veterans-affairs/mhv/exports';
+import { generateTextFile, processList } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
   getConditionDetails,

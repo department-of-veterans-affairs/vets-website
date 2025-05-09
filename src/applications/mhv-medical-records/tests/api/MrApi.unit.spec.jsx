@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import Sinon from 'sinon';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { edipiNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import labsAndTests from '../fixtures/labsAndTests.json';
 import pathology from '../fixtures/pathology.json';
 import notes from '../fixtures/notes.json';
@@ -24,8 +25,6 @@ const militaryService = fs.readFileSync(
   'src/applications/mhv-medical-records/tests/fixtures/blueButton/military-service.txt',
   'utf8',
 );
-
-import edipiNotFound from '../../util/edipiNotFound';
 
 import {
   getAllergies,

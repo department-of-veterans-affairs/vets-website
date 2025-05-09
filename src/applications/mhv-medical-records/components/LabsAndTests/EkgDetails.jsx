@@ -8,16 +8,13 @@ import {
   updatePageTitle,
   txtLine,
   usePrintTitle,
+  getNameDateAndTime,
+  makePdf,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import {
-  generateTextFile,
-  getNameDateAndTime,
-  makePdf,
-  sendDataDogAction,
-} from '../../util/helpers';
+import { generateTextFile, sendDataDogAction } from '../../util/helpers';
 
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';

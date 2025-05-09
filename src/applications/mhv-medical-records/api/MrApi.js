@@ -1,7 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { edipiNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
-import edipiNotFound from '../util/edipiNotFound';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
