@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'platform/utilities/data/debounce';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { updateLayoutHeaderType } from 'platform/site-wide/layout/actions';
 import { useSelector, useDispatch } from 'react-redux';
-import MobileHeader from '../Header';
+import { Header as MobileHeader } from '../Header';
 import {
   hideDesktopHeader,
   showDesktopHeader,
   toggleMinimalHeader,
 } from '../../helpers';
+import MY_VA_LINK from '../../../mega-menu/constants/MY_VA_LINK';
+import MY_HEALTH_LINK from '../../../mega-menu/constants/MY_HEALTH_LINK';
 
 const MOBILE_BREAKPOINT_PX = 768;
 
@@ -60,6 +63,8 @@ export const App = ({
 }) => {
   const dispatch = useDispatch();
   const path = useSelector(state => state?.navigation?.route?.path);
+  const featureToggles = useSelector(state => toggleValues(state));
+  const featureToggleMhvHeaderLinks = featureToggles.mhvHeaderLinks;
   const [headerState, setHeaderState] = useState(null);
   const [isDesktop, setIsDesktop] = useState(
     window.innerWidth >= MOBILE_BREAKPOINT_PX,
@@ -101,6 +106,11 @@ export const App = ({
 
   if (!show || headerState !== 'mobile') {
     return null;
+  }
+
+  // Use feature toggle to conditionally add links
+  if (featureToggleMhvHeaderLinks) {
+    megaMenuData.push(MY_VA_LINK, MY_HEALTH_LINK);
   }
 
   return (
