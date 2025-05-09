@@ -43,10 +43,6 @@ describe('App component', () => {
   setupAvailableFormsResponse(server, 200, goodAvailableFormsResponse);
 
   const unauthenticatedState = {
-    featureToggles: {
-      loading: false,
-      showDigitalForm1095b: true,
-    },
     user: {
       login: {
         currentlyLoggedIn: false,
@@ -59,10 +55,6 @@ describe('App component', () => {
     },
   };
   const unverifiedState = {
-    featureToggles: {
-      loading: false,
-      showDigitalForm1095b: true,
-    },
     user: {
       login: {
         currentlyLoggedIn: true,
@@ -78,10 +70,6 @@ describe('App component', () => {
     },
   };
   const authedAndVerifiedState = {
-    featureToggles: {
-      loading: false,
-      showDigitalForm1095b: true,
-    },
     user: {
       login: {
         currentlyLoggedIn: true,
@@ -214,36 +202,6 @@ describe('App component', () => {
         });
         await waitFor(() => {
           expect(queryByText('System error')).to.exist;
-        });
-      });
-    });
-
-    describe('when the feature flag is off', () => {
-      it('renders an "unavailable" messsage', async () => {
-        const testState = {
-          ...authedAndVerifiedState,
-          featureToggles: {
-            ...authedAndVerifiedState.featureToggles,
-            showDigitalForm1095b: false,
-          },
-          user: {
-            ...authedAndVerifiedState.user,
-            profile: {
-              ...authedAndVerifiedState.user.profile,
-              loading: false,
-            },
-          },
-        };
-        const { queryByText } = renderWithProvider(testState);
-        await waitFor(() => {
-          expect(queryByText('Loading')).not.to.exist;
-        });
-        await waitFor(() => {
-          expect(
-            queryByText(
-              'Your 1095-B form isn’t available to download right now',
-            ),
-          ).to.exist;
         });
       });
     });
