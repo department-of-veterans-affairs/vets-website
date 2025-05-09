@@ -169,7 +169,6 @@ const recipientNamePage = {
     properties: {
       recipientName: fullNameNoSuffixSchema,
     },
-    required: ['recipientName'],
   },
 };
 
