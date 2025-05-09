@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-export function IntroductionProcessList({ showTextUpdate }) {
+export const IntroductionProcessList = ({ showTextUpdate }) => {
   if (showTextUpdate) {
     return (
       <va-process-list>
@@ -106,7 +106,6 @@ export function IntroductionProcessList({ showTextUpdate }) {
     );
   }
 
-  // Original list
   return (
     <va-process-list>
       <va-process-list-item header="Check your eligibility">
@@ -167,7 +166,7 @@ export function IntroductionProcessList({ showTextUpdate }) {
       </va-process-list-item>
     </va-process-list>
   );
-}
+};
 
 IntroductionProcessList.propTypes = {
   showTextUpdate: PropTypes.bool.isRequired,
