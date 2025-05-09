@@ -8,6 +8,10 @@ flow:
 
     - action: include
       target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
       value: select-category-life-insurance
 
     - action: include
@@ -22,13 +26,10 @@ flow:
       target: page
       value: what-is-your-relationship-to-the-veteran-veteran
 
-    - action: include
-      target: page
-      value: tell-us-about-yourself
 
     - action: include
       target: page
-      value: your-contact-information-email-no-prefill-life-insurance
+      value: your-contact-information
 
     - action: include
       target: page

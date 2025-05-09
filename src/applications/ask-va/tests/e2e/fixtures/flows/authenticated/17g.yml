@@ -8,6 +8,10 @@ flow:
 
     - action: include
       target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
       value: select-category-burials-and-memorials
 
     - action: include
@@ -17,14 +21,6 @@ flow:
     - action: include
       target: page
       value: who-is-your-question-about-general-question
-
-    - action: include
-      target: page
-      value: tell-us-about-yourself-general-empty
-
-    - action: include
-      target: page
-      value: tell-us-about-yourself-general
 
     - action: include
       target: page

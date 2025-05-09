@@ -5,6 +5,10 @@ flow:
     - action: include
       target: page
       value: start-your-question-auth
+  
+    - action: include
+      target: page
+      value: your-personal-information
 
     - action: include
       target: page
@@ -17,7 +21,6 @@ flow:
     - action: include
       target: page
       value: who-is-your-question-about-myself
-
 
     - action: include
       target: page
@@ -37,10 +40,6 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-you
-
-    - action: include
-      target: page
       value: school-information
 
     - action: include
@@ -49,11 +48,11 @@ flow:
 
     - action: include
       target: page
-      value: your-contact-information-us-mail-no-prefill
+      value: your-contact-information-radio-buttons-us-mail
 
     - action: include
       target: page
-      value: your-us-mailing-address-no-prefill
+      value: your-us-mailing-address
 
     - action: include
       target: page

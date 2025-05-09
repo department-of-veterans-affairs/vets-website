@@ -2,6 +2,7 @@
 
 import YAML from 'yaml';
 import mockUser from './fixtures/user.json';
+import mockXX123Get from './fixtures/userAVAProfile.json';
 
 import interceptAskVaResponses from './fixtures/api-mocks-for-ask-va';
 import interceptVaGovResponses from './fixtures/api-mocks-for-va-gov';
@@ -152,12 +153,14 @@ describe('YAML tests', () => {
         intercept3rdPartyResponses();
 
         // Intercept the user API request and log in
-        cy.intercept('GET', `/avs/v0/avs/*`, mockUser);
+        cy.intercept('GET', `/v0/user`, mockUser);
         // cy.login();
         // cy.clearAllCookies();
 
         // TODO: This should be in the interceptAskVaResponses function -- Joe
         cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
+
+        cy.intercept('GET', '/v0/in_progress_forms/0873', mockXX123Get);
       });
 
       for (const path of paths) {
@@ -178,7 +181,7 @@ describe('YAML tests', () => {
               let flowYML = EMPTY_FLOW_YML;
 
               if (path === 'authenticated') {
-                cy.login();
+                cy.login(mockUser);
               } else {
                 cy.clearAllCookies();
               }
