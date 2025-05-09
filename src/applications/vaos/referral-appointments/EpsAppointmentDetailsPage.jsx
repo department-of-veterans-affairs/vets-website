@@ -25,11 +25,9 @@ export default function EpsAppointmentDetailsPage() {
 
   const {
     appointmentInfoError,
-    appointmentInfoTimeout,
     appointmentInfoLoading,
     referralAppointmentInfo,
   } = useSelector(getReferralAppointmentInfo);
-
   useEffect(
     () => {
       dispatch(setFormCurrentPage('details'));
@@ -40,7 +38,6 @@ export default function EpsAppointmentDetailsPage() {
     () => {
       if (
         !appointmentInfoError &&
-        !appointmentInfoTimeout &&
         !appointmentInfoLoading &&
         !referralAppointmentInfo?.attributes
       ) {
@@ -51,12 +48,11 @@ export default function EpsAppointmentDetailsPage() {
       dispatch,
       appointmentId,
       appointmentInfoError,
-      appointmentInfoTimeout,
       appointmentInfoLoading,
       referralAppointmentInfo,
     ],
   );
-  if (appointmentInfoError || appointmentInfoTimeout) {
+  if (appointmentInfoError) {
     return (
       <PageLayout showNeedHelp>
         <br />
