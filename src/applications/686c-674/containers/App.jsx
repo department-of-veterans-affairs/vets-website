@@ -37,7 +37,6 @@ function App({
   const content = (
     <article id="form-686c" data-location={`${location?.pathname?.slice(1)}`}>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        <va-breadcrumbs breadcrumb-list={rawBreadcrumbs} wrapping />
         {children}
       </RoutedSavableApp>
     </article>
