@@ -6,6 +6,7 @@ import {
   generateSEIPdf,
   SEI_DOMAINS,
   ALERT_TYPE_SEI_ERROR,
+  MissingRecordsError,
 } from '@department-of-veterans-affairs/mhv/exports';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { add, compareAsc } from 'date-fns';
@@ -14,7 +15,6 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import ExternalLink from '../components/shared/ExternalLink';
-import MissingRecordsError from '../components/DownloadRecords/MissingRecordsError';
 import { getLastSuccessfulUpdate, sendDataDogAction } from '../util/helpers';
 import {
   accessAlertTypes,
@@ -267,18 +267,19 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         />
       )}
 
-      {successfulSeiDownload === true && (
-        <>
-          <MissingRecordsError
-            documentType="Self-entered health information report"
-            recordTypes={failedSeiDomains}
-          />
-          <DownloadSuccessAlert
-            type="Self-entered health information report download"
-            className="vads-u-margin-bottom--1"
-          />
-        </>
-      )}
+      {successfulSeiDownload === true &&
+        failedSeiDomains.length !== SEI_DOMAINS.length && (
+          <>
+            <MissingRecordsError
+              documentType="Self-entered health information report"
+              recordTypes={failedSeiDomains}
+            />
+            <DownloadSuccessAlert
+              type="Self-entered health information report download"
+              className="vads-u-margin-bottom--1"
+            />
+          </>
+        )}
       <va-accordion bordered>
         <va-accordion-item bordered data-testid="ccdAccordionItem">
           <h3 slot="headline">

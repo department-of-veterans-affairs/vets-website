@@ -34,3 +34,6 @@ export {
 export { trapFocus } from './util/ui/index';
 export { generateMilitaryServicePdf } from './dod-history/military-service-pdf';
 export { generateSEIPdf } from './self-entered/generate-sei-pdf';
+export {
+  default as MissingRecordsError,
+} from './self-entered/MissingRecordsError';

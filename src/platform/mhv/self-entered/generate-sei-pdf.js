@@ -93,7 +93,9 @@ export const generateSEIPdf = async (
       }
     });
     const success = failedDomains.length < SEI_DOMAINS.length;
-    generatePdf(userProfile, seiRecords, failedDomains, runningUnitTest);
+    if (success) {
+      generatePdf(userProfile, seiRecords, failedDomains, runningUnitTest);
+    }
     return { success, failedDomains };
   } catch (error) {
     return { success: false };
