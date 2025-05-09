@@ -2,6 +2,7 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { fireEvent } from '@testing-library/react';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import * as recordEventModule from 'platform/monitoring/record-event';
@@ -25,6 +26,11 @@ const mockAppt = {
 
 describe('Introduction page', () => {
   let recordEventStub;
+  const onStartSpy = sinon.spy();
+
+  const props = {
+    onStart: onStartSpy,
+  };
 
   beforeEach(() => {
     recordEventStub = sinon.stub(recordEventModule, 'default');
@@ -34,10 +40,6 @@ describe('Introduction page', () => {
     MockDate.reset();
     recordEventStub.restore();
   });
-
-  const props = {
-    onStart: () => {},
-  };
 
   it('should render a loading indicator while fetching appointment details', () => {
     const screen = renderWithStoreAndRouter(<IntroductionPage {...props} />, {
@@ -131,6 +133,9 @@ describe('Introduction page', () => {
 
     expect(screen.getByText('File a travel reimbursement claim')).to.exist;
     expect($('va-link-action[text="File a mileage-only claim"]')).to.exist;
+
+    fireEvent.click($('va-link-action[text="File a mileage-only claim"]'));
+    expect(onStartSpy.called).to.be.true;
   });
 
   it('should show alert if appointment fetch fails', () => {

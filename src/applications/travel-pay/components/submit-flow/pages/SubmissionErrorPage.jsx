@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
+import { HelpTextModalities } from '../../HelpText';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 import { recordSmocPageview } from '../../../util/events-helpers';
 
@@ -41,10 +41,6 @@ const SubmissionErrorPage = () => {
       </va-alert>
       <h2>What happens next?</h2>
       <HelpTextModalities />
-      <p className="vads-u-font-weight--bold">
-        How can I get help with my claim?
-      </p>
-      <HelpTextGeneral />
     </div>
   );
 };
