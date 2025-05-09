@@ -749,6 +749,10 @@ class MedicationsDetailsPage {
       .find('[class="va-accordion__subheader"]', { force: true })
       .should('contain', text);
   };
+
+  verifyShippedOnDateNotAvailableTextInRefillAccordion = text => {
+    cy.get('[data-testid="shipped-on"]').should('contain', text);
+  };
 }
 
 export default MedicationsDetailsPage;

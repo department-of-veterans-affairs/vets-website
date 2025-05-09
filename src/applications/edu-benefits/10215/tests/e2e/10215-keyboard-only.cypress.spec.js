@@ -51,7 +51,7 @@ describe('22-10215 Edu Benefits Form', () => {
     // Go to application intro page
     cy.visit(`${manifest.rootUrl}/introduction`);
     cy.injectAxeThenAxeCheck();
-    cy.focused().should('contain.text', 'Report 85/15 Rule enrollment ratios');
+    cy.focused().should('contain.text', 'Report 85/15 rule enrollment ratios');
     cy.repeatKey('Tab', 6);
     cy.focused().should(
       'contain.text',
@@ -190,7 +190,8 @@ describe('22-10215 Edu Benefits Form', () => {
       `${institutionOfficial.first} ${institutionOfficial.last}`,
     );
     cy.tabToElementAndPressSpace('va-checkbox');
-    cy.tabToSubmitForm();
+    // 'Submit' form
+    cy.tabToElement('.usa-button-primary').click();
 
     // Confirmation page
     cy.location('pathname').should('include', '/confirmation');
@@ -200,5 +201,10 @@ describe('22-10215 Edu Benefits Form', () => {
       'contain.text',
       'To submit your form, follow the steps below',
     );
+    // Go back to review page and check that "Continue" button is present to allow re-submission
+    cy.get('va-link[text="Back"]').click();
+    cy.location('pathname').should('include', '/review-and-submit');
+    cy.tabToElement('.usa-button-primary').click();
+    cy.location('pathname').should('include', '/confirmation');
   });
 });
