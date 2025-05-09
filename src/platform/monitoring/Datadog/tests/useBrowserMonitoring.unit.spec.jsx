@@ -10,7 +10,7 @@ import sinon from 'sinon';
 import { datadogRum } from '@datadog/browser-rum';
 import { datadogLogs } from '@datadog/browser-logs';
 
-import * as datadogInit from '../useBrowserMonitoring';
+import * as datadogInit from '../index';
 
 describe('Datadog RUM & monitoring initialization', () => {
   // Copied from
