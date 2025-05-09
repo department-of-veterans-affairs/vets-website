@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import { subDays } from 'date-fns';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import { phoneNumbers } from '../../../utils/appConstants';
 import HowToLink from '../../../components/HowToLink';
@@ -17,13 +16,7 @@ import { getFirstCanceledAppointment } from '../../../utils/appointment';
 const Error = () => {
   const selectError = useMemo(makeSelectError, []);
   const { error } = useSelector(selectError);
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  // appt link will be /my-health/appointments if toggle is on
-  const apptLink = useToggleValue(
-    TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
-  )
-    ? 'https://va.gov/my-health/appointments/'
-    : 'https://va.gov/health-care/schedule-view-va-appointments/appointments/';
+  const apptLink = 'https://va.gov/my-health/appointments/';
   // Get appointment dates if available.
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);

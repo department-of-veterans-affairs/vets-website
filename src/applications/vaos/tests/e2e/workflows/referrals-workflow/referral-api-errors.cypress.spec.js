@@ -40,7 +40,6 @@ describe('VAOS Referral API Error Handling', () => {
       vaOnlineSchedulingCCDirectScheduling: true,
       vaOnlineSchedulingFlatFacilityPage: true,
       vaOnlineSchedulingUseV2ApiRequests: true,
-      vaOnlineSchedulingFeatureBreadcrumbUrlUpdate: true,
     });
 
     // Mock the appointments API to at least have one appointment

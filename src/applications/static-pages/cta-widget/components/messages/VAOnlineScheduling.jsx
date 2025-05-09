@@ -20,8 +20,6 @@ const noCCAlertText = (
 const VAOnlineScheduling = props => {
   const {
     vaOnlineSchedulingCommunityCare: featureCommunityCareEnabled,
-    vaOnlineSchedulingBreadcrumbUrlUpdate: featureStaticLandingPage,
-    vaOnlineSchedulingStaticLandingPage: featureBreadcrumbUrlUpdate,
   } = props.featureToggles;
   const content = {
     heading:
@@ -29,10 +27,7 @@ const VAOnlineScheduling = props => {
     alertText: featureCommunityCareEnabled ? alertText : noCCAlertText,
     primaryButtonText: 'Go to your VA appointments',
     primaryButtonHandler: () => {
-      window.location =
-        featureStaticLandingPage && featureBreadcrumbUrlUpdate
-          ? '/my-health/appointments'
-          : '/health-care/schedule-view-va-appointments/appointments/';
+      window.location = '/my-health/appointments';
     },
     status: 'info',
   };
