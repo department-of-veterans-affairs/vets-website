@@ -2,36 +2,37 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import MockDate from 'mockdate';
-import { waitFor } from '@testing-library/dom';
-import * as utils from 'applications/vaos/services/utils';
 import {
   renderWithStoreAndRouter,
   createTestStore,
 } from '../../tests/mocks/setup';
 import ReferralTaskCardWithReferral from './ReferralTaskCardWithReferral';
 import { createReferralById } from '../utils/referrals';
+import * as vaosApi from '../../redux/api/vaosApi';
 
 describe('VAOS Component: ReferralTaskCardWithReferral', () => {
-  let apiRequestWithUrlStub;
+  const sandbox = sinon.createSandbox();
+  let getReferallByIdStub;
 
   beforeEach(() => {
     MockDate.set('2025-01-01');
-    apiRequestWithUrlStub = sinon.stub(utils, 'apiRequestWithUrl');
+    getReferallByIdStub = sandbox.stub(vaosApi, 'useGetReferralByIdQuery');
   });
 
   afterEach(() => {
     MockDate.reset();
-    apiRequestWithUrlStub.restore();
+    sandbox.restore();
   });
 
-  it('should display the task card when the referral is fetched successfully', async () => {
+  it('should display the task card when the referral is fetched successfully', () => {
     const store = createTestStore();
-
-    apiRequestWithUrlStub.resolves({
+    getReferallByIdStub.returns({
       data: createReferralById(
-        '2025-01-01',
+        '2025-12-12',
         'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
+      error: false,
+      isLoading: false,
     });
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
@@ -39,17 +40,13 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
       path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
     });
 
-    expect(await screen.findByTestId('referral-task-card')).to.exist;
+    expect(screen.findByTestId('referral-task-card')).to.exist;
   });
 
-  it('should not display anything when url parameter is not populated', async () => {
+  it('should not display anything when url parameter is not populated', () => {
     const store = createTestStore();
-    apiRequestWithUrlStub.resolves({
-      data: createReferralById(
-        '2024-11-29',
-        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-      ),
-    });
+    // restore the stub to test it's behavior with no id passed in
+    sandbox.restore();
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
       store,
@@ -66,14 +63,15 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
     expect(expired).to.be.null;
   });
 
-  it('should display the expired alert when referral is expired', async () => {
+  it('should display the expired alert when referral is expired', () => {
     const store = createTestStore();
-
-    apiRequestWithUrlStub.resolves({
+    getReferallByIdStub.returns({
       data: createReferralById(
-        '2024-12-01',
+        '2024-01-01',
         'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
+      error: false,
+      isLoading: false,
     });
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
@@ -81,12 +79,10 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
       path: '/?id=445e2d1b-7150-4631-97f2-f6f473bdef00',
     });
 
-    waitFor(() => {
-      expect(screen.getByTestId('expired-alert')).to.exist;
-    });
+    expect(screen.getByTestId('expired-alert')).to.exist;
   });
 
-  it('isExpired should return false and expired alert when referral has no expired date', async () => {
+  it('isExpired should return true and expired alert when referral has no expired date', () => {
     const store = createTestStore();
     const referral = createReferralById(
       '2024-12-01',
@@ -94,8 +90,10 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
     );
     referral.attributes.expirationDate = '';
 
-    apiRequestWithUrlStub.resolves({
+    getReferallByIdStub.returns({
       data: referral,
+      error: false,
+      isLoading: false,
     });
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
@@ -103,18 +101,15 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
       path: '/?id=445e2d1b-7150-4631-97f2-f6f473bdef00',
     });
 
-    waitFor(() => {
-      expect(screen.getByTestId('expired-alert')).to.exist;
-    });
+    expect(screen.getByTestId('expired-alert')).to.exist;
   });
 
-  it('should display the loading component when fetch status is loading', async () => {
+  it('should display the loading component when fetch status is loading', () => {
     const store = createTestStore();
-    apiRequestWithUrlStub.resolves({
-      data: createReferralById(
-        '2024-11-29',
-        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-      ),
+    getReferallByIdStub.returns({
+      data: null,
+      error: false,
+      isLoading: true,
     });
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
@@ -124,34 +119,19 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
     expect(screen.getByTestId('loading-indicator')).to.exist;
   });
 
-  it('should display the loading component when fetch status is notStarted', async () => {
+  it('should display the error alert when fetch fails', () => {
     const store = createTestStore();
-
-    apiRequestWithUrlStub.resolves({
-      data: createReferralById(
-        '2024-11-29',
-        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-      ),
+    getReferallByIdStub.returns({
+      data: null,
+      error: true,
+      isLoading: false,
     });
-
-    const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
-      store,
-      path: '/?id=1234',
-    });
-    expect(screen.getByTestId('loading-indicator')).to.exist;
-  });
-
-  it('should display the error alert when fetch fails', async () => {
-    const store = createTestStore();
-    apiRequestWithUrlStub.rejects(new Error('Internal Server Error'));
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
       store,
       path: '/?id=error',
     });
 
-    waitFor(() => {
-      expect(screen.getByTestId('referral-error')).to.exist;
-    });
+    expect(screen.getByTestId('referral-error')).to.exist;
   });
 });

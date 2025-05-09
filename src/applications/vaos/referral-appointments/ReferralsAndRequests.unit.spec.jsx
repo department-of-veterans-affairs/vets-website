@@ -247,6 +247,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -327,6 +331,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -344,7 +352,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     expect(
       screen.queryByRole('heading', {
         level: 3,
-        name: /You don’t have any/,
+        name: 'You don’t have any appointment requests',
       }),
     ).not.to.be.ok;
   });
@@ -363,6 +371,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -371,7 +383,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     expect(
       await screen.findByRole('heading', {
         level: 2,
-        name: /You don’t have any/,
+        name: 'You don’t have any appointment requests',
       }),
     ).to.be.ok;
     expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
@@ -446,6 +458,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -463,7 +479,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: /You don’t have any/,
+        name: 'You don’t have any appointment requests',
       }),
     ).to.be.ok;
   });
