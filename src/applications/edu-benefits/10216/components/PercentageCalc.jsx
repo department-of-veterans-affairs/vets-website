@@ -11,6 +11,7 @@ function PercentageCalc({ formData }) {
         <span
           className="vads-u-font-weight--bold vads-u-font-size--lg"
           tabIndex={0}
+          role="status"
           aria-label={`VA beneficiary students percentage: ${calculatedPercentage(
             formData,
           )}`}
