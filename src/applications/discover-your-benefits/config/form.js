@@ -7,6 +7,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
+import { militaryBranchComponentTypes } from '../constants/benefits';
 
 import manifest from '../manifest.json';
 
@@ -17,6 +18,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
+import activeDuty from '../pages/activeDuty';
 import militaryBranch from '../pages/militaryBranch';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
 import militaryServiceCompleted from '../pages/militaryServiceCompleted';
@@ -100,6 +102,23 @@ export const formConfig = {
           uiSchema: militaryBranch.uiSchema,
           schema: militaryBranch.schema,
           depends: () => !environment.isProduction(),
+        },
+        activeDuty: {
+          path: 'service/active-duty',
+          title: 'Active Duty',
+          uiSchema: activeDuty.uiSchema,
+          schema: activeDuty.schema,
+          depends: formData => {
+            return Object.values(formData.branchComponents).some(
+              branchComponent =>
+                branchComponent[
+                  militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE
+                ] === true ||
+                branchComponent[
+                  militaryBranchComponentTypes.RESERVE_SERVICE
+                ] === true,
+            );
+          },
         },
         militaryService: {
           path: 'service/current',
