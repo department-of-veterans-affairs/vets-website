@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { getCernerURL } from 'platform/utilities/cerner';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
+import { submitLaunchMyVaHealthAal } from '../../api/SmApi';
 
 const CernerFacilityAlert = ({ cernerFacilities }) => {
   const ehrDataByVhaId = useSelector(
@@ -19,6 +21,17 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
       return [];
     },
     [cernerFacilities, ehrDataByVhaId],
+  );
+
+  const { isAalEnabled } = useFeatureToggles();
+
+  const handleUrlClick = useCallback(
+    () => {
+      if (isAalEnabled) {
+        submitLaunchMyVaHealthAal();
+      }
+    },
+    [isAalEnabled],
   );
 
   const isMultipleFacilities = cernerFacilitiesNames.length > 1;
@@ -76,6 +89,7 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
             href={getCernerURL('/pages/messaging/inbox', true)}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={handleUrlClick}
           >
             Go to My VA Health (opens in new tab)
           </a>
