@@ -5,10 +5,7 @@ import MockDate from 'mockdate';
 import React from 'react';
 import reducers from '../../../redux/reducer';
 import { getVAOSAppointmentMock } from '../../../tests/mocks/mock';
-import {
-  mockAppointmentsApi,
-  mockVAOSAppointmentsFetch,
-} from '../../../tests/mocks/mockApis';
+import { mockAppointmentsApi } from '../../../tests/mocks/mockApis';
 import {
   getTestDate,
   renderWithStoreAndRouter,
@@ -74,10 +71,10 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       response: [],
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start,
+      end,
+      response: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -133,10 +130,10 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       response: [],
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start,
+      end,
+      response: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -171,10 +168,10 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       response: [],
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start,
+      end,
+      response: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -211,10 +208,10 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       response: [],
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start,
+      end,
+      response: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -249,10 +246,10 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       response: [],
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start,
+      end,
+      response: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -289,10 +286,10 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       response: [],
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start,
+      end,
+      response: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
@@ -349,10 +346,10 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       response: [],
     });
 
-    mockVAOSAppointmentsFetch({
-      start: format(start, 'yyyy-MM-dd'),
-      end: format(end, 'yyyy-MM-dd'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start,
+      end,
+      response: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 

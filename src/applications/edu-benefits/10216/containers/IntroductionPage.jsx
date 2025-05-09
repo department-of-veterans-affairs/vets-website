@@ -2,14 +2,13 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/ui';
 import ResBurdenPrivacyPolicy from '../components/ResBurdenPrivacyAct';
 
 const IntroductionPage = ({ route }) => {
   useEffect(() => {
-    focusElement('.schemaform-title > h1');
-    scrollToTop();
+    const h1 = document.querySelector('h1');
+    scrollAndFocus(h1);
   }, []);
 
   return (
