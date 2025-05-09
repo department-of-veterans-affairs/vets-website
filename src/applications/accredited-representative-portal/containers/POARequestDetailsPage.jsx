@@ -213,7 +213,7 @@ const POARequestDetailsPage = title => {
             </p>
           </h1>
 
-          <ul className="poa-request-details__list">
+          <ul className="poa-request-details__list poa-request-details__list--col">
             <li className="poa-request-details__list-item">
               <p className="poa-request-details__title">
                 Requested representative
@@ -321,7 +321,7 @@ const POARequestDetailsPage = title => {
               />
             )}
 
-            <h2>Claimant information</h2>
+            <h2 className="poa-request-details__h2">Claimant information</h2>
             <ul className="poa-request-details__list poa-request-details__list--info">
               <li>
                 <p>Relationship to Veteran</p>
@@ -336,7 +336,7 @@ const POARequestDetailsPage = title => {
               <li>
                 <p>Phone</p>
                 <p>
-                  <va-telephone contact={formattedPhone} />
+                  <va-telephone contact={formattedPhone} not-clickable />
                 </p>
               </li>
               <li>
@@ -363,7 +363,9 @@ const POARequestDetailsPage = title => {
         and the veteran information will show up here. if the veteran is filing themselves, they will appear as the claimant */}
             {poaRequest.powerOfAttorneyForm.veteran && (
               <>
-                <h2>Veteran identification information</h2>
+                <h2 className="poa-request-details__h2">
+                  Veteran identification information
+                </h2>
                 <ul className="poa-request-details__list poa-request-details__list--info">
                   <li>
                     <p>Name</p>
@@ -386,7 +388,9 @@ const POARequestDetailsPage = title => {
               </>
             )}
 
-            <h2>Authorization information</h2>
+            <h2 className="poa-request-details__h2">
+              Authorization information
+            </h2>
             <ul className="poa-request-details__list poa-request-details__list--info">
               <li>
                 <p>Change of address</p>

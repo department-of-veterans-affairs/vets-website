@@ -160,6 +160,7 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
+    CRUMB_BACK: '[data-testid="sm-breadcrumbs-back"]',
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
     CRUMBS_BACK: '.sm-breadcrumb-list-item',
     OLD_VERSION: `.welcome-message > p > a`,
@@ -383,6 +384,8 @@ export const Data = {
   ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
   EDIT_SIGNATURE: `Edit signature for all messages`,
+  READ_RECEIPT: `Opened by your care team`,
+  UNREAD_RECEIPT: `Not yet opened by your care team`,
   BUTTONS: {
     ATTACH_FILE: 'Attach file',
     SEND: `Send`,

@@ -51,10 +51,16 @@ export class DirectDepositClient {
     };
   }
 
-  recordDirectDepositEvent({ status, method = 'GET', extraProperties = {} }) {
+  recordDirectDepositEvent({
+    endpoint,
+    status,
+    method = 'GET',
+    extraProperties = {},
+  }) {
+    const apiEndpoint = endpoint || this.endpoint;
     const payload = {
       event: 'api_call',
-      'api-name': `${method} ${this.endpoint}`,
+      'api-name': `${method} ${apiEndpoint}`,
       'api-status': status,
     };
 
