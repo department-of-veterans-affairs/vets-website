@@ -112,6 +112,7 @@ const OtherAssetsSummary = ({
           )}
           <Link
             className="vads-c-action-link--green"
+            data-testid="add-link"
             to={{
               pathname: '/add-other-asset',
               search: `?index=${otherAssets.length}`,

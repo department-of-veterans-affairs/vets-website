@@ -7,7 +7,7 @@ const fillEmploymentInformation = employer => {
   cy.get('#employer-name')
     .shadow()
     .find('input')
-    .type(employer.employerName);
+    .type(employer.employerName, { force: true });
 
   // Current includes gmi, and deductions
   if (employer.isCurrent) {
@@ -17,7 +17,17 @@ const fillEmploymentInformation = employer => {
 
     // employment-work-dates
     // spouse-employment-work-dates
-    cy.fillVaDate('from', employer.from, true);
+    cy.get('[name="from"]')
+      .shadow()
+      .find('va-select')
+      .shadow()
+      .find('select')
+      .select(employer.from.substring(6, 7), { force: true });
+
+    cy.get('input[name="fromYear"]').clear();
+    cy.get('input[name="fromYear"]').type(employer.from.substring(0, 4), {
+      force: true,
+    });
     customButtonGroupContinue();
 
     // gross-monthly-income
@@ -25,7 +35,7 @@ const fillEmploymentInformation = employer => {
     cy.get('[data-testid="gross-monthly-income"]')
       .shadow()
       .find('input')
-      .type(employer.grossMonthlyIncome);
+      .type(employer.grossMonthlyIncome, { force: true });
     cy.get('.usa-button-primary').click();
 
     // deduction-checklist
@@ -49,7 +59,7 @@ const fillEmploymentInformation = employer => {
         .should('contain', employer.deductions[index].name);
       cy.wrap(input)
         .find('input')
-        .type(employer.deductions[index].amount);
+        .type(employer.deductions[index].amount, { force: true });
     });
     customButtonGroupContinue();
   } else {
@@ -60,18 +70,33 @@ const fillEmploymentInformation = employer => {
 
     // employment-work-dates
     // spouse-employment-work-dates
-    cy.fillVaDate('from', employer.from, true);
-    cy.fillVaDate('to', employer.to, true);
+    cy.get('[name="from"]')
+      .shadow()
+      .find('va-select')
+      .shadow()
+      .find('select')
+      .select(employer.from.substring(6, 7), { force: true });
+    cy.get('input[name="fromYear"]').clear();
+    cy.get('input[name="fromYear"]').type(employer.from.substring(0, 4), {
+      force: true,
+    });
+
+    cy.get('[name="to"]')
+      .shadow()
+      .find('va-select')
+      .shadow()
+      .find('select')
+      .select(employer.to.substring(6, 7), { force: true });
+    cy.get('input[name="toYear"]').clear();
+    cy.get('input[name="toYear"]').type(employer.to.substring(0, 4), {
+      force: true,
+    });
     customButtonGroupContinue('Add employment record');
   }
 };
 
 const employmentInformationLoop = employers => {
   // page flow is same for veteran and spouse
-  // const employers =
-  //   veteranOrSpouse === 'veteran'
-  //     ? employmentHistory.veteran.employmentRecords
-  //     : employmentHistory.spouse.spEmploymentRecords;
 
   // loop through employers and add them to the form
   for (let i = 0; i < employers.length; i++) {

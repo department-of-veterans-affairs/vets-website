@@ -35,9 +35,13 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
   };
 
   const handleChange = event => {
-    const { value } = event.target;
+    setError(null);
+    const { value } = event?.target;
     setInputValue(value);
+  };
 
+  const handleBlur = event => {
+    const { value } = event?.target;
     if (!value) {
       setError(ERROR_MESSAGES.EMPTY_VALUE);
     } else if (!validateNumber(value)) {
@@ -100,6 +104,7 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
           id={`${benefitType}-benefitAmount`}
           name={benefitType}
           onInput={handleChange}
+          onBlur={handleBlur}
           inputmode="numeric"
           value={inputValue}
           width="md"
