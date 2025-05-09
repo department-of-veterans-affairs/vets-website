@@ -49,6 +49,13 @@ describe('Introduction page', () => {
             data: null,
           },
         },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
       },
       reducers: reducer,
     });
@@ -72,6 +79,13 @@ describe('Introduction page', () => {
               isOutOfBounds: false,
             },
           },
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
         },
       },
       reducers: reducer,
@@ -104,6 +118,13 @@ describe('Introduction page', () => {
             },
           },
         },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
       },
       reducers: reducer,
     });
@@ -121,6 +142,13 @@ describe('Introduction page', () => {
             error: 'there was a problem',
             data: null,
           },
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
         },
       },
       reducers: reducer,
@@ -150,6 +178,13 @@ describe('Introduction page', () => {
             },
           },
         },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
       },
       reducers: reducer,
     });
@@ -174,6 +209,13 @@ describe('Introduction page', () => {
             },
           },
         },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
       },
       reducers: reducer,
     });
@@ -186,6 +228,13 @@ describe('Introduction page', () => {
     MockDate.set('2025-01-05');
     renderWithStoreAndRouter(<IntroductionPage {...props} />, {
       initialState: {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
         travelPay: {
           appointment: {
             isLoading: true,
