@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import {
   mockFetch,
@@ -21,10 +21,10 @@ describe('Fill Refill Button component', () => {
     isRefillable: true,
   };
   const setup = () => {
-    return renderWithStoreAndRouter(<FillRefillButton {...rx} />, {
+    return renderWithStoreAndRouterV6(<FillRefillButton {...rx} />, {
       initialState: {},
       reducers: reducer,
-      path: '/1234567890',
+      initialEntries: ['/1234567890'],
     });
   };
 
@@ -79,24 +79,24 @@ describe('Fill Refill Button component', () => {
       success: true,
       isRefillable: false,
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <FillRefillButton {...nonRefillableRx} />,
       {
         initialState: {},
         reducers: reducer,
-        path: '/1234567890',
+        initialEntries: ['/1234567890'],
       },
     );
     expect(screen.queryByTestId('refill-request-button')).to.not.exist;
   });
 
   it('renders the correct text when dispensedDate is null', () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <FillRefillButton {...{ ...rx, dispensedDate: null }} />,
       {
         initialState: {},
         reducers: reducer,
-        path: '/1234567890',
+        initialEntries: ['/1234567890'],
       },
     );
     const button = screen.getByTestId('refill-request-button');
@@ -104,10 +104,10 @@ describe('Fill Refill Button component', () => {
   });
 
   it('renders the correct text when dispensedDate exists', () => {
-    const screen = renderWithStoreAndRouter(<FillRefillButton {...rx} />, {
+    const screen = renderWithStoreAndRouterV6(<FillRefillButton {...rx} />, {
       initialState: {},
       reducers: reducer,
-      path: '/1234567890',
+      initialEntries: ['/1234567890'],
     });
     const button = screen.getByTestId('refill-request-button');
     expect(button).to.have.property('text', 'Request a refill');

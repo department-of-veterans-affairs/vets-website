@@ -11,6 +11,7 @@ export { default as common } from './local-dev-mock-api/common';
 export {
   renderInReduxProvider,
   renderWithStoreAndRouter,
+  renderWithStoreAndRouterV6,
 } from './unit/react-testing-library-helpers';
 
 export { testkit, sentryTransport } from './unit/sentry';

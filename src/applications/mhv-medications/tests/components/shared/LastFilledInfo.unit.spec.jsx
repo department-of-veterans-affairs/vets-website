@@ -1,17 +1,16 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducers from '../../../reducers';
 import prescriptionsListItemNonVA from '../../fixtures/prescriptionsListItemNonVA.json';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import LastFilledInfo from '../../../components/shared/LastFilledInfo';
 import { dateFormat } from '../../../util/helpers';
 
-describe('Medicaitons Medications List Card Last Filled Info', () => {
+describe('Medications Medications List Card Last Filled Info', () => {
   const rx = prescriptionsListItemNonVA;
   const setup = () => {
-    return renderWithStoreAndRouter(<LastFilledInfo {...rx} />, {
-      path: '/',
+    return renderWithStoreAndRouterV6(<LastFilledInfo {...rx} />, {
       state: {},
       reducers,
     });
@@ -33,8 +32,7 @@ describe('Medicaitons Medications List Card Last Filled Info', () => {
   it('displays the last filled date for VA prescriptions', () => {
     const vaRx = prescriptionsListItem;
     vaRx.sortedDispensedDate = '2023-02-04T05:00:00.000Z';
-    const screen = renderWithStoreAndRouter(<LastFilledInfo {...vaRx} />, {
-      path: '/',
+    const screen = renderWithStoreAndRouterV6(<LastFilledInfo {...vaRx} />, {
       state: {},
       reducers,
     });
@@ -51,8 +49,7 @@ describe('Medicaitons Medications List Card Last Filled Info', () => {
   it('does not the last filled date when vets api sends null as the value for sortedDispensedDate', () => {
     const vaRx = prescriptionsListItem;
     vaRx.sortedDispensedDate = null;
-    const screen = renderWithStoreAndRouter(<LastFilledInfo {...vaRx} />, {
-      path: '/',
+    const screen = renderWithStoreAndRouterV6(<LastFilledInfo {...vaRx} />, {
       state: {},
       reducers,
     });

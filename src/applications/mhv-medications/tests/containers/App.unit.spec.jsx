@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { waitFor } from '@testing-library/dom';
 import sinon from 'sinon';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { addDays, subDays, format } from 'date-fns';
@@ -56,7 +56,6 @@ describe('Medications <App>', () => {
           dismissedDowntimeWarnings: [],
         },
       },
-      path: `/`,
       reducers: reducer,
     };
   };
@@ -72,7 +71,7 @@ describe('Medications <App>', () => {
   });
 
   it('feature flags are still loading', () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(
+    const screenFeatureToggle = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -84,7 +83,7 @@ describe('Medications <App>', () => {
   });
 
   it('feature flag set to false', () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(
+    const screenFeatureToggle = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -94,7 +93,7 @@ describe('Medications <App>', () => {
   });
 
   it('feature flag set to true', async () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(
+    const screenFeatureToggle = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -106,7 +105,7 @@ describe('Medications <App>', () => {
   });
 
   it('renders the global downtime notification', async () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -152,7 +151,7 @@ describe('Medications <App>', () => {
   });
 
   it('renders the downtime notification', async () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -198,7 +197,7 @@ describe('Medications <App>', () => {
   });
 
   it('renders the downtime notification for multiple configured services', async () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -244,7 +243,7 @@ describe('Medications <App>', () => {
   });
 
   it('renders the downtime notification for mixed services', async () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -290,7 +289,7 @@ describe('Medications <App>', () => {
   });
 
   it('does NOT render the downtime notification', () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -334,7 +333,7 @@ describe('Medications <App>', () => {
     const testAccountUuid = '12345678-1234-1234-1234-123456789012';
     const setDatadogRumUserStub = sandbox.stub(mhvExports, 'setDatadogRumUser');
 
-    renderWithStoreAndRouter(
+    renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,

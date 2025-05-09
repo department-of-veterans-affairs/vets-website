@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import GroupedMedications from '../../../components/PrescriptionDetails/GroupedMedications';
@@ -7,12 +7,12 @@ import groupedMedicationsList from '../../fixtures/groupedMedicationsList.json';
 
 describe('Grouped medications component', () => {
   const setup = () => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <GroupedMedications groupedMedicationsList={groupedMedicationsList} />,
       {
         initialState: {},
         reducers: {},
-        path: '/prescriptions/1234567891',
+        initialEntries: ['/prescriptions/1234567891'],
       },
     );
   };
