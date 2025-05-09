@@ -196,6 +196,171 @@ const formConfig = {
     field: 'privacyAgreementAccepted',
   },
   chapters: {
+    applicantInformationChapter: {
+      title: 'Veteran or Service Member Information',
+      pages: {
+        applicantInformation: {
+          path: 'veteran-or-service-member-information',
+          title: 'Veteran or Service Member Information',
+          uiSchema: {
+            relationShipToMember: {
+              'ui:title':
+                "What's your relationship to the Veteran or service member whose benefits you'd like to use?",
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  spouse: 'Spouse',
+                  child: 'Child',
+                },
+              },
+            },
+            fullName: {
+              ...fullNameUI,
+              'ui:title': 'Veteran or service member information',
+              first: {
+                ...fullNameUI.first,
+                'ui:title': 'First name',
+                'ui:options': {
+                  updateSchema: (formData, schema) => {
+                    const flag = formData?.showMeb54901990eTextUpdate;
+
+                    return {
+                      ...schema,
+                      title: flag ? 'Veteran first name' : 'First name',
+                    };
+                  },
+                },
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isValidName(field)) {
+                      if (field.length > 20) {
+                        errors.addError('Must be 20 characters or less');
+                      }
+                    } else {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
+                    }
+                  },
+                ],
+              },
+              middle: {
+                ...fullNameUI.middle,
+                'ui:title': 'middle name',
+                'ui:options': {
+                  updateSchema: (formData, schema) => {
+                    const flag = formData?.showMeb54901990eTextUpdate;
+
+                    return {
+                      ...schema,
+                      title: flag ? 'Veteran middle name' : 'Middle name',
+                    };
+                  },
+                },
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isValidName(field)) {
+                      if (field.length > 20) {
+                        errors.addError('Must be 20 characters or less');
+                      }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
+                    }
+                  },
+                ],
+              },
+              last: {
+                ...fullNameUI.last,
+                'ui:title': 'last name',
+                'ui:options': {
+                  updateSchema: (formData, schema) => {
+                    const flag = formData?.showMeb54901990eTextUpdate;
+
+                    return {
+                      ...schema,
+                      title: flag ? 'Veteran last name' : 'Last name',
+                    };
+                  },
+                },
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isValidLastName(field)) {
+                      if (field.length < 2) {
+                        errors.addError('Must be 2 characters or more');
+                      } else if (field.length > 26) {
+                        errors.addError('Must be 26 characters or less');
+                      }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
+                      );
+                    }
+                  },
+                ],
+              },
+            },
+            dateOfBirth: {
+              ...currentOrPastDateUI('Date of birth'),
+              'ui:title': 'Date of birth',
+              'ui:options': {
+                updateSchema: (formData, schema) => {
+                  const flag = formData?.showMeb54901990eTextUpdate;
+
+                  return {
+                    ...schema,
+                    title: flag ? 'Veteran date of birth' : 'Date of birth',
+                  };
+                },
+              },
+            },
+            ssn: {
+              ...ssnUI,
+              'ui:title': 'Social security number',
+              'ui:options': {
+                updateSchema: (formData, schema) => {
+                  const flag = formData?.showMeb54901990eTextUpdate;
+
+                  return {
+                    ...schema,
+                    title: flag
+                      ? 'Veteran social security number'
+                      : 'Social security number',
+                  };
+                },
+              },
+              'ui:reviewField': ObfuscateReviewField,
+            },
+            'view:incorrectFormWarning': {
+              'ui:description': incorrectFormModal,
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [
+              'relationShipToMember',
+              'fullName',
+              'ssn',
+              'dateOfBirth',
+            ],
+            properties: {
+              relationShipToMember: {
+                type: 'string',
+                enum: ['spouse', 'child'],
+              },
+              fullName,
+              dateOfBirth: date,
+              ssn,
+              'view:incorrectFormWarning': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
+      },
+    },
     benefitSelectionChapter: {
       title: 'Benefit selection',
       pages: {
@@ -1192,171 +1357,6 @@ const formConfig = {
                 properties: {},
               },
               'view:mobilePhoneOnFileWithSomeoneElse': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
-        },
-      },
-    },
-    applicantInformationChapter: {
-      title: 'Veteran or Service Member Information',
-      pages: {
-        applicantInformation: {
-          path: 'veteran-or-service-member-information',
-          title: 'Veteran or Service Member Information',
-          uiSchema: {
-            relationShipToMember: {
-              'ui:title':
-                "What's your relationship to the Veteran or service member whose benefits you'd like to use?",
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  spouse: 'Spouse',
-                  child: 'Child',
-                },
-              },
-            },
-            fullName: {
-              ...fullNameUI,
-              'ui:title': 'Veteran or service member information',
-              first: {
-                ...fullNameUI.first,
-                'ui:title': 'First name',
-                'ui:options': {
-                  updateSchema: (formData, schema) => {
-                    const flag = formData?.showMeb54901990eTextUpdate;
-
-                    return {
-                      ...schema,
-                      title: flag ? 'Veteran first name' : 'First name',
-                    };
-                  },
-                },
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isValidName(field)) {
-                      if (field.length > 20) {
-                        errors.addError('Must be 20 characters or less');
-                      }
-                    } else {
-                      errors.addError(
-                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                      );
-                    }
-                  },
-                ],
-              },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': 'middle name',
-                'ui:options': {
-                  updateSchema: (formData, schema) => {
-                    const flag = formData?.showMeb54901990eTextUpdate;
-
-                    return {
-                      ...schema,
-                      title: flag ? 'Veteran middle name' : 'Middle name',
-                    };
-                  },
-                },
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isValidName(field)) {
-                      if (field.length > 20) {
-                        errors.addError('Must be 20 characters or less');
-                      }
-                    } else if (!isValidName(field)) {
-                      errors.addError(
-                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                      );
-                    }
-                  },
-                ],
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:title': 'last name',
-                'ui:options': {
-                  updateSchema: (formData, schema) => {
-                    const flag = formData?.showMeb54901990eTextUpdate;
-
-                    return {
-                      ...schema,
-                      title: flag ? 'Veteran last name' : 'Last name',
-                    };
-                  },
-                },
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isValidLastName(field)) {
-                      if (field.length < 2) {
-                        errors.addError('Must be 2 characters or more');
-                      } else if (field.length > 26) {
-                        errors.addError('Must be 26 characters or less');
-                      }
-                    } else if (!isValidName(field)) {
-                      errors.addError(
-                        'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
-                      );
-                    }
-                  },
-                ],
-              },
-            },
-            dateOfBirth: {
-              ...currentOrPastDateUI('Date of birth'),
-              'ui:title': 'Date of birth',
-              'ui:options': {
-                updateSchema: (formData, schema) => {
-                  const flag = formData?.showMeb54901990eTextUpdate;
-
-                  return {
-                    ...schema,
-                    title: flag ? 'Veteran date of birth' : 'Date of birth',
-                  };
-                },
-              },
-            },
-            ssn: {
-              ...ssnUI,
-              'ui:title': 'Social security number',
-              'ui:options': {
-                updateSchema: (formData, schema) => {
-                  const flag = formData?.showMeb54901990eTextUpdate;
-
-                  return {
-                    ...schema,
-                    title: flag
-                      ? 'Veteran social security number'
-                      : 'Social security number',
-                  };
-                },
-              },
-              'ui:reviewField': ObfuscateReviewField,
-            },
-            'view:incorrectFormWarning': {
-              'ui:description': incorrectFormModal,
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              'relationShipToMember',
-              'fullName',
-              'ssn',
-              'dateOfBirth',
-            ],
-            properties: {
-              relationShipToMember: {
-                type: 'string',
-                enum: ['spouse', 'child'],
-              },
-              fullName,
-              dateOfBirth: date,
-              ssn,
-              'view:incorrectFormWarning': {
                 type: 'object',
                 properties: {},
               },

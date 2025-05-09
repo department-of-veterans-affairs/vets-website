@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const IncorrectFormModal = props => {
-  const formData = { props };
+  const { formData } = props;
 
   const [modalVisible, setModalVisible] = useState(true);
   const claimantDOB = formData?.dateOfBirth;
