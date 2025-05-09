@@ -20,7 +20,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingFeSourceOfTruthTelehealth', value: true },
   { name: 'vaOnlineSchedulingMHVRouteGuards', value: false },
   { name: 'vaOnlineSchedulingDirectScheduleAppointmentConflict', value: false },
-  { name: 'vaOnlineSchedulingDisplayPastCancelledAppointments', value: true },
   { name: 'edu_section_103', value: true },
   { name: 'gibctEybBottomSheet', value: true },
   { name: 'travelPayViewClaimDetails', value: false },

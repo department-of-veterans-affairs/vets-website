@@ -351,7 +351,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     expect(screen.baseElement).to.contain.text('Details');
   });
 
-  it('should display past cancel appt, vaOnlineSchedulingDisplayPastCancelledAppointments = true', async () => {
+  it('should display past cancel appt', async () => {
     // Arrange
     const yesterday = subDays(new Date(), 1);
     const facility = new MockFacilityResponse();
@@ -368,17 +368,9 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       response: [appointment],
     });
 
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingDisplayPastCancelledAppointments: true,
-      },
-    };
-
     // Act
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState: myInitialState,
+      initialState,
     });
 
     // Assert
