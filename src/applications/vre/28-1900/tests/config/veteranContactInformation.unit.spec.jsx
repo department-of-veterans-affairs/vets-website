@@ -52,7 +52,7 @@ describe('Chapter 31 veteran contact information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'select#root_veteranAddress_country', 'USA');
+    fillData(form, 'select#root_veteranAddress_country', 'United States');
     fillData(form, 'input#root_veteranAddress_street', 'Some road');
     fillData(form, 'input#root_veteranAddress_city', 'Some city');
     changeDropdown(form, 'select#root_veteranAddress_state', 'DC');
@@ -79,7 +79,7 @@ describe('Chapter 31 veteran contact information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'select#root_veteranAddress_country', 'USA');
+    fillData(form, 'select#root_veteranAddress_country', 'United States');
     fillData(form, 'input#root_veteranAddress_street', 'Some road');
     fillData(form, 'input#root_veteranAddress_city', 'Some city');
     changeDropdown(form, 'select#root_veteranAddress_state', 'DC');
