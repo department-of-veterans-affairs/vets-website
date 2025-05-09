@@ -14,19 +14,38 @@ import formConfig from '../../../config/form';
 
 describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
   describe('applicantInformation', () => {
+    const baseData = {
+      showMeb54901990eTextUpdate: false,
+      dateOfBirth: null,
+      serviceData: [],
+      sponsors: { transferOfEntitlement: [] },
+      relationShipToMember: null,
+    };
+
+    const mockStore = configureStore([]);
+
     it('should fill out the applicant information fields', () => {
+      const initialState = {
+        form: {
+          data: baseData,
+        },
+      };
+      const store = mockStore(initialState);
+
       const {
         schema,
         uiSchema,
       } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
       const form = mount(
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          formData={{}}
-        />,
+        <Provider store={store}>
+          <DefinitionTester
+            schema={schema}
+            uiSchema={uiSchema}
+            definitions={formConfig.defaultDefinitions}
+            data={baseData}
+            formData={baseData}
+          />
+        </Provider>,
       );
 
       fillData(form, 'input#root_fullName_first', 'John');
@@ -50,19 +69,28 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     });
 
     it('should render an error when no first/last name are provided', () => {
+      const initialState = {
+        form: {
+          data: baseData,
+        },
+      };
+      const store = mockStore(initialState);
+
       const {
         schema,
         uiSchema,
       } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
 
       const form = mount(
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          formData={{}}
-        />,
+        <Provider store={store}>
+          <DefinitionTester
+            schema={schema}
+            uiSchema={uiSchema}
+            definitions={formConfig.defaultDefinitions}
+            data={baseData}
+            formData={baseData}
+          />
+        </Provider>,
       );
 
       form.find('input#root_fullName_first').simulate('change', {
@@ -100,19 +128,28 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     });
 
     it('should render errors when names are too long', () => {
+      const initialState = {
+        form: {
+          data: baseData,
+        },
+      };
+      const store = mockStore(initialState);
+
       const {
         schema,
         uiSchema,
       } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
 
       const form = mount(
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          formData={{}}
-        />,
+        <Provider store={store}>
+          <DefinitionTester
+            schema={schema}
+            uiSchema={uiSchema}
+            definitions={formConfig.defaultDefinitions}
+            data={baseData}
+            formData={baseData}
+          />
+        </Provider>,
       );
 
       form.find('input#root_fullName_first').simulate('change', {
@@ -156,19 +193,28 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     });
 
     it('should render an error when last name is too short', () => {
+      const initialState = {
+        form: {
+          data: baseData,
+        },
+      };
+      const store = mockStore(initialState);
+
       const {
         schema,
         uiSchema,
       } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
 
       const form = mount(
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          formData={{}}
-        />,
+        <Provider store={store}>
+          <DefinitionTester
+            schema={schema}
+            uiSchema={uiSchema}
+            definitions={formConfig.defaultDefinitions}
+            data={baseData}
+            formData={baseData}
+          />
+        </Provider>,
       );
 
       form.find('input#root_fullName_first').simulate('change', {
@@ -208,19 +254,28 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     });
 
     it('should render errors when first/middle/last names are invalid', () => {
+      const initialState = {
+        form: {
+          data: baseData,
+        },
+      };
+      const store = mockStore(initialState);
+
       const {
         schema,
         uiSchema,
       } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
 
       const form = mount(
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          formData={{}}
-        />,
+        <Provider store={store}>
+          <DefinitionTester
+            schema={schema}
+            uiSchema={uiSchema}
+            definitions={formConfig.defaultDefinitions}
+            data={baseData}
+            formData={baseData}
+          />
+        </Provider>,
       );
 
       form.find('input#root_fullName_first').simulate('change', {
