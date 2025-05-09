@@ -5,7 +5,7 @@ import { datadogLogs } from '@datadog/browser-logs';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
-import { canInitDatadog } from './utilities';
+import { isBot, canInitDatadog } from './utilities';
 
 /**
  * @typedef {Object} CustomRumSettings https://docs.datadoghq.com/real_user_monitoring/browser/setup/client/?tab=rum#initialization-parameters
@@ -111,7 +111,12 @@ const initializeBrowserLogging = (
 };
 
 // Initialize Datadog RUM behind feature flag
-const useBrowserMonitoring = ({ toggleName = '', ...settings } = {}) => {
+const useBrowserMonitoring = ({
+  toggleName = '',
+  loggedIn,
+  checkInit = canInitDatadog,
+  ...settings
+} = {}) => {
   const {
     TOGGLE_NAMES,
     useToggleValue,
@@ -125,7 +130,8 @@ const useBrowserMonitoring = ({ toggleName = '', ...settings } = {}) => {
 
   useEffect(
     () => {
-      if (isLoadingFeatureFlags) {
+      // Allow RUM for unauthenticated forms; pass in undefined loggedIn
+      if (isLoadingFeatureFlags || loggedIn === false) {
         return;
       }
       if (
@@ -145,8 +151,8 @@ const useBrowserMonitoring = ({ toggleName = '', ...settings } = {}) => {
 
       // Allows initialization with no feature flag, or if not logged in
       if (toggleName && isBrowserMonitoringEnabled) {
-        initializeRealUserMonitoring(settings);
-        initializeBrowserLogging(settings);
+        initializeRealUserMonitoring(settings, checkInit);
+        initializeBrowserLogging(settings, checkInit);
       } else {
         delete window.DD_RUM;
         delete window.DD_LOGS;
@@ -160,7 +166,9 @@ const useBrowserMonitoring = ({ toggleName = '', ...settings } = {}) => {
 };
 
 export {
-  initializeRealUserMonitoring,
+  canInitDatadog,
   initializeBrowserLogging,
+  initializeRealUserMonitoring,
+  isBot,
   useBrowserMonitoring,
 };
