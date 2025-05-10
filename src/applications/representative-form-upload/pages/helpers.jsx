@@ -35,7 +35,7 @@ export const representativeTitleAndDescription = {
   },
   'view:representativeDescription': {
     'ui:description':
-      "Note: Changes to information here won't apply to your VA Office of General Counsel (OGC) profile.",
+      "Note: We'll use this email address to send you updates about the form submission.",
   },
 };
 

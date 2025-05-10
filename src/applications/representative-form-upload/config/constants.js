@@ -62,7 +62,7 @@ export const FORM_UPLOAD_OCR_ALERT = (
 ) => (
   <VaAlert
     close-btn-aria-label="Close notification"
-    status="warning"
+    status="error"
     visible
     closeable
     onCloseEvent={onCloseEvent}
