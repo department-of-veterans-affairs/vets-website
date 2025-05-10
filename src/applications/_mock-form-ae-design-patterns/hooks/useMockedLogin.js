@@ -60,9 +60,11 @@ export const useMockedLogin = () => {
         }
 
         if (location?.query?.loggedIn === 'false') {
-          teardownProfileSession();
-          dispatch(updateLoggedInStatus(false));
-          clearLocalHasSession();
+          setTimeout(() => {
+            teardownProfileSession();
+            clearLocalHasSession();
+            dispatch(updateLoggedInStatus(false));
+          }, 500);
         }
 
         // having the pollTimeout present triggers some api calls to be made locally and in codespaces

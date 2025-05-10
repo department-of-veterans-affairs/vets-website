@@ -25,10 +25,14 @@ export const PatternConfigProviderBase = ({ children, router }) => {
   );
 
   // we need to get the header element to append the tabs to it
-  const header = document.getElementById('header-default');
+  const headerMinimal = document.getElementById('header-minimal');
+  const headerDefault = document.getElementById('header-default');
   return formConfig ? (
     <PatternConfigContext.Provider value={formConfig}>
-      <Portal target={header}>
+      <Portal target={headerMinimal}>
+        <TaskTabs location={router?.location} formConfig={formConfig} />
+      </Portal>
+      <Portal target={headerDefault}>
         <TaskTabs location={router?.location} formConfig={formConfig} />
       </Portal>
       {children}
