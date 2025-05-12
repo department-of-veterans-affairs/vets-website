@@ -8,16 +8,16 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { submit } from './submit';
 import veteranAndClaimantInformation from './chapters/01-veteran-and-claimant-information';
-import unassociatedIncomes from './chapters/03-unassociated-incomes';
-import associatedIncomes from './chapters/04-associated-incomes';
-import ownedAssets from './chapters/05-owned-assets';
-import royaltiesAndOtherProperties from './chapters/06-royalties-and-other-properties';
-import assetTransfers from './chapters/07-asset-transfers';
-import trusts from './chapters/08-trusts';
-import annuities from './chapters/09-annuities';
-import unreportedAssets from './chapters/10-unreported-assets';
-import discontinuedIncomes from './chapters/11-discontinued-incomes';
-import incomeReceiptWaivers from './chapters/12-income-receipt-waivers';
+import unassociatedIncomes from './chapters/02-unassociated-incomes';
+import associatedIncomes from './chapters/03-associated-incomes';
+import ownedAssets from './chapters/04-owned-assets';
+import royaltiesAndOtherProperties from './chapters/05-royalties-and-other-properties';
+import assetTransfers from './chapters/06-asset-transfers';
+import trusts from './chapters/07-trusts';
+import annuities from './chapters/08-annuities';
+import unreportedAssets from './chapters/09-unreported-assets';
+import discontinuedIncomes from './chapters/10-discontinued-incomes';
+import incomeReceiptWaivers from './chapters/11-income-receipt-waivers';
 
 // const { } = fullSchema.properties;
 
