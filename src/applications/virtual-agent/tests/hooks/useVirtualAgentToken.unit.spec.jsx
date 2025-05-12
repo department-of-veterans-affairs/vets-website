@@ -6,9 +6,7 @@ import { act } from 'react-dom/test-utils';
 import { renderHook } from '@testing-library/react-hooks';
 import * as ApiModule from '@department-of-veterans-affairs/platform-utilities/api';
 import * as RetryOnce from '../../utils/retryOnce';
-import useVirtualAgentToken, {
-  callVirtualAgentTokenApi,
-} from '../../hooks/useVirtualAgentToken';
+import useVirtualAgentToken from '../../hooks/useVirtualAgentToken';
 import { ERROR, COMPLETE } from '../../utils/loadingStatus';
 import * as UseWaitForCsrfTokenModule from '../../hooks/useWaitForCsrfToken';
 import * as LoggingModule from '../../utils/logging';
@@ -25,53 +23,6 @@ describe('useVirtualAgentToken', () => {
     sandbox.restore();
   });
 
-  describe('callVirtualAgentTokenApi', () => {
-    it('should return a function that uses MSFT PVA', () => {
-      const virtualAgentEnableMsftPvaTesting = true;
-      const virtualAgentEnableNluPvaTesting = false;
-      const apiSpy = sandbox.spy();
-
-      callVirtualAgentTokenApi(
-        virtualAgentEnableMsftPvaTesting,
-        virtualAgentEnableNluPvaTesting,
-        apiSpy,
-      )();
-
-      expect(apiSpy.calledOnce).to.be.true;
-      expect(apiSpy.args[0][0]).to.be.equal('/virtual_agent_token_msft');
-      expect(apiSpy.args[0][1]).to.be.eql({
-        method: 'POST',
-      });
-    });
-    it('should return a function that uses standard PVA', () => {
-      const virtualAgentEnableMsftPvaTesting = false;
-      const virtualAgentEnableNluPvaTesting = false;
-      const apiSpy = sandbox.spy();
-      callVirtualAgentTokenApi(
-        virtualAgentEnableMsftPvaTesting,
-        virtualAgentEnableNluPvaTesting,
-        apiSpy,
-      )();
-      expect(apiSpy.calledOnce).to.be.true;
-      expect(apiSpy.args[0][0]).to.be.equal('/virtual_agent_token');
-      expect(apiSpy.args[0][1]).to.be.eql({
-        method: 'POST',
-      });
-    });
-    it('should return a function that uses NLU PVA', () => {
-      const virtualAgentEnableMsftPvaTesting = false;
-      const virtualAgentEnableNluPvaTesting = true;
-      const apiSpy = sandbox.spy();
-      callVirtualAgentTokenApi(
-        virtualAgentEnableMsftPvaTesting,
-        virtualAgentEnableNluPvaTesting,
-        apiSpy,
-      )();
-      expect(apiSpy.calledOnce).to.be.true;
-      expect(apiSpy.args[0][0]).to.be.equal('/virtual_agent_token_nlu');
-      expect(apiSpy.args[0][1]).to.be.eql({ method: 'POST' });
-    });
-  });
   describe('useVirtualAgentToken', () => {
     it('should return error for loading status when csrf loading fails', async () => {
       sandbox

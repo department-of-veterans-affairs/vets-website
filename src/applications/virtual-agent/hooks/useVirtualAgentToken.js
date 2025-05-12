@@ -12,29 +12,9 @@ import {
 import { logErrorToDatadog } from '../utils/logging';
 import { useDatadogLogging } from './useDatadogLogging';
 
-export function callVirtualAgentTokenApi(
-  virtualAgentEnableMsftPvaTesting,
-  virtualAgentEnableNluPvaTesting,
-  apiRequestFn,
-) {
-  return async () => {
-    if (virtualAgentEnableMsftPvaTesting) {
-      return apiRequestFn('/virtual_agent_token_msft', {
-        method: 'POST',
-      });
-    }
-    if (virtualAgentEnableNluPvaTesting) {
-      return apiRequestFn('/virtual_agent_token_nlu', { method: 'POST' });
-    }
-    return apiRequestFn('/virtual_agent_token', {
-      method: 'POST',
-    });
-  };
-}
-
 async function getToken(
-  props,
   setToken,
+  setCode,
   setApiSession,
   setLoadingStatus,
   isDatadogLoggingEnabled,
@@ -45,16 +25,16 @@ async function getToken(
       'vets-website - useVirtualAgentToken',
       new Error('test'),
     );
-    const apiCall = callVirtualAgentTokenApi(
-      props.virtualAgentEnableMsftPvaTesting,
-      props.virtualAgentEnableNluPvaTesting,
-      apiRequest,
-    );
-    const response = await retryOnce(apiCall);
+    const response = await retryOnce(() => {
+      return apiRequest('/virtual_agent_token', {
+        method: 'POST',
+      });
+    });
 
     setConversationIdKey(response.conversationId);
     setTokenKey(response.token);
     setToken(response.token);
+    setCode(response.code);
     setApiSession(response.apiSession);
     setLoadingStatus(COMPLETE);
   } catch (ex) {
@@ -67,6 +47,7 @@ async function getToken(
 
 export default function useVirtualAgentToken(props) {
   const [token, setToken] = useState('');
+  const [code, setCode] = useState('');
   const [apiSession, setApiSession] = useState('');
   const [csrfTokenLoading, csrfTokenLoadingError] = useWaitForCsrfToken(props);
   const [loadingStatus, setLoadingStatus] = useState(LOADING);
@@ -82,8 +63,8 @@ export default function useVirtualAgentToken(props) {
       clearBotSessionStorage();
 
       getToken(
-        props,
         setToken,
+        setCode,
         setApiSession,
         setLoadingStatus,
         isDatadogLoggingEnabled,
@@ -92,5 +73,5 @@ export default function useVirtualAgentToken(props) {
     [csrfTokenLoading, csrfTokenLoadingError, props, isDatadogLoggingEnabled],
   );
 
-  return { token, loadingStatus, apiSession };
+  return { token, code, loadingStatus, apiSession };
 }

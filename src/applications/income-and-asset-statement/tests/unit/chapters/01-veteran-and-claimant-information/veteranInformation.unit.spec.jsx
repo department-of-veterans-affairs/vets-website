@@ -1,37 +1,37 @@
 import testData from '../../../e2e/fixtures/data/test-data.json';
 
 import formConfig from '../../../../config/form';
-import incomeNetWorthDateRange from '../../../../config/chapters/02-claimant-information/incomeNetWorthDateRange';
+import veteranInformation from '../../../../config/chapters/01-veteran-and-claimant-information/veteranInformation';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
-const { schema, uiSchema } = incomeNetWorthDateRange;
+const { schema, uiSchema } = veteranInformation;
 
-describe('income and asset statement date range page', () => {
+describe('income and asset veteran information page', () => {
   testNumberOfFieldsByType(
     formConfig,
     schema,
     uiSchema,
     {
-      'va-memorable-date': 2,
+      'va-text-input': 5,
     },
-    'statement date range',
+    'veteran information',
   );
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    2,
-    'statement date range',
+    3,
+    'veteran information',
   );
   testSubmitsWithoutErrors(
     formConfig,
     schema,
     uiSchema,
-    'statement date range',
+    'veteran information',
     testData.data,
     { loggedIn: true },
   );

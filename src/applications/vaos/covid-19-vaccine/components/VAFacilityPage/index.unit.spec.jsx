@@ -11,7 +11,7 @@ import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '.';
 import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
-import { createMockFacility } from '../../../tests/mocks/data';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import {
   mockClinicsApi,
@@ -34,17 +34,14 @@ const facilityIds = ['983', '983GB', '983GC', '983HK', '983QA', '984'];
 // );
 
 const facilities = facilityIds.map((id, index) =>
-  createMockFacility({
-    id: id.replace('vha_', ''),
+  new MockFacilityResponse({
+    id,
     name: `Fake facility name ${index + 1}`,
-    lat: Math.random() * 90,
-    long: Math.random() * 180,
-    address: {
-      line: [`Fake street ${index + 1}`],
-      city: `Fake city ${index + 1}`,
-      state: `Fake state ${index + 1}`,
-      postalCode: `Fake zip ${index + 1}`,
-    },
+  }).setAddress({
+    line: [`Fake street ${index + 1}`],
+    city: `Fake city ${index + 1}`,
+    state: `Fake state ${index + 1}`,
+    postalCode: `Fake zip ${index + 1}`,
   }),
 );
 
@@ -433,11 +430,11 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       },
     };
 
-    const facility983 = createMockFacility({
+    const facility983 = new MockFacilityResponse({
       id: '983',
       name: 'Facility 983',
     });
-    const facility984 = createMockFacility({
+    const facility984 = new MockFacilityResponse({
       id: '984',
       name: 'Facility 984',
     });
