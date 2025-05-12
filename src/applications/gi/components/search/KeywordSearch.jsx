@@ -115,7 +115,12 @@ export function KeywordSearch({
             htmlFor="institution-search"
           >
             {label}
-            <span className="form-required-span">(*Required)</span>
+            <span
+              className={`form-required-span ${error &&
+                'vads-u-font-weight--bold'}`}
+            >
+              (*Required)
+            </span>
           </label>
         </div>
       )}
