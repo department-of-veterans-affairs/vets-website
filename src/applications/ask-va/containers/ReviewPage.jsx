@@ -177,22 +177,22 @@ const ReviewPage = props => {
           // setIsDisabled(false);
           // TODO - need error modal instead of forwarding to confirmation per final design
           // Temporary alert dialog for testing
-          setShow503Alert(true);
           scroller.scrollTo('topScrollElement', {
             duration: 500,
             delay: 0,
             smooth: true,
           });
+          setShow503Alert(true);
         },
       });
     } catch (_error) {
       setIsDisabled(false);
-      setShow503Alert(true);
       scroller.scrollTo('topScrollElement', {
         duration: 500,
         delay: 0,
         smooth: true,
       });
+      setShow503Alert(true);
       // TODO - need error modal instead of forwarding to confirmation per final design
       // Temporary alert dialog for testing
     }
@@ -1334,7 +1334,7 @@ const ReviewPage = props => {
                         <form className="rjsf">
                           <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
                             <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
-                              <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
+                              <div className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
                                 {!editAttachments ? (
                                   nonEditAttachmentsMode()
                                 ) : (
@@ -1366,7 +1366,7 @@ const ReviewPage = props => {
                                     </div>
                                   </>
                                 )}
-                              </dl>
+                              </div>
                             </dl>
                           </div>
                         </form>

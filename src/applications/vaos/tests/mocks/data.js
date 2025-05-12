@@ -13,7 +13,7 @@ import moment from '../../lib/moment-tz';
  * @param {?string} params.phone The phone number used
  * @param {PPMSProvider} params.communityCareProvider The community care provider to use. Info aside from
  *   uniqueId is discarded in version 2
- * @param {...string} params.fields Other fields provided can be any version 2 field. Some are used to set data
+ * @param {string} params.fields Other fields provided can be any version 2 field. Some are used to set data
  *   on the version 0 output (kind, start, etc) and all are merged into the v2 output
  * @returns {VAOSAppointment} An appointment object in the specified format
  */
@@ -74,40 +74,6 @@ export function createMockAppointment({
         ccLocation: communityCareProvider,
       },
       ...fields,
-    },
-  };
-}
-
-/**
- * Create mock clinic data
- *
- * @export
- * @param {Object} params
- * @param {string} params.id Clinic id
- * @param {string} params.stationId Full location id (sta6aid)
- * @param {?string} params.name Standard clinic name,
- *
- * @returns {VAOSClinic} A mock clinic object
- */
-export function createMockClinic({ id = null, stationId = null, name = null }) {
-  return {
-    id,
-    type: 'clinics',
-    attributes: {
-      vistaSite: stationId.substr(0, 3),
-      id,
-      serviceName: name,
-      physicalLocation: null,
-      phoneNumber: null,
-      stationId,
-      stationName: null,
-      primaryStopCode: null,
-      primaryStopCodeName: null,
-      secondaryStopCode: null,
-      secondaryStopCodeName: null,
-      patientDirectScheduling: null,
-      patientDisplay: null,
-      char4: null,
     },
   };
 }

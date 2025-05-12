@@ -1197,9 +1197,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       fireEvent.click(await findByText(/Continue/));
       await waitFor(() =>
-        expect(history.push.firstCall.args[0]).to.equal(
-          '/new-appointment/request-date',
-        ),
+        expect(history.push.firstCall.args[0]).to.equal('va-request/'),
       );
     });
 
@@ -1478,7 +1476,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       userEvent.click(screen.getByText(/Continue/));
       await waitFor(() =>
         expect(screen.history.push.firstCall.args[0]).to.equal(
-          '/new-appointment/how-to-schedule',
+          'how-to-schedule',
         ),
       );
     });

@@ -33,6 +33,7 @@ const formData = {
         last: 'Ex',
       },
       reasonMarriageEnded: 'Other',
+      otherReasonMarriageEnded: 'A reason',
       startDate: '2000-02-19',
       endDate: '2000-03-20',
       startLocation: {
@@ -236,7 +237,7 @@ describe('veteranMarriageHistoryOptions', () => {
     });
   });
 
-  describe('text.getItemName + text.cardDescription', () => {
+  describe('veteranMarriageHistoryOptions.text.getItemName + .cardDescription', () => {
     it('should return the full name of the item', () => {
       const item = {
         fullName: { first: 'John', last: 'Doe' },
@@ -244,24 +245,31 @@ describe('veteranMarriageHistoryOptions', () => {
       expect(veteranMarriageHistoryOptions.text.getItemName()).to.equal(
         'Your former marriage',
       );
-      expect(veteranMarriageHistoryOptions.text.cardDescription(item)).to.equal(
-        'John Doe',
+
+      const { container } = render(
+        veteranMarriageHistoryOptions.text.cardDescription(item),
       );
+      expect(container.textContent).to.equal('John Doe');
     });
 
-    it('should return an empty string if first or last name is missing', () => {
-      const incompleteItem = { fullName: { first: 'John' } };
-      expect(veteranMarriageHistoryOptions.text.getItemName()).to.equal(
-        'Your former marriage',
+    it('should return a trimmed name even if one part is missing', () => {
+      const itemMissingLast = { fullName: { first: 'John' } };
+      const { container: container1 } = render(
+        veteranMarriageHistoryOptions.text.cardDescription(itemMissingLast),
       );
-      expect(
-        veteranMarriageHistoryOptions.text.cardDescription(incompleteItem),
-      ).to.equal('John ');
+      expect(container1.textContent).to.equal('John');
 
-      const missingBoth = { fullName: {} };
-      expect(
-        veteranMarriageHistoryOptions.text.cardDescription(missingBoth),
-      ).to.equal(' ');
+      const itemMissingFirst = { fullName: { last: 'Doe' } };
+      const { container: container2 } = render(
+        veteranMarriageHistoryOptions.text.cardDescription(itemMissingFirst),
+      );
+      expect(container2.textContent).to.equal('Doe');
+
+      const itemMissingBoth = { fullName: {} };
+      const { container: container3 } = render(
+        veteranMarriageHistoryOptions.text.cardDescription(itemMissingBoth),
+      );
+      expect(container3.textContent).to.equal('');
     });
   });
 });
