@@ -166,7 +166,7 @@ class MedicationsListPage {
   };
 
   verifyFocusOnDownloadFailureAlertBanner = () => {
-    cy.get('[data-testid="no-medications-list"]').should('be.focused');
+    cy.get('[data-testid="api-error-notification"]').should('be.focused');
   };
 
   verifyTextInsideDropDownOnListPage = () => {
@@ -272,12 +272,11 @@ class MedicationsListPage {
     });
   };
 
-  verifyDownloadCompleteSuccessMessageBanner = () => {
+  verifyDownloadCompleteSuccessMessageBanner = text => {
     cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
-    cy.get('[data-testid="download-success-banner"]').should(
-      'contain',
-      'Download started',
-    );
+    cy.get('[data-testid="download-success-banner"]')
+      .should('contain', 'Download started')
+      .and('contain', text);
   };
 
   verifyFocusOnDownloadAlertSuccessBanner = () => {

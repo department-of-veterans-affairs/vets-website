@@ -27,7 +27,9 @@ class MedicationsInformationPage {
   };
 
   verifyFocusOnAPIErrorAlertTextOnPatientInformationPage = () => {
-    cy.get('[data-testid="no-medications-list"]').should('be.focused');
+    cy.get('[data-testid="api-error-notification"]', {
+      includeShadowDom: true,
+    }).should('be.focused');
   };
 
   verifyNoInformationWarningText = () => {
@@ -57,6 +59,13 @@ class MedicationsInformationPage {
     cy.get('[data-testid="download-success-banner"]')
       .should('be.visible')
       .and('contain', text);
+  };
+
+  verifyDownloadSuccessAlertContentOnMedInfoPage = text => {
+    cy.get('[data-testid="download-success-banner"] > .hydrated').should(
+      'contain',
+      text,
+    );
   };
 
   verifyMedicationDescriptionInDownload = (text, downloadFormat) => {

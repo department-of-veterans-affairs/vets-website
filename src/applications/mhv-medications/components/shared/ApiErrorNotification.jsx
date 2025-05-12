@@ -12,6 +12,7 @@ const ApiErrorNotification = ({ errorType, content, children }) => {
   return (
     <va-alert
       status="error"
+      data-testid="api-error-notification"
       setFocus
       aria-live="polite"
       role="alert"
