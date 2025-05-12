@@ -74,7 +74,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
       // eslint-disable-next-line camelcase
       form_field_label: 'Select a filter',
       // eslint-disable-next-line camelcase
-      form_field_option_label: filterOption,
+      form_field_option_label: selectedFilterOption,
     });
 
     updateFilter(selectedFilterOption);
@@ -91,7 +91,9 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
     if (target) {
       const isOpen = target.getAttribute('open');
       if (isOpen === 'false') {
-        dispatch(setFilterOption(filterOption || ALL_MEDICATIONS_FILTER_KEY));
+        dispatch(
+          setFilterOption(selectedFilterOption || ALL_MEDICATIONS_FILTER_KEY),
+        );
       }
       datadogRum.addAction(
         dataDogActionNames.medicationsListPage.FILTER_LIST_ACCORDION,
@@ -141,7 +143,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
               name="filter-options-group"
               value={option}
               description={filterOptions[option].description}
-              checked={filterOption === option}
+              checked={selectedFilterOption === option}
               data-testid={`filter-option-${option}`}
               data-dd-action-name={
                 dataDogActionNames.medicationsListPage[option]
