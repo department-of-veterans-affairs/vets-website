@@ -276,6 +276,16 @@ class MedicationsListPage {
     );
   };
 
+  verifyFocusOnDownloadAlertSuccessBanner = () => {
+    cy.get('[data-testid="download-success-banner"] > .hydrated').should(
+      'be.focused',
+    );
+  };
+
+  verifyDownloadSuccessMessageBannerNotVisibleAfterReload = () => {
+    cy.get('[data-testid="download-success-banner"]').should('not.exist');
+  };
+
   verifyDownloadTextFileHeadless = (
     userFirstName = 'Safari',
     userLastName = 'Mhvtp',

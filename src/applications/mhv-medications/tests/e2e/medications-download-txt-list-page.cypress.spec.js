@@ -14,8 +14,8 @@ describe('Medications Download Txt on List Page', () => {
     listPage.verifyFocusOnPrintDownloadDropDownButton();
     listPage.clickDownloadListAsTxtButtonOnListPage();
     // listPage.verifyLoadingSpinnerForDownloadOnListPage();
+    listPage.verifyFocusOnDownloadAlertSuccessBanner();
     listPage.verifyDownloadCompleteSuccessMessageBanner();
-    listPage.verifyFocusOnPrintDownloadDropDownButton();
     listPage.verifyDownloadTextFileHeadless('Safari', 'Mhvtp', 'Mhvtp, Safari');
   });
 });

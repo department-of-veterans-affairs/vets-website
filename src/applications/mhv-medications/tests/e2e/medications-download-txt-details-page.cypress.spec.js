@@ -16,7 +16,7 @@ describe('Medications Details Page Download', () => {
     detailsPage.verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage();
     detailsPage.clickDownloadMedicationsDetailsAsTxtOnDetailsPage();
     listPage.verifyDownloadCompleteSuccessMessageBanner();
-    detailsPage.verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage();
+    listPage.verifyFocusOnDownloadAlertSuccessBanner();
     listPage.verifyDownloadTextFileHeadless('Safari', 'Mhvtp', 'Mhvtp, Safari');
     cy.injectAxe();
     cy.axeCheck('main');
