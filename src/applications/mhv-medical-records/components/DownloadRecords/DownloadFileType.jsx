@@ -12,6 +12,10 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
+  getNameDateAndTime,
+  makePdf,
+  formatUserDob,
+  formatNameFirstLast,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   VaLoadingIndicator,
@@ -23,14 +27,10 @@ import NeedHelpSection from './NeedHelpSection';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import {
-  getNameDateAndTime,
-  makePdf,
   generateTextFile,
   focusOnErrorField,
   getLastUpdatedText,
-  formatUserDob,
   sendDataDogAction,
-  formatNameFirstLast,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
