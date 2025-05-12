@@ -277,16 +277,8 @@ export function getLetterBlobUrl(
           return resolve(downloadUrl);
         });
       })
-      .catch(response => {
-        const status = getStatus(response);
-        Sentry.withScope(scope => {
-          scope.setFingerprint(['{{ default }}', status]);
-          Sentry.captureException(
-            new Error(
-              `vets_letters_error_getLetterBlobUrl_${letterType} ${status}`,
-            ),
-          );
-        });
+      .catch(() => {
+        // TODO: Add DataDog RUM monitoring
         return reject(
           dispatch(
             getLetterPdfFailure(letterType, 'enhanced-letter-pdf-failure'),
