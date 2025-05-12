@@ -141,11 +141,6 @@ describe('YAML tests', () => {
 
   describe(`Preload flows`, () => {
     describe('Run tests', () => {
-      // const files = testsToRun;
-      // const paths = Object.keys(files);
-
-      // const foo = preloadIncludes(files);
-
       const testRunner = (folder, path, file) => {
         let flowYML = EMPTY_FLOW_YML;
         const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${folder}/${path}/${file}`;
