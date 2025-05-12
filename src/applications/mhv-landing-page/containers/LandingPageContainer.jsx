@@ -5,6 +5,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getFolderList } from '../utilities/api';
 import LandingPage from '../components/LandingPage';
+import ErrorBoundary from '../components/ErrorBoundary';
 import { useAccountCreationApi } from '../hooks';
 import {
   resolveLandingPageLinks,
@@ -16,7 +17,7 @@ import {
   isVAPatient,
   selectProfile,
   signInServiceEnabled,
-  hasMhvAccount,
+  hasMessagingAccess,
   mhvAccountStatusLoading,
 } from '../selectors';
 
@@ -31,7 +32,7 @@ const LandingPageContainer = () => {
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
-  const userHasMhvAccount = useSelector(hasMhvAccount);
+  const userHasMessagingAccess = useSelector(hasMessagingAccess);
 
   const data = useMemo(
     () => {
@@ -55,11 +56,11 @@ const LandingPageContainer = () => {
         const unreadMessages = countUnreadMessages(folders);
         setUnreadMessageCount(unreadMessages);
       }
-      if (userHasMhvAccount) {
+      if (userHasMessagingAccess) {
         loadMessages();
       }
     },
-    [userHasMhvAccount, loading],
+    [userHasMessagingAccess, loading],
   );
 
   useEffect(
@@ -87,7 +88,9 @@ const LandingPageContainer = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <LandingPage data={data} />
+      <ErrorBoundary>
+        <LandingPage data={data} />
+      </ErrorBoundary>
     </RequiredLoginView>
   );
 };

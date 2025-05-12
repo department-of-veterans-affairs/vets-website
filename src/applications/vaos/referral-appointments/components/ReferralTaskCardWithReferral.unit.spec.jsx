@@ -9,7 +9,6 @@ import {
   createTestStore,
 } from '../../tests/mocks/setup';
 import ReferralTaskCardWithReferral from './ReferralTaskCardWithReferral';
-
 import { createReferralById } from '../utils/referrals';
 
 describe('VAOS Component: ReferralTaskCardWithReferral', () => {
@@ -30,7 +29,7 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
 
     apiRequestWithUrlStub.resolves({
       data: createReferralById(
-        '2024-11-29',
+        '2025-01-01',
         'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
     });
@@ -72,11 +71,31 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
 
     apiRequestWithUrlStub.resolves({
       data: createReferralById(
-        '2024-11-29',
-        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-        '111',
         '2024-12-01',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
+    });
+
+    const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
+      store,
+      path: '/?id=445e2d1b-7150-4631-97f2-f6f473bdef00',
+    });
+
+    waitFor(() => {
+      expect(screen.getByTestId('expired-alert')).to.exist;
+    });
+  });
+
+  it('isExpired should return false and expired alert when referral has no expired date', async () => {
+    const store = createTestStore();
+    const referral = createReferralById(
+      '2024-12-01',
+      'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    );
+    referral.attributes.expirationDate = '';
+
+    apiRequestWithUrlStub.resolves({
+      data: referral,
     });
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {

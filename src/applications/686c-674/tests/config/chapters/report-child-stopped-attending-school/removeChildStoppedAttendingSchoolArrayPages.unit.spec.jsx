@@ -113,33 +113,34 @@ describe('removeChildStoppedAttendingSchoolOptions', () => {
   });
 
   describe('getItemName + cardDescription', () => {
-    const {
-      getItemName,
-      cardDescription,
-    } = removeChildStoppedAttendingSchoolOptions.text;
-
     it('should return the correctly capitalized full name', () => {
       const item = {
         fullName: { first: 'john', last: 'doe' },
       };
-      expect(getItemName()).to.equal('Child');
-      expect(cardDescription(item)).to.equal('John Doe');
+      const { container } = render(
+        removeChildStoppedAttendingSchoolOptions.text.cardDescription(item),
+      );
+      expect(container.textContent).to.equal('John Doe');
     });
 
     it('should return the correctly capitalized full name with mixed case', () => {
       const item = {
         fullName: { first: 'jOhN', last: 'dOe' },
       };
-      expect(getItemName()).to.equal('Child');
-      expect(cardDescription(item)).to.equal('John Doe');
+      const { container } = render(
+        removeChildStoppedAttendingSchoolOptions.text.cardDescription(item),
+      );
+      expect(container.textContent).to.equal('John Doe');
     });
 
     it('should handle the case when both names are empty', () => {
       const item = {
         fullName: { first: '', last: '' },
       };
-      expect(getItemName()).to.equal('Child');
-      expect(cardDescription(item)).to.equal(' ');
+      const { container } = render(
+        removeChildStoppedAttendingSchoolOptions.text.cardDescription(item),
+      );
+      expect(container.textContent).to.equal('');
     });
   });
 });

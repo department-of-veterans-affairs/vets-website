@@ -145,6 +145,7 @@ const POARequestDetailsPage = title => {
   const state = poaRequest?.powerOfAttorneyForm.claimant.address.stateCode;
   const zipCode = poaRequest?.powerOfAttorneyForm.claimant.address.zipCode;
   const phone = poaRequest?.powerOfAttorneyForm.claimant.phone;
+  const formattedPhone = phone.replace(/[^a-zA-Z0-9]/g, '');
   const email = poaRequest?.powerOfAttorneyForm.claimant.email;
   const claimantFirstName = poaRequest?.powerOfAttorneyForm.claimant.name.first;
   const claimantLastName = poaRequest?.powerOfAttorneyForm.claimant.name.last;
@@ -165,7 +166,7 @@ const POARequestDetailsPage = title => {
 
   const handleSubmit = e => {
     if (!decisionValue) {
-      setError('Please select an option.');
+      setError('Select an option to continue');
       e.preventDefault();
     }
     return true;
@@ -212,7 +213,7 @@ const POARequestDetailsPage = title => {
             </p>
           </h1>
 
-          <ul className="poa-request-details__list">
+          <ul className="poa-request-details__list poa-request-details__list--col">
             <li className="poa-request-details__list-item">
               <p className="poa-request-details__title">
                 Requested representative
@@ -320,7 +321,7 @@ const POARequestDetailsPage = title => {
               />
             )}
 
-            <h2>Claimant information</h2>
+            <h2 className="poa-request-details__h2">Claimant information</h2>
             <ul className="poa-request-details__list poa-request-details__list--info">
               <li>
                 <p>Relationship to Veteran</p>
@@ -334,7 +335,9 @@ const POARequestDetailsPage = title => {
               </li>
               <li>
                 <p>Phone</p>
-                <p>{phone}</p>
+                <p>
+                  <va-telephone contact={formattedPhone} not-clickable />
+                </p>
               </li>
               <li>
                 <p>Email</p>
@@ -360,7 +363,9 @@ const POARequestDetailsPage = title => {
         and the veteran information will show up here. if the veteran is filing themselves, they will appear as the claimant */}
             {poaRequest.powerOfAttorneyForm.veteran && (
               <>
-                <h2>Veteran identification information</h2>
+                <h2 className="poa-request-details__h2">
+                  Veteran identification information
+                </h2>
                 <ul className="poa-request-details__list poa-request-details__list--info">
                   <li>
                     <p>Name</p>
@@ -383,7 +388,9 @@ const POARequestDetailsPage = title => {
               </>
             )}
 
-            <h2>Authorization information</h2>
+            <h2 className="poa-request-details__h2">
+              Authorization information
+            </h2>
             <ul className="poa-request-details__list poa-request-details__list--info">
               <li>
                 <p>Change of address</p>
@@ -495,7 +502,10 @@ POARequestDetailsPage.loader = ({ params, request }) => {
 
 POARequestDetailsPage.createDecisionAction = async ({ params, request }) => {
   const key = (await request.formData()).get('decision');
-  const decision = DECISION_OPTIONS[key];
+  const decision = {
+    ...DECISION_OPTIONS[key], // Spread the existing decision object
+    key, // Add the key field with the value of the key
+  };
 
   await api.createPOARequestDecision(params.id, decision, {
     signal: request.signal,

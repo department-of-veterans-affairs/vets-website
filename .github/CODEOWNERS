@@ -250,8 +250,8 @@ src/applications/representative-search @department-of-veterans-affairs/accredite
 src/applications/income-and-asset-statement @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Ask VA
-src/applications/ask-va @department-of-veterans-affairs/ask-va-devs @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/ask-va @department-of-veterans-affairs/ask-va-devs @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/ask-va @department-of-veterans-affairs/ask-va-team @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/ask-va @department-of-veterans-affairs/ask-va-team @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Virtual Agent Chatbot
 src/applications/virtual-agent @department-of-veterans-affairs/vfs-virtual-agent-chatbot @department-of-veterans-affairs/va-platform-cop-frontend
@@ -267,6 +267,9 @@ src/applications/medallions2 @department-of-veterans-affairs/bah-mbs-selfserv @d
 src/applications/simple-forms/40-0247 @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pre-need @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pre-need-integration @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
+
+# Transition Experience
+src/applications/discover-your-benefits @department-of-veterans-affairs/transition-experience @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Need more specific owners
 src/applications/ask-a-question @department-of-veterans-affairs/va-platform-cop-frontend

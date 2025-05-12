@@ -5,7 +5,10 @@ import { applicantWording } from '../../../shared/utilities';
 import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
 import { fileUploadUi as fileUploadUI } from '../../../shared/components/fileUploads/upload';
 import { REQUIRED_FILES } from '../../config/constants';
-import { uploadWithInfoComponent } from '../Sponsor/sponsorFileUploads';
+import {
+  acceptableFiles,
+  uploadWithInfoComponent,
+} from '../Sponsor/sponsorFileUploads';
 
 // This file contains the ui/schemas for applicant file upload screens.
 
@@ -73,7 +76,10 @@ export const applicantBirthCertUploadUiSchema = {
         ({ formData }) => (
           <>
             To help us process this application faster, submit a copy of{' '}
-            <b>{applicantWording(formData, true, false)}</b> birth certificate.
+            <b className="dd-privacy-hidden">
+              {applicantWording(formData, true, false)}
+            </b>{' '}
+            birth certificate.
             <br />
             Submitting a copy can help us process this application faster.
             <br />
@@ -111,7 +117,9 @@ export const applicantSchoolCertUploadUiSchema = {
           return (
             <>
               <p>
-                <b>If {beingVerb} already enrolled in school</b>
+                <b className="dd-privacy-hidden">
+                  If {beingVerb} already enrolled in school
+                </b>
               </p>
               <p>You’ll need to submit a letter on the school’s letterhead.</p>
               <p>
@@ -120,10 +128,13 @@ export const applicantSchoolCertUploadUiSchema = {
               </p>
               <ul>
                 <li>
-                  <b>{posessive}</b> first and last name
+                  <b className="dd-privacy-hidden">{posessive}</b> first and
+                  last name
                 </li>
                 <li>
-                  The last 4 digits of <b>{posessive}</b> Social Security number
+                  The last 4 digits of{' '}
+                  <b className="dd-privacy-hidden">{posessive}</b> Social
+                  Security number
                 </li>
                 <li>
                   The start and end dates for each semester or enrollment term
@@ -136,9 +147,14 @@ export const applicantSchoolCertUploadUiSchema = {
                 </li>
               </ul>
               <p>
-                <b>If {beingVerb} planning to enroll</b>
+                <b>
+                  If <span className="dd-privacy-hidden">{beingVerb}</span>{' '}
+                  planning to enroll
+                </b>
               </p>
-              Submit a copy of {posessive} acceptance letter from the school.
+              Submit a copy of{' '}
+              <span className="dd-privacy-hidden">{posessive}</span> acceptance
+              letter from the school.
             </>
           );
         },
@@ -167,12 +183,14 @@ export const applicantHelplessChildUploadUiSchema = {
           const posessive = applicantWording(formData, true, false);
           return (
             <>
-              You’ve selected that <b>{posessive}</b> permanently incapable of
-              self support and rated as a helpless child.
+              You’ve selected that{' '}
+              <b className="dd-privacy-hidden">{posessive}</b> permanently
+              incapable of self support and rated as a helpless child.
               <br />
               <br />
               To help us process this application faster, you can submit a copy
-              of a document showing proof of <b>{posessive}</b> rating.
+              of a document showing proof of{' '}
+              <b className="dd-privacy-hidden">{posessive}</b> rating.
               <br />
               <br />
               {mailOrFaxLaterMsg}
@@ -203,7 +221,9 @@ export const applicantAdoptedUploadUiSchema = {
         ({ formData }) => (
           <>
             You’ll need to submit a document showing proof of{' '}
-            <b>{applicantWording(formData, true, false)} </b>
+            <b className="dd-privacy-hidden">
+              {applicantWording(formData, true, false)}{' '}
+            </b>
             adoption (like court ordered adoption papers).
             <br />
             {mailOrFaxLaterMsg}
@@ -237,8 +257,9 @@ export const applicantStepChildUploadUiSchema = {
           return (
             <>
               You’ll need to submit a document showing proof of the marriage or
-              legal union between <b>{posessive}</b> sponsor and{' '}
-              <b>{posessive}</b> parent.
+              legal union between{' '}
+              <b className="dd-privacy-hidden">{posessive}</b> sponsor and{' '}
+              <b className="dd-privacy-hidden">{posessive}</b> parent.
               <br />
               <br />
               {marriageDocumentList}
@@ -272,7 +293,8 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
           return (
             <>
               You’ll need to submit a copy of the front and back of{' '}
-              <b>{posessive}</b> Medicare Part A and B cards.
+              <b className="dd-privacy-hidden">{posessive}</b> Medicare Part A
+              and B cards.
               <br />
               {mailOrFaxLaterMsg}
             </>
@@ -280,14 +302,17 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
         },
       ),
       ...applicantMedicarePartAPartBCardsConfig.uiSchema,
-      applicantMedicarePartAPartBCard: {
+      applicantMedicarePartAPartBCardFront: {
         ...fileUploadUI({
-          label: 'Upload Medicare cards',
+          label: 'Upload front of Medicare card',
+          attachmentId: acceptableFiles.medicareABCert[0],
         }),
-        'ui:errorMessages': {
-          minItems:
-            'You must add both the front and back of your card as separate files.',
-        },
+      },
+      applicantMedicarePartAPartBCardBack: {
+        ...fileUploadUI({
+          label: 'Upload back of Medicare card',
+          attachmentId: acceptableFiles.medicareABCert[1],
+        }),
       },
     },
   },
@@ -310,7 +335,8 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
           return (
             <>
               You’ll need to submit a copy of the front and back of{' '}
-              <b>{posessive}</b> Medicare Part D card.
+              <b className="dd-privacy-hidden">{posessive}</b> Medicare Part D
+              card.
               <br />
               {mailOrFaxLaterMsg}
             </>
@@ -318,14 +344,17 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
         },
       ),
       ...applicantMedicarePartDCardsConfig.uiSchema,
-      applicantMedicarePartDCard: {
+      applicantMedicarePartDCardFront: {
         ...fileUploadUI({
-          label: 'Upload Medicare card',
+          label: 'Upload front of Medicare Part D card',
+          attachmentId: acceptableFiles.medicareDCert[0],
         }),
-        'ui:errorMessages': {
-          minItems:
-            'You must add both the front and back of your card as separate files.',
-        },
+      },
+      applicantMedicarePartDCardBack: {
+        ...fileUploadUI({
+          label: 'Upload back of Medicare Part D card',
+          attachmentId: acceptableFiles.medicareDCert[1],
+        }),
       },
     },
   },
@@ -349,8 +378,8 @@ export const appMedicareOver65IneligibleUploadUiSchema = {
           const nonPosessive = applicantWording(formData, false, true);
           return (
             <>
-              <b>{nonPosessive}</b> is 65 years or older and you selected that{' '}
-              they’re not eligible for Medicare.
+              <b className="dd-privacy-hidden">{nonPosessive}</b> is 65 years or
+              older and you selected that they’re not eligible for Medicare.
               <br />
               <br />
               You’ll need to submit a copy of a letter from the Social Security
@@ -390,14 +419,17 @@ export const applicantOhiCardsUploadUiSchema = {
         </>,
       ),
       ...applicantOhiCardsConfig.uiSchema,
-      applicantOhiCard: {
+      applicantOhiCardFront: {
         ...fileUploadUI({
-          label: 'Upload other health insurance cards',
+          label: 'Upload front of other health insurance card',
+          attachmentId: acceptableFiles.healthInsCert[0],
         }),
-        'ui:errorMessages': {
-          minItems:
-            'You must add both the front and back of your card as separate files.',
-        },
+      },
+      applicantOhiCardBack: {
+        ...fileUploadUI({
+          label: 'Upload back of other health insurance card',
+          attachmentId: acceptableFiles.healthInsCert[1],
+        }),
       },
     },
   },
@@ -446,15 +478,6 @@ export const applicantRemarriageCertConfig = uploadWithInfoComponent(
   'remarriage certificates',
 );
 
-// When in list loop, formData is just the list element's data, but when editing
-// a list item's data on review-and-submit `formData` may be the complete form
-// data object. This provides a consistent interface via formContext.
-export function getTopLevelFormData(formContext) {
-  return formContext.contentAfterButtons === undefined
-    ? formContext.data
-    : formContext.contentAfterButtons.props.form.data;
-}
-
 // If the beneficiary remarried, collect proof of that remarriage
 // and any other marital docs they want to include
 export const applicantRemarriageCertUploadUiSchema = {
@@ -462,25 +485,26 @@ export const applicantRemarriageCertUploadUiSchema = {
     'ui:options': { viewField: ApplicantField },
     items: {
       ...titleUI(
-        ({ formData, formContext }) =>
-          `If ${applicantWording(
-            formData,
-            false,
-            false,
-          )} remarried, upload proof of remarriage ${isRequiredFile(
-            formContext,
-          )}`,
+        ({ formData, formContext }) => (
+          <>
+            If{' '}
+            <span className="dd-privacy-hidden">
+              {applicantWording(formData, false, false)}
+            </span>{' '}
+            remarried, upload proof of remarriage {isRequiredFile(formContext)}
+          </>
+        ),
         ({ formData, formContext }) => {
           const nonPosessive = applicantWording(formData, false, false);
           // Inside list loop this lets us grab form data outside the scope of
           // current list element:
-          const vetName = getTopLevelFormData(formContext)?.veteransFullName;
+          const vetName = formContext?.fullData?.veteransFullName;
           return (
             <>
-              If {nonPosessive} remarried after the death of{' '}
-              {vetName?.first ?? ''} {vetName?.last ?? ''}, you can help us
-              process your application by submitting documents showing proof of
-              that remarriage.
+              If <span className="dd-privacy-hidden">{nonPosessive}</span>{' '}
+              remarried after the death of {vetName?.first ?? ''}{' '}
+              {vetName?.last ?? ''}, you can help us process your application by
+              submitting documents showing proof of that remarriage.
               <br />
               <br />
               {marriageDocumentList}
@@ -514,8 +538,9 @@ export const applicantSecondMarriageCertUploadUiSchema = {
           return (
             <>
               You’ll need to submit a document showing proof of the marriage or
-              legal union between <b>{nonPosessive}</b> and their current spouse
-              or partner
+              legal union between{' '}
+              <b className="dd-privacy-hidden">{nonPosessive}</b> and their
+              current spouse or partner
               <br />
               <br />
               {marriageDocumentList}
@@ -550,7 +575,8 @@ export const applicantSecondMarriageDivorceCertUploadUiSchema = {
             <>
               To help us process this application faster, you can submit a
               document showing proof of legal separation between{' '}
-              <b>{nonPosessive}</b> and the sponsor.
+              <b className="dd-privacy-hidden">{nonPosessive}</b> and the
+              sponsor.
               <br />
               <br />
               Upload a copy of one of these documents:

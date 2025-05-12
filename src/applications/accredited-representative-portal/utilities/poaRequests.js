@@ -24,6 +24,17 @@ export const expiresSoon = expDate => {
   return null;
 };
 
+export const requestsContainStatus = (status, requests) => {
+  if (status === 'pending') {
+    return requests.find(poaRequest => poaRequest.resolution === null);
+  }
+  return requests.find(
+    poaRequest =>
+      (poaRequest.resolution?.decisionType || poaRequest.resolution?.type) ===
+      status,
+  );
+};
+
 export const formatStatus = x => {
   if (x === 'declination') {
     return 'Declined';
@@ -80,18 +91,18 @@ export const SEARCH_BC_LABEL = 'search breadcrumb';
 export const HELP_BC_LABEL = 'search breadcrumb';
 export const HelpBC = [
   {
-    href: 'https://va.gov/representative',
+    href: '/representative',
     label: 'VA.gov/representative home',
   },
   {
-    href: 'https://va.gov/representative/get-help',
+    href: '/representative/get-help',
     label: 'Get help using the portal',
   },
 ];
 
 export const poaSearchBC = [
   {
-    href: 'https://va.gov/representative',
+    href: '/representative',
     label: 'VA.gov/representative home',
   },
   {
@@ -99,23 +110,23 @@ export const poaSearchBC = [
     label: 'Power of attorney requests',
   },
 ];
-export const searchPeopleBC = [
+export const findClaimantBC = [
+  {
+    href: '/representative',
+    label: 'Representative.va.gov home',
+  },
+  {
+    href: window.location.href,
+    label: 'Find claimant',
+  },
+];
+export const poaDetailsBreadcrumbs = [
   {
     href: '/representative',
     label: 'VA.gov/representative home',
   },
   {
-    href: window.location.href,
-    label: 'Search People',
-  },
-];
-export const poaDetailsBreadcrumbs = [
-  {
-    href: 'https://va.gov/representative',
-    label: 'VA.gov/representative home',
-  },
-  {
-    href: 'https://va.gov/poa-requests?status=pending',
+    href: '/representative/poa-requests',
     label: 'Power of attorney requests',
   },
   {
@@ -123,3 +134,35 @@ export const poaDetailsBreadcrumbs = [
     label: 'POA request',
   },
 ];
+export const SEARCH_PARAMS = {
+  STATUS: 'status',
+  SORTBY: 'sortBy',
+  SORTORDER: 'sortOrder',
+  SIZE: 'pageSize',
+  NUMBER: 'pageNumber',
+};
+export const SORT_BY = {
+  CREATED: 'created_at',
+  RESOLVED: 'resolved_at',
+  ASC: 'asc',
+  DESC: 'desc',
+};
+
+export const PENDING = {
+  DESC_OPTION: 'Submitted date (newest)',
+  ASC_OPTION: 'Submitted date (oldest)',
+};
+
+export const PROCESSED = {
+  DESC_OPTION: 'Processed date (newest)',
+  ASC_OPTION: 'Processed date (oldest)',
+};
+
+export const STATUSES = {
+  PENDING: 'pending',
+  PROCESSED: 'processed',
+  // default is 20 per page
+  SIZE: '20',
+  // default is page 1
+  NUMBER: '1',
+};

@@ -1,22 +1,24 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   radioUI,
   radioSchema,
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
-  otherAssetOwnerRelationshipExplanationRequired,
+  generateDeleteDescription,
   isDefined,
+  otherAssetOwnerRelationshipExplanationRequired,
 } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
@@ -31,16 +33,11 @@ export const options = {
     !isDefined(item.ownedPortionValue) ||
     !isDefined(item.assetType) ||
     !isDefined(item.assetLocation), // include all required fields here
-  maxItems: 5,
   text: {
-    getItemName: () => 'Unreported Asset',
+    getItemName: item => isDefined(item?.assetType) && `${item.assetType}`,
     cardDescription: item =>
       isDefined(item?.ownedPortionValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
-          <li>
-            Asset type:{' '}
-            <span className="vads-u-font-weight--bold">{item.assetType}</span>
-          </li>
           <li>
             Owned portion value:{' '}
             <span className="vads-u-font-weight--bold">
@@ -56,8 +53,6 @@ export const options = {
         </ul>
       ),
     reviewAddButtonText: 'Add another unreported asset',
-    alertMaxItems:
-      'You have added the maximum number of allowed unreported assets for this application. You may edit or delete an unreported asset or choose to continue the application.',
     alertItemUpdated: 'Your unreported asset information has been updated',
     alertItemDeleted: 'Your unreported asset information has been deleted',
     cancelAddTitle: 'Cancel adding this unreported asset',
@@ -70,6 +65,8 @@ export const options = {
     deleteTitle: 'Delete this unreported asset',
     deleteYes: 'Yes, delete this unreported asset',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 
@@ -85,16 +82,17 @@ const summaryPage = {
       {
         title:
           'Do you or your dependents have any assets not already reported?',
+        hint: 'If yes, you’ll need to report at least one asset ',
         labels: {
           Y: 'Yes, I have an asset to report',
-          N: 'No, I don’t have any assets to report',
+          N: 'No, I don’t have an assets to report',
         },
       },
       {
-        title: 'Do you have any more unreported assets to report?',
+        title: 'Do you have any more assets to report?',
         labels: {
-          Y: 'Yes, I have another asset to report',
-          N: 'No, I don’t have anymore assets to report',
+          Y: 'Yes, I have more assets to report',
+          N: 'No, I don’t have more assets to report',
         },
       },
     ),
@@ -148,14 +146,8 @@ const assetTypePage = {
       title: 'What is the type of asset?',
       hint: 'Cash, art, etc',
     }),
-    ownedPortionValue: merge(
-      {},
-      currencyUI('What is the value of your portion of the property?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
+    ownedPortionValue: currencyUI(
+      'What is the value of your portion of the property?',
     ),
     assetLocation: textUI({
       title: 'Where is the asset located?',
@@ -166,7 +158,7 @@ const assetTypePage = {
     type: 'object',
     properties: {
       assetType: textSchema,
-      ownedPortionValue: { type: 'number' },
+      ownedPortionValue: currencySchema,
       assetLocation: textSchema,
     },
     required: ['assetType', 'ownedPortionValue', 'assetLocation'],

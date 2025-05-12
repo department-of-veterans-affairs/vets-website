@@ -1,7 +1,12 @@
 import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { fireEvent } from '@testing-library/react';
+
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import * as recordEventModule from 'platform/monitoring/record-event';
+
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import IntroductionPage from '../../../../components/submit-flow/pages/IntroductionPage';
@@ -20,13 +25,21 @@ const mockAppt = {
 };
 
 describe('Introduction page', () => {
-  afterEach(() => {
-    MockDate.reset();
-  });
+  let recordEventStub;
+  const onStartSpy = sinon.spy();
 
   const props = {
-    onStart: () => {},
+    onStart: onStartSpy,
   };
+
+  beforeEach(() => {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    MockDate.reset();
+    recordEventStub.restore();
+  });
 
   it('should render a loading indicator while fetching appointment details', () => {
     const screen = renderWithStoreAndRouter(<IntroductionPage {...props} />, {
@@ -38,12 +51,57 @@ describe('Introduction page', () => {
             data: null,
           },
         },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
       },
       reducers: reducer,
     });
 
     expect(screen.getByText('File a travel reimbursement claim')).to.exist;
     expect(screen.getByTestId('travel-pay-loading-indicator')).to.exist;
+  });
+
+  it('should record the pageview', () => {
+    MockDate.set('2025-01-05');
+    renderWithStoreAndRouter(<IntroductionPage {...props} />, {
+      initialState: {
+        travelPay: {
+          appointment: {
+            isLoading: true,
+            error: null,
+            data: {
+              ...mockAppt,
+              isPast: true,
+              daysSinceAppt: 6,
+              isOutOfBounds: false,
+            },
+          },
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      },
+      reducers: reducer,
+    });
+
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'intro',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
   });
 
   it('should render with link to file a claim if data has loaded', () => {
@@ -62,12 +120,22 @@ describe('Introduction page', () => {
             },
           },
         },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
       },
       reducers: reducer,
     });
 
     expect(screen.getByText('File a travel reimbursement claim')).to.exist;
     expect($('va-link-action[text="File a mileage-only claim"]')).to.exist;
+
+    fireEvent.click($('va-link-action[text="File a mileage-only claim"]'));
+    expect(onStartSpy.called).to.be.true;
   });
 
   it('should show alert if appointment fetch fails', () => {
@@ -79,6 +147,13 @@ describe('Introduction page', () => {
             error: 'there was a problem',
             data: null,
           },
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
         },
       },
       reducers: reducer,
@@ -108,6 +183,13 @@ describe('Introduction page', () => {
             },
           },
         },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
       },
       reducers: reducer,
     });
@@ -132,11 +214,51 @@ describe('Introduction page', () => {
             },
           },
         },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
       },
       reducers: reducer,
     });
 
     expect(screen.getByText('Your appointment is older than 30 days')).to.exist;
     expect($('va-link-action[text="File a mileage only claim"]')).to.not.exist;
+  });
+
+  it('should hide entry point if claim exists for appointment', () => {
+    MockDate.set('2025-01-05');
+    renderWithStoreAndRouter(<IntroductionPage {...props} />, {
+      initialState: {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+        travelPay: {
+          appointment: {
+            isLoading: true,
+            error: null,
+            data: {
+              ...mockAppt,
+              isPast: true,
+              daysSinceAppt: 6,
+              isOutOfBounds: false,
+              travelPayClaim: {
+                claim: {},
+              },
+            },
+          },
+        },
+      },
+      reducers: reducer,
+    });
+
+    expect($('va-link-action[text="File a mileage-only claim"]')).to.not.exist;
   });
 });

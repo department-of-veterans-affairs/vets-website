@@ -4,7 +4,7 @@ import { DOWNLOAD_FORMAT, PRINT_FORMAT } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const PrintDownload = props => {
-  const { onDownload, isSuccess, list, onPrint, onText, isLoading } = props;
+  const { onDownload, isSuccess, list, onPrint, isLoading } = props;
   const [isError, setIsError] = useState(false);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,11 +30,7 @@ const PrintDownload = props => {
 
     try {
       setIsError(false);
-      if (format === DOWNLOAD_FORMAT.TXT && onText) {
-        onText();
-      } else {
-        await onDownload(format);
-      }
+      await onDownload(format);
     } catch {
       setIsError(true);
     }
@@ -200,7 +196,7 @@ const PrintDownload = props => {
               data-testid="download-pdf-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.PDF)}
             >
-              Download a PDF of this {list ? 'list' : 'page'}
+              Download a PDF of {list ? 'all medications' : 'this page'}
             </button>
           </li>
           <li>
@@ -216,7 +212,8 @@ const PrintDownload = props => {
               data-testid="download-txt-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.TXT)}
             >
-              Download a text file (.txt) of this {list ? 'list' : 'page'}
+              Download a text file (.txt) of{' '}
+              {list ? 'all medications' : 'this page'}
             </button>
           </li>
         </ul>

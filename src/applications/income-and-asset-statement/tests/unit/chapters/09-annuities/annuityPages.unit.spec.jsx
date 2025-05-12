@@ -49,8 +49,11 @@ describe('annuity list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return text', () => {
-      expect(options.text.getItemName()).to.equal('Annuity');
+    it('should return "Annuity established on `establishedDate`', () => {
+      const item = testData.data.trusts[0];
+      expect(options.text.getItemName(item)).to.equal(
+        'Annuity established on March 15, 2020',
+      );
     });
   });
 
@@ -60,7 +63,7 @@ describe('annuity list and loop pages', () => {
       addedFundsAfterEstablishment,
       addedFundsDate,
       addedFundsAmount,
-      revocable,
+      establishedDate,
       receivingIncomeFromAnnuity,
       annualReceivedIncome,
       canBeLiquidated,
@@ -77,7 +80,7 @@ describe('annuity list and loop pages', () => {
       addedFundsAfterEstablishment,
       addedFundsDate,
       addedFundsAmount,
-      revocable,
+      establishedDate,
       receivingIncomeFromAnnuity,
       annualReceivedIncome,
       canBeLiquidated,
@@ -126,7 +129,7 @@ describe('annuity list and loop pages', () => {
       uiSchema,
       {
         'va-memorable-date': 1,
-        input: 1,
+        'va-text-input': 1,
       },
       'information',
     );
@@ -134,7 +137,7 @@ describe('annuity list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'information',
     );
     testSubmitsWithoutErrors(
@@ -293,14 +296,14 @@ describe('annuity list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-memorable-date': 1, input: 1 },
+      { 'va-memorable-date': 1, 'va-text-input': 1 },
       'added funds',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'added funds',
     );
     testSubmitsWithoutErrors(

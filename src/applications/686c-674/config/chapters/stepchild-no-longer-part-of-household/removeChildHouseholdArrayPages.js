@@ -1,3 +1,4 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -18,6 +19,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { CancelButton } from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const removeChildHouseholdOptions = {
@@ -42,10 +44,14 @@ export const removeChildHouseholdOptions = {
   text: {
     summaryTitle: 'Review your stepchildren who have left your household',
     getItemName: () => 'Stepchild',
-    cardDescription: item =>
-      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
-        item?.fullName?.last,
-      ) || ''}`,
+    cardDescription: item => (
+      <span className="dd-privacy" data-dd-privacy="mask">
+        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
+          item?.fullName?.last,
+        ) || ''}`.trim()}
+      </span>
+    ),
+    cancelAddButtonText: 'Cancel removing this child',
   },
 };
 
@@ -55,6 +61,20 @@ export const removeChildHouseholdIntroPage = {
       'Your stepchildren who have left your household',
       'In the next few questions, we’ll ask you about your stepchildren. You must add at least one stepchild.',
     ),
+    ...titleUI({
+      title: 'Your stepchildren who have left your household',
+      description: () => {
+        return (
+          <>
+            <p>
+              In the next few questions, we’ll ask you about your stepchildren.
+              You must add at least one stepchild.
+            </p>
+            <CancelButton dependentType="stepchildren" isAddChapter={false} />
+          </>
+        );
+      },
+    }),
   },
   schema: {
     type: 'object',
@@ -67,6 +87,13 @@ export const removeChildHouseholdSummaryPage = {
   uiSchema: {
     'view:completedHouseholdChild': arrayBuilderYesNoUI(
       removeChildHouseholdOptions,
+      {
+        title: 'Do you have a child to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
       {
         title: 'Do you have another child to add?',
         labels: {

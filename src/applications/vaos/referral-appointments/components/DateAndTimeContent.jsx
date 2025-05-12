@@ -14,6 +14,7 @@ import {
   getTimezoneByFacilityId,
 } from '../../utils/timezone';
 import { getReferralSlotKey } from '../utils/referrals';
+import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
 
 export const DateAndTimeContent = props => {
@@ -26,7 +27,7 @@ export const DateAndTimeContent = props => {
   const [error, setError] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacilityInfo.facilityCode,
+    currentReferral.referringFacilityInfo.code,
   );
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   const latestAvailableSlot = new Date(
@@ -115,31 +116,36 @@ export const DateAndTimeContent = props => {
   return (
     <>
       <div>
-        <p>
-          You or your referring VA facility selected to schedule an appointment
-          online with this provider:
-        </p>
         <p className="vads-u-font-weight--bold vads-u-margin--0">
-          {draftAppointmentInfo.provider.name}
+          {currentReferral.provider.name}
         </p>
-        <p className="vads-u-margin-top--0">{currentReferral.categoryOfCare}</p>
+        <p className="vads-u-margin-top--0">
+          {titleCase(currentReferral.categoryOfCare)}
+        </p>
         <p className="vads-u-margin--0 vads-u-font-weight--bold">
           {draftAppointmentInfo.provider.providerOrganization.name}
         </p>
         <ProviderAddress
-          address={currentReferral.referringFacilityInfo.address}
+          address={draftAppointmentInfo.provider.location.address}
           showDirections
-          directionsName={currentReferral.referringFacilityInfo.facilityName}
-          phone={currentReferral.referringFacilityInfo.phone}
+          directionsName={
+            draftAppointmentInfo.provider.providerOrganization.name
+          }
+          phone={currentReferral.provider.telephone}
         />
         {driveTimeString && <p>{driveTimeString}</p>}
+        <p>
+          <strong>Note:</strong> You or your VA facility chose this provider for
+          this referral. If you want a different provider, you’ll need to
+          request a new referral.
+        </p>
         <h2>Choose a date and time</h2>
         {!noSlotsAvailable && (
           <p>
             Select an available date and time from the calendar below.
             Appointment times are displayed in{' '}
             {`${getTimezoneDescByFacilityId(
-              currentReferral.referringFacilityInfo.facilityCode,
+              currentReferral.referringFacilityInfo.code,
             )}`}
             .
           </p>
@@ -155,7 +161,7 @@ export const DateAndTimeContent = props => {
             We’re sorry. We couldn’t find any open time slots.
           </h2>
           <p>Please call this provider to schedule an appointment</p>
-          <va-telephone contact={currentReferral.referringFacilityInfo.phone} />
+          <va-telephone contact={currentReferral.provider.telephone} />
         </va-alert>
       )}
       {!noSlotsAvailable && (

@@ -1,11 +1,15 @@
 import React from 'react';
-import merge from 'lodash/merge';
+
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
   textUI,
@@ -15,14 +19,16 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
 import { validateDate } from 'platform/forms-system/src/js/validation';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
+  formatFullNameNoSuffix,
+  generateDeleteDescription,
+  isDefined,
+  isRecipientInfoIncomplete,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
-  isDefined,
 } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
@@ -33,21 +39,20 @@ export const options = {
   nounPlural: 'income receipt waivers',
   required: false,
   isItemIncomplete: item =>
-    !isDefined(item?.recipientRelationship) ||
+    isRecipientInfoIncomplete(item) ||
     !isDefined(item.payer) ||
     !isDefined(item.waivedGrossMonthlyIncome), // include all required fields here
-  maxItems: 5,
   text: {
-    getItemName: () => 'Income receipt waiver',
+    getItemName: (item, index, formData) =>
+      isDefined(item?.recipientRelationship) &&
+      `${
+        item?.recipientRelationship === 'VETERAN'
+          ? formatFullNameNoSuffix(formData?.veteranFullName)
+          : formatFullNameNoSuffix(item?.recipientName)
+      }’s income receipt waiver`,
     cardDescription: item =>
       isDefined(item?.waivedGrossMonthlyIncome) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
-          <li>
-            Recipient relationship:{' '}
-            <span className="vads-u-font-weight--bold">
-              {relationshipLabels[item.recipientRelationship]}
-            </span>
-          </li>
           <li>
             Income payer:{' '}
             <span className="vads-u-font-weight--bold">{item.payer}</span>
@@ -61,8 +66,6 @@ export const options = {
         </ul>
       ),
     reviewAddButtonText: 'Add another income receipt waiver',
-    alertMaxItems:
-      'You have added the maximum number of allowed income receipt waivers for this application. You may edit or delete an income receipt waiver or choose to continue the application.',
     alertItemUpdated: 'Your income receipt waiver information has been updated',
     alertItemDeleted: 'Your income receipt waiver information has been deleted',
     cancelAddTitle: 'Cancel adding this income receipt waiver',
@@ -75,6 +78,8 @@ export const options = {
     deleteTitle: 'Delete this income receipt waiver',
     deleteYes: 'Yes, delete this income receipt waiver',
     deleteNo: 'No',
+    deleteDescription: props =>
+      generateDeleteDescription(props, options.text.getItemName),
   },
 };
 
@@ -90,16 +95,18 @@ const summaryPage = {
       {
         title:
           'Did you or your dependents waive or expect to waive any receipt of income in the next 12 months?',
+        hint:
+          'If yes, you’ll need to report at least one income receipt waiver',
         labels: {
           Y: 'Yes, I have an income receipt waiver to report',
-          N: 'No, I don’t have any income receipt waivers to report',
+          N: 'No, I don’t have an income receipt waiver to report',
         },
       },
       {
         title: 'Do you have any more income receipt waivers to report?',
         labels: {
           Y: 'Yes, I have another income receipt waiver to report',
-          N: 'No, I don’t have anymore income receipt waivers to report',
+          N: 'No, I don’t have another income receipt waiver to report',
         },
       },
     ),
@@ -155,17 +162,13 @@ const recipientNamePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Income receipt waiver recipient name',
     ),
-    recipientName: textUI({
-      title: 'Tell us the income recipient’s name',
-      hint: 'Only needed if child, parent, custodian of child, or other',
-    }),
+    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
     properties: {
-      recipientName: textSchema,
+      recipientName: fullNameNoSuffixSchema,
     },
-    required: ['recipientName'],
   },
 };
 
@@ -191,20 +194,14 @@ const incomePayerPage = {
 const incomeAmountPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Income receipt waiver amount'),
-    waivedGrossMonthlyIncome: merge(
-      {},
-      currencyUI('What is the gross monthly income amount?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
+    waivedGrossMonthlyIncome: currencyUI(
+      'What is the gross monthly income amount?',
     ),
   },
   schema: {
     type: 'object',
     properties: {
-      waivedGrossMonthlyIncome: { type: 'number' },
+      waivedGrossMonthlyIncome: currencySchema,
     },
     required: ['waivedGrossMonthlyIncome'],
   },
@@ -252,20 +249,12 @@ const incomeDatePage = {
 const expectedIncomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Income receipt waiver amount'),
-    expectedIncome: merge(
-      {},
-      currencyUI('What amount do you expect to receive?'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
-    ),
+    expectedIncome: currencyUI('What amount do you expect to receive?'),
   },
   schema: {
     type: 'object',
     properties: {
-      expectedIncome: { type: 'number' },
+      expectedIncome: currencySchema,
     },
     required: ['expectedIncome'],
   },

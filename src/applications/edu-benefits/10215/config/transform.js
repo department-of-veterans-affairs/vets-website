@@ -43,7 +43,9 @@ export default function transform(form) {
   today = new Date(today.getTime() - offset * 60 * 1000);
   // eslint-disable-next-line prefer-destructuring
   formData.data.dateSigned = today.toISOString().split('T')[0];
-
+  if (formData.data?._metadata) {
+    delete formData.data._metadata;
+  }
   return JSON.stringify({
     educationBenefitsClaim: {
       form: JSON.stringify(formData.data),

@@ -8,6 +8,7 @@
     "view:fdcWarning": {},
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
+    "none": false,
     "view:isHomeless": {
       "homelessHousingSituation": "other",
       "otherHomelessHousing": "Under a bridge",
@@ -328,7 +329,7 @@
     "skip781ForCombatReason": false,
     "view:ptsdCombatBypassAdditionalInfo": {},
     "view:mentalHealthSupportAlert": {},
-    "view:mentalHealthWorkflowChoice": "optForOnlineForm0781",
+    "mentalHealthWorkflowChoice": "optForOnlineForm0781",
     "eventTypes": {
       "combat": true,
       "mst": true,
@@ -378,8 +379,8 @@
       "socialEconomic": true,
       "unlisted": true
     },
-    "view:noneCheckbox": {
-      "view:noBehaviorChanges": false
+    "noBehavioralChange": {
+      "noChange": false
     },
     "treatmentReceivedNonVaProvider": {
       "nonVa": true,
@@ -391,7 +392,7 @@
       "vaPaid": true,
       "dod": true
     },
-    "view:treatmentNoneCheckbox": {
+    "treatmentNoneCheckbox": {
       "none": false
     },
     "optionIndicator": "yes",

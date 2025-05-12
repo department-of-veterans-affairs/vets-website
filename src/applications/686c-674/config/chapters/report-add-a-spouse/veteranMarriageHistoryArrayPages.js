@@ -1,7 +1,6 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
-  textUI,
-  textSchema,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -36,12 +35,14 @@ export const veteranMarriageHistoryOptions = {
   nounSingular: 'former marriage',
   nounPlural: 'former marriages',
   required: false,
+  minItems: 0,
   isItemIncomplete: item =>
     !item?.fullName?.first ||
     !item?.fullName?.last ||
     !item?.startDate ||
     !item?.endDate ||
     !item?.reasonMarriageEnded ||
+    (item.reasonMarriageEnded === 'Other' && !item.otherReasonMarriageEnded) ||
     !item?.startLocation?.location?.city ||
     !item?.endLocation?.location?.city ||
     (item?.startLocation?.outsideUsa === false &&
@@ -56,10 +57,13 @@ export const veteranMarriageHistoryOptions = {
   text: {
     summaryTitle: 'Review your marital history',
     getItemName: () => 'Your former marriage',
-    cardDescription: item =>
-      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
-        item?.fullName?.last,
-      ) || ''}`,
+    cardDescription: item => (
+      <span className="dd-privacy" data-dd-privacy="mask">
+        {`${capitalize(item?.fullName?.first || '')} ${capitalize(
+          item?.fullName?.last || '',
+        )}`.trim()}
+      </span>
+    ),
   },
 };
 
@@ -121,29 +125,28 @@ export const vetFormerMarriageEndReasonPage = {
     reasonMarriageEnded: {
       ...radioUI({
         title: 'How did your marriage end?',
-        required: () => true,
         labels: veteranFormerMarriageLabels,
       }),
     },
-    reasonMarriageEndedOther: {
-      ...textUI('Briefly describe how your marriage ended'),
-      'ui:required': (formData, index) => {
-        const isEditMode = formData?.reasonMarriageEnded === 'Other';
-        const isAddMode =
-          formData?.veteranMarriageHistory?.[index]?.reasonMarriageEnded ===
-          'Other';
-
-        return isEditMode || isAddMode;
-      },
+    otherReasonMarriageEnded: {
+      'ui:title': 'Briefly describe how your marriage ended',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
-        hideIf: (formData, index) =>
-          !(
-            formData?.veteranMarriageHistory?.[index]?.reasonMarriageEnded ===
-              'Other' || formData?.reasonMarriageEnded === 'Other'
-          ),
-        keepInPageOnReview: true,
+        expandedContentFocus: true,
+        preserveHiddenData: true,
+      },
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.otherReasonMarriageEnded['ui:collapsed']) {
+          return { ...formSchema, required: ['reasonMarriageEnded'] };
+        }
+        return {
+          ...formSchema,
+          required: ['reasonMarriageEnded', 'otherReasonMarriageEnded'],
+        };
       },
     },
   },
@@ -151,8 +154,11 @@ export const vetFormerMarriageEndReasonPage = {
     type: 'object',
     properties: {
       reasonMarriageEnded: radioSchema(marriageEnums),
-      reasonMarriageEndedOther: textSchema,
+      otherReasonMarriageEnded: {
+        type: 'string',
+      },
     },
+    required: ['reasonMarriageEnded'],
   },
 };
 
@@ -229,7 +235,7 @@ export const vetFormerMarriageStartLocationPage = {
           'ui:required': () => true,
           'ui:autocomplete': 'address-level2',
           'ui:errorMessages': {
-            required: 'Enter the city where they were married',
+            required: 'Enter the city where you were previously married',
           },
           'ui:webComponentField': VaTextInputField,
         },

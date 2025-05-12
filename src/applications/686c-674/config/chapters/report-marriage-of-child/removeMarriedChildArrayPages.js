@@ -1,3 +1,4 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -14,6 +15,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { CancelButton } from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const removeMarriedChildOptions = {
@@ -31,19 +33,36 @@ export const removeMarriedChildOptions = {
   text: {
     summaryTitle: 'Review your children under 18 who got married',
     getItemName: () => 'Child',
-    cardDescription: item =>
-      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
-        item?.fullName?.last,
-      ) || ''}`,
+    cardDescription: item => (
+      <span className="dd-privacy" data-dd-privacy="mask">
+        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
+          item?.fullName?.last,
+        ) || ''}`.trim()}
+      </span>
+    ),
+    cancelAddButtonText: 'Cancel removing this child',
   },
 };
 
 export const removeMarriedChildIntroPage = {
   uiSchema: {
-    ...titleUI(
-      'Your children under 18 who got married',
-      'In the next few questions, we’ll ask you about your children who have gotten married. You must add at least one child.',
-    ),
+    ...titleUI({
+      title: 'Your children under 18 who got married',
+      description: () => {
+        return (
+          <>
+            <p>
+              In the next few questions, we’ll ask you about your children who
+              have gotten married. You must add at least one child.
+            </p>
+            <CancelButton
+              dependentType="children who got married"
+              isAddChapter={false}
+            />
+          </>
+        );
+      },
+    }),
   },
   schema: {
     type: 'object',
@@ -56,6 +75,13 @@ export const removeMarriedChildSummaryPage = {
   uiSchema: {
     'view:completedMarriedChild': arrayBuilderYesNoUI(
       removeMarriedChildOptions,
+      {
+        title: 'Do you have a child to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
       {
         title: 'Do you have another child to add?',
         labels: {
@@ -125,7 +151,7 @@ export const marriedChildIncomeQuestionPage = {
     dependentIncome: radioUI({
       title: 'Did this child have an income in the last 365 days?',
       hint:
-        'Answer this question only if you are adding this dependent to your pension.',
+        'Answer this question only if you are removing this dependent from your pension.',
       labels: {
         Y: 'Yes',
         N: 'No',

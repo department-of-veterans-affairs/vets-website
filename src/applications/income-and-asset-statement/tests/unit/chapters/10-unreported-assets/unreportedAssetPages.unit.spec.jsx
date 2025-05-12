@@ -33,27 +33,32 @@ describe('unreported asset list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return text', () => {
-      expect(options.text.getItemName()).to.equal('Unreported Asset');
+    it('should return "`assetType`"', () => {
+      const item = testData.data.unreportedAssets[0];
+      expect(options.text.getItemName(item)).to.equal(item.assetType);
     });
   });
 
   describe('text cardDescription function', () => {
+    /* eslint-disable no-unused-vars */
     const {
-      // eslint-disable-next-line no-unused-vars
+      assetType,
       assetOwnerRelationship,
       ...baseItem
     } = testData.data.unreportedAssets[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem);
   });
 
   describe('text cardDescription function with zero values', () => {
+    /* eslint-disable no-unused-vars */
     const {
-      // eslint-disable-next-line no-unused-vars
+      assetType,
       assetOwnerRelationship,
       ...baseItem
     } = testDataZeroes.data.unreportedAssets[0];
     testOptionsTextCardDescription(options, baseItem);
+    /* eslint-enable no-unused-vars */
   });
 
   describe('summary page', () => {
@@ -133,14 +138,14 @@ describe('unreported asset list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-text-input': 2, input: 1 },
+      { 'va-text-input': 3 },
       'type',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      2,
+      3,
       'type',
     );
     testSubmitsWithoutErrors(

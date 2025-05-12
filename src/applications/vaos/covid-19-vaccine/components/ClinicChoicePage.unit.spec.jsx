@@ -1,19 +1,19 @@
-import React from 'react';
-import { expect } from 'chai';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { expect } from 'chai';
+import React from 'react';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setVaccineFacility,
 } from '../../tests/mocks/setup';
 
-import ClinicChoicePage from './ClinicChoicePage';
+import MockClinicResponse from '../../tests/fixtures/MockClinicResponse';
+import { mockEligibilityFetches } from '../../tests/mocks/mockApis';
 import { TYPE_OF_CARE_ID } from '../utils';
-import { mockEligibilityFetches } from '../../tests/mocks/fetch';
-import { createMockClinic } from '../../tests/mocks/data';
+import ClinicChoicePage from './ClinicChoicePage';
 
 const initialState = {
   featureToggles: {
@@ -27,17 +27,9 @@ const initialState = {
 };
 
 describe('VAOS vaccine flow: ClinicChoicePage', () => {
-  const clinic1 = createMockClinic({
-    id: '308',
-    stationId: '983',
-    friendlyName: 'Green team clinic',
+  const clinics = MockClinicResponse.createResponses({
+    clinics: [{ name: 'Green team clinic' }, { name: 'Red team clinic' }],
   });
-  const clinic2 = createMockClinic({
-    id: '309',
-    stationId: '983',
-    friendlyName: 'Red team clinic',
-  });
-  const clinics = [clinic1, clinic2];
 
   beforeEach(() => mockFetch());
   it('should display multiple clinics and require one to be chosen', async () => {
@@ -92,9 +84,7 @@ describe('VAOS vaccine flow: ClinicChoicePage', () => {
     userEvent.click(screen.getByText(/continue/i));
 
     await waitFor(() =>
-      expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-appointment/select-date',
-      ),
+      expect(screen.history.push.firstCall.args[0]).to.equal('date-time'),
     );
   });
 

@@ -3,10 +3,14 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientFilterPage from '../pages/PatientFilterPage';
 import { AXE_CONTEXT } from '../utils/constants';
-import trashSearchResponse from '../fixtures/trashResponse/trash-search-response.json';
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 
 describe('SM TRASH FOLDER FILTER-SORT CHECKS', () => {
+  const filterData = 'test';
+  const filteredResponse = PatientFilterPage.filterMockResponse(
+    mockTrashMessages,
+    filterData,
+  );
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockTrashMessages);
@@ -14,16 +18,17 @@ describe('SM TRASH FOLDER FILTER-SORT CHECKS', () => {
   });
 
   it('verify filter works correctly', () => {
-    PatientFilterPage.inputFilterData('test');
-    PatientFilterPage.clickApplyFilterButton(trashSearchResponse);
-    PatientFilterPage.verifyFilterResults('test', trashSearchResponse);
+    cy.log(filteredResponse.data.length);
+    PatientFilterPage.inputFilterData(filterData);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
+    PatientFilterPage.verifyFilterResults(filterData, filteredResponse);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify clear filter btn works correctly', () => {
     PatientFilterPage.inputFilterData('any');
-    PatientFilterPage.clickApplyFilterButton(trashSearchResponse);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
     PatientFilterPage.clickClearFilterButton();
     PatientFilterPage.verifyFilterFieldCleared();
 
@@ -38,5 +43,17 @@ describe('SM TRASH FOLDER FILTER-SORT CHECKS', () => {
     PatientFilterPage.verifySorting(sortedResponse);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify filter with no matches', () => {
+    const noMatchResponse = PatientFilterPage.filterMockResponse(
+      mockTrashMessages,
+      'no match',
+    );
+
+    PatientFilterPage.inputFilterData('no match');
+    PatientFilterPage.clickApplyFilterButton(noMatchResponse);
+
+    PatientFilterPage.verifyNoMatchFilterFocusAndText();
   });
 });

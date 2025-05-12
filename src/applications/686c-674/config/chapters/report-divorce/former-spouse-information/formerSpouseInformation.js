@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   titleUI,
   fullNameNoSuffixUI,
@@ -5,6 +6,8 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import NoHintReviewField from '../../../../components/CustomReviewFields';
+import { CancelButton } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -14,6 +17,10 @@ export const schema = {
       properties: {
         fullName: fullNameNoSuffixSchema,
         birthDate: currentOrPastDateSchema,
+        'view:cancelDivorce': {
+          type: 'object',
+          properties: {},
+        },
       },
     },
   },
@@ -28,6 +35,16 @@ export const uiSchema = {
     birthDate: {
       ...currentOrPastDateUI('Former spouse’s date of birth'),
       'ui:required': () => true,
+      'ui:reviewField': NoHintReviewField,
+    },
+    'view:cancelDivorce': {
+      'ui:description': (
+        <CancelButton
+          dependentType="divorced spouse"
+          isAddChapter={false}
+          altMessage
+        />
+      ),
     },
   },
 };

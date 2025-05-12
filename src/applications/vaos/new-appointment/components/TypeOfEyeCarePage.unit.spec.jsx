@@ -1,8 +1,8 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Route } from 'react-router-dom';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
@@ -12,14 +12,14 @@ import {
   setTypeOfCare,
 } from '../../tests/mocks/setup';
 
-import TypeOfEyeCarePage from './TypeOfEyeCarePage';
-import {
-  mockSchedulingConfigurations,
-  mockV2CommunityCareEligibility,
-} from '../../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
 import { createMockFacility } from '../../tests/mocks/data';
-import { mockFacilitiesFetch } from '../../tests/mocks/fetch';
+import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import {
+  mockFacilitiesApi,
+  mockSchedulingConfigurationsApi,
+  mockV2CommunityCareEligibility,
+} from '../../tests/mocks/mockApis';
+import TypeOfEyeCarePage from './TypeOfEyeCarePage';
 
 const initialState = {
   featureToggles: {
@@ -35,21 +35,21 @@ const initialState = {
 describe('VAOS Page: TypeOfEyeCarePage', () => {
   beforeEach(() => {
     mockFetch();
-    mockSchedulingConfigurations(
-      [
+    mockSchedulingConfigurationsApi({
+      isCCEnabled: true,
+      response: [
         getSchedulingConfigurationMock({
           id: '983',
           typeOfCareId: 'primaryCare',
           requestEnabled: true,
         }),
       ],
-      true,
-    );
+    });
   });
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
     const nextPage = await setTypeOfCare(store, /eye care/i);
-    expect(nextPage).to.equal('/new-appointment/choose-eye-care');
+    expect(nextPage).to.equal('eye-care');
 
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfEyeCarePage} />,
@@ -90,9 +90,7 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/va-facility-2',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('location'),
     );
   });
 
@@ -126,9 +124,9 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
       supportedSites: ['983GC'],
       careType: 'Optometry',
     });
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
-      facilities: [
+      response: [
         createMockFacility({
           id: '983',
         }),
@@ -137,7 +135,7 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
 
     const store = createTestStore(initialState);
     const nextPage = await setTypeOfCare(store, /eye care/i);
-    expect(nextPage).to.equal('/new-appointment/choose-eye-care');
+    expect(nextPage).to.equal('eye-care');
 
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfEyeCarePage} />,
@@ -155,9 +153,7 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     fireEvent.click(screen.getByText(/Continue/));
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-facility-type',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('facility-type'),
     );
   });
 });

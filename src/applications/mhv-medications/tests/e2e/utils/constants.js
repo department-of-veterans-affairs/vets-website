@@ -18,7 +18,7 @@ export const Data = {
     'Showing 11 to 20 of 26 prescriptions, from newest to oldest',
   PREVIOUS_PRESCRIPTION_PAGINATION_THIRD:
     'Showing 21 to 26 of 26 prescriptions, from newest to oldest',
-  REFILL_HISTORY_INFO: 'Showing 12 refills, from newest to oldest',
+  REFILL_HISTORY_INFO: 'Showing 11 refills, from newest to oldest',
   FILL_DATE_FIELD: 'Filled by pharmacy on',
   IMAGE_FIELD: 'Image',
   MED_DESCRIPTION: 'Medication description',
@@ -86,8 +86,10 @@ export const Data = {
   PARTIAL_FILL_TEXT:
     'This fill has a smaller quantity on purpose. This is temporary.',
   DOWNLOAD_TXT_REFILL_HISTORY: 'Medication description',
-  TRACKING_HEADING: 'Track your shipment',
+  TRACKING_HEADING: 'Track the shipment of your most recent refill',
   PRESCRIPTION_INFO_TRACKING: 'Prescriptions in this package',
+  FILLED_ON_DATE: 'February 11, 2025',
+  DOWNLOAD_SUCCESS_CONFIRMATION_MESSAGE: 'Download started',
 };
 export const Paths = {
   LANDING_LIST:
@@ -122,4 +124,7 @@ export const Alerts = {
   EMPTY_MED_LIST: 'You don’t have any VA prescriptions or medication records',
   NO_FILTER_RESULTS: 'We didn’t find any matches for this filter',
   NO_ACCESS_TO_MEDICATIONS_ERROR: 'We can’t access your medications right now',
+  REFILL_SUBMIT_SUCCESS: 'Refills requested',
+  REFILL_SUBMIT_FAILURE:
+    'We’re sorry. There’s a problem with our system. We couldn’t submit these refill requests:',
 };
