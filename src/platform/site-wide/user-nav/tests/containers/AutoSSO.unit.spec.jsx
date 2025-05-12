@@ -29,7 +29,7 @@ describe('<AutoSSO>', () => {
 
   beforeEach(() => {
     props = generateProps({});
-    global.window.location = new URL(`http://dev.va.gov`);
+    global.window.location = new URL(`https://dev.va.gov`);
   });
 
   afterEach(() => {

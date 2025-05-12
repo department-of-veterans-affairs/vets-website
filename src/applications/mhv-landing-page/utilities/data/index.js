@@ -1,5 +1,6 @@
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
 import { HEALTH_TOOL_HEADINGS, HEALTH_TOOL_LINKS } from '../../constants';
 
@@ -26,6 +27,10 @@ const resolveUnreadMessageAriaLabel = unreadMessageCount => {
     ? 'You have unread messages. Go to your inbox.'
     : null;
 };
+
+const resolveSHMDLink = environment.isProduction()
+  ? 'https://veteran.apps.va.gov/smhdWeb'
+  : 'https://veteran.apps-staging.va.gov/smhdWeb';
 
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
@@ -147,6 +152,19 @@ const resolveLandingPageLinks = (
       ]
   ).filter(isLinkData);
 
+  const medicalRecordsLinks = [
+    HEALTH_TOOL_LINKS.MEDICAL_RECORDS[0],
+    featureToggles[
+      FEATURE_FLAG_NAMES.mhvLandingPageShowShareMyHealthDataLink
+    ] && {
+      href: resolveSHMDLink,
+      text:
+        'Share your personal health data on the Share My Health Data website',
+      isExternal: true,
+      omitExternalLinkText: true,
+    },
+  ].filter(isLinkData);
+
   const cards = [
     {
       title: HEALTH_TOOL_HEADINGS.APPOINTMENTS,
@@ -166,9 +184,13 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
       icon: 'note_add',
-      introduction:
-        'Get quick, easy access to your medical records. Now you can print or download what you need, when you need it.',
-      links: HEALTH_TOOL_LINKS.MEDICAL_RECORDS,
+      ...(!featureToggles[
+        FEATURE_FLAG_NAMES.mhvLandingPageShowShareMyHealthDataLink
+      ] && {
+        introduction:
+          'Get quick, easy access to your medical records. Now you can print or download what you need, when you need it.',
+      }),
+      links: medicalRecordsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,

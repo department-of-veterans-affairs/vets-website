@@ -87,7 +87,7 @@ describe('Financial Status Report (Static Wizard)', () => {
       .shadow()
       .contains('Learn more about options for requesting help with VA debts')
       .should('have.attr', 'href')
-      .and('include', '/resources/options-to-help-with-va-debt');
+      .and('include', '/resources/options-to-request-help-with-va-debt');
 
     cy.axeCheck();
   });
