@@ -44,7 +44,7 @@ const getFailedDomainList = (failed, displayMap) => {
 };
 
 // --- Main component ---
-const DownloadReportPage = ({ runningUnitTest }) => {
+const DownloadReportPage = () => {
   const dispatch = useDispatch();
 
   const {
@@ -170,7 +170,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const handleDownloadSelfEnteredPdf = e => {
     e.preventDefault();
     setSelfEnteredPdfLoading(true);
-    generateSEIPdf(userProfile, useUnifiedSelfEnteredAPI, runningUnitTest)
+    generateSEIPdf(userProfile, useUnifiedSelfEnteredAPI)
       .then(res => {
         if (res.success) {
           const { failedDomains } = res;

@@ -69,11 +69,7 @@ const generatePdf = (userProfile, seiRecords, failed, runningUnitTest) => {
     });
 };
 
-export const generateSEIPdf = async (
-  userProfile,
-  useUnifiedSelfEnteredAPI,
-  runningUnitTest,
-) => {
+export const generateSEIPdf = async (userProfile, useUnifiedSelfEnteredAPI) => {
   try {
     let data;
     let failedDomains;
@@ -91,13 +87,13 @@ export const generateSEIPdf = async (
           seiRecords[key] = convertSeiRecords(key, response);
         } else {
           const { key } = domain.reason;
-          failedDomains.push(key);
+          failedDomains.push(SEI_DOMAIN_DISPLAY_MAP[key]);
         }
       });
     }
     const success = failedDomains.length < SEI_DOMAINS.length;
     if (success) {
-      generatePdf(userProfile, seiRecords, failedDomains, runningUnitTest);
+      generatePdf(userProfile, seiRecords, failedDomains);
     }
     return { success, failedDomains };
   } catch (error) {

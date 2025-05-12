@@ -67,7 +67,7 @@ describe('DownloadRecordsPage with all SEI domains failed', () => {
       .stub(exports, 'generateSEIPdf')
       .rejects(new Error('SEI PDF generation failed'));
 
-    screen = renderWithStoreAndRouter(<DownloadReportPage runningUnitTest />, {
+    screen = renderWithStoreAndRouter(<DownloadReportPage />, {
       initialState: {
         user,
         mr: {
