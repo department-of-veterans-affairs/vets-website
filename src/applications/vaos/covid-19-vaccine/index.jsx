@@ -15,7 +15,6 @@ import VAFacilityPage from './components/VAFacilityPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
 import ReviewPage from './components/ReviewPage';
-import ConfirmationPageV2 from './components/ConfirmationPageV2';
 import SecondDosePage from './components/SecondDosePage';
 import ContactInfoPage from './components/ContactInfoPage';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
@@ -133,9 +132,6 @@ export function NewBookingSection() {
         </Route>
         <Route path={`${match.url}/review`}>
           <ReviewPage />
-        </Route>
-        <Route exact path={`${match.path}/:id`}>
-          <ConfirmationPageV2 />
         </Route>
         <Route path={`${match.url}`}>
           <PlanAheadPage />

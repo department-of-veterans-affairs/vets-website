@@ -21,7 +21,7 @@ import {
   downtimeNotificationParams,
   pageTitles,
 } from '../util/constants';
-import { createSession } from '../api/MrApi';
+import { createSession, postCreateAAL } from '../api/MrApi';
 import {
   selectConditionsFlag,
   selectNotesFlag,
@@ -98,6 +98,16 @@ const LandingPage = () => {
     [dispatch],
   );
 
+  const sendAalViewList = activityType => {
+    postCreateAAL({
+      activityType,
+      action: 'View',
+      performerType: 'Self',
+      status: 1,
+      oncePerSession: true,
+    });
+  };
+
   return (
     <div className="landing-page">
       <section className="vads-u-margin-bottom--2">
@@ -155,6 +165,7 @@ const LandingPage = () => {
                 className="vads-c-action-link--blue"
                 data-testid="labs-and-tests-landing-page-link"
                 onClick={() => {
+                  sendAalViewList('Lab and test results');
                   sendDataDogAction(LAB_TEST_RESULTS_LABEL);
                 }}
               >
@@ -178,6 +189,7 @@ const LandingPage = () => {
                   className="vads-c-action-link--blue"
                   data-testid="notes-landing-page-link"
                   onClick={() => {
+                    sendAalViewList('Care Summaries and Notes');
                     sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
                   }}
                 >
@@ -200,6 +212,7 @@ const LandingPage = () => {
                 className="vads-c-action-link--blue"
                 data-testid="vaccines-landing-page-link"
                 onClick={() => {
+                  sendAalViewList('Vaccines');
                   sendDataDogAction(VACCINES_LABEL);
                 }}
               >
@@ -221,6 +234,7 @@ const LandingPage = () => {
               className="vads-c-action-link--blue"
               data-testid="allergies-landing-page-link"
               onClick={() => {
+                sendAalViewList('Allergy and Reactions');
                 sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
               }}
             >
@@ -241,6 +255,7 @@ const LandingPage = () => {
                 className="vads-c-action-link--blue"
                 data-testid="conditions-landing-page-link"
                 onClick={() => {
+                  sendAalViewList('Health Conditions');
                   sendDataDogAction(HEALTH_CONDITIONS_LABEL);
                 }}
               >
@@ -268,6 +283,7 @@ const LandingPage = () => {
                 className="vads-c-action-link--blue"
                 data-testid="vitals-landing-page-link"
                 onClick={() => {
+                  sendAalViewList('Vitals');
                   sendDataDogAction(VITALS_LABEL);
                 }}
               >
@@ -380,7 +396,7 @@ const LandingPage = () => {
                     using the Share My Health Data website.
                   </p>
                   <va-link
-                    to={
+                    href={
                       environment.isProduction()
                         ? 'https://veteran.apps.va.gov/smhdWeb'
                         : 'https://veteran.apps-staging.va.gov/smhdWeb'
