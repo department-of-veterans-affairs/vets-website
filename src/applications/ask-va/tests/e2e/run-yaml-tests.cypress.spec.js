@@ -9,8 +9,8 @@ import intercept3rdPartyResponses from './fixtures/api-mocks-for-3rd-party';
 
 import STEPS from './actions';
 
-import formsTestsToRun from './fixtures/flows/forms/forms-tests-to-run.json';
-import dashBoardTestsToRun from './fixtures/flows/dashboard/dashboard-tests-to-run.json';
+import formsTestsToRun from './fixtures/flows/forms/tests-to-run.json';
+import dashBoardTestsToRun from './fixtures/flows/dashboard/tests-to-run.json';
 
 const EMPTY_FLOW_YML = `
 flow:
@@ -195,21 +195,16 @@ describe('YAML tests', () => {
       const runTestsForFilesInPath = (folder, files) => {
         const paths = Object.keys(files);
         for (const path of paths) {
-          if (path === 'include-pages') {
-            // don't run the include-pages scripts
-            // they're just snippets to be run in larger flows
-            // ---
-            // eslint-disable-next-line no-continue
-            continue;
+          if (path !== 'include-pages') {
+            (() => {
+              for (const file of files[path]) {
+                // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+                it(`Run tests in ${folder} for ${file}`, () => {
+                  runAndLogTest(folder, path, file);
+                });
+              }
+            })();
           }
-          (() => {
-            for (const file of files[path]) {
-              // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-              it(`Run tests in ${folder} for ${file}`, () => {
-                runAndLogTest(folder, path, file);
-              });
-            }
-          })();
         }
       };
       runTestsForFilesInPath('dashboard', dashBoardTestsToRun);
