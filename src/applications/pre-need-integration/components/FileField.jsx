@@ -660,7 +660,11 @@ const FileField = props => {
         <>
           {(maxItems === null || files.length < maxItems) &&
             // Prevent additional upload if any upload has error state
-            checkUploadVisibility() && (
+            checkUploadVisibility() &&
+            !files.some(
+              (file, index) =>
+                errorSchema?.[index]?.__errors?.length > 0 || file.errorMessage,
+            ) && (
               // eslint-disable-next-line jsx-a11y/label-has-associated-control
               <label
                 id={`${idSchema.$id}_add_label`}
