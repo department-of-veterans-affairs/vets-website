@@ -95,7 +95,7 @@ const GenerateSelfEnteredPdf = () => {
 
   const handleGeneratePdf = () => {
     setLoading(true);
-    generateSEIPdf(userProfile, useUnifiedSelfEnteredAPI, false)
+    generateSEIPdf(userProfile, useUnifiedSelfEnteredAPI)
       .then(response => {
         setLoading(false);
         if (response.success) {
