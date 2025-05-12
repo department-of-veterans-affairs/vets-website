@@ -8,7 +8,7 @@ const TravelAgreementContent = () => {
         <li>
           I have neither obtained transportation at Government expense nor
           through the use of Government request, tickets, or tokens, and have
-          not used any Government-owned convenience or incurred any expenses
+          not used any Government-owned conveyance or incurred any expenses
           which may be presented as charges against the Department of Veterans
           Affairs for transportation, meals, or lodgings in connection with my
           authorized travel that is not herein claimed.

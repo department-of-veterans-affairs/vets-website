@@ -35,6 +35,13 @@ describe('TravelPayStatusApp', () => {
         travel_pay_submit_mileage_expense: hasSmocFeatureFlag,
         /* eslint-enable camelcase */
       },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: { get() {} },
+        dismissedDowntimeWarnings: [],
+      },
     };
   };
 
@@ -95,6 +102,7 @@ describe('TravelPayStatusApp', () => {
       ],
     };
     mockApiRequest(mockTravelClaims);
+
     MockDate.set('2024-06-25');
   });
 
@@ -672,7 +680,6 @@ describe('TravelPayStatusApp', () => {
       path: `/claims/`,
       reducers: reducer,
     });
-
     expect(screen.getByText('Travel reimbursement claims')).to.exist;
     expect($('va-link-action[text="Go to your past appointments"]')).to.exist;
   });

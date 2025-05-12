@@ -3,7 +3,7 @@ import formConfig from '../../../../config/form';
 import {
   incomeReceiptWaiverPages,
   options,
-} from '../../../../config/chapters/12-income-receipt-waivers/incomeReceiptWaiverPages';
+} from '../../../../config/chapters/11-income-receipt-waivers/incomeReceiptWaiverPages';
 import { relationshipLabels } from '../../../../labels';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
