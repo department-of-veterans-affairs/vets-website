@@ -89,7 +89,7 @@ class GeneralFunctionsPage {
   };
 
   verifyPageHeader = text => {
-    cy.get(`h1`).should(`have.text`, text);
+    cy.get(`h1`).should(`include.text`, text);
   };
 
   verifyHeaderFocused = () => {

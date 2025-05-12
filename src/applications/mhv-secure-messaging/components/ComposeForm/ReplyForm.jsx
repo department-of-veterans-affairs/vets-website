@@ -6,7 +6,6 @@ import {
   focusElement,
   scrollTo,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import EmergencyNote from '../EmergencyNote';
@@ -47,12 +46,6 @@ const ReplyForm = props => {
   const { replyToName, isSaving } = useSelector(
     state => state.sm.threadDetails,
   );
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
 
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [category, setCategory] = useState(null);
@@ -87,12 +80,12 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
-      const pageTitleTag = getPageTitle({ removeLandingPageFF });
+      const pageTitleTag = getPageTitle({});
       setSubject(replyMessage.subject);
       setCategory(Categories[replyMessage.category]);
       updatePageTitle(pageTitleTag);
     },
-    [removeLandingPageFF, replyMessage],
+    [replyMessage],
   );
 
   useEffect(
@@ -132,13 +125,9 @@ const ReplyForm = props => {
     () => {
       const casedCategory =
         category === 'COVID' ? category : capitalize(category);
-      return `${
-        removeLandingPageFF
-          ? `Messages: ${casedCategory} - ${subject}`
-          : `${casedCategory}: ${subject}`
-      }`;
+      return `Messages: ${casedCategory} - ${subject}`;
     },
-    [category, removeLandingPageFF, subject],
+    [category, subject],
   );
 
   return (

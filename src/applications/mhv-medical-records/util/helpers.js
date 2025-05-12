@@ -4,7 +4,16 @@ import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
+import {
+  format as dateFnsFormat,
+  formatISO,
+  subYears,
+  addMonths,
+  startOfDay,
+  endOfDay,
+  parseISO,
+  isValid,
+} from 'date-fns';
 import {
   EMPTY_FIELD,
   interpretationMap,
@@ -733,4 +742,35 @@ export const formatUserDob = userProfile => {
 export const removeTrailingSlash = path => {
   if (!path) return path;
   return path.replace(/\/$/, '');
+};
+
+export const getAppointmentsDateRange = (fromDate, toDate) => {
+  function clamp(d, min, max) {
+    if (d < min) return min;
+    if (d > max) return max;
+    return d;
+  }
+
+  const now = new Date();
+  const earliest = startOfDay(subYears(now, 2));
+  const latest = endOfDay(addMonths(now, 13));
+
+  // parse or default
+  const rawFrom = fromDate ? startOfDay(parseISO(fromDate)) : earliest;
+  const rawTo = toDate ? endOfDay(parseISO(toDate)) : latest;
+
+  // clamp both ends
+  let clampedFrom = clamp(rawFrom, earliest, latest);
+  let clampedTo = clamp(rawTo, earliest, latest);
+
+  // ensure from <= to
+  if (clampedFrom > clampedTo) {
+    clampedFrom = earliest;
+    clampedTo = latest;
+  }
+
+  return {
+    startDate: formatISO(clampedFrom),
+    endDate: formatISO(clampedTo),
+  };
 };

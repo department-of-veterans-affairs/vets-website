@@ -35,7 +35,7 @@ import {
 } from '../../../tests/mocks/setup';
 
 import DateTimeSelectPage from '.';
-import { createMockClinic } from '../../../tests/mocks/data';
+import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
 import { getAppointmentSlotMock } from '../../../tests/mocks/mock';
 import {
   mockAppointmentSlotApi,
@@ -63,17 +63,12 @@ function setDateTimeSelectMockFetchesBase({
   dateToStartEnd = _ => {},
 } = {}) {
   const clinicIds = Object.keys(slotDatesByClinicId);
-  const clinic1 = createMockClinic({
-    id: '308',
-    stationId: '983',
-    name: 'Green team clinic',
+  const clinics = MockClinicResponse.createResponses({
+    clinics: [
+      { id: '308', name: 'Green team clinic' },
+      { id: '309', name: 'Red team clinic' },
+    ],
   });
-  const clinic2 = createMockClinic({
-    id: '309',
-    stationId: '983',
-    name: 'Red team clinic',
-  });
-  const clinics = [clinic1, clinic2];
 
   mockEligibilityFetches({
     facilityId: '983',
@@ -233,6 +228,12 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       },
     });
 
+    mockAppointmentSlotApi({
+      facilityId: '983',
+      preferredDate: new Date(),
+      responseCode: 404,
+    });
+
     const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
       store,
     });
@@ -248,6 +249,13 @@ describe('VAOS Page: DateTimeSelectPage', () => {
         309: [],
       },
       slotError: true,
+    });
+
+    mockAppointmentSlotApi({
+      facilityId: '983',
+      clinicId: '308',
+      preferredDate: new Date(),
+      responseCode: 404,
     });
 
     const store = createTestStore(initialState);
@@ -814,9 +822,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     userEvent.click(screen.getByTestId('earlier-request-btn'));
 
     await waitFor(() =>
-      expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-appointment/request-date',
-      ),
+      expect(screen.history.push.firstCall.args[0]).to.equal('va-request/'),
     );
   });
 

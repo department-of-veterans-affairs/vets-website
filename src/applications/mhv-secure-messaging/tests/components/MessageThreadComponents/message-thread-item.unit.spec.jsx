@@ -4,6 +4,7 @@ import { fireEvent } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import reducer from '../../../reducers';
 import messageResponse from '../../fixtures/message-response.json';
 import MessageThreadItem from '../../../components/MessageThread/MessageThreadItem';
@@ -11,9 +12,10 @@ import { dateFormat } from '../../../util/helpers';
 import { DefaultFolders, MessageReadStatus } from '../../../util/constants';
 
 describe('Message thread item', () => {
-  const setup = (message = messageResponse) => {
+  const setup = (message = messageResponse, state = {}) => {
     return renderWithStoreAndRouter(<MessageThreadItem message={message} />, {
       reducers: reducer,
+      initialState: state,
     });
   };
 
@@ -79,7 +81,7 @@ describe('Message thread item', () => {
     );
     expect(
       screen.getByText(
-        dateFormat(messageResponse.sentDate, 'MMMM D [at] h:mm a z'),
+        dateFormat(messageResponse.sentDate, 'MMMM D, YYYY [at] h:mm a z'),
         { selector: 'h3' },
       ),
     ).to.exist;
@@ -95,7 +97,7 @@ describe('Message thread item', () => {
     );
     // message from patient, no triage group name in 'from' field
     expect(screen.getByTestId('from').textContent).to.equal(
-      `From: ${messageResponse.senderName} `,
+      `From: ${messageResponse.senderName}`,
     );
     expect(screen.getByTestId('to').textContent).to.equal(
       `To: ${messageResponse.recipientName}`,
@@ -108,6 +110,125 @@ describe('Message thread item', () => {
         .textContent.trim(),
     ).to.equal(messageResponse.body);
     expect(screen.getByText(messageResponse.attachments[0].name)).to.exist;
+  });
+
+  it('message from patient renders without errors with read receipt feature flag', () => {
+    const customState = {
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingReadReceipts]: true,
+      },
+    };
+    const message = {
+      ...messageResponse,
+      folderId: DefaultFolders.SENT.id,
+    };
+
+    const screen = setup(message, customState);
+    const accordion = document.querySelector('va-accordion-item');
+    expect(accordion.getAttribute('aria-label')).to.equal(
+      `message sent ${dateFormat(
+        message.sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}, with attachment from ${message.senderName}.`,
+    );
+    expect(
+      screen.getByText(
+        dateFormat(messageResponse.sentDate, 'MMMM D, YYYY [at] h:mm a z'),
+        { selector: 'h3' },
+      ),
+    ).to.exist;
+
+    expect(
+      document.querySelector('va-accordion-item').getAttribute('subheader'),
+    ).to.equal('Me');
+    expect(screen.getByTestId('message-date').textContent).to.equal(
+      `Date: ${dateFormat(
+        messageResponse.sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}`,
+    );
+    // message from patient, no triage group name in 'from' field
+    expect(screen.getByTestId('from').textContent).to.equal(
+      `From: ${messageResponse.senderName}`,
+    );
+    expect(screen.getByTestId('to').textContent).to.equal(
+      `To: ${messageResponse.recipientName}`,
+    );
+
+    expect(screen.getByText('Opened by your care team')).to.exist;
+
+    expect(
+      accordion
+        .querySelector(
+          `[data-testid="message-body-${messageResponse.messageId}"]`,
+        )
+        .textContent.trim(),
+    ).to.equal(messageResponse.body);
+    expect(screen.getByText(messageResponse.attachments[0].name)).to.exist;
+    expect(screen.getByTestId('message-id').textContent).to.equal(
+      `Message ID: ${messageResponse.messageId}`,
+    );
+  });
+
+  it('unread message from patient renders without errors with read receipt feature flag', () => {
+    const customState = {
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingReadReceipts]: true,
+      },
+    };
+
+    const message = {
+      ...messageResponse,
+      folderId: DefaultFolders.SENT.id,
+      readReceipt: null,
+    };
+
+    const screen = setup(message, customState);
+    const accordion = document.querySelector('va-accordion-item');
+    expect(accordion.getAttribute('aria-label')).to.equal(
+      `message sent ${dateFormat(
+        message.sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}, with attachment from ${message.senderName}.`,
+    );
+    expect(
+      screen.getByText(
+        dateFormat(messageResponse.sentDate, 'MMMM D, YYYY [at] h:mm a z'),
+        { selector: 'h3' },
+      ),
+    ).to.exist;
+
+    expect(
+      document.querySelector('va-accordion-item').getAttribute('subheader'),
+    ).to.equal('Me');
+    expect(screen.getByTestId('message-date').textContent).to.equal(
+      `Date: ${dateFormat(
+        messageResponse.sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}`,
+    );
+    // message from patient, no triage group name in 'from' field
+    expect(screen.getByTestId('from').textContent).to.equal(
+      `From: ${messageResponse.senderName}`,
+    );
+    expect(screen.getByTestId('to').textContent).to.equal(
+      `To: ${messageResponse.recipientName}`,
+    );
+
+    expect(screen.getByText('Not yet opened by your care team')).to.exist;
+
+    expect(
+      accordion
+        .querySelector(
+          `[data-testid="message-body-${messageResponse.messageId}"]`,
+        )
+        .textContent.trim(),
+    ).to.equal(messageResponse.body);
+    expect(screen.getByText(messageResponse.attachments[0].name)).to.exist;
+
+    expect(screen.getByTestId('message-id').textContent).to.equal(
+      `Message ID: ${messageResponse.messageId}`,
+    );
   });
 
   it('message without attachment does not render attachment icon', () => {
