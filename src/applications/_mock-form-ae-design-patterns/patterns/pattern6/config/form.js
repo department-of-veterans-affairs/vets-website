@@ -9,6 +9,7 @@ import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/c
 import currentMaritalStatus from '../pages/currentMaritalStatus';
 import marriageType from '../pages/marriageType';
 import marriageDateAndLocation from '../pages/marriageDateAndLocation';
+import marriageCertificate from '../pages/marriageCertificate';
 import marriageEnd from '../pages/marriageEnd';
 import spouseDeathInfo from '../pages/spouseDeathInfo';
 
@@ -118,6 +119,18 @@ const formConfig = {
           depends: formData => formData?.maritalStatus === 'MARRIED',
           ...marriageType,
         },
+        marriageCertificate: {
+          title: 'Marriage certificate',
+          path: 'marriage-certificate',
+          depends: formData => formData?.maritalStatus === 'MARRIED',
+          ...marriageCertificate,
+        },
+        spousePreviousMarriages: {
+          title: 'Spouse Previous Marriages',
+          path: 'spouse-previous-marriages',
+          depends: formData => formData?.maritalStatus === 'MARRIED',
+          ...spousePreviousMarriages,
+        },
         marriageEnd: {
           title: 'How did your marriage end?',
           path: 'marital-status/end',
@@ -181,12 +194,7 @@ const formConfig = {
           },
           ...previousMarriageDetails,
         },
-        spousePreviousMarriages: {
-          title: 'Spouse Previous Marriages',
-          path: 'other-marriages/spouse-previous',
-          depends: formData => formData?.maritalStatus === 'MARRIED',
-          ...spousePreviousMarriages,
-        },
+
         spouseMarriageDetails: {
           title: "Spouse's Former Marriage",
           path: 'other-marriages/spouse-details/:index',

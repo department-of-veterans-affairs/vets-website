@@ -36,7 +36,7 @@ export const spouseMarriageHistoryOptions = {
     !item?.marriageEndReason,
   maxItems: 10,
   text: {
-    summaryTitle: "Review your spouse's marital history",
+    summaryTitle: "Review your spouse's past marriages",
     getItemName: () => "Spouse's former marriage",
     cardDescription: item => item?.spouseName || 'Marriage details',
   },

@@ -7,32 +7,34 @@ import { spouseMarriageHistoryOptions } from './marriageHistoryConfig';
 
 export default {
   uiSchema: {
-    ...titleUI('Spouse Previous Marriages'),
-    'view:completedSpouseFormerMarriage': arrayBuilderYesNoUI(
-      spouseMarriageHistoryOptions,
-      {
-        title: 'Does your spouse have any former marriages?',
-        hint:
-          "If yes, we'll ask for details about each prior marriage. You can add up to 10 former marriages.",
-        labels: {
-          Y: 'Yes',
-          N: 'No',
+    ...titleUI('Has your spouse been married before?'),
+    'view:completedSpouseFormerMarriage': {
+      ...arrayBuilderYesNoUI(
+        spouseMarriageHistoryOptions,
+        {
+          title: ' ',
+          labels: {
+            Y: 'Yes',
+            N: 'No',
+          },
         },
-      },
-      {
-        title: 'Does your spouse have any other marriages to add?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
+        {
+          title: 'Does your spouse have any other previous marriages?',
+          hint:
+            'You’ll need to include all of their past marriages, even ones that ended in divorce, annulment, or death.',
+          labels: {
+            Y: 'Yes',
+            N: 'No',
+          },
         },
-      },
-    ),
+      ),
+    },
   },
   schema: {
     type: 'object',
     properties: {
       'view:completedSpouseFormerMarriage': arrayBuilderYesNoSchema,
     },
-    required: ['view:completedSpouseFormerMarriage'],
+    // required: ['view:completedSpouseFormerMarriage'],
   },
 };

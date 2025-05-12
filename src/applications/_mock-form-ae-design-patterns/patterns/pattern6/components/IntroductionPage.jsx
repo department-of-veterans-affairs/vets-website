@@ -74,6 +74,16 @@ class IntroductionPage extends React.Component {
                 How did you get married?
               </Link>
             </li>
+            <li>
+              <Link to={`${formConfig.urlPrefix}marriage-certificate`}>
+                Marriage certificate
+              </Link>
+            </li>
+            <li>
+              <Link to={`${formConfig.urlPrefix}spouse-previous-marriages`}>
+                Spouse Previous Marriages
+              </Link>
+            </li>
           </ul>
         </div>
         <va-omb-info
