@@ -74,7 +74,6 @@ export default function PensionEntry({ location, children }) {
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      <IntentToFile />
       {pensionItfEnabled &&
         pensionItfShowAlert && (
           <IntentToFile itfType="pension" location={location} />
