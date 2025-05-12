@@ -5,7 +5,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
 
 import { clearThread } from '../actions/threadDetails';
-import { getListOfThreads } from '../actions/threads';
+import { getListOfThreads, setThreadSortOrder } from '../actions/threads';
 import { closeAlert } from '../actions/alerts';
 import { getPatientSignature } from '../actions/preferences';
 import { retrieveMessageThread } from '../actions/messages';
@@ -19,7 +19,7 @@ import {
   BlockedTriageAlertStyles,
   DefaultFolders,
 } from '../util/constants';
-import { getRecentMessages } from '../util/threads';
+import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
 
 const Compose = () => {
@@ -31,6 +31,7 @@ const Compose = () => {
 
   const threadSort = useSelector(state => state.sm.threads.threadSort);
   const { threadList, isLoading } = useSelector(state => state.sm.threads);
+  const { folder } = useSelector(state => state.sm.folders);
 
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
@@ -107,7 +108,8 @@ const Compose = () => {
   // make sure the thread list is fetched when navigating to the compose page
   useEffect(
     () => {
-      if (!threadList || threadList.length === 0) {
+      // if there is no thread list and the folderId is not the sent folder and its not loading
+      if (folder.folderId !== DefaultFolders.SENT.id && !isLoading) {
         dispatch(
           getListOfThreads(
             DefaultFolders.SENT.id,
@@ -117,16 +119,30 @@ const Compose = () => {
             false,
           ),
         );
+        dispatch(
+          setThreadSortOrder({
+            folderId: DefaultFolders.SENT.id,
+            page: threadSort.page,
+            value: threadSort.value,
+          }),
+        );
       }
     },
-    [dispatch, threadList, threadSort.page, threadSort.value],
+    [
+      dispatch,
+      isLoading,
+      threadList,
+      folder,
+      threadSort.page,
+      threadSort.value,
+    ],
   );
 
   useEffect(
     () => {
       if (threadList?.length > 0 && !isLoading && recipients) {
         const groups = getUniqueTriageGroups(threadList);
-        const recentMessages = getRecentMessages(threadList);
+        const recentMessages = getRecentThreads(threadList);
         const dataForDataDog = {
           allowedSMRecipients: recipients.allowedRecipients.length,
           countOfSentMessagesInTheLastSixMonths: recentMessages.length || 0,
@@ -172,7 +188,7 @@ const Compose = () => {
 
   return (
     <>
-      {(!draftType || isLoading || allTriageGroupsBlocked === undefined) && (
+      {!draftType && (
         <va-loading-indicator
           message="Loading your secure message..."
           setFocus
