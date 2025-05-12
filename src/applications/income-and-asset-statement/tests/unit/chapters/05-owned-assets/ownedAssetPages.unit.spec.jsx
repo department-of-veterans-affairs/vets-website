@@ -3,7 +3,7 @@ import formConfig from '../../../../config/form';
 import {
   ownedAssetPages,
   options,
-} from '../../../../config/chapters/05-owned-assets/ownedAssetPages';
+} from '../../../../config/chapters/04-owned-assets/ownedAssetPages';
 import { ownedAssetTypeLabels } from '../../../../labels';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';

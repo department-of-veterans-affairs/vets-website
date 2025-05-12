@@ -28,20 +28,19 @@ export default function DefaultPage({
         <div id="default-page" className="vads-u-margin-bottom--3">
           <h1 className="claims-header">
             {item.friendlyName || item.displayName}
+            {item.status === 'NEEDED_FROM_YOU' ? (
+              <>
+                <span className="vads-u-font-family--sans vads-u-margin-bottom--1 vads-u-margin-top--1">
+                  Respond by {dateFormatter(item.suspenseDate)}
+                </span>
+                <DueDate date={item.suspenseDate} />
+              </>
+            ) : (
+              <span className="vads-u-font-family--sans vads-u-margin-top--1">
+                Requested to others on {dateFormatter(item.requestedDate)}
+              </span>
+            )}
           </h1>
-
-          {item.status === 'NEEDED_FROM_YOU' ? (
-            <>
-              <p className="vads-u-font-size--h3 vads-u-margin-bottom--1">
-                Respond by {dateFormatter(item.suspenseDate)}
-              </p>
-              <DueDate date={item.suspenseDate} />
-            </>
-          ) : (
-            <p className="vads-u-font-size--h3">
-              Requested to others on {dateFormatter(item.requestedDate)}
-            </p>
-          )}
 
           {item.status === 'NEEDED_FROM_YOU' ? (
             <h2>What we need from you</h2>

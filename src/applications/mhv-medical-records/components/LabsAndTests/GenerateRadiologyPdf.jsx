@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
-import { generatePdfScaffold } from '@department-of-veterans-affairs/mhv/exports';
-import { getNameDateAndTime, makePdf } from '../../util/helpers';
+import {
+  generatePdfScaffold,
+  getNameDateAndTime,
+  makePdf,
+} from '@department-of-veterans-affairs/mhv/exports';
 import {
   generateLabsIntro,
   generateRadiologyContent,
