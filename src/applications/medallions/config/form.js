@@ -1,5 +1,7 @@
+import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import get from 'platform/utilities/data/get';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
@@ -21,6 +23,11 @@ import applicantMailingAddress from '../pages/applicantMailingAddress';
 import applicantMailingAddress2 from '../pages/applicantMailingAddress2';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
+import {
+  ApplicantNameHeader,
+  ApplicantNameNote,
+  isUserSignedIn,
+} from '../utils/helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -59,11 +66,27 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
+        ...personalInformationPage({
+          key: 'applicantNameView',
+          title: 'Personal information',
+          path: 'applicant-name-view',
+          personalInfoConfig: {
+            ssn: { show: false, required: false },
+            vaFileNumber: { show: false, required: false },
+            dateOfBirth: { show: false, required: false },
+            gender: { show: false, required: false },
+            name: { show: true, required: false },
+          },
+          header: <ApplicantNameHeader />,
+          note: <ApplicantNameNote />,
+          depends: formData => isUserSignedIn(formData),
+        }),
         applicantName: {
           path: 'applicant-name',
           title: 'Your name',
           uiSchema: applicantName.uiSchema,
           schema: applicantName.schema,
+          depends: formData => !isUserSignedIn(formData),
         },
         applicantRelationToVet: {
           path: 'applicant-relation-to-vet',

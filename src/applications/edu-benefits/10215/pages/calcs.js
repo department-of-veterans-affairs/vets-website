@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -73,8 +74,15 @@ const Calcs = ({ data }) => {
           Total Enrolled FTE
         </label>
         <span
+          aria-label={`Total Enrolled FTE: ${
+            programData?.supported || programData?.nonSupported
+              ? programData?.total
+              : 'N/A'
+          }`}
+          role="status"
           className="vads-u-font-size--h3 vads-u-font-weight--bold"
           data-testid="nonSupported"
+          tabIndex={0}
         >
           {programData?.supported || programData?.nonSupported
             ? programData?.total
@@ -97,8 +105,12 @@ const Calcs = ({ data }) => {
           Supported student percentage FTE
         </label>
         <span
+          aria-label={`Supported student percentage FTE: ${programData?.supportedFTEPercent ||
+            'N/A'}`}
+          role="status"
           className="vads-u-font-size--h3 vads-u-font-weight--bold"
           data-testid="supportedFTEPercent"
+          tabIndex={0}
         >
           {programData?.supportedFTEPercent || '--%'}
         </span>

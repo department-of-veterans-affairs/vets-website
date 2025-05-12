@@ -90,9 +90,6 @@ export const selectFeatureOHRequest = state =>
 export const selectFeatureRemovePodiatry = state =>
   toggleValues(state).vaOnlineSchedulingRemovePodiatry;
 
-export const selectFeatureUseVaDate = state =>
-  toggleValues(state).vaosOnlineSchedulingUseVADate;
-
 export const selectFeatureFeSourceOfTruth = state =>
   toggleValues(state).vaOnlineSchedulingFeSourceOfTruth;
 
@@ -113,9 +110,6 @@ export const selectFeatureMhvRouteGuards = state =>
 
 export const selectFeatureDirectScheduleAppointmentConflict = state =>
   toggleValues(state).vaOnlineSchedulingDirectScheduleAppointmentConflict;
-
-export const selectFeatureDisplayPastCancelledAppointments = state =>
-  toggleValues(state).vaOnlineSchedulingDisplayPastCancelledAppointments;
 
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;

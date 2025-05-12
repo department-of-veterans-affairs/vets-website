@@ -8,7 +8,6 @@ import { datadogRum } from '@datadog/browser-rum';
 import MedicationsListCard from './MedicationsListCard';
 import {
   ALL_MEDICATIONS_FILTER_KEY,
-  SESSION_SELECTED_FILTER_OPTION,
   filterOptions,
   rxListSortingOptions,
 } from '../../util/constants';
@@ -59,21 +58,22 @@ const MedicationsList = props => {
     perPage,
   );
 
-  const selectedFilterOption =
-    filterOptions[
-      sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
-        ALL_MEDICATIONS_FILTER_KEY
-    ]?.showingContentDisplayName;
+  const selectedFilterOption = useSelector(
+    state => state.rx.preferences.filterOption,
+  );
+  const selectedFilterDisplay =
+    filterOptions[selectedFilterOption]?.showingContentDisplayName;
 
   const filterAndSortContent = () => {
+    const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;
     return (
       <>
         {!isFullList &&
-          selectedFilterOption?.length > 0 && (
-            <strong>{selectedFilterOption} medications</strong>
+          !allMedsSelected && (
+            <strong>{selectedFilterDisplay} medications</strong>
           )}
         {`${
-          !isFullList && selectedFilterOption?.length > 0 ? '' : ' medications'
+          !isFullList && !allMedsSelected ? '' : ' medications'
         }, ${sortOptionLowercase}`}
       </>
     );
@@ -89,11 +89,11 @@ const MedicationsList = props => {
         <span className="no-print">
           {`Showing ${displayNums[0]} - ${
             displayNums[1]
-          } of ${totalMedications}`}
+          } of ${totalMedications} `}
           {filterAndSortContent()}
         </span>
         <span className="print-only">
-          {`Showing ${totalMedications}`}
+          {`Showing ${totalMedications} `}
           {filterAndSortContent()}
         </span>
       </p>

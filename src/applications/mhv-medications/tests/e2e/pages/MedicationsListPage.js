@@ -225,7 +225,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
       );
     });
   };
@@ -495,7 +495,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
       );
     });
     cy.intercept(
@@ -540,7 +540,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by name`,
       );
     });
   };
@@ -574,7 +574,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, last filled first`,
       );
     });
   };

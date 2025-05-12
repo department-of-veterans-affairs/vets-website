@@ -142,6 +142,7 @@ const Prescriptions = () => {
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
   const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
+  const [shouldPrint, setShouldPrint] = useState(false);
   const [printedList, setPrintedList] = useState([]);
   const [hasFullListDownloadError, setHasFullListDownloadError] = useState(
     false,
@@ -278,6 +279,11 @@ const Prescriptions = () => {
   useEffect(
     () => {
       updateLoadingStatus(isPrescriptionsLoading || isPrescriptionsFetching);
+
+      // Reset the loading message after finishing loading.
+      if (!isPrescriptionsFetching && !isPrescriptionsLoading) {
+        setLoadingMessage('');
+      }
     },
     [isPrescriptionsLoading, isPrescriptionsFetching],
   );
@@ -492,7 +498,8 @@ const Prescriptions = () => {
             setPdfTxtGenerateStatus({
               status: PDF_TXT_GENERATE_STATUS.NotStarted,
             });
-            printRxList();
+            // Set the print trigger instead of using setTimeout
+            setShouldPrint(true);
           }
           updateLoadingStatus(false, '');
         }
@@ -524,10 +531,24 @@ const Prescriptions = () => {
     ],
   );
 
+  useEffect(
+    () => {
+      if (shouldPrint) {
+        printRxList();
+        setShouldPrint(false);
+      }
+    },
+    [shouldPrint, printRxList],
+  );
+
   const handleFullListDownload = async format => {
     setHasFullListDownloadError(false);
     const isTxtOrPdf =
       format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT;
+    setPdfTxtGenerateStatus({
+      status: PDF_TXT_GENERATE_STATUS.InProgress,
+      format,
+    });
     if (
       (isTxtOrPdf ||
         !allergies ||
@@ -555,11 +576,6 @@ const Prescriptions = () => {
       }
       setIsRetrievingFullList(false);
     }
-
-    setPdfTxtGenerateStatus({
-      status: PDF_TXT_GENERATE_STATUS.InProgress,
-      format,
-    });
   };
 
   const isShowingErrorNotification = Boolean(
