@@ -55,6 +55,6 @@ describe('<FormSavedPage />', () => {
 
     expect($('va-alert', container)).to.exist;
     expect($('.expires-container', container)).to.exist;
-    expect($('.expires', container).textContent).to.eq('September 30, 2025');
+    expect($('.expires', container).textContent).to.eq('October 1, 2025');
   });
 });

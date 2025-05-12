@@ -9,7 +9,9 @@ import { formatDateLong } from 'platform/utilities/date';
 const FormSavedPage = props => {
   const itf = useSelector(state => state.form?.itf) || {};
   const date = itf.currentITF?.expirationDate;
-  const itfExpirationDate = date ? formatDateLong(date) : 'Unknown';
+  const itfExpirationDate = date
+    ? formatDateLong(date.split('T')[0])
+    : 'Unknown';
   const expirationMessage = (
     <>
       <p className="expires-container">
