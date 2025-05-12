@@ -6,6 +6,8 @@ import {
 
 import { merge } from 'lodash';
 
+import { validateSSN } from '../helpers';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -15,6 +17,7 @@ export default {
     ),
     veteranId: merge({}, ssnOrVaFileNumberNoHintUI(), {
       ssn: {
+        'ui:validations': [validateSSN],
         'ui:errorMessages': {
           pattern:
             'Please enter a valid 9 digit Social Security number (dashes allowed)',

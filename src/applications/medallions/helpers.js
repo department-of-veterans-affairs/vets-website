@@ -1,5 +1,7 @@
 import moment from 'moment';
 
+import { isValidSSN } from 'platform/forms-system/src/js/utilities/validations';
+
 export function dateOfDeathValidation(errors, fields) {
   const { veteranDateOfBirth, veteranDateOfDeath } = fields;
   // dob = date of birth | dod = date of death
@@ -17,6 +19,14 @@ export function dateOfDeathValidation(errors, fields) {
   if (dod.diff(dob, 'years') < 16) {
     errors.veteranDateOfDeath.addError(
       'From date of birth to date of death must be at least 16 years.',
+    );
+  }
+}
+
+export function validateSSN(errors, ssn) {
+  if (ssn && !isValidSSN(ssn)) {
+    errors.addError(
+      'Please enter a valid 9 digit Social Security number (dashes allowed)',
     );
   }
 }
