@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
-import NeedHelp from '../components/NeedHelp';
 
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
   const form = useSelector(state => state.form || {});
+  const veteranEmail = useSelector(state => state.user.profile.email || {});
   const { submission, data = {} } = form;
   const { fullName } = data;
   const submitDate = submission?.timestamp;
@@ -33,10 +33,16 @@ export const ConfirmationPage = () => {
       </div>
 
       <va-alert status="success" ref={alertRef}>
-        <h2 slot="headline">We’ve received your dispute</h2>
+        <h2 slot="headline">Your dispute submission is in progress</h2>
+        <p>
+          When we receive your form, we’ll mail you a letter and send an email
+          to <strong>{veteranEmail}</strong> to confirm we have it.
+          <br />
+          <br />
+          It may take up to 30 days to process your dispute.
+        </p>
       </va-alert>
 
-      <p className="screen-only">Please print this page for your records.</p>
       <div className="inset">
         <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
           Your submission information
@@ -86,9 +92,6 @@ export const ConfirmationPage = () => {
       <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
         Go back to VA.gov
       </a>
-      <va-need-help>
-        <NeedHelp />
-      </va-need-help>
     </div>
   );
 };

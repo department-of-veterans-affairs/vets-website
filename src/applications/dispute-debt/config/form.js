@@ -21,7 +21,7 @@ import NeedHelp from '../components/NeedHelp';
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
 import submitForm from './submitForm';
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE } from '../constants';
 
 // Function to return the NeedHelp component
 const getHelp = () => <NeedHelp />;
@@ -56,7 +56,6 @@ const formConfig = {
       'Please sign in again to continue your application for digital dispute for debts.',
   },
   title: TITLE,
-  subTitle: SUBTITLE,
   downtime: {
     dependencies: [
       externalServices.mvi,
