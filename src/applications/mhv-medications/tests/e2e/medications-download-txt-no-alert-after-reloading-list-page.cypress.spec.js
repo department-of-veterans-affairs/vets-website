@@ -1,6 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import rxList from './fixtures/listOfPrescriptions.json';
 import MedicationsListPage from './pages/MedicationsListPage';
+import { Data } from './utils/constants';
 
 describe('Medications Download Alert Not Visible after Reload List Page', () => {
   it('visits no download txt alert after reload on list page', () => {
@@ -14,7 +15,9 @@ describe('Medications Download Alert Not Visible after Reload List Page', () => 
     listPage.verifyFocusOnPrintDownloadDropDownButton();
     listPage.clickDownloadListAsTxtButtonOnListPage();
     // listPage.verifyLoadingSpinnerForDownloadOnListPage();
-    listPage.verifyDownloadCompleteSuccessMessageBanner();
+    listPage.verifyDownloadCompleteSuccessMessageBanner(
+      Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
+    );
     listPage.verifyFocusOnDownloadAlertSuccessBanner();
     listPage.verifyDownloadTextFileHeadless('Safari', 'Mhvtp', 'Mhvtp, Safari');
     cy.reload();
