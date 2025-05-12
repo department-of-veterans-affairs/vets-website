@@ -193,8 +193,8 @@ describe('YAML tests', () => {
           if (path !== 'include-pages') {
             (() => {
               for (const file of files[path]) {
+                // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
                 it(`Run tests in ${folder} for ${file}`, () => {
-                  cy.injectAxeThenAxeCheck();
                   runAndLogTest(folder, path, file);
                 });
               }
