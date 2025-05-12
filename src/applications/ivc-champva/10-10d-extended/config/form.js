@@ -18,8 +18,9 @@ import {
   certifierRelationshipSchema,
 } from '../chapters/signerInformation';
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+import mockData from '../tests/fixtures/data/test-data.json';
 import { applicantPages } from '../chapters/applicantInformation';
+import { healthInsurancePlanPages } from '../chapters/healthInsurancePlan';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -75,7 +76,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
-          // initialData: mockData.data,
+          initialData: mockData.data,
           path: 'signer-type',
           title: 'Which of these best describes you?',
           ...certifierRoleSchema,
@@ -108,6 +109,10 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: applicantPages,
+    },
+    healthInsuranceInformation: {
+      title: 'Health insurance information',
+      pages: healthInsurancePlanPages,
     },
   },
   footerContent: GetFormHelp,
