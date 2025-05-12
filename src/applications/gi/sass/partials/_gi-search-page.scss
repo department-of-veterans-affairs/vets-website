@@ -92,7 +92,7 @@
     .usa-input-error,
     .input-row {
       padding-top: 0px;
-      padding-bottom: 5px;
+      // padding-bottom: 5px;
       margin-top: 0px;
     }
   }
@@ -311,7 +311,7 @@
   .input-container {
     display: flex;
     border: 1px solid;
-    margin: 6px 0px;
+    margin: 6px 0px 0px 0px;
     height: 2.625rem;
 
     input {

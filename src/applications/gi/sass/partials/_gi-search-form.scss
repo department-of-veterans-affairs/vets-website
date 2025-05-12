@@ -23,11 +23,13 @@
     }
 
     .bottom-positioner {
-      position: absolute;
-      width: 100%;
-      bottom: 0px;
       .loc-search-btn {
-        margin-left: 1rem;
+        margin-left: 0;
+        @media screen and (min-width: $medium-screen) {
+          & {
+            margin-left: 1rem;
+          }
+        }
       }
     }
 
@@ -40,14 +42,21 @@
     }
 
     .location-search-inputs {
-      position: relative;
-
-      #distance-dropdown {
-        float: left;
+      @media screen and (min-width: $medium-screen) {
+        & {
+          display: flex;
+          align-items: flex-end;
+        }
       }
 
-      button {
-        float: right;
+      .location-select {
+        margin-block: 0;
+
+        @media screen and (min-width: $medium-screen) {
+          & {
+            margin-block: inherit;
+          }
+        }
       }
     }
   }
