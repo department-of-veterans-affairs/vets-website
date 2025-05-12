@@ -154,6 +154,7 @@ const Prescriptions = () => {
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
   const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
+  const [shouldPrint, setShouldPrint] = useState(false);
   const [printedList, setPrintedList] = useState([]);
   const [hasFullListDownloadError, setHasFullListDownloadError] = useState(
     false,
@@ -509,12 +510,8 @@ const Prescriptions = () => {
             setPdfTxtGenerateStatus({
               status: PDF_TXT_GENERATE_STATUS.NotStarted,
             });
-
-            // Delay the print action to ensure that the
-            // PDF Text generation status is updated.
-            setTimeout(() => {
-              printRxList();
-            }, 0);
+            // Set the print trigger instead of using setTimeout
+            setShouldPrint(true);
           }
           updateLoadingStatus(false, '');
         }
@@ -544,6 +541,16 @@ const Prescriptions = () => {
       paginatedPrescriptionsList,
       printRxList,
     ],
+  );
+
+  useEffect(
+    () => {
+      if (shouldPrint) {
+        printRxList();
+        setShouldPrint(false);
+      }
+    },
+    [shouldPrint, printRxList],
   );
 
   const handleFullListDownload = async format => {
