@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getUniqueTriageGroups } from './recipients';
+import { getUniqueTriageGroups } from '../../util/recipients';
 
 describe('getUniqueTriageGroups', () => {
   it('should return unique triage groups sorted by sentDate in descending order', () => {

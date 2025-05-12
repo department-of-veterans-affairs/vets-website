@@ -1,4 +1,4 @@
-export const getRecentMessages = (threadList, monthsAgo = 6) => {
+export const getRecentThreads = (threadList, monthsAgo = 6) => {
   const cutoffDate = new Date();
   cutoffDate.setMonth(cutoffDate.getMonth() - monthsAgo);
 
