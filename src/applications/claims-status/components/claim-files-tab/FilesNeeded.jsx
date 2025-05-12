@@ -74,9 +74,7 @@ export default function FilesNeeded({ item, previousPage = null }) {
       </h4>
       {!isAutomated5103Notice(item.displayName) &&
         !cstFriendlyEvidenceRequests && <DueDate date={item.suspenseDate} />}
-      {cstFriendlyEvidenceRequests && (
-        <p className="vads-u-font-size--h3">Respond by {formattedDueDate}</p>
-      )}
+      {cstFriendlyEvidenceRequests && <p>Respond by {formattedDueDate}</p>}
 
       <span className="alert-description">{getItemDescription()}</span>
       <div className="link-action-container">
