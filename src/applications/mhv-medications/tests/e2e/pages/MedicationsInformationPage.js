@@ -26,6 +26,10 @@ class MedicationsInformationPage {
       .and('contain', 'We can’t access your medication information right now');
   };
 
+  verifyFocusOnAPIErrorAlertTextOnPatientInformationPage = () => {
+    cy.get('[data-testid="no-medications-list"]').should('be.focused');
+  };
+
   verifyNoInformationWarningText = () => {
     cy.get('[data-testid="medication-information-no-info"]')
       .should('be.visible')
