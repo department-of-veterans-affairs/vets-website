@@ -47,10 +47,9 @@ export default function ReferralAppointments() {
   return (
     <>
       <Switch>
-        <Route
-          path={`${basePath.url}/complete/:appointmentId`}
-          component={CompleteReferral}
-        />
+        <Route path={`${basePath.url}/complete/:appointmentId`} search={id}>
+          <CompleteReferral currentReferral={referral} />
+        </Route>
         <Route path={`${basePath.url}/review/`} search={id}>
           <ReviewAndConfirm currentReferral={referral} />
         </Route>
