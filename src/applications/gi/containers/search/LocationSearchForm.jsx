@@ -227,6 +227,7 @@ export function LocationSearchForm({
         <div className="vads-l-row">
           <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--7 input-row">
             <KeywordSearch
+              isLocationSearch
               inputRef={inputRef}
               className="location-search"
               type="location"

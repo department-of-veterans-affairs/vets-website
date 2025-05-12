@@ -311,12 +311,16 @@
   .input-container {
     display: flex;
     border: 1px solid;
-    margin: 6px 0px 0px 0px;
+    margin: 6px 0px;
     height: 2.625rem;
 
     input {
       border: none;
       height: unset;
+    }
+
+    &-location {
+      margin: 6px 0px 0px 0px;
     }
   }
 

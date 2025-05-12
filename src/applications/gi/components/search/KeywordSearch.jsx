@@ -28,6 +28,7 @@ export function KeywordSearch({
   errorReducer,
   type,
   inputRef,
+  isLocationSearch,
 }) {
   const fetchSuggestion = () => {
     onFetchAutocompleteSuggestions(inputValue, version);
@@ -156,7 +157,13 @@ export function KeywordSearch({
           selectedItem,
         }) => (
           <div>
-            <div className="input-container input-container-width">
+            <div
+              className={`${
+                isLocationSearch
+                  ? 'input-container-location input-container'
+                  : 'input-container'
+              } input-container-width`}
+            >
               <input
                 data-testid="ct-input"
                 aria-controls="ctKeywordSearch"
@@ -239,6 +246,7 @@ KeywordSearch.propTypes = {
   onPressEnter: PropTypes.func,
   onSelection: PropTypes.func,
   onUpdateAutocompleteSearchTerm: PropTypes.func,
+  isLocationSearch: PropTypes.bool,
 };
 
 export default connect(
