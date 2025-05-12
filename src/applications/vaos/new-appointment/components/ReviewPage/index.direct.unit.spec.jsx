@@ -246,6 +246,9 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should show appropriate message on bad 400 request submit error', async () => {
+    mockFacilityApi({
+      response: new MockFacilityResponse(),
+    });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
       {
@@ -285,6 +288,9 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should show appropriate message on overbooked 409 error', async () => {
+    mockFacilityApi({
+      response: new MockFacilityResponse(),
+    });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
       {
@@ -324,6 +330,9 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
   });
 
   it('should show appropriate message on bad 500 request submit error', async () => {
+    mockFacilityApi({
+      response: new MockFacilityResponse(),
+    });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
       {

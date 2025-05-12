@@ -389,13 +389,15 @@ export function mockFacilitiesApi({
  *
  * @export
  * @param {Object} arguments
- * @param {Object} [arguments.response=[]] The response to return from the mock api call.
+ * @param {string} [arguments.id] Facility id. NOTE: Facility id will be used from the response object when the 'id' is not set.
+ * @param {Object} [arguments.response] The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] The response code to return from the mock api call.
  *
  * @return {string} Return mock API URL. This is useful for debugging.
  */
 export function mockFacilityApi({ id, response: data, responseCode = 200 }) {
-  const baseUrl = `${environment.API_URL}/vaos/v2/facilities/${id}`;
+  const _id = id || data?.id;
+  const baseUrl = `${environment.API_URL}/vaos/v2/facilities/${_id}`;
 
   if (responseCode === 200) {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
