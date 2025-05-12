@@ -23,13 +23,14 @@ import content from '../locales/en/content.json';
 import manifest from '../manifest.json';
 
 // veteran pages
-import vetPersonalInfoPage from './chapters/veteran/personalInformation';
+// import vetPersonalInfoPage from './chapters/veteran/personalInformation';
 import vetIdentityInfoPage from './chapters/veteran/identityInformation';
 import vetHomeAddressPage from './chapters/veteran/homeAddress';
 import vetContactInfoPage from './chapters/veteran/contactInformation';
 import vetMedicalCenterJsonPage from './chapters/veteran/vaMedicalCenter_json';
 import FacilitySearch from '../components/FormFields/FacilitySearch';
 import FacilityReview from '../components/FormReview/FacilityReview';
+import Navigation from '../components/FormFields/Navigation';
 
 // primary pages
 import hasPrimaryPage from './chapters/primary/hasPrimary';
@@ -119,8 +120,10 @@ const formConfig = {
         vetPersonalInformation: {
           path: 'veteran-information/personal-information',
           title: content['vet-info-title--personal'],
-          uiSchema: vetPersonalInfoPage.uiSchema,
-          schema: vetPersonalInfoPage.schema,
+          CustomPage: Navigation,
+          CustomPageReview: FacilityReview,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
         vetIdentityInformation: {
           path: 'veteran-informaton/identity-information',
