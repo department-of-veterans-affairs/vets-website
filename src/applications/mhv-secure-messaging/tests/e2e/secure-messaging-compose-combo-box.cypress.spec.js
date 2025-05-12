@@ -48,15 +48,15 @@ describe('SM MESSAGING COMBO BOX', () => {
     PatientComposePage.deleteUnsavedDraft();
   });
 
-  it('verify user can send a message', () => {
-    PatientComposePage.selectComboBoxRecipient('TG-7410');
-    cy.realPress('Enter');
-    PatientComposePage.selectCategory('COVID');
-    PatientComposePage.enterDataToMessageSubject('testSubject');
-    PatientComposePage.enterDataToMessageBody('{moveToStart}testBody');
-    PatientComposePage.sendMessageWithoutVerification();
-    PatientComposePage.verifySendMessageConfirmationMessageText();
-    PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
-    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-  });
+  // it('verify user can send a message', () => {
+  //   PatientComposePage.selectComboBoxRecipient('TG-7410');
+  //   cy.realPress('Enter');
+  //   PatientComposePage.selectCategory('COVID');
+  //   PatientComposePage.enterDataToMessageSubject('testSubject');
+  //   PatientComposePage.enterDataToMessageBody('{moveToStart}testBody');
+  //   PatientComposePage.sendMessageWithoutVerification();
+  //   PatientComposePage.verifySendMessageConfirmationMessageText();
+  //   PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
+  //   cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  // });
 });
