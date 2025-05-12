@@ -2200,6 +2200,10 @@
     font-size: 16px;
   }
 
+  ul#header-nav-items li {
+    max-width: 100%;
+  }
+
   @media (min-width: 320px) and (max-width: 767px) {
     .menu-rule,
     #menu-rule {
