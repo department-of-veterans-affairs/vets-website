@@ -69,7 +69,11 @@ const generatePdf = (userProfile, seiRecords, failed, runningUnitTest) => {
     });
 };
 
-export const generateSEIPdf = async (userProfile, useUnifiedSelfEnteredAPI) => {
+export const generateSEIPdf = async (
+  userProfile,
+  useUnifiedSelfEnteredAPI,
+  runningUnitTest,
+) => {
   try {
     let data;
     let failedDomains;
@@ -93,7 +97,7 @@ export const generateSEIPdf = async (userProfile, useUnifiedSelfEnteredAPI) => {
     }
     const success = failedDomains.length < SEI_DOMAINS.length;
     if (success) {
-      generatePdf(userProfile, seiRecords, failedDomains);
+      generatePdf(userProfile, seiRecords, failedDomains, runningUnitTest);
     }
     return { success, failedDomains };
   } catch (error) {
