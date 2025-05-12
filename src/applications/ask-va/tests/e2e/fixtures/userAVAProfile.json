@@ -23,6 +23,10 @@
             }
         },
         "avaProfile": {
+            "schoolInfo": {
+                "schoolFacilityCode": "119D9143",
+                "schoolName": "TEXAS STATE UNIVERSITY"
+            },
             "businessPhone": "2023334442",
             "businessEmail": "testAVAPROFILE_BUSINESS@test.com"
         }

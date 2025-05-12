@@ -1,6 +1,6 @@
 flow:
   title: Health Care for Veteran (auth)
-  runOnCI: false # when this is false, the flow will only run on a scheduled job
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
       target: page
@@ -29,7 +29,6 @@ flow:
     - action: include
       target: page
       value: what-is-your-relationship-to-the-veteran-veteran
-
 
     - action: include
       target: page

@@ -1,5 +1,5 @@
 flow:
-  title: Benefits issues outside the US for Disability Compensation for the Veteran (auth)
+  title: Burials and memorials inquiry from funeral director (auth)
   runOnCI: true # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
@@ -12,35 +12,39 @@ flow:
 
     - action: include
       target: page
-      value: select-category-benefits-issues-outside-the-us
+      value: select-category-burials-and-memorials
 
     - action: include
       target: page
-      value: select-topic-disability-compensation
+      value: select-topic-memorial-items
 
     - action: include
       target: page
-      value: who-is-your-question-about-myself
+      value: select-subtopic-headstones-markers-medallions-and-presidential-memorial-certificates
 
     - action: include
       target: page
-      value: what-is-your-relationship-to-the-veteran-veteran
+      value: who-is-your-question-about-someone-else
 
     - action: include
       target: page
-      value: your-branch-of-service-air-force
+      value: what-is-your-relationship-to-the-veteran-connected-through-work
 
     - action: include
       target: page
-      value: your-contact-information-radio-buttons-us-mail
+      value: what-is-your-role-funeral-director
 
     - action: include
       target: page
-      value: your-us-mailing-address
+      value: tell-us-about-your-family-member-veteran-branch-of-service
 
     - action: include
       target: page
-      value: your-us-mailing-address-confirm
+      value: tell-us-about-your-family-member-veteran-death
+
+    - action: include
+      target: page
+      value: your-contact-information
 
     - action: include
       target: page

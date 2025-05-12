@@ -36,11 +36,15 @@ flow:
 
     - action: include
       target: page
+      value: do-you-want-to-use-your-school-info-no-update
+
+    - action: include
+      target: page
       value: school-information
 
     - action: include
       target: page
-      value: do-you-want-to-save-your-school-info
+      value: do-you-want-to-save-your-school-info-yes-replace
 
     - action: include
       target: page

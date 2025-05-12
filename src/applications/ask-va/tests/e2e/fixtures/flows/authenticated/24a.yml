@@ -26,13 +26,10 @@ flow:
       target: page
       value: what-is-your-relationship-to-the-veteran-veteran
 
-    - action: include
-      target: page
-      value: school-information
 
     - action: include
       target: page
-      value: do-you-want-to-save-your-school-info
+      value: do-you-want-to-use-your-school-info-yes
 
     - action: include
       target: page

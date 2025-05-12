@@ -4,7 +4,11 @@ import YAML from 'yaml';
 import mockUserDefault from './fixtures/userDefault.json';
 import mockUserMissingInfo from './fixtures/userOld.json';
 // import mockUserSchool from './fixtures/userSchool.json';
-import mockXX123Get from './fixtures/userAVAProfile.json';
+
+import mockUserMultipleInquiries from './fixtures/userMultipleInquiries.json';
+import mockUserOneInquiry from './fixtures/userOneInquiry.json';
+
+import mockAVAProfile from './fixtures/userAVAProfile.json';
 
 import interceptAskVaResponses from './fixtures/api-mocks-for-ask-va';
 import interceptVaGovResponses from './fixtures/api-mocks-for-va-gov';
@@ -162,7 +166,7 @@ describe('YAML tests', () => {
         // TODO: This should be in the interceptAskVaResponses function -- Joe
         cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
 
-        cy.intercept('GET', '/v0/in_progress_forms/0873', mockXX123Get);
+        cy.intercept('GET', '/v0/in_progress_forms/0873', mockAVAProfile);
       });
 
       for (const path of paths) {
@@ -183,13 +187,28 @@ describe('YAML tests', () => {
               let flowYML = EMPTY_FLOW_YML;
 
               if (path === 'authenticated') {
+                // if (
+                //   [
+                //     '4i.yml',
+                //     '7i.yml',
+                //     '24a.yml',
+                //     '24b.yml',
+                //     '24c.yml',
+                //   ].includes(file)
+                // ) {
+                //   cy.login(mockUserSchool);
+                // } else
                 if (['13g.yml', '17g.yml'].includes(file)) {
                   cy.login(mockUserMissingInfo);
+                } else {
+                  cy.login(mockUserDefault);
                 }
-                // else if (['4i.yml', '7i.yml', '24a.yml', '24b.yml', '24c.yml'].includes(file)) {
-                //   cy.login(mockUserSchool);
-                // }
-                else {
+              } else if (path === 'dashboard') {
+                if (['13g.yml', '17g.yml'].includes(file)) {
+                  cy.login(mockUserMultipleInquiries);
+                } else if (['14g.yml', '18g.yml'].includes(file)) {
+                  cy.login(mockUserOneInquiry);
+                } else {
                   cy.login(mockUserDefault);
                 }
               } else {

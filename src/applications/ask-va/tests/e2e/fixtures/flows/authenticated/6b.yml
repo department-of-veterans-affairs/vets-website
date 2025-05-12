@@ -38,7 +38,6 @@ flow:
       target: page
       value: tell-us-about-your-family-member-veteran-death
 
-
     - action: include
       target: page
       value: your-contact-information-radio-buttons-us-mail

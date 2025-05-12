@@ -28,15 +28,12 @@ flow:
 
     - action: include
       target: page
-      value: what-is-your-role-sco
+      value: what-is-your-role-site-supervisor
 
     - action: include
       target: page
-      value: school-information
+      value: your-state-of-facility
 
-    - action: include
-      target: page
-      value: do-you-want-to-save-your-school-info
 
 
     - action: include
