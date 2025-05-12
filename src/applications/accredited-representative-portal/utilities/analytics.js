@@ -1,7 +1,12 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 export const recordDatalayerEvent = e => {
-  switch (e) {
+  const sendEvent = () =>
+    recordEvent({
+      // prettier-ignore
+      'event': e.target.dataset.eventname
+    });
+  switch (e.target.dataset.eventname) {
     case 'nav-tab-click':
       recordEvent({
         // prettier-ignore
@@ -18,11 +23,14 @@ export const recordDatalayerEvent = e => {
         'button-label': e.target.innerText
       });
       break;
-    case 'nav-header-sign-in' || 'nav-header-sign-out' || 'arp-card':
-      recordEvent({
-        // prettier-ignore
-        'event': e.target.dataset.eventname
-      });
+    case 'nav-header-sign-in':
+      sendEvent();
+      break;
+    case 'nav-header-sign-out':
+      sendEvent();
+      break;
+    case 'arp-card':
+      sendEvent();
       break;
     case 'int-radio-button-option-click':
       recordEvent({
