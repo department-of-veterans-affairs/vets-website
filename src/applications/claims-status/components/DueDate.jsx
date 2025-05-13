@@ -21,7 +21,7 @@ export default function DueDate({ date }) {
     if (pastDueDate) {
       dueDateHeader = '(due date passed)';
     } else {
-      dueDateHeader = ''; // show nothing
+      dueDateHeader = '';
     }
   } else if (pastDueDate) {
     dueDateHeader = `Needed from you by ${formattedClaimDate} - Due ${formatDistanceToNowStrict(
@@ -33,7 +33,7 @@ export default function DueDate({ date }) {
   return (
     <div className="due-date-header">
       {cstFriendlyEvidenceRequests ? (
-        <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-color--action-surface-destructive-on-dark">
+        <p className="vads-u-margin-top--0 vads-u-color--error-dark">
           {dueDateHeader}
         </p>
       ) : (
