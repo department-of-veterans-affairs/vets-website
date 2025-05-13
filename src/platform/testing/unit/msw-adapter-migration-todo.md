@@ -43,46 +43,64 @@ For each test file:
 
 ## Files to Update
 
-### Appeals Application
+### Form 686c-674 (Declaration of Dependents)
 
-- [ ] src/applications/appeals/995/tests/utils/evidence.unit.spec.jsx
-- [ ] src/applications/appeals/995/tests/utils/toggle.unit.spec.jsx
-- [ ] src/applications/appeals/996/tests/containers/ConfirmationPage.unit.spec.jsx
-- [ ] src/applications/appeals/shared/tests/utils/addIssues.unit.spec.jsx
+- [x] src/applications/686c-674/tests/actions/index.unit.spec.jsx
+- [x] src/applications/686c-674/tests/config/utilities.unit.spec.jsx
+- [x] src/applications/686c-674/tests/containers/introductionPage.unit.spec.jsx
+
+### Ask VA
+
+- [ ] src/applications/ask-va/tests/components/reviewPage/ReviewSectionContent.unit.spec.jsx
+- [ ] src/applications/ask-va/tests/containers/DashboardCards.unit.spec.jsx
 
 ### Authentication
 
 - [ ] src/applications/auth/tests/AuthApp.unit.spec.jsx
 
-### Check-In Application
+### Claims Status
 
-- [ ] src/applications/check-in/hooks/tests/useStorage/useStorage.unit.spec.jsx
+- [ ] src/applications/claims-status/tests/actions/index.unit.spec.jsx
+- [ ] src/applications/claims-status/tests/utils/helpers.unit.spec.jsx
 
-### Claims Status Application
+### Disability Benefits
 
-- [ ] src/applications/claims-status/tests/components/DocumentRequestPage.unit.spec.jsx
-- [ ] src/applications/claims-status/tests/components/YourClaimsPageV2.unit.spec.jsx
-- [ ] src/applications/claims-status/tests/components/claim-files-tab/FilesNeeded.unit.spec.jsx
-- [ ] src/applications/claims-status/tests/components/claim-files-tab/Standard5103Alert.unit.spec.jsx
+- [ ] src/applications/disability-benefits/all-claims/tests/components/SelectArrayItemsWidget.unit.spec.jsx
+- [ ] src/applications/disability-benefits/all-claims/tests/content/ancillaryFormsWizardSummary.unit.spec.jsx
+- [ ] src/applications/disability-benefits/all-claims/tests/pages/ancillaryFormsWizardSummary.unit.spec.jsx
+- [ ] src/applications/disability-benefits/view-payments/tests/components/view-payments-lists/view-payments-lists.unit.spec.jsx
 
-### Disability Benefits Application
+### Facility Locator
 
-- [ ] src/applications/disability-benefits/all-claims/tests/components/UpdateMilitaryHistory.unit.spec.jsx
-- [ ] src/applications/disability-benefits/all-claims/tests/containers/Form526EZApp.unit.spec.jsx
-- [ ] src/applications/disability-benefits/all-claims/tests/containers/IntroductionPage.unit.spec.jsx
-- [ ] src/applications/disability-benefits/all-claims/tests/containers/WizardContainer.unit.spec.jsx
-- [ ] src/applications/disability-benefits/all-claims/tests/pages/additionalDocuments.unit.spec.jsx
-- [ ] src/applications/disability-benefits/all-claims/tests/routes.unit.spec.jsx
-- [ ] src/applications/disability-benefits/all-claims/tests/utils/serviceBranches.unit.spec.jsx
-- [ ] src/applications/disability-benefits/all-claims/tests/utils/utils.unit.spec.jsx
+- [ ] src/applications/facility-locator/tests/api-url-parameters.latLongOnly.unit.spec.jsx
+- [ ] src/applications/facility-locator/tests/api-url-parameters.railsEngine.unit.spec.jsx
 
-### GI Bill Comparison Tool
+### Pensions
 
-- [ ] src/applications/gi/tests/containers/search/NameSearchForm.unit.spec.jsx
+- [ ] src/applications/pensions/tests/unit/NoFormPage.unit.spec.jsx
 
 ### Personalization
 
-- [ ] src/applications/personalization/common/hooks/useSessionStorage.unit.spec.jsx
+- [ ] src/applications/personalization/appointments/actions/index.unit.spec.jsx
+- [ ] src/applications/personalization/dashboard/tests/components/benefit-applications/ApplicationsInProgress.unit.spec.jsx
+- [ ] src/applications/personalization/dashboard/tests/components/RenderClaimsWidgetDowntimeNotification.unit.spec.jsx
+- [ ] src/applications/personalization/profile/tests/actions/directDeposit.unit.spec.jsx
+- [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-address.unit.spec.jsx
+- [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-email-address.unit.spec.jsx
+- [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-telephone.unit.spec.jsx
+- [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.edit-email-address.unit.spec.jsx
+- [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.edit-telephone.unit.spec.jsx
+- [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.update-address.unit.spec.jsx
+- [ ] src/applications/personalization/profile/tests/ducks/communicationPreferences.unit.spec.jsx
+- [ ] src/applications/personalization/profile/tests/hooks/useDirectDeposit/useDirectDeposit.unit.spec.jsx
+
+### Rated Disabilities
+
+- [ ] src/applications/rated-disabilities/tests/containers/AppContent.unit.spec.jsx
+
+### Representative Search
+
+- [ ] src/applications/representative-search/tests/api-url-parameters.railsEngine.unit.spec.jsx
 
 ### Sign-In Changes
 
@@ -90,53 +108,17 @@ For each test file:
 
 ### Static Pages
 
-- [ ] src/applications/static-pages/burial-how-do-i-apply-widget/components/App/index.unit.spec.jsx
-- [ ] src/applications/static-pages/cta-widget/tests/index.unit.spec.jsx
-- [ ] src/applications/static-pages/wizard/tests/bdd-526.unit.spec.jsx
+- [ ] src/applications/static-pages/download-1095b/components/App/index.unit.spec.jsx
 
 ### Terms of Use
 
-- [ ] src/applications/terms-of-use/tests/Declined.unit.spec.jsx
+- [ ] src/applications/terms-of-use/tests/MyVAHealth.unit.spec.jsx
 - [ ] src/applications/terms-of-use/tests/TermsOfUse.unit.spec.jsx
-- [ ] src/applications/terms-of-use/tests/helpers.unit.spec.jsx
-
-### VAOS (VA Online Scheduling)
-
-- [ ] src/applications/vaos/referral-appointments/ReviewAndConfirm.unit.spec.jsx
-- [ ] src/applications/vaos/referral-appointments/ScheduleReferral.unit.spec.jsx
-- [ ] src/applications/vaos/referral-appointments/components/DateAndTimeContent.unit.spec.jsx
-- [ ] src/applications/vaos/referral-appointments/tests/utils/timer.unit.spec.jsx
-
-### Virtual Agent
-
-- [ ] src/applications/virtual-agent/tests/components/Bot.unit.spec.jsx
-- [ ] src/applications/virtual-agent/tests/components/ChatboxDisclaimer.unit.spec.jsx
-- [ ] src/applications/virtual-agent/tests/components/WebChat.unit.spec.jsx
-- [ ] src/applications/virtual-agent/tests/event-listeners/clearBotSessionStorage.unit.spec.jsx
-- [ ] src/applications/virtual-agent/tests/event-listeners/signOutEventListener.unit.spec.jsx
-- [ ] src/applications/virtual-agent/tests/event-listeners/webAuthActivityEventListener.unit.spec.jsx
-- [ ] src/applications/virtual-agent/tests/hooks/useDirectline.unit.spec.jsx
-- [ ] src/applications/virtual-agent/tests/hooks/useRxSkillEventListener.unit.spec.jsx
-- [ ] src/applications/virtual-agent/tests/hooks/useWebMessageActivityEventListener.unit.spec.jsx
-- [ ] src/applications/virtual-agent/tests/middleware/cardActionMiddleware.unit.spec.jsx
-- [ ] src/applications/virtual-agent/tests/utils/actions.unit.spec.jsx
-- [ ] src/applications/virtual-agent/tests/utils/markdownRender.unit.spec.jsx
-- [ ] src/applications/virtual-agent/tests/utils/sessionStorage.unit.spec.jsx
-
-### Platform Core
-
-- [ ] src/platform/forms/tests/save-in-progress/ApplicationStatus.unit.spec.jsx
-- [ ] src/platform/forms/tests/save-in-progress/RoutedSavableApp.unit.spec.jsx
-- [ ] src/platform/site-wide/announcements/tests/actions/index.unit.spec.jsx
-- [ ] src/platform/user/tests/authentication/utilities.unit.spec.jsx
-- [ ] src/platform/utilities/tests/api/index.unit.spec.jsx
-- [ ] src/platform/utilities/tests/feature-toggles/useFeatureToggle.unit.spec.jsx
-- [ ] src/platform/utilities/tests/oauth/utilities.unit.spec.jsx
 
 ## Migration Progress
 
-- Total files to update: 50
-- Files updated: 0
-- Progress: 0%
+- Total files to update: 33
+- Files updated: 3
+- Progress: 9%
 
 Last updated: May 13, 2025
