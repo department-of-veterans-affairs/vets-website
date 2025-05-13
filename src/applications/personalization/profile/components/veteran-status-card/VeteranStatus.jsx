@@ -15,6 +15,7 @@ import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
 
 const VeteranStatus = ({
   serviceHistory = [],
+  vetStatusEligibility = {},
   totalDisabilityRating,
   userFullName = {
     first: '',
@@ -82,6 +83,33 @@ const VeteranStatus = ({
     [pdfError, shouldFocusError],
   );
 
+  const buildContactElements = item => {
+    const contactNumber = `${CONTACTS.DS_LOGON.slice(
+      0,
+      3,
+    )}-${CONTACTS.DS_LOGON.slice(3, 6)}-${CONTACTS.DS_LOGON.slice(6)}`;
+    const startIndex = item.indexOf(contactNumber);
+
+    if (startIndex === -1) {
+      return item;
+    }
+
+    const before = item.slice(0, startIndex);
+    const telephone = item.slice(
+      startIndex,
+      startIndex + contactNumber.length + 11,
+    );
+    const after = item.slice(startIndex + telephone.length);
+
+    return (
+      <>
+        {before}
+        <va-telephone contact={contactNumber} /> (
+        <va-telephone contact={CONTACTS[711]} tty />){after}
+      </>
+    );
+  };
+
   const formattedFullName = formatFullName({
     first,
     middle,
@@ -91,13 +119,11 @@ const VeteranStatus = ({
 
   const getLatestService = () => {
     if (serviceHistory.length) {
-      const latestServiceItem = serviceHistory.length
-        ? serviceHistory.reduce((latest, current) => {
-            return new Date(current.endDate) > new Date(latest.endDate)
-              ? current
-              : latest;
-          })
-        : null;
+      const latestServiceItem = serviceHistory.reduce((latest, current) => {
+        return new Date(current.endDate) > new Date(latest.endDate)
+          ? current
+          : latest;
+      });
       const serviceStartYear = latestServiceItem.beginDate
         ? latestServiceItem.beginDate.substring(0, 4)
         : '';
@@ -155,91 +181,72 @@ const VeteranStatus = ({
     }
   };
 
-  const hasConfirmationData = !!(data && data.attributes);
-
-  const userHasRequiredCardData = !!(
-    hasConfirmationData &&
+  const haveRequiredCardData =
     data?.attributes?.veteranStatus === 'confirmed' &&
-    serviceHistory.length &&
-    formattedFullName
-  );
+    vetStatusEligibility?.confirmed === true &&
+    serviceHistory.length > 0 &&
+    formattedFullName &&
+    !systemError;
 
   const renderAlert = () => {
-    const notConfirmedReason = data?.attributes?.notConfirmedReason;
+    let headline;
+    let messages;
+    let status;
+
     if (pdfError) {
-      return (
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="error"
-          class="vads-u-margin-bottom--3"
-          visible
-        >
-          <h2 slot="headline">Something went wrong</h2>
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            We’re sorry. Try to download your Veteran Status Card later.
-          </p>
-        </va-alert>
-      );
-    }
-    if (
-      !formattedFullName ||
-      !hasConfirmationData ||
-      systemError ||
-      notConfirmedReason === 'ERROR'
-    ) {
-      return (
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="error"
-          visible
-        >
-          <h2 slot="headline">Something went wrong</h2>
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            We’re sorry. Try to view your Veteran Status Card later.
-          </p>
-        </va-alert>
-      );
-    }
-    if (!userHasRequiredCardData) {
-      if (notConfirmedReason === 'NOT_TITLE_38') {
-        return (
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="warning"
-            visible
-          >
-            <h2 slot="headline">
-              You’re not eligible for a Veteran Status Card
-            </h2>
-            <p className="vads-u-margin-top--0">
-              To get a Veteran Status Card, you must have received an honorable
-              discharge for at least one period of service.
-            </p>
-            <p className="vads-u-margin-bottom--0">
-              If you think your discharge status is incorrect, call the Defense
-              Manpower Data Center at{' '}
-              <va-telephone contact={CONTACTS.DS_LOGON} /> (
-              <va-telephone contact={CONTACTS[711]} tty />
-              ). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-            </p>
-          </va-alert>
-        );
+      // PDF download error
+      headline = 'Something went wrong';
+      messages = [
+        'We’re sorry. Try to download your Veteran Status Card later.',
+      ];
+      status = 'error';
+    } else if (!haveRequiredCardData) {
+      if (
+        formattedFullName &&
+        data?.attributes?.veteranStatus === 'not confirmed' &&
+        data?.message?.length > 0
+      ) {
+        // Lighthouse API error
+        messages = data?.message?.map(item => {
+          return buildContactElements(item);
+        });
+        status = 'warning';
+      } else if (
+        formattedFullName &&
+        vetStatusEligibility?.confirmed === false &&
+        vetStatusEligibility?.message?.length > 0
+      ) {
+        // Profile API error
+        messages = vetStatusEligibility?.message.map(item => {
+          return buildContactElements(item);
+        });
+        status = 'warning';
+      } else {
+        // System error
+        headline = 'Something went wrong';
+        messages = ['We’re sorry. Try to view your Veteran Status Card later.'];
+        status = 'error';
       }
+    }
+    if (messages) {
       return (
         <va-alert
+          class={pdfError ? 'vads-u-margin-bottom--3' : ''}
           close-btn-aria-label="Close notification"
-          status="warning"
+          status={status}
           visible
         >
-          <h2 slot="headline">
-            There’s a problem with your discharge status records
-          </h2>
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            We’re sorry. To fix the problem with your records, call the Defense
-            Manpower Data Center at <va-telephone contact={CONTACTS.DS_LOGON} />{' '}
-            (<va-telephone contact={CONTACTS[711]} tty />
-            ). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-          </p>
+          {headline && <h2 slot="headline">{headline}</h2>}
+          {messages?.map((message, i) => (
+            <p
+              key={i}
+              className={`${i === 0 ? 'vads-u-margin-top--0' : ''} ${
+                i === messages.length - 1 ? 'vads-u-margin-bottom--0' : ''
+              }`}
+            >
+              {message}
+            </p>
+          ))}
         </va-alert>
       );
     }
@@ -263,7 +270,7 @@ const VeteranStatus = ({
         ) : (
           <>
             {renderAlert()}
-            {userHasRequiredCardData && (
+            {haveRequiredCardData && (
               <div className="vads-l-grid-container--full">
                 <div className="vads-l-row">
                   <VeteranStatusCard
@@ -279,7 +286,7 @@ const VeteranStatus = ({
         )}
       </div>
       <FrequentlyAskedQuestions
-        createPdf={!isLoading && userHasRequiredCardData ? createPdf : null}
+        createPdf={!isLoading && haveRequiredCardData ? createPdf : null}
       />
     </>
   );
@@ -297,11 +304,14 @@ VeteranStatus.propTypes = {
   ),
   totalDisabilityRating: PropTypes.number,
   userFullName: PropTypes.object,
+  vetStatusEligibility: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   serviceHistory:
     state.vaProfile?.militaryInformation.serviceHistory.serviceHistory,
+  vetStatusEligibility:
+    state.vaProfile?.militaryInformation.serviceHistory.vetStatusEligibility,
   totalDisabilityRating: state.totalRating?.totalDisabilityRating,
   userFullName: state.vaProfile?.hero?.userFullName,
   edipi: state.user?.profile?.edipi,
