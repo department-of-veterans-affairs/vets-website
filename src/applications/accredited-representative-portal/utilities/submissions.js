@@ -25,19 +25,14 @@ export const SORT_BY = {
   DESC: 'desc',
 };
 
-export const PENDING = {
+export const SORT_OPTIONS = {
   DESC_OPTION: 'Submitted date (newest)',
   ASC_OPTION: 'Submitted date (oldest)',
 };
 
-export const PROCESSED = {
-  DESC_OPTION: 'Processed date (newest)',
-  ASC_OPTION: 'Processed date (oldest)',
-};
-
-export const STATUSES = {
-  PENDING: 'pending',
-  PROCESSED: 'processed',
+export const SORT_DEFAULTS = {
+  SORT_BY: 'created_at',
+  SORT_ORDER: 'desc',
   // default is 20 per page
   SIZE: '20',
   // default is page 1

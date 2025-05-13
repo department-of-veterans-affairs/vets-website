@@ -6,7 +6,7 @@ import LandingPage from './containers/LandingPage';
 import POARequestSearchPage from './containers/POARequestSearchPage';
 import POARequestIndividualSearchPage from './containers/POARequestIndividualSearchPage';
 import POARequestDetailsPage from './containers/POARequestDetailsPage';
-import SubmissionsPage from './containers/SubmissionsPage.jsx';
+import SubmissionsPage from './containers/SubmissionsPage';
 import SignedInLayout from './containers/SignedInLayout';
 import ErrorBoundary from './components/ErrorBoundary';
 import GetHelpPage from './containers/GetHelpPage';
