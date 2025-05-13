@@ -64,55 +64,24 @@ export const FORMAT_COMPACT_DATE_FNS = 'MMM d, yyyy';
 export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
 
 /**
- * @type {Object} ALLOWED_CHILD_COMPONENTS - Allowed child components for the PersonalInformation component
- * @property {string} NOTE - PersonalInformationNote component
- * @property {string} HEADER - PersonalInformationHeader component
- * @property {string} FOOTER - PersonalInformationFooter component
- *
- * @example
- * <PersonalInformation>
- *   <PersonalInformationNote>Custom note content</PersonalInformationNote>
- *   <PersonalInformationHeader>Custom header content</PersonalInformationHeader>
- *   <PersonalInformationFooter>Custom footer content</PersonalInformationFooter>
- * </PersonalInformation>
- */
-const ALLOWED_CHILD_COMPONENTS = {
-  HEADER: 'PersonalInformationHeader',
-  CARD_HEADER: 'PersonalInformationCardHeader',
-  NOTE: 'PersonalInformationNote',
-  FOOTER: 'PersonalInformationFooter',
-};
-
-/**
  * @param {React.ReactNode} children - The children to get by type
  * @returns {Object} The children by type
  */
-export const getChildrenByType = children => {
+export function getChildrenByType(children) {
   const childrenByType = {
     note: null,
     header: null,
     footer: null,
+    cardHeader: null,
   };
 
   React.Children.forEach(children, child => {
     if (!child) return;
-
-    switch (child?.type?.name) {
-      case ALLOWED_CHILD_COMPONENTS.NOTE:
-        childrenByType.note = child;
-        break;
-      case ALLOWED_CHILD_COMPONENTS.HEADER:
-        childrenByType.header = child;
-        break;
-      case ALLOWED_CHILD_COMPONENTS.CARD_HEADER:
-        childrenByType.cardHeader = child;
-        break;
-      case ALLOWED_CHILD_COMPONENTS.FOOTER:
-        childrenByType.footer = child;
-        break;
-      default:
+    // Check for the componentType property instead of display name
+    if (child.type && child.type.componentType) {
+      childrenByType[child.type.componentType] = child;
     }
   });
 
   return childrenByType;
-};
+}
