@@ -411,3 +411,22 @@ export const getSignature = () => {
     },
   });
 };
+
+export const submitLaunchMyVaHealthAal = () => {
+  return apiRequest(`${apiBasePath}/aal`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      aal: {
+        activityType: 'Messaging',
+        action: 'Launch My VA Health',
+        performerType: 'Self',
+        status: '1',
+      },
+      product: 'sm',
+    }),
+  });
+};
