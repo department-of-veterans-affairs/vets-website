@@ -85,12 +85,6 @@ export default function FilesNeeded({ item, previousPage = null }) {
                   item.displayName}`
               : `Details for ${item.displayName}`
           }
-          title={
-            cstFriendlyEvidenceRequests
-              ? `About this request for ${item.friendlyName ||
-                  item.displayName}`
-              : `Details for ${item.displayName}`
-          }
           className="vads-c-action-link--blue"
           to={
             cstFriendlyEvidenceRequests
