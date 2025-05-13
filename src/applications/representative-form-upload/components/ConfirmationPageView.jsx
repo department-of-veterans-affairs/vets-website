@@ -12,6 +12,11 @@ export const ConfirmationPageView = ({
 }) => {
   const alertRef = useRef(null);
 
+  const formattedSubmitDate =
+    submitDate && typeof submitDate === 'object'
+      ? format(submitDate, 'MMMM d, yyyy')
+      : null;
+
   useEffect(
     () => {
       if (alertRef?.current) {
@@ -34,10 +39,12 @@ export const ConfirmationPageView = ({
       </div>
       <va-alert uswds status="success" ref={alertRef}>
         {submitDate && <h2>You’ve submitted the form</h2>}
-        <p>
-          You submitted the form and supporting evidence on{' '}
-          <strong>{format(submitDate, 'MMMM d, yyyy')}</strong>
-        </p>
+        {formattedSubmitDate ? (
+          <p>
+            You submitted the form and supporting evidence on{' '}
+            <strong>{formattedSubmitDate}</strong>
+          </p>
+        ) : null}
         <p>Your confirmation number is: {confirmationNumber}.</p>
         <p>We’ve emailed this confirmation number to you for your records.</p>
       </va-alert>
@@ -45,9 +52,9 @@ export const ConfirmationPageView = ({
         <section>
           <h2>What to expect</h2>
           <va-process-list>
-            <va-process-list-item header="Now, we'll proccess your form">
+            <va-process-list-item header="Now, we'll process your form">
               <p>
-                The submission is in progress and is being proccessed through
+                The submission is in progress and is being processed through
                 Central Mail before reaching VBMS
               </p>
             </va-process-list-item>
