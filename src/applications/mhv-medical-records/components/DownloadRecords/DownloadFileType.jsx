@@ -45,6 +45,7 @@ import {
 import { Actions } from '../../util/actionTypes';
 import useFocusOutline from '../../hooks/useFocusOutline';
 import { updateReportFileType } from '../../actions/downloads';
+import { postCreateAAL } from '../../api/MrApi';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -317,12 +318,25 @@ const DownloadFileType = props => {
     [recordData],
   );
 
-  const formatDateRange = () => {
-    return {
-      fromDate:
-        fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'any',
-      toDate: fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
-    };
+  const formatDateRange = useCallback(
+    () => {
+      return {
+        fromDate:
+          fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'any',
+        toDate: fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
+      };
+    },
+    [fromDate, toDate],
+  );
+
+  const logAal = status => {
+    postCreateAAL({
+      activityType: 'Download My VA Health Summary',
+      action: 'Download',
+      performerType: 'Self',
+      status,
+      oncePerSession: false,
+    });
   };
 
   const generatePdf = useCallback(
@@ -355,24 +369,25 @@ const DownloadFileType = props => {
             runningUnitTest,
             'blueButtonReport',
           );
+          logAal(1);
           dispatch({ type: Actions.Downloads.BB_SUCCESS });
         }
       } catch (error) {
+        logAal(0);
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
     [
-      fromDate,
-      toDate,
       dispatch,
-      dob,
       isDataFetched,
-      name,
+      user,
+      formatDateRange,
       recordData,
       recordFilter,
+      name,
+      dob,
       refreshStatus,
       runningUnitTest,
-      user,
     ],
   );
 
@@ -393,13 +408,15 @@ const DownloadFileType = props => {
           const content = getTxtContent(recordData, user, dateRange);
 
           generateTextFile(content, pdfName, user);
+          logAal(1);
           dispatch({ type: Actions.Downloads.BB_SUCCESS });
         }
       } catch (error) {
+        logAal(0);
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
-    [dispatch, isDataFetched, recordData, user],
+    [dispatch, formatDateRange, isDataFetched, recordData, user],
   );
 
   const checkFileTypeValidity = useCallback(

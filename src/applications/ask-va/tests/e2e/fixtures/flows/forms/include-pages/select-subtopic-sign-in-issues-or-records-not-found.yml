@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Subtopic
+  - action: click
+    target: radio
+    value:  Sign-in issues or records not found
+  - action: click
+    target: call-to-action
