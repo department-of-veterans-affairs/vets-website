@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { evidenceDictionary } from '../utils/evidenceDictionary';
+import { getDisplayFriendlyName } from '../utils/helpers';
 
 export function NeedHelp({ item }) {
   const alias =
@@ -23,17 +23,6 @@ export function NeedHelp({ item }) {
         })
       : null;
 
-  const friendlyName = () => {
-    if (!evidenceDictionary[item.displayName]?.isProperNoun) {
-      let updatedFriendlyName = item.friendlyName;
-      updatedFriendlyName =
-        updatedFriendlyName.charAt(0).toLowerCase() +
-        updatedFriendlyName.slice(1);
-      return updatedFriendlyName;
-    }
-    return item.friendlyName;
-  };
-
   return (
     <va-need-help class="vads-u-margin-top--9">
       <div slot="content">
@@ -44,8 +33,8 @@ export function NeedHelp({ item }) {
         </p>
         {alias && (
           <p>
-            The VA benefits hotline may refer to the “{friendlyName()}” request
-            as {alias}.
+            The VA benefits hotline may refer to the “
+            {getDisplayFriendlyName(item)}” request as {alias}.
           </p>
         )}
       </div>
