@@ -6,7 +6,7 @@ import React from 'react';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import { createMockFacility } from '../../../tests/mocks/data';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import {
   mockEligibilityFetches,
@@ -39,17 +39,12 @@ describe('VAOS Page: VAFacilityPage', () => {
     };
 
     const facilityIds = ['983', '983GC', '983GB', '983HK', '983QA', '984'];
-    const facilities = facilityIds.map((id, index) =>
-      createMockFacility({
-        id: id.replace('vha_', ''),
-        name: `Fake facility name ${index + 1}`,
-        lat: Math.random() * 90,
-        long: Math.random() * 180,
-        address: {
-          city: `Fake city ${index + 1}`,
-          state: 'FakeState',
-        },
-      }),
+    const facilities = facilityIds.map(
+      (id, index) =>
+        new MockFacilityResponse({
+          id,
+          name: `Fake facility name ${index + 1}`,
+        }),
     );
 
     const closestFacility = facilities[2];
@@ -68,11 +63,11 @@ describe('VAOS Page: VAFacilityPage', () => {
         children: true,
         ids: ['983', '984'],
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'Facility 983',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983GC',
             name: 'Facility 983GC',
           }),
@@ -221,11 +216,11 @@ describe('VAOS Page: VAFacilityPage', () => {
         children: true,
         ids: ['983', '984'],
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'Fake facility name 1',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '984',
           }),
         ],
@@ -297,18 +292,18 @@ describe('VAOS Page: VAFacilityPage', () => {
       mockFacilitiesApi({
         children: true,
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'Facility 983',
-            lat: 39.1362562,
-            long: -85.6804804,
-          }),
-          createMockFacility({
+          })
+            .setLatitude(39.1362562)
+            .setLongitude(-85.6804804),
+          new MockFacilityResponse({
             id: '984',
             name: 'Facility 984',
-            lat: 39.1362562,
-            long: -86.6804804,
-          }),
+          })
+            .setLatitude(39.1362562)
+            .setLongitude(-86.6804804),
         ],
       });
       mockSchedulingConfigurationsApi({
@@ -370,7 +365,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     it('should show no facilities message with up to five unsupported facilities for users without address', async () => {
       // Arrange
-      const facilityDetails = createMockFacility({
+      const facilityDetails = new MockFacilityResponse({
         id: '123',
         name: 'Bozeman VA medical center',
       });
@@ -392,23 +387,23 @@ describe('VAOS Page: VAFacilityPage', () => {
         ids: ['983', '984'],
         response: [
           facilityDetails,
-          createMockFacility({
+          new MockFacilityResponse({
             id: '124',
             name: 'Facility 124',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '125',
             name: 'Facility 125',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '126',
             name: 'Facility 126',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '127',
             name: 'Facility 127',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '128',
             name: 'Facility 128',
           }),
@@ -472,7 +467,6 @@ describe('VAOS Page: VAFacilityPage', () => {
       ).to.exist;
     });
 
-    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it('should display correct facilities after changing type of care', async () => {
       // Arrange
       mockSchedulingConfigurationsApi({
@@ -503,20 +497,20 @@ describe('VAOS Page: VAFacilityPage', () => {
         children: true,
         ids: ['983', '984'],
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'First cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          }),
-          createMockFacility({ id: '983GB' }),
-          createMockFacility({
+          })
+            .setLatitude(39.1362562)
+            .setLongitude(-83.1804804),
+          new MockFacilityResponse({ id: '983GB' }),
+          new MockFacilityResponse({
             id: '984',
             name: 'Second Cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          }),
-          createMockFacility({ id: '984GB' }),
+          })
+            .setLatitude(39.1362562)
+            .setLongitude(-83.1804804),
+          new MockFacilityResponse({ id: '984GB' }),
         ],
       });
 
@@ -883,18 +877,18 @@ describe('VAOS Page: VAFacilityPage', () => {
       mockFacilitiesApi({
         children: true,
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'Facility 983',
-            lat: 41.148179,
-            long: -104.786159,
-          }),
-          createMockFacility({
+          })
+            .setLatitude(41.148179)
+            .setLongitude(-104.786159),
+          new MockFacilityResponse({
             id: '984',
             name: 'Closest facility',
-            lat: '39.7424427',
-            long: '-84.2651895',
-          }),
+          })
+            .setLatitude('39.7424427')
+            .setLongitude(-84.2651895),
         ],
       });
       mockGetCurrentPosition();
@@ -943,17 +937,17 @@ describe('VAOS Page: VAFacilityPage', () => {
         children: true,
         ids: ['983'],
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'San Diego VA Medical Center',
-            address: {
+          })
+            .setAddress({
               line: ['2360 East Pershing Boulevard'],
               city: 'San Diego',
               state: 'CA',
               postalCode: '92128',
-            },
-            phone: '858-779-0338',
-          }),
+            })
+            .setPhoneNumber('858-779-0338'),
         ],
       });
       mockEligibilityFetches({
@@ -1003,15 +997,15 @@ describe('VAOS Page: VAFacilityPage', () => {
         children: true,
         ids: ['983'],
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'Facility 1',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983GC',
             name: 'Facility 2',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983GD',
             name: 'Facility 3',
           }),
@@ -1077,16 +1071,15 @@ describe('VAOS Page: VAFacilityPage', () => {
         children: true,
         ids: ['983'],
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'Facility 1',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '984',
             name: 'Facility 2',
-            address: { city: null, state: null },
-          }),
-          createMockFacility({
+          }).setAddress({ city: null, state: null }),
+          new MockFacilityResponse({
             id: '983GA',
             name: 'Facility 3',
           }),
@@ -1208,18 +1201,18 @@ describe('VAOS Page: VAFacilityPage', () => {
       mockFacilitiesApi({
         children: true,
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'First cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          }),
-          createMockFacility({
+          })
+            .setLatitude(39.1362562)
+            .setLongitude(-83.1804804),
+          new MockFacilityResponse({
             id: '984',
             name: 'Second Cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          }),
+          })
+            .setLatitude(39.1362562)
+            .setLongitude(-83.1804804),
         ],
       });
 

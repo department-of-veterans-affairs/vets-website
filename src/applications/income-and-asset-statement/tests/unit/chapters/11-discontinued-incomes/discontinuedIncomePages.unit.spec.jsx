@@ -2,7 +2,7 @@ import formConfig from '../../../../config/form';
 import {
   discontinuedIncomePages,
   options,
-} from '../../../../config/chapters/11-discontinued-incomes/discontinuedIncomePages';
+} from '../../../../config/chapters/10-discontinued-incomes/discontinuedIncomePages';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';

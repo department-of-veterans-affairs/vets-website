@@ -21,7 +21,7 @@ describe('SM NAVIGATE AWAY FROM SAVED REPLY DRAFT', () => {
     FolderLoadPage.backToParentFolder();
 
     GeneralFunctionsPage.verifyUrl(`drafts`);
-    GeneralFunctionsPage.verifyPageHeader(`Drafts`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Drafts`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
