@@ -268,7 +268,7 @@ class PatientMessageCustomFolderPage {
       'have.text',
       Data.REMOVE_FOLDER,
     );
-    cy.get(Locators.BUTTONS.REMOVE_FOLDER).click();
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER).click({ waitForAnimations: true });
   };
 
   verifyEmptyFolderAlert = () => {

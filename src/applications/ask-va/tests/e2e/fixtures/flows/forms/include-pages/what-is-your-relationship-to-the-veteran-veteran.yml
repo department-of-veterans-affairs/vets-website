@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  What is your relationship to the Veteran?
+  - action: click
+    target: radio
+    value: I'm the Veteran
+  - action: click
+    target: call-to-action
