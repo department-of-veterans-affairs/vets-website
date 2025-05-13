@@ -76,6 +76,7 @@ export default function submitTransformer(formData, uploadFiles) {
         formData.stateOfTheSchool ||
         formData.stateOfTheFacility ||
         formData.stateOrResidency.schoolState,
+      SaveSchool: formData?.useSchool || null,
     },
   };
 }
