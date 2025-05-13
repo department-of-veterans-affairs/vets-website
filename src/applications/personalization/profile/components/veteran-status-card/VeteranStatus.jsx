@@ -88,6 +88,33 @@ const VeteranStatus = ({
     [pdfError, shouldFocusError],
   );
 
+  const buildContactElements = item => {
+    const contactNumber = `${CONTACTS.DS_LOGON.slice(
+      0,
+      3,
+    )}-${CONTACTS.DS_LOGON.slice(3, 6)}-${CONTACTS.DS_LOGON.slice(6)}`;
+    const startIndex = item.indexOf(contactNumber);
+
+    if (startIndex === -1) {
+      return item;
+    }
+
+    const before = item.slice(0, startIndex);
+    const telephone = item.slice(
+      startIndex,
+      startIndex + contactNumber.length + 11,
+    );
+    const after = item.slice(startIndex + telephone.length);
+
+    return (
+      <>
+        {before}
+        <va-telephone contact={contactNumber} /> (
+        <va-telephone contact={CONTACTS[711]} tty />){after}
+      </>
+    );
+  };
+
   const formattedFullName = formatFullName({
     first,
     middle,
@@ -340,6 +367,7 @@ VeteranStatus.propTypes = {
   mockUserAgent: PropTypes.string,
   totalDisabilityRating: PropTypes.number,
   userFullName: PropTypes.object,
+  vetStatusEligibility: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
