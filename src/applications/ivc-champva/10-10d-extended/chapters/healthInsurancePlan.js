@@ -1,6 +1,7 @@
 import React from 'react';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
   titleUI,
   titleSchema,
@@ -18,6 +19,9 @@ import {
   yesNoSchema,
   textareaUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { validFieldCharsOnly } from '../../shared/validations';
 import { toHash, nameWording } from '../../shared/utilities';
 
@@ -250,6 +254,49 @@ const additionalComments = {
   },
 };
 
+const applicantStepChildUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) => `Upload ${formData.provider} health insurance card`,
+      'You’ll need to submit a copy of the front and back of this health insurance card.',
+    ),
+    ...fileUploadBlurb,
+    insuranceCard: fileUploadUI({
+      label: (
+        <>
+          Upload health insurance card
+          <br />
+          <span className="usa-hint">
+            Upload front and back as separate files
+          </span>
+        </>
+      ),
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['insuranceCard'],
+    properties: {
+      titleSchema,
+      'view:fileUploadBlurb': blankSchema,
+      insuranceCard: {
+        type: 'array',
+        // TODO: when we switch to V3 file upload,
+        // fix the error messaging around minItems
+        minItems: 2,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const healthInsurancePlanPages = arrayBuilderPages(
   healthInsuranceOptions,
   pageBuilder => ({
@@ -320,6 +367,12 @@ export const healthInsurancePlanPages = arrayBuilderPages(
           pagePerItemIndex: +props.pagePerItemIndex,
         }),
       CustomPageReview: () => <></>,
+    }),
+    insuranceCard: pageBuilder.itemPage({
+      path: 'health-insurance-card/:index',
+      title: 'Upload health insurance card',
+      CustomPage: FileFieldCustom,
+      ...applicantStepChildUploadPage,
     }),
   }),
 );

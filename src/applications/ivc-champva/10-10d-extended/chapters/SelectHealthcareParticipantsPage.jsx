@@ -7,6 +7,7 @@ import {
   titleSchema,
   checkboxGroupSchema,
   checkboxGroupUI,
+  arrayBuilderItemSubsequentPageTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { toHash, nameWording } from '../../shared/utilities';
@@ -16,10 +17,10 @@ import { toHash, nameWording } from '../../shared/utilities';
 // applicants array at initial form load.
 export const selectHealthcareParticipantsPage = {
   uiSchema: {
-    ...titleUI('Select healthcare participants', 'We demand data'),
+    ...titleUI('Applicant’s other health insurance'),
     healthcareParticipants: checkboxGroupUI({
-      title: 'Which participants are on this healthcare?',
-      hint: 'More data, please',
+      title: 'Which applicant(s) have this insurance plan?',
+      hint: 'Check all that apply.',
       required: () => true,
       labels: {
         na: 'NA',
@@ -42,10 +43,11 @@ export const selectHealthcareParticipantsPage = {
  * available in the form data. It allows us to have a checkbox
  * button for each applicant outside the list loop and to dynamically
  * update the available buttons if applicant data changes.
- * @param {Object} data Form data
+ * @param {Object} data Full form data
+ * @param {Object} item Current list item data
  * @returns Object containing a checkboxgroup uiSchema and schema
  */
-function dynamicSchema(data) {
+function dynamicSchema(data, item) {
   let labels = data?.applicants?.map(app => {
     return {
       [toHash(app.applicantSSN)]: nameWording(app, false, false, false),
@@ -55,19 +57,23 @@ function dynamicSchema(data) {
   // Combine all into a single object
   labels = Object.assign({}, ...labels);
 
+  const title = `Which applicant or applicants has the ${item.provider} plan?`;
+
   return {
     uiSchema: {
-      ...titleUI('Select healthcare participants', 'We demand data'),
+      ...arrayBuilderItemSubsequentPageTitleUI(
+        'Applicant’s other health insurance',
+      ),
       healthcareParticipants: checkboxGroupUI({
-        title: 'Which participants are on this healthcare?',
-        hint: 'More data, please',
+        title,
+        hint: 'Check all that apply',
         required: () => true,
         labels,
       }),
     },
     schema: {
       type: 'object',
-      required: [],
+      required: ['healthcareParticipants'],
       properties: {
         titleSchema,
         healthcareParticipants: checkboxGroupSchema(Object.keys(labels)),
@@ -95,7 +101,7 @@ export function SelectHealthcareParticipantsPage(props) {
     </button>
   );
 
-  const sch = dynamicSchema(props?.fullData);
+  const sch = dynamicSchema(props?.fullData, props?.data);
 
   return (
     <SchemaForm

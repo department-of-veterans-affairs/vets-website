@@ -40,7 +40,8 @@
         "provider": "Blue Cross Blue Shield",
         "effectiveDate": "2024-10-01",
         "expirationDate": "2024-10-02",
-        "throughEmployer": true
+        "throughEmployer": true,
+        "healthcareParticipants": { "28e7f1064a74": true }
       }
     ],
     "ssn": {
