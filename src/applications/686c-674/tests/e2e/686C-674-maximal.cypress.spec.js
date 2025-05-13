@@ -12,30 +12,19 @@ Cypress.config('waitForAnimations', true);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: [
-      'ancilliary-flows',
-      'add-child-report-divorce',
-      'spouse-report-divorce',
-    ],
+    dataSets: ['maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
       cy.login(user);
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
           type: 'feature_toggles',
-          features: [
-            {
-              name: 'vaDependentsV2',
-              value: true,
-            },
-          ],
+          features: [{ name: 'vaDependentsV2', value: true }],
         },
       });
       cy.intercept('POST', '/v0/claim_attachments', {
         data: {
-          attributes: {
-            confirmationCode: '5',
-          },
+          attributes: { confirmationCode: '5' },
         },
       });
       cy.intercept(
@@ -48,13 +37,12 @@ const testConfig = createTestConfig(
         cy.intercept('PUT', 'v0/in_progress_forms/686C-674-V2', testData);
       });
       cy.intercept('POST', '/v0/dependents_applications', {
-        formSubmissionId: '123fake-submission-id-567',
-        timestamp: '2020-11-12',
-        attributes: {
-          guid: '123fake-submission-id-567',
-        },
+        formSubmissionId: '123fake-submission-id-max',
+        timestamp: '2025-01-01',
+        attributes: { guid: '123fake-submission-id-max' },
       }).as('submitApplication');
     },
+
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
@@ -65,34 +53,24 @@ const testConfig = createTestConfig(
         });
       },
 
+      'veteran-information': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.progress-box va-telephone')
+            .contains('800-827-1000')
+            .should('have.prop', 'href');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       'veteran-address': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
           cy.get(
             'select#options[name="root_veteranContactInformation_veteranAddress_state"]',
-            { timeout: 1000 },
           )
             .should('be.visible')
-            .should('not.be.disabled');
-          cy.get(
-            'select#options[name="root_veteranContactInformation_veteranAddress_state"]',
-          ).select('AL');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-
-      'current-marriage-information/location-of-marriage': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.get(
-            'select#options[name="root_currentMarriageInformation_location_country"]',
-            { timeout: 1000 },
-          )
-            .should('be.visible')
-            .should('not.be.disabled');
-          cy.get(
-            'select#options[name="root_currentMarriageInformation_location_country"]',
-          ).select('AUS');
+            .select('AL');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -100,15 +78,47 @@ const testConfig = createTestConfig(
       'current-marriage-information/spouse-address': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.get(
-            'select#options[name="root_doesLiveWithSpouse_address_state"]',
-            { timeout: 1000 },
-          )
+          cy.get('select#options[name="root_doesLiveWithSpouse_address_state"]')
             .should('be.visible')
-            .should('not.be.disabled');
-          cy.get(
-            'select#options[name="root_doesLiveWithSpouse_address_state"]',
-          ).select('AL');
+            .select('AL');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-674/add-students/0/student-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('select#options[name="root_address_state"]')
+            .should('be.visible')
+            .select('CA');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-674/add-students/0/term-dates': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-674/add-students/0/previous-term-dates': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-674/add-students/0/additional-remarks': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-674/add-students/0/student-marriage-date': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
           cy.get('.usa-button-primary').click();
         });
       },
@@ -134,10 +144,9 @@ const testConfig = createTestConfig(
       }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.get('select#options[name="root_address_state"]', { timeout: 1000 })
+          cy.get('select#options[name="root_address_state"]')
             .should('be.visible')
-            .should('not.be.disabled');
-          cy.get('select#options[name="root_address_state"]').select('AL');
+            .select('AL');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -149,8 +158,31 @@ const testConfig = createTestConfig(
         });
       },
 
+      '686-report-dependent-death/0/additional-information': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('#root_dateMonth').select('Jan');
+          cy.get('#root_dateDay').select('1');
+          cy.get('#root_dateYear').type('1991');
+          cy.get('#root_location_state').select('Alabama');
+          cy.get('#root_location_city').type('city');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       '686-report-add-child/introduction': ({ afterHook }) => {
         afterHook(() => {
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      '686-report-add-child/0/child-address-part-one': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('select#options[name="root_address_state"]')
+            .should('be.visible')
+            .select('CA');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -158,7 +190,19 @@ const testConfig = createTestConfig(
       '686-report-add-child/summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="N"]').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
 
+      'add-child/0': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('@testData').then(data => {
+            if (!data.childrenToAdd[0].childStatus.biological) {
+              cy.get('#root_childStatus_stepchild').check();
+              cy.get('#root_childStatus_biologicalStepchildYes').check();
+            }
+          });
           cy.get('.usa-button-primary').click();
         });
       },
@@ -176,12 +220,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('John Doe');
-
           cy.get('va-checkbox')
             .shadow()
             .find('input[type="checkbox"]')
             .check({ force: true });
-
           cy.get('.usa-button-primary').click();
         });
       },

@@ -12,7 +12,11 @@ Cypress.config('waitForAnimations', true);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['add-child-add-674', 'spouse-child-all-fields'],
+    dataSets: [
+      'ancillary-flows',
+      'add-child-report-divorce',
+      'spouse-report-divorce',
+    ],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
       cy.login(user);
@@ -27,11 +31,6 @@ const testConfig = createTestConfig(
           ],
         },
       });
-      cy.intercept(
-        'GET',
-        '/v0/profile/valid_va_file_number',
-        mockVaFileNumber,
-      ).as('mockVaFileNumber');
       cy.intercept('POST', '/v0/claim_attachments', {
         data: {
           attributes: {
@@ -39,6 +38,11 @@ const testConfig = createTestConfig(
           },
         },
       });
+      cy.intercept(
+        'GET',
+        '/v0/profile/valid_va_file_number',
+        mockVaFileNumber,
+      ).as('mockVaFileNumber');
       cy.get('@testData').then(testData => {
         cy.intercept('GET', '/v0/in_progress_forms/686C-674-V2', testData);
         cy.intercept('PUT', 'v0/in_progress_forms/686C-674-V2', testData);
@@ -55,31 +59,12 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
-          cy.get('va-omb-info')
-            .get('div')
-            .get('va-button')
-            .should('exist');
-          cy.get('.help-talk va-telephone:first')
-            .contains('800-698-2411')
-            .should('have.prop', 'href');
-          cy.get('.help-talk va-telephone:last')
-            .contains('711')
-            .should('have.prop', 'href');
           cy.get('a.vads-c-action-link--green')
             .first()
             .click();
         });
       },
 
-      'veteran-information': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.get('.progress-box va-telephone')
-            .contains('800-827-1000')
-            .should('have.prop', 'href');
-          cy.get('.usa-button-primary').click();
-        });
-      },
       'veteran-address': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
@@ -128,38 +113,6 @@ const testConfig = createTestConfig(
         });
       },
 
-      'report-674/add-students/0/student-address': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.get('select#options[name="root_address_state"]', { timeout: 1000 })
-            .should('be.visible')
-            .should('not.be.disabled');
-          cy.get('select#options[name="root_address_state"]').select('CA');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-
-      'report-674/add-students/0/term-dates': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.get('.usa-button-primary').click();
-        });
-      },
-
-      'report-674/add-students/0/previous-term-dates': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.get('.usa-button-primary').click();
-        });
-      },
-
-      'report-674/add-students/0/additional-remarks': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.get('.usa-button-primary').click();
-        });
-      },
-
       '686-report-marriage-of-child/0/date-child-married': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
@@ -167,22 +120,31 @@ const testConfig = createTestConfig(
         });
       },
 
-      'report-674/add-students/0/student-marriage-date': ({ afterHook }) => {
+      'report-child-stopped-attending-school/0/date-child-left-school': ({
+        afterHook,
+      }) => {
         afterHook(() => {
           cy.fillPage();
           cy.get('.usa-button-primary').click();
         });
       },
 
-      'add-child/0': ({ afterHook }) => {
+      '686-stepchild-no-longer-part-of-household/0/child-address': ({
+        afterHook,
+      }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.get('@testData').then(data => {
-            if (!data.childrenToAdd[0].childStatus.biological) {
-              cy.get('#root_childStatus_stepchild').check();
-              cy.get('#root_childStatus_biologicalStepchildYes').check();
-            }
-          });
+          cy.get('select#options[name="root_address_state"]', { timeout: 1000 })
+            .should('be.visible')
+            .should('not.be.disabled');
+          cy.get('select#options[name="root_address_state"]').select('AL');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      '686-report-dependent-death/0/date-of-death': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
           cy.get('.usa-button-primary').click();
         });
       },
@@ -192,16 +154,7 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      '686-report-add-child/0/child-address-part-one': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.get('select#options[name="root_address_state"]', { timeout: 1000 })
-            .should('be.visible')
-            .should('not.be.disabled');
-          cy.get('select#options[name="root_address_state"]').select('CA');
-          cy.get('.usa-button-primary').click();
-        });
-      },
+
       '686-report-add-child/summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="N"]').click();
@@ -209,22 +162,10 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+
       'add-child/0/additional-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#root_doesChildLiveWithYouYes').click();
-          cy.get('.usa-button-primary').click();
-        });
-      },
-
-      '686-report-dependent-death/0/additional-information': ({
-        afterHook,
-      }) => {
-        afterHook(() => {
-          cy.get('#root_dateMonth').select('Jan');
-          cy.get('#root_dateDay').select('1');
-          cy.get('#root_dateYear').type('1991');
-          cy.get('#root_location_state').select('Alabama');
-          cy.get('#root_location_city').type('city');
           cy.get('.usa-button-primary').click();
         });
       },
