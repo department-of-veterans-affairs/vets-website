@@ -86,7 +86,7 @@ describe('<DocumentRequestPage>', () => {
       };
 
       const { container } = renderWithRouter(
-        <Provider store={getStore()}>
+        <Provider store={getStore(true, false)}>
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
@@ -120,7 +120,7 @@ describe('<DocumentRequestPage>', () => {
       };
 
       const { container } = renderWithRouter(
-        <Provider store={getStore()}>
+        <Provider store={getStore(true, false)}>
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
@@ -149,7 +149,7 @@ describe('<DocumentRequestPage>', () => {
       expect(document.title).to.equal('Document Request | Veterans Affairs');
     });
 
-    it('when component mounts should scroll to breadcrumbs', async () => {
+    it('when component mounts should scroll to h1', async () => {
       const trackedItem = {
         status: 'NEEDED_FROM_YOU',
         displayName: 'Testing',
@@ -174,7 +174,7 @@ describe('<DocumentRequestPage>', () => {
       );
 
       await waitFor(() => {
-        expect(document.activeElement).to.equal($('va-breadcrumbs', container));
+        expect(document.activeElement).to.equal($('h1', container));
       });
     });
 
@@ -546,7 +546,7 @@ describe('<DocumentRequestPage>', () => {
         );
         const breadcrumbs = $('va-breadcrumbs', container);
         expect(breadcrumbs.breadcrumbList[3].href).to.equal(
-          `../document-request/${item.id}`,
+          `../needed-from-you/${item.id}`,
         );
         expect(breadcrumbs.breadcrumbList[3].label).to.equal(
           'Authorization to Disclose Information',

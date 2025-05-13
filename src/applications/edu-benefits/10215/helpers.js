@@ -66,7 +66,7 @@ export const isWithinThirtyDaysLogic = (termStartDate, dateOfCalculations) => {
 export const getFTECalcs = program => {
   const supported = Number(program?.fte?.supported) || 0;
   const nonSupported = Number(program?.fte?.nonSupported) || 0;
-  const total = supported + nonSupported;
+  const total = parseFloat((supported + nonSupported).toFixed(2));
   const supportedFTEPercent =
     Number.isNaN(total) || supported === 0 || total === 0
       ? null
@@ -164,3 +164,8 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
     </p>
   </div>
 );
+export const decimalSchema = {
+  type: 'string',
+  // zero or more digits, optionally “.” plus one or two digits
+  pattern: '^\\d*(?:\\.\\d{1,2})?$',
+};

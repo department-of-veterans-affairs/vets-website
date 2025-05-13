@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Family Servicemembers’ Group Life Insurance (FSGLI)
+  - action: click
+    target: call-to-action
