@@ -916,7 +916,7 @@ const formConfig = {
             `${applicantWording(item)} relationship to the sponsor`,
           CustomPage: ApplicantRelationshipPage,
           CustomPageReview: ApplicantRelationshipReviewPage,
-          schema: applicantListSchema(['relationshipToVeteran'], {
+          schema: applicantListSchema(['applicantRelationshipToSponsor'], {
             applicantRelationshipToSponsor: {
               type: 'object',
               properties: {
