@@ -12,4 +12,4 @@ export const canInitDatadog = ({
   env = environment,
   win = window,
   agent,
-} = {}) => env?.isProduction() && !isBot(agent) && !win?.Mocha && !win?.Cypress;
+} = {}) => !env?.isLocalhost() && !isBot(agent) && !win?.Mocha && !win?.Cypress;

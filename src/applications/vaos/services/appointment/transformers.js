@@ -278,6 +278,7 @@ export function transformVAOSAppointment(
     // NOTE: Timezone will be converted to the local timezone when using 'format()'.
     // So use format without the timezone information.
     start: !isRequest ? start.format('YYYY-MM-DDTHH:mm:ss') : null,
+    startUtc: !isRequest ? appt.start : null,
     reasonForAppointment,
     patientComments,
     timezone: appointmentTZ,
