@@ -113,7 +113,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
     it('should allow the user to go back to the appointment list', async () => {
       // Arrange
-      const response = new MockAppointmentResponse({ future: true });
+      const response = new MockAppointmentResponse({ future: true }).setFuture(
+        true,
+      );
 
       mockAppointmentApi({
         includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
@@ -148,6 +150,12 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       await waitFor(() => {
         expect(document.activeElement).to.have.tagName('h1');
       });
+      expect(
+        await screen.findByRole('heading', {
+          level: 1,
+          name: /In-person appointment/i,
+        }),
+      ).to.be.ok;
 
       userEvent.click(
         screen.container.querySelector('va-link[text="Back to appointments"]'),
