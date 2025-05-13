@@ -81,12 +81,13 @@ export default function DefaultPage({
                 titled, “Request for Specific Evidence or Information,” which
                 may include more details about this request. You can access this
                 and all your claim letters online.
+                <br />
+                <va-link
+                  text="Your claim letters"
+                  label="Your claim letters"
+                  href="/track-claims/your-claim-letters"
+                />
               </p>
-              <va-link
-                text="Your claim letters"
-                label="Your claim letters"
-                href="/track-claims/your-claim-letters"
-              />
             </>
           )}
           {evidenceDictionary[item.displayName] &&
