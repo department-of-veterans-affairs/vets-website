@@ -536,6 +536,10 @@ module.exports = async (env = {}) => {
             to: buildPath,
           },
           {
+            from: 'src/platform/site-wide/sass/fonts',
+            to: buildPath,
+          },
+          {
             from:
               'node_modules/@department-of-veterans-affairs/component-library/dist/img/',
             to: `${buildPath}/img/`,
