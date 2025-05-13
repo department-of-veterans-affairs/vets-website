@@ -823,6 +823,10 @@ class MedicationsListPage {
       .and('be.focused');
   };
 
+  verifyNoMedicationsInListMessageNotShown = () => {
+    cy.get('[data-testid="alert-message"]').should('not.be.visible');
+  };
+
   clickResetFilterButtonOnFilterAccordionDropDown = () => {
     cy.get('[data-testid="filter-reset-button"]').should('exist');
     cy.get('[data-testid="filter-reset-button"]').click({
