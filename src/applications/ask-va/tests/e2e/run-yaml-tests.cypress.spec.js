@@ -3,8 +3,9 @@
 import YAML from 'yaml';
 import mockUserDefault from './fixtures/userDefault.json';
 
-import mockUserMultipleInquiries from './fixtures/userMultipleInquiries.json';
-import mockUserOneInquiry from './fixtures/userOneInquiry.json';
+import mockMultipleInquiries from './fixtures/mockMultipleInquiries.json';
+import mockOneInquiry from './fixtures/mockOneInquiry.json';
+import mockNoInquiries from './fixtures/mockNoInquiries.json';
 
 import mockAVAProfile from './fixtures/userAVAProfile.json';
 import mockAVAProfileMissingInfo from './fixtures/userAVAProfileMissingInfo.json';
@@ -184,17 +185,6 @@ describe('YAML tests', () => {
               let flowYML = EMPTY_FLOW_YML;
 
               if (path === 'authenticated') {
-                // if (
-                //   [
-                //     '4i.yml',
-                //     '7i.yml',
-                //     '24a.yml',
-                //     '24b.yml',
-                //     '24c.yml',
-                //   ].includes(file)
-                // ) {
-                //   cy.login(mockUserSchool);
-                // } else
                 if (['13g.yml', '17g.yml'].includes(file)) {
                   cy.intercept(
                     'GET',
@@ -211,12 +201,13 @@ describe('YAML tests', () => {
                 cy.login(mockUserDefault);
               } else if (path === 'dashboard') {
                 if (['13g.yml', '17g.yml'].includes(file)) {
-                  cy.login(mockUserMultipleInquiries);
+                  cy.intercept('GET', 'v0/inquiries', mockMultipleInquiries);
                 } else if (['14g.yml', '18g.yml'].includes(file)) {
-                  cy.login(mockUserOneInquiry);
+                  cy.intercept('GET', 'v0/inquiries', mockOneInquiry);
                 } else {
-                  cy.login(mockUserDefault);
+                  cy.intercept('GET', 'v0/inquiries', mockNoInquiries);
                 }
+                cy.login(mockUserDefault);
               } else {
                 cy.clearAllCookies();
               }
