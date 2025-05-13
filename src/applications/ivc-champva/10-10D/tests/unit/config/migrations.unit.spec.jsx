@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import {
   flattenApplicantSSN,
   migrateCardUploadKeys,
+  removeOtherRelationshipSpecification,
 } from '../../../config/migrations';
 
 const EXAMPLE_SIP_METADATA = {
@@ -285,5 +286,43 @@ describe('migrateCardUploadKeys', () => {
     };
     const migrated = migrateCardUploadKeys(JSON.parse(JSON.stringify(props)));
     expect(migrated.formData.missingUploads.length).to.eq(0);
+  });
+});
+
+describe('removeOtherRelationshipSpecification', () => {
+  it('should clear applicant relationship to sponsor if it is "other"', () => {
+    const props = {
+      formData: {
+        applicants: [
+          {
+            applicantRelationshipToSponsor: {
+              relationshipToVeteran: 'other',
+              otherRelationshipToVeteran: 'Grandpa',
+            },
+          },
+          {
+            applicantRelationshipToSponsor: {
+              relationshipToVeteran: 'child',
+            },
+          },
+        ],
+      },
+      metadata: EXAMPLE_SIP_METADATA,
+      formId: '10-10D',
+    };
+    const propsDeepCopy = JSON.parse(JSON.stringify(props));
+    const migrated = removeOtherRelationshipSpecification(propsDeepCopy);
+    // Relationships set to 'other' should be entirely gone
+    expect(
+      migrated.formData.applicants[0].applicantRelationshipToSponsor,
+    ).to.equal(undefined);
+    // Non-other relationships should be intact
+    expect(
+      migrated.formData.applicants[1].applicantRelationshipToSponsor
+        .relationshipToVeteran,
+    ).to.equal(
+      props.formData.applicants[1].applicantRelationshipToSponsor
+        .relationshipToVeteran,
+    );
   });
 });
