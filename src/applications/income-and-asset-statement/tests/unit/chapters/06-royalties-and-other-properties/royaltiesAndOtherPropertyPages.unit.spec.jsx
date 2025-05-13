@@ -3,7 +3,7 @@ import formConfig from '../../../../config/form';
 import {
   royaltiesAndOtherPropertyPages,
   options,
-} from '../../../../config/chapters/06-royalties-and-other-properties/royaltiesAndOtherPropertyPages';
+} from '../../../../config/chapters/05-royalties-and-other-properties/royaltiesAndOtherPropertyPages';
 import { formatFullNameNoSuffix } from '../../../../helpers';
 import {
   generatedIncomeTypeLabels,

@@ -3,7 +3,7 @@ import formConfig from '../../../../config/form';
 import {
   unreportedAssetPages,
   options,
-} from '../../../../config/chapters/10-unreported-assets/unreportedAssetPages';
+} from '../../../../config/chapters/09-unreported-assets/unreportedAssetPages';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
 
