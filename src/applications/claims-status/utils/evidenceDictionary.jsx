@@ -78,19 +78,29 @@ export const evidenceDictionary = {
           You can update your direct deposit information in your VA.gov profile,
           by phone, or by mail.
         </p>
+        <Link
+          className="active-va-link"
+          data-testid="Add or change direct deposit information"
+          to="https://va.gov/profile/direct-deposit"
+        >
+          Add or change direct deposit information
+          <va-icon icon="chevron_right" size={3} aria-hidden="true" />
+        </Link>
         <p>
           If you don’t already have a bank account, the Veterans Benefits
           Banking Program (VBBP) can connect you with a bank that will help you
           set up an account.
         </p>
-        <Link
+        <a
           className="active-va-link"
-          data-testid="Add direct deposit information"
-          to="https://www.va.gov/resources/direct-deposit-for-your-va-benefit-payments/"
+          data-testid="Set up a bank account through VBBP"
+          href="https://veteransbenefitsbanking.org/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          Add direct deposit information
+          Set up a bank account through VBBP (opens in new tab)
           <va-icon icon="chevron_right" size={3} aria-hidden="true" />
-        </Link>
+        </a>
       </>
     ),
     isProperNoun: false,
