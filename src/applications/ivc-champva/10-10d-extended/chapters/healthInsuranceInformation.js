@@ -72,7 +72,7 @@ const healthInsuranceOptions = {
   arrayPath: 'healthInsurance',
   nounSingular: 'plan',
   nounPlural: 'plans',
-  required: true,
+  required: false,
   isItemIncomplete: item =>
     !(item.provider && item.insuranceType && item.effectiveDate),
   // maxItems: MAX_APPLICANTS,
