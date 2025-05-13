@@ -28,9 +28,17 @@
     "wcv3FileInput": {
       "name": "my_form.pdf",
       "size": 12345,
-      "fileType": "pdf",
+      "fileType": "application/pdf",
       "confirmationCode": 7564298
     },
+    "wcv3FileInputMultiple": [
+      {
+        "name": "my_form.pdf",
+        "size": 12345,
+        "type": "application/pdf",
+        "confirmationCode": 36650811
+      }
+    ],
     "vaCompensationType": "none",
     "isCurrentlyActiveDuty": false,
     "wcv3VaCompensationType": "highDisability",
