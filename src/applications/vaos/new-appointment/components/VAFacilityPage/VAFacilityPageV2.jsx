@@ -76,11 +76,11 @@ export default function VAFacilityPageV2() {
       const options = [
         {
           value: 'distanceFromResidentialAddress',
-          label: 'By your home address',
+          label: 'Closest to your home',
         },
         {
           value: 'distanceFromCurrentLocation',
-          label: 'By your current location',
+          label: 'Closest to your current location',
         },
         { value: 'alphabetical', label: 'Alphabetically' },
       ];
