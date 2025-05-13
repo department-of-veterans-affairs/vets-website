@@ -20,6 +20,7 @@ import {
   PROCESSED,
   STATUSES,
 } from '../utilities/poaRequests';
+import { recordDatalayerEvent } from '../utilities/analytics';
 import POARequestCard from '../components/POARequestCard';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
@@ -61,6 +62,8 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
       id={`tab-${tabStatus}`}
       aria-controls={`tabpanel-${tabStatus}`}
       aria-selected={active ? 'true' : 'false'}
+      onClick={recordDatalayerEvent}
+      data-eventname="nav-tab-click"
     >
       {children}
     </Link>
@@ -97,7 +100,7 @@ const POARequestSearchPage = title => {
         Accredited Representative Portal. Requests will expire and be removed
         from the portal after 60 days.
       </p>
-      <p className="poa-request__copy">
+      <p className="poa-request__copy vads-u-margin--0">
         <strong>Note:</strong> POA requests need to be submitted using the
         online{' '}
         <va-link

@@ -21,13 +21,14 @@ import {
   setVaccineFacility,
 } from '../../tests/mocks/setup';
 
-import { createMockClinic } from '../../tests/mocks/data';
+import MockClinicResponse from '../../tests/fixtures/MockClinicResponse';
 import {
   mockAppointmentSlotApi,
   mockEligibilityFetches,
 } from '../../tests/mocks/mockApis';
 import { TYPE_OF_CARE_ID } from '../utils';
 import SelectDate1Page from './SelectDate1Page';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 
 const initialState = {
   featureToggles: {
@@ -41,18 +42,12 @@ const initialState = {
 };
 
 describe('VAOS vaccine flow: SelectDate1Page', () => {
-  const clinic1 = createMockClinic({
-    id: '308',
-    stationId: '983',
-    name: 'Green team clinic',
+  const clinics = MockClinicResponse.createResponses({
+    clinics: [
+      { id: '308', name: 'Green team clinic' },
+      { id: '309', name: 'Red team clinic' },
+    ],
   });
-
-  const clinic2 = createMockClinic({
-    id: '309',
-    stationId: '983',
-    name: 'Red team clinic',
-  });
-  const clinics = [clinic1, clinic2];
 
   beforeEach(() => {
     mockFetch();
@@ -76,7 +71,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /green team/i);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -121,7 +116,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /green team/i);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -212,7 +207,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /green team/i);
 
     // First pass check to make sure the slots associated with green team are displayed
@@ -307,7 +302,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /green team/i);
 
     const screen = renderWithStoreAndRouter(<SelectDate1Page />, {
@@ -384,7 +379,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
     await setVaccineClinic(store, /Green team/i);
 
     // First pass check to make sure the slots associated with green team are displayed

@@ -1,0 +1,6 @@
+steps:
+  - action: exists
+    target: header
+    value:  Your personal information
+  - action: click
+    target: call-to-action

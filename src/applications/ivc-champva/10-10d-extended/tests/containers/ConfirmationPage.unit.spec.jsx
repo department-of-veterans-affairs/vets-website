@@ -1,6 +1,3 @@
-/*
-// COMMENTING OUT UNTIL WE HAVE SOMETHING REAL TO TEST.
-
 import React from 'react';
 import { expect } from 'chai';
 import { createStore } from 'redux';
@@ -9,6 +6,7 @@ import { cleanup, render } from '@testing-library/react';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import formConfig from '../../config/form';
 import ConfirmationPage from '../../containers/ConfirmationPage';
+import mockData from '../fixtures/data/test-data.json';
 
 const mockStore = state => createStore(() => state);
 
@@ -38,8 +36,30 @@ describe('ConfirmationPage', () => {
     cleanup();
   });
 
+  it('should render', () => {
+    const { container } = initConfirmationPage({ formData: mockData });
+    expect(container).to.exist;
+  });
+
+  it('should gracefully handle missing props', () => {
+    // Rather than using initConfirmationPages(), which includes
+    // a submission, response, etc, just instantiate it with nothing
+    const minimalStore = mockStore({
+      form: {
+        data: {},
+      },
+    });
+    const { container } = render(
+      <Provider store={minimalStore}>
+        <ConfirmationPage route={{ formConfig }} />
+      </Provider>,
+    );
+
+    expect(container).to.exist;
+  });
+
   it('should show success alert, h2, and confirmation number if present', () => {
-    const { container } = initConfirmationPage();
+    const { container } = initConfirmationPage({ formData: mockData });
     const alert = container.querySelector('va-alert');
     expect(alert).to.have.attribute('status', 'success');
     expect(alert.querySelector('h2')).to.contain.text(
@@ -48,4 +68,3 @@ describe('ConfirmationPage', () => {
     expect(alert).to.contain.text('Your confirmation number is 1234567890');
   });
 });
-*/

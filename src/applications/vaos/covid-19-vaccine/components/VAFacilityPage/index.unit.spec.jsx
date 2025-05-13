@@ -10,10 +10,8 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '.';
-import {
-  createMockClinic,
-  createMockFacility,
-} from '../../../tests/mocks/data';
+import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import {
   mockClinicsApi,
@@ -36,17 +34,14 @@ const facilityIds = ['983', '983GB', '983GC', '983HK', '983QA', '984'];
 // );
 
 const facilities = facilityIds.map((id, index) =>
-  createMockFacility({
-    id: id.replace('vha_', ''),
+  new MockFacilityResponse({
+    id,
     name: `Fake facility name ${index + 1}`,
-    lat: Math.random() * 90,
-    long: Math.random() * 180,
-    address: {
-      line: [`Fake street ${index + 1}`],
-      city: `Fake city ${index + 1}`,
-      state: `Fake state ${index + 1}`,
-      postalCode: `Fake zip ${index + 1}`,
-    },
+  }).setAddress({
+    line: [`Fake street ${index + 1}`],
+    city: `Fake city ${index + 1}`,
+    state: `Fake state ${index + 1}`,
+    postalCode: `Fake zip ${index + 1}`,
   }),
 );
 
@@ -435,11 +430,11 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       },
     };
 
-    const facility983 = createMockFacility({
+    const facility983 = new MockFacilityResponse({
       id: '983',
       name: 'Facility 983',
     });
-    const facility984 = createMockFacility({
+    const facility984 = new MockFacilityResponse({
       id: '984',
       name: 'Facility 984',
     });
@@ -597,11 +592,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
         children: true,
         response: [facility983, facility984],
       });
-      const clinic = createMockClinic({
-        id: '1',
-        stationId: '983',
-        name: '',
-      });
+      const clinic = new MockClinicResponse({ id: '1' });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: TYPE_OF_CARE_ID,
@@ -638,9 +629,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
 
       fireEvent.click(await screen.findByText(/Continue/));
       await waitFor(() =>
-        expect(screen.history.push.firstCall.args[0]).to.equal(
-          '/new-covid-19-vaccine-appointment/choose-clinic',
-        ),
+        expect(screen.history.push.firstCall.args[0]).to.equal('clinic'),
       );
     });
 
