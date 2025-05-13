@@ -1124,8 +1124,6 @@ jobs:
 
       - name: Upload Unit Test report to s3
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
-
-
       
       - name: Unit test results
         if: ${{ always() }}
@@ -1220,6 +1218,7 @@ jobs:
           UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
           UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
           TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-stress-test-reports
+          NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
 
       - name: Upload Unit Test Stability Review Report to S3
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
