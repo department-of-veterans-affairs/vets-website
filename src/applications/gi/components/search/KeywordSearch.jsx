@@ -117,8 +117,9 @@ export function KeywordSearch({
           >
             {label}
             <span
-              className={`form-required-span ${error &&
-                'vads-u-font-weight--bold'}`}
+              className={`form-required-span ${
+                error ? 'vads-u-font-weight--bold' : ''
+              }`}
             >
               (*Required)
             </span>

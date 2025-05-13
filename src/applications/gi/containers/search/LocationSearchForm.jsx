@@ -305,7 +305,6 @@ export function LocationSearchForm({
                 onClick={e => doSearch(e)}
                 data-testid="location-search-button"
                 className="loc-search-btn medium-screen:vads-u-margin-top--1"
-                // className="loc-search-btn vads-u-margin-top--1"
               />
             </div>
           </div>
