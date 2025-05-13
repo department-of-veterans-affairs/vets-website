@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Subtopic
+  - action: click
+    target: radio
+    value:  Program of Comprehensive Assistance for Family Caregivers (PCAFC)
+  - action: click
+    target: call-to-action

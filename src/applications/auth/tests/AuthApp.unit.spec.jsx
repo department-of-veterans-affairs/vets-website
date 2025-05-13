@@ -328,7 +328,7 @@ describe('AuthApp', () => {
     });
   });
 
-  it('should not redirect to /sign-in-changes-reminder interstitial page', async () => {
+  it('should redirect to /sign-in-changes-reminder interstitial page', async () => {
     const originalLocation = window.location;
     delete window.location;
     window.location = { replace: sinon.spy() };
@@ -338,7 +338,7 @@ describe('AuthApp', () => {
       subscribe: sinon.spy(),
       getState: () => ({
         featureToggles: {
-          mhvInterstitialEnabled: true,
+          dslogonInterstitialRedirect: true,
         },
       }),
     };
@@ -351,7 +351,7 @@ describe('AuthApp', () => {
             data: {
               attributes: {
                 profile: {
-                  signIn: { serviceName: 'mhv', ssoe: true },
+                  signIn: { serviceName: 'dslogon', ssoe: true },
                 },
               },
             },
@@ -362,13 +362,12 @@ describe('AuthApp', () => {
 
     render(
       <Provider store={store}>
-        <AuthApp location={{ query: { auth: 'success', type: 'mhv' } }} />
+        <AuthApp location={{ query: { auth: 'success', type: 'dslogon' } }} />
       </Provider>,
     );
 
-    await waitFor(() => {
-      expect(window.location.replace.calledOnce).to.be.false;
-    });
+    await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
+    expect(window.location.replace.calledWith('/sign-in-changes-reminder'));
 
     window.location = originalLocation;
     sessionStorage.clear();

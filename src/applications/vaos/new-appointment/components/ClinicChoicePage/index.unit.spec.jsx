@@ -12,7 +12,7 @@ import {
 } from '../../../tests/mocks/setup';
 
 import ClinicChoicePage from '.';
-import { createMockCheyenneFacility } from '../../../tests/mocks/data';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import { getV2ClinicMock } from '../../../tests/mocks/mock';
 import { mockEligibilityFetches } from '../../../tests/mocks/mockApis';
 
@@ -43,8 +43,6 @@ describe('VAOS Page: ClinicChoicePage', () => {
         stationId: '983',
       }),
     ];
-    const facilityData = createMockCheyenneFacility();
-    facilityData.id = '983';
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -59,7 +57,12 @@ describe('VAOS Page: ClinicChoicePage', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
-    await setVAFacility(store, '983', 'primaryCare', { facilityData });
+    await setVAFacility(
+      store,
+      '983',
+      'primaryCare',
+      new MockFacilityResponse(),
+    );
 
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
@@ -109,8 +112,6 @@ describe('VAOS Page: ClinicChoicePage', () => {
         stationId: '983',
       }),
     ];
-    const facilityData = createMockCheyenneFacility();
-    facilityData.id = '983';
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -125,7 +126,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /amputation care/i);
-    await setVAFacility(store, '983', 'amputation', { facilityData });
+    await setVAFacility(store, '983', 'amputation', new MockFacilityResponse());
 
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
@@ -165,8 +166,6 @@ describe('VAOS Page: ClinicChoicePage', () => {
         stationId: '983',
       }),
     ];
-    const facilityData = createMockCheyenneFacility();
-    facilityData.id = '983';
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -181,7 +180,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /amputation care/i);
-    await setVAFacility(store, '983', 'amputation', { facilityData });
+    await setVAFacility(store, '983', 'amputation', new MockFacilityResponse());
 
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
@@ -299,8 +298,6 @@ describe('VAOS Page: ClinicChoicePage', () => {
         stationId: '983',
       }),
     ];
-    const facilityData = createMockCheyenneFacility();
-    facilityData.id = '983';
 
     // And the second clinic matches a past appointment
     mockEligibilityFetches({
@@ -318,7 +315,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /amputation care/i);
-    await setVAFacility(store, '983', 'amputation', { facilityData });
+    await setVAFacility(store, '983', 'amputation', new MockFacilityResponse());
 
     // When the page is displayed
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {

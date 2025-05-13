@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Home Loan Certificate of Eligibility (COE) or Restoration of Entitlement (ROE)
+  - action: click
+    target: call-to-action

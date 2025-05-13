@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Your branch of service
+  - action: select
+    target: BRANCH_OF_SERVICE
+    value:  Army
+  - action: click
+    target: call-to-action

@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
 import medicationInformation from '../fixtures/patient-medications-information.json';
@@ -752,6 +754,24 @@ class MedicationsDetailsPage {
 
   verifyShippedOnDateNotAvailableTextInRefillAccordion = text => {
     cy.get('[data-testid="shipped-on"]').should('contain', text);
+  };
+
+  verifyRxRfDispensedDateOnStepTwoProgressTracker = text => {
+    cy.get('[data-testid="active-step-two"] > .vads-u-color--gray-dark').should(
+      'be.visible',
+    );
+    const apiDate = text;
+    const expectedDate = 'March 22, 2024';
+    const parsedDate = new Date(apiDate);
+    const timeZone = 'America/New_York';
+    const zonedDate = utcToZonedTime(parsedDate, timeZone);
+    // Format the date to match the UI format
+    const formattedDate = format(zonedDate, 'MMMM d, yyyy');
+    cy.get('[data-testid="active-step-two"] > .vads-u-color--gray-dark').should(
+      'have.text',
+      `Completed on ${expectedDate}`,
+    );
+    expect(formattedDate).to.equal(expectedDate);
   };
 }
 

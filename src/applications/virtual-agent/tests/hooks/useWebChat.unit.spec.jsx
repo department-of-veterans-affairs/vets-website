@@ -27,7 +27,7 @@ describe('useWebChat', () => {
         .stub(UseWebChatFrameworkModule, 'default')
         .returns(webChatFramework);
 
-      const token = { token: 'token', apiSession: 'apiSession' };
+      const token = { token: 'token', apiSession: 'apiSession', code: 'code' };
       sandbox.stub(UseVirtualAgentTokenModule, 'default').returns(token);
 
       sandbox
