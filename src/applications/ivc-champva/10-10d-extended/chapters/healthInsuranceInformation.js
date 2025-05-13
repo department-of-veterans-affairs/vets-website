@@ -23,7 +23,7 @@ import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { validFieldCharsOnly } from '../../shared/validations';
-import { toHash, nameWording } from '../../shared/utilities';
+import { toHash, nameWording, fmtDate } from '../../shared/utilities';
 
 import {
   selectHealthcareParticipantsPage,
@@ -53,22 +53,7 @@ const INSURANCE_TYPE_LABELS = {
   medigap: 'Medigap program',
 };
 
-/**
- * Converts date string in YYYY-MM-DD fmt to MM/DD/YYYY
- * TODO: replace other functions in ivc module that do this type of thing
- * @param {String} date date in format YYYY-MM-DD
- * @returns d reformatted as MM/DD/YYYY
- */
-function fmtDate(date) {
-  const dt = new Date(date);
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(dt);
-}
-
-function generateParticipantNames(item) {
+export function generateParticipantNames(item) {
   if (item) {
     const healthcareParticipants = item.healthcareParticipants || {};
     const applicantObjects = item['view:applicantObjects'] || [];
@@ -77,7 +62,7 @@ function generateParticipantNames(item) {
         .filter(e => healthcareParticipants[e] === true)
         .includes(toHash(app.applicantSSN)),
     );
-    const names = matches?.map(n => nameWording(n, false, false, false)) || [];
+    const names = matches?.map(n => nameWording(n, false, false, false));
     return names.length > 0 ? names.join(', ') : 'No members specified';
   }
   return 'No participants';
@@ -297,7 +282,7 @@ const applicantStepChildUploadPage = {
   },
 };
 
-export const healthInsurancePlanPages = arrayBuilderPages(
+export const healthInsurancePages = arrayBuilderPages(
   healthInsuranceOptions,
   pageBuilder => ({
     healthInsuranceIntro: pageBuilder.introPage({

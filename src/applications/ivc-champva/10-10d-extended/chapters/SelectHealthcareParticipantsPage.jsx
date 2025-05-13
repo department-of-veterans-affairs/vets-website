@@ -94,13 +94,6 @@ export function selectHealthcareParticipantsOnGoForward(props) {
 
 /** @type {CustomPageType} */
 export function SelectHealthcareParticipantsPage(props) {
-  const updateButton = (
-    // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
-    <button type="submit" onClick={props.updatePage}>
-      Update page
-    </button>
-  );
-
   const sch = dynamicSchema(props?.fullData, props?.data);
 
   return (
@@ -114,21 +107,17 @@ export function SelectHealthcareParticipantsPage(props) {
       pagePerItemIndex={props.pagePerItemIndex}
       formContext={props.formContext}
       trackingPrefix={props.trackingPrefix}
-      onChange={props.onReviewPage ? props.setFormData : props.onChange}
+      onChange={props.onChange}
       onSubmit={props.onSubmit}
     >
       <>
         {/* contentBeforeButtons = save-in-progress links */}
         {props.contentBeforeButtons}
-        {props.onReviewPage ? (
-          updateButton
-        ) : (
-          <FormNavButtons
-            goBack={props.goBack}
-            goForward={() => selectHealthcareParticipantsOnGoForward(props)}
-            submitToContinue
-          />
-        )}
+        <FormNavButtons
+          goBack={props.goBack}
+          goForward={() => selectHealthcareParticipantsOnGoForward(props)}
+          submitToContinue
+        />
         {props.contentAfterButtons}
       </>
     </SchemaForm>
