@@ -206,7 +206,7 @@ describe('VeteranStatus', () => {
       await waitFor(() => {
         expect(
           view.queryByText(
-            /There’s a problem with your discharge status records/,
+            /We’re sorry. There’s a problem with your discharge status records./,
           ),
         ).to.exist;
         expect(
@@ -381,7 +381,7 @@ describe('VeteranStatus', () => {
       await waitFor(() => {
         expect(
           view.queryByText(
-            /There’s a problem with your discharge status records/,
+            /We’re sorry. There’s a problem with your discharge status records./,
           ),
         ).to.exist;
         expect(
@@ -403,7 +403,7 @@ describe('VeteranStatus', () => {
       await waitFor(() => {
         expect(
           view.queryByText(
-            /There’s a problem with your discharge status records/,
+            /We’re sorry. There’s a problem with your discharge status records./,
           ),
         ).to.exist;
         expect(
@@ -465,7 +465,9 @@ describe('VeteranStatus', () => {
 
       await waitFor(() => {
         expect(
-          view.queryByText(/You’re not eligible for a Veteran Status Card/),
+          view.queryByText(
+            /Our records show that you’re not eligible for a Veteran status card./,
+          ),
         ).to.exist;
       });
       expect(
