@@ -25,7 +25,7 @@ describe('actions', () => {
   });
 
   describe('processActionConnectFulfilled', () => {
-    it('should call dispatch once when root bot toggle is on', () => {
+    it('should call dispatch once', () => {
       const dispatchSpy = sandbox.spy();
       const options = {
         dispatch: dispatchSpy,
@@ -36,30 +36,11 @@ describe('actions', () => {
         userFirstName: 'userFirstName',
         userUuid: 'userUuid',
         isMobile: true,
-        isRootBotToggleOn: true,
       };
 
       processActionConnectFulfilled(options)();
 
       expect(dispatchSpy.calledOnce).to.be.true;
-    });
-    it('should call dispatch once when root bot toggle is off', () => {
-      const dispatchSpy = sandbox.spy();
-      const options = {
-        dispatch: dispatchSpy,
-        csrfToken: 'csrfToken',
-        apiSession: 'apiSession',
-        apiURL: 'apiUrl',
-        baseURL: 'baseUrl',
-        userFirstName: 'userFirstName',
-        userUuid: 'userUuid',
-        isMobile: true,
-        isRootBotToggleOn: false,
-      };
-
-      processActionConnectFulfilled(options)();
-
-      expect(dispatchSpy.calledTwice).to.be.true;
     });
   });
   describe('processSendMessageActivity', () => {
@@ -378,7 +359,7 @@ describe('actions', () => {
 
       expect(setIsRxSkillStub.notCalled).to.be.true;
     });
-    it('should set event skill value and call recordEvent for Skill_Entry action when root bot toggle is on', () => {
+    it('should set event skill value and call recordEvent for Skill_Entry action', () => {
       const action = {
         payload: {
           activity: {
@@ -405,7 +386,6 @@ describe('actions', () => {
       processIncomingActivity({
         action,
         dispatch,
-        isRootBotToggleOn: true,
       })();
       expect(setEventSkillValueStub.calledOnce).to.be.true;
       expect(setEventSkillValueStub.calledWithExactly('some_skill_value')).to.be
@@ -607,7 +587,7 @@ describe('actions', () => {
       expect(submitFormStub.notCalled).to.be.true;
     });
 
-    it('should call processCSAT when activity is CSATSurveyResponse and root bot toggle is on', () => {
+    it('should call processCSAT when activity is CSATSurveyResponse', () => {
       const action = {
         payload: {
           activity: {
@@ -621,30 +601,9 @@ describe('actions', () => {
       processIncomingActivity({
         action,
         dispatch: sandbox.spy(),
-        isRootBotToggleOn: true,
       })();
 
       expect(processCSATStub.calledOnce).to.be.true;
-    });
-
-    it('should not call processCSAT when root bot toggle is off', () => {
-      const action = {
-        payload: {
-          activity: {
-            valueType: 'CSATSurveyResponse',
-          },
-        },
-      };
-
-      const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
-
-      processIncomingActivity({
-        action,
-        dispatch: sandbox.spy(),
-        isRootBotToggleOn: false,
-      })();
-
-      expect(processCSATStub.notCalled).to.be.true;
     });
 
     it('should not call processCSAT when activity is not CSATSurveyResponse', () => {

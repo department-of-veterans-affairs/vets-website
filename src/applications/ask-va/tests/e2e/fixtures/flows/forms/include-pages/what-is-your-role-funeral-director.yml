@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  What is your role?
+  - action: click
+    target: radio
+    value: Funeral director
+  - action: click
+    target: call-to-action
