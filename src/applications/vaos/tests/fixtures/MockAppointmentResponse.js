@@ -1,20 +1,23 @@
 // eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
 import { addHours, format, startOfDay } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import {
   APPOINTMENT_STATUS,
   TYPE_OF_VISIT_ID,
   VIDEO_TYPES,
+  DATE_FORMAT_STRINGS,
 } from '../../utils/constants';
 
 /**
  * Mock appointment response.
  *
  * @export
- * @class MockAppointment
+ * @class MockAppointmentResponse
  */
 export default class MockAppointmentResponse {
   /**
    * Creates an instance of MockAppointmentResponse.
+   *
    * @param {Object} props - Properties used to determine what type of mock appointment to create.
    * @param {Object=} props.atlas - Set this to create an atlas appointment.
    * @param {Date} props.localStartTime - Set appointment start time.
@@ -31,7 +34,7 @@ export default class MockAppointmentResponse {
    * @param {boolean} [props.past=false] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [props.pending=false] - Flag to determine if appointment is a pending appointment.
    * @param {boolean} [props.future=false] - Flag to determine if appointment is a pending appointment.
-   * @memberof MockAppointment
+   * @memberof MockAppointmentResponse
    */
   constructor({
     atlas,
@@ -82,7 +85,18 @@ export default class MockAppointmentResponse {
       },
       kind,
       type,
-      localStartTime: format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
+      start:
+        status === APPOINTMENT_STATUS.proposed
+          ? null
+          : formatInTimeZone(
+              timestamp,
+              'UTC',
+              DATE_FORMAT_STRINGS.ISODateTimeUTC,
+            ),
+      localStartTime:
+        status === APPOINTMENT_STATUS.proposed
+          ? null
+          : format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
       modality,
       preferredDates: [
         format(
@@ -260,6 +274,18 @@ export default class MockAppointmentResponse {
             future,
           }),
       );
+  }
+
+  static createVAResponse({ id, localStartTime, future, past, pending } = {}) {
+    return new MockAppointmentResponse({
+      id,
+      future,
+      kind: 'clinic',
+      localStartTime,
+      past,
+      pending,
+      status: APPOINTMENT_STATUS.booked,
+    });
   }
 
   static createVAResponses({ localStartTime, future = false, count = 1 }) {

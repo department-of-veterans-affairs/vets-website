@@ -15,7 +15,7 @@ import {
 } from 'date-fns';
 import { Route } from 'react-router-dom';
 import DateTimeRequestPage from '.';
-import { createMockFacility } from '../../../tests/mocks/data';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import {
   mockFacilitiesApi,
@@ -459,14 +459,9 @@ describe('VAOS Page: DateTimeRequestPage', () => {
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        response: [
-          createMockFacility({
-            id: '983',
-          }),
-          createMockFacility({
-            id: '984',
-          }),
-        ],
+        response: MockFacilityResponse.createResponses({
+          facilityIds: ['983', '984'],
+        }),
       });
       mockSchedulingConfigurationsApi({
         isCCEnabled: true,
@@ -513,9 +508,7 @@ describe('VAOS Page: DateTimeRequestPage', () => {
 
       // Then they're sent to the closest city selection page
       await waitFor(() => {
-        expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/new-appointment/choose-closest-city',
-        );
+        expect(screen.history.push.lastCall.args[0]).to.equal('closest-city');
       });
     });
 
@@ -549,7 +542,7 @@ describe('VAOS Page: DateTimeRequestPage', () => {
       // Then they're sent to the preferences page
       await waitFor(() => {
         expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/new-appointment/community-care-preferences',
+          'preferred-provider',
         );
       });
     });

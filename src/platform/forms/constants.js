@@ -167,7 +167,6 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_40_0247]: `${tryGetAppUrl('0247-pmc')}/`,
     [VA_FORM_IDS.FORM_40_10007]: `${tryGetAppUrl('pre-need')}/`,
     [VA_FORM_IDS.FORM_5655]: `${tryGetAppUrl('request-debt-help-form-5655')}/`,
-    [VA_FORM_IDS.FORM_VA_2346A]: `${tryGetAppUrl('order-form-2346')}/`,
     [VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION]: `${tryGetAppUrl(
       'welcome-va-setup-review-information',
     )}/`,

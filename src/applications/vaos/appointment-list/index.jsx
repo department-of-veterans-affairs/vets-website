@@ -38,11 +38,7 @@ function AppointmentListSection() {
         )}
         <Route path="/past/:id" component={UpcomingAppointmentsDetailsPage} />
         <Route path="/past" component={AppointmentsPage} />
-        <Route
-          exact
-          path={['/va/:id', '/:id']}
-          component={UpcomingAppointmentsDetailsPage}
-        />
+        <Route exact path="/:id" component={UpcomingAppointmentsDetailsPage} />
         <Route
           exact
           path={['/', '/pending', '/past']}
