@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import { fetchAppointmentInfo, setFormCurrentPage } from './redux/actions';
@@ -23,6 +23,7 @@ import FacilityPhone from '../components/FacilityPhone';
 export default function EpsAppointmentDetailsPage() {
   const { pathname } = useLocation();
   const [, appointmentId] = pathname.split('/');
+  const history = useHistory();
   const dispatch = useDispatch();
   // get the id from the url my-health/appointments/1234
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
@@ -114,6 +115,10 @@ export default function EpsAppointmentDetailsPage() {
                 data-testid="back-link"
                 text="Back to appointments"
                 href="/my-health/appointments"
+                onClick={e => {
+                  e.preventDefault();
+                  history.push('/my-health/appointments');
+                }}
               />
             </nav>
           </div>
