@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import {
   useLoaderData,
   useSearchParams,
-  redirect,
   useNavigation,
 } from 'react-router-dom';
 import {
@@ -16,8 +15,7 @@ import {
   SUBMISSIONS_BC_LABEL,
   submissionsBC,
   SORT_BY,
-  PENDING,
-  STATUSES,
+  SORT_OPTIONS,
 } from '../utilities/submissions';
 import { SEARCH_PARAMS } from '../utilities/constants';
 import SortForm from '../components/SortForm';
@@ -26,7 +24,7 @@ import PaginationMeta from '../components/PaginationMeta';
 import SubmissionCard from '../components/SubmissionCard';
 
 const SearchResults = ({ submissions }) => {
-  if (submissions.length === 0) {
+  if (!submissions || submissions.length === 0) {
     return (
       <p data-testid="submissions-table-fetcher-empty">
         No form submissions found
@@ -55,8 +53,8 @@ const SubmissionsPage = title => {
     },
     [title],
   );
-  const submissions = useLoaderData().data;
-  const meta = useLoaderData().meta.page;
+  const submissions = useLoaderData().data || [];
+  const meta = useLoaderData().meta || {};
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
 
@@ -115,10 +113,14 @@ const SubmissionsPage = title => {
             api={api.getFormSubmissions}
             asc={SORT_BY.ASC}
             desc={SORT_BY.DESC}
-            ascOption={PENDING.ASC_OPTION}
-            descOption={PENDING.DESC_OPTION}
+            ascOption={SORT_OPTIONS.ASC_OPTION}
+            descOption={SORT_OPTIONS.DESC_OPTION}
           />
-          <PaginationMeta meta={meta} results={submissions} />
+          {meta && submissions ? (
+            <PaginationMeta meta={meta} results={submissions} />
+          ) : (
+            ''
+          )}
           <div className="submissions-page-table-container">
             {navigation.state === 'loading' ? (
               <VaLoadingIndicator message="Loading..." />
@@ -142,25 +144,13 @@ const SubmissionsPage = title => {
 
 SubmissionsPage.loader = ({ request }) => {
   const { searchParams } = new URL(request.url);
-  const status = searchParams.get(SEARCH_PARAMS.STATUS);
   const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
   const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
   const size = searchParams.get(SEARCH_PARAMS.SIZE);
   const number = searchParams.get(SEARCH_PARAMS.NUMBER);
-  if (
-    !Object.values(STATUSES).includes(status) &&
-    !Object.values(STATUSES).includes(sort)
-  ) {
-    searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
-    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.CREATED);
-    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.DESC);
-    searchParams.set(SEARCH_PARAMS.SIZE, STATUSES.SIZE);
-    searchParams.set(SEARCH_PARAMS.NUMBER, STATUSES.NUMBER);
-    throw redirect(`?${searchParams}`);
-  }
 
   return api.getSubmissions(
-    { status, sort, size, number, sortBy },
+    { sort, size, number, sortBy },
     {
       signal: request.signal,
     },
