@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import withRouter from '../utils/withRouter';
 
 import {
@@ -39,7 +38,7 @@ import {
   getPageRange,
   sortByLastUpdated,
 } from '../utils/appeals-v2-helpers';
-import { setPageFocus, setUpPage } from '../utils/page';
+import { setPageFocus, setFocus } from '../utils/page';
 import { groupClaimsByDocsNeeded, setDocumentTitle } from '../utils/helpers';
 import ClaimLetterSection from '../components/claim-letters/ClaimLetterSection';
 
@@ -57,14 +56,11 @@ class YourClaimsPageV2 extends React.Component {
     setDocumentTitle('Check your claim, decision review, or appeal status');
 
     const {
-      appealsLoading,
       canAccessAppeals,
       canAccessClaims,
-      claimsLoading,
       getAppealsV2,
       getClaims,
       getStemClaims,
-      stemClaimsLoading,
     } = this.props;
 
     // Only call if the current user has access to Lighthouse claims
@@ -77,12 +73,7 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     getStemClaims();
-
-    if (claimsLoading && appealsLoading && stemClaimsLoading) {
-      scrollToTop();
-    } else {
-      setUpPage();
-    }
+    setFocus('#main h1');
   }
 
   componentDidUpdate(prevProps) {
@@ -232,29 +223,32 @@ class YourClaimsPageV2 extends React.Component {
 
     return (
       <>
-        <div name="topScrollElement" />
         <article className="row">
           <div className="usa-width-two-thirds medium-8 columns">
             <ClaimsBreadcrumbs />
             <h1 className="claims-container-title">
               Check your claim, decision review, or appeal status
             </h1>
-            <va-on-this-page />
+            <div className="on-this-page-container">
+              <va-on-this-page />
+            </div>
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims, decision reviews, or appeals
             </h2>
             <div>{this.renderErrorMessages()}</div>
-            <va-additional-info
-              id="claims-combined"
-              class="claims-combined"
-              trigger="Find out why we sometimes combine claims."
-            >
-              <div>
-                If you turn in a new claim while we’re reviewing another one
-                from you, we’ll add any new information to the original claim
-                and close the new claim, with no action required from you.
-              </div>
-            </va-additional-info>
+            <div className="additional-info-container">
+              <va-additional-info
+                id="claims-combined"
+                class="claims-combined"
+                trigger="Find out why we sometimes combine claims."
+              >
+                <div>
+                  If you turn in a new claim while we’re reviewing another one
+                  from you, we’ll add any new information to the original claim
+                  and close the new claim, with no action required from you.
+                </div>
+              </va-additional-info>
+            </div>
             {content}
             <ClaimLetterSection />
             <h2 id="what-if-i-dont-see-my-appeal">
