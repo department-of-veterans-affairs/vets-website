@@ -137,7 +137,7 @@ if [ -n "$ASSET_DEST" ] ; then
     aws s3 sync --only-show-errors \
         --acl public-read \
         --content-encoding gzip \
-        --cache-control "public, no-cache" \
+        --cache-control "public, max-age=31536000, immutable" \
         --exclude '*' \
         --include '*.js' \
         --include '*.css' \
@@ -146,6 +146,10 @@ if [ -n "$ASSET_DEST" ] ; then
         --include '*.xml' \
         --include '*.ttf' \
         --include '*.svg' \
+        --include '*.woff2' \
+        --include '*.png' \
+        --include '*.jpg' \
+        --include '*.gif' \
         --exclude generated/styleConsolidated.css \
         --exclude generated/polyfills.entry.js \
         --exclude generated/vendor.entry.js \
@@ -159,7 +163,7 @@ if [ -n "$ASSET_DEST" ] ; then
     aws s3 sync --only-show-errors \
         --acl public-read \
         --content-encoding gzip \
-        --cache-control "public, no-cache" \
+        --cache-control "public, max-age=3600" \
         --exclude '*' \
         --include generated/styleConsolidated.css \
         --include generated/polyfills.entry.js \
@@ -172,7 +176,19 @@ if [ -n "$ASSET_DEST" ] ; then
     say "INFO: Syncing assets to $ASSET_DEST"
     aws s3 sync --only-show-errors \
         --acl public-read \
-        --cache-control "public, no-cache" \
+        --cache-control "public, max-age=31536000, immutable" \
+        --exclude '*' \
+        --include '*.js' \
+        --include '*.css' \
+        --include '*.png' \
+        --include '*.jpg' \
+        --include '*.gif' \
+        --include '*.svg' \
+        --include '*.woff2' \
+        --include '*.ttf' \
+        --include '*.ico' \
+        --include '*.txt' \
+        --include '*.xml' \
         . "$ASSET_DEST"
 
     cd ..
@@ -183,7 +199,7 @@ cd build
 say "INFO: Syncing assets to $DEST"
 aws s3 sync --only-show-errors \
     --acl public-read \
-    --cache-control "public, no-cache" \
+    --cache-control "public, max-age=31536000, immutable" \
     --exclude '*' \
     --include '*.css' \
     --include '*.js' \
@@ -197,7 +213,7 @@ aws s3 sync --only-show-errors \
 say "INFO: Syncing all content to $DEST"
 aws s3 sync --only-show-errors \
     --acl public-read \
-    --cache-control "public, no-cache" \
+    --cache-control "public, max-age=3600" \
     --delete \
     . "$DEST"
 
@@ -209,7 +225,7 @@ if [ -n "$ASSET_DEST" ] ; then
     say "INFO: Cleanup sync for $ASSET_DEST"
     aws s3 sync --only-show-errors \
     --acl public-read \
-    --cache-control "public, no-cache" \
+    --cache-control "public, max-age=31536000, immutable" \
     --delete \
     . "$ASSET_DEST"
 

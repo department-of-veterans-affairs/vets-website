@@ -306,8 +306,9 @@ module.exports = async (env = {}) => {
     output: {
       path: path.resolve(buildPath, 'generated'),
       publicPath: '/generated/',
-      filename: '[name].entry.js',
-      chunkFilename: '[name].entry.js',
+      filename: '[name].[contenthash].entry.js',
+      chunkFilename: '[name].[contenthash].entry.js',
+      assetModuleFilename: '[name].[contenthash][ext]',
     },
     module: {
       strictExportPresence: true,
@@ -357,43 +358,11 @@ module.exports = async (env = {}) => {
           ],
         },
         {
-          // if we want to minify these images, we could add img-loader
-          // but it currently only would apply to three images from uswds
-          test: /\.(jpe?g|png|gif)$/i,
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-            },
-          },
-        },
-        {
-          test: /\.svg/,
-          use: {
-            loader: 'svg-url-loader',
-            options: {
-              limit: 1024,
-              publicPath: './',
-            },
-          },
-        },
-        {
-          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 7000,
-              mimetype: 'application/font-woff',
-              name: '[name].[ext]',
-            },
-          },
-        },
-        {
-          test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          use: {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
+          test: /\.(jpe?g|png|gif|svg|woff2?|ttf|eot)$/i,
+          type: 'asset',
+          parser: {
+            dataUrlCondition: {
+              maxSize: 8 * 1024, // 8kb
             },
           },
         },
@@ -521,7 +490,10 @@ module.exports = async (env = {}) => {
         fix: true,
       }),
 
-      new MiniCssExtractPlugin(),
+      new MiniCssExtractPlugin({
+        filename: '[name].[contenthash].css',
+        chunkFilename: '[name].[contenthash].css',
+      }),
 
       new webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,
