@@ -18,7 +18,7 @@ const minimalStore = mockStore({
 
 /**
  * Renders the title method contained in an array builder page.
- * Assumes the array is titled `applicants`.
+ * Assumes the array is titled `healthInsurance`.
  * @param {Object} pages Pages object from the array builder
  * @param {String} pageName Stringified keyname of a particular page property we want to inspect
  * @returns Boolean indicating whether or not the render produced > 0 characters
