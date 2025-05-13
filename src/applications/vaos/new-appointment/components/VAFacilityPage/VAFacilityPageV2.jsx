@@ -153,7 +153,12 @@ export default function VAFacilityPageV2() {
   );
 
   const pageHeader = (
-    <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
+    <h1 className="vaos__dynamic-font-size--h2">
+      {pageTitle}
+      <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+        (*Required)
+      </span>
+    </h1>
   );
 
   if (hasDataFetchingError) {
