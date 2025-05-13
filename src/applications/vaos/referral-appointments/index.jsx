@@ -19,10 +19,9 @@ export default function ReferralAppointments() {
   useManualScrollRestoration();
   const basePath = useRouteMatch();
   const { isInCCPilot } = useIsInCCPilot();
-  const { search, pathname } = useLocation();
+  const { search } = useLocation();
   const params = new URLSearchParams(search);
   const id = params.get('id');
-  const [, appointmentId] = pathname.split('/schedule-referral/complete/');
   const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
     skip: !id,
   });
@@ -40,7 +39,7 @@ export default function ReferralAppointments() {
     return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
   }
 
-  if ((!referral || isLoading) && !appointmentId) {
+  if (!referral || isLoading) {
     return <ReferralLayout loadingMessage="Loading your data..." />;
   }
 
