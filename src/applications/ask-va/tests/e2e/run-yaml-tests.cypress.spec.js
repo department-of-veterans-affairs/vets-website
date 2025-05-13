@@ -2,13 +2,12 @@
 
 import YAML from 'yaml';
 import mockUserDefault from './fixtures/userDefault.json';
-import mockUserMissingInfo from './fixtures/userOld.json';
-// import mockUserSchool from './fixtures/userSchool.json';
 
 import mockUserMultipleInquiries from './fixtures/userMultipleInquiries.json';
 import mockUserOneInquiry from './fixtures/userOneInquiry.json';
 
 import mockAVAProfile from './fixtures/userAVAProfile.json';
+import mockAVAProfileMissingInfo from './fixtures/userAVAProfileMissingInfo.json';
 
 import interceptAskVaResponses from './fixtures/api-mocks-for-ask-va';
 import interceptVaGovResponses from './fixtures/api-mocks-for-va-gov';
@@ -165,8 +164,6 @@ describe('YAML tests', () => {
 
         // TODO: This should be in the interceptAskVaResponses function -- Joe
         cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
-
-        cy.intercept('GET', '/v0/in_progress_forms/0873', mockAVAProfile);
       });
 
       for (const path of paths) {
@@ -199,10 +196,19 @@ describe('YAML tests', () => {
                 //   cy.login(mockUserSchool);
                 // } else
                 if (['13g.yml', '17g.yml'].includes(file)) {
-                  cy.login(mockUserMissingInfo);
+                  cy.intercept(
+                    'GET',
+                    '/v0/in_progress_forms/0873',
+                    mockAVAProfileMissingInfo,
+                  );
                 } else {
-                  cy.login(mockUserDefault);
+                  cy.intercept(
+                    'GET',
+                    '/v0/in_progress_forms/0873',
+                    mockAVAProfile,
+                  );
                 }
+                cy.login(mockUserDefault);
               } else if (path === 'dashboard') {
                 if (['13g.yml', '17g.yml'].includes(file)) {
                   cy.login(mockUserMultipleInquiries);

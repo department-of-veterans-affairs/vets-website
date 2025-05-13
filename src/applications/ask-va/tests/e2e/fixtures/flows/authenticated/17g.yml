@@ -6,9 +6,6 @@ flow:
       target: page
       value: start-your-question-auth
 
-    - action: include
-      target: page
-      value: your-personal-information
 
     - action: include
       target: page
@@ -21,6 +18,10 @@ flow:
     - action: include
       target: page
       value: who-is-your-question-about-general-question
+
+    - action: include
+      target: page
+      value: tell-us-about-yourself-general-empty
 
     - action: include
       target: page

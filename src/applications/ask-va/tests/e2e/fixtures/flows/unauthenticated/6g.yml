@@ -1,5 +1,5 @@
 flow:
-  title: Benefits issues outside the US for Disability Compensation general question (auth)
+  title: Benefits issues outside the US for Disability Compensation general question (unauth)
   runOnCI: true # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
