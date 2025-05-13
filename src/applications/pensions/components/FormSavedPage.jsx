@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 
 import FormSaved from '@department-of-veterans-affairs/platform-forms/FormSaved';
 
-import { formatDateLong } from 'platform/utilities/date';
+import { formatDateParsedZoneLong } from 'platform/utilities/date';
 
 const FormSavedPage = props => {
   const itf = useSelector(state => state.form?.itf) || {};
   const date = itf.currentITF?.expirationDate;
-  const itfExpirationDate = date ? formatDateLong(date) : 'Unknown';
+  const itfExpirationDate = date ? formatDateParsedZoneLong(date) : 'Unknown';
   const expirationMessage = (
     <>
       <p className="expires-container">
