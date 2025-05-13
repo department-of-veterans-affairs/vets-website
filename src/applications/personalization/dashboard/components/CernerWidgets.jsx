@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { getCernerURL } from '~/platform/utilities/cerner';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 const SeparatorSpan = ({ children }) => (
   <span className="vads-u-font-weight--normal vads-u-font-size--base">
@@ -170,28 +169,14 @@ CernerAlertBoxV2.propTypes = {
 };
 
 export const CernerWidget = ({ facilityLocations, authenticatedWithSSOe }) => (
-  <Toggler
-    toggleName={Toggler.TOGGLE_NAMES.vaOnlineSchedulingStaticLandingPage}
-  >
-    <div data-testid="cerner-widget">
-      <Toggler.Enabled>
-        <CernerAlertBoxV2
-          facilityLocations={facilityLocations}
-          primaryCtaButtonUrl={getCernerURL('')}
-          secondaryCtaButtonText="Go to My HealtheVet"
-          secondaryCtaButtonUrl={mhvUrl(authenticatedWithSSOe, 'home')}
-        />
-      </Toggler.Enabled>
-      <Toggler.Disabled>
-        <CernerAlertBox
-          facilityLocations={facilityLocations}
-          primaryCtaButtonUrl={getCernerURL('')}
-          secondaryCtaButtonText="Use My HealtheVet"
-          secondaryCtaButtonUrl={mhvUrl(authenticatedWithSSOe, 'home')}
-        />
-      </Toggler.Disabled>
-    </div>
-  </Toggler>
+  <div data-testid="cerner-widget">
+    <CernerAlertBoxV2
+      facilityLocations={facilityLocations}
+      primaryCtaButtonUrl={getCernerURL('')}
+      secondaryCtaButtonText="Go to My HealtheVet"
+      secondaryCtaButtonUrl={mhvUrl(authenticatedWithSSOe, 'home')}
+    />
+  </div>
 );
 
 CernerWidget.propTypes = {
