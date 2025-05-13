@@ -8,6 +8,7 @@ import {
   formSubmissionStatus,
   hideStatus,
 } from '../utilities/poaRequests';
+import { recordDatalayerEvent } from '../utilities/analytics';
 
 const POARequestCard = ({ poaRequest }) => {
   const lastName = poaRequest?.powerOfAttorneyForm?.claimant?.name?.last;
@@ -34,6 +35,8 @@ const POARequestCard = ({ poaRequest }) => {
           to={`/poa-requests/${poaRequest.id}`}
           data-testid={`poa-request-card-${poaRequest.id}-name`}
           className="poa-request__card-title vads-u-font-size--h4 vads-u-font-family--serif"
+          onClick={recordDatalayerEvent}
+          data-eventname="arp-card"
         >
           {`${lastName}, ${firstName}`}
         </Link>

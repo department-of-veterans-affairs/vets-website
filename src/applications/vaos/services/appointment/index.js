@@ -714,7 +714,7 @@ export function getCalendarData({ appointment, facility }) {
   const isCommunityCare = appointment?.vaos.isCommunityCare;
   const isPhone = isVAPhoneAppointment(appointment);
   const signinText =
-    'Sign in to https://va.gov/health-care/schedule-view-va-appointments/appointments to get details about this appointment';
+    'Sign in to https://va.gov/my-health/appointments/ to get details about this appointment';
 
   if (isPhone) {
     data = {
