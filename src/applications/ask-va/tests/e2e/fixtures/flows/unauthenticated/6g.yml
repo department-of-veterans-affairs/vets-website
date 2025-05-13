@@ -4,12 +4,8 @@ flow:
   steps:
     - action: include
       target: page
-      value: start-your-question-auth
+      value: start-your-question-unauth
     
-    - action: include
-      target: page
-      value: your-personal-information
-
     - action: include
       target: page
       value: select-category-benefits-issues-outside-the-us
@@ -24,11 +20,15 @@ flow:
 
     - action: include
       target: page
-      value: your-contact-information-radio-buttons-us-mail
+      value: tell-us-about-yourself-general
 
     - action: include
       target: page
-      value: your-us-mailing-address
+      value: your-contact-information-radio-buttons-us-mail-no-prefill
+
+    - action: include
+      target: page
+      value: your-us-mailing-address-no-prefill
 
     - action: include
       target: page
