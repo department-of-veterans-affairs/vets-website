@@ -608,8 +608,11 @@ describe('VAOS Page: VAFacilityPage', () => {
       expect(screen.baseElement).not.to.contain.text('Fake facility name 6');
 
       // Find show more button and fire click event
-      const moreLocationsBtn = screen.getByText('Show 1 more location');
-      expect(moreLocationsBtn).to.have.tagName('span');
+      const moreLocationsBtn = await screen.findByTestId('show-more-locations');
+      // Check the text attribute (since va-button uses the 'text' prop for its label)
+      expect(moreLocationsBtn.getAttribute('text')).to.equal(
+        'Show 1 more location',
+      );
       fireEvent.click(moreLocationsBtn);
 
       // Should show 6th facility
@@ -691,7 +694,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       expect(screen.getByText(/Which VA facility would you like to go to?/i)).to
         .exist;
-      expect(screen.baseElement).to.contain.text('By your home address');
+      expect(screen.baseElement).to.contain.text('Closest to your home');
 
       // It should sort by distance, making Closest facility the first facility
       const firstRadio = screen.container.querySelector('.form-radio-buttons');
@@ -771,7 +774,9 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
 
       await screen.findAllByRole('radio');
-      expect(screen.baseElement).to.contain.text('By your current location');
+      expect(screen.baseElement).to.contain.text(
+        'Closest to your current location',
+      );
 
       // Providers should be sorted.
       const miles = screen.queryAllByText(/miles$/);
