@@ -22,8 +22,6 @@ import {
   phoneSchema,
   yesNoUI,
   yesNoSchema,
-  fileInputMultipleUI,
-  fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import transformForSubmit from './submitTransformer';
@@ -41,8 +39,8 @@ import PaymentSelectionUI, {
   PaymentReviewScreen,
   loggedInPaymentInfo,
   loggedOutPaymentInfo,
-  FileReviewScreen,
 } from '../components/PaymentSelection';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import {
   UploadDocumentsVeteran,
   UploadDocumentsProvider,
@@ -326,24 +324,17 @@ const formConfig = {
       pages: {
         page7: {
           path: 'upload-supporting-documents',
-          title: 'Veteran payment docs',
+          title: 'Included files',
           depends: formData => formData.sendPayment === 'Veteran',
           uiSchema: {
             ...titleUI('Upload billing statements and supporting documents'),
             'view:UploadDocuments': {
               'ui:description': UploadDocumentsVeteran,
             },
-            uploadSectionVeteran: {
-              ...fileInputMultipleUI({
-                errorMessages: { required: 'This document is required.' },
-                name: 'veteran-payment',
-                fileUploadUrl: `${
-                  environment.API_URL
-                }/ivc_champva/v1/forms/submit_supporting_documents`,
-                title: 'Upload supporting document',
-                formNumber: '10-7959F-2',
-              }),
-            },
+            uploadSectionVeteran: fileUploadUI({
+              label: 'Upload file',
+              attachmentName: false,
+            }),
           },
           schema: {
             type: 'object',
@@ -354,38 +345,34 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              uploadSectionVeteran: fileInputMultipleSchema,
+              uploadSectionVeteran: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
             },
           },
-          CustomPageReview: props =>
-            FileReviewScreen({
-              ...props,
-              ...{
-                uploadPath: 'uploadSectionVeteran',
-                attachmentId: 'Veteran Billing Doc',
-              },
-            }),
         },
         page8: {
           path: 'upload-supporting-documents-provider',
-          title: 'Provider payment docs',
+          title: 'Included files',
           depends: formData => formData.sendPayment === 'Provider',
           uiSchema: {
             ...titleUI('Upload billing statements and supporting documents'),
             'view:UploadDocuments': {
               'ui:description': UploadDocumentsProvider,
             },
-            uploadSectionProvider: {
-              ...fileInputMultipleUI({
-                errorMessages: { required: 'This document is required.' },
-                name: 'provider-payment',
-                fileUploadUrl: `${
-                  environment.API_URL
-                }/ivc_champva/v1/forms/submit_supporting_documents`,
-                title: 'Upload supporting document',
-                formNumber: '10-7959F-2',
-              }),
-            },
+            uploadSectionProvider: fileUploadUI({
+              label: 'Upload file',
+              attachmentName: false,
+            }),
           },
           schema: {
             type: 'object',
@@ -396,17 +383,20 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              uploadSectionProvider: fileInputMultipleSchema,
+              uploadSectionProvider: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
             },
           },
-          CustomPageReview: props =>
-            FileReviewScreen({
-              ...props,
-              ...{
-                uploadPath: 'uploadSectionProvider',
-                attachmentId: 'Provider Billing Doc',
-              },
-            }),
         },
       },
     },

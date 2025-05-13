@@ -40,47 +40,6 @@ export const PaymentReviewScreen = props => {
   );
 };
 
-export const FileReviewScreen = props => {
-  // Get list of files for this particular input
-  const uploadedFiles = props.data[props.uploadPath];
-  return (
-    props.data && (
-      <div className="form-review-panel-page">
-        <div className="form-review-panel-page-header-row vads-u-margin-y--2">
-          <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-            {props?.title}
-          </h4>
-          {/* TODO: Edit page doesn't exist for this component at the moment */}
-          {/* {props.editPage && (
-            <VaButton secondary onClick={props?.editPage} text="Edit" uswds />
-          )} */}
-        </div>
-        {uploadedFiles.map(f => (
-          <div
-            key={f.confirmationCode}
-            className="vads-u-margin-bottom--1 vads-u-padding-x--2 vads-u-padding-y--1"
-            style={{
-              backgroundColor: 'var(--vads-color-base-lightest)',
-            }}
-          >
-            <div className="form-review-panel-page-header-row">
-              <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-                {f?.name}
-              </h4>
-            </div>
-            <dl className="review">
-              <div className="review-row">
-                <dt>Document type</dt>
-                <dd>{f?.attachmentId || props?.attachmentId}</dd>
-              </div>
-            </dl>
-          </div>
-        ))}
-      </div>
-    )
-  );
-};
-
 const introText = (
   <p>
     Tell us if we should send any payments for this claim to you or to the
@@ -158,12 +117,4 @@ PaymentReviewScreen.propTypes = {
   data: PropTypes.object,
   editPage: PropTypes.func,
   title: PropTypes.string,
-};
-
-FileReviewScreen.propTypes = {
-  attachmentId: PropTypes.string, // identifier for the type of file (e.g., 'Social Security Card')
-  data: PropTypes.object,
-  editPage: PropTypes.func,
-  title: PropTypes.string,
-  uploadPath: PropTypes.string, // property name in formData that points to file uploads
 };
