@@ -20,7 +20,7 @@ import {
 
 import mockData from '../tests/fixtures/data/test-data.json';
 import { applicantPages } from '../chapters/applicantInformation';
-import { healthInsurancePlanPages } from '../chapters/healthInsurancePlan';
+import { healthInsurancePlanPages } from '../chapters/healthInsuranceInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
