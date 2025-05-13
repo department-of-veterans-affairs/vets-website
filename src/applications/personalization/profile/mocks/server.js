@@ -246,6 +246,10 @@ const responses = {
     // return res.status(403).json(genericErrors.error403);
 
     return res.status(200).json(serviceHistory.airForce);
+    // return res.status(200).json(serviceHistory.error);
+    // return res.status(200).json(serviceHistory.none);
+    // return res.status(200).json(serviceHistory.dishonorableDischarge);
+    // return res.status(200).json(serviceHistory.unknownDischarge);
     // return res
     //   .status(200)
     //   .json(serviceHistory.generateServiceHistoryError('403'));
