@@ -79,10 +79,20 @@ export function createPostHandler(url, handler) {
 
   // MSW v1
   return mswModule.rest.post(url, async (req, res, ctx) => {
+    // In MSW v1, we need to extract the body differently
+    let body = {};
+    try {
+      // Get the request body if available
+      body = req.body ? req.body : {};
+    } catch (e) {
+      // If parsing fails, use empty object
+      body = {};
+    }
+
     const handlerResult = handler({
       params: req.params,
       request: req,
-      body: await req.json().catch(() => ({})),
+      body,
       res,
       ctx,
     });
@@ -116,10 +126,20 @@ export function createPutHandler(url, handler) {
 
   // MSW v1
   return mswModule.rest.put(url, async (req, res, ctx) => {
+    // In MSW v1, we need to extract the body differently
+    let body = {};
+    try {
+      // Get the request body if available
+      body = req.body ? req.body : {};
+    } catch (e) {
+      // If parsing fails, use empty object
+      body = {};
+    }
+
     const handlerResult = handler({
       params: req.params,
       request: req,
-      body: await req.json().catch(() => ({})),
+      body,
       res,
       ctx,
     });
@@ -175,13 +195,17 @@ export function createDeleteHandler(url, handler) {
  * @param {Object} options - Response options like status
  * @returns {Object|Function} - MSW compatible response or function
  */
-export function jsonResponse(data, options = { status: 200 }) {
+export function jsonResponse(data, options = {}) {
+  const status = options?.status || 200;
+
   if (mswVersion === 2) {
-    return mswModule.HttpResponse.json(data, options);
+    return mswModule.HttpResponse.json(data, { status, ...options });
   }
 
   // For v1, we return a function that uses res and ctx from the handler
-  return (res, ctx) => res(ctx.status(options.status), ctx.json(data));
+  return (res, ctx) => {
+    return res(ctx.status(status), ctx.json(data));
+  };
 }
 
 /**
@@ -191,7 +215,7 @@ export function jsonResponse(data, options = { status: 200 }) {
  * @param {number} status - Status code (for v2)
  * @returns {Object|Function} - MSW compatible error response or function
  */
-export function networkError(message, status = 500) {
+export function networkError(message = '', status = 500) {
   if (mswVersion === 2) {
     return mswModule.HttpResponse.error({
       status,
@@ -200,7 +224,9 @@ export function networkError(message, status = 500) {
   }
 
   // For v1, we return a function that uses res
-  return res => res.networkError(message);
+  return res => {
+    return res.networkError(message);
+  };
 }
 
 /**
@@ -218,6 +244,35 @@ export function textResponse(text, options = { status: 200 }) {
   // For v1, we return a function that uses res and ctx
   return (res, ctx) => res(ctx.status(options.status), ctx.text(text));
 }
+
+/**
+ * Creates a delayed response that works with both MSW v1 and v2
+ *
+ * @param {Object} data - The data to return in the response
+ * @param {number} delayMs - Delay in milliseconds
+ * @returns {Object|Function} - MSW compatible delayed response
+ */
+export function delayedJsonResponse(data, delayMs = 200) {
+  if (mswVersion === 2) {
+    // In v2, we need to use the delay utility and return in the handler
+    return async () => {
+      await new Promise(resolve => setTimeout(resolve, delayMs));
+      return mswModule.HttpResponse.json(data);
+    };
+  }
+
+  // For v1, wrap the response function with ctx.delay
+  return (res, ctx) => {
+    return res(ctx.delay(delayMs), ctx.json(data));
+  };
+}
+
+// Export setupServer with consistent API
+export const setupServer = (...handlers) => {
+  return mswVersion === 2
+    ? mswModule.setupServer(...handlers)
+    : require('msw/node').setupServer(...handlers);
+};
 
 // Re-export original MSW methods for advanced use cases
 export const msw = mswModule;
