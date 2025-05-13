@@ -113,9 +113,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
     it('should allow the user to go back to the appointment list', async () => {
       // Arrange
-      const response = new MockAppointmentResponse({ future: true }).setFuture(
-        true,
-      );
+      const response = new MockAppointmentResponse({ future: true });
 
       mockAppointmentApi({
         includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
@@ -504,13 +502,12 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
         it('should display document title for canceled past CC appointment', async () => {
           // Arrange
-
           const yesterday = subDays(new Date(), 1);
           const responses = MockAppointmentResponse.createCCResponses({
             localStartTime: yesterday,
             past: true,
+            status: APPOINTMENT_STATUS.cancelled,
           });
-          responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
 
           mockAppointmentApi({
             includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],

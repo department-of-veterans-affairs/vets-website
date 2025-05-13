@@ -116,7 +116,7 @@ export default class MockAppointmentResponse {
     future = false,
     past = false,
     count = 1,
-  }) {
+  } = {}) {
     return Array(count)
       .fill(count)
       .map((_, index) => {
@@ -155,11 +155,12 @@ export default class MockAppointmentResponse {
    * @memberof MockAppointmentResponse
    */
   static createCCResponses({
-    localStartTime,
+    count = 1,
     future,
+    localStartTime,
     past,
     pending,
-    count = 1,
+    status,
   } = {}) {
     return Array(count)
       .fill(count)
@@ -170,7 +171,7 @@ export default class MockAppointmentResponse {
           future,
           past,
           pending,
-          status: APPOINTMENT_STATUS.proposed,
+          status: status || APPOINTMENT_STATUS.proposed,
         })
           .setKind('cc')
           .setModality('communityCare')
@@ -196,7 +197,7 @@ export default class MockAppointmentResponse {
     future = false,
     past = false,
     count = 1,
-  }) {
+  } = {}) {
     return Array(count)
       .fill(count)
       .map((_, index) =>
@@ -231,7 +232,7 @@ export default class MockAppointmentResponse {
     future = false,
     past = false,
     count = 1,
-  }) {
+  } = {}) {
     return Array(count)
       .fill(count)
       .map((_, index) =>
@@ -289,7 +290,11 @@ export default class MockAppointmentResponse {
    * @returns Array of MockAppointmentResponse objects
    * @memberof MockAppointmentResponse
    */
-  static createPhoneResponses({ localStartTime, future = false, count = 1 }) {
+  static createPhoneResponses({
+    localStartTime,
+    future = false,
+    count = 1,
+  } = {}) {
     return Array(count)
       .fill(count)
       .map((_, index) =>
@@ -320,7 +325,7 @@ export default class MockAppointmentResponse {
     localStartTime,
     future = false,
     count = 1,
-  }) {
+  } = {}) {
     return Array(count)
       .fill(count)
       .map((_, index) =>
@@ -453,6 +458,11 @@ export default class MockAppointmentResponse {
 
   setKind(value) {
     this.attributes.kind = value;
+    return this;
+  }
+
+  setLocalStart(value) {
+    this.attributes.localStartTime = value;
     return this;
   }
 
