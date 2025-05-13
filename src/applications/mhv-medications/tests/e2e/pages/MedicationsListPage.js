@@ -824,7 +824,7 @@ class MedicationsListPage {
   };
 
   verifyNoMedicationsInListMessageNotShown = () => {
-    cy.get('[data-testid="alert-message"]').should('not.be.visible');
+    cy.get('[data-testid="alert-message"]').should('not.exist');
   };
 
   clickResetFilterButtonOnFilterAccordionDropDown = () => {
