@@ -20,6 +20,7 @@ import {
   PROCESSED,
   STATUSES,
 } from '../utilities/poaRequests';
+import { recordDatalayerEvent } from '../utilities/analytics';
 import POARequestCard from '../components/POARequestCard';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
@@ -61,6 +62,8 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
       id={`tab-${tabStatus}`}
       aria-controls={`tabpanel-${tabStatus}`}
       aria-selected={active ? 'true' : 'false'}
+      onClick={recordDatalayerEvent}
+      data-eventname="nav-tab-click"
     >
       {children}
     </Link>

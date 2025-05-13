@@ -106,8 +106,8 @@ describe('Ask VA submit transformer', () => {
         },
       ],
       SchoolObj: {
-        InstitutionName: undefined,
-        SchoolFacilityCode: undefined,
+        InstitutionName: null,
+        SchoolFacilityCode: null,
         StateAbbreviation: 'NY',
       },
     });

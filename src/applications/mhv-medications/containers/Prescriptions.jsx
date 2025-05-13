@@ -120,7 +120,15 @@ const Prescriptions = () => {
   }, []);
 
   const { pagination, meta } = prescriptionsData || {};
-  const { prescriptions: paginatedPrescriptionsList } = prescriptionsData || [];
+  const paginatedPrescriptionsList = useMemo(
+    () => {
+      if (prescriptionsData?.prescriptions) {
+        return prescriptionsData;
+      }
+      return undefined;
+    },
+    [prescriptionsData],
+  );
   const { prescriptions: filteredList } = prescriptionsData || [];
   const { filterCount } = meta || {};
 
