@@ -419,6 +419,13 @@ const FileField = props => {
             const newData = props.formData || [];
             newData[idx] = { ...file, isEncrypted: !!password };
             onChange(newData);
+            if (file.uploading) {
+              $('.schemaform-file-uploading .cancel-upload')?.focus();
+            }
+            // Focus on the file card after the file has finished uploading
+            if (!file.uploading) {
+              $(getFileListId(idx))?.focus();
+            }
             setUploadRequest(null);
           },
           () => setUploadRequest(null),
