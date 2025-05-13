@@ -1,9 +1,11 @@
 // eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
 import { addHours, format, startOfDay } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import {
   APPOINTMENT_STATUS,
   TYPE_OF_VISIT_ID,
   VIDEO_TYPES,
+  DATE_FORMAT_STRINGS,
 } from '../../utils/constants';
 
 /**
@@ -60,7 +62,10 @@ export default class MockAppointmentResponse {
       },
       kind: TYPE_OF_VISIT_ID.clinic,
       type: 'VA',
-      localStartTime: format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
+      localStartTime:
+        status === APPOINTMENT_STATUS.proposed
+          ? null
+          : format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
       modality: 'vaInPerson',
       preferredDates: [
         format(
@@ -73,9 +78,13 @@ export default class MockAppointmentResponse {
       created: createdStamp,
       serviceType: 'primaryCare',
       start:
-        requestedPeriods.length > 0
-          ? undefined
-          : format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
+        status === APPOINTMENT_STATUS.proposed
+          ? null
+          : formatInTimeZone(
+              timestamp,
+              'UTC',
+              DATE_FORMAT_STRINGS.ISODateTimeUTC,
+            ),
       status,
       telehealth: {
         atlas: null,
