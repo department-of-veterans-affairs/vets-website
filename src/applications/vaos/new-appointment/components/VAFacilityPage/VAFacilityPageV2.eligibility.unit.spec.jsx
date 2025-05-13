@@ -305,7 +305,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       // Assert
-      await screen.findAllByText(/Select a VA facility/i);
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -369,7 +371,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       // Assert
-      await screen.findAllByText(/Select a VA facility/i);
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -428,7 +432,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       // Assert
-      await screen.findAllByText(/Select a VA facility/i);
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -485,7 +491,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       // Assert
-      await screen.findAllByText(/Select a VA facility/i);
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -534,7 +542,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       // Assert
-      await screen.findAllByText(/Select a VA facility/i);
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -577,7 +587,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       // Assert
-      await screen.findAllByText(/Select a VA facility/i);
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));

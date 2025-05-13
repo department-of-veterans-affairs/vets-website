@@ -204,7 +204,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
 
-      expect(screen.getByText(/Which VA location would you like to go to?/i)).to
+      expect(screen.getByText(/Which VA facility would you like to go to?/i)).to
         .exist;
 
       // Should contain radio buttons
@@ -473,210 +473,6 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
-    it('should show additional info link if there are unsupported facilities within 100 miles', async () => {
-      // Arrange
-      mockFacilitiesApi({
-        children: true,
-        ids: ['983', '984'],
-        response: [
-          createMockFacility({
-            id: '983',
-            name: 'Facility that is enabled',
-          }),
-          createMockFacility({
-            id: '983GC',
-            name: 'Facility that is also enabled',
-          }),
-          createMockFacility({
-            id: '984',
-            name: 'Facility that is disabled',
-            lat: 39.1362562,
-            // tweaked longitude to be around 80 miles away
-            long: -83.1804804,
-            address: {
-              city: 'Bozeman',
-              state: 'MT',
-            },
-            phone: '5555555555x1234',
-          }),
-          createMockFacility({
-            id: '984GC',
-            name: 'Facility that is over 100 miles away and disabled',
-            lat: 39.1362562,
-            // tweaked longitude to be over 100 miles away
-            long: -82.1804804,
-          }),
-        ],
-      });
-      mockSchedulingConfigurationsApi({
-        response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '983GC',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'optometry',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '984GC',
-            typeOfCareId: 'optometry',
-            requestEnabled: true,
-          }),
-        ],
-      });
-
-      const store = createTestStore({
-        ...initialState,
-        user: {
-          ...initialState.user,
-          profile: {
-            ...initialState.user.profile,
-            vapContactInfo: {
-              residentialAddress: {
-                latitude: 39.1362562,
-                longitude: -84.6804804,
-              },
-            },
-          },
-        },
-      });
-      await setTypeOfCare(store, /primary care/i);
-
-      // Act
-      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-        store,
-      });
-
-      // Assert
-      expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
-        .ok;
-      expect(screen.getByTestId('facility-not-listed')).to.exist;
-      await screen.findByText(/Facility that is disabled/i);
-      expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
-      expect(screen.getByText(/80\.4 miles/i)).to.be.ok;
-      expect(screen.getByTestId('facility-telephone')).to.exist;
-      expect(
-        screen.queryByText(
-          /Facility that is over 100 miles away and disabled/i,
-        ),
-      ).to.be.null;
-      expect(
-        screen.getByRole('link', { name: /different VA location/i }),
-      ).to.have.attribute('href', '/find-locations');
-    });
-
-    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
-    it('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
-      // Arrange
-      mockFacilitiesApi({
-        children: true,
-        ids: ['983', '984'],
-        response: [
-          createMockFacility({
-            id: '983',
-            name: 'Facility that is enabled',
-          }),
-          createMockFacility({
-            id: '983GC',
-            name: 'Facility that is also enabled',
-          }),
-          createMockFacility({
-            id: '984',
-            name: 'Disabled facility near residential address',
-            lat: 39.1362562,
-            long: -83.1804804,
-          }),
-          createMockFacility({
-            id: '984GC',
-            name: 'Disabled facility near current location',
-            lat: 53.2734,
-            long: -7.77832031,
-          }),
-        ],
-      });
-      mockSchedulingConfigurationsApi({
-        response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '983GC',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'optometry',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '984GC',
-            typeOfCareId: 'optometry',
-            requestEnabled: true,
-          }),
-        ],
-      });
-      mockGetCurrentPosition();
-      const store = createTestStore({
-        ...initialState,
-        user: {
-          ...initialState.user,
-          profile: {
-            ...initialState.user.profile,
-            vapContactInfo: {
-              residentialAddress: {
-                latitude: 39.1362562,
-                longitude: -84.6804804,
-              },
-            },
-          },
-        },
-      });
-      await setTypeOfCare(store, /primary care/i);
-
-      // Act
-      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-        store,
-      });
-
-      // Assert
-      expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
-        .ok;
-      expect(screen.getByTestId('facility-not-listed')).to.exist;
-      expect(
-        await screen.findByText(/Disabled facility near residential address/i),
-      ).to.be.ok;
-      expect(screen.queryByText(/Disabled facility near current location/i)).to
-        .be.null;
-
-      const facilitiesSelect = await screen.findByTestId('facilitiesSelect');
-      // call VaSelect custom event for onChange handling
-      facilitiesSelect.__events.vaSelect({
-        detail: { value: 'distanceFromCurrentLocation' },
-      });
-
-      expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
-        .ok;
-
-      expect(screen.getByTestId('facility-not-listed')).to.exist;
-      expect(
-        await screen.findByText(/Disabled facility near current location/i),
-      ).to.be.ok;
-      expect(screen.queryByText(/Disabled facility near residential address/i))
-        .to.be.null;
-    });
-
-    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it('should display correct facilities after changing type of care', async () => {
       // Arrange
       mockSchedulingConfigurationsApi({
@@ -791,15 +587,15 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          'Which VA location would you like to go to? | Veterans Affairs',
+          'Which VA facility would you like to go to? | Veterans Affairs',
         );
       });
 
-      expect(screen.getByText(/Which VA location would you like to go to?/i)).to
+      expect(screen.getByText(/Which VA facility would you like to go to?/i)).to
         .exist;
 
       expect(screen.baseElement).to.contain.text(
-        'Select a VA facility where you’re registered that offers primary care appointments.',
+        "These facilities you're registered at offer primary care.",
       );
 
       expect(await screen.findByTestId('facilitiesSelect')).to.be.ok;
@@ -899,7 +695,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
 
-      expect(screen.getByText(/Which VA location would you like to go to?/i)).to
+      expect(screen.getByText(/Which VA facility would you like to go to?/i)).to
         .exist;
       expect(screen.baseElement).to.contain.text('By your home address');
 
