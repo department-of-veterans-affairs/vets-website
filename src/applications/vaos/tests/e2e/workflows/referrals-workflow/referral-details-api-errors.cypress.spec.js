@@ -18,7 +18,6 @@ describe('Referral Appointment Details API Errors', () => {
       vaOnlineSchedulingCCDirectScheduling: true,
       vaOnlineSchedulingFlatFacilityPage: true,
       vaOnlineSchedulingUseV2ApiRequests: true,
-      vaOnlineSchedulingFeatureBreadcrumbUrlUpdate: true,
     });
 
     // Setup VAOS app

@@ -1,5 +1,9 @@
 import { expect } from 'chai';
-import { formatName, generatePdfScaffold } from '../util/helpers';
+import {
+  formatName,
+  formatNameFirstLast,
+  generatePdfScaffold,
+} from '../util/helpers';
 
 describe('formatName', () => {
   const first = 'John';
@@ -82,5 +86,37 @@ describe('generatePdfScaffold', () => {
     expect(scaffold.preface).to.eq(
       'If you have any questions about these results, send a secure message to your care team.',
     );
+  });
+});
+
+describe('formatNameFirstLast', () => {
+  const user1 = {
+    userFullName: {
+      first: 'Joe',
+      last: 'Schmo',
+    },
+  };
+
+  const user2 = {
+    userFullName: {
+      first: 'Joe',
+      last: 'Schmo',
+      middle: 'R',
+      suffix: 'Jr',
+    },
+  };
+
+  it('returns a name formatted with the first name before to the last name', () => {
+    const lastFirstName = 'Joe Schmo';
+    const updatedName = formatNameFirstLast(user1.userFullName);
+
+    expect(updatedName).to.eq(lastFirstName);
+  });
+
+  it('returns a name formatted with the first name and middle initial and suffix', () => {
+    const firstMiddleLastSuffixName = 'Joe R Schmo, Jr';
+    const updatedName = formatNameFirstLast(user2.userFullName);
+
+    expect(updatedName).to.eq(firstMiddleLastSuffixName);
   });
 });
