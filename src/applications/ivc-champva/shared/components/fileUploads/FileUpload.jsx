@@ -19,7 +19,7 @@ export function FileFieldCustom(props) {
   try {
     MissingFileOverview({
       contentAfterButtons: props.contentAfterButtons,
-      data: props.contentAfterButtons.props.form.data,
+      data: props?.fullData,
       goBack: props.goBack,
       goForward: props.goForward,
       disableLinks: true,
@@ -52,10 +52,9 @@ export function FileFieldCustom(props) {
     // Check if url is a review page
     const urlParams = new URLSearchParams(window?.location?.search);
     if (urlParams.get('fileReview') === 'true') {
-      /* Have to use contentAfterButtons' data because we might have
-      just received a single list-loop element as our props.data,
-      which would then lead us to the wrong conclusions */
-      if (uploadsMissing(props.contentAfterButtons.props.form.data)) {
+      /* Using fullData because we might have just received a single list-loop
+      element as our props.data, which would then lead us to the wrong conclusions */
+      if (uploadsMissing(props.fullData)) {
         props.goToPath('/supporting-files');
       } else {
         // Since we just uploaded the last file, bypass files overview page.
@@ -117,6 +116,7 @@ FileFieldCustom.propTypes = {
   contentBeforeButtons: PropTypes.any,
   data: PropTypes.object,
   formContext: PropTypes.object,
+  fullData: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   goToPath: PropTypes.func,

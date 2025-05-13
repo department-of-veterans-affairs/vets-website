@@ -3,7 +3,7 @@ import formConfig from '../../../../config/form';
 import {
   annuityPages,
   options,
-} from '../../../../config/chapters/09-annuities/annuityPages';
+} from '../../../../config/chapters/08-annuities/annuityPages';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
 

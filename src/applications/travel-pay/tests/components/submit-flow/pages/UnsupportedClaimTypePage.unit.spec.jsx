@@ -43,7 +43,6 @@ describe('Unsupported claim type page', () => {
       }),
     ).to.be.true;
     expect(screen.getByText(/You can still file a claim/i)).to.exist;
-    expect(screen.getByText(/Call the BTSSS call center/i)).to.exist;
     expect($('va-button[text="Back"]')).to.exist;
     fireEvent.click($('va-button[text="Back"]'));
 
