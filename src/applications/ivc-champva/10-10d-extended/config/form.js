@@ -18,7 +18,7 @@ import {
   certifierRelationshipSchema,
 } from '../chapters/signerInformation';
 
-import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/fixtures/data/test-data.json';
 import { applicantPages } from '../chapters/applicantInformation';
 
 import {
@@ -84,7 +84,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
-          initialData: mockData.data,
+          // initialData: mockData.data,
           path: 'signer-type',
           title: 'Which of these best describes you?',
           ...certifierRoleSchema,
