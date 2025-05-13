@@ -4,11 +4,7 @@ import { renderWithStoreAndRouter } from '../tests/mocks/setup';
 import Breadcrumbs from './Breadcrumbs';
 
 describe('VAOS Component: Breadcrumbs', () => {
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingBreadcrumbUrlUpdate: true,
-    },
-  };
+  const initialState = {};
   it('should display Pending appointments as last crumb', () => {
     const url = 'my-health/appointments/pending';
     const screen = renderWithStoreAndRouter(<Breadcrumbs />, {
