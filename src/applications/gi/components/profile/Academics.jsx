@@ -5,27 +5,38 @@ import { upperCaseFirstLetterOnly } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
 
 export default function Academics({ institution, onShowModal }) {
-  const accredited = institution.accredited && institution.accreditationType;
+  const { accredited } = institution;
+  const { accreditationType } = institution;
 
   const typeOfAccreditation = (
     <div aria-live="off">
-      <strong>
-        <LearnMoreLabel
-          bold
-          text="Accreditation"
-          onClick={() => {
-            onShowModal('accreditation');
-          }}
-          ariaLabel={ariaLabels.learnMore.accreditation}
-          buttonId="accreditation-button"
-          buttonClassName="small-screen-font"
-        />
-        :
-      </strong>
-      &nbsp;
       {accredited && (
         <>
-          {upperCaseFirstLetterOnly(institution.accreditationType)} (
+          {accreditationType ? (
+            <strong>
+              <LearnMoreLabel
+                bold
+                text="Accreditation"
+                onClick={() => {
+                  onShowModal('accreditation');
+                }}
+                ariaLabel={ariaLabels.learnMore.accreditation}
+                buttonId="accreditation-button"
+                buttonClassName="small-screen-font"
+              />
+              :
+            </strong>
+          ) : (
+            <>
+              <span className="vads-u-font-weight--bold">Accreditation</span>:
+              Yes
+            </>
+          )}
+        </>
+      )}
+      {accredited && (
+        <>
+          {accreditationType && upperCaseFirstLetterOnly(accreditationType)} (
           <a
             href={`http://nces.ed.gov/collegenavigator/?id=${
               institution.cross
@@ -39,7 +50,13 @@ export default function Academics({ institution, onShowModal }) {
           )
         </>
       )}
-      {!accredited && 'None'}
+      {!accredited &&
+        !accreditationType && (
+          <>
+            <span className="vads-u-font-weight--bold">Accreditation</span>:
+            None
+          </>
+        )}
     </div>
   );
 

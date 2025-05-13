@@ -2,7 +2,7 @@ import formConfig from '../../../../config/form';
 import {
   unassociatedIncomePages,
   options,
-} from '../../../../config/chapters/03-unassociated-incomes/unassociatedIncomePages';
+} from '../../../../config/chapters/02-unassociated-incomes/unassociatedIncomePages';
 import { incomeTypeLabels } from '../../../../labels';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';

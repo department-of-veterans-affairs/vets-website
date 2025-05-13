@@ -17,6 +17,7 @@ const storeBase = {
       timestamp: Date.now(),
     },
     data: {
+      claimantType: 'VETERAN',
       claimantFullName: {
         first: 'Jane',
         middle: 'C',
@@ -62,7 +63,7 @@ describe('Confirmation page', () => {
 
   it('should show the claimant name if the applicant is not the veteran', () => {
     const store = { ...storeBase };
-    store.form.data['view:applicantIsVeteran'] = false;
+    store.form.data.claimantType = 'SPOUSE';
 
     const { getByText } = render(
       <Provider store={mockStore(store)}>
