@@ -38,12 +38,10 @@ export default function Declined() {
             again.
           </li>
           <li>
-            If you have a <strong>My HealtheVet</strong> user ID and password,
-            you’ll no longer be able to use it. To manage your benefits and care
-            online again, you’ll need to sign in with a{' '}
-            <strong>Login.gov</strong> or <strong>ID.me</strong> account and
-            accept these terms. If you don’t have one of these accounts, you’ll
-            need to create one.
+            To manage your benefits and care online again, you’ll need to sign
+            in with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
+            account and accept these terms. If you don’t have one of these
+            accounts, you’ll need to create one.
             <br />
             <br />
             <a href="https://va.gov/resources/creating-an-account-for-vagov/">
