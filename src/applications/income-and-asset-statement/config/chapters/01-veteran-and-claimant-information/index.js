@@ -1,4 +1,5 @@
 import claimantType from './claimantType';
+import personalInformation from './personalInformation';
 import veteranInformation from './veteranInformation';
 import claimantInformation from './claimantInformation';
 import emailAddress from './emailAddress';
@@ -9,6 +10,7 @@ export default {
   title: 'Veteran and claimant information',
   pages: {
     claimantType,
+    personalInformation,
     claimantInformation,
     emailAddress,
     phoneNumber,

@@ -12,6 +12,10 @@ import {
 export default {
   title: 'Veteran information',
   path: 'veteran/information',
+  depends: formData => {
+    const hasSession = localStorage.getItem('hasSession') === 'true';
+    return !(formData?.claimantType === 'VETERAN' && hasSession);
+  },
   uiSchema: {
     ...titleUI('Veteran information'),
     veteranFullName: fullNameNoSuffixUI(),
