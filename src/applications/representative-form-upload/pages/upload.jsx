@@ -14,36 +14,11 @@ import {
 } from '../config/constants';
 import { getFormContent, getPdfDownloadUrl, onCloseAlert } from '../helpers';
 import { CustomAlertPage } from './helpers';
-import { getSignInUrl } from '../utilities/constants';
-import manifest from '../manifest.json';
-import api from '../utilities/api';
 
 const { formNumber, title } = getFormContent();
 const baseURL = `${environment.API_URL}/accredited_representative_portal/v0`;
 const fileUploadUrl = `${baseURL}/representative_form_upload`;
 const warningsPresent = formData => formData.uploadedFile?.warnings?.length > 0;
-
-const fetchNewAccessToken = async () => {
-  const response = await api.getUser();
-
-  if (response.ok || response.status === 304) {
-    return response;
-  }
-
-  if (
-    response.status === 401 &&
-    ![manifest.rootUrl, `${manifest.rootUrl}/`].includes(
-      window.location.pathname,
-    )
-  ) {
-    window.location = getSignInUrl({
-      returnUrl: window.location.href,
-    });
-    return null;
-  }
-
-  throw response;
-};
 
 export const uploadPage = {
   uiSchema: {
@@ -82,7 +57,6 @@ export const uploadPage = {
 /** @type {CustomPageType} */
 export function UploadPage(props) {
   const warnings = props.data?.uploadedFile?.warnings;
-  fetchNewAccessToken();
   const alert =
     warnings?.length > 0
       ? FORM_UPLOAD_OCR_ALERT(
