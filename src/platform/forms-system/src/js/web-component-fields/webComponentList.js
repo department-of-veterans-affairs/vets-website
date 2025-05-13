@@ -30,6 +30,7 @@ export const focusableWebComponentList = [
   // 'va-checkbox-group',
   'va-checkbox',
   'va-file-input',
+  // 'va-file-input-multiple',
   // 'va-memorable-date',
   'va-number-input',
   // 'va-privacy-agreement',
@@ -45,6 +46,5 @@ export const webComponentsWithHeaders = [
   'va-checkbox-group',
   'va-radio',
   'va-textarea',
-  'va-file-input-multiple',
   'va-alert:not([visible="false"])',
 ];
