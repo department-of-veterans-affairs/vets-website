@@ -533,7 +533,7 @@ module.exports = async (env = {}) => {
         patterns: [
           {
             from: 'src/site/assets',
-            to: buildPath,
+            to: `${buildPath}/generated`,
           },
           {
             from: 'src/platform/site-wide/sass/fonts',
