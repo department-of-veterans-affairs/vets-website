@@ -97,4 +97,19 @@ describe('LaunchMessagingAal', () => {
       expect(errorArg.message).to.include('fail');
     });
   });
+
+  it('does not log error when window.DD_RUM is not initialized', async () => {
+    delete window.DD_RUM; // Ensure DD_RUM is undefined
+    const errorObj = { errors: [{ code: '500', detail: 'fail' }] };
+    submitStub.rejects(errorObj);
+    useFeatureTogglesStub = stubUseFeatureToggles({ isAalEnabled: true });
+
+    render(<LaunchMessagingAal />);
+
+    await waitFor(() => {
+      expect(submitStub.calledOnce).to.be.true;
+    });
+
+    expect(window.DD_RUM).to.be.undefined;
+  });
 });
