@@ -52,9 +52,9 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
-    notFound: 'Please start over your application to dispute your VA debt.',
+    notFound: 'Please start your application over to dispute your VA debt.',
     noAuth:
-      'Please sign in again to continue your application for disputing your VA debt.',
+      'Please sign in again to continue your application to dispute your VA debt.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
