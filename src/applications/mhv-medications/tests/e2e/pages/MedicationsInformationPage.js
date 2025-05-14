@@ -26,6 +26,12 @@ class MedicationsInformationPage {
       .and('contain', 'We can’t access your medication information right now');
   };
 
+  verifyFocusOnAPIErrorAlertTextOnPatientInformationPage = () => {
+    cy.get('[data-testid="api-error-notification"]', {
+      includeShadowDom: true,
+    }).should('be.focused');
+  };
+
   verifyNoInformationWarningText = () => {
     cy.get('[data-testid="medication-information-no-info"]')
       .should('be.visible')
@@ -53,6 +59,13 @@ class MedicationsInformationPage {
     cy.get('[data-testid="download-success-banner"]')
       .should('be.visible')
       .and('contain', text);
+  };
+
+  verifyDownloadSuccessAlertContentOnMedInfoPage = text => {
+    cy.get('[data-testid="download-success-banner"] > .hydrated').should(
+      'contain',
+      text,
+    );
   };
 
   verifyMedicationDescriptionInDownload = (text, downloadFormat) => {

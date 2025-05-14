@@ -5,6 +5,10 @@ flow:
     - action: include
       target: page
       value: start-your-question-auth
+  
+    - action: include
+      target: page
+      value: your-personal-information
 
     - action: include
       target: page
@@ -22,24 +26,18 @@ flow:
       target: page
       value: what-is-your-relationship-to-the-veteran-veteran
 
-    - action: include
-      target: page
-      value: tell-us-about-you
 
     - action: include
       target: page
-      value: school-information
+      value: do-you-want-to-use-your-school-info-yes
 
     - action: include
       target: page
-      value: do-you-want-to-save-your-school-info
-    - action: include
-      target: page
-      value: your-contact-information-us-mail-no-prefill
+      value: your-contact-information-radio-buttons-us-mail
 
     - action: include
       target: page
-      value: your-us-mailing-address-no-prefill
+      value: your-us-mailing-address
 
     - action: include
       target: page
