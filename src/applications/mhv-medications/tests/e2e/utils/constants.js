@@ -90,6 +90,8 @@ export const Data = {
   PRESCRIPTION_INFO_TRACKING: 'Prescriptions in this package',
   FILLED_ON_DATE: 'February 11, 2025',
   DOWNLOAD_SUCCESS_CONFIRMATION_MESSAGE: 'Download started',
+  DOWNLOAD_SUCCESS_ALERT_CONTENT:
+    'Your file should download automatically. If it doesn’t, try again. If you can’t find it, check your browser settings to find where your browser saves downloaded files.',
 };
 export const Paths = {
   LANDING_LIST:

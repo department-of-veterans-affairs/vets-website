@@ -1,11 +1,10 @@
-import moment from 'moment-timezone';
 import MedicationsSite from './med_site/MedicationsSite';
 import rxList from './fixtures/listOfPrescriptions.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 import { Data } from './utils/constants';
 
-describe('Medications Download PDF on Medications List Page', () => {
-  it('visits download pdf on list page', () => {
+describe('Medications Download Alert Not Visible after Reload List Page', () => {
+  it('visits no download txt alert after reload on list page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     site.login();
@@ -14,15 +13,14 @@ describe('Medications Download PDF on Medications List Page', () => {
     cy.axeCheck('main');
     listPage.clickPrintOrDownloadThisListDropDown();
     listPage.verifyFocusOnPrintDownloadDropDownButton();
-    listPage.clickDownloadListAsPDFButtonOnListPage();
+    listPage.clickDownloadListAsTxtButtonOnListPage();
+    // listPage.verifyLoadingSpinnerForDownloadOnListPage();
     listPage.verifyDownloadCompleteSuccessMessageBanner(
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
     listPage.verifyFocusOnDownloadAlertSuccessBanner();
-    site.verifyDownloadedPdfFile(
-      'VA-medications-list-Safari-Mhvtp',
-      moment(),
-      '',
-    );
+    listPage.verifyDownloadTextFileHeadless('Safari', 'Mhvtp', 'Mhvtp, Safari');
+    cy.reload();
+    listPage.verifyDownloadSuccessMessageBannerNotVisibleAfterReload();
   });
 });
