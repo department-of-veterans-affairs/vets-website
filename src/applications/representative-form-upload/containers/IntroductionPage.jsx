@@ -13,6 +13,7 @@ import {
 import recordEvent from 'platform/monitoring/record-event';
 import { getFormContent, getFormNumber } from '../helpers';
 import { SIGN_IN_URL } from '../constants';
+import AccessTokenManager from './AccessTokenManager';
 
 const IntroductionPage = ({ route, router }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
@@ -44,6 +45,7 @@ const IntroductionPage = ({ route, router }) => {
 
   return (
     <article className="schemaform-intro">
+      <AccessTokenManager userLoggedIn={userLoggedIn} />
       <FormTitle title={title} subTitle={subTitle} />
       <h2>How to submit VA form {formNumber}</h2>
       <p>This upload tool allows Veterans to submit a completed VA form.</p>

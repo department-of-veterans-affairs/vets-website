@@ -12,6 +12,8 @@ import {
   dateOfBirthUI,
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { isLoggedIn } from 'platform/user/selectors';
+import { useSelector } from 'react-redux';
 import { MUST_MATCH_ALERT } from '../config/constants';
 import { onCloseAlert } from '../helpers';
 import {
@@ -21,6 +23,7 @@ import {
   representativeTitleAndDescription,
   veteranTitleAndDescription,
 } from './helpers';
+import AccessTokenManager from '../containers/AccessTokenManager';
 
 const claimantSubPageUI = {
   claimantFullName: firstNameLastNameNoSuffixUI(),
@@ -113,12 +116,18 @@ export const claimantInformationPage = {
 
 /** @type {CustomPageType} */
 export function ClaimantInformationPage(props) {
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
   const alert = MUST_MATCH_ALERT(
     'claimant-information',
     onCloseAlert,
     props.data,
   );
-  return <CustomAlertPage {...props} alert={alert} />;
+  return (
+    <>
+      <AccessTokenManager userLoggedIn={userLoggedIn} />
+      <CustomAlertPage {...props} alert={alert} />
+    </>
+  );
 }
 
 claimantInformationPage.propTypes = {

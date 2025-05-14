@@ -5,6 +5,7 @@ import {
   VaIcon,
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { isLoggedIn } from 'platform/user/selectors';
 import {
   getFileSize,
   getFormNumber,
@@ -12,8 +13,10 @@ import {
   formattedPhoneNumber,
 } from '../helpers';
 import EditLink from './EditLink';
+import AccessTokenManager from '../containers/AccessTokenManager';
 
 const CustomReviewTopContent = () => {
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
   const { form } = useSelector(state => state || {});
   const {
     uploadedFile,
@@ -26,6 +29,7 @@ const CustomReviewTopContent = () => {
 
   const renderFileInfo = file => (
     <div className="vads-l-col--12 medium-screen:vads-l-col--12 small-desktop-screen:vads-l-col--8">
+      <AccessTokenManager userLoggedIn={userLoggedIn} />
       <VaCard>
         <div className="vads-u-display--flex vads-u-flex-direction--row">
           <span className="vads-u-color--primary">
