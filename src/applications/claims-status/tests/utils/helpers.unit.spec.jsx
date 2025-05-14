@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
-import { setupServer } from 'msw/node';
 import {
   createGetHandler,
   networkError,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 import * as scroll from 'platform/utilities/ui/scroll';
 import * as page from '../../utils/page';

@@ -1,9 +1,9 @@
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
 import {
   createGetHandler,
   jsonResponse,
   networkError,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 import {
   customFormReplacer,

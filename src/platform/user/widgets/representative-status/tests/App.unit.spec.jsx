@@ -1,13 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { setupServer } from 'msw/node';
 import { waitFor, cleanup, render } from '@testing-library/react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import {
   createGetHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 
 import App from '../components/App';

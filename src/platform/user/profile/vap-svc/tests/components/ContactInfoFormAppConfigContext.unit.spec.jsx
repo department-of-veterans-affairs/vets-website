@@ -3,10 +3,10 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { setupServer } from 'msw/node';
 import {
   createPutHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 import { setData } from 'platform/forms-system/exportsFile';

@@ -2,13 +2,13 @@ import React from 'react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { render, waitFor } from '@testing-library/react';
-import { setupServer } from 'msw/node';
 import sinon from 'sinon';
 import {
   createGetHandler,
   createPutHandler,
   createPostHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 import { handleTokenRequest } from '../helpers';
 

@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
 import {
   createGetHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 
 import environment from '~/platform/utilities/environment';

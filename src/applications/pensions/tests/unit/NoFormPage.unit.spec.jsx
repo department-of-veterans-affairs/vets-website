@@ -1,10 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { render, waitFor } from '@testing-library/react';
-import { setupServer } from 'msw/node';
 import {
   createGetHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 import { expect } from 'chai';
 

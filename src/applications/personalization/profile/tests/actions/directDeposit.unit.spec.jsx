@@ -1,10 +1,10 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
 import {
   createGetHandler,
   createPutHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 
 import {

@@ -1,9 +1,9 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
 import {
   createGetHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 
 import { resetFetch } from '~/platform/testing/unit/helpers';

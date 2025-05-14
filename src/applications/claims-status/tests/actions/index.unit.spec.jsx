@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as api from '@department-of-veterans-affairs/platform-utilities/api';
-import { setupServer } from 'msw/node';
 import {
   createGetHandler,
   createPostHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 import * as constants from '../../constants';
 

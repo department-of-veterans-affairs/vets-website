@@ -2,11 +2,11 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   createGetHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 import IntroductionPage from '../../containers/IntroductionPage';
 

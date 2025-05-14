@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { setupServer } from 'msw/node';
 import {
   createGetHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 import {
   VERIFY_VA_FILE_NUMBER_SUCCEEDED,
