@@ -1,7 +1,14 @@
 /// <reference types="cypress" />
 
 import YAML from 'yaml';
-import mockUser from './fixtures/user.json';
+import mockUserDefault from './fixtures/userDefault.json';
+
+import mockMultipleInquiries from './fixtures/mockMultipleInquiries.json';
+import mockOneInquiry from './fixtures/mockOneInquiry.json';
+import mockNoInquiries from './fixtures/mockNoInquiries.json';
+
+import mockAVAProfile from './fixtures/userAVAProfile.json';
+import mockAVAProfileMissingInfo from './fixtures/userAVAProfileMissingInfo.json';
 
 import interceptAskVaResponses from './fixtures/api-mocks-for-ask-va';
 import interceptVaGovResponses from './fixtures/api-mocks-for-va-gov';
@@ -164,7 +171,25 @@ describe('YAML tests', () => {
           cy.log('-------------------');
 
           if (path === 'authenticated') {
-            cy.login();
+            if (['13g.yml', '17g.yml'].includes(file)) {
+              cy.intercept(
+                'GET',
+                '/v0/in_progress_forms/0873',
+                mockAVAProfileMissingInfo,
+              );
+            } else {
+              cy.intercept('GET', '/v0/in_progress_forms/0873', mockAVAProfile);
+            }
+            cy.login(mockUserDefault);
+          } else if (path === 'dashboard') {
+            if (['13g.yml', '17g.yml'].includes(file)) {
+              cy.intercept('GET', 'v0/inquiries', mockMultipleInquiries);
+            } else if (['14g.yml', '18g.yml'].includes(file)) {
+              cy.intercept('GET', 'v0/inquiries', mockOneInquiry);
+            } else {
+              cy.intercept('GET', 'v0/inquiries', mockNoInquiries);
+            }
+            cy.login(mockUserDefault);
           } else {
             cy.clearAllCookies();
           }
@@ -179,7 +204,7 @@ describe('YAML tests', () => {
         intercept3rdPartyResponses();
 
         // Intercept the user API request and log in
-        cy.intercept('GET', `/avs/v0/avs/*`, mockUser);
+        cy.intercept('GET', `/v0/user`, mockUserDefault);
         // cy.login();
         // cy.clearAllCookies();
 
