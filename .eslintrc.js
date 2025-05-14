@@ -16,10 +16,7 @@ module.exports = {
     sourceType: 'module',
     requireConfigFile: false,
     babelOptions: {
-      presets: [
-        '@babel/preset-env',
-        '@babel/preset-react',
-      ],
+      presets: ['@babel/preset-env', '@babel/preset-react'],
     },
   },
   plugins: ['react'],
