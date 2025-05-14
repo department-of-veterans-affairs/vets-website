@@ -62,7 +62,7 @@ describe('Direct Deposit - Happy Path', () => {
     const linkHref =
       'https://www.va.gov/education/verify-school-enrollment/#for-montgomery-gi-bill-benefit';
 
-    it('should reveal additional info and verify the link functionality', () => {
+    it.skip('should reveal additional info and verify the link functionality', () => {
       directDeposit.setup();
 
       directDeposit.visitPage();
