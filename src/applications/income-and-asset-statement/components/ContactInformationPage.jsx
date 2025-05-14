@@ -9,10 +9,11 @@ import { formatPhoneNumber } from '../helpers';
 
 const ContactInformation = ({ formData, router, setFormData }) => {
   const profile = useSelector(selectProfile);
-  const { email: profileEmail, phone: profilePhone } = profile || {};
+  const { userFullName, email: profileEmail, phone: profilePhone } =
+    profile || {};
   const { email, phone } = formData || {};
 
-  // Initialize email and phone if not already set in formData
+  // Initialize email and phone with user profile if not already set in formData
   useEffect(
     () => {
       const updatedFormData = { ...formData };
@@ -33,6 +34,25 @@ const ContactInformation = ({ formData, router, setFormData }) => {
       }
     },
     [email, phone, profileEmail, profilePhone, formData, setFormData],
+  );
+
+  // Since Contact Information always follows Personal Information, it’s a reliable
+  // checkpoint to add veteranFullName from user profile if it exists
+  useEffect(
+    () => {
+      if (
+        formData?.claimantType === 'VETERAN' &&
+        userFullName &&
+        JSON.stringify(formData?.veteranFullName) !==
+          JSON.stringify(userFullName)
+      ) {
+        setFormData({
+          ...formData,
+          veteranFullName: userFullName,
+        });
+      }
+    },
+    [formData, setFormData, userFullName],
   );
 
   const editEmailHref = '/contact/information/email';
@@ -62,7 +82,7 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         </p>
         <VaLink
           href={editEmailHref}
-          text={`${phone ? 'Edit' : 'Add'} >`}
+          text={`${email ? 'Edit' : 'Add'} >`}
           onClick={e => handleRouteChange(e, editEmailHref)}
         />
       </va-card>
@@ -95,6 +115,8 @@ ContactInformation.propTypes = {
   formData: PropTypes.shape({
     email: PropTypes.string,
     phone: PropTypes.string,
+    claimantType: PropTypes.string.isRequired,
+    veteranFullName: PropTypes.object,
   }),
   setFormData: PropTypes.func,
 };

@@ -1,4 +1,4 @@
-import ContactInformation from '../../../components/ContactInformation';
+import ContactInformationPage from '../../../components/ContactInformationPage';
 
 /** @type {PageSchema} */
 export default {
@@ -9,7 +9,7 @@ export default {
     return formData?.claimantType === 'VETERAN' && hasSession;
   },
   uiSchema: {
-    'ui:description': ContactInformation,
+    'ui:description': ContactInformationPage,
     'ui:options': {
       hideOnReview: true,
     },
