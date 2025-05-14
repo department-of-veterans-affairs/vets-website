@@ -187,7 +187,8 @@ The `generateSEIPdf` function requires the following fields from the `userProfil
 - `userProfile.userFullName.middle`: The user's middle name (optional)
 - `userProfile.userFullName.suffix`: The user's suffix (optional)
 - `userProfile.dob`: The user's date of birth (required)
-- The user must also have an icn and a correlation id
+- The user must also have an icn and a correlation id. 
+  However, these do not necessarily have to be passed as part of the userProfile object because they are only used at the server level and are pulled directly from the user there. 
 
 ---
 
