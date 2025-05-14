@@ -10,7 +10,7 @@ export function setFocus(selector) {
   }
 }
 
-export function setPageFocus(selector = 'va-breadcrumbs') {
+export function setPageFocus(selector = 'h1') {
   const el = document.querySelector(selector);
   if (el) {
     scrollAndFocus(el);
@@ -19,7 +19,7 @@ export function setPageFocus(selector = 'va-breadcrumbs') {
   }
 }
 
-export function setUpPage(scroll = true, focusSelector = 'va-breadcrumbs') {
+export function setUpPage(scroll = true, focusSelector = 'h1') {
   if (!scroll) {
     scrollToTop();
   }
