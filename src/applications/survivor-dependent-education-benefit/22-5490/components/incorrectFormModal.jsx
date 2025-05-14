@@ -64,7 +64,7 @@ const IncorrectFormModal = props => {
     <VaModal
       modalTitle="This application may not be the best fit for you"
       visible={modalVisible}
-      onCloseEvent={secondaryClick}
+      onCloseEvent={handleClose}
       onPrimaryButtonClick={handleClose}
       onSecondaryButtonClick={secondaryClick}
       primaryButtonText="Yes, continue"
