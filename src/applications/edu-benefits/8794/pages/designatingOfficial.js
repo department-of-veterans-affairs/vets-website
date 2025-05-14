@@ -1,9 +1,4 @@
 import React from 'react';
-// import {
-//   textSchema,
-//   textUI,
-// } from 'platform/forms-system/src/js/web-component-patterns/textPatterns';
-// import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import {
   titleUI,
   radioSchema,
@@ -12,6 +7,10 @@ import {
   textUI,
   phoneUI,
   phoneSchema,
+  internationalPhoneUI,
+  internationalPhoneSchema,
+  emailUI,
+  emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const phoneLabels = {
@@ -96,27 +95,66 @@ const uiSchema = {
         required: 'Select a type of phone number',
       },
     }),
-    phoneNumber: phoneUI({
-      title: 'Phone number',
-      hint: 'For US phone numbers. Enter a 10-digit phone number.',
-      errorMessages: {
+    phoneNumber: {
+      ...phoneUI({
+        title: 'Phone number',
+        hint: 'For US phone numbers. Enter a 10-digit phone number.',
+      }),
+      'ui:errorMessages': {
+        pattern: 'Enter a 10-digit phone number (with or without dashes)',
         required: 'Enter a 10-digit phone number (with or without dashes)',
       },
+    },
+    internationalPhoneNumber: {
+      ...internationalPhoneUI({
+        title: 'International phone number',
+        hint:
+          'For non-US phone numbers. Enter a phone number with up to 15 digits.',
+      }),
+      'ui:errorMessages': {
+        pattern: 'Enter a phone number with up to 15 digits',
+        required: 'Enter a phone number with up to 15 digits',
+      },
+    },
+    emailAddress: emailUI({
+      title: 'Email address',
+      errorMessages: {
+        required:
+          'Enter a valid email address without spaces using this format: email@domain.com',
+      },
     }),
-    // 'ui:options': {
-    //     // Use updateSchema to set
-    //     updateSchema: (formData, formSchema) => {
-    //     //   if (formSchema.properties.otherProgramOrBenefit['ui:collapsed']) {
-    //     //     return { ...formSchema, required: ['typeOfProgramOrBenefit'] };
-    //     //   }
-    //     //   return {
-    //     //     ...formSchema,
-    //     //     required: ['typeOfProgramOrBenefit', 'otherProgramOrBenefit'],
-    //     //   };
-    //     console.log('formSchema', formSchema);
-    //     console.log('formData', formData);
-    //     },
-    //   },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (formData.designatingOfficial.phoneType === 'us') {
+          return {
+            ...formSchema,
+            required: [
+              'first',
+              'last',
+              'title',
+              'phoneType',
+              'phoneNumber',
+              'emailAddress',
+            ],
+          };
+        }
+        if (formData.designatingOfficial.phoneType === 'intl') {
+          return {
+            ...formSchema,
+            required: [
+              'first',
+              'last',
+              'title',
+              'phoneType',
+              'internationalPhoneNumber',
+              'emailAddress',
+            ],
+          };
+        }
+
+        return { ...formSchema };
+      },
+    },
   },
 };
 
@@ -132,8 +170,10 @@ const schema = {
         title: textSchema,
         phoneType: radioSchema(Object.keys(phoneLabels)),
         phoneNumber: phoneSchema,
+        internationalPhoneNumber: internationalPhoneSchema,
+        emailAddress: emailSchema,
       },
-      required: ['first', 'last', 'title', 'phoneType'],
+      required: ['first', 'last', 'title', 'phoneType', 'emailAddress'],
     },
   },
 };
