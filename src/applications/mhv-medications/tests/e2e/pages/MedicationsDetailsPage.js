@@ -773,6 +773,51 @@ class MedicationsDetailsPage {
     );
     expect(formattedDate).to.equal(expectedDate);
   };
+
+  formatToEDTString(date) {
+    return `${date
+      .toLocaleString('en-US', {
+        weekday: 'short',
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZone: 'America/New_York',
+        hour12: false,
+      })
+      .replace(',', '')
+      .replace(' at', '')} EDT`;
+  }
+
+  updateCompleteDateTime(data, prescriptionName) {
+    const fourteenDaysAgo = new Date();
+    fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 13);
+    const formattedDate = this.formatToEDTString(fourteenDaysAgo);
+
+    return {
+      ...data,
+      data: data.data.map(
+        item =>
+          item.attributes.prescriptionName === prescriptionName
+            ? {
+                ...item,
+                attributes: {
+                  ...item.attributes,
+                  tracking: true,
+                  trackingList: [
+                    {
+                      ...item.attributes.trackingList[0],
+                      completeDateTime: formattedDate,
+                    },
+                  ],
+                },
+              }
+            : item,
+      ),
+    };
+  }
 }
 
 export default MedicationsDetailsPage;
