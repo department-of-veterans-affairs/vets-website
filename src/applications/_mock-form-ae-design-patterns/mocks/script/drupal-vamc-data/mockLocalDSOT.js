@@ -18,7 +18,7 @@ const findBuildRoot = startDir => {
     currentDir = path.dirname(currentDir);
   }
 
-  throw new Error('Could not find .build directory in parent directories');
+  throw new Error('Could not find build directory in parent directories');
 };
 
 const buildRoot = findBuildRoot(__dirname);
