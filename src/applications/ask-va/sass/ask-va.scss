@@ -395,7 +395,7 @@ ul.react-tabs__tab-list {
   padding: 24px;
 
   @include media($medium-screen) {
-    height: 346px;
+    height: 365px;
   }
 }
 
@@ -424,10 +424,9 @@ ul.react-tabs__tab-list {
   line-height: 1.5;
   font-size: 16px;
   box-sizing: border-box;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  border-top: 1px solid var(--vads-color-base-lighter);
-  margin-top: 0;
+  padding-top: 0px;
+  padding-bottom: 70px;
+  margin-top: 0px;
 }
 
 .vacardSelectFilters {
@@ -571,7 +570,7 @@ div.form-review-array:has(> div[name="fileUpload"]) {
   margin-top: 0;
 }
 
-dl.review-row:has(> div.review-page-attachments) {
+div.review-row:has(> div.review-page-attachments) {
   flex-direction: column;
 }
 

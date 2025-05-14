@@ -23,6 +23,8 @@ const selectorShorthand = {
   SELECT_BRANCH_OF_SERVICE: "va-select[name='root_yourBranchOfService']",
   SELECT_BRANCH_OF_SERVICE_ABOUT_YOU:
     "va-select[name='root_aboutYourself_branchOfService']",
+  SELECT_BRANCH_OF_SERVICE_VETERAN:
+    "va-select[name='root_aboutTheVeteran_branchOfService']",
   SELECT_COUNTRY: "va-select[name='root_address_country']",
   SELECT_STATE: "va-select[name='root_address_state']",
   SELECT_MONTH: 'va-select.usa-form-group--month-select',
@@ -62,6 +64,7 @@ const selectorShorthand = {
     "va-text-input[name='root_aboutTheFamilyMember_socialOrServiceNum_ssn']",
   SELECT_SCHOOL: "va-select[name='schoolState']",
   SELECT_FACILITY: "va-select[name='root_stateOfTheFacility']",
+  SELECT_PROPERTY_STATE: "va-select[name='root_stateOfProperty']",
 };
 /*
 
@@ -154,10 +157,10 @@ const clickCallToActionButton = (isPrimary = true, text) => {
       .should('exist');
     cy.get(`.usa-button${selectorPrimary}`, { includeShadowDom: true })
       .contains(text)
-      .click();
+      .click({ force: true });
   } else {
     cy.get(`.usa-button${selectorPrimary}`).should('exist');
-    cy.get(`.usa-button${selectorPrimary}`).click();
+    cy.get(`.usa-button${selectorPrimary}`).click({ force: true });
   }
 };
 

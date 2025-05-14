@@ -177,22 +177,22 @@ const ReviewPage = props => {
           // setIsDisabled(false);
           // TODO - need error modal instead of forwarding to confirmation per final design
           // Temporary alert dialog for testing
-          setShow503Alert(true);
           scroller.scrollTo('topScrollElement', {
             duration: 500,
             delay: 0,
             smooth: true,
           });
+          setShow503Alert(true);
         },
       });
     } catch (_error) {
       setIsDisabled(false);
-      setShow503Alert(true);
       scroller.scrollTo('topScrollElement', {
         duration: 500,
         delay: 0,
         smooth: true,
       });
+      setShow503Alert(true);
       // TODO - need error modal instead of forwarding to confirmation per final design
       // Temporary alert dialog for testing
     }
@@ -219,10 +219,10 @@ const ReviewPage = props => {
 
     return (
       <div className="vads-u-display--flex vads-u-justify-content--space-between">
-        <dt className="vads-u-margin-right--2">Attachments</dt>
+        <div className="vads-u-margin-right--2">Attachments</div>
         <div>
           {displayData.map(file => (
-            <dd
+            <div
               className="vads-u-margin-bottom--2 vads-u-color--link-default"
               key={`${file.id}-${file.name}`}
             >
@@ -232,7 +232,7 @@ const ReviewPage = props => {
                 fileName={file.name}
                 fileSize={file.size}
               />
-            </dd>
+            </div>
           ))}
         </div>
       </div>
@@ -1333,14 +1333,14 @@ const ReviewPage = props => {
                         <div name="questionScrollElement" />
                         <form className="rjsf">
                           <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
-                            <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
-                              <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
+                            <div className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
+                              <div className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
                                 {!editAttachments ? (
                                   nonEditAttachmentsMode()
                                 ) : (
                                   <>
                                     {attachments.map(file => (
-                                      <div
+                                      <dl
                                         key={`${file.fileID}-${
                                           file.fileName
                                         }-edit`}
@@ -1359,15 +1359,15 @@ const ReviewPage = props => {
                                             }
                                           />
                                         </dd>
-                                      </div>
+                                      </dl>
                                     ))}
                                     <div className="vads-u-margin-y--2">
                                       <FileUpload />
                                     </div>
                                   </>
                                 )}
-                              </dl>
-                            </dl>
+                              </div>
+                            </div>
                           </div>
                         </form>
                       </div>

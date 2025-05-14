@@ -1,15 +1,16 @@
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/dom';
 import { addDays, format, subDays } from 'date-fns';
 import MockDate from 'mockdate';
 import React from 'react';
-import reducers from '../redux/reducer';
+import ReferralsAndRequests from './ReferralsAndRequests';
 import { getVAOSRequestMock } from '../tests/mocks/mock';
+import reducers from '../redux/reducer';
 import { mockAppointmentsApi } from '../tests/mocks/mockApis';
 import { getTestDate, renderWithStoreAndRouter } from '../tests/mocks/setup';
 import { FETCH_STATUS } from '../utils/constants';
-import ReferralsAndRequests from './ReferralsAndRequests';
 import { createReferrals } from './utils/referrals';
 
 const initialStateVAOSService = {
@@ -32,7 +33,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     const initialState = {
       ...initialStateVAOSService,
       referral: {
-        referrals: createReferrals(3),
+        referrals: createReferrals(3, '2025-01-01'),
         referralsFetchStatus: FETCH_STATUS.succeeded,
       },
       appointments: {
@@ -43,14 +44,17 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
-    expect(screen.getByText('Referrals and requests')).to.exist;
-    expect(screen.getByTestId('referral-list')).to.exist;
+
+    waitFor(() => {
+      expect(screen.getByText('Referrals and requests')).to.exist;
+      expect(screen.getByTestId('referral-list')).to.exist;
+    });
   });
   it('should display error message if both calls fail', async () => {
     const initialState = {
       ...initialStateVAOSService,
       referral: {
-        referrals: createReferrals(3),
+        referrals: createReferrals(3, '2025-01-01'),
         referralsFetchStatus: FETCH_STATUS.failed,
       },
       appointments: {
@@ -61,9 +65,12 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
-    expect(screen.getByText('We’re sorry. We’ve run into a problem')).to.exist;
+    waitFor(() => {
+      expect(screen.getByText('We’re sorry. We’ve run into a problem')).to
+        .exist;
+    });
   });
-  it('should display error message if both calls fail', async () => {
+  it('should display error message if both calls fail if failed action is called', async () => {
     const initialState = {
       ...initialStateVAOSService,
       referral: {
@@ -78,7 +85,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
-    expect(screen.getByText('We’re sorry. We’ve run into a problem')).to.exist;
+    waitFor(() => {
+      expect(screen.getByText('We’re sorry. We’ve run into a problem')).to
+        .exist;
+    });
   });
   it('should display loading if one or more are loading', async () => {
     const initialState = {
@@ -112,11 +122,13 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
-    expect(
-      screen.getByText(
-        'We’re having trouble getting your community care referrals. Please try again later.',
-      ),
-    ).to.exist;
+    waitFor(() => {
+      expect(
+        screen.getByText(
+          'We’re having trouble getting your community care referrals. Please try again later.',
+        ),
+      ).to.exist;
+    });
   });
   it('should display requests error message if requests fail', async () => {
     const initialState = {
@@ -133,11 +145,14 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
-    expect(
-      screen.getByText(
-        'We’re having trouble getting your requests. Please try again later.',
-      ),
-    ).to.exist;
+
+    waitFor(() => {
+      expect(
+        screen.getByText(
+          'We’re having trouble getting your requests. Please try again later.',
+        ),
+      ).to.exist;
+    });
   });
   it('should display no referrals message if there are no referrals', async () => {
     const initialState = {
@@ -154,7 +169,9 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
-    expect(screen.getByText('You don’t have any referrals')).to.exist;
+    waitFor(() => {
+      expect(screen.getByText('You don’t have any referrals')).to.exist;
+    });
   });
 
   it('should display pending and canceled appointments grouped', async () => {
@@ -230,6 +247,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -310,6 +331,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -327,7 +352,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     expect(
       screen.queryByRole('heading', {
         level: 3,
-        name: /You don’t have any/,
+        name: 'You don’t have any appointment requests',
       }),
     ).not.to.be.ok;
   });
@@ -346,6 +371,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -354,7 +383,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     expect(
       await screen.findByRole('heading', {
         level: 2,
-        name: /You don’t have any/,
+        name: 'You don’t have any appointment requests',
       }),
     ).to.be.ok;
     expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
@@ -429,6 +458,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -446,7 +479,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: /You don’t have any/,
+        name: 'You don’t have any appointment requests',
       }),
     ).to.be.ok;
   });

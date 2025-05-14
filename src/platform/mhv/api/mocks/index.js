@@ -57,6 +57,8 @@ const seiMilitaryHealthHistory = require('./medical-records/self-entered/seiMili
 const seiTreatmentFacilities = require('./medical-records/self-entered/seiTreatmentFacilities');
 const seiVaccines = require('./medical-records/self-entered/seiVaccines');
 const seiVitals = require('./medical-records/self-entered/seiVitals');
+const seiAllDomains = require('./medical-records/self-entered/allDomains');
+
 const imaging = require('./medical-records/mhv-radiology/imaging');
 const imagingStatus = require('./medical-records/mhv-radiology/imaging-status');
 const imagingRequest = require('./medical-records/mhv-radiology/imaging-request');
@@ -205,6 +207,7 @@ const responses = {
   'GET /my_health/v1/medical_records/self_entered/treatment_facilities': seiTreatmentFacilities,
   'GET /my_health/v1/medical_records/self_entered/vaccines': seiVaccines,
   'GET /my_health/v1/medical_records/self_entered/vitals': seiVitals,
+  'GET /my_health/v1/medical_records/self_entered': seiAllDomains,
 
   'GET /my_health/v1/medical_records/imaging': imaging,
   'GET /my_health/v1/medical_records/imaging/status': imagingStatus,

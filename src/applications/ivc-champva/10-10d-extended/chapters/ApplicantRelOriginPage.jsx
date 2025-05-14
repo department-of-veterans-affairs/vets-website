@@ -1,5 +1,4 @@
 import ApplicantRelationshipPage, {
-  ApplicantRelationshipReviewPage,
   appRelBoilerplate,
 } from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 
@@ -48,12 +47,4 @@ export function ApplicantRelOriginPage(props) {
     genOp: generateOptions,
   };
   return ApplicantRelationshipPage(newProps);
-}
-export function ApplicantRelOriginReviewPage(props) {
-  const newProps = {
-    ...props,
-    keyname: KEYNAME,
-    genOp: generateOptions,
-  };
-  return ApplicantRelationshipReviewPage(newProps);
 }

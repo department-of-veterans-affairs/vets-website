@@ -58,14 +58,14 @@ describe('VAOS Page: AppointmentsPage', () => {
       start: subDays(new Date(), 120),
       end: addDays(new Date(), 1),
       statuses: ['proposed', 'cancelled'],
-      response: [MockAppointmentResponse.createCCResponse()],
+      response: MockAppointmentResponse.createCCResponses(),
     });
     mockAppointmentsApi({
       start: subDays(new Date(), 120),
       end: addDays(new Date(), 1),
       includes: ['facilities', 'clinics', 'eps'],
       statuses: ['proposed', 'cancelled'],
-      response: [MockAppointmentResponse.createCCResponse()],
+      response: MockAppointmentResponse.createCCResponses(),
     });
   });
   afterEach(() => {
@@ -123,7 +123,9 @@ describe('VAOS Page: AppointmentsPage', () => {
     );
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/new-appointment'),
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/schedule/type-of-care',
+      ),
     );
   });
 

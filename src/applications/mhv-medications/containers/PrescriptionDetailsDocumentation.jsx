@@ -207,13 +207,15 @@ const PrescriptionDetailsDocumentation = () => {
         <h1 data-testid="medication-information-title" data-dd-privacy="mask">
           Medication information: {prescription?.prescriptionName}
         </h1>
-        <PrintDownload
-          onPrint={printPage}
-          onDownload={downloadFile}
-          isSuccess={isSuccess}
-          isLoading={isLoading}
-        />
-        <BeforeYouDownloadDropdown page={pageType.DOCUMENTATION} />
+        <div className="no-print">
+          <PrintDownload
+            onPrint={printPage}
+            onDownload={downloadFile}
+            isSuccess={isSuccess}
+            isLoading={isLoading}
+          />
+          <BeforeYouDownloadDropdown page={pageType.DOCUMENTATION} />
+        </div>
         <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter vads-u-margin-y--5" />
         <va-on-this-page />
         <p data-testid="medication-information-warning">

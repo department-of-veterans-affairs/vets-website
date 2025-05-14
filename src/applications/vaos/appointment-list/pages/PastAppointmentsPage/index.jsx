@@ -45,7 +45,6 @@ export default function PastAppointmentsPage() {
     pastAppointmentsByMonth,
     pastStatus,
     pastSelectedIndex,
-    hasTypeChanged,
   } = useSelector(state => getPastAppointmentListInfo(state), shallowEqual);
   const pastAppointments = useSelector(state => selectPastAppointments(state));
 
@@ -64,14 +63,12 @@ export default function PastAppointmentsPage() {
   useEffect(
     () => {
       if (pastStatus === FETCH_STATUS.succeeded && !isInitialMount) {
-        scrollAndFocus('h3');
-      } else if (hasTypeChanged && pastStatus === FETCH_STATUS.succeeded) {
-        scrollAndFocus('#type-dropdown');
-      } else if (hasTypeChanged && pastStatus === FETCH_STATUS.failed) {
+        scrollAndFocus('#appointment-count');
+      } else if (pastStatus === FETCH_STATUS.failed) {
         scrollAndFocus('h3');
       }
     },
-    [isInitialMount, pastStatus, hasTypeChanged],
+    [isInitialMount, pastStatus],
   );
 
   const onDateRangeChange = index => {
@@ -100,27 +97,9 @@ export default function PastAppointmentsPage() {
   ) {
     return (
       <>
-        {dropdown}
         <div className="vads-u-margin-y--8">
           <va-loading-indicator
-            set-focus={hasTypeChanged || !isInitialMount}
-            message="Loading your past appointments..."
-          />
-        </div>
-      </>
-    );
-  }
-
-  if (
-    pastStatus === FETCH_STATUS.loading ||
-    pastStatus === FETCH_STATUS.notStarted
-  ) {
-    return (
-      <>
-        {dropdown}
-        <div className="vads-u-margin-y--8">
-          <va-loading-indicator
-            set-focus={hasTypeChanged || !isInitialMount}
+            set-focus={!isInitialMount}
             message="Loading your past appointments..."
           />
         </div>
@@ -166,7 +145,10 @@ export default function PastAppointmentsPage() {
         {dateRangeOptions[pastSelectedIndex]?.label}
       </div>
 
-      <div className="vads-u-margin-bottom--2 vads-u-font-style--italic">
+      <div
+        id="appointment-count"
+        className="vads-u-margin-bottom--2 vads-u-font-style--italic"
+      >
         Showing {pastAppointments.length} appointments between today and{' '}
         {format(
           dateRangeOptions[pastSelectedIndex].startDateRaw,
