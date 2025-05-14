@@ -37,6 +37,14 @@ const errorReferralsList = [
       referralId: 'VA0000009880-draft-no-active-slots-error',
     },
   },
+  {
+    attributes: {
+      expirationDate: '2025-11-14',
+      uuid: 'VA0000009880-appointment-details-error',
+      categoryOfCare: 'appointment details error',
+      referralId: 'VA0000009880-appointment-details-error',
+    },
+  },
 ];
 
 /**

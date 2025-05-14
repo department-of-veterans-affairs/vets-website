@@ -484,6 +484,10 @@ const responses = {
       successPollCount = 1000;
     }
 
+    if (appointmentId === 'EEKoGzEf-appointment-details-error') {
+      return res.status(500).json({ error: true });
+    }
+
     if (appointmentId === 'eps-error-appointment-id') {
       return res.status(400).json({ error: true });
     }
