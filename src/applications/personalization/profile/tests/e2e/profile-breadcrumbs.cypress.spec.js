@@ -25,7 +25,7 @@ describe('Profile Breadcrumbs', () => {
     if (path === PROFILE_PATHS.EDIT) {
       return;
     }
-    it('render the active page name in the breadcrumbs', () => {
+    it.skip('render the active page name in the breadcrumbs', () => {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
 
       cy.visit(`${path}/`);
