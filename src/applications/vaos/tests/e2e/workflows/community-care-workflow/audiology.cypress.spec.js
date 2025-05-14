@@ -104,8 +104,7 @@ describe('VAOS community care flow - Audiology', () => {
         id: 'mock1',
         localStartTime: new Date(),
         status: 'proposed',
-        serviceType: 'audiology',
-      });
+      }).setTypeOfCare('audiology');
       mockAppointmentGetApi({
         response,
       });
