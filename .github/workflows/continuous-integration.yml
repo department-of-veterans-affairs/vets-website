@@ -1221,7 +1221,7 @@ jobs:
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
 
       - name: Upload Unit Test Stability Review Report to S3
-        run: aws s3 cp qa-standards-dashboard-data/vets-website-unit-test-stress-test-reports s3://testing-tools-testing-reports/vets-website-unit-test-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
+        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
       # | Unit Tests Summary |
