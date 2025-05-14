@@ -477,13 +477,20 @@ const responses = {
       epsAppointmentUtils.appointmentData,
     );
 
-    if (appointmentId === 'timeout-appointment-id') {
+    if (
+      appointmentId === 'timeout-appointment-id' ||
+      appointmentId === 'EEKoGzEf-complete-retry-error'
+    ) {
       // Set a very high poll count to simulate a timeout
       successPollCount = 1000;
     }
 
     if (appointmentId === 'eps-error-appointment-id') {
       return res.status(400).json({ error: true });
+    }
+
+    if (appointmentId === 'EEKoGzEf-complete-error') {
+      return res.status(500).json({ error: true });
     }
 
     // Check if the request is coming from the details page
