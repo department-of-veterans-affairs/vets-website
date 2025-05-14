@@ -147,7 +147,7 @@
           "employmentRecords": [
           {
               "type":   "Full time",
-              "from":   "2020-3-XX",
+              "from":   "2020-03-01",
               "to":   "",
               "isCurrent": true,
               "employerName":   "Veteran Current",
@@ -165,8 +165,8 @@
             },
           {
               "type":   "Part time",
-              "from":   "2017-1-XX",
-              "to":   "2020-2",
+              "from":   "2017-01-01",
+              "to":   "2020-02-01",
               "isCurrent": false,
               "employerName":   "Veteran Previous"
             }
@@ -176,7 +176,7 @@
           "spEmploymentRecords": [
           {
               "type":   "Full time",
-              "from":   "2018-6-XX",
+              "from":   "2018-06-01",
               "to":   "",
               "isCurrent": true,
               "employerName":   "Spouse Current",
@@ -190,8 +190,8 @@
             },
           {
               "type":   "Full time",
-              "from":   "2015-3-XX",
-              "to":   "2018-6-XX",
+              "from":   "2015-03-01",
+              "to":   "2018-06-01",
               "employerName":   "Spouse Previous",
               "isCurrent": false
             }
@@ -391,8 +391,10 @@
     "view:reviewPageNavigationToggle": true,
     "view:showUpdatedExpensePages": true,
     "income": [
-    {
-        "veteranOrSpouse":   "VETERAN"
+      {
+        "veteranOrSpouse":   "VETERAN",
+        "compensationAndPension": "3261.1",
+        "education": "50"
       }
     ],
     "gmtData": {
