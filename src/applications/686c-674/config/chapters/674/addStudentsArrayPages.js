@@ -198,6 +198,7 @@ export const studentIncomePage = {
         N: 'No',
         NA: 'This question doesn’t apply to me',
       },
+      required: () => true,
     }),
   },
   schema: {
