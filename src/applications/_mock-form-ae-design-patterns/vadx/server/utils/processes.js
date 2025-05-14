@@ -59,6 +59,15 @@ function addToCache(name, type, data) {
   }
 }
 
+const frontendLogAmendments = [
+  {
+    messagePattern: 'webpack compiled \x1B[1m\x1B[32msuccessfully',
+    message:
+      'VADX available at http://localhost:3000/_mock-form-ae-design-patterns/vadx',
+    type: 'stdout',
+  },
+];
+
 // Modify setupProcessHandlers to include status events
 function setupProcessHandlers(childProcess, procName, metadata) {
   addToCache(procName, 'status', {
@@ -83,6 +92,15 @@ function setupProcessHandlers(childProcess, procName, metadata) {
 
   childProcess.stdout.on('data', data => {
     logger.process(procName, 'stdout', data);
+    frontendLogAmendments.forEach(amendment => {
+      if (
+        data.toString().includes(amendment.messagePattern) &&
+        !data.toString().includes(amendment.message)
+      ) {
+        logger.process(procName, 'stdout', amendment.message);
+        addToCache(procName, 'stdout', amendment.message);
+      }
+    });
     addToCache(procName, 'stdout', data);
   });
 

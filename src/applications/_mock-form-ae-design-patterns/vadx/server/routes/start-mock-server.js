@@ -20,6 +20,9 @@ router.post('/start-mock-server', async (req, res) => {
   // Normalize the path for comparison just in case there are any issues with the path string
   const normalizedPath = path.normalize(responsesPath).replace(/\\/g, '/');
 
+  // TODO: parse the manifests and see if there is a mock server path specified and add those to the allowed paths
+  // const { mockPaths } = useMockServerProcessor(allManifests, constants.MOCK_SERVER_PATHS);
+
   const matchingPathIndex = MOCK_SERVER_PATHS.findIndex(
     allowedPath =>
       path.normalize(allowedPath).replace(/\\/g, '/') === normalizedPath,
