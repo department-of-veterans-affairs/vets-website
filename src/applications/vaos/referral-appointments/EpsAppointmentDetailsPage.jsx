@@ -106,7 +106,7 @@ export default function EpsAppointmentDetailsPage() {
             href="/my-health/appointments"
             onClick={e => {
               e.preventDefault();
-              history.push('/my-health/appointments');
+              history.push('/');
             }}
           />
         </nav>
