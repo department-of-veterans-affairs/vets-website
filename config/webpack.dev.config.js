@@ -49,6 +49,12 @@ function generateWebpackDevConfig(buildOptions) {
       watch: {
         poll: 1000,
       },
+      serveIndex: true,
+      staticOptions: {
+        headers: {
+          'Cache-Control': 'public, max-age=31536000, immutable',
+        },
+      },
     },
     port: buildOptions.port,
     host: buildOptions.host,

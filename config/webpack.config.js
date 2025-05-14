@@ -11,7 +11,6 @@ const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 const StylelintPlugin = require('stylelint-webpack-plugin');
@@ -305,11 +304,10 @@ module.exports = async (env = {}) => {
     devtool: false,
     entry: entryFiles,
     output: {
-      path: path.resolve(buildPath, 'generated'),
+      filename: '[name].[contenthash].js',
+      chunkFilename: '[name].[contenthash].js',
+      path: path.resolve(__dirname, '../build', buildtype),
       publicPath: '/generated/',
-      filename: '[name].[contenthash].entry.js',
-      chunkFilename: '[name].[contenthash].entry.js',
-      assetModuleFilename: '[name].[contenthash][ext]',
     },
     module: {
       strictExportPresence: true,
@@ -419,30 +417,14 @@ module.exports = async (env = {}) => {
       symlinks: false,
     },
     optimization: {
-      // 'chunkIds' and 'moduleIds' are set to 'named' for preserving
-      // consistency between full and single app builds
-      chunkIds: 'named',
-      moduleIds: 'named',
-      minimizer: [
-        new TerserPlugin({
-          terserOptions: {
-            output: {
-              beautify: false,
-              comments: false,
-            },
-            warnings: false,
-          },
-          parallel: true,
-        }),
-      ],
+      moduleIds: 'deterministic',
+      runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
-          // this needs to be "vendors" to overwrite a default group
-          vendors: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
             chunks: 'all',
-            test: 'vendor',
-            name: 'vendor',
-            enforce: true,
           },
         },
       },
