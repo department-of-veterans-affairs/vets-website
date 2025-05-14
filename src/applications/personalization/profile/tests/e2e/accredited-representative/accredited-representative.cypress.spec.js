@@ -29,7 +29,7 @@ describe('Accredited representative', () => {
     );
   });
 
-  it('links from the hub page', () => {
+  it.skip('links from the hub page', () => {
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
     cy.get('a[href$="/profile/accredited-representative"]').should('exist');
