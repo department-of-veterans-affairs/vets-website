@@ -555,6 +555,14 @@ class PatientComposePage {
     cy.get(Locators.BUTTONS.DELETE_DRAFT).click();
     cy.get(Locators.BUTTONS.DELETE_CONFIRM).click();
   };
+
+  interceptSentFolder = () => {
+    cy.intercept(
+      'GET',
+      `my_health/v1/messaging/folders/-1/threads*`,
+      mockThreadResponse,
+    ).as('sentFolder');
+  };
 }
 
 export default new PatientComposePage();
