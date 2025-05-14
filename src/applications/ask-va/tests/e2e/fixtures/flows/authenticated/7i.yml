@@ -8,6 +8,10 @@ flow:
 
     - action: include
       target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
       value: select-category-benefits-issues-outside-the-us
 
     - action: include
@@ -28,19 +32,19 @@ flow:
 
     - action: include
       target: page
+      value: do-you-want-to-use-your-school-info-no-update
+
+    - action: include
+      target: page
       value: school-information
 
     - action: include
       target: page
-      value: do-you-want-to-save-your-school-info
+      value: do-you-want-to-save-your-school-info-yes-replace
 
     - action: include
       target: page
-      value: tell-us-about-yourself-general
-
-    - action: include
-      target: page
-      value: your-contact-information-business-no-prefill
+      value: your-contact-information
 
     - action: include
       target: page

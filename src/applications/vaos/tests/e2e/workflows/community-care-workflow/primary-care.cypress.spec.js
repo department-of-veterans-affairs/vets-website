@@ -40,7 +40,6 @@ describe('VAOS community care flow - Primary care', () => {
       id: 'mock1',
       localStartTime: new Date(),
       status: APPOINTMENT_STATUS.proposed,
-      serviceType: 'primaryCare',
     });
     mockAppointmentGetApi({
       response,

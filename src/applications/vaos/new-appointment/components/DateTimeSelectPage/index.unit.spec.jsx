@@ -7,11 +7,9 @@ import {
   add,
   addDays,
   addHours,
-  addMinutes,
   addMonths,
   endOfMonth,
   format,
-  formatRFC3339,
   nextThursday,
   nextTuesday,
   setDay,
@@ -36,7 +34,7 @@ import {
 
 import DateTimeSelectPage from '.';
 import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
-import { getAppointmentSlotMock } from '../../../tests/mocks/mock';
+import MockSlotResponse from '../../../tests/fixtures/MockSlotResponse';
 import {
   mockAppointmentSlotApi,
   mockEligibilityFetches,
@@ -60,7 +58,6 @@ function setDateTimeSelectMockFetchesBase({
   preferredDate = new Date(),
   slotError = false,
   slotDatesByClinicId = {},
-  dateToStartEnd = _ => {},
 } = {}) {
   const clinicIds = Object.keys(slotDatesByClinicId);
   const clinics = MockClinicResponse.createResponses({
@@ -90,10 +87,7 @@ function setDateTimeSelectMockFetchesBase({
   if (!slotError) {
     clinicIds.forEach(id => {
       const slots = slotDatesByClinicId[id].map(date => {
-        return {
-          ...getAppointmentSlotMock(),
-          attributes: dateToStartEnd(date),
-        };
+        return new MockSlotResponse({ id, duration: 20, start: date });
       });
       mockAppointmentSlotApi({
         facilityId: '983',
@@ -116,12 +110,6 @@ function setDateTimeSelectMockFetches({
     preferredDate,
     slotError,
     slotDatesByClinicId,
-    dateToStartEnd: date => {
-      return {
-        start: formatRFC3339(date),
-        end: formatRFC3339(new Date(new Date(date).setMinutes(20))),
-      };
-    },
   });
 }
 
@@ -136,16 +124,6 @@ function setDateTimeSelectMockFetchesDateFns({
     preferredDate,
     slotError,
     slotDatesByClinicId,
-    dateToStartEnd: date => {
-      return {
-        start: formatInTimeZone(date, 'UTC', "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        end: formatInTimeZone(
-          addMinutes(new Date(date), 20),
-          'UTC',
-          "yyyy-MM-dd'T'HH:mm:ss'Z'",
-        ),
-      };
-    },
   });
 }
 
@@ -922,21 +900,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       facilityId,
       clinicId: '308',
       response: [
-        {
-          ...getAppointmentSlotMock(),
-          attributes: {
-            start: formatInTimeZone(
-              secondSlotDate,
-              'UTC',
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
-            ),
-            end: formatInTimeZone(
-              addMinutes(new Date(secondSlotDate), 20),
-              'UTC',
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
-            ),
-          },
-        },
+        new MockSlotResponse({ id: '1', start: secondSlotDate, duration: 20 }),
       ],
       startDate: startOfMonth(secondSlotDate),
       endDate: startOfDay(endOfMonth(secondSlotDate)),
