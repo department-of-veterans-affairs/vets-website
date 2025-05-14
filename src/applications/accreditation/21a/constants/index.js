@@ -16,8 +16,3 @@ export const SIGN_OUT_URL = (() => {
   );
   return url;
 })();
-
-// Dummy code below
-export default function Index() {
-  return null;
-}
