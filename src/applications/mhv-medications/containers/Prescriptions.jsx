@@ -812,6 +812,7 @@ const Prescriptions = () => {
               {!isLoading && renderMedicationsList()}
               {!isLoading && (
                 <>
+                  <BeforeYouDownloadDropdown page={pageType.LIST} />
                   <PrintDownload
                     onDownload={handleFullListDownload}
                     isSuccess={
@@ -825,7 +826,6 @@ const Prescriptions = () => {
                     }
                     list
                   />
-                  <BeforeYouDownloadDropdown page={pageType.LIST} />
                 </>
               )}
             </>
