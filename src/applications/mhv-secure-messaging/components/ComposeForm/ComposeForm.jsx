@@ -865,7 +865,6 @@ const ComposeForm = props => {
                 setComboBoxInputValue={setComboBoxInputValue}
               />
             )}
-
           <div className="compose-form-div">
             {noAssociations || allTriageGroupsBlocked ? (
               <ViewOnlyDraftSection
@@ -998,23 +997,9 @@ const ComposeForm = props => {
 };
 
 ComposeForm.propTypes = {
-  headerRef: PropTypes.object.isRequired,
-  pageTitle: PropTypes.string.isRequired,
-  recipients: PropTypes.shape({
-    noAssociations: PropTypes.bool,
-    allTriageGroupsBlocked: PropTypes.bool,
-    allowedRecipients: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        name: PropTypes.string,
-        type: PropTypes.string,
-        status: PropTypes.string,
-        signatureRequired: PropTypes.bool,
-      }),
-    ),
-  }).isRequired,
   draft: PropTypes.object,
-  signature: PropTypes.string,
+  recipients: PropTypes.object,
+  signature: PropTypes.object,
 };
 
 export default ComposeForm;
