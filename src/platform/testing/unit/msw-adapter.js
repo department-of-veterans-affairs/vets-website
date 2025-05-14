@@ -146,6 +146,56 @@ export function createPutHandler(url, handler, headers = {}) {
 }
 
 /**
+ * Creates a PATCH request handler with a consistent API
+ *
+ * @param {string} url - The URL to mock
+ * @param {Function} handler - Response handler function
+ * @param {Object} headers - Optional headers to include in the response
+ * @returns {Object} - MSW compatible request handler
+ */
+export function createPatchHandler(url, handler, headers = {}) {
+  if (mswVersion === 2) {
+    return mswModule.http.patch(url, async ({ params, request }) => {
+      return handler({
+        params,
+        request,
+        body: await request.json().catch(() => ({})),
+        headers,
+      });
+    });
+  }
+
+  // MSW v1
+  return mswModule.rest.patch(url, async (req, res, ctx) => {
+    // In MSW v1, we need to extract the body differently
+    let body = {};
+    try {
+      // Get the request body if available
+      body = req.body ? req.body : {};
+    } catch (e) {
+      // If parsing fails, use empty object
+      body = {};
+    }
+
+    const handlerResult = handler({
+      params: req.params,
+      request: req,
+      body,
+      headers,
+      res,
+      ctx,
+    });
+
+    // If the handler returns a function (for v1), execute it with res and ctx
+    if (typeof handlerResult === 'function') {
+      return handlerResult(res, ctx);
+    }
+
+    return handlerResult;
+  });
+}
+
+/**
  * Creates a DELETE request handler with a consistent API
  *
  * @param {string} url - The URL to mock
