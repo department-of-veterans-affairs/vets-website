@@ -4,6 +4,7 @@ import featureToggleClaimDetailV2Enabled from '../fixtures/mocks/lighthouse/feat
 import featureToggleClaimPhasesEnabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-phases-enabled.json';
 import featureToggle5103UpdateEnabled from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled.json';
 import featureToggle5103UpdateEnabledV2 from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled-v2.json';
+import featureToggleFriendlyEvidenceRequests from '../fixtures/mocks/lighthouse/feature-toggle-cst-friendly-evidence-requests.json';
 // END lighthouse_migration
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
@@ -17,6 +18,7 @@ class TrackClaimsPageV2 {
     cstClaimPhasesToggleEnabled = false,
     cst5103UpdateEnabled = false,
     cst5103UpdateEnabledV2 = false,
+    cstFriendlyEvidenceRequest = false,
   ) {
     if (submitForm) {
       cy.intercept('POST', `/v0/benefits_claims/189685/submit5103`, {
@@ -50,6 +52,13 @@ class TrackClaimsPageV2 {
         'GET',
         '/v0/feature_toggles?*',
         featureToggle5103UpdateEnabledV2,
+      );
+    } else if (cstFriendlyEvidenceRequest) {
+      // When cst_use_claim_details_v2 and cst_friendly_evidence_requests are enabled
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles?*',
+        featureToggleFriendlyEvidenceRequests,
       );
     } else {
       cy.intercept(
@@ -808,6 +817,32 @@ class TrackClaimsPageV2 {
       'contain',
       'Please upload your documents online here to help us process your claim quickly.',
     );
+  }
+
+  verifyFirstPartyFriendlyEvidenceRequest() {
+    cy.get('[data-testid="item-2"]')
+      .find('a.vads-c-action-link--blue')
+      .click();
+    cy.url().should('contain', '/needed-from-you/2');
+    cy.get('#default-page')
+      .should('be.visible')
+      .as('friendlyMessage');
+    cy.get('@friendlyMessage')
+      .find('h1')
+      .should('contain', 'Submit Buddy Statement(s)');
+    cy.get('@friendlyMessage')
+      .find('h2')
+      .should('contain', 'What we need from you');
+    cy.get('@friendlyMessage')
+      .find('h3')
+      .should('contain', 'Learn about this request in your claim letter');
+    cy.get('@friendlyMessage')
+      .find('p')
+      .last()
+      .should(
+        'contain',
+        'On January 1, 2022, we mailed you a letter titled, “Request for Specific Evidence or Information,” which may include more details about this request. You can access this and all your claim letters online.',
+      );
   }
 }
 
