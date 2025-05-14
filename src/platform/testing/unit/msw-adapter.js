@@ -332,9 +332,11 @@ export function delayedJsonResponse(data, delayMs = 200) {
 
 // Export setupServer with consistent API
 export const setupServer = (...handlers) => {
-  return mswVersion === 2
-    ? mswModule.setupServer(...handlers)
-    : require('msw/node').setupServer(...handlers);
+  if (mswVersion === 2) {
+    const { setupServer: setup } = require('msw/node');
+    return setup(...handlers);
+  }
+  return require('msw/node').setupServer(...handlers);
 };
 
 // Re-export original MSW methods for advanced use cases
