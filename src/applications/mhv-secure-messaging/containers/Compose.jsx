@@ -5,7 +5,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
 
 import { clearThread } from '../actions/threadDetails';
-import { getListOfThreads, setThreadSortOrder } from '../actions/threads';
+import { getListOfThreads } from '../actions/threads';
 import { closeAlert } from '../actions/alerts';
 import { getPatientSignature } from '../actions/preferences';
 import { retrieveMessageThread } from '../actions/messages';
@@ -18,6 +18,7 @@ import {
   Paths,
   BlockedTriageAlertStyles,
   DefaultFolders,
+  threadSortingOptions,
 } from '../util/constants';
 import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
@@ -29,9 +30,7 @@ const Compose = () => {
   const signature = useSelector(state => state.sm.preferences.signature);
   const { noAssociations } = useSelector(state => state.sm.recipients);
 
-  const threadSort = useSelector(state => state.sm.threads.threadSort);
   const { threadList, isLoading } = useSelector(state => state.sm.threads);
-  const { folder } = useSelector(state => state.sm.folders);
 
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
@@ -63,7 +62,7 @@ const Compose = () => {
         checkNextPath();
       };
     },
-    [dispatch, draftId, location.pathname],
+    [dispatch, draftId, history, location.pathname],
   );
 
   useEffect(
@@ -108,34 +107,31 @@ const Compose = () => {
   // make sure the thread list is fetched when navigating to the compose page
   useEffect(
     () => {
-      // if there is no thread list and the folderId is not the sent folder and its not loading
-      if (folder.folderId !== DefaultFolders.SENT.id && !isLoading) {
+      const loadSentFolder = () => {
         dispatch(
           getListOfThreads(
             DefaultFolders.SENT.id,
             100,
-            threadSort.page,
-            threadSort.value,
+            1,
+            threadSortingOptions.SENT_DATE_DESCENDING.value,
             false,
           ),
         );
-        dispatch(
-          setThreadSortOrder({
-            folderId: DefaultFolders.SENT.id,
-            page: threadSort.page,
-            value: threadSort.value,
-          }),
-        );
+      };
+
+      if (!isLoading && !threadList) {
+        loadSentFolder();
+      }
+      if (
+        !isLoading &&
+        threadList &&
+        threadList[0] &&
+        threadList[0].folderId !== DefaultFolders.SENT.id
+      ) {
+        loadSentFolder();
       }
     },
-    [
-      dispatch,
-      isLoading,
-      threadList,
-      folder,
-      threadSort.page,
-      threadSort.value,
-    ],
+    [dispatch, isLoading, threadList],
   );
 
   useEffect(
