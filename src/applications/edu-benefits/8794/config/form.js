@@ -6,8 +6,6 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-8794-schema.json';
 
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullSchema from '../22-8794-schema.json';
@@ -24,6 +22,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // const { } = fullSchema.definitions;
 
 // pages
+import { designatingOfficial } from '../pages';
 import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
 
@@ -62,24 +61,15 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    applicantInformationChapter: {
-      title: 'Applicant Information',
+    designatingOfficialChapter: {
+      title: 'Designating official',
       pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
-          uiSchema: {
-            fullName: fullNameUI,
-            ssn: ssnUI,
-          },
-          schema: {
-            type: 'object',
-            required: ['fullName'],
-            properties: {
-              fullName,
-              ssn,
-            },
-          },
+        designatingOfficial: {
+          path: 'designating-official',
+          title: 'Your information',
+          uiSchema: designatingOfficial.uiSchema,
+          schema: designatingOfficial.schema,
+          // onNavForward: onNavForwardLogic,
         },
       },
     },
