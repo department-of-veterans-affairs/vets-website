@@ -15,24 +15,23 @@ const IncorrectFormModal = props => {
   const isApplicantSameAsSponsor =
     claimantDOB && sponsorDateOfBirth && claimantDOB === sponsorDateOfBirth;
 
-  const isChildMatch =
-    relationshipToSponsor === 'child' && isApplicantSameAsSponsor;
+  const conditionsCurrentlyMet =
+    (relationshipToSponsor === 'child' && isApplicantSameAsSponsor) ||
+    (relationshipToSponsor === 'spouse' &&
+      applicantHasServiceRecord &&
+      isApplicantSameAsSponsor);
 
-  const isSpouseMatch =
-    relationshipToSponsor === 'spouse' &&
-    applicantHasServiceRecord &&
-    isApplicantSameAsSponsor;
-
-  const shouldShowModal = isChildMatch || isSpouseMatch;
   useEffect(
     () => {
-      if (shouldShowModal) {
-        setModalVisible(true);
-      } else {
-        setModalVisible(false);
-      }
+      setModalVisible(conditionsCurrentlyMet);
     },
-    [shouldShowModal],
+    [
+      claimantDOB,
+      sponsorDateOfBirth,
+      applicantHasServiceRecord,
+      relationshipToSponsor,
+      conditionsCurrentlyMet,
+    ],
   );
   const handleClose = () => {
     setModalVisible(false);
