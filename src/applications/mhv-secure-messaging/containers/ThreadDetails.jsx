@@ -151,11 +151,11 @@ const ThreadDetails = props => {
       updatePageTitle(PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG);
       return (
         <div className="compose-container">
-          <h1 className="page-title vads-u-margin-top--0" ref={header}>
-            Edit draft
-          </h1>
-
-          <ComposeForm draft={drafts[0]} recipients={recipients} />
+          <ComposeForm
+            draft={drafts[0]}
+            recipients={recipients}
+            pageTitle="Edit draft"
+          />
         </div>
       );
     }
