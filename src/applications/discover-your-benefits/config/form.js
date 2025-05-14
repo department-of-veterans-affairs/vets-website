@@ -21,6 +21,7 @@ import militaryService from '../pages/militaryService';
 import activeDuty from '../pages/activeDuty';
 import militaryBranch from '../pages/militaryBranch';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
+import titleTenServiceTime from '../pages/titleTenTimeServed';
 import militaryServiceCompleted from '../pages/militaryServiceCompleted';
 import separation from '../pages/separation';
 import characterOfDischarge from '../pages/characterOfDischarge';
@@ -118,6 +119,15 @@ export const formConfig = {
                   militaryBranchComponentTypes.RESERVE_SERVICE
                 ] === true,
             );
+          },
+        },
+        titleTenTimeServed: {
+          path: 'service/title-ten',
+          title: 'Title Ten',
+          uiSchema: titleTenServiceTime.uiSchema,
+          schema: titleTenServiceTime.schema,
+          depends: formData => {
+            return formData.activeDuty === true;
           },
         },
         militaryService: {
