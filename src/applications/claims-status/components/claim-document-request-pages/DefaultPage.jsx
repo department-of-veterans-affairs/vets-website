@@ -36,8 +36,8 @@ export default function DefaultPage({
                 {item.friendlyName || item.displayName}
                 <span className="vads-u-font-family--sans vads-u-margin-bottom--1 vads-u-margin-top--1">
                   Respond by {dateFormatter(item.suspenseDate)}
+                  <DueDate date={item.suspenseDate} />
                 </span>
-                <DueDate date={item.suspenseDate} />
               </>
             ) : (
               <>

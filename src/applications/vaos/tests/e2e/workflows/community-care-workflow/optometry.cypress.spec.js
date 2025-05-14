@@ -45,8 +45,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
       id: 'mock1',
       localStartTime: new Date(),
       status: APPOINTMENT_STATUS.proposed,
-      serviceType: typeOfCareId,
-    });
+    }).setTypeOfCare(typeOfCareId);
     mockAppointmentGetApi({
       response,
     });
