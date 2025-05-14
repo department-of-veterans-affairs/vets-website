@@ -16,6 +16,8 @@ const testConfig = createTestConfig(
       'ancillary-flows',
       'add-child-report-divorce',
       'spouse-report-divorce',
+      'report-married-child-report-student-left-school',
+      'report-death',
     ],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
