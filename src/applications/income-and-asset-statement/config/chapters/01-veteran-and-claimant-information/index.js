@@ -4,6 +4,7 @@ import veteranInformation from './veteranInformation';
 import claimantInformation from './claimantInformation';
 import contactInformation from './contactInformation';
 import editEmailAddress from './editEmailAddress';
+import editPhoneNumber from './editPhoneNumber';
 import emailAddress from './emailAddress';
 import phoneNumber from './phoneNumber';
 import incomeNetWorthDateRange from './incomeNetWorthDateRange';
@@ -35,6 +36,7 @@ export default {
     claimantInformation,
     contactInformation,
     editEmailAddress,
+    editPhoneNumber,
     emailAddress,
     phoneNumber,
     veteranInformation,
