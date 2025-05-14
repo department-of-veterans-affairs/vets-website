@@ -7,7 +7,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { useHistory } from 'react-router-dom';
 import { removeCompareInstitution, compareDrawerOpened } from '../actions';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
-import { isSmallScreen } from '../utils/helpers';
+import { capitalizeFirstLetter, isSmallScreen } from '../utils/helpers';
 
 export function CompareDrawer({
   compare,
@@ -131,7 +131,7 @@ export function CompareDrawer({
           >
             <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-items--start vads-u-justify-content--flex-start vads-u-padding-y--0 vads-u-padding-x--1px">
               <div className="compare-name">
-                {institutions[facilityCode].name}
+                {capitalizeFirstLetter(institutions[facilityCode].name)}
               </div>
               <div className="vads-u-padding-top--1p5">
                 {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}

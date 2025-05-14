@@ -10,6 +10,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import Checkbox from './Checkbox';
 import SchoolClassification from './SchoolClassification';
 import CompareScroller from './CompareScroller';
+import { capitalizeFirstLetter } from '../utils/helpers';
 
 export default function CompareHeader({
   currentScroll,
@@ -125,7 +126,7 @@ export default function CompareHeader({
                           aria-label={`${institution.name}, `}
                           id={`${institution.facilityCode}-label`}
                         >
-                          {institution.name}
+                          {capitalizeFirstLetter(institution.name)}
                         </span>
                       </Link>
                     </div>
