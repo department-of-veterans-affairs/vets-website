@@ -46,7 +46,7 @@ export const sponsorIdentificationSchema = {
   },
   schema: {
     type: 'object',
-    required: ['ssn'],
+    required: ['sponsorSsn'],
     properties: {
       titleSchema,
       sponsorSsn: ssnOrVaFileNumberSchema,

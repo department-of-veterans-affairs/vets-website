@@ -130,21 +130,27 @@ const formConfig = {
         page8: {
           path: 'sponsor-status',
           title: 'Sponsor`s status',
+          depends: formData => get('certifierRole', formData) !== 'sponsor',
           ...sponsorStatus,
         },
         page9: {
           path: 'sponsor-status-details',
           title: 'Sponsor`s status details',
+          depends: formData =>
+            get('certifierRole', formData) !== 'sponsor' &&
+            get('sponsorIsDeceased', formData),
           ...sponsorStatusDetails,
         },
         page10: {
           path: 'sponsor-mailing-address',
           title: 'Sponsor`s mailing address',
+          depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorAddress,
         },
         page11: {
           path: 'sponsor-contact-information',
           title: 'Sponsor`s contact information',
+          depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorContactInfo,
         },
       },
