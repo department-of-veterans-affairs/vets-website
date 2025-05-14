@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import SelectProviderPage from './index';
 import {
@@ -113,6 +114,23 @@ describe('VAOS Page: ProviderSelectPage', () => {
       });
 
       expect(screen.getByText(/Option 1: Call the facility/i)).to.exist;
+    });
+
+    it('should go to request flow when clicking request an appointment link', async () => {
+      const store = createTestStore(defaultState);
+      const screen = renderWithStoreAndRouter(<SelectProviderPage />, {
+        store,
+      });
+
+      const link = screen.container.querySelector(
+        'va-link[text="Request an appointment"]',
+      );
+
+      userEvent.click(link);
+      expect(screen.history.push.called).to.be.true;
+      await waitFor(() => {
+        expect(screen.history.push.lastCall.args[0]).to.equal('va-request/');
+      });
     });
   });
 
