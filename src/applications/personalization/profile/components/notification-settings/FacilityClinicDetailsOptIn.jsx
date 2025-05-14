@@ -110,6 +110,7 @@ const FacilityClinicDetailsOptIn = ({
         paddingLeft,
         margin,
         marginLeft,
+        borderTop: '1px solid red',
       }}
     >
       {detailsText && <p>{detailsText}</p>}

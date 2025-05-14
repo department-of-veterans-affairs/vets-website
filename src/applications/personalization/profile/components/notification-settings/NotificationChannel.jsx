@@ -17,6 +17,47 @@ import { LOADING_STATES } from '../../../common/constants';
 
 import { NotificationCheckbox } from './NotificationCheckbox';
 import { NOTIFICATION_CHANNEL_LABELS } from '../../constants';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings/index';
+
+function ChannelSensitiveOptIn({ channelId, apiStatus, channel }) {
+  // console.log('ChanSensitiveOptIn', channel);
+
+  const channelTypeName = channel.channelType === 1 ? 'text' : 'email';
+
+  return (
+    <div
+      className={
+        'vads-u-border-left--7px vads-u-border-color--primary-alt-light vads-u-margin-top--1p5 vads-u-margin-left--4 vads-u-padding-left--1p5'
+      }
+    >
+      <p
+        className={
+          'vads-u-margin-top--0 vads-u-margin-bottom--1 vads-u-line-height--3'
+        }
+      >
+        You can opt in to include facility and clinic details in your{' '}
+        {channelTypeName} reminders.
+      </p>
+      <p
+        className={
+          'vads-u-margin-top--1 vads-u-margin-bottom--1p5 vads-u-line-height--3 vads-u-color--gray-medium'
+        }
+      >
+        The clinic name may include the type of care you're receiving, such as
+        "cardiology."
+      </p>
+      <VaCheckbox
+        id={channelId} // guessed
+        // checked={matchingItem?.sensitive}
+        // label={getCheckboxLabel(id)}
+        label={`Include facility and clinic details in ${channelTypeName} notifications`}
+        // onVaChange={e => handleCheckboxChange(e, id)}
+        // disabled
+        // className={type === selectedType ? 'vads-u-display--none' : ''}
+      />
+    </div>
+  );
+}
 
 const NotificationChannel = props => {
   const {
@@ -33,6 +74,7 @@ const NotificationChannel = props => {
     disabledForCheckbox,
     last,
     defaultSendIndicator,
+    channel,
   } = props;
   // when itemId = "item2", itemIdNumber will be 2
   const itemIdNumber = React.useMemo(
@@ -46,6 +88,27 @@ const NotificationChannel = props => {
     },
     [itemId],
   );
+
+  if (itemId === 'item3') {
+    console.log(
+      'NotiChan:',
+      channelId,
+      channelType,
+      'item:',
+      itemId,
+      // itemName,
+      'apiStatus:',
+      apiStatus,
+      'isOptedIn:',
+      isOptedIn,
+      'sensitive:',
+      sensitive, // is op in checked or not
+      'disabledForCheckbox:',
+      disabledForCheckbox,
+      'channel:',
+      channel,
+    );
+  }
 
   const apiStatusInfo = React.useMemo(
     () => {
@@ -75,46 +138,68 @@ const NotificationChannel = props => {
   const label = `Notify me by ${NOTIFICATION_CHANNEL_LABELS[channelType]}`;
 
   return (
-    <NotificationCheckbox
-      label={label}
-      isOptedIn={isOptedIn}
-      defaultSendIndicator={defaultSendIndicator}
-      channelId={channelId}
-      onValueChange={e => {
-        const newValue = e.target.checked;
+    <>
+      <NotificationCheckbox
+        label={label}
+        isOptedIn={isOptedIn}
+        defaultSendIndicator={defaultSendIndicator}
+        channelId={channelId}
+        onValueChange={e => {
+          const newValue = e.target.checked;
 
-        // Escape early if no change was made. If an API call fails, it's
-        // possible to then click on a "checked" radio button to fire off
-        // another API call. This check avoids that problem
-        if (newValue === isOptedIn) {
-          return;
-        }
+          // Escape early if no change was made. If an API call fails, it's
+          // possible to then click on a "checked" radio button to fire off
+          // another API call. This check avoids that problem
+          if (newValue === isOptedIn) {
+            return;
+          }
 
-        const model = new CommunicationChannelModel({
-          type: channelType,
-          parentItemId: itemIdNumber,
-          permissionId,
-          isAllowed: newValue,
-          wasAllowed: isOptedIn,
-          sensitive,
-        });
+          const model = new CommunicationChannelModel({
+            type: channelType,
+            parentItemId: itemIdNumber,
+            permissionId,
+            isAllowed: newValue,
+            wasAllowed: isOptedIn,
+            sensitive,
+          });
 
-        const eventPayload = {
-          event: 'int-checkbox-group-option-click',
-          'checkbox-group-optionLabel': `${label} - ${newValue}`,
-          'checkbox-group-label': itemName,
-          'checkbox-group-required': '-',
-        };
+          const eventPayload = {
+            event: 'int-checkbox-group-option-click',
+            'checkbox-group-optionLabel': `${label} - ${newValue}`,
+            'checkbox-group-label': itemName,
+            'checkbox-group-required': '-',
+          };
 
-        recordEvent(eventPayload);
-        saveSetting(channelId, model.getApiCallObject());
-      }}
-      loadingMessage={apiStatusInfo.loadingMessage}
-      successMessage={apiStatusInfo.successMessage}
-      errorMessage={apiStatusInfo.errorMessage}
-      disabled={disabledForCheckbox}
-      last={last}
-    />
+          recordEvent(eventPayload);
+          saveSetting(channelId, model.getApiCallObject());
+        }}
+        loadingMessage={apiStatusInfo.loadingMessage}
+        successMessage={apiStatusInfo.successMessage}
+        errorMessage={apiStatusInfo.errorMessage}
+        disabled={disabledForCheckbox}
+        last={last}
+      />
+      {/*
+      attempt move in from notificationItem
+      wip extract from FacilityClinicDetailsOptIn
+      interested only in item: 3 channel: 1 & 2
+
+      - sensitiveIndicator - communicationChannel.sensitiveIndicator
+      - allowedChannels - communicationChannel.isAllowed
+      - isOptedIn - communicationChannel.isAllowed
+      */}
+      {true &&
+        itemId === 'item3' &&
+        isOptedIn &&
+        (apiStatus === LOADING_STATES.idle ||
+          apiStatus === LOADING_STATES.loaded) && (
+          <ChannelSensitiveOptIn
+            channelId={channelId}
+            apiStatus={apiStatus}
+            channel={channel}
+          />
+        )}
+    </>
   );
 };
 
@@ -161,6 +246,7 @@ const mapStateToProps = (state, ownProps) => {
     isMissingContactInfo,
     permissionId: channel.permissionId,
     defaultSendIndicator: channel?.defaultSendIndicator,
+    channel,
   };
 };
 

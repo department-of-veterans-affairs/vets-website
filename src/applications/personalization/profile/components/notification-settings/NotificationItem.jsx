@@ -166,7 +166,8 @@ const NotificationItem = ({
               itemName={itemName}
             />
           ))}
-          {profileShowSensitiveIndicator
+          {/* move down to notification channel level */}
+          {true && profileShowSensitiveIndicator
             ? uniqueChannelGroups.map(([channelItemId, channels]) => {
                 // skip rendering if no channel has a sensitive indicator
                 const hasSensitiveIndicator = channels.some(
