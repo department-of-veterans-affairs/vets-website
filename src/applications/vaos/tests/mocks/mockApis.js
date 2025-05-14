@@ -91,7 +91,7 @@ export function mockAppointmentsApi({
   start,
   statuses = [],
   useRFC3339 = false,
-  response: data,
+  response: data = [],
   responseCode = 200,
 }) {
   const baseUrl = `${
@@ -160,10 +160,12 @@ export function mockAppointmentSubmitApi({
  * @return {string} Return mock API URL. This is useful for debugging.
  */
 export function mockAppointmentUpdateApi({
+  id,
   response: data,
   responseCode = 200,
-}) {
-  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${data.id}`;
+} = {}) {
+  const _id = id || data?.id;
+  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${_id}`;
 
   if (responseCode === 200) {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
@@ -395,7 +397,11 @@ export function mockFacilitiesApi({
  *
  * @return {string} Return mock API URL. This is useful for debugging.
  */
-export function mockFacilityApi({ id, response: data, responseCode = 200 }) {
+export function mockFacilityApi({
+  id,
+  response: data = {},
+  responseCode = 200,
+}) {
   const _id = id || data?.id;
   const baseUrl = `${environment.API_URL}/vaos/v2/facilities/${_id}`;
 
