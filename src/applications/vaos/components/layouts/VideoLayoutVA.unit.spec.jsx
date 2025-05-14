@@ -51,6 +51,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -105,6 +107,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
 
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -153,6 +157,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
       const appointment = {
         type: 'VA',
         modality: 'vaVideoCareAtAVaLocation',
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -267,6 +273,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
         location: {
           stationId: '983',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -304,6 +312,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: null,
@@ -351,6 +361,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
             clinicPhone: '500-500-5000',
             clinicPhoneExtension: '1234',
           },
+          minutesDuration: 60,
+          startUtc: new Date(),
           videoData: {
             isVideo: true,
             facilityId: '983',
@@ -543,6 +555,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
             clinicPhone: '500-500-5000',
             clinicPhoneExtension: '1234',
           },
+          minutesDuration: 60,
+          startUtc: new Date(),
           videoData: {
             isVideo: true,
             facilityId: '983',
