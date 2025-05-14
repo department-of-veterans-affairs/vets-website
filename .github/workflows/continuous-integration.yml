@@ -1220,6 +1220,9 @@ jobs:
           TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-stress-test-reports
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
 
+      - name: debug report folder
+        run: ls -R qa-standards-dashboard-data
+
       - name: Upload Unit Test Stability Review Report to S3
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
 
