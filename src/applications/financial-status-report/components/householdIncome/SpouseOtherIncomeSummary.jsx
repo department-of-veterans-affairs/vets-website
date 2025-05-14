@@ -130,6 +130,7 @@ const SpouseOtherIncomeSummary = ({
           )}
           <Link
             className="vads-c-action-link--green"
+            data-testid="add-link"
             to={{
               pathname: '/spouse-add-other-income',
               search: `?index=${spAddlIncome.length}`,

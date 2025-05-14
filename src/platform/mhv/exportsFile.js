@@ -21,11 +21,23 @@ export {
   updatePageTitle,
   openCrisisModal,
   pharmacyPhoneNumber,
+  getNameDateAndTime,
+  formatNameFirstLast,
+  makePdf,
+  formatUserDob,
 } from './util/helpers';
 export {
   txtLine,
   txtLineDotted,
   crisisLineHeader,
   reportGeneratedBy,
+  edipiNotFound,
+  SEI_DOMAINS,
+  ALERT_TYPE_SEI_ERROR,
 } from './util/constants';
 export { trapFocus } from './util/ui/index';
+export { generateMilitaryServicePdf } from './dod-history/military-service-pdf';
+export { generateSEIPdf } from './self-entered/generate-sei-pdf';
+export {
+  default as MissingRecordsError,
+} from './self-entered/MissingRecordsError';

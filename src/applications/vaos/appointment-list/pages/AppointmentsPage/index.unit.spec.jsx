@@ -58,14 +58,14 @@ describe('VAOS Page: AppointmentsPage', () => {
       start: subDays(new Date(), 120),
       end: addDays(new Date(), 1),
       statuses: ['proposed', 'cancelled'],
-      response: [MockAppointmentResponse.createCCResponse()],
+      response: MockAppointmentResponse.createCCResponses(),
     });
     mockAppointmentsApi({
       start: subDays(new Date(), 120),
       end: addDays(new Date(), 1),
       includes: ['facilities', 'clinics', 'eps'],
       statuses: ['proposed', 'cancelled'],
-      response: [MockAppointmentResponse.createCCResponse()],
+      response: MockAppointmentResponse.createCCResponses(),
     });
   });
   afterEach(() => {
