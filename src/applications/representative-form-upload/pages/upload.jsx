@@ -6,8 +6,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import PropTypes from 'prop-types';
-import { isLoggedIn } from 'platform/user/selectors';
-import { useSelector } from 'react-redux';
 import {
   UPLOAD_TITLE,
   UPLOAD_DESCRIPTION,
@@ -16,7 +14,6 @@ import {
 } from '../config/constants';
 import { getFormContent, getPdfDownloadUrl, onCloseAlert } from '../helpers';
 import { CustomAlertPage } from './helpers';
-import AccessTokenManager from '../containers/AccessTokenManager';
 
 const { formNumber, title } = getFormContent();
 const fileUploadUrl = `${
@@ -60,7 +57,6 @@ export const uploadPage = {
 
 /** @type {CustomPageType} */
 export function UploadPage(props) {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
   const warnings = props.data?.uploadedFile?.warnings;
   const alert =
     warnings?.length > 0
@@ -71,12 +67,7 @@ export function UploadPage(props) {
           warnings,
         )
       : FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
-  return (
-    <>
-      <AccessTokenManager userLoggedIn={userLoggedIn} />
-      <CustomAlertPage {...props} alert={alert} />
-    </>
-  );
+  return <CustomAlertPage {...props} alert={alert} />;
 }
 
 UploadPage.propTypes = {

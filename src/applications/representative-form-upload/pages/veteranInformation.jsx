@@ -12,8 +12,6 @@ import {
   dateOfBirthUI,
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { isLoggedIn } from 'platform/user/selectors';
-import { useSelector } from 'react-redux';
 import { MUST_MATCH_ALERT } from '../config/constants';
 import { onCloseAlert } from '../helpers';
 import {
@@ -22,7 +20,6 @@ import {
   claimantTitleAndDescription,
   representativeTitleAndDescription,
 } from './helpers';
-import AccessTokenManager from '../containers/AccessTokenManager';
 
 /** @type {PageSchema} */
 export const veteranInformationPage = {
@@ -84,18 +81,12 @@ export const veteranInformationPage = {
 
 /** @type {CustomPageType} */
 export function VeteranInformationPage(props) {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
   const alert = MUST_MATCH_ALERT(
     'veteran-information',
     onCloseAlert,
     props.data,
   );
-  return (
-    <>
-      <AccessTokenManager userLoggedIn={userLoggedIn} />
-      <CustomAlertPage {...props} alert={alert} />
-    </>
-  );
+  return <CustomAlertPage {...props} alert={alert} />;
 }
 
 veteranInformationPage.propTypes = {

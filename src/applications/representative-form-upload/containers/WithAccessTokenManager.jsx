@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import api from '../utilities/api';
 
-const AccessTokenManager = ({ userLoggedIn }) => {
+const EXPIRATION_TIME = 3 * 60 * 1000; // 3 minutes
+
+const WithAccessTokenManager = ({ userLoggedIn, children }) => {
   useEffect(
     () => {
       if (userLoggedIn) {
-        const nowPlus3Minutes = new Date(Date.now() + 3 * 60 * 1000);
+        const nowPlus3Minutes = new Date(Date.now() + EXPIRATION_TIME);
         localStorage.setItem(
           'sessionExpirationARP',
           nowPlus3Minutes.toISOString(),
@@ -17,13 +19,13 @@ const AccessTokenManager = ({ userLoggedIn }) => {
         if (sessionExpiration && new Date() > new Date(sessionExpiration)) {
           console.log('Session expired. Fetching new access token...'); // eslint-disable-line no-console
           api.getUser();
-          const newExpiration = new Date(Date.now() + 3 * 60 * 1000);
+          const newExpiration = new Date(Date.now() + EXPIRATION_TIME);
           localStorage.setItem(
             'sessionExpirationARP',
             newExpiration.toISOString(),
           );
         }
-      }, 3 * 60 * 1000);
+      }, EXPIRATION_TIME);
 
       return () => {
         clearInterval(intervalId);
@@ -32,7 +34,7 @@ const AccessTokenManager = ({ userLoggedIn }) => {
     [userLoggedIn],
   );
 
-  return null;
+  return children;
 };
 
-export default AccessTokenManager;
+export default WithAccessTokenManager;
