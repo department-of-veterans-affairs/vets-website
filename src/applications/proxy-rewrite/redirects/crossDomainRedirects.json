@@ -1580,7 +1580,7 @@
     "dest": "/boston-va-regional-benefit-office/",
     "catchAll": true
   },
-    {
+  {
     "domain": "www.benefits.va.gov",
     "src": "/manchester",
     "dest": "/manchester-va-regional-benefit-office/",
@@ -1712,6 +1712,18 @@
     "domain": "www.benefits.va.gov",
     "src": "/stpaul",
     "dest": "/st-paul-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/neworleans",
+    "dest": "/new-orleans-va-regional-benefit-office-at-new-orleans-va-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RONEWORLEANS",
+    "dest": "/new-orleans-va-regional-benefit-office-at-new-orleans-va-medical-center/",
     "catchAll": true
   }
 ]
