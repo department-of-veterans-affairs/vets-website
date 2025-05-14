@@ -29,7 +29,6 @@ describe('useNotificationSettingsUtils hook -> missingChannels', () => {
       communicationPreferences,
       featureToggles: {
         loading: false,
-        [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: false,
@@ -64,7 +63,6 @@ describe('useNotificationSettingsUtils hook -> missingChannels', () => {
       communicationPreferences,
       featureToggles: {
         loading: false,
-        [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: false,
@@ -99,7 +97,6 @@ describe('useNotificationSettingsUtils hook -> missingChannels', () => {
       communicationPreferences,
       featureToggles: {
         loading: false,
-        [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: false,
@@ -137,7 +134,6 @@ describe('useNotificationSettingsUtils hook -> missingChannels', () => {
       communicationPreferences,
       featureToggles: {
         loading: false,
-        [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: false,
