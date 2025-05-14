@@ -154,7 +154,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     serviceData,
     formId: state.data?.formData?.data?.id,
     claimantId: claimant.claimantId,
-    relationShipToMember: formData?.relationShipToMember,
+    relationshipToMember: formData?.relationshipToMember,
     claimantFullName: {
       first: firstName,
       middle: middleName,

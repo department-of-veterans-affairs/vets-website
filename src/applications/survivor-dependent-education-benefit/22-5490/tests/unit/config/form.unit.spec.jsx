@@ -19,7 +19,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       dateOfBirth: null,
       serviceData: [],
       sponsors: { transferOfEntitlement: [] },
-      relationShipToMember: null,
+      relationshipToMember: null,
     };
 
     const mockStore = configureStore([]);
@@ -51,7 +51,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       fillData(form, 'input#root_fullName_first', 'John');
       fillData(form, 'input#root_fullName_last', 'Doe');
       fillData(form, 'input#root_ssn', '123456789');
-      selectRadio(form, 'root_relationShipToMember', 'spouse');
+      selectRadio(form, 'root_relationshipToMember', 'spouse');
 
       expect(form.find('input#root_fullName_first').props().value).to.equal(
         'John',
@@ -62,7 +62,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       expect(form.find('input#root_ssn').props().value).to.equal('123456789');
       expect(
         form
-          .find('input[name="root_relationShipToMember"][value="spouse"]')
+          .find('input[name="root_relationshipToMember"][value="spouse"]')
           .props().checked,
       ).to.be.true;
       form.unmount();
@@ -111,7 +111,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       form.find('input#root_dateOfBirthYear').simulate('change', {
         target: { value: '1990' },
       });
-      selectRadio(form, 'root_relationShipToMember', 'spouse');
+      selectRadio(form, 'root_relationshipToMember', 'spouse');
 
       form.find('form').simulate('submit');
       const errorMessages = form.find('.usa-input-error-message');
@@ -173,7 +173,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       form.find('input#root_dateOfBirthYear').simulate('change', {
         target: { value: '1990' },
       });
-      selectRadio(form, 'root_relationShipToMember', 'spouse');
+      selectRadio(form, 'root_relationshipToMember', 'spouse');
 
       form.find('form').simulate('submit');
       const errorMessages = form.find('.usa-input-error-message');
@@ -238,7 +238,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       form.find('input#root_dateOfBirthYear').simulate('change', {
         target: { value: '1990' },
       });
-      selectRadio(form, 'root_relationShipToMember', 'spouse');
+      selectRadio(form, 'root_relationshipToMember', 'spouse');
 
       form.find('form').simulate('submit');
 
@@ -299,7 +299,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       form.find('input#root_dateOfBirthYear').simulate('change', {
         target: { value: '1990' },
       });
-      selectRadio(form, 'root_relationShipToMember', 'spouse');
+      selectRadio(form, 'root_relationshipToMember', 'spouse');
 
       form.find('form').simulate('submit');
       const errorMessages = form.find('.usa-input-error-message');
@@ -383,7 +383,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
 
   it('should fill out the marriage information fields', () => {
     const baseData = {
-      relationShipToMember: 'spouse',
+      relationshipToMember: 'spouse',
     };
     const {
       schema,
@@ -418,7 +418,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
         definitions={formConfig.defaultDefinitions}
         data={{
           marriageStatus: 'divorced',
-          relationShipToMember: 'spouse',
+          relationshipToMember: 'spouse',
           remarriageStatus: 'yes',
         }}
         formData={{}}

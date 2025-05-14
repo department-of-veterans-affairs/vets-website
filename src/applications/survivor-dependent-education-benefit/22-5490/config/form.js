@@ -1207,7 +1207,7 @@ const formConfig = {
           path: 'veteran-or-service-member-information',
           title: 'Veteran or Service Member Information',
           uiSchema: {
-            relationShipToMember: {
+            relationshipToMember: {
               'ui:title':
                 "What's your relationship to the Veteran or service member whose benefits you'd like to use?",
               'ui:widget': 'radio',
@@ -1343,13 +1343,13 @@ const formConfig = {
           schema: {
             type: 'object',
             required: [
-              'relationShipToMember',
+              'relationshipToMember',
               'fullName',
               'ssn',
               'dateOfBirth',
             ],
             properties: {
-              relationShipToMember: {
+              relationshipToMember: {
                 type: 'string',
                 enum: ['spouse', 'child'],
               },
@@ -1372,7 +1372,7 @@ const formConfig = {
           title: 'Marriage information',
           path: 'marriage-information',
           depends: formData => {
-            return formData.relationShipToMember === 'spouse';
+            return formData.relationshipToMember === 'spouse';
           },
           uiSchema: {
             'view:subHeadings': {
@@ -1416,7 +1416,7 @@ const formConfig = {
           path: 'marriage-date',
           title: 'Marriage Date',
           depends: formData => {
-            return formData.relationShipToMember === 'spouse';
+            return formData.relationshipToMember === 'spouse';
           },
           uiSchema: {
             'view:subHeadings': {
@@ -1450,7 +1450,7 @@ const formConfig = {
           depends: formData => {
             return (
               formData.marriageStatus === 'divorced' &&
-              formData.relationShipToMember === 'spouse'
+              formData.relationshipToMember === 'spouse'
             );
           },
           uiSchema: {
@@ -1493,7 +1493,7 @@ const formConfig = {
           depends: formData => {
             return (
               formData.marriageStatus === 'divorced' &&
-              formData.relationShipToMember === 'spouse' &&
+              formData.relationshipToMember === 'spouse' &&
               formData.remarriageStatus === 'yes'
             );
           },

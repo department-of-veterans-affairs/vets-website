@@ -3,21 +3,21 @@ import { connect } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const IncorrectFormModal = props => {
-  const { formData } = props;
+  const {
+    claimantDOB,
+    sponsorDateOfBirth,
+    applicantHasServiceRecord,
+    relationshipToMember,
+  } = props;
 
   const [modalVisible, setModalVisible] = useState(true);
-
-  const claimantDOB = formData?.relativeDateOfBirth;
-  const sponsorDateOfBirth = formData?.dateOfBirth;
-  const applicantHasServiceRecord = formData?.serviceData?.length > 0;
-  const relationshipToSponsor = formData?.relationShipToMember;
 
   const isApplicantSameAsSponsor =
     claimantDOB && sponsorDateOfBirth && claimantDOB === sponsorDateOfBirth;
 
   const conditionsCurrentlyMet =
-    (relationshipToSponsor === 'child' && isApplicantSameAsSponsor) ||
-    (relationshipToSponsor === 'spouse' &&
+    (relationshipToMember === 'child' && isApplicantSameAsSponsor) ||
+    (relationshipToMember === 'spouse' &&
       applicantHasServiceRecord &&
       isApplicantSameAsSponsor);
 
@@ -29,7 +29,7 @@ const IncorrectFormModal = props => {
       claimantDOB,
       sponsorDateOfBirth,
       applicantHasServiceRecord,
-      relationshipToSponsor,
+      relationshipToMember,
       conditionsCurrentlyMet,
     ],
   );
@@ -76,9 +76,15 @@ const IncorrectFormModal = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  ...state,
-  formData: state?.form?.data,
-});
+const mapStateToProps = state => {
+  return {
+    ...state,
+    claimantDOB: state?.data?.formData?.data.attributes?.claimant.dateOfBirth,
+    sponsorDateOfBirth: state?.form?.data?.dateOfBirth,
+    relationshipToMember: state?.form?.data?.relationshipToMember,
+    applicantHasServiceRecord:
+      state?.data?.formData?.data.attributes?.serviceData,
+  };
+};
 
 export default connect(mapStateToProps)(IncorrectFormModal);
