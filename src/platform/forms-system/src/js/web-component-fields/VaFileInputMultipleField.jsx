@@ -99,7 +99,9 @@ const VaFileInputMultipleField = props => {
       };
 
       setUploadArray(prevArray => {
-        const newArray = [...prevArray, fileObj];
+        const fd = props.childrenProps.formData;
+        const baseArray = prevArray.length === 0 ? [...fd] : prevArray;
+        const newArray = [...baseArray, fileObj];
         pendingUpdate.current = newArray;
         return newArray;
       });
@@ -122,13 +124,14 @@ const VaFileInputMultipleField = props => {
   }
 
   const handleVaChange = e => {
+    const fd = props.childrenProps.formData;
     const fileFromEvent = e.detail.file;
 
     if (e.detail.action === 'FILE_REMOVED') {
       const idx = indexOfMatch(
-        uploadArray,
+        fd,
         // identifying properties from newly removed file
-        _.pick(fileFromEvent, ['name', 'size', 'lastModified']),
+        _.pick(fileFromEvent, ['name', 'size']),
       );
 
       setLocalFile(null);
@@ -136,7 +139,8 @@ const VaFileInputMultipleField = props => {
 
       // Use functional updates to ensure we're using the latest state
       setUploadArray(prevArray => {
-        const newArray = prevArray.toSpliced(idx, 1);
+        const baseArray = prevArray.length === 0 ? [...fd] : prevArray;
+        const newArray = baseArray.toSpliced(idx, 1);
         pendingUpdate.current = newArray;
         return newArray;
       });
@@ -154,7 +158,8 @@ const VaFileInputMultipleField = props => {
 
       // Use functional updates here too
       setUploadArray(prevArray => {
-        const newArray = prevArray.toSpliced(idx, 1);
+        const baseArray = prevArray.length === 0 ? [...fd] : prevArray;
+        const newArray = baseArray.toSpliced(idx, 1);
         pendingUpdate.current = newArray;
         return newArray;
       });
