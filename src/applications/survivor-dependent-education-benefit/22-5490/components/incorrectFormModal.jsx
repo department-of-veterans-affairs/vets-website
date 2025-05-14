@@ -6,24 +6,23 @@ const IncorrectFormModal = props => {
   const { formData } = props;
 
   const [modalVisible, setModalVisible] = useState(true);
-  const claimantDOB = formData?.dateOfBirth;
-  const claimantHasServiceData = formData?.serviceData?.length > 0;
-  const sponsors = formData?.sponsors?.transferOfEntitlement;
-  const sponsorDOBs = Array.isArray(sponsors)
-    ? sponsors.map(sponsor => sponsor.dateOfBirth)
-    : [];
-  const relationShipToMember = formData?.relationShipToMember;
+
+  const claimantDOB = formData?.relativeDateOfBirth;
+  const sponsorDateOfBirth = formData?.dateOfBirth;
+  const applicantHasServiceRecord = formData?.serviceData?.length > 0;
+  const relationshipToSponsor = formData?.relationShipToMember;
+
+  const isApplicantSameAsSponsor =
+    claimantDOB && sponsorDateOfBirth && claimantDOB === sponsorDateOfBirth;
 
   const isChildMatch =
-    relationShipToMember === 'child' &&
-    claimantDOB &&
-    sponsorDOBs.includes(claimantDOB);
+    relationshipToSponsor === 'child' && isApplicantSameAsSponsor;
 
   const isSpouseMatch =
-    relationShipToMember === 'spouse' &&
-    claimantHasServiceData &&
-    claimantDOB &&
-    sponsorDOBs.includes(claimantDOB);
+    relationshipToSponsor === 'spouse' &&
+    applicantHasServiceRecord &&
+    isApplicantSameAsSponsor;
+
   const shouldShowModal = isChildMatch || isSpouseMatch;
   useEffect(
     () => {
