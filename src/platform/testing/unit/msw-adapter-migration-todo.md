@@ -51,40 +51,30 @@ For each test file:
 
 ### Ask VA
 
-- [ ] src/applications/ask-va/tests/components/reviewPage/ReviewSectionContent.unit.spec.jsx
-- [ ] src/applications/ask-va/tests/containers/DashboardCards.unit.spec.jsx
+- [x] src/applications/ask-va/tests/components/reviewPage/ReviewSectionContent.unit.spec.jsx
+- [x] src/applications/ask-va/tests/containers/DashboardCards.unit.spec.jsx
 
 ### Authentication
 
-- [ ] src/applications/auth/tests/AuthApp.unit.spec.jsx
+- [x] src/applications/auth/tests/AuthApp.unit.spec.jsx
 
 ### Claims Status
 
-- [ ] src/applications/claims-status/tests/actions/index.unit.spec.jsx
-- [ ] src/applications/claims-status/tests/utils/helpers.unit.spec.jsx
+- [x] src/applications/claims-status/tests/actions/index.unit.spec.jsx
+- [x] src/applications/claims-status/tests/utils/helpers.unit.spec.jsx
 
 ### Disability Benefits
 
-- [ ] src/applications/disability-benefits/all-claims/tests/components/SelectArrayItemsWidget.unit.spec.jsx
-- [ ] src/applications/disability-benefits/all-claims/tests/content/ancillaryFormsWizardSummary.unit.spec.jsx
-- [ ] src/applications/disability-benefits/all-claims/tests/pages/ancillaryFormsWizardSummary.unit.spec.jsx
-- [ ] src/applications/disability-benefits/view-payments/tests/components/view-payments-lists/view-payments-lists.unit.spec.jsx
-
-### Facility Locator
-
-- [ ] src/applications/facility-locator/tests/api-url-parameters.latLongOnly.unit.spec.jsx
-- [ ] src/applications/facility-locator/tests/api-url-parameters.railsEngine.unit.spec.jsx
+- [x] src/applications/disability-benefits/view-payments/tests/components/view-payments-lists/view-payments-lists.unit.spec.jsx
 
 ### Pensions
 
-- [ ] src/applications/pensions/tests/unit/NoFormPage.unit.spec.jsx
+- [x] src/applications/pensions/tests/unit/NoFormPage.unit.spec.jsx
 
 ### Personalization
 
-- [ ] src/applications/personalization/appointments/actions/index.unit.spec.jsx
-- [ ] src/applications/personalization/dashboard/tests/components/benefit-applications/ApplicationsInProgress.unit.spec.jsx
-- [ ] src/applications/personalization/dashboard/tests/components/RenderClaimsWidgetDowntimeNotification.unit.spec.jsx
-- [ ] src/applications/personalization/profile/tests/actions/directDeposit.unit.spec.jsx
+- [x] src/applications/personalization/appointments/actions/index.unit.spec.jsx
+- [x] src/applications/personalization/profile/tests/actions/directDeposit.unit.spec.jsx
 - [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-address.unit.spec.jsx
 - [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-email-address.unit.spec.jsx
 - [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-telephone.unit.spec.jsx
@@ -97,10 +87,6 @@ For each test file:
 ### Rated Disabilities
 
 - [ ] src/applications/rated-disabilities/tests/containers/AppContent.unit.spec.jsx
-
-### Representative Search
-
-- [ ] src/applications/representative-search/tests/api-url-parameters.railsEngine.unit.spec.jsx
 
 ### Sign-In Changes
 
@@ -118,7 +104,17 @@ For each test file:
 ## Migration Progress
 
 - Total files to update: 33
-- Files updated: 3
-- Progress: 9%
+- Files updated: 19
+- Progress: 58%
+
+## Running Unit Tests
+
+To run unit tests for all files in this migration list:
+
+```bash
+yarn test:unit src/applications/686c-674/tests/actions/index.unit.spec.jsx src/applications/686c-674/tests/config/utilities.unit.spec.jsx src/applications/686c-674/tests/containers/introductionPage.unit.spec.jsx src/applications/ask-va/tests/components/reviewPage/ReviewSectionContent.unit.spec.jsx src/applications/ask-va/tests/containers/DashboardCards.unit.spec.jsx src/applications/auth/tests/AuthApp.unit.spec.jsx src/applications/claims-status/tests/actions/index.unit.spec.jsx src/applications/claims-status/tests/utils/helpers.unit.spec.jsx src/applications/disability-benefits/view-payments/tests/components/view-payments-lists/view-payments-lists.unit.spec.jsx src/applications/pensions/tests/unit/NoFormPage.unit.spec.jsx src/applications/personalization/appointments/actions/index.unit.spec.jsx src/applications/personalization/profile/tests/actions/directDeposit.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-address.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-email-address.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-telephone.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.edit-email-address.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.edit-telephone.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.update-address.unit.spec.jsx src/applications/personalization/profile/tests/ducks/communicationPreferences.unit.spec.jsx src/applications/personalization/profile/tests/hooks/useDirectDeposit/useDirectDeposit.unit.spec.jsx src/applications/rated-disabilities/tests/containers/AppContent.unit.spec.jsx src/applications/sign-in-changes/tests/InterstitialChanges.unit.spec.jsx src/applications/static-pages/download-1095b/components/App/index.unit.spec.jsx src/applications/terms-of-use/tests/MyVAHealth.unit.spec.jsx src/applications/terms-of-use/tests/TermsOfUse.unit.spec.jsx
+```
+
+These commands will help you verify that your MSW adapter migrations are working correctly across both Node environments.
 
 Last updated: May 13, 2025

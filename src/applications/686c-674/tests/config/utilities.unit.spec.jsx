@@ -52,8 +52,7 @@ describe('getData', () => {
 
   it('should succeed', async () => {
     server.use(
-      createGetHandler(
-        `https://dev-api.va.gov/v0/some/api-route`,
+      createGetHandler(`https://dev-api.va.gov/v0/some/api-route`, () =>
         jsonResponse({ data: { attributes: { name: 'John' } } }),
       ),
     );

@@ -794,7 +794,7 @@ describe('Disability benefits helpers: ', () => {
       server.use(
         createGetHandler(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
-          jsonResponse({ status: 401 }, { status: 401 }),
+          () => jsonResponse({ status: 401 }, { status: 401 }),
         ),
       );
       const onError = sinon.spy();
