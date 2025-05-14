@@ -37,8 +37,8 @@ We are using version 1 of the forms library, Formation. This is a straight forwa
 
 - [`/v0/health_care_applications`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/addHealthCareApplication) - Form submission API
 - [`/v0/hca_attachments`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/postHealthCareApplicationAttachment) - File upload API for discharge documents
-- [`/health_care_applications/enrollment_status`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/enrollmentStatusHealthCareApplication) - Enrollment status fetch API
-- [`/health_care_applications/rating_info`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/getDisabilityRating) - Disability rating fetch API
+- [`/v0/health_care_applications/enrollment_status`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/enrollmentStatusHealthCareApplication) - Enrollment status fetch API
+- [`/v0/health_care_applications/rating_info`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/getDisabilityRating) - Disability rating fetch API
 - [`/v0/health_care_applications/facilities`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/getFacilities) - Retrieve a list of active healthcare facilities
 - [`/v0/health_care_applications/download_pdf`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/post_v0_health_care_applications_download_pdf) - Download a pre-filled 10-10EZ PDF form.
 
