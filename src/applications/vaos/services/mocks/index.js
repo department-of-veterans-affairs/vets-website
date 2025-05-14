@@ -431,10 +431,16 @@ const responses = {
         data: expiredReferral,
       });
     }
+
     const referral = referralUtils.createReferralById(
       '2024-12-02',
       req.params.referralId,
     );
+
+    if (req.params.referralId.includes('error')) {
+      referral.attributes.referralId = req.params.referralId;
+    }
+
     return res.json({
       data: referral,
     });
@@ -524,6 +530,10 @@ const responses = {
 
     if (!id || !referralNumber || !slotId || !networkId || !providerServiceId) {
       return res.status(400).json({ error: true });
+    }
+
+    if (referralNumber === 'VA0000009880-create-error') {
+      return res.status(500).json({ error: true });
     }
 
     draftAppointmentPollCount[id] = 1;
