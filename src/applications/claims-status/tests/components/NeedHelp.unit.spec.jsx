@@ -7,6 +7,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { NeedHelp } from '../../components/NeedHelp';
+import * as dictionary from '../../utils/evidenceDictionary';
 
 describe('<NeedHelp>', () => {
   it('should render', () => {
@@ -43,11 +44,38 @@ describe('<NeedHelp>', () => {
     it('should render aliases with commas and "or" correctly', () => {
       const item = {
         supportAliases: ['Alias1', 'Alias2', 'Alias3', 'Alias4'],
+        friendlyName: 'Friendly name',
       };
 
-      const { queryAllByText } = render(<NeedHelp item={item} />);
+      const { container } = render(<NeedHelp item={item} />);
 
-      expect(queryAllByText('"Alias1", "Alias2", "Alias3" or "Alias4"'));
+      expect(container.textContent).to.include(
+        '"Alias1", "Alias2", "Alias3" or "Alias4"',
+      );
+    });
+    it('should preserve casing if friendlyName is a proper noun', () => {
+      const item = {
+        displayName: 'displayKey',
+        supportAliases: ['Alias1'],
+        friendlyName: 'Friendly Name',
+      };
+
+      dictionary.evidenceDictionary.displayKey = { isProperNoun: true };
+
+      const { container } = render(<NeedHelp item={item} />);
+      expect(container.textContent).to.include('Friendly Name');
+    });
+    it('should lowercase friendlyName if not a proper noun', () => {
+      const item = {
+        displayName: 'displayKey',
+        supportAliases: ['Alias1'],
+        friendlyName: 'Friendly Name',
+      };
+
+      dictionary.evidenceDictionary.displayKey = { isProperNoun: false };
+
+      const { container } = render(<NeedHelp item={item} />);
+      expect(container.textContent).to.include('friendly Name');
     });
   });
 });
