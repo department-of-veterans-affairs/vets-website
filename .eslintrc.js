@@ -22,7 +22,7 @@ module.exports = {
       ],
     },
   },
-  plugins: 'react',
+  plugins: ['react'],
   extends: [
     'plugin:@department-of-veterans-affairs/recommended',
     'plugin:you-dont-need-momentjs/recommended',
