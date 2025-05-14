@@ -64,6 +64,7 @@ export function createGetHandler(url, handler) {
  *
  * @param {string} url - The URL to mock
  * @param {Function} handler - Response handler function
+ * @param {Object} headers - Optional headers to include in the response
  * @returns {Object} - MSW compatible request handler
  */
 export function createPostHandler(url, handler) {
@@ -72,27 +73,15 @@ export function createPostHandler(url, handler) {
       return handler({
         params,
         request,
-        body: await request.json().catch(() => ({})),
       });
     });
   }
 
   // MSW v1
   return mswModule.rest.post(url, async (req, res, ctx) => {
-    // In MSW v1, we need to extract the body differently
-    let body = {};
-    try {
-      // Get the request body if available
-      body = req.body ? req.body : {};
-    } catch (e) {
-      // If parsing fails, use empty object
-      body = {};
-    }
-
     const handlerResult = handler({
       params: req.params,
       request: req,
-      body,
       res,
       ctx,
     });
@@ -111,15 +100,17 @@ export function createPostHandler(url, handler) {
  *
  * @param {string} url - The URL to mock
  * @param {Function} handler - Response handler function
+ * @param {Object} headers - Optional headers to include in the response
  * @returns {Object} - MSW compatible request handler
  */
-export function createPutHandler(url, handler) {
+export function createPutHandler(url, handler, headers = {}) {
   if (mswVersion === 2) {
     return mswModule.http.put(url, async ({ params, request }) => {
       return handler({
         params,
         request,
         body: await request.json().catch(() => ({})),
+        headers,
       });
     });
   }
@@ -140,6 +131,7 @@ export function createPutHandler(url, handler) {
       params: req.params,
       request: req,
       body,
+      headers,
       res,
       ctx,
     });
@@ -204,7 +196,10 @@ export function jsonResponse(data, options = {}) {
 
   // For v1, we return a function that uses res and ctx from the handler
   return (res, ctx) => {
-    return res(ctx.status(status), ctx.json(data));
+    if (data) {
+      return res(ctx.status(status), ctx.json(data));
+    }
+    return res(ctx.status(status));
   };
 }
 
@@ -243,6 +238,24 @@ export function textResponse(text, options = { status: 200 }) {
 
   // For v1, we return a function that uses res and ctx
   return (res, ctx) => res(ctx.status(options.status), ctx.text(text));
+}
+
+/**
+ * Creates a binary response with a consistent API
+ *
+ * @param {Object} data - Binary response body
+ * @param {Object} options - Response options like status
+ * @returns {Object|Function} - MSW compatible response or function
+ */
+export function binaryResponse(data, options = { status: 200 }) {
+  if (mswVersion === 2) {
+    return new mswModule.HttpResponse(data, options);
+  }
+
+  // For v1, we return a function that uses res and ctx
+  const headers = options.headers ?? {};
+  return (res, ctx) =>
+    res(ctx.status(options.status), ctx.set(headers), ctx.body(data));
 }
 
 /**

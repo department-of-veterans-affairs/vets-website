@@ -217,7 +217,7 @@ export const editEmailAddressSuccess = () => {
   let newEmailAddress;
   return [
     createPostHandler(`${prefix}/v0/profile/email_addresses`, req => {
-      newEmailAddress = req.body.emailAddress;
+      newEmailAddress = req.request.body.emailAddress;
       return jsonResponse({
         data: createTransactionRequestSuccessBody,
       });

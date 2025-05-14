@@ -23,9 +23,10 @@ For each test file:
    })
    
    // After
-   createGetHandler('/api/endpoint', () => {
-     return jsonResponse({ data }, { status: 200 });
-   })
+   createGetHandler(
+     '/api/endpoint',
+     () => jsonResponse({ data }, { status: 200 }),
+   )
    ```
 
 3. Update network error handlers:
@@ -36,18 +37,19 @@ For each test file:
    })
    
    // After
-   createGetHandler('/api/endpoint', () => {
-     return networkError('Error message');
-   })
+   createGetHandler(
+     '/api/endpoint',
+     () => jsonResponse({ error: 'Error message' }, { status: 503 }),
+   )
    ```
 
 ## Files to Update
 
 ### Form 686c-674 (Declaration of Dependents)
 
-- [x] src/applications/686c-674/tests/actions/index.unit.spec.jsx
-- [x] src/applications/686c-674/tests/config/utilities.unit.spec.jsx
-- [x] src/applications/686c-674/tests/containers/introductionPage.unit.spec.jsx
+- [ ] src/applications/686c-674/tests/actions/index.unit.spec.jsx
+- [ ] src/applications/686c-674/tests/config/utilities.unit.spec.jsx
+- [ ] src/applications/686c-674/tests/containers/introductionPage.unit.spec.jsx
 
 ### Ask VA
 
@@ -56,12 +58,12 @@ For each test file:
 
 ### Authentication
 
-- [x] src/applications/auth/tests/AuthApp.unit.spec.jsx
+- [ ] src/applications/auth/tests/AuthApp.unit.spec.jsx
 
 ### Claims Status
 
-- [x] src/applications/claims-status/tests/actions/index.unit.spec.jsx
-- [x] src/applications/claims-status/tests/utils/helpers.unit.spec.jsx
+- [ ] src/applications/claims-status/tests/actions/index.unit.spec.jsx
+- [ ] src/applications/claims-status/tests/utils/helpers.unit.spec.jsx
 
 ### Disability Benefits
 
@@ -69,11 +71,11 @@ For each test file:
 
 ### Pensions
 
-- [x] src/applications/pensions/tests/unit/NoFormPage.unit.spec.jsx
+- [ ] src/applications/pensions/tests/unit/NoFormPage.unit.spec.jsx
 
 ### Personalization
 
-- [x] src/applications/personalization/appointments/actions/index.unit.spec.jsx
+- [ ] src/applications/personalization/appointments/actions/index.unit.spec.jsx
 - [x] src/applications/personalization/profile/tests/actions/directDeposit.unit.spec.jsx
 - [x] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-address.unit.spec.jsx
 - [x] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-email-address.unit.spec.jsx
@@ -101,18 +103,29 @@ For each test file:
 - [x] src/applications/terms-of-use/tests/MyVAHealth.unit.spec.jsx
 - [x] src/applications/terms-of-use/tests/TermsOfUse.unit.spec.jsx
 
+### Platform User
+
+- [x] src/platform/user/profile/vap-svc/tests/components/ContactInfoFormAppConfigContext.unit.spec.jsx
+- [x] src/platform/user/tests/authentication/components/DowntimeBanner.unit.spec.jsx
+- [x] src/platform/user/widgets/representative-status/tests/App.unit.spec.jsx
+- [x] src/platform/user/widgets/representative-status/tests/repStatusApi.unit.spec.jsx
+
+### Platform Utilities
+
+- [x] src/platform/utilities/tests/api/index.unit.spec.jsx
+
 ## Migration Progress
 
-- Total files to update: 33
-- Files updated: 33
-- Progress: 100%
+- Total files to update: 38
+- Files updated: 27
+- Progress: 71%
 
 ## Running Unit Tests
 
 To run unit tests for all files in this migration list:
 
 ```bash
-yarn test:unit src/applications/686c-674/tests/actions/index.unit.spec.jsx src/applications/686c-674/tests/config/utilities.unit.spec.jsx src/applications/686c-674/tests/containers/introductionPage.unit.spec.jsx src/applications/ask-va/tests/components/reviewPage/ReviewSectionContent.unit.spec.jsx src/applications/ask-va/tests/containers/DashboardCards.unit.spec.jsx src/applications/auth/tests/AuthApp.unit.spec.jsx src/applications/claims-status/tests/actions/index.unit.spec.jsx src/applications/claims-status/tests/utils/helpers.unit.spec.jsx src/applications/disability-benefits/view-payments/tests/components/view-payments-lists/view-payments-lists.unit.spec.jsx src/applications/pensions/tests/unit/NoFormPage.unit.spec.jsx src/applications/personalization/appointments/actions/index.unit.spec.jsx src/applications/personalization/profile/tests/actions/directDeposit.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-address.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-email-address.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-telephone.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.edit-email-address.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.edit-telephone.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.update-address.unit.spec.jsx src/applications/personalization/profile/tests/ducks/communicationPreferences.unit.spec.jsx src/applications/personalization/profile/tests/hooks/useDirectDeposit/useDirectDeposit.unit.spec.jsx src/applications/rated-disabilities/tests/containers/AppContent.unit.spec.jsx src/applications/sign-in-changes/tests/InterstitialChanges.unit.spec.jsx src/applications/static-pages/download-1095b/components/App/index.unit.spec.jsx src/applications/terms-of-use/tests/MyVAHealth.unit.spec.jsx src/applications/terms-of-use/tests/TermsOfUse.unit.spec.jsx
+yarn test:unit src/applications/686c-674/tests/actions/index.unit.spec.jsx src/applications/686c-674/tests/config/utilities.unit.spec.jsx src/applications/686c-674/tests/containers/introductionPage.unit.spec.jsx src/applications/ask-va/tests/components/reviewPage/ReviewSectionContent.unit.spec.jsx src/applications/ask-va/tests/containers/DashboardCards.unit.spec.jsx src/applications/auth/tests/AuthApp.unit.spec.jsx src/applications/claims-status/tests/actions/index.unit.spec.jsx src/applications/claims-status/tests/utils/helpers.unit.spec.jsx src/applications/disability-benefits/view-payments/tests/components/view-payments-lists/view-payments-lists.unit.spec.jsx src/applications/pensions/tests/unit/NoFormPage.unit.spec.jsx src/applications/personalization/appointments/actions/index.unit.spec.jsx src/applications/personalization/profile/tests/actions/directDeposit.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-address.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-email-address.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-telephone.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.edit-email-address.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.edit-telephone.unit.spec.jsx src/applications/personalization/profile/tests/components/contact-information/ContactInformation.update-address.unit.spec.jsx src/applications/personalization/profile/tests/ducks/communicationPreferences.unit.spec.jsx src/applications/personalization/profile/tests/hooks/useDirectDeposit/useDirectDeposit.unit.spec.jsx src/applications/rated-disabilities/tests/containers/AppContent.unit.spec.jsx src/applications/sign-in-changes/tests/InterstitialChanges.unit.spec.jsx src/applications/static-pages/download-1095b/components/App/index.unit.spec.jsx src/applications/terms-of-use/tests/MyVAHealth.unit.spec.jsx src/applications/terms-of-use/tests/TermsOfUse.unit.spec.jsx src/platform/user/profile/vap-svc/tests/components/ContactInfoFormAppConfigContext.unit.spec.jsx src/platform/user/tests/authentication/components/DowntimeBanner.unit.spec.jsx src/platform/user/widgets/representative-status/tests/App.unit.spec.jsx src/platform/user/widgets/representative-status/tests/repStatusApi.unit.spec.jsx src/platform/utilities/tests/api/index.unit.spec.jsx
 ```
 
 These commands will help you verify that your MSW adapter migrations are working correctly across both Node environments.
