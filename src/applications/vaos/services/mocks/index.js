@@ -243,21 +243,21 @@ const responses = {
   //   return res.json(errors);
   // },
 
-  // 'GET /vaos/v2/appointments/:id': (req, res) => {
-  //   const appointments = {
-  //     data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
-  //   };
-  //   const appointment = appointments.data.find(
-  //     appt => appt.id === req.params.id,
-  //   );
+  'GET /vaos/v2/appointments/:id': (req, res) => {
+    const appointments = {
+      data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
+    };
+    const appointment = appointments.data.find(
+      appt => appt.id === req.params.id,
+    );
 
-  //   if (appointment.start) {
-  //     appointment.future = moment(appointment.start).isAfter(moment());
-  //   }
-  //   return res.json({
-  //     data: appointment,
-  //   });
-  // },
+    if (appointment.start) {
+      appointment.future = moment(appointment.start).isAfter(moment());
+    }
+    return res.json({
+      data: appointment,
+    });
+  },
   'GET /vaos/v2/scheduling/configurations': (req, res) => {
     if (req.query.cc_enabled === 'true') {
       return res.json(schedulingConfigurationsCC);
@@ -480,6 +480,22 @@ const responses = {
       return res.status(400).json({ error: true });
     }
 
+    // Check if the request is coming from the details page
+    // We can determine this by checking the referer header or request path
+    const refererHeader = req.headers.referer || '';
+    const isDetailsView =
+      refererHeader.includes(`/${appointmentId}`) ||
+      req.query.view === 'details';
+
+    if (isDetailsView) {
+      // For details view, immediately return appointment in booked state
+      mockAppointment.attributes.status = 'booked';
+      return res.json({
+        data: mockAppointment,
+      });
+    }
+
+    // Continue with normal polling behavior for ReviewAndConfirm component
     const count = draftAppointmentPollCount[appointmentId] || 0;
 
     // Mock polling for appointment state change
