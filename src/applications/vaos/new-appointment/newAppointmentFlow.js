@@ -355,7 +355,7 @@ export default function getNewAppointmentFlow(state) {
       url: 'location',
       label: isSingleVaFacility
         ? 'Your appointment location'
-        : 'Which VA location would you like to go to?',
+        : 'Which VA facility would you like to go to?',
       next: vaFacilityNext,
     },
     vaccineFlow: {
