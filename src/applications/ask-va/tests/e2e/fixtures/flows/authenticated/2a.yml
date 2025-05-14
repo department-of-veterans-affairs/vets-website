@@ -1,10 +1,14 @@
 flow:
   title: Life Insurance for Veteran (auth)
-  runOnCI: false # when this is false, the flow will only run on a scheduled job
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
       target: page
       value: start-your-question-auth
+
+    - action: include
+      target: page
+      value: your-personal-information
 
     - action: include
       target: page
@@ -24,11 +28,7 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-yourself
-
-    - action: include
-      target: page
-      value: your-contact-information-email-no-prefill-life-insurance
+      value: your-contact-information-radio-buttons-email
 
     - action: include
       target: page
