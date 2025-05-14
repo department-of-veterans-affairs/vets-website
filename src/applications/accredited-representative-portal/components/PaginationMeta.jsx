@@ -24,12 +24,12 @@ const PaginationMeta = (meta, poaRequests) => {
     initCount = 1;
   }
   return (
-    <p>
+    <p className="poa-request__meta">
       Showing {initCount}-{pageSizeCount} of {totalCount} {searchStatus}{' '}
       requests sorted by “
       <strong>
         {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
-        {sortby === 'asc' ? 'newest' : 'oldest'})
+        {sortby === 'asc' ? 'oldest' : 'newest'})
       </strong>
       ”
     </p>

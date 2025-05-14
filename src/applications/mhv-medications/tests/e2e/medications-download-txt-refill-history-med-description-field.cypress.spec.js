@@ -16,8 +16,10 @@ describe('Medications Details Page Download TXT Refill History field', () => {
     listPage.clickPrintOrDownloadThisListDropDown();
     detailsPage.verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage();
     detailsPage.clickDownloadMedicationsDetailsAsTxtOnDetailsPage();
-    listPage.verifyDownloadCompleteSuccessMessageBanner();
-    detailsPage.verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage();
+    listPage.verifyDownloadCompleteSuccessMessageBanner(
+      Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
+    );
+    listPage.verifyFocusOnDownloadAlertSuccessBanner();
     detailsPage.verifyMedicationDescriptionInTxtDownload(
       Data.DOWNLOAD_TXT_REFILL_HISTORY,
     );

@@ -20,6 +20,7 @@ import {
   PROCESSED,
   STATUSES,
 } from '../utilities/poaRequests';
+import { recordDatalayerEvent } from '../utilities/analytics';
 import POARequestCard from '../components/POARequestCard';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
@@ -61,6 +62,8 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
       id={`tab-${tabStatus}`}
       aria-controls={`tabpanel-${tabStatus}`}
       aria-selected={active ? 'true' : 'false'}
+      onClick={recordDatalayerEvent}
+      data-eventname="nav-tab-click"
     >
       {children}
     </Link>
@@ -97,7 +100,7 @@ const POARequestSearchPage = title => {
         Accredited Representative Portal. Requests will expire and be removed
         from the portal after 60 days.
       </p>
-      <p className="poa-request__copy">
+      <p className="poa-request__copy vads-u-margin--0">
         <strong>Note:</strong> POA requests need to be submitted using the
         online{' '}
         <va-link
@@ -112,7 +115,7 @@ const POARequestSearchPage = title => {
           <StatusTabLink
             tabStatus={STATUSES.PENDING}
             searchStatus={searchStatus}
-            tabSort={SORT_BY.ASC}
+            tabSort={SORT_BY.DESC}
           >
             Pending
           </StatusTabLink>
@@ -198,7 +201,7 @@ POARequestSearchPage.loader = ({ request }) => {
   ) {
     searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
     searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.CREATED);
-    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.ASC);
+    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.DESC);
     searchParams.set(SEARCH_PARAMS.SIZE, STATUSES.SIZE);
     searchParams.set(SEARCH_PARAMS.NUMBER, STATUSES.NUMBER);
     throw redirect(`?${searchParams}`);

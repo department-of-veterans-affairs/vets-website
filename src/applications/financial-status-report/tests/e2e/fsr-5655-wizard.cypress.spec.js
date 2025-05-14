@@ -24,6 +24,9 @@ describe('Financial Status Report (Wizard)', () => {
         ],
       },
     });
+    cy.intercept('GET', '/v0/in_progress_forms/5655', {
+      statusCode: 200,
+    });
     cy.visit(manifest.rootUrl);
     cy.injectAxe();
   });
@@ -34,6 +37,7 @@ describe('Financial Status Report (Wizard)', () => {
     cy.url().should('include', manifest.rootUrl);
     cy.get('h1').should('have.text', title);
     cy.get('.wizard-heading').should('have.text', heading);
+
     cy.get('va-radio-option[value="request"]').click();
     cy.get('va-radio-option[value="recipients"]').click();
     cy.get('va-radio-option[value="veteran"]').click();
@@ -52,6 +56,7 @@ describe('Financial Status Report (Wizard)', () => {
       .first()
       .click();
     cy.checkStorage(WIZARD_STATUS, 'complete');
+
     cy.findByTestId('legacy-process-list').should('exist');
     cy.findByTestId('static-process-list').should('not.exist');
     cy.axeCheck();
@@ -87,7 +92,7 @@ describe('Financial Status Report (Static Wizard)', () => {
       .shadow()
       .contains('Learn more about options for requesting help with VA debts')
       .should('have.attr', 'href')
-      .and('include', '/resources/options-to-help-with-va-debt');
+      .and('include', '/resources/options-to-request-help-with-va-debt');
 
     cy.axeCheck();
   });

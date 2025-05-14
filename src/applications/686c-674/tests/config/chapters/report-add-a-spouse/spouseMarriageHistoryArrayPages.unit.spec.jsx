@@ -33,6 +33,7 @@ const formData = {
         last: 'Ex',
       },
       reasonMarriageEnded: 'Other',
+      otherReasonMarriageEnded: 'A reason',
       startDate: '2000-02-19',
       endDate: '2000-03-20',
       startLocation: {
@@ -241,27 +242,26 @@ describe('spouseMarriageHistoryOptions', () => {
       const item = {
         fullName: { first: 'John', last: 'Doe' },
       };
-      expect(spouseMarriageHistoryOptions.text.getItemName()).to.equal(
-        'Spouse’s former marriage',
+
+      const { container } = render(
+        spouseMarriageHistoryOptions.text.cardDescription(item),
       );
-      expect(spouseMarriageHistoryOptions.text.cardDescription(item)).to.equal(
-        'John Doe',
-      );
+      expect(container.textContent).to.equal('John Doe');
     });
 
     it('should return an empty string if first or last name is missing', () => {
       const incompleteItem = { fullName: { first: 'John' } };
-      expect(
-        spouseMarriageHistoryOptions.text.cardDescription(incompleteItem),
-      ).to.equal('John ');
-
       const missingBoth = { fullName: {} };
-      expect(spouseMarriageHistoryOptions.text.getItemName()).to.equal(
-        'Spouse’s former marriage',
+
+      let result = render(
+        spouseMarriageHistoryOptions.text.cardDescription(incompleteItem),
       );
-      expect(
+      expect(result.container.textContent).to.equal('John');
+
+      result = render(
         spouseMarriageHistoryOptions.text.cardDescription(missingBoth),
-      ).to.equal(' ');
+      );
+      expect(result.container.textContent).to.equal('');
     });
   });
 });

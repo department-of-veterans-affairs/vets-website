@@ -549,10 +549,7 @@ const Prescriptions = () => {
   };
 
   const isShowingErrorNotification = Boolean(
-    (((prescriptionsFullList?.length &&
-      pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
-      paginatedPrescriptionsList) &&
-      pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+    (pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
       allergiesError) ||
       hasFullListDownloadError,
   );
@@ -725,6 +722,7 @@ const Prescriptions = () => {
                       )}
                       {!isLoading && (
                         <>
+                          <BeforeYouDownloadDropdown page={pageType.LIST} />
                           <PrintDownload
                             onDownload={handleFullListDownload}
                             isSuccess={
@@ -738,7 +736,6 @@ const Prescriptions = () => {
                             }
                             list
                           />
-                          <BeforeYouDownloadDropdown page={pageType.LIST} />
                         </>
                       )}
                     </>

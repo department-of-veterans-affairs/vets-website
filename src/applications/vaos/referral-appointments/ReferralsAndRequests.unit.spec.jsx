@@ -1,16 +1,17 @@
-import React from 'react';
-import userEvent from '@testing-library/user-event';
-import moment from 'moment';
-import MockDate from 'mockdate';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/dom';
+import { addDays, format, subDays } from 'date-fns';
+import MockDate from 'mockdate';
+import React from 'react';
 import ReferralsAndRequests from './ReferralsAndRequests';
 import { getVAOSRequestMock } from '../tests/mocks/mock';
 import reducers from '../redux/reducer';
+import { mockAppointmentsApi } from '../tests/mocks/mockApis';
 import { getTestDate, renderWithStoreAndRouter } from '../tests/mocks/setup';
-import { createReferrals } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
-import { mockVAOSAppointmentsFetch } from '../tests/mocks/mockApis';
+import { createReferrals } from './utils/referrals';
 
 const initialStateVAOSService = {
   featureToggles: {
@@ -32,7 +33,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     const initialState = {
       ...initialStateVAOSService,
       referral: {
-        referrals: createReferrals(3),
+        referrals: createReferrals(3, '2025-01-01'),
         referralsFetchStatus: FETCH_STATUS.succeeded,
       },
       appointments: {
@@ -43,14 +44,17 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
-    expect(screen.getByText('Referrals and requests')).to.exist;
-    expect(screen.getByTestId('referral-list')).to.exist;
+
+    waitFor(() => {
+      expect(screen.getByText('Referrals and requests')).to.exist;
+      expect(screen.getByTestId('referral-list')).to.exist;
+    });
   });
   it('should display error message if both calls fail', async () => {
     const initialState = {
       ...initialStateVAOSService,
       referral: {
-        referrals: createReferrals(3),
+        referrals: createReferrals(3, '2025-01-01'),
         referralsFetchStatus: FETCH_STATUS.failed,
       },
       appointments: {
@@ -61,9 +65,12 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
-    expect(screen.getByText('We’re sorry. We’ve run into a problem')).to.exist;
+    waitFor(() => {
+      expect(screen.getByText('We’re sorry. We’ve run into a problem')).to
+        .exist;
+    });
   });
-  it('should display error message if both calls fail', async () => {
+  it('should display error message if both calls fail if failed action is called', async () => {
     const initialState = {
       ...initialStateVAOSService,
       referral: {
@@ -78,7 +85,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
-    expect(screen.getByText('We’re sorry. We’ve run into a problem')).to.exist;
+    waitFor(() => {
+      expect(screen.getByText('We’re sorry. We’ve run into a problem')).to
+        .exist;
+    });
   });
   it('should display loading if one or more are loading', async () => {
     const initialState = {
@@ -112,11 +122,13 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
-    expect(
-      screen.getByText(
-        'We’re sorry. We can’t retrieve your community care referrals at this time. Please try again later.',
-      ),
-    ).to.exist;
+    waitFor(() => {
+      expect(
+        screen.getByText(
+          'We’re having trouble getting your community care referrals. Please try again later.',
+        ),
+      ).to.exist;
+    });
   });
   it('should display requests error message if requests fail', async () => {
     const initialState = {
@@ -133,11 +145,14 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
-    expect(
-      screen.getByText(
-        'We’re having trouble getting your appointment requests. Please try again later.',
-      ),
-    ).to.exist;
+
+    waitFor(() => {
+      expect(
+        screen.getByText(
+          'We’re having trouble getting your requests. Please try again later.',
+        ),
+      ).to.exist;
+    });
   });
   it('should display no referrals message if there are no referrals', async () => {
     const initialState = {
@@ -154,12 +169,14 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState,
     });
-    expect(screen.getByText('You don’t have any referrals')).to.exist;
+    waitFor(() => {
+      expect(screen.getByText('You don’t have any referrals')).to.exist;
+    });
   });
 
   it('should display pending and canceled appointments grouped', async () => {
     // And a veteran has VA appointment request
-    const startDate = moment.utc();
+    const startDate = new Date();
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
@@ -199,14 +216,10 @@ describe('VAOS Component: Referrals and Requests', () => {
       },
       requestedPeriods: [
         {
-          start: moment(startDate)
-            .add(3, 'days')
-            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
         },
         {
-          start: moment(startDate)
-            .add(4, 'days')
-            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
         },
       ],
       serviceType: '323',
@@ -223,21 +236,21 @@ describe('VAOS Component: Referrals and Requests', () => {
     };
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(2, 'days')
-        .format('YYYY-MM-DD'),
+    mockAppointmentsApi({
+      start: subDays(new Date(), 120),
+      end: addDays(new Date(), 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment, canceledAppointment],
+      response: [appointment, canceledAppointment],
     });
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -255,7 +268,7 @@ describe('VAOS Component: Referrals and Requests', () => {
 
   it('should display pending appointments when there are no canceled appointments', async () => {
     // And a veteran has VA appointment request
-    const startDate = moment.utc();
+    const startDate = new Date();
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
@@ -295,14 +308,10 @@ describe('VAOS Component: Referrals and Requests', () => {
       },
       requestedPeriods: [
         {
-          start: moment(startDate)
-            .add(3, 'days')
-            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
         },
         {
-          start: moment(startDate)
-            .add(4, 'days')
-            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
         },
       ],
       serviceType: '323',
@@ -311,21 +320,21 @@ describe('VAOS Component: Referrals and Requests', () => {
     };
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(2, 'days')
-        .format('YYYY-MM-DD'),
+    mockAppointmentsApi({
+      start: subDays(new Date(), 120),
+      end: addDays(new Date(), 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
+      response: [appointment],
     });
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -343,7 +352,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     expect(
       screen.queryByRole('heading', {
         level: 3,
-        name: /You don’t have any/,
+        name: 'You don’t have any appointment requests',
       }),
     ).not.to.be.ok;
   });
@@ -351,21 +360,21 @@ describe('VAOS Component: Referrals and Requests', () => {
   it('should dispaly no appointments alert when there are no pending or cancelled appointments', async () => {
     // And a veteran has no pending or canceled appointment request
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(2, 'days')
-        .format('YYYY-MM-DD'),
+    mockAppointmentsApi({
+      start: subDays(new Date(), 120),
+      end: addDays(new Date(), 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [{}],
+      response: [{}],
     });
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -374,7 +383,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     expect(
       await screen.findByRole('heading', {
         level: 2,
-        name: /You don’t have any/,
+        name: 'You don’t have any appointment requests',
       }),
     ).to.be.ok;
     expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
@@ -383,7 +392,7 @@ describe('VAOS Component: Referrals and Requests', () => {
 
   it('should display no appointments alert when there are no pending but cancelled appointments', async () => {
     // And a veteran has VA appointment request
-    const startDate = moment.utc();
+    const startDate = new Date();
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
@@ -423,14 +432,13 @@ describe('VAOS Component: Referrals and Requests', () => {
       },
       requestedPeriods: [
         {
-          start: moment(startDate)
-            .add(3, 'days')
-            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          start: format(
+            addDays(startDate, 3, 'days'),
+            "yyyy-MM-dd'T'HH:mm:ss'Z'",
+          ),
         },
         {
-          start: moment(startDate)
-            .add(4, 'days')
-            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
         },
       ],
       serviceType: '323',
@@ -439,21 +447,21 @@ describe('VAOS Component: Referrals and Requests', () => {
     };
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(2, 'days')
-        .format('YYYY-MM-DD'),
+    mockAppointmentsApi({
+      start: subDays(new Date(), 120),
+      end: addDays(new Date(), 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
+      response: [appointment],
     });
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -471,7 +479,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: /You don’t have any/,
+        name: 'You don’t have any appointment requests',
       }),
     ).to.be.ok;
   });

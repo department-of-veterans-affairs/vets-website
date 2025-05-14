@@ -51,17 +51,26 @@ export class DirectDepositClient {
     };
   }
 
-  recordDirectDepositEvent({ status, method = 'GET', extraProperties = {} }) {
+  recordDirectDepositEvent({
+    endpoint,
+    status,
+    method = 'GET',
+    extraProperties = {},
+  }) {
+    const apiEndpoint = endpoint || this.endpoint;
     const payload = {
       event: 'api_call',
-      'api-name': `${method} ${this.endpoint}`,
+      'api-name': `${method} ${apiEndpoint}`,
       'api-status': status,
     };
 
     const errorKey = extraProperties?.['error-key'];
-
     if (errorKey) {
       payload['error-key'] = errorKey;
+    }
+    const veteranStatus = extraProperties?.veteranStatus;
+    if (veteranStatus) {
+      payload['veteran-status'] = veteranStatus;
     }
 
     this.recordAnalyticsEvent(payload);
