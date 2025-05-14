@@ -818,4 +818,3 @@ export const lacpCategoryList = [
   'certification',
   'prep course',
 ];
-// test comment
