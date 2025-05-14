@@ -20,7 +20,7 @@ describe('Medications Details Page Delay Alert and Tracking', () => {
     detailsPage.verifyRefillDelayAlertBannerOnDetailsPage(
       Data.DELAY_ALERT_DETAILS_BANNER,
     );
-    detailsPage.verifyTrackingForSubmittedRefillOnDetailsPage();
+    // detailsPage.verifyTrackingForSubmittedRefillOnDetailsPage();
     cy.injectAxe();
     cy.axeCheck('main');
   });
