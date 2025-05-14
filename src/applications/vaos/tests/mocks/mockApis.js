@@ -6,6 +6,7 @@ import {
   format,
   startOfDay,
   startOfMonth,
+  subDays,
   subYears,
 } from 'date-fns';
 import {
@@ -15,7 +16,7 @@ import {
 import sinon from 'sinon';
 import metaWithoutFailures from '../../services/mocks/v2/meta.json';
 import metaWithFailures from '../../services/mocks/v2/meta_failures.json';
-import { getVAOSAppointmentMock } from './mock';
+import MockAppointmentResponse from '../fixtures/MockAppointmentResponse';
 
 /**
  * Return a collection of start and end dates. The start date starts from the current
@@ -640,16 +641,11 @@ export function mockEligibilityFetches({
   );
 
   const pastAppointments = (matchingClinics || clinics).map(clinic => {
-    const appt = getVAOSAppointmentMock();
-    return {
-      ...appt,
-      attributes: {
-        ...appt.attributes,
-        type: 'VA',
-        clinic: clinic.id,
-        locationId: facilityId.substr(0, 3),
-      },
-    };
+    return new MockAppointmentResponse({
+      localStartTime: subDays(new Date(), 1),
+    })
+      .setClinicId(clinic.id)
+      .setLocationId(facilityId.substr(0, 3));
   });
 
   const dateRanges = getDateRanges(3);

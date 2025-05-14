@@ -1,22 +1,22 @@
 /* eslint-disable no-plusplus */
 
 /**
- * Method to...
- *
- * @typedef {Object} MockFacilityResponse
- */
-
-/**
- * Creates an instance of MockFacilityResponse.
- *
- * @param {Object} props - Properties used to determine what type of mock facility to create.
- * @param {string} [props.id=983] - Facility id. Default = 983.
- * @param {string} [props.name] - Name of the facility. Default = Cheyenne VA Medical Center
+ * Mock facility response.
  *
  * @export
  * @class MockFacilityResponse
  */
 export default class MockFacilityResponse {
+  /**
+   * Creates an instance of MockFacilityResponse.
+   *
+   * @param {Object} props - Properties used to determine what type of mock facility to create.
+   * @param {string} [props.id=983] - Facility id. Default = 983.
+   * @param {string} [props.name] - Name of the facility. Default = Cheyenne VA Medical Center
+   *
+   * @export
+   * @class MockFacilityResponse
+   */
   constructor({
     id = '983',
     isParent = false,
