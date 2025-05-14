@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Toggler } from '~/platform/utilities/feature-toggles';
-import { scrubDescription, buildDateFormatter } from '../../utils/helpers';
+import {
+  scrubDescription,
+  buildDateFormatter,
+  getDisplayFriendlyName,
+} from '../../utils/helpers';
 import AddFilesForm from '../claim-files-tab/AddFilesForm';
 import DueDate from '../DueDate';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
@@ -27,18 +31,29 @@ export default function DefaultPage({
       <Toggler.Enabled>
         <div id="default-page" className="vads-u-margin-bottom--3">
           <h1 className="claims-header">
-            {item.friendlyName || item.displayName}
             {item.status === 'NEEDED_FROM_YOU' ? (
               <>
+                {item.friendlyName || item.displayName}
                 <span className="vads-u-font-family--sans vads-u-margin-bottom--1 vads-u-margin-top--1">
                   Respond by {dateFormatter(item.suspenseDate)}
+                  <DueDate date={item.suspenseDate} />
                 </span>
-                <DueDate date={item.suspenseDate} />
               </>
             ) : (
-              <span className="vads-u-font-family--sans vads-u-margin-top--1">
-                Requested to others on {dateFormatter(item.requestedDate)}
-              </span>
+              <>
+                {item.friendlyName
+                  ? `Your ${getDisplayFriendlyName(item)}`
+                  : item.displayName}
+                <span className="vads-u-font-family--sans vads-u-margin-top--1">
+                  {item.friendlyName
+                    ? `Requested for you on ${dateFormatter(
+                        item.requestedDate,
+                      )}`
+                    : `Requested to others on ${dateFormatter(
+                        item.requestedDate,
+                      )}`}
+                </span>
+              </>
             )}
           </h1>
 
@@ -81,12 +96,13 @@ export default function DefaultPage({
                 titled, “Request for Specific Evidence or Information,” which
                 may include more details about this request. You can access this
                 and all your claim letters online.
+                <br />
+                <va-link
+                  text="Your claim letters"
+                  label="Your claim letters"
+                  href="/track-claims/your-claim-letters"
+                />
               </p>
-              <va-link
-                text="Your claim letters"
-                label="Your claim letters"
-                href="/track-claims/your-claim-letters"
-              />
             </>
           )}
           {evidenceDictionary[item.displayName] &&

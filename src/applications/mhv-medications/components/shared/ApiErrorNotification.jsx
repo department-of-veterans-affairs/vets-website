@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const ApiErrorNotification = ({ errorType, content, children }) => {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    focusElement(ref.current);
+  }, []);
+
   return (
-    <va-alert status="error" setFocus aria-live="polite" role="alert" uswds>
+    <va-alert
+      status="error"
+      data-testid="api-error-notification"
+      setFocus
+      aria-live="polite"
+      role="alert"
+      ref={ref}
+      uswds
+    >
       <h2
         className="vads-u-margin--0 vads-u-font-size--h3"
         data-testid="no-medications-list"

@@ -47,44 +47,6 @@ export function getVAOSRequestMock() {
   };
 }
 
-/**
- * Return a stubbed VAOS VA appointment item
- *
- * @export
- * @returns {VAOSRequest} VAOS VA request object
- */
-export function getVAOSAppointmentMock() {
-  return {
-    id: null,
-    type: 'appointments',
-    attributes: {
-      cancelationReason: null,
-      clinic: null,
-      comment: null,
-      contact: {
-        telecom: [],
-      },
-      description: null,
-      end: null,
-      id: null,
-      kind: null,
-      locationId: null,
-      minutesDuration: null,
-      patientInstruction: null,
-      practitioners: [],
-      preferredTimesForPhoneCall: [],
-      priority: null,
-      reasonCode: {},
-      requestedPeriods: null,
-      serviceType: null,
-      slot: null,
-      start: null,
-      status: 'booked',
-      telehealth: null,
-    },
-  };
-}
-
 export function getSchedulingConfigurationMock({
   id = 'fake',
   typeOfCareId = 'fake',
@@ -146,23 +108,6 @@ export function getV2ClinicMock({ id, stationId, serviceName }) {
       patientDirectScheduling: true,
       patientDisplay: null,
       char4: null,
-    },
-  };
-}
-
-/**
- * Returns a stubbed VAOS service VistA clinic appointment slot object.
- *
- * @export
- * @returns {VAOSlot} VAOS service clinic appointment slot object
- */
-export function getAppointmentSlotMock() {
-  return {
-    id: 'fake',
-    type: 'slots',
-    attributes: {
-      start: 'fake startDateTime',
-      end: 'fake endDateTime',
     },
   };
 }
