@@ -8,7 +8,7 @@ export default {
   uiSchema: {
     wcv3FileInputMultiple: fileInputMultipleUI({
       title: 'Web component v3 file input multiple',
-      required: false,
+      required: () => false,
     }),
   },
   schema: {

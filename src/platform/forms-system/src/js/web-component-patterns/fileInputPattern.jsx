@@ -1,8 +1,41 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   VaFileInputField,
   VaFileInputMultipleField,
 } from '../web-component-fields';
+import { getFileSize } from '../web-component-fields/vaFileInputFieldHelpers';
+
+const ReviewFieldPropTypes = {
+  children: PropTypes.node,
+  formData: PropTypes.any,
+};
+
+function fileInputReviewField({ children }, title) {
+  fileInputReviewField.propTypes = ReviewFieldPropTypes;
+  return (
+    <div className="review-row">
+      <dt>{title}</dt>
+      <dd>{children.props?.formData?.name}</dd>
+    </div>
+  );
+}
+function fileInputMultipleReviewField({ children }) {
+  fileInputMultipleReviewField.propTypes = ReviewFieldPropTypes;
+  return (
+    <>
+      {children?.props?.formData.map(item => (
+        <div
+          key={`${item?.confirmationCode}-${item?.lastModified}`}
+          className="review-row"
+        >
+          <dt>{item.name}</dt>
+          <dd>{getFileSize(item?.size)}</dd>
+        </div>
+      ))}
+    </>
+  );
+}
 
 export const filePresenceValidation = (
   errors,
@@ -107,12 +140,7 @@ export const fileInputUI = options => {
     'ui:options': {
       ...uiOptions,
     },
-    'ui:reviewField': ({ children }) => (
-      <div className="review-row">
-        <dt>{title}</dt>
-        <dd>{children.props?.formData?.name}</dd>
-      </div>
-    ),
+    'ui:reviewField': props => fileInputReviewField(props, title),
     'ui:confirmationField': ({ formData }) => ({
       data: formData?.name,
       label: title,
@@ -134,27 +162,15 @@ export const fileInputUI = options => {
  * exampleText: fileInputMultipleUI({
  *   title: 'FileInput field',
  *   hint: 'This is a hint',
- *   description: 'This is a description',
- *   charcount: true, // Used with minLength and maxLength in the schema
  * })
  * ```
  *
  * Usage schema:
  * ```js
- * exampleFileInput: fileInputSchema,
+ * exampleFileInput: fileInputMultipleSchema,
  * required: ['exampleFileInput']
  *
- * // or
- * exampleFileInput: {
- *   type: 'string',
- * }
- * ```
- *
  * About `labelHeaderLevel`:
- *
- * Simply use the label as the form header.
- *
- * About `useFormsPattern`:
  *
  * Advanced version of `labelHeaderLevel`.
  * Used with `formDescription`, `formHeading`, and `formHeadingLevel`
@@ -164,28 +180,17 @@ export const fileInputUI = options => {
  * @param {UIOptions & {
  *  title?: UISchemaOptions['ui:title'],
  *  description?: UISchemaOptions['ui:description'],
- *  hint?: UIOptions['hint'],
  *  errorMessages?: UISchemaOptions['ui:errorMessages'],
- *  labelHeaderLevel?: UIOptions['labelHeaderLevel'],
- *  messageAriaDescribedby?: UIOptions['messageAriaDescribedby'],
- *  useFormsPattern?: UIOptions['useFormsPattern'],
- *  formHeading?: UIOptions['formHeading'],
- *  formDescription?: UIOptions['formDescription'],
- *  formHeadingLevel?: UIOptions['formHeadingLevel'],
+ *  required?: UISchemaOptions['ui:required'],
+ *  reviewField?: UISchemaOptions['ui:reviewField'],
+ *  hidden?: UISchemaOptions['ui:hidden'],
+ *  hint?: UIOptions['hint'],
  * }} stringOrOptions
  * @returns {UISchemaOptions}
  */
 export const fileInputMultipleUI = stringOrOptions => {
-  if (typeof stringOrOptions === 'string') {
-    return {
-      'ui:title': stringOrOptions,
-      'ui:webComponentField': VaFileInputMultipleField,
-    };
-  }
-
   const {
     title,
-    description,
     errorMessages,
     required,
     reviewField,
@@ -195,12 +200,12 @@ export const fileInputMultipleUI = stringOrOptions => {
 
   return {
     'ui:title': title,
-    'ui:description': description,
     'ui:required': required,
     'ui:webComponentField': VaFileInputMultipleField,
-    'ui:reviewField': reviewField,
+    'ui:reviewField': reviewField || fileInputMultipleReviewField,
     'ui:hidden': hidden,
     'ui:options': {
+      keepInPageOnReview: true,
       ...uiOptions,
     },
     'ui:errorMessages': errorMessages,
