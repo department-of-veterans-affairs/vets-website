@@ -14,5 +14,6 @@ export const SIGN_OUT_URL = (() => {
     SIS.QUERY_PARAM_KEYS.CLIENT_ID,
     sessionStorage.getItem('ci'),
   );
+
   return url;
 })();
