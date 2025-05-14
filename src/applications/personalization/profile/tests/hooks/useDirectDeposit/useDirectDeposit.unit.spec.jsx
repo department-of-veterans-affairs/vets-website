@@ -3,10 +3,10 @@ import { expect } from 'chai';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { setupServer } from 'msw/node';
 import {
   createPutHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 
 import {

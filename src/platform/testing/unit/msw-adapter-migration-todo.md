@@ -75,37 +75,37 @@ For each test file:
 
 - [x] src/applications/personalization/appointments/actions/index.unit.spec.jsx
 - [x] src/applications/personalization/profile/tests/actions/directDeposit.unit.spec.jsx
-- [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-address.unit.spec.jsx
-- [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-email-address.unit.spec.jsx
-- [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-telephone.unit.spec.jsx
-- [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.edit-email-address.unit.spec.jsx
-- [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.edit-telephone.unit.spec.jsx
-- [ ] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.update-address.unit.spec.jsx
-- [ ] src/applications/personalization/profile/tests/ducks/communicationPreferences.unit.spec.jsx
-- [ ] src/applications/personalization/profile/tests/hooks/useDirectDeposit/useDirectDeposit.unit.spec.jsx
+- [x] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-address.unit.spec.jsx
+- [x] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-email-address.unit.spec.jsx
+- [x] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.delete-telephone.unit.spec.jsx
+- [x] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.edit-email-address.unit.spec.jsx
+- [x] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.edit-telephone.unit.spec.jsx
+- [x] src/applications/personalization/profile/tests/components/contact-information/ContactInformation.update-address.unit.spec.jsx
+- [x] src/applications/personalization/profile/tests/ducks/communicationPreferences.unit.spec.jsx
+- [x] src/applications/personalization/profile/tests/hooks/useDirectDeposit/useDirectDeposit.unit.spec.jsx
 
 ### Rated Disabilities
 
-- [ ] src/applications/rated-disabilities/tests/containers/AppContent.unit.spec.jsx
+- [x] src/applications/rated-disabilities/tests/containers/AppContent.unit.spec.jsx
 
 ### Sign-In Changes
 
-- [ ] src/applications/sign-in-changes/tests/InterstitialChanges.unit.spec.jsx
+- [x] src/applications/sign-in-changes/tests/InterstitialChanges.unit.spec.jsx
 
 ### Static Pages
 
-- [ ] src/applications/static-pages/download-1095b/components/App/index.unit.spec.jsx
+- [x] src/applications/static-pages/download-1095b/components/App/index.unit.spec.jsx
 
 ### Terms of Use
 
-- [ ] src/applications/terms-of-use/tests/MyVAHealth.unit.spec.jsx
-- [ ] src/applications/terms-of-use/tests/TermsOfUse.unit.spec.jsx
+- [x] src/applications/terms-of-use/tests/MyVAHealth.unit.spec.jsx
+- [x] src/applications/terms-of-use/tests/TermsOfUse.unit.spec.jsx
 
 ## Migration Progress
 
 - Total files to update: 33
-- Files updated: 19
-- Progress: 58%
+- Files updated: 33
+- Progress: 100%
 
 ## Running Unit Tests
 
@@ -117,4 +117,4 @@ yarn test:unit src/applications/686c-674/tests/actions/index.unit.spec.jsx src/a
 
 These commands will help you verify that your MSW adapter migrations are working correctly across both Node environments.
 
-Last updated: May 13, 2025
+Last updated: May 14, 2025

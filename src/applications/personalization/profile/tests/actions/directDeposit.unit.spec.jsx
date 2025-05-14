@@ -84,6 +84,7 @@ describe('directDeposit actions', () => {
     ).to.be.true;
 
     expect(dispatchSpy.callCount).to.eql(4);
+    server.close();
   });
 
   it('should dispatch DIRECT_DEPOSIT_FETCH_FAILED with response on error', async () => {
@@ -120,6 +121,7 @@ describe('directDeposit actions', () => {
     ).to.be.true;
 
     expect(captureErrorStub.calledOnce).to.be.true;
+    server.close();
   });
 
   describe('toggleDirectDepositInformationEdit', () => {
@@ -159,6 +161,7 @@ describe('directDeposit actions', () => {
         type: DIRECT_DEPOSIT_SAVE_SUCCEEDED,
         response: base.data.attributes,
       });
+      server.close();
     });
     it('should dispatch the FAILURE state', async () => {
       server = setupServer(
@@ -183,6 +186,7 @@ describe('directDeposit actions', () => {
         type: DIRECT_DEPOSIT_SAVE_FAILED,
         response: error500,
       });
+      server.close();
     });
 
     it('should dispatch the FAILURE state when the response is an instance of Error', async () => {
@@ -212,6 +216,7 @@ describe('directDeposit actions', () => {
         .true;
 
       expect(captureErrorStub.calledOnce).to.be.true;
+      server.close();
     });
   });
 });
