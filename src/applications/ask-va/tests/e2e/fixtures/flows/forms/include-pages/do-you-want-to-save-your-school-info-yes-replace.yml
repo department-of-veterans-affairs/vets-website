@@ -1,10 +1,10 @@
 steps:
   - action: exists
     target: header
-    value: Do you want this to be your saved school facility?
+    value: Your school facility
   - action: click
     target: radioYesNo
-    value: don\'t update my saved facility
+    value: replace my saved school
   - action: click
     target: call-to-action
 

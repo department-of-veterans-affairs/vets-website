@@ -99,6 +99,7 @@ const UtilityBillSummary = ({
           )}
           <Link
             className="vads-c-action-link--green"
+            data-testid="add-link"
             to={{
               pathname: '/add-utility-bill',
               search: `?index=${utilityRecords.length}`,
