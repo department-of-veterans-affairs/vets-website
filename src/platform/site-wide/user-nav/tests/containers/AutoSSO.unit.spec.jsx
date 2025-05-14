@@ -43,14 +43,15 @@ describe('<AutoSSO>', () => {
 
   it(`should not call checkAutoSession on an invalid path ['/auth/login/callback']`, () => {
     const oldLocation = global.window.location;
+    global.window.location = new URL('https://dev.va.gov');
     global.window.location.pathname = `/auth/login/callback`;
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     const props = generateProps({ hasCalledKeepAlive: false });
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.notCalled(stub);
-    global.window.location = oldLocation;
     wrapper.unmount();
+    global.window.location = oldLocation;
   });
 
   it('should not call checkAutoSession if `hasCalledKeepAlive` is true', () => {
