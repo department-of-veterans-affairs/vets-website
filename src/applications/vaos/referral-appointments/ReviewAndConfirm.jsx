@@ -137,7 +137,7 @@ const ReviewAndConfirm = props => {
         routeToNextReferralPage(
           history,
           'reviewAndConfirm',
-          null,
+          currentReferral.uuid,
           draftAppointmentInfo.id,
         );
       } else if (
@@ -152,6 +152,7 @@ const ReviewAndConfirm = props => {
     [
       appointmentCreateStatus,
       draftAppointmentInfo?.id,
+      currentReferral.uuid,
       draftAppointmentCreateStatus,
       history,
     ],
