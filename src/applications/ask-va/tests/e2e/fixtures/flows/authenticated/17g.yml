@@ -6,6 +6,7 @@ flow:
       target: page
       value: start-your-question-auth
 
+
     - action: include
       target: page
       value: select-category-burials-and-memorials
@@ -21,10 +22,6 @@ flow:
     - action: include
       target: page
       value: tell-us-about-yourself-general-empty
-
-    - action: include
-      target: page
-      value: tell-us-about-yourself-general
 
     - action: include
       target: page
