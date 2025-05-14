@@ -15,10 +15,19 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module',
     requireConfigFile: false,
+    babelOptions: {
+      presets: [
+        '@babel/preset-env',
+        '@babel/preset-react',
+      ],
+    },
   },
+  plugins: 'react',
   extends: [
     'plugin:@department-of-veterans-affairs/recommended',
     'plugin:you-dont-need-momentjs/recommended',
+    'eslint:recommended',
+    'plugin:react/recommended',
   ],
   globals: {
     __BUILDTYPE__: true,
