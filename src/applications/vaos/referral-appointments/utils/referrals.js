@@ -13,6 +13,30 @@ const errorReferralsList = [
       referralId: 'VA0000009880-create-error',
     },
   },
+  {
+    attributes: {
+      expirationDate: '2025-11-14',
+      uuid: 'VA0000009880-complete-retry-error',
+      categoryOfCare: 'complete retry error',
+      referralId: 'VA0000009880-complete-retry-error',
+    },
+  },
+  {
+    attributes: {
+      expirationDate: '2025-11-14',
+      uuid: 'VA0000009880-complete-error',
+      categoryOfCare: 'complete error',
+      referralId: 'VA0000009880-complete-error',
+    },
+  },
+  {
+    attributes: {
+      expirationDate: '2025-11-14',
+      uuid: 'VA0000009880-draft-no-active-slots-error',
+      categoryOfCare: 'draft no active slots error',
+      referralId: 'VA0000009880-draft-no-active-slots-error',
+    },
+  },
 ];
 
 /**
