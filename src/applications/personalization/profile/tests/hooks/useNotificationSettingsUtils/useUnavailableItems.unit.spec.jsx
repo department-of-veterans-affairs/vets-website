@@ -51,8 +51,6 @@ describe('useNotificationSettingsUtils hook -> useUnavailableItems', () => {
       communicationPreferences,
       featureToggles: {
         loading: false,
-        [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
-        [TOGGLE_NAMES.profileShowNewBenefitOverpaymentDebtNotificationSetting]: true,
         [TOGGLE_NAMES.profileShowNewHealthCareCopayBillNotificationSetting]: true,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: true,
@@ -95,7 +93,6 @@ describe('useNotificationSettingsUtils hook -> useUnavailableItems', () => {
       communicationPreferences,
       featureToggles: {
         loading: false,
-        [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
         [TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting]: true,
       },
