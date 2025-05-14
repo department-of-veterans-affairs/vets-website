@@ -158,8 +158,8 @@ export const fileInputUI = options => {
  *
  * Usage uiSchema:
  * ```js
- * exampleText: fileInputMultipleUI('Simple fileInput field')
- * exampleText: fileInputMultipleUI({
+ * exampleFileInput: fileInputMultipleUI('Simple fileInput field')
+ * exampleFileInput: fileInputMultipleUI({
  *   title: 'FileInput field',
  *   hint: 'This is a hint',
  * })
@@ -169,13 +169,7 @@ export const fileInputUI = options => {
  * ```js
  * exampleFileInput: fileInputMultipleSchema,
  * required: ['exampleFileInput']
- *
- * About `labelHeaderLevel`:
- *
- * Advanced version of `labelHeaderLevel`.
- * Used with `formDescription`, `formHeading`, and `formHeadingLevel`
- * when the label of the field should be the actual form title and
- * have a description with JSX that should be read out by screen readers.
+ * ```
  *
  * @param {UIOptions & {
  *  title?: UISchemaOptions['ui:title'],
@@ -250,12 +244,6 @@ export const fileInputSchema = {
 
 /**
  * Schema for generic fileInputMultiple field
- *
- * ```js
- * exampleFileInput: {
- *   type: 'object',
- * }
- * ```
  */
 export const fileInputMultipleSchema = {
   type: 'array',
