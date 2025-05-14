@@ -7,7 +7,7 @@ import mockMixedCernerFacilitiesUser from './fixtures/userResponse/user-cerner-m
 import mockFacilities from './fixtures/facilityResponse/cerner-facility-mock-data.json';
 import mockFeatureToggles from './fixtures/toggles-response.json';
 
-describe(' Secure Messaging AAL', () => {
+describe('Secure Messaging AAL', () => {
   const customFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
     {
       name: 'mhv_secure_messaging_milestone_2_aal',
