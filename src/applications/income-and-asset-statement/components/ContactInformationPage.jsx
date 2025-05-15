@@ -75,13 +75,14 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         <p className="email">
           <span
             className="name dd-privacy-hidden"
-            data-dd-action-name="Veteran's name"
+            data-dd-action-name="Veteran's email"
           >
             {email}
           </span>
         </p>
         <VaLink
           href={editEmailHref}
+          label={email ? `Edit email ${email}` : 'Add email address'}
           text={`${email ? 'Edit' : 'Add'} >`}
           onClick={e => handleRouteChange(e, editEmailHref)}
         />
@@ -93,13 +94,18 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         <p className="email">
           <span
             className="name dd-privacy-hidden"
-            data-dd-action-name="Veteran's name"
+            data-dd-action-name="Veteran's phone"
           >
             {phone ? formatPhoneNumber(phone) : 'None provided'}
           </span>
         </p>
         <VaLink
           href={editPhoneHref}
+          label={
+            phone
+              ? `Edit phone number ${formatPhoneNumber(phone)}`
+              : 'Add phone number'
+          }
           text={`${phone ? 'Edit' : 'Add'} >`}
           onClick={e => handleRouteChange(e, editPhoneHref)}
         />

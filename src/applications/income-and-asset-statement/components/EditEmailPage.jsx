@@ -77,6 +77,7 @@ const EditEmailPage = props => {
                 buttonText="Update"
                 onButtonClick={handlers.onUpdate}
                 buttonClass="usa-button-primary"
+                ariaLabel="Update email address"
               />
             </div>
           </div>

@@ -82,6 +82,7 @@ const EditPhonePage = props => {
                 buttonText="Update"
                 onButtonClick={handlers.onUpdate}
                 buttonClass="usa-button-primary"
+                ariaLabel="Update phone number"
               />
             </div>
           </div>
