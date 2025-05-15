@@ -1,5 +1,5 @@
 flow:
-  title: Education benefits and work study connected through work :q(auth)
+  title: Education benefits and work study for veteran (auth)
   runOnCI: true # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
@@ -24,24 +24,12 @@ flow:
     
     - action: include
       target: page
-      value:  what-is-your-relationship-to-the-veteran-connected-through-work
-     
-    - action: include
-      target: page
-      value:  what-is-your-role-sco
+      value:  what-is-your-relationship-to-the-veteran-veteran
       
     - action: include
       target: page
-      value:  do-you-want-to-use-your-school-info-no-update
-    
-    - action: include
-      target: page
-      value:  school-information
+      value:  your-school-state-and-residency-state
 
-    - action: include
-      target: page
-      value:  do-you-want-to-save-your-school-info-yes-replace
-      
     - action: include
       target: page
       value: your-contact-information
@@ -57,3 +45,4 @@ flow:
     - action: include
       target: page
       value: your-confirmation-number
+      
