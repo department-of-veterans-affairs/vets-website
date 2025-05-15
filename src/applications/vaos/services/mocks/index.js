@@ -513,27 +513,21 @@ const responses = {
   },
   'POST /vaos/v2/appointments/submit': (req, res) => {
     const {
-      draftApppointmentId,
+      id,
       referralNumber,
       slotId,
       networkId,
       providerServiceId,
     } = req.body;
 
-    if (
-      !draftApppointmentId ||
-      !referralNumber ||
-      !slotId ||
-      !networkId ||
-      !providerServiceId
-    ) {
+    if (!id || !referralNumber || !slotId || !networkId || !providerServiceId) {
       return res.status(400).json({ error: true });
     }
 
-    draftAppointmentPollCount[draftApppointmentId] = 1;
+    draftAppointmentPollCount[id] = 1;
 
     return res.status(201).json({
-      data: { id: draftApppointmentId },
+      data: { id },
     });
   },
   // Required v0 APIs
