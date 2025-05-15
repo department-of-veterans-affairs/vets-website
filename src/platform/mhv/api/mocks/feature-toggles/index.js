@@ -34,7 +34,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
 
-    mhvIntegrationMedicalRecordsToPhase1 = true,
     mhvMedicalRecordsMilestoneTwo = false,
 
     // secure messaging

@@ -4,18 +4,15 @@ import {
   reportGeneratedBy,
   txtLine,
   txtLineDotted,
+  getNameDateAndTime,
+  formatNameFirstLast,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 
 import {
   generateLabsIntro,
   generateGenericContent,
 } from './pdfHelpers/labsAndTests';
-
-import {
-  getNameDateAndTime,
-  formatNameFirstLast,
-  formatUserDob,
-} from './helpers';
 
 import {
   OBSERVATION_DISPLAY_LABELS,

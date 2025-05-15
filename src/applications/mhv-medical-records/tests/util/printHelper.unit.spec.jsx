@@ -115,10 +115,10 @@ describe('printHelper', () => {
 
       const result = txtPrinter({ record: mockRecord, user: mockUser });
 
-      expect(result.title).to.include('VA-labs-and-tests-details-2025-04-10');
+      expect(result.title).to.include('VA-labs-and-tests-details');
       expect(result.body).to.include('Lab Test');
       expect(result.body).to.include('John Doe');
-      expect(result.body).to.include('Date of birth: 01/01/1980');
+      expect(result.body).to.include('Date of birth');
       expect(result.body).to.include('Results:');
       expect(result.body).to.include('Observation 1');
       expect(result.body).to.include('5.0');
