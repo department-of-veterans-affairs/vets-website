@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+// import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import { hasBadAddress as hasBadAddressSelector } from '@@vap-svc/selectors';
 
@@ -14,11 +14,11 @@ import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAler
 import { HubCard } from './HubCard';
 
 export const Hub = () => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  // const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
 
-  const showAccreditedRepresentative = useToggleValue(
-    TOGGLE_NAMES.representativeStatusEnableV2Features,
-  );
+  // const showAccreditedRepresentative = useToggleValue(
+  //   TOGGLE_NAMES.representativeStatusEnableV2Features,
+  // );
 
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);
@@ -106,7 +106,7 @@ export const Hub = () => {
             href="/va-payment-history/payments/"
           />
         </HubCard>
-
+        {/* 
         {showAccreditedRepresentative && (
           <HubCard
             heading={PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE}
@@ -120,7 +120,7 @@ export const Hub = () => {
               />
             </>
           </HubCard>
-        )}
+        )} */}
 
         <HubCard
           heading={PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}

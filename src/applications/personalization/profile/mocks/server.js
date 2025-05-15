@@ -95,7 +95,7 @@ const responses = {
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
             profileHideDirectDeposit: false,
-            representativeStatusEnableV2Features: true,
+            // representativeStatusEnableV2Features: true,
             profileLimitDirectDepositForNonBeneficiaries: true,
             profileShowCredentialRetirementMessaging: true,
             profileShowPaymentsNotificationSetting: true,

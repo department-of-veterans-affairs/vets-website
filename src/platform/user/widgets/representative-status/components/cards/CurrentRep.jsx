@@ -127,7 +127,7 @@ export function CurrentRep({
               <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                 <va-icon icon="search" size={2} />
               </div>
-              {containerIsProfile ? (
+              {containerIsProfile && isOrganization ? (
                 <va-link
                   href={`${
                     environment.BASE_URL
