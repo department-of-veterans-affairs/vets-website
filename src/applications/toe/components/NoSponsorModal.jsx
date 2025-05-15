@@ -29,7 +29,7 @@ const NoSponsorModal = ({ sponsorsList }) => {
       modalClass="vads-u-max-width--5xl"
       onPrimaryButtonClick={handleContinue}
       primaryButtonText="Yes, continue"
-      onSecondaryButtonClick={handleExit}
+      onSecondaryButtonClick={handleContinue}
       secondaryButtonText="No, exit application"
       onCloseEvent={handleExit}
     >
