@@ -81,6 +81,7 @@ export const Locators = {
   THREADS: '[data-testid="thread-list-item"]',
   MES_COUNT: '[data-testid="message-count"]',
   REPLY_FORM: '[data-testid="reply-form"]',
+  REPLY_TO: '[data-testid="draft-reply-to"]',
   CLEAR_FILTERS: '[text="Clear Filters"]',
   FILTER_INPUT: '#filter-input',
   ADDITIONAL_FILTER: '#additional-filter-accordion',
@@ -145,7 +146,6 @@ export const Locators = {
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
     CREATE_FOLDER: '[data-testid="create-folder-button"]',
     REMOVE_FOLDER: '[data-testid="remove-folder-button"]',
-    PREFERENCES: '[data-testid="edit-preferences-button"]',
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
@@ -157,10 +157,10 @@ export const Locators = {
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
-    PREFER_LINK: '[data-testid="edit-preferences-link"]',
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
+    CRUMB_BACK: '[data-testid="sm-breadcrumbs-back"]',
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
     CRUMBS_BACK: '.sm-breadcrumb-list-item',
     OLD_VERSION: `.welcome-message > p > a`,
@@ -370,7 +370,6 @@ export const Data = {
   IS_ACTIVE: 'is-active',
   END_CONVERSATION_IN_FOLDER: 'End of conversations in this folder',
   SAVE_MEG_AS_DRAFT: 'If you save this message as a draft',
-  EDIT_YOUR_MSG_PREFRENCES: 'Edit your message preferences',
   NO_MSG_IN_FOLDER: 'There are no messages in this folder.',
   WHAT_SECURE_MSG_PILOT: 'What is Secure Messaging Pilot?',
   CANNOT_SEND_MSG_TO_CARE_TEAM:
@@ -385,6 +384,8 @@ export const Data = {
   ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
   EDIT_SIGNATURE: `Edit signature for all messages`,
+  READ_RECEIPT: `Opened by your care team`,
+  UNREAD_RECEIPT: `Not yet opened by your care team`,
   BUTTONS: {
     ATTACH_FILE: 'Attach file',
     SEND: `Send`,
@@ -403,7 +404,6 @@ export const Data = {
   },
   LINKS: {
     PROFILE_SIGNATURE: `/profile/personal-information#messaging-signature`,
-    LEGACY_PREFERENCES: 'mhv-portal-web/preferences',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {

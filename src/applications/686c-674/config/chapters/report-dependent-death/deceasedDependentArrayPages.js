@@ -72,9 +72,14 @@ export const deceasedDependentOptions = {
     cardDescription: item => {
       const firstName = capitalize(item?.fullName?.first || '');
       const lastName = capitalize(item?.fullName?.last || '');
-      return `${firstName} ${lastName}`.trim();
+      return (
+        <span className="dd-privacy" data-dd-privacy="mask">
+          {`${firstName} ${lastName}`.trim()}
+        </span>
+      );
     },
     summaryTitle: 'Review your dependents who have died',
+    cancelAddButtonText: 'Cancel removing this dependent',
   },
 };
 
@@ -315,6 +320,7 @@ export const deceasedDependentIncomePage = {
         N: 'No',
         NA: 'This question doesn’t apply to me',
       },
+      required: () => false,
     }),
   },
   schema: {

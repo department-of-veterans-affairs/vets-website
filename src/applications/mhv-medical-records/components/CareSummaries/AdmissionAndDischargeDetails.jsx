@@ -10,17 +10,15 @@ import {
   txtLine,
   updatePageTitle,
   generatePdfScaffold,
+  getNameDateAndTime,
+  formatNameFirstLast,
+  makePdf,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import {
-  formatNameFirstLast,
-  generateTextFile,
-  getNameDateAndTime,
-  makePdf,
-  formatUserDob,
-} from '../../util/helpers';
+import { generateTextFile } from '../../util/helpers';
 import { pageTitles, dischargeSummarySortFields } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {

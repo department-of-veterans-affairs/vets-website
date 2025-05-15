@@ -1,3 +1,4 @@
+import React from 'react';
 import { capitalize } from 'lodash';
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -41,6 +42,7 @@ export const veteranMarriageHistoryOptions = {
     !item?.startDate ||
     !item?.endDate ||
     !item?.reasonMarriageEnded ||
+    (item.reasonMarriageEnded === 'Other' && !item.otherReasonMarriageEnded) ||
     !item?.startLocation?.location?.city ||
     !item?.endLocation?.location?.city ||
     (item?.startLocation?.outsideUsa === false &&
@@ -55,10 +57,13 @@ export const veteranMarriageHistoryOptions = {
   text: {
     summaryTitle: 'Review your marital history',
     getItemName: () => 'Your former marriage',
-    cardDescription: item =>
-      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
-        item?.fullName?.last,
-      ) || ''}`,
+    cardDescription: item => (
+      <span className="dd-privacy" data-dd-privacy="mask">
+        {`${capitalize(item?.fullName?.first || '')} ${capitalize(
+          item?.fullName?.last || '',
+        )}`.trim()}
+      </span>
+    ),
   },
 };
 

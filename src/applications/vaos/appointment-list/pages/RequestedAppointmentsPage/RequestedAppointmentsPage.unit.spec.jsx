@@ -1,17 +1,24 @@
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { expect } from 'chai';
-import MockDate from 'mockdate';
 import { within } from '@testing-library/dom';
-import { format, addDays, subDays } from 'date-fns';
+import { expect } from 'chai';
+import { addDays, subDays } from 'date-fns';
+import MockDate from 'mockdate';
 import React from 'react';
 import reducers from '../../../redux/reducer';
-import { getVAOSRequestMock } from '../../../tests/mocks/mock';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
+import { mockAppointmentsApi } from '../../../tests/mocks/mockApis';
 import {
   getTestDate,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
+import {
+  APPOINTMENT_STATUS,
+  AUDIOLOGY_ID,
+  OPTOMETRY_ID,
+  PRIMARY_CARE,
+} from '../../../utils/constants';
 import RequestedAppointmentsPage from './RequestedAppointmentsPage';
-import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/mockApis';
 
 const initialStateVAOSService = {
   featureToggles: {
@@ -34,58 +41,18 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
   const startDate = now;
   it('should show va request', async () => {
     // Given a veteran has VA appointment request
-
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
-      },
-      kind: 'clinic',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-        },
-      },
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-        },
-        {
-          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-        },
-      ],
-      serviceType: '323',
-      start: null,
-      status: 'proposed',
+    const appointments = MockAppointmentResponse.createVAResponses({
+      localStartTime: startDate,
       pending: true,
-    };
+    });
+    appointments[0].setLocation(new MockFacilityResponse());
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'),
-      end: format(addDays(now, 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
+      response: appointments,
     });
 
     // When veteran selects the Requested dropdown selection
@@ -106,44 +73,18 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     // Given a veteran has CC appointment request
     // practitioners.id is same as practitioners.identifier
 
-    const ccAppointmentRequest = getVAOSRequestMock();
-    ccAppointmentRequest.id = '1234';
-    ccAppointmentRequest.attributes = {
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
-      },
-      kind: 'cc',
-      locationId: '983GC',
-      id: '1234',
-      practitioners: [{ id: [{ value: '123' }] }],
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-        },
-        {
-          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-        },
-      ],
-      serviceType: '203',
-      status: 'proposed',
+    const ccAppointmentRequest = MockAppointmentResponse.createCCResponse({
       pending: true,
-    };
+    })
+      .setLocation(new MockFacilityResponse())
+      .setTypeOfCare(AUDIOLOGY_ID);
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'),
-      end: format(addDays(now, 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [ccAppointmentRequest],
+      response: [ccAppointmentRequest],
     });
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
@@ -160,57 +101,9 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
   });
   it('should display pending and canceled appointments grouped', async () => {
     // And a veteran has VA appointment request
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
-      },
-      kind: 'clinic',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-        },
-        {
-          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-        },
-      ],
-      serviceType: '323',
-      start: null,
-      status: 'proposed',
+    const appointment = MockAppointmentResponse.createVAResponse({
       pending: true,
-    };
+    });
     const canceledAppointment = {
       ...appointment,
       attributes: {
@@ -221,11 +114,11 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     };
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'),
-      end: format(addDays(now, 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment, canceledAppointment],
+      response: [appointment, canceledAppointment],
     });
 
     // When veteran selects requested appointments
@@ -248,81 +141,20 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
   it('should display request sorted by create date in descending order', async () => {
     // Given a veteran has VA appointment request
 
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
+    const appointments = [OPTOMETRY_ID, AUDIOLOGY_ID, PRIMARY_CARE].map(
+      type => {
+        return MockAppointmentResponse.createVAResponse({
+          pending: true,
+        }).setTypeOfCare(type);
       },
-      kind: 'clinic',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: format(addDays(now, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-        },
-        {
-          start: format(addDays(now, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-        },
-      ],
-      serviceType: 'primaryCare',
-      start: null,
-      status: 'proposed',
-      created: format(subDays(now, 60), "yyyy-MM-dd'T'HH:mm:ss"),
-      pending: true,
-    };
-    const appointment2 = {
-      ...appointment,
-      attributes: {
-        ...appointment.attributes,
-        created: format(subDays(now, 30), "yyyy-MM-dd'T'HH:mm:ss"),
-        serviceType: 'audiology',
-      },
-    };
-    const appointment3 = {
-      ...appointment,
-      attributes: {
-        ...appointment.attributes,
-        created: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
-        serviceType: 'optometry',
-      },
-    };
+    );
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'),
-      end: format(addDays(now, 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment, appointment2, appointment3],
+      response: appointments,
     });
 
     // When veteran selects the Requested dropdown selection
@@ -343,64 +175,16 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
   it('should display pending appointments when there are no canceled appointments', async () => {
     // And a veteran has VA appointment request
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
-      },
-      kind: 'clinic',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: format(addDays(now, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-        },
-        {
-          start: format(addDays(now, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-        },
-      ],
-      serviceType: '323',
-      start: null,
-      status: 'proposed',
+    const appointment = MockAppointmentResponse.createVAResponse({
       pending: true,
-    };
+    });
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'),
-      end: format(addDays(now, 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
+      response: [appointment],
     });
 
     // When veteran selects requested appointments
@@ -416,9 +200,9 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // And cancelled appointments should not be displayed
     expect(
-      screen.queryByRole('heading', { level: 2, name: 'Canceled requests' }),
+      screen.queryByRole('heading', { level: 2, name: 'Canceled response' }),
     ).not.to.be.ok;
-    expect(screen.queryByText('These appointment requests have been canceled.'))
+    expect(screen.queryByText('These appointment response have been canceled.'))
       .not.to.be.ok;
 
     // And the no appointments alert message should not be displayed
@@ -433,11 +217,11 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
   it('should display no appointments alert when there are no pending or cancelled appointments', async () => {
     // And a veteran has no pending or canceled appointment request
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(new Date(), 120), 'yyyy-MM-dd'),
-      end: format(addDays(new Date(), 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(new Date(), 120),
+      end: addDays(new Date(), 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [{}],
+      response: [],
     });
 
     // When veteran selects requested appointments
@@ -459,64 +243,17 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
   it('should display no appointments alert when there are no pending but cancelled appointments', async () => {
     // And a veteran has VA appointment request
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
-      },
-      kind: 'clinic',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: format(addDays(now, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-        },
-        {
-          start: format(addDays(now, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-        },
-      ],
-      serviceType: '323',
-      start: null,
-      status: 'cancelled',
+    const appointment = MockAppointmentResponse.createVAResponse({
       pending: true,
-    };
+      status: APPOINTMENT_STATUS.cancelled,
+    }).setRequestedPeriods([now]);
 
     // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: format(subDays(now, 120), 'yyyy-MM-dd'),
-      end: format(addDays(now, 2), 'yyyy-MM-dd'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
+      response: [appointment],
     });
 
     // When veteran selects requested appointments
@@ -546,7 +283,12 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     ).to.be.ok;
   });
   it('should show error message when request fails', async () => {
-    mockVAOSAppointmentsFetch({ error: true });
+    mockAppointmentsApi({
+      start: subDays(new Date(), 120),
+      end: addDays(new Date(), 2),
+      statuses: ['proposed', 'cancelled'],
+      responseCode: 500,
+    });
 
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
       initialState: initialStateVAOSService,
@@ -571,55 +313,16 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     it('should show va request', async () => {
       // Given a veteran has VA appointment request
-      const appointment = getVAOSRequestMock();
-      appointment.id = '1234';
-      appointment.attributes = {
-        ...appointment.attributes,
-        comment: 'A message from the patient',
-        contact: {
-          telecom: [
-            { type: 'phone', value: '2125551212' },
-            { type: 'email', value: 'veteranemailtest@va.gov' },
-          ],
-        },
-        kind: 'clinic',
-        locationId: '983',
-        location: {
-          id: '983',
-          type: 'appointments',
-          attributes: {
-            id: '983',
-            vistaSite: '983',
-            name: 'Cheyenne VA Medical Center',
-            lat: 39.744507,
-            long: -104.830956,
-            phone: { main: '307-778-7550' },
-          },
-        },
-        id: '1234',
-        preferredTimesForPhoneCall: ['Morning'],
-        reasonCode: {
-          coding: [{ code: 'Routine Follow-up' }],
-          text: 'A message from the patient',
-        },
-        requestedPeriods: [
-          {
-            start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-          },
-          {
-            start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ssXXX"),
-          },
-        ],
-        serviceType: '323',
-        start: null,
-        status: 'proposed',
-      };
+      const appointment = MockAppointmentResponse.createVAResponse({
+        pending: true,
+      }).setLocation(new MockFacilityResponse());
+
       // And developer is using the v2 API
-      mockVAOSAppointmentsFetch({
-        start: format(subDays(new Date(), 120), 'yyyy-MM-dd'),
-        end: format(addDays(new Date(), 2), 'yyyy-MM-dd'),
+      mockAppointmentsApi({
+        start: subDays(new Date(), 120),
+        end: addDays(new Date(), 2),
         statuses: ['proposed', 'cancelled'],
-        requests: [appointment],
+        response: [appointment],
       });
 
       // When veteran selects the Requested dropdown selection

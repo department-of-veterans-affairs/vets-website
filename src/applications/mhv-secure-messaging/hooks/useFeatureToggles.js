@@ -4,19 +4,24 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 const useFeatureToggles = () => {
   const {
     featureTogglesLoading,
-    isSignatureSettingsEnabled,
     isComboBoxEnabled,
+    isAalEnabled,
+    readReceiptsEnabled,
   } = useSelector(
     state => {
       return {
         featureTogglesLoading: state.featureToggles.loading,
-        isSignatureSettingsEnabled:
-          state.featureToggles[
-            FEATURE_FLAG_NAMES.mhvSecureMessagingSignatureSettings
-          ],
         isComboBoxEnabled:
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientCombobox
+          ],
+        isAalEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingMilestone2AAL
+          ],
+        readReceiptsEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingReadReceipts
           ],
       };
     },
@@ -25,8 +30,9 @@ const useFeatureToggles = () => {
 
   return {
     featureTogglesLoading,
-    isSignatureSettingsEnabled,
     isComboBoxEnabled,
+    readReceiptsEnabled,
+    isAalEnabled,
   };
 };
 

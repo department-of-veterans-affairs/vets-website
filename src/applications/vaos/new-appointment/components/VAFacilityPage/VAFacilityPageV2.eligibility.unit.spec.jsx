@@ -1,22 +1,14 @@
 import { expect } from 'chai';
 import React from 'react';
 
-import {
-  mockFetch,
-  setFetchJSONFailure,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import {
-  createMockClinic,
-  createMockFacility,
-} from '../../../tests/mocks/data';
-import {
-  getSchedulingConfigurationMock,
-  getV2ClinicMock,
-} from '../../../tests/mocks/mock';
+import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
+import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import {
   mockEligibilityFetches,
+  mockEligibilityRequestApi,
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
 } from '../../../tests/mocks/mockApis';
@@ -48,25 +40,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       mockFacilitiesApi({
         ids,
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'San Diego VA Medical Center',
             isParent: true,
-          }),
-        ],
-      });
-      mockFacilitiesApi({
-        response: [
-          createMockFacility({
-            id: '442',
-            name: 'San Diego VA Medical Center',
-            address: {
-              line: ['2360 East Pershing Boulevard'],
-              city: 'San Diego',
-              state: 'CA',
-              postalCode: '92128',
-            },
-            phone: '858-779-0338',
           }),
         ],
       });
@@ -118,14 +95,14 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         clinics: [
-          createMockClinic({
+          new MockClinicResponse({
             id: '308',
-            stationId: '983',
+            locationId: '983',
             name: 'Green team clinic',
           }),
-          createMockClinic({
+          new MockClinicResponse({
             id: '309',
-            stationId: '983',
+            locationId: '983',
             name: 'Red team clinic',
           }),
         ],
@@ -162,9 +139,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         clinics: [
-          createMockClinic({
+          new MockClinicResponse({
             id: '308',
-            stationId: '983',
+            locationId: '983',
             name: 'Green team clinic',
           }),
         ],
@@ -238,19 +215,12 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     };
 
     const facilityIds = ['983', '984'];
-    const facilities = facilityIds.map((id, index) =>
-      createMockFacility({
-        id,
-        name: `Fake facility name ${index + 1}`,
-        lat: Math.random() * 90,
-        long: Math.random() * 180,
-        address: {
-          line: [],
-          state: 'fake',
-          postalCode: 'fake',
-          city: `Fake city ${index + 1}`,
-        },
-      }),
+    const facilities = facilityIds.map(
+      (id, index) =>
+        new MockFacilityResponse({
+          id,
+          name: `Fake facility name ${index + 1}`,
+        }),
     );
 
     beforeEach(() => {
@@ -289,10 +259,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         typeOfCareId: 'socialWork',
         directPastVisits: true,
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
       });
@@ -305,7 +275,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       // Assert
-      await screen.findAllByText(/Select a VA facility/i);
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -349,10 +321,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         facilityId: '983',
         typeOfCareId: 'amputation',
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
         limit: true,
@@ -369,7 +341,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       // Assert
-      await screen.findAllByText(/Select a VA facility/i);
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -411,10 +385,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         typeOfCareId: 'amputation',
         directPastVisits: true,
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
       });
@@ -428,7 +402,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       // Assert
-      await screen.findAllByText(/Select a VA facility/i);
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -468,10 +444,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         typeOfCareId: 'primaryCare',
         directPastVisits: true,
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
       });
@@ -485,13 +461,15 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       // Assert
-      await screen.findAllByText(/Select a VA facility/i);
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
       await waitFor(() => {
         expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/new-appointment/clinics',
+          '/schedule/clinic',
         );
       });
     });
@@ -517,10 +495,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         typeOfCareId: 'outpatientMentalHealth',
         directPastVisits: true,
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
       });
@@ -534,13 +512,15 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       // Assert
-      await screen.findAllByText(/Select a VA facility/i);
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
       await waitFor(() => {
         expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/new-appointment/clinics',
+          '/schedule/clinic',
         );
       });
     });
@@ -577,7 +557,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       // Assert
-      await screen.findAllByText(/Select a VA facility/i);
+      await screen.findAllByText(
+        /These facilities you're registered at offer/i,
+      );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -608,16 +590,11 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         ],
       });
       // Fail eligibility calls
-      setFetchJSONFailure(
-        global.fetch.withArgs(
-          `${
-            environment.API_URL
-          }/vaos/v2/eligibility?facility_id=983&clinical_service_id=primaryCare&type=request`,
-          {
-            errors: [],
-          },
-        ),
-      );
+      mockEligibilityRequestApi({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        responseCode: 404,
+      });
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
@@ -660,10 +637,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
         limit: false,
@@ -717,10 +694,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
         limit: true,
@@ -775,10 +752,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
         limit: true,
@@ -802,9 +779,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       fireEvent.click(screen.getByText(/Continue/));
 
       await waitFor(() =>
-        expect(screen.history.push.firstCall.args[0]).to.equal(
-          '/new-appointment/request-date',
-        ),
+        expect(screen.history.push.firstCall.args[0]).to.equal('va-request/'),
       );
     });
   });

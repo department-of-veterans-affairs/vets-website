@@ -1,8 +1,9 @@
+import { expect } from 'chai';
 import formConfig from '../../../../config/form';
 import {
   ownedAssetPages,
   options,
-} from '../../../../config/chapters/05-owned-assets/ownedAssetPages';
+} from '../../../../config/chapters/04-owned-assets/ownedAssetPages';
 import { ownedAssetTypeLabels } from '../../../../labels';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
@@ -10,7 +11,6 @@ import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json
 import {
   testOptionsIsItemIncomplete,
   testOptionsIsItemIncompleteWithZeroes,
-  testOptionsTextGetItemName,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
@@ -24,19 +24,76 @@ describe('owned asset list and loop pages', () => {
   const { ownedAssetPagesSummary } = ownedAssetPages;
 
   describe('isItemIncomplete function', () => {
-    // eslint-disable-next-line no-unused-vars
-    const { recipientName, ...baseItem } = testData.data.ownedAssets[0];
+    const baseItem = testData.data.ownedAssets[0];
     testOptionsIsItemIncomplete(options, baseItem);
   });
 
   describe('isItemIncomplete function tested with zeroes', () => {
-    // eslint-disable-next-line no-unused-vars
-    const { recipientName, ...baseItem } = testDataZeroes.data.ownedAssets[0];
+    const baseItem = testDataZeroes.data.ownedAssets[0];
     testOptionsIsItemIncompleteWithZeroes(options, baseItem);
   });
 
   describe('text getItemName function', () => {
-    testOptionsTextGetItemName(options);
+    const mockFormData = {
+      veteranFullName: { first: 'John', last: 'Doe' },
+    };
+    it('should return "John Doe’s income from a business" if recipient is Veteran and asset type is "business"', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+        assetType: 'BUSINESS',
+      };
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+        'John Doe’s income from a business',
+      );
+    });
+    it('should return "John Doe’s income from a farm" if recipient is Veteran and asset type is "farm"', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+        assetType: 'FARM',
+      };
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+        'John Doe’s income from a farm',
+      );
+    });
+    it('should return "John Doe’s income from a rental property" if recipient is Veteran and asset type is "rental property"', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+        assetType: 'RENTAL_PROPERTY',
+      };
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+        'John Doe’s income from a rental property',
+      );
+    });
+    it('should return "Jane Doe’s income from a business" if assetType is "business"', () => {
+      const item = {
+        recipientRelationship: 'SPOUSE',
+        recipientName: { first: 'Jane', last: 'Doe' },
+        assetType: 'BUSINESS',
+      };
+      expect(options.text.getItemName(item)).to.equal(
+        'Jane Doe’s income from a business',
+      );
+    });
+    it('should return "Jane Doe’s income from a farm" if assetType is "farm"', () => {
+      const item = {
+        recipientRelationship: 'CHILD',
+        recipientName: { first: 'Jane', last: 'Doe' },
+        assetType: 'FARM',
+      };
+      expect(options.text.getItemName(item)).to.equal(
+        'Jane Doe’s income from a farm',
+      );
+    });
+    it('should return "Jane Doe’s income from a rental property" if assetType is "rental property"', () => {
+      const item = {
+        recipientRelationship: 'PARENT',
+        recipientName: { first: 'Jane', last: 'Doe' },
+        assetType: 'RENTAL_PROPERTY',
+      };
+      expect(options.text.getItemName(item)).to.equal(
+        'Jane Doe’s income from a rental property',
+      );
+    });
   });
 
   describe('text cardDescription function', () => {
@@ -44,6 +101,7 @@ describe('owned asset list and loop pages', () => {
     const {
       recipientRelationship,
       recipientName,
+      assetType,
       ...baseItem
     } = testData.data.ownedAssets[0];
     /* eslint-enable no-unused-vars */
@@ -55,6 +113,7 @@ describe('owned asset list and loop pages', () => {
     const {
       recipientRelationship,
       recipientName,
+      assetType,
       ...baseItem
     } = testDataZeroes.data.ownedAssets[0];
     /* eslint-enable no-unused-vars */
@@ -136,14 +195,14 @@ describe('owned asset list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-text-input': 1 },
+      { 'va-text-input': 3 },
       'recipient',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'recipient',
     );
     testSubmitsWithoutErrors(

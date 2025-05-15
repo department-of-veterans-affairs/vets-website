@@ -5,7 +5,10 @@ import { applicantWording } from '../../../shared/utilities';
 import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
 import { fileUploadUi as fileUploadUI } from '../../../shared/components/fileUploads/upload';
 import { REQUIRED_FILES } from '../../config/constants';
-import { uploadWithInfoComponent } from '../Sponsor/sponsorFileUploads';
+import {
+  acceptableFiles,
+  uploadWithInfoComponent,
+} from '../Sponsor/sponsorFileUploads';
 
 // This file contains the ui/schemas for applicant file upload screens.
 
@@ -299,14 +302,17 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
         },
       ),
       ...applicantMedicarePartAPartBCardsConfig.uiSchema,
-      applicantMedicarePartAPartBCard: {
+      applicantMedicarePartAPartBCardFront: {
         ...fileUploadUI({
-          label: 'Upload Medicare cards',
+          label: 'Upload front of Medicare card',
+          attachmentId: acceptableFiles.medicareABCert[0],
         }),
-        'ui:errorMessages': {
-          minItems:
-            'You must add both the front and back of your card as separate files.',
-        },
+      },
+      applicantMedicarePartAPartBCardBack: {
+        ...fileUploadUI({
+          label: 'Upload back of Medicare card',
+          attachmentId: acceptableFiles.medicareABCert[1],
+        }),
       },
     },
   },
@@ -338,14 +344,17 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
         },
       ),
       ...applicantMedicarePartDCardsConfig.uiSchema,
-      applicantMedicarePartDCard: {
+      applicantMedicarePartDCardFront: {
         ...fileUploadUI({
-          label: 'Upload Medicare card',
+          label: 'Upload front of Medicare Part D card',
+          attachmentId: acceptableFiles.medicareDCert[0],
         }),
-        'ui:errorMessages': {
-          minItems:
-            'You must add both the front and back of your card as separate files.',
-        },
+      },
+      applicantMedicarePartDCardBack: {
+        ...fileUploadUI({
+          label: 'Upload back of Medicare Part D card',
+          attachmentId: acceptableFiles.medicareDCert[1],
+        }),
       },
     },
   },
@@ -410,14 +419,17 @@ export const applicantOhiCardsUploadUiSchema = {
         </>,
       ),
       ...applicantOhiCardsConfig.uiSchema,
-      applicantOhiCard: {
+      applicantOhiCardFront: {
         ...fileUploadUI({
-          label: 'Upload other health insurance cards',
+          label: 'Upload front of other health insurance card',
+          attachmentId: acceptableFiles.healthInsCert[0],
         }),
-        'ui:errorMessages': {
-          minItems:
-            'You must add both the front and back of your card as separate files.',
-        },
+      },
+      applicantOhiCardBack: {
+        ...fileUploadUI({
+          label: 'Upload back of other health insurance card',
+          attachmentId: acceptableFiles.healthInsCert[1],
+        }),
       },
     },
   },
@@ -466,15 +478,6 @@ export const applicantRemarriageCertConfig = uploadWithInfoComponent(
   'remarriage certificates',
 );
 
-// When in list loop, formData is just the list element's data, but when editing
-// a list item's data on review-and-submit `formData` may be the complete form
-// data object. This provides a consistent interface via formContext.
-export function getTopLevelFormData(formContext) {
-  return formContext.contentAfterButtons === undefined
-    ? formContext.data
-    : formContext.contentAfterButtons.props.form.data;
-}
-
 // If the beneficiary remarried, collect proof of that remarriage
 // and any other marital docs they want to include
 export const applicantRemarriageCertUploadUiSchema = {
@@ -495,7 +498,7 @@ export const applicantRemarriageCertUploadUiSchema = {
           const nonPosessive = applicantWording(formData, false, false);
           // Inside list loop this lets us grab form data outside the scope of
           // current list element:
-          const vetName = getTopLevelFormData(formContext)?.veteransFullName;
+          const vetName = formContext?.fullData?.veteransFullName;
           return (
             <>
               If <span className="dd-privacy-hidden">{nonPosessive}</span>{' '}

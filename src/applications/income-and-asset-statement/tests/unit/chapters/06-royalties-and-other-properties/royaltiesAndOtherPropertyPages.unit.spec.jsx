@@ -1,9 +1,14 @@
+import { expect } from 'chai';
 import formConfig from '../../../../config/form';
 import {
   royaltiesAndOtherPropertyPages,
   options,
-} from '../../../../config/chapters/06-royalties-and-other-properties/royaltiesAndOtherPropertyPages';
-import { generatedIncomeTypeLabels } from '../../../../labels';
+} from '../../../../config/chapters/05-royalties-and-other-properties/royaltiesAndOtherPropertyPages';
+import { formatFullNameNoSuffix } from '../../../../helpers';
+import {
+  generatedIncomeTypeLabels,
+  relationshipLabels,
+} from '../../../../labels';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
@@ -11,7 +16,6 @@ import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json
 import {
   testOptionsIsItemIncomplete,
   testOptionsIsItemIncompleteWithZeroes,
-  testOptionsTextGetItemName,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
@@ -35,13 +39,42 @@ describe('royalties list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    testOptionsTextGetItemName(options);
+    const mockFormData = {
+      veteranFullName: { first: 'John', last: 'Doe' },
+    };
+    it('should return "John Doe’s income" if recipient is Veteran', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+      };
+      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+        'John Doe’s income',
+      );
+    });
+    it('should return "John Doe’s income', () => {
+      const recipientName = { first: 'Jane', middle: 'A', last: 'Doe' };
+      const formattedName = formatFullNameNoSuffix(recipientName);
+
+      Object.keys(relationshipLabels).forEach(relationshipKey => {
+        if (relationshipKey !== 'VETERAN') {
+          it(`should return "${formattedName}'s income" for relationship "${relationshipKey}"`, () => {
+            const item = {
+              recipientRelationship: relationshipKey,
+              recipientName,
+            };
+            expect(options.text.getItemName(item)).to.equal(
+              `${formattedName}’s income`,
+            );
+          });
+        }
+      });
+    });
   });
 
   describe('text cardDescription function', () => {
     /* eslint-disable no-unused-vars */
     const {
       recipientRelationship,
+      recipientName,
       canBeSold,
       ...baseItem
     } = testData.data.royaltiesAndOtherProperties[0];
@@ -57,6 +90,7 @@ describe('royalties list and loop pages', () => {
     /* eslint-disable no-unused-vars */
     const {
       recipientRelationship,
+      recipientName,
       canBeSold,
       ...baseItem
     } = testDataZeroes.data.royaltiesAndOtherProperties[0];
@@ -145,14 +179,14 @@ describe('royalties list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-text-input': 1 },
+      { 'va-text-input': 3 },
       'recipient',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -160,9 +194,7 @@ describe('royalties list and loop pages', () => {
       schema,
       uiSchema,
       'recipient',
-      {
-        recipientName: 'Jane Doe',
-      },
+      testData.data.royaltiesAndOtherProperties[0],
       { loggedIn: true },
     );
   });

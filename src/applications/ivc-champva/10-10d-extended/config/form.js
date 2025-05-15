@@ -1,3 +1,4 @@
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -7,7 +8,28 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionError from '../../shared/components/SubmissionError';
 import GetFormHelp from '../../shared/components/GetFormHelp';
+
+import {
+  certifierRoleSchema,
+  certifierNameSchema,
+  certifierAddressSchema,
+  signerContactInfoPage,
+  SignerContactInfoPage,
+  certifierRelationshipSchema,
+} from '../chapters/signerInformation';
+
+// import mockData from '../tests/fixtures/data/test-data.json';
 import { applicantPages } from '../chapters/applicantInformation';
+import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
+
+import {
+  sponsorNameDobSchema,
+  sponsorIdentificationSchema,
+  sponsorStatus,
+  sponsorStatusDetails,
+  sponsorAddress,
+  sponsorContactInfo,
+} from '../chapters/sponsorInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -59,9 +81,88 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
+    certifierInformation: {
+      title: 'Signer information',
+      pages: {
+        page1: {
+          // initialData: mockData.data,
+          path: 'signer-type',
+          title: 'Which of these best describes you?',
+          ...certifierRoleSchema,
+        },
+        page2: {
+          path: 'signer-info',
+          title: 'Your name',
+          ...certifierNameSchema,
+        },
+        page3: {
+          path: 'signer-mailing-address',
+          title: 'Your mailing address',
+          ...certifierAddressSchema,
+        },
+        page4: {
+          path: 'signer-contact-info',
+          title: 'Your contact information',
+          CustomPage: SignerContactInfoPage,
+          CustomPageReview: null,
+          ...signerContactInfoPage,
+        },
+        page5: {
+          path: 'signer-relationship',
+          title: 'Your relationship to applicant',
+          depends: formData => get('certifierRole', formData) === 'other',
+          ...certifierRelationshipSchema,
+        },
+      },
+    },
+    sponsorInformation: {
+      title: 'Sponsor information',
+      pages: {
+        page6: {
+          path: 'sponsor-info',
+          title: 'Sponsor`s name and date of birth',
+          ...sponsorNameDobSchema,
+        },
+        page7: {
+          path: 'sponsor-identification-info',
+          title: `Sponsor's identification information`,
+          ...sponsorIdentificationSchema,
+        },
+        page8: {
+          path: 'sponsor-status',
+          title: 'Sponsor`s status',
+          depends: formData => get('certifierRole', formData) !== 'sponsor',
+          ...sponsorStatus,
+        },
+        page9: {
+          path: 'sponsor-status-details',
+          title: 'Sponsor`s status details',
+          depends: formData =>
+            get('certifierRole', formData) !== 'sponsor' &&
+            get('sponsorIsDeceased', formData),
+          ...sponsorStatusDetails,
+        },
+        page10: {
+          path: 'sponsor-mailing-address',
+          title: 'Sponsor`s mailing address',
+          depends: formData => !get('sponsorIsDeceased', formData),
+          ...sponsorAddress,
+        },
+        page11: {
+          path: 'sponsor-contact-information',
+          title: 'Sponsor`s contact information',
+          depends: formData => !get('sponsorIsDeceased', formData),
+          ...sponsorContactInfo,
+        },
+      },
+    },
     applicantInformation: {
       title: 'Applicant information',
       pages: applicantPages,
+    },
+    healthInsuranceInformation: {
+      title: 'Health insurance information',
+      pages: healthInsurancePages,
     },
   },
   footerContent: GetFormHelp,

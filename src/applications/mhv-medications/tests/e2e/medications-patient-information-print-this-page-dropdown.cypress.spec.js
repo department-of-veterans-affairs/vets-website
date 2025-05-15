@@ -19,6 +19,11 @@ describe('Medications Details Page Medication Information Print This Page DropDo
     detailsPage.verifyPrintOrDownloadDropDownButtonOnMedicationInformationPage();
     detailsPage.clickPrintOrDownloadDropDownButtonOnMedicationInformationPage();
     detailsPage.verifyPrintThisPageDropDownOptionOnMedicationInformationPage();
+    cy.window().then(win => {
+      cy.stub(win, 'print').as('print');
+    });
+    cy.get('[data-testid="download-print-button"]').click();
+    cy.get('@print').should('have.been.called');
     cy.injectAxe();
     cy.axeCheck('main');
   });

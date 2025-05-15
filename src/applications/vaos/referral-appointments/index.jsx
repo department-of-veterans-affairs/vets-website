@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Switch,
   Route,
@@ -11,7 +11,6 @@ import ReviewAndConfirm from './ReviewAndConfirm';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { useIsInCCPilot } from './hooks/useIsInCCPilot';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
 import CompleteReferral from './CompleteReferral';
 import ReferralLayout from './components/ReferralLayout';
 import { useGetReferralByIdQuery } from '../redux/api/vaosApi';
@@ -20,24 +19,16 @@ export default function ReferralAppointments() {
   useManualScrollRestoration();
   const basePath = useRouteMatch();
   const { isInCCPilot } = useIsInCCPilot();
-  const { search, pathname } = useLocation();
+  const { search } = useLocation();
   const params = new URLSearchParams(search);
   const id = params.get('id');
-  const [, appointmentId] = pathname.split('/schedule-referral/complete/');
   const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
     skip: !id,
   });
 
-  useEffect(
-    () => {
-      if (referral) {
-        scrollAndFocus('h1');
-      } else if (error) {
-        scrollAndFocus('h2');
-      }
-    },
-    [error, referral],
-  );
+  if (referral?.attributes?.hasAppointments) {
+    return <Redirect to="/referrals-requests" />;
+  }
 
   if (!isInCCPilot) {
     return <Redirect from={basePath.url} to="/" />;
@@ -48,17 +39,16 @@ export default function ReferralAppointments() {
     return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
   }
 
-  if ((!referral || isLoading) && !appointmentId) {
+  if (!referral || isLoading) {
     return <ReferralLayout loadingMessage="Loading your data..." />;
   }
 
   return (
     <>
       <Switch>
-        <Route
-          path={`${basePath.url}/complete/:appointmentId`}
-          component={CompleteReferral}
-        />
+        <Route path={`${basePath.url}/complete/:appointmentId`} search={id}>
+          <CompleteReferral currentReferral={referral} />
+        </Route>
         <Route path={`${basePath.url}/review/`} search={id}>
           <ReviewAndConfirm currentReferral={referral} />
         </Route>

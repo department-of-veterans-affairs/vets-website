@@ -81,10 +81,13 @@ export const addStudentsOptions = {
   text: {
     summaryTitle: 'Review your students',
     getItemName: () => 'Student',
-    cardDescription: item =>
-      `${capitalize(item?.fullName?.first) || ''} ${capitalize(
-        item?.fullName?.last,
-      ) || ''}`,
+    cardDescription: item => (
+      <span className="dd-privacy" data-dd-privacy="mask">
+        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
+          item?.fullName?.last,
+        ) || ''}`.trim()}
+      </span>
+    ),
   },
 };
 
@@ -195,6 +198,7 @@ export const studentIncomePage = {
         N: 'No',
         NA: 'This question doesn’t apply to me',
       },
+      required: () => false,
     }),
   },
   schema: {
