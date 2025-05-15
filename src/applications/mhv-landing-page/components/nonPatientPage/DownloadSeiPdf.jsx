@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { generateSEIPdf } from '@department-of-veterans-affairs/mhv/exports';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   GET_SEI_PDF,
   GET_SEI_PDF_SUCCESS,
@@ -46,6 +47,10 @@ const DownloadSeiPdf = () => {
           type: GET_SEI_PDF_FAILED,
         });
       });
+
+    datadogRum.addAction(
+      'Click on Landing Page: Download self-entered health information data',
+    );
   };
 
   return (

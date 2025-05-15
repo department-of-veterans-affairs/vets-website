@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { generateMilitaryServicePdf } from '@department-of-veterans-affairs/mhv/exports';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   GET_MILITARY_SERVICE_PDF,
   GET_MILITARY_SERVICE_PDF_SUCCESS,
   GET_MILITARY_SERVICE_PDF_FAILED,
 } from '../../reducers/militaryServicePdfReducer';
-
 import { militaryServiceLoading } from '../../selectors';
 
 const DownloadMilitaryServicePdf = () => {
@@ -40,6 +40,9 @@ const DownloadMilitaryServicePdf = () => {
           error: error.message,
         });
       });
+    datadogRum.addAction(
+      'Click on Landing Page: Download DOD military service data',
+    );
   };
 
   return (

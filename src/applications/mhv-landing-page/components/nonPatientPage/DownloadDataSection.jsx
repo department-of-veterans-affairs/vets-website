@@ -6,19 +6,18 @@ import ShowDownloadAlerts from '../../containers/ShowDownloadAlerts';
 import { hasEdipi, hasMhvAccount } from '../../selectors';
 
 const DownloadDataSection = () => {
-  const UserHasMhvAccount = useSelector(hasMhvAccount);
-  const userHasDoDHistoryPdf = useSelector(hasEdipi);
+  const userHasMhvAccount = useSelector(hasMhvAccount);
+  const userHasEdipi = useSelector(hasEdipi);
 
-  if (!UserHasMhvAccount && !userHasDoDHistoryPdf) return <></>;
+  if (!userHasMhvAccount) return <></>;
 
   return (
     <div className="vads-l-col--12 medium-screen:vads-l-col--8">
       <h2 className="vads-u-margin-bottom--0">Download your data</h2>
       <div className="vads-l-row">
         <ShowDownloadAlerts />
-        {UserHasMhvAccount && <DownloadSeiPdf />}
-        {UserHasMhvAccount &&
-          userHasDoDHistoryPdf && <DownloadMilitaryServicePdf />}
+        {userHasMhvAccount && <DownloadSeiPdf />}
+        {userHasMhvAccount && userHasEdipi && <DownloadMilitaryServicePdf />}
       </div>
     </div>
   );

@@ -4,8 +4,8 @@ import {
   SEI_DOMAINS,
   MissingRecordsError,
 } from '@department-of-veterans-affairs/mhv/exports';
-import AccessTroubleAlertBox from '../components/nonPatientPage/AccessTroubleAlertBox';
-import DownloadSuccessAlert from '../components/nonPatientPage/DownloadSuccessAlert';
+import AlertDownloadAccessTrouble from '../components/alerts/AlertDownloadAccessTrouble';
+import AlertDownloadSuccess from '../components/alerts/AlertDownloadSuccess';
 import {
   hasEdipi,
   hasMhvAccount,
@@ -23,7 +23,7 @@ const documentTypes = {
 
 const ShowDownloadAlerts = () => {
   const userHasMhvIdentifier = useSelector(hasMhvAccount);
-  const userHasDoDHistoryPdf = useSelector(hasEdipi);
+  const userHasEdipi = useSelector(hasEdipi);
   const pdfSeiFailedDomains = useSelector(seiFailedDomains);
   const pdfSeiSuccessfulDownload = useSelector(seiSuccessfulDownload);
   const pdfSeiFailedDownload = useSelector(seiFailedDownload);
@@ -34,21 +34,25 @@ const ShowDownloadAlerts = () => {
     militaryServiceFailedDownload,
   );
 
-  if (!userHasMhvIdentifier && !userHasDoDHistoryPdf) return <></>;
+  if (!userHasMhvIdentifier && !userHasEdipi) return <></>;
 
   return (
     <>
       {pdfSeiFailedDomains?.length === SEI_DOMAINS.length ||
         (pdfSeiFailedDownload && (
-          <AccessTroubleAlertBox
-            documentType={documentTypes.SEI}
+          <AlertDownloadAccessTrouble
+            headline={`We can’t download your ${
+              documentTypes.SEI
+            } report right now`}
             className="vads-u-margin-bottom--1"
+            testId="mhv-alert--sei-download-failed"
           />
         ))}
       {pdfSeiSuccessfulDownload && (
-        <DownloadSuccessAlert
-          documentType="Self-entered health information download"
+        <AlertDownloadSuccess
+          headline="Self-entered health information download started"
           className="vads-u-margin-bottom--1"
+          testId="mhv-alert--sei-download-started"
         />
       )}
       {pdfSeiSuccessfulDownload &&
@@ -59,15 +63,19 @@ const ShowDownloadAlerts = () => {
           />
         )}
       {pdfMilitaryServiceSuccessfulDownload && (
-        <DownloadSuccessAlert
-          documentType="DOD military service information download"
+        <AlertDownloadSuccess
+          headline="DOD military service information download started"
           className="vads-u-margin-bottom--1"
+          testId="mhv-alert--dod-download-started"
         />
       )}
       {pdfMilitaryServiceFailedDownload && (
-        <AccessTroubleAlertBox
-          documentType={documentTypes.DOD}
+        <AlertDownloadAccessTrouble
+          headline={`We can’t download your ${
+            documentTypes.DOD
+          } report right now`}
           className="vads-u-margin-bottom--1"
+          testId="mhv-alert--dod-download-failed"
         />
       )}
     </>
