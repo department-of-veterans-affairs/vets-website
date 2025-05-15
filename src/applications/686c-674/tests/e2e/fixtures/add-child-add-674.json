@@ -42,7 +42,16 @@
   "view:additionalEvidenceDescription": {},
   "childrenToAdd": [
     {
-      "incomeInLastYear": false,
+      "incomeInLastYear": "NA",
+      "isBiologicalChildOfSpouse": true,
+      "dateEnteredHousehold": "2023-02-01",
+      "view:biologicalParentInfo": {},
+      "biologicalParentName": {
+        "first": "Jane",
+        "last": "Doe"
+      },
+      "biologicalParentSsn": "432432432",
+      "biologicalParentDob": "1990-02-01",
       "doesChildLiveWithYou": true,
       "hasChildEverBeenMarried": false,
       "view:documentSubmissionInfo": {},
@@ -59,13 +68,6 @@
       },
       "doesChildHaveDisability": false,
       "isBiologicalChild": true,
-      "dateEnteredHousehold": "2023-02-01",
-      "biologicalParentName": {
-        "first": "Jane",
-        "last": "Doe"
-      },
-      "biologicalParentSsn": "432432432",
-      "biologicalParentDob": "1990-02-01",
       "relationshipToChild": {
         "stepchild": true
       },
@@ -88,7 +90,32 @@
   ],
   "studentInformation": [
     {
-      "remarks": "addl information",
+      "remarks": "additional information",
+      "benefitPaymentDate": "2021-02-19",
+      "typeOfProgramOrBenefit": {
+        "ch35": true,
+        "fry": true,
+        "feca": true,
+        "other": true
+      },
+      "otherProgramOrBenefit": "additional program",
+      "tuitionIsPaidByGovAgency": false,
+      "view:programExamples": {},
+      "marriageDate": "2020-01-01",
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "test1",
+        "city": "Fakesville",
+        "state": "IL",
+        "postalCode": "43243"
+      },
+      "studentIncome": "NA",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "birthDate": "2000-01-01",
       "claimsOrReceivesPension": false,
       "schoolInformation": {
         "lastTermSchoolInformation": {
@@ -106,27 +133,9 @@
         "studentIsEnrolledFullTime": true,
         "name": "test school"
       },
-      "typeOfProgramOrBenefit": {},
-      "tuitionIsPaidByGovAgency": false,
-      "view:programExamples": {},
       "wasMarried": true,
-      "marriageDate": "1991-01-01",
-      "address": {
-        "view:militaryBaseDescription": {},
-        "country": "USA",
-        "street": "test1",
-        "city": "test",
-        "state": "AL",
-        "postalCode": "43243"
-      },
-      "studentIncome": false,
       "ssn": "432432432",
-      "isParent": true,
-      "fullName": {
-        "first": "test",
-        "last": "student"
-      },
-      "birthDate": "2000-01-01"
+      "isParent": true
     }
   ],
   "reportDivorce": {
