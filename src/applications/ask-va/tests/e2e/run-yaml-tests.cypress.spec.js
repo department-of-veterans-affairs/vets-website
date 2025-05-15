@@ -130,6 +130,8 @@ describe('YAML tests', () => {
           cy.log(`File ${file}`);
 
           if (flow.runOnCI === true) {
+            cy.log(`Flow.runOnCI ${flow.runOnCI}`);
+            cy.log(`File ${file}`);
             cy.visit('http://localhost:3001/contact-us/ask-va/');
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);
