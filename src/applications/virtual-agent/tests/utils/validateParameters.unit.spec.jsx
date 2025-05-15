@@ -23,37 +23,37 @@ describe('validateParameters', () => {
     const userFirstName = 'John';
     const userUuid = '12345';
 
-    it('should not call setParamLoadingStatusFn if all parameters are valid', () => {
-      const setParamLoadingStatusFn = sandbox.spy();
+    it('should not call setParamLoadingStatus if all parameters are valid', () => {
+      const setParamLoadingStatus = sandbox.spy();
 
       validateParameters({
         csrfToken,
         apiSession,
         userFirstName,
         userUuid,
-        setParamLoadingStatusFn,
+        setParamLoadingStatus,
       });
 
-      expect(setParamLoadingStatusFn.notCalled).to.be.true;
+      expect(setParamLoadingStatus.notCalled).to.be.true;
     });
 
-    it('should call setParamLoadingStatusFn with ERROR if any parameter is missing', () => {
-      const setParamLoadingStatusFn = sandbox.spy();
+    it('should call setParamLoadingStatus with ERROR if any parameter is missing', () => {
+      const setParamLoadingStatus = sandbox.spy();
 
       validateParameters({
         csrfToken: null,
         apiSession,
         userFirstName,
         userUuid,
-        setParamLoadingStatusFn,
+        setParamLoadingStatus,
       });
 
-      expect(setParamLoadingStatusFn.calledOnce).to.be.true;
-      expect(setParamLoadingStatusFn.calledWithExactly(ERROR));
+      expect(setParamLoadingStatus.calledOnce).to.be.true;
+      expect(setParamLoadingStatus.calledWithExactly(ERROR));
     });
 
     it('should capture exception when csrfToken is missing', () => {
-      const setParamLoadingStatusFn = sandbox.spy();
+      const setParamLoadingStatus = sandbox.spy();
       const captureExceptionStub = sandbox.stub(
         Sentry,
         Sentry.captureException.name,
@@ -65,7 +65,7 @@ describe('validateParameters', () => {
         apiSession,
         userFirstName,
         userUuid,
-        setParamLoadingStatusFn,
+        setParamLoadingStatus,
       });
 
       expect(captureExceptionStub.calledOnce).to.be.true;
@@ -87,7 +87,7 @@ describe('validateParameters', () => {
       );
     });
     it('should capture exception when apiSession is missing', () => {
-      const setParamLoadingStatusFn = sandbox.spy();
+      const setParamLoadingStatus = sandbox.spy();
       const captureExceptionStub = sandbox.stub(
         Sentry,
         Sentry.captureException.name,
@@ -99,7 +99,7 @@ describe('validateParameters', () => {
         apiSession: null,
         userFirstName,
         userUuid,
-        setParamLoadingStatusFn,
+        setParamLoadingStatus,
       });
 
       expect(captureExceptionStub.calledOnce).to.be.true;
@@ -121,7 +121,7 @@ describe('validateParameters', () => {
       );
     });
     it('should capture exception when userFirstName is not a string', () => {
-      const setParamLoadingStatusFn = sandbox.spy();
+      const setParamLoadingStatus = sandbox.spy();
       const captureExceptionStub = sandbox.stub(
         Sentry,
         Sentry.captureException.name,
@@ -134,7 +134,7 @@ describe('validateParameters', () => {
         apiSession,
         userFirstName: 1,
         userUuid,
-        setParamLoadingStatusFn,
+        setParamLoadingStatus,
       });
 
       expect(captureExceptionStub.calledOnce).to.be.true;
@@ -156,7 +156,7 @@ describe('validateParameters', () => {
       );
     });
     it('should capture exception when userUuid is not a string', () => {
-      const setParamLoadingStatusFn = sandbox.spy();
+      const setParamLoadingStatus = sandbox.spy();
       const captureExceptionStub = sandbox.stub(
         Sentry,
         Sentry.captureException.name,
@@ -169,7 +169,7 @@ describe('validateParameters', () => {
         apiSession,
         userFirstName,
         userUuid: 1,
-        setParamLoadingStatusFn,
+        setParamLoadingStatus,
       });
 
       expect(captureExceptionStub.calledOnce).to.be.true;

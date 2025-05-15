@@ -1,7 +1,14 @@
 /// <reference types="cypress" />
 
 import YAML from 'yaml';
-import mockUser from './fixtures/user.json';
+import mockUserDefault from './fixtures/userDefault.json';
+
+import mockMultipleInquiries from './fixtures/mockMultipleInquiries.json';
+import mockOneInquiry from './fixtures/mockOneInquiry.json';
+import mockNoInquiries from './fixtures/mockNoInquiries.json';
+
+import mockAVAProfile from './fixtures/userAVAProfile.json';
+import mockAVAProfileMissingInfo from './fixtures/userAVAProfileMissingInfo.json';
 
 import interceptAskVaResponses from './fixtures/api-mocks-for-ask-va';
 import interceptVaGovResponses from './fixtures/api-mocks-for-va-gov';
@@ -9,7 +16,8 @@ import intercept3rdPartyResponses from './fixtures/api-mocks-for-3rd-party';
 
 import STEPS from './actions';
 
-import testsToRun from './fixtures/tests-to-run.json';
+import formsTestsToRun from './fixtures/flows/forms/tests-to-run.json';
+import dashBoardTestsToRun from './fixtures/flows/dashboard/tests-to-run.json';
 
 const EMPTY_FLOW_YML = `
 flow:
@@ -140,10 +148,54 @@ describe('YAML tests', () => {
 
   describe(`Preload flows`, () => {
     describe('Run tests', () => {
-      const files = testsToRun;
-      const paths = Object.keys(files);
+      const testRunner = (folder, path, file) => {
+        let flowYML = EMPTY_FLOW_YML;
+        const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${folder}/${path}/${file}`;
+        cy.readFile(p).then(f => {
+          flowYML = f;
 
-      // const foo = preloadIncludes(files);
+          const { flow } = YAML.parse(flowYML);
+
+          if (flow.runOnCI === true) {
+            cy.visit('http://localhost:3001/contact-us/ask-va/');
+            cy.injectAxeThenAxeCheck();
+            executeSteps(flow.steps);
+          }
+        });
+      };
+
+      const runAndLogTest = (folder, path, file) => {
+        if (file.endsWith('.yml')) {
+          cy.log('-------------------');
+          cy.log(`Run tests in ${file}`);
+          cy.log('-------------------');
+
+          if (path === 'authenticated') {
+            if (['13g.yml', '17g.yml'].includes(file)) {
+              cy.intercept(
+                'GET',
+                '/v0/in_progress_forms/0873',
+                mockAVAProfileMissingInfo,
+              );
+            } else {
+              cy.intercept('GET', '/v0/in_progress_forms/0873', mockAVAProfile);
+            }
+            cy.login(mockUserDefault);
+          } else if (path === 'dashboard') {
+            if (['13g.yml', '17g.yml'].includes(file)) {
+              cy.intercept('GET', 'v0/inquiries', mockMultipleInquiries);
+            } else if (['14g.yml', '18g.yml'].includes(file)) {
+              cy.intercept('GET', 'v0/inquiries', mockOneInquiry);
+            } else {
+              cy.intercept('GET', 'v0/inquiries', mockNoInquiries);
+            }
+            cy.login(mockUserDefault);
+          } else {
+            cy.clearAllCookies();
+          }
+          testRunner(folder, path, file);
+        }
+      };
 
       beforeEach(() => {
         // Intercept all relevant API calls for the Ask VA page
@@ -152,7 +204,7 @@ describe('YAML tests', () => {
         intercept3rdPartyResponses();
 
         // Intercept the user API request and log in
-        cy.intercept('GET', `/avs/v0/avs/*`, mockUser);
+        cy.intercept('GET', `/v0/user`, mockUserDefault);
         // cy.login();
         // cy.clearAllCookies();
 
@@ -160,47 +212,23 @@ describe('YAML tests', () => {
         cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
       });
 
-      for (const path of paths) {
-        if (path === 'include-pages') {
-          // don't run the include-pages scripts
-          // they're just snippets to be run in larger flows
-          // ---
-          // eslint-disable-next-line no-continue
-          continue;
-        }
-
-        for (const file of files[path]) {
-          it(`Run tests in ${file}`, () => {
-            if (file.endsWith('.yml')) {
-              cy.log('-------------------');
-              cy.log(`Run tests in ${file}`);
-              cy.log('-------------------');
-              let flowYML = EMPTY_FLOW_YML;
-
-              if (path === 'authenticated') {
-                cy.login();
-              } else {
-                cy.clearAllCookies();
+      const runTestsForFilesInPath = (folder, files) => {
+        const paths = Object.keys(files);
+        for (const path of paths) {
+          if (path !== 'include-pages') {
+            (() => {
+              for (const file of files[path]) {
+                // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+                it(`Run tests in ${folder} for ${file}`, () => {
+                  runAndLogTest(folder, path, file);
+                });
               }
-
-              const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${path}/${file}`;
-              cy.readFile(p).then(f => {
-                flowYML = f;
-
-                const { flow } = YAML.parse(flowYML);
-
-                // TODO: Add check for CI here.
-                if (flow.runOnCI === true) {
-                  // cy.visit('https://staging.va.gov/contact-us/ask-va/');
-                  cy.visit('http://localhost:3001/contact-us/ask-va/');
-                  cy.injectAxeThenAxeCheck();
-                  executeSteps(flow.steps);
-                }
-              });
-            }
-          });
+            })();
+          }
         }
-      }
+      };
+      runTestsForFilesInPath('dashboard', dashBoardTestsToRun);
+      runTestsForFilesInPath('forms', formsTestsToRun);
     });
   });
 });

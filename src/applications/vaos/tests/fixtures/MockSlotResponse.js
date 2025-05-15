@@ -1,4 +1,5 @@
-import { format } from 'date-fns';
+import { addMinutes } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 
 /**
  * Mock available appointment slots response.
@@ -15,12 +16,16 @@ export default class MockSlotResponse {
    * @param {Date} arguments.start - Open slot start date and time.
    * @memberof MockSlotResponse
    */
-  constructor({ id, start }) {
+  constructor({ id = '1', start, duration = 0 }) {
     this.id = id.toString();
     this.type = 'MockSlotResponse';
     this.attributes = {
-      start: format(start, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-      end: format(start, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+      start: formatInTimeZone(start, 'UTC', "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+      end: formatInTimeZone(
+        addMinutes(start, duration),
+        'UTC',
+        "yyyy-MM-dd'T'HH:mm:ss'Z'",
+      ),
     };
   }
 

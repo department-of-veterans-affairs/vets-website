@@ -79,6 +79,7 @@ const Calcs = ({ data }) => {
               ? programData?.total
               : 'N/A'
           }`}
+          role="status"
           className="vads-u-font-size--h3 vads-u-font-weight--bold"
           data-testid="nonSupported"
           tabIndex={0}
@@ -106,6 +107,7 @@ const Calcs = ({ data }) => {
         <span
           aria-label={`Supported student percentage FTE: ${programData?.supportedFTEPercent ||
             'N/A'}`}
+          role="status"
           className="vads-u-font-size--h3 vads-u-font-weight--bold"
           data-testid="supportedFTEPercent"
           tabIndex={0}

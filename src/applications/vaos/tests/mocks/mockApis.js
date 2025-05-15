@@ -6,6 +6,7 @@ import {
   format,
   startOfDay,
   startOfMonth,
+  subDays,
   subYears,
 } from 'date-fns';
 import {
@@ -15,7 +16,7 @@ import {
 import sinon from 'sinon';
 import metaWithoutFailures from '../../services/mocks/v2/meta.json';
 import metaWithFailures from '../../services/mocks/v2/meta_failures.json';
-import { getVAOSAppointmentMock } from './mock';
+import MockAppointmentResponse from '../fixtures/MockAppointmentResponse';
 
 /**
  * Return a collection of start and end dates. The start date starts from the current
@@ -91,7 +92,7 @@ export function mockAppointmentsApi({
   start,
   statuses = [],
   useRFC3339 = false,
-  response: data,
+  response: data = [],
   responseCode = 200,
 }) {
   const baseUrl = `${
@@ -160,10 +161,12 @@ export function mockAppointmentSubmitApi({
  * @return {string} Return mock API URL. This is useful for debugging.
  */
 export function mockAppointmentUpdateApi({
+  id,
   response: data,
   responseCode = 200,
-}) {
-  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${data.id}`;
+} = {}) {
+  const _id = id || data?.id;
+  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${_id}`;
 
   if (responseCode === 200) {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
@@ -361,7 +364,7 @@ export function mockEligibilityRequestApi({
 export function mockFacilitiesApi({
   ids,
   children = true,
-  response: data,
+  response: data = [],
   responseCode = 200,
 }) {
   let idList = ids;
@@ -389,13 +392,19 @@ export function mockFacilitiesApi({
  *
  * @export
  * @param {Object} arguments
- * @param {Object} [arguments.response=[]] The response to return from the mock api call.
+ * @param {string} [arguments.id] Facility id. NOTE: Facility id will be used from the response object when the 'id' is not set.
+ * @param {Object} [arguments.response] The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] The response code to return from the mock api call.
  *
  * @return {string} Return mock API URL. This is useful for debugging.
  */
-export function mockFacilityApi({ id, response: data, responseCode = 200 }) {
-  const baseUrl = `${environment.API_URL}/vaos/v2/facilities/${id}`;
+export function mockFacilityApi({
+  id,
+  response: data = {},
+  responseCode = 200,
+}) {
+  const _id = id || data?.id;
+  const baseUrl = `${environment.API_URL}/vaos/v2/facilities/${_id}`;
 
   if (responseCode === 200) {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
@@ -484,14 +493,14 @@ export function mockSchedulingConfigurationsApi({
  *
  * @export
  * @param {Object} arguments
- * @param {string} facilityId The VistA facility id where slots are from
- * @param {string} preferredDate The preferred date chosen by the user, which determines the date range fetched,
+ * @param {string} arguments.facilityId The VistA facility id where slots are from
+ * @param {string} arguments.preferredDate The preferred date chosen by the user, which determines the date range fetched,
  *    if startDate and endDate are not provided
- * @param {Date} startDate The start date for the appointment slots
- * @param {Date} endDate The end date for the appointment slots
- * @param {string} clinicId The VistA clinic id the slots are in
- * @param {boolean} withError Flag to determine if the response should fail.
- * @param {Array<VARSlot>} response The list of slots to return from the mock
+ * @param {Date} arguments.startDate The start date for the appointment slots
+ * @param {Date} arguments.endDate The end date for the appointment slots
+ * @param {string} arguments.clinicId The VistA clinic id the slots are in
+ * @param {Array<VARSlot>} arguments.response The response to return from the mock api call.
+ * @param {boolean} arguments.responseCode The response code to return from the mock api call.
  */
 export function mockAppointmentSlotApi({
   clinicId,
@@ -619,6 +628,7 @@ export function mockEligibilityFetches({
       },
     },
   );
+
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${
@@ -631,16 +641,11 @@ export function mockEligibilityFetches({
   );
 
   const pastAppointments = (matchingClinics || clinics).map(clinic => {
-    const appt = getVAOSAppointmentMock();
-    return {
-      ...appt,
-      attributes: {
-        ...appt.attributes,
-        type: 'VA',
-        clinic: clinic.id,
-        locationId: facilityId.substr(0, 3),
-      },
-    };
+    return new MockAppointmentResponse({
+      localStartTime: subDays(new Date(), 1),
+    })
+      .setClinicId(clinic.id)
+      .setLocationId(facilityId.substr(0, 3));
   });
 
   const dateRanges = getDateRanges(3);
