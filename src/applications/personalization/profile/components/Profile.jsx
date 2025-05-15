@@ -146,7 +146,8 @@ class Profile extends Component {
   mainContent = () => {
     const toggles = this.props.profileToggles;
 
-    const routes = getRoutes({
+    // eslint-disable-next-line prefer-const
+    let routes = getRoutes({
       accreditedRepPage: toggles.representativeStatusEnableV2Features,
     });
 
