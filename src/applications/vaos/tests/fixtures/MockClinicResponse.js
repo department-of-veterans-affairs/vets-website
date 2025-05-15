@@ -12,8 +12,8 @@ export default class MockClinicResponse {
    *
    * @param {Object} props - Properties used to determine what type of mock response to create.
    * @param {string} props.id Clinic id.
-   * @param {string} props.name Clinic name. Clinic name will default to 'Clinic 1' if not specified,
-   * @param {string} props.locationId Location id. Default '983'
+   * @param {string} [props.name] Clinic name. Clinic name will default to 'Clinic 1' if not specified,
+   * @param {string} [props.locationId] Location id. Default '983'
    * @memberof MockClinicResponse
    */
   constructor({ id, name = null, locationId = '983' }) {
@@ -41,6 +41,7 @@ export default class MockClinicResponse {
    * @typedef {Object} Clinic
    * @property {string} id - Clinic id
    * @property {string} name - Clinic name
+   * @property {string} locationId - Location id.
    */
 
   /**

@@ -320,6 +320,7 @@ export const deceasedDependentIncomePage = {
         N: 'No',
         NA: 'This question doesn’t apply to me',
       },
+      required: () => false,
     }),
   },
   schema: {
