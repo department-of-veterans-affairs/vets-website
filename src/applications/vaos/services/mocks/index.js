@@ -430,10 +430,16 @@ const responses = {
         data: expiredReferral,
       });
     }
+
     const referral = referralUtils.createReferralById(
       '2024-12-02',
       req.params.referralId,
     );
+
+    if (req.params.referralId.includes('error')) {
+      referral.attributes.referralId = req.params.referralId;
+    }
+
     return res.json({
       data: referral,
     });
@@ -471,13 +477,24 @@ const responses = {
       epsAppointmentUtils.appointmentData,
     );
 
-    if (appointmentId === 'timeout-appointment-id') {
+    if (
+      appointmentId === 'timeout-appointment-id' ||
+      appointmentId === 'EEKoGzEf-complete-retry-error'
+    ) {
       // Set a very high poll count to simulate a timeout
       successPollCount = 1000;
     }
 
+    if (appointmentId === 'EEKoGzEf-appointment-details-error') {
+      return res.status(500).json({ error: true });
+    }
+
     if (appointmentId === 'eps-error-appointment-id') {
       return res.status(400).json({ error: true });
+    }
+
+    if (appointmentId === 'EEKoGzEf-complete-error') {
+      return res.status(500).json({ error: true });
     }
 
     // Check if the request is coming from the details page
@@ -516,6 +533,10 @@ const responses = {
 
     if (!referralId || !slotId || !draftApppointmentId) {
       return res.status(400).json({ error: true });
+    }
+
+    if (referralId === 'VA0000009880-create-error') {
+      return res.status(500).json({ error: true });
     }
 
     draftAppointmentPollCount[draftApppointmentId] = 1;
