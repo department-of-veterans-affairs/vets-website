@@ -5,10 +5,7 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import { fireEvent, waitFor } from '@testing-library/dom';
 import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
-import {
-  getSchedulingConfigurationMock,
-  getV2ClinicMock,
-} from '../../../tests/mocks/mock';
+import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import {
   mockEligibilityFetches,
   mockEligibilityRequestApi,
@@ -262,10 +259,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         typeOfCareId: 'socialWork',
         directPastVisits: true,
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
       });
@@ -324,10 +321,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         facilityId: '983',
         typeOfCareId: 'amputation',
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
         limit: true,
@@ -388,10 +385,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         typeOfCareId: 'amputation',
         directPastVisits: true,
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
       });
@@ -447,10 +444,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         typeOfCareId: 'primaryCare',
         directPastVisits: true,
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
       });
@@ -498,10 +495,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         typeOfCareId: 'outpatientMentalHealth',
         directPastVisits: true,
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
       });
@@ -640,10 +637,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
         limit: false,
@@ -697,10 +694,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
         limit: true,
@@ -755,10 +752,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         clinics: [
-          getV2ClinicMock({
+          new MockClinicResponse({
             id: '455',
-            stationId: '983',
-            serviceName: 'Clinic name',
+            locationId: '983',
+            name: 'Clinic name',
           }),
         ],
         limit: true,
