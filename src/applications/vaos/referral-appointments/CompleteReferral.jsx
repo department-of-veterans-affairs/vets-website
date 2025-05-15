@@ -104,10 +104,10 @@ export const CompleteReferral = props => {
           <p className="vads-u-margin-y--0">
             {appointmentInfoTimeout
               ? `Try refreshing this page. If it still doesn’t work, please call us at ${
-                  currentReferral.referringFacilityInfo.phone
+                  currentReferral.referringFacility.phone
                 } during normal business hours to schedule.`
               : `We’re sorry. Please call us at ${
-                  currentReferral.referringFacilityInfo.phone
+                  currentReferral.referringFacility.phone
                 } during normal business hours to schedule.`}
           </p>
         </va-alert>

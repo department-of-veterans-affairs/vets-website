@@ -80,10 +80,10 @@ export default function ScheduleReferral(props) {
         </p>
         <p data-testid="referral-facility">
           <strong>Referring VA facility: </strong>
-          {currentReferral.referringFacilityInfo.name}
+          {currentReferral.referringFacility.name}
           <br />
           <strong>Phone: </strong>
-          {currentReferral.referringFacilityInfo.phone}
+          {currentReferral.referringFacility.phone}
         </p>
       </div>
     </ReferralLayout>

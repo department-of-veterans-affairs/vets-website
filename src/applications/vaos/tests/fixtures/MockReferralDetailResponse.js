@@ -58,7 +58,7 @@ class MockReferralDetailResponse {
             telephone: '(937) 236-6750',
             location: 'A & D HEALTH CARE PROFS',
           },
-          referringFacilityInfo: {
+          referringFacility: {
             name: 'Dayton VA Medical Center',
             phone: '(937) 262-3800',
             code: stationId,

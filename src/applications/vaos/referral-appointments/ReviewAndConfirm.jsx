@@ -50,7 +50,7 @@ const ReviewAndConfirm = props => {
     selectedSlot,
   );
   const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacilityInfo.code,
+    currentReferral.referringFacility.code,
   );
   const savedSelectedSlot = sessionStorage.getItem(
     getReferralSlotKey(currentReferral.uuid),
@@ -241,7 +241,7 @@ const ReviewAndConfirm = props => {
                 'h:mm aaaa',
               )}{' '}
               {`${getTimezoneDescByFacilityId(
-                currentReferral.referringFacilityInfo.code,
+                currentReferral.referringFacility.code,
               )}`}
             </>
           </p>
@@ -290,13 +290,13 @@ const ReviewAndConfirm = props => {
                 facility to help with your appointment.
               </p>
               <p>
-                <strong>{currentReferral.referringFacilityInfo.name}</strong>
+                <strong>{currentReferral.referringFacility.name}</strong>
                 <br />
                 <ProviderAddress
-                  address={currentReferral.referringFacilityInfo.address}
-                  phone={currentReferral.referringFacilityInfo.phone}
+                  address={currentReferral.referringFacility.address}
+                  phone={currentReferral.referringFacility.phone}
                   showDirections
-                  directionsName={currentReferral.referringFacilityInfo.name}
+                  directionsName={currentReferral.referringFacility.name}
                 />
               </p>
             </va-alert>

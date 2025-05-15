@@ -164,7 +164,7 @@ describe('VAOS Referral Appointments', () => {
       // Validate we've reached the Schedule Referral page
       scheduleReferral.validate();
       scheduleReferral.assertReferralDetails();
-      scheduleReferral.assertReferringFacilityInfo();
+      scheduleReferral.assertreferringFacility();
 
       // Click the schedule appointment button
       scheduleReferral.clickScheduleAppointment();

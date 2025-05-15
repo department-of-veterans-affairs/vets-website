@@ -27,7 +27,7 @@ export const DateAndTimeContent = props => {
   const [error, setError] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacilityInfo.code,
+    currentReferral.referringFacility.code,
   );
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   const latestAvailableSlot = new Date(
@@ -145,7 +145,7 @@ export const DateAndTimeContent = props => {
             Select an available date and time from the calendar below.
             Appointment times are displayed in{' '}
             {`${getTimezoneDescByFacilityId(
-              currentReferral.referringFacilityInfo.code,
+              currentReferral.referringFacility.code,
             )}`}
             .
           </p>
