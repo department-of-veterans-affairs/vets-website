@@ -8,6 +8,9 @@ import recordEvent from 'platform/monitoring/record-event';
 import {
   convertRatingToStars,
   createId,
+  deriveInstitutionTitle,
+  deriveLearnMoreAriaLabel,
+  deriveModalText,
   formatNumber,
   locationInfo,
   schoolSize,
@@ -153,6 +156,28 @@ const ProfilePageHeader = ({
     (lowerType && lowerType !== 'ojt') ||
     (localeType && lowerType && lowerType !== 'ojt') ||
     website;
+  const schoolType = deriveInstitutionTitle(lowerType);
+
+  const schoolTypeDiv = () => {
+    const modalText = deriveModalText(lowerType);
+    const ariaLabel = deriveLearnMoreAriaLabel(lowerType, ariaLabels);
+    if (modalText !== undefined) {
+      return (
+        <>
+          {'   '}
+          <LearnMoreLabel
+            text={schoolType}
+            onClick={() => {
+              dispatchShowModal(modalText);
+            }}
+            ariaLabel={ariaLabel}
+            buttonId={`${modalText}-button`}
+          />
+        </>
+      );
+    }
+    return schoolType;
+  };
 
   const renderIconSection = () =>
     (showLeftIconSection || showRightIconSection) && (
@@ -186,7 +211,7 @@ const ProfilePageHeader = ({
               present={lowerType && lowerType !== 'ojt'}
             >
               {'   '}
-              {_.capitalize(lowerType)} school
+              {schoolTypeDiv()}
             </IconWithInfo>
             <IconWithInfo icon="bookmark" present={accredited}>
               {'   '}
