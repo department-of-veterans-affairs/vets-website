@@ -28,6 +28,7 @@ export const uiSchema = {
         N: 'No',
         NA: 'This question doesn’t apply to me',
       },
+      required: () => false,
     }),
   },
 };
