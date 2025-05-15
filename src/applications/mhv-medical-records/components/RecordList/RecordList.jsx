@@ -29,6 +29,7 @@ const RecordList = props => {
     setCurrentRecords(paginatedRecords.current[page - 1]);
     setCurrentPage(page);
 
+    // calculate height of "showing records" and scrolls to it.
     const showRecordsHeight = document
       .querySelector('#showingRecords')
       .getBoundingClientRect();
