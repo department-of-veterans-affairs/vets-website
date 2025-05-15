@@ -192,6 +192,16 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      '686-report-add-child/0/child-address-part-one': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('select#options[name="root_address_state"]', { timeout: 1000 })
+            .should('be.visible')
+            .should('not.be.disabled');
+          cy.get('select#options[name="root_address_state"]').select('CA');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       '686-report-add-child/summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="N"]').click();

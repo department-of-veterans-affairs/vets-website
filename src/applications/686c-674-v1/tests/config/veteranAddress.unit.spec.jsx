@@ -126,7 +126,7 @@ describe('Veteran address', () => {
     fillData(
       form,
       'input#root_veteranContactInformation_phoneNumber',
-      '800-555-1212',
+      '8005551212',
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

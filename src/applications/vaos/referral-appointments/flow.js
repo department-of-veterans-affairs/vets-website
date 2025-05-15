@@ -42,7 +42,7 @@ export function getPageFlow(referralId, appointmentId) {
       previous: 'scheduleAppointment',
     },
     complete: {
-      url: `/schedule-referral/complete/${appointmentId}`,
+      url: `/schedule-referral/complete/${appointmentId}?id=${referralId}`,
       label: 'Your appointment is scheduled',
       next: 'details',
       previous: 'appointments',
