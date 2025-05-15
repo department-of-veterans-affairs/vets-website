@@ -78,8 +78,14 @@ export const routesForNav = [
   },
 ];
 
-export const getRoutesForNav = () => {
+export const getRoutesForNav = accreditedRepPage => {
   return routesForNav.reduce((acc, route) => {
+    if (
+      route.name === PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE &&
+      !accreditedRepPage
+    ) {
+      return acc;
+    }
     acc.push(route);
     return acc;
   }, []);

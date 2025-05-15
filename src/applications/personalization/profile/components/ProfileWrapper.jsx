@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import { useLocation } from 'react-router-dom';
 import NameTag from '~/applications/personalization/components/NameTag';
@@ -48,7 +49,12 @@ const ProfileWrapper = ({
 }) => {
   const location = useLocation();
 
-  const routesForNav = getRoutesForNav();
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const accreditedRepToggle = useToggleValue(
+    TOGGLE_NAMES.representativeStatusEnableV2Features,
+  );
+
+  const routesForNav = getRoutesForNav(accreditedRepToggle);
 
   const layout = useMemo(
     () => {
