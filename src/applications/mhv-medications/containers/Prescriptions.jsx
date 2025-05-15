@@ -786,6 +786,7 @@ const Prescriptions = () => {
         <Alert
           isAlertVisible={isAlertVisible}
           paginatedPrescriptionsList={paginatedPrescriptionsList}
+          selectedFilterOption={selectedFilterOption}
           ssoe={ssoe}
         />
         {renderErrorNotification()}
