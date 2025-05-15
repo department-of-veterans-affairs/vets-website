@@ -693,8 +693,9 @@ const Prescriptions = () => {
                     />
                     {showIPEContent && <InProductionEducationFiltering />}
                   </>
-                  {(paginatedPrescriptionsList?.length ||
-                    filteredList?.length) && (
+                  {!!(
+                    paginatedPrescriptionsList?.length || filteredList?.length
+                  ) && (
                     <>
                       {!isLoading && (
                         <MedicationsListSort
