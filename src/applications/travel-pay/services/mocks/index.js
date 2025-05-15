@@ -19,6 +19,8 @@ const claimDetails = {
   v2: require('./travel-claim-details-v2.json'),
 };
 
+const document = require('./document.json');
+
 const responses = {
   'GET /v0/user': user.withAddress,
   'GET /v0/feature_toggles': {
@@ -114,5 +116,10 @@ const responses = {
   //     ],
   //   });
   // },
+
+  // Document download
+  'GET /travel_pay/v0/claims/:claimId/documents/:docId': (req, res) => {
+    return res.json(document);
+  },
 };
 module.exports = delay(responses, 1000);
