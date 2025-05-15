@@ -823,7 +823,7 @@ class TrackClaimsPageV2 {
     cy.get('[data-testid="item-2"]')
       .find('a.vads-c-action-link--blue')
       .click();
-    cy.url().should('contain', '/needed-from-you/2');
+    cy.url().should('contain', '/needed-from-you/');
     cy.get('#default-page')
       .should('be.visible')
       .as('friendlyMessage');
@@ -838,6 +838,28 @@ class TrackClaimsPageV2 {
       '@friendlyMessage',
       'p:last-of-type',
       'On January 1, 2022, we mailed you a letter titled, “Request for Specific Evidence or Information,” which may include more details about this request. You can access this and all your claim letters online.',
+    );
+  }
+
+  verifyThirdPartyFriendlyEvidenceRequest() {
+    cy.get('[data-testid^="item-from-others"]')
+      .first()
+      .find('a.add-your-claims-link:first-of-type')
+      .click();
+    cy.url().should('contain', '/needed-from-others/');
+    cy.get('#default-page')
+      .should('be.visible')
+      .as('friendlyMessage');
+    cy.assertChildText('@friendlyMessage', 'h1', 'Need form 21-4142');
+    cy.assertChildText(
+      '@friendlyMessage',
+      'h2',
+      'What we’re notifying you about',
+    );
+    cy.assertChildText(
+      '@friendlyMessage',
+      'div.optional-upload > p',
+      'This is just a notice. No action is needed by you. But, if you have documents related to this request, uploading them on this page may help speed up the evidence review for your claim.',
     );
   }
 }
