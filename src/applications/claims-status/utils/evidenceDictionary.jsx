@@ -32,7 +32,7 @@ export const evidenceDictionary = {
           active
           data-testid="VA Form 21-4142"
           text="VA Form 21-4142"
-          href="/find-forms/about-form-21-4142a/"
+          href="/find-forms/about-form-21-4142/"
         />
       </>
     ),
