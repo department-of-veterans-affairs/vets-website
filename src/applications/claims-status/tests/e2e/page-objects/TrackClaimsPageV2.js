@@ -827,22 +827,18 @@ class TrackClaimsPageV2 {
     cy.get('#default-page')
       .should('be.visible')
       .as('friendlyMessage');
-    cy.get('@friendlyMessage')
-      .find('h1')
-      .should('contain', 'Submit Buddy Statement(s)');
-    cy.get('@friendlyMessage')
-      .find('h2')
-      .should('contain', 'What we need from you');
-    cy.get('@friendlyMessage')
-      .find('h3')
-      .should('contain', 'Learn about this request in your claim letter');
-    cy.get('@friendlyMessage')
-      .find('p')
-      .last()
-      .should(
-        'contain',
-        'On January 1, 2022, we mailed you a letter titled, “Request for Specific Evidence or Information,” which may include more details about this request. You can access this and all your claim letters online.',
-      );
+    cy.assertChildText('@friendlyMessage', 'h1', 'Submit Buddy Statement(s)');
+    cy.assertChildText('@friendlyMessage', 'h2', 'What we need from you');
+    cy.assertChildText(
+      '@friendlyMessage',
+      'h3',
+      'Learn about this request in your claim letter',
+    );
+    cy.assertChildText(
+      '@friendlyMessage',
+      'p:last-of-type',
+      'On January 1, 2022, we mailed you a letter titled, “Request for Specific Evidence or Information,” which may include more details about this request. You can access this and all your claim letters online.',
+    );
   }
 }
 
