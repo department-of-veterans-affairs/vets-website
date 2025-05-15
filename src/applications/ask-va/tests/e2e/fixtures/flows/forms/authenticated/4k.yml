@@ -1,6 +1,6 @@
 flow:
   title: Education benefits and work study for veteran (auth)
-  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  # runOnCI: true # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
       target: page
