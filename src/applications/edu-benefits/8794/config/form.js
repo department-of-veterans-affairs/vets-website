@@ -69,7 +69,6 @@ const formConfig = {
           title: 'Your information',
           uiSchema: designatingOfficial.uiSchema,
           schema: designatingOfficial.schema,
-          // onNavForward: onNavForwardLogic,
         },
       },
     },
