@@ -125,7 +125,7 @@ const uiSchema = {
     }),
     'ui:options': {
       updateSchema: (formData, formSchema) => {
-        if (formData.designatingOfficial.phoneType === 'us') {
+        if (formData.designatingOfficial?.phoneType === 'us') {
           return {
             ...formSchema,
             required: [
@@ -138,7 +138,7 @@ const uiSchema = {
             ],
           };
         }
-        if (formData.designatingOfficial.phoneType === 'intl') {
+        if (formData.designatingOfficial?.phoneType === 'intl') {
           return {
             ...formSchema,
             required: [
