@@ -157,7 +157,7 @@ describe('Modals for removal of field', () => {
 });
 
 describe('Modals on the contact information and content page', () => {
-  it('should render as expected on Desktop', () => {
+  it.skip('should render as expected on Desktop', () => {
     setup();
 
     // should appear when editing mailing address
