@@ -7,20 +7,21 @@ import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
 import { STATUSES, FORM_100998_LINK } from '../constants';
 import { toPascalCase } from '../util/string-helpers';
+import DocumentDownload from './DocumentDownload';
 
 const title = 'Your travel reimbursement claim';
 
-export default function ClaimDetailsContent(props) {
-  const {
-    createdOn,
-    claimStatus,
-    claimNumber,
-    appointmentDate: appointmentDateTime,
-    facilityName,
-    modifiedOn,
-    reimbursementAmount,
-    documents,
-  } = props;
+export default function ClaimDetailsContent({
+  createdOn,
+  claimStatus,
+  claimNumber,
+  claimId,
+  appointmentDate: appointmentDateTime,
+  facilityName,
+  modifiedOn,
+  reimbursementAmount,
+  documents,
+}) {
   useSetPageTitle(title);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
@@ -35,20 +36,17 @@ export default function ClaimDetailsContent(props) {
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
 
   const getDocLinkList = list =>
-    // TODO: Replace href with download mechanism (encoded string, blob, etc)
-    list.map(({ href, filename, text }) => (
+    list.map(({ filename, text, mimetype, documentId }) => (
       <div
         key={`claim-attachment-dl-${filename}`}
         className="vads-u-margin-top--1"
       >
-        <va-link
-          download
-          href={href ?? '#'}
+        <DocumentDownload
           text={text}
-          onClick={e => {
-            e.preventDefault();
-            // TODO: Implement download
-          }}
+          claimId={claimId}
+          documentId={documentId}
+          filename={filename}
+          mimetype={mimetype}
         />
       </div>
     ));
@@ -75,20 +73,6 @@ export default function ClaimDetailsContent(props) {
     },
     { clerk: [], user: [], forms: [] },
   );
-
-  const appealLinkProps =
-    documentCategories.forms.length > 0
-      ? {
-          download: true,
-          href: '#',
-          onClick: e => {
-            e.preventDefault();
-            // TODO: Implement download
-          },
-        }
-      : {
-          href: FORM_100998_LINK,
-        };
 
   return (
     <>
@@ -166,7 +150,20 @@ export default function ClaimDetailsContent(props) {
                 </li>
                 <li>
                   Mail a printed version of{' '}
-                  <va-link text="VA Form 10-0998 (PDF)" {...appealLinkProps} />{' '}
+                  {documentCategories.forms.length > 0 ? (
+                    <DocumentDownload
+                      text="VA Form 10-0998 (PDF)"
+                      claimId={claimId}
+                      documentId={documentCategories.forms[0].documentId}
+                      filename={documentCategories.forms[0].filename}
+                      mimetype={documentCategories.forms[0].mimetype}
+                    />
+                  ) : (
+                    <va-link
+                      text="VA Form 10-0998 (PDF)"
+                      href={FORM_100998_LINK}
+                    />
+                  )}{' '}
                   with the appropriate documentation.
                 </li>
               </ul>
@@ -184,6 +181,7 @@ export default function ClaimDetailsContent(props) {
 
 ClaimDetailsContent.propTypes = {
   appointmentDate: PropTypes.string.isRequired,
+  claimId: PropTypes.string.isRequired,
   claimNumber: PropTypes.string.isRequired,
   claimStatus: PropTypes.string.isRequired,
   createdOn: PropTypes.string.isRequired,
