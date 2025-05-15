@@ -22,7 +22,7 @@ import { transformV2Slots } from './transformers';
  *
  * @export
  * @async
- * @param {Object} slotsRequest - An object containing the parameters necessary to retrive appointment slots
+ * @param {Object} slotsRequest - An object containing the parameters necessary to retrieve appointment slots
  * @param {string} slotsRequest.siteId 3 digit facility ID
  * @param {string} slotsRequest.typeOfCareId 3 digit type of care id
  * @param {string} slotsRequest.clinicId clinic id
