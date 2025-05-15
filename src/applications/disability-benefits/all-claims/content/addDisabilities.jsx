@@ -31,7 +31,7 @@ export const newOnlyAlertRevised = ({ formContext }) => {
   // Display only after the user tries to submit with no disabilities
   if (!formContext.submitted) return null;
   return (
-    <va-alert status="error" uswds>
+    <va-alert status="warning" uswds>
       <h3 slot="headline">Enter a condition to submit your claim</h3>
       <p className="vads-u-font-size--base">
         You’ll need to enter a condition, diagnosis, or short description of
