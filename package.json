@@ -123,6 +123,7 @@
     "@babel/preset-react": "^7.25.9",
     "@babel/register": "^7.25.9",
     "@babel/traverse": "^7.25.9",
+    "@babel/cli": "^7.26.0",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@cypress/code-coverage": "^3.13.9",
     "@department-of-veterans-affairs/eslint-plugin": "^1.18.2",
