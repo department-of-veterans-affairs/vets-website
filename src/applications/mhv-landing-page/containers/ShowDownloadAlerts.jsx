@@ -4,8 +4,12 @@ import {
   SEI_DOMAINS,
   MissingRecordsError,
 } from '@department-of-veterans-affairs/mhv/exports';
-import AlertDownloadAccessTrouble from '../components/alerts/AlertDownloadAccessTrouble';
-import AlertDownloadSuccess from '../components/alerts/AlertDownloadSuccess';
+
+import {
+  AlertDownloadAccessTrouble,
+  AlertDownloadSuccess,
+} from '../components/alerts';
+
 import {
   hasEdipi,
   hasMhvAccount,

@@ -78,7 +78,7 @@ const DownloadSeiPdf = () => {
           href="#"
           onClick={handleGeneratePdf}
           text="Download self-entered health information report (PDF)"
-          data-testid="downloadSelfEnteredButton"
+          data-testid="download-self-entered-button"
         />
       )}
     </div>
