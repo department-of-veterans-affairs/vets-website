@@ -155,8 +155,6 @@ describe('YAML tests', () => {
           flowYML = f;
 
           const { flow } = YAML.parse(flowYML);
-          // eslint-disable-next-line no-console
-          console.log(file, flow);
           cy.log(`Flow.runOnCI ${flow.runOnCI}`);
           cy.log(`File ${file}`);
 
@@ -191,7 +189,7 @@ describe('YAML tests', () => {
             } else if (['14g.yml', '18g.yml'].includes(file)) {
               cy.intercept('GET', 'v0/inquiries', mockOneInquiry);
             } else {
-              cy.intercept('GET', 'v0/inquiries', mockNoInquiries);
+              cy.intercept('GET', `/ask_va_api/v0/inquiries`, mockNoInquiries);
             }
             cy.login(mockUserDefault);
           } else {
@@ -208,12 +206,12 @@ describe('YAML tests', () => {
         intercept3rdPartyResponses();
 
         // Intercept the user API request and log in
-        cy.intercept('GET', `/v0/user`, mockUserDefault);
+        // cy.intercept('GET', `/v0/user`, mockUserDefault);
         // cy.login();
         // cy.clearAllCookies();
 
         // TODO: This should be in the interceptAskVaResponses function -- Joe
-        cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
+        // cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
       });
 
       const runTestsForFilesInPath = (folder, files) => {
