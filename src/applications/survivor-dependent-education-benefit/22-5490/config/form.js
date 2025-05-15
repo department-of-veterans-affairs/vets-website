@@ -34,7 +34,7 @@ import EmailReviewField from '../components/EmailReviewField';
 import CustomPreSubmitInfo from '../components/PreSubmitInfo';
 import ObfuscateReviewField from '../components/ObfuscateReviewField';
 import TextNotificationsDisclaimer from '../components/TextNotificationDisclaimer';
-
+import incorrectFormModal from '../components/incorrectFormModal';
 // pages
 import directDeposit from '../pages/directDeposit';
 // import serviceHistory from '../pages/serviceHistory';
@@ -196,107 +196,6 @@ const formConfig = {
     field: 'privacyAgreementAccepted',
   },
   chapters: {
-    applicantInformationChapter: {
-      title: 'Veteran or Service Member Information',
-      pages: {
-        applicantInformation: {
-          path: 'veteran-or-service-member-information',
-          title: 'Veteran or Service Member Information',
-          uiSchema: {
-            relationShipToMember: {
-              'ui:title':
-                "What's your relationship to the Veteran or service member whose benefits you'd like to use?",
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  spouse: 'Spouse',
-                  child: 'Child',
-                },
-              },
-            },
-            fullName: {
-              ...fullNameUI,
-              'ui:title': 'Veteran or service member information',
-              first: {
-                ...fullNameUI.first,
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isValidName(field)) {
-                      if (field.length > 20) {
-                        errors.addError('Must be 20 characters or less');
-                      }
-                    } else if (!isValidName(field)) {
-                      errors.addError(
-                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                      );
-                    }
-                  },
-                ],
-              },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isValidName(field)) {
-                      if (field.length > 20) {
-                        errors.addError('Must be 20 characters or less');
-                      }
-                    } else if (!isValidName(field)) {
-                      errors.addError(
-                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                      );
-                    }
-                  },
-                ],
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isValidLastName(field)) {
-                      if (field.length < 2) {
-                        errors.addError('Must be 2 characters or more');
-                      } else if (field.length > 26) {
-                        errors.addError('Must be 26 characters or less');
-                      }
-                    } else if (!isValidName(field)) {
-                      errors.addError(
-                        'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
-                      );
-                    }
-                  },
-                ],
-              },
-            },
-            dateOfBirth: {
-              ...currentOrPastDateUI('Date of birth'),
-            },
-            ssn: {
-              ...ssnUI,
-              'ui:reviewField': ObfuscateReviewField,
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              'relationShipToMember',
-              'fullName',
-              'ssn',
-              'dateOfBirth',
-            ],
-            properties: {
-              relationShipToMember: {
-                type: 'string',
-                enum: ['spouse', 'child'],
-              },
-              fullName,
-              dateOfBirth: date,
-              ssn,
-            },
-          },
-        },
-      },
-    },
     benefitSelectionChapter: {
       title: 'Benefit selection',
       pages: {
@@ -311,7 +210,7 @@ const formConfig = {
                     <h3>Choose the benefit you’d like to apply for:</h3>
                     <p>
                       <strong>Note:</strong> If you are eligible for both the
-                      Fry Scholarship and Survivors’ and Dependents’ Educational
+                      Fry Scholarship and Survivors' and Dependents' Educational
                       Assistance benefits, you’ll need to choose which one to
                       use. Once you make this choice, you can’t switch to the
                       other program.
@@ -448,7 +347,7 @@ const formConfig = {
                 labels: {
                   fry: 'Fry Scholarship (Chapter 33)',
                   dea:
-                    'Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35)',
+                    "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
                 },
                 widgetProps: {
                   fry: { 'data-info': 'fry' },
@@ -572,202 +471,6 @@ const formConfig = {
                 enum: ['yes', 'no'],
               },
               graduationDate: date,
-            },
-          },
-        },
-      },
-    },
-    additionalConsiderationsChapter: {
-      title: 'Additional considerations',
-      pages: {
-        marriageInformation: {
-          title: 'Marriage information',
-          path: 'marriage-information',
-          depends: formData => {
-            return formData.relationShipToMember === 'spouse';
-          },
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Marriage information</h3>
-                </>
-              ),
-            },
-            marriageStatus: {
-              'ui:title':
-                "What's the status of your marriage with your chosen Veteran or service member?",
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  married: 'Married',
-                  divorced: 'Divorced (or divorce in progress)',
-                  anulled:
-                    'Marriage was annulled (or an annullment in progress)',
-                  widowed: 'Widowed',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['marriageStatus'],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              marriageStatus: {
-                type: 'string',
-                enum: ['married', 'divorced', 'anulled', 'widowed'],
-              },
-            },
-          },
-        },
-        marriageDate: {
-          path: 'marriage-date',
-          title: 'Marriage Date',
-          depends: formData => {
-            return formData.relationShipToMember === 'spouse';
-          },
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Marriage Date</h3>
-                </>
-              ),
-            },
-            marriageDate: {
-              ...currentOrPastDateUI(
-                'When did you get married to your chosen Veteran or service member?',
-              ),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['marriageDate'],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              marriageDate: date,
-            },
-          },
-        },
-        remarriageInformation: {
-          path: 'remarriage-information',
-          title: 'Remarriage Information',
-          depends: formData => {
-            return (
-              formData.marriageStatus === 'divorced' &&
-              formData.relationShipToMember === 'spouse'
-            );
-          },
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Remarriage</h3>
-                </>
-              ),
-            },
-            remarriageStatus: {
-              'ui:title': 'Have you been remarried since your divorce?',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  yes: 'Yes',
-                  no: 'No',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['remarriageStatus'],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              remarriageStatus: {
-                type: 'string',
-                enum: ['yes', 'no'],
-              },
-            },
-          },
-        },
-        remarriageDate: {
-          path: 'remarriage-date',
-          title: 'Remarriage Date',
-          depends: formData => {
-            return (
-              formData.marriageStatus === 'divorced' &&
-              formData.relationShipToMember === 'spouse' &&
-              formData.remarriageStatus === 'yes'
-            );
-          },
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Remarriage Date</h3>
-                </>
-              ),
-            },
-            remarriageDate: {
-              ...currentOrPastDateUI('When did you get remarried?'),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['remarriageDate'],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              remarriageDate: date,
-            },
-          },
-        },
-        outstandingFelony: {
-          path: 'outstanding-felony',
-          title: 'Outstanding Felony',
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Outstanding felony</h3>
-                </>
-              ),
-            },
-            felonyOrWarrant: {
-              'ui:title':
-                'Do you or your chosen Veteran or service member have an outstanding felony or warrant?',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  yes: 'Yes',
-                  no: 'No',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['felonyOrWarrant'],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              felonyOrWarrant: {
-                type: 'string',
-                enum: ['yes', 'no'],
-              },
             },
           },
         },
@@ -1491,6 +1194,367 @@ const formConfig = {
               'view:mobilePhoneOnFileWithSomeoneElse': {
                 type: 'object',
                 properties: {},
+              },
+            },
+          },
+        },
+      },
+    },
+    applicantInformationChapter: {
+      title: 'Veteran or Service Member Information',
+      pages: {
+        applicantInformation: {
+          path: 'veteran-or-service-member-information',
+          title: 'Veteran or Service Member Information',
+          uiSchema: {
+            relationshipToMember: {
+              'ui:title':
+                "What's your relationship to the Veteran or service member whose benefits you'd like to use?",
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  spouse: 'Spouse',
+                  child: 'Child',
+                },
+              },
+            },
+            fullName: {
+              ...fullNameUI,
+              'ui:title': 'Veteran or service member information',
+              first: {
+                ...fullNameUI.first,
+                'ui:title': 'First name',
+                'ui:options': {
+                  updateSchema: (formData, schema) => {
+                    const flag = formData?.showMeb54901990eTextUpdate;
+
+                    return {
+                      ...schema,
+                      title: flag ? 'Veteran first name' : 'First name',
+                    };
+                  },
+                },
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isValidName(field)) {
+                      if (field.length > 20) {
+                        errors.addError('Must be 20 characters or less');
+                      }
+                    } else {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
+                    }
+                  },
+                ],
+              },
+              middle: {
+                ...fullNameUI.middle,
+                'ui:title': 'Middle name',
+                'ui:options': {
+                  updateSchema: (formData, schema) => {
+                    const flag = formData?.showMeb54901990eTextUpdate;
+
+                    return {
+                      ...schema,
+                      title: flag ? 'Veteran middle name' : 'Middle name',
+                    };
+                  },
+                },
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isValidName(field)) {
+                      if (field.length > 20) {
+                        errors.addError('Must be 20 characters or less');
+                      }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
+                    }
+                  },
+                ],
+              },
+              last: {
+                ...fullNameUI.last,
+                'ui:title': 'Last name',
+                'ui:options': {
+                  updateSchema: (formData, schema) => {
+                    const flag = formData?.showMeb54901990eTextUpdate;
+
+                    return {
+                      ...schema,
+                      title: flag ? 'Veteran last name' : 'Last name',
+                    };
+                  },
+                },
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isValidLastName(field)) {
+                      if (field.length < 2) {
+                        errors.addError('Must be 2 characters or more');
+                      } else if (field.length > 26) {
+                        errors.addError('Must be 26 characters or less');
+                      }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
+                      );
+                    }
+                  },
+                ],
+              },
+            },
+            dateOfBirth: {
+              ...currentOrPastDateUI('Date of birth'),
+              'ui:title': 'Date of birth',
+              'ui:options': {
+                updateSchema: (formData, schema) => {
+                  const flag = formData?.showMeb54901990eTextUpdate;
+
+                  return {
+                    ...schema,
+                    title: flag ? 'Veteran date of birth' : 'Date of birth',
+                  };
+                },
+              },
+            },
+            ssn: {
+              ...ssnUI,
+              'ui:title': 'Social security number',
+              'ui:options': {
+                updateSchema: (formData, schema) => {
+                  const flag = formData?.showMeb54901990eTextUpdate;
+
+                  return {
+                    ...schema,
+                    title: flag
+                      ? 'Veteran social security number'
+                      : 'Social security number',
+                  };
+                },
+              },
+              'ui:reviewField': ObfuscateReviewField,
+            },
+            'view:incorrectFormWarning': {
+              'ui:description': incorrectFormModal,
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [
+              'relationshipToMember',
+              'fullName',
+              'ssn',
+              'dateOfBirth',
+            ],
+            properties: {
+              relationshipToMember: {
+                type: 'string',
+                enum: ['spouse', 'child'],
+              },
+              fullName,
+              dateOfBirth: date,
+              ssn,
+              'view:incorrectFormWarning': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
+      },
+    },
+    additionalConsiderationsChapter: {
+      title: 'Additional considerations',
+      pages: {
+        marriageInformation: {
+          title: 'Marriage information',
+          path: 'marriage-information',
+          depends: formData => {
+            return formData.relationshipToMember === 'spouse';
+          },
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Marriage information</h3>
+                </>
+              ),
+            },
+            marriageStatus: {
+              'ui:title':
+                "What's the status of your marriage with your chosen Veteran or service member?",
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  married: 'Married',
+                  divorced: 'Divorced (or divorce in progress)',
+                  anulled:
+                    'Marriage was annulled (or an annullment in progress)',
+                  widowed: 'Widowed',
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['marriageStatus'],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              marriageStatus: {
+                type: 'string',
+                enum: ['married', 'divorced', 'anulled', 'widowed'],
+              },
+            },
+          },
+        },
+        marriageDate: {
+          path: 'marriage-date',
+          title: 'Marriage Date',
+          depends: formData => {
+            return formData.relationshipToMember === 'spouse';
+          },
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Marriage Date</h3>
+                </>
+              ),
+            },
+            marriageDate: {
+              ...currentOrPastDateUI(
+                'When did you get married to your chosen Veteran or service member?',
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['marriageDate'],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              marriageDate: date,
+            },
+          },
+        },
+        remarriageInformation: {
+          path: 'remarriage-information',
+          title: 'Remarriage Information',
+          depends: formData => {
+            return (
+              formData.marriageStatus === 'divorced' &&
+              formData.relationshipToMember === 'spouse'
+            );
+          },
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Remarriage</h3>
+                </>
+              ),
+            },
+            remarriageStatus: {
+              'ui:title': 'Have you been remarried since your divorce?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  yes: 'Yes',
+                  no: 'No',
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['remarriageStatus'],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              remarriageStatus: {
+                type: 'string',
+                enum: ['yes', 'no'],
+              },
+            },
+          },
+        },
+        remarriageDate: {
+          path: 'remarriage-date',
+          title: 'Remarriage Date',
+          depends: formData => {
+            return (
+              formData.marriageStatus === 'divorced' &&
+              formData.relationshipToMember === 'spouse' &&
+              formData.remarriageStatus === 'yes'
+            );
+          },
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Remarriage Date</h3>
+                </>
+              ),
+            },
+            remarriageDate: {
+              ...currentOrPastDateUI('When did you get remarried?'),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['remarriageDate'],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              remarriageDate: date,
+            },
+          },
+        },
+        outstandingFelony: {
+          path: 'outstanding-felony',
+          title: 'Outstanding Felony',
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Outstanding felony</h3>
+                </>
+              ),
+            },
+            felonyOrWarrant: {
+              'ui:title':
+                'Do you or your chosen Veteran or service member have an outstanding felony or warrant?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  yes: 'Yes',
+                  no: 'No',
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['felonyOrWarrant'],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              felonyOrWarrant: {
+                type: 'string',
+                enum: ['yes', 'no'],
               },
             },
           },
