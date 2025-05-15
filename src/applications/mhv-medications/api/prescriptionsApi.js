@@ -50,8 +50,11 @@ export const prescriptionsApi = createApi({
       };
     }
   },
+  // Cache for 1 hour.
   keepUnusedDataFor: 60 * 60,
-  refetchOnMountOrArgChange: 60,
+  // Refetch data every 60 seconds if the component mounts or the arguments change
+  // This is commented out for now due to the 6 requests per day limit to VistA
+  // refetchOnMountOrArgChange: 60,
   tagTypes: ['Prescription'],
   endpoints: builder => ({
     getPrescriptionSortedList: builder.query({
