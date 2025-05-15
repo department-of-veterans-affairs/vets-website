@@ -156,5 +156,10 @@ describe('22-10216 Edu form', () => {
       '/confirmation',
     );
     cy.injectAxeThenAxeCheck();
+    // Go back to review page and check that "Continue" button is present to allow re-submission
+    cy.get('va-link[text="Back"]').click();
+    cy.location('pathname').should('include', '/review-and-submit');
+    cy.tabToElement('.usa-button-primary').click();
+    cy.location('pathname').should('include', '/confirmation');
   });
 });

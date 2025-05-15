@@ -2,16 +2,17 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
-import { addDays, format, subDays } from 'date-fns';
+import { addDays, subDays } from 'date-fns';
 import MockDate from 'mockdate';
 import React from 'react';
 import ReferralsAndRequests from './ReferralsAndRequests';
-import { getVAOSRequestMock } from '../tests/mocks/mock';
 import reducers from '../redux/reducer';
 import { mockAppointmentsApi } from '../tests/mocks/mockApis';
 import { getTestDate, renderWithStoreAndRouter } from '../tests/mocks/setup';
-import { FETCH_STATUS } from '../utils/constants';
+import { APPOINTMENT_STATUS, FETCH_STATUS } from '../utils/constants';
 import { createReferrals } from './utils/referrals';
+import MockAppointmentResponse from '../tests/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../tests/fixtures/MockFacilityResponse';
 
 const initialStateVAOSService = {
   featureToggles: {
@@ -176,56 +177,11 @@ describe('VAOS Component: Referrals and Requests', () => {
 
   it('should display pending and canceled appointments grouped', async () => {
     // And a veteran has VA appointment request
-    const startDate = new Date();
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
-      },
-      kind: 'clinic',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
+    const appointment = MockAppointmentResponse.createVAResponse({
+      pending: true,
+      status: APPOINTMENT_STATUS.proposed,
+    }).setLocation(new MockFacilityResponse());
 
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        },
-        {
-          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        },
-      ],
-      serviceType: '323',
-      start: null,
-      status: 'proposed',
-    };
     const canceledAppointment = {
       ...appointment,
       attributes: {
@@ -247,6 +203,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -264,56 +224,10 @@ describe('VAOS Component: Referrals and Requests', () => {
 
   it('should display pending appointments when there are no canceled appointments', async () => {
     // And a veteran has VA appointment request
-    const startDate = new Date();
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
-      },
-      kind: 'clinic',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: format(addDays(startDate, 3), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        },
-        {
-          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        },
-      ],
-      serviceType: '323',
-      start: null,
-      status: 'proposed',
-    };
+    const appointment = MockAppointmentResponse.createVAResponse({
+      pending: true,
+      status: APPOINTMENT_STATUS.proposed,
+    }).setLocation(new MockFacilityResponse());
 
     // And developer is using the v2 API
     mockAppointmentsApi({
@@ -327,6 +241,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -344,7 +262,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     expect(
       screen.queryByRole('heading', {
         level: 3,
-        name: /You don’t have any/,
+        name: 'You don’t have any appointment requests',
       }),
     ).not.to.be.ok;
   });
@@ -363,6 +281,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -371,7 +293,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     expect(
       await screen.findByRole('heading', {
         level: 2,
-        name: /You don’t have any/,
+        name: 'You don’t have any appointment requests',
       }),
     ).to.be.ok;
     expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
@@ -381,58 +303,12 @@ describe('VAOS Component: Referrals and Requests', () => {
   it('should display no appointments alert when there are no pending but cancelled appointments', async () => {
     // And a veteran has VA appointment request
     const startDate = new Date();
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
-      },
-      kind: 'clinic',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: format(
-            addDays(startDate, 3, 'days'),
-            "yyyy-MM-dd'T'HH:mm:ss'Z'",
-          ),
-        },
-        {
-          start: format(addDays(startDate, 4), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        },
-      ],
-      serviceType: '323',
-      start: null,
-      status: 'cancelled',
-    };
+    const appointment = MockAppointmentResponse.createVAResponse({
+      pending: true,
+      status: APPOINTMENT_STATUS.cancelled,
+    })
+      .setRequestedPeriods([startDate])
+      .setLocation(new MockFacilityResponse());
 
     // And developer is using the v2 API
     mockAppointmentsApi({
@@ -446,6 +322,10 @@ describe('VAOS Component: Referrals and Requests', () => {
     const screen = renderWithStoreAndRouter(<ReferralsAndRequests />, {
       initialState: {
         ...initialStateVAOSService,
+        referral: {
+          referrals: [],
+          referralsFetchStatus: FETCH_STATUS.succeeded,
+        },
       },
       reducers,
     });
@@ -463,7 +343,7 @@ describe('VAOS Component: Referrals and Requests', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: /You don’t have any/,
+        name: 'You don’t have any appointment requests',
       }),
     ).to.be.ok;
   });

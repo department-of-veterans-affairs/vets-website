@@ -952,6 +952,19 @@
     }
   }
 
+  #mega-menu .my-va-top-nav,
+  .mega-menu .my-va-top-nav {
+    margin-left: auto;
+  }
+  #mega-menu .my-va-top-nav.current-page,
+  .mega-menu .my-va-top-nav.current-page {
+    margin-left: auto;
+  }
+
+  #mega-menu .login-container .row.va-flex {
+    display: grid;
+  }
+
   #mega-menu {
     flex: 1 0 100%;
     color: #005ea2;
@@ -2185,6 +2198,10 @@
 
   #header-nav-items {
     font-size: 16px;
+  }
+
+  ul#header-nav-items li {
+    max-width: 100%;
   }
 
   @media (min-width: 320px) and (max-width: 767px) {

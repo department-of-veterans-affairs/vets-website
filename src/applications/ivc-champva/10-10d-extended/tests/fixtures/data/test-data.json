@@ -33,6 +33,17 @@
         "applicantHasOhi": { "hasOhi": "yes" }
       }
     ],
+    "healthInsurance": [
+      {
+        "insuranceType": "medigap",
+        "medigapPlan": "K",
+        "provider": "Blue Cross Blue Shield",
+        "effectiveDate": "2024-10-01",
+        "expirationDate": "2024-10-02",
+        "throughEmployer": true,
+        "healthcareParticipants": { "28e7f1064a74": true }
+      }
+    ],
     "ssn": {
       "ssn": "123123123"
     },
