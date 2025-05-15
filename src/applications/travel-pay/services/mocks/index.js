@@ -24,6 +24,8 @@ const maintenanceWindows = {
   enabled: require('./maintenance-windows/enabled.json'),
 };
 
+const document = require('./document.json');
+
 const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': maintenanceWindows.none,
@@ -121,5 +123,10 @@ const responses = {
   //     ],
   //   });
   // },
+
+  // Document download
+  'GET /travel_pay/v0/claims/:claimId/documents/:docId': (req, res) => {
+    return res.json(document);
+  },
 };
 module.exports = delay(responses, 1000);
