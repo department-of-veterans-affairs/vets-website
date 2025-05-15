@@ -1,11 +1,3 @@
-/**
- * Alert Box component specific to access trouble
- *
- * @author Matthew Wright
- * @desc: Alert that displays when a download link is clicked and there are no data issues
- * @notes :
- */
-
 import React, { useEffect } from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';

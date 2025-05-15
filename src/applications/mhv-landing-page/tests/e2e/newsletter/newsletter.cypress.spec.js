@@ -31,7 +31,7 @@ describe(`${appName} -- MHV Newsletter Signup`, () => {
       LandingPage.visit({ registered: false });
       cy.findByRole('heading', {
         name: /Subscribe to the My HealtheVet newsletter/,
-      }).should('not.exist');
+      }).should('exist');
       cy.injectAxeThenAxeCheck();
     });
   });

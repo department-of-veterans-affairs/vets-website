@@ -1,11 +1,3 @@
-/**
- * Alert Box component specific to access trouble
- *
- * @author Matthew Wright
- * @desc: Alert that displays an access trouble message with embedded phone link
- * @notes :
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
