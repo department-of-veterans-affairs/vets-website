@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { usePrintTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  usePrintTitle,
+  makePdf,
+} from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import InfoAlert from '../shared/InfoAlert';
 import DateSubheading from '../shared/DateSubheading';
@@ -13,7 +16,7 @@ import PrintDownload from '../shared/PrintDownload';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 
-import { makePdf, generateTextFile } from '../../util/helpers';
+import { generateTextFile } from '../../util/helpers';
 
 import {
   pageTitles,
