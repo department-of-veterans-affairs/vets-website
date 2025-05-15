@@ -9,44 +9,6 @@
  * @module testing/mocks/data
  */
 
-/**
- * Return a stubbed VAOS VA request item
- *
- * @export
- * @returns {VAOSRequest} VAOS VA request object
- */
-export function getVAOSRequestMock() {
-  return {
-    id: null,
-    type: 'appointments',
-    attributes: {
-      cancelationReason: null,
-      clinic: null,
-      comment: null,
-      contact: {
-        telecom: [],
-      },
-      description: null,
-      end: null,
-      id: null,
-      kind: null,
-      locationId: null,
-      minutesDuration: null,
-      practitioners: [],
-      preferredTimesForPhoneCall: [],
-      priority: null,
-      reasonCode: {},
-      requestedPeriods: [],
-      serviceType: null,
-      slot: null,
-      start: null,
-      status: 'proposed',
-      telehealth: null,
-      type: 'REQUEST',
-    },
-  };
-}
-
 export function getSchedulingConfigurationMock({
   id = 'fake',
   typeOfCareId = 'fake',
