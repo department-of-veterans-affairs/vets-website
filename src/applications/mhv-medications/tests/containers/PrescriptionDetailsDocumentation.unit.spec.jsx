@@ -67,9 +67,11 @@ describe('Prescription details documentation container', () => {
     sandbox.restore();
   });
 
-  it('renders without errors', () => {
+  it('renders without errors', async () => {
     const screen = setup();
-    expect(screen);
+    await waitFor(() => {
+      expect(screen);
+    });
   });
 
   it('should display loading message when loading specific rx documentation', async () => {

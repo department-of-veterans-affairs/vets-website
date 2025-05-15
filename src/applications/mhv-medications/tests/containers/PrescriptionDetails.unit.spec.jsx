@@ -4,7 +4,11 @@ import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
-import { stubAllergiesApi, stubPrescriptionIdApi } from '../testing-utils';
+import {
+  stubAllergiesApi,
+  stubPrescriptionsApiCache,
+  stubPrescriptionIdApi,
+} from '../testing-utils';
 import singlePrescription from '../fixtures/prescriptionsListItem.json';
 import { allergiesApi } from '../../api/allergiesApi';
 import { prescriptionsApi } from '../../api/prescriptionsApi';
@@ -32,6 +36,7 @@ describe('Prescription details container', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox });
     stubPrescriptionIdApi({ sandbox });
   });
 
@@ -39,7 +44,7 @@ describe('Prescription details container', () => {
     sandbox.restore();
   });
 
-  it('renders without errors', () => {
+  it('renders without errors', async () => {
     const screen = setup({
       user: {
         profile: {
@@ -48,7 +53,12 @@ describe('Prescription details container', () => {
         },
       },
     });
-    expect(screen);
+    await waitFor(() => {
+      expect(screen);
+      expect(screen.getByTestId('prescription-name')).to.exist.and.to.have.text(
+        singlePrescription.prescriptionName,
+      );
+    });
   });
 
   it('should display loading message when loading specific rx', async () => {
@@ -62,6 +72,7 @@ describe('Prescription details container', () => {
   it('should show the allergy error alert when downloading txt', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox, error: true });
+    stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox });
     const screen = setup();
     await waitFor(() => {
@@ -77,6 +88,7 @@ describe('Prescription details container', () => {
   it('should show the allergy error alert when printing', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox, error: true });
+    stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox });
     const screen = setup();
     await waitFor(() => {
@@ -89,7 +101,7 @@ describe('Prescription details container', () => {
     });
   });
 
-  it('displays the prescription name and filled by date', () => {
+  it('displays the prescription name and filled by date', async () => {
     const screen = setup();
     const rxName = screen.findByText(
       rxDetailsResponse.data.attributes.prescriptionName,
@@ -122,6 +134,7 @@ describe('Prescription details container', () => {
   it('displays "Not filled yet" when there is no dispense date', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
     const data = JSON.parse(JSON.stringify(singlePrescription));
     data.dispensedDate = null;
     data.sortedDispensedDate = null;
@@ -137,6 +150,7 @@ describe('Prescription details container', () => {
   it('displays "Documented on" instead of "filled by" date, when med is non VA', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox, data: nonVaRxResponse.data.attributes });
     const screen = setup();
     await waitFor(() => {
@@ -152,6 +166,7 @@ describe('Prescription details container', () => {
   it('name should use orderableItem for non va prescription if no prescriptionName is available', () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox, data: nonVaRxResponse.data.attributes });
     const screen = setup();
     const rxName = screen.findByText(
@@ -161,22 +176,26 @@ describe('Prescription details container', () => {
     expect(rxName).to.exist;
   });
 
-  it('name should use prescriptionName for non va prescription if available', () => {
+  it('name should use prescriptionName for non va prescription if available', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
     const data = JSON.parse(JSON.stringify(nonVaRxResponse.data.attributes));
     const testPrescriptionName = 'Test Name for Non-VA prescription';
     data.prescriptionName = testPrescriptionName;
     stubPrescriptionIdApi({ sandbox, data });
 
     const screen = setup();
-    const rxName = screen.findByText(testPrescriptionName);
-    expect(rxName).to.exist;
+    await waitFor(() => {
+      const rxName = screen.findByText(testPrescriptionName);
+      expect(rxName).to.exist;
+    });
   });
 
   it('Shows error message for apiError', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox, error: true });
     const screen = setup();
     await waitFor(() => {
@@ -191,6 +210,7 @@ describe('Prescription details container', () => {
   it('should display alert if prescription has a prescriptionSource of PD', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox });
     const data = JSON.parse(JSON.stringify(singlePrescription));
     data.prescriptionSource = 'PD';
     stubPrescriptionIdApi({ sandbox, data });

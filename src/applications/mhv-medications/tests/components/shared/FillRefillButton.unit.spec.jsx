@@ -6,6 +6,7 @@ import {
   mockFetch,
   resetFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { prescriptionsApi } from '../../../api/prescriptionsApi';
 import reducer from '../../../reducers';
 import FillRefillButton from '../../../components/shared/FillRefillButton';
 
@@ -25,6 +26,7 @@ describe('Fill Refill Button component', () => {
       initialState: {},
       reducers: reducer,
       initialEntries: ['/1234567890'],
+      additionalMiddlewares: [prescriptionsApi.middleware],
     });
   };
 
@@ -85,6 +87,7 @@ describe('Fill Refill Button component', () => {
         initialState: {},
         reducers: reducer,
         initialEntries: ['/1234567890'],
+        additionalMiddlewares: [prescriptionsApi.middleware],
       },
     );
     expect(screen.queryByTestId('refill-request-button')).to.not.exist;
@@ -97,6 +100,7 @@ describe('Fill Refill Button component', () => {
         initialState: {},
         reducers: reducer,
         initialEntries: ['/1234567890'],
+        additionalMiddlewares: [prescriptionsApi.middleware],
       },
     );
     const button = screen.getByTestId('refill-request-button');
@@ -108,6 +112,7 @@ describe('Fill Refill Button component', () => {
       initialState: {},
       reducers: reducer,
       initialEntries: ['/1234567890'],
+      additionalMiddlewares: [prescriptionsApi.middleware],
     });
     const button = screen.getByTestId('refill-request-button');
     expect(button).to.have.property('text', 'Request a refill');
