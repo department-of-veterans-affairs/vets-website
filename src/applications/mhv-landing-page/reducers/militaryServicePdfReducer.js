@@ -22,7 +22,7 @@ const militaryServicePdfReducer = (state = initialState, action) => {
         loading: false,
         successfulDownload: true,
         failedDownload: false,
-        error,
+        error: false,
       };
     case GET_MILITARY_SERVICE_PDF_FAILED:
       return {

@@ -6,7 +6,7 @@ import {
   GET_SEI_PDF,
   GET_SEI_PDF_SUCCESS,
   GET_SEI_PDF_FAILED,
-} from '../../reducers/seiPdf';
+} from '../../reducers/seiPdfReducer';
 import { seiLoading } from '../../selectors';
 
 const DownloadSeiPdf = () => {

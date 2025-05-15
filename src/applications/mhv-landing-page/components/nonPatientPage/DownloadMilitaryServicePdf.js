@@ -5,7 +5,7 @@ import {
   GET_MILITARY_SERVICE_PDF,
   GET_MILITARY_SERVICE_PDF_SUCCESS,
   GET_MILITARY_SERVICE_PDF_FAILED,
-} from '../../reducers/militaryServicePdf';
+} from '../../reducers/militaryServicePdfReducer';
 
 import { militaryServiceLoading } from '../../selectors';
 
