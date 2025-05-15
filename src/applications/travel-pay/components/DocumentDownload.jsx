@@ -1,0 +1,96 @@
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
+const DocumentDownload = ({
+  claimId,
+  documentId,
+  filename,
+  mimetype,
+  text,
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const downloadLinkHandler = async (e, docId) => {
+    setError('');
+    if (isLoading) {
+      return;
+    }
+    setIsLoading(true);
+    e.preventDefault();
+
+    try {
+      // await delay(2000);
+
+      const response = await apiRequest(
+        `${
+          environment.API_URL
+        }/travel_pay/v0/claims/${claimId}/documents/${docId}`,
+      );
+
+      // Decode the base64 string
+      const byteCharacters = atob(response.data);
+
+      // Convert the binary string to an array of bytes
+      const byteArrays = [];
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteArrays.push(byteCharacters.charCodeAt(i));
+      }
+      const byteArray = new Uint8Array(byteArrays);
+
+      const blob = new Blob([byteArray], {
+        type: mimetype,
+      });
+      const objUrl = URL.createObjectURL(blob);
+      if (objUrl) {
+        const link = document.createElement('a');
+        link.href = objUrl;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+      }
+    } catch (_) {
+      setError(
+        'We were unable to get your file to download. Please try again later.',
+      );
+    }
+    setIsLoading(false);
+  };
+
+  return (
+    <>
+      {isLoading && (
+        <va-icon
+          class="travel-pay-download-loading-icon"
+          icon="autorenew"
+          aria-hidden="true"
+        />
+      )}
+      <va-link
+        download={!isLoading}
+        href="#"
+        text={text}
+        onClick={e => downloadLinkHandler(e, documentId)}
+      />
+      {error && (
+        <div className="travel-pay-download-error">
+          <va-icon icon="error" aria-hidden="true" />
+          {error}
+        </div>
+      )}
+    </>
+  );
+};
+
+DocumentDownload.propTypes = {
+  claimId: PropTypes.string,
+  documentId: PropTypes.string,
+  filename: PropTypes.string,
+  mimetype: PropTypes.string,
+  text: PropTypes.string,
+};
+
+export default DocumentDownload;
