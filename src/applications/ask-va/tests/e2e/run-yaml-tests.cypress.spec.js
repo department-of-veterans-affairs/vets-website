@@ -117,35 +117,6 @@ const executeSteps = (steps, folder) => {
 };
 
 describe('YAML tests', () => {
-  // // const paths = ["unauthenticated"]; // , "authenticated"];
-  // let files = {
-  //   unauthenticated: [],
-  //   authenticated: [],
-  //   'include-pages': [],
-  // };
-
-  // // const includePages = {};
-
-  // // const preloadIncludes = (files) => {
-  // //   const paths = Object.keys(files);
-
-  // //   for (const path of paths) {
-  // //     if (path === "include-pages") {
-  // //       const p = `./cypress/e2e/1-getting-started/flows/${path}`;
-  // //       cy.log(`Preloading includes in ${p}`);
-
-  // //       for (const file of files[path]) {
-  // //         cy.readFile(`${p}/${file}`).then((f) => {
-  // //           const flow = YAML.parse(f).flow;
-  // //           includePages[file] = flow;
-  // //         });
-  // //       }
-
-  // //       let flowYML = EMPTY_FLOW_YML;
-  // //     }
-  // //   }
-  // // };
-
   describe(`Preload flows`, () => {
     describe('Run tests', () => {
       const testRunner = (folder, path, file) => {
