@@ -191,39 +191,39 @@ describe('Modals on the contact information and content page', () => {
     cy.axeCheck();
   });
 
-  it.skip('should render as expected on Mobile', () => {
-    setup(true);
+  // it.skip('should render as expected on Mobile', () => {
+  //   setup(true);
 
-    // should appear when editing mailing address
-    checkModals({
-      otherSectionName: 'home address',
-      editLineId: 'root_addressLine3',
-      sectionName: 'mailing address',
-    });
+  //   // should appear when editing mailing address
+  //   checkModals({
+  //     otherSectionName: 'home address',
+  //     editLineId: 'root_addressLine3',
+  //     sectionName: 'mailing address',
+  //   });
 
-    // should appear when editing residential address
-    checkModals({
-      otherSectionName: 'mailing address',
-      editLineId: 'root_addressLine3',
-      sectionName: 'home address',
-    });
+  //   // should appear when editing residential address
+  //   checkModals({
+  //     otherSectionName: 'mailing address',
+  //     editLineId: 'root_addressLine3',
+  //     sectionName: 'home address',
+  //   });
 
-    // should appear when editing home phone number
-    checkModals({
-      otherSectionName: 'mailing address',
-      editLineId: 'root_extension',
-      sectionName: 'home phone number',
-    });
+  //   // should appear when editing home phone number
+  //   checkModals({
+  //     otherSectionName: 'mailing address',
+  //     editLineId: 'root_extension',
+  //     sectionName: 'home phone number',
+  //   });
 
-    // should appear when editing email address
-    checkModals({
-      otherSectionName: 'mailing address',
-      editLineId: 'root_emailAddress',
-      sectionName: 'contact email address',
-    });
+  //   // should appear when editing email address
+  //   checkModals({
+  //     otherSectionName: 'mailing address',
+  //     editLineId: 'root_emailAddress',
+  //     sectionName: 'contact email address',
+  //   });
 
-    cy.axeCheck();
-  });
+  //   cy.axeCheck();
+  // });
 });
 
 describe('Modals on the contact information and content page after editing', () => {
