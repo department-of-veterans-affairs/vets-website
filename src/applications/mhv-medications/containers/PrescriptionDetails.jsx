@@ -76,7 +76,7 @@ const PrescriptionDetails = () => {
   ] = useState(true);
   const [prescription, setPrescription] = useState(null);
   const [prescriptionsApiError, setPrescriptionsApiError] = useState(false);
-  const [prescriptionIsLoading, setPrescriptionIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Get cached prescription from list if available
   const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
@@ -98,15 +98,15 @@ const PrescriptionDetails = () => {
     () => {
       if (cachedPrescriptionAvailable && cachedPrescription?.prescriptionId) {
         setPrescription(cachedPrescription);
-        setPrescriptionIsLoading(false);
+        setIsLoading(false);
       } else if (!queryLoading) {
-        if (data) {
-          setPrescription(data);
-          setPrescriptionIsLoading(false);
-        } else if (error) {
+        if (error) {
           setCachedPrescriptionAvailable(false);
           setPrescriptionsApiError(error);
-          setPrescriptionIsLoading(false);
+          setIsLoading(false);
+        } else if (data) {
+          setPrescription(data);
+          setIsLoading(false);
         }
       }
     },
@@ -133,7 +133,6 @@ const PrescriptionDetails = () => {
     [cachedPrescription, queryLoading, cachedPrescriptionAvailable],
   );
 
-  const isLoading = prescriptionIsLoading;
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
 
   const userName = useSelector(state => state.user.profile.userFullName);
@@ -309,6 +308,7 @@ const PrescriptionDetails = () => {
   useEffect(
     () => {
       if (
+        !allergiesError &&
         allergies &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
       ) {
@@ -331,7 +331,7 @@ const PrescriptionDetails = () => {
         window.print();
       }
     },
-    [allergies, pdfTxtGenerateStatus, generatePDF, generateTXT],
+    [allergies, allergiesError, pdfTxtGenerateStatus, generatePDF, generateTXT],
   );
 
   useEffect(
@@ -368,10 +368,19 @@ const PrescriptionDetails = () => {
     );
   };
 
-  const isErrorNotificationVisible = Boolean(
-    pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
-      allergiesError,
+  const [isErrorNotificationVisible, setIsErrorNotificationVisible] = useState(
+    false,
   );
+  useEffect(
+    () => {
+      setIsErrorNotificationVisible(
+        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+          Boolean(allergiesError),
+      );
+    },
+    [pdfTxtGenerateStatus, allergiesError],
+  );
+
   const hasPrintError =
     prescription && !prescriptionsApiError && !allergiesError;
 

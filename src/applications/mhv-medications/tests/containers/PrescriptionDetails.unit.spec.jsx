@@ -64,24 +64,26 @@ describe('Prescription details container', () => {
     stubAllergiesApi({ sandbox, error: true });
     stubPrescriptionIdApi({ sandbox });
     const screen = setup();
-    const pdfButton = screen.getByTestId('download-txt-button');
-    fireEvent.click(pdfButton);
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('download-txt-button'));
+    });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
         .exist;
     });
   });
 
-  it('should show the allergy error alert when printing', () => {
+  it('should show the allergy error alert when printing', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox, error: true });
     stubPrescriptionIdApi({ sandbox });
     const screen = setup();
-    const pdfButton = screen.getByTestId('download-print-button');
-    fireEvent.click(pdfButton);
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('download-print-button'));
+    });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t print your records right now')).to
         .exist;
     });
@@ -117,7 +119,7 @@ describe('Prescription details container', () => {
     expect(prescriptionApiStub.notCalled).to.be.true;
   });
 
-  it('displays "Not filled yet" when there is no dispense date', () => {
+  it('displays "Not filled yet" when there is no dispense date', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
     const data = JSON.parse(JSON.stringify(singlePrescription));
@@ -125,22 +127,26 @@ describe('Prescription details container', () => {
     data.sortedDispensedDate = null;
     stubPrescriptionIdApi({ sandbox, data });
     const screen = setup();
-    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
-      'Not filled yet',
-    );
+    await waitFor(() => {
+      expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+        'Not filled yet',
+      );
+    });
   });
 
-  it('displays "Documented on" instead of "filled by" date, when med is non VA', () => {
+  it('displays "Documented on" instead of "filled by" date, when med is non VA', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
     stubPrescriptionIdApi({ sandbox, data: nonVaRxResponse.data.attributes });
     const screen = setup();
-    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
-      `Documented on ${dateFormat(
-        nonVaRxResponse.data.attributes.orderedDate,
-        'MMMM D, YYYY',
-      )}`,
-    );
+    await waitFor(() => {
+      expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+        `Documented on ${dateFormat(
+          nonVaRxResponse.data.attributes.orderedDate,
+          'MMMM D, YYYY',
+        )}`,
+      );
+    });
   });
 
   it('name should use orderableItem for non va prescription if no prescriptionName is available', () => {
@@ -182,13 +188,15 @@ describe('Prescription details container', () => {
     });
   });
 
-  it('should display alert if prescription has a prescriptionSource of PD', () => {
+  it('should display alert if prescription has a prescriptionSource of PD', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
     const data = JSON.parse(JSON.stringify(singlePrescription));
     data.prescriptionSource = 'PD';
     stubPrescriptionIdApi({ sandbox, data });
     const screen = setup();
-    expect(screen.getByTestId('pending-med-alert')).to.exist;
+    await waitFor(() => {
+      expect(screen.getByTestId('pending-med-alert')).to.exist;
+    });
   });
 });
