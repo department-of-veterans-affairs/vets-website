@@ -123,6 +123,11 @@ export const selectIsBlocked = state => {
   return getIsBlocked(state.directDeposit.controlInformation);
 };
 
+export const selectAccreditedRepToggle = state =>
+  toggleValues(state)?.[
+    FEATURE_FLAG_NAMES.representativeStatusEnableV2Features
+  ] || false;
+
 export const selectProfileContacts = state => state?.profileContacts || {};
 
 export const selectHasRetiringSignInService = state => {

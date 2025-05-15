@@ -3,9 +3,13 @@ import { Edit } from './components/edit/Edit';
 import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
 
-const getRoutes = () => {
+const getRoutes = (
+  { accreditedRepPage } = {
+    accreditedRepPage: false,
+  },
+) => {
   return [
-    ...getRoutesForNav(),
+    ...getRoutesForNav(accreditedRepPage),
     {
       component: Edit,
       name: PROFILE_PATH_NAMES.EDIT,
