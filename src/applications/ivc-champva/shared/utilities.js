@@ -186,3 +186,34 @@ export function getObjectsWithAttachmentId(obj) {
 
   return objectsWithAttachmentId;
 }
+
+/**
+ * Produces a simple (non secure) hash of the passed in string.
+ * See https://stackoverflow.com/a/8831937
+ * @param {string} str string to be hashed
+ * @returns hash of input string
+ */
+export function toHash(str) {
+  let hash = 0;
+  Object.keys(str).forEach(i => {
+    const chr = str.charCodeAt(i);
+    hash = hash * 32 - hash + chr;
+    hash = Math.floor(hash);
+  });
+  return hash.toString(16);
+}
+
+/**
+ * Converts date string in YYYY-MM-DD fmt to MM/DD/YYYY
+ * TODO: replace other functions in ivc module that do this type of thing
+ * @param {String} date date in format YYYY-MM-DD
+ * @returns d reformatted as MM/DD/YYYY
+ */
+export function fmtDate(date) {
+  const dt = new Date(date);
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(dt);
+}
