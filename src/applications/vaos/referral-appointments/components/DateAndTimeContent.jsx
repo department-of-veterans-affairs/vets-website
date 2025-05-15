@@ -33,7 +33,7 @@ export const DateAndTimeContent = props => {
   const latestAvailableSlot = new Date(
     Math.max.apply(
       null,
-      draftAppointmentInfo.slots.slots.map(slot => {
+      draftAppointmentInfo.attributes.slots.map(slot => {
         return new Date(slot.start);
       }),
     ),
@@ -42,17 +42,18 @@ export const DateAndTimeContent = props => {
     () => {
       if (selectedSlot) {
         setSelectedDate(
-          getSlotById(draftAppointmentInfo.slots.slots, selectedSlot).start,
+          getSlotById(draftAppointmentInfo.attributes.slots, selectedSlot)
+            .start,
         );
       }
     },
-    [draftAppointmentInfo.slots.slots, selectedSlot],
+    [draftAppointmentInfo.attributes.slots, selectedSlot],
   );
   useEffect(
     () => {
       const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
       const savedSlot = getSlotById(
-        draftAppointmentInfo.slots.slots,
+        draftAppointmentInfo.attributes.slots,
         savedSelectedSlot,
       );
       if (!savedSlot) {
@@ -60,11 +61,14 @@ export const DateAndTimeContent = props => {
       }
       dispatch(setSelectedSlot(savedSlot.id));
     },
-    [dispatch, selectedSlotKey, draftAppointmentInfo.slots],
+    [dispatch, selectedSlotKey, draftAppointmentInfo.attributes.slots],
   );
   const onChange = useCallback(
     value => {
-      const newSlot = getSlotByDate(draftAppointmentInfo.slots.slots, value[0]);
+      const newSlot = getSlotByDate(
+        draftAppointmentInfo.attributes.slots,
+        value[0],
+      );
       if (newSlot) {
         setError('');
         dispatch(setSelectedSlot(newSlot.id));
@@ -72,7 +76,7 @@ export const DateAndTimeContent = props => {
         sessionStorage.setItem(selectedSlotKey, newSlot.id);
       }
     },
-    [dispatch, draftAppointmentInfo.slots.slots, selectedSlotKey],
+    [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],
   );
   const onBack = () => {
     routeToPreviousReferralPage(history, currentPage, currentReferral.uuid);
@@ -99,14 +103,14 @@ export const DateAndTimeContent = props => {
     routeToNextReferralPage(history, currentPage, currentReferral.uuid);
   };
 
-  const noSlotsAvailable = !draftAppointmentInfo.slots.slots.length;
+  const noSlotsAvailable = !draftAppointmentInfo.attributes.slots.length;
 
   const driveTimeMinutes = Math.floor(
-    draftAppointmentInfo.drivetime.destination
+    draftAppointmentInfo.attributes.drivetime.destination
       .driveTimeInSecondsWithoutTraffic / 60,
   );
   const driveTimeDistance =
-    draftAppointmentInfo.drivetime.destination.distanceInMiles;
+    draftAppointmentInfo.attributes.drivetime.destination.distanceInMiles;
 
   const driveTimeString =
     driveTimeMinutes && driveTimeDistance
@@ -123,13 +127,13 @@ export const DateAndTimeContent = props => {
           {titleCase(currentReferral.categoryOfCare)}
         </p>
         <p className="vads-u-margin--0 vads-u-font-weight--bold">
-          {draftAppointmentInfo.provider.providerOrganization.name}
+          {draftAppointmentInfo.attributes.provider.providerOrganization.name}
         </p>
         <ProviderAddress
-          address={draftAppointmentInfo.provider.location.address}
+          address={draftAppointmentInfo.attributes.provider.location.address}
           showDirections
           directionsName={
-            draftAppointmentInfo.provider.providerOrganization.name
+            draftAppointmentInfo.attributes.provider.providerOrganization.name
           }
           phone={currentReferral.provider.telephone}
         />
@@ -169,7 +173,7 @@ export const DateAndTimeContent = props => {
           <div data-testid="cal-widget">
             <CalendarWidget
               maxSelections={1}
-              availableSlots={draftAppointmentInfo.slots.slots}
+              availableSlots={draftAppointmentInfo.attributes.slots}
               value={[selectedDate]}
               id="dateTime"
               timezone={facilityTimeZone}

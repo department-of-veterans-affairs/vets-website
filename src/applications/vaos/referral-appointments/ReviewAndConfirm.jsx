@@ -46,7 +46,7 @@ const ReviewAndConfirm = props => {
   const [createFailed, setCreateFailed] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
   const slotDetails = getSlotById(
-    draftAppointmentInfo.slots?.slots,
+    draftAppointmentInfo.attributes?.slots,
     selectedSlot,
   );
   const facilityTimeZone = getTimezoneByFacilityId(
@@ -95,19 +95,20 @@ const ReviewAndConfirm = props => {
         draftAppointmentCreateStatus === FETCH_STATUS.succeeded
       ) {
         const savedSlot = getSlotById(
-          draftAppointmentInfo.slots.slots,
+          draftAppointmentInfo.attributes.slots,
           savedSelectedSlot,
         );
         if (!savedSlot) {
           routeToCCPage(history, 'scheduleReferral');
+        } else {
+          dispatch(setSelectedSlot(savedSlot.id));
         }
-        dispatch(setSelectedSlot(savedSlot.id));
       }
     },
     [
       dispatch,
       savedSelectedSlot,
-      draftAppointmentInfo.slots,
+      draftAppointmentInfo.attributes.slots,
       history,
       draftAppointmentCreateStatus,
       selectedSlot,
@@ -192,10 +193,10 @@ const ReviewAndConfirm = props => {
           </div>
         </div>
         <p className="vads-u-margin--0">
-          {draftAppointmentInfo.provider.name} <br />
-          {draftAppointmentInfo.provider.providerOrganization.name}
+          {draftAppointmentInfo.attributes.provider.name} <br />
+          {draftAppointmentInfo.attributes.provider.providerOrganization.name}
         </p>
-        {draftAppointmentInfo.provider.location.address}
+        {draftAppointmentInfo.attributes.provider.location.address}
         {currentReferral.provider?.telephone && (
           <p className="vads-u-margin--0" data-testid="phone">
             Phone:{' '}
@@ -273,8 +274,10 @@ const ReviewAndConfirm = props => {
                   draftApppointmentId: draftAppointmentInfo.id,
                   referralNumber: currentReferral.referralNumber,
                   slotId: selectedSlot,
-                  networkId: draftAppointmentInfo.provider.networkIds[0],
-                  providerServiceId: draftAppointmentInfo.provider.id,
+                  networkId:
+                    draftAppointmentInfo.attributes.provider.networkIds[0],
+                  providerServiceId:
+                    draftAppointmentInfo.attributes.provider.id,
                 }),
               );
             }}
@@ -293,16 +296,14 @@ const ReviewAndConfirm = props => {
                 appointment. You can try again later, or call your referring VA
                 facility to help with your appointment.
               </p>
-              <p>
-                <strong>{currentReferral.referringFacility.name}</strong>
-                <br />
-                <ProviderAddress
-                  address={currentReferral.referringFacility.address}
-                  phone={currentReferral.referringFacility.phone}
-                  showDirections
-                  directionsName={currentReferral.referringFacility.name}
-                />
-              </p>
+              <strong>{currentReferral.referringFacility.name}</strong>
+              <br />
+              <ProviderAddress
+                address={currentReferral.referringFacility.address}
+                phone={currentReferral.referringFacility.phone}
+                showDirections
+                directionsName={currentReferral.referringFacility.name}
+              />
             </va-alert>
           )}
       </div>

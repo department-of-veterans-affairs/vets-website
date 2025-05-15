@@ -18,7 +18,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   let requestStub;
   const sandbox = sinon.createSandbox();
   const draftAppointmentInfo = createDraftAppointmentInfo(1);
-  draftAppointmentInfo.slots.slots[0].start = '2024-09-09T16:00:00.000Z';
+  draftAppointmentInfo.attributes.slots[0].start = '2024-09-09T16:00:00.000Z';
   const initialFullState = {
     featureToggles: {
       vaOnlineSchedulingCCDirectScheduling: true,
@@ -59,6 +59,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   it('should get selected slot from session storage if not in redux', async () => {
     requestStub.resolves(draftAppointmentInfo);
     const selectedSlotKey = getReferralSlotKey('UUID');
+
     sessionStorage.setItem(
       selectedSlotKey,
       '5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov0',
@@ -111,7 +112,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   });
   it('should call create appointment post when "continue" is pressed', async () => {
     // Stub the appointment creation function
-    requestStub.resolves({ appointmentId: draftAppointmentInfo.id });
+    requestStub.resolves({ appointmentId: draftAppointmentInfo?.id });
 
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
@@ -136,9 +137,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
           body: JSON.stringify({
             draftApppointmentId: draftAppointmentInfo.id,
             referralNumber: 'VA0000009880-default',
-            slotId: draftAppointmentInfo.slots.slots[0].id,
-            networkId: draftAppointmentInfo.provider.networkIds[0],
-            providerServiceId: draftAppointmentInfo.provider.id,
+            slotId: draftAppointmentInfo.attributes.slots[0].id,
+            networkId: draftAppointmentInfo.attributes.provider.networkIds[0],
+            providerServiceId: draftAppointmentInfo.attributes.provider.id,
           }),
         }),
       );
@@ -172,9 +173,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
           body: JSON.stringify({
             draftApppointmentId: draftAppointmentInfo.id,
             referralNumber: 'VA0000009880-default',
-            slotId: draftAppointmentInfo.slots.slots[0].id,
-            networkId: draftAppointmentInfo.provider.networkIds[0],
-            providerServiceId: draftAppointmentInfo.provider.id,
+            slotId: draftAppointmentInfo.attributes.slots.slots[0].id,
+            networkId: draftAppointmentInfo.attributes.provider.networkIds[0],
+            providerServiceId: draftAppointmentInfo.attributes.provider.id,
           }),
         }),
       );
