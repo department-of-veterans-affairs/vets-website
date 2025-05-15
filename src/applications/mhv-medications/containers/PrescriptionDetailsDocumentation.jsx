@@ -15,21 +15,12 @@ import {
 } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import { buildMedicationInformationPDF } from '../util/pdfConfigs';
-import {
-  rxListSortingOptions,
-  defaultSelectedSortOption,
-  filterOptions,
-  DOWNLOAD_FORMAT,
-} from '../util/constants';
+import { DOWNLOAD_FORMAT } from '../util/constants';
 import { pageType } from '../util/dataDogConstants';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import CallPharmacyPhone from '../components/shared/CallPharmacyPhone';
-import { selectGroupingFlag } from '../util/selectors';
-import {
-  getPrescriptionsList,
-  getPrescriptionById,
-  useGetPrescriptionDocumentationQuery,
-} from '../api/prescriptionsApi';
+import { useGetPrescriptionDocumentationQuery } from '../api/prescriptionsApi';
+import usePrescriptionData from '../hooks/usePrescriptionData';
 
 const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
@@ -53,54 +44,12 @@ const PrescriptionDetailsDocumentation = () => {
     error: hasDocApiError,
   } = useGetPrescriptionDocumentationQuery(prescriptionId);
 
-  // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences.sortOption,
-  );
-  const selectedFilterOption = useSelector(
-    state => state.rx.preferences.filterOption,
-  );
-  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
-  // Consolidate query parameters into a single state object to avoid multiple re-renders
-  const showGroupingContent = useSelector(selectGroupingFlag);
-  const [queryParams] = useState({
-    page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
-    sortEndpoint:
-      rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
-      rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-    filterOption: filterOptions[selectedFilterOption]?.url || '',
-  });
+  const {
+    prescription,
+    error: hasPrescriptionApiError,
+    isLoading: isLoadingRx,
+  } = usePrescriptionData(prescriptionId);
 
-  let prescription;
-  let hasPrescriptionApiError = false;
-  let prescriptionIsLoading = true;
-
-  // Check if the prescription data is already available in RTK's query cache
-  const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
-    selectFromResult: ({ data: prescriptionsList }) => {
-      return prescriptionsList?.prescriptions?.find(
-        item => item.prescriptionId === Number(prescriptionId),
-      );
-    },
-  });
-
-  // If the data is not found in the cache, fetch it from the API
-  if (cachedPrescription?.prescriptionId) {
-    prescription = cachedPrescription;
-    prescriptionIsLoading = false;
-  } else {
-    const {
-      data,
-      error,
-      isLoading: prescriptionQueryIsLoading,
-    } = getPrescriptionById.useQuery(prescriptionId);
-    prescription = data;
-    hasPrescriptionApiError = error;
-    prescriptionIsLoading = prescriptionQueryIsLoading;
-  }
-
-  const isLoadingRx = !prescription && prescriptionIsLoading;
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
 
   const buildMedicationInformationTxt = useCallback(

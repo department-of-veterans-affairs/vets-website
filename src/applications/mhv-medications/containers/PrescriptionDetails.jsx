@@ -30,70 +30,42 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
-import {
-  rxListSortingOptions,
-  defaultSelectedSortOption,
-  filterOptions,
-  PDF_TXT_GENERATE_STATUS,
-  DOWNLOAD_FORMAT,
-} from '../util/constants';
+import { PDF_TXT_GENERATE_STATUS, DOWNLOAD_FORMAT } from '../util/constants';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import { pageType } from '../util/dataDogConstants';
 import { selectGroupingFlag } from '../util/selectors';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
-import {
-  getPrescriptionsList,
-  getPrescriptionById,
-} from '../api/prescriptionsApi';
+import usePrescriptionData from '../hooks/usePrescriptionData';
+import { usePrefetch } from '../api/prescriptionsApi';
 
 const PrescriptionDetails = () => {
   const { prescriptionId } = useParams();
 
-  // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences.sortOption,
-  );
-  const selectedFilterOption = useSelector(
-    state => state.rx.preferences.filterOption,
-  );
-  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
-  // Consolidate query parameters into a single state object to avoid multiple re-renders
   const showGroupingContent = useSelector(selectGroupingFlag);
-  const [queryParams] = useState({
-    page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
-    sortEndpoint:
-      rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
-      rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-    filterOption: filterOptions[selectedFilterOption]?.url || '',
-  });
 
-  let prescription;
-  let prescriptionsApiError = false;
-  let prescriptionIsLoading = true;
-  const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
-    selectFromResult: ({ data: prescriptionsList }) => {
-      return prescriptionsList?.prescriptions?.find(
-        item => item.prescriptionId === Number(prescriptionId),
-      );
-    },
-  });
-
-  if (cachedPrescription?.prescriptionId) {
-    prescription = cachedPrescription;
-    prescriptionIsLoading = false;
-  } else {
-    const { data, error, isLoading } = getPrescriptionById.useQuery(
-      prescriptionId,
-    );
-    prescription = data;
-    prescriptionsApiError = error;
-    prescriptionIsLoading = isLoading;
-  }
+  const {
+    prescription,
+    error: prescriptionsApiError,
+    isLoading: prescriptionIsLoading,
+  } = usePrescriptionData(prescriptionId);
 
   const isLoading = !prescription && prescriptionIsLoading;
+
+  // Prefetch prescription documentation for faster
+  // loading when going to the documentation page.
+  const prefetchPrescriptionDocumentation = usePrefetch(
+    'getPrescriptionDocumentation',
+  );
+  useEffect(
+    () => {
+      if (!prescriptionIsLoading && prescriptionId) {
+        prefetchPrescriptionDocumentation(prescriptionId);
+      }
+    },
+    [prescriptionIsLoading, prescriptionId, prefetchPrescriptionDocumentation],
+  );
 
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
   const userName = useSelector(state => state.user.profile.userFullName);
