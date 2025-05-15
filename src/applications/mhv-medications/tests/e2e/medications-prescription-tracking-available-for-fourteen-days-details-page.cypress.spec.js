@@ -5,12 +5,13 @@ import { Data } from './utils/constants';
 import rxDetails from './fixtures/active-submitted-prescription-details.json';
 import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 
-describe('Medications Details Page Delay Alert and Tracking', () => {
-  it('visits Medications Details Page Delay Alert and Tracking', () => {
+describe('Medications Details Page Tracking Alert Available For fourteen days', () => {
+  it('visits Medications Details Page Tracking Alert for fourteen days', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
     const cardNumber = 4;
+
     const updatedData = detailsPage.updateCompleteDateTime(
       prescriptionList,
       rxDetails.data.attributes.prescriptionName,
@@ -25,13 +26,18 @@ describe('Medications Details Page Delay Alert and Tracking', () => {
     site.login();
     listPage.visitMedicationsListPageURL(updatedData);
     detailsPage.clickMedicationDetailsLink(rxDetails, cardNumber);
-    detailsPage.verifyCheckStatusHeaderTextOnDetailsPage(
-      Data.CHECK_STATUS_HEADER,
-    );
+
     detailsPage.verifyRefillDelayAlertBannerOnDetailsPage(
       Data.DELAY_ALERT_DETAILS_BANNER,
     );
-    detailsPage.verifyTrackingForSubmittedRefillOnDetailsPage();
+    detailsPage.verifyTrackingAlertHeaderOnDetailsPage(Data.TRACKING_HEADING);
+    detailsPage.verifyTrackingNumberForShippedPrescriptionOnDetailsPage(
+      rxDetails.data.attributes.trackingList[0].trackingNumber,
+    );
+    detailsPage.verifyPrescriptionInformationInTrackingAlertOnDetailsPage(
+      Data.PRESCRIPTION_INFO_TRACKING,
+      rxDetails.data.attributes.prescriptionName,
+    );
     cy.injectAxe();
     cy.axeCheck('main');
   });
