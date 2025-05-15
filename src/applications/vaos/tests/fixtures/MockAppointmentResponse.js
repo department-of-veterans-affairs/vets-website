@@ -175,8 +175,41 @@ export default class MockAppointmentResponse {
         })
           .setKind('cc')
           .setModality('communityCare')
-          .setType('COMMUNITY_CARE_APPOINTMENT');
+          .setType(
+            pending || status === APPOINTMENT_STATUS.proposed
+              ? 'COMMUNITY_CARE_REQUEST'
+              : 'COMMUNITY_CARE_APPOINTMENT',
+          );
       });
+  }
+
+  /**
+   * Method to generate mock Community Care response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createCCResponse({
+    future,
+    localStartTime,
+    past,
+    pending,
+    status,
+  } = {}) {
+    return this.createCCResponses({
+      count: 1,
+      future,
+      localStartTime,
+      past,
+      pending,
+      status,
+    })[0];
   }
 
   /**
@@ -359,19 +392,55 @@ export default class MockAppointmentResponse {
     past,
     pending,
     count = 1,
+    status,
   } = {}) {
     return Array(count)
       .fill(count)
-      .map(
-        (_, index) =>
-          new MockAppointmentResponse({
-            id: index + 1,
-            future,
-            localStartTime,
-            past,
-            pending,
-          }),
-      );
+      .map((_, index) => {
+        return new MockAppointmentResponse({
+          id: index + 1,
+          future,
+          localStartTime,
+          past,
+          pending,
+          status: `${
+            pending === true && status !== APPOINTMENT_STATUS.cancelled
+              ? APPOINTMENT_STATUS.proposed
+              : status
+          }`,
+        }).setType(
+          pending || status === APPOINTMENT_STATUS.proposed ? 'REQUEST' : 'VA',
+        );
+      });
+  }
+
+  /**
+   * Method to generate mock VA response object.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createVAResponse({
+    localStartTime = new Date(),
+    future,
+    past,
+    pending,
+    status,
+  } = {}) {
+    return this.createVAResponses({
+      count: 1,
+      localStartTime,
+      future,
+      past,
+      pending,
+      status,
+    })[0];
   }
 
   setAtlas(value) {
@@ -577,8 +646,15 @@ export default class MockAppointmentResponse {
     return this.attributes.requestedPeriods;
   }
 
-  setRequestedPeriods(requestedPeriods) {
-    this.attributes.requestedPeriods = requestedPeriods.map(date => {
+  /**
+   * Method to set requested periods
+   *
+   * @param {Array<Date>} values Array of requested period dates.
+   * @returns MockAppointmentResponse instance
+   * @memberof MockAppointmentResponse
+   */
+  setRequestedPeriods(values) {
+    this.attributes.requestedPeriods = values.map(date => {
       return {
         start: format(date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
         end: format(addHours(date, 1), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
