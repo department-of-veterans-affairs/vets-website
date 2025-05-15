@@ -16,6 +16,7 @@ export const additionalInformationPartTwo = {
         N: 'No',
         NA: 'This question doesn’t apply to me',
       },
+      required: () => false,
     }),
   },
   schema: {
