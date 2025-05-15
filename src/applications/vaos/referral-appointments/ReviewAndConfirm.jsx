@@ -3,7 +3,6 @@ import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
 import {
   getAppointmentCreateStatus,
   getDraftAppointmentInfo,
@@ -78,11 +77,9 @@ const ReviewAndConfirm = props => {
         dispatch(createDraftReferralAppointment(currentReferral.referralId));
       } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
         setLoading(false);
-        scrollAndFocus('h1');
       } else if (draftAppointmentCreateStatus === FETCH_STATUS.failed) {
         setLoading(false);
         setFailed(true);
-        scrollAndFocus('h2');
       }
     },
     [currentReferral.referralId, dispatch, draftAppointmentCreateStatus],
@@ -140,7 +137,7 @@ const ReviewAndConfirm = props => {
         routeToNextReferralPage(
           history,
           'reviewAndConfirm',
-          null,
+          currentReferral.uuid,
           draftAppointmentInfo.id,
         );
       } else if (
@@ -155,6 +152,7 @@ const ReviewAndConfirm = props => {
     [
       appointmentCreateStatus,
       draftAppointmentInfo?.id,
+      currentReferral.uuid,
       draftAppointmentCreateStatus,
       history,
     ],

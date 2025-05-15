@@ -14,14 +14,14 @@ export default function ReviewFieldTemplate(props) {
     : null;
   const pageIndex = formContext?.pagePerItemIndex;
 
-  if (schema.type === 'object' || schema.type === 'array') {
-    return children;
-  }
-
   // `hideEmptyValueInReview` option is ignored if a 'ui:reviewField' is defined
   // The custom reviewField should handle empty values
   if (uiSchema?.['ui:reviewField']) {
     return uiSchema['ui:reviewField'](props);
+  }
+
+  if (schema.type === 'object' || schema.type === 'array') {
+    return children;
   }
 
   if (uiSchema?.['ui:options']?.hideEmptyValueInReview) {
