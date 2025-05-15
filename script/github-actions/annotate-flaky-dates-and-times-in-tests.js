@@ -66,7 +66,7 @@ function checkSpecsForFlakyDatesAndTimes(file) {
         end_line: index + 1,
         annotation_level: 'warning',
         message:
-          'Dynamically generated date or time found. Spec may be flaky at certain dates or times.',
+          'Dynamically generated date or time found. Mocked dates and times should be used in testing to avoid flakiness.',
       });
     }
   });
