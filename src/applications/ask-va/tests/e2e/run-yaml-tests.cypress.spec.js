@@ -26,7 +26,7 @@ flow:
       value:  No steps defined in this flow.
 `.trim();
 
-const executeSteps = steps => {
+const executeSteps = (steps, folder) => {
   let index = 0;
 
   for (const step of steps) {
@@ -94,13 +94,13 @@ const executeSteps = steps => {
       case 'include':
         if (step.target === 'page') {
           // TODO: run steps from the included page
-          const p = `src/applications/ask-va/tests/e2e/fixtures/flows/include-pages/${
+          const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${folder}/include-pages/${
             step.value
           }.yml`;
           cy.wrap(null).then(() => {
             cy.readFile(`${p}`).then(f => {
               const flow = YAML.parse(f); // .flow;
-              executeSteps(flow.steps);
+              executeSteps(flow.steps, folder);
             });
           });
         }
@@ -117,35 +117,6 @@ const executeSteps = steps => {
 };
 
 describe('YAML tests', () => {
-  // // const paths = ["unauthenticated"]; // , "authenticated"];
-  // let files = {
-  //   unauthenticated: [],
-  //   authenticated: [],
-  //   'include-pages': [],
-  // };
-
-  // // const includePages = {};
-
-  // // const preloadIncludes = (files) => {
-  // //   const paths = Object.keys(files);
-
-  // //   for (const path of paths) {
-  // //     if (path === "include-pages") {
-  // //       const p = `./cypress/e2e/1-getting-started/flows/${path}`;
-  // //       cy.log(`Preloading includes in ${p}`);
-
-  // //       for (const file of files[path]) {
-  // //         cy.readFile(`${p}/${file}`).then((f) => {
-  // //           const flow = YAML.parse(f).flow;
-  // //           includePages[file] = flow;
-  // //         });
-  // //       }
-
-  // //       let flowYML = EMPTY_FLOW_YML;
-  // //     }
-  // //   }
-  // // };
-
   describe(`Preload flows`, () => {
     describe('Run tests', () => {
       const testRunner = (folder, path, file) => {
@@ -159,7 +130,7 @@ describe('YAML tests', () => {
           if (flow.runOnCI === true) {
             cy.visit('http://localhost:3001/contact-us/ask-va/');
             cy.injectAxeThenAxeCheck();
-            executeSteps(flow.steps);
+            executeSteps(flow.steps, folder);
           }
         });
       };
@@ -186,7 +157,7 @@ describe('YAML tests', () => {
               cy.intercept('GET', 'v0/inquiries', mockMultipleInquiries);
             } else if (['14g.yml', '18g.yml'].includes(file)) {
               cy.intercept('GET', 'v0/inquiries', mockOneInquiry);
-            } else {
+            } else if (['2k.yml', '3k.yml'].includes(file)) {
               cy.intercept('GET', 'v0/inquiries', mockNoInquiries);
             }
             cy.login(mockUserDefault);
@@ -204,12 +175,9 @@ describe('YAML tests', () => {
         intercept3rdPartyResponses();
 
         // Intercept the user API request and log in
-        cy.intercept('GET', `/v0/user`, mockUserDefault);
-        // cy.login();
-        // cy.clearAllCookies();
-
+        // cy.intercept('GET', `/v0/user`, mockUserDefault);
         // TODO: This should be in the interceptAskVaResponses function -- Joe
-        cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
+        // cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
       });
 
       const runTestsForFilesInPath = (folder, files) => {

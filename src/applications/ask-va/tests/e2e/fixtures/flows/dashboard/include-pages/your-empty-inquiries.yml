@@ -1,0 +1,4 @@
+steps:
+  - action: exists
+    target: .usa-alert-text
+    value: You have not submitted any inquiries yet

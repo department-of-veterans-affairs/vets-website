@@ -9,44 +9,6 @@
  * @module testing/mocks/data
  */
 
-/**
- * Return a stubbed VAOS VA request item
- *
- * @export
- * @returns {VAOSRequest} VAOS VA request object
- */
-export function getVAOSRequestMock() {
-  return {
-    id: null,
-    type: 'appointments',
-    attributes: {
-      cancelationReason: null,
-      clinic: null,
-      comment: null,
-      contact: {
-        telecom: [],
-      },
-      description: null,
-      end: null,
-      id: null,
-      kind: null,
-      locationId: null,
-      minutesDuration: null,
-      practitioners: [],
-      preferredTimesForPhoneCall: [],
-      priority: null,
-      reasonCode: {},
-      requestedPeriods: [],
-      serviceType: null,
-      slot: null,
-      start: null,
-      status: 'proposed',
-      telehealth: null,
-      type: 'REQUEST',
-    },
-  };
-}
-
 export function getSchedulingConfigurationMock({
   id = 'fake',
   typeOfCareId = 'fake',
@@ -79,35 +41,6 @@ export function getSchedulingConfigurationMock({
         },
       ],
       communityCare,
-    },
-  };
-}
-
-/**
- * Returns a stubbed vaos VistA clinic object.
- *
- * @export
- * @returns {VAOSClinic} var-resources clinic object
- */
-export function getV2ClinicMock({ id, stationId, serviceName }) {
-  return {
-    id,
-    type: 'clinics',
-    attributes: {
-      vistaSite: stationId.substr(0, 3),
-      id,
-      serviceName,
-      physicalLocation: null,
-      phoneNumber: null,
-      stationId,
-      stationName: null,
-      primaryStopCode: null,
-      primaryStopCodeName: null,
-      secondaryStopCode: null,
-      secondaryStopCodeName: null,
-      patientDirectScheduling: true,
-      patientDisplay: null,
-      char4: null,
     },
   };
 }
