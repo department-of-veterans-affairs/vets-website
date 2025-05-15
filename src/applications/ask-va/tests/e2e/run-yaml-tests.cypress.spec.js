@@ -26,7 +26,7 @@ flow:
       value:  No steps defined in this flow.
 `.trim();
 
-const executeSteps = steps => {
+const executeSteps = (steps, folder) => {
   let index = 0;
 
   for (const step of steps) {
@@ -94,13 +94,13 @@ const executeSteps = steps => {
       case 'include':
         if (step.target === 'page') {
           // TODO: run steps from the included page
-          const p = `src/applications/ask-va/tests/e2e/fixtures/flows/include-pages/${
+          const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${folder}/include-pages/${
             step.value
           }.yml`;
           cy.wrap(null).then(() => {
             cy.readFile(`${p}`).then(f => {
               const flow = YAML.parse(f); // .flow;
-              executeSteps(flow.steps);
+              executeSteps(flow.steps, folder);
             });
           });
         }
@@ -155,11 +155,15 @@ describe('YAML tests', () => {
           flowYML = f;
 
           const { flow } = YAML.parse(flowYML);
+          // eslint-disable-next-line no-console
+          console.log(file, flow);
+          cy.log(`Flow.runOnCI ${flow.runOnCI}`);
+          cy.log(`File ${file}`);
 
           if (flow.runOnCI === true) {
             cy.visit('http://localhost:3001/contact-us/ask-va/');
             cy.injectAxeThenAxeCheck();
-            executeSteps(flow.steps);
+            executeSteps(flow.steps, folder);
           }
         });
       };
