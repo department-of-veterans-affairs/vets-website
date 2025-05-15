@@ -5,7 +5,7 @@ class MockReferralAppointmentDetailsResponse {
   constructor(options = {}) {
     this.options = {
       appointmentId: 'EEKoGzEf',
-      referralId: '12345',
+      referralNumber: '12345',
       success: true,
       notFound: false,
       serverError: false,
@@ -18,7 +18,7 @@ class MockReferralAppointmentDetailsResponse {
    *
    * @param {Object} options - Options for the response
    * @param {string} options.appointmentId - ID for the appointment
-   * @param {string} options.referralId - ID for the referral
+   * @param {string} options.referralNumber - ID for the referral
    * @param {string} options.typeOfCare - Type of care for the appointment
    * @param {string} options.providerName - Name of the provider
    * @param {string} options.organizationName - Name of the provider organization
@@ -26,7 +26,7 @@ class MockReferralAppointmentDetailsResponse {
    */
   static createSuccessResponse({
     appointmentId = 'EEKoGzEf',
-    referralId = '12345',
+    referralNumber = '12345',
     typeOfCare = 'Physical Therapy',
     providerName = 'Dr. Bones',
     organizationName = 'Meridian Health',
@@ -45,8 +45,7 @@ class MockReferralAppointmentDetailsResponse {
           start: new Date(
             new Date().setDate(new Date().getDate() + 30),
           ).toISOString(), // 30 days in future
-          referralId,
-          referralNumber: referralId,
+          referralNumber,
           facilityName: 'Linda Loma',
           facilityPhone: '555-555-5555',
           typeOfCare,
@@ -150,7 +149,7 @@ class MockReferralAppointmentDetailsResponse {
   toJSON() {
     const {
       appointmentId,
-      referralId,
+      referralNumber,
       typeOfCare = 'Physical Therapy',
       providerName = 'Dr. Bones',
       organizationName = 'Meridian Health',
@@ -179,7 +178,7 @@ class MockReferralAppointmentDetailsResponse {
     // Return successful response
     return MockReferralAppointmentDetailsResponse.createSuccessResponse({
       appointmentId,
-      referralId,
+      referralNumber,
       typeOfCare,
       providerName,
       organizationName,

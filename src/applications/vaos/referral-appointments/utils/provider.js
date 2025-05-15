@@ -426,14 +426,14 @@ const draftAppointments = {
  * Creates a draftAppointmentInfo object with a configurable number of slots an hour apart.
  *
  * @param {Number} numberOfSlots How many slots to create
- * @param {String} referralId The ID for the referral
+ * @param {String} referralNumber The number for the referral
  * @returns {Object} draftAppointmentInfo object
  */
 const createDraftAppointmentInfo = (
   numberOfSlots,
-  referralId = 'VA0000009880-default',
+  referralNumber = 'VA0000009880-default',
 ) => {
-  const draftAppointmentInfo = draftAppointments[referralId];
+  const draftAppointmentInfo = draftAppointments[referralNumber];
   const tomorrow = dateFns.addDays(dateFns.startOfDay(new Date()), 1);
 
   draftAppointmentInfo.slots = { count: numberOfSlots, slots: [] };

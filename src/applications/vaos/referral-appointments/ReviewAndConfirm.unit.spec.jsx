@@ -134,9 +134,11 @@ describe('VAOS Component: ReviewAndConfirm', () => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            referralId: 'UUID',
-            slotId: draftAppointmentInfo.slots.slots[0].id,
             draftApppointmentId: draftAppointmentInfo.id,
+            referralNumber: 'VA0000009880-default',
+            slotId: draftAppointmentInfo.slots.slots[0].id,
+            networkId: draftAppointmentInfo.provider.networkIds[0],
+            providerServiceId: draftAppointmentInfo.provider.id,
           }),
         }),
       );
@@ -168,9 +170,11 @@ describe('VAOS Component: ReviewAndConfirm', () => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            referralId: 'UUID',
-            slotId: draftAppointmentInfo.slots.slots[0].id,
             draftApppointmentId: draftAppointmentInfo.id,
+            referralNumber: 'VA0000009880-default',
+            slotId: draftAppointmentInfo.slots.slots[0].id,
+            networkId: draftAppointmentInfo.provider.networkIds[0],
+            providerServiceId: draftAppointmentInfo.provider.id,
           }),
         }),
       );
@@ -189,7 +193,11 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         try {
           const parsed = JSON.parse(value);
           return (
-            parsed.referralId && parsed.slotId && parsed.draftApppointmentId
+            parsed.draftApppointmentId &&
+            parsed.referralNumber &&
+            parsed.slotId &&
+            parsed.networkId &&
+            parsed.providerServiceId
           );
         } catch {
           return false;

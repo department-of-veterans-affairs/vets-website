@@ -89,6 +89,7 @@ describe('VAOS Referral Appointments', () => {
       }).toJSON();
       mockReferralsGetApi({ response: referralsResponse });
       const referralId = referralsResponse.data[0].id;
+      const { referralNumber } = referralsResponse.data[0].attributes;
 
       // Mock referral detail response
       const referralDetailResponse = new MockReferralDetailResponse({
@@ -103,7 +104,7 @@ describe('VAOS Referral Appointments', () => {
       // Mock draft referral appointment response
       const draftReferralAppointment = new MockReferralDraftAppointmentResponse(
         {
-          referralId,
+          referralNumber,
           categoryOfCare: 'Physical Therapy',
           numberOfSlots: 3,
         },
@@ -127,7 +128,7 @@ describe('VAOS Referral Appointments', () => {
       const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
         {
           appointmentId,
-          referralId,
+          referralNumber,
           typeOfCare: 'Physical Therapy',
           providerName: 'Dr. Bones',
           organizationName: 'Meridian Health',

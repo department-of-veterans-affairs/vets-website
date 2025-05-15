@@ -439,21 +439,21 @@ const responses = {
     });
   },
   'POST /vaos/v2/appointments/draft': (req, res) => {
-    const { referralId } = req.body;
+    const { referralNumber } = req.body;
     // Provider 3 throws error
-    if (referralId === '') {
+    if (referralNumber === '') {
       return res.status(500).json({ error: true });
     }
 
     let slots = 5;
     // Provider 0 has no available slots
-    if (referralId === '0') {
+    if (referralNumber === '0') {
       slots = 0;
     }
 
     const draftAppointment = providerUtils.createDraftAppointmentInfo(
       slots,
-      referralId,
+      referralNumber,
     );
 
     draftAppointments[draftAppointment.id] = draftAppointment;
@@ -512,9 +512,21 @@ const responses = {
     });
   },
   'POST /vaos/v2/appointments/submit': (req, res) => {
-    const { slotId, draftApppointmentId, referralId } = req.body;
+    const {
+      draftApppointmentId,
+      referralNumber,
+      slotId,
+      networkId,
+      providerServiceId,
+    } = req.body;
 
-    if (!referralId || !slotId || !draftApppointmentId) {
+    if (
+      !draftApppointmentId ||
+      !referralNumber ||
+      !slotId ||
+      !networkId ||
+      !providerServiceId
+    ) {
       return res.status(400).json({ error: true });
     }
 
