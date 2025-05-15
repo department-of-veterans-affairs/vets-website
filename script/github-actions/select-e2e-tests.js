@@ -39,7 +39,7 @@ function selectTests(pathsOfChangedFiles) {
   );
   if (filteredChangedFiles.length > 0) {
     if (RUN_FULL_SUITE) {
-      tests.push(allTests());
+      tests.push(...allTests());
     } else {
       const applicationNames = filteredChangedFiles.map(
         filePath => filePath.split('/')[2],
