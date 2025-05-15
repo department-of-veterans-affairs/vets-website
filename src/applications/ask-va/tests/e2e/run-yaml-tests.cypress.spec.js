@@ -204,14 +204,6 @@ describe('YAML tests', () => {
         interceptAskVaResponses();
         interceptVaGovResponses();
         intercept3rdPartyResponses();
-
-        // Intercept the user API request and log in
-        // cy.intercept('GET', `/v0/user`, mockUserDefault);
-        // cy.login();
-        // cy.clearAllCookies();
-
-        // TODO: This should be in the interceptAskVaResponses function -- Joe
-        // cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
       });
 
       const runTestsForFilesInPath = (folder, files) => {
