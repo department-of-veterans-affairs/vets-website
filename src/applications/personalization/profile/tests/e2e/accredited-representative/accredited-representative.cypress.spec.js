@@ -1,5 +1,6 @@
 import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
-import powerOfAttorney from '@@profile/tests/fixtures/power-of-attorney-success.json';
+import { generateFeatureToggles } from '@@profile/mocks/endpoints/feature-toggles';
+
 import { PROFILE_PATHS } from '@@profile/constants';
 import { loa3User72 } from '@@profile/mocks/endpoints/user';
 
@@ -15,21 +16,15 @@ describe('Accredited representative', () => {
     ];
     mockGETEndpoints(otherEndpoints, 200, {});
 
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [
-          { name: 'representative_status_enable_v2_features', value: true },
-        ],
-      },
-    });
     cy.intercept(
       'GET',
-      '/representative-management/v0/power-of-attorney',
-      powerOfAttorney,
+      '/v0/feature_toggles*',
+      generateFeatureToggles({ representativeStatusEnableV2Features: true }),
     );
   });
 
   it('links from the hub page', () => {
+    cy.intercept('GET', '/v0/profile/accredited-representative');
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
     cy.get('a[href$="/profile/accredited-representative"]').should('exist');
@@ -37,6 +32,7 @@ describe('Accredited representative', () => {
   });
 
   it('links from the nav', () => {
+    cy.intercept('GET', '/v0/profile/accredited-representative');
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.ACCREDITED_REPRESENTATIVE);
     cy.get('a[href$="/profile/accredited-representative"]').should('exist');
