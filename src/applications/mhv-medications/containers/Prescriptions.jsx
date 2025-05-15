@@ -135,7 +135,7 @@ const Prescriptions = () => {
   const paginatedPrescriptionsList = useMemo(
     () => {
       if (prescriptionsData?.prescriptions) {
-        return prescriptionsData;
+        return prescriptionsData.prescriptions;
       }
       return undefined;
     },
