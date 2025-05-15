@@ -144,10 +144,8 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const toggles = this.props.profileToggles;
-
     const routes = getRoutes({
-      accreditedRepPage: toggles.representativeStatusEnableV2Features,
+      accreditedRepPage: this.props.shouldShowAccreditedRepTab,
     });
 
     return (
