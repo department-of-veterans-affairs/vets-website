@@ -16,7 +16,11 @@ describe(`${appName} - helpdesk information component`, () => {
     });
 
     it(`does not render for unregistered users`, () => {
-      LandingPage.visit({ registered: false });
+      LandingPage.visit({
+        registered: false,
+        verified: false,
+        serviceName: 'dslogon',
+      });
       cy.injectAxeThenAxeCheck();
 
       cy.findByTestId('mhv-helpdesk-info').should('not.exist');

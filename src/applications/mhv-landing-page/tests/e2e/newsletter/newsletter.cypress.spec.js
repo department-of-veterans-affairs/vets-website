@@ -28,10 +28,14 @@ describe(`${appName} -- MHV Newsletter Signup`, () => {
   describe('unregistered user', () => {
     it('does not render', () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures();
-      LandingPage.visit({ registered: false });
+      LandingPage.visit({
+        registered: false,
+        verified: false,
+        serviceName: 'dslogon',
+      });
       cy.findByRole('heading', {
         name: /Subscribe to the My HealtheVet newsletter/,
-      }).should('exist');
+      }).should('not.exist');
       cy.injectAxeThenAxeCheck();
     });
   });
