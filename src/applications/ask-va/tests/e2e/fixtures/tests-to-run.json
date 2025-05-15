@@ -1,5 +1,6 @@
 {
   "unauthenticated": [
+    "6g.yml",
     "11g.yml",
     "12g.yml",
     "14g.yml",
@@ -26,7 +27,6 @@
     "6d.yml",
     "6e.yml",
     "6f.yml",
-    "6g.yml",
     "7h.yml",
     "7i.yml",
     "8c.yml",
@@ -48,6 +48,7 @@
     "24c.yml",
     "26f.yml",
     "25a.yml",
+    "26f.yml",
     "27a.yml",
     "28a.yml"
   ]

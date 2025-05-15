@@ -164,6 +164,7 @@ const OtherExpensesSummary = ({
           )}
           <Link
             className="vads-c-action-link--green"
+            data-testid="add-link"
             to={{
               pathname: '/add-other-expense',
               search: `?index=${otherExpenses.length}`,

@@ -1,11 +1,11 @@
 flow:
-  title: Benefits issues outside the US for Disability Compensation general question (auth)
+  title: Benefits issues outside the US for Disability Compensation general question (unauth)
   runOnCI: true # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
       target: page
-      value: start-your-question-auth
-
+      value: start-your-question-unauth
+    
     - action: include
       target: page
       value: select-category-benefits-issues-outside-the-us
@@ -24,7 +24,7 @@ flow:
 
     - action: include
       target: page
-      value: your-contact-information-us-mail-no-prefill
+      value: your-contact-information-radio-buttons-us-mail-no-prefill
 
     - action: include
       target: page
