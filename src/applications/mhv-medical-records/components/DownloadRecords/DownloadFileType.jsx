@@ -331,11 +331,11 @@ const DownloadFileType = props => {
 
   const logAal = status => {
     postCreateAAL({
-      activityType: 'Download My VA Health Summary',
-      action: 'Download',
+      activityType: 'Download',
+      action: 'Custom Download Requested',
       performerType: 'Self',
       status,
-      oncePerSession: false,
+      oncePerSession: true,
     });
   };
 

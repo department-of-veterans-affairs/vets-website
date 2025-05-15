@@ -35,7 +35,7 @@ const responseWorkStudy = require('./ask_va_api/v0/contents/subtopics/work-study
 
 const responseHealthFacilities = require('./ask_va_api/v0/health-facilities.json');
 const responseEducationFacilities = require('./ask_va_api/v0/education-facilities.json');
-const user = require('./user.json');
+const user = require('./userDefault.json');
 
 // Helper function to create cy.intercept for multiple endpoints
 const interceptTopics = [

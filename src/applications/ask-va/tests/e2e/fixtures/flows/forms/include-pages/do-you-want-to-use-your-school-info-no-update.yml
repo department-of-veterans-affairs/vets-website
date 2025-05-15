@@ -1,0 +1,10 @@
+steps:
+  - action: exists
+    target: header
+    value: Your school facility
+  - action: click
+    target: radioYesNo
+    value: No, I\'ll choose a different option
+  - action: click
+    target: call-to-action
+
