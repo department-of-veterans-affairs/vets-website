@@ -102,7 +102,6 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
     <>
       <VaBreadcrumbs
         data-testid="vaos-breadcrumbs"
-        aria-label="Breadcrumbs"
         class="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2"
         breadcrumbList={getBreadcrumbList()}
         uswds

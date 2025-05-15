@@ -11,9 +11,7 @@ describe('VAOS Component: Breadcrumbs', () => {
       initialState,
       path: url,
     });
-    const navigation = screen.getByTestId('vaos-breadcrumbs', {
-      name: 'Breadcrumbs',
-    });
+    const navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const crumb =
       navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
@@ -26,9 +24,7 @@ describe('VAOS Component: Breadcrumbs', () => {
       initialState,
       path: url,
     });
-    const navigation = screen.getByTestId('vaos-breadcrumbs', {
-      name: 'Breadcrumbs',
-    });
+    const navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const crumb =
       navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
