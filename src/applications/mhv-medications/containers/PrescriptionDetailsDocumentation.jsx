@@ -72,11 +72,15 @@ const PrescriptionDetailsDocumentation = () => {
     filterOption: filterOptions[selectedFilterOption]?.url || '',
   });
 
-  let prescription;
-  let hasPrescriptionApiError = false;
-  let prescriptionIsLoading = true;
+  const [
+    cachedPrescriptionAvailable,
+    setCachedPrescriptionAvailable,
+  ] = useState(true);
+  const [prescription, setPrescription] = useState(null);
+  const [hasPrescriptionApiError, setHasPrescriptionApiError] = useState(false);
+  const [prescriptionIsLoading, setPrescriptionIsLoading] = useState(true);
 
-  // Check if the prescription data is already available in RTK's query cache
+  // Get cached prescription from list if available
   const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
     selectFromResult: ({ data: prescriptionsList }) => {
       return prescriptionsList?.prescriptions?.find(
@@ -85,22 +89,53 @@ const PrescriptionDetailsDocumentation = () => {
     },
   });
 
-  // If the data is not found in the cache, fetch it from the API
-  if (cachedPrescription?.prescriptionId) {
-    prescription = cachedPrescription;
-    prescriptionIsLoading = false;
-  } else {
-    const {
+  // Fetch individual prescription when needed
+  const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
+    prescriptionId,
+    { skip: cachedPrescriptionAvailable },
+  );
+
+  // Handle prescription data from either source
+  useEffect(
+    () => {
+      if (cachedPrescriptionAvailable && cachedPrescription?.prescriptionId) {
+        setPrescription(cachedPrescription);
+        setPrescriptionIsLoading(false);
+      } else if (!queryLoading) {
+        if (data) {
+          setPrescription(data);
+          setPrescriptionIsLoading(false);
+        } else if (error) {
+          setCachedPrescriptionAvailable(false);
+          setHasPrescriptionApiError(error);
+          setPrescriptionIsLoading(false);
+        }
+      }
+    },
+    [
+      cachedPrescription,
       data,
       error,
-      isLoading: prescriptionQueryIsLoading,
-    } = getPrescriptionById.useQuery(prescriptionId);
-    prescription = data;
-    hasPrescriptionApiError = error;
-    prescriptionIsLoading = prescriptionQueryIsLoading;
-  }
+      queryLoading,
+      cachedPrescriptionAvailable,
+    ],
+  );
 
-  const isLoadingRx = !prescription && prescriptionIsLoading;
+  // Determine when to fetch individual prescription
+  useEffect(
+    () => {
+      if (
+        cachedPrescriptionAvailable &&
+        !cachedPrescription?.prescriptionId &&
+        !queryLoading
+      ) {
+        setCachedPrescriptionAvailable(false);
+      }
+    },
+    [cachedPrescription, queryLoading, cachedPrescriptionAvailable],
+  );
+
+  const isLoadingRx = prescriptionIsLoading;
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
 
   const buildMedicationInformationTxt = useCallback(

@@ -70,9 +70,15 @@ const PrescriptionDetails = () => {
     filterOption: filterOptions[selectedFilterOption]?.url || '',
   });
 
-  let prescription;
-  let prescriptionsApiError = false;
-  let prescriptionIsLoading = true;
+  const [
+    cachedPrescriptionAvailable,
+    setCachedPrescriptionAvailable,
+  ] = useState(true);
+  const [prescription, setPrescription] = useState(null);
+  const [prescriptionsApiError, setPrescriptionsApiError] = useState(false);
+  const [prescriptionIsLoading, setPrescriptionIsLoading] = useState(true);
+
+  // Get cached prescription from list if available
   const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
     selectFromResult: ({ data: prescriptionsList }) => {
       return prescriptionsList?.prescriptions?.find(
@@ -81,21 +87,55 @@ const PrescriptionDetails = () => {
     },
   });
 
-  if (cachedPrescription?.prescriptionId) {
-    prescription = cachedPrescription;
-    prescriptionIsLoading = false;
-  } else {
-    const { data, error, isLoading } = getPrescriptionById.useQuery(
-      prescriptionId,
-    );
-    prescription = data;
-    prescriptionsApiError = error;
-    prescriptionIsLoading = isLoading;
-  }
+  // Fetch individual prescription when needed
+  const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
+    prescriptionId,
+    { skip: cachedPrescriptionAvailable },
+  );
 
-  const isLoading = !prescription && prescriptionIsLoading;
+  // Handle prescription data from either source
+  useEffect(
+    () => {
+      if (cachedPrescriptionAvailable && cachedPrescription?.prescriptionId) {
+        setPrescription(cachedPrescription);
+        setPrescriptionIsLoading(false);
+      } else if (!queryLoading) {
+        if (data) {
+          setPrescription(data);
+          setPrescriptionIsLoading(false);
+        } else if (error) {
+          setCachedPrescriptionAvailable(false);
+          setPrescriptionsApiError(error);
+          setPrescriptionIsLoading(false);
+        }
+      }
+    },
+    [
+      cachedPrescription,
+      data,
+      error,
+      queryLoading,
+      cachedPrescriptionAvailable,
+    ],
+  );
 
+  // Determine when to fetch individual prescription
+  useEffect(
+    () => {
+      if (
+        cachedPrescriptionAvailable &&
+        !cachedPrescription?.prescriptionId &&
+        !queryLoading
+      ) {
+        setCachedPrescriptionAvailable(false);
+      }
+    },
+    [cachedPrescription, queryLoading, cachedPrescriptionAvailable],
+  );
+
+  const isLoading = prescriptionIsLoading;
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
+
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
