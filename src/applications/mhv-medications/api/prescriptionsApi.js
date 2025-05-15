@@ -50,6 +50,9 @@ export const prescriptionsApi = createApi({
       };
     }
   },
+  keepUnusedDataFor: 60 * 60,
+  refetchOnMountOrArgChange: 60,
+  tagTypes: ['Prescription'],
   endpoints: builder => ({
     getPrescriptionSortedList: builder.query({
       query: ({ sortEndpoint, includeImage = false }) => ({
@@ -57,6 +60,7 @@ export const prescriptionsApi = createApi({
           includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
         }`,
       }),
+      providesTags: ['Prescription'],
       transformResponse: response => {
         if (response?.data && Array.isArray(response.data)) {
           return {
@@ -89,6 +93,7 @@ export const prescriptionsApi = createApi({
           path: `${apiBasePath}/prescriptions?${queryParams}`,
         };
       },
+      providesTags: ['Prescription'],
       transformResponse: response => {
         // Handle the response structure and convert prescriptions
         if (response?.data && Array.isArray(response.data)) {
@@ -107,6 +112,7 @@ export const prescriptionsApi = createApi({
       query: id => ({
         path: `${apiBasePath}/prescriptions/${id}`,
       }),
+      providesTags: ['Prescription'],
       transformResponse: response => {
         // If it's a single prescription (not in an entry array)
         if (
@@ -122,6 +128,7 @@ export const prescriptionsApi = createApi({
       query: () => ({
         path: `${apiBasePath}/prescriptions/list_refillable_prescriptions`,
       }),
+      providesTags: ['Prescription'],
       transformResponse: response => {
         if (response?.data && Array.isArray(response.data)) {
           return {
@@ -163,6 +170,7 @@ export const prescriptionsApi = createApi({
           options: { method: 'PATCH' },
         };
       },
+      invalidatesTags: ['Prescription'],
       transformResponse: response => {
         return {
           successfulIds: response?.successfulIds || [],
@@ -176,6 +184,7 @@ export const prescriptionsApi = createApi({
           filterOptions.RECENTLY_REQUESTED.url
         }${rxListSortingOptions.alphabeticalOrder.API_ENDPOINT}`,
       }),
+      providesTags: ['Prescription'],
       transformResponse: response => {
         if (response?.data && Array.isArray(response.data)) {
           return {
@@ -194,6 +203,7 @@ export const prescriptionsApi = createApi({
           filterOptions.RECENTLY_REQUESTED.url
         }${rxListSortingOptions.alphabeticalOrder.API_ENDPOINT}`,
       }),
+      providesTags: ['Prescription'],
       transformResponse: response => {
         if (response?.data && Array.isArray(response.data)) {
           const alertPrescriptions = response.data.reduce(
