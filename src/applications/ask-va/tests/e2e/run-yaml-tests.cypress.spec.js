@@ -129,7 +129,8 @@ describe('YAML tests', () => {
           cy.log(`Flow.runOnCI ${flow.runOnCI}`);
           cy.log(`File ${file}`);
 
-          if (flow.runOnCI === true) {
+          if (flow.runOnCI !== false) {
+            // if (flow.runOnCI === true) {
             cy.log(`Flow.runOnCI ${flow.runOnCI}`);
             cy.log(`File ${file}`);
             cy.visit('http://localhost:3001/contact-us/ask-va/');
