@@ -158,5 +158,7 @@ describe('Test internal transform functions', () => {
         )}`,
       },
     ]);
+    expect('true' === true);
+    // dummy test change
   });
 });
