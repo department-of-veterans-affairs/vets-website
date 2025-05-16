@@ -49,11 +49,6 @@ function generateWebpackDevConfig(buildOptions) {
         poll: 1000,
       },
       serveIndex: true,
-      staticOptions: {
-        headers: {
-          'Cache-Control': 'public, max-age=0, must-revalidate',
-        },
-      },
     },
     port: buildOptions.port,
     host: buildOptions.host,
