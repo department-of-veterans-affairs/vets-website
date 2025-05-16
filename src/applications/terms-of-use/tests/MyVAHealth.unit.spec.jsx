@@ -2,8 +2,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor, cleanup, fireEvent } from '@testing-library/react';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import {
+  setupServer,
+  createPutHandler,
+  createPostHandler,
+  jsonResponse,
+} from 'platform/testing/unit/msw-adapter';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -38,10 +42,9 @@ describe('MyVAHealth', () => {
       global.window.location = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${targetUrl}`;
 
       server.use(
-        rest.put(
+        createPutHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
-          (_, res, ctx) =>
-            res(ctx.status(200), ctx.json({ provisioned: true })),
+          () => jsonResponse({ provisioned: true }),
         ),
       );
 
@@ -58,9 +61,9 @@ describe('MyVAHealth', () => {
     global.window.location = startingLocation;
 
     server.use(
-      rest.put(
+      createPutHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
-        (_, res, ctx) => res(ctx.status(200), ctx.json({ provisioned: false })),
+        () => jsonResponse({ provisioned: false }),
       ),
     );
 
@@ -76,14 +79,14 @@ describe('MyVAHealth', () => {
     global.window.location = startingLocation;
 
     server.use(
-      rest.put(
+      createPutHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
-        (_, res, ctx) =>
-          res(ctx.status(400), ctx.json({ error: 'Agreement not accepted' })),
+        () =>
+          jsonResponse({ error: 'Agreement not accepted' }, { status: 400 }),
       ),
-      rest.post(
+      createPostHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept_and_provision`,
-        (_, res) => res.networkError(),
+        () => jsonResponse({}, { status: 503 }),
       ),
     );
 
@@ -110,10 +113,10 @@ describe('MyVAHealth', () => {
       global.window.location = startingLocation;
 
       server.use(
-        rest.put(
+        createPutHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
-          (_, res, ctx) =>
-            res(ctx.status(500), ctx.json({ error: 'Agreement not accepted' })),
+          () =>
+            jsonResponse({ error: 'Agreement not accepted' }, { status: 500 }),
         ),
       );
 
@@ -135,13 +138,10 @@ describe('MyVAHealth', () => {
       global.window.location = startingLocation;
 
       server.use(
-        rest.put(
+        createPutHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
-          (_, res, ctx) =>
-            res(
-              ctx.status(401),
-              ctx.json({ error: 'Account not Provisioned' }),
-            ),
+          () =>
+            jsonResponse({ error: 'Account not Provisioned' }, { status: 401 }),
         ),
       );
 
@@ -158,10 +158,9 @@ describe('MyVAHealth', () => {
       global.window.location = startingLocation;
 
       server.use(
-        rest.put(
+        createPutHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
-          (_, res, ctx) =>
-            res(ctx.status(401), ctx.json({ error: 'Some other error' })),
+          () => jsonResponse({ error: 'Some other error' }, { status: 401 }),
         ),
       );
 
@@ -180,14 +179,14 @@ describe('MyVAHealth', () => {
       global.window.location = startingLocation;
 
       server.use(
-        rest.put(
+        createPutHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
-          (_, res, ctx) =>
-            res(ctx.status(400), ctx.json({ error: 'Agreement not accepted' })),
+          () =>
+            jsonResponse({ error: 'Agreement not accepted' }, { status: 400 }),
         ),
-        rest.post(
+        createPostHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept_and_provision`,
-          (_req, res, ctx) => res(ctx.status(200), ctx.json({ good: 'togo' })),
+          () => jsonResponse({ good: 'togo' }),
         ),
       );
 
@@ -212,14 +211,13 @@ describe('MyVAHealth', () => {
       global.window.location = startingLocation;
 
       server.use(
-        rest.put(
+        createPutHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
-          (_, res, ctx) =>
-            res(ctx.status(400), ctx.json({ error: 'Agreement not accepted' })),
+          () => jsonResponse(400, { error: 'Agreement not accepted' }),
         ),
-        rest.post(
+        createPostHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline`,
-          (_req, res, ctx) => res(ctx.status(200), ctx.json({ good: 'togo' })),
+          jsonResponse(200, { good: 'togo' }),
         ),
       );
 
@@ -242,13 +240,13 @@ describe('MyVAHealth', () => {
       global.window.location = startingLocation;
 
       server.use(
-        rest.put(
+        createPutHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
-          (_, res) => res.networkError(),
+          () => jsonResponse({}, { status: 503 }),
         ),
-        rest.post(
+        createPostHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline`,
-          (_req, res, ctx) => res(ctx.status(200), ctx.json({ good: 'togo' })),
+          () => jsonResponse({ good: 'togo' }),
         ),
       );
 
@@ -269,14 +267,14 @@ describe('MyVAHealth', () => {
       global.window.location = startingLocation;
 
       server.use(
-        rest.put(
+        createPutHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
-          (_, res, ctx) =>
-            res(ctx.status(400), ctx.json({ error: 'Agreement not accepted' })),
+          () =>
+            jsonResponse({ error: 'Agreement not accepted' }, { status: 400 }),
         ),
-        rest.post(
+        createPostHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline`,
-          (_req, res, ctx) => res(ctx.status(200), ctx.json({ good: 'togo' })),
+          () => jsonResponse({ good: 'togo' }),
         ),
       );
 

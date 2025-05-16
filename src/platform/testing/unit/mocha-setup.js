@@ -26,6 +26,12 @@ Sentry.init({
 
 configure({ defaultHidden: true });
 
+const _toJSON = Date.prototype.toJSON;
+Date.prototype.toJSON = function() {
+  console.trace('[TRACE] Date.prototype.toJSON called', this.toString());
+  return _toJSON.call(this);
+};
+
 global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
 global.__API__ = null;
 global.__MEGAMENU_CONFIG__ = null;

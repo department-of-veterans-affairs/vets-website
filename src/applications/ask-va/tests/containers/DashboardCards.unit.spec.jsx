@@ -1,7 +1,11 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import {
+  createGetHandler,
+  jsonResponse,
+  setupServer,
+  delayedJsonResponse,
+} from 'platform/testing/unit/msw-adapter';
 import React from 'react';
 import { Provider } from 'react-redux';
 
@@ -16,9 +20,9 @@ describe('<DashboardCards>', () => {
 
     before(() => {
       server = setupServer(
-        rest.get(`${apiRequestWithUrl}`, (req, res, ctx) => {
-          return res(
-            ctx.json({
+        createGetHandler(`${apiRequestWithUrl}`, () => {
+          return jsonResponse(
+            {
               data: [
                 {
                   id: '1',
@@ -33,7 +37,8 @@ describe('<DashboardCards>', () => {
                   },
                 },
               ],
-            }),
+            },
+            { status: 200 },
           );
         }),
       );
@@ -98,9 +103,9 @@ describe('<DashboardCards>', () => {
 
     it('should transform inquiries data correctly', async () => {
       server.use(
-        rest.get(`${apiRequestWithUrl}`, (req, res, ctx) => {
-          return res(
-            ctx.json({
+        createGetHandler(`${apiRequestWithUrl}`, () => {
+          return jsonResponse(
+            {
               data: [
                 {
                   id: '1',
@@ -139,7 +144,8 @@ describe('<DashboardCards>', () => {
                   },
                 },
               ],
-            }),
+            },
+            { status: 200 },
           );
         }),
       );
@@ -275,9 +281,9 @@ describe('<DashboardCards>', () => {
 
     it.skip('should handle filter application correctly', async () => {
       server.use(
-        rest.get(`${apiRequestWithUrl}`, (req, res, ctx) => {
-          return res(
-            ctx.json({
+        createGetHandler(`${apiRequestWithUrl}`, () => {
+          return jsonResponse(
+            {
               data: [
                 {
                   id: '1',
@@ -292,7 +298,8 @@ describe('<DashboardCards>', () => {
                   },
                 },
               ],
-            }),
+            },
+            { status: 200 },
           );
         }),
       );
@@ -367,9 +374,9 @@ describe('<DashboardCards>', () => {
 
     it('should handle getCurrentTabType correctly', async () => {
       server.use(
-        rest.get(`${apiRequestWithUrl}`, (req, res, ctx) => {
-          return res(
-            ctx.json({
+        createGetHandler(`${apiRequestWithUrl}`, () => {
+          return jsonResponse(
+            {
               data: [
                 {
                   id: '1',
@@ -396,7 +403,8 @@ describe('<DashboardCards>', () => {
                   },
                 },
               ],
-            }),
+            },
+            { status: 200 },
           );
         }),
       );
@@ -460,8 +468,8 @@ describe('<DashboardCards>', () => {
 
     before(() => {
       server = setupServer(
-        rest.get(`${apiRequestWithUrl}`, (req, res, ctx) => {
-          return res(ctx.status(500));
+        createGetHandler(`${apiRequestWithUrl}`, () => {
+          return jsonResponse({}, { status: 500 });
         }),
       );
 
@@ -516,9 +524,9 @@ describe('<DashboardCards>', () => {
 
     before(() => {
       server = setupServer(
-        rest.get(`${apiRequestWithUrl}`, (req, res, ctx) => {
-          return res(
-            ctx.json({
+        createGetHandler(`${apiRequestWithUrl}`, () => {
+          return jsonResponse(
+            {
               data: Array.from({ length: 6 }, (_, i) => ({
                 id: `${i + 1}`,
                 attributes: {
@@ -531,7 +539,8 @@ describe('<DashboardCards>', () => {
                   levelOfAuthentication: 'Personal',
                 },
               })),
-            }),
+            },
+            { status: 200 },
           );
         }),
       );
@@ -682,11 +691,10 @@ describe('<DashboardCards>', () => {
 
     before(() => {
       server = setupServer(
-        rest.get(`${apiRequestWithUrl}`, (req, res, ctx) => {
-          // Add delay to simulate network request
-          return res(
-            ctx.delay(100),
-            ctx.json({
+        createGetHandler(`${apiRequestWithUrl}`, () => {
+          // Use the adapter's delayedResponse helper instead of manual Promise
+          return delayedJsonResponse(
+            {
               data: [
                 {
                   id: '1',
@@ -701,7 +709,8 @@ describe('<DashboardCards>', () => {
                   },
                 },
               ],
-            }),
+            },
+            100, // delay in milliseconds
           );
         }),
       );
@@ -769,11 +778,12 @@ describe('<DashboardCards>', () => {
 
     before(() => {
       server = setupServer(
-        rest.get(`${apiRequestWithUrl}`, (req, res, ctx) => {
-          return res(
-            ctx.json({
+        createGetHandler(`${apiRequestWithUrl}`, () => {
+          return jsonResponse(
+            {
               data: [], // Return empty data array
-            }),
+            },
+            { status: 200 },
           );
         }),
       );
@@ -847,9 +857,9 @@ describe('<DashboardCards>', () => {
 
     before(() => {
       server = setupServer(
-        rest.get(`${apiRequestWithUrl}`, (req, res, ctx) => {
-          return res(
-            ctx.json({
+        createGetHandler(`${apiRequestWithUrl}`, () => {
+          return jsonResponse(
+            {
               data: [
                 {
                   id: '1',
@@ -876,7 +886,8 @@ describe('<DashboardCards>', () => {
                   },
                 },
               ],
-            }),
+            },
+            { status: 200 },
           );
         }),
       );
