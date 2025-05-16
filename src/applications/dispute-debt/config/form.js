@@ -22,6 +22,7 @@ import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
 import submitForm from './submitForm';
 import { TITLE } from '../constants';
+import transformForSubmit from './transformForSubmit';
 
 // Function to return the NeedHelp component
 const getHelp = () => <NeedHelp />;
@@ -29,6 +30,7 @@ const getHelp = () => <NeedHelp />;
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
+  transformForSubmit,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/debts_api/v0/digital_disputes`,
   submit: submitForm,
@@ -74,8 +76,8 @@ const formConfig = {
           path: 'personal-information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+          ...contactInfo,
         },
-        ...contactInfo,
       },
     },
     debtSelectionChapter: {

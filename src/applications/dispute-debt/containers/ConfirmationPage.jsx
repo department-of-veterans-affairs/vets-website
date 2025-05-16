@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
+import NeedHelp from '../components/NeedHelp';
 
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
@@ -85,13 +86,17 @@ export const ConfirmationPage = () => {
       <h2>What to expect next</h2>
       <p>You don’t need to do anything else at this time</p>
       <p>
-        If you don’t receive your letter in the next 30 days or have any
-        questions, call us at <va-telephone contact="8664001238" tty />. We’re
-        here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        After we receive your dispute form, we’ll review your dispute. You will
+        receive an email and a letter in the mail confirming receipt and letting
+        you know whether you need to continue paying.Then we’ll mail you a
+        letter with our decision. If you have questions about your dispute, call
+        us at <va-telephone contact="8664001238" tty />. We’re here Monday
+        through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
       <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
         Go back to VA.gov
       </a>
+      <NeedHelp />
     </div>
   );
 };
