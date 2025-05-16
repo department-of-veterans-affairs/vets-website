@@ -1,8 +1,9 @@
-import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
+import fullSchema from 'vets-json-schema/dist/28-1900_V2-schema.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
 
 import { VeteranAddressDescription } from '../../../../components/VeteranAddressDescription';
+import updateAddressUiSchema from '../../../../utils/updateAddressSchema';
 
 const { veteranAddress, mainPhone, cellPhone, email } = fullSchema.properties;
 
@@ -26,12 +27,20 @@ export const schema = {
   },
   required: ['email'],
 };
+const originalVeteranAddressUiSchema = addressUiSchema(
+  'veteranAddress',
+  checkboxTitle,
+  () => true,
+);
+const veteranAddressUiSchema = updateAddressUiSchema(
+  originalVeteranAddressUiSchema,
+);
 
 export const uiSchema = {
   'view:addressDescription': {
     'ui:description': VeteranAddressDescription,
   },
-  veteranAddress: addressUiSchema('veteranAddress', checkboxTitle, () => true),
+  veteranAddress: veteranAddressUiSchema,
   mainPhone: {
     'ui:required': () => true,
     'ui:options': {
