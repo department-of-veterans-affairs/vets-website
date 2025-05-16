@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import vaFileInputFieldMapping from './vaFileInputFieldMapping';
+import vaFileInputFieldMapping from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldMapping';
 import { uploadScannedForm } from './vaFileInputFieldHelpers';
 
 /**
@@ -41,8 +41,10 @@ import { uploadScannedForm } from './vaFileInputFieldHelpers';
 const VaFileInputMultipleField = props => {
   const mappedProps = vaFileInputFieldMapping(props);
   const dispatch = useDispatch();
+  const [errorsList, setErrorsList] = useState([]);
   const [localFile, setLocalFile] = useState(null);
   const [uploadArray, setUploadArray] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [uploadInProgress, setUploadInProgress] = useState(false);
   const pendingUpdate = useRef(null);
   const { formNumber } = props?.uiOptions;
@@ -83,7 +85,68 @@ const VaFileInputMultipleField = props => {
     [props.childrenProps, uploadArray],
   );
 
+  /**
+   * Identifies the overlap in two arrays of files based on file name, size,
+   * and last modified date
+   * @param {Array} arr1 Array to check against
+   * @param {Array} arr2 Array to be narrowed down based on the presence of files in arr1
+   * @returns
+   */
+  function filterToMatchingObjects(arr1, arr2) {
+    // Create a Set of unique identifier strings from arr1
+    const arr1Identifiers = new Set(
+      arr1.map(item => `${item.name}-${item.size}-${item.lastModified}`),
+    );
+
+    // Filter arr2 to only include items whose identifiers exist in the Set
+    return arr2.filter(item =>
+      arr1Identifiers.has(`${item.name}-${item.size}-${item.lastModified}`),
+    );
+  }
+
+  /**
+   * Matches errors to files based on the file characteristics rather
+   * than their position within the respective arrays.
+   * @param {Object} e File event, e.g. an upload/change/removal
+   * @returns Array of objects containing file details + an errorMessage property
+   * e.g.: [{name: 'file.png', size: 123, lastModified: 123, errorMessage: 'Too large'}]
+   */
+  function getErrorsForFiles(e) {
+    const fileEntries = e.detail.state;
+    return fileEntries.map((entry, _index) => {
+      if (!entry.file) {
+        return '';
+      }
+      // Match errors to files based on their characteristics rather
+      // than their array position:
+      return errorsList.find(
+        err =>
+          err?.name === entry?.file?.name &&
+          err?.size === entry?.file?.size &&
+          err?.lastModified === entry?.file?.lastModified,
+      );
+    });
+  }
+
+  /**
+   * Finds the index of an object in an array that matches the given properties
+   * @param {Array} arr - The array to search
+   * @param {Object} properties - The properties to match, e.g., {size: 123, name: 'test.png'}
+   * @returns {number} The index of the matching object, or -1 if not found
+   */
+  function indexOfMatch(arr, properties) {
+    return arr.findIndex(obj => {
+      return Object.keys(properties).every(key => obj[key] === properties[key]);
+    });
+  }
+
   const onFileUploaded = async uploadedFile => {
+    if (uploadedFile.errorMessage) {
+      setErrorsList([...errorsList, uploadedFile]);
+      setUploadInProgress(false);
+      return;
+    }
+
     if (uploadedFile.file) {
       const localFilePath = URL.createObjectURL(uploadedFile.file);
       const fileObj = {
@@ -100,7 +163,7 @@ const VaFileInputMultipleField = props => {
 
       setUploadArray(prevArray => {
         const fd = props.childrenProps.formData;
-        const baseArray = prevArray.length === 0 ? [...fd] : prevArray;
+        const baseArray = prevArray.length === 0 ? [...(fd || [])] : prevArray;
         const newArray = [...baseArray, fileObj];
         pendingUpdate.current = newArray;
         return newArray;
@@ -111,36 +174,42 @@ const VaFileInputMultipleField = props => {
     }
   };
 
-  /**
-   * Finds the index of an object in an array that matches the given properties
-   * @param {Array} arr - The array to search
-   * @param {Object} properties - The properties to match, e.g., {size: 123, name: 'test.png'}
-   * @returns {number} The index of the matching object, or -1 if not found
-   */
-  function indexOfMatch(arr, properties) {
-    return arr.findIndex(obj => {
-      return Object.keys(properties).every(key => obj[key] === properties[key]);
-    });
-  }
-
   const handleVaChange = e => {
     const fd = props.childrenProps.formData;
     const fileFromEvent = e.detail.file;
 
+    setErrorsList(getErrorsForFiles(e));
+
+    if (e.detail.action === 'FILE_ADDED') {
+      let fileAlreadyUploaded = false;
+      // Check if first file
+      if (fd !== undefined) {
+        fileAlreadyUploaded =
+          filterToMatchingObjects([fileFromEvent], fd).length > 0;
+      }
+      if (fileAlreadyUploaded) return; // bail
+      // Fall through to the main dispatch() call
+    }
+
     if (e.detail.action === 'FILE_REMOVED') {
+      // If element not found in array, that's likely a file with an
+      // error which wasn't actually uploaded but is currently displayed.
       const idx = indexOfMatch(
         fd,
         // identifying properties from newly removed file
         _.pick(fileFromEvent, ['name', 'size']),
       );
 
+      // check if there was an error associated with this file, if so remove
+      getErrorsForFiles(e);
+
       setLocalFile(null);
       setUploadInProgress(false);
 
       // Use functional updates to ensure we're using the latest state
       setUploadArray(prevArray => {
-        const baseArray = prevArray.length === 0 ? [...fd] : prevArray;
-        const newArray = baseArray.toSpliced(idx, 1);
+        const baseArray = prevArray.length === 0 ? [...(fd || [])] : prevArray;
+        const newArray = idx > -1 ? baseArray.toSpliced(idx, 1) : baseArray;
         pendingUpdate.current = newArray;
         return newArray;
       });
@@ -148,31 +217,29 @@ const VaFileInputMultipleField = props => {
     }
 
     if (e.detail.action === 'FILE_UPDATED') {
-      const idx = indexOfMatch(
-        e.detail.state, // the list of uploaded files
-        { changed: true }, // to identify the target to be replaced
-      );
-
       setLocalFile(null);
-      setUploadInProgress(false);
+      // setUploadInProgress(true);
+
+      let fileAlreadyUploaded = false;
 
       // Use functional updates here too
       setUploadArray(prevArray => {
-        const baseArray = prevArray.length === 0 ? [...fd] : prevArray;
-        const newArray = baseArray.toSpliced(idx, 1);
+        const baseArray = prevArray.length === 0 ? [...(fd || [])] : prevArray;
+        const newArray = filterToMatchingObjects(
+          e.detail.state.map(el => el.file),
+          baseArray,
+        );
+
+        fileAlreadyUploaded =
+          filterToMatchingObjects([fileFromEvent], newArray).length > 0;
+
         pendingUpdate.current = newArray;
         return newArray;
       });
+
+      if (fileAlreadyUploaded) return; // bail
       // With target file removed, fall through to the main dispatch() call
       // to upload the replacement
-    }
-
-    if (
-      localFile?.slice(-1).lastModified === fileFromEvent.lastModified &&
-      localFile?.slice(-1).size === fileFromEvent.size
-    ) {
-      // This guard clause protects against infinite looping/updating if the localFile and fileFromEvent are identical
-      return;
     }
 
     // Default behavior for when action is FILE_ADDED:
@@ -190,7 +257,7 @@ const VaFileInputMultipleField = props => {
   return (
     <VaFileInputMultiple
       {...mappedProps}
-      error={uploadInProgress ? '' : mappedProps.error}
+      errors={errorsList.map(e => e?.errorMessage)}
       value={localFile}
       onVaMultipleChange={handleVaChange}
     />

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaFileInputField } from '../web-component-fields';
+import { VaFileInputField } from 'platform/forms-system/src/js/web-component-fields';
+import VaFileInputMultipleField from './VaFileInputMultipleField';
+import { getFileSize } from './vaFileInputFieldHelpers';
 
 const ReviewFieldPropTypes = {
   children: PropTypes.node,
@@ -14,6 +16,22 @@ function fileInputReviewField({ children }, title) {
       <dt>{title}</dt>
       <dd>{children.props?.formData?.name}</dd>
     </div>
+  );
+}
+function fileInputMultipleReviewField({ children }) {
+  fileInputMultipleReviewField.propTypes = ReviewFieldPropTypes;
+  return (
+    <>
+      {children?.props?.formData?.map(item => (
+        <div
+          key={`${item?.confirmationCode}-${item?.lastModified}`}
+          className="review-row"
+        >
+          <dt>{item.name}</dt>
+          <dd>{getFileSize(item?.size)}</dd>
+        </div>
+      ))}
+    </>
   );
 }
 
@@ -131,6 +149,95 @@ export const fileInputUI = options => {
       },
     },
   };
+};
+
+/**
+ * Web component v3 uiSchema for generic fileInputMultiple field
+ *
+ * Usage uiSchema:
+ * ```js
+ * exampleFileInput: fileInputMultipleUI('Simple fileInput field')
+ * exampleFileInput: fileInputMultipleUI({
+ *   title: 'FileInput field',
+ *   hint: 'This is a hint',
+ * })
+ * ```
+ *
+ * Usage schema:
+ * ```js
+ * exampleFileInput: fileInputMultipleSchema,
+ * required: ['exampleFileInput']
+ * ```
+ *
+ * @param {UIOptions & {
+ *  title?: UISchemaOptions['ui:title'],
+ *  description?: UISchemaOptions['ui:description'],
+ *  errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *  required?: UISchemaOptions['ui:required'],
+ *  reviewField?: UISchemaOptions['ui:reviewField'],
+ *  hidden?: UISchemaOptions['ui:hidden'],
+ *  hint?: UIOptions['hint'],
+ * }} stringOrOptions
+ * @returns {UISchemaOptions}
+ */
+export const fileInputMultipleUI = stringOrOptions => {
+  const {
+    title,
+    errorMessages,
+    required,
+    reviewField,
+    hidden,
+    ...uiOptions
+  } = stringOrOptions;
+
+  return {
+    'ui:title': title,
+    'ui:required': required,
+    'ui:webComponentField': VaFileInputMultipleField,
+    'ui:reviewField': reviewField || fileInputMultipleReviewField,
+    'ui:hidden': hidden,
+    'ui:options': {
+      keepInPageOnReview: true,
+      ...uiOptions,
+    },
+    'ui:errorMessages': errorMessages,
+  };
+};
+
+/**
+ * Schema for generic fileInput field
+ *
+ * ```js
+ * exampleFileInput: {
+ *   type: 'object',
+ * }
+ * ```
+ */
+export const fileInputSchema = {
+  type: 'object',
+  properties: {
+    confirmationCode: {
+      type: 'string',
+    },
+    isEncrypted: {
+      type: 'boolean',
+    },
+    name: {
+      type: 'string',
+    },
+    size: {
+      type: 'integer',
+    },
+    fileType: {
+      type: 'string',
+    },
+    warnings: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
+  },
 };
 
 /**
