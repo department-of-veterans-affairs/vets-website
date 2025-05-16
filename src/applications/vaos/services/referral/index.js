@@ -55,7 +55,7 @@ export async function postDraftReferralAppointment(referralNumber) {
       'Content-Type': 'application/json',
     },
     // eslint-disable-next-line camelcase
-    body: JSON.stringify({ referralNumber }),
+    body: JSON.stringify({ referral_id: referralNumber }),
   });
 
   return response.data;

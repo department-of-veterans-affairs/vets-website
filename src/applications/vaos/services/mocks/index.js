@@ -439,7 +439,7 @@ const responses = {
     });
   },
   'POST /vaos/v2/appointments/draft': (req, res) => {
-    const { referralNumber } = req.body;
+    const { referral_id: referralNumber } = req.body;
     // Provider 3 throws error
     if (referralNumber === '') {
       return res.status(500).json({ error: true });
