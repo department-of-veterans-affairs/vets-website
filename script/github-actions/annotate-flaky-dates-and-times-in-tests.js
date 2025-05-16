@@ -87,6 +87,8 @@ if (specFiles.length > 0) {
       collectedAnnotations = collectedAnnotations.concat(annotations);
     }
   });
+} else {
+  console.log('No dynamic date/time functions found.');
 }
 
 core.exportVariable(
