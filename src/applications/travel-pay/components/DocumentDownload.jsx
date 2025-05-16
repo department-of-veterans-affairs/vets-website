@@ -46,6 +46,10 @@ const DocumentDownload = ({
         link.download = filename;
         document.body.appendChild(link);
         link.click();
+
+        // Clean up
+        document.body.removeChild(link);
+        URL.revokeObjectURL(objUrl);
       }
     } catch (_) {
       setError(
