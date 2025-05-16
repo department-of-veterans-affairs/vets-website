@@ -414,7 +414,7 @@ jobs:
           path: .
 
       - name: Run unit tests
-        run: yarn test:unit:gha --full-suite=true --coverage --log-level verbose
+        run: yarn test:unit:gha --full-suite --coverage --log-level verbose
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
