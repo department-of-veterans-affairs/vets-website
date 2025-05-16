@@ -12,7 +12,7 @@ import { uploadScannedForm } from 'platform/forms-system/src/js/web-component-fi
  * @param {Object} e File event, e.g. an upload/change/removal
  * @param {Array} errList list of error objects for uploaded files
  * @returns Array of objects containing file details + an errorMessage property
- * e.g.: [{name: 'file.png', size: 123, lastModified: 123, errorMessage: 'Too large'}]
+ * e.g.: [{name: 'file.png', size: 123, errorMessage: 'Too large'}]
  */
 function getErrorsForFiles(e, errList) {
   const fileEntries = e?.detail?.state;
@@ -23,10 +23,7 @@ function getErrorsForFiles(e, errList) {
     // Match errors to files based on their characteristics rather
     // than their array position:
     return errList.find(
-      err =>
-        err?.name === entry?.file?.name &&
-        err?.size === entry?.file?.size &&
-        err?.lastModified === entry?.file?.lastModified,
+      err => err?.name === entry?.file?.name && err?.size === entry?.file?.size,
     );
   });
 }
