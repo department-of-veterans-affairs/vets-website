@@ -11,6 +11,8 @@
 let mswVersion = 2;
 let mswModule;
 
+console.log('MSW Adapter: Attempting to load MSW v2...');
+
 try {
   // Try to import MSW v2 modules
   mswModule = require('msw');
