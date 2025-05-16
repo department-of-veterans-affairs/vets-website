@@ -206,12 +206,17 @@ const ProfilePageHeader = ({
               {'   '}
               On-the-job training
             </IconWithInfo>
-            <IconWithInfo
-              icon="account_balance"
-              present={lowerType && lowerType !== 'ojt'}
-            >
-              {'   '}
-              {schoolTypeDiv()}
+            <IconWithInfo icon="school" present>
+              <LearnMoreLabel
+                text="Yellow Ribbon Program"
+                onClick={() => {
+                  dispatchShowModal('yribbon');
+                }}
+                buttonClassName="small-screen-font"
+                buttonId="yellow-ribbon-additional-info-learn-more"
+              />
+              : &nbsp;
+              {institution.yr ? 'Yes' : 'No'}
             </IconWithInfo>
             <IconWithInfo icon="bookmark" present={accredited}>
               {'   '}
@@ -258,18 +263,6 @@ const ProfilePageHeader = ({
                 {'  '}
                 {website}
               </a>
-            </IconWithInfo>
-            <IconWithInfo icon="school" present>
-              <LearnMoreLabel
-                text="Yellow Ribbon Program"
-                onClick={() => {
-                  dispatchShowModal('yribbon');
-                }}
-                buttonClassName="small-screen-font"
-                buttonId="yellow-ribbon-additional-info-learn-more"
-              />
-              : &nbsp;
-              {institution.yr ? 'Yes' : 'No'}
             </IconWithInfo>
           </div>
         )}
@@ -349,8 +342,8 @@ const ProfilePageHeader = ({
           {name}
         </h1>
         <p>{formattedAddress}</p>
-        <div className="vads-u-padding-bottom--1p5">
-          {preferredProvider && (
+        {preferredProvider && (
+          <div className="vads-u-padding-bottom--1p5">
             <span className="preferred-provider-text">
               <LearnMoreLabel
                 text={preferredProvideLearnMore}
@@ -361,8 +354,17 @@ const ProfilePageHeader = ({
                 buttonId="preferredProviders-button"
               />
             </span>
-          )}
-        </div>
+          </div>
+        )}
+        {schoolTypeDiv() && (
+          <IconWithInfo
+            icon="account_balance"
+            present={lowerType && lowerType !== 'ojt'}
+          >
+            {'   '}
+            {schoolTypeDiv()}
+          </IconWithInfo>
+        )}
         {displayStars &&
           isShowRatingsToggle && (
             <div className={starClasses}>
@@ -387,7 +389,7 @@ const ProfilePageHeader = ({
           )}
         {!displayStars &&
           type.toUpperCase() !== 'OJT' &&
-          isShowRatingsToggle && <span>Not yet rated by Veterans</span>}
+          isShowRatingsToggle && <p>Not yet rated by Veterans</p>}
         {studentCount > 0 && (
           <p>
             <LearnMoreLabel
@@ -432,7 +434,7 @@ ProfilePageHeader.propTypes = {
   dispatchRemoveCompareInstitution: PropTypes.func,
   dispatchShowModal: PropTypes.func,
   institution: PropTypes.object,
-  onViewWarnings: PropTypes.func,
+  isShowRatingsToggle: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
