@@ -674,22 +674,96 @@ describe('<ProfilePageHeader>', () => {
       expect(document.body.textContent).to.match(/Certificate program/);
     });
   });
-  it('renders analysis school when lowerType truthy and != OJT', async () => {
-    const inst = {
-      ...TEST_INSTITUTION,
-      type: 'analysis',
-      highestDegree: null,
-      accreditationType: null,
-    };
-    renderWithStoreAndRouter(<ProfilePageHeader institution={inst} />, {
-      initialState: {
-        constants: mockConstants(),
-      },
+
+  describe('Institution Type', () => {
+    it('should render Public Institution when institution type is PUBLIC', async () => {
+      const inst = {
+        ...TEST_INSTITUTION,
+        type: 'PUBLIC',
+        highestDegree: null,
+        accreditationType: null,
+      };
+      renderWithStoreAndRouter(<ProfilePageHeader institution={inst} />, {
+        initialState: {
+          constants: mockConstants(),
+        },
+      });
+      await waitFor(() => {
+        expect(document.body.textContent).to.match(/Public Institution/);
+      });
     });
-    await waitFor(() => {
-      expect(document.body.textContent).to.match(/Analysis school/);
+
+    it('should render Private Institution when institution type is PRIVATE', async () => {
+      const inst = {
+        ...TEST_INSTITUTION,
+        type: 'PRIVATE',
+        highestDegree: null,
+        accreditationType: null,
+      };
+      renderWithStoreAndRouter(<ProfilePageHeader institution={inst} />, {
+        initialState: {
+          constants: mockConstants(),
+        },
+      });
+      await waitFor(() => {
+        expect(document.body.textContent).to.match(
+          /Private Nonprofit Institution/,
+        );
+      });
+    });
+
+    it('should render Foreign Institution when institution type is FOREIGN', async () => {
+      const inst = {
+        ...TEST_INSTITUTION,
+        type: 'FOREIGN',
+        highestDegree: null,
+        accreditationType: null,
+      };
+      renderWithStoreAndRouter(<ProfilePageHeader institution={inst} />, {
+        initialState: {
+          constants: mockConstants(),
+        },
+      });
+      await waitFor(() => {
+        expect(document.body.textContent).to.match(/Foreign Institution/);
+      });
+    });
+
+    it('should render Proprietary Institution when institution type is FOR PROFIT', async () => {
+      const inst = {
+        ...TEST_INSTITUTION,
+        type: 'FOR PROFIT',
+        highestDegree: null,
+        accreditationType: null,
+      };
+      renderWithStoreAndRouter(<ProfilePageHeader institution={inst} />, {
+        initialState: {
+          constants: mockConstants(),
+        },
+      });
+      await waitFor(() => {
+        expect(document.body.textContent).to.match(/Proprietary Institution/);
+      });
+    });
+
+    it('should render other institution types when not OJT', async () => {
+      const inst = {
+        ...TEST_INSTITUTION,
+        type: 'FLIGHT',
+        highestDegree: null,
+        accreditationType: null,
+      };
+      renderWithStoreAndRouter(<ProfilePageHeader institution={inst} />, {
+        initialState: {
+          constants: mockConstants(),
+        },
+      });
+      await waitFor(() => {
+        expect(document.body.textContent).to.match(/Flight Institution/);
+      });
     });
   });
+
   it('renders Hybrid Accreditation LearnMoreLabel when accreditationType is set', async () => {
     const inst = { ...TEST_INSTITUTION, accreditationType: 'Hybrid' };
     renderWithStoreAndRouter(<ProfilePageHeader institution={inst} />, {
