@@ -135,7 +135,6 @@ describe('YAML tests', () => {
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);
           } else {
-            // expect(flow.runOnCI, '(Skipped)').to.be.false;
             this.skip();
           }
         });
