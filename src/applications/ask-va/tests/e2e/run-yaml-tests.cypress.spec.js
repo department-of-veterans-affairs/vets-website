@@ -135,6 +135,8 @@ describe('YAML tests', () => {
             cy.visit('http://localhost:3001/contact-us/ask-va/');
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);
+          } else {
+            this.skip();
           }
         });
       };
