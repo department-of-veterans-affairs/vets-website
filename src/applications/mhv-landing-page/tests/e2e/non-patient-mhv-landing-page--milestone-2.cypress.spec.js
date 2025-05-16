@@ -1,4 +1,4 @@
-import { appName, rootUrl } from '../../manifest.json';
+import { appName } from '../../manifest.json';
 import ApiInitializer from './utilities/ApiInitializer';
 import LandingPage from './pages/LandingPage';
 
@@ -15,32 +15,30 @@ describe(`${appName} -- non Patient landing page -- milestone-2`, () => {
       mhvAccountState: 'OK',
       edipi: '1234567890',
     });
-    cy.visit(rootUrl);
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('displays an h1', () => {
     const heading = {
       level: 1,
       name: /^My HealtheVet$/,
     };
     cy.findByRole('heading', heading).should('have.focus');
+    cy.injectAxeThenAxeCheck();
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('renders the breadcrumbs', () => {
     cy.get('va-breadcrumbs').should('be.visible');
     cy.get('va-breadcrumbs')
       .shadow()
       .findByRole('link', { name: /My HealtheVet/ });
+    cy.injectAxeThenAxeCheck();
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('should not render the secondary navigation', () => {
     LandingPage.secondaryNav().should('not.exist');
+    cy.injectAxeThenAxeCheck();
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('should not render the cards section', () => {
     const appointments = {
       level: 2,
@@ -72,45 +70,45 @@ describe(`${appName} -- non Patient landing page -- milestone-2`, () => {
     cy.findByRole('heading', medicalRecords).should('not.exist');
     cy.findByRole('heading', payments).should('not.exist');
     cy.findByRole('heading', medicalSupplies).should('not.exist');
+    cy.injectAxeThenAxeCheck();
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('should not render the HelpDesk Info heading', () => {
     const heading = {
       level: 2,
       name: /^Need help\?$/,
     };
     cy.findByRole('heading', heading).should('not.exist');
+    cy.injectAxeThenAxeCheck();
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('renders the Non-Patient Helpdesk heading', () => {
     const heading = {
       level: 2,
       name: /^We don’t have VA health records for you$/,
     };
     cy.findByRole('heading', heading).should('be.visible');
+    cy.injectAxeThenAxeCheck();
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('renders the VA health resources heading', () => {
     const heading = {
       level: 3,
       name: /^VA health resources$/,
     };
     cy.findByRole('heading', heading).should('be.visible');
+    cy.injectAxeThenAxeCheck();
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('renders the Non-Patient Download Data heading', () => {
     const heading = {
       level: 2,
       name: /^Download your data$/,
     };
     cy.findByRole('heading', heading).should('be.visible');
+    cy.injectAxeThenAxeCheck();
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   // it's not clear why this test is failing
   it.skip('renders the SEI information download link', () => {
     cy.get('va-links').should('be.visible');
@@ -119,9 +117,9 @@ describe(`${appName} -- non Patient landing page -- milestone-2`, () => {
       .findByRole('link', {
         name: /Download self-entered health information report (PDF)/i,
       });
+    cy.injectAxeThenAxeCheck();
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   // it's not clear why this test is failing
   it.skip('renders the DoD information download link', () => {
     cy.get('va-links').should('be.visible');
@@ -130,8 +128,9 @@ describe(`${appName} -- non Patient landing page -- milestone-2`, () => {
       .findByRole('link', {
         name: /Download your DOD military service data (PDF)/,
       });
+    cy.injectAxeThenAxeCheck();
   });
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+
   // it's not clear why this test is failing
   it.skip('renders the hub section', () => {
     const healthBenefits = {
@@ -149,18 +148,15 @@ describe(`${appName} -- non Patient landing page -- milestone-2`, () => {
     cy.findByRole('heading', healthBenefits).should('be.visible');
     cy.findByRole('heading', moreResources).should('be.visible');
     cy.findByRole('heading', spotlight).should('be.visible');
+    cy.injectAxeThenAxeCheck();
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('renders the Subscribe heading', () => {
     const heading = {
       level: 2,
       name: /^Subscribe to the My HealtheVet newsletter$/,
     };
     cy.findByRole('heading', heading).should('be.visible');
-  });
-
-  it('passes automated accessibility (a11y) checks', () => {
     cy.injectAxeThenAxeCheck();
   });
 });
