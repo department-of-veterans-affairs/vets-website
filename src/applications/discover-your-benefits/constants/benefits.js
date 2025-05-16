@@ -175,6 +175,7 @@ export const mappingTypes = {
   CHARACTER_OF_DISCHARGE: 'characterOfDischarge',
   DISABILITY_RATING: 'disabilityRating',
   ACTIVE_DUTY: 'activeDuty',
+  LENGTH_OF_TITLE_TEN_SERVICE: 'titleTenTimeServed',
 };
 
 export const BENEFITS_LIST = [
@@ -662,6 +663,13 @@ export const BENEFITS_LIST = [
         militaryServiceTimeServedTypes.OVER_3_YEARS,
       ],
       [mappingTypes.ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: [
+        militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        militaryServiceTimeServedTypes.UP_TO_1_YEAR,
+        militaryServiceTimeServedTypes.UP_TO_2_YEARS,
+        militaryServiceTimeServedTypes.UP_TO_3_YEARS,
+        militaryServiceTimeServedTypes.OVER_3_YEARS,
+      ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -676,6 +684,14 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+    },
+    isQualified: responses => {
+      return (
+        responses[mappingTypes.GOALS] &&
+        (responses[mappingTypes.LENGTH_OF_SERVICE] ||
+          responses[mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]) &&
+        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
+      );
     },
     learnMoreURL: URLS.COE_LEARN,
     applyNowURL: URLS.COE_APPLY,
