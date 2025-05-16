@@ -252,9 +252,9 @@ export default function EstimatedBenefits({
             year. Some schools may use non-traditional academic schedules which
             can impact your actual out-of-pocket costs. Contact the institution
             directly for more information.{' '}
-            {/* <a href="">
+            <a href="https://www.va.gov/education/benefit-rates/">
               Learn more about VA education benefit rates.
-            </a> */}
+            </a>
           </p>
         </div>
         <hr aria-hidden="true" />
