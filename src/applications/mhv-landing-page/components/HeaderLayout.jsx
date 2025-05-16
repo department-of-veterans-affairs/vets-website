@@ -38,9 +38,11 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => (
             </div>
           </div>
         </div>
-        <div className="va-introtext">
-          <p className="vads-u-font-size--md">{ledeContent}</p>
-          <p className="vads-u-font-size--md">
+        <div>
+          <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6">
+            {ledeContent}
+          </p>
+          <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6">
             Want to learn more about what’s new? <VaLink {...learnMoreLink} />
           </p>
         </div>
