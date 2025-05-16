@@ -143,7 +143,7 @@ jobs:
         run: node script/github-actions/annotate-skipped-e2e-tests.js
         env:
          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
-          
+        
       - name: Create e2e annotations file  
         if: ${{ env.SKIPPED_E2E_ANNOTATIONS_JSON != '[]' }}
         run: |
