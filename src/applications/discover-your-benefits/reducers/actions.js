@@ -42,44 +42,65 @@ export const checkExtraConditions = (benefit, formData) => {
       }
     }
   }
-
   return result;
 };
 
+/**
+ * Check a single condition for a benefit.
+ * @param {Object} benefit
+ * @param {Object} formData
+ * @param {Object} mappingType
+ * @returns True if the formData qualifies for the given benefit, otherwise returns false.
+ */
+export const checkSingleResponse = (benefit, formData, mappingType) => {
+  // Does this benefit map to the form input data values?
+  if (
+    !benefit.mappings[mappingType] ||
+    benefit.mappings[mappingType][0] === anyType.ANY
+  ) {
+    return true;
+  }
+  for (let i = 0; i < benefit.mappings[mappingType].length; i++) {
+    const mappingValue = benefit.mappings[mappingType][i];
+    const formResponse = formData[mappingType];
+    if (
+      (formResponse &&
+        (formResponse === mappingValue ||
+          formResponse[mappingValue] === true)) ||
+      (!formResponse && mappingValue === blankType.BLANK)
+    ) {
+      return true;
+    }
+  }
+  return false;
+};
+
+/**
+ * Checks if the responses in formData qualify the user for the given benefit.
+ * @param {Object} benefit
+ * @param {Object} formData
+ * @returns true if the responses in formData qualify for the benefit, otherwise returns false.
+ */
 export const mapBenefitFromFormInputData = (benefit, formData) => {
   if (checkExtraConditions(benefit, formData) === false) return false;
-
   const mappingKeys = Object.keys(mappingTypes);
+  const userResponseBooleanDictionary = {};
   // Each mapping type (i.e. GOALS).
   for (let m = 0; m < mappingKeys.length; m++) {
-    const key = mappingTypes[mappingKeys[m]];
-
-    // Does this benefit map to the form input data values?
-    let foundMappingValue = false;
-    if (!benefit.mappings[key] || benefit.mappings[key][0] === anyType.ANY) {
-      foundMappingValue = true;
-    }
-    for (
-      let i = 0;
-      !foundMappingValue && i < benefit.mappings[key].length;
-      i++
-    ) {
-      const mappingValue = benefit.mappings[key][i];
-
-      if (
-        (formData[key] &&
-          (formData[key] === mappingValue ||
-            formData[key][mappingValue] === true)) ||
-        (!formData[key] && mappingValue === blankType.BLANK)
-      ) {
-        foundMappingValue = true;
-      }
-    }
-
-    if (!foundMappingValue) return false;
+    const mappingType = mappingTypes[mappingKeys[m]];
+    userResponseBooleanDictionary[mappingType] = checkSingleResponse(
+      benefit,
+      formData,
+      mappingType,
+    );
   }
-
-  return true;
+  if (benefit.isQualified !== undefined) {
+    return benefit.isQualified(userResponseBooleanDictionary);
+  }
+  return Object.values(userResponseBooleanDictionary).reduce(
+    (accumulator, currentValue) => accumulator && currentValue,
+    true,
+  );
 };
 
 export function getResults(formData) {
