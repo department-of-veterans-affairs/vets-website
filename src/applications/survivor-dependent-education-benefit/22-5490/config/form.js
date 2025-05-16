@@ -56,6 +56,8 @@ import MailingAddressViewField from '../components/MailingAddressViewField';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import PersonalInformationReviewField from '../components/PersonalInformationReviewField';
 import DirectDepositCustomReview from '../components/DirectDepositCustomReview';
+import ApplicantInformationReview from '../components/ApplicantInformationReview';
+import BenefitSelectionReview from '../components/BenefitSelectionReview';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -202,6 +204,7 @@ const formConfig = {
         benefitSelection: {
           path: 'benefit-selection',
           title: 'Benefit selection',
+          CustomPageReview: BenefitSelectionReview,
           uiSchema: {
             'view:subHeading': {
               'ui:description': (
@@ -1203,6 +1206,7 @@ const formConfig = {
         applicantInformation: {
           path: 'veteran-or-service-member-information',
           title: 'Veteran or Service Member Information',
+          CustomPageReview: ApplicantInformationReview,
           uiSchema: {
             relationshipToMember: {
               'ui:title':
