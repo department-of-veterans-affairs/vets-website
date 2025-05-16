@@ -2,7 +2,23 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as actions from '../../../reducers/actions';
 import { mockFormData } from '../mocks/mockFormData';
-import { BENEFITS_LIST, anyType } from '../../../constants/benefits';
+import {
+  BENEFITS_LIST,
+  anyType,
+  mappingTypes,
+  characterOfDischargeTypes,
+  militaryServiceTimeServedTypes,
+  goalTypes,
+} from '../../../constants/benefits';
+
+const getBenefitById = id => {
+  for (let i = 0; i < BENEFITS_LIST.length; i++) {
+    if (BENEFITS_LIST[i].id === id) {
+      return BENEFITS_LIST[i];
+    }
+  }
+  return {};
+};
 
 describe('actions', () => {
   describe('getResults', () => {
@@ -96,6 +112,90 @@ describe('actions', () => {
     });
   });
 
+  describe('checkSingleResponse', () => {
+    it('returns true if mapping is not in condition', () => {
+      const benefit = { mappings: {} };
+      const formData = {};
+      const result = actions.checkSingleResponse(
+        benefit,
+        formData,
+        'NON_EXISTING_MAPPING',
+      );
+      expect(result).to.be.true;
+    });
+
+    it('returns true if mapping type is any', () => {
+      const benefit = {
+        mappings: {
+          GOALS: [anyType.ANY],
+        },
+      };
+      const formData = {};
+      const result = actions.checkSingleResponse(
+        benefit,
+        formData,
+        mappingTypes.GOALS,
+      );
+      expect(result).to.be.true;
+    });
+
+    it('returns false if has not served over 4 monnths under title 10', () => {
+      const benefit = getBenefitById('COE');
+      const formData = {
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
+      };
+      const result = actions.checkSingleResponse(
+        benefit,
+        formData,
+        mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE,
+      );
+      expect(result).to.be.false;
+    });
+
+    it('returns false if has not served over 4 monnths of active duty', () => {
+      const benefit = getBenefitById('COE');
+      const formData = {
+        [mappingTypes.LENGTH_OF_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
+      };
+      const result = actions.checkSingleResponse(
+        benefit,
+        formData,
+        mappingTypes.LENGTH_OF_SERVICE,
+      );
+      expect(result).to.be.false;
+    });
+
+    it('returns true if served over 4 monnths under title 10', () => {
+      const benefit = getBenefitById('COE');
+      const formData = {
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+      };
+      const result = actions.checkSingleResponse(
+        benefit,
+        formData,
+        mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE,
+      );
+      expect(result).to.be.true;
+    });
+
+    it('returns true served over 4 monnths of active duty', () => {
+      const benefit = getBenefitById('COE');
+      const formData = {
+        [mappingTypes.LENGTH_OF_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+      };
+      const result = actions.checkSingleResponse(
+        benefit,
+        formData,
+        mappingTypes.LENGTH_OF_SERVICE,
+      );
+      expect(result).to.be.true;
+    });
+  });
+
   describe('mapBenefitFromFormInputData', () => {
     it('returns true if benefit passes mapping conditions', () => {
       const benefit = {
@@ -104,6 +204,66 @@ describe('actions', () => {
         },
       };
       const formData = {};
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.true;
+    });
+
+    it('returns false if has not served enough time.', () => {
+      const benefit = getBenefitById('COE');
+      const formData = {
+        [mappingTypes.GOALS]: goalTypes.RETIREMENT,
+        [mappingTypes.LENGTH_OF_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.UNCHARACTERIZED,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('returns true if has served over 4 months under title 10.', () => {
+      const benefit = getBenefitById('COE');
+      const formData = {
+        [mappingTypes.GOALS]: goalTypes.RETIREMENT,
+        [mappingTypes.LENGTH_OF_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.UNCHARACTERIZED,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.true;
+    });
+
+    it('returns true if has served over 4 months of active duty.', () => {
+      const benefit = getBenefitById('COE');
+      const formData = {
+        [mappingTypes.GOALS]: goalTypes.RETIREMENT,
+        [mappingTypes.LENGTH_OF_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.UNCHARACTERIZED,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.true;
+    });
+
+    it('returns true if has served over 4 months of active duty and title 10.', () => {
+      const benefit = getBenefitById('COE');
+      const formData = {
+        [mappingTypes.GOALS]: goalTypes.RETIREMENT,
+        [mappingTypes.LENGTH_OF_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.UNCHARACTERIZED,
+      };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.true;
     });
