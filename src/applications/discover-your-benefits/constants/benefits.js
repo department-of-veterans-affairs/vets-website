@@ -88,9 +88,9 @@ export const militaryBranchComponentTypes = Object.freeze({
 });
 
 export const militaryBranchComponentTypeLabels = Object.freeze({
-  ACTIVE_DUTY: 'Active Duty',
-  NATIONAL_GUARD_SERVICE: 'National Guard Service',
-  RESERVE_SERVICE: 'Reserve Service',
+  ACTIVE_DUTY: 'Active-duty service',
+  NATIONAL_GUARD_SERVICE: 'National Guard service',
+  RESERVE_SERVICE: 'Reserve service',
 });
 
 export const expectedSeparationLabels = Object.freeze({
