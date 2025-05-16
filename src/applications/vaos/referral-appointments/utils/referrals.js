@@ -68,9 +68,9 @@ const createReferralById = (
       stationId: '528A4',
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-      referralId: referralNumber,
+      referralNumber,
       categoryOfCare,
-      referringFacilityInfo: {
+      referringFacility: {
         name: 'Batavia VA Medical Center',
         code: '528A4',
         address: {
