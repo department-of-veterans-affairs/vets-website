@@ -190,7 +190,9 @@ const DebtDetails = () => {
           </>
         )}
         <HowDoIPay userData={howToUserData} />
-        <NeedHelp />
+        (/* Manually setting showVHAPaymentHistory since this page is hidden
+        when false */)
+        <NeedHelp showVHAPaymentHistory={false} />
       </div>
     </article>
   );

@@ -12,7 +12,7 @@ import { debtSummaryText } from '../const/diary-codes/debtSummaryCardContent';
 
 const DebtSummaryCard = ({ debt }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showResolveLinks = useToggleValue(TOGGLE_NAMES.showVHAPaymentHistory);
+  const showResolveLinks = useToggleValue(TOGGLE_NAMES.showCDPOneThingPerPage);
   const dispatch = useDispatch();
   const mostRecentHistory = head(debt?.debtHistory);
   const debtCardTotal = currency.format(parseFloat(debt.currentAr));
