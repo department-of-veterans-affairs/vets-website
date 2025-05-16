@@ -31,7 +31,7 @@ function App({
 
   if (featureToggles.vaDependentsV2) {
     window.location.href =
-      '/view-change-dependents/add-remove-form-21-686c-v2/';
+      '/view-change-dependents/add-remove-form-21-686c-674/';
     return <></>;
   }
 
