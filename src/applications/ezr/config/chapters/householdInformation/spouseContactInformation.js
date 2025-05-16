@@ -23,7 +23,7 @@ export default {
       },
     }),
     spousePhone: {
-      ...phoneUI(content['household-sponse-phone-label']),
+      ...phoneUI(content['household-spouse-phone-label']),
       'ui:errorMessages': {
         required: content['phone-number-error-message'],
         pattern: content['phone-number-error-message'],
