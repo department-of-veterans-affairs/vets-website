@@ -124,8 +124,7 @@ const VaFileInputMultipleField = props => {
   );
 
   /**
-   * Identifies the overlap in two arrays of files based on file name, size,
-   * and last modified date
+   * Identifies the overlap in two arrays of files based on file name and size
    * @param {Array} arr1 Array to check against
    * @param {Array} arr2 Array to be narrowed down based on the presence of files in arr1
    * @returns
