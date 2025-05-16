@@ -45,4 +45,3 @@ flow:
     - action: include
       target: page
       value: your-confirmation-number
-      
