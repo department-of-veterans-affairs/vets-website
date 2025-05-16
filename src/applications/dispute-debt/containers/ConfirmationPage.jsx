@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
-import NeedHelp from '../components/NeedHelp';
+
+import GetFormHelp from '../components/GetFormHelp';
 
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
@@ -96,7 +97,11 @@ export const ConfirmationPage = () => {
       <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
         Go back to VA.gov
       </a>
-      <NeedHelp />
+      <va-need-help>
+        <div slot="content">
+          <GetFormHelp />
+        </div>
+      </va-need-help>
     </div>
   );
 };

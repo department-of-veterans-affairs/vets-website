@@ -76,8 +76,8 @@ const formConfig = {
           path: 'personal-information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
-          ...contactInfo,
         },
+        ...contactInfo,
       },
     },
     debtSelectionChapter: {
