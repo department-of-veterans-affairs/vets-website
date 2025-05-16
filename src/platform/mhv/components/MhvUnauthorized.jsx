@@ -1,12 +1,12 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-const ErrorMessage = () => {
+const MhvUnauthorized = () => {
   return (
     <div className="vads-u-margin-bottom--9">
-      <h2 className="vads-u-margin--0">
+      <h1 className="vads-u-margin--0">
         We can’t give you access to this page
-      </h2>
+      </h1>
       <p>
         If you typed or copied the URL into your web browser, check that it’s
         correct.
@@ -21,4 +21,4 @@ const ErrorMessage = () => {
   );
 };
 
-export default ErrorMessage;
+export default MhvUnauthorized;
