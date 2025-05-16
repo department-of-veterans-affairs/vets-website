@@ -162,14 +162,12 @@ export const formatUserDob = userProfile => {
 
 /**
  * @param {Error} error javascript error
- * @param {String} page name of the page sending the error
+ * @param {String} feature name of the app and feature sending the error i.e. 'Medical Records - Vaccines - PDF generation error'
  * @returns {undefined}
  */
-export const sendErrorToSentry = (error, page) => {
+export const sendErrorToSentry = (error, feature) => {
   Sentry.captureException(error);
-  Sentry.captureMessage(
-    `MHV - Medical Records - ${page} - PDF generation error`,
-  );
+  Sentry.captureMessage(`MHV - ${feature}`);
 };
 
 /**
@@ -182,16 +180,16 @@ let pdfModulePromise = null;
  * Create a pdf using the platform pdf generator tool
  * @param {Boolean} pdfName what the pdf file should be named
  * @param {Object} pdfData data to be passed to pdf generator
- * @param {String} sentryError name of the app feature where the call originated
- * @param {Boolean} runningUnitTest pass true when running unit tests because calling generatePdf will break unit tests
  * @param {String} templateId the template id in the pdfGenerator utility, defaults to medicalRecords
+ * @param {String} sentryErrorLabel name of the app and feature where the call originated
+ * @param {Boolean} runningUnitTest pass true when running unit tests because calling generatePdf will break unit tests
  */
 export const makePdf = async (
   pdfName,
   pdfData,
-  sentryError,
-  runningUnitTest,
   templateId,
+  sentryErrorLabel,
+  runningUnitTest,
 ) => {
   try {
     // Use cached module promise if available, otherwise create a new one
@@ -203,12 +201,12 @@ export const makePdf = async (
     const { generatePdf } = await pdfModulePromise;
 
     if (!runningUnitTest) {
-      await generatePdf(templateId || 'medicalRecords', pdfName, pdfData);
+      await generatePdf(templateId, pdfName, pdfData);
     }
   } catch (error) {
     // Reset the pdfModulePromise so subsequent calls can try again
     pdfModulePromise = null;
 
-    sendErrorToSentry(error, sentryError);
+    sendErrorToSentry(error, sentryErrorLabel);
   }
 };
