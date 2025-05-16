@@ -51,6 +51,7 @@ export const uiSchema = {
       'ui:webComponentField': VaCheckboxField,
       'ui:options': {
         useDlWrap: true,
+        classNames: 'vads-u-margin-y--neg3',
       },
     },
   },

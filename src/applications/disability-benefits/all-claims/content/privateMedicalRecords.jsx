@@ -49,8 +49,10 @@ export const patientAcknowledgmentTitle = (
 
 export const patientAcknowledgmentError = (
   <div>
-    <p>We need your permission to ask your doctor for your medical records.</p>
-    <p>
+    <p className="vads-u-margin-top--0">
+      We need your permission to ask your doctor for your medical records.
+    </p>
+    <p className="vads-u-margin-bottom--0">
       To continue, select "I acknowledge and authorize this release of
       information."
     </p>
