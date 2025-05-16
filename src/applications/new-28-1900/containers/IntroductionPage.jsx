@@ -97,6 +97,7 @@ export const IntroductionPage = props => {
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Apply for veteran readiness and employment"
+          hideUnauthedStartLink
           devOnly={{
             forceShowFormControls: true,
           }}
