@@ -97,7 +97,7 @@ export function saveDirectDeposit(
     client.recordDirectDepositEvent({
       endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
       status: API_STATUS.STARTED,
-      method: 'PUT',
+      // method: 'PUT',
     });
 
     const response = await getDataDirectDeposit(DIRECT_DEPOSIT_API_ENDPOINT, {
@@ -168,7 +168,7 @@ export function saveDirectDeposit(
     client.recordDirectDepositEvent({
       endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
       status: API_STATUS.SUCCESSFUL,
-      method: 'PUT',
+      // method: 'PUT',
     });
 
     dispatch({ type: DIRECT_DEPOSIT_SAVE_ERROR_CLEARED });
