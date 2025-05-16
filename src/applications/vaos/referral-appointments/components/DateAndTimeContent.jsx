@@ -9,6 +9,7 @@ import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
 import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
 import { getSlotByDate, getSlotById, hasConflict } from '../utils/provider';
+import { getDriveTimeString } from '../../utils/appointment';
 import {
   getTimezoneDescByFacilityId,
   getTimezoneByFacilityId,
@@ -105,17 +106,24 @@ export const DateAndTimeContent = props => {
 
   const noSlotsAvailable = !draftAppointmentInfo.attributes.slots.length;
 
-  const driveTimeMinutes = Math.floor(
-    draftAppointmentInfo.attributes.drivetime.destination
-      .driveTimeInSecondsWithoutTraffic / 60,
-  );
+  // Get the drive time string
+  const driveTimeInSeconds =
+    draftAppointmentInfo?.attributes?.drivetime?.destination
+      ?.driveTimeInSecondsWithoutTraffic;
   const driveTimeDistance =
-    draftAppointmentInfo.attributes.drivetime.destination.distanceInMiles;
+    draftAppointmentInfo?.attributes?.drivetime?.destination?.distanceInMiles;
+  const driveTimeString = getDriveTimeString(
+    driveTimeInSeconds,
+    driveTimeDistance,
+  );
 
-  const driveTimeString =
-    driveTimeMinutes && driveTimeDistance
-      ? `${driveTimeMinutes}-minute drive (${driveTimeDistance} miles)`
-      : null;
+  const disabledMessage = (
+    <va-loading-indicator
+      data-testid="loadingIndicator"
+      set-focus
+      message="Finding appointment availability..."
+    />
+  );
 
   return (
     <>
@@ -181,13 +189,7 @@ export const DateAndTimeContent = props => {
                 required: true,
               }}
               // disabled={loadingSlots}
-              disabledMessage={
-                <va-loading-indicator
-                  data-testid="loadingIndicator"
-                  set-focus
-                  message="Finding appointment availability..."
-                />
-              }
+              disabledMessage={disabledMessage}
               onChange={onChange}
               onNextMonth={null}
               onPreviousMonth={null}
