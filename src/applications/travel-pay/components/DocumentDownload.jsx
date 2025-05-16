@@ -23,18 +23,13 @@ const DocumentDownload = ({
     e.preventDefault();
 
     try {
-      // await delay(2000);
-
       const response = await apiRequest(
         `${
           environment.API_URL
         }/travel_pay/v0/claims/${claimId}/documents/${docId}`,
       );
 
-      // Decode the base64 string
       const byteCharacters = atob(response.data);
-
-      // Convert the binary string to an array of bytes
       const byteArrays = [];
       for (let i = 0; i < byteCharacters.length; i++) {
         byteArrays.push(byteCharacters.charCodeAt(i));
@@ -71,7 +66,6 @@ const DocumentDownload = ({
       )}
       <va-link
         download={!isLoading}
-        href="#"
         text={text}
         onClick={e => downloadLinkHandler(e, documentId)}
       />
