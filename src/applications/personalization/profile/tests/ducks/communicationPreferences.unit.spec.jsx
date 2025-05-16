@@ -1,8 +1,13 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import {
+  createGetHandler,
+  createPostHandler,
+  createPatchHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 
 import environment from '~/platform/utilities/environment';
 
@@ -35,12 +40,9 @@ describe('fetching communication preferences', () => {
   let store;
   before(() => {
     server = setupServer(
-      rest.get(apiURL, (req, res, ctx) => {
-        return res(
-          ctx.status(200),
-          ctx.json(getMaximalCommunicationGroupsSuccess),
-        );
-      }),
+      createGetHandler(apiURL, () =>
+        jsonResponse(getMaximalCommunicationGroupsSuccess),
+      ),
     );
     server.listen();
   });
@@ -160,9 +162,9 @@ describe('fetching communication preferences', () => {
     context('401 error', () => {
       it('sets the state properly', () => {
         server.use(
-          rest.get(apiURL, (req, res, ctx) => {
-            return res(ctx.status(401), ctx.json(error401));
-          }),
+          createGetHandler(apiURL, () =>
+            jsonResponse(error401, { status: 401 }),
+          ),
         );
         const promise = store.dispatch(fetchCommunicationPreferenceGroups());
 
@@ -180,9 +182,9 @@ describe('fetching communication preferences', () => {
     context('500 error', () => {
       it('sets the state properly', () => {
         server.use(
-          rest.get(apiURL, (req, res, ctx) => {
-            return res(ctx.status(500), ctx.json(error500));
-          }),
+          createGetHandler(apiURL, () =>
+            jsonResponse(error500, { status: 500 }),
+          ),
         );
         const promise = store.dispatch(fetchCommunicationPreferenceGroups());
 
@@ -199,11 +201,7 @@ describe('fetching communication preferences', () => {
     });
     context('response is missing `data.attributes`', () => {
       it('sets the state properly', () => {
-        server.use(
-          rest.get(apiURL, (req, res, ctx) => {
-            return res(ctx.json({ data: {} }));
-          }),
-        );
+        server.use(createGetHandler(apiURL, () => jsonResponse({ data: {} })));
         const promise = store.dispatch(fetchCommunicationPreferenceGroups());
 
         expect(store.getState().loadingStatus).to.equal(LOADING_STATES.pending);
@@ -220,15 +218,13 @@ describe('fetching communication preferences', () => {
       () => {
         it('sets the state properly', () => {
           server.use(
-            rest.get(apiURL, (req, res, ctx) => {
-              return res(
-                ctx.json({
-                  data: {
-                    attributes: {},
-                  },
-                }),
-              );
-            }),
+            createGetHandler(apiURL, () =>
+              jsonResponse({
+                data: {
+                  attributes: {},
+                },
+              }),
+            ),
           );
           const promise = store.dispatch(fetchCommunicationPreferenceGroups());
 
@@ -255,12 +251,8 @@ describe('saveCommunicationPreferenceChannel', () => {
   let store;
   before(() => {
     server = setupServer(
-      rest.post(apiURL, (req, res, ctx) => {
-        return res(ctx.json(postSuccess));
-      }),
-      rest.patch(`${apiURL}/*`, (req, res, ctx) => {
-        return res(ctx.json(patchSuccess));
-      }),
+      createPostHandler(apiURL, () => jsonResponse(postSuccess)),
+      createPatchHandler(`${apiURL}/*`, () => jsonResponse(patchSuccess)),
     );
     server.listen();
   });
@@ -357,9 +349,9 @@ describe('saveCommunicationPreferenceChannel', () => {
       it('updates the redux state correctly', async () => {
         const channelId = 'channel1-2';
         server.use(
-          rest.post(apiURL, (req, res, ctx) => {
-            return res(ctx.status(401), ctx.json(error401));
-          }),
+          createPostHandler(apiURL, () =>
+            jsonResponse(error401, { status: 401 }),
+          ),
         );
         const originalState = selectChannelById(store.getState(), channelId);
         let promise = store.dispatch(
@@ -423,9 +415,9 @@ describe('saveCommunicationPreferenceChannel', () => {
       it('updates the redux state correctly', async () => {
         const channelId = 'channel1-1';
         server.use(
-          rest.patch(`${apiURL}/*`, (req, res, ctx) => {
-            return res(ctx.status(500), ctx.json(error500));
-          }),
+          createPatchHandler(`${apiURL}/*`, () =>
+            jsonResponse(error500, { status: 500 }),
+          ),
         );
         const originalState = selectChannelById(store.getState(), channelId);
         let promise = store.dispatch(

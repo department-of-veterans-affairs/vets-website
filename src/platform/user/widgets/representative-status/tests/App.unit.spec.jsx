@@ -1,11 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
 import { waitFor, cleanup, render } from '@testing-library/react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
+import {
+  createGetHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 
 import App from '../components/App';
 
@@ -66,9 +69,11 @@ describe('App component', () => {
 
     it('should render no rep found message when no rep is found', async () => {
       server.use(
-        rest.get(
+        createGetHandler(
           `https://dev-api.va.gov/representation_management/v0/power_of_attorney`,
-          (_, res, ctx) => res(ctx.status(200), ctx.json({})),
+          () => {
+            return jsonResponse({}, { status: 200 });
+          },
         ),
       );
 
@@ -110,9 +115,11 @@ describe('App component', () => {
         .value(MockRepresentativeStatusContainer);
 
       server.use(
-        rest.get(
+        createGetHandler(
           `https://dev-api.va.gov/representation_management/v0/power_of_attorney`,
-          (_, res, ctx) => res(ctx.status(400), ctx.json({})),
+          () => {
+            return jsonResponse({}, { status: 400 });
+          },
         ),
       );
 
@@ -136,12 +143,11 @@ describe('App component', () => {
 
     it('should render representative info when rep is found', async () => {
       server.use(
-        rest.get(
+        createGetHandler(
           `https://dev-api.va.gov/representation_management/v0/power_of_attorney`,
-          (_, res, ctx) =>
-            res(
-              ctx.status(200),
-              ctx.json({
+          () => {
+            return jsonResponse(
+              {
                 data: {
                   id: '074',
                   type: 'veteran_service_organizations',
@@ -164,8 +170,10 @@ describe('App component', () => {
                     email: 'sample@test.com',
                   },
                 },
-              }),
-            ),
+              },
+              { status: 200 },
+            );
+          },
         ),
       );
       const { container } = renderInReduxProvider(<App baseHeader={2} />, {

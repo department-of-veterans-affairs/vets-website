@@ -1,7 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { setupServer } from 'msw/node';
-import { rest } from 'msw';
+import {
+  setupServer,
+  createGetHandler,
+  jsonResponse,
+} from 'platform/testing/unit/msw-adapter';
 
 import noRatings from '../fixtures/no-ratings.json';
 
@@ -24,8 +27,8 @@ describe('<AppContent>', () => {
   context('When the user has no disability ratings', () => {
     before(() => {
       server.use(
-        rest.get(RATED_DISABILITIES_ENDPOINT, (_, res, ctx) =>
-          res(ctx.status(200), ctx.json(noRatings)),
+        createGetHandler(RATED_DISABILITIES_ENDPOINT, () =>
+          jsonResponse(noRatings, { status: 200 }),
         ),
       );
     });

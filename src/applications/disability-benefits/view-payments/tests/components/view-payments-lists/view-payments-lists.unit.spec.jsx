@@ -1,7 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import {
+  createGetHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { waitFor } from '@testing-library/react';
@@ -21,36 +24,30 @@ describe('View Payments Lists', () => {
   let server;
   const overrideServerWithOptions = payload => {
     server.use(
-      rest.get(
+      createGetHandler(
         `${environment.API_URL}/v0/profile/payment_history`,
-        (req, res, ctx) => {
-          return res.once(
-            ctx.json({
-              data: {
-                attributes: payload,
-                metadata: [],
-              },
-            }),
-          );
-        },
+        () =>
+          jsonResponse({
+            data: {
+              attributes: payload,
+              metadata: [],
+            },
+          }),
       ),
     );
   };
 
   before(() => {
     server = setupServer(
-      rest.get(
+      createGetHandler(
         `${environment.API_URL}/v0/profile/payment_history`,
-        (req, res, ctx) => {
-          return res(
-            ctx.json({
-              data: {
-                attributes: payments,
-                metadata: [],
-              },
-            }),
-          );
-        },
+        () =>
+          jsonResponse({
+            data: {
+              attributes: payments,
+              metadata: [],
+            },
+          }),
       ),
     );
     server.listen();
