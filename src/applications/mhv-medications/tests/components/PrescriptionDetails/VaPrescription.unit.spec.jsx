@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import VaPrescription from '../../../components/PrescriptionDetails/VaPrescription';
 import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
@@ -9,7 +9,7 @@ describe('vaPrescription details container', () => {
   const prescription = rxDetailsResponse.data.attributes;
   const newRx = { ...prescription, phoneNumber: '1234567891' };
   const setup = (rx = newRx, ffEnabled = true) => {
-    return renderWithStoreAndRouter(<VaPrescription {...rx} />, {
+    return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
       initialState: {
         featureToggles: {
           // eslint-disable-next-line camelcase
@@ -19,7 +19,7 @@ describe('vaPrescription details container', () => {
         },
       },
       reducers: {},
-      path: '/prescriptions/1234567891',
+      initialEntries: ['/prescriptions/1234567891'],
     });
   };
 
@@ -228,7 +228,7 @@ describe('vaPrescription details container', () => {
 
   it('displays partial refill content if prescription source is pf and partial flag is on', () => {
     const setupWithPartialFill = (rx = newRx, ffEnabled = true) => {
-      return renderWithStoreAndRouter(<VaPrescription {...rx} />, {
+      return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
         initialState: {
           featureToggles: {
             // eslint-disable-next-line camelcase
@@ -240,7 +240,7 @@ describe('vaPrescription details container', () => {
           },
         },
         reducers: {},
-        path: '/prescriptions/1234567891',
+        initialEntries: ['/prescriptions/1234567891'],
       });
     };
     const screen = setupWithPartialFill({

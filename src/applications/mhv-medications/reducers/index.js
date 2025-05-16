@@ -1,15 +1,17 @@
 import { combineReducers } from 'redux';
-import { prescriptionsReducer } from './prescriptions';
-import { allergiesReducer } from './allergies';
 import { inProductEducationReducer } from './inProductEducation';
+import { allergiesApi } from '../api/allergiesApi';
+import { prescriptionsApi } from '../api/prescriptionsApi';
+import preferencesReducer from '../redux/preferencesSlice';
 
 const rootReducer = {
   rx: combineReducers({
-    prescriptions: prescriptionsReducer,
-    // TODO: consider re-using this from medical-records
-    allergies: allergiesReducer,
     inProductEducation: inProductEducationReducer,
+    preferences: preferencesReducer,
   }),
+  // Add the api reducers to the store
+  [allergiesApi.reducerPath]: allergiesApi.reducer,
+  [prescriptionsApi.reducerPath]: prescriptionsApi.reducer,
 };
 
 export default rootReducer;

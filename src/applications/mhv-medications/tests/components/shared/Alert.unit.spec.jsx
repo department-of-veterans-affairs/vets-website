@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import prescriptions from '../../fixtures/prescriptions.json';
 import Alert from '../../../components/shared/Alert';
+import { ALL_MEDICATIONS_FILTER_KEY } from '../../../util/constants';
 
 describe('Alert', () => {
   const setup = (
@@ -13,6 +14,7 @@ describe('Alert', () => {
       <Alert
         isAlertVisible={isAlertVisible}
         paginatedPrescriptionsList={paginatedPrescriptionsList}
+        selectedFilterOption={ALL_MEDICATIONS_FILTER_KEY}
       />,
     );
   };

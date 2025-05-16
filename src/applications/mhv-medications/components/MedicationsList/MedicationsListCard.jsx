@@ -1,18 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dispStatusForRefillsLeft } from '../../util/constants';
-import { setPrescriptionDetails } from '../../actions/prescriptions';
 import { selectRefillContentFlag } from '../../util/selectors';
 import { dateFormat } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MedicationsListCard = ({ rx }) => {
-  const dispatch = useDispatch();
   const showRefillContent = useSelector(selectRefillContentFlag);
   const pendingMed =
     rx.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
@@ -29,9 +27,6 @@ const MedicationsListCard = ({ rx }) => {
       return <p data-dd-privacy="mask">{rx.refillRemaining} refill left</p>;
     }
     return <p data-dd-privacy="mask">{rx.refillRemaining} refills left</p>;
-  };
-  const handleLinkClick = () => {
-    dispatch(setPrescriptionDetails(rx));
   };
 
   const cardBodyContent = () => {
@@ -134,8 +129,7 @@ const MedicationsListCard = ({ rx }) => {
           }
           data-testid="medications-history-details-link"
           className="vads-u-font-weight--bold"
-          to={`/prescription/${rx.prescriptionId}`}
-          onClick={handleLinkClick}
+          to={`prescription/${rx.prescriptionId}`}
         >
           {rx.prescriptionName ||
             (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}

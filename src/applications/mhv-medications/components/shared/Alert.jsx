@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FeedbackEmail from './FeedbackEmail';
+import { ALL_MEDICATIONS_FILTER_KEY } from '../../util/constants';
 
 const Alert = props => {
-  const { isAlertVisible, paginatedPrescriptionsList } = props;
+  const {
+    isAlertVisible,
+    paginatedPrescriptionsList,
+    selectedFilterOption,
+  } = props;
 
   return (
     <div className={`${isAlertVisible ? 'vads-u-margin-top--5' : ''}`}>
@@ -34,17 +39,18 @@ const Alert = props => {
           </div>
         </va-alert>
       )}
-      {paginatedPrescriptionsList?.length <= 0 && (
-        <va-alert status="info" uswds>
-          <div>
-            <h4 className="vads-u-margin-top--0" data-testid="alert-message">
-              You don’t have any medications in your medications list
-            </h4>
-            <strong>Note</strong>: If you’re taking any medications or
-            supplements, tell your care team at your next appointment.
-          </div>
-        </va-alert>
-      )}
+      {paginatedPrescriptionsList?.length <= 0 &&
+        selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY && (
+          <va-alert status="info" uswds>
+            <div>
+              <h4 className="vads-u-margin-top--0" data-testid="alert-message">
+                You don’t have any medications in your medications list
+              </h4>
+              <strong>Note</strong>: If you’re taking any medications or
+              supplements, tell your care team at your next appointment.
+            </div>
+          </va-alert>
+        )}
       <div className={`${isAlertVisible ? 'vads-u-margin-top--4' : ''}`} />
     </div>
   );
@@ -55,5 +61,6 @@ export default Alert;
 Alert.propTypes = {
   isAlertVisible: PropTypes.bool,
   paginatedPrescriptionsList: PropTypes.array,
+  selectedFilterOption: PropTypes.string,
   ssoe: PropTypes.any,
 };
