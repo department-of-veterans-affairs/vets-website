@@ -39,7 +39,7 @@ const EditPhonePage = props => {
     onUpdate: e => {
       e.preventDefault();
       const validationError = validatePhone(fieldData);
-      setError(validationError);
+      setError(validationError); // A11y To do: Move focus back to field when error is true
 
       if (validationError) return;
 

@@ -36,7 +36,7 @@ const EditEmailPage = props => {
     },
     onUpdate: e => {
       e.preventDefault();
-      if (!isValidEmail(fieldData)) return;
+      if (!isValidEmail(fieldData)) return; // A11y To Do: Move focus back to field when error is true
       setFormData({ ...formData, email: fieldData });
       goToPath(returnPath);
     },

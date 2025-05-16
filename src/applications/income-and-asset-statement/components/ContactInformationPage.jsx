@@ -5,7 +5,6 @@ import { withRouter } from 'react-router';
 import { connect, useSelector } from 'react-redux';
 import { selectProfile } from '~/platform/user/selectors';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { formatPhoneNumber } from '../helpers';
 
 const ContactInformation = ({ formData, router, setFormData }) => {
   const profile = useSelector(selectProfile);
@@ -81,9 +80,10 @@ const ContactInformation = ({ formData, router, setFormData }) => {
           </span>
         </p>
         <VaLink
+          active
           href={editEmailHref}
-          label={email ? `Edit email ${email}` : 'Add email address'}
-          text={`${email ? 'Edit' : 'Add'} >`}
+          label={email ? 'Edit email address' : 'Add email address'}
+          text={email ? 'Edit' : 'Add'}
           onClick={e => handleRouteChange(e, editEmailHref)}
         />
       </va-card>
@@ -92,21 +92,22 @@ const ContactInformation = ({ formData, router, setFormData }) => {
           Current phone number (optional)
         </h4>
         <p className="email">
-          <span
-            className="name dd-privacy-hidden"
-            data-dd-action-name="Veteran's phone"
-          >
-            {phone ? formatPhoneNumber(phone) : 'None provided'}
-          </span>
+          {phone ? (
+            <va-telephone
+              not-clickable
+              contact={phone}
+              class="dd-privacy-hidden"
+              data-dd-action-name="Veteran's phone"
+            />
+          ) : (
+            <span>None provided</span>
+          )}
         </p>
         <VaLink
+          active
           href={editPhoneHref}
-          label={
-            phone
-              ? `Edit phone number ${formatPhoneNumber(phone)}`
-              : 'Add phone number'
-          }
-          text={`${phone ? 'Edit' : 'Add'} >`}
+          label={phone ? 'Edit phone number' : 'Add phone number'}
+          text={phone ? 'Edit' : 'Add'}
           onClick={e => handleRouteChange(e, editPhoneHref)}
         />
       </va-card>

@@ -7,15 +7,13 @@ import {
   vaFileNumberSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { hasSession } from '../../../helpers';
 
 /** @type {PageSchema} */
 export default {
   title: 'Veteran information',
   path: 'veteran/information',
-  depends: formData => {
-    const hasSession = localStorage.getItem('hasSession') === 'true';
-    return !(formData?.claimantType === 'VETERAN' && hasSession);
-  },
+  depends: formData => !(formData?.claimantType === 'VETERAN' && hasSession()),
   uiSchema: {
     ...titleUI('Veteran information'),
     veteranFullName: fullNameNoSuffixUI(),

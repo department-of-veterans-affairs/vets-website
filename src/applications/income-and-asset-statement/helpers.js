@@ -7,17 +7,8 @@ export const annualReceivedIncomeFromAnnuityRequired = (form, index) =>
 export const annualReceivedIncomeFromTrustRequired = (form, index) =>
   get(['trusts', index, 'receivingIncomeFromTrust'], form);
 
-/**
- * @param {string} phoneString
- */
-export const formatPhoneNumber = phoneString => {
-  let returnString = phoneString;
-  const match = phoneString.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
-  if (match) {
-    const intlCode = match[1] ? '+1 ' : '';
-    returnString = [intlCode, match[2], '-', match[3], '-', match[4]].join('');
-  }
-  return returnString;
+export const hasSession = () => {
+  return localStorage.getItem('hasSession') === 'true';
 };
 
 export const formatCurrency = num => `$${num.toLocaleString()}`;

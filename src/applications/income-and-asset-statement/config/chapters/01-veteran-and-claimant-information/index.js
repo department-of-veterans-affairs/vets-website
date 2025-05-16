@@ -1,4 +1,5 @@
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { hasSession } from '../../../helpers';
 import claimantType from './claimantType';
 import veteranInformation from './veteranInformation';
 import claimantInformation from './claimantInformation';
@@ -12,10 +13,7 @@ import incomeNetWorthDateRange from './incomeNetWorthDateRange';
 const customConfig = {
   key: 'personalInformation',
   path: 'personal/information',
-  depends: formData => {
-    const hasSession = localStorage.getItem('hasSession') === 'true';
-    return formData?.claimantType === 'VETERAN' && hasSession;
-  },
+  depends: formData => formData?.claimantType === 'VETERAN' && hasSession(),
   personalInfoConfig: {
     name: { show: true, required: true },
     ssn: { show: true, required: true },
