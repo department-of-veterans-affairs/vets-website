@@ -1,10 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
-import _ from 'lodash';
+import { pick } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldMapping';
 import { uploadScannedForm } from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldHelpers';
+
+/**
+ * Matches errors to files based on the file characteristics rather
+ * than their position within the respective arrays.
+ * @param {Object} e File event, e.g. an upload/change/removal
+ * @param {Array} errList list of error objects for uploaded files
+ * @returns Array of objects containing file details + an errorMessage property
+ * e.g.: [{name: 'file.png', size: 123, lastModified: 123, errorMessage: 'Too large'}]
+ */
+function getErrorsForFiles(e, errList) {
+  const fileEntries = e?.detail?.state;
+  return fileEntries.map((entry, _index) => {
+    if (!entry.file) {
+      return '';
+    }
+    // Match errors to files based on their characteristics rather
+    // than their array position:
+    return errList.find(
+      err =>
+        err?.name === entry?.file?.name &&
+        err?.size === entry?.file?.size &&
+        err?.lastModified === entry?.file?.lastModified,
+    );
+  });
+}
 
 /**
  * Usage uiSchema:
@@ -41,14 +66,28 @@ import { uploadScannedForm } from 'platform/forms-system/src/js/web-component-fi
 const VaFileInputMultipleField = props => {
   const mappedProps = vaFileInputFieldMapping(props);
   const dispatch = useDispatch();
+  // List of actual errors is not guaranteed to be in the proper order
+  // so we use errorsListDisplay which can be sorted in a useEffect after
+  // errorsList is updated.
   const [errorsList, setErrorsList] = useState([]);
-  const [localFile, setLocalFile] = useState(null);
+  const [errorsListDisplay, setErrorsListDisplay] = useState([]);
+  const [latestEvent, setLatestEvent] = useState(undefined);
   const [uploadArray, setUploadArray] = useState([]);
+  // Used for displaying thumbnails
+  const [localFile, setLocalFile] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [uploadInProgress, setUploadInProgress] = useState(false);
   const pendingUpdate = useRef(null);
   const { formNumber } = props?.uiOptions;
   const { fileUploadUrl } = mappedProps;
+
+  useEffect(
+    () => {
+      if (latestEvent === undefined) return;
+      setErrorsListDisplay(getErrorsForFiles(latestEvent, errorsList));
+    },
+    [errorsList, latestEvent],
+  );
 
   useEffect(() => {
     // Since the multi-file input doesn't "remember" the thumbnails of
@@ -95,37 +134,13 @@ const VaFileInputMultipleField = props => {
   function filterToMatchingObjects(arr1, arr2) {
     // Create a Set of unique identifier strings from arr1
     const arr1Identifiers = new Set(
-      arr1.map(item => `${item.name}-${item.size}-${item.lastModified}`),
+      arr1.map(item => `${item.name}-${item.size}`),
     );
 
     // Filter arr2 to only include items whose identifiers exist in the Set
     return arr2.filter(item =>
-      arr1Identifiers.has(`${item.name}-${item.size}-${item.lastModified}`),
+      arr1Identifiers.has(`${item.name}-${item.size}`),
     );
-  }
-
-  /**
-   * Matches errors to files based on the file characteristics rather
-   * than their position within the respective arrays.
-   * @param {Object} e File event, e.g. an upload/change/removal
-   * @returns Array of objects containing file details + an errorMessage property
-   * e.g.: [{name: 'file.png', size: 123, lastModified: 123, errorMessage: 'Too large'}]
-   */
-  function getErrorsForFiles(e) {
-    const fileEntries = e.detail.state;
-    return fileEntries.map((entry, _index) => {
-      if (!entry.file) {
-        return '';
-      }
-      // Match errors to files based on their characteristics rather
-      // than their array position:
-      return errorsList.find(
-        err =>
-          err?.name === entry?.file?.name &&
-          err?.size === entry?.file?.size &&
-          err?.lastModified === entry?.file?.lastModified,
-      );
-    });
   }
 
   /**
@@ -175,10 +190,11 @@ const VaFileInputMultipleField = props => {
   };
 
   const handleVaChange = e => {
+    setLatestEvent(e);
     const fd = props.childrenProps.formData;
     const fileFromEvent = e.detail.file;
 
-    setErrorsList(getErrorsForFiles(e));
+    setErrorsList(getErrorsForFiles(e, errorsList));
 
     if (e.detail.action === 'FILE_ADDED') {
       let fileAlreadyUploaded = false;
@@ -197,11 +213,11 @@ const VaFileInputMultipleField = props => {
       const idx = indexOfMatch(
         fd,
         // identifying properties from newly removed file
-        _.pick(fileFromEvent, ['name', 'size']),
+        pick(fileFromEvent, ['name', 'size']),
       );
 
       // check if there was an error associated with this file, if so remove
-      getErrorsForFiles(e);
+      setErrorsList(getErrorsForFiles(e, errorsList));
 
       setLocalFile(null);
       setUploadInProgress(false);
@@ -257,7 +273,7 @@ const VaFileInputMultipleField = props => {
   return (
     <VaFileInputMultiple
       {...mappedProps}
-      errors={errorsList.map(e => e?.errorMessage)}
+      errors={errorsListDisplay.map(e => e?.errorMessage)}
       value={localFile}
       onVaMultipleChange={handleVaChange}
     />
