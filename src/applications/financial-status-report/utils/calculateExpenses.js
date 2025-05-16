@@ -155,7 +155,7 @@ export const getMonthlyExpensesAPI = async formData => {
   try {
     const url = `${
       environment.API_URL
-    }/debts_api/v0/dcalculate_monthly_expenses`;
+    }/debts_api/v0/calculate_monthly_expenses`;
     const options = {
       method: 'POST',
       headers: {
