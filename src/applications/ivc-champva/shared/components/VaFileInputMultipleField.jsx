@@ -4,11 +4,12 @@ import { useDispatch } from 'react-redux';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldMapping';
-import { uploadScannedForm } from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldHelpers';
+import { uploadScannedForm as uploadFile } from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldHelpers';
 
 /**
  * Matches errors to files based on the file characteristics rather
- * than their position within the respective arrays.
+ * than their position within the respective arrays (which is what VaFileInputMultiple
+ * tries to do).
  * @param {Object} e File event, e.g. an upload/change/removal
  * @param {Array} errList list of error objects for uploaded files
  * @returns Array of objects containing file details + an errorMessage property
@@ -72,6 +73,7 @@ const VaFileInputMultipleField = props => {
   const [uploadArray, setUploadArray] = useState([]);
   // Used for displaying thumbnails
   const [localFile, setLocalFile] = useState(null);
+  // uploadInProgress is used by uploadFile
   // eslint-disable-next-line no-unused-vars
   const [uploadInProgress, setUploadInProgress] = useState(false);
   const pendingUpdate = useRef(null);
@@ -257,12 +259,8 @@ const VaFileInputMultipleField = props => {
 
     // Default behavior for when action is FILE_ADDED:
     dispatch(
-      uploadScannedForm(
-        fileUploadUrl,
-        formNumber,
-        fileFromEvent,
-        onFileUploaded,
-        () => setUploadInProgress(true),
+      uploadFile(fileUploadUrl, formNumber, fileFromEvent, onFileUploaded, () =>
+        setUploadInProgress(true),
       ),
     );
   };
