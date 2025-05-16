@@ -174,10 +174,11 @@ export const mappingTypes = {
   SEPARATION: 'separation',
   CHARACTER_OF_DISCHARGE: 'characterOfDischarge',
   DISABILITY_RATING: 'disabilityRating',
+  BRANCH_COMPONENT: 'branchComponents',
   ACTIVE_DUTY: 'activeDuty',
+
   LENGTH_OF_TITLE_TEN_SERVICE: 'titleTenTimeServed',
 };
-
 export const BENEFITS_LIST = [
   {
     name: 'GI Bill benefits',
@@ -249,6 +250,9 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.ACTIVE_DUTY,
+      ],
       [mappingTypes.ACTIVE_DUTY]: [yesNoType.YES],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [
@@ -271,6 +275,16 @@ export const BENEFITS_LIST = [
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+    },
+    isQualified: responses => {
+      return (
+        responses[mappingTypes.GOALS] &&
+        (responses[mappingTypes.BRANCH_COMPONENT] ||
+          responses[mappingTypes.ACTIVE_DUTY]) &&
+        responses[mappingTypes.EXPECTED_SEPARATION] &&
+        responses[mappingTypes.SEPARATION] &&
+        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
+      );
     },
     extraConditions: {
       oneIsNotBlank: [
@@ -470,6 +484,9 @@ export const BENEFITS_LIST = [
         militaryServiceTimeServedTypes.OVER_3_YEARS,
       ],
       [mappingTypes.ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.ACTIVE_DUTY,
+      ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -483,6 +500,15 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+    },
+    isQualified: responses => {
+      return (
+        responses[mappingTypes.GOALS] &&
+        ((responses[mappingTypes.BRANCH_COMPONENT] &&
+          responses[mappingTypes.LENGTH_OF_SERVICE]) ||
+          responses[mappingTypes.ACTIVE_DUTY]) &&
+        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
+      );
     },
     learnMoreURL: URLS.VAP_LEARN,
     applyNowURL: URLS.VAP_APPLY,
@@ -663,6 +689,9 @@ export const BENEFITS_LIST = [
         militaryServiceTimeServedTypes.OVER_3_YEARS,
       ],
       [mappingTypes.ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.ACTIVE_DUTY,
+      ],
       [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: [
         militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
         militaryServiceTimeServedTypes.UP_TO_1_YEAR,
@@ -688,8 +717,10 @@ export const BENEFITS_LIST = [
     isQualified: responses => {
       return (
         responses[mappingTypes.GOALS] &&
-        (responses[mappingTypes.LENGTH_OF_SERVICE] ||
-          responses[mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]) &&
+        ((responses[mappingTypes.BRANCH_COMPONENT] &&
+          responses[mappingTypes.LENGTH_OF_SERVICE]) ||
+          (responses[mappingTypes.ACTIVE_DUTY] &&
+            responses[mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE])) &&
         responses[mappingTypes.CHARACTER_OF_DISCHARGE]
       );
     },
@@ -711,6 +742,9 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.ACTIVE_DUTY,
+      ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -726,6 +760,14 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
+    isQualified: responses => {
+      return (
+        responses[mappingTypes.GOALS] &&
+        (responses[mappingTypes.BRANCH_COMPONENT] ||
+          responses[mappingTypes.ACTIVE_DUTY]) &&
+        mappingTypes.CHARACTER_OF_DISCHARGE
+      );
+    },
     learnMoreURL: URLS.VAH_LEARN,
     applyNowURL: URLS.VAH_APPLY,
   },
@@ -740,6 +782,9 @@ export const BENEFITS_LIST = [
       [mappingTypes.GOALS]: [goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.ACTIVE_DUTY,
+      ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -754,6 +799,14 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+    },
+    isQualified: responses => {
+      return (
+        responses[mappingTypes.GOALS] &&
+        (responses[mappingTypes.ACTIVE_DUTY] ||
+          responses[mappingTypes.BRANCH_COMPONENT]) &&
+        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
+      );
     },
     learnMoreURL: URLS.BUR_LEARN,
     applyNowURL: URLS.BUR_APPLY,
