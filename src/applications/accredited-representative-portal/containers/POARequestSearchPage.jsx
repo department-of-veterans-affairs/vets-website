@@ -16,9 +16,9 @@ import {
   poaSearchBC,
   SEARCH_PARAMS,
   SORT_BY,
-  PENDING,
-  PROCESSED,
   STATUSES,
+  PENDING_SORT_DEFAULTS,
+  PROCESSED_SORT_DEFAULTS,
 } from '../utilities/poaRequests';
 import { recordDatalayerEvent } from '../utilities/analytics';
 import POARequestCard from '../components/POARequestCard';
@@ -54,9 +54,9 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
   if (active) classNames.push('active');
   return (
     <Link
-      to={`?status=${tabStatus}&sortOrder=${
+      to={`?status=${tabStatus}&sortBy=${
         tabStatus === 'pending' ? 'created_at' : 'resolved_at'
-      }&sortBy=${tabSort}&pageSize=20&pageNumber=1`}
+      }&sortOrder=${tabSort}&pageSize=20&pageNumber=1`}
       className={classNames.join(' ')}
       role="tab"
       id={`tab-${tabStatus}`}
@@ -148,16 +148,24 @@ const POARequestSearchPage = title => {
                         Pending representation requests
                       </h2>
                       <SortForm
-                        api={api.getPOARequests}
-                        asc={SORT_BY.ASC}
-                        desc={SORT_BY.DESC}
-                        ascOption={PENDING.ASC_OPTION}
-                        descOption={PENDING.DESC_OPTION}
+                        options={[
+                          {
+                            sortBy: 'created_at',
+                            sortOrder: 'desc',
+                            label: 'Submitted date (newest)',
+                          },
+                          {
+                            sortBy: 'created_at',
+                            sortOrder: 'asc',
+                            label: 'Submitted date (oldest)',
+                          },
+                        ]}
+                        defaults={PENDING_SORT_DEFAULTS}
                       />
                       <PaginationMeta
                         meta={meta}
                         results={poaRequests}
-                        searchLabels={SEARCH_PARAMS}
+                        resultType="requests"
                       />
                     </>
                   );
@@ -171,15 +179,24 @@ const POARequestSearchPage = title => {
                         Processed representation requests
                       </h2>
                       <SortForm
-                        asc={SORT_BY.ASC}
-                        desc={SORT_BY.DESC}
-                        ascOption={PROCESSED.ASC_OPTION}
-                        descOption={PROCESSED.DESC_OPTION}
+                        options={[
+                          {
+                            sortBy: 'resolved_at',
+                            sortOrder: 'desc',
+                            label: 'Processed date (newest)',
+                          },
+                          {
+                            sortBy: 'resolved_at',
+                            sortOrder: 'asc',
+                            label: 'Processed date (oldest)',
+                          },
+                        ]}
+                        defaults={PROCESSED_SORT_DEFAULTS}
                       />
                       <PaginationMeta
                         meta={meta}
                         results={poaRequests}
-                        searchLabels={SEARCH_PARAMS}
+                        resultType="requests"
                       />
                     </>
                   );
@@ -209,10 +226,10 @@ POARequestSearchPage.loader = ({ request }) => {
     !Object.values(STATUSES).includes(sort)
   ) {
     searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
-    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.CREATED);
-    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.DESC);
-    searchParams.set(SEARCH_PARAMS.SIZE, STATUSES.SIZE);
-    searchParams.set(SEARCH_PARAMS.NUMBER, STATUSES.NUMBER);
+    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
+    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
+    searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
     throw redirect(`?${searchParams}`);
   }
 
