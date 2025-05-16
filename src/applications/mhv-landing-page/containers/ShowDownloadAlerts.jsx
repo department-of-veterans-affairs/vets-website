@@ -45,9 +45,7 @@ const ShowDownloadAlerts = () => {
       {pdfSeiFailedDomains?.length === SEI_DOMAINS.length ||
         (pdfSeiFailedDownload && (
           <AlertDownloadAccessTrouble
-            headline={`We can’t download your ${
-              documentTypes.SEI
-            } report right now`}
+            headline={`We can’t download your ${documentTypes.SEI} right now`}
             className="vads-u-margin-bottom--1"
             testId="mhv-alert--sei-download-failed"
           />
@@ -75,9 +73,7 @@ const ShowDownloadAlerts = () => {
       )}
       {pdfMilitaryServiceFailedDownload && (
         <AlertDownloadAccessTrouble
-          headline={`We can’t download your ${
-            documentTypes.DOD
-          } report right now`}
+          headline={`We can’t download your ${documentTypes.DOD} right now`}
           className="vads-u-margin-bottom--1"
           testId="mhv-alert--dod-download-failed"
         />
