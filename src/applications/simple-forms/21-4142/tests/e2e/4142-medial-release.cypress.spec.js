@@ -10,6 +10,7 @@ import { fillProviderFacility } from './helpers';
 import {
   fillAddressWebComponentPattern,
   reviewAndSubmitPageFlow,
+  selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
@@ -70,14 +71,27 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.get('.form-radio-buttons') // get the radio container
-              .find('input[type="radio"]')
-              .eq(
-                data.patientIdentification.isRequestingOwnMedicalRecords
-                  ? 0
-                  : 1,
-              ) // Select the first (0) for true and the second (1) for false
-              .check();
+            cy.get('body').then(body => {
+              if (
+                !body.find(
+                  `va-radio-option[name="root_patientIdentification_isRequestingOwnMedicalRecords"]`,
+                ).length
+              ) {
+                cy.get('.form-radio-buttons') // get the radio container
+                  .find('input[type="radio"]')
+                  .eq(
+                    data.patientIdentification.isRequestingOwnMedicalRecords
+                      ? 0
+                      : 1,
+                  ) // Select the first (0) for true and the second (1) for false
+                  .check();
+              } else {
+                selectYesNoWebComponent(
+                  'patientIdentification_isRequestingOwnMedicalRecords',
+                  data.patientIdentification.isRequestingOwnMedicalRecords,
+                );
+              }
+            });
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
