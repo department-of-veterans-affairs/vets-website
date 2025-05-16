@@ -218,7 +218,9 @@ const resolveLandingPageLinks = (
 
   const medicalRecordsLinks = [
     HEALTH_TOOL_LINKS.MEDICAL_RECORDS[0],
-    {
+    featureToggles[
+      FEATURE_FLAG_NAMES.mhvLandingPageShowShareMyHealthDataLink
+    ] && {
       href: resolveSHMDLink,
       text:
         'Share your personal health data on the Share My Health Data website',
@@ -246,10 +248,12 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
       icon: 'note_add',
-      ...{
+      ...(!featureToggles[
+        FEATURE_FLAG_NAMES.mhvLandingPageShowShareMyHealthDataLink
+      ] && {
         introduction:
           'Get quick, easy access to your medical records. Now you can print or download what you need, when you need it.',
-      },
+      }),
       links: medicalRecordsLinks,
     },
     {
