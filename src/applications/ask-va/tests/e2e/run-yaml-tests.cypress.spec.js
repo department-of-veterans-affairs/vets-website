@@ -129,13 +129,13 @@ describe('YAML tests', () => {
           cy.log(`Flow.runOnCI ${flow.runOnCI}`);
           cy.log(`File ${file}`);
 
-          if (flow.runOnCI === true) {
-            cy.log(`Flow.runOnCI ${flow.runOnCI}`);
-            cy.log(`File ${file}`);
-            cy.visit('http://localhost:3001/contact-us/ask-va/');
-            cy.injectAxeThenAxeCheck();
-            executeSteps(flow.steps, folder);
-          }
+          // if (flow.runOnCI === true) {
+          cy.log(`Flow.runOnCI ${flow.runOnCI}`);
+          cy.log(`File ${file}`);
+          cy.visit('http://localhost:3001/contact-us/ask-va/');
+          cy.injectAxeThenAxeCheck();
+          executeSteps(flow.steps, folder);
+          // }
         });
       };
 
@@ -158,9 +158,13 @@ describe('YAML tests', () => {
             cy.login(mockUserDefault);
           } else if (path === 'dashboard') {
             if (['13g.yml', '17g.yml'].includes(file)) {
-              cy.intercept('GET', 'v0/inquiries', mockMultipleInquiries);
+              cy.intercept(
+                'GET',
+                '/ask_va_api/v0/inquiries',
+                mockMultipleInquiries,
+              );
             } else if (['14g.yml', '18g.yml'].includes(file)) {
-              cy.intercept('GET', 'v0/inquiries', mockOneInquiry);
+              cy.intercept('GET', '/ask_va_api/v0/inquiries', mockOneInquiry);
             } else {
               cy.intercept('GET', `/ask_va_api/v0/inquiries`, mockNoInquiries);
             }
