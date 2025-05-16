@@ -3,7 +3,6 @@ import {
   titleUI,
   radioSchema,
   radioUI,
-  textSchema,
   textUI,
   phoneUI,
   phoneSchema,
@@ -11,6 +10,8 @@ import {
   internationalPhoneSchema,
   emailUI,
   emailSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const phoneLabels = {
@@ -29,63 +30,13 @@ const uiSchema = {
         "designating official".
       </p>
     ),
-    first: {
-      ...textUI({
-        title: 'First name',
-        errorMessages: {
-          required: 'Enter your first name',
-        },
-        validations: [
-          (errors, fieldData) => {
-            if (fieldData.length > 50) {
-              errors.addError('Enter your first name with up to 50 characters');
-            }
-          },
-        ],
-      }),
-    },
-    middle: {
-      ...textUI({
-        title: 'Middle name',
-        validations: [
-          (errors, fieldData) => {
-            if (fieldData.length > 50) {
-              errors.addError(
-                'Enter your middle name with up to 50 characters',
-              );
-            }
-          },
-        ],
-      }),
-    },
-    last: {
-      ...textUI({
-        title: 'Last name',
-        errorMessages: {
-          required: 'Enter your last name',
-        },
-        validations: [
-          (errors, fieldData) => {
-            if (fieldData.length > 50) {
-              errors.addError('Enter your last name with up to 50 characters');
-            }
-          },
-        ],
-      }),
-    },
+    fullName: fullNameNoSuffixUI(false),
     title: {
       ...textUI({
         title: 'Your title',
         errorMessages: {
           required: 'Enter your title',
         },
-        validations: [
-          (errors, fieldData) => {
-            if (fieldData.length > 50) {
-              errors.addError('Enter your title with up to 50 characters');
-            }
-          },
-        ],
       }),
     },
     phoneType: radioUI({
@@ -128,22 +79,13 @@ const uiSchema = {
         if (formData.designatingOfficial?.phoneType === 'us') {
           return {
             ...formSchema,
-            required: [
-              'first',
-              'last',
-              'title',
-              'phoneType',
-              'phoneNumber',
-              'emailAddress',
-            ],
+            required: ['title', 'phoneType', 'phoneNumber', 'emailAddress'],
           };
         }
         if (formData.designatingOfficial?.phoneType === 'intl') {
           return {
             ...formSchema,
             required: [
-              'first',
-              'last',
               'title',
               'phoneType',
               'internationalPhoneNumber',
@@ -164,16 +106,18 @@ const schema = {
     designatingOfficial: {
       type: 'object',
       properties: {
-        first: textSchema,
-        middle: textSchema,
-        last: textSchema,
-        title: textSchema,
+        fullName: fullNameNoSuffixSchema,
+        title: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 30,
+        },
         phoneType: radioSchema(Object.keys(phoneLabels)),
         phoneNumber: phoneSchema,
         internationalPhoneNumber: internationalPhoneSchema,
         emailAddress: emailSchema,
       },
-      required: ['first', 'last', 'title', 'phoneType', 'emailAddress'],
+      required: ['title', 'phoneType', 'emailAddress'],
     },
   },
 };
