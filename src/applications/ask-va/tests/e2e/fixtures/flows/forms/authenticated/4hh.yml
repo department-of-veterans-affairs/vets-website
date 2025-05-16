@@ -1,6 +1,6 @@
 flow:
-  title: Education benefits and work study for veteran (auth)
-  runOnCI: true
+  title: Education benefits and work study connected through work :q(auth)
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
       target: page
@@ -35,4 +35,3 @@ flow:
     - action: include
       target: page
       value: your-confirmation-number
-      
