@@ -1,9 +1,12 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-const NoHealthRecords = () => {
+const HelpdeskNonPatient = () => {
   return (
-    <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+    <div
+      className="vads-l-col--12 medium-screen:vads-l-col--8"
+      data-testid="mhv-helpdesk-non-patient"
+    >
       <h2 className="vads-u-margin-bottom--0">
         We don’t have VA health records for you
       </h2>
@@ -24,4 +27,4 @@ const NoHealthRecords = () => {
   );
 };
 
-export default NoHealthRecords;
+export default HelpdeskNonPatient;

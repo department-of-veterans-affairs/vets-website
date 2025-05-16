@@ -117,6 +117,17 @@ const CSP_IDS = {
 const USER_MOCKS = Object.freeze({
   ALL_CAPS_NAME: generateUser({ firstName: 'KEVIN', preferredName: '' }),
   UNREGISTERED: generateUser({ loa: 3, vaPatient: false, edipi: '2116564958' }),
+  UNREGISTERED_NO_EDIPI: generateUser({
+    loa: 3,
+    vaPatient: false,
+    edipi: null,
+  }),
+  UNREGISTERED_NO_MHV: generateUser({
+    loa: 3,
+    vaPatient: false,
+    edipi: '2116564958',
+    mhvAccountState: 'NONE',
+  }),
   UNVERIFIED: generateUser({ loa: 1, vaPatient: false }),
   LOGIN_GOV_UNVERIFIED: generateUser({
     loa: 1,

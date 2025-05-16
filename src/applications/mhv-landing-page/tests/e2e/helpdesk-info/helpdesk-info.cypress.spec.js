@@ -15,11 +15,21 @@ describe(`${appName} - helpdesk information component`, () => {
       cy.findByTestId('mhv-helpdesk-info').should('not.exist');
     });
 
-    it(`does not render for unregistered users`, () => {
+    it(`does not render for unregistered "dslogon" users`, () => {
       LandingPage.visit({
         registered: false,
         verified: false,
         serviceName: 'dslogon',
+      });
+      cy.injectAxeThenAxeCheck();
+
+      cy.findByTestId('mhv-helpdesk-info').should('not.exist');
+    });
+
+    it(`does not render for unregistered users with verified login`, () => {
+      LandingPage.visit({
+        registered: false,
+        verified: true,
       });
       cy.injectAxeThenAxeCheck();
 

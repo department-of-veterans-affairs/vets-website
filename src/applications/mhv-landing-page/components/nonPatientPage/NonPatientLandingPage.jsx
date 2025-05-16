@@ -7,7 +7,7 @@ import DowntimeNotification, {
 } from '~/platform/monitoring/DowntimeNotification';
 
 import HeaderLayout from '../HeaderLayout';
-import NoHealthRecords from './NoHealthRecords';
+import HelpdeskNonPatient from './HelpdeskNonPatient';
 import VaHealthResources from './VaHealthResources';
 import DownloadDataSection from './DownloadDataSection';
 import HubLinks from '../HubLinks';
@@ -35,7 +35,7 @@ const NonPatientLandingPage = ({ data = {} }) => {
           render={renderMHVDowntime}
         />
         <HeaderLayout showWelcomeMessage={false} />
-        <NoHealthRecords />
+        <HelpdeskNonPatient />
         <VaHealthResources healthResourcesLinks={healthResourcesLinks} />
         <DownloadDataSection />
       </div>
