@@ -68,7 +68,13 @@ const ChemHemDetails = props => {
       ...generateChemHemContent(record),
     };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Chem/Hem details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Chem/Hem details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateChemHemTxt = async () => {
