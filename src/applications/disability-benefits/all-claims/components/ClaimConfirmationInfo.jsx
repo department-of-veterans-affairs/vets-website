@@ -10,6 +10,8 @@ export function ClaimConfirmationInfo({
   claimId,
   isSubmittingBDD,
 }) {
+  console.log('dateSubmitted', dateSubmitted);
+  console.log('formattedDate', formatDate(dateSubmitted));
   const name = formatFullName(fullName);
   return (
     <va-summary-box class={isSubmittingBDD && 'vads-u-margin-top--4'}>

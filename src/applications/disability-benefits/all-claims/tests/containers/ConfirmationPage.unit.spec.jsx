@@ -37,6 +37,7 @@ describe('ConfirmationPage', () => {
       pageList: [],
     },
   };
+  console.log('confirmationpage defaultProps', defaultProps);
 
   const middleware = [thunk];
   const mockStore = configureStore(middleware);

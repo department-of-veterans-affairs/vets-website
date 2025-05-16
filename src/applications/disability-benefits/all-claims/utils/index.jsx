@@ -68,6 +68,7 @@ export const isUndefined = value => (value || '') === '';
 
 export const formatDate = (date, format = DATE_FORMAT) => {
   const m = moment(date);
+  console.log('moment date', m);
   return date && m.isValid() ? m.format(format) : 'Unknown';
 };
 
