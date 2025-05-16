@@ -83,13 +83,13 @@ const IncorrectFormModal = props => {
 const mapStateToProps = state => {
   return {
     ...state,
-    claimantDOB: state?.data?.formData?.data.attributes?.claimant.dateOfBirth,
+    claimantDOB: state?.data?.formData?.data?.attributes?.claimant.dateOfBirth,
     sponsorDateOfBirth: state?.form?.data?.dateOfBirth,
     relationshipToMember: state?.form?.data?.relationshipToMember,
     applicantHasServiceRecord:
-      state?.data?.formData?.data.attributes?.serviceData,
+      state?.data?.formData?.data?.attributes?.serviceData,
     showMeb54901990eTextUpdate:
-      state?.featureToggles.showMeb54901990eTextUpdate,
+      state?.featureToggles?.showMeb54901990eTextUpdate,
   };
 };
 
