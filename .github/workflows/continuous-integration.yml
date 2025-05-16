@@ -702,7 +702,7 @@ jobs:
         run: git fetch origin new-axe-checks --depth=1
 
       - name: Merge axe-headings checks
-        run: git merge origin/new-axe-checks --no-edit
+        run: git merge origin/new-axe-checks --no-edit --allow-unrelated-histories
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
