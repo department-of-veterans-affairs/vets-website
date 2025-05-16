@@ -53,6 +53,15 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
       'color-contrast': {
         enabled: false,
       },
+      'empty-heading': {
+        enabled: true,
+      },
+      'heading-order': {
+        enabled: true,
+      },
+      'page-has-heading-one': {
+        enabled: true,
+      },
     },
   };
 
