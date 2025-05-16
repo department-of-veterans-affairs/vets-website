@@ -27,6 +27,7 @@ export default class ConfirmationPage extends React.Component {
       submitDate={props.submittedAt}
       formConfig={props.route?.formConfig}
     >
+      {console.log('ConfirmationPageContent dateSubmitted', props.submittedAt)}
       <ConfirmationView.SubmissionAlert actions={<></>} content={alertBody} />
       {props.isSubmittingBDD && <BddConfirmationAlert />}
       <ClaimConfirmationInfo
