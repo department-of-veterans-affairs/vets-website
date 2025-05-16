@@ -60,7 +60,13 @@ const generatePdf = (userProfile, seiRecords, failed, runningUnitTest) => {
     dob,
     lastUpdated: UNKNOWN,
   };
-  makePdf(pdfName, pdfData, title, runningUnitTest, 'selfEnteredInfo')
+  makePdf(
+    pdfName,
+    pdfData,
+    'selfEnteredInfo',
+    `Medical Records - ${title} - PDF generation error`,
+    runningUnitTest,
+  )
     .then(() => {
       return { success: true, failedDomains: processFailedDomainList(failed) };
     })

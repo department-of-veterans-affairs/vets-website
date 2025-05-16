@@ -197,7 +197,7 @@ const formConfig = {
   },
   chapters: {
     benefitSelectionChapter: {
-      title: 'Benefit selection',
+      title: 'Benefit Selection',
       pages: {
         benefitSelection: {
           path: 'benefit-selection',
@@ -390,7 +390,7 @@ const formConfig = {
       },
     },
     yourInformationChapter: {
-      title: 'Your information',
+      title: 'Your Information',
       pages: {
         reviewPersonalInformation: {
           path: 'review-personal-information',
@@ -477,11 +477,11 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Contact information',
+      title: 'Contact Information',
       pages: {
         contactInformation: {
           path: 'contact-information',
-          title: 'Review your phone numbers and email address',
+          title: 'Review your phone number and email address',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -582,7 +582,7 @@ const formConfig = {
           },
         },
         mailingAddress: {
-          title: 'Mailing address',
+          title: 'Review your mailing address',
           path: 'contact-information/mailing-address',
           uiSchema: {
             'view:subHeadings': {
@@ -615,9 +615,6 @@ const formConfig = {
             mailingAddressInput: {
               'ui:description': (
                 <>
-                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
-                    Mailing address
-                  </h4>
                   <p className="meb-review-page-only">
                     If you’d like to update your mailing address, please edit
                     the form fields below.
@@ -1366,7 +1363,7 @@ const formConfig = {
       },
     },
     additionalConsiderationsChapter: {
-      title: 'Additional considerations',
+      title: 'Additional Considerations',
       pages: {
         marriageInformation: {
           title: 'Marriage information',
@@ -1562,7 +1559,7 @@ const formConfig = {
       },
     },
     directDepositChapter: {
-      title: 'Direct deposit',
+      title: 'Direct Deposit',
       pages: {
         directDeposit: {
           path: 'direct-deposit',
