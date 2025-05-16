@@ -213,7 +213,7 @@ aws s3 sync --only-show-errors \
 say "INFO: Syncing all content to $DEST"
 aws s3 sync --only-show-errors \
     --acl public-read \
-    --cache-control "public, max-age=3600" \
+    --cache-control "public, max-age=0, must-revalidate" \
     --delete \
     . "$DEST"
 
