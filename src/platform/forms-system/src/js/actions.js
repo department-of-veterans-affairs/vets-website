@@ -246,6 +246,8 @@ export function uploadFile(
       const fileTooBigErrorAlert = uiOptions?.fileTooBigErrorAlert;
       const changePayload = {
         name: file.name,
+        size: file.size,
+        lastModified: file.lastModified,
         errorMessage: fileTooBigErrorMessage,
         ...(fileTooBigErrorAlert && { alert: fileTooBigErrorAlert }),
       };
