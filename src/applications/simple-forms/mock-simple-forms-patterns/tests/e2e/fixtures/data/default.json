@@ -28,7 +28,7 @@
     "wcv3FileInput": {
       "name": "my_form.pdf",
       "size": 12345,
-      "fileType": "application/pdf",
+      "fileType": "pdf",
       "confirmationCode": 7564298
     },
     "vaCompensationType": "none",

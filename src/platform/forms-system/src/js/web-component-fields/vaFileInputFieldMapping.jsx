@@ -1,5 +1,5 @@
-import commonFieldMapping from 'platform/forms-system/src/js/web-component-fields/commonFieldMapping';
-import formsPatternFieldMapping from 'platform/forms-system/src/js/web-component-fields/formsPatternFieldMapping';
+import commonFieldMapping from './commonFieldMapping';
+import formsPatternFieldMapping from './formsPatternFieldMapping';
 import { allKeysAreEmpty } from './vaFileInputFieldHelpers';
 
 /** @param {WebComponentFieldProps} props */

@@ -1,21 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { VaFileInputField } from '../web-component-fields';
-
-const ReviewFieldPropTypes = {
-  children: PropTypes.node,
-  formData: PropTypes.any,
-};
-
-function fileInputReviewField({ children }, title) {
-  fileInputReviewField.propTypes = ReviewFieldPropTypes;
-  return (
-    <div className="review-row">
-      <dt>{title}</dt>
-      <dd>{children.props?.formData?.name}</dd>
-    </div>
-  );
-}
 
 export const filePresenceValidation = (
   errors,
@@ -120,7 +104,12 @@ export const fileInputUI = options => {
     'ui:options': {
       ...uiOptions,
     },
-    'ui:reviewField': props => fileInputReviewField(props, title),
+    'ui:reviewField': ({ children }) => (
+      <div className="review-row">
+        <dt>{title}</dt>
+        <dd>{children.props?.formData?.name}</dd>
+      </div>
+    ),
     'ui:confirmationField': ({ formData }) => ({
       data: formData?.name,
       label: title,
@@ -134,31 +123,36 @@ export const fileInputUI = options => {
 };
 
 /**
- * Schema for generic fileInputMultiple field
+ * Schema for generic fileInput field
+ *
+ * ```js
+ * exampleFileInput: {
+ *   type: 'object',
+ * }
+ * ```
  */
-export const fileInputMultipleSchema = {
-  type: 'array',
-  minItems: 1,
-  items: {
-    type: 'object',
-    properties: {
-      confirmationCode: {
+export const fileInputSchema = {
+  type: 'object',
+  properties: {
+    confirmationCode: {
+      type: 'string',
+    },
+    isEncrypted: {
+      type: 'boolean',
+    },
+    name: {
+      type: 'string',
+    },
+    size: {
+      type: 'integer',
+    },
+    fileType: {
+      type: 'string',
+    },
+    warnings: {
+      type: 'array',
+      items: {
         type: 'string',
-      },
-      isEncrypted: {
-        type: 'boolean',
-      },
-      name: {
-        type: 'string',
-      },
-      size: {
-        type: 'integer',
-      },
-      warnings: {
-        type: 'array',
-        items: {
-          type: 'string',
-        },
       },
     },
   },

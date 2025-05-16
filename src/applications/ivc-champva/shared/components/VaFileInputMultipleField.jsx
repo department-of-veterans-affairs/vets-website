@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldMapping';
-import { uploadScannedForm } from './vaFileInputFieldHelpers';
+import { uploadScannedForm } from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldHelpers';
 
 /**
  * Usage uiSchema:
