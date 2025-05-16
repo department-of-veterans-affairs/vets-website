@@ -23,7 +23,6 @@ function generateWebpackDevConfig(buildOptions) {
   } catch {
     webSocketURL.hostname = buildOptions.public || undefined;
   }
-
   // If in watch mode, use webpack devserver.
   return {
     historyApiFallback: {
@@ -49,6 +48,7 @@ function generateWebpackDevConfig(buildOptions) {
       watch: {
         poll: 1000,
       },
+      serveIndex: true,
     },
     port: buildOptions.port,
     host: buildOptions.host,

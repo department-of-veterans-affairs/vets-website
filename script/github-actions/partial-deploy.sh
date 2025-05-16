@@ -128,7 +128,7 @@ cd assets
 say "INFO: Syncing assets to $DEST"
 aws s3 sync --only-show-errors \
     --acl public-read \
-    --cache-control "public, no-cache" \
+    --cache-control "public, max-age=31536000, immutable" \
     --exclude '*' \
     --include '*.js*' \
     --include '*.css*' \
@@ -149,7 +149,7 @@ say "INFO: Syncing compressed assets to $ASSET_DEST"
 aws s3 sync --only-show-errors \
     --acl public-read \
     --content-encoding gzip \
-    --cache-control "public, no-cache" \
+    --cache-control "public, max-age=31536000, immutable" \
     --exclude '*' \
     --include '*.js*' \
     --include '*.css*' \
