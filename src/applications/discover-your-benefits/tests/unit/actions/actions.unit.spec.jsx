@@ -9,6 +9,8 @@ import {
   characterOfDischargeTypes,
   militaryServiceTimeServedTypes,
   goalTypes,
+  militaryBranchComponentTypes,
+  yesNoType,
 } from '../../../constants/benefits';
 
 const getBenefitById = id => {
@@ -200,7 +202,7 @@ describe('actions', () => {
     it('returns true if benefit passes mapping conditions', () => {
       const benefit = {
         mappings: {
-          GOALS: [anyType.ANY],
+          [mappingTypes.GOALS]: [anyType.ANY],
         },
       };
       const formData = {};
@@ -218,6 +220,10 @@ describe('actions', () => {
           militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
+        [mappingTypes.BRANCH_COMPONENT]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+        },
+        [mappingTypes.ACTIVE_DUTY]: yesNoType.YES,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -233,6 +239,10 @@ describe('actions', () => {
           militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
+        [mappingTypes.BRANCH_COMPONENT]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
+        },
+        [mappingTypes.ACTIVE_DUTY]: yesNoType.YES,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.true;
@@ -248,6 +258,11 @@ describe('actions', () => {
           militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
+        [mappingTypes.BRANCH_COMPONENT]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+        },
+        [mappingTypes.ACTIVE_DUTY]: yesNoType.NO,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.true;
@@ -263,9 +278,34 @@ describe('actions', () => {
           militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
+        [mappingTypes.BRANCH_COMPONENT]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+        },
+        [mappingTypes.ACTIVE_DUTY]: yesNoType.YES,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.true;
+    });
+
+    it('returns false if has not served in active duty or title 10.', () => {
+      const benefit = getBenefitById('COE');
+      const formData = {
+        [mappingTypes.GOALS]: goalTypes.RETIREMENT,
+        [mappingTypes.LENGTH_OF_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
+          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.UNCHARACTERIZED,
+        [mappingTypes.BRANCH_COMPONENT]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
+          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+        },
+        [mappingTypes.ACTIVE_DUTY]: yesNoType.NO,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
     });
   });
 });
