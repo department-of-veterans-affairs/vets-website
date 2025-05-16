@@ -213,9 +213,9 @@ export const DateAndTimeContent = props => {
 };
 
 DateAndTimeContent.propTypes = {
-  appointmentsByMonth: PropTypes.object.isRequired,
   currentReferral: PropTypes.object.isRequired,
   draftAppointmentInfo: PropTypes.object.isRequired,
+  appointmentsByMonth: PropTypes.object,
 };
 
 export default DateAndTimeContent;
