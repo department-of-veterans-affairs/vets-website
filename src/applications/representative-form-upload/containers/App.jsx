@@ -13,7 +13,7 @@ import { SIGN_IN_URL } from '../constants';
 import { fetchUser } from '../actions/user';
 import { selectIsUserLoading } from '../selectors/user';
 import { selectShouldGoToSignIn } from '../selectors/navigation';
-import WithAccessTokenManager from './WithAccessTokenManager';
+import AccessTokenManager from './AccessTokenManager';
 
 const App = ({ children }) => {
   const {
@@ -59,13 +59,13 @@ const App = ({ children }) => {
   );
 
   return (
-    <WithAccessTokenManager userLoggedIn={userLoggedIn}>
+    <AccessTokenManager userLoggedIn={userLoggedIn}>
       <div className="container">
         <Header />
         <div className="form_container row">{content}</div>
         <Footer />
       </div>
-    </WithAccessTokenManager>
+    </AccessTokenManager>
   );
 };
 

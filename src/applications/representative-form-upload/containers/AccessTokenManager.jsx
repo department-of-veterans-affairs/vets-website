@@ -3,7 +3,7 @@ import api from '../utilities/api';
 
 const EXPIRATION_TIME = 3 * 60 * 1000; // 3 minutes
 
-const WithAccessTokenManager = ({ userLoggedIn, children }) => {
+const AccessTokenManager = ({ userLoggedIn, children }) => {
   useEffect(
     () => {
       if (userLoggedIn) {
@@ -37,4 +37,4 @@ const WithAccessTokenManager = ({ userLoggedIn, children }) => {
   return children;
 };
 
-export default WithAccessTokenManager;
+export default AccessTokenManager;
