@@ -22,6 +22,7 @@ const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
   },
 });
 
+
 describe('ConfirmationPage', () => {
   const defaultProps = {
     fullName: {
