@@ -6,6 +6,7 @@ import {
   VaLink,
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
 
 const DownloadLetterBlobLink = ({ letterTitle, letterType }) => {
@@ -36,15 +37,11 @@ const DownloadLetterBlobLink = ({ letterTitle, letterType }) => {
     }
     case DOWNLOAD_STATUSES.failure:
       return (
-        <VaAlert
-          className="vads-u-margin-top--2"
-          role="alert"
-          status="error"
-          slim
-          visible
-        >
-          <p className="vads-u-margin-y--0">
-            We can’t create your letter right now.
+        <VaAlert class="vads-u-margin-top--2" status="error" role="alert">
+          <h4 slot="headline">Your letter didn’t download.</h4>
+          <p>
+            Your letter isn’t available at this time. If you need help with
+            accessing your letter, please <CallVBACenter />
           </p>
         </VaAlert>
       );
