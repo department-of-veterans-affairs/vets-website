@@ -492,6 +492,9 @@ const FileField = props => {
       removeFile(idx);
       if (uiOptions?.deleteAlertText) {
         setDeletedFileAlerts(true);
+        setTimeout(() => {
+          focusElement('#success-alert');
+        }, 110);
       }
     } else {
       setTimeout(() => {
