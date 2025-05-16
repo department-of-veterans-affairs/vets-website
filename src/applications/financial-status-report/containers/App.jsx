@@ -50,9 +50,6 @@ const App = ({
   const dispatch = useDispatch();
   const { shouldShowReviewButton } = useDetectFieldChanges(formData);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showUpdatedExpensePages = useToggleValue(
-    TOGGLE_NAMES.financialStatusReportExpensesUpdate,
-  );
   const showStreamlinedWaiver = useToggleValue(
     TOGGLE_NAMES.showFinancialStatusReportStreamlinedWaiver,
   );
@@ -159,7 +156,6 @@ const App = ({
         'view:streamlinedWaiver': showStreamlinedWaiver,
         'view:streamlinedWaiverAssetUpdate': true,
         'view:reviewPageNavigationToggle': showReviewPageNavigationFeature,
-        'view:showUpdatedExpensePages': showUpdatedExpensePages,
       });
     },
     // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
@@ -169,7 +165,6 @@ const App = ({
       setFormData,
       showReviewPageNavigationFeature,
       showStreamlinedWaiver,
-      showUpdatedExpensePages,
     ],
   );
 
