@@ -119,7 +119,8 @@ const executeSteps = (steps, folder) => {
 describe('YAML tests', () => {
   describe(`Preload flows`, () => {
     describe('Run tests', () => {
-      const testRunner = (folder, path, file) => {
+      // eslint-disable-next-line func-names
+      const testRunner = function(folder, path, file) {
         let flowYML = EMPTY_FLOW_YML;
         const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${folder}/${path}/${file}`;
         cy.readFile(p).then(f => {
@@ -130,18 +131,18 @@ describe('YAML tests', () => {
           cy.log(`File ${file}`);
 
           if (flow.runOnCI === true) {
-            cy.log(`Flow.runOnCI ${flow.runOnCI}`);
-            cy.log(`File ${file}`);
             cy.visit('http://localhost:3001/contact-us/ask-va/');
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);
           } else {
+            // expect(flow.runOnCI, '(Skipped)').to.be.false;
             this.skip();
           }
         });
       };
 
-      const runAndLogTest = (folder, path, file) => {
+      // eslint-disable-next-line func-names
+      const runAndLogTest = function(folder, path, file) {
         if (file.endsWith('.yml')) {
           cy.log('-------------------');
           cy.log(`Run tests in ${file}`);
@@ -174,7 +175,7 @@ describe('YAML tests', () => {
           } else {
             cy.clearAllCookies();
           }
-          testRunner(folder, path, file);
+          testRunner.call(this, folder, path, file);
         }
       };
 
@@ -191,9 +192,9 @@ describe('YAML tests', () => {
           if (path !== 'include-pages') {
             (() => {
               for (const file of files[path]) {
-                // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-                it(`Run tests in ${folder} for ${file}`, () => {
-                  runAndLogTest(folder, path, file);
+                // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required, func-names
+                it(`Run tests in ${folder} for ${file}`, function() {
+                  runAndLogTest.call(this, folder, path, file);
                 });
               }
             })();
