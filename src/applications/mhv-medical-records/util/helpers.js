@@ -1,5 +1,4 @@
 import moment from 'moment-timezone';
-import * as Sentry from '@sentry/browser';
 import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -158,18 +157,6 @@ export const processList = list => {
     if (list?.length === 1) return list.toString();
   }
   return EMPTY_FIELD;
-};
-
-/**
- * @param {Error} error javascript error
- * @param {String} page name of the page sending the error
- * @returns {undefined}
- */
-export const sendErrorToSentry = (error, page) => {
-  Sentry.captureException(error);
-  Sentry.captureMessage(
-    `MHV - Medical Records - ${page} - PDF generation error`,
-  );
 };
 
 /**

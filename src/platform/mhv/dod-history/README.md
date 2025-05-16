@@ -127,6 +127,10 @@ The `generateMilitaryServicePdf` function returns a promise that resolves to an 
 ## Additional Notes
 
 - Ensure that the `userProfile` object contains all required data for generating the PDF.
+  - Required fields in `userProfile.userFullName`: `first`, `last` (optional: `middle`, `suffix`)
+  - Required field in `userProfile`: `dob`
+  - The user must also have an edipi number, which can be found on the user profile, in order to retrieve this report. 
+    However, the edipi does not necessarily have to be passed as part of the userProfile object it is only used at the server level and is pulled directly from the user there. 
 - The utility internally uses the `makePdf` function to handle PDF creation.
 - The generated PDF will be named and formatted consistently for military service records.
 
