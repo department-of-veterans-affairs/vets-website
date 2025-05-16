@@ -176,7 +176,6 @@ export const mappingTypes = {
   DISABILITY_RATING: 'disabilityRating',
   BRANCH_COMPONENT: 'branchComponents',
   ACTIVE_DUTY: 'activeDuty',
-
   LENGTH_OF_TITLE_TEN_SERVICE: 'titleTenTimeServed',
 };
 export const BENEFITS_LIST = [
