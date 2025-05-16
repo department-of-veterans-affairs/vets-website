@@ -45,10 +45,10 @@ const BenefitSelectionReview = ({ data, editPage }) => {
 };
 
 BenefitSelectionReview.propTypes = {
+  editPage: PropTypes.func.isRequired,
   data: PropTypes.shape({
     chosenBenefit: PropTypes.oneOf(['fry', 'dea']),
   }),
-  editPage: PropTypes.func.isRequired,
 };
 
 BenefitSelectionReview.defaultProps = {

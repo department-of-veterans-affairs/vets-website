@@ -64,6 +64,7 @@ const ApplicantInformationReview = ({ data, editPage }) => {
 };
 
 ApplicantInformationReview.propTypes = {
+  editPage: PropTypes.func.isRequired,
   data: PropTypes.shape({
     relationshipToMember: PropTypes.string,
     fullName: PropTypes.shape({
@@ -74,7 +75,6 @@ ApplicantInformationReview.propTypes = {
     dateOfBirth: PropTypes.string,
     ssn: PropTypes.string,
   }),
-  editPage: PropTypes.func.isRequired,
 };
 
 // Ensure data prop is provided, even if it's an empty object, if not required by parent
