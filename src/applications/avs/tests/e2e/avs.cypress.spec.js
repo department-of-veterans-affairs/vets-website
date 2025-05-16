@@ -1,4 +1,3 @@
-import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import manifest from '../../manifest.json';
 
 import features from '../fixtures/features';
@@ -99,10 +98,10 @@ describe('After-visit Summary - Happy Path', () => {
   it('child paths past an ID get page not found', () => {
     cy.visit(`${testUrl}/path1`);
     cy.injectAxeThenAxeCheck();
-    cy.findByRole('heading', { name: pageNotFoundHeading }).should.exist;
+    cy.findByTestId('mhv-page-not-found').should.exist;
 
     cy.visit(`${testUrl}/path1/path2`);
-    cy.findByRole('heading', { name: pageNotFoundHeading }).should.exist;
+    cy.findByTestId('mhv-page-not-found').should.exist;
   });
 });
 
