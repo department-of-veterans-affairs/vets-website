@@ -23,14 +23,15 @@
     }
 
     .bottom-positioner {
-      position: absolute;
-      width: 100%;
-      bottom: 0px;
-      .loc-search-btn{
-        margin-left: 1rem;
+      .loc-search-btn {
+        margin-left: 0;
+        @media screen and (min-width: $medium-screen) {
+          & {
+            margin-left: 1rem;
+          }
+        }
       }
     }
-
 
     .name-search-inputs {
       position: relative;
@@ -41,14 +42,23 @@
     }
 
     .location-search-inputs {
-      position: relative;
+      @media screen and (min-width: $medium-screen) {
+        & {
+          display: flex;
+          align-items: flex-end;
+        }
 
-      #distance-dropdown {
-        float: left;
+        padding-bottom: 6px;
       }
 
-      button {
-        float: right;
+      .location-select {
+        margin-block: 0;
+
+        @media screen and (min-width: $medium-screen) {
+          & {
+            margin-block: inherit;
+          }
+        }
       }
     }
   }
@@ -70,9 +80,7 @@
 
   .search-tab {
     font-size: 25px;
-    border-radius: 0px;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin: 0;
 
     &:focus:not(:focus-visible) {
       outline: none;
@@ -98,8 +106,8 @@
   }
 }
 @media screen and (max-width: $small-screen) {
-  .loc-search-btn{
-  width: 100%;
-  margin-top: 0.53rem
+  .loc-search-btn {
+    width: 100%;
+    margin-top: 0.53rem;
   }
 }
