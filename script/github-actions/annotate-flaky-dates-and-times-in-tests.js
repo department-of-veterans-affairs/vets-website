@@ -87,8 +87,10 @@ if (specFiles.length > 0) {
       collectedAnnotations = collectedAnnotations.concat(annotations);
     }
   });
-} else {
-  console.log('No dynamic date/time functions found.');
+}
+
+if (collectedAnnotations.length === 0) {
+  console.log('No flaky date/time usage found in changed apps.');
 }
 
 core.exportVariable(
