@@ -23,7 +23,6 @@ function generateWebpackDevConfig(buildOptions) {
   } catch {
     webSocketURL.hostname = buildOptions.public || undefined;
   }
-
   // If in watch mode, use webpack devserver.
   return {
     historyApiFallback: {
@@ -52,7 +51,7 @@ function generateWebpackDevConfig(buildOptions) {
       serveIndex: true,
       staticOptions: {
         headers: {
-          'Cache-Control': 'public, max-age=31536000, immutable',
+          'Cache-Control': 'public, max-age=0, must-revalidate',
         },
       },
     },
