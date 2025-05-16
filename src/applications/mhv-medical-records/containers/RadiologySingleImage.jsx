@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getlabsAndTestsDetails } from '../actions/labsAndTests';
+import { getLabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintHeader from '../components/shared/PrintHeader';
 
 const RadiologySingleImage = () => {
@@ -43,7 +43,7 @@ const RadiologySingleImage = () => {
   useEffect(
     () => {
       if (labId) {
-        dispatch(getlabsAndTestsDetails(labId));
+        dispatch(getLabsAndTestsDetails(labId));
       }
     },
     [labId, dispatch],

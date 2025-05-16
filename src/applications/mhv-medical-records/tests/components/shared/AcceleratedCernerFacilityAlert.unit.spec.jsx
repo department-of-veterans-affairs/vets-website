@@ -155,4 +155,21 @@ describe('Accelerated Cerner Facility Alert', () => {
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
   });
+
+  it('hides correctly when isAcceleratingLabsAndTest is false', () => {
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: createFeatureToggles({
+          isAccelerating: true,
+          isAcceleratingLabsAndTest: false,
+        }),
+        user: { profile: { facilities: [] } },
+      },
+      { facilities: [] },
+      CernerAlertContent.LABS_AND_TESTS,
+    );
+
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+  });
 });
