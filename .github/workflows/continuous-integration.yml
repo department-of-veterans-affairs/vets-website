@@ -199,7 +199,7 @@ jobs:
       - name: Select E2E Tests
         run: node script/github-actions/select-e2e-tests.js
         env:
-          RUN_FULL_SUITE: false
+          RUN_FULL_SUITE: true
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
           APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
@@ -414,7 +414,7 @@ jobs:
           path: .
 
       - name: Run unit tests
-        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+        run: yarn test:unit:gha --full-suite=true --coverage --log-level verbose
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
