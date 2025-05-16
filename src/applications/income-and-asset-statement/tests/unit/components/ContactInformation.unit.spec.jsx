@@ -34,7 +34,11 @@ describe('Contact Information component', () => {
 
     const cards = $$('va-card', container);
     expect(cards.length).to.equal(2);
+
     expect(container.textContent).to.include('test@example.com');
-    expect(container.textContent).to.include('555-123-4567');
+    const vaTelephone = container.querySelector(
+      'va-telephone[contact="5551234567"]',
+    );
+    expect(vaTelephone).to.exist;
   });
 });

@@ -91,7 +91,7 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Current phone number (optional)
         </h4>
-        <p className="email">
+        <p className="phone">
           {phone ? (
             <va-telephone
               not-clickable
