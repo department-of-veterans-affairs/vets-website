@@ -78,9 +78,12 @@ export const routesForNav = [
   },
 ];
 
-export const getRoutesForNav = () => {
-  return routesForNav.reduce((acc, route) => {
-    acc.push(route);
-    return acc;
-  }, []);
+export const getRoutesForNav = accreditedRepsToggle => {
+  return routesForNav.filter(route => {
+    if (route.name === PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE) {
+      return accreditedRepsToggle;
+    }
+
+    return true;
+  });
 };

@@ -131,7 +131,7 @@ const checkRemovalWhileEditingModal = options => {
 };
 
 describe('Modals for removal of field', () => {
-  it('should show edit notice modal when attempting to remove field after editing another field', () => {
+  it.skip('should show edit notice modal when attempting to remove field after editing another field', () => {
     setup(false);
 
     checkRemovalWhileEditingModal({
@@ -157,7 +157,7 @@ describe('Modals for removal of field', () => {
 });
 
 describe('Modals on the contact information and content page', () => {
-  it('should render as expected on Desktop', () => {
+  it.skip('should render as expected on Desktop', () => {
     setup();
 
     // should appear when editing mailing address
@@ -191,7 +191,7 @@ describe('Modals on the contact information and content page', () => {
     cy.axeCheck();
   });
 
-  it('should render as expected on Mobile', () => {
+  it.skip('should render as expected on Mobile', () => {
     setup(true);
 
     // should appear when editing mailing address

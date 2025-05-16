@@ -144,14 +144,9 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    let routes = getRoutes();
-
-    // feature toggled route
-    if (!this.props.shouldShowAccreditedRepTab) {
-      routes = routes.filter(
-        item => item.name !== 'Accredited representative or VSO',
-      );
-    }
+    const routes = getRoutes({
+      accreditedRepPage: this.props.shouldShowAccreditedRepTab,
+    });
 
     return (
       <BrowserRouter>
