@@ -13,7 +13,9 @@ import {
 } from '../../tests/mocks/setup';
 
 import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
@@ -38,10 +40,14 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     mockSchedulingConfigurationsApi({
       isCCEnabled: true,
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });

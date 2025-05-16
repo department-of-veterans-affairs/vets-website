@@ -32,12 +32,14 @@ import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VA
 import { vaosApi } from '../../redux/api/vaosApi';
 import { TYPES_OF_CARE } from '../../utils/constants';
 import MockFacilityResponse from '../fixtures/MockFacilityResponse';
-import { getSchedulingConfigurationMock } from './mock';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
 } from './mockApis';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../fixtures/MockSchedulingConfigurationResponse';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -228,11 +230,15 @@ export async function setVAFacility(
   mockFacilitiesApi({ children: true, response: facilities });
   mockSchedulingConfigurationsApi({
     response: [
-      getSchedulingConfigurationMock({
-        id: '983',
-        typeOfCareId,
-        directEnabled: true,
-        requestEnabled: true,
+      new MockSchedulingConfigurationResponse({
+        facilityId: '983',
+        services: [
+          new MockServiceConfiguration({
+            typeOfCareId,
+            directEnabled: true,
+            requestEnabled: true,
+          }),
+        ],
       }),
     ],
   });
@@ -265,10 +271,14 @@ export async function setVaccineFacility(store, facilityData = {}) {
   mockFacilitiesApi({ children: true, response: facilities });
   mockSchedulingConfigurationsApi({
     response: [
-      getSchedulingConfigurationMock({
-        id: '983',
-        typeOfCareId: TYPE_OF_CARE_ID,
-        directEnabled: true,
+      new MockSchedulingConfigurationResponse({
+        facilityId: '983',
+        services: [
+          new MockServiceConfiguration({
+            typeOfCareId: TYPE_OF_CARE_ID,
+            directEnabled: true,
+          }),
+        ],
       }),
     ],
   });

@@ -13,7 +13,9 @@ import {
   getLocationsByTypeOfCareAndSiteIds,
 } from '.';
 import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
@@ -112,15 +114,23 @@ describe('VAOS Services: Location ', () => {
       });
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'primaryCare',
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+              }),
+            ],
           }),
         ],
       });
