@@ -1,15 +1,19 @@
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
+  privateRecordsPageTitle,
   privateRecordsChoiceHelp,
   patientAcknowledgmentTitle,
   patientAcknowledgmentText,
+  patientAcknowledgmentError,
 } from '../content/privateMedicalRecords';
 
 export const uiSchema = {
+  'ui:title': privateRecordsPageTitle,
   'ui:description':
     'Now we’ll ask you about your private medical records for your condition.',
   'view:aboutPrivateMedicalRecords': {
@@ -36,8 +40,11 @@ export const uiSchema = {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
       expandUnderCondition: data =>
         data?.['view:hasPrivateRecordsToUpload'] === false,
-      showFieldLabel: false,
-      // forceDivWrapper: true,
+      showFieldLabel: true,
+    },
+    'ui:validations': [validateBooleanGroup],
+    'ui:errorMessages': {
+      atLeastOne: patientAcknowledgmentError,
     },
     'view:acknowledgement': {
       'ui:title': 'I acknowledge and authorize this release of information',
@@ -46,20 +53,15 @@ export const uiSchema = {
         useDlWrap: true,
       },
     },
-    'view:helpText': {
-      'ui:title': ' ',
-      'ui:description': patientAcknowledgmentText,
-      'ui:options': {
-        forceDivWrapper: true,
-      },
+  },
+  'view:patientAcknowledgmentHelp': {
+    'ui:description': patientAcknowledgmentText,
+    'ui:options': {
+      expandUnder: 'view:uploadPrivateRecordsQualifier',
+      expandUnderCondition: data =>
+        data?.['view:hasPrivateRecordsToUpload'] === false,
+      forceDivWrapper: true,
     },
-    'ui:validations': [
-      (errors, item) => {
-        if (!item['view:acknowledgement']) {
-          errors.addError('You must accept the acknowledgment');
-        }
-      },
-    ],
   },
 };
 
@@ -92,11 +94,11 @@ export const schema = {
           type: 'boolean',
           default: true,
         },
-        'view:helpText': {
-          type: 'object',
-          properties: {},
-        },
       },
+    },
+    'view:patientAcknowledgmentHelp': {
+      type: 'object',
+      properties: {},
     },
   },
 };
