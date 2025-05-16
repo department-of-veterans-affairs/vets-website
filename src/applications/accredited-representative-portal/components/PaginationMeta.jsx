@@ -2,12 +2,12 @@ import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { SEARCH_PARAMS } from '../utilities/constants';
 
-const PaginationMeta = (meta, results) => {
+const PaginationMeta = ({ meta, results, resultType }) => {
   const [searchParams] = useSearchParams();
   const pageSize = Number(searchParams.get('pageSize'));
   const pageNumber = Number(searchParams.get('pageNumber'));
-  const sortby = searchParams.get(SEARCH_PARAMS.SORTBY);
-  const searchStatus = searchParams.get('status');
+  const sortOrder = searchParams.get(SEARCH_PARAMS.SORTORDER);
+  const searchStatus = searchParams.get('status') || '';
   let initCount;
   let pageSizeCount = pageSize * pageNumber;
   const totalCount = meta.total;
@@ -26,10 +26,10 @@ const PaginationMeta = (meta, results) => {
   return (
     <p className="poa-request__meta">
       Showing {initCount}-{pageSizeCount} of {totalCount} {searchStatus}{' '}
-      requests sorted by “
+      {resultType || ''} sorted by “
       <strong>
         {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
-        {sortby === 'asc' ? 'oldest' : 'newest'})
+        {sortOrder === 'asc' ? 'oldest' : 'newest'})
       </strong>
       ”
     </p>

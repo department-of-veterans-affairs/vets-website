@@ -12,7 +12,6 @@ export const submissionsBC = [
   },
 ];
 export const SEARCH_PARAMS = {
-  STATUS: 'status',
   SORTBY: 'sortBy',
   SORTORDER: 'sortOrder',
   SIZE: 'pageSize',
@@ -31,7 +30,7 @@ export const SORT_OPTIONS = {
 };
 
 export const SORT_DEFAULTS = {
-  SORT_BY: 'created_at',
+  SORT_BY: 'submittedDate',
   SORT_ORDER: 'desc',
   // default is 20 per page
   SIZE: '20',

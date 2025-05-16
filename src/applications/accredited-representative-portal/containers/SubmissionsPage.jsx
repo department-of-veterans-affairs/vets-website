@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
   useLoaderData,
   useSearchParams,
+  redirect,
   useNavigation,
 } from 'react-router-dom';
 import {
@@ -14,8 +15,7 @@ import api from '../utilities/api';
 import {
   SUBMISSIONS_BC_LABEL,
   submissionsBC,
-  SORT_BY,
-  SORT_OPTIONS,
+  SORT_DEFAULTS,
 } from '../utilities/submissions';
 import { SEARCH_PARAMS } from '../utilities/constants';
 import SortForm from '../components/SortForm';
@@ -54,7 +54,7 @@ const SubmissionsPage = title => {
     [title],
   );
   const submissions = useLoaderData().data || [];
-  const meta = useLoaderData().meta || {};
+  const meta = useLoaderData().meta.page || {};
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
 
@@ -110,14 +110,26 @@ const SubmissionsPage = title => {
             the past 60 days.
           </p>
           <SortForm
-            api={api.getFormSubmissions}
-            asc={SORT_BY.ASC}
-            desc={SORT_BY.DESC}
-            ascOption={SORT_OPTIONS.ASC_OPTION}
-            descOption={SORT_OPTIONS.DESC_OPTION}
+            options={[
+              {
+                sortBy: 'submittedDate',
+                sortOrder: 'desc',
+                label: 'Submitted date (newest)',
+              },
+              {
+                sortBy: 'submittedDate',
+                sortOrder: 'asc',
+                label: 'Submitted date (oldest)',
+              },
+            ]}
+            defaults={SORT_DEFAULTS}
           />
           {meta && submissions ? (
-            <PaginationMeta meta={meta} results={submissions} />
+            <PaginationMeta
+              meta={meta}
+              results={submissions}
+              resultType="submissions"
+            />
           ) : (
             ''
           )}
@@ -142,19 +154,30 @@ const SubmissionsPage = title => {
   );
 };
 
-SubmissionsPage.loader = ({ request }) => {
+SubmissionsPage.loader = async ({ request }) => {
   const { searchParams } = new URL(request.url);
   const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
   const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
   const size = searchParams.get(SEARCH_PARAMS.SIZE);
   const number = searchParams.get(SEARCH_PARAMS.NUMBER);
+  if (!['asc', 'desc'].includes(sort)) {
+    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_DEFAULTS.SORT_ORDER);
+    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_DEFAULTS.SORT_BY);
+    searchParams.set(SEARCH_PARAMS.SIZE, SORT_DEFAULTS.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, SORT_DEFAULTS.NUMBER);
+    throw redirect(`?${searchParams}`);
+  }
 
-  return api.getSubmissions(
+  // Wait for the Promise-based Response object
+  const response = await api.getSubmissions(
     { sort, size, number, sortBy },
     {
       signal: request.signal,
     },
   );
+
+  // Returns the actual response so we can grab the `.submission` and `.meta` with the `useLoaderData()` hook
+  return response?.json();
 };
 
 export default SubmissionsPage;

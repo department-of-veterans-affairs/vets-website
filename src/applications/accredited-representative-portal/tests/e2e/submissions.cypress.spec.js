@@ -82,11 +82,11 @@ describe('Accredited Representative Portal', () => {
       cy.contains('Recent Submissions').should('be.visible');
     });
 
-    // it('Shows data mock fetched from backend', () => {
-    //   cy.injectAxeThenAxeCheck();
-    //   cy.contains('Snyder, John').should('be.visible');
-    //   cy.contains('Anderson, Montgomery').should('be.visible');
-    //   cy.contains('Fahey, Isias').should('be.visible');
-    // });
+    it('Shows data mock fetched from backend', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.contains('Snyder, John').should('be.visible');
+      cy.contains('Anderson, Montgomery').should('be.visible');
+      cy.contains('Fahey, Isias').should('be.visible');
+    });
   });
 });
