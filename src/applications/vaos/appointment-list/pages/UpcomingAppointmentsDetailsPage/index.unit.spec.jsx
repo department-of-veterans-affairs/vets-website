@@ -148,6 +148,12 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       await waitFor(() => {
         expect(document.activeElement).to.have.tagName('h1');
       });
+      expect(
+        await screen.findByRole('heading', {
+          level: 1,
+          name: /In-person appointment/i,
+        }),
+      ).to.be.ok;
 
       userEvent.click(
         screen.container.querySelector('va-link[text="Back to appointments"]'),
@@ -496,13 +502,12 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
         it('should display document title for canceled past CC appointment', async () => {
           // Arrange
-
           const yesterday = subDays(new Date(), 1);
           const responses = MockAppointmentResponse.createCCResponses({
             localStartTime: yesterday,
             past: true,
+            status: APPOINTMENT_STATUS.cancelled,
           });
-          responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
 
           mockAppointmentApi({
             includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],

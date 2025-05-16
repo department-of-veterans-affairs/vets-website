@@ -1,9 +1,0 @@
-steps:
-  - action: exists
-    target: header
-    value:  What is your relationship to the family member?
-  - action: click
-    target: radio
-    value:  They're my child
-  - action: click
-    target: call-to-action

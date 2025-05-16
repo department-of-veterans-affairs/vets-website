@@ -29,10 +29,10 @@ export const evidenceDictionary = {
           upload or mail it.
         </p>
         <va-link
-          className="active-va-link"
+          active
           data-testid="VA Form 21-4142"
           text="VA Form 21-4142"
-          href="/find-forms/about-form-21-4142a/"
+          href="/find-forms/about-form-21-4142/"
         />
       </>
     ),
@@ -52,7 +52,7 @@ export const evidenceDictionary = {
         </p>
         <va-link
           active
-          text="Share your VA medical records"
+          text="VA Form 21-4192"
           data-testid="VA Form 21-4192"
           href="/find-forms/about-form-21-4192/"
         />
@@ -84,12 +84,21 @@ export const evidenceDictionary = {
           Banking Program (VBBP) can connect you with a bank that will help you
           set up an account.
         </p>
-        <va-link
-          external
-          text="Set up a bank account through VBBP (opens in new tab)"
-          data-testid="Set up a bank account through VBBP"
+        <a
+          className="external-active-link"
+          rel="noopener noreferrer"
+          target="_blank"
+          data-testid="Set up a bank account through VBBP (opens in new tab)"
           href="https://veteransbenefitsbanking.org/"
-        />
+        >
+          Set up a bank account through VBBP (opens in new tab)
+          <va-icon
+            icon="chevron_right"
+            class="active-link-icon"
+            size={2}
+            aria-hidden="true"
+          />
+        </a>
       </>
     ),
     isProperNoun: false,
