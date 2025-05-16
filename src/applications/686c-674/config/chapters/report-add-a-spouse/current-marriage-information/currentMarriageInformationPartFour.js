@@ -5,11 +5,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { addSpouse } from '../../../utilities';
-import {
-  marriageTypeLabels,
-  marriageTypeArr,
-  SupportingEvidenceNeeded,
-} from './helpers';
+import { marriageTypeLabels, marriageTypeArr } from './helpers';
+import { SpouseEvidencePreparation } from '../../../../components/SpouseEvidencePreparation';
 
 const { currentMarriageInformation } = addSpouse.properties;
 
@@ -53,7 +50,7 @@ export const uiSchema = {
       },
     },
     'view:marriageTypeInformation': {
-      'ui:description': <SupportingEvidenceNeeded />,
+      'ui:description': <SpouseEvidencePreparation />,
     },
     'ui:options': {
       updateSchema: (formData, formSchema) => {
