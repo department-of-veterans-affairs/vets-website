@@ -34,9 +34,23 @@ function App({
     return <></>;
   }
 
+  const breadcrumbs = [
+    { href: '/', label: 'Home' },
+    {
+      href: '/view-change-dependents',
+      label: 'View or change dependents on your VA disability benefits',
+    },
+    {
+      href: '/view-change-dependents/add-remove-form-21-686c-v2/introduction',
+      label: 'Add or remove dependents on VA benefits',
+    },
+  ];
+  const rawBreadcrumbs = JSON.stringify(breadcrumbs);
+
   const content = (
     <article id="form-686c" data-location={`${location?.pathname?.slice(1)}`}>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        <va-breadcrumbs breadcrumb-list={rawBreadcrumbs} wrapping />
         {children}
       </RoutedSavableApp>
     </article>

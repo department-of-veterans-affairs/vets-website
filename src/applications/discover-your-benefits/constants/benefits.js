@@ -88,9 +88,9 @@ export const militaryBranchComponentTypes = Object.freeze({
 });
 
 export const militaryBranchComponentTypeLabels = Object.freeze({
-  ACTIVE_DUTY: 'Active Duty',
-  NATIONAL_GUARD_SERVICE: 'National Guard Service',
-  RESERVE_SERVICE: 'Reserve Service',
+  ACTIVE_DUTY: 'Active-duty service',
+  NATIONAL_GUARD_SERVICE: 'National Guard service',
+  RESERVE_SERVICE: 'Reserve service',
 });
 
 export const expectedSeparationLabels = Object.freeze({
@@ -175,8 +175,8 @@ export const mappingTypes = {
   CHARACTER_OF_DISCHARGE: 'characterOfDischarge',
   DISABILITY_RATING: 'disabilityRating',
   BRANCH_COMPONENT: 'branchComponents',
-  ACTIVE_DUTY: 'activeDuty',
   LENGTH_OF_TITLE_TEN_SERVICE: 'titleTenTimeServed',
+  ACTIVE_DUTY: 'activeDuty',
 };
 export const BENEFITS_LIST = [
   {
