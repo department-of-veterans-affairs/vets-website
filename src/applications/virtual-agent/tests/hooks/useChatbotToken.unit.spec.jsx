@@ -6,13 +6,13 @@ import { act } from 'react-dom/test-utils';
 import { renderHook } from '@testing-library/react-hooks';
 import * as ApiModule from '@department-of-veterans-affairs/platform-utilities/api';
 import * as RetryOnce from '../../utils/retryOnce';
-import useVirtualAgentToken from '../../hooks/useVirtualAgentToken';
+import useChatbotToken from '../../hooks/useChatbotToken';
 import { ERROR, COMPLETE } from '../../utils/loadingStatus';
 import * as UseWaitForCsrfTokenModule from '../../hooks/useWaitForCsrfToken';
 import * as LoggingModule from '../../utils/logging';
 import * as UseDatadogLoggingModule from '../../hooks/useDatadogLogging';
 
-describe('useVirtualAgentToken', () => {
+describe('useChatbotToken', () => {
   let sandbox;
 
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe('useVirtualAgentToken', () => {
     sandbox.restore();
   });
 
-  describe('useVirtualAgentToken', () => {
+  describe('useChatbotToken', () => {
     it('should return error for loading status when csrf loading fails', async () => {
       sandbox
         .stub(
@@ -37,7 +37,7 @@ describe('useVirtualAgentToken', () => {
       let result;
       await act(async () => {
         result = renderHook(() =>
-          useVirtualAgentToken({
+          useChatbotToken({
             timeout: 1,
           }),
         );
@@ -61,7 +61,7 @@ describe('useVirtualAgentToken', () => {
 
       let result;
       await act(async () => {
-        result = renderHook(() => useVirtualAgentToken({ timeout: 1 }));
+        result = renderHook(() => useChatbotToken({ timeout: 1 }));
       });
 
       expect(result.result.current.token).to.equal('abc');
@@ -94,7 +94,7 @@ describe('useVirtualAgentToken', () => {
       let result;
       await act(async () => {
         result = renderHook(() =>
-          useVirtualAgentToken({
+          useChatbotToken({
             timeout: 1,
           }),
         );
@@ -103,13 +103,13 @@ describe('useVirtualAgentToken', () => {
       expect(result.result.current.loadingStatus).to.equal(ERROR);
       expect(logErrorToDatadogSpy.args[0][0]).to.be.true;
       expect(logErrorToDatadogSpy.args[0][1]).to.equal(
-        'vets-website - useVirtualAgentToken',
+        'vets-website - useChatbotToken',
       );
-      // 'Could not retrieve virtual agent token',
+      // 'Could not retrieve chatbot token',
       expect(logErrorToDatadogSpy.args[0][2]).to.be.an.instanceOf(Error);
       expect(SentryCaptureExceptionSpy.args[0][0]).to.be.an.instanceOf(Error);
       expect(SentryCaptureExceptionSpy.args[0][0].message).to.equal(
-        'Could not retrieve virtual agent token',
+        'Could not retrieve chatbot token',
       );
     });
     it('should call Sentry and not call Datadog when an exception is thrown and the Datadog feature flag is disabled', async () => {
@@ -138,7 +138,7 @@ describe('useVirtualAgentToken', () => {
       let result;
       await act(async () => {
         result = renderHook(() =>
-          useVirtualAgentToken({
+          useChatbotToken({
             timeout: 1,
           }),
         );
@@ -147,12 +147,12 @@ describe('useVirtualAgentToken', () => {
       expect(result.result.current.loadingStatus).to.equal(ERROR);
       expect(logErrorToDatadogSpy.args[0][0]).to.be.false;
       expect(logErrorToDatadogSpy.args[0][1]).to.equal(
-        'vets-website - useVirtualAgentToken',
+        'vets-website - useChatbotToken',
       );
       expect(logErrorToDatadogSpy.args[0][2]).to.be.an.instanceOf(Error);
       expect(SentryCaptureExceptionSpy.args[0][0]).to.be.an.instanceOf(Error);
       expect(SentryCaptureExceptionSpy.args[0][0].message).to.equal(
-        'Could not retrieve virtual agent token',
+        'Could not retrieve chatbot token',
       );
     });
   });
