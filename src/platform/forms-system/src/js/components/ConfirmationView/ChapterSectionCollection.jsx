@@ -114,7 +114,9 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   } = uiSchema;
 
   const label =
-    uiSchema['ui:title'] || schemaFromState?.properties?.[key].title;
+    uiSchema['ui:title'] ||
+    schemaFromState?.properties?.[key]?.title ||
+    schema?.properties?.[key]?.title;
 
   let refinedData = Array.isArray(data) ? data[index] : data;
   refinedData = typeof data === 'object' ? data[key] : data;
