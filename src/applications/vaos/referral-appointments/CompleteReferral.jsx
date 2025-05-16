@@ -165,7 +165,8 @@ export const CompleteReferral = props => {
               {appointmentTime}
             </h2>
             <strong data-testid="appointment-type">
-              {attributes.typeOfCare} with {attributes.provider.name}
+              {attributes.typeOfCare} with{' '}
+              {`${attributes.provider.name || 'Provider name not available'}`}
             </strong>
             <p
               className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--0"
@@ -179,14 +180,16 @@ export const CompleteReferral = props => {
                   size={3}
                 />
               </span>
-              {attributes.modality} at {attributes.provider.location.name}
+              {attributes.modality} at {attributes.provider.practice}
             </p>
-            <p
-              className="vads-u-margin-left--4 vads-u-margin-top--0p5"
-              data-testid="appointment-clinic"
-            >
-              Clinic: {attributes.provider.organization?.name}
-            </p>
+            {attributes.provider.clinic && (
+              <p
+                className="vads-u-margin-left--4 vads-u-margin-top--0p5"
+                data-testid="appointment-clinic"
+              >
+                Clinic: {attributes.provider.clinic}
+              </p>
+            )}
             <p>
               <va-link
                 href={`${root.url}/${attributes.id}?eps=true`}
