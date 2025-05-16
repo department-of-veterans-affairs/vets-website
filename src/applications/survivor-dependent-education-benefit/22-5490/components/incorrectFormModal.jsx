@@ -8,6 +8,7 @@ const IncorrectFormModal = props => {
     sponsorDateOfBirth,
     applicantHasServiceRecord,
     relationshipToMember,
+    showMeb54901990eTextUpdate,
   } = props;
 
   const [modalVisible, setModalVisible] = useState(true);
@@ -16,10 +17,13 @@ const IncorrectFormModal = props => {
     claimantDOB && sponsorDateOfBirth && claimantDOB === sponsorDateOfBirth;
 
   const conditionsCurrentlyMet =
-    (relationshipToMember === 'child' && isApplicantSameAsSponsor) ||
+    (relationshipToMember === 'child' &&
+      isApplicantSameAsSponsor &&
+      showMeb54901990eTextUpdate) ||
     (relationshipToMember === 'spouse' &&
       applicantHasServiceRecord &&
-      isApplicantSameAsSponsor);
+      isApplicantSameAsSponsor &&
+      showMeb54901990eTextUpdate);
 
   useEffect(
     () => {
@@ -79,11 +83,13 @@ const IncorrectFormModal = props => {
 const mapStateToProps = state => {
   return {
     ...state,
-    claimantDOB: state?.data?.formData?.data.attributes?.claimant.dateOfBirth,
+    claimantDOB: state?.data?.formData?.data?.attributes?.claimant.dateOfBirth,
     sponsorDateOfBirth: state?.form?.data?.dateOfBirth,
     relationshipToMember: state?.form?.data?.relationshipToMember,
     applicantHasServiceRecord:
-      state?.data?.formData?.data.attributes?.serviceData,
+      state?.data?.formData?.data?.attributes?.serviceData,
+    showMeb54901990eTextUpdate:
+      state?.featureToggles?.showMeb54901990eTextUpdate,
   };
 };
 
