@@ -234,8 +234,8 @@ App.propTypes = {
   router: PropTypes.object,
   setFormData: PropTypes.func,
   showFSR: PropTypes.bool,
-  showReviewPageNavigationFeature: PropTypes.bool,
   showLegacyWizard: PropTypes.bool,
+  showReviewPageNavigationFeature: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
