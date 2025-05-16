@@ -6,7 +6,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingDirect', value: true },
   { name: 'vaOnlineSchedulingRequests', value: true },
   { name: 'vaOnlineSchedulingBookingExclusion', value: false },
-  { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
   { name: 'vaOnlineSchedulingCCDirectScheduling', value: false },
   { name: 'vaOnlineSchedulingRecentLocationsFilter', value: true },
   { name: 'vaOnlineSchedulingOhDirectSchedule', value: true },
