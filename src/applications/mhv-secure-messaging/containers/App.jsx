@@ -26,6 +26,7 @@ import { Actions } from '../util/actionTypes';
 import { downtimeNotificationParams, Paths } from '../util/constants';
 import useTrackPreviousUrl from '../hooks/use-previous-url';
 import FetchRecipients from '../components/FetchRecipients';
+import LaunchMessagingAal from '../components/util/LaunchMessagingAal';
 
 const App = ({ isPilot }) => {
   useTrackPreviousUrl();
@@ -149,6 +150,7 @@ const App = ({ isPilot }) => {
         user={user}
         serviceRequired={[backendServices.MESSAGING]}
       >
+        <LaunchMessagingAal />
         <FetchRecipients />
         <MhvSecondaryNav />
         <div className="vads-l-grid-container">
