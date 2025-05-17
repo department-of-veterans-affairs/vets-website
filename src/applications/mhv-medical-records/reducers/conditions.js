@@ -117,11 +117,17 @@ export const conditionReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Conditions.GET: {
       const condition = action.response;
+
+      let conditionDetails = null;
+      if (condition) {
+        conditionDetails = condition.resourceType
+          ? convertCondition(condition)
+          : convertNewCondition(condition.data?.attributes);
+      }
+
       return {
         ...state,
-        conditionDetails: condition.resourceType
-          ? convertCondition(condition)
-          : convertNewCondition(condition.data?.attributes),
+        conditionDetails,
       };
     }
     case Actions.Conditions.GET_FROM_LIST: {

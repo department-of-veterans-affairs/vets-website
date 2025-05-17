@@ -8,6 +8,7 @@ import {
   vaccineReducer,
 } from '../../reducers/vaccines';
 import { Actions } from '../../util/actionTypes';
+import { loadStates } from '../../util/constants';
 
 describe('convertVaccine function', () => {
   it('convertVaccine function should return null if it is not passed an argument', () => {
@@ -347,6 +348,7 @@ describe('vaccineReducer', () => {
         id: '123',
         name: 'COVID-19',
       });
+      expect(newState.listState).to.equal(loadStates.FETCHED);
       expect(newState.listCurrentAsOf).to.be.instanceOf(Date);
     });
 
@@ -399,6 +401,7 @@ describe('vaccineReducer', () => {
         id: '123',
         name: 'COVID-19 Vaccine',
       });
+      expect(newState.listState).to.equal(loadStates.FETCHED);
       expect(newState.listCurrentAsOf).to.be.instanceOf(Date);
     });
   });
@@ -441,6 +444,31 @@ describe('vaccineReducer', () => {
       );
       expect(newState.vaccinesList.length).to.equal(1);
       expect(newState.updatedList).to.equal(undefined);
+    });
+  });
+
+  describe('CLEAR_DETAIL action', () => {
+    it('should clear vaccineDetails', () => {
+      const initialState = {
+        vaccineDetails: { id: '123', name: 'Type 2 Diabetes' },
+      };
+
+      const newState = vaccineReducer(initialState, {
+        type: Actions.Vaccines.CLEAR_DETAIL,
+      });
+
+      expect(newState.vaccineDetails).to.equal(undefined);
+    });
+  });
+
+  describe('UPDATE_LIST_STATE action', () => {
+    it('should update listState to the provided payload', () => {
+      const newState = vaccineReducer(
+        { listState: 'PRE_FETCH' },
+        { type: Actions.Vaccines.UPDATE_LIST_STATE, payload: 'FETCHING' },
+      );
+
+      expect(newState.listState).to.equal('FETCHING');
     });
   });
 });
