@@ -135,11 +135,17 @@ export const vaccineReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Vaccines.GET: {
       const vaccine = action.response;
+
+      let vaccineDetails = null;
+      if (vaccine) {
+        vaccineDetails = vaccine.resourceType
+          ? convertVaccine(vaccine)
+          : convertNewVaccine(vaccine.data?.attributes);
+      }
+
       return {
         ...state,
-        vaccineDetails: vaccine.resourceType
-          ? convertVaccine(vaccine)
-          : convertNewVaccine(vaccine.data?.attributes),
+        vaccineDetails,
       };
     }
     case Actions.Vaccines.GET_FROM_LIST: {
