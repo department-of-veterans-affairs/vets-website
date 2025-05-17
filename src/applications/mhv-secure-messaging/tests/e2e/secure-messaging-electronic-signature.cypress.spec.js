@@ -10,6 +10,7 @@ describe('Secure Messaging Compose', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+    PatientComposePage.interceptSentFolder();
   });
 
   it('verify care teams with electronic signature', () => {

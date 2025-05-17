@@ -8,6 +8,7 @@ describe('Secure Messaging Compose', () => {
   it('can send message', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
+    PatientComposePage.interceptSentFolder();
 
     cy.intercept('GET', Paths.INTERCEPT.MESSAGE_SIGNATURE, mockSignature).as(
       'signature',
