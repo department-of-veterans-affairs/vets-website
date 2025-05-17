@@ -1,10 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import {
-  MhvPageNotFound,
-  MhvUnauthorized,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
 import FeatureFlagRoute from './components/shared/FeatureFlagRoute';
 import AppRoute from './components/shared/AppRoute';
@@ -195,9 +192,6 @@ const routes = (
         </AppRoute>
         <Route>
           <MhvPageNotFound />
-        </Route>
-        <Route>
-          <MhvUnauthorized />
         </Route>
       </Switch>
     </Suspense>
