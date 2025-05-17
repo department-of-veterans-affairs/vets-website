@@ -10,9 +10,9 @@ import {
 import { Actions } from '../../util/actionTypes';
 import { loadStates } from '../../util/constants';
 
-describe('Condition Extraction Functions', () => {
-  const EMPTY_FIELD = 'None recorded'; // Define EMPTY_FIELD as per your implementation
+const EMPTY_FIELD = 'None recorded';
 
+describe('Condition Extraction Functions', () => {
   describe('extractLocation', () => {
     it('should return the location name if present', () => {
       const condition = {
@@ -63,8 +63,6 @@ describe('Condition Extraction Functions', () => {
 });
 
 describe('convertNewCondition', () => {
-  const MISSING_FIELD_VAL = 'None recorded';
-
   it('should return null if not passed an argument', () => {
     expect(convertNewCondition()).to.eq(null);
   });
@@ -92,11 +90,11 @@ describe('convertNewCondition', () => {
 
     const result = convertNewCondition(condition);
 
-    expect(result.name).to.eq(MISSING_FIELD_VAL);
-    expect(result.date).to.eq(MISSING_FIELD_VAL);
-    expect(result.provider).to.eq(MISSING_FIELD_VAL);
-    expect(result.facility).to.eq(MISSING_FIELD_VAL);
-    expect(result.comments).to.eq(MISSING_FIELD_VAL);
+    expect(result.name).to.eq(EMPTY_FIELD);
+    expect(result.date).to.eq(EMPTY_FIELD);
+    expect(result.provider).to.eq(EMPTY_FIELD);
+    expect(result.facility).to.eq(EMPTY_FIELD);
+    expect(result.comments).to.eq(EMPTY_FIELD);
   });
 
   it('should preserve all original properties and add formatted properties', () => {
