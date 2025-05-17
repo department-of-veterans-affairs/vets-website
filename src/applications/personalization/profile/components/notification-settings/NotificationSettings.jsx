@@ -162,7 +162,6 @@ const NotificationSettings = ({
               // this will hide the Payments header when there are no items to display
               if (
                 id === NOTIFICATION_GROUPS.PAYMENTS &&
-                !toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting &&
                 !toggles.profileShowNewHealthCareCopayBillNotificationSetting &&
                 !mobilePhoneNumber
               ) {
