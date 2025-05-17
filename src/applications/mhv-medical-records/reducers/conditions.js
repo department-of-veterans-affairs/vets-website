@@ -133,7 +133,7 @@ export const conditionReducer = (state = initialState, action) => {
     case Actions.Conditions.GET_LIST: {
       const oldList = state.conditionsList;
       let newList;
-      if (action.response.entry) {
+      if (action.response.resourceType) {
         newList =
           action.response.entry
             ?.map(record => {

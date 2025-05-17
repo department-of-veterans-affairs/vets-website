@@ -151,7 +151,7 @@ export const vaccineReducer = (state = initialState, action) => {
     case Actions.Vaccines.GET_LIST: {
       const oldList = state.vaccinesList;
       let newList;
-      if (action.response.entry) {
+      if (action.response.resourceType) {
         newList =
           action.response.entry
             ?.map(record => {
