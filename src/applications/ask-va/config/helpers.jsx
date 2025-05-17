@@ -915,3 +915,23 @@ export const generalQuestionCondition = formData => {
 
 export const formatDateTimeForAnnouncements = date =>
   format(date, "EEEE, MMMM d, yyyy 'at' h:mm a 'ET'");
+
+export const shouldIncludeSchoolFacility = formData => {
+  const category = formData?.selectCategory;
+  const topic = formData?.selectTopic;
+  const relationship = formData?.relationshipToVeteran;
+  const role = formData?.yourRole;
+
+  const isEdFlow =
+    category === 'Education benefits and work study' &&
+    relationship ===
+      "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
+    (role === 'On-the-job training or apprenticeship supervisor' ||
+      role === 'School Certifying Official (SCO)');
+
+  const isDebtFlow =
+    category === 'Debt' &&
+    topic === 'Education benefit overpayments (for school officials)';
+
+  return isEdFlow || isDebtFlow;
+};

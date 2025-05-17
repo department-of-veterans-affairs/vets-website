@@ -1,3 +1,5 @@
+import { shouldIncludeSchoolFacility } from './helpers';
+
 const getSchoolInfo = school => {
   if (!school) return null;
   const schoolInfo = school.split('-');
@@ -48,8 +50,8 @@ export default function submitTransformer(formData, uploadFiles) {
   /* eslint-disable no-param-reassign */
   const { stateOrResidency } = formData;
 
-  let schoolName;
-  let schoolCode;
+  let schoolCode = null;
+  let schoolName = null;
 
   if (formData?.emailAddress) {
     formData.businessEmail = formData.emailAddress;
@@ -68,28 +70,32 @@ export default function submitTransformer(formData, uploadFiles) {
     stateOrResidency.residencyState = stateOrResidency?.residencyState || null;
   }
 
-  if (formData?.school) {
+  if (shouldIncludeSchoolFacility(formData)) {
     const schoolInfo = getSchoolInfo(formData.school);
-    if (schoolInfo) {
-      schoolName = schoolInfo.name;
-      schoolCode = schoolInfo.code;
-    }
-  } else {
-    schoolName = formData?.schoolInfo?.schoolName || null;
-    schoolCode = formData?.schoolInfo?.schoolFacilityCode || null;
+    const fallbackCode = formData?.schoolInfo?.schoolFacilityCode;
+    const fallbackName = formData?.schoolInfo?.schoolName;
+
+    schoolCode = schoolInfo?.code || fallbackCode || null;
+    schoolName = schoolInfo?.name || fallbackName || null;
   }
 
-  return {
+  const transformed = {
     ...formData,
     ...transformAddress(formData),
     files: getFiles(uploadFiles),
-    SchoolObj: {
+  };
+
+  if (schoolCode) {
+    transformed.SchoolObj = {
       InstitutionName: schoolName,
       SchoolFacilityCode: schoolCode,
       StateAbbreviation:
         formData.stateOfTheSchool ||
         formData.stateOfTheFacility ||
-        formData.stateOrResidency.schoolState,
-    },
-  };
+        formData.stateOrResidency?.schoolState ||
+        null,
+    };
+  }
+
+  return transformed;
 }
