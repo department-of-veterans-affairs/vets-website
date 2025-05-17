@@ -70,11 +70,11 @@ const GroupedMedications = props => {
       </section>
       <section>
         {currentGroupedList &&
-          currentGroupedList.map(rx => {
+          currentGroupedList.map((rx, i) => {
             return (
               <dl
                 className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--3"
-                key={rx.prescriptionId}
+                key={`${rx.prescriptionId}-${i}`}
               >
                 <dt className="vads-u-margin-top--3" data-dd-privacy="mask">
                   <h3 className="vads-u-font-size--md vads-u-font-family--sans">

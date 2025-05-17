@@ -784,7 +784,9 @@ const Prescriptions = () => {
       {content()}
       <PrescriptionsPrintOnly
         list={printedList}
-        hasError={hasFullListDownloadError || isAlertVisible || allergiesError}
+        hasError={
+          hasFullListDownloadError || isAlertVisible || !!allergiesError
+        }
         isFullList={printedList.length === prescriptionsFullList.length}
       />
     </div>
