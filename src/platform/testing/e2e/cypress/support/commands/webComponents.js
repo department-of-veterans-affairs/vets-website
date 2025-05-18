@@ -339,3 +339,40 @@ Cypress.Commands.add(
     }
   },
 );
+
+/**
+ * Custom command to check if the current page uses web components.
+ * Returns true if any VA web components are found in the DOM.
+ *
+ * @example
+ * cy.checkWebComponent().then(hasWebComponents => {
+ *   if (hasWebComponents) {
+ *     // use web component selectors
+ *   } else {
+ *     // use traditional form elements
+ *   }
+ * });
+ *
+ * @returns {Chainable<boolean>} A chainable Cypress object containing the boolean result
+ */
+Cypress.Commands.add('checkWebComponent', () => {
+  return cy.document().then(document => {
+    // Check for common VA web component prefixes
+    const webComponentSelectors = [
+      'va-text-input',
+      'va-textarea',
+      'va-select',
+      'va-checkbox',
+      'va-radio-option',
+      'va-date',
+      'va-memorable-date',
+      'va-button',
+      'va-card',
+    ];
+
+    // Check if any of these components exist in the DOM
+    return webComponentSelectors.some(
+      selector => document.querySelector(selector) !== null,
+    );
+  });
+});
