@@ -31,12 +31,9 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.get('body').then(body => {
+            cy.checkWebComponent().then(hasWebComponent => {
               // if the environment is production
-              if (
-                !body.find(`va-text-input[name="root_veteran_address_street"]`)
-                  .length
-              ) {
+              if (!hasWebComponent) {
                 cy.fillPage();
                 // fillPage doesn't catch state select, so select state manually
                 cy.get('select#root_veteran_address_state').select(
@@ -61,6 +58,36 @@ const testConfig = createTestConfig(
                 );
               }
             });
+            // cy.get('body').then(body => {
+            //   // if the environment is production
+            //   if (
+            //     !body.find(`va-text-input[name="root_veteran_address_street"]`)
+            //       .length
+            //   ) {
+            //     cy.fillPage();
+            //     // fillPage doesn't catch state select, so select state manually
+            //     cy.get('select#root_veteran_address_state').select(
+            //       data.veteran.address.state,
+            //     );
+            //     if (data.veteran.address.city) {
+            //       if (data.veteran.address.isMilitary) {
+            //         // there is a select dropdown instead when military is checked
+            //         cy.get('select#root_veteran_address_city').select(
+            //           data.veteran.address.city,
+            //         );
+            //       } else {
+            //         cy.get('#root_veteran_address_city').type(
+            //           data.veteran.address.city,
+            //         );
+            //       }
+            //     }
+            //   } else {
+            //     fillAddressWebComponentPattern(
+            //       'veteran_address',
+            //       data.veteran.address,
+            //     );
+            //   }
+            // });
             cy.findByText(/continue/i, { selector: 'button' })
               .last()
               .click();
