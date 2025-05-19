@@ -22,8 +22,8 @@ const generateProps = ({
   checkKeepAlive: sinon.spy(),
 });
 
-describe('<AutoSSO>', () => {
-  it.skip('should not call removeLoginAttempted if user is logged out', () => {
+describe.skip('<AutoSSO>', () => {
+  it('should not call removeLoginAttempted if user is logged out', () => {
     const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
     const props = generateProps();
     const wrapper = shallow(<AutoSSO {...props} />);
@@ -32,7 +32,7 @@ describe('<AutoSSO>', () => {
     wrapper.unmount();
   });
 
-  it.skip('should call removeLoginAttempted if user is logged in', () => {
+  it('should call removeLoginAttempted if user is logged in', () => {
     const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
     const props = generateProps({ loggedIn: true });
     const wrapper = shallow(<AutoSSO {...props} />);
@@ -41,7 +41,7 @@ describe('<AutoSSO>', () => {
     wrapper.unmount();
   });
 
-  it.skip(`should not call checkAutoSession on an invalid path ['/auth/login/callback']`, () => {
+  it(`should not call checkAutoSession on an invalid path ['/auth/login/callback']`, () => {
     const oldLocation = global.window.location;
     global.window.location = new URL('https://dev.va.gov');
     global.window.location.pathname = `/auth/login/callback`;
