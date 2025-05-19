@@ -39,7 +39,7 @@ describe('test wrapper', () => {
       sessionStorage.removeItem('shouldRedirectExpiredSession');
     });
 
-    it.skip('should behave as if in production', async () => {
+    it('should behave as if in production', async () => {
       await apiRequest('/status', {}, null, null, mockEnv);
       expect(mockEnv.isProduction.called).to.be.true;
     });
@@ -80,7 +80,7 @@ describe('test wrapper', () => {
       }
     });
 
-    it.skip('should NOT redirect if not in production, even if session expired (401)', async () => {
+    it('should NOT redirect if not in production, even if session expired (401)', async () => {
       const nonProdEnv = {
         ...environment,
         isProduction: sinon.stub().returns(false),
@@ -120,7 +120,7 @@ describe('test wrapper', () => {
       }
     });
 
-    it.skip('should not redirect to /session-expired if on /declined page (status: 401)', async () => {
+    it('should not redirect to /session-expired if on /declined page (status: 401)', async () => {
       server.use(
         rest.get('*', (req, res, ctx) =>
           res(
@@ -149,7 +149,7 @@ describe('test wrapper', () => {
       }
     });
 
-    it.skip('should not redirect if shouldRedirectExpiredSession is not set (status: 401)', async () => {
+    it('should not redirect if shouldRedirectExpiredSession is not set (status: 401)', async () => {
       server.use(
         rest.get('*', (req, res, ctx) =>
           res(
@@ -327,7 +327,6 @@ describe('test wrapper', () => {
       expected = undefined;
       checkOrSetSessionExpirationMock.restore();
       checkAndUpdateSSOSessionMock.restore();
-      localStorage.clear();
     });
 
     it('calls checkOrSetSessionExpiration and checkAndUpdateSSOSession if the hasSessionSSO flag is set', async () => {

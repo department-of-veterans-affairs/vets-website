@@ -81,7 +81,7 @@ function setupJSDom() {
 
   // setup the simplest document possible
   const dom = new JSDOM('<!doctype html><html><body></body></html>', {
-    url: 'http://localhost',
+    url: 'https://dev.va.gov',
   });
 
   const { window } = dom;
