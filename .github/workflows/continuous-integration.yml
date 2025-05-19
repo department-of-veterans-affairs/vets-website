@@ -700,11 +700,11 @@ jobs:
 
       - name: Checkout axe-headings branch
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: git fetch origin axe-heading --depth=1
+        run: git fetch origin axe-check-new-heading-rules --depth=1
 
       - name: Merge axe-headings checks
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: git merge origin/axe-heading
+        run: git merge origin/axe-check-new-heading-rules
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
