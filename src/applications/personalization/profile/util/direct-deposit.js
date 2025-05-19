@@ -47,7 +47,6 @@ export class DirectDepositClient {
       },
       method: 'PUT',
       body: JSON.stringify({ ...this.#DEFAULT_FIELDS, ...formattedFields }),
-      mode: 'cors',
     };
   }
 
