@@ -55,7 +55,7 @@ class MockReferralDetailResponse {
           provider: {
             name: 'A & D HEALTH CARE PROFS',
             npi: '1346206547',
-            telephone: '(937) 236-6750',
+            phone: '(937) 236-6750',
             location: 'A & D HEALTH CARE PROFS',
           },
           referringFacility: {

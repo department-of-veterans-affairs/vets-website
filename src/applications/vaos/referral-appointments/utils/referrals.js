@@ -85,7 +85,7 @@ const createReferralById = (
         name: 'Dr. Moreen S. Rafa',
         location: 'FHA South Melbourne Medical Complex',
         npi: '1346206547',
-        telephone: '(937) 236-6750',
+        phone: '(937) 236-6750',
         providerId,
       },
       hasAppointments: false,

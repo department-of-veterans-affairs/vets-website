@@ -143,7 +143,7 @@ export const DateAndTimeContent = props => {
           directionsName={
             draftAppointmentInfo.attributes.provider.providerOrganization.name
           }
-          phone={currentReferral.provider.telephone}
+          phone={currentReferral.provider.phone}
         />
         {driveTimeString && <p>{driveTimeString}</p>}
         <p>
