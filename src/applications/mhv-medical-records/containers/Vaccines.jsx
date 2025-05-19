@@ -121,7 +121,13 @@ const Vaccines = props => {
       ...generateVaccinesContent(vaccines),
     };
     const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Vaccines - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateVaccineListItemTxt = item => {

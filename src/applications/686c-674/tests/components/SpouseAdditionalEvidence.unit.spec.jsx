@@ -54,10 +54,7 @@ describe('SpouseAdditionalEvidence', () => {
         text.includes('2 Statements of Marital Relationship'),
       ),
     ).to.be.true;
-    expect(listItems.some(text => text.includes('Download VA Form 21-4170'))).to
-      .be.true;
-    expect(listItems.some(text => text.includes('Download VA Form 21-4171'))).to
-      .be.true;
+    expect(container.querySelectorAll('va-link').length).to.eq(2);
   });
 
   it('should display tribal marriage requirements', () => {

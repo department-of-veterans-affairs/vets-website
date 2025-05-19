@@ -20,6 +20,7 @@ import {
 
 // import mockData from '../tests/fixtures/data/test-data.json';
 import { applicantPages } from '../chapters/applicantInformation';
+import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
 
 import {
   sponsorNameDobSchema,
@@ -158,6 +159,10 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: applicantPages,
+    },
+    healthInsuranceInformation: {
+      title: 'Health insurance information',
+      pages: healthInsurancePages,
     },
   },
   footerContent: GetFormHelp,

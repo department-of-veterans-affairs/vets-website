@@ -178,6 +178,18 @@ The `generateSEIPdf` function returns a promise that resolves to an object conta
 5. **Redux Integration**:
    - The `userProfile` and feature flag are managed via Redux. Ensure the `FEATURE_FLAG_NAMES.mhvMedicalRecordsUseUnifiedSeiApi` flag is correctly configured.
 
+### Required Fields in `userProfile`
+
+The `generateSEIPdf` function requires the following fields from the `userProfile` object:
+
+- `userProfile.userFullName.first`: The user's first name (required)
+- `userProfile.userFullName.last`: The user's last name (required)
+- `userProfile.userFullName.middle`: The user's middle name (optional)
+- `userProfile.userFullName.suffix`: The user's suffix (optional)
+- `userProfile.dob`: The user's date of birth (required)
+- The user must also have an icn and a correlation id. 
+  However, these do not necessarily have to be passed as part of the userProfile object because they are only used at the server level and are pulled directly from the user there. 
+
 ---
 
 ## Example Use Cases
