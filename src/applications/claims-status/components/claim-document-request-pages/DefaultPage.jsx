@@ -93,9 +93,9 @@ export default function DefaultPage({
               <h3>Learn about this request in your claim letter</h3>
               <p>
                 On {dateFormatter(item.requestedDate)}, we mailed you a letter
-                titled, “Request for Specific Evidence or Information,” which
-                may include more details about this request. You can access this
-                and all your claim letters online.
+                titled “Request for Specific Evidence or Information,” which may
+                include more details about this request. You can access this and
+                all your claim letters online.
                 <br />
                 <va-link
                   text="Your claim letters"
