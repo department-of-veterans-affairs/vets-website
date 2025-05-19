@@ -223,9 +223,6 @@ describe('Device connection url parameters', () => {
   }/health-care/connected-devices/?vendor-1=${DISCONNECTION_FAILED_STATUS}#_=_`;
   const savedLocation = window.location;
 
-  beforeEach(() => {
-    delete window.location;
-  });
   afterEach(() => {
     window.location = savedLocation;
   });

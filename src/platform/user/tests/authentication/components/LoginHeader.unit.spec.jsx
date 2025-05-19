@@ -21,7 +21,6 @@ describe('LoginHeader', () => {
 
   it('should display the SessionTimeoutAlert component when the session is expired', () => {
     const originalLocation = window.location;
-    delete window.location;
     window.location = {
       ...originalLocation,
       search: '?status=session_expired',

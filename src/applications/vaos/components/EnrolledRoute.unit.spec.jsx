@@ -49,7 +49,6 @@ describe('VAOS Component: EnrolledRoute', () => {
   });
 
   afterEach(() => {
-    delete window.location;
     window.location = { replace: () => {}, origin: 'http://localhost' };
   });
 
