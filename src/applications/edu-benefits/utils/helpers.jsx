@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+// test comment
 import { hasSession } from 'platform/user/profile/utilities';
 import { dateFieldToDate } from 'platform/utilities/date';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
