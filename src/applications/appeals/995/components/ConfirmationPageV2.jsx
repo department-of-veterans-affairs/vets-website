@@ -6,7 +6,7 @@ import { selectProfile } from 'platform/user/selectors';
 
 // Content
 import { title995 } from '../content/title';
-import { EvidencePrivateContent } from './EvidencePrivateContent';
+import EvidencePrivateContent from './EvidencePrivateContent';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
 import { EvidenceVaContent } from './EvidenceVaContent';
 import { content as notice5103Content } from '../content/notice5103';
@@ -95,9 +95,10 @@ export const ConfirmationPageV2 = () => {
       <p>
         When we’ve completed your review, we’ll mail you a decision packet with
         the details of our decision.{' '}
-        <a href="/decision-reviews/after-you-request-review/">
-          Learn more about what happens after you request a decision review
-        </a>
+        <va-link
+          href="/decision-reviews/after-you-request-review/"
+          text="Learn more about what happens after you request a decision review"
+        />
       </p>
 
       <p>

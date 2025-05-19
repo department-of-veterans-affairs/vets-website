@@ -11,7 +11,7 @@ import {
 
 import { content } from '../content/evidenceSummary';
 
-import { EvidencePrivateContent } from './EvidencePrivateContent';
+import EvidencePrivateContent from './EvidencePrivateContent';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
 import { EvidenceVaContent } from './EvidenceVaContent';
 import { SUMMARY_EDIT, SC_NEW_FORM_DATA, EVIDENCE_LIMIT } from '../constants';

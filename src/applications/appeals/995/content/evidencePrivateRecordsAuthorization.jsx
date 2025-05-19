@@ -16,9 +16,12 @@ export const authorizationAlertContent = onAnchorClick => (
       If you want us to request your non-VA medical records from your doctor,
       you must authorize the release.
     </p>
-    <a href="#privacy-agreement" onClick={onAnchorClick} id="checkbox-anchor">
-      Check box to authorize
-    </a>
+    <va-link
+      href="#privacy-agreement"
+      onClick={onAnchorClick}
+      id="checkbox-anchor"
+      text="Check box to authorize"
+    />
     <p className="vads-u-margin-bottom--0">
       Or, go back a page and select <strong>No</strong> where we ask about
       non-VA medical records. Then you can upload your records or submit a

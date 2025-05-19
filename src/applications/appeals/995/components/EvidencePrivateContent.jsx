@@ -1,7 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+
+// Content
 import { title4142WithId } from '../content/title';
 import { content } from '../content/evidenceSummary';
 import {
@@ -9,6 +12,8 @@ import {
   authorizationError,
 } from '../content/evidencePrivateRecordsAuthorization';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
+
+// Utils
 import {
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_PRIVATE_AUTHORIZATION,
@@ -24,6 +29,7 @@ import {
   removeButtonClass,
 } from '../utils/evidence-classnames';
 import { formatDate } from '../utils/evidence';
+import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 
 /**
  * Build private evidence list
@@ -36,7 +42,7 @@ import { formatDate } from '../utils/evidence';
  *  an href when not wrapped in a Router
  * @returns {JSX}
  */
-export const EvidencePrivateContent = ({
+const EvidencePrivateContent = ({
   list = [],
   limitedConsent = '',
   isOnReviewPage,
@@ -44,6 +50,7 @@ export const EvidencePrivateContent = ({
   handlers = {},
   privacyAgreementAccepted,
   testing,
+  router,
   showListOnly = false,
   showScNewForm = false,
   showLimitedConsentYN = false,
@@ -70,6 +77,8 @@ export const EvidencePrivateContent = ({
       {errors.address}
     </div>
   );
+
+  console.log('I AM HERE');
 
   return (
     <>
@@ -101,15 +110,14 @@ export const EvidencePrivateContent = ({
             </div>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
-                <Link
+                <BasicLink
                   id="edit-private-authorization"
                   className="edit-item"
-                  to={`/${EVIDENCE_PRIVATE_AUTHORIZATION}`}
                   aria-label={`edit ${title4142WithId}`}
                   data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION : null}
-                >
-                  {content.edit}
-                </Link>
+                  path={`/${EVIDENCE_PRIVATE_AUTHORIZATION}`}
+                  text={content.edit}
+                />
               </div>
             )}
           </li>
@@ -126,15 +134,14 @@ export const EvidencePrivateContent = ({
             <div>{showLimitedConsentYN ? 'Yes' : 'No'}</div>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
-                <Link
+                <VaLink
                   id="edit-limitation-y-n"
                   className="edit-item"
-                  to={`/${EVIDENCE_LIMITATION_PATH1}`}
+                  onClick={() => router.push(`/${EVIDENCE_LIMITATION_PATH1}`)}
                   aria-label={`${content.edit} ${limitContent.title} `}
                   data-link={testing ? EVIDENCE_LIMITATION_PATH1 : null}
-                >
-                  {content.edit}
-                </Link>
+                  text={content.edit}
+                />
               </div>
             )}
           </li>
@@ -151,15 +158,14 @@ export const EvidencePrivateContent = ({
             <div>{limitedConsent}</div>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
-                <Link
+                <VaLink
                   id="edit-limitation"
                   className="edit-item"
-                  to={`/${EVIDENCE_LIMITATION_PATH2}`}
+                  onClick={() => router.push(`/${EVIDENCE_LIMITATION_PATH2}`)}
                   aria-label={`${content.edit} ${limitContent.textAreaTitle}`}
                   data-link={testing ? EVIDENCE_LIMITATION_PATH2 : null}
-                >
-                  {content.edit}
-                </Link>
+                  text={content.edit}
+                />
               </div>
             )}
           </li>
@@ -230,15 +236,14 @@ export const EvidencePrivateContent = ({
                 )}
                 {!reviewMode && (
                   <div className="vads-u-margin-top--1p5">
-                    <Link
+                    <VaLink
                       id={`edit-private-${index}`}
                       className="edit-item"
                       to={path}
                       aria-label={`${content.edit} ${providerFacilityName}`}
                       data-link={testing ? path : null}
-                    >
-                      {content.edit}
-                    </Link>
+                      text={content.edit}
+                    />
                     <va-button
                       data-index={index}
                       data-type="private"
@@ -268,15 +273,14 @@ export const EvidencePrivateContent = ({
 
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
-                <Link
+                <VaLink
                   id="edit-limitation"
                   className="edit-item"
-                  to={`/${EVIDENCE_LIMITATION_PATH}`}
+                  onClick={() => router.push(`/${EVIDENCE_LIMITATION_PATH}`)}
                   aria-label={`${content.edit} ${limitContent.name}`}
                   data-link={testing ? EVIDENCE_LIMITATION_PATH : null}
-                >
-                  {content.edit}
-                </Link>
+                  text={content.edit}
+                />
                 {limitedConsent.length ? (
                   <va-button
                     data-type={LIMITATION_KEY}
@@ -303,8 +307,13 @@ EvidencePrivateContent.propTypes = {
   list: PropTypes.array,
   privacyAgreementAccepted: PropTypes.bool,
   reviewMode: PropTypes.bool,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   showLimitedConsentYN: PropTypes.bool,
   showListOnly: PropTypes.bool,
   showScNewForm: PropTypes.bool,
   testing: PropTypes.bool,
 };
+
+export default withRouter(EvidencePrivateContent);

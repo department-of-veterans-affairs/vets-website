@@ -1,4 +1,4 @@
-import { SummaryTitle } from '../content/issueSummary';
+import SummaryTitle from '../content/issueSummary';
 
 export default {
   uiSchema: {

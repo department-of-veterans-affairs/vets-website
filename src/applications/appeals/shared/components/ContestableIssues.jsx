@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { withRouter } from 'react-router';
+import {
+  VaLink,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -49,6 +52,7 @@ const ContestableIssues = props => {
     setFormData,
     formData,
     apiLoadStatus,
+    router,
   } = props;
 
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -200,6 +204,14 @@ const ContestableIssues = props => {
     return hideCard ? null : <IssueCard {...cardProps} />;
   });
 
+  const handleRouteChange = event => {
+    event.preventDefault();
+    router.push({
+      pathname: '/add-issue',
+      search: `?index=${items.length}`,
+    });
+  };
+
   return (
     <>
       <div name="eligibleScrollElement" />
@@ -255,15 +267,11 @@ const ContestableIssues = props => {
           {content}
         </ul>
         {onReviewPage && inReviewMode ? null : (
-          <Link
+          <VaLink
             className="add-new-issue vads-c-action-link--green"
-            to={{
-              pathname: '/add-issue',
-              search: `?index=${items.length}`,
-            }}
-          >
-            Add a new issue
-          </Link>
+            onClick={handleRouteChange}
+            text="Add a new issue"
+          />
         )}
         {showErrorModal && (
           <MaxSelectionsAlert
@@ -292,6 +300,9 @@ ContestableIssues.propTypes = {
   }),
   id: PropTypes.string,
   options: PropTypes.shape({}),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   setFormData: PropTypes.func,
   testChange: PropTypes.func,
 };
@@ -307,7 +318,9 @@ const mapDispatchToProps = {
 
 export { ContestableIssues };
 
-export default connect(
+const ConnectedComponent = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ContestableIssues);
+
+export default withRouter(ConnectedComponent);

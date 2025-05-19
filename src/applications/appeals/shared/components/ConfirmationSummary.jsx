@@ -47,8 +47,6 @@ ConfirmationSummary.propTypes = {
 
 export const ConfirmationReturnLink = () => (
   <div className="screen-only vads-u-margin-top--4">
-    <a className="vads-c-action-link--green" href="/">
-      Go back to VA.gov
-    </a>
+    <va-link-action href="/" text="Go back to VA.gov" type="primary" />
   </div>
 );
