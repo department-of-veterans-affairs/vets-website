@@ -79,7 +79,7 @@ const VaPrescription = prescription => {
           if (window.DD_RUM) {
             const error = new Error(
               `Error submitting AAL on Medication Details landing. ${e
-                ?.errors[0] && JSON.stringify(e?.errors[0])}`,
+                ?.errors?.[0] && JSON.stringify(e?.errors?.[0])}`,
             );
             window.DD_RUM.addError(error);
           }
