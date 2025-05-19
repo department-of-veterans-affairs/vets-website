@@ -693,8 +693,9 @@ const Prescriptions = () => {
                     />
                     {showIPEContent && <InProductionEducationFiltering />}
                   </>
-                  {(paginatedPrescriptionsList?.length ||
-                    filteredList?.length) && (
+                  {!!(
+                    paginatedPrescriptionsList?.length || filteredList?.length
+                  ) && (
                     <>
                       {!isLoading && (
                         <MedicationsListSort
@@ -722,6 +723,7 @@ const Prescriptions = () => {
                       )}
                       {!isLoading && (
                         <>
+                          <BeforeYouDownloadDropdown page={pageType.LIST} />
                           <PrintDownload
                             onDownload={handleFullListDownload}
                             isSuccess={
@@ -735,7 +737,6 @@ const Prescriptions = () => {
                             }
                             list
                           />
-                          <BeforeYouDownloadDropdown page={pageType.LIST} />
                         </>
                       )}
                     </>

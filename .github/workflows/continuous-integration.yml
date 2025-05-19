@@ -336,13 +336,15 @@ jobs:
       - name: Run unit tests
         id: run-tests
         run: |
-          if [[ -n "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
-            yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
-            echo "tests_ran=true" >> $GITHUB_OUTPUT
-          else
-            echo "No tests to run"
-            echo "tests_ran=false" >> $GITHUB_OUTPUT
-          fi
+          # if [[ -n "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
+          #   yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+          #   echo "tests_ran=true" >> $GITHUB_OUTPUT
+          # else
+          #   echo "No tests to run"
+          #   echo "tests_ran=false" >> $GITHUB_OUTPUT
+          # fi
+          yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+          echo "tests_ran=true" >> $GITHUB_OUTPUT
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
@@ -481,7 +483,6 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           pattern: unit-test-stress-test-results-*
-          name: unit-test-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
           merge-multiple: true
 

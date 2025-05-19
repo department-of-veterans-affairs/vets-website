@@ -56,7 +56,7 @@ export const uiSchema = {
         updateSchema: () => {
           return {
             type: 'string',
-            pattern: '^\\d{3}-?\\d{3}-?\\d{4}$',
+            pattern: /^\d{10}$/,
           };
         },
       },

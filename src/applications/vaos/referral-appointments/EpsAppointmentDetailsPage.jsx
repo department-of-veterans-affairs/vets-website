@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import { fetchAppointmentInfo, setFormCurrentPage } from './redux/actions';
@@ -21,6 +21,7 @@ export default function EpsAppointmentDetailsPage() {
   const { pathname } = useLocation();
   // get the id from the url my-health/appointments/1234
   const [, appointmentId] = pathname.split('/');
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const {
@@ -95,6 +96,21 @@ export default function EpsAppointmentDetailsPage() {
 
   return (
     <PageLayout>
+      <div className="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
+        <nav aria-label="backlink" className="vads-u-padding-y--2 ">
+          <va-link
+            back
+            aria-label="Back link"
+            data-testid="back-link"
+            text="Back to appointments"
+            href="/my-health/appointments"
+            onClick={e => {
+              e.preventDefault();
+              history.push('/');
+            }}
+          />
+        </nav>
+      </div>
       <div
         className="vaos-appts__appointment-details--container vads-u-margin-top--4 vads-u-border--2px vads-u-border-color--gray-medium vads-u-padding-x--2p5 vads-u-padding-top--5 vads-u-padding-bottom--3"
         data-testid="appointment-card"

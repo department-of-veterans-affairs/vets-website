@@ -3,10 +3,12 @@
 import { subDays } from 'date-fns';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
 import MockUser from '../../../fixtures/MockUser';
 import PendingAppointmentListPageObject from '../../page-objects/AppointmentList/PendingAppointmentListPageObject';
 import {
   mockAppointmentsGetApi,
+  mockFacilityApi,
   mockFeatureToggles,
   mockVamcEhrApi,
   vaosSetup,
@@ -53,7 +55,6 @@ describe('VAOS pending appointment flow', () => {
       // Arrange
       const appt = new MockAppointmentResponse({
         localStartTime: new Date(),
-        serviceType: 'primaryCare',
         status: APPOINTMENT_STATUS.proposed,
         pending: true,
       });
@@ -81,11 +82,10 @@ describe('VAOS pending appointment flow', () => {
       const past = subDays(new Date(), 7);
       const appt = new MockAppointmentResponse({
         localStartTime: new Date(),
-        serviceType: 'primaryCare',
         status: APPOINTMENT_STATUS.proposed,
-        created: past,
         pending: true,
-      });
+      }).setCreated(past);
+      mockFacilityApi({ id: '983', response: new MockFacilityResponse() });
 
       mockAppointmentsGetApi({ response: [appt] });
 

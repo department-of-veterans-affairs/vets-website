@@ -8,6 +8,10 @@ flow:
 
     - action: include
       target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
       value: select-category-education-benefits-and-work-study
 
     - action: include
@@ -24,23 +28,15 @@ flow:
 
     - action: include
       target: page
-      value: what-is-your-role-sco
+      value: what-is-your-role-site-supervisor
 
     - action: include
       target: page
-      value: school-information
+      value: your-state-of-facility
 
     - action: include
       target: page
-      value: do-you-want-to-save-your-school-info
-
-    - action: include
-      target: page
-      value: tell-us-about-yourself-general
-
-    - action: include
-      target: page
-      value: your-contact-information-business-no-prefill
+      value: your-contact-information
 
     - action: include
       target: page

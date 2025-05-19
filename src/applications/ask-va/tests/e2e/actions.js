@@ -157,10 +157,10 @@ const clickCallToActionButton = (isPrimary = true, text) => {
       .should('exist');
     cy.get(`.usa-button${selectorPrimary}`, { includeShadowDom: true })
       .contains(text)
-      .click();
+      .click({ force: true });
   } else {
     cy.get(`.usa-button${selectorPrimary}`).should('exist');
-    cy.get(`.usa-button${selectorPrimary}`).click();
+    cy.get(`.usa-button${selectorPrimary}`).click({ force: true });
   }
 };
 

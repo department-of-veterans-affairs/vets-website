@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -29,7 +30,8 @@ function handleScheduleClick(dispatch) {
   };
 }
 
-export default function CompleteReferral() {
+export const CompleteReferral = props => {
+  const { attributes: currentReferral } = props.currentReferral;
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -100,8 +102,13 @@ export default function CompleteReferral() {
           data-testid={appointmentInfoTimeout ? 'warning-alert' : 'error-alert'}
         >
           <p className="vads-u-margin-y--0">
-            Try refreshing the page. If it still doesn't work, then please try
-            again later.
+            {appointmentInfoTimeout
+              ? `Try refreshing this page. If it still doesn’t work, please call us at ${
+                  currentReferral.referringFacilityInfo.phone
+                } during normal business hours to schedule.`
+              : `We’re sorry. Please call us at ${
+                  currentReferral.referringFacilityInfo.phone
+                } during normal business hours to schedule.`}
           </p>
         </va-alert>
       </ReferralLayout>
@@ -253,4 +260,10 @@ export default function CompleteReferral() {
       )}
     </ReferralLayout>
   );
-}
+};
+
+CompleteReferral.propTypes = {
+  currentReferral: PropTypes.object.isRequired,
+};
+
+export default CompleteReferral;
