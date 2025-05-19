@@ -119,23 +119,29 @@ const executeSteps = (steps, folder) => {
 describe('YAML tests', () => {
   describe(`Preload flows`, () => {
     describe('Run tests', () => {
-      const testRunner = (folder, path, file) => {
+      // eslint-disable-next-line func-names
+      const testRunner = function(folder, path, file) {
         let flowYML = EMPTY_FLOW_YML;
         const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${folder}/${path}/${file}`;
         cy.readFile(p).then(f => {
           flowYML = f;
 
           const { flow } = YAML.parse(flowYML);
+          cy.log(`Flow.runOnCI ${flow.runOnCI}`);
+          cy.log(`File ${file}`);
 
           if (flow.runOnCI === true) {
             cy.visit('http://localhost:3001/contact-us/ask-va/');
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);
+          } else {
+            this.skip();
           }
         });
       };
 
-      const runAndLogTest = (folder, path, file) => {
+      // eslint-disable-next-line func-names
+      const runAndLogTest = function(folder, path, file) {
         if (file.endsWith('.yml')) {
           cy.log('-------------------');
           cy.log(`Run tests in ${file}`);
@@ -154,17 +160,21 @@ describe('YAML tests', () => {
             cy.login(mockUserDefault);
           } else if (path === 'dashboard') {
             if (['13g.yml', '17g.yml'].includes(file)) {
-              cy.intercept('GET', 'v0/inquiries', mockMultipleInquiries);
+              cy.intercept(
+                'GET',
+                '/ask_va_api/v0/inquiries',
+                mockMultipleInquiries,
+              );
             } else if (['14g.yml', '18g.yml'].includes(file)) {
-              cy.intercept('GET', 'v0/inquiries', mockOneInquiry);
-            } else if (['2k.yml', '3k.yml'].includes(file)) {
-              cy.intercept('GET', 'v0/inquiries', mockNoInquiries);
+              cy.intercept('GET', '/ask_va_api/v0/inquiries', mockOneInquiry);
+            } else {
+              cy.intercept('GET', `/ask_va_api/v0/inquiries`, mockNoInquiries);
             }
             cy.login(mockUserDefault);
           } else {
             cy.clearAllCookies();
           }
-          testRunner(folder, path, file);
+          testRunner.call(this, folder, path, file);
         }
       };
 
@@ -173,11 +183,6 @@ describe('YAML tests', () => {
         interceptAskVaResponses();
         interceptVaGovResponses();
         intercept3rdPartyResponses();
-
-        // Intercept the user API request and log in
-        // cy.intercept('GET', `/v0/user`, mockUserDefault);
-        // TODO: This should be in the interceptAskVaResponses function -- Joe
-        // cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
       });
 
       const runTestsForFilesInPath = (folder, files) => {
@@ -186,9 +191,9 @@ describe('YAML tests', () => {
           if (path !== 'include-pages') {
             (() => {
               for (const file of files[path]) {
-                // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-                it(`Run tests in ${folder} for ${file}`, () => {
-                  runAndLogTest(folder, path, file);
+                // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required, func-names
+                it(`Run tests in ${folder} for ${file}`, function() {
+                  runAndLogTest.call(this, folder, path, file);
                 });
               }
             })();
