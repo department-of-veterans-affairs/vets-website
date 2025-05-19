@@ -50,7 +50,9 @@ export function fetchDirectDeposit({
       status: API_STATUS.STARTED,
     });
 
-    const response = await getData(DIRECT_DEPOSIT_API_ENDPOINT);
+    const response = await getData(DIRECT_DEPOSIT_API_ENDPOINT, {
+      headers: { 'Content-Type': 'application/json' },
+    });
 
     if (response.error || response.errors || response instanceof Error) {
       client.recordDirectDepositEvent({
@@ -97,6 +99,7 @@ export function saveDirectDeposit(
     client.recordDirectDepositEvent({
       endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
       status: API_STATUS.STARTED,
+      method: 'PUT',
     });
 
     const response = await getDataDirectDeposit(DIRECT_DEPOSIT_API_ENDPOINT, {
@@ -126,10 +129,7 @@ export function saveDirectDeposit(
         eventName: 'put-direct-deposit-failed',
       });
 
-      dispatch({
-        type: DIRECT_DEPOSIT_SAVE_FAILED,
-        response,
-      });
+      dispatch({ type: DIRECT_DEPOSIT_SAVE_FAILED, response });
 
       return;
     }
@@ -155,10 +155,7 @@ export function saveDirectDeposit(
         eventName: 'put-direct-deposit-failed',
       });
 
-      dispatch({
-        type: DIRECT_DEPOSIT_SAVE_FAILED,
-        response,
-      });
+      dispatch({ type: DIRECT_DEPOSIT_SAVE_FAILED, response });
 
       return;
     }
@@ -167,6 +164,7 @@ export function saveDirectDeposit(
     client.recordDirectDepositEvent({
       endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
       status: API_STATUS.SUCCESSFUL,
+      method: 'PUT',
     });
 
     dispatch({ type: DIRECT_DEPOSIT_SAVE_ERROR_CLEARED });
