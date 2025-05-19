@@ -99,7 +99,7 @@ describe('Referral Services', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // eslint-disable-next-line camelcase
-        body: JSON.stringify({ referralNumber: 'ref-id-123' }),
+        body: JSON.stringify({ referral_id: 'ref-id-123' }),
       }),
     ).to.be.true;
 
