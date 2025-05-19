@@ -32,9 +32,9 @@ export const checkBranchComponentReponse = (formData, mappingValue) => {
  * This function checks each condition of a benefit seperately e.g. CHARACTER_OF_DISCHARGE. The reason for this is so we can specify how
  * different conditions relate to one another. Do all of the conditions need to be true, can some be false if another is true?
  *
- * @param {Object} benefit
- * @param {Object} formData
- * @param {Object} mappingType
+ * @param {Object} benefit the benefit the function is checking for qualification.
+ * @param {Object} formData the user responses to the questionnaire.
+ * @param {Object} mappingType the name of the condition the function is checking.
  * @returns True if the formData qualifies for the given benefit, otherwise returns false.
  */
 export const checkSingleResponse = (benefit, formData, mappingType) => {
@@ -65,8 +65,8 @@ export const checkSingleResponse = (benefit, formData, mappingType) => {
 /**
  * Checks if the user responses in formData qualify the user for the given benefit.
  *
- * @param {Object} benefit
- * @param {Object} formData
+ * @param {Object} benefit the benefit the function is checking for qualification.
+ * @param {Object} formData the user responses to the questionnaire.
  * @returns true if the user responses in formData qualify the user for the benefit, otherwise returns false.
  */
 export const mapBenefitFromFormInputData = (benefit, formData) => {
