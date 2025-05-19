@@ -16,6 +16,7 @@ import {
   // eslint-disable-next-line import/no-restricted-paths
 } from '../appointment-list/components/AppointmentDateTime';
 import ProviderAddress from './components/ProviderAddress';
+import { titleCase } from '../utils/formatters';
 
 export default function EpsAppointmentDetailsPage() {
   const { pathname } = useLocation();
@@ -133,7 +134,7 @@ export default function EpsAppointmentDetailsPage() {
         </Section>
         <Section heading="What">
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            {appointment.typeOfCare}
+            {titleCase(appointment.typeOfCare)}
           </p>
         </Section>
         <Section heading="Provider">

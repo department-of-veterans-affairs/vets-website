@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-
+import { titleCase } from '../utils/formatters';
 import ReferralLayout from './components/ReferralLayout';
 import { routeToNextReferralPage } from './flow';
 import {
@@ -165,7 +165,7 @@ export const CompleteReferral = props => {
               {appointmentTime}
             </h2>
             <strong data-testid="appointment-type">
-              {attributes.typeOfCare} with{' '}
+              {titleCase(attributes.typeOfCare)} with{' '}
               {`${attributes.provider.name || 'Provider name not available'}`}
             </strong>
             <p
