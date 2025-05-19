@@ -7,7 +7,8 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { scrollTo, scrollToFirstError } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { checkValidations } from '../../utils/submit';
+
+import { checkValidations } from '../../utils/validations';
 import { form0781HeadingTag, titleWithTag } from '../form0781';
 
 export const workflowChoicePageTitle =
@@ -644,14 +645,15 @@ const WorkflowChoicePage = props => {
           {modalContent}
         </VaModal>
       </fieldset>
+
       {onReviewPage ? (
-        <button
-          className="usa-button-primary"
+        <va-button
           type="button"
           onClick={event => handlers.onUpdatePage(event)}
+          uswds
         >
           Update page
-        </button>
+        </va-button>
       ) : (
         <>
           {contentBeforeButtons}
