@@ -209,10 +209,10 @@ class ReviewCollapsibleChapter extends React.Component {
     });
 
     const title = page.reviewTitle || page.title || '';
-    let ariaLabel = pageUiSchema['ui:options']?.itemAriaLabel || title;
-    ariaLabel = `Update ${(typeof ariaLabel === 'function'
-      ? ariaLabel({ formData: pageData })
-      : ariaLabel) || 'page'}`;
+    const labelTitle = pageUiSchema['ui:options']?.itemAriaLabel || title;
+    const ariaText =
+      typeof labelTitle === 'function' ? labelTitle(pageData) : labelTitle;
+    const ariaLabel = `Update ${ariaText || 'page'}`;
 
     const visibleFields =
       pageSchema &&
