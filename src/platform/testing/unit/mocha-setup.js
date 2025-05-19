@@ -108,6 +108,41 @@ function initHappyDom() {
   window.Mocha = true;
 
   copyProps(window, global);
+
+  // Preserve Happy-DOM's real Location instance.
+  const realLocation = global.window.location;
+
+  // Utility to copy fields/functions from a user-supplied value
+  // onto the real Location object.
+  function applyToRealLocation(v) {
+    if (v instanceof URL) {
+      realLocation.href = v.href;
+      return;
+    }
+    if (typeof v === 'string') {
+      realLocation.href = v;
+      return;
+    }
+    if (v && typeof v === 'object') {
+      // copy primitives (origin, pathname, search…) and spies like replace()
+      Object.entries(v).forEach(([k, val]) => {
+        try {
+          realLocation[k] = val;
+        } catch {
+          /* silent: readonly prop */
+        }
+      });
+    }
+  }
+
+  // Redefine the `window.location` property with a custom setter
+  // that funnels every assignment through `applyToRealLocation`.
+  Object.defineProperty(global.window, 'location', {
+    configurable: true,
+    enumerable: true,
+    get: () => realLocation,
+    set: applyToRealLocation,
+  });
 }
 
 initHappyDom();
