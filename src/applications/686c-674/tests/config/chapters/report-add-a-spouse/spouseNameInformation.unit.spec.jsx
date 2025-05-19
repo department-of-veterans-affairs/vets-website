@@ -6,7 +6,7 @@ import createCommonStore from '@department-of-veterans-affairs/platform-startup/
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../../config/form';
-import { SupportingEvidenceNeeded } from '../../../../config/chapters/report-add-a-spouse/current-marriage-information/helpers';
+import { SpouseEvidencePreparation } from '../../../../components/SpouseEvidencePreparation';
 
 const defaultStore = createCommonStore();
 
@@ -98,11 +98,15 @@ describe('686 current marriage information: helpers', () => {
     dispatch: () => {},
     subscribe: () => {},
   };
-  const { queryByText } = render(
+  const container = render(
     <Provider store={store}>
-      <SupportingEvidenceNeeded />
+      <SpouseEvidencePreparation />
     </Provider>,
   );
 
-  expect(queryByText(/proxy/)).to.not.be.null;
+  expect(
+    container.queryByText(
+      'Based on your answers, you’ll need to submit supporting evidence to add your spouse as your dependent.',
+    ),
+  ).to.not.be.null;
 });
