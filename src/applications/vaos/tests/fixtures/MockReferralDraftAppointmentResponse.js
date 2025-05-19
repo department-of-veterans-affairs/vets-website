@@ -269,23 +269,22 @@ class MockReferralDraftAppointmentResponse {
     return {
       data: {
         id: 'EEKoGzEf',
-        type: 'draft',
-        provider,
-        slots: {
-          count: numberOfSlots,
+        type: 'draft_appointment',
+        attributes: {
+          provider,
           slots: slotsArray,
-        },
-        drivetime: {
-          origin: {
-            latitude: 40.7128,
-            longitude: -74.006,
-          },
-          destination: {
-            distanceInMiles: 313,
-            driveTimeInSecondsWithoutTraffic: 19096,
-            driveTimeInSecondsWithTraffic: 19561,
-            latitude: 44.475883,
-            longitude: -73.212074,
+          drivetime: {
+            origin: {
+              latitude: 40.7128,
+              longitude: -74.006,
+            },
+            destination: {
+              distanceInMiles: 313,
+              driveTimeInSecondsWithoutTraffic: 19096,
+              driveTimeInSecondsWithTraffic: 19561,
+              latitude: 44.475883,
+              longitude: -73.212074,
+            },
           },
         },
       },

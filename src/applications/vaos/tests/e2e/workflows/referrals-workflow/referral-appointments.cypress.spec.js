@@ -128,8 +128,7 @@ describe('VAOS Referral Appointments', () => {
       const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
         {
           appointmentId,
-          referralNumber,
-          typeOfCare: 'Physical Therapy',
+          typeOfCare: 'OPTOMETRY',
           providerName: 'Dr. Bones',
           organizationName: 'Meridian Health',
           success: true,
