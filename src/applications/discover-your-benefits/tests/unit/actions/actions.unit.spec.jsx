@@ -9,8 +9,11 @@ import {
   characterOfDischargeTypes,
   militaryServiceTimeServedTypes,
   goalTypes,
-  militaryBranchComponentTypes,
   yesNoType,
+  expectedSeparationTypes,
+  separationTypes,
+  militaryBranchTypes,
+  militaryBranchComponentTypes,
 } from '../../../constants/benefits';
 
 const getBenefitById = id => {
@@ -76,41 +79,6 @@ describe('actions', () => {
           );
           expect(dispatch.secondCall.args[0].error).to.exist;
         });
-    });
-  });
-
-  describe('checkExtraConditions', () => {
-    it('returns true if no extraConditions are provided', () => {
-      const benefit = {};
-      const formData = {};
-      const result = actions.checkExtraConditions(benefit, formData);
-      expect(result).to.be.true;
-    });
-
-    it('returns false when extraConditions fail', () => {
-      const benefit = {
-        extraConditions: {
-          oneIsNotBlank: ['someField'],
-        },
-      };
-      const formData = {
-        someField: '',
-      };
-      const result = actions.checkExtraConditions(benefit, formData);
-      expect(result).to.be.false;
-    });
-
-    it('returns true when extraConditions pass', () => {
-      const benefit = {
-        extraConditions: {
-          oneIsNotBlank: ['someField'],
-        },
-      };
-      const formData = {
-        someField: 'notBlank',
-      };
-      const result = actions.checkExtraConditions(benefit, formData);
-      expect(result).to.be.true;
     });
   });
 
@@ -221,7 +189,9 @@ describe('actions', () => {
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
         [mappingTypes.BRANCH_COMPONENT]: {
-          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+          [militaryBranchTypes.ARMY]: {
+            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+          },
         },
         [mappingTypes.ACTIVE_DUTY]: yesNoType.YES,
       };
@@ -240,7 +210,9 @@ describe('actions', () => {
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
         [mappingTypes.BRANCH_COMPONENT]: {
-          [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
+          [militaryBranchTypes.ARMY]: {
+            [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
+          },
         },
         [mappingTypes.ACTIVE_DUTY]: yesNoType.YES,
       };
@@ -259,8 +231,10 @@ describe('actions', () => {
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
         [mappingTypes.BRANCH_COMPONENT]: {
-          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
-          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+          [militaryBranchTypes.ARMY]: {
+            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+            [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+          },
         },
         [mappingTypes.ACTIVE_DUTY]: yesNoType.NO,
       };
@@ -279,8 +253,10 @@ describe('actions', () => {
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
         [mappingTypes.BRANCH_COMPONENT]: {
-          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
-          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+          [militaryBranchTypes.ARMY]: {
+            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+            [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+          },
         },
         [mappingTypes.ACTIVE_DUTY]: yesNoType.YES,
       };
@@ -299,10 +275,74 @@ describe('actions', () => {
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
         [mappingTypes.BRANCH_COMPONENT]: {
-          [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
-          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+          [militaryBranchTypes.ARMY]: {
+            [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
+            [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+          },
         },
         [mappingTypes.ACTIVE_DUTY]: yesNoType.NO,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should pass even if only EXPECTED_SEPARATION is set', () => {
+      const benefit = getBenefitById('ECC');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.SCHOOL]: true,
+          [goalTypes.CAREER]: true,
+        },
+        [mappingTypes.BRANCH_COMPONENT]: {
+          [militaryBranchTypes.ARMY]: {
+            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+          },
+        },
+        [mappingTypes.EXPECTED_SEPARATION]:
+          expectedSeparationTypes.UP_TO_3_MONTHS,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.HONORABLE,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.true;
+    });
+
+    it('should pass even if only SEPARATION is set', () => {
+      const benefit = getBenefitById('ECC');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.SCHOOL]: true,
+          [goalTypes.CAREER]: true,
+        },
+        [mappingTypes.BRANCH_COMPONENT]: {
+          [militaryBranchTypes.ARMY]: {
+            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+          },
+        },
+        [mappingTypes.SEPARATION]: {
+          [separationTypes.UP_TO_6_MONTHS]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.HONORABLE,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.true;
+    });
+
+    it('should fail if EXPECTED_SEPERATION and SEPERATION are not set', () => {
+      const benefit = getBenefitById('ECC');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.SCHOOL]: true,
+          [goalTypes.CAREER]: true,
+        },
+        [mappingTypes.BRANCH_COMPONENT]: {
+          [militaryBranchTypes.ARMY]: {
+            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+          },
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.HONORABLE,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
