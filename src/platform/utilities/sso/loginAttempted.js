@@ -1,3 +1,4 @@
+import localStorage from 'platform/utilities/storage/localStorage';
 /*
  * When set, the `loginAttempted` indicates that the current unauthenticated
  * user will have to "manually" authenticate against SSOe in order to establish a
