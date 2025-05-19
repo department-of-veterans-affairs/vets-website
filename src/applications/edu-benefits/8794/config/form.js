@@ -52,7 +52,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-  title: 'Complex Form',
+  title: "Update your institution's list of certifying officials",
+  subTitle: 'Designation of certifying official(s) (VA Form 22-8794)',
   defaultDefinitions: {
     fullName,
     ssn,
