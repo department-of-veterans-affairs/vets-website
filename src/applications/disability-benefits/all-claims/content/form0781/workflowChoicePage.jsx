@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import {
-  VaRadio,
-  VaModal,
   VaAlert,
+  VaModal,
+  VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { scrollToFirstError, scrollTo } from 'platform/utilities/ui';
-import { form0781HeadingTag, titleWithTag } from '../form0781';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { scrollTo, scrollToFirstError } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { checkValidations } from '../../utils/submit';
+import { form0781HeadingTag, titleWithTag } from '../form0781';
 
 export const workflowChoicePageTitle =
   'Option to add a statement in support of mental health conditions';
@@ -31,64 +31,53 @@ const conditionSelections = formData => {
       <p>Your claim includes these new conditions:</p>
       <ul>
         {conditions.map((condition, index) => (
-          <li key={index}>
-            <strong>{condition}</strong>
-          </li>
+          <li key={index}>{condition}</li>
         ))}
       </ul>
     </div>
   );
 };
 
-export const workflowChoicePageDescription = formData => {
-  return (
-    <>
-      {conditionSelections(formData)}
-      <h4>When to consider adding this statement to your claim</h4>
-      <p>
-        If you added a new mental health condition that’s related to your
-        military service, we encourage you to submit a statement. Mental health
-        conditions include conditions like PTSD or depression.
-      </p>
-      <p>
-        <strong>What to expect if you add a statement</strong>
-        <br />
-        We’ll ask you questions about:
-      </p>
-      <ul>
-        <li>
-          <strong>Traumatic events from your military service</strong>
-        </li>
-        <li>
-          <strong>Behavioral changes you experienced as a result</strong>
-        </li>
-      </ul>
-
-      <p>
-        You will also be able to add{' '}
-        <strong>medical records, provider information,</strong> and{' '}
-        <strong> supporting documents </strong> later in the{' '}
-        <strong>Supporting Evidence </strong> section.
-      </p>
-      <p>
-        Answer as many or as few questions you feel comfortable answering. We’ll
-        use any information you share to support your claim.
-      </p>
-      <p>
-        To answer all the questions, you’ll likely need about 45 minutes. You
-        can answer the questions online. Or, you can fill out a PDF version of
-        the form and upload it as part of your online submission.
-      </p>
-      <p>
-        <va-link
-          external
-          href="https://www.va.gov/find-forms/about-form-21-0781/"
-          text="Get VA Form 21-0781 to download"
-        />
-      </p>
-    </>
-  );
-};
+export const workflowChoicePageDescription = formData => (
+  <>
+    {conditionSelections(formData)}
+    <h4>When to consider adding this statement to your claim</h4>
+    <p>
+      If you added a new mental health condition that’s related to your military
+      service, we encourage you to submit a statement. Mental health conditions
+      include conditions like PTSD or depression.
+    </p>
+    <p>
+      <strong>What to expect if you add a statement</strong>
+      <br />
+      We’ll ask you questions about:
+    </p>
+    <ul>
+      <li>Traumatic events from your military service</li>
+      <li>Behavioral changes you experienced as a result</li>
+    </ul>
+    <p>
+      You will also be able to add medical records, provider information, and
+      supporting documents later in the Supporting Evidence section.
+    </p>
+    <p>
+      Answer as many or as few questions you feel comfortable answering. We’ll
+      use any information you share to support your claim.
+    </p>
+    <p>
+      To answer all the questions, you’ll likely need about 45 minutes. You can
+      answer the questions online. Or, you can fill out a PDF version of the
+      form and upload it as part of your online submission.
+    </p>
+    <p>
+      <va-link
+        external
+        href="https://www.va.gov/find-forms/about-form-21-0781/"
+        text="Get VA Form 21-0781 to download"
+      />
+    </p>
+  </>
+);
 
 export const form0781WorkflowChoiceDescription =
   'Do you want to add a statement in support of mental health conditions?';
@@ -105,7 +94,7 @@ export const form0781WorkflowChoiceLabels = Object.freeze({
   [form0781WorkflowChoices.SUBMIT_PAPER_FORM]:
     'Yes, and I want to fill out a PDF to upload.',
   [form0781WorkflowChoices.OPT_OUT_OF_FORM0781]:
-    'No, I don’t want to add this form to my claim.',
+    "No, I don't want to add this form to my claim.",
 });
 
 export const traumaticEventsExamples = (
@@ -269,17 +258,21 @@ const confirmationCompleteOnline = {
 const modalDescriptionUpload = (
   <>
     <p>
-      <strong>What to know:</strong> If you choose to upload a PDF statement,
-      we’ll delete this information from your claim:
+      If you choose to upload a PDF statement, we’ll delete this information
+      from your claim:
     </p>
-    <p>
-      <ul>
-        {sectionsOfMentalHealthStatement.map((section, i) => (
-          <li key={i}>
-            <b>{section}</b>
-          </li>
-        ))}
-      </ul>
+    <ul>
+      {sectionsOfMentalHealthStatement.map((section, i) => (
+        <li key={i}>{section}</li>
+      ))}
+    </ul>
+    <p className="vads-u-margin-top--2">
+      Need the paper form?{' '}
+      <va-link
+        external
+        href="https://www.va.gov/find-forms/about-form-21-0781/"
+        text="Download VA Form 21-0781 (PDF)"
+      />
     </p>
   </>
 );
@@ -287,14 +280,12 @@ const modalDescriptionUpload = (
 const modalDescriptionSkip = (
   <>
     <p>
-      <strong>What to know:</strong> If you choose to delete this statement,
-      we’ll delete this information from your claim:
+      If you choose to delete this statement, we’ll delete this information from
+      your claim:
     </p>
     <ul>
       {sectionsOfMentalHealthStatement.map((section, i) => (
-        <li key={i}>
-          <b>{section}</b>
-        </li>
+        <li key={i}>{section}</li>
       ))}
     </ul>
   </>
@@ -304,28 +295,26 @@ const modalDescriptionOnline = formData => {
   return (
     <>
       <p>
-        <strong>What to know:</strong> If you choose to answer questions online,
-        we’ll delete this PDF you uploaded:
+        If you choose to answer questions online, we’ll delete this PDF you
+        uploaded:
       </p>
-      <p>
-        <ul>
-          {formData.form781Upload.map((file, index) => (
-            <li key={index}>
-              <strong>{file.name}</strong>
-            </li>
-          ))}
-        </ul>
-      </p>
+      <ul>
+        {formData.form781Upload.map((file, index) => (
+          <li key={index}>{file.name}</li>
+        ))}
+      </ul>
     </>
   );
 };
 
 const alertDescriptionSkip =
-  'We deleted your statement about mental health conditions. You can still add a statement anytime before you submit your claim by choosing to answer questions online or uploading a PDF statement.';
+  'Your statement about mental health conditions has been deleted. You can still add a statement before you submit your claim by answering questions online or uploading a PDF statement.';
 
 const alertDescriptionUpload =
-  'We’ve deleted information you entered online about mental health conditions.';
-const alertDescriptionOnline = 'We’ve deleted your uploaded PDF.';
+  'The information you entered online about mental health conditions has been deleted. You can now upload a completed VA Form 21-0781 (PDF) as part of your claim.';
+
+const alertDescriptionOnline =
+  'Your uploaded PDF has been deleted. You can now answer the questions online to add a statement in support of your mental health conditions.';
 
 export const modalTitleSkip =
   'Delete your statement about mental health conditions?';
