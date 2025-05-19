@@ -108,7 +108,7 @@ export default function DefaultPage({
           {evidenceDictionary[item.displayName] &&
             evidenceDictionary[item.displayName].nextSteps && (
               <>
-                <h2>Next Steps</h2>
+                <h2>Next steps</h2>
                 {evidenceDictionary[item.displayName].nextSteps}
               </>
             )}
