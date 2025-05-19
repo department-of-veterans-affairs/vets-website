@@ -2,7 +2,7 @@
   "description": "Applicant is certifier, two policies, medical claim, has EOB",
   "data": {
     "view:hasPolicies": true,
-    "certifierRole": "applicant",
+    "certifierRole": "other",
     "certifierReceivedPacket": true,
     "sponsorName": {
       "first": "Sponsor",
@@ -11,7 +11,7 @@
       "suffix": "Jr."
     },
     "applicantName": {
-      "first": "Beneficiary",
+      "first": "Jim",
       "last": "Jones"
     },
     "applicantPhone": "1231231234",
