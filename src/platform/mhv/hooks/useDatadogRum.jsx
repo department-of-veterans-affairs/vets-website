@@ -37,15 +37,23 @@ const setRumUser = user => {
   });
 };
 
+const shouldRumBeEnabled = () => {
+  // Prevent RUM from running on local/CI environments.
+  return environment.BASE_URL.indexOf('localhost') < 0 && !window.Mocha;
+};
+
+const isRumConfigured = () => {
+  // Check if Datadog RUM is configured.
+  return !!window.DD_RUM?.getInitConfiguration();
+};
+
 const useDatadogRum = config => {
   useEffect(
     () => {
       if (
-        // Prevent RUM from running on local/CI environments.
-        environment.BASE_URL.indexOf('localhost') < 0 &&
+        shouldRumBeEnabled() &&
         // Prevent re-initializing the SDK.
-        !window.DD_RUM?.getInitConfiguration() &&
-        !window.Mocha
+        !isRumConfigured()
       ) {
         initializeDatadogRum(config);
       }
@@ -68,15 +76,7 @@ const useDatadogRum = config => {
  * @param {boolean} user.isVAPatient - Indicates if the user is a VA patient.
  */
 const setDatadogRumUser = user => {
-  if (
-    // // Prevent RUM from running on local/CI environments.
-    environment.BASE_URL.indexOf('localhost') < 0 &&
-    // Only run if DD is configured.
-    window.DD_RUM?.getInitConfiguration() &&
-    // Not during unit tests
-    !window.Mocha &&
-    user?.id
-  ) {
+  if (shouldRumBeEnabled() && isRumConfigured() && user?.id) {
     setRumUser({
       id: user.id,
       hasEHRM: user.hasEHRM,
@@ -95,15 +95,7 @@ const setDatadogRumUser = user => {
  * @param {Object} userData - The user object containing user information.
  */
 const addUserProperties = userData => {
-  if (
-    // Prevent RUM from running on local/CI environments.
-    environment.BASE_URL.indexOf('localhost') < 0 &&
-    // Only run if DD is configured.
-    window.DD_RUM?.getInitConfiguration() &&
-    // Not during unit tests
-    !window.Mocha &&
-    userData
-  ) {
+  if (shouldRumBeEnabled() && isRumConfigured() && userData) {
     const userProps = Object.entries(userData);
     userProps.forEach(([key, val]) => {
       datadogRum.setUserProperty(key, val);
