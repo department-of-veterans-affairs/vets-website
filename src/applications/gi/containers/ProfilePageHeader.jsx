@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {
+  capitalizeFirstLetter,
   convertRatingToStars,
   createId,
   formatNumber,
@@ -321,7 +322,7 @@ const ProfilePageHeader = ({
       />
       <div className="vads-u-padding-left--2">
         <h1 tabIndex={-1} className={titleClasses}>
-          {name}
+          {capitalizeFirstLetter(name)}
         </h1>
         <p>{formattedAddress}</p>
         <div className="vads-u-padding-bottom--1p5">

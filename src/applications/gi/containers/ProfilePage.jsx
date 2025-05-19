@@ -12,7 +12,11 @@ import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
-import { isSmallScreen, useQueryParams } from '../utils/helpers';
+import {
+  capitalizeFirstLetter,
+  isSmallScreen,
+  useQueryParams,
+} from '../utils/helpers';
 
 export function ProfilePage({
   constants,
@@ -48,7 +52,9 @@ export function ProfilePage({
   useEffect(
     () => {
       if (institutionName) {
-        document.title = `${institutionName}: GI Bill® Comparison Tool | Veterans Affairs`;
+        document.title = `${capitalizeFirstLetter(
+          institutionName,
+        )}: GI Bill® Comparison Tool | Veterans Affairs`;
       }
     },
     [institutionName],
