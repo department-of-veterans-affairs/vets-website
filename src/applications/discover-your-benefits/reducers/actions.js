@@ -21,39 +21,23 @@ const fetchResultsFailure = error => ({
   error,
 });
 
-export const checkExtraConditions = (benefit, formData) => {
-  let result = true;
-
-  if (benefit.extraConditions) {
-    if (benefit.extraConditions.oneIsNotBlank) {
-      result = benefit.extraConditions.oneIsNotBlank.some(
-        key => formData[key] !== '',
-      );
-    }
-
-    if (result === true && benefit.extraConditions.dependsOn) {
-      for (let i = 0; i < benefit.extraConditions.dependsOn.length; i++) {
-        const dependsOnObj = benefit.extraConditions.dependsOn[i];
-        if (
-          formData[dependsOnObj.field] === dependsOnObj.value &&
-          formData[dependsOnObj.dependsOnField] !== dependsOnObj.dependsOnValue
-        )
-          result = false;
-      }
-    }
-  }
-  return result;
+export const checkBranchComponentReponse = (formData, mappingValue) => {
+  return Object.values(formData.branchComponents).some(
+    branchComponent => branchComponent[mappingValue] === true,
+  );
 };
 
 /**
- * Check a single condition for a benefit.
+ * Checks a single condition for a benefit.
+ * This function checks each condition of a benefit seperately e.g. CHARACTER_OF_DISCHARGE. The reason for this is so we can specify how
+ * different conditions relate to one another. Do all of the conditions need to be true, can some be false if another is true?
+ *
  * @param {Object} benefit
  * @param {Object} formData
  * @param {Object} mappingType
  * @returns True if the formData qualifies for the given benefit, otherwise returns false.
  */
 export const checkSingleResponse = (benefit, formData, mappingType) => {
-  // Does this benefit map to the form input data values?
   if (
     !benefit.mappings[mappingType] ||
     benefit.mappings[mappingType][0] === anyType.ANY
@@ -63,6 +47,9 @@ export const checkSingleResponse = (benefit, formData, mappingType) => {
   for (let i = 0; i < benefit.mappings[mappingType].length; i++) {
     const mappingValue = benefit.mappings[mappingType][i];
     const formResponse = formData[mappingType];
+    if (mappingType === mappingTypes.BRANCH_COMPONENT) {
+      return checkBranchComponentReponse(formData, mappingValue);
+    }
     if (
       (formResponse &&
         (formResponse === mappingValue ||
@@ -76,28 +63,30 @@ export const checkSingleResponse = (benefit, formData, mappingType) => {
 };
 
 /**
- * Checks if the responses in formData qualify the user for the given benefit.
+ * Checks if the user responses in formData qualify the user for the given benefit.
+ *
  * @param {Object} benefit
  * @param {Object} formData
- * @returns true if the responses in formData qualify for the benefit, otherwise returns false.
+ * @returns true if the user responses in formData qualify the user for the benefit, otherwise returns false.
  */
 export const mapBenefitFromFormInputData = (benefit, formData) => {
-  if (checkExtraConditions(benefit, formData) === false) return false;
   const mappingKeys = Object.keys(mappingTypes);
-  const userResponseBooleanDictionary = {};
+  // Maps each benefit condition to a boolean indicating if the user meets that condition
+  const userBenefitConditionQualificationMap = {};
   // Each mapping type (i.e. GOALS).
   for (let m = 0; m < mappingKeys.length; m++) {
     const mappingType = mappingTypes[mappingKeys[m]];
-    userResponseBooleanDictionary[mappingType] = checkSingleResponse(
+    userBenefitConditionQualificationMap[mappingType] = checkSingleResponse(
       benefit,
       formData,
       mappingType,
     );
   }
   if (benefit.isQualified !== undefined) {
-    return benefit.isQualified(userResponseBooleanDictionary);
+    // Use benefit specific logic to determine qualification.
+    return benefit.isQualified(userBenefitConditionQualificationMap);
   }
-  return Object.values(userResponseBooleanDictionary).reduce(
+  return Object.values(userBenefitConditionQualificationMap).reduce(
     (accumulator, currentValue) => accumulator && currentValue,
     true,
   );
