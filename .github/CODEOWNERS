@@ -77,7 +77,7 @@ src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-
 src/applications/_mock-form-ae-design-patterns @department-of-veterans-affairs/tmf-auth-exp-design-patterns @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Disability Benefits Experience
-src/applications/disability-benefits @department-of-veterans-affairs/disability-experience @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/disability-benefits @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Benefits Management Tools (DSVA Slack: #benefits-management-tools)
 src/applications/claims-status @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
