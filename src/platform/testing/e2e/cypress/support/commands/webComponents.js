@@ -340,39 +340,77 @@ Cypress.Commands.add(
   },
 );
 
+// /**
+//  * Custom command to check if the current page uses web components.
+//  * Returns true if any VA web components are found in the DOM.
+//  *
+//  * @example
+//  * cy.checkWebComponent().then(hasWebComponents => {
+//  *   if (hasWebComponents) {
+//  *     // use web component selectors
+//  *   } else {
+//  *     // use traditional form elements
+//  *   }
+//  * });
+//  *
+//  * @returns {Chainable<boolean>} A chainable Cypress object containing the boolean result
+//  */
+// Cypress.Commands.add('checkWebComponent', () => {
+//   return cy.document().then(document => {
+//     // Check for common VA web component prefixes
+//     const webComponentSelectors = [
+//       'va-text-input',
+//       'va-textarea',
+//       'va-select',
+//       'va-checkbox',
+//       'va-radio-option',
+//       'va-date',
+//       'va-memorable-date',
+//       'va-button',
+//       'va-card',
+//     ];
+//
+//     // Check if any of these components exist in the DOM
+//     return webComponentSelectors.some(
+//       selector => document.querySelector(selector) !== null,
+//     );
+//   });
+// });
 /**
  * Custom command to check if the current page uses web components.
- * Returns true if any VA web components are found in the DOM.
+ * Takes a callback function that receives the result directly.
  *
  * @example
- * cy.checkWebComponent().then(hasWebComponents => {
+ * cy.checkWebComponent(hasWebComponents => {
  *   if (hasWebComponents) {
- *     // use web component selectors
+ *     // Handle web components case
  *   } else {
- *     // use traditional form elements
+ *     // Handle traditional form elements
  *   }
  * });
  *
- * @returns {Chainable<boolean>} A chainable Cypress object containing the boolean result
+ * @param {Function} callback - Function to execute with the result
  */
-Cypress.Commands.add('checkWebComponent', () => {
-  return cy.document().then(document => {
-    // Check for common VA web component prefixes
-    const webComponentSelectors = [
-      'va-text-input',
-      'va-textarea',
-      'va-select',
-      'va-checkbox',
-      'va-radio-option',
-      'va-date',
-      'va-memorable-date',
-      'va-button',
-      'va-card',
-    ];
+Cypress.Commands.add('checkWebComponent', callback => {
+  // Check for common VA web component prefixes
+  const webComponentSelectors = [
+    'va-text-input',
+    'va-textarea',
+    'va-select',
+    'va-checkbox',
+    'va-radio-option',
+    'va-date',
+    'va-memorable-date',
+    'va-button',
+    'va-card',
+  ];
 
-    // Check if any of these components exist in the DOM
-    return webComponentSelectors.some(
+  cy.document().then(document => {
+    const hasWebComponents = webComponentSelectors.some(
       selector => document.querySelector(selector) !== null,
     );
+
+    // Execute the callback with the result
+    callback(hasWebComponents);
   });
 });

@@ -31,7 +31,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.checkWebComponent().then(hasWebComponent => {
+            cy.checkWebComponent(hasWebComponent => {
               // if the environment is production
               if (!hasWebComponent) {
                 cy.fillPage();
