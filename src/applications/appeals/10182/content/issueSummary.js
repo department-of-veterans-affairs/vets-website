@@ -1,14 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { withRouter } from 'react-router';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import ShowIssuesList from '../../shared/components/ShowIssuesList';
 
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { getSelected } from '../../shared/utils/issues';
 
-export const SummaryTitle = ({ formData }) => {
+const SummaryTitle = ({ formData, router }) => {
   const issues = getSelected(formData);
+
+  const handleRouteChange = event => {
+    event.preventDefault();
+    router.push({
+      pathname: CONTESTABLE_ISSUES_PATH,
+      search: '?redirect',
+    });
+  };
 
   return (
     <>
@@ -17,14 +26,7 @@ export const SummaryTitle = ({ formData }) => {
       </h3>
       {ShowIssuesList({ issues })}
       <p>
-        <Link
-          to={{
-            pathname: CONTESTABLE_ISSUES_PATH,
-            search: '?redirect',
-          }}
-        >
-          Go back to add more issues
-        </Link>
+        <VaLink onClick={handleRouteChange} text="Go back to add more issues" />
       </p>
     </>
   );
@@ -32,4 +34,9 @@ export const SummaryTitle = ({ formData }) => {
 
 SummaryTitle.propTypes = {
   formData: PropTypes.shape({}),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
+
+export default withRouter(SummaryTitle);

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
@@ -234,6 +235,7 @@ export const PrivateContent = ({
   handlers = {},
   privacyAgreementAccepted,
   testing,
+  router,
   showListOnly = false,
   showScNewForm = false,
   showLimitedConsentYN = false,
@@ -291,15 +293,16 @@ export const PrivateContent = ({
             </div>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
-                <Link
+                <VaLink
                   id="edit-private-authorization"
                   className="edit-item"
-                  to={`/${EVIDENCE_PRIVATE_AUTHORIZATION}`}
                   aria-label={`edit ${title4142WithId}`}
                   data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION : null}
-                >
-                  {content.edit}
-                </Link>
+                  onClick={() =>
+                    router.push(`/${EVIDENCE_PRIVATE_AUTHORIZATION}`)
+                  }
+                  text={content.edit}
+                />
               </div>
             )}
           </li>

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { withRouter } from 'react-router';
 
 import {
   VaTextInput,
@@ -10,6 +10,7 @@ import {
   VaDate,
   VaMemorableDate,
   VaModal,
+  VaLinkAction,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { countries, states } from 'platform/forms/address';
@@ -340,16 +341,18 @@ FacilityAddress.propTypes = {
   showError: PropTypes.func,
 };
 
-export const PageNavigation = ({ path, content, handlers }) => (
+export const PageNavigation = ({ path, content, handlers, router }) => (
   <>
     <div className="vads-u-margin-top--2">
-      <Link
+      <VaLinkAction
         to={path}
-        onClick={handlers.onAddAnother}
-        className="vads-c-action-link--green"
-      >
-        {content.addAnotherLink}
-      </Link>
+        onClick={() => {
+          handlers.onAddAnother();
+          router.push(path);
+        }}
+        text={content.addAnotherLink}
+        type="primary"
+      />
     </div>
 
     <div className="vads-u-margin-top--4">
@@ -375,4 +378,7 @@ PageNavigation.propTypes = {
     onGoForward: PropTypes.func,
   }),
   path: PropTypes.string,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
