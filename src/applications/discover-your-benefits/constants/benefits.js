@@ -257,13 +257,11 @@ export const BENEFITS_LIST = [
       [mappingTypes.EXPECTED_SEPARATION]: [
         expectedSeparationTypes.UP_TO_3_MONTHS,
         expectedSeparationTypes.MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS,
-        blankType.BLANK,
       ],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
         separationTypes.UP_TO_6_MONTHS,
         separationTypes.UP_TO_1_YEAR,
-        blankType.BLANK,
       ],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
@@ -280,16 +278,10 @@ export const BENEFITS_LIST = [
         responses[mappingTypes.GOALS] &&
         (responses[mappingTypes.BRANCH_COMPONENT] ||
           responses[mappingTypes.ACTIVE_DUTY]) &&
-        responses[mappingTypes.EXPECTED_SEPARATION] &&
-        responses[mappingTypes.SEPARATION] &&
+        (responses[mappingTypes.EXPECTED_SEPARATION] ||
+          responses[mappingTypes.SEPARATION]) &&
         responses[mappingTypes.CHARACTER_OF_DISCHARGE]
       );
-    },
-    extraConditions: {
-      oneIsNotBlank: [
-        mappingTypes.EXPECTED_SEPARATION,
-        mappingTypes.SEPARATION,
-      ],
     },
     learnMoreURL: URLS.ECC_LEARN,
     applyNowURL: URLS.ECC_APPLY,
