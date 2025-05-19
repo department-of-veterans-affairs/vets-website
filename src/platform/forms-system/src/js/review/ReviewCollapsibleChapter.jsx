@@ -208,15 +208,11 @@ class ReviewCollapsibleChapter extends React.Component {
       'vads-u-margin-bottom--0': !pageSchema && arrayFields.length === 0,
     });
 
-    const uiOptions = pageUiSchema['ui:options'] || {};
-    let ariaLabel = uiOptions.itemAriaLabel;
-    const itemName =
-      (typeof ariaLabel === 'function' && ariaLabel(pageData || {})) ||
-      pageData[uiOptions.itemName] ||
-      uiOptions.itemName;
-
     const title = page.reviewTitle || page.title || '';
-    ariaLabel = (itemName && `Update ${itemName}`) || `Update ${title}`;
+    let ariaLabel = pageUiSchema['ui:options']?.itemAriaLabel || title;
+    ariaLabel = `Update ${(typeof ariaLabel === 'function'
+      ? ariaLabel({ formData: pageData })
+      : ariaLabel) || 'page'}`;
 
     const visibleFields =
       pageSchema &&
