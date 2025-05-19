@@ -804,11 +804,11 @@ class TrackClaimsPageV2 {
     cy.url().should('contain', '/your-claims/189685/files');
   }
 
-  verifyNeedToMailFiles() {
+  verifyNeedToMailDocuments() {
     cy.get('.additional-evidence-container va-additional-info')
       .shadow()
       .find('.additional-info-title')
-      .should('contain', 'Need to mail your files?');
+      .should('contain', 'Need to mail your documents?');
     cy.get('.additional-evidence-container va-additional-info')
       .shadow()
       .find('a')
