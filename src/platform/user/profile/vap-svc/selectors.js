@@ -3,6 +3,7 @@ import backendServices from '../constants/backendServices';
 
 import { selectAvailableServices, selectVAPContactInfo } from '../../selectors';
 
+// test comment
 import {
   VAP_SERVICE_INITIALIZATION_STATUS,
   INIT_VAP_SERVICE_ID,
