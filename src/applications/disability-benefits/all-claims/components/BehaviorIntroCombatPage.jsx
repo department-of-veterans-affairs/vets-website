@@ -3,22 +3,18 @@ import {
   VaModal,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { scrollToFirstError, scrollAndFocus } from 'platform/utilities/ui';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
+import { scrollAndFocus, scrollToFirstError } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+
 import {
   form0781HeadingTag,
   mentalHealthSupportAlert,
   titleWithTag,
 } from '../content/form0781';
-import {
-  behaviorPageTitle,
-  hasSelectedBehaviors,
-} from '../content/form0781/behaviorListPages';
-import { BehaviorIntroCombatPageModalContent } from './BehaviorIntroCombatPageModalContent';
 import {
   answerCombatQuestionsChoice,
   combatIntroDescription,
@@ -26,7 +22,12 @@ import {
   missingSelectionErrorMessage,
   optOutOfCombatQuestionsChoice,
 } from '../content/form0781/behaviorIntroCombatPage';
-import { checkValidations } from '../utils/submit';
+import {
+  behaviorPageTitle,
+  hasSelectedBehaviors,
+} from '../content/form0781/behaviorListPages';
+import { checkValidations } from '../utils/validations';
+import { BehaviorIntroCombatPageModalContent } from './BehaviorIntroCombatPageModalContent';
 
 const DELETABLE_FORM_DATA_KEYS = [
   'workBehaviors',
