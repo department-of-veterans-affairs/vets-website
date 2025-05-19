@@ -241,8 +241,10 @@ const formConfig = {
       pages: {
         page3: {
           path: 'insurance-status',
-          title: formData => {
-            return privWrapper(`${fnp(formData)} health insurance status`);
+          title: props => {
+            return privWrapper(
+              `${fnp(props.formData ?? props)} health insurance status`,
+            );
           },
           ...insuranceStatusSchema,
         },
