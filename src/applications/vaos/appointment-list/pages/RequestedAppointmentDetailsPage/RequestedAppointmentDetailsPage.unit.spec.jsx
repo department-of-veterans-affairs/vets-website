@@ -122,7 +122,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
   it('should display CC document title, vaOnlineSchedulingFeSourceOfTruthCC=false', async () => {
     // Arrange
-    const response = MockAppointmentResponse.createCCResponses({})[0];
+    const response = MockAppointmentResponse.createCCResponse();
     response
       .setStatus(APPOINTMENT_STATUS.proposed)
       .setTypeOfCare('audiology-hearing aid support');
@@ -203,7 +203,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
     });
-    const canceledResponse = MockAppointmentResponse.createCCResponses()[0];
+    const canceledResponse = MockAppointmentResponse.createCCResponse();
     canceledResponse
       .setCancelationReason('pat')
       .setRequestedPeriods(requestedPeriods)
@@ -240,7 +240,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
     });
-    const canceledResponse = MockAppointmentResponse.createCCResponses()[0];
+    const canceledResponse = MockAppointmentResponse.createCCResponse();
     canceledResponse
       .setCancelationReason('pat')
       .setRequestedPeriods(requestedPeriods)
@@ -331,7 +331,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       const response = new MockAppointmentResponse({
         status: APPOINTMENT_STATUS.proposed,
       });
-      const canceledResponse = MockAppointmentResponse.createCCResponses()[0];
+      const canceledResponse = MockAppointmentResponse.createCCResponse();
       canceledResponse
         .setCancelationReason('pat')
         .setRequestedPeriods(requestedPeriods)
@@ -395,7 +395,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       const response = new MockAppointmentResponse({
         status: APPOINTMENT_STATUS.proposed,
       });
-      const canceledResponse = MockAppointmentResponse.createCCResponses()[0];
+      const canceledResponse = MockAppointmentResponse.createCCResponse();
       canceledResponse
         .setCancelationReason('pat')
         .setRequestedPeriods(requestedPeriods)
