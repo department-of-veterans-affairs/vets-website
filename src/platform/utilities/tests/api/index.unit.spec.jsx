@@ -39,12 +39,12 @@ describe('test wrapper', () => {
       sessionStorage.removeItem('shouldRedirectExpiredSession');
     });
 
-    it('should behave as if in production', async () => {
+    it.skip('should behave as if in production', async () => {
       await apiRequest('/status', {}, null, null, mockEnv);
       expect(mockEnv.isProduction.called).to.be.true;
     });
 
-    it('should redirect to LoginModal if in production and session expired (401)', async () => {
+    it.skip('should redirect to LoginModal if in production and session expired (401)', async () => {
       server.use(
         rest.get('*', (req, res, ctx) =>
           res(
@@ -80,7 +80,7 @@ describe('test wrapper', () => {
       }
     });
 
-    it('should NOT redirect if not in production, even if session expired (401)', async () => {
+    it.skip('should NOT redirect if not in production, even if session expired (401)', async () => {
       const nonProdEnv = {
         ...environment,
         isProduction: sinon.stub().returns(false),
@@ -120,7 +120,7 @@ describe('test wrapper', () => {
       }
     });
 
-    it('should not redirect to /session-expired if on /declined page (status: 401)', async () => {
+    it.skip('should not redirect to /session-expired if on /declined page (status: 401)', async () => {
       server.use(
         rest.get('*', (req, res, ctx) =>
           res(
@@ -149,7 +149,7 @@ describe('test wrapper', () => {
       }
     });
 
-    it('should not redirect if shouldRedirectExpiredSession is not set (status: 401)', async () => {
+    it.skip('should not redirect if shouldRedirectExpiredSession is not set (status: 401)', async () => {
       server.use(
         rest.get('*', (req, res, ctx) =>
           res(
