@@ -837,7 +837,7 @@ class TrackClaimsPageV2 {
     cy.assertChildText(
       '@friendlyMessage',
       'p:last-of-type',
-      'On January 1, 2022, we mailed you a letter titled, “Request for Specific Evidence or Information,” which may include more details about this request. You can access this and all your claim letters online.',
+      'On January 1, 2022, we mailed you a letter titled “Request for Specific Evidence or Information,” which may include more details about this request. You can access this and all your claim letters online.',
     );
   }
 
