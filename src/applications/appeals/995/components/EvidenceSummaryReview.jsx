@@ -12,9 +12,9 @@ import {
 import { content } from '../content/evidenceSummary';
 
 import {
-  VaContent,
-  PrivateContent,
-  UploadContent,
+  VaEvidenceContent,
+  PrivateEvidenceContent,
+  UploadedEvidenceList,
 } from './EvidenceSummaryLists';
 import { SUMMARY_EDIT, SC_NEW_FORM_DATA, EVIDENCE_LIMIT } from '../constants';
 import { data995 } from '../../shared/props';
@@ -90,15 +90,15 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         </dl>
       ) : null}
 
-      <VaContent list={vaEvidence} {...props} />
-      <PrivateContent
+      <VaEvidenceContent list={vaEvidence} {...props} />
+      <PrivateEvidenceContent
         list={privateEvidence}
         showLimitedConsentYN={showLimitedConsentYN}
         limitedConsent={limitedConsent}
         privacyAgreementAccepted={privacyAgreementAccepted}
         {...props}
       />
-      <UploadContent list={otherEvidence} {...props} />
+      <UploadedEvidenceList list={otherEvidence} {...props} />
     </div>
   );
 };

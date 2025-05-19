@@ -15,9 +15,9 @@ import {
 import { content } from '../content/evidenceSummary';
 
 import {
-  VaContent,
-  PrivateContent,
-  UploadContent,
+  VaEvidenceContent,
+  PrivateEvidenceContent,
+  UploadedEvidenceList,
 } from './EvidenceSummaryLists';
 
 import { EVIDENCE_LIMIT, LIMITATION_KEY, SC_NEW_FORM_DATA } from '../constants';
@@ -221,15 +221,15 @@ const EvidenceSummary = ({
             {removeData?.name ? <strong>{` ${removeData.name}`}</strong> : null}
           </p>
         </VaModal>
-        <VaContent list={vaEvidence} {...props} />
-        <PrivateContent
+        <VaEvidenceContent list={vaEvidence} {...props} />
+        <PrivateEvidenceContent
           list={privateEvidence}
           showLimitedConsentYN={showLimitedConsentYN}
           limitedConsent={limitedConsent}
           privacyAgreementAccepted={privacyAgreementAccepted}
           {...props}
         />
-        <UploadContent list={otherEvidence} {...props} />
+        <UploadedEvidenceList list={otherEvidence} {...props} />
 
         {content.addMoreLink()}
 

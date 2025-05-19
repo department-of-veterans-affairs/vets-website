@@ -1,27 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
 import { selectProfile } from 'platform/user/selectors';
 
+// Content
 import { title995 } from '../content/title';
-
 import {
-  housingRiskTitle,
-  livingSituationTitle,
-  livingSituationList,
-  otherHousingRisksLabel,
-  pointOfContactNameLabel,
-  pointOfContactPhoneLabel,
-} from '../content/livingSituation';
-import {
-  VaContent,
-  PrivateContent,
-  UploadContent,
+  VaEvidenceContent,
+  PrivateEvidenceContent,
+  UploadedEvidenceList,
 } from './EvidenceSummaryLists';
-
 import { content as notice5103Content } from '../content/notice5103';
 import { facilityTypeTitle, facilityTypeList } from '../content/facilityTypes';
 import { content as evidenceContent } from '../content/evidenceSummary';
@@ -30,12 +19,16 @@ import {
   optionIndicatorLabel,
   optionIndicatorChoices,
 } from '../content/optionIndicator';
+
+// Utils
 import {
   getVAEvidence,
   getPrivateEvidence,
   getOtherEvidence,
 } from '../utils/evidence';
+import { SC_NEW_FORM_DATA, EVIDENCE_LIMIT } from '../constants';
 
+// Components
 import {
   chapterHeaderClass,
   ConfirmationTitle,
@@ -45,97 +38,11 @@ import {
 } from '../../shared/components/ConfirmationCommon';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
-import { showValueOrNotSelected } from '../../shared/utils/confirmation';
-import { SC_NEW_FORM_DATA, EVIDENCE_LIMIT } from '../constants';
+import { LivingSituation } from './LivingSituation';
 
 // import maxData from '../tests/fixtures/data/maximal-test-v2.json';
 
 import { getReadableDate } from '../../shared/utils/dates';
-
-export const LivingSituationQuestions = ({ data } = {}) => (
-  <>
-    <li>
-      <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-        {housingRiskTitle}
-      </div>
-      <div
-        className="vads-u-margin-bottom--2 dd-privacy-hidden"
-        data-dd-action-name="has housing risk"
-      >
-        {showValueOrNotSelected(data.housingRisk)}
-      </div>
-    </li>
-    {data.housingRisk && (
-      <>
-        <li>
-          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-            {livingSituationTitle}
-          </div>
-          <div
-            className="vads-u-margin-bottom--2 dd-privacy-hidden"
-            data-dd-action-name="living situation"
-          >
-            {livingSituationList(data?.livingSituation) || 'None selected'}
-          </div>
-        </li>
-        {data.livingSituation?.other && (
-          <li>
-            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-              {otherHousingRisksLabel}
-            </div>
-            <div
-              className="vads-u-margin-bottom--2 dd-privacy-hidden"
-              data-dd-action-name="other housing risks"
-            >
-              {data.otherHousingRisks || 'Nothing entered'}
-            </div>
-          </li>
-        )}
-        <li>
-          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-            {pointOfContactNameLabel}
-          </div>
-          <div
-            className="vads-u-margin-bottom--2 dd-privacy-hidden"
-            data-dd-action-name="point of contact full name"
-          >
-            {data.pointOfContactName || 'Nothing entered'}
-          </div>
-        </li>
-        <li>
-          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-            {pointOfContactPhoneLabel}
-          </div>
-          <div
-            className="vads-u-margin-bottom--2 dd-privacy-hidden"
-            data-dd-action-name="point of contact phone number"
-          >
-            {data.pointOfContactPhone ? (
-              <va-telephone
-                contact={data.pointOfContactPhone}
-                international={data.pointOfContactHasInternationalPhone}
-                not-clickable
-              />
-            ) : (
-              'Nothing entered'
-            )}
-          </div>
-        </li>
-      </>
-    )}
-  </>
-);
-
-LivingSituationQuestions.propTypes = {
-  data: PropTypes.shape({
-    housingRisk: PropTypes.bool,
-    livingSituation: PropTypes.arrayOf(PropTypes.string),
-    otherHousingRisks: PropTypes.string,
-    pointOfContactName: PropTypes.string,
-    pointOfContactPhone: PropTypes.string,
-    pointOfContactHasInternationalPhone: PropTypes.bool,
-  }),
-};
 
 export const ConfirmationPageV2 = () => {
   const form = useSelector(state => state.form || {});
@@ -163,7 +70,7 @@ export const ConfirmationPageV2 = () => {
   );
 
   const livingSituation = showScNewForm ? (
-    <LivingSituationQuestions data={data} />
+    <LivingSituation data={data} />
   ) : null;
 
   return (
@@ -290,7 +197,7 @@ export const ConfirmationPageV2 = () => {
       )}
 
       {vaEvidence.length ? (
-        <VaContent
+        <VaEvidenceContent
           list={vaEvidence}
           reviewMode
           showListOnly
@@ -299,7 +206,7 @@ export const ConfirmationPageV2 = () => {
       ) : null}
 
       {privateEvidence.length ? (
-        <PrivateContent
+        <PrivateEvidenceContent
           list={privateEvidence}
           limitedConsent={data.limitedConsent}
           privacyAgreementAccepted={data.privacyAgreementAccepted}
@@ -311,7 +218,7 @@ export const ConfirmationPageV2 = () => {
       ) : null}
 
       {otherEvidence.length ? (
-        <UploadContent
+        <UploadedEvidenceList
           list={otherEvidence}
           reviewMode
           showListOnly

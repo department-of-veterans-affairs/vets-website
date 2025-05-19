@@ -19,12 +19,10 @@ import {
   isEmptyPrivateEntry,
 } from '../validations/evidence';
 import { focusEvidence } from '../../shared/utils/focus';
-import {
-  HeaderAndModal,
-  FacilityAddress,
-  IssueAndDates,
-  PageNavigation,
-} from './EvidenceRecords';
+import { EvidenceHeaderAndModal } from './EvidenceHeaderAndModal';
+import { FacilityAddress } from './FacilityAddress';
+import { IssueAndDates } from './IssueAndDates';
+import { PageNavigation } from './PageNavigation';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations';
@@ -46,6 +44,7 @@ const defaultData = {
   },
   treatmentDateRange: { from: '', to: '' },
 };
+
 const defaultState = {
   dirty: {
     name: false,
@@ -337,7 +336,7 @@ const EvidencePrivateRecords = ({
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
-        <HeaderAndModal
+        <EvidenceHeaderAndModal
           currentData={currentData}
           currentState={currentState}
           currentIndex={currentIndex}
