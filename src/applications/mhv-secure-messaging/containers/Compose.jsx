@@ -30,7 +30,9 @@ const Compose = () => {
   const signature = useSelector(state => state.sm.preferences.signature);
   const { noAssociations } = useSelector(state => state.sm.recipients);
 
-  const { threadList, isLoading } = useSelector(state => state.sm.threads);
+  const { threadList, isLoading, hasError: hasThreadListError } = useSelector(
+    state => state.sm.threads,
+  );
 
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
@@ -107,6 +109,18 @@ const Compose = () => {
   // make sure the thread list is fetched when navigating to the compose page
   useEffect(
     () => {
+      const shouldLoadSentFolder = () => {
+        const isThreadListEmpty = !threadList;
+        const didThreadListError = hasThreadListError;
+        const isFirstThreadNotSentFolder =
+          threadList?.[0]?.folderId !== DefaultFolders.SENT.id;
+        return (
+          !isLoading &&
+          !didThreadListError &&
+          (isThreadListEmpty || isFirstThreadNotSentFolder)
+        );
+      };
+
       const loadSentFolder = () => {
         dispatch(
           getListOfThreads(
@@ -118,20 +132,11 @@ const Compose = () => {
           ),
         );
       };
-
-      if (!isLoading && !threadList) {
-        loadSentFolder();
-      }
-      if (
-        !isLoading &&
-        threadList &&
-        threadList[0] &&
-        threadList[0].folderId !== DefaultFolders.SENT.id
-      ) {
+      if (shouldLoadSentFolder()) {
         loadSentFolder();
       }
     },
-    [dispatch, isLoading, threadList],
+    [dispatch, hasThreadListError, isLoading, threadList],
   );
 
   useEffect(
