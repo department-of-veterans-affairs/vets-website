@@ -130,6 +130,7 @@ WEB_PORT=3001 node src/platform/testing/e2e/test-server.js --buildtype=localhost
 
 Just like the API, make sure to change the PORT to public.
 
+
 #### Things of note
 
 - The main content will never load, that is static content. That is outside the scope of this setup.
