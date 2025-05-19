@@ -1,6 +1,6 @@
 flow:
   title: Debt for benefit overpayments and health care for someone else (auth)
-  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  runOnCI: false # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
       target: page
