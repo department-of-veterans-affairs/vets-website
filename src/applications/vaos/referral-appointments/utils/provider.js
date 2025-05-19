@@ -483,7 +483,7 @@ const getSlotById = (slots, id) => {
   if (!slots) {
     return {};
   }
-  return slots.find(slot => slot.id === id);
+  return slots.find(slot => slot.start === id);
 };
 
 /**

@@ -60,7 +60,7 @@ export const DateAndTimeContent = props => {
       if (!savedSlot) {
         return;
       }
-      dispatch(setSelectedSlot(savedSlot.id));
+      dispatch(setSelectedSlot(savedSlot.start));
     },
     [dispatch, selectedSlotKey, draftAppointmentInfo.attributes.slots],
   );
@@ -72,9 +72,9 @@ export const DateAndTimeContent = props => {
       );
       if (newSlot) {
         setError('');
-        dispatch(setSelectedSlot(newSlot.id));
+        dispatch(setSelectedSlot(newSlot.start));
         setSelectedDate(newSlot.start);
-        sessionStorage.setItem(selectedSlotKey, newSlot.id);
+        sessionStorage.setItem(selectedSlotKey, newSlot.start);
       }
     },
     [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],

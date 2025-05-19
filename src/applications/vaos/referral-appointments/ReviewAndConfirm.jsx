@@ -46,7 +46,7 @@ const ReviewAndConfirm = props => {
   const [createFailed, setCreateFailed] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
   const slotDetails = getSlotById(
-    draftAppointmentInfo.attributes?.slots,
+    draftAppointmentInfo?.attributes?.slots,
     selectedSlot,
   );
   const facilityTimeZone = getTimezoneByFacilityId(
@@ -95,20 +95,20 @@ const ReviewAndConfirm = props => {
         draftAppointmentCreateStatus === FETCH_STATUS.succeeded
       ) {
         const savedSlot = getSlotById(
-          draftAppointmentInfo.attributes.slots,
+          draftAppointmentInfo?.attributes?.slots,
           savedSelectedSlot,
         );
         if (!savedSlot) {
           routeToCCPage(history, 'scheduleReferral');
         } else {
-          dispatch(setSelectedSlot(savedSlot.id));
+          dispatch(setSelectedSlot(savedSlot.start));
         }
       }
     },
     [
       dispatch,
       savedSelectedSlot,
-      draftAppointmentInfo.attributes.slots,
+      draftAppointmentInfo,
       history,
       draftAppointmentCreateStatus,
       selectedSlot,
