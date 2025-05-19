@@ -162,13 +162,21 @@ describe('YAML tests', () => {
             if (['13g.yml', '17g.yml'].includes(file)) {
               cy.intercept(
                 'GET',
-                '/ask_va_api/v0/inquiries',
+                'http://localhost:3000/ask_va_api/v0/inquiries',
                 mockMultipleInquiries,
               );
             } else if (['14g.yml', '18g.yml'].includes(file)) {
-              cy.intercept('GET', '/ask_va_api/v0/inquiries', mockOneInquiry);
+              cy.intercept(
+                'GET',
+                'http://localhost:3000/ask_va_api/v0/inquiries',
+                mockOneInquiry,
+              );
             } else {
-              cy.intercept('GET', `/ask_va_api/v0/inquiries`, mockNoInquiries);
+              cy.intercept(
+                'GET',
+                `http://localhost:3000/ask_va_api/v0/inquiries`,
+                mockNoInquiries,
+              );
             }
             cy.login(mockUserDefault);
           } else {
