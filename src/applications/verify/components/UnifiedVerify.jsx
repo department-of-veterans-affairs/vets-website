@@ -4,7 +4,7 @@ import {
   authenticatedUser,
   isLoading,
   signInServiceName,
-  verifiedUser,
+  isVerifiedUser,
 } from 'platform/user/authentication/selectors';
 import {
   VerifyIdmeButton,
@@ -13,7 +13,7 @@ import {
 
 export default function Verify() {
   const isAuthenticated = useSelector(authenticatedUser);
-  const isVerified = useSelector(verifiedUser);
+  const isVerified = useSelector(isVerifiedUser);
   const loading = useSelector(isLoading);
   const loginServiceName = useSelector(signInServiceName);
 

@@ -27,6 +27,9 @@ export const isAuthenticatedWithOAuth = state =>
 // returns true while page is loading
 export const isLoading = state => selectProfile(state)?.loading;
 
+// returns true if user previously completed the verification process
+export const isVerifiedUser = state => selectProfile(state)?.verified;
+
 // returns transaction id string for auto sso
 export const ssoeTransactionId = state =>
   selectProfile(state)?.session?.transactionid;
@@ -38,6 +41,3 @@ export const signInServiceEnabled = state =>
 // returns true if Terms of Use feature flag is enabled
 export const termsOfUseEnabled = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.termsOfUse];
-
-// returns true if user previously completed the verification process
-export const verifiedUser = state => selectProfile(state)?.verified;
