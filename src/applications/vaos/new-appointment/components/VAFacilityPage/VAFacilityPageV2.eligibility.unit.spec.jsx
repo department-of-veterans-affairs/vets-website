@@ -5,7 +5,9 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import { fireEvent, waitFor } from '@testing-library/dom';
 import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
-import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockEligibilityFetches,
   mockEligibilityRequestApi,
@@ -52,11 +54,15 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     it('should show no clinics message when direct is supported, no clinics available, requests not supported', async () => {
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
-            requestEnabled: false,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+                requestEnabled: false,
+              }),
+            ],
           }),
         ],
       });
@@ -82,12 +88,16 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     it('should show past visits message when not eligible for direct, requests are supported, no past visit', async () => {
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'outpatientMentalHealth',
-            directEnabled: false,
-            requestEnabled: true,
-            patientHistoryRequired: 'Yes',
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: false,
+                requestEnabled: true,
+                patientHistoryRequired: 'Yes',
+              }),
+            ],
           }),
         ],
       });
@@ -127,11 +137,15 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     it('should show request limits message when not eligible for direct, requests are supported, over request limit', async () => {
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            directEnabled: false,
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: false,
+                requestEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -173,12 +187,16 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'outpatientMentalHealth',
-            directEnabled: false,
-            requestEnabled: true,
-            patientHistoryRequired: 'Yes',
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: false,
+                requestEnabled: true,
+                patientHistoryRequired: 'Yes',
+              }),
+            ],
           }),
         ],
         responseCode: 500,
@@ -236,21 +254,29 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       // Arrange
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'socialWork',
-            directEnabled: true,
-            requestEnabled: false,
-            patientHistoryRequired: true,
-            patientHistoryDuration: 365,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'socialWork',
+                directEnabled: true,
+                requestEnabled: false,
+                patientHistoryRequired: true,
+                patientHistoryDuration: 365,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'socialWork',
-            directEnabled: true,
-            requestEnabled: false,
-            patientHistoryRequired: true,
-            patientHistoryDuration: 365,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'socialWork',
+                directEnabled: true,
+                requestEnabled: false,
+                patientHistoryRequired: true,
+                patientHistoryDuration: 365,
+              }),
+            ],
           }),
         ],
       });
@@ -303,17 +329,25 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       // Arrange
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'amputation',
-            directEnabled: true,
-            requestEnabled: false,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'amputation',
+                directEnabled: true,
+                requestEnabled: false,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'amputation',
-            directEnabled: true,
-            requestEnabled: false,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'amputation',
+                directEnabled: true,
+                requestEnabled: false,
+              }),
+            ],
           }),
         ],
       });
@@ -368,15 +402,23 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       // Arrange
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'amputation',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'amputation',
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'amputation',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'amputation',
+                directEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -427,15 +469,23 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       // Arrange
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -478,15 +528,23 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       // Arrange
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'outpatientMentalHealth',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'outpatientMentalHealth',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -529,15 +587,23 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       // Arrange
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -575,17 +641,25 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       // Arrange
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            directEnabled: false,
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: false,
+                requestEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'primaryCare',
-            directEnabled: false,
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: false,
+                requestEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -619,17 +693,25 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       // Given the user is requesting an appointment
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            directEnabled: false,
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: false,
+                requestEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'primaryCare',
-            directEnabled: false,
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: false,
+                requestEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -675,18 +757,26 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       // Arrange
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'outpatientMentalHealth',
-            directEnabled: false,
-            requestEnabled: true,
-            patientHistoryDuration: 1095,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: false,
+                requestEnabled: true,
+                patientHistoryDuration: 1095,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'outpatientMentalHealth',
-            directEnabled: false,
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: false,
+                requestEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -734,17 +824,25 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       // Arrange
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'outpatientMentalHealth',
-            directEnabled: true,
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: true,
+                requestEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'outpatientMentalHealth',
-            directEnabled: true,
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'outpatientMentalHealth',
+                directEnabled: true,
+                requestEnabled: true,
+              }),
+            ],
           }),
         ],
       });
