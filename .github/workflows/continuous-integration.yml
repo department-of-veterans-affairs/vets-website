@@ -698,6 +698,14 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
+      - name: Checkout axe-headings branch
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: git fetch origin axe-heading --depth=1
+
+      - name: Merge axe-headings checks
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: git merge origin/axe-heading
+
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/configure-aws-credentials
