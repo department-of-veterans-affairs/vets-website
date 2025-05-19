@@ -327,6 +327,7 @@ describe('test wrapper', () => {
       expected = undefined;
       checkOrSetSessionExpirationMock.restore();
       checkAndUpdateSSOSessionMock.restore();
+      localStorage.clear();
     });
 
     it('calls checkOrSetSessionExpiration and checkAndUpdateSSOSession if the hasSessionSSO flag is set', async () => {
