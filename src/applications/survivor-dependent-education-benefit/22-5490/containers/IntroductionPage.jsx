@@ -29,7 +29,7 @@ export const IntroductionPage = ({
           {' '}
           Chapter 35 Survivors' and Dependents' Education Assistance (DEA){' '}
         </strong>{' '}
-        or <strong>Chapter 35 Fry Scholarship.</strong>
+        or <strong>Chapter 33 Fry Scholarship.</strong>
       </p>
 
       <va-alert

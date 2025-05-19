@@ -170,7 +170,7 @@ class AddFilesForm extends React.Component {
           >
             <Toggler.Enabled>
               <div>
-                <h2>Upload Documents</h2>
+                <h2>Upload documents</h2>
                 <p>If you have a document to upload, you can do that here.</p>
                 <VaFileInput
                   id="file-upload"

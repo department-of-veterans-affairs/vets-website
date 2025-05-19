@@ -111,7 +111,7 @@ describe('<DefaultPage>', () => {
       getByText(`Respond by ${formatDate(item.suspenseDate)}`);
       getByText('What we need from you');
       getByText('Learn about this request in your claim letter');
-      getByText('Next Steps');
+      getByText('Next steps');
       expect($('va-link', container)).to.exist;
       expect($('.optional-upload', container)).to.not.exist;
       expect($('va-additional-info', container)).to.exist;
