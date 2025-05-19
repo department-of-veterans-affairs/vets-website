@@ -15,7 +15,7 @@ describe('mega menu - level one links', () => {
         menuSections: [],
       },
       {
-        title: 'Find a VA location',
+        title: 'Find a VA Location',
         href: '/find-locations',
       },
     ];
