@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
 import { SEARCH_PARAMS } from '../utilities/constants';
 
-const PaginationMeta = ({ meta, results, resultType }) => {
+const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   const [searchParams] = useSearchParams();
-  const pageSize = Number(searchParams.get('pageSize'));
-  const pageNumber = Number(searchParams.get('pageNumber'));
+  const pageSize = Number(searchParams.get('pageSize')) || defaults.SIZE;
+  const pageNumber = Number(searchParams.get('pageNumber')) || defaults.NUMBER;
   const sortOrder = searchParams.get(SEARCH_PARAMS.SORTORDER);
   const searchStatus = searchParams.get('status') || '';
   let initCount;
@@ -34,6 +35,13 @@ const PaginationMeta = ({ meta, results, resultType }) => {
       ”
     </p>
   );
+};
+
+PaginationMeta.propTypes = {
+  meta: PropTypes.object,
+  results: PropTypes.arrayOf(PropTypes.object),
+  resultType: PropTypes.string,
+  default: PropTypes.object,
 };
 
 export default PaginationMeta;

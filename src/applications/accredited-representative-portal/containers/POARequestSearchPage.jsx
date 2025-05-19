@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   useLoaderData,
   useSearchParams,
@@ -48,6 +49,15 @@ const SearchResults = ({ poaRequests }) => {
   );
 };
 
+SearchResults.propTypes = {
+  poaRequests: PropTypes.arrayOf(
+    PropTypes.shape({
+      length: PropTypes.number,
+      map: PropTypes.func,
+    }),
+  ),
+};
+
 const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
   const active = tabStatus === searchStatus;
   const classNames = ['poa-request__tab-link'];
@@ -68,6 +78,13 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
       {children}
     </Link>
   );
+};
+
+StatusTabLink.propTypes = {
+  tabStatus: PropTypes.string,
+  searchStatus: PropTypes.string,
+  tabSort: PropTypes.string,
+  children: PropTypes.node,
 };
 
 const POARequestSearchPage = title => {
@@ -166,6 +183,7 @@ const POARequestSearchPage = title => {
                         meta={meta}
                         results={poaRequests}
                         resultType="requests"
+                        defaults={PENDING_SORT_DEFAULTS}
                       />
                     </>
                   );
@@ -197,6 +215,7 @@ const POARequestSearchPage = title => {
                         meta={meta}
                         results={poaRequests}
                         resultType="requests"
+                        defaults={PROCESSED_SORT_DEFAULTS}
                       />
                     </>
                   );
@@ -212,6 +231,10 @@ const POARequestSearchPage = title => {
       </div>
     </section>
   );
+};
+
+POARequestSearchPage.propTypes = {
+  title: PropTypes.string,
 };
 
 POARequestSearchPage.loader = ({ request }) => {

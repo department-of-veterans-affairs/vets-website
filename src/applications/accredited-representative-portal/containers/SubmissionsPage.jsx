@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   useLoaderData,
   useSearchParams,
-  redirect,
   useNavigation,
 } from 'react-router-dom';
 import {
@@ -43,6 +43,15 @@ const SearchResults = ({ submissions }) => {
       })}
     </ul>
   );
+};
+
+SearchResults.propTypes = {
+  submissions: PropTypes.arrayOf(
+    PropTypes.shape({
+      length: PropTypes.number,
+      map: PropTypes.func,
+    }),
+  ),
 };
 
 const SubmissionsPage = title => {
@@ -129,6 +138,7 @@ const SubmissionsPage = title => {
               meta={meta}
               results={submissions}
               resultType="submissions"
+              defaults={SORT_DEFAULTS}
             />
           ) : (
             ''
@@ -165,7 +175,6 @@ SubmissionsPage.loader = async ({ request }) => {
     searchParams.set(SEARCH_PARAMS.SORTBY, SORT_DEFAULTS.SORT_BY);
     searchParams.set(SEARCH_PARAMS.SIZE, SORT_DEFAULTS.SIZE);
     searchParams.set(SEARCH_PARAMS.NUMBER, SORT_DEFAULTS.NUMBER);
-    throw redirect(`?${searchParams}`);
   }
 
   // Wait for the Promise-based Response object
