@@ -4,13 +4,7 @@ import PropTypes from 'prop-types';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-const DocumentDownload = ({
-  claimId,
-  documentId,
-  filename,
-  mimetype,
-  text,
-}) => {
+const DocumentDownload = ({ claimId, documentId, filename, text }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -29,16 +23,11 @@ const DocumentDownload = ({
         }/travel_pay/v0/claims/${claimId}/documents/${docId}`,
       );
 
-      const byteCharacters = atob(response.data);
-      const byteArrays = [];
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteArrays.push(byteCharacters.charCodeAt(i));
-      }
-      const byteArray = new Uint8Array(byteArrays);
-
-      const blob = new Blob([byteArray], {
-        type: mimetype,
+      const arrayBuffer = await response.arrayBuffer();
+      const blob = new Blob([arrayBuffer], {
+        type: response.headers.get('Content-Type'),
       });
+
       const objUrl = URL.createObjectURL(blob);
       if (objUrl) {
         const link = document.createElement('a');
@@ -87,7 +76,6 @@ DocumentDownload.propTypes = {
   claimId: PropTypes.string,
   documentId: PropTypes.string,
   filename: PropTypes.string,
-  mimetype: PropTypes.string,
   text: PropTypes.string,
 };
 

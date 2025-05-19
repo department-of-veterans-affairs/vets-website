@@ -36,7 +36,7 @@ export default function ClaimDetailsContent({
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
 
   const getDocLinkList = list =>
-    list.map(({ filename, text, mimetype, documentId }) => (
+    list.map(({ filename, text, documentId }) => (
       <div
         key={`claim-attachment-dl-${filename}`}
         className="vads-u-margin-top--1"
@@ -46,7 +46,6 @@ export default function ClaimDetailsContent({
           claimId={claimId}
           documentId={documentId}
           filename={filename}
-          mimetype={mimetype}
         />
       </div>
     ));
@@ -156,7 +155,6 @@ export default function ClaimDetailsContent({
                       claimId={claimId}
                       documentId={documentCategories.forms[0].documentId}
                       filename={documentCategories.forms[0].filename}
-                      mimetype={documentCategories.forms[0].mimetype}
                     />
                   ) : (
                     <va-link
