@@ -81,7 +81,13 @@ export const generateMilitaryServicePdf = async (
   };
 
   try {
-    await makePdf(pdfName, pdfData, title, runningUnitTest, 'militaryService');
+    await makePdf(
+      pdfName,
+      pdfData,
+      'militaryService',
+      `Medical Records - ${title} - PDF generation error`,
+      runningUnitTest,
+    );
     return { success: true };
   } catch (pdfError) {
     return { success: false, error: pdfError };

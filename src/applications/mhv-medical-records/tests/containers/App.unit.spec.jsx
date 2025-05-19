@@ -151,7 +151,7 @@ describe('App', () => {
     });
   });
 
-  describe.skip('Downtime notification logic', () => {
+  describe('Downtime notification logic', () => {
     it('renders the global downtime notification', async () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
@@ -174,12 +174,12 @@ describe('App', () => {
             exact: true,
           }),
         );
+        expect(
+          screen.getByText('We’re making some updates to this tool', {
+            exact: false,
+          }),
+        );
       });
-      expect(
-        screen.getByText('We’re making some updates to this tool', {
-          exact: false,
-        }),
-      );
     });
 
     it('renders the downtime notification', async () => {
@@ -204,15 +204,15 @@ describe('App', () => {
             exact: true,
           }),
         );
+        expect(
+          screen.getByText(
+            'We’re working on this medical records tool right now. The maintenance will last 48 hours.',
+            {
+              exact: false,
+            },
+          ),
+        );
       });
-      expect(
-        screen.getByText(
-          'We’re working on this medical records tool right now. The maintenance will last 48 hours.',
-          {
-            exact: false,
-          },
-        ),
-      );
     });
 
     it('renders the downtime notification for multiple services', async () => {
@@ -237,15 +237,15 @@ describe('App', () => {
             exact: true,
           }),
         );
+        expect(
+          screen.getByText(
+            'We’re working on this medical records tool right now. The maintenance will last 48 hours.',
+            {
+              exact: false,
+            },
+          ),
+        );
       });
-      expect(
-        screen.getByText(
-          'We’re working on this medical records tool right now. The maintenance will last 48 hours.',
-          {
-            exact: false,
-          },
-        ),
-      );
     });
 
     it('does NOT render the downtime notification', () => {
