@@ -27,11 +27,13 @@ describe('<AskVAPage>', () => {
     const router = getRouter();
 
     const { container } = renderWithRouter(
-      <AskVAPage
-        decisionRequestError={null}
-        params={{ id: 1 }}
-        router={router}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          decisionRequestError={null}
+          params={{ id: 1 }}
+          router={router}
+        />
+      </Provider>,
     );
 
     expect($('va-checkbox', container).getAttribute('checked')).to.equal(
@@ -45,11 +47,13 @@ describe('<AskVAPage>', () => {
     const router = getRouter();
 
     const { container, rerender } = renderWithRouter(
-      <AskVAPage
-        decisionRequestError={null}
-        params={{ id: 1 }}
-        router={router}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          decisionRequestError={null}
+          params={{ id: 1 }}
+          router={router}
+        />
+      </Provider>,
     );
 
     // still disabled
@@ -63,11 +67,13 @@ describe('<AskVAPage>', () => {
     // re-render to pick up state change
     rerenderWithRouter(
       rerender,
-      <AskVAPage
-        decisionRequestError={null}
-        params={{ id: 1 }}
-        router={router}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          decisionRequestError={null}
+          params={{ id: 1 }}
+          router={router}
+        />
+      </Provider>,
     );
 
     expect($('.button-primary', container).getAttribute('disabled')).to.not
@@ -78,12 +84,14 @@ describe('<AskVAPage>', () => {
     const router = getRouter();
 
     const { container } = renderWithRouter(
-      <AskVAPage
-        loadingDecisionRequest
-        decisionRequestError={null}
-        params={{ id: 1 }}
-        router={router}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          loadingDecisionRequest
+          decisionRequestError={null}
+          params={{ id: 1 }}
+          router={router}
+        />
+      </Provider>,
     );
 
     expect($('.button-primary', container).getAttribute('disabled')).to.exist;
@@ -100,23 +108,27 @@ describe('<AskVAPage>', () => {
 
     // 1 initial render (decisionRequested = false)
     const { rerender } = renderWithRouter(
-      <AskVAPage
-        decisionRequested={false}
-        getClaim={getClaim}
-        navigate={navigate}
-        params={params}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          decisionRequested={false}
+          getClaim={getClaim}
+          navigate={navigate}
+          params={params}
+        />
+      </Provider>,
     );
 
     // 2 re-render with decisionRequested = true
     rerenderWithRouter(
       rerender,
-      <AskVAPage
-        decisionRequested
-        getClaim={getClaim}
-        navigate={navigate}
-        params={params}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          decisionRequested
+          getClaim={getClaim}
+          navigate={navigate}
+          params={params}
+        />
+      </Provider>,
     );
 
     expect(getClaim.calledWith(1)).to.be.true;

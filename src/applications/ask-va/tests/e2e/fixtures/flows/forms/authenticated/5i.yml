@@ -34,8 +34,6 @@ flow:
       target: page
       value: your-state-of-facility
 
-
-
     - action: include
       target: page
       value: your-contact-information
