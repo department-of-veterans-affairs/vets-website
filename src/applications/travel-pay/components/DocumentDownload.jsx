@@ -73,10 +73,10 @@ const DocumentDownload = ({ claimId, documentId, filename, text }) => {
 };
 
 DocumentDownload.propTypes = {
-  claimId: PropTypes.string,
-  documentId: PropTypes.string,
-  filename: PropTypes.string,
-  text: PropTypes.string,
+  claimId: PropTypes.string.isRequired,
+  documentId: PropTypes.string.isRequired,
+  filename: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
 };
 
 export default DocumentDownload;
