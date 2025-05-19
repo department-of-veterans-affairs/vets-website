@@ -4,7 +4,6 @@ import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-co
 
 import {
   createCNPDirectDepositAnalyticsDataObject,
-  hasAccountFlaggedError,
   hasRoutingNumberFlaggedError,
   hasInvalidHomePhoneNumberError,
 } from '../../util';
@@ -114,15 +113,6 @@ describe('profile utils', () => {
       expect(
         hasRoutingNumberFlaggedError(
           mockDisabilityCompensations.updates.errors.routingNumberFlagged
-            .errors,
-        ),
-      ).to.equal(true);
-    });
-
-    it('hasAccountFlaggedError returns true on error', () => {
-      expect(
-        hasAccountFlaggedError(
-          mockDisabilityCompensations.updates.errors.accountNumberFlagged
             .errors,
         ),
       ).to.equal(true);
