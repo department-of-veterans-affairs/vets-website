@@ -1,51 +1,25 @@
 import React from 'react';
-import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import sinon from 'sinon';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
+import {
+  mockApiRequest,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import * as allergiesApiModule from '../../api/allergiesApi';
-import * as prescriptionsApiModule from '../../api/prescriptionsApi';
-import { stubAllergiesApi } from '../testing-utils';
 import RefillPrescriptions from '../../containers/RefillPrescriptions';
 import reducer from '../../reducers';
+import prescriptions from '../fixtures/refillablePrescriptionsList.json';
 import { dateFormat } from '../../util/helpers';
-
-const refillablePrescriptions = require('../fixtures/refillablePrescriptionsList.json');
-
-let sandbox;
-
-const initMockApis = ({
-  sinonSandbox,
-  prescriptions = refillablePrescriptions,
-  isLoading = false,
-}) => {
-  stubAllergiesApi({ sandbox });
-
-  sinonSandbox
-    .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
-    .returns({
-      data: { prescriptions, meta: {} },
-      error: false,
-      isLoading,
-      isFetching: false,
-    });
-};
+import prescriptionsList from '../fixtures/prescriptionsList.json';
 
 describe('Refill Prescriptions Component', () => {
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    initMockApis({ sinonSandbox: sandbox });
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   const initialState = {
     rx: {
       prescriptions: {
         selectedSortOption: 'alphabeticallyByStatus',
+        apiError: false,
+        refillableList: prescriptions,
       },
       breadcrumbs: {
         list: [
@@ -55,6 +29,7 @@ describe('Refill Prescriptions Component', () => {
           },
         ],
       },
+      allergies: {},
     },
     featureToggles: {
       // eslint-disable-next-line camelcase
@@ -67,16 +42,15 @@ describe('Refill Prescriptions Component', () => {
     },
   };
 
-  const setup = (state = initialState) => {
-    return renderWithStoreAndRouterV6(<RefillPrescriptions />, {
-      initialState: state,
-      reducers: reducer,
-      initialEntries: ['/refill'],
-      additionalMiddlewares: [
-        allergiesApiModule.allergiesApi.middleware,
-        prescriptionsApiModule.prescriptionsApi.middleware,
-      ],
-    });
+  const setup = (state = initialState, isLoadingList = false) => {
+    return renderWithStoreAndRouter(
+      <RefillPrescriptions isLoadingList={isLoadingList} />,
+      {
+        initialState: state,
+        reducers: reducer,
+        path: '/refill',
+      },
+    );
   };
 
   it('renders without errors', () => {
@@ -85,30 +59,46 @@ describe('Refill Prescriptions Component', () => {
   });
 
   it('should render loading state', async () => {
-    sandbox.restore();
-    initMockApis({ sinonSandbox: sandbox, isLoading: true });
-    const screen = setup();
+    const screen = setup(
+      {
+        ...initialState,
+        rx: {
+          ...initialState.rx,
+          prescriptions: {
+            ...initialState.rx.prescriptions,
+            refillableList: [],
+          },
+        },
+      },
+      true,
+    );
     expect(screen.getByTestId('loading-indicator')).to.exist;
   });
 
   it('Shows 404 page if feature toggle is disabled', async () => {
-    const screen = setup({
-      ...initialState,
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_content: false,
-      },
-      rx: {
-        ...initialState.rx,
-        prescriptions: {
-          ...initialState.rx.prescriptions,
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_display_refill_content: false,
+        },
+        rx: {
+          ...initialState.rx,
+          prescriptions: {
+            ...initialState.rx.prescriptions,
+            refillableList: [],
+          },
         },
       },
-    });
+      true,
+    );
     expect(screen.getByText(pageNotFoundHeading)).to.exist;
   });
 
   it('Mocks API Request', async () => {
+    resetFetch();
+    mockApiRequest(prescriptionsList);
     const screen = setup();
     const title = await screen.findByTestId('refill-page-title');
     expect(title).to.exist;
@@ -167,9 +157,7 @@ describe('Refill Prescriptions Component', () => {
     expect(lastFilledEl)
       .to.have.property('checkbox-description')
       .that.includes(
-        `Last filled on ${dateFormat(
-          refillablePrescriptions[0].dispensedDate,
-        )}`,
+        `Last filled on ${dateFormat(prescriptions[0].dispensedDate)}`,
       );
   });
 
@@ -179,7 +167,7 @@ describe('Refill Prescriptions Component', () => {
       `refill-prescription-checkbox-6`,
     );
     expect(lastFilledEl).to.exist;
-    const rx = refillablePrescriptions.find(
+    const rx = prescriptions.find(
       ({ prescriptionId }) => prescriptionId === 22217099,
     );
     expect(lastFilledEl)
@@ -207,12 +195,16 @@ describe('Refill Prescriptions Component', () => {
   });
 
   it('Shows the correct text for one prescription', async () => {
-    sandbox.restore();
-    initMockApis({
-      sinonSandbox: sandbox,
-      prescriptions: [refillablePrescriptions[0]],
+    const screen = setup({
+      ...initialState,
+      rx: {
+        ...initialState.rx,
+        prescriptions: {
+          ...initialState.rx.prescriptions,
+          refillableList: [prescriptions[0]],
+        },
+      },
     });
-    const screen = setup();
     const checkboxGroup = await screen.findByTestId('refill-checkbox-group');
     expect(checkboxGroup.label).to.equal(
       'You have 1 prescription ready to refill.',
@@ -230,13 +222,16 @@ describe('Refill Prescriptions Component', () => {
   });
 
   it('Checks for error message when refilling with 0 meds selected and 1 available', async () => {
-    sandbox.restore();
-    initMockApis({
-      sinonSandbox: sandbox,
-      prescriptions: [refillablePrescriptions[0]],
+    const screen = setup({
+      ...initialState,
+      rx: {
+        ...initialState.rx,
+        prescriptions: {
+          ...initialState.rx.prescriptions,
+          refillableList: [prescriptions[0]],
+        },
+      },
     });
-    const screen = setup();
-
     const button = await screen.findByTestId('request-refill-button');
     const checkboxGroup = await screen.findByTestId('refill-checkbox-group');
     expect(checkboxGroup).to.exist;
@@ -249,7 +244,7 @@ describe('Refill Prescriptions Component', () => {
       const focusEl = document.activeElement;
       expect(focusEl).to.have.property(
         'id',
-        `checkbox-${refillablePrescriptions[0].prescriptionId}`,
+        `checkbox-${prescriptions[0].prescriptionId}`,
       );
     });
   });
@@ -272,12 +267,16 @@ describe('Refill Prescriptions Component', () => {
   });
 
   it('Shows h1 and note if no prescriptions are refillable', async () => {
-    sandbox.restore();
-    initMockApis({
-      sinonSandbox: sandbox,
-      prescriptions: [],
+    const screen = setup({
+      ...initialState,
+      rx: {
+        ...initialState.rx,
+        prescriptions: {
+          ...initialState.rx.prescriptions,
+          refillableList: [],
+        },
+      },
     });
-    const screen = setup();
     const title = await screen.findByTestId('refill-page-title');
     expect(title).to.exist;
     expect(title).to.have.text('Refill prescriptions');

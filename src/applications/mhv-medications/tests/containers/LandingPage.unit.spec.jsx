@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import {
   mockFetch,
@@ -35,10 +35,10 @@ describe('Medications Landing page container', () => {
     },
   };
   const setup = (state = initialState, path = '/') => {
-    return renderWithStoreAndRouterV6(<LandingPage />, {
+    return renderWithStoreAndRouter(<LandingPage />, {
       initialState: state,
       reducers: reducer,
-      initialEntries: [path],
+      path,
     });
   };
 
@@ -104,10 +104,10 @@ describe('Medications Landing page container', () => {
         },
       },
     ) => {
-      return renderWithStoreAndRouterV6(<LandingPage />, {
+      return renderWithStoreAndRouter(<LandingPage />, {
         initialState: state,
         reducers: reducer,
-        initialEntries: ['#accordion-renew-rx'],
+        path: '#accordion-renew-rx',
       });
     };
     const newScreen = setupWithSpecificPathState();
@@ -137,10 +137,10 @@ describe('Medications Landing page container', () => {
         },
       },
     ) => {
-      return renderWithStoreAndRouterV6(<LandingPage />, {
+      return renderWithStoreAndRouter(<LandingPage />, {
         initialState: state,
         reducers: reducer,
-        initialEntries: ['#accordion-renew-rx'],
+        path: '#accordion-renew-rx',
       });
     };
     const newScreen = setupWithSpecificFeatureToggleState();
@@ -173,7 +173,7 @@ describe('App-level feature flag functionality', () => {
   };
 
   it('feature flags are still loading', () => {
-    const screenFeatureToggle = renderWithStoreAndRouterV6(
+    const screenFeatureToggle = renderWithStoreAndRouter(
       <LandingPage />,
       initialStateFeatureFlag(),
     );
@@ -183,7 +183,7 @@ describe('App-level feature flag functionality', () => {
   });
 
   it('feature flag set to false', () => {
-    const screenFeatureToggle = renderWithStoreAndRouterV6(
+    const screenFeatureToggle = renderWithStoreAndRouter(
       <LandingPage />,
       initialStateFeatureFlag(false, false),
     );
@@ -196,7 +196,7 @@ describe('App-level feature flag functionality', () => {
   });
 
   it('feature flag set to true', () => {
-    const screenFeatureToggle = renderWithStoreAndRouterV6(
+    const screenFeatureToggle = renderWithStoreAndRouter(
       <LandingPage />,
       initialStateFeatureFlag(false, true),
     );
@@ -213,8 +213,40 @@ describe('App-level feature flag functionality', () => {
     );
   });
 
+  it('should maintain login status', () => {
+    const screenFeatureToggle = renderWithStoreAndRouter(<LandingPage />, {
+      initialState: {
+        rx: {
+          prescriptions: {
+            prescriptionsFilteredList: prescriptions,
+            prescriptionDetails: prescriptions,
+          },
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [backendServices.USER_PROFILE],
+          },
+        },
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          mhv_medications_to_va_gov_release: true,
+        },
+      },
+      reducers: reducer,
+      path: '/',
+    });
+    expect(
+      screenFeatureToggle
+        .getByTestId('prescriptions-nav-link')
+        .getAttribute('href'),
+    ).to.equal(medicationsUrls.subdirectories.BASE);
+  });
   it('The user doesn’t have any medications', () => {
-    const screenFeatureToggle = renderWithStoreAndRouterV6(<LandingPage />, {
+    const screenFeatureToggle = renderWithStoreAndRouter(<LandingPage />, {
       initialState: {
         rx: {
           prescriptions: {
@@ -237,6 +269,7 @@ describe('App-level feature flag functionality', () => {
         },
       },
       reducers: reducer,
+      path: '/',
     });
     expect(
       screenFeatureToggle.getByText(
@@ -273,10 +306,10 @@ describe('App-level feature flag functionality', () => {
       state = allergiesFFInitialState,
       path = '/',
     ) => {
-      return renderWithStoreAndRouterV6(<LandingPage />, {
+      return renderWithStoreAndRouter(<LandingPage />, {
         initialState: state,
         reducers: reducer,
-        initialEntries: [path],
+        path,
       });
     };
 

@@ -1,7 +1,7 @@
 // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link, Navigate, useLocation } from 'react-router-dom-v5-compat';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useLocation, Redirect } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -10,12 +10,17 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { getPaginatedFilteredList } from '../actions/prescriptions';
 import {
   medicationsUrls,
+  rxListSortingOptions,
+  defaultSelectedSortOption,
   SESSION_SELECTED_PAGE_NUMBER,
+  filterOptions,
 } from '../util/constants';
 import {
   selectAllergiesFlag,
+  selectGroupingFlag,
   selectRefillContentFlag,
   selectRemoveLandingPageFlag,
 } from '../util/selectors';
@@ -25,6 +30,7 @@ import { dataDogActionNames } from '../util/dataDogConstants';
 
 const LandingPage = () => {
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const location = useLocation();
   const fullState = useSelector(state => state);
   const paginatedPrescriptionsList = useSelector(
@@ -35,6 +41,9 @@ const LandingPage = () => {
   );
   const prescriptionsApiError = useSelector(
     state => state.rx.prescriptions?.apiError,
+  );
+  const selectedSortOption = useSelector(
+    state => state.rx.prescriptions?.selectedSortOption,
   );
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
@@ -48,11 +57,13 @@ const LandingPage = () => {
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
+  const showGroupingFlag = useSelector(selectGroupingFlag);
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
 
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
   const [isRxRenewAccordionOpen, setIsRxRenewAccordionOpen] = useState(false);
+  const [isPrescriptionsLoading, setIsPrescriptionsLoading] = useState(false);
   const medicationsUrl = fullState.user.login.currentlyLoggedIn
     ? medicationsUrls.subdirectories.BASE
     : medicationsUrls.MEDICATIONS_LOGIN;
@@ -70,7 +81,8 @@ const LandingPage = () => {
       updatePageTitle('About medications | Veterans Affairs');
       if (
         location.hash.includes('accordion-renew-rx') &&
-        !featureTogglesLoading
+        !featureTogglesLoading &&
+        !isPrescriptionsLoading
       ) {
         setIsRxRenewAccordionOpen(true);
         focusElement(manageMedicationsHeader.current);
@@ -79,7 +91,29 @@ const LandingPage = () => {
         }
       }
     },
-    [location.hash, featureTogglesLoading, appEnabled],
+    [location.hash, featureTogglesLoading, appEnabled, isPrescriptionsLoading],
+  );
+
+  useEffect(
+    () => {
+      if (!filteredList) {
+        setIsPrescriptionsLoading(true);
+        dispatch(
+          getPaginatedFilteredList(
+            1,
+            filterOptions.ALL_MEDICATIONS.url,
+            rxListSortingOptions[
+              selectedSortOption || defaultSelectedSortOption
+            ].API_ENDPOINT,
+            showGroupingFlag ? 10 : 20,
+          ),
+        )
+          .then(() => setIsPrescriptionsLoading(false))
+          .catch(() => setIsPrescriptionsLoading(false));
+      }
+    },
+    // disabled warning: filteredList must be left out of dependency array to avoid infinite loop
+    [dispatch],
   );
 
   const content = () => {
@@ -614,7 +648,7 @@ const LandingPage = () => {
     );
   };
 
-  if (featureTogglesLoading) {
+  if (featureTogglesLoading || isPrescriptionsLoading) {
     return (
       <div className="vads-l-grid-container">
         <va-loading-indicator
@@ -635,7 +669,7 @@ const LandingPage = () => {
   }
 
   if (removeLandingPage) {
-    return <Navigate to="/" />;
+    return <Redirect to="/" />;
   }
 
   return (

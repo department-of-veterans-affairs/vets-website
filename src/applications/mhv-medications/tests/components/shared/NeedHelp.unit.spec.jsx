@@ -1,13 +1,14 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducers from '../../../reducers';
 import NeedHelp from '../../../components/shared/NeedHelp';
 import { dataDogActionNames, pageType } from '../../../util/dataDogConstants';
 
 describe('Need Help shared component', () => {
   const setup = () => {
-    return renderWithStoreAndRouterV6(<NeedHelp page={pageType.REFILL} />, {
+    return renderWithStoreAndRouter(<NeedHelp page={pageType.REFILL} />, {
+      path: '/',
       state: {},
       reducers,
     });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { useLocation, useParams } from 'react-router-dom-v5-compat';
+import { useLocation } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { createBreadcrumbs } from '../util/helpers';
 import { medicationsUrls } from '../util/constants';
@@ -9,8 +9,12 @@ import { selectRemoveLandingPageFlag } from '../util/selectors';
 
 const RxBreadcrumbs = () => {
   const location = useLocation();
-  const { prescriptionId } = useParams();
-  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
+  const prescription = useSelector(
+    state => state.rx.prescriptions?.prescriptionDetails,
+  );
+  const pagination = useSelector(
+    state => state.rx.prescriptions?.prescriptionsFilteredPagination,
+  );
   const isDisplayingDocumentation = useSelector(
     state =>
       state.featureToggles[
@@ -24,10 +28,15 @@ const RxBreadcrumbs = () => {
     () => {
       setBreadcrumbs(
         // TODO: remove removeLandingPage part once mhvMedicationsRemoveLandingPage is turned on in prod
-        createBreadcrumbs(location, currentPage, removeLandingPage),
+        createBreadcrumbs(
+          location,
+          prescription,
+          pagination?.currentPage,
+          removeLandingPage,
+        ),
       );
     },
-    [location, currentPage, removeLandingPage],
+    [location, prescription, pagination?.currentPage, removeLandingPage],
   );
 
   let content = null;
@@ -45,7 +54,9 @@ const RxBreadcrumbs = () => {
     content = (
       <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">
         <va-link
-          href={`${medicationsUrls.PRESCRIPTION_DETAILS}/${prescriptionId}`}
+          href={`${medicationsUrls.PRESCRIPTION_DETAILS}/${
+            prescription?.prescriptionId
+          }`}
           text="Back"
           data-testid="rx-breadcrumb-link"
         />
