@@ -1,10 +1,14 @@
 flow:
   title: Benefits issues outside the US for Disability Compensation for someone else (auth)
-  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  runOnCI: false # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
       target: page
       value: start-your-question-auth
+
+    - action: include
+      target: page
+      value: your-personal-information
 
     - action: include
       target: page
@@ -32,19 +36,15 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-yourself
-
-    - action: include
-      target: page
       value: your-branch-of-service-air-force
 
     - action: include
       target: page
-      value: your-contact-information-us-mail-no-prefill
+      value: your-contact-information-radio-buttons-us-mail
 
     - action: include
       target: page
-      value: your-us-mailing-address-no-prefill
+      value: your-us-mailing-address
 
     - action: include
       target: page

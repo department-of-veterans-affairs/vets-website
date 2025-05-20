@@ -331,11 +331,11 @@ const DownloadFileType = props => {
 
   const logAal = status => {
     postCreateAAL({
-      activityType: 'Download My VA Health Summary',
-      action: 'Download',
+      activityType: 'Download',
+      action: 'Custom Download Requested',
       performerType: 'Self',
       status,
-      oncePerSession: false,
+      oncePerSession: true,
     });
   };
 
@@ -365,9 +365,9 @@ const DownloadFileType = props => {
           await makePdf(
             pdfName,
             pdfData,
-            title,
-            runningUnitTest,
             'blueButtonReport',
+            'Medical Records - Blue Button report - PDF generation error',
+            runningUnitTest,
           );
           logAal(1);
           dispatch({ type: Actions.Downloads.BB_SUCCESS });

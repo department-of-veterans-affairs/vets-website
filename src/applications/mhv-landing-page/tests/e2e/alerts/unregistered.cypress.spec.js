@@ -17,7 +17,11 @@ describe(appName, () => {
       it(`unregistered patient on ${size} screen`, () => {
         cy.viewportPreset(size);
 
-        LandingPage.visit({ registered: false });
+        LandingPage.visit({
+          registered: false,
+          verified: false,
+          serviceName: 'dslogon',
+        });
         cy.injectAxeThenAxeCheck();
 
         // Test that the no health data message is present

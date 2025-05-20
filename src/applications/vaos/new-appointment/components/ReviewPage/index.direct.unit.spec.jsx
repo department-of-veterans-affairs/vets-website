@@ -37,6 +37,9 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
   beforeEach(() => {
     mockFetch();
+    mockFacilityApi({
+      id: '983',
+    });
     start = moment.tz();
     store = createTestStore({
       ...initialState,
