@@ -1,4 +1,15 @@
 describe('Unauthed User Flow Test', () => {
+  beforeEach(() => {
+    // Add cache-busting headers
+    cy.intercept('**/*', req => {
+      req.reply(res => {
+        res.headers['cache-control'] = 'no-cache, no-store, must-revalidate';
+        res.headers.pragma = 'no-cache';
+        res.headers.expires = '0';
+      });
+    });
+  });
+
   it('Provides the correct experience', () => {
     const appPaths = [
       // While the page is in maintenance, it doesn't need authed

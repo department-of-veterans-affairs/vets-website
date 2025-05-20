@@ -38,3 +38,20 @@ describe('Site-wide Search functionality with typeahead disabled', () => {
     cy.axeCheck();
   });
 });
+
+describe('User Navigation Required', () => {
+  beforeEach(() => {
+    // Add cache-busting headers
+    cy.intercept('**/*', req => {
+      req.reply(res => {
+        res.headers['cache-control'] = 'no-cache, no-store, must-revalidate';
+        res.headers.pragma = 'no-cache';
+        res.headers.expires = '0';
+      });
+    });
+  });
+
+  it('should render correctly', () => {
+    // ... existing code ...
+  });
+});

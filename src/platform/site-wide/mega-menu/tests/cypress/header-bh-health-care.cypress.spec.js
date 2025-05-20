@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
+import * as mockHeaderFooterData from '~/platform/landing-pages/header-footer-data.json';
 import features from '../../../../utilities/tests/header-footer/mocks/features';
 import * as h from '../../../../utilities/tests/header-footer/utilities/helpers';
-import * as mockHeaderFooterData from '~/platform/landing-pages/header-footer-data.json';
 
 const CATEGORY_NAME = 'Health care';
 const menuCategory = h.getMenuCategoryData(CATEGORY_NAME);
@@ -32,6 +32,15 @@ describe('global header - benefit hubs - health care', () => {
         win.VetsGov = {};
         win.VetsGov.headerFooter = mockHeaderFooterData;
       },
+    });
+
+    // Add cache-busting headers
+    cy.intercept('**/*', req => {
+      req.reply(res => {
+        res.headers['cache-control'] = 'no-cache, no-store, must-revalidate';
+        res.headers.pragma = 'no-cache';
+        res.headers.expires = '0';
+      });
     });
   });
 

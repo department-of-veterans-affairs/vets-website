@@ -64,7 +64,18 @@ const mockUser = {
   meta: { errors: null },
 };
 
-describe('My VA', () => {
+describe('Mega Menu My VA', () => {
+  beforeEach(() => {
+    // Add cache-busting headers
+    cy.intercept('**/*', req => {
+      req.reply(res => {
+        res.headers['cache-control'] = 'no-cache, no-store, must-revalidate';
+        res.headers.pragma = 'no-cache';
+        res.headers.expires = '0';
+      });
+    });
+  });
+
   context('authenticated', () => {
     it('shows the My VA link', () => {
       cy.login(mockUser);

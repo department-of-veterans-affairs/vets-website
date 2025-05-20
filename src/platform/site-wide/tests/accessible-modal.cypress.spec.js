@@ -6,6 +6,17 @@ const thirdOpenControl = 'footer .va-button-link.va-overlay-trigger';
 const lastModalItem = 'a[href="https://www.veteranscrisisline.net/"]';
 
 describe('Accessible Modal Test', () => {
+  beforeEach(() => {
+    // Add cache-busting headers
+    cy.intercept('**/*', req => {
+      req.reply(res => {
+        res.headers['cache-control'] = 'no-cache, no-store, must-revalidate';
+        res.headers.pragma = 'no-cache';
+        res.headers.expires = '0';
+      });
+    });
+  });
+
   it('Modal behaves appropriately in line with key presses', () => {
     cy.visit('/');
 

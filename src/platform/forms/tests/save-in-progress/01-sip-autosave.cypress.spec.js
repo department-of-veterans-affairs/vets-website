@@ -5,6 +5,17 @@ import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
 describe('SIP Autosave Test', () => {
+  beforeEach(() => {
+    // Add cache-busting headers
+    cy.intercept('**/*', req => {
+      req.reply(res => {
+        res.headers['cache-control'] = 'no-cache, no-store, must-revalidate';
+        res.headers.pragma = 'no-cache';
+        res.headers.expires = '0';
+      });
+    });
+  });
+
   it('fails and properly recovers', () => {
     cy.intercept('POST', '/v0/mock_sip_form', {
       formSubmissionId: '123fake-submission-id-567',
@@ -54,7 +65,7 @@ describe('SIP Autosave Test', () => {
     cy.url().should('contain', 'first-page');
     cy.get('va-alert[status="error"]').should(
       'contain',
-      'We’re sorry, but we’re having some issues and are working to fix them',
+      "We're sorry, but we're having some issues and are working to fix them",
     );
 
     // Recover and save after errors
@@ -97,7 +108,7 @@ describe('SIP Autosave Test', () => {
 
     cy.get('va-alert[status="error"]').should(
       'contain',
-      'Sorry, you’re no longer signed in',
+      "Sorry, you're no longer signed in",
     );
   });
 });
