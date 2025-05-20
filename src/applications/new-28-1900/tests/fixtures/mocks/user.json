@@ -2,9 +2,6 @@
   "data": {
     "attributes": {
       "profile": {
-        "sign_in": {
-          "service_name": "idme"
-        },
         "email": "john.doe@example.com",
         "loa": { "current": 3 },
         "first_name": "John",
@@ -13,6 +10,9 @@
         "gender": "M",
         "birth_date": "1985-01-01",
         "verified": true
+      },
+      "session": {
+        "ssoe": true
       },
       "veteran_status": {
         "status": "OK",
