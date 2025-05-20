@@ -109,7 +109,7 @@ const IntroductionPage = ({ route }) => {
               If your institution doesn’t have a VA facility code or if you are
               submitting the form because your institution has changed
               ownership:
-            </strong>
+            </strong>{' '}
             Please email the PDF file to your SAA for their approval action. If
             you need help finding their email address, search the SAA contact
             directory (opens in a new tab)

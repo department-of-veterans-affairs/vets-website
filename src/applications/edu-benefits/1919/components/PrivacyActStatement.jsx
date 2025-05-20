@@ -3,7 +3,7 @@ import React from 'react';
 function PrivacyActStatement() {
   return (
     <>
-      <p>
+      <p data-testid="respondent-burden">
         <strong>Respondent Burden:</strong> Respondent Burden: An agency may not
         conduct or sponsor, and a person is not required to respond to, a
         collection of information unless it displays a currently valid OMB
@@ -26,7 +26,7 @@ function PrivacyActStatement() {
         . Please refer to OMB Control No. 2900-0896 in any correspondence. Do
         not send your completed VA Form 22-10216 to this email address.
       </p>
-      <p>
+      <p data-testid="privacy-act-notice">
         <strong>Privacy Act Notice:</strong> VA will not disclose information
         collected on this form to any source other than what has been authorized
         under the Privacy Act of 1974 or Title 38, Code of Federal Regulations
