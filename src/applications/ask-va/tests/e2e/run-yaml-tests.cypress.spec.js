@@ -33,6 +33,9 @@ const executeSteps = (steps, folder) => {
     switch (step.action) {
       case 'click':
         switch (step.target) {
+          case 'tab':
+            STEPS.clickTab(step.value);
+            break;
           case 'link':
             STEPS.clickLink(step.value);
             break;
@@ -80,12 +83,26 @@ const executeSteps = (steps, folder) => {
         STEPS.typeTextArea(step.target, step.value);
         break;
       case 'select':
-        // let target = step.target;
-        if (step.target === 'month') {
-          step.target =
-            'va-select.usa-form-group--month-select select.usa-select';
+        switch (step.target) {
+          case 'month':
+            step.target =
+              'va-select.usa-form-group--month-select select.usa-select';
+            STEPS.selectOption(step.target, step.value);
+            break;
+          // eslint-disable-next-line sonarjs/no-duplicated-branches
+          case 'status':
+            step.target = 'va-select[name="status"] select.usa-select';
+            STEPS.selectOption(step.target, step.value);
+            break;
+          case 'category':
+            step.target = 'va-select[name="category"] select.usa-select';
+            STEPS.selectOption(step.target, step.value);
+            break;
+          default:
+            throw new Error(
+              `Unknown select target for step #${index + 1}: ${step.target}`,
+            );
         }
-        STEPS.selectOption(step.target, step.value);
         break;
       case 'log':
         cy.log(step.value);
@@ -167,7 +184,7 @@ describe('YAML tests', () => {
               cy.clearAllCookies();
             }
           } else {
-            if (['13g.yml', '17g.yml'].includes(file)) {
+            if (['4k.yml'].includes(file)) {
               cy.intercept(
                 'GET',
                 'http://localhost:3000/ask_va_api/v0/inquiries',
