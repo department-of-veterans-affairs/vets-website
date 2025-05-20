@@ -1,8 +1,12 @@
 import React, { useEffect } from 'react';
 
+import PropTypes from 'prop-types';
+
 import { scrollAndFocus } from 'platform/utilities/ui';
+
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import OmbInfo from '../components/OmbInfo';
 
 const IntroductionPage = ({ route }) => {
   useEffect(() => {
@@ -121,13 +125,19 @@ const IntroductionPage = ({ route }) => {
         unauthStartText="Sign in to start your form"
       />
       <p />
-      <va-omb-info
-        res-burden={10}
-        omb-number="2900-0657"
-        exp-date="3/31/2027"
-      />
+      <OmbInfo />
     </article>
   );
+};
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
+  }),
 };
 
 export default IntroductionPage;

@@ -5,3 +5,10 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+.need-help-container {
+  width: 642px;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
