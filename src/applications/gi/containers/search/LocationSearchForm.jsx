@@ -227,6 +227,7 @@ export function LocationSearchForm({
         <div className="vads-l-row">
           <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--7 input-row">
             <KeywordSearch
+              isLocationSearch
               inputRef={inputRef}
               className="location-search"
               type="location"
@@ -284,7 +285,7 @@ export function LocationSearchForm({
               <Dropdown
                 ariaLabel="Distance"
                 className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-top--0"
-                selectClassName="vads-u-font-style--italic vads-u-color--gray"
+                selectClassName="location-select vads-u-font-style--italic vads-u-color--gray"
                 name="distance"
                 options={distanceDropdownOptions}
                 value={distance}
@@ -303,7 +304,7 @@ export function LocationSearchForm({
                 text="Search"
                 onClick={e => doSearch(e)}
                 data-testid="location-search-button"
-                className="loc-search-btn vads-u-margin-top--1"
+                className="loc-search-btn medium-screen:vads-u-margin-top--1"
               />
             </div>
           </div>
