@@ -56,6 +56,7 @@ export const getMonthlyExpenses = ({
   otherExpenses,
   utilityRecords,
   installmentContracts,
+  'view:showUpdatedExpensePages': expensePageActive = false,
 }) => {
   const utilityField = 'amount';
   const utilities = sumValues(utilityRecords, utilityField);
@@ -66,7 +67,9 @@ export const getMonthlyExpenses = ({
     'amountDueMonthly',
   );
   const food = safeNumber(expenses?.food || 0);
-  const rentOrMortgage = safeNumber(expenses?.rentOrMortgage || 0);
+  const rentOrMortgage = expensePageActive
+    ? safeNumber(expenses?.monthlyHousingExpenses)
+    : safeNumber(expenses?.rentOrMortgage || 0);
   const calculatedExpenseRecords = calculateExpenseRecords(
     expenses?.expenseRecords,
   );
@@ -90,10 +93,15 @@ export const getMonthlyExpenses = ({
 
 export const getAllExpenses = formData => {
   const {
-    expenses: { creditCardBills = [], expenseRecords = [] } = {},
+    expenses: {
+      creditCardBills = [],
+      expenseRecords = [],
+      monthlyHousingExpenses = 0,
+    } = {},
     otherExpenses = [],
     utilityRecords,
     installmentContracts = [],
+    'view:showUpdatedExpensePages': expensePageActive = false,
   } = formData;
 
   const rentOrMortgageExpenses = filterExpensesByName(expenseRecords, [
@@ -114,9 +122,12 @@ export const getAllExpenses = formData => {
 
   // This is messy, but will be cleaned up once we remove the enhanced feature flag.
   const enhancedMortgage = sumValues(rentOrMortgageExpenses, 'amount');
+  const currentRentOrMortgage = expensePageActive
+    ? safeNumber(monthlyHousingExpenses)
+    : enhancedMortgage;
 
   return {
-    rentOrMortgage: enhancedMortgage,
+    rentOrMortgage: currentRentOrMortgage,
     food: safeNumber(foodExpenses.amount), // use safeNumber
     utilities: sumValues(utilityRecords, utilityField),
     otherLivingExpenses: {
