@@ -707,6 +707,9 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const state = getState();
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
+    const typeOfCare = getTypeOfCare(newAppointment.data);
+    const typeOfCareId = typeOfCare.idV2;
+
     const { data } = newAppointment;
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
@@ -747,6 +750,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
         const fetchedSlots = await getSlots({
           siteId,
           clinicId: data.clinicId,
+          typeOfCareId,
           startDate: startDateString,
           endDate: endDateString,
         });

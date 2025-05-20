@@ -30,24 +30,24 @@ import { transformV2Slots } from './transformers';
  * @async
  * @param {Object} slotsRequest - An object containing the parameters necessary to retrieve appointment slots
  * @param {string} slotsRequest.siteId 3 digit facility ID
- * @param {string} slotsRequest.clinicId clinic id
- * @param {string} [slotsRequest.typeOfCare=null] The type of care (e.g. 'primaryCare')
+ * @param {string} [slotsRequest.clinicId=null] clinic id
+ * @param {string} [slotsRequest.typeOfCareId=null] The type of care (e.g. 'primaryCare')
  * @param {string} slotsRequest.startDate start date to search for appointments lots formatted as YYYY-MM-DD
  * @param {string} slotsRequest.endDate end date to search for appointments lots formatted as YYYY-MM-DD
  * @returns {Array<Slot>} A list of Slot resources
  */
 export async function getSlots({
   siteId,
-  clinicId,
-  typeOfCare = null,
+  clinicId = null,
+  typeOfCareId = null,
   startDate,
   endDate,
 }) {
   try {
     const data = await getAvailableV2Slots(
       siteId,
-      clinicId.split('_')[1],
-      typeOfCare,
+      clinicId?.split('_')[1],
+      typeOfCareId,
       moment(startDate).format(),
       moment(endDate).format(),
     );
