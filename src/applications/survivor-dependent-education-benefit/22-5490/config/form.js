@@ -1224,17 +1224,7 @@ const formConfig = {
               'ui:title': 'Veteran or service member information',
               first: {
                 ...fullNameUI.first,
-                'ui:title': 'First name',
-                'ui:options': {
-                  updateSchema: (formData, schema) => {
-                    const flag = formData?.showMeb54901990eTextUpdate;
-
-                    return {
-                      ...schema,
-                      title: flag ? 'Veteran first name' : 'First name',
-                    };
-                  },
-                },
+                'ui:title': 'Veteran first name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -1251,17 +1241,7 @@ const formConfig = {
               },
               middle: {
                 ...fullNameUI.middle,
-                'ui:title': 'Middle name',
-                'ui:options': {
-                  updateSchema: (formData, schema) => {
-                    const flag = formData?.showMeb54901990eTextUpdate;
-
-                    return {
-                      ...schema,
-                      title: flag ? 'Veteran middle name' : 'Middle name',
-                    };
-                  },
-                },
+                'ui:title': 'Veteran middle name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -1278,17 +1258,7 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
-                'ui:title': 'Last name',
-                'ui:options': {
-                  updateSchema: (formData, schema) => {
-                    const flag = formData?.showMeb54901990eTextUpdate;
-
-                    return {
-                      ...schema,
-                      title: flag ? 'Veteran last name' : 'Last name',
-                    };
-                  },
-                },
+                'ui:title': 'Veteran last name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidLastName(field)) {
@@ -1307,34 +1277,12 @@ const formConfig = {
               },
             },
             dateOfBirth: {
-              ...currentOrPastDateUI('Date of birth'),
-              'ui:title': 'Date of birth',
-              'ui:options': {
-                updateSchema: (formData, schema) => {
-                  const flag = formData?.showMeb54901990eTextUpdate;
-
-                  return {
-                    ...schema,
-                    title: flag ? 'Veteran date of birth' : 'Date of birth',
-                  };
-                },
-              },
+              ...currentOrPastDateUI('Veteran date of birth'),
+              'ui:title': 'Veteran date of birth',
             },
             ssn: {
               ...ssnUI,
-              'ui:title': 'Social security number',
-              'ui:options': {
-                updateSchema: (formData, schema) => {
-                  const flag = formData?.showMeb54901990eTextUpdate;
-
-                  return {
-                    ...schema,
-                    title: flag
-                      ? 'Veteran social security number'
-                      : 'Social security number',
-                  };
-                },
-              },
+              'ui:title': 'Veteran social security number',
               'ui:reviewField': ObfuscateReviewField,
             },
             'view:incorrectFormWarning': {
