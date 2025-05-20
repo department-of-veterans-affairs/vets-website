@@ -7,11 +7,9 @@ import {
   add,
   addDays,
   addHours,
-  addMinutes,
   addMonths,
   endOfMonth,
   format,
-  formatRFC3339,
   nextThursday,
   nextTuesday,
   setDay,
@@ -35,8 +33,8 @@ import {
 } from '../../../tests/mocks/setup';
 
 import DateTimeSelectPage from '.';
-import { createMockClinic } from '../../../tests/mocks/data';
-import { getAppointmentSlotMock } from '../../../tests/mocks/mock';
+import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
+import MockSlotResponse from '../../../tests/fixtures/MockSlotResponse';
 import {
   mockAppointmentSlotApi,
   mockEligibilityFetches,
@@ -60,20 +58,14 @@ function setDateTimeSelectMockFetchesBase({
   preferredDate = new Date(),
   slotError = false,
   slotDatesByClinicId = {},
-  dateToStartEnd = _ => {},
 } = {}) {
   const clinicIds = Object.keys(slotDatesByClinicId);
-  const clinic1 = createMockClinic({
-    id: '308',
-    stationId: '983',
-    name: 'Green team clinic',
+  const clinics = MockClinicResponse.createResponses({
+    clinics: [
+      { id: '308', name: 'Green team clinic' },
+      { id: '309', name: 'Red team clinic' },
+    ],
   });
-  const clinic2 = createMockClinic({
-    id: '309',
-    stationId: '983',
-    name: 'Red team clinic',
-  });
-  const clinics = [clinic1, clinic2];
 
   mockEligibilityFetches({
     facilityId: '983',
@@ -95,10 +87,7 @@ function setDateTimeSelectMockFetchesBase({
   if (!slotError) {
     clinicIds.forEach(id => {
       const slots = slotDatesByClinicId[id].map(date => {
-        return {
-          ...getAppointmentSlotMock(),
-          attributes: dateToStartEnd(date),
-        };
+        return new MockSlotResponse({ id, duration: 20, start: date });
       });
       mockAppointmentSlotApi({
         facilityId: '983',
@@ -121,12 +110,6 @@ function setDateTimeSelectMockFetches({
     preferredDate,
     slotError,
     slotDatesByClinicId,
-    dateToStartEnd: date => {
-      return {
-        start: formatRFC3339(date),
-        end: formatRFC3339(new Date(new Date(date).setMinutes(20))),
-      };
-    },
   });
 }
 
@@ -141,16 +124,6 @@ function setDateTimeSelectMockFetchesDateFns({
     preferredDate,
     slotError,
     slotDatesByClinicId,
-    dateToStartEnd: date => {
-      return {
-        start: formatInTimeZone(date, 'UTC', "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-        end: formatInTimeZone(
-          addMinutes(new Date(date), 20),
-          'UTC',
-          "yyyy-MM-dd'T'HH:mm:ss'Z'",
-        ),
-      };
-    },
   });
 }
 
@@ -233,6 +206,12 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       },
     });
 
+    mockAppointmentSlotApi({
+      facilityId: '983',
+      preferredDate: new Date(),
+      responseCode: 404,
+    });
+
     const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
       store,
     });
@@ -248,6 +227,13 @@ describe('VAOS Page: DateTimeSelectPage', () => {
         309: [],
       },
       slotError: true,
+    });
+
+    mockAppointmentSlotApi({
+      facilityId: '983',
+      clinicId: '308',
+      preferredDate: new Date(),
+      responseCode: 404,
     });
 
     const store = createTestStore(initialState);
@@ -914,21 +900,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       facilityId,
       clinicId: '308',
       response: [
-        {
-          ...getAppointmentSlotMock(),
-          attributes: {
-            start: formatInTimeZone(
-              secondSlotDate,
-              'UTC',
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
-            ),
-            end: formatInTimeZone(
-              addMinutes(new Date(secondSlotDate), 20),
-              'UTC',
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
-            ),
-          },
-        },
+        new MockSlotResponse({ id: '1', start: secondSlotDate, duration: 20 }),
       ],
       startDate: startOfMonth(secondSlotDate),
       endDate: startOfDay(endOfMonth(secondSlotDate)),

@@ -26,6 +26,7 @@ import { Actions } from '../util/actionTypes';
 import { downtimeNotificationParams, Paths } from '../util/constants';
 import useTrackPreviousUrl from '../hooks/use-previous-url';
 import FetchRecipients from '../components/FetchRecipients';
+import LaunchMessagingAal from '../components/util/LaunchMessagingAal';
 
 const App = ({ isPilot }) => {
   useTrackPreviousUrl();
@@ -42,13 +43,6 @@ const App = ({ isPilot }) => {
   const cernerPilotSmFeatureFlag = useSelector(
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
-  );
-
-  const removeLandingPage = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
   );
 
   const mhvMockSessionFlag = useSelector(
@@ -142,11 +136,8 @@ const App = ({ isPilot }) => {
   // Feature flag maintains whitelist for cerner integration pilot environment.
   // If the user lands on /my-health/secure-messages-pilot and is not whitelisted,
   // redirect to the SM main experience landing page
-  // If mhvSecureMessagingRemoveLandingPage Feature Flag is enabled, redirect to the inbox
-  // When removing the landing page changes are fully implemented, update manifest.json to set
-  // rootURL to /my-health/secure-messages/inbox
   if (isPilot && !cernerPilotSmFeatureFlag) {
-    const url = `${manifest.rootUrl}${removeLandingPage ? Paths.INBOX : ''}`;
+    const url = `${manifest.rootUrl}${Paths.INBOX}`;
     window.location.replace(url);
     return <></>;
   }
@@ -159,6 +150,7 @@ const App = ({ isPilot }) => {
         user={user}
         serviceRequired={[backendServices.MESSAGING]}
       >
+        <LaunchMessagingAal />
         <FetchRecipients />
         <MhvSecondaryNav />
         <div className="vads-l-grid-container">

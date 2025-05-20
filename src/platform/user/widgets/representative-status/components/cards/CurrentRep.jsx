@@ -24,6 +24,8 @@ export function CurrentRep({
   const containerIsProfile =
     window.location.pathname === '/profile/accredited-representative';
 
+  const isOrganization = poaType === 'organization';
+
   return (
     <va-card show-shadow>
       <div className="auth-card">
@@ -40,7 +42,7 @@ export function CurrentRep({
           <DynamicSubheader className="vads-u-font-size--h4 vads-u-margin-top--0">
             {name}
           </DynamicSubheader>
-          {poaType === 'organization' && (
+          {isOrganization && (
             <p className="vads-u-margin-top--0">
               <strong>Note:</strong> You can work with any accredited VSO
               representative at this organization.
@@ -78,7 +80,7 @@ export function CurrentRep({
                 </div>
               </div>
             )}
-            {poaType === 'representative' &&
+            {!isOrganization &&
               email && (
                 <div className="vads-u-display--flex vads-u-margin-top--1p5">
                   <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
@@ -107,7 +109,7 @@ export function CurrentRep({
                 />
               </div>
             )}
-            {poaType === 'representative' &&
+            {!isOrganization &&
               (contact || email) && (
                 <div className="vads-u-display--flex vads-u-margin-top--1p5">
                   <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
@@ -125,7 +127,7 @@ export function CurrentRep({
               <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                 <va-icon icon="search" size={2} />
               </div>
-              {containerIsProfile ? (
+              {containerIsProfile && isOrganization ? (
                 <va-link
                   href={`${
                     environment.BASE_URL

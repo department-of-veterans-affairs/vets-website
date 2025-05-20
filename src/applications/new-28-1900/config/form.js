@@ -18,7 +18,7 @@ import newMailingAddressPage from '../pages/newMailingAddress';
 import personalInformationPage from '../pages/personalInformation';
 import phoneAndEmailPage from '../pages/phoneAndEmail';
 import yearsOfCollegeStudiesPage from '../pages/yearsOfCollegeStudies';
-import yearsOfGraduateStudiesPage from '../pages/yearsOfGraduateStudiesPage';
+import yearsOfGraduateStudiesPage from '../pages/yearsOfGraduateStudies';
 
 /** @type {FormConfig} */
 const formConfig = {

@@ -7,6 +7,7 @@ describe('Secure Messaging Compose', () => {
   it('verify user can send message with keyboard', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
+    PatientComposePage.interceptSentFolder();
     PatientInboxPage.navigateToComposePage();
 
     PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
@@ -22,7 +23,7 @@ describe('Secure Messaging Compose', () => {
     PatientComposePage.sendMessageByKeyboard();
     PatientComposePage.verifySendMessageConfirmationMessageText();
     PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
-    PatientComposePage.verifyHeader('Inbox');
+    PatientComposePage.verifyHeader('Messages: Inbox');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

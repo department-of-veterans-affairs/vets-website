@@ -10,7 +10,7 @@ describe(`${appName} -- Alerts`, () => {
   });
 
   [
-    { user: USER_MOCKS.UNREGISTERED, testId: 'mhv-alert--unregistered' },
+    { user: USER_MOCKS.DS_LOGON_UNVERIFIED, testId: 'mhv-alert--unregistered' },
     { user: USER_MOCKS.UNVERIFIED, testId: 'mhv-alert--verify-and-register' },
     { user: USER_MOCKS.NO_MHV_ACCOUNT, testId: 'mhv-alert--mhv-registration' },
     {

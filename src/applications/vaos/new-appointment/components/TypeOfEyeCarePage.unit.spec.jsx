@@ -12,8 +12,10 @@ import {
   setTypeOfCare,
 } from '../../tests/mocks/setup';
 
-import { createMockFacility } from '../../tests/mocks/data';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
@@ -38,10 +40,14 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     mockSchedulingConfigurationsApi({
       isCCEnabled: true,
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
@@ -126,11 +132,7 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     });
     mockFacilitiesApi({
       children: true,
-      response: [
-        createMockFacility({
-          id: '983',
-        }),
-      ],
+      response: [new MockFacilityResponse({ id: '983' })],
     });
 
     const store = createTestStore(initialState);

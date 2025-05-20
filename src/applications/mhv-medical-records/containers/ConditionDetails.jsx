@@ -11,15 +11,12 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
-} from '@department-of-veterans-affairs/mhv/exports';
-import {
   formatNameFirstLast,
-  generateTextFile,
   getNameDateAndTime,
   makePdf,
-  processList,
   formatUserDob,
-} from '../util/helpers';
+} from '@department-of-veterans-affairs/mhv/exports';
+import { generateTextFile, processList } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
   getConditionDetails,
@@ -100,7 +97,13 @@ const ConditionDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, ...generateConditionContent(record) };
     const pdfName = `VA-conditions-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Condition details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Condition details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateConditionTxt = async () => {

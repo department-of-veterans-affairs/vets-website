@@ -4,18 +4,14 @@ import { renderWithStoreAndRouter } from '../tests/mocks/setup';
 import Breadcrumbs from './Breadcrumbs';
 
 describe('VAOS Component: Breadcrumbs', () => {
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingBreadcrumbUrlUpdate: true,
-    },
-  };
+  const initialState = {};
   it('should display Pending appointments as last crumb', () => {
     const url = 'my-health/appointments/pending';
     const screen = renderWithStoreAndRouter(<Breadcrumbs />, {
       initialState,
       path: url,
     });
-    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    const navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const crumb =
       navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
@@ -28,7 +24,7 @@ describe('VAOS Component: Breadcrumbs', () => {
       initialState,
       path: url,
     });
-    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    const navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const crumb =
       navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
