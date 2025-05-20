@@ -243,7 +243,6 @@ for (const appFolder of appFolders) {
 const crossAppImports = getCrossAppImports(appFolders);
 if (crossAppImports && failOnCrossAppImport) {
   // For clarity, only show apps that have cross app imports
-  console.log(crossAppImports);
   const checkApp = (appObj, app) => appHasCrossAppImports(crossAppImports, app);
   const filteredImports = pickBy(crossAppImports, checkApp);
   console.log('Cross app imports found:');
