@@ -702,11 +702,15 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: git fetch origin axe-check-new-heading-rules --depth=1
 
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
       - name: Merge axe-check-new-heading-rules checks
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: git merge origin/axe-check-new-heading-rules --allow-unrelated-histories
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
