@@ -62,10 +62,17 @@ describe('Prescription details container', () => {
   });
 
   it('should display loading message when loading specific rx', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
+    stubPrescriptionIdApi({ sandbox, isLoading: true });
     const screen = setup();
     await waitFor(() => {
       expect(screen.getByTestId('loading-indicator')).to.exist;
-      expect(screen.getByText('Loading your medication record...')).to.exist;
+      expect(screen.getByTestId('loading-indicator')).to.have.attribute(
+        'message',
+        'Loading your medication record...',
+      );
     });
   });
 
@@ -102,6 +109,13 @@ describe('Prescription details container', () => {
   });
 
   it('displays the prescription name and filled by date', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({
+      sandbox,
+      data: false,
+    });
+    stubPrescriptionIdApi({ sandbox, data: rxDetailsResponse.data.attributes });
     const screen = setup();
     const rxName = screen.findByText(
       rxDetailsResponse.data.attributes.prescriptionName,
