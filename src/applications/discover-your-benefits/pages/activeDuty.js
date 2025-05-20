@@ -5,7 +5,7 @@ import {
 
 export default {
   uiSchema: {
-    activeDuty: yesNoUI({
+    titleTenActiveDuty: yesNoUI({
       enableAnalytics: true,
       title:
         'Were you ever called up to active-duty (Title 10) orders while serving in the Reserve or National Guard?',
@@ -16,7 +16,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      activeDuty: yesNoSchema,
+      titleTenActiveDuty: yesNoSchema,
     },
   },
 };

@@ -127,7 +127,7 @@ export const formConfig = {
           uiSchema: titleTenServiceTime.uiSchema,
           schema: titleTenServiceTime.schema,
           depends: formData => {
-            return formData.activeDuty === true;
+            return formData.titleTenActiveDuty === true;
           },
         },
         militaryService: {
