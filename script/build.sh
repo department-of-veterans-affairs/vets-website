@@ -65,17 +65,7 @@ fi
 if [ "${assetSource}" = "local" ]; then
     echo "Building application assets"
     yarn build:webpack $webpackArgs
-    
-    # Find the vendor.entry.js file with its content hash
-    vendorFile=$(find "${buildDir}generated" -name "vendor.*.entry.js")
-    if [ -n "$vendorFile" ]; then
-        # Extract the content hash from the vendor file
-        contentHash=$(echo "$vendorFile" | sed -E 's/.*vendor\.([^.]+)\.entry\.js/\1/')
-        # Copy with the same content hash
-        cp -v "$vendorFile" "${buildDir}generated/shared-modules.${contentHash}.entry.js"
-    else
-        echo "Warning: vendor.entry.js not found in ${buildDir}generated/"
-    fi
+        cp -v "${buildDir}generated/vendor.entry.js" "${buildDir}generated/shared-modules.entry.js"
 else
     echo "Will fetch application assets from the content build script"
 fi
