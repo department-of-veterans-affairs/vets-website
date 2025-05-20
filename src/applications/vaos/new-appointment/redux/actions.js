@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable no-console */
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -769,14 +769,14 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
         }
 
         // Check timezone 1st since conversion might flip the date to the
-        // previous or next day. This insures available slots are displayed
+        // previous or next day. This ensures available slots are displayed
         // for the correct day.
         const correctedSlots = mappedSlots.map(slot => {
           const zonedDate = utcToZonedTime(slot.start, timezone);
           const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
             timeZone: timezone,
           });
-          return { ...slot, start: time };
+          return { ...slot, start: time, startUtc: new Date(slot.start) };
         });
         const sortedSlots = [...availableSlots, ...correctedSlots].sort(
           (a, b) => a.start.localeCompare(b.start),
@@ -812,6 +812,19 @@ export function onCalendarChange(
       // Convert slot date to calendar timezone since slot dates are in UTC
       const d1 = moment.tz(selectedDate, timezone);
       const d2 = moment.tz(appointment.start, `${appointment.timezone}`);
+      console.log(`selectedDate: ${selectedDate}`);
+      console.log(`start: ${appointment.start}`);
+
+      console.log(`d1: ${d1} in timezone ${timezone}`);
+      console.log(
+        `appointment ${appointment.id} (${
+          appointment.status
+        }) d2: ${d2} in timezone ${appointment.timezone}`,
+      );
+      console.log(
+        `isCanelled: ${appointment.status !== APPOINTMENT_STATUS.cancelled}`,
+      );
+      console.log(`isSame ${d1.isSame(d2)}`);
 
       return (
         appointment.status !== APPOINTMENT_STATUS.cancelled && d1.isSame(d2)
