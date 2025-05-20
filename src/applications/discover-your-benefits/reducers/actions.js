@@ -21,7 +21,7 @@ const fetchResultsFailure = error => ({
   error,
 });
 
-export const checkBranchComponentReponse = (formData, mappingValue) => {
+export const checkBranchComponentResponse = (formData, mappingValue) => {
   return Object.values(formData.branchComponents).some(
     branchComponent => branchComponent[mappingValue] === true,
   );
@@ -48,7 +48,7 @@ export const checkSingleResponse = (benefit, formData, mappingType) => {
     const mappingValue = benefit.mappings[mappingType][i];
     const formResponse = formData[mappingType];
     if (mappingType === mappingTypes.BRANCH_COMPONENT) {
-      return checkBranchComponentReponse(formData, mappingValue);
+      return checkBranchComponentResponse(formData, mappingValue);
     }
     if (
       (formResponse &&
