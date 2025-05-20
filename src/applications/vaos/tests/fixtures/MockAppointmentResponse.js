@@ -3,9 +3,9 @@ import { addHours, format, startOfDay } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import {
   APPOINTMENT_STATUS,
+  DATE_FORMAT_STRINGS,
   TYPE_OF_VISIT_ID,
   VIDEO_TYPES,
-  DATE_FORMAT_STRINGS,
 } from '../../utils/constants';
 
 /**
@@ -671,6 +671,18 @@ export default class MockAppointmentResponse {
 
   setStatus(value) {
     this.attributes.status = value;
+    return this;
+  }
+
+  /**
+   * Set travel pay claim attribute.
+   *
+   * @param {MockTravelPayClaim} value
+   * @returns
+   * @memberof MockAppointmentResponse
+   */
+  setTravelPayClaim(value) {
+    this.attributes.travelPayClaim = value;
     return this;
   }
 

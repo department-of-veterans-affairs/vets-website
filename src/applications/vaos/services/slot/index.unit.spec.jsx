@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import {
   mockFetch,
-  setFetchJSONResponse,
   setFetchJSONFailure,
+  setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 
-import moment from 'moment';
+import { addDays, addMonths, format, formatISO, startOfDay } from 'date-fns';
 import { getSlots } from '.';
 
 describe('VAOS Services: Slot ', () => {
@@ -15,15 +15,15 @@ describe('VAOS Services: Slot ', () => {
     });
 
     it('should make successful request', async () => {
-      const startDate = moment().add(1, 'day');
-      const endDate = moment().add(1, 'month');
+      const startDate = addDays(new Date(), 1);
+      const endDate = addMonths(new Date(), 1);
       const slots = [
         {
           id: '1',
           type: 'slots',
           attributes: {
-            start: startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
-            end: startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
+            start: format(startDate, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            end: format(startDate, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
           },
         },
       ];
@@ -33,25 +33,23 @@ describe('VAOS Services: Slot ', () => {
       const data = await getSlots({
         siteId: '983',
         clinicId: '983_308',
-        startDate: startDate.format('YYYY-MM-DD'),
-        endDate: endDate.format('YYYY-MM-DD'),
+        startDate: format(startDate, 'yyyy-MM-dd'),
+        endDate: format(endDate, 'yyyy-MM-dd'),
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        `/vaos/v2/locations/983/clinics/308/slots?start=${moment(startDate)
-          .startOf('day')
-          .format('YYYY-MM-DDTHH:mm:ssZ')}&end=${moment(endDate)
-          .startOf('day')
-          .format('YYYY-MM-DDTHH:mm:ssZ')}`,
+        `/vaos/v2/locations/983/clinics/308/slots?start=${formatISO(
+          startOfDay(startDate),
+        )}&end=${formatISO(startOfDay(endDate))}`,
       );
       expect(data[0].start).to.equal(
-        startDate.format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        format(startDate, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
       );
     });
 
     it('should return OperationOutcome error', async () => {
-      const startDate = moment().add(1, 'day');
-      const endDate = moment().add(1, 'month');
+      const startDate = addDays(new Date(), 1);
+      const endDate = addMonths(new Date(), 1);
 
       setFetchJSONFailure(global.fetch, {
         errors: [],
@@ -62,19 +60,17 @@ describe('VAOS Services: Slot ', () => {
         await getSlots({
           siteId: '983',
           clinicId: '983_308',
-          startDate: startDate.format('YYYY-MM-DD'),
-          endDate: endDate.format('YYYY-MM-DD'),
+          startDate: format(startDate, 'yyyy-MM-dd'),
+          endDate: format(endDate, 'yyyy-MM-dd'),
         });
       } catch (e) {
         error = e;
       }
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        `/vaos/v2/locations/983/clinics/308/slots?start=${moment(startDate)
-          .startOf('day')
-          .format('YYYY-MM-DDTHH:mm:ssZ')}&end=${moment(endDate)
-          .startOf('day')
-          .format('YYYY-MM-DDTHH:mm:ssZ')}`,
+        `/vaos/v2/locations/983/clinics/308/slots?start=${formatISO(
+          startOfDay(startDate),
+        )}&end=${formatISO(startOfDay(endDate))}`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });

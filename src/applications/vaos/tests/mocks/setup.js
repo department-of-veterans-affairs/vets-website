@@ -13,12 +13,12 @@ import { commonReducer } from '@department-of-veterans-affairs/platform-startup/
 import { renderWithStoreAndRouter as platformRenderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import { cleanup } from '@testing-library/react';
+import { format, setHours, setMinutes } from 'date-fns';
 import covid19VaccineReducer from '../../covid-19-vaccine/redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import reducers from '../../redux/reducer';
 
 import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
-import moment from '../../lib/moment-tz';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import PreferredDatePageVaDate from '../../new-appointment/components/PreferredDatePageVaDate';
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
@@ -121,10 +121,10 @@ export function renderWithStoreAndRouter(
  * @returns {string} An ISO date string for a date
  */
 export function getTestDate() {
-  return moment()
-    .set('hour', 0)
-    .set('minute', 30)
-    .format('YYYY-MM-DD[T]HH:mm:ss');
+  return format(
+    setMinutes(setHours(new Date(), 0), 30),
+    "yyyy-MM-dd'T'HH:mm:ss",
+  );
 }
 
 /**
@@ -369,7 +369,7 @@ export async function setPreferredDate(store, preferredDate) {
 
   const vaDate = screen.container.querySelector('va-date');
   vaDate.__events.dateChange({
-    target: { value: preferredDate.format('YYYY-MM-DD') },
+    target: { value: format(preferredDate, 'yyyy-MM-dd') },
   });
 
   fireEvent.click(screen.getByText(/Continue/));
