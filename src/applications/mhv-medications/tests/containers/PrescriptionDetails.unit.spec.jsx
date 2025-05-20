@@ -63,7 +63,7 @@ describe('Prescription details container', () => {
 
   it('should display loading message when loading specific rx', async () => {
     const screen = setup();
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('loading-indicator')).to.exist;
       expect(screen.getByText('Loading your medication record...')).to.exist;
     });
@@ -106,7 +106,7 @@ describe('Prescription details container', () => {
     const rxName = screen.findByText(
       rxDetailsResponse.data.attributes.prescriptionName,
     );
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
         `Last filled on ${dateFormat(
           rxDetailsResponse.data.attributes.dispensedDate,
