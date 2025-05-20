@@ -1,0 +1,159 @@
+{
+  "reportDivorce": {
+    "spouseIncome": "NA",
+    "fullName": {
+      "first": "John",
+      "middle": "S",
+      "last": "Doe"
+    },
+    "birthDate": "1991-05-04",
+    "date": "1991-07-07",
+    "divorceLocation": {
+      "outsideUsa": false,
+      "location": {
+        "state": "MD",
+        "city": "Army Post Office"
+      }
+    },
+    "reasonMarriageEnded": "Other",
+    "explanationOfOther": "Other reason"
+  },
+  "currentMarriageInformation": {
+    "typeOfMarriage": "PROXY",
+    "typeOther": "other",
+    "outsideUsa": true,
+    "location": {
+      "city": "Fakesville",
+      "country": "AUS"
+    },
+    "date": "2009-04-01",
+    "view:marriageTypeInformation": {}
+  },
+  "doesLiveWithSpouse": {
+    "spouseIncome": "NA",
+    "spouseDoesLiveWithVeteran": false,
+    "currentSpouseReasonForSeparation": "OTHER",
+    "address": {
+      "view:livesOnMilitaryBaseInfo": {},
+      "country": "USA",
+      "street": "1600 Pennsylvania Ave",
+      "city": "Washington",
+      "state": "DC",
+      "postalCode": "20500"
+    },
+    "other": "Other reason"
+  },
+  "spouseInformation": {
+    "fullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "ssn": "123211234",
+    "birthDate": "1991-02-03",
+    "isVeteran": false,
+    "vaFileNumber": "12321345",
+    "serviceNumber": "12321345"
+  },
+  "veteranWasMarriedBefore": true,
+  "view:completedVeteranFormerMarriage": false,
+  "veteranMarriageHistory": [
+    {
+      "reasonMarriageEnded": "Other",
+      "otherReasonMarriageEnded": "other",
+      "fullName": {
+        "first": "Jake",
+        "last": "Doe"
+      },
+      "startDate": "2005-08-09",
+      "endDate": "2007-09-08",
+      "reasonMarriageEndedOther": "Other reason",
+      "startLocation": {
+        "outsideUsa": true,
+        "location": {
+          "city": "Foreign city",
+          "country": "AUS"
+        }
+      },
+      "endLocation": {
+        "outsideUsa": false,
+        "location": {
+          "state": "NV",
+          "city": "Las Vegas"
+        }
+      }
+    }
+  ],
+  "spouseWasMarriedBefore": true,
+  "view:completedSpouseFormerMarriage": false,
+  "spouseMarriageHistory": [
+    {
+      "reasonMarriageEnded": "Other",
+      "otherReasonMarriageEnded": "other way",
+      "fullName": {
+        "first": "Jake",
+        "last": "Doe"
+      },
+      "startDate": "2005-08-09",
+      "endDate": "2007-09-08",
+      "reasonMarriageEndedOther": "Other reason",
+      "startLocation": {
+        "outsideUsa": true,
+        "location": {
+          "city": "Fakesville",
+          "country": "AUS"
+        }
+      },
+      "endLocation": {
+        "outsideUsa": false,
+        "location": {
+          "state": "NV",
+          "city": "Las Vegas"
+        }
+      }
+    }
+  ],
+  "veteranContactInformation": {
+    "veteranAddress": {
+      "view:livesOnMilitaryBase": false,
+      "view:livesOnMilitaryBaseInfo": {},
+      "country": "USA",
+      "street": "1600 Fakesville Ave",
+      "city": "Washington",
+      "state": "DC",
+      "postalCode": "20500"
+    },
+    "phoneNumber": "1231231234",
+    "emailAddress": "nope@nope.org"
+  },
+  "view:686Information": {},
+  "view:addOrRemoveDependents": {
+    "add": true,
+    "remove": true
+  },
+  "view:selectable686Options": {
+    "addSpouse": true,
+    "reportDivorce": true
+  },
+  "view:addDependentOptions": {
+    "addSpouse": true
+  },
+  "view:removeDependentOptions": {
+    "reportDivorce": true
+  },
+  "childSupportingDocuments": [
+    {
+      "name": "Screenshot from 2025-02-03 13-37-07.png",
+      "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+      "attachmentId": "",
+      "isEncrypted": false
+    }
+  ],
+  "spouseSupportingDocuments": [
+    {
+      "name": "Screenshot from 2025-02-03 13-37-07.png",
+      "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+      "attachmentId": "",
+      "isEncrypted": false
+    }
+  ]
+}

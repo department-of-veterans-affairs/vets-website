@@ -297,11 +297,11 @@ class PatientMessageDraftsPage {
   };
 
   verifyExpandedDraftBody = (response, number, index) => {
-    cy.get('[open="true"]')
+    cy.get(Locators.ACCORDION_ITEM_OPEN)
       .find('.thread-list-draft')
       .should('contain.text', `Draft ${number}`);
 
-    cy.get(`[open="true"]`)
+    cy.get(Locators.ACCORDION_ITEM_OPEN)
       .find(`[data-testid="draft-reply-to"]`)
       .should('contain.text', response.data[index].attributes.recipientName);
   };
@@ -314,26 +314,26 @@ class PatientMessageDraftsPage {
   };
 
   verifyExpandedDraftButtons = number => {
-    cy.get(`[open="true"]`)
+    cy.get(Locators.ACCORDION_ITEM_OPEN)
       .find(`#attach-file-button-${number}`)
       .shadow()
       .find(`button`)
       .should('be.visible')
       .and(`have.text`, `Attach file to draft ${number}`);
 
-    cy.get(`[open="true"]`)
+    cy.get(Locators.ACCORDION_ITEM_OPEN)
       .find(`#send-button-${number}`)
       .shadow()
       .find(`button`)
       .should('be.visible')
       .and(`have.text`, `Send draft ${number}`);
 
-    cy.get(`[open="true"]`)
+    cy.get(Locators.ACCORDION_ITEM_OPEN)
       .find(`#save-draft-button-${number}`)
       .should('be.visible')
       .and(`have.text`, `Save draft ${number}`);
 
-    cy.get(`[open="true"]`)
+    cy.get(Locators.ACCORDION_ITEM_OPEN)
       .find(`#delete-draft-button-${number}`)
       .should('be.visible')
       .and(`have.text`, `Delete draft ${number}`);
