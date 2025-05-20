@@ -37,7 +37,7 @@ const IntroductionPage = ({ route }) => {
         facility, not just the information that has changed.
         <br />
         <br />
-        <strong>Note:</strong>
+        <strong>Note: </strong>
         This form will replace the one you submitted before. It should list
         everyone who is authorized to certify enrollment information and
         “read-only SCOs” who have permission to request or submit information to
@@ -98,7 +98,6 @@ const IntroductionPage = ({ route }) => {
         startText="Start your 85/15 calculations report"
         unauthStartText="Sign in to start your form"
       />
-      <p className="vads-u-padding-bottom--0 mobile-lg:vads-u-padding-bottom--0p5" />
 
       <OmbInfo />
     </article>
