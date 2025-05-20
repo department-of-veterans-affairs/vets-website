@@ -91,6 +91,18 @@ const vetStatusNotEligible = {
 
 function createBasicInitialState(serviceHistory, eligibility) {
   return {
+    featureToggles: {
+      loading: false,
+    },
+    scheduledDowntime: {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: {
+        get() {},
+      },
+      dismissedDowntimeWarnings: [],
+    },
     user: {
       profile: {
         veteranStatus: {

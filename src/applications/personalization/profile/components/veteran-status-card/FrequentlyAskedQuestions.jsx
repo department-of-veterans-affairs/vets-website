@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { PDFErrorAlert } from './VeteranStatusAlerts';
 
-const FrequentlyAskedQuestions = ({ createPdf }) => (
+const FrequentlyAskedQuestions = ({ createPdf, pdfError = false }) => (
   <>
     <h2 className="vads-u-margin-top--2">Frequently asked questions</h2>
     <va-accordion>
@@ -38,6 +39,11 @@ const FrequentlyAskedQuestions = ({ createPdf }) => (
             />
           </>
         )}
+        {pdfError && (
+          <div className="vads-u-margin-top--4">
+            <PDFErrorAlert />
+          </div>
+        )}
         <p />
         Note: The Veteran Status Card is for identification only and does not
         guarantee benefits. Additional documentation may be required. You may be
@@ -57,6 +63,11 @@ const FrequentlyAskedQuestions = ({ createPdf }) => (
     </va-accordion>
   </>
 );
+
+FrequentlyAskedQuestions.propTypes = {
+  createPdf: PropTypes.func,
+  pdfError: PropTypes.bool,
+};
 
 FrequentlyAskedQuestions.propTypes = {
   createPdf: PropTypes.func,
