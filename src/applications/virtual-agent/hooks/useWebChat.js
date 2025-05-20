@@ -1,5 +1,5 @@
 import useWebChatFramework from './useWebChatFramework';
-import useVirtualAgentToken from './useVirtualAgentToken';
+import useChatbotToken from './useChatbotToken';
 import { combineLoadingStatus } from '../utils/loadingStatus';
 
 const getLoadingStatus = (
@@ -25,7 +25,7 @@ const getLoadingStatus = (
 
 export default function useWebChat(props, paramLoadingStatus) {
   const webChatFramework = useWebChatFramework(props);
-  const token = useVirtualAgentToken(props);
+  const token = useChatbotToken(props);
 
   const loadingStatus = getLoadingStatus(
     webChatFramework.loadingStatus,
