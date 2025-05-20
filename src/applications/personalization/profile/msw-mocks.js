@@ -1,4 +1,4 @@
-import { rest, HttpResponse } from 'msw';
+import { rest } from 'msw';
 import mockDisabilityCompensation from '@@profile/mocks/endpoints/disability-compensations';
 import environment from '~/platform/utilities/environment';
 
@@ -698,12 +698,6 @@ export const editAddressSuccess = [
         meta: { errors: null },
       }),
     );
-  }),
-];
-
-export const headKeepAliveSuccess = [
-  rest.head('https://int.eauth.va.gov/keepalive', () => {
-    return new HttpResponse(null, { status: 200 });
   }),
 ];
 

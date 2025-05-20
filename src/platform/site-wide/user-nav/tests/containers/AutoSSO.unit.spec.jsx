@@ -6,7 +6,7 @@ import { setupServer } from 'msw/node';
 import * as ssoUtils from 'platform/utilities/sso';
 import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
 
-import * as mocks from '@@profile/msw-mocks';
+import * as mocks from '../mocks/msw-mocks';
 import { AutoSSO } from '../../containers/AutoSSO';
 
 const generateProps = ({
