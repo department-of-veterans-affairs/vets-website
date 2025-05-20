@@ -11,6 +11,7 @@ const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 const StylelintPlugin = require('stylelint-webpack-plugin');
@@ -357,11 +358,43 @@ module.exports = async (env = {}) => {
           ],
         },
         {
-          test: /\.(jpe?g|png|gif|svg|woff2?|ttf|eot)$/i,
-          type: 'asset',
-          parser: {
-            dataUrlCondition: {
-              maxSize: 8 * 1024, // 8kb
+          // if we want to minify these images, we could add img-loader
+          // but it currently only would apply to three images from uswds
+          test: /\.(jpe?g|png|gif)$/i,
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
+        },
+        {
+          test: /\.svg/,
+          use: {
+            loader: 'svg-url-loader',
+            options: {
+              limit: 1024,
+              publicPath: './',
+            },
+          },
+        },
+        {
+          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 7000,
+              mimetype: 'application/font-woff',
+              name: '[name].[ext]',
+            },
+          },
+        },
+        {
+          test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          use: {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
             },
           },
         },
@@ -417,14 +450,30 @@ module.exports = async (env = {}) => {
       symlinks: false,
     },
     optimization: {
-      moduleIds: 'deterministic',
-      runtimeChunk: 'single',
+      // 'chunkIds' and 'moduleIds' are set to 'named' for preserving
+      // consistency between full and single app builds
+      chunkIds: 'named',
+      moduleIds: 'named',
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            output: {
+              beautify: false,
+              comments: false,
+            },
+            warnings: false,
+          },
+          parallel: true,
+        }),
+      ],
       splitChunks: {
         cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
+          // this needs to be "vendors" to overwrite a default group
+          vendors: {
             chunks: 'all',
+            test: 'vendor',
+            name: 'vendor',
+            enforce: true,
           },
         },
       },

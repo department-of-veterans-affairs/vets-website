@@ -48,7 +48,6 @@ function generateWebpackDevConfig(buildOptions) {
       watch: {
         poll: 1000,
       },
-      serveIndex: true,
     },
     port: buildOptions.port,
     host: buildOptions.host,

@@ -25,4 +25,4 @@ runs:
         token: ${{ inputs.token }}
         name: ${{ inputs.name }}
         conclusion: ${{ inputs.conclusion }}
-        output: ${{ toJSON(inputs.output) }}
+        output: ${{ inputs.output }}

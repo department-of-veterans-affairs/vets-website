@@ -68,7 +68,6 @@ beforeEach(() => {
   cy.intercept('GET', '/v0/maintenance_windows', {
     data: [],
   });
-  Cypress.config('defaultCommandTimeout', 10000);
 });
 
 // Assign the video path to the context property for failed tests
