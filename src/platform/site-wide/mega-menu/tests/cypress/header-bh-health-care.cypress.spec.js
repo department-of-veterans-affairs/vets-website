@@ -33,15 +33,6 @@ describe('global header - benefit hubs - health care', () => {
         win.VetsGov.headerFooter = mockHeaderFooterData;
       },
     });
-
-    // Add cache-busting headers
-    cy.intercept('**/*', req => {
-      req.reply(res => {
-        res.headers['cache-control'] = 'no-cache, no-store, must-revalidate';
-        res.headers.pragma = 'no-cache';
-        res.headers.expires = '0';
-      });
-    });
   });
 
   describe('desktop menu', () => {

@@ -7,17 +7,6 @@ const selectors = {
 };
 
 describe('User Nav Test', () => {
-  beforeEach(() => {
-    // Add cache-busting headers
-    cy.intercept('**/*', req => {
-      req.reply(res => {
-        res.headers['cache-control'] = 'no-cache, no-store, must-revalidate';
-        res.headers.pragma = 'no-cache';
-        res.headers.expires = '0';
-      });
-    });
-  });
-
   ['sis', 'iam'].forEach(authBroker => {
     it(`Displays the proper elements on the nav (${authBroker})`, () => {
       const mockUser = generateMockUser({ authBroker });
