@@ -1,13 +1,14 @@
-import React from 'react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
-import moment from 'moment-timezone';
+import React from 'react';
+
+import { addMinutes, subMinutes } from 'date-fns';
+import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import {
-  getTestDate,
   createTestStore,
+  getTestDate,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
-
 import VideoLink from './VideoLink';
 
 beforeEach(() => {
@@ -22,7 +23,7 @@ describe('VAOS Component: VideoLink', () => {
   const initialState = {
     appointments: {
       facilityData: {
-        '983': {
+        983: {
           address: {
             line: ['2360 East Pershing Boulevard'],
             city: 'Cheyenne',
@@ -42,14 +43,18 @@ describe('VAOS Component: VideoLink', () => {
   };
 
   it('does not render join appointment link when more than 30 minutes before start time', () => {
-    const now = moment();
+    const now = new Date();
     const store = createTestStore(initialState);
     const appointment = {
       location: {
         clinicPhone: '500-500-5000',
         clinicPhoneExtension: '1234',
       },
-      start: moment.tz(now, 'America/New_York').subtract(600, 'minutes'),
+      start: formatInTimeZone(
+        subMinutes(now, 600),
+        'America/New_York',
+        "yyyy-MM-dd'T'HH:mm:ss",
+      ),
       videoData: {
         url: 'test.com',
       },
@@ -72,14 +77,18 @@ describe('VAOS Component: VideoLink', () => {
   });
 
   it('does not render join appointment link when beyond 4 hours after start time', () => {
-    const now = moment();
+    const now = new Date();
     const store = createTestStore(initialState);
     const appointment = {
       location: {
         vistaId: '983',
         locationId: '983',
       },
-      start: moment.tz(now, 'America/New_York').add(600, 'minutes'),
+      start: formatInTimeZone(
+        addMinutes(now, 600),
+        'America/New_York',
+        "yyyy-MM-dd'T'HH:mm:ss",
+      ),
       videoData: {
         url: 'test.com',
       },
@@ -103,14 +112,14 @@ describe('VAOS Component: VideoLink', () => {
   });
 
   it('render alert message when it is within timeframe but url is missing ', () => {
-    const now = moment();
+    const now = zonedTimeToUtc(subMinutes(new Date(), 30), 'America/New_York');
     const store = createTestStore(initialState);
     const appointment = {
       location: {
         clinicPhone: '500-500-5000',
         clinicPhoneExtension: '1234',
       },
-      start: moment.tz(now, 'America/New_York').subtract(30, 'minutes'),
+      start: formatInTimeZone(now, 'America/New_York', "yyyy-MM-dd'T'HH:mm:ss"),
       videoData: {},
       vaos: {
         isVideo: true,
@@ -138,11 +147,18 @@ describe('VAOS Component: VideoLink', () => {
   });
 
   it('renders join appointment link 30 minutes prior to start time', () => {
-    const now = moment();
+    const now = zonedTimeToUtc(
+      subMinutes(new Date(), 30),
+      'America/Los_Angeles',
+    );
     const store = createTestStore(initialState);
     const appointment = {
       location: {},
-      start: moment.tz(now, 'America/Los_Angeles').subtract(30, 'minutes'),
+      start: formatInTimeZone(
+        now,
+        'America/Los_Angeles',
+        "yyyy-MM-dd'T'HH:mm:ss",
+      ),
       videoData: {
         url: 'test.com',
       },
@@ -158,14 +174,18 @@ describe('VAOS Component: VideoLink', () => {
   });
 
   it('renders join appointment link within 4 hours after start time', () => {
-    const now = moment();
+    const now = new Date();
     const store = createTestStore(initialState);
     const appointment = {
       location: {
         vistaId: '983',
         locationId: '983',
       },
-      start: moment.tz(now, 'America/Los_Angeles').add(90, 'minutes'),
+      start: formatInTimeZone(
+        addMinutes(now, 90),
+        'America/Los_Angeles',
+        "yyyy-MM-dd'T'HH:mm:ss",
+      ),
       videoData: {
         url: 'test.com',
       },
