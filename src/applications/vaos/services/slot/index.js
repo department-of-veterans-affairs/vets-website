@@ -24,7 +24,6 @@ import { transformV2Slots } from './transformers';
  * @async
  * @param {Object} slotsRequest - An object containing the parameters necessary to retrieve appointment slots
  * @param {string} slotsRequest.siteId 3 digit facility ID
- * @param {string} slotsRequest.typeOfCareId 3 digit type of care id
  * @param {string} slotsRequest.clinicId clinic id
  * @param {string} slotsRequest.startDate start date to search for appointments lots formatted as YYYY-MM-DD
  * @param {string} slotsRequest.endDate end date to search for appointments lots formatted as YYYY-MM-DD
