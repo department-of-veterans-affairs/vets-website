@@ -705,6 +705,8 @@ jobs:
       - name: Merge axe-check-new-heading-rules checks
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: git merge origin/axe-check-new-heading-rules --allow-unrelated-histories
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
