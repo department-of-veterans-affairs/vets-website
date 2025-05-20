@@ -47,7 +47,7 @@ export class LetterList extends React.Component {
         LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
       },
       () => {
-        if (lettersNewDesign && togglesLoaded) {
+        if (togglesLoaded && lettersNewDesign) {
           this.props.getLettersPdfLinksWrapper(
             // Need updated LH_MIGRATION__options for correct download URL
             // eslint-disable-next-line -- LH_MIGRATION
