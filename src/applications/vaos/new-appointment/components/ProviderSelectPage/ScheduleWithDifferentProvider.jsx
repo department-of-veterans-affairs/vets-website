@@ -9,14 +9,24 @@ import { startRequestAppointmentFlow } from '../../redux/actions';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 
 function handleClick(history, dispatch, requestDateTime) {
-  return e => {
-    // Stop default behavior for anchor tag since we are using React routing.
-    e.preventDefault();
-
+  return () => {
     dispatch(startRequestAppointmentFlow());
     history.push(requestDateTime.url);
   };
 }
+
+// const pageKey = 'selectProvider';
+// // function handleClick(history, dispatch, requestDateTime, selectProvider) {
+// function handleClick(history, dispatch, requestDateTime) {
+//   return e => {
+//     // Stop default behavior for anchor tag since we are using React routing.
+//     e.preventDefault();
+
+//     dispatch(routeToNextAppointmentPage(history, pageKey));
+//     // history.push(selectProvider.url);
+//     history.push(requestDateTime.url);
+//   };
+// }
 
 export default function ScheduleWithDifferentProvider({
   eligibility,
@@ -24,7 +34,7 @@ export default function ScheduleWithDifferentProvider({
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { root, requestDateTime } = useSelector(getNewAppointmentFlow);
+  const { requestDateTime } = useSelector(getNewAppointmentFlow);
   const facilityPhone = getFacilityPhone(selectedFacility);
   const overRequestLimit =
     eligibility.requestReasons[0] === ELIGIBILITY_REASONS.overRequestLimit;
@@ -67,7 +77,7 @@ export default function ScheduleWithDifferentProvider({
       <va-link
         active
         text="Request an appointment"
-        href={`${root.url}/${requestDateTime.url}`}
+        // href={`${root.url}/${requestDateTime.url}`}
         onClick={handleClick(history, dispatch, requestDateTime)}
       />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
