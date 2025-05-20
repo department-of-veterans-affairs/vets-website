@@ -2,10 +2,7 @@ import {
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  militaryServiceTimeServedTypes,
-  militaryServiceTimeServedLabels,
-} from '../constants/benefits';
+import { timeServedTypes, timeServedLabels } from '../constants/benefits';
 
 export default {
   uiSchema: {
@@ -14,16 +11,14 @@ export default {
       title: 'In total, how long have you served in the military?',
       hint:
         'If you have served multiple periods, please choose the answer that reflects your total amount of service.',
-      labels: militaryServiceTimeServedLabels,
+      labels: timeServedLabels,
       required: () => false,
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      militaryServiceTotalTimeServed: radioSchema(
-        Object.keys(militaryServiceTimeServedTypes),
-      ),
+      militaryServiceTotalTimeServed: radioSchema(Object.keys(timeServedTypes)),
     },
   },
 };

@@ -7,7 +7,7 @@ import {
   anyType,
   mappingTypes,
   characterOfDischargeTypes,
-  militaryServiceTimeServedTypes,
+  timeServedTypes,
   goalTypes,
   yesNoType,
   expectedSeparationTypes,
@@ -113,7 +113,7 @@ describe('actions', () => {
       const benefit = getBenefitById('COE');
       const formData = {
         [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
+          timeServedTypes.UP_TO_3_MONTHS,
       };
       const result = actions.checkSingleResponse(
         benefit,
@@ -126,8 +126,7 @@ describe('actions', () => {
     it('returns false if has not served over 4 monnths of active duty', () => {
       const benefit = getBenefitById('COE');
       const formData = {
-        [mappingTypes.LENGTH_OF_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
+        [mappingTypes.LENGTH_OF_SERVICE]: timeServedTypes.UP_TO_3_MONTHS,
       };
       const result = actions.checkSingleResponse(
         benefit,
@@ -141,7 +140,7 @@ describe('actions', () => {
       const benefit = getBenefitById('COE');
       const formData = {
         [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+          timeServedTypes.UP_TO_6_MONTHS,
       };
       const result = actions.checkSingleResponse(
         benefit,
@@ -154,8 +153,7 @@ describe('actions', () => {
     it('returns true served over 4 monnths of active duty', () => {
       const benefit = getBenefitById('COE');
       const formData = {
-        [mappingTypes.LENGTH_OF_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        [mappingTypes.LENGTH_OF_SERVICE]: timeServedTypes.UP_TO_6_MONTHS,
       };
       const result = actions.checkSingleResponse(
         benefit,
@@ -182,10 +180,9 @@ describe('actions', () => {
       const benefit = getBenefitById('COE');
       const formData = {
         [mappingTypes.GOALS]: goalTypes.RETIREMENT,
-        [mappingTypes.LENGTH_OF_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
+        [mappingTypes.LENGTH_OF_SERVICE]: timeServedTypes.UP_TO_3_MONTHS,
         [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
+          timeServedTypes.UP_TO_3_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
         [mappingTypes.BRANCH_COMPONENT]: {
@@ -203,10 +200,9 @@ describe('actions', () => {
       const benefit = getBenefitById('COE');
       const formData = {
         [mappingTypes.GOALS]: goalTypes.RETIREMENT,
-        [mappingTypes.LENGTH_OF_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
+        [mappingTypes.LENGTH_OF_SERVICE]: timeServedTypes.UP_TO_3_MONTHS,
         [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+          timeServedTypes.UP_TO_6_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
         [mappingTypes.BRANCH_COMPONENT]: {
@@ -224,10 +220,9 @@ describe('actions', () => {
       const benefit = getBenefitById('COE');
       const formData = {
         [mappingTypes.GOALS]: goalTypes.RETIREMENT,
-        [mappingTypes.LENGTH_OF_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        [mappingTypes.LENGTH_OF_SERVICE]: timeServedTypes.UP_TO_6_MONTHS,
         [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_3_MONTHS,
+          timeServedTypes.UP_TO_3_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
         [mappingTypes.BRANCH_COMPONENT]: {
@@ -246,10 +241,9 @@ describe('actions', () => {
       const benefit = getBenefitById('COE');
       const formData = {
         [mappingTypes.GOALS]: goalTypes.RETIREMENT,
-        [mappingTypes.LENGTH_OF_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        [mappingTypes.LENGTH_OF_SERVICE]: timeServedTypes.UP_TO_6_MONTHS,
         [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+          timeServedTypes.UP_TO_6_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
         [mappingTypes.BRANCH_COMPONENT]: {
@@ -268,10 +262,9 @@ describe('actions', () => {
       const benefit = getBenefitById('COE');
       const formData = {
         [mappingTypes.GOALS]: goalTypes.RETIREMENT,
-        [mappingTypes.LENGTH_OF_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+        [mappingTypes.LENGTH_OF_SERVICE]: timeServedTypes.UP_TO_6_MONTHS,
         [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
-          militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
+          timeServedTypes.UP_TO_6_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
         [mappingTypes.BRANCH_COMPONENT]: {

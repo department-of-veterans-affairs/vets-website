@@ -45,7 +45,7 @@ export const goalTypeLabels = Object.freeze({
   PLAN: "Plan for my and my family's future",
 });
 
-export const militaryServiceTimeServedLabels = Object.freeze({
+export const timeServedLabels = Object.freeze({
   UP_TO_3_MONTHS: '0 to 3 months',
   UP_TO_6_MONTHS: '4 to 6 months',
   UP_TO_1_YEAR: '7 months to 1 year',
@@ -54,7 +54,7 @@ export const militaryServiceTimeServedLabels = Object.freeze({
   OVER_3_YEARS: '3+ years',
 });
 
-export const militaryServiceTimeServedTypes = Object.freeze({
+export const timeServedTypes = Object.freeze({
   UP_TO_3_MONTHS: 'UP_TO_3_MONTHS',
   UP_TO_6_MONTHS: 'UP_TO_6_MONTHS',
   UP_TO_1_YEAR: 'UP_TO_1_YEAR',
@@ -468,11 +468,11 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [
-        militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
-        militaryServiceTimeServedTypes.UP_TO_1_YEAR,
-        militaryServiceTimeServedTypes.UP_TO_2_YEARS,
-        militaryServiceTimeServedTypes.UP_TO_3_YEARS,
-        militaryServiceTimeServedTypes.OVER_3_YEARS,
+        timeServedTypes.UP_TO_6_MONTHS,
+        timeServedTypes.UP_TO_1_YEAR,
+        timeServedTypes.UP_TO_2_YEARS,
+        timeServedTypes.UP_TO_3_YEARS,
+        timeServedTypes.OVER_3_YEARS,
       ],
       [mappingTypes.ACTIVE_DUTY]: [yesNoType.YES],
       [mappingTypes.BRANCH_COMPONENT]: [
@@ -673,22 +673,22 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [
-        militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
-        militaryServiceTimeServedTypes.UP_TO_1_YEAR,
-        militaryServiceTimeServedTypes.UP_TO_2_YEARS,
-        militaryServiceTimeServedTypes.UP_TO_3_YEARS,
-        militaryServiceTimeServedTypes.OVER_3_YEARS,
+        timeServedTypes.UP_TO_6_MONTHS,
+        timeServedTypes.UP_TO_1_YEAR,
+        timeServedTypes.UP_TO_2_YEARS,
+        timeServedTypes.UP_TO_3_YEARS,
+        timeServedTypes.OVER_3_YEARS,
       ],
       [mappingTypes.ACTIVE_DUTY]: [yesNoType.YES],
       [mappingTypes.BRANCH_COMPONENT]: [
         militaryBranchComponentTypes.ACTIVE_DUTY,
       ],
       [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: [
-        militaryServiceTimeServedTypes.UP_TO_6_MONTHS,
-        militaryServiceTimeServedTypes.UP_TO_1_YEAR,
-        militaryServiceTimeServedTypes.UP_TO_2_YEARS,
-        militaryServiceTimeServedTypes.UP_TO_3_YEARS,
-        militaryServiceTimeServedTypes.OVER_3_YEARS,
+        timeServedTypes.UP_TO_6_MONTHS,
+        timeServedTypes.UP_TO_1_YEAR,
+        timeServedTypes.UP_TO_2_YEARS,
+        timeServedTypes.UP_TO_3_YEARS,
+        timeServedTypes.OVER_3_YEARS,
       ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
