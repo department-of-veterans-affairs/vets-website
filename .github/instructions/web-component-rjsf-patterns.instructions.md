@@ -1,5 +1,5 @@
 ---
-applyTo: "**/src/applications/**/pages/**/*"
+applyTo: "**/src/applications/**/pages/**/*.js"
 ---
 Instructions on web component patterns for RJSF
 

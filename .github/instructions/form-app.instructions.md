@@ -7,7 +7,8 @@ Usually an application is in `src/applications/{app-name}`, but might be in `src
 
 A form or app, is often referred to as a number, such as `4142`, or a name, such as `21-4142`. The actual application name may have additional characters such as `21-4142`, or `4142-v2`.
 
-src/applications/{optional-sub-folder}/{app-name}
+Glob for checking an app manifest.json file:
+src/applications/**/*{app-name}*/manifest.json
 
 |- app-name
 |   |- manifest.json # contains information about the `entryName` for yarn watch, and `rootUrl` for opening in the browser
@@ -16,4 +17,4 @@ src/applications/{optional-sub-folder}/{app-name}
 |       |- form.js # where the entry form RJSF is defined, referencing chapters and pages
 |   |- containers
 |       |- IntroductionPage.jsx
-|       |- ConfirmationPage.jsx 
+|       |- ConfirmationPage.jsx

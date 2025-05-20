@@ -7,18 +7,11 @@ mode: 'agent'
 
 Continue to search until you find it.
 
-## App structure
-Manifest file = {app_folder}/manifest.json
-Form config = {app_folder}/config/form.js
-TODO: update this to be chapters or pages
-Pages = {app_folder}/pages
-Tests = {app_folder}/tests/unit
-
 ## Creating or updating a page
 
-You must make 3 changes for each page.
+You must make at least 3 changes for each page.
 
-1. Create or update the page in the `{app_folder}/pages/{page-name}.js` file.
+1. Create or update the page in the `{app_folder}/pages/{page-name}.js` file. If `{app_folder}/pages` does not exist, then check for a `chapters` folder, or make a best guess where the code should go.
 2. Update the `{app_folder}/config/form.js` file to add or update the new page to the form.
 3. Use [web-component-patterns](.github/instructions/web-component-rjsf-patterns.instructions.md) for code format patterns and validation.
 4. Validate the new page uses the patterns correctly, and correct if necessary.
