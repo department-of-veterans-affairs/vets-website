@@ -62,7 +62,6 @@ export const generateGenericContent = record => {
         },
       ],
       sectionSeparators: false,
-      // TODO: start here
       items: record.observations.map(item => ({
         header: item.testCode,
         items: [

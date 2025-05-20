@@ -94,24 +94,20 @@ const UnifiedLabsAndTests = props => {
               testId="lab-and-test-code"
               data-dd-action-name="[lab and tests - test code]"
             />
-            {record.sampleTested && (
-              <LabelValue
-                ifEmpty="None Noted"
-                label={LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED}
-                value={record.sampleTested}
-                testId="lab-and-test-sample-tested"
-                data-dd-action-name="[lab and tests - sample tested]"
-              />
-            )}
-            {record.bodySite && (
-              <LabelValue
-                ifEmpty="None Noted"
-                label={LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE}
-                value={record.bodySite}
-                testId="lab-and-test-body-site"
-                data-dd-action-name="[lab and tests - body site]"
-              />
-            )}
+            <LabelValue
+              ifEmpty="None Noted"
+              label={LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED}
+              value={record.sampleTested}
+              testId="lab-and-test-sample-tested"
+              data-dd-action-name="[lab and tests - sample tested]"
+            />
+            <LabelValue
+              ifEmpty="None Noted"
+              label={LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE}
+              value={record.bodySite}
+              testId="lab-and-test-body-site"
+              data-dd-action-name="[lab and tests - body site]"
+            />
             <LabelValue
               ifEmpty="None Noted"
               label={LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY}
@@ -126,27 +122,18 @@ const UnifiedLabsAndTests = props => {
               testId="lab-and-test-collecting-location"
               data-dd-action-name="[lab and tests - location]"
             />
-
-            {record.comments && (
-              <>
-                <LabelValue
-                  label={LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}
-                  ifEmpty=""
-                  testId="lab-and-test-comments"
-                />
-                <ItemList list={record.comments} />
-              </>
-            )}
-            {record.result && (
-              <>
-                <LabelValue
-                  ifEmpty="None Noted"
-                  label={LABS_AND_TESTS_DISPLAY_LABELS.RESULTS}
-                  value={record.result}
-                  testId="lab-and-test-results"
-                />
-              </>
-            )}
+            <LabelValue
+              label={LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}
+              ifEmpty=""
+              testId="lab-and-test-comments"
+            />
+            <ItemList list={record.comments} />
+            <LabelValue
+              ifEmpty="None Noted"
+              label={LABS_AND_TESTS_DISPLAY_LABELS.RESULTS}
+              value={record.result}
+              testId="lab-and-test-results"
+            />
           </HeaderSection>
         </div>
         {/*         RESULTS CARDS            */}

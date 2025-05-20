@@ -34,27 +34,21 @@ const UnifiedLabAndTestObservations = props => {
                 value={result.status}
                 ddActionName="[lab and tests - status]"
               />
-              {result.bodySite && (
-                <UnifiedLabAndTestObservationDetail
-                  header={OBSERVATION_DISPLAY_LABELS.BODY_SITE}
-                  value={result.bodySite}
-                  ddActionName="[lab and tests - body site]"
-                />
-              )}
-              {result.sampleTested && (
-                <UnifiedLabAndTestObservationDetail
-                  header={OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED}
-                  value={result.sampleTested}
-                  ddActionName="[lab and tests - sample tested]"
-                />
-              )}
-              {result.comments && (
-                <UnifiedLabAndTestObservationDetail
-                  header={OBSERVATION_DISPLAY_LABELS.COMMENTS}
-                  value={result.comments}
-                  ddActionName="[lab and tests - comments]"
-                />
-              )}
+              <UnifiedLabAndTestObservationDetail
+                header={OBSERVATION_DISPLAY_LABELS.BODY_SITE}
+                value={result.bodySite}
+                ddActionName="[lab and tests - body site]"
+              />
+              <UnifiedLabAndTestObservationDetail
+                header={OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED}
+                value={result.sampleTested}
+                ddActionName="[lab and tests - sample tested]"
+              />
+              <UnifiedLabAndTestObservationDetail
+                header={OBSERVATION_DISPLAY_LABELS.COMMENTS}
+                value={result.comments}
+                ddActionName="[lab and tests - comments]"
+              />
             </div>
           </li>
         );

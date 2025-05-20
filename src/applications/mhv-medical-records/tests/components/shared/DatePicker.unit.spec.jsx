@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import DatePicker from './DatePicker';
+import DatePicker from '../../../components/shared/DatePicker';
 
 describe('DatePicker', () => {
   let mockUpdateDate;

@@ -519,8 +519,6 @@ export function formatDateTime(datetimeString) {
   return { formattedDate, formattedTime };
 }
 
-// Need signed by
-// the types need to line up
 export const convertUnifiedLabsAndTestRecord = record => {
   const { formattedDate, formattedTime } = formatDateTime(
     record.attributes.dateCompleted,

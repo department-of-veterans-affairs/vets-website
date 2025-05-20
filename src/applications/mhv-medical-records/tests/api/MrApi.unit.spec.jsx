@@ -50,6 +50,7 @@ import {
   getAcceleratedAllergy,
   getAcceleratedVitals,
   getAcceleratedLabsAndTests,
+  getAcceleratedLabsAndTestsDetails,
 } from '../../api/MrApi';
 
 describe('Get labs and tests api call', () => {
@@ -416,6 +417,17 @@ describe('Accelerated OH API calls', () => {
           environment.API_URL
         }/my_health/v2/medical_records/labs_and_tests?from=2023-01-01&to=2023-01-01`;
         expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
+      });
+    });
+  });
+
+  describe('getAcceleratedLabsAndTestsDetails', () => {
+    it('should make an api call to get a single lab or test', () => {
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+
+      return getAcceleratedLabsAndTestsDetails('123').then(res => {
+        expect(res.mock).to.equal('data');
       });
     });
   });

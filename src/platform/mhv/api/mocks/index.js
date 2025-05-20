@@ -70,8 +70,7 @@ const {
 
 const responses = {
   ...commonResponses,
-  // TODO: flip this back to the default user
-  'GET /v0/user': user.acceleratedCernerUser,
+  'GET /v0/user': user.defaultUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
     mhvMedicationsDisplayRefillContent: true,
