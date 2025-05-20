@@ -54,8 +54,6 @@ const IntroductionPage = ({ route }) => {
         </li>
       </ul>
 
-      {/* submission guidelines */}
-
       <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-bottom--2">
         How to submit this form
       </h2>
@@ -100,14 +98,13 @@ const IntroductionPage = ({ route }) => {
         </va-process-list-item>
       </va-process-list>
       <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
+        prefillEnabled={route.formConfig.prefillEnabled}
+        messages={route.formConfig.savedFormMessages}
+        formConfig={formConfig}
         pageList={pageList}
-        startText="Start the Application"
-      >
-        Please complete the 22-1919 form to apply for education benefits.
-      </SaveInProgressIntro>
+        startText="Start your Conflicting interests certification for proprietary schools report"
+        unauthStartText="Sign in to start your form"
+      />
       <p />
       <va-omb-info
         res-burden={10}
