@@ -22,11 +22,11 @@ async function getToken(
   try {
     logErrorToDatadog(
       isDatadogLoggingEnabled,
-      'vets-website - useVirtualAgentToken',
+      'vets-website - useChatbotToken',
       new Error('test'),
     );
     const response = await retryOnce(() => {
-      return apiRequest('/virtual_agent_token', {
+      return apiRequest('/chatbot/token', {
         method: 'POST',
       });
     });
@@ -38,14 +38,14 @@ async function getToken(
     setApiSession(response.apiSession);
     setLoadingStatus(COMPLETE);
   } catch (ex) {
-    const error = new Error('Could not retrieve virtual agent token');
+    const error = new Error('Could not retrieve chatbot token');
     Sentry.captureException(error);
     logErrorToDatadog(isDatadogLoggingEnabled, error.message, error);
     setLoadingStatus(ERROR);
   }
 }
 
-export default function useVirtualAgentToken(props) {
+export default function useChatbotToken(props) {
   const [token, setToken] = useState('');
   const [code, setCode] = useState('');
   const [apiSession, setApiSession] = useState('');
