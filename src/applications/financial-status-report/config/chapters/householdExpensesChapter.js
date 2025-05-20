@@ -1,6 +1,5 @@
 import {
-  householdExpensesChecklist,
-  householdExpensesInputList,
+  monthlyHousingExpenses,
   utilityBillPages,
   creditCardBills,
   installmentContracts,
@@ -18,7 +17,6 @@ import OtherExpensesSummary from '../../components/otherExpenses/OtherExpensesSu
 import OtherExpensesSummaryReview from '../../components/otherExpenses/OtherExpensesSummaryReview';
 import InstallmentContract from '../../components/householdExpenses/InstallmentContract';
 import InstallmentContractSummary from '../../components/householdExpenses/InstallmentContractSummary';
-import HouseholdExpensesSummaryReview from '../../components/householdExpenses/HouseholdExpensesSummaryReview';
 import CreditCardBillsSummaryReview from '../../components/householdExpenses/CreditCardBillsSummaryReview';
 import InstallmentContractsSummaryReview from '../../components/householdExpenses/InstallmentContractsSummaryReview';
 import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
@@ -44,23 +42,6 @@ export default {
         CustomPageReview: ExpenseExplainerReview,
         depends: formData => !isStreamlinedShortForm(formData),
       },
-      householdExpensesChecklist: {
-        path: 'household-expenses-checklist',
-        title: 'Household expenses checklist',
-        uiSchema: householdExpensesChecklist.uiSchema,
-        schema: householdExpensesChecklist.schema,
-        depends: formData => !isStreamlinedShortForm(formData),
-      },
-      householdExpensesInputList: {
-        path: 'household-expenses-values',
-        title: 'Household expenses values',
-        uiSchema: householdExpensesInputList.uiSchema,
-        schema: householdExpensesInputList.schema,
-        CustomPageReview: HouseholdExpensesSummaryReview,
-        depends: formData =>
-          formData.expenses?.expenseRecords?.length > 0 &&
-          !isStreamlinedShortForm(formData),
-      },
       // Enhanced Utility Bills
       utilityBillChecklist: {
         path: 'utility-bill-checklist',
@@ -68,6 +49,13 @@ export default {
         uiSchema: utilityBillPages.utilityBillChecklist.uiSchema,
         schema: utilityBillPages.utilityBillChecklist.schema,
         depends: formData => !isStreamlinedShortForm(formData),
+        monthlyHousingExpenses: {
+          path: 'monthly-housing-expenses',
+          title: 'Monthly housing expenses',
+          schema: monthlyHousingExpenses.schema,
+          uiSchema: monthlyHousingExpenses.uiSchema,
+          depends: formData => !isStreamlinedShortForm(formData),
+        },
       },
       utilityBillValues: {
         path: 'utility-bill-values',
