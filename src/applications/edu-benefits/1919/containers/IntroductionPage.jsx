@@ -54,6 +54,21 @@ const IntroductionPage = ({ route }) => {
         </li>
       </ul>
 
+      <va-summary-box>
+        <h3 slot="headline">Submission guidelines</h3>
+        <ul>
+          <li>
+            This form must be completed and submitted by an authorized
+            representative of your institution, such as the President, Chief
+            Administrative Officer, or an equivalent official.
+          </li>
+          <li>
+            Each time the information on this form changes, a new submission is
+            required.
+          </li>
+        </ul>
+      </va-summary-box>
+
       <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-bottom--2">
         How to submit this form
       </h2>
