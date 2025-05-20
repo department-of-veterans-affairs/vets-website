@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useLocation } from 'react-router-dom';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import { setPageFocus } from '../../combined/utils/helpers';
@@ -17,6 +18,11 @@ const ResolveDebtPage = ({ match }) => {
   const location = useLocation();
   const currentDebt = getCurrentDebt(selectedDebt, debts, location);
   const selectedId = currentDebt?.id || match?.params?.id;
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showVHAPaymentHistory = useToggleValue(
+    TOGGLE_NAMES.showVHAPaymentHistory,
+  );
 
   const howToUserData = {
     fileNumber: currentDebt.fileNumber,
@@ -65,7 +71,7 @@ const ResolveDebtPage = ({ match }) => {
         </h3>
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
         <HowDoIPay userData={howToUserData} />
-        <NeedHelp />
+        <NeedHelp showVHAPaymentHistory={showVHAPaymentHistory} />
       </div>
     </>
   );
