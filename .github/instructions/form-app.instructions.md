@@ -1,20 +1,33 @@
 ---
 applyTo: "**/src/applications/**/*"
 ---
-Understanding common app directory structure
 
-Usually an application is in `src/applications/{app-name}`, but might be in `src/applications/sub-folder/{app-name}`. The app folder should contain a `manifest.json` file, a `pages` folder, and a `config` folder. The `manifest.json` file should contain the entry name for the app. The `pages` folder should contain the pages for the app, and the `config` folder should contain the configuration files for the app. If there is no `pages` folder, then either there may be logic directly in `config/form.js`, or there may be a `chapters` folder instead.
+### Understanding Common App Directory Structure
 
-A form or app, is often referred to as a number, such as `4142`, or a name, such as `21-4142`. The actual application name may have additional characters such as `21-4142`, or `4142-v2`.
+An application is usually located in `src/applications/{app-name}` but might also be in `src/applications/sub-folder/{app-name}`. 
 
-Glob for checking an app manifest.json file:
+The app folder typically contains the following:
+- **`manifest.json`**: Contains the `entryName` for `yarn watch` and the `rootUrl` for opening the app in the browser.
+- **`pages` folder**: Usually where RJSF pages are defined. If omitted, logic may reside in `chapters` or directly in `config/form.js`.
+- **`config` folder**: Contains configuration files, including `form.js`, which defines the entry form for RJSF, referencing chapters and pages.
+- **`containers` folder**: Includes key components like `IntroductionPage.jsx` and `ConfirmationPage.jsx`.
+
+#### Notes:
+- Apps or forms are often referred to by a number (e.g., `4142`) or a name (e.g., `21-4142`). The actual application name may include additional characters, such as `21-4142` or `4142-v2`.
+
+#### Example Glob for Checking an App's `manifest.json` File:
+```bash
 src/applications/**/*{app-name}*/manifest.json
+```
 
+#### Example Directory Structure:
+```
 |- app-name
-|   |- manifest.json # contains information about the `entryName` for yarn watch, and `rootUrl` for opening in the browser
-|   |- pages # usually where RJSF pages are defined, but may be omitted, in which case logic may live in `chapters` or directly in the `config/form.js` file
+|   |- manifest.json
+|   |- pages
 |   |- config
-|       |- form.js # where the entry form RJSF is defined, referencing chapters and pages
+|       |- form.js
 |   |- containers
 |       |- IntroductionPage.jsx
 |       |- ConfirmationPage.jsx
+```
