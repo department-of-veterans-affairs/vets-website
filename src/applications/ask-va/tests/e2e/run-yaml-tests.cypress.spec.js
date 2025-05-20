@@ -144,38 +144,52 @@ describe('YAML tests', () => {
       const runAndLogTest = function(folder, path, file) {
         if (file.endsWith('.yml')) {
           cy.log('-------------------');
-          cy.log(`Run tests in ${file}`);
+          cy.log(`Run tests in ${file}, ${path} in ${folder}`);
           cy.log('-------------------');
 
-          if (path === 'authenticated') {
-            if (['13g.yml', '17g.yml'].includes(file)) {
-              cy.intercept(
-                'GET',
-                '/v0/in_progress_forms/0873',
-                mockAVAProfileMissingInfo,
-              );
+          if (folder === 'forms') {
+            if (path === 'authenticated') {
+              if (['13g.yml', '17g.yml'].includes(file)) {
+                cy.intercept(
+                  'GET',
+                  '/v0/in_progress_forms/0873',
+                  mockAVAProfileMissingInfo,
+                );
+              } else {
+                cy.intercept(
+                  'GET',
+                  '/v0/in_progress_forms/0873',
+                  mockAVAProfile,
+                );
+              }
+              cy.login(mockUserDefault);
             } else {
-              cy.intercept('GET', '/v0/in_progress_forms/0873', mockAVAProfile);
+              cy.clearAllCookies();
             }
-            cy.login(mockUserDefault);
-          } else if (path === 'dashboard') {
+          } else {
             if (['13g.yml', '17g.yml'].includes(file)) {
               cy.intercept(
                 'GET',
-                '/ask_va_api/v0/inquiries',
+                'http://localhost:3000/ask_va_api/v0/inquiries',
                 mockMultipleInquiries,
               );
             } else if (['14g.yml', '18g.yml'].includes(file)) {
-              cy.intercept('GET', '/ask_va_api/v0/inquiries', mockOneInquiry);
+              cy.intercept(
+                'GET',
+                'http://localhost:3000/ask_va_api/v0/inquiries',
+                mockOneInquiry,
+              );
             } else {
-              cy.intercept('GET', `/ask_va_api/v0/inquiries`, mockNoInquiries);
+              cy.intercept(
+                'GET',
+                `http://localhost:3000/ask_va_api/v0/inquiries`,
+                mockNoInquiries,
+              );
             }
             cy.login(mockUserDefault);
-          } else {
-            cy.clearAllCookies();
           }
-          testRunner.call(this, folder, path, file);
         }
+        testRunner.call(this, folder, path, file);
       };
 
       beforeEach(() => {

@@ -20,7 +20,11 @@ import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
 import { getLettersPdfLinksWrapper } from '../actions/letters';
 
-import { lettersUseLighthouse } from '../selectors';
+import {
+  lettersUseLighthouse,
+  lettersPageNewDesign,
+  togglesAreLoaded,
+} from '../selectors';
 
 export class LetterList extends React.Component {
   constructor(props) {
@@ -30,7 +34,12 @@ export class LetterList extends React.Component {
   }
 
   componentDidMount() {
-    const { letters, shouldUseLighthouse } = this.props;
+    const {
+      letters,
+      lettersNewDesign,
+      shouldUseLighthouse,
+      togglesLoaded,
+    } = this.props;
     focusElement('h2#nav-form-header');
     this.setState(
       {
@@ -38,12 +47,14 @@ export class LetterList extends React.Component {
         LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
       },
       () => {
-        // Need updated LH_MIGRATION__options for correct download URL
-        this.props.getLettersPdfLinksWrapper(
-          // eslint-disable-next-line -- LH_MIGRATION
-          this.state.LH_MIGRATION__options,
-          letters,
-        );
+        if (togglesLoaded && lettersNewDesign) {
+          this.props.getLettersPdfLinksWrapper(
+            // Need updated LH_MIGRATION__options for correct download URL
+            // eslint-disable-next-line -- LH_MIGRATION
+            this.state.LH_MIGRATION__options,
+            letters,
+          );
+        }
       },
     );
   }
@@ -265,12 +276,17 @@ export class LetterList extends React.Component {
 
 function mapStateToProps(state) {
   const letterState = state.letters;
+  const togglesLoaded = togglesAreLoaded(state);
+  const lettersNewDesign = lettersPageNewDesign(state);
+
   return {
     letters: letterState.letters,
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
     shouldUseLighthouse: lettersUseLighthouse(state),
+    togglesLoaded,
+    lettersNewDesign,
   };
 }
 
@@ -288,8 +304,10 @@ LetterList.propTypes = {
     }),
   ),
   lettersAvailability: PropTypes.string,
+  lettersNewDesign: PropTypes.bool,
   optionsAvailable: PropTypes.bool,
   shouldUseLighthouse: PropTypes.bool,
+  togglesLoaded: PropTypes.bool,
 };
 
 export default connect(

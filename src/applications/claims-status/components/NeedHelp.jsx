@@ -35,9 +35,9 @@ export function NeedHelp({ item }) {
     <va-need-help class="vads-u-margin-top--9">
       <div slot="content">
         <p>
-          Call us at <va-telephone contact="8008271000" />. We're here Monday
-          through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,{' '}
-          <va-telephone contact="711" tty="true" />.
+          Call the VA benefits hotline at <va-telephone contact="8008271000" />.
+          We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you
+          have hearing loss, <va-telephone contact="711" tty="true" />.
         </p>
         {cstFriendlyEvidenceRequests &&
           alias && (
