@@ -9,6 +9,7 @@ describe('Secure Messaging Compose Categories', () => {
 
   beforeEach(() => {
     SecureMessagingSite.login();
+    PatientComposePage.interceptSentFolder();
   });
 
   it('can send message for categories', () => {
