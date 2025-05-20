@@ -15,6 +15,7 @@ import {
   setDay,
   startOfDay,
   startOfMonth,
+  subDays,
 } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime } from 'date-fns-tz';
 import MockDate from 'mockdate';
@@ -36,10 +37,11 @@ import DateTimeSelectPage from '.';
 import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
 import MockSlotResponse from '../../../tests/fixtures/MockSlotResponse';
 import {
+  mockAppointmentsApi,
   mockAppointmentSlotApi,
   mockEligibilityFetches,
 } from '../../../tests/mocks/mockApis';
-import { DATE_FORMAT_STRINGS, FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS } from '../../../utils/constants';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
 
 const initialState = {
@@ -290,6 +292,14 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       nextThursday(new Date()).setHours(13, 0, 0, 0),
     );
     const preferredDate = new Date();
+    const start = subDays(preferredDate, 30);
+    const end = addDays(preferredDate, 395);
+
+    mockAppointmentsApi({
+      start,
+      end,
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
 
     setDateTimeSelectMockFetchesDateFns({
       slotDatesByClinicId: {
@@ -339,12 +349,10 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     const expected308 = formatInTimeZone(
       slot308Date,
       timezone,
-      DATE_FORMAT_STRINGS.ISODateTime,
+      "h:mm a 'option selected'",
     );
-
-    const slotButton = await screen.findByRole('radio', { value: expected308 });
-    userEvent.click(slotButton);
-    // expect(button.getAttribute('aria-label')).to.contain(', selected');
+    userEvent.click(await screen.findByRole('radio', { name: expected308 }));
+    expect(button.getAttribute('aria-label')).to.contain(', selected');
 
     userEvent.click(screen.getByText(/^Continue/));
     await waitFor(() => {
@@ -890,6 +898,16 @@ describe('VAOS Page: DateTimeSelectPage', () => {
         startOfMonth(add(new Date(slot308Date), { months: 2 })),
       ).setHours(10, 0, 0, 0),
     );
+
+    const now = new Date();
+    const start = subDays(now, 30);
+    const end = addDays(now, 395);
+
+    mockAppointmentsApi({
+      start,
+      end,
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
 
     setDateTimeSelectMockFetchesDateFns({
       preferredDate,
