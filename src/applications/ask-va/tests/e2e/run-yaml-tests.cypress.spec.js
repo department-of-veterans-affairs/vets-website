@@ -89,7 +89,6 @@ const executeSteps = (steps, folder) => {
               'va-select.usa-form-group--month-select select.usa-select';
             STEPS.selectOption(step.target, step.value);
             break;
-          // eslint-disable-next-line sonarjs/no-duplicated-branches
           case 'status':
             step.target = 'va-select[name="status"] select.usa-select';
             STEPS.selectOption(step.target, step.value);
