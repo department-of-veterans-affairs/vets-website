@@ -1,0 +1,4 @@
+steps:
+  - action: exists
+    target: paragraph
+    value: You haven’t submitted a question yet.

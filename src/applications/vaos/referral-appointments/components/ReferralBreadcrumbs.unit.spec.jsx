@@ -31,7 +31,7 @@ describe('VAOS Component: ReferralBreadcrumbs', () => {
       store,
     });
 
-    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    const navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const crumb =
       navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
@@ -49,8 +49,7 @@ describe('VAOS Component: ReferralBreadcrumbs', () => {
       '/schedule-referral?id=1234&referrer=referrals-requests',
     );
 
-    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
-
+    const navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const hasReferralBreadcrumbs = navigation.breadcrumbList.some(
       breadcrumb => breadcrumb.label === 'Referrals and requests',

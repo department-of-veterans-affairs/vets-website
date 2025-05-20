@@ -1,5 +1,5 @@
+/* eslint-disable camelcase */
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import sinon from 'sinon';
@@ -7,27 +7,35 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
 import { AskVAPage } from '../../containers/AskVAPage';
 import { renderWithRouter, rerenderWithRouter } from '../utils';
 
+/// /////////////////////////////////////////////////////////////////////////////
+// test helpers / stubs
+/// /////////////////////////////////////////////////////////////////////////////
 const getRouter = () => ({ push: sinon.spy() });
 
 const store = createStore(() => ({
   featureToggles: {},
 }));
 
+/// /////////////////////////////////////////////////////////////////////////////
+// specs
+/// /////////////////////////////////////////////////////////////////////////////
 describe('<AskVAPage>', () => {
-  it('should render disabled submit button when va-checkbox not checked', () => {
+  it('renders disabled submit button when checkbox not checked', () => {
     const router = getRouter();
 
     const { container } = renderWithRouter(
-      <AskVAPage
-        decisionRequestError={null}
-        params={{ id: 1 }}
-        router={router}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          decisionRequestError={null}
+          params={{ id: 1 }}
+          router={router}
+        />
+      </Provider>,
     );
+
     expect($('va-checkbox', container).getAttribute('checked')).to.equal(
       'false',
     );
@@ -35,49 +43,55 @@ describe('<AskVAPage>', () => {
     expect(router.push.called).to.be.false;
   });
 
-  it('should render enabled submit button when va-checkbox checked', () => {
+  it('enables submit button after checkbox is checked', () => {
     const router = getRouter();
 
     const { container, rerender } = renderWithRouter(
-      <AskVAPage
-        decisionRequestError={null}
-        params={{ id: 1 }}
-        router={router}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          decisionRequestError={null}
+          params={{ id: 1 }}
+          router={router}
+        />
+      </Provider>,
     );
 
+    // still disabled
     expect($('.button-primary', container).getAttribute('disabled')).to.exist;
 
-    // Check the checkbox
+    // check the box
     $('va-checkbox', container).__events.vaChange({
       detail: { checked: true },
     });
 
+    // re-render to pick up state change
     rerenderWithRouter(
       rerender,
-      <AskVAPage
-        decisionRequestError={null}
-        params={{ id: 1 }}
-        router={router}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          decisionRequestError={null}
+          params={{ id: 1 }}
+          router={router}
+        />
+      </Provider>,
     );
 
     expect($('.button-primary', container).getAttribute('disabled')).to.not
       .exist;
   });
 
-  it('should render disabled submit button when submitting', () => {
-    const router = {
-      push: sinon.spy(),
-    };
+  it('shows disabled "Submitting…" button state while loading', () => {
+    const router = getRouter();
 
     const { container } = renderWithRouter(
-      <AskVAPage
-        loadingDecisionRequest
-        decisionRequestError={null}
-        params={{ id: 1 }}
-        router={router}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          loadingDecisionRequest
+          decisionRequestError={null}
+          params={{ id: 1 }}
+          router={router}
+        />
+      </Provider>,
     );
 
     expect($('.button-primary', container).getAttribute('disabled')).to.exist;
@@ -86,31 +100,50 @@ describe('<AskVAPage>', () => {
     );
   });
 
-  it('should update claims and redirect after success', () => {
+  it('updates claim & redirects after decisionRequested flips to true', () => {
+    // spies
     const navigate = sinon.spy();
     const getClaim = sinon.spy();
+    const params = { id: 1 };
 
-    const tree = SkinDeep.shallowRender(
-      <AskVAPage params={{ id: 1 }} navigate={navigate} />,
+    // 1 initial render (decisionRequested = false)
+    const { rerender } = renderWithRouter(
+      <Provider store={store}>
+        <AskVAPage
+          decisionRequested={false}
+          getClaim={getClaim}
+          navigate={navigate}
+          params={params}
+        />
+      </Provider>,
     );
-    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
-      decisionRequested: true,
-      getClaim,
-    });
+
+    // 2 re-render with decisionRequested = true
+    rerenderWithRouter(
+      rerender,
+      <Provider store={store}>
+        <AskVAPage
+          decisionRequested
+          getClaim={getClaim}
+          navigate={navigate}
+          params={params}
+        />
+      </Provider>,
+    );
+
     expect(getClaim.calledWith(1)).to.be.true;
     expect(navigate.calledWith('../status')).to.be.true;
   });
 
-  context('5103 Submission', () => {
+  context('5103 submission flow', () => {
     const params = { id: 1 };
-
     const props = {
       decisionRequestError: null,
       params,
       router: getRouter(),
     };
 
-    it('calls submit5103 ', () => {
+    it('calls submit5103 on click', () => {
       props.submit5103 = sinon.spy();
 
       const { container, rerender } = renderWithRouter(
@@ -118,18 +151,21 @@ describe('<AskVAPage>', () => {
           <AskVAPage {...props} />
         </Provider>,
       );
-      // Check the checkbox
+
+      // tick the checkbox
       $('va-checkbox', container).__events.vaChange({
         detail: { checked: true },
       });
 
+      // re-render so the button enables
       rerenderWithRouter(
         rerender,
         <Provider store={store}>
           <AskVAPage {...props} />
         </Provider>,
       );
-      // Click submit button
+
+      // click submit
       fireEvent.click($('.button-primary', container));
 
       expect(props.submit5103.called).to.be.true;

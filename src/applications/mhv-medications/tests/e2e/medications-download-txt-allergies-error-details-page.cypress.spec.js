@@ -13,6 +13,7 @@ describe('Medications Details Page Download Txt Error when Allergies API call Fa
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     listPage.clickPrintOrDownloadThisListDropDown();
     detailsPage.clickDownloadMedicationsDetailsAsTxtOnDetailsPage();
+    listPage.verifyFocusOnDownloadFailureAlertBanner();
     cy.injectAxe();
     cy.axeCheck('main');
   });

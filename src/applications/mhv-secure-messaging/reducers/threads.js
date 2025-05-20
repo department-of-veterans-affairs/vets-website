@@ -61,6 +61,14 @@ export const threadsReducer = (state = initialState, action) => {
         ...state,
         isLoading: action.payload,
       };
+    case Actions.Thread.ERROR_LOADING_LIST:
+      return {
+        ...state,
+        threadList: undefined,
+        isLoading: false,
+        hasError: true,
+        error: action.response.errors,
+      };
     default:
       return state;
   }
