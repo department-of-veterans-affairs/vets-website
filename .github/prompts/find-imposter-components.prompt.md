@@ -11,9 +11,22 @@ Search within a single application [form-app](.github/instructions/form-app.inst
 
 ### Acceptable components
 - [web-component-patterns-catalog.md](src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.md) is a list of RJSF components that are acceptable to use in the form app.
-<!-- - Any component from [react-bindings](node_modules/@department-of-veterans-affairs/component-library/dist/react-bindings). -->
-
+- Any element or component starting with va- or Va, for example:
+    - `<va-button>`
+    - `<VaButton>`
+    - `<va-text-input>`
+    - `<VaTextInput>`
+- Use of `ui:webComponentField` is acceptable.
 
 ### Imposter components
 - Any RJSF components that are not listed in the [web-component-patterns-catalog.md](src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.md) file.
-- A <button>
+    - Examples:
+        - addressUI NOT imported from web-component-patterns
+        - any ui:widget
+        - any date pattern not imported from web-component-patterns
+- On React pages, any primitive interactive element that is not a web component or a Va component.
+    - Examples:
+        - <button>
+        - <input>
+        - <select>
+        - <textarea>

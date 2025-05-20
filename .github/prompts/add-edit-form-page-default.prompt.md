@@ -1,5 +1,5 @@
 ---
-applyTo: "**/src/applications/**/*"
+mode: 'agent'
 ---
 # Forms adding or updating pages
 

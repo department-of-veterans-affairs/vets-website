@@ -1,6 +1,6 @@
 ---
 applyTo: "**/src/applications/**/pages/**/*"
 ---
-When creating or updating code, use the following instructions:
+Instructions for creating or updating RJSF pages, prefer the following instructions:
 
-Use [fs-page-add-or-update](../../src/platform/forms-system/prompts/fs-page-add-or-update.prompt.md) for instructions on how to add or update a page in the forms system.
+Use [add-edit-form-page-default](.github/prompts/add-edit-form-page-default.prompt.md) for instructions on how to add or update a page in the forms system.
