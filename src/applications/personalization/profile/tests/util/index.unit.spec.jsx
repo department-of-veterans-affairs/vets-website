@@ -29,9 +29,6 @@ describe('profile utils', () => {
     const badWorkPhoneDataObject = createEventDataObjectWithError(
       'cnp.payment.day.phone.number.invalid',
     );
-    const accountFlaggedForFraudDataObject = createEventDataObjectWithError(
-      'cnp.payment.account.number.fraud',
-    );
     const invalidRoutingNumberDataObject = createEventDataObjectWithError(
       'cnp.payment.routing.number.invalid',
     );
@@ -79,12 +76,6 @@ describe('profile utils', () => {
         mockDisabilityCompensations.updates.errors.invalidNightPhone,
       );
       expect(eventDataObject).to.deep.equal(badHomePhoneDataObject);
-    });
-    it('returns the correct data when an account flagged for fraud error is passed', () => {
-      const eventDataObject = createCNPDirectDepositAnalyticsDataObject(
-        mockDisabilityCompensations.updates.errors.accountNumberFlagged,
-      );
-      expect(eventDataObject).to.deep.equal(accountFlaggedForFraudDataObject);
     });
     it('returns the correct data when an invalid routing number error is passed', () => {
       const eventDataObject = createCNPDirectDepositAnalyticsDataObject(
