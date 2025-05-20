@@ -153,6 +153,7 @@ const VaFileInputMultipleField = props => {
     });
   }
 
+  // This logic handles setting a newly added file in the state (or not, if there was an error).
   const onFileUploaded = async uploadedFile => {
     if (uploadedFile.errorMessage) {
       setErrorsList([...errorsList, uploadedFile]);
