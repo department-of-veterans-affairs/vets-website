@@ -8,7 +8,7 @@ import { setSelectedSlot } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
 import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
-import { getSlotByDate, getSlotById, hasConflict } from '../utils/provider';
+import { getSlotByDate, hasConflict } from '../utils/provider';
 import { getDriveTimeString } from '../../utils/appointment';
 import {
   getTimezoneDescByFacilityId,
@@ -43,7 +43,7 @@ export const DateAndTimeContent = props => {
     () => {
       if (selectedSlot) {
         setSelectedDate(
-          getSlotById(draftAppointmentInfo.attributes.slots, selectedSlot)
+          getSlotByDate(draftAppointmentInfo.attributes.slots, selectedSlot)
             .start,
         );
       }
@@ -53,7 +53,7 @@ export const DateAndTimeContent = props => {
   useEffect(
     () => {
       const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
-      const savedSlot = getSlotById(
+      const savedSlot = getSlotByDate(
         draftAppointmentInfo.attributes.slots,
         savedSelectedSlot,
       );

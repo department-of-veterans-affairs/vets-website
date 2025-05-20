@@ -473,20 +473,6 @@ const getSlotByDate = (slots, dateTime) => {
 };
 
 /**
- * Returns Slot by given id
- *
- * @param {Array} slots Array of slots
- * @param {String} id Id for slot
- * @returns {Object} Slot object
- */
-const getSlotById = (slots, id) => {
-  if (!slots) {
-    return {};
-  }
-  return slots.find(slot => slot.start === id);
-};
-
-/**
  * Returns if a selected date is in conflict with an existing appointment
  *
  * @param {String} selectedDate Date of selected appointment
@@ -543,6 +529,5 @@ module.exports = {
   createDraftAppointmentInfo,
   draftAppointments,
   getSlotByDate,
-  getSlotById,
   hasConflict,
 };

@@ -22,7 +22,7 @@ import {
   routeToNextReferralPage,
 } from './flow';
 import { getReferralSlotKey } from './utils/referrals';
-import { getSlotById } from './utils/provider';
+import { getSlotByDate } from './utils/provider';
 import {
   getTimezoneDescByFacilityId,
   getTimezoneByFacilityId,
@@ -45,7 +45,7 @@ const ReviewAndConfirm = props => {
   const [failed, setFailed] = useState(false);
   const [createFailed, setCreateFailed] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
-  const slotDetails = getSlotById(
+  const slotDetails = getSlotByDate(
     draftAppointmentInfo?.attributes?.slots,
     selectedSlot,
   );
@@ -94,7 +94,7 @@ const ReviewAndConfirm = props => {
         savedSelectedSlot &&
         draftAppointmentCreateStatus === FETCH_STATUS.succeeded
       ) {
-        const savedSlot = getSlotById(
+        const savedSlot = getSlotByDate(
           draftAppointmentInfo?.attributes?.slots,
           savedSelectedSlot,
         );

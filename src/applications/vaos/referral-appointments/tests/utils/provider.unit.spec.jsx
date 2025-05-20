@@ -51,17 +51,6 @@ describe('VAOS provider utils', () => {
       ).to.equal(draftAppointment.attributes.slots[0]);
     });
   });
-  describe('getSlotById', () => {
-    it('returns the correct object for a given id', () => {
-      const draftAppointment = draftAppointmentUtil.createDraftAppointmentInfo(
-        2,
-      );
-      const { id } = draftAppointment.attributes.slots[0];
-      expect(
-        draftAppointmentUtil.getSlotById(draftAppointment.attributes.slots, id),
-      ).to.equal(draftAppointment.attributes.slots[0]);
-    });
-  });
   describe('hasConflict', () => {
     MockDate.set('2024-12-05T00:00:00Z');
     const tz = 'America/Los_Angeles';
