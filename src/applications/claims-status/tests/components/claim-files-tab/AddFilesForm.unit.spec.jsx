@@ -376,7 +376,7 @@ describe('<AddFilesForm>', () => {
           <AddFilesForm {...fileFormProps} />
         </Provider>,
       );
-      getByText('Upload Documents');
+      getByText('Upload documents');
       getByText('If you have a document to upload, you can do that here.');
     });
   });
