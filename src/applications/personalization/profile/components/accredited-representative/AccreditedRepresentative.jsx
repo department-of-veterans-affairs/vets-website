@@ -4,10 +4,13 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 
 import repStatusLoader from 'platform/user/widgets/representative-status';
 
+const PAGE_TITLE = 'Accredited Representative or VSO | Veterans Affairs';
+
 const AccreditedRepresentative = () => {
   const store = useStore();
 
   useEffect(() => {
+    document.title = PAGE_TITLE;
     focusElement('.rep-section-header');
     repStatusLoader(store, 'representative-status', 2);
   }, []);
