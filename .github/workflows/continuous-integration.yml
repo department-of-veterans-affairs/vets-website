@@ -702,6 +702,13 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: git fetch origin axe-check-new-heading-rules --depth=1
 
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
         with:
