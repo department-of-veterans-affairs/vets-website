@@ -2,8 +2,7 @@
   "description": "Applicant is certifier, two policies, medical claim, has EOB",
   "data": {
     "view:hasPolicies": true,
-    "certifierRelationship": "other",
-    "certifierOtherRelationship": "Uncle",
+    "certifierRelationship": "parent",
     "certifierPhone": "5554443333",
     "certifierEmail": "cert@email.gov",
     "certifierAddress": {
