@@ -34,6 +34,7 @@ export const initialState = {
   fullName: '',
   addressAvailability: AVAILABILITY_STATUSES.awaitingResponse,
   optionsAvailable: false,
+  optionsLoading: true,
   requestOptions: {},
   serviceInfo: [],
   savePending: false,
@@ -120,11 +121,16 @@ function letters(state = initialState, action) {
         benefitInfo: action.data.benefitInformation,
         serviceInfo: action.data.militaryService,
         optionsAvailable: true,
+        optionsLoading: false,
         requestOptions,
       };
     }
     case GET_BENEFIT_SUMMARY_OPTIONS_FAILURE:
-      return set('optionsAvailable', false, state);
+      return {
+        ...state,
+        optionsLoading: false,
+        optionsAvailable: false,
+      };
     case UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION:
       return set(['requestOptions', action.propertyPath], action.value, state);
     case GET_LETTER_PDF_DOWNLOADING:
