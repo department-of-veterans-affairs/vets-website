@@ -809,11 +809,9 @@ export function onCalendarChange(
 ) {
   let isSame = false;
   if (maxSelections === 1 && selectedDates?.length > 0 && availableSlots) {
-    // console.log(`selectedDate: ${selectedDates[0]}`);
     const selectedSlot = availableSlots?.find(
       slot => slot.start === selectedDates[0],
     );
-    // console.log(`selectedSlot: ${JSON.stringify(selectedSlot)}`);
     if (selectedSlot) {
       const key = format(
         new Date(selectedSlot.start),
@@ -832,18 +830,6 @@ export function onCalendarChange(
           start: appointmentStart,
           end: addMinutes(appointmentStart, appointment.minutesDuration),
         };
-        // console.log(`slotInterval: ${formatInterval(slotInterval)}`);
-        // console.log(
-        //   `appointmentInterval: ${formatInterval(appointmentInterval)}`,
-        // );
-
-        // // eslint-disable-next-line no-console
-        // console.log(
-        //   `overlap: ${areIntervalsOverlapping(
-        //     slotInterval,
-        //     appointmentInterval,
-        //   )}`,
-        // );
 
         return (
           appointment.status !== APPOINTMENT_STATUS.cancelled &&
