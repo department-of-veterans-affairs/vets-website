@@ -235,10 +235,13 @@ if (!appFolders && !checkAllowlist) {
       Object.keys(crossAppJson).filter(app => {
         const appData = crossAppJson[app];
         console.log(
-          'relevant imports from: ',
+          `relevant imports from ${app}: `,
           appData.appsThatThisAppImportsFrom,
         );
-        console.log('relevant imports to: ', appData.appsThatImportFromThisApp);
+        console.log(
+          `relevant imports to ${app}: `,
+          appData.appsThatImportFromThisApp,
+        );
         return (
           appData.appsThatThisAppImportsFrom &&
           Object.keys(appData.appsThatThisAppImportsFrom).length > 0
