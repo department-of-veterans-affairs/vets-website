@@ -1,17 +1,16 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom-v5-compat';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import PrintOnlyPage from './PrintOnlyPage';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
-import { useGetAllergiesQuery } from '../api/allergiesApi';
 
 const PrescriptionsPrintOnly = ({ list, isFullList, hasError = false }) => {
   const { search } = useLocation();
-  const { data: allergies } = useGetAllergiesQuery();
+  const allergies = useSelector(state => state.rx.allergies.allergiesList);
   const selectedSortOption = useSelector(
-    state => state.rx.preferences.sortOption,
+    state => state.rx.prescriptions.selectedSortOption,
   );
   const page = useMemo(
     () => {

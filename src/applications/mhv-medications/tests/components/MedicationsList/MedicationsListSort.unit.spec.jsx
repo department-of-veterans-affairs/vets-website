@@ -1,15 +1,22 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import reducer from '../../../reducers';
-import { rxListSortingOptions } from '../../../util/constants';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import MedicationsListSort from '../../../components/MedicationsList/MedicationsListSort';
+import { rxListSortingOptions } from '../../../util/constants';
 
 describe('Medications List Sort component', () => {
-  const setup = () => {
-    return renderWithStoreAndRouterV6(<MedicationsListSort />, {
-      reducers: reducer,
-    });
+  const sortRxList = () => {};
+  const setup = (initialState = {}) => {
+    return renderWithStoreAndRouter(
+      <MedicationsListSort
+        value={Object.keys(rxListSortingOptions)[0]}
+        sortRxList={sortRxList}
+      />,
+      {
+        path: '/',
+        state: initialState,
+      },
+    );
   };
 
   it('renders without errors', () => {

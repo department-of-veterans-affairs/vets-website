@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
@@ -8,6 +8,10 @@ import {
   reportGeneratedBy,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  getPrescriptionDetails,
+  getAllergiesList,
+} from '../actions/prescriptions';
 import PrintOnlyPage from './PrintOnlyPage';
 import {
   dateFormat,
@@ -30,121 +34,34 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
-import {
-  rxListSortingOptions,
-  defaultSelectedSortOption,
-  filterOptions,
-  PDF_TXT_GENERATE_STATUS,
-  DOWNLOAD_FORMAT,
-} from '../util/constants';
+import { PDF_TXT_GENERATE_STATUS, DOWNLOAD_FORMAT } from '../util/constants';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
+import { Actions } from '../util/actionTypes';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import { pageType } from '../util/dataDogConstants';
 import { selectGroupingFlag } from '../util/selectors';
-import { useGetAllergiesQuery } from '../api/allergiesApi';
-import {
-  getPrescriptionsList,
-  getPrescriptionById,
-} from '../api/prescriptionsApi';
 
 const PrescriptionDetails = () => {
-  const { prescriptionId } = useParams();
-
-  // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences.sortOption,
+  const prescription = useSelector(
+    state => state.rx.prescriptions?.prescriptionDetails,
   );
-  const selectedFilterOption = useSelector(
-    state => state.rx.preferences.filterOption,
+  const prescriptionsApiError = useSelector(
+    state => state.rx.prescriptions?.apiError,
   );
-  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
-  // Consolidate query parameters into a single state object to avoid multiple re-renders
-  const showGroupingContent = useSelector(selectGroupingFlag);
-  const [queryParams] = useState({
-    page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
-    sortEndpoint:
-      rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
-      rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-    filterOption: filterOptions[selectedFilterOption]?.url || '',
-  });
-
-  const [
-    cachedPrescriptionAvailable,
-    setCachedPrescriptionAvailable,
-  ] = useState(true);
-  const [prescription, setPrescription] = useState(null);
-  const [prescriptionsApiError, setPrescriptionsApiError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Get cached prescription from list if available
-  const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
-    selectFromResult: ({ data: prescriptionsList }) => {
-      return prescriptionsList?.prescriptions?.find(
-        item => item.prescriptionId === Number(prescriptionId),
-      );
-    },
-  });
-
-  // Fetch individual prescription when needed
-  const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
-    prescriptionId,
-    { skip: cachedPrescriptionAvailable },
-  );
-
-  // Handle prescription data from either source
-  useEffect(
-    () => {
-      if (cachedPrescriptionAvailable && cachedPrescription?.prescriptionId) {
-        setPrescription(cachedPrescription);
-        setIsLoading(false);
-      } else if (!queryLoading) {
-        if (error) {
-          setCachedPrescriptionAvailable(false);
-          setPrescriptionsApiError(error);
-          setIsLoading(false);
-        } else if (data) {
-          setPrescription(data);
-          setIsLoading(false);
-        }
-      }
-    },
-    [
-      cachedPrescription,
-      data,
-      error,
-      queryLoading,
-      cachedPrescriptionAvailable,
-    ],
-  );
-
-  // Determine when to fetch individual prescription
-  useEffect(
-    () => {
-      if (
-        cachedPrescriptionAvailable &&
-        !cachedPrescription?.prescriptionId &&
-        !queryLoading
-      ) {
-        setCachedPrescriptionAvailable(false);
-      }
-    },
-    [cachedPrescription, queryLoading, cachedPrescriptionAvailable],
-  );
-
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
-
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
-
+  const allergies = useSelector(state => state.rx.allergies?.allergiesList);
+  const allergiesError = useSelector(state => state.rx.allergies.error);
+  const { prescriptionId } = useParams();
   const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
   });
-  // const showGroupingContent = useSelector(selectGroupingFlag);
+  const showGroupingContent = useSelector(selectGroupingFlag);
+  const dispatch = useDispatch();
 
   const prescriptionHeader =
     prescription?.prescriptionName ||
@@ -173,6 +90,15 @@ const PrescriptionDetails = () => {
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
+
+  useEffect(
+    () => {
+      return () => {
+        dispatch({ type: Actions.Prescriptions.CLEAR_DETAILS });
+      };
+    },
+    [dispatch],
+  );
 
   const pdfData = useCallback(
     allergiesPdfList => {
@@ -275,6 +201,7 @@ const PrescriptionDetails = () => {
       status: PDF_TXT_GENERATE_STATUS.InProgress,
       format,
     });
+    await Promise.allSettled([!allergies && dispatch(getAllergiesList())]);
   };
 
   const generatePDF = useCallback(
@@ -307,8 +234,22 @@ const PrescriptionDetails = () => {
 
   useEffect(
     () => {
+      if (!prescription && prescriptionId)
+        dispatch(getPrescriptionDetails(prescriptionId));
+    },
+    [prescriptionId, dispatch, prescription],
+  );
+
+  useEffect(
+    () => {
+      dispatch(getAllergiesList());
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       if (
-        !allergiesError &&
         allergies &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
       ) {
@@ -331,7 +272,7 @@ const PrescriptionDetails = () => {
         window.print();
       }
     },
-    [allergies, allergiesError, pdfTxtGenerateStatus, generatePDF, generateTXT],
+    [allergies, pdfTxtGenerateStatus, generatePDF, generateTXT],
   );
 
   useEffect(
@@ -368,19 +309,10 @@ const PrescriptionDetails = () => {
     );
   };
 
-  const [isErrorNotificationVisible, setIsErrorNotificationVisible] = useState(
-    false,
+  const isErrorNotificationVisible = Boolean(
+    pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+      allergiesError,
   );
-  useEffect(
-    () => {
-      setIsErrorNotificationVisible(
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
-          Boolean(allergiesError),
-      );
-    },
-    [pdfTxtGenerateStatus, allergiesError],
-  );
-
   const hasPrintError =
     prescription && !prescriptionsApiError && !allergiesError;
 
@@ -442,16 +374,6 @@ const PrescriptionDetails = () => {
   };
 
   const content = () => {
-    if (isLoading) {
-      return (
-        <va-loading-indicator
-          message="Loading your medication record..."
-          setFocus
-          data-testid="loading-indicator"
-        />
-      );
-    }
-
     if (prescription || prescriptionsApiError) {
       return (
         <div>
@@ -571,8 +493,13 @@ const PrescriptionDetails = () => {
         </div>
       );
     }
-
-    return null;
+    return (
+      <va-loading-indicator
+        message="Loading your medication record..."
+        setFocus
+        data-testid="loading-indicator"
+      />
+    );
   };
 
   return <div>{content()}</div>;

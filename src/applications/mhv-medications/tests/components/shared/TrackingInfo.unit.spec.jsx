@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducers from '../../../reducers';
 import TrackingInfo from '../../../components/shared/TrackingInfo';
 import { medicationsUrls } from '../../../util/constants';
 
 describe('Medications Breadcrumbs', () => {
   const setup = (carrier = 'ups') => {
-    return renderWithStoreAndRouterV6(
+    return renderWithStoreAndRouter(
       <TrackingInfo
         carrier={carrier}
         trackingNumber="000"
@@ -36,7 +36,7 @@ describe('Medications Breadcrumbs', () => {
           },
         },
         reducers,
-        initialEntries: ['/medications/prescription/000'],
+        path: '/medications/prescription/000',
       },
     );
   };

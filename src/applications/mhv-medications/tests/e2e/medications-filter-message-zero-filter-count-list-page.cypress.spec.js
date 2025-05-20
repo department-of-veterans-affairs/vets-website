@@ -26,6 +26,5 @@ describe('Medications List Page Recently Requested No Rx Option', () => {
     listPage.verifyMessageForZeroFilterResultsOnListPage(
       Alerts.NO_FILTER_RESULTS,
     );
-    listPage.verifyNoMedicationsInListMessageNotShown();
   });
 });

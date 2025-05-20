@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import reducer from '../../../reducers';
 import {
@@ -24,10 +24,10 @@ describe('Cerner Facility Alert', () => {
   };
 
   const setup = (state = initialStateMock, facilities = { facilities: [] }) => {
-    return renderWithStoreAndRouterV6(<CernerFacilityAlert />, {
+    return renderWithStoreAndRouter(<CernerFacilityAlert />, {
       initialState: { ...state, user: { ...state.user, profile: facilities } },
       reducers: reducer,
-      initialEntries: ['/about'],
+      path: '/about',
     });
   };
 

@@ -1,38 +1,35 @@
 import React from 'react';
-import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import RefillNotification from '../../../components/RefillPrescriptions/RefillNotification';
 import reducer from '../../../reducers';
 import refillableList from '../../fixtures/refillablePrescriptionsList.json';
 
 describe('Refill Notification Component', () => {
-  const initSuccessfulMeds = [
-    refillableList[0],
-    refillableList[1],
-    refillableList[2],
-  ];
-  const initFailedMeds = [
-    refillableList[3],
-    refillableList[4],
-    refillableList[5],
-  ];
+  const initialState = {
+    rx: {
+      prescriptions: {
+        refillableList,
+        refillNotification: {
+          successfulMeds: [
+            refillableList[0],
+            refillableList[1],
+            refillableList[2],
+          ],
+          failedMeds: [refillableList[3], refillableList[4], refillableList[5]],
+        },
+      },
+    },
+  };
   const initRefillStatus = 'finished';
 
-  const setup = (
-    refillStatus = initRefillStatus,
-    successfulMeds = initSuccessfulMeds,
-    failedMeds = initFailedMeds,
-  ) => {
-    return renderWithStoreAndRouterV6(
-      <RefillNotification
-        refillStatus={refillStatus}
-        successfulMeds={successfulMeds}
-        failedMeds={failedMeds}
-      />,
+  const setup = (state = initialState, refillStatus = initRefillStatus) => {
+    return renderWithStoreAndRouter(
+      <RefillNotification refillStatus={refillStatus} />,
       {
-        initialState: {},
+        initialState: state,
         reducers: reducer,
-        initialEntries: ['/refill'],
+        path: '/refill',
       },
     );
   };
@@ -43,11 +40,21 @@ describe('Refill Notification Component', () => {
   });
 
   it('All refill requests are failed', async () => {
-    const screen = setup(
-      initRefillStatus,
-      [],
-      [refillableList[3], refillableList[4], refillableList[5]],
-    );
+    const screen = setup({
+      rx: {
+        prescriptions: {
+          refillableList,
+          refillNotification: {
+            successfulMeds: [],
+            failedMeds: [
+              refillableList[3],
+              refillableList[4],
+              refillableList[5],
+            ],
+          },
+        },
+      },
+    });
     const failedList = screen.getAllByTestId('medication-requested-failed');
     expect(failedList.length).to.eq(3);
     expect(screen.getByText('Request not submitted')).to.exist;
@@ -70,11 +77,21 @@ describe('Refill Notification Component', () => {
   });
 
   it('All refill requests are successful', () => {
-    const screen = setup(
-      initRefillStatus,
-      [refillableList[0], refillableList[1], refillableList[2]],
-      [],
-    );
+    const screen = setup({
+      rx: {
+        prescriptions: {
+          refillableList,
+          refillNotification: {
+            successfulMeds: [
+              refillableList[0],
+              refillableList[1],
+              refillableList[2],
+            ],
+            failedMeds: [],
+          },
+        },
+      },
+    });
     expect(
       screen.getByText(
         'To check the status of your refill requests, go to your medications list and filter by "recently requested."',
