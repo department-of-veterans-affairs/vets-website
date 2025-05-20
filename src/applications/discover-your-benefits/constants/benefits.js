@@ -176,7 +176,7 @@ export const mappingTypes = {
   DISABILITY_RATING: 'disabilityRating',
   BRANCH_COMPONENT: 'branchComponents',
   LENGTH_OF_TITLE_TEN_SERVICE: 'titleTenTimeServed',
-  ACTIVE_DUTY: 'activeDuty',
+  TITLE_TEN_ACTIVE_DUTY: 'activeDuty',
 };
 export const BENEFITS_LIST = [
   {
@@ -189,7 +189,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.SCHOOL],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -218,7 +218,7 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -252,7 +252,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.BRANCH_COMPONENT]: [
         militaryBranchComponentTypes.ACTIVE_DUTY,
       ],
-      [mappingTypes.ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [
         expectedSeparationTypes.UP_TO_3_MONTHS,
@@ -277,7 +277,7 @@ export const BENEFITS_LIST = [
       return (
         responses[mappingTypes.GOALS] &&
         (responses[mappingTypes.BRANCH_COMPONENT] ||
-          responses[mappingTypes.ACTIVE_DUTY]) &&
+          responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY]) &&
         (responses[mappingTypes.EXPECTED_SEPARATION] ||
           responses[mappingTypes.SEPARATION]) &&
         responses[mappingTypes.CHARACTER_OF_DISCHARGE]
@@ -300,7 +300,7 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -326,7 +326,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -347,7 +347,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -368,7 +368,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -404,7 +404,7 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -436,7 +436,7 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -474,7 +474,7 @@ export const BENEFITS_LIST = [
         timeServedTypes.UP_TO_3_YEARS,
         timeServedTypes.OVER_3_YEARS,
       ],
-      [mappingTypes.ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
       [mappingTypes.BRANCH_COMPONENT]: [
         militaryBranchComponentTypes.ACTIVE_DUTY,
       ],
@@ -497,7 +497,7 @@ export const BENEFITS_LIST = [
         responses[mappingTypes.GOALS] &&
         ((responses[mappingTypes.BRANCH_COMPONENT] &&
           responses[mappingTypes.LENGTH_OF_SERVICE]) ||
-          responses[mappingTypes.ACTIVE_DUTY]) &&
+          responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY]) &&
         responses[mappingTypes.CHARACTER_OF_DISCHARGE]
       );
     },
@@ -514,7 +514,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -542,7 +542,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -577,7 +577,7 @@ export const BENEFITS_LIST = [
         goalTypes.PLAN,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -607,7 +607,7 @@ export const BENEFITS_LIST = [
         goalTypes.PLAN,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -644,7 +644,7 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -679,7 +679,7 @@ export const BENEFITS_LIST = [
         timeServedTypes.UP_TO_3_YEARS,
         timeServedTypes.OVER_3_YEARS,
       ],
-      [mappingTypes.ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
       [mappingTypes.BRANCH_COMPONENT]: [
         militaryBranchComponentTypes.ACTIVE_DUTY,
       ],
@@ -710,7 +710,7 @@ export const BENEFITS_LIST = [
         responses[mappingTypes.GOALS] &&
         ((responses[mappingTypes.BRANCH_COMPONENT] &&
           responses[mappingTypes.LENGTH_OF_SERVICE]) ||
-          (responses[mappingTypes.ACTIVE_DUTY] &&
+          (responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY] &&
             responses[mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE])) &&
         responses[mappingTypes.CHARACTER_OF_DISCHARGE]
       );
@@ -732,7 +732,7 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
       [mappingTypes.BRANCH_COMPONENT]: [
         militaryBranchComponentTypes.ACTIVE_DUTY,
       ],
@@ -755,7 +755,7 @@ export const BENEFITS_LIST = [
       return (
         responses[mappingTypes.GOALS] &&
         (responses[mappingTypes.BRANCH_COMPONENT] ||
-          responses[mappingTypes.ACTIVE_DUTY]) &&
+          responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY]) &&
         mappingTypes.CHARACTER_OF_DISCHARGE
       );
     },
@@ -772,7 +772,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [yesNoType.YES],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
       [mappingTypes.BRANCH_COMPONENT]: [
         militaryBranchComponentTypes.ACTIVE_DUTY,
       ],
@@ -794,7 +794,7 @@ export const BENEFITS_LIST = [
     isQualified: responses => {
       return (
         responses[mappingTypes.GOALS] &&
-        (responses[mappingTypes.ACTIVE_DUTY] ||
+        (responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY] ||
           responses[mappingTypes.BRANCH_COMPONENT]) &&
         responses[mappingTypes.CHARACTER_OF_DISCHARGE]
       );
@@ -812,7 +812,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.SCHOOL, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -836,7 +836,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [anyType.ANY],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -863,7 +863,7 @@ export const BENEFITS_LIST = [
     mappings: {
       [mappingTypes.GOALS]: [anyType.ANY],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.ACTIVE_DUTY]: [anyType.ANY],
+      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],

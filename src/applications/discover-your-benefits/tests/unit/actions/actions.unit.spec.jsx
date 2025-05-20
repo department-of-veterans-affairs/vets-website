@@ -190,7 +190,7 @@ describe('actions', () => {
             [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
           },
         },
-        [mappingTypes.ACTIVE_DUTY]: yesNoType.YES,
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: yesNoType.YES,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -210,7 +210,7 @@ describe('actions', () => {
             [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
           },
         },
-        [mappingTypes.ACTIVE_DUTY]: yesNoType.YES,
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: yesNoType.YES,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.true;
@@ -231,7 +231,7 @@ describe('actions', () => {
             [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
           },
         },
-        [mappingTypes.ACTIVE_DUTY]: yesNoType.NO,
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: yesNoType.NO,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.true;
@@ -252,7 +252,7 @@ describe('actions', () => {
             [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
           },
         },
-        [mappingTypes.ACTIVE_DUTY]: yesNoType.YES,
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: yesNoType.YES,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.true;
@@ -273,7 +273,7 @@ describe('actions', () => {
             [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
           },
         },
-        [mappingTypes.ACTIVE_DUTY]: yesNoType.NO,
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: yesNoType.NO,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
