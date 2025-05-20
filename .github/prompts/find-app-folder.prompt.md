@@ -1,4 +1,7 @@
-# Forms app locate folder
+---
+mode: 'agent'
+---
+# Goal: Find app (form) folder
 
 Your goal is to locate the application folder relevant to the context, likely a form app.
 

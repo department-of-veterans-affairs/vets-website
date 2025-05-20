@@ -1,6 +1,9 @@
+---
+applyTo: "**/src/applications/**/*"
+---
 # Forms adding or updating pages
 
-1. Determine the {app_folder} we are in [instructions](fs-app-locate-folder.prompt.md). The {app_folder} should be the remaining path after `src/applications`
+1. Determine the {app_folder} we are in [instructions](.github/prompts/find-app-folder.prompt.md). The {app_folder} should be the remaining path after `src/applications`
 
 Continue to search until you find it.
 
@@ -17,7 +20,7 @@ You must make 3 changes for each page.
 
 1. Create or update the page in the `{app_folder}/pages/{page-name}.js` file.
 2. Update the `{app_folder}/config/form.js` file to add or update the new page to the form.
-3. Use [forms-web-component-patterns](fs-patterns-web-component-schema-patterns.prompt.md) for code format patterns and validation.
+3. Use [web-component-patterns](.github/instructions/web-component-rjsf-patterns.instructions.md) for code format patterns and validation.
 4. Validate the new page uses the patterns correctly, and correct if necessary.
 
 All pages should define the uiSchema and schema, and use web component patterns.

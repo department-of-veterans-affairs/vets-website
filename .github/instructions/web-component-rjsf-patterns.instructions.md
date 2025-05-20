@@ -1,6 +1,11 @@
-# Forms web component patterns for RJSF (React JSON Schema Form)
+---
+applyTo: "**/src/applications/**/pages/**/*"
+---
+Instructions on web component patterns for RJSF
 
-Look at [README](../../../src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.md) for all available web component patterns.
+Only use these instructions if working with RJSF uiSchema and schema.
+
+Look at [README](src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.md) for all available web component patterns.
 
 ## Example of Usage:
 

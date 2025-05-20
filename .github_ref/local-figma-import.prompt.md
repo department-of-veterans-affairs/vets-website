@@ -6,6 +6,6 @@
 - Do not take in consideration the header or footer or stepper information.
 - use titleUI, titleSchema for the title and web component patterns for the fields.
 
-Look at [forms pages adding or updating](fs-page-add-or-update.prompt.md) instructions on how to implement.
+Look at [forms pages adding or updating](../.github/prompts/add-edit-form-page.prompt.md) instructions on how to implement.
 
 Validate.
