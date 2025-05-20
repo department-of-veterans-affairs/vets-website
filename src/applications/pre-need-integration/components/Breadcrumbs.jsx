@@ -10,8 +10,12 @@ export const wrapWithBreadcrumb = component => (
         breadcrumbList={[
           { href: '/', label: 'Home' },
           {
-            label: 'VA burial benefits and memorial items',
+            label: 'Burials and memorials',
             href: '/burials-memorials',
+          },
+          {
+            label: 'Pre-need eligibility for burial in a VA cemetery',
+            href: '/burials-memorials/pre-need-eligibility',
           },
           {
             label: 'Apply for pre-need eligibility determination',
