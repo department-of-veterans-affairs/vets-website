@@ -1,7 +1,7 @@
 import {
-  titleUI,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  arrayBuilderItemSubsequentPageTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
@@ -29,14 +29,13 @@ const COUNTRY_NAMES = constants.countries
   .map(country => country.label);
 
 export default {
-  title: 'Place and date of marriage',
-  path: 'marriage-date-location',
-  depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
   uiSchema: {
-    ...titleUI('Place and date of marriage'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Place and date of marriage',
+    ),
     dateOfMarriage: currentOrPastDateUI('Date of marriage'),
     'view:marriedOutsideUS': {
-      'ui:title': 'I got married outside the U.S.',
+      'ui:title': 'They got married outside the U.S.',
       'ui:webComponentField': VaCheckboxField,
     },
     city: {

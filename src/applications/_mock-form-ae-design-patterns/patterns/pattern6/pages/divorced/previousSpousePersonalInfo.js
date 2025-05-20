@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   titleUI,
   fullNameUI,
@@ -8,28 +7,12 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 
-const titles = {
-  married: "Spouse's name and date of birth",
-  separated: "Spouse's name and date of birth",
-  divorced: "Previous spouse's name and date of birth",
-  widowed: "Deceased spouse's name and date of birth",
-};
-
 export default {
-  title: "Spouse's Personal Information",
-  path: 'spouse-personal-information',
-  depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
+  title: "Previous Spouse's Personal Information",
+  path: 'previous-spouse-personal-information',
+  depends: formData => formData?.maritalStatus === 'DIVORCED',
   uiSchema: {
-    ...titleUI(({ formData }) => {
-      const statusKey = formData?.maritalStatus?.toLowerCase();
-      const title = titles[statusKey] || "Spouse's name and date of birth";
-
-      return (
-        <>
-          <h3>{title}</h3>
-        </>
-      );
-    }),
+    ...titleUI("Previous spouse's name and date of birth"),
     spouseFullName: {
       ...fullNameUI,
       first: {
@@ -57,6 +40,9 @@ export default {
     'view:previousSpouseIsDeceased': {
       'ui:title': 'My previous spouse is deceased.',
       'ui:webComponentField': VaCheckboxField,
+      'ui:options': {
+        hideIf: formData => formData.maritalStatus !== 'DIVORCED',
+      },
     },
   },
   schema: {

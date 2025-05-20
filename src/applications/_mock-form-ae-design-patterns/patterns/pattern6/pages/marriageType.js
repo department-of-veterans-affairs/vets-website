@@ -14,7 +14,7 @@ const DocumentUploadInfo = (
 export default {
   title: 'How did you get married',
   path: 'marriage-type',
-  depends: formData => formData?.maritalStatus === 'MARRIED',
+  depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
   uiSchema: {
     ...titleUI('How did you get married?'),
     marriageType: {

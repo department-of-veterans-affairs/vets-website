@@ -2,6 +2,7 @@ import React from 'react';
 import {
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 // export default {
@@ -68,7 +69,7 @@ export default {
   path: 'current-marital-status',
   uiSchema: {
     maritalStatus: radioUI({
-      title: 'What is your current marital status?',
+      title: 'What is your marital status?',
       labels: maritalStatusOptions,
       // hint: 'If you’re in a civil union or common law marriage that’s recognized by the state you were married in, select Married (including state-recognized unions).',
       description: (

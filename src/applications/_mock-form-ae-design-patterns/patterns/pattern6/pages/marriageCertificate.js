@@ -9,20 +9,26 @@ import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 const MAX_FILE_SIZE_MB = 20;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
+const marriageCertUI = fileInputUI({
+  title: 'Upload a copy of your marriage certificate',
+  fileUploadUrl: `${environment.API_URL}/v0/evidence_documents`,
+  maxFileSize: MAX_FILE_SIZE_BYTES,
+  hint:
+    'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',
+});
+
 export default {
   title: 'Marriage certificate',
   path: 'marriage-certificate',
   uiSchema: {
     ...titleUI('Marriage certificate'),
-    marriageCertificate: {
-      ...fileInputUI({
-        title: 'Upload a copy of your marriage certificate',
-        fileUploadUrl: `${environment.API_URL}/v0/evidence_documents`,
-        maxFileSize: 25000000,
-        hint:
-          'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',
-      }),
-    },
+    marriageCertificate: fileInputUI({
+      title: 'Upload a copy of your marriage certificate',
+      fileUploadUrl: `${environment.API_URL}/v0/evidence_documents`,
+      maxFileSize: MAX_FILE_SIZE_BYTES,
+      hint:
+        'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',
+    }),
     // marriageCertificate: fileUploadUI('', {
     //   fileUploadUrl: `${environment.API_URL}/v0/evidence_documents`,
     //   maxSize: MAX_FILE_SIZE_BYTE

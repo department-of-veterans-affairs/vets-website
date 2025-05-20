@@ -263,6 +263,9 @@ export function assignGetItemName(options) {
  * @param {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigChapter} pageBuilderCallback
  * @returns {FormConfigChapter}
  */
+
+const FORM_URL_PREFIX = '/6/marital-status/';
+
 export function arrayBuilderPages(options, pageBuilderCallback) {
   let introPath;
   let summaryPath;
@@ -299,7 +302,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     required: userRequired,
     useLinkInsteadOfYesNo = false,
     useButtonInsteadOfYesNo = false,
-    pathPrefix = '',
   } = options;
 
   const usesYesNo = !useLinkInsteadOfYesNo && !useButtonInsteadOfYesNo;
@@ -401,12 +403,12 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       const foundIndex = getArrayIndexFromPathName(pathname);
       const basePath = urlParams?.review ? reviewPath : summaryPath;
       path = createArrayBuilderUpdatedPath({
-        basePath: pathPrefix ? `${pathPrefix}${basePath}` : basePath,
+        basePath: `${FORM_URL_PREFIX}${basePath}`,
         index: foundIndex == null ? index : foundIndex,
         nounSingular,
       });
     } else {
-      path = pathPrefix ? `${pathPrefix}${path}` : path;
+      path = `${FORM_URL_PREFIX}${path}`;
     }
     goPath(path);
   };
@@ -424,22 +426,21 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     );
 
     const path = createArrayBuilderItemAddPath({
-      path: pathPrefix ? `${pathPrefix}${firstItemPath}` : firstItemPath,
+      path: `${FORM_URL_PREFIX}${firstItemPath}`,
       index: nextIndex,
     });
     goPath(path);
   };
 
   const navForwardSummaryGoNextChapter = ({ formData, goPath, pageList }) => {
-    // if 0 items, 1 set of item pages still exist in the form
     const lastIndex = formData[arrayPath]?.length
       ? formData[arrayPath].length - 1
       : 0;
 
-    const lastActivePath = `/${getLastItemPagePath(formData, lastIndex).replace(
-      ':index',
+    const lastActivePath = `${FORM_URL_PREFIX}${getLastItemPagePath(
+      formData,
       lastIndex,
-    )}`;
+    ).replace(':index', lastIndex)}`;
 
     const nextPagePath = getNextPagePath(pageList, formData, lastActivePath);
     goPath(nextPagePath);
@@ -465,11 +466,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   /** @type {FormConfigPage['onNavForward']} */
   const navForwardIntro = ({ formData, goPath, urlParams }) => {
     let path;
-    // required flow:
-    // intro -> items -> summary -> items -> summary
-    //
-    // optional flow:
-    // summary -> items -> summary
     if (required(formData) && !formData[arrayPath]?.length) {
       const firstItemPath = getFirstItemPagePath(
         formData,
@@ -481,13 +477,13 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       );
 
       path = createArrayBuilderItemAddPath({
-        path: pathPrefix ? `${pathPrefix}${firstItemPath}` : firstItemPath,
+        path: `${FORM_URL_PREFIX}${firstItemPath}`,
         index: 0,
         isReview: urlParams?.review,
       });
       goPath(path);
     } else {
-      path = pathPrefix ? `${pathPrefix}${summaryPath}` : summaryPath;
+      path = `${FORM_URL_PREFIX}${summaryPath}`;
       if (urlParams?.review) {
         path = `${path}?review=true`;
       }

@@ -173,8 +173,8 @@ const responses = {
         id: '12345',
         type: 'evidence_document',
         attributes: {
-          name: req.body?.name || 'mock-document.pdf',
-          size: req.body?.size || 1024,
+          name: 'marriage-certificate.pdf',
+          size: 1024,
           uploadedAt: new Date().toISOString(),
         },
       },

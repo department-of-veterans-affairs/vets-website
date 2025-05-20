@@ -147,6 +147,7 @@ export function createArrayBuilderItemAddPath({
   isReview,
   removedAllWarn,
 }) {
+  console.log('createArrayBuilderItemAddPath', path, index);
   return `${path.replace(':index', index)}?add=true${
     isReview ? '&review=true' : ''
   }${removedAllWarn ? '&removedAllWarn=true' : ''}`;

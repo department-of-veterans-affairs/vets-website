@@ -97,11 +97,25 @@ padding-left: 0;
   }
 }
 
-[data-location="6/marital-status/marital-status/current"] {
-va-radio::part(legend) {
-  font-size: 1.25rem;
-  font-weight: 700;
+
+// pattern 6 Marital Status
+[data-location="6/marital-status/current-marital-status"] {
+  va-radio::part(legend) {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
 }
+
+[data-location="6/marital-status/spouse-identity"] {
+  fieldset.schemaform-field-template {
+    margin-top: 1.875rem;
+  }
+}
+
+[data-location="6/marital-status/spouse-personal-information"] {
+  va-checkbox {
+    margin-top: 1.5rem;
+  }
 }
 
 #react-root > div.vads-u-margin-top--4 > div:nth-child(1) > div.form-app > div > div > div.progress-box.progress-box-schemaform > div > form > div.vads-u-margin-y--2.rjsf-object-field > div > fieldset > p {

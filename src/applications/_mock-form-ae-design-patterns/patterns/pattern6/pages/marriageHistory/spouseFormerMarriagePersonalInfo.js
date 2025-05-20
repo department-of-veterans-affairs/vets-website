@@ -1,22 +1,18 @@
 import React from 'react';
 import {
-  // currentOrPastDateSchema,
   arrayBuilderItemFirstPageTitleUI,
   fullNameUI,
-  dateOfBirthUI,
   fullNameSchema,
-  dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
-// import dateUI from 'platform/forms-system/src/js/definitions/date';
 
-/** @type {PageSchema} */
+/** @returns {PageSchema} */
 export default {
-  // showPagePerItem: true,
-  // arrayPath: 'spouseMarriageHistory',
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: "Previous spouse's name and date of birth",
+      title: formData => {
+        const { first } = formData.spouseFullName || {};
+        return `Enter the name of ${first || ''}'s first spouse`;
+      },
       nounSingular: 'former marriage',
     }),
     spouseFullName: {
@@ -42,11 +38,7 @@ export default {
         },
       },
     },
-    spouseDateOfBirth: dateOfBirthUI('Date of birth'),
-    isPreviousSpouseDeceased: {
-      'ui:title': 'My previous spouse is deceased.',
-      'ui:webComponentField': VaCheckboxField,
-    },
+
     // marriageDate: {
     //   ...dateUI('Date of marriage'),
     //   'ui:options': {
@@ -91,8 +83,6 @@ export default {
     ],
     properties: {
       spouseFullName: fullNameSchema,
-      spouseDateOfBirth: dateOfBirthSchema,
-      isPreviousSpouseDeceased: { type: 'boolean' },
       // marriageDate: currentOrPastDateSchema,
       // marriageLocation: { type: 'string' },
       // marriageEndDate: currentOrPastDateSchema,

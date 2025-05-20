@@ -29,14 +29,13 @@ const COUNTRY_NAMES = constants.countries
   .map(country => country.label);
 
 export default {
-  title: 'Place and date of marriage',
-  path: 'marriage-date-location',
-  depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
+  title: 'Place and date of marriage termination',
+  path: 'marriage-end-date-location',
   uiSchema: {
-    ...titleUI('Place and date of marriage'),
-    dateOfMarriage: currentOrPastDateUI('Date of marriage'),
-    'view:marriedOutsideUS': {
-      'ui:title': 'I got married outside the U.S.',
+    ...titleUI('Place and date of marriage termination'),
+    dateOfTermination: currentOrPastDateUI('Date of termination'),
+    'view:marriageEndedOutsideUS': {
+      'ui:title': 'The marriage ended outside the U.S.',
       'ui:webComponentField': VaCheckboxField,
     },
     city: {
@@ -49,9 +48,9 @@ export default {
     state: {
       'ui:title': 'State',
       'ui:webComponentField': VaSelectField,
-      'ui:required': formData => !formData['view:marriedOutsideUS'],
+      'ui:required': formData => !formData['view:marriageEndedOutsideUS'],
       'ui:options': {
-        hideIf: formData => formData['view:marriedOutsideUS'],
+        hideIf: formData => formData['view:marriageEndedOutsideUS'],
       },
       'ui:errorMessages': {
         required: 'Please select a state',
@@ -60,13 +59,13 @@ export default {
     country: {
       'ui:title': 'Country',
       'ui:webComponentField': VaSelectField,
-      'ui:required': formData => formData['view:marriedOutsideUS'],
+      'ui:required': formData => formData['view:marriageEndedOutsideUS'],
       'ui:errorMessages': {
         required: 'Please select a country',
       },
       'ui:options': {
         updateSchema: formData => {
-          if (formData['view:marriedOutsideUS']) {
+          if (formData['view:marriageEndedOutsideUS']) {
             return {
               'ui:hidden': false,
             };
@@ -80,10 +79,10 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['dateOfMarriage', 'city', 'state'],
+    required: ['dateOfTermination', 'city', 'state'],
     properties: {
-      dateOfMarriage: currentOrPastDateSchema,
-      'view:marriedOutsideUS': {
+      dateOfTermination: currentOrPastDateSchema,
+      'view:marriageEndedOutsideUS': {
         type: 'boolean',
       },
       city: {

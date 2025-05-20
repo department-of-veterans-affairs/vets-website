@@ -19,7 +19,7 @@ import {
   marriageEnums,
   spouseFormerMarriageLabels,
   customLocationSchema,
-} from '../../helpers';
+} from '../helpers/helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const spouseMarriageHistoryOptions = {

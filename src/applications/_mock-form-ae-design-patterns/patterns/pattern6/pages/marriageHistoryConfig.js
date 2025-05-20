@@ -29,7 +29,6 @@ const spouseMarriageHistoryOptions = {
   nounSingular: 'former marriage',
   nounPlural: 'former marriages',
   required: false,
-  pathPrefix: '/6/marital-status/',
   isItemIncomplete: item =>
     !item?.spouseName ||
     !item?.marriageDate ||
@@ -39,7 +38,8 @@ const spouseMarriageHistoryOptions = {
   // maxItems: 10,
   text: {
     summaryTitle: "Review your spouse's past marriages",
-    getItemName: () => "Spouse's former marriage",
+    getItemName: item => item?.spouseName || 'Spouse’s former marriage',
+    // getItemName: () => "Spouse's former marriage",
     cardDescription: item => item?.spouseName || 'Marriage details',
   },
 };

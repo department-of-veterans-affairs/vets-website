@@ -16,7 +16,7 @@ const FinancialSupportDescription = (
 export default {
   title: 'Additional Living Situation Information',
   path: 'additional-living-situation',
-  depends: formData => formData?.maritalStatus === 'MARRIED',
+  depends: formData => !formData?.currentlyLiveWithSpouse,
   uiSchema: {
     ...titleUI('Additional living situation information'),
     reasonNotLivingWithSpouse: {
@@ -33,7 +33,8 @@ export default {
       },
     },
     otherReasonDescription: {
-      'ui:title': 'Briefly describe why you live separately from your spouse.',
+      'ui:title':
+        "Since your living situation wasn't listed, please describe why you live separately from your spouse.",
       'ui:widget': 'textarea',
       'ui:options': {
         rows: 5,

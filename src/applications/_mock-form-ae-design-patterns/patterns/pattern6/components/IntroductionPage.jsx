@@ -45,6 +45,11 @@ class IntroductionPage extends React.Component {
               </Link>
             </li>
             <li>
+              <Link to={`${formConfig.urlPrefix}spouse-identity`}>
+                Spouse's identification information
+              </Link>
+            </li>
+            <li>
               <Link to={`${formConfig.urlPrefix}spouse-military-history`}>
                 Spouse's military history
               </Link>
@@ -82,6 +87,33 @@ class IntroductionPage extends React.Component {
             <li>
               <Link to={`${formConfig.urlPrefix}spouse-previous-marriages`}>
                 Spouse Previous Marriages
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="vads-u-margin-top--2">
+          <h2>Divorced flow specific pages</h2>
+          <ul>
+            <li>
+              <Link to={`${formConfig.urlPrefix}marriage-end-date-location`}>
+                Place and date of marriage termination
+              </Link>
+            </li>
+            <li>
+              <Link to={`${formConfig.urlPrefix}divorce-documents`}>
+                Divorce documents
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="vads-u-margin-top--2">
+          <h2>Widowed flow specific pages</h2>
+          <ul>
+            <li>
+              <Link to={`${formConfig.urlPrefix}spouse-death-information`}>
+                Place and date of spouse death
               </Link>
             </li>
           </ul>
