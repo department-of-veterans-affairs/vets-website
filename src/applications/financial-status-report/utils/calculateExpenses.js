@@ -9,6 +9,16 @@ const MORTGAGE_PAYMENT = 'Mortgage payment';
 const FOOD = 'Food';
 
 /**
+ * Filters a list of expenses to include only those with specified names.
+ * @param {Array} expenses - The array of expense objects to filter.
+ * @param {Array} names - The array of strings representing expense names to include.
+ * @returns {Array} A new array containing only the expenses with matching names.
+ */
+
+const filterExpensesByName = (expenses, names) =>
+  expenses.filter(expense => names.includes(expense.name));
+
+/**
  * Filters a list of expenses to exclude those with specified names.
  * @param {Array} expenses - The array of expense objects to filter.
  * @param {Array} names - The array of strings representing expense names to exclude.
@@ -56,7 +66,7 @@ export const getMonthlyExpenses = ({
     'amountDueMonthly',
   );
   const food = safeNumber(expenses?.food || 0);
-  const rentOrMortgage = safeNumber(expenses?.monthlyHousingExpenses);
+  const rentOrMortgage = safeNumber(expenses?.rentOrMortgage || 0);
   const calculatedExpenseRecords = calculateExpenseRecords(
     expenses?.expenseRecords,
   );
@@ -80,15 +90,16 @@ export const getMonthlyExpenses = ({
 
 export const getAllExpenses = formData => {
   const {
-    expenses: {
-      creditCardBills = [],
-      expenseRecords = [],
-      monthlyHousingExpenses = 0,
-    } = {},
+    expenses: { creditCardBills = [], expenseRecords = [] } = {},
     otherExpenses = [],
     utilityRecords,
     installmentContracts = [],
   } = formData;
+
+  const rentOrMortgageExpenses = filterExpensesByName(expenseRecords, [
+    RENT,
+    MORTGAGE_PAYMENT,
+  ]);
 
   const foodExpenses = otherExpenses.find(expense =>
     expense.name?.includes(FOOD),
@@ -101,8 +112,11 @@ export const getAllExpenses = formData => {
 
   const utilityField = 'amount';
 
+  // This is messy, but will be cleaned up once we remove the enhanced feature flag.
+  const enhancedMortgage = sumValues(rentOrMortgageExpenses, 'amount');
+
   return {
-    rentOrMortgage: safeNumber(monthlyHousingExpenses),
+    rentOrMortgage: enhancedMortgage,
     food: safeNumber(foodExpenses.amount), // use safeNumber
     utilities: sumValues(utilityRecords, utilityField),
     otherLivingExpenses: {
