@@ -214,8 +214,8 @@ class PatientComposePage {
       });
   };
 
-  saveNewDraft = (category, subject) => {
-    cy.intercept('POST', `${Paths.SM_API_BASE}/message_drafts`, newDraft).as(
+  saveNewDraft = (category, subject, response = newDraft) => {
+    cy.intercept('POST', `${Paths.SM_API_BASE}/message_drafts`, response).as(
       'new_draft',
     );
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click();

@@ -7,7 +7,7 @@ import {
   saveDraft,
   saveReplyDraft,
 } from '../../actions/draftDetails';
-import * as saveDraftResponse from '../e2e/fixtures/draftsResponse/drafts-single-message-response.json';
+import saveDraftResponse from '../e2e/fixtures/draftsResponse/drafts-single-message-response.json';
 import { Actions } from '../../util/actionTypes';
 
 describe('draftDetails actions', () => {
