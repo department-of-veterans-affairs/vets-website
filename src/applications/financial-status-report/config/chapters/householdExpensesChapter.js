@@ -42,6 +42,13 @@ export default {
         CustomPageReview: ExpenseExplainerReview,
         depends: formData => !isStreamlinedShortForm(formData),
       },
+      monthlyHousingExpenses: {
+        path: 'monthly-housing-expenses',
+        title: 'Monthly housing expenses',
+        schema: monthlyHousingExpenses.schema,
+        uiSchema: monthlyHousingExpenses.uiSchema,
+        depends: formData => !isStreamlinedShortForm(formData),
+      },
       // Enhanced Utility Bills
       utilityBillChecklist: {
         path: 'utility-bill-checklist',
@@ -49,13 +56,6 @@ export default {
         uiSchema: utilityBillPages.utilityBillChecklist.uiSchema,
         schema: utilityBillPages.utilityBillChecklist.schema,
         depends: formData => !isStreamlinedShortForm(formData),
-        monthlyHousingExpenses: {
-          path: 'monthly-housing-expenses',
-          title: 'Monthly housing expenses',
-          schema: monthlyHousingExpenses.schema,
-          uiSchema: monthlyHousingExpenses.uiSchema,
-          depends: formData => !isStreamlinedShortForm(formData),
-        },
       },
       utilityBillValues: {
         path: 'utility-bill-values',
