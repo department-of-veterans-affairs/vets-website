@@ -8,14 +8,14 @@ const ProviderAddress = props => {
   const normalizeAddress = addr => {
     if (typeof addr !== 'object' || !addr) return addr;
 
-    const { street1, street2, street3, zipCode, ...rest } = addr;
+    const { address1, address2, address3, zipCode, ...rest } = addr;
 
     return {
       ...rest,
-      address1: rest.address1 || street1,
-      address2: rest.address2 || street2,
-      address3: rest.address3 || street3,
-      zipCode: rest.zipCode || zipCode,
+      street1: rest.street1 || address1,
+      street2: rest.street2 || address2,
+      street3: rest.street3 || address3,
+      zip: rest.zip || zipCode,
     };
   };
 
@@ -32,22 +32,22 @@ const ProviderAddress = props => {
       <p className="vads-u-margin--0">
         {!isAddressString ? (
           <>
-            {normalizedAddress.address1} <br />
-            {normalizedAddress.address2 && (
-              <span data-testid="Address2">
-                {normalizedAddress.address2}
+            {normalizedAddress.street1} <br />
+            {normalizedAddress.street2 && (
+              <span data-testid="street2">
+                {normalizedAddress.street2}
                 <br />
               </span>
             )}
-            {normalizedAddress.address3 && (
-              <span data-testid="Address3">
-                {normalizedAddress.address3 || normalizedAddress.street3}
+            {normalizedAddress.street3 && (
+              <span data-testid="street3">
+                {normalizedAddress.street3}
                 <br />
               </span>
             )}
             {normalizedAddress.city},{' '}
             {normalizedAddress.state && `${normalizedAddress.state},`}{' '}
-            {normalizedAddress.zipCode}
+            {normalizedAddress.zip}
           </>
         ) : (
           <>{normalizedAddress}</>
