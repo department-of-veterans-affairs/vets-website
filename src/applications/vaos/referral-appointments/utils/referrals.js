@@ -86,6 +86,7 @@ const createReferralById = (
         name: 'Dr. Moreen S. Rafa',
         npi: '1346206547',
         phone: '(937) 236-6750',
+        facilityName: 'fake facility name',
         address: {
           street1: '76 Veterans Avenue',
           city: 'BATH',

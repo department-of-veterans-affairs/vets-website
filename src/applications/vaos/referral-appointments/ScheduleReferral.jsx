@@ -67,7 +67,7 @@ export default function ScheduleReferral(props) {
           {currentReferral.provider.name}
           <br />
           <strong>Location: </strong>
-          {currentReferral.provider.location}
+          {currentReferral.provider.facilityName}
           <br />
           <strong>Referral number: </strong>
           {currentReferral.referralNumber}
