@@ -70,7 +70,7 @@ const DashboardCards = () => {
       setLoading(false);
     };
 
-    if (mockTestingFlagforAPI) {
+    if (mockTestingFlagforAPI && !window.Cypress) {
       processData(mockInquiries.data);
       return Promise.resolve();
     }
@@ -203,27 +203,31 @@ const DashboardCards = () => {
                     {`Submitted on ${formatDate(card.attributes.createdOn)}`}
                   </span>
                 </h3>
-                <p className="vads-u-margin--0 vads-u-padding-bottom--1">
-                  <span className="vads-u-font-weight--bold">
-                    Last updated:
-                  </span>{' '}
-                  {formatDate(card.attributes.lastUpdate)}
-                </p>
-                <dl className="vads-u-margin--0 vads-u-padding-bottom--1">
-                  <dt className="vads-u-font-weight--bold vads-u-display--inline">
-                    Reference number:
-                  </dt>{' '}
-                  <dd className="vads-u-display--inline">
-                    {card.attributes.inquiryNumber}
-                  </dd>
-                </dl>
-                <dl className="vads-u-margin-bottom--0 vads-u-padding-bottom--3 vacardCategory multiline-ellipsis-1">
-                  <dt className="vads-u-font-weight--bold vads-u-display--inline">
-                    Category:
-                  </dt>{' '}
-                  <dd className="vads-u-display--inline">
-                    {card.attributes.categoryName}
-                  </dd>
+                <dl>
+                  <div className="vads-u-margin--0 vads-u-padding-bottom--1">
+                    <dt className="vads-u-font-weight--bold vads-u-display--inline">
+                      Last updated:
+                    </dt>{' '}
+                    <dd className="vads-u-display--inline">
+                      {formatDate(card.attributes.lastUpdate)}
+                    </dd>
+                  </div>
+                  <div className="vads-u-margin--0 vads-u-padding-bottom--1">
+                    <dt className="vads-u-font-weight--bold vads-u-display--inline">
+                      Reference number:
+                    </dt>{' '}
+                    <dd className="vads-u-display--inline">
+                      {card.attributes.inquiryNumber}
+                    </dd>
+                  </div>
+                  <div className="vads-u-margin-bottom--0 vacardCategory multiline-ellipsis-1">
+                    <dt className="vads-u-font-weight--bold vads-u-display--inline">
+                      Category:
+                    </dt>{' '}
+                    <dd className="vads-u-display--inline">
+                      {card.attributes.categoryName}
+                    </dd>
+                  </div>
                 </dl>
                 <div className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--1 vads-u-margin-top--1p5" />
                 <p className="vacardSubmitterQuestion">

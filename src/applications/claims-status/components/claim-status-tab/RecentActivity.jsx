@@ -258,6 +258,7 @@ export default function RecentActivity({ claim }) {
               cstFriendlyEvidenceRequests &&
               item.activityDescription ? (
                 <va-alert
+                  data-testid={`item-from-others-${item.id}`}
                   class="optional-alert vads-u-padding-bottom--1"
                   status="info"
                   slim
@@ -268,7 +269,7 @@ export default function RecentActivity({ claim }) {
                     aria-label={`About this notice for ${item.friendlyName ||
                       item.displayName}`}
                     className="add-your-claims-link"
-                    to={`../document-request/${item.id}`}
+                    to={`../needed-from-others/${item.id}`}
                   >
                     About this notice
                   </Link>
@@ -276,6 +277,7 @@ export default function RecentActivity({ claim }) {
               ) : (
                 item.status === 'NEEDED_FROM_OTHERS' && (
                   <va-alert
+                    data-testid={`item-from-others-${item.id}`}
                     class="optional-alert vads-u-padding-bottom--1"
                     status="info"
                     slim
@@ -286,7 +288,11 @@ export default function RecentActivity({ claim }) {
                       aria-label={`Add it here for ${item.friendlyName ||
                         item.displayName}`}
                       className="add-your-claims-link"
-                      to={`../document-request/${item.id}`}
+                      to={
+                        cstFriendlyEvidenceRequests
+                          ? `../needed-from-others/${item.id}`
+                          : `../document-request/${item.id}`
+                      }
                     >
                       add it here.
                     </Link>

@@ -68,10 +68,6 @@ function generateOptions({ data, pagePerItemIndex }) {
       }hild (including adopted children or step children)`,
       value: 'child',
     },
-    {
-      label: 'Other relationship',
-      value: 'other',
-    },
   ];
 
   return {

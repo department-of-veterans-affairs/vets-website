@@ -12,8 +12,10 @@ import {
   getLocations,
   getLocationsByTypeOfCareAndSiteIds,
 } from '.';
-import { createMockFacility } from '../../tests/mocks/data';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
@@ -106,26 +108,29 @@ describe('VAOS Services: Location ', () => {
       mockFacilitiesApi({
         children: true,
         response: [
-          createMockFacility({
-            id: '983',
-            name: 'Cheyenne VA Medical Center',
-          }),
-          createMockFacility({
-            id: '984',
-          }),
+          new MockFacilityResponse(),
+          new MockFacilityResponse({ id: '984' }),
         ],
       });
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'primaryCare',
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+              }),
+            ],
           }),
         ],
       });

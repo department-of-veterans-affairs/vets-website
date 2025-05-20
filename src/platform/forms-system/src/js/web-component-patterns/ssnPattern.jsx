@@ -236,6 +236,25 @@ const ssnOrVaFileNumberSchema = {
  */
 const ssnOrVaFileNumberNoHintSchema = ssnOrVaFileNumberSchema;
 
+/**
+ * Schema for a single field accepting either a Social Security number
+ * or a Military Service number.
+ *
+ * Accepts:
+ * - SSN: 123-45-6789 or 123456789
+ * - Service Number: Starts with 0–2 uppercase letters followed by 5–8 digits
+ *
+ * ```js
+ * // uiSchema: use VaTextInputField
+ * // schema:
+ * example: ssnOrServiceNumberSchema
+ * ```
+ */
+const ssnOrServiceNumberSchema = {
+  type: 'string',
+  pattern: '^(\\d{3}-?\\d{2}-?\\d{4}|[A-Z]{1,2}\\d{5,8})$',
+};
+
 export {
   ssnUI,
   ssnSchema,
@@ -247,4 +266,5 @@ export {
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberNoHintUI,
   ssnOrVaFileNumberNoHintSchema,
+  ssnOrServiceNumberSchema,
 };

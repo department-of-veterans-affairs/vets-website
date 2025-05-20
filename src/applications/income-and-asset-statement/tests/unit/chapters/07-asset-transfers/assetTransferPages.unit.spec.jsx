@@ -3,7 +3,7 @@ import formConfig from '../../../../config/form';
 import {
   assetTransferPages,
   options,
-} from '../../../../config/chapters/07-asset-transfers/assetTransferPages';
+} from '../../../../config/chapters/06-asset-transfers/assetTransferPages';
 import { transferMethodLabels } from '../../../../labels';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';

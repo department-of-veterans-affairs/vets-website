@@ -63,9 +63,10 @@ const VaPrescription = prescription => {
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
   const latestTrackingStatus = prescription?.trackingList?.[0];
+  const fourteenDaysAgoDate = new Date().setDate(new Date().getDate() - 14);
   const showTrackingAlert =
-    prescription?.trackingList?.[0] &&
-    prescription?.dispStatus === 'Active: Submitted';
+    latestTrackingStatus?.completeDateTime &&
+    Date.parse(latestTrackingStatus?.completeDateTime) > fourteenDaysAgoDate;
   const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
 
   const determineStatus = () => {
@@ -782,8 +783,8 @@ const VaPrescription = prescription => {
                                       data-testid="shipped-on"
                                     >
                                       {dateFormat(
-                                        entry?.trackingList
-                                          ? entry.trackingList[0]
+                                        prescription?.trackingList
+                                          ? prescription.trackingList[0]
                                               ?.completeDateTime
                                           : null,
                                         'MMMM D, YYYY',
