@@ -6,11 +6,12 @@ import { timeServedTypes, timeServedLabels } from '../constants/benefits';
 
 export default {
   uiSchema: {
-    militaryServiceTotalTimeServed: radioUI({
+    titleTenTimeServed: radioUI({
       enableAnalytics: true,
-      title: 'In total, how long have you served in the military?',
+      title:
+        'How long were you called up to active-duty (Title 10) orders while serving in the Reserve or National Guard?',
       hint:
-        'If you have served multiple periods, please choose the answer that reflects your total amount of service.',
+        'This includes activations, deployments, and mobilizations under Title 10 orders.',
       labels: timeServedLabels,
       required: () => false,
     }),
@@ -18,7 +19,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      militaryServiceTotalTimeServed: radioSchema(Object.keys(timeServedTypes)),
+      titleTenTimeServed: radioSchema(Object.keys(timeServedTypes)),
     },
   },
 };
