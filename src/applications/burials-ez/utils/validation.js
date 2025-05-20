@@ -1,11 +1,11 @@
-import moment from 'moment';
+import { isBefore, parseISO } from 'date-fns';
 
 export function validateBurialAndDeathDates(errors, page) {
   const { burialDate, deathDate, veteranDateOfBirth } = page;
   if (
     burialDate &&
     deathDate &&
-    moment(burialDate).isBefore(moment(deathDate))
+    isBefore(parseISO(burialDate), parseISO(deathDate))
   ) {
     errors.burialDate.addError(
       'Date of burial must be on or after date of death',
@@ -14,7 +14,7 @@ export function validateBurialAndDeathDates(errors, page) {
   if (
     deathDate &&
     veteranDateOfBirth &&
-    moment(deathDate).isBefore(moment(veteranDateOfBirth))
+    isBefore(parseISO(deathDate), parseISO(veteranDateOfBirth))
   ) {
     errors.deathDate.addError('Date of death must be after date of birth');
   }
