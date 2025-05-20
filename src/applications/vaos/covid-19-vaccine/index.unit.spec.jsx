@@ -8,7 +8,9 @@ import { addDays, format, subDays } from 'date-fns';
 import React from 'react';
 import { NewBookingSection } from '.';
 import MockFacilityResponse from '../tests/fixtures/MockFacilityResponse';
-import { getSchedulingConfigurationMock } from '../tests/mocks/mock';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
@@ -45,16 +47,24 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
 
     mockSchedulingConfigurationsApi({
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'covid',
-          requestEnabled: true,
-          directEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              directEnabled: true,
+              requestEnabled: true,
+            }),
+          ],
         }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              id: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
@@ -86,15 +96,23 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     });
     mockSchedulingConfigurationsApi({
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'covid',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
         }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
@@ -117,17 +135,26 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     mockFacilitiesApi({ ids: ['983', '984'] });
     mockSchedulingConfigurationsApi({
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'covid',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
         }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
+      responseCode: 404,
     });
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
@@ -188,24 +215,36 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     });
     mockSchedulingConfigurationsApi({
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'covid',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
     mockSchedulingConfigurationsApi({
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'covid',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
         }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
@@ -241,24 +280,36 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     });
     mockSchedulingConfigurationsApi({
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'covid',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
     mockSchedulingConfigurationsApi({
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'covid',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
         }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
@@ -296,24 +347,36 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     });
     mockSchedulingConfigurationsApi({
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'covid',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
     mockSchedulingConfigurationsApi({
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'covid',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
         }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
@@ -340,24 +403,36 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     });
     mockSchedulingConfigurationsApi({
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'covid',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
         }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
     mockSchedulingConfigurationsApi({
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'covid',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
       responseCode: 500,
