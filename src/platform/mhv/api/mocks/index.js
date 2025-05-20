@@ -139,7 +139,17 @@ const responses = {
   'PATCH /my_health/v1/messaging/threads/:id/move': threads.moveThread,
   'POST /my_health/v1/messaging/folders/:index/search': messages.searchMessages,
   'POST /my_health/v1/messaging/preferences/recipients': { status: 200 },
-
+  'GET /my_health/v1/messaging/preferences/signature': {
+    data: {
+      id: '',
+      type: 'message_signature',
+      attributes: {
+        signatureName: null,
+        signatureTitle: null,
+        includeSignature: false,
+      },
+    },
+  },
   // medical records
   'GET /my_health/v1/medical_records/session/status':
     session.phrRefreshInProgressNoNewRecords,

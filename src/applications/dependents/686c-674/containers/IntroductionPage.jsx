@@ -79,7 +79,7 @@ const IntroductionPage = props => {
           <strong>
             If you started applying online before {V2_LAUNCH_DATE},
           </strong>{' '}
-          you’ll need to review the information in your application.Select
+          you’ll need to review the information in your application. Select
           Continue your application to use our updated form.
         </p>
       </SaveInProgressIntro>

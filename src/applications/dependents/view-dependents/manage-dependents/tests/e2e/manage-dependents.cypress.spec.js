@@ -1,7 +1,7 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import mockDependents from '../fixtures/mock-dependents.json';
 import mockUser from '../fixtures/mockUser.json';
-import manifest from '~/applications/personalization/view-dependents/manifest.json';
+import manifest from '../../../manifest.json';
 
 const VIEW_DEPENDENTS_PATH = manifest.rootUrl;
 const VIEW_DEPENDENTS_ENDPOINT = '/v0/dependents_applications/show';
