@@ -137,7 +137,7 @@ if [ -n "$ASSET_DEST" ] ; then
     aws s3 sync --only-show-errors \
         --acl public-read \
         --content-encoding gzip \
-        --cache-control "public, no-cache" \
+        --cache-control "public, max-age=31536000, immutable" \
         --exclude '*' \
         --include '*.js' \
         --include '*.css' \
