@@ -701,6 +701,11 @@ jobs:
       - name: Checkout new-axe-checks branch
         run: git fetch origin new-axe-checks --depth=1
 
+      - name: Set committer information
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@users.noreply.github.com"
+
       - name: Merge axe-headings checks
         run: git merge origin/new-axe-checks --no-commit --allow-unrelated-histories --no-ff
 
