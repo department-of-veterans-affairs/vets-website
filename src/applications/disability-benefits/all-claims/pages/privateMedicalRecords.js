@@ -11,6 +11,9 @@ import {
   patientAcknowledgmentError,
 } from '../content/privateMedicalRecords';
 
+const isNotUploadingPrivateRecords = data =>
+  data?.['view:hasPrivateRecordsToUpload'] === false;
+
 export const uiSchema = {
   'ui:title': privateRecordsPageTitle,
   'ui:description':
@@ -31,8 +34,7 @@ export const uiSchema = {
     'ui:title': patientAcknowledgmentTitle,
     'ui:options': {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
-      expandUnderCondition: data =>
-        data?.['view:hasPrivateRecordsToUpload'] === false,
+      expandUnderCondition: isNotUploadingPrivateRecords,
       showFieldLabel: true,
     },
     'ui:validations': [
@@ -62,8 +64,7 @@ export const uiSchema = {
     'ui:description': patientAcknowledgmentText,
     'ui:options': {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
-      expandUnderCondition: data =>
-        data?.['view:hasPrivateRecordsToUpload'] === false,
+      expandUnderCondition: isNotUploadingPrivateRecords,
       forceDivWrapper: true,
     },
   },
