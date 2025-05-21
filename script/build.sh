@@ -65,7 +65,21 @@ fi
 if [ "${assetSource}" = "local" ]; then
     echo "Building application assets"
     yarn build:webpack $webpackArgs
-    cp -v "${buildDir}generated/vendor.entry.js" "${buildDir}generated/shared-modules.entry.js"
+
+    if [ -f "${buildDir}generated/vendor.entry.js" ]; then
+        # Legacy, non-hashed filename – keep previous behaviour.
+        cp -v "${buildDir}generated/vendor.entry.js" "${buildDir}generated/shared-modules.entry.js"
+    else
+        # Look for a hashed vendor bundle (vendor.<contenthash>.entry.js)
+        vendorFile=$(ls -1 "${buildDir}"generated/vendor.*.entry.js 2>/dev/null | head -n 1)
+        if [ -n "$vendorFile" ]; then
+            # Derive the destination filename by replacing the "vendor." prefix with "shared-modules."
+            destFile=$(echo "$vendorFile" | sed 's/vendor\./shared-modules./')
+            cp -v "$vendorFile" "$destFile"
+        else
+            echo "No vendor bundle found – skipping copy to shared-modules entry."
+        fi
+    fi
 else
     echo "Will fetch application assets from the content build script"
 fi

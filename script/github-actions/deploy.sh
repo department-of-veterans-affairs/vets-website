@@ -137,7 +137,7 @@ if [ -n "$ASSET_DEST" ] ; then
     aws s3 sync --only-show-errors \
         --acl public-read \
         --content-encoding gzip \
-        --cache-control "public, no-cache" \
+        --cache-control "public, max-age=31536000, immutable" \
         --exclude '*' \
         --include '*.js' \
         --include '*.css' \
@@ -147,9 +147,9 @@ if [ -n "$ASSET_DEST" ] ; then
         --include '*.ttf' \
         --include '*.svg' \
         --exclude generated/styleConsolidated.css \
-        --exclude generated/polyfills.entry.js \
-        --exclude generated/vendor.entry.js \
-        --exclude generated/proxy-rewrite.entry.js \
+        --exclude 'generated/polyfills*.entry.js' \
+        --exclude 'generated/vendor*.entry.js' \
+        --exclude 'generated/proxy-rewrite*.entry.js' \
         --exclude js/settings.js \
         --exclude js/vendor/uswds.min.js \
          . "$ASSET_DEST"
@@ -162,9 +162,9 @@ if [ -n "$ASSET_DEST" ] ; then
         --cache-control "public, no-cache" \
         --exclude '*' \
         --include generated/styleConsolidated.css \
-        --include generated/polyfills.entry.js \
-        --include generated/vendor.entry.js \
-        --include generated/proxy-rewrite.entry.js \
+        --include 'generated/polyfills*.entry.js' \
+        --include 'generated/vendor*.entry.js' \
+        --include 'generated/proxy-rewrite*.entry.js' \
         --include js/settings.js \
         --include js/vendor/uswds.min.js \
         . "$ASSET_DEST"
