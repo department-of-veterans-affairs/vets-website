@@ -42,12 +42,6 @@ const RecordList = props => {
     [history.location.search],
   );
 
-  const fromToNums = (page, total) => {
-    const from = (page - 1) * perPage + 1;
-    const to = Math.min(page * perPage, total);
-    return [from, to];
-  };
-
   useEffect(
     () => {
       if (records?.length) {
@@ -68,22 +62,18 @@ const RecordList = props => {
     [currentPage, records],
   );
 
-  const displayNums = fromToNums(currentPage, records?.length);
-  // This feels wrong and would love feedback on how to improve this.
-  const filterDisplayMessage = domainOptions?.isAccelerating
-    ? domainOptions.displayTimeFrame
-    : 'newest to oldest';
   return (
     <div className="record-list vads-l-row vads-u-flex-direction--column">
       <h2 className="sr-only" data-dd-privacy="mask" data-dd-action-name>
         {`List of ${type}`}
       </h2>
       <RecordListHeader
-        displayNums={displayNums}
+        currentPage={currentPage}
+        recordsLength={currentRecords?.length}
         totalEntries={totalEntries}
-        filterDisplayMessage={filterDisplayMessage}
-        isAccelerating={domainOptions?.isAccelerating}
+        domainOptions={domainOptions}
         hidePagination={hidePagination}
+        perPage={perPage}
       />
       <div className="no-print">
         {currentRecords?.length > 0 &&

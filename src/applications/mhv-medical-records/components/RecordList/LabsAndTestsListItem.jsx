@@ -59,10 +59,6 @@ const LabsAndTestsListItem = props => {
 export default LabsAndTestsListItem;
 
 LabsAndTestsListItem.propTypes = {
-  options: PropTypes.shape({
-    isAccelerating: PropTypes.bool,
-    timeFrame: PropTypes.string,
-  }).isRequired,
   record: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -71,4 +67,8 @@ LabsAndTestsListItem.propTypes = {
     orderedBy: PropTypes.string,
     signedBy: PropTypes.string,
   }).isRequired,
+  options: PropTypes.shape({
+    isAccelerating: PropTypes.bool,
+    timeFrame: PropTypes.string,
+  }),
 };
