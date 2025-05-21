@@ -131,7 +131,7 @@ const checkRemovalWhileEditingModal = options => {
 };
 
 describe('Modals for removal of field', () => {
-  it.skip('should show edit notice modal when attempting to remove field after editing another field', () => {
+  it('should show edit notice modal when attempting to remove field after editing another field', () => {
     setup(false);
 
     checkRemovalWhileEditingModal({
