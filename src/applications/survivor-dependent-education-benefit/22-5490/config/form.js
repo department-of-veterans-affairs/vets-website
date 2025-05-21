@@ -1315,7 +1315,7 @@ const formConfig = {
       },
     },
     additionalConsiderationsChapter: {
-      title: 'Additional Consideration',
+      title: 'Additional consideration',
       pages: {
         marriageInformation: {
           title: 'Marriage information',
