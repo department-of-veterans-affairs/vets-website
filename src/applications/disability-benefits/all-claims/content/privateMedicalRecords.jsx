@@ -43,21 +43,9 @@ export const privateRecordsPageTitle = (
   </h3>
 );
 
-export const patientAcknowledgmentTitle = (
-  <h3 className="vads-u-margin-top--0">Request a disclosure</h3>
-);
+export const patientAcknowledgmentTitle = 'Request a disclosure';
 
-export const patientAcknowledgmentError = (
-  <div>
-    <p className="vads-u-margin-top--0">
-      We need your permission to ask your doctor for your medical records.
-    </p>
-    <p className="vads-u-margin-bottom--0">
-      To continue, select "I acknowledge and authorize this release of
-      information."
-    </p>
-  </div>
-);
+export const patientAcknowledgmentError = 'You must accept the acknowledgment';
 
 export const patientAcknowledgmentText = (
   <div className="patient-acknowldegment-help">

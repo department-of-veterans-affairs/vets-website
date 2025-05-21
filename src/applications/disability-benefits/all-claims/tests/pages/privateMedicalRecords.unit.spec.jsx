@@ -97,7 +97,7 @@ describe('526 All Claims Private medical records', () => {
     expect($('va-radio').error).to.be.null;
   });
 
-  // User selected 'No' in the radio button and checked 'yes' in the acknowledgment which allows user to submit
+  // 'No' radio button selected and acknowledgment checked allows user to submit
   it('should submit when user selects "no" to upload and checks "yes" for the acknowledgment', () => {
     const onSubmit = sinon.spy();
     const { getByText } = render(
