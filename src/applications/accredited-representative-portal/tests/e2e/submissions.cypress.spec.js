@@ -1,9 +1,6 @@
 import user from './fixtures/mocks/user.json';
 import { setFeatureToggles } from './intercepts/feature-toggles';
-import {
-  setSubmissions,
-  // setEmptySubmissions,
-} from './intercepts/submissions';
+import { setSubmissions } from './intercepts/submissions';
 
 const vamcUser = {
   data: {

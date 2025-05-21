@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import {
   useLoaderData,
   useSearchParams,
@@ -21,38 +20,7 @@ import { SEARCH_PARAMS } from '../utilities/constants';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
 import PaginationMeta from '../components/PaginationMeta';
-import SubmissionCard from '../components/SubmissionCard';
-
-const SearchResults = ({ submissions }) => {
-  if (!submissions || submissions.length === 0) {
-    return (
-      <p data-testid="submissions-table-fetcher-empty">
-        No form submissions found
-      </p>
-    );
-  }
-
-  return (
-    <ul
-      data-testid="submissions-card"
-      className="submissions__list"
-      sort-column={1}
-    >
-      {submissions.map((submission, index) => {
-        return <SubmissionCard submission={submission} key={index} />;
-      })}
-    </ul>
-  );
-};
-
-SearchResults.propTypes = {
-  submissions: PropTypes.arrayOf(
-    PropTypes.shape({
-      length: PropTypes.number,
-      map: PropTypes.func,
-    }),
-  ),
-};
+import SubmissionsPageResults from '../components/SubmissionsPageResults';
 
 const SubmissionsPage = title => {
   useEffect(
@@ -153,7 +121,7 @@ const SubmissionsPage = title => {
                 role="tabpanel"
                 aria-labelledby={`tab-${searchStatus}`}
               >
-                <SearchResults submissions={submissions} />
+                <SubmissionsPageResults submissions={submissions} />
                 <Pagination meta={meta} />
               </div>
             )}

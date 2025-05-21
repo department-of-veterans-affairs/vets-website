@@ -22,41 +22,10 @@ import {
   PROCESSED_SORT_DEFAULTS,
 } from '../utilities/poaRequests';
 import { recordDatalayerEvent } from '../utilities/analytics';
-import POARequestCard from '../components/POARequestCard';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
 import PaginationMeta from '../components/PaginationMeta';
-
-const SearchResults = ({ poaRequests }) => {
-  if (poaRequests.length === 0) {
-    return (
-      <p data-testid="poa-requests-table-fetcher-no-poa-requests">
-        No POA requests found
-      </p>
-    );
-  }
-
-  return (
-    <ul
-      data-testid="poa-requests-card"
-      className="poa-request__list"
-      sort-column={1}
-    >
-      {poaRequests.map((request, index) => {
-        return <POARequestCard poaRequest={request} key={index} />;
-      })}
-    </ul>
-  );
-};
-
-SearchResults.propTypes = {
-  poaRequests: PropTypes.arrayOf(
-    PropTypes.shape({
-      length: PropTypes.number,
-      map: PropTypes.func,
-    }),
-  ),
-};
+import POARequestSearchPageResults from '../components/POARequestSearchPageResults';
 
 const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
   const active = tabStatus === searchStatus;
@@ -81,10 +50,10 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
 };
 
 StatusTabLink.propTypes = {
-  tabStatus: PropTypes.string,
+  children: PropTypes.node,
   searchStatus: PropTypes.string,
   tabSort: PropTypes.string,
-  children: PropTypes.node,
+  tabStatus: PropTypes.string,
 };
 
 const POARequestSearchPage = title => {
@@ -224,7 +193,7 @@ const POARequestSearchPage = title => {
               }
             })()}
 
-            <SearchResults poaRequests={poaRequests} />
+            <POARequestSearchPageResults poaRequests={poaRequests} />
             <Pagination meta={meta} />
           </div>
         )}

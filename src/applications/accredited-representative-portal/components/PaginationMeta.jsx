@@ -38,10 +38,10 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
 };
 
 PaginationMeta.propTypes = {
+  defaults: PropTypes.object,
   meta: PropTypes.object,
   results: PropTypes.arrayOf(PropTypes.object),
   resultType: PropTypes.string,
-  default: PropTypes.object,
 };
 
 export default PaginationMeta;
