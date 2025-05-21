@@ -397,7 +397,7 @@ const formConfig = {
       pages: {
         reviewPersonalInformation: {
           path: 'review-personal-information',
-          title: 'Review your Personal Information',
+          title: 'Review your personal information',
           CustomPageReview: PersonalInformationReviewField,
           uiSchema: {
             'view:subHeadings': {

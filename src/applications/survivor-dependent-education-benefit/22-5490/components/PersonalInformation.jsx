@@ -17,7 +17,7 @@ function PersonalInformation({ claimant }) {
   return (
     <div>
       <div className="usa-alert background-color-only personal-info-header">
-        <h5>Your Personal Information</h5>
+        <h5>Your personal information</h5>
       </div>
       <div className="personal-info-border personal-info-text">
         <div>
