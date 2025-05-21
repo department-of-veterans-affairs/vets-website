@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom-v5-compat';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   VaAccordion,
@@ -189,7 +189,7 @@ const VaPrescription = prescription => {
                     className={`${
                       !showGroupingContent ? 'vads-u-margin-top--3 ' : ''
                     }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
-                    to="/refill"
+                    to="refill"
                     data-testid="refill-nav-link"
                     data-dd-action-name={
                       dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
