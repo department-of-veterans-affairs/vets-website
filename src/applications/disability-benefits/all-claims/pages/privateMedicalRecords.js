@@ -29,10 +29,6 @@ export const uiSchema = {
   },
   'view:patientAcknowledgement': {
     'ui:title': patientAcknowledgmentTitle,
-    'ui:required': formData =>
-      formData?.['view:uploadPrivateRecordsQualifier']?.[
-        'view:hasPrivateRecordsToUpload'
-      ] === false,
     'ui:options': {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
       expandUnderCondition: data =>

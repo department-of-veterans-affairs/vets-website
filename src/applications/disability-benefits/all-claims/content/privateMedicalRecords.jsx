@@ -43,8 +43,9 @@ export const privateRecordsPageTitle = (
   </h3>
 );
 
-export const patientAcknowledgmentTitle = 'Request a disclosure';
-
+export const patientAcknowledgmentTitle = (
+  <h3 className="vads-u-margin-top--0">Request a disclosure</h3>
+);
 export const patientAcknowledgmentError = 'You must accept the acknowledgment';
 
 export const patientAcknowledgmentText = (
