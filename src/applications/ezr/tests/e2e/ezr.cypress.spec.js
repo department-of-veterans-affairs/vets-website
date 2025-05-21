@@ -171,7 +171,7 @@ const testConfig = createTestConfig(
             const fieldName = 'spouseAddress';
             const fieldData =
               data['view:spouseContactInformation'].spouseAddress;
-            fillAddressWebComponentPattern(fieldName, fieldData);
+            cy.fillAddressWebComponentPattern(fieldName, fieldData);
             cy.injectAxeThenAxeCheck();
             goToNextPage();
           });
