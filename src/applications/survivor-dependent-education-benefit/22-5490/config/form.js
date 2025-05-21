@@ -199,7 +199,7 @@ const formConfig = {
   },
   chapters: {
     benefitSelectionChapter: {
-      title: 'Benefit Selection',
+      title: 'Benefit selection',
       pages: {
         benefitSelection: {
           path: 'benefit-selection',
@@ -1371,7 +1371,7 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Marriage Date</h3>
+                  <h3>Marriage date</h3>
                 </>
               ),
             },
@@ -1450,7 +1450,7 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Remarriage Date</h3>
+                  <h3>Remarriage date</h3>
                 </>
               ),
             },
@@ -1472,7 +1472,7 @@ const formConfig = {
         },
         outstandingFelony: {
           path: 'outstanding-felony',
-          title: 'Outstanding Felony',
+          title: 'Outstanding felony',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (

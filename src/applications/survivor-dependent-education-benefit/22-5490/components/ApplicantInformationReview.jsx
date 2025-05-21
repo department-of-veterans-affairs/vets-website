@@ -27,7 +27,7 @@ const ApplicantInformationReview = ({ data, editPage }) => {
         }}
       >
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          Review Veteran or Service Member Information
+          Review veteran or service member information
         </h4>
         <va-button
           aria-label="Edit Veteran or Service Member Information"
@@ -55,7 +55,7 @@ const ApplicantInformationReview = ({ data, editPage }) => {
           </dd>
         </div>
         <div className="review-row">
-          <dt>Social Security number</dt>
+          <dt>Social security number</dt>
           <dd>{ssn ? obfuscate(ssn) : 'Not provided'}</dd>
         </div>
       </dl>

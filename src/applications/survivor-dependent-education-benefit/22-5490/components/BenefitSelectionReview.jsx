@@ -25,10 +25,10 @@ const BenefitSelectionReview = ({ data, editPage }) => {
         }}
       >
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          Review Benefit Selection
+          Review benefit selection
         </h4>
         <va-button
-          aria-label="Edit Benefit Selection"
+          aria-label="Edit benefit selection"
           secondary
           text="Edit"
           onClick={editPage}
