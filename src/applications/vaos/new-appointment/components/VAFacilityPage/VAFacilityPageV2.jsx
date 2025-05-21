@@ -76,11 +76,11 @@ export default function VAFacilityPageV2() {
       const options = [
         {
           value: 'distanceFromResidentialAddress',
-          label: 'By your home address',
+          label: 'Closest to your home',
         },
         {
           value: 'distanceFromCurrentLocation',
-          label: 'By your current location',
+          label: 'Closest to your current location',
         },
         { value: 'alphabetical', label: 'Alphabetically' },
       ];
@@ -97,9 +97,9 @@ export default function VAFacilityPageV2() {
 
   const uiSchema = {
     vaFacility: {
-      'ui:title': `Select a VA facility where you’re registered that offers ${lowerCase(
+      'ui:title': `These facilities you're registered at offer ${lowerCase(
         typeOfCare?.name,
-      )} appointments.`,
+      )}.`,
       'ui:widget': FacilitiesRadioWidget,
     },
   };
@@ -153,7 +153,12 @@ export default function VAFacilityPageV2() {
   );
 
   const pageHeader = (
-    <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
+    <h1 className="vaos__dynamic-font-size--h2">
+      {pageTitle}
+      <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+        (*Required)
+      </span>
+    </h1>
   );
 
   if (hasDataFetchingError) {

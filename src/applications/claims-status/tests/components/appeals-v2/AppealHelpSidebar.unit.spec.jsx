@@ -35,7 +35,7 @@ describe('<AppealHelpSidebar>', () => {
     );
 
     expect(wrapper.find('NeedHelp').text()).to.contain(
-      "We're here Monday through Friday, 8:00 a.m to 9:00 p.m ET.",
+      "We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.",
     );
     wrapper.unmount();
   });

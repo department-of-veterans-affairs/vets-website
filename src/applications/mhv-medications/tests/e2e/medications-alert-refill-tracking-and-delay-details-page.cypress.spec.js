@@ -11,8 +11,19 @@ describe('Medications Details Page Delay Alert and Tracking', () => {
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
     const cardNumber = 4;
+    const updatedData = detailsPage.updateCompleteDateTime(
+      prescriptionList,
+      rxDetails.data.attributes.prescriptionName,
+    );
+    cy.intercept(
+      'GET',
+      `/my_health/v1/prescriptions/${
+        rxDetails.data.attributes.prescriptionNumber
+      }`,
+      updatedData,
+    ).as('updatedPrescriptions');
     site.login();
-    listPage.visitMedicationsListPageURL(prescriptionList);
+    listPage.visitMedicationsListPageURL(updatedData);
     detailsPage.clickMedicationDetailsLink(rxDetails, cardNumber);
     detailsPage.verifyCheckStatusHeaderTextOnDetailsPage(
       Data.CHECK_STATUS_HEADER,
