@@ -10,16 +10,18 @@ import {
   UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
 } from '../utils/constants';
 
-const benefitsInfo = state => state.letters.benefitInfo;
-const requestOptions = state => state.letters.requestOptions;
-const serviceInfo = state => state.letters.serviceInfo;
 const isVeteran = true;
 
-const BenefitSummaryLetter = () => {
+const VeteranBenefitSummaryOptions = () => {
   const dispatch = useDispatch();
-  const benefitsInfoSelector = useSelector(benefitsInfo);
-  const requestOptionsSelector = useSelector(requestOptions);
-  const serviceInfoSelector = useSelector(serviceInfo);
+  const benefitsInfoSelector = useSelector(state => state.letters.benefitInfo);
+  const optionsAvailableSelector = useSelector(
+    state => state.letters.optionsAvailable,
+  );
+  const requestOptionsSelector = useSelector(
+    state => state.letters.requestOptions,
+  );
+  const serviceInfoSelector = useSelector(state => state.letters.serviceInfo);
 
   // Updating options to always show to split disability rating
   // and monthly amount into two separate labels
@@ -73,7 +75,7 @@ const BenefitSummaryLetter = () => {
     return benefitCheckboxes;
   };
 
-  const handleMilitaryServiceCheckbox = () => {
+  const renderMilitaryServiceCheckbox = () => {
     const militaryServiceRows = serviceInfoSelector || [];
     const { militaryService } = requestOptionsSelector;
 
@@ -99,35 +101,41 @@ const BenefitSummaryLetter = () => {
 
   return (
     <>
-      <p className="vads-u-margin-top--0">
-        The Benefit Summary and Service Verification Letter includes your VA
-        benefits and service history. You can customize this letter depending on
-        your needs.
-      </p>
+      {!optionsAvailableSelector ? (
+        <div>Not now Biff</div>
+      ) : (
+        <>
+          <p className="vads-u-margin-top--0">
+            The Benefit Summary and Service Verification Letter includes your VA
+            benefits and service history. You can customize this letter
+            depending on your needs.
+          </p>
 
-      <p>Some of the ways you might be able to use this letter:</p>
+          <p>Some of the ways you might be able to use this letter:</p>
 
-      <ul className="usa-list">
-        <li>Apply for housing assistance</li>
-        <li>Apply for a civil service job</li>
-        <li>Reduce property taxes</li>
-        <li>Reduce car taxes</li>
-      </ul>
+          <ul className="usa-list">
+            <li>Apply for housing assistance</li>
+            <li>Apply for a civil service job</li>
+            <li>Reduce property taxes</li>
+            <li>Reduce car taxes</li>
+          </ul>
 
-      <fieldset>
-        <legend>
-          <h4 className="vads-u-font-family--sans vads-u-font-size--h4">
-            Choose the information you want to include in your letter:
-          </h4>
-        </legend>
+          <fieldset>
+            <legend>
+              <h4 className="vads-u-font-family--sans vads-u-font-size--h4">
+                Choose the information you want to include in your letter:
+              </h4>
+            </legend>
 
-        <ul className="usa-unstyled-list">
-          {handleMilitaryServiceCheckbox()}
-          {renderBenefitsCheckboxes()}
-        </ul>
-      </fieldset>
+            <ul className="usa-unstyled-list">
+              {renderMilitaryServiceCheckbox()}
+              {renderBenefitsCheckboxes()}
+            </ul>
+          </fieldset>
+        </>
+      )}
     </>
   );
 };
 
-export default BenefitSummaryLetter;
+export default VeteranBenefitSummaryOptions;

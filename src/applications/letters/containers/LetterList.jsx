@@ -9,7 +9,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
-import BenefitSummaryLetter from './BenefitSummaryLetter';
+import VeteranBenefitSummaryOptions from './VeteranBenefitSummaryOptions';
 
 import {
   letterContent,
@@ -71,7 +71,7 @@ export class LetterList extends React.Component {
         content = (
           <Toggler toggleName={TOGGLE_NAMES.lettersPageNewDesign}>
             <Toggler.Enabled>
-              <BenefitSummaryLetter />
+              <VeteranBenefitSummaryOptions />
             </Toggler.Enabled>
             <Toggler.Disabled>
               <VeteranBenefitSummaryLetter />
