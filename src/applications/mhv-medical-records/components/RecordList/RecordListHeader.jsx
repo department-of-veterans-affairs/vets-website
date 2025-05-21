@@ -5,7 +5,7 @@ const RecordListHeader = ({
   currentPage,
   recordsLength,
   totalEntries,
-  domainOptions,
+  domainOptions = {},
   hidePagination,
   perPage,
 }) => {
