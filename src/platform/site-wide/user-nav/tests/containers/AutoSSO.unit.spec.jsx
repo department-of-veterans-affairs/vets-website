@@ -1,10 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
+import { setupServer } from 'msw/node';
 
 import * as ssoUtils from 'platform/utilities/sso';
 import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
 
+import * as mocks from '@@profile/msw-mocks';
 import { AutoSSO } from '../../containers/AutoSSO';
 
 const generateProps = ({
@@ -22,7 +24,17 @@ const generateProps = ({
   checkKeepAlive: sinon.spy(),
 });
 
+let server;
+
 describe('<AutoSSO>', () => {
+  before(() => {
+    server = setupServer(...mocks.headKeepAliveSuccess);
+    server.listen();
+  });
+  after(() => {
+    server.close();
+  });
+
   it('should not call removeLoginAttempted if user is logged out', () => {
     const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
     const props = generateProps();
