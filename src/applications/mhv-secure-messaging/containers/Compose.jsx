@@ -22,6 +22,7 @@ import {
 } from '../util/constants';
 import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
+import ChooseVAHealthcareSystem from './ChooseVAHealthcareSystemPage';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ const Compose = () => {
   const { allTriageGroupsBlocked } = recipients;
 
   const [acknowledged, setAcknowledged] = useState(false);
+  const [vaSystemAcknowledged, setVaSystemAcknowledged] = useState(false);
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState('Start a new message');
   const location = useLocation();
@@ -187,6 +189,17 @@ const Compose = () => {
     return null;
   };
 
+  const shouldShowInterstitial =
+    draftType &&
+    !acknowledged &&
+    (noAssociations === (undefined || false) && !allTriageGroupsBlocked);
+
+  const shouldShowChooseSystem = acknowledged;
+
+  const shouldShowComposeContent =
+    draftType &&
+    (noAssociations === (undefined || false) && !allTriageGroupsBlocked);
+
   return (
     <>
       {!draftType && (
@@ -211,26 +224,31 @@ const Compose = () => {
           </div>
         )}
 
-      {draftType &&
-      !acknowledged &&
-      (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (
+      {shouldShowInterstitial && (
         <InterstitialPage
           acknowledge={() => {
             setAcknowledged(true);
           }}
           type={draftType}
         />
-      ) : (
-        <>
-          {draftType &&
-            (noAssociations === (undefined || false) &&
-              !allTriageGroupsBlocked) && (
-              <div className="vads-l-grid-container compose-container">
-                {content()}
-              </div>
-            )}
-        </>
       )}
+      {shouldShowChooseSystem &&
+        !vaSystemAcknowledged && (
+          <>
+            <ChooseVAHealthcareSystem
+              acknowledge={() => {
+                setVaSystemAcknowledged(true);
+              }}
+            />
+          </>
+        )}
+      {vaSystemAcknowledged &&
+        shouldShowComposeContent &&
+        !allTriageGroupsBlocked && (
+          <div className="vads-l-grid-container compose-container">
+            {content()}
+          </div>
+        )}
     </>
   );
 };
