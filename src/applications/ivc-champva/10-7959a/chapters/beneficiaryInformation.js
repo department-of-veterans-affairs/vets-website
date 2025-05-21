@@ -17,7 +17,7 @@ import {
   emailUI,
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording } from '../../shared/utilities';
+import { nameWording, privWrapper } from '../../shared/utilities';
 import {
   validAddressCharsOnly,
   validObjectCharsOnly,
@@ -58,9 +58,10 @@ export const applicantNameDobSchema = {
 
 export const applicantMemberNumberSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
+    ...titleUI(({ formData }) =>
+      privWrapper(
         `${nameWording(formData, true, true, true)} identification information`,
+      ),
     ),
     applicantMemberNumber: textUI({
       updateUiSchema: formData => {
@@ -71,6 +72,7 @@ export const applicantMemberNumberSchema = {
             pattern: 'Must be numbers only',
           },
           'ui:options': {
+            classNames: ['dd-privacy-hidden'],
             uswds: true,
             hint: `This number is usually the same as ${nameWording(
               formData,
@@ -82,6 +84,9 @@ export const applicantMemberNumberSchema = {
         };
       },
     }),
+    'ui:options': {
+      itemAriaLabel: () => 'identification information',
+    },
   },
   schema: {
     type: 'object',
@@ -102,7 +107,9 @@ export const applicantAddressSchema = {
   uiSchema: {
     ...titleUI(
       ({ formData }) =>
-        `${nameWording(formData, true, true, true)} mailing address`,
+        privWrapper(
+          `${nameWording(formData, true, true, true)} mailing address`,
+        ),
       'We’ll send any important information about this form to this address.',
     ),
     applicantAddress: merge({}, addressUI(), {
@@ -136,12 +143,16 @@ export const applicantAddressSchema = {
               formData.certifierRole === 'applicant' ? 'your' : 'their'
             } last CHAMPVA claim or benefits application submission?`,
             'ui:options': {
+              classNames: ['dd-privacy-hidden'],
               labels,
               hint: `If the mailing address changed, we'll update our records with the new address.`,
             },
           };
         },
       }),
+    },
+    'ui:options': {
+      itemAriaLabel: () => 'mailing address',
     },
     'ui:validations': [
       (errors, formData) =>
@@ -163,19 +174,26 @@ export const applicantContactSchema = {
   uiSchema: {
     ...titleUI(
       ({ formData }) =>
-        `${nameWording(formData, true, true, true)} phone number`,
+        privWrapper(
+          `${nameWording(formData, true, true, true)} contact information`,
+        ),
       ({ formData }) =>
-        `We’ll use this information to contact ${
-          formData?.certifierRole === 'applicant'
-            ? 'you'
-            : nameWording(formData, false, true, true)
-        } if we have any questions.`,
+        privWrapper(
+          `We’ll use this information to contact ${
+            formData?.certifierRole === 'applicant'
+              ? 'you'
+              : nameWording(formData, false, true, true)
+          } if we have any questions.`,
+        ),
     ),
     applicantPhone: phoneUI(),
     applicantEmail: emailUI({
       // Only require applicant email if said applicant is filling the form:
       required: formData => formData.certifierRole === 'applicant',
     }),
+    'ui:options': {
+      itemAriaLabel: () => 'contact information',
+    },
   },
   schema: {
     type: 'object',
