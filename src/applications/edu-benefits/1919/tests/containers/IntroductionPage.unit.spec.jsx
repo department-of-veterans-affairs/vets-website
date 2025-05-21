@@ -19,7 +19,7 @@ describe('22-1919 <IntroductionPage>', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
 
     expect(wrapper.find('FormTitle').props().title).to.contain(
-      'Conflicting Interests Certification For Proprietary Schools',
+      'Conflicting interests certification for proprietary schools',
     );
 
     wrapper.unmount();

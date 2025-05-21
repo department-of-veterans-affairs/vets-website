@@ -16,7 +16,7 @@ describe('<OmbInfo>', () => {
     const { container } = render(<OmbInfo />);
     const selector = container.querySelector('va-omb-info');
 
-    expect(selector).to.have.attr('exp-date', '3/31/2027');
+    expect(selector).to.have.attr('exp-date', '03/31/2027');
     expect(selector).to.have.attr('omb-number', '2900-0657');
     expect(selector).to.have.attr('res-burden', '10');
   });
