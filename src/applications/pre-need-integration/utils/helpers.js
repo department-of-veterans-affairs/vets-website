@@ -208,6 +208,24 @@ export function militaryDetailsSubHeader(formData) {
   );
 }
 
+export function militaryDetailsReviewHeader(formData) {
+  return get(
+    'application.applicant.applicantRelationshipToClaimant',
+    formData,
+  ) === 'Authorized Agent/Rep'
+    ? `Applicant’s military details`
+    : `Your military details`;
+}
+
+export function previousNameReviewHeader(formData) {
+  return get(
+    'application.applicant.applicantRelationshipToClaimant',
+    formData,
+  ) === 'Authorized Agent/Rep'
+    ? `Applicant’s previous name`
+    : `Your previous name`;
+}
+
 export const createPayload = (file, formId, password) => {
   const payload = new FormData();
   payload.set('form_id', formId);

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducers from '../../../reducers';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import ExtraDetails from '../../../components/shared/ExtraDetails';
@@ -10,8 +10,7 @@ import { dispStatusObj } from '../../../util/constants';
 describe('Medications List Card Extra Details', () => {
   const prescription = prescriptionsListItem;
   const setup = (rx = prescription) => {
-    return renderWithStoreAndRouter(<ExtraDetails {...rx} />, {
-      path: '/',
+    return renderWithStoreAndRouterV6(<ExtraDetails {...rx} />, {
       state: {},
       reducers,
     });
