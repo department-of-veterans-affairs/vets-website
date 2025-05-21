@@ -16,15 +16,13 @@ const FollowUs = () => {
           text="Instagram"
           iconName="instagram"
         />
+        <div>
+          <va-link href="https://www.threads.net/@vabenefits" text="Threads" />
+        </div>
         <LiVaIconAndVaLink
           href="https://x.com/DeptVetAffairs"
           text="X"
           iconName="x"
-        />
-        <LiVaIconAndVaLink
-          href="https://www.threads.net/@vabenefits"
-          text="Threads"
-          iconName="threads"
         />
         <LiVaIconAndVaLink
           href="https://www.youtube.com/@VAVetBenefits"
