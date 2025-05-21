@@ -6,7 +6,7 @@
         "./asyncLoader": "./ui/asyncLoader.jsx",
         "./DelayedRender": "./ui/DelayedRender.jsx",
         "./environment": "./environment/index.js",
-        "./feature-toggles": "./feature-toggles/index.js",
+        "./feature-toggles": "./feature-toggles/index.jsx",
         "./feature-toggles/helpers": "./feature-toggles/helpers.js",
         "./featureFlagNames": "./feature-toggles/featureFlagNames.js",
         "./flipper-client": "./feature-toggles/flipper-client.js",

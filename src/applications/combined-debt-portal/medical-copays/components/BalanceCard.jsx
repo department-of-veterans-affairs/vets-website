@@ -52,8 +52,8 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
   // boolean value to represent if toggles are still loading or not
   const togglesLoading = useToggleLoadingValue();
   // value of specific toggle
-  const showResolveCopayOption = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
+  const showCDPOneThingPerPage = useToggleValue(
+    TOGGLE_NAMES.showCDPOneThingPerPage,
   );
 
   const isCurrentBalance = verifyCurrentBalance(date);
@@ -108,10 +108,10 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
           recordEvent({ event: 'cta-link-click-copay-balance-card' });
         }}
       >
-        {linkText}
+        {showCDPOneThingPerPage ? `Review details` : linkText}
         <va-icon icon="navigate_next" size={2} class="cdp-link-icon--active" />
       </Link>
-      {showResolveCopayOption && (
+      {showCDPOneThingPerPage && (
         <div className="vads-u-margin-top--1">
           <Link
             className="vads-u-font-weight--bold"
