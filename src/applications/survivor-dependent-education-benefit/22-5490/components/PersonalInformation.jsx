@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { formatReadableDate } from '../helpers';
 
 function PersonalInformation({ claimant }) {
@@ -34,10 +35,30 @@ function PersonalInformation({ claimant }) {
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    claimant: state?.user?.profile,
-  };
+PersonalInformation.propTypes = {
+  claimant: PropTypes.shape({
+    dob: PropTypes.string,
+    userFullName: PropTypes.shape({
+      first: PropTypes.string,
+      last: PropTypes.string,
+      middle: PropTypes.string,
+    }),
+  }),
 };
+
+PersonalInformation.defaultProps = {
+  claimant: {
+    dob: '',
+    userFullName: {
+      first: '',
+      last: '',
+      middle: '',
+    },
+  },
+};
+
+const mapStateToProps = state => ({
+  claimant: state?.user?.profile,
+});
 
 export default connect(mapStateToProps)(PersonalInformation);
