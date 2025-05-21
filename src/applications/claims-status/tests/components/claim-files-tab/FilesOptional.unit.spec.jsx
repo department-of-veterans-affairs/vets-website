@@ -43,6 +43,6 @@ describe('<FilesOptional>', () => {
     getByText(item.displayName);
     getByText(item.description);
     getByText('About this notice');
-    getByText('Requested to others on April 21, 2025');
+    getByText('Requested from outside VA on April 21, 2025');
   });
 });

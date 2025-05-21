@@ -49,7 +49,7 @@ export default function DefaultPage({
                     ? `Requested for you on ${dateFormatter(
                         item.requestedDate,
                       )}`
-                    : `Requested to others on ${dateFormatter(
+                    : `Requested from outside VA on ${dateFormatter(
                         item.requestedDate,
                       )}`}
                 </span>

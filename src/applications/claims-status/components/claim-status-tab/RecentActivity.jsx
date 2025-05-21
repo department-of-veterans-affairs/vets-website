@@ -82,7 +82,7 @@ export default function RecentActivity({ claim }) {
       if (item.closedDate) {
         addItems(
           item.closedDate,
-          `We closed a request: "${displayName}"`,
+          `We closed a request: “${displayName}”`,
           item,
         );
       }
@@ -90,7 +90,7 @@ export default function RecentActivity({ claim }) {
       if (item.receivedDate) {
         addItems(
           item.receivedDate,
-          `We completed a review for the request: "${displayName}"`,
+          `We completed a review for the request: “${displayName}”`,
           item,
         );
       }
@@ -98,7 +98,7 @@ export default function RecentActivity({ claim }) {
       if (item.documents?.length > 0) {
         addItems(
           getOldestDocumentDate(item),
-          `We received your document(s) for the request: "${displayName}"`,
+          `We received your document(s) for the request: “${displayName}”`,
           item,
         );
       }
@@ -110,13 +110,13 @@ export default function RecentActivity({ claim }) {
         ) {
           addItems(
             item.requestedDate,
-            `We made a request for you: "${displayName}"`,
+            `We made a request outside the VA: “${displayName}”`,
             item,
           );
         } else {
           addItems(
             item.requestedDate,
-            `We opened a request: "${displayName}"`,
+            `We opened a request: “${displayName}”`,
             item,
           );
         }
@@ -193,10 +193,11 @@ export default function RecentActivity({ claim }) {
     );
   };
   const requestType = itemStatus => {
-    if (itemStatus === 'NEEDED_FROM_OTHERS') {
+    if (itemStatus === 'NEEDED_FROM_OTHERS' && !cstFriendlyEvidenceRequests) {
       return 'Request for others';
     }
-    return 'Request for you';
+    if (itemStatus === 'NEEDED_FROM_YOU') return 'Request for you';
+    return undefined;
   };
 
   let currentPageItems = items;

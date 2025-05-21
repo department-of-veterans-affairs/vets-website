@@ -19,7 +19,11 @@ function FilesOptional({ item }) {
           ? item.friendlyName
           : item.displayName}
       </h4>
-      <p>Requested to others on {dateFormatter(item.requestedDate)}</p>
+      <p>
+        {cstFriendlyEvidenceRequests
+          ? `Requested from outsdie VA on ${dateFormatter(item.requestedDate)}`
+          : `Requested to others on {dateFormatter(item.requestedDate)}`}
+      </p>
       <p className="alert-description">
         {cstFriendlyEvidenceRequests &&
         (item.shortDescription || item.activityDescription)

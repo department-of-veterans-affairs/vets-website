@@ -143,7 +143,7 @@ describe('<DefaultPage>', () => {
       expect($('.due-date-header', container)).to.not.exist;
       getByText(
         new RegExp(
-          `Requested to others on\\s+${formatDate(item.requestedDate)}`,
+          `Requested from outside VA on\\s+${formatDate(item.requestedDate)}`,
           'i',
         ),
       );
