@@ -18,7 +18,10 @@ export default {
     'ui:description': PrefillMessage,
     [veteranFields.parentObject]: {
       ...titleUI('Name and date of birth'),
-      [veteranFields.fullName]: fullNameNoSuffixUI(),
+      [veteranFields.fullName]: {
+        ...fullNameNoSuffixUI(),
+        middle: undefined, // Remove middle name field
+      },
       [veteranFields.dateOfBirth]: dateOfBirthUI(),
     },
   },
@@ -30,7 +33,13 @@ export default {
         required: [veteranFields.fullName, veteranFields.dateOfBirth],
         properties: {
           ...pick(properties, pageFields),
-          fullName: fullNameNoSuffixSchema,
+          fullName: {
+            ...fullNameNoSuffixSchema,
+            properties: {
+              ...fullNameNoSuffixSchema.properties,
+              middle: undefined, // Remove middle name field
+            },
+          },
         },
       },
     },

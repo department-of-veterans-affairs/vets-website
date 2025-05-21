@@ -1,7 +1,9 @@
 ---
 mode: 'agent'
 ---
-# Forms app open URL
+# Get Form URL
+
+Figure out the URL to open the app in the browser, and tell the user.
 
 1. Determine the {app_folder} we are in [instructions](.github/prompts/find-app-folder.prompt.md). The {app_folder} should be the remaining path after `src/applications`
 2. In the {app_folder}, look at the `manifest.json` file, extract the value for the "rootUrl" key. Provide the following url to the user and try to open it in the browser:
