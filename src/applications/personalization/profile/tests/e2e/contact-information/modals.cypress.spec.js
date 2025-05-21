@@ -90,7 +90,7 @@ const checkRemovalWhileEditingModal = options => {
 
   // Open edit view
   cy.findByRole('button', {
-    name: new RegExp(`edit ${editSectionName}`, 'i'),
+    name: new RegExp(`Edit ${editSectionName}`, 'i'),
   }).click({
     force: true,
   });
