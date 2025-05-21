@@ -36,6 +36,7 @@ import {
   getClaimType,
   isAutomated5103Notice,
   setPageTitle,
+  getDisplayFriendlyName,
 } from '../utils/helpers';
 import { setUpPage, setPageFocus } from '../utils/page';
 import withRouter from '../utils/withRouter';
@@ -148,7 +149,18 @@ class DocumentRequestPage extends React.Component {
     const previousPageBreadcrumb = previousPageIsFilesTab()
       ? filesBreadcrumb
       : statusBreadcrumb;
-
+    const getLabel = () => {
+      if (
+        trackedItem?.friendlyName &&
+        trackedItem?.status === 'NEEDED_FROM_YOU'
+      ) {
+        return trackedItem.friendlyName;
+      }
+      if (trackedItem?.friendlyName) {
+        return `Your ${getDisplayFriendlyName(trackedItem)}`;
+      }
+      return trackedItem?.displayName;
+    };
     return (
       <Toggler.Hoc
         toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}
@@ -164,9 +176,7 @@ class DocumentRequestPage extends React.Component {
                       : 'needed-from-others'
                   }/${params.trackedItemId}`
                 : `../document-request/${params.trackedItemId}`,
-              label: setDocumentRequestPageTitle(
-                trackedItem?.friendlyName || trackedItem?.displayName,
-              ),
+              label: setDocumentRequestPageTitle(getLabel()),
               isRouterLink: true,
             },
           ];
