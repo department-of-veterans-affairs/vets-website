@@ -158,6 +158,8 @@ export const employersOptionalPage = {
   },
   schema: {
     type: 'object',
+    // Required so we should get an error if it's not populated
+    required: ['weather'],
     properties: {
       weather: textSchema,
       raining: radioSchema(['Y', 'N']),

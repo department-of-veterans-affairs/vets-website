@@ -80,6 +80,7 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
+  showReviewErrors: true, // Weather error is (I believe incorrectly) absent upon submit
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'mock-simple-forms-patterns-',
   introduction: IntroductionPage,
@@ -381,6 +382,16 @@ const formConfig = {
             uiSchema: employersOptionalPage.uiSchema,
             schema: employersOptionalPage.schema,
             depends: (formData, index) => {
+              debugger;
+              /* 
+              After clicking "submit", index is undefined initially, making this
+              evaluate to false even though address state IS California and
+              the employersOptionalPage should be active + `weather` prop required
+              
+              On subsequent renders, index is defined, but the depends function's new
+              result doesn't get taken into account. This lets a user submit w/o
+              providing required data.
+              */
               return (
                 includeChapter('arrayMultiPageBuilder') &&
                 formData?.employers?.[index]?.address?.state === 'CA'
