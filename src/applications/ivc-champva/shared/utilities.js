@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import React from 'react';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 /**
@@ -216,4 +217,13 @@ export function fmtDate(date) {
     month: '2-digit',
     day: '2-digit',
   }).format(dt);
+}
+
+/**
+ * Wraps input in a <span> with dd-privacy-hidden class applied
+ * @param {JSX|String} children JSX or string to wrap in a privacy class
+ * @returns JSX
+ */
+export function privWrapper(children) {
+  return <span className="dd-privacy-hidden">{children}</span>;
 }
