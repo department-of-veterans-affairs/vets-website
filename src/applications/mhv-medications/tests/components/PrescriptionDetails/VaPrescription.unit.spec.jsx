@@ -1,9 +1,12 @@
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { waitFor } from '@testing-library/dom';
 import VaPrescription from '../../../components/PrescriptionDetails/VaPrescription';
 import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
 import { dateFormat } from '../../../util/helpers';
+import * as rxApiExports from '../../../api/rxApi';
 
 describe('vaPrescription details container', () => {
   const prescription = rxDetailsResponse.data.attributes;
@@ -22,6 +25,21 @@ describe('vaPrescription details container', () => {
       initialEntries: ['/prescriptions/1234567891'],
     });
   };
+
+  let sandbox;
+  let landMedicationDetailsAalStub;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    landMedicationDetailsAalStub = sandbox.stub(
+      rxApiExports,
+      'landMedicationDetailsAal',
+    );
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   it('renders without errors', () => {
     const screen = setup();
@@ -250,5 +268,15 @@ describe('vaPrescription details container', () => {
     const accordionHeading = screen.getByText('Partial fill');
 
     expect(accordionHeading).to.exist;
+  });
+
+  it('calls AAL on load', async () => {
+    const screen = setup();
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    await waitFor(() => {
+      expect(landMedicationDetailsAalStub.calledOnce).to.be.true;
+      expect(landMedicationDetailsAalStub.calledWith(newRx)).to.be.true;
+    });
   });
 });

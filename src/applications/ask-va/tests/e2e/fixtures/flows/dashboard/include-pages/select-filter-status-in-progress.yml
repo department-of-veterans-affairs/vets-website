@@ -1,0 +1,4 @@
+steps:
+  - action: select
+    target: status
+    value: In progress
