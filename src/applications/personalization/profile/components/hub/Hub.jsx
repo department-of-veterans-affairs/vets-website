@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { selectAccreditedRepToggle } from '@@profile/selectors';
 
 import { hasBadAddress as hasBadAddressSelector } from '@@vap-svc/selectors';
 
@@ -14,11 +14,7 @@ import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAler
 import { HubCard } from './HubCard';
 
 export const Hub = () => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-
-  const showAccreditedRepresentative = useToggleValue(
-    TOGGLE_NAMES.representativeStatusEnableV2Features,
-  );
+  const showAccreditedRepresentative = useSelector(selectAccreditedRepToggle);
 
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);

@@ -19,6 +19,12 @@ const PROFILE_HREFS = [
 
 describe('Profile - Hub page, Keyboard navigation', () => {
   it('should allow tabbing through all links on the page, in order', () => {
+    cy.intercept(
+      'v0/feature_toggles*',
+      generateFeatureToggles({
+        representativeStatusEnableV2Features: true,
+      }),
+    );
     cy.login(mockUser);
 
     mockProfileLOA3(generateFeatureToggles());
