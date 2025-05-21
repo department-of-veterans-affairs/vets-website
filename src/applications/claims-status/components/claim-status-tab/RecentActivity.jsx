@@ -215,6 +215,53 @@ export default function RecentActivity({ claim }) {
     [setCurrentPage],
   );
 
+  const thirdPartyRequesAlertText = item => {
+    if (cstFriendlyEvidenceRequests) {
+      return (
+        <va-alert
+          data-testid={`item-from-others-${item.id}`}
+          class="optional-alert vads-u-padding-bottom--1"
+          status="info"
+          slim
+        >
+          {!item.activityDescription && (
+            <>
+              <strong>You don’t have to do anything.</strong> We asked someone
+              outside VA for documents related to your claim.
+              <br />
+            </>
+          )}
+          <Link
+            aria-label={`About this notice for ${item.friendlyName ||
+              item.displayName}`}
+            className="add-your-claims-link"
+            to={`../needed-from-others/${item.id}`}
+          >
+            About this notice
+          </Link>
+        </va-alert>
+      );
+    }
+    return (
+      <va-alert
+        data-testid={`item-from-others-${item.id}`}
+        class="optional-alert vads-u-padding-bottom--1"
+        status="info"
+        slim
+      >
+        You don’t have to do anything, but if you have this information you can{' '}
+        <Link
+          aria-label={`Add it here for ${item.friendlyName ||
+            item.displayName}`}
+          className="add-your-claims-link"
+          to={`../document-request/${item.id}`}
+        >
+          add it here.
+        </Link>
+      </va-alert>
+    );
+  };
+
   return (
     <div className="recent-activity-container">
       <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
@@ -254,53 +301,8 @@ export default function RecentActivity({ claim }) {
                   </p>
                 </>
               )}
-
               {item.status === 'NEEDED_FROM_OTHERS' &&
-              cstFriendlyEvidenceRequests &&
-              item.activityDescription ? (
-                <va-alert
-                  data-testid={`item-from-others-${item.id}`}
-                  class="optional-alert vads-u-padding-bottom--1"
-                  status="info"
-                  slim
-                >
-                  {item.activityDescription}
-                  <br />
-                  <Link
-                    aria-label={`About this notice for ${item.friendlyName ||
-                      item.displayName}`}
-                    className="add-your-claims-link"
-                    to={`../needed-from-others/${item.id}`}
-                  >
-                    About this notice
-                  </Link>
-                </va-alert>
-              ) : (
-                item.status === 'NEEDED_FROM_OTHERS' && (
-                  <va-alert
-                    data-testid={`item-from-others-${item.id}`}
-                    class="optional-alert vads-u-padding-bottom--1"
-                    status="info"
-                    slim
-                  >
-                    <strong>You don’t have to do anything.</strong> We asked
-                    someone outside VA for documents related to your claim.
-                    <br />
-                    <Link
-                      aria-label={`About this notice for ${item.friendlyName ||
-                        item.displayName}`}
-                      className="add-your-claims-link"
-                      to={
-                        cstFriendlyEvidenceRequests
-                          ? `../needed-from-others/${item.id}`
-                          : `../document-request/${item.id}`
-                      }
-                    >
-                      About this notice
-                    </Link>
-                  </va-alert>
-                )
-              )}
+                thirdPartyRequesAlertText(item)}
             </li>
           ))}
         </ol>
