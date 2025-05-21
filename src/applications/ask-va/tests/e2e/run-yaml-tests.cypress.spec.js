@@ -83,29 +83,15 @@ const executeSteps = (steps, folder) => {
         STEPS.typeTextArea(step.target, step.value);
         break;
       case 'select':
-        switch (step.target) {
-          case 'month':
-            step.target =
-              'va-select.usa-form-group--month-select select.usa-select';
-            STEPS.selectOption(step.target, step.value);
-            break;
-          case 'status':
-            step.target = 'va-select[name="status"] select.usa-select';
-            STEPS.selectOption(step.target, step.value);
-            break;
-          case 'category':
-            step.target = 'va-select[name="category"] select.usa-select';
-            STEPS.selectOption(step.target, step.value);
-            break;
-          default:
-            throw new Error(
-              `Unknown select target for step #${index + 1}: ${step.target}`,
-            );
+        if (step.target === 'status') {
+          step.target = 'va-select[name="status"] select.usa-select';
+        } else if (step.target === 'category') {
+          step.target = 'va-select[name="category"] select.usa-select';
         }
+        STEPS.selectOption(step.target, step.value);
         break;
       case 'log':
         cy.log(step.value);
-        // console.log(step.value);
         break;
       case 'include':
         if (step.target === 'page') {
