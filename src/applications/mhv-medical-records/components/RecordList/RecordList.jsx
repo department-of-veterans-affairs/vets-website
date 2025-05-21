@@ -8,6 +8,7 @@ import {
   useLocation,
 } from 'react-router-dom/cjs/react-router-dom.min';
 import RecordListItem from './RecordListItem';
+import RecordListHeader from './RecordListHeader';
 import { getParamValue, sendDataDogAction } from '../../util/helpers';
 
 // Arbitrarily set because the VaPagination component has a required prop for this.
@@ -77,30 +78,13 @@ const RecordList = props => {
       <h2 className="sr-only" data-dd-privacy="mask" data-dd-action-name>
         {`List of ${type}`}
       </h2>
-      <p
-        className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0 vads-u-font-weight--normal vads-u-padding-y--1 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
-        hidden={hidePagination}
-        id="showingRecords"
-        data-dd-privacy="mask"
-        data-dd-action-name
-      >
-        <span>
-          {`Showing ${displayNums[0]} to ${
-            displayNums[1]
-          } of ${totalEntries} records from `}
-          <span
-            className={
-              domainOptions?.isAccelerating ? 'vads-u-font-weight--bold' : ''
-            }
-            data-testid="filter-display-message"
-          >
-            {filterDisplayMessage}
-          </span>
-        </span>
-      </p>
-      <h2 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0 vads-u-padding--0 vads-u-font-weight--normal vads-u-border-color--gray-light print-only">
-        Showing {totalEntries} records from {filterDisplayMessage}
-      </h2>
+      <RecordListHeader
+        displayNums={displayNums}
+        totalEntries={totalEntries}
+        filterDisplayMessage={filterDisplayMessage}
+        isAccelerating={domainOptions?.isAccelerating}
+        hidePagination={hidePagination}
+      />
       <div className="no-print">
         {currentRecords?.length > 0 &&
           currentRecords.map((record, idx) => (
