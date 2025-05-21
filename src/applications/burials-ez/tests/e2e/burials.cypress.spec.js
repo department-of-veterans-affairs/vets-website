@@ -12,11 +12,7 @@ import mockUser from '../fixtures/mocks/user.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
-import {
-  fillAddressWebComponentPattern,
-  selectCheckboxWebComponent,
-  selectRadioWebComponent,
-} from './helpers';
+import { selectCheckboxWebComponent, selectRadioWebComponent } from './helpers';
 
 import pagePaths from './pagePaths';
 
@@ -94,7 +90,10 @@ export const pageHooks = cy => ({
   },
   [pagePaths.mailingAddress]: () => {
     cy.get('@testData').then(data => {
-      fillAddressWebComponentPattern('claimantAddress', data.claimantAddress);
+      cy.fillAddressWebComponentPattern(
+        'claimantAddress',
+        data.claimantAddress,
+      );
     });
   },
   [pagePaths.separationDocuments]: () => {
