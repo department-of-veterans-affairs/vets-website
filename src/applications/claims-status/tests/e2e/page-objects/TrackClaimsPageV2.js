@@ -416,7 +416,7 @@ class TrackClaimsPageV2 {
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We opened a request: "Automated 5103 Notice Response"',
+          'We opened a request: “Automated 5103 Notice Response”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
@@ -468,7 +468,7 @@ class TrackClaimsPageV2 {
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We opened a request: "Automated 5103 Notice Response"',
+        'We opened a request: “Automated 5103 Notice Response”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
