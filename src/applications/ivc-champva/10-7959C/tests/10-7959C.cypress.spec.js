@@ -7,7 +7,6 @@ import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
 import {
-  fillAddressWebComponentPattern,
   selectRadioWebComponent,
   getAllPages,
   verifyAllDataWasSubmitted,
@@ -25,10 +24,10 @@ const testConfig = createTestConfig(
     dataDir: path.join(__dirname, 'e2e', 'fixtures', 'data'),
 
     // Rename and modify the test data as needed.
-    /* 
+    /*
     1. test-data: standard run-through of the form
     The rest of the tests are described by their filenames and are just
-    variations designed to trigger the conditionals in the form/follow different paths. 
+    variations designed to trigger the conditionals in the form/follow different paths.
     */
     dataSets: [
       'not-enrolled-champva.json',
@@ -71,7 +70,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'applicantAddress',
               data.applicantAddress,
             );

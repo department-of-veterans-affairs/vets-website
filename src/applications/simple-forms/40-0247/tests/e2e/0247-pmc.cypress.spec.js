@@ -4,7 +4,6 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import {
-  fillAddressWebComponentPattern,
   fillTextWebComponent,
   reviewAndSubmitPageFlow,
 } from '../../../shared/tests/e2e/helpers';
@@ -92,7 +91,7 @@ const testConfig = createTestConfig(
                     // even now we must wait a bit!
                     // eslint-disable-next-line cypress/no-unnecessary-waiting
                     cy.wait(1000);
-                    fillAddressWebComponentPattern(
+                    cy.fillAddressWebComponentPattern(
                       'applicantAddress',
                       data.applicantAddress,
                     );
@@ -119,7 +118,7 @@ const testConfig = createTestConfig(
                     // even now we must wait a bit!
                     // eslint-disable-next-line cypress/no-unnecessary-waiting
                     cy.wait(1000);
-                    fillAddressWebComponentPattern(
+                    cy.fillAddressWebComponentPattern(
                       'additionalAddress',
                       additionalAddress,
                     );
