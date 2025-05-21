@@ -133,7 +133,13 @@ describe('YAML tests', () => {
           cy.log(`File ${file}`);
 
           if (flow.runOnCI === true) {
-            cy.visit('http://localhost:3001/contact-us/ask-va/');
+            if (['13m.yml'].includes(file)) {
+              cy.visit(
+                'http://localhost:3001/contact-us/ask-va/user/dashboard/A-20250409-2205184',
+              );
+            } else {
+              cy.visit('http://localhost:3001/contact-us/ask-va/');
+            }
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);
           } else {
