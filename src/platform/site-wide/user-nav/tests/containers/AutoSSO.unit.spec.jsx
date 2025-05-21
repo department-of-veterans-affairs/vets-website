@@ -1,7 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-
+import { rest, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
 import * as ssoUtils from 'platform/utilities/sso';
 import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
 
@@ -23,6 +24,22 @@ const generateProps = ({
 });
 
 describe('<AutoSSO>', () => {
+  let server;
+
+  beforeEach(() => {
+    server = setupServer(
+      rest.head(
+        'https://int.eauth.va.gov/keepalive',
+        () => new HttpResponse(null, { status: 200 }),
+      ),
+    );
+    server.listen();
+  });
+
+  afterEach(() => {
+    server.close();
+  });
+
   it('should not call removeLoginAttempted if user is logged out', () => {
     const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
     const props = generateProps();
