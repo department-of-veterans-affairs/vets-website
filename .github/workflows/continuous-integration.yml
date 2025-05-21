@@ -707,7 +707,7 @@ jobs:
           git config --global user.email "actions@users.noreply.github.com"
 
       - name: Merge axe-headings checks
-        run: git merge origin/new-axe-checks --no-commit --allow-unrelated-histories --no-ff
+        run: git checkout origin/new-axe-checks -- src/platform/testing/e2e/cypress/support/commands/axeCheck.js
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
