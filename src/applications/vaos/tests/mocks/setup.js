@@ -1,44 +1,45 @@
 /** @module testing/mocks/setup */
 
+import { fireEvent, waitFor } from '@testing-library/dom';
+import { expect } from 'chai';
+import { createMemoryHistory } from 'history-v4';
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { createMemoryHistory } from 'history-v4';
-import { combineReducers, applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { expect } from 'chai';
 import sinon from 'sinon';
-import { fireEvent, waitFor } from '@testing-library/dom';
 
 import { commonReducer } from '@department-of-veterans-affairs/platform-startup/store';
 import { renderWithStoreAndRouter as platformRenderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import { cleanup } from '@testing-library/react';
-import reducers from '../../redux/reducer';
-import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import covid19VaccineReducer from '../../covid-19-vaccine/redux/reducer';
+import newAppointmentReducer from '../../new-appointment/redux/reducer';
+import reducers from '../../redux/reducer';
 
-import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
+import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
 import moment from '../../lib/moment-tz';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
-import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
 import PreferredDatePageVaDate from '../../new-appointment/components/PreferredDatePageVaDate';
+import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
 
+import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPage';
+import { TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
+import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
-import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPage';
-import { TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
-import {
-  mockSchedulingConfigurations,
-  mockV2CommunityCareEligibility,
-  mockVAOSParentSites,
-} from './helpers';
-import { TYPES_OF_CARE } from '../../utils/constants';
-import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
-import { createMockFacility } from './data';
-import { mockFacilitiesFetch } from './fetch';
-import { getSchedulingConfigurationMock } from './mock';
 import { vaosApi } from '../../redux/api/vaosApi';
+import { TYPES_OF_CARE } from '../../utils/constants';
+import MockFacilityResponse from '../fixtures/MockFacilityResponse';
+import {
+  mockFacilitiesApi,
+  mockSchedulingConfigurationsApi,
+  mockV2CommunityCareEligibility,
+} from './mockApis';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../fixtures/MockSchedulingConfigurationResponse';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -109,6 +110,7 @@ export function renderWithStoreAndRouter(
     store,
     path,
     history,
+    additionalMiddlewares: [vaosApi.middleware],
   });
 }
 
@@ -222,21 +224,24 @@ export async function setVAFacility(
   // const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
   const facilities = [
-    facilityData ||
-      createMockFacility({
-        id: facilityId,
-      }),
+    facilityData || new MockFacilityResponse({ id: facilityId }),
   ];
 
-  mockFacilitiesFetch({ children: true, facilities });
-  mockSchedulingConfigurations([
-    getSchedulingConfigurationMock({
-      id: '983',
-      typeOfCareId,
-      directEnabled: true,
-      requestEnabled: true,
-    }),
-  ]);
+  mockFacilitiesApi({ children: true, response: facilities });
+  mockSchedulingConfigurationsApi({
+    response: [
+      new MockSchedulingConfigurationResponse({
+        facilityId: '983',
+        services: [
+          new MockServiceConfiguration({
+            typeOfCareId,
+            directEnabled: true,
+            requestEnabled: true,
+          }),
+        ],
+      }),
+    ],
+  });
 
   const screen = renderWithStoreAndRouter(<VAFacilityPageV2 />, { store });
 
@@ -257,25 +262,26 @@ export async function setVAFacility(
  * @param {string} facilityId The facility id of the facility to be selected
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setVaccineFacility(store, facilityId, facilityData = {}) {
+export async function setVaccineFacility(store, facilityData = {}) {
   // TODO: Make sure this works in staging before removal
   // const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
-  const facilities = [
-    createMockFacility({
-      id: facilityId,
-      ...facilityData,
-    }),
-  ];
+  const facilities = [facilityData];
 
-  mockFacilitiesFetch({ children: true, facilities });
-  mockSchedulingConfigurations([
-    getSchedulingConfigurationMock({
-      id: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
-      directEnabled: true,
-    }),
-  ]);
+  mockFacilitiesApi({ children: true, response: facilities });
+  mockSchedulingConfigurationsApi({
+    response: [
+      new MockSchedulingConfigurationResponse({
+        facilityId: '983',
+        services: [
+          new MockServiceConfiguration({
+            typeOfCareId: TYPE_OF_CARE_ID,
+            directEnabled: true,
+          }),
+        ],
+      }),
+    ],
+  });
 
   const { findByText, history } = renderWithStoreAndRouter(
     <VaccineFacilityPage />,
@@ -420,11 +426,17 @@ export async function setCommunityCareFlow({
     },
   });
 
-  mockVAOSParentSites(
-    registered,
-    parentSites.map(data => createMockFacility({ ...data, isParent: true })),
-    true,
-  );
+  mockFacilitiesApi({
+    ids: registered,
+    response: parentSites.map(data => {
+      const facility = new MockFacilityResponse({
+        id: data.id,
+        isParent: true,
+      });
+      if (data.address) facility.setAddress(data.address);
+      return facility;
+    }),
+  });
   mockV2CommunityCareEligibility({
     parentSites: parentSites.map(data => data.id),
     supportedSites: supportedSites || parentSites.map(data => data.id),

@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import React from 'react';
 import { waitFor } from '@testing-library/dom';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import sinon from 'sinon';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { addDays, subDays, format } from 'date-fns';
@@ -9,8 +10,11 @@ import {
   mockFetch,
   resetFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import * as mhvExports from '~/platform/mhv/hooks/useDatadogRum';
 import reducer from '../../reducers';
 import App from '../../containers/App';
+
+let sandbox;
 
 describe('Medications <App>', () => {
   const downtime = maintenanceWindows => {
@@ -52,21 +56,22 @@ describe('Medications <App>', () => {
           dismissedDowntimeWarnings: [],
         },
       },
-      path: `/`,
       reducers: reducer,
     };
   };
 
   beforeEach(() => {
     mockFetch();
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
     resetFetch();
+    sandbox.restore();
   });
 
   it('feature flags are still loading', () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(
+    const screenFeatureToggle = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -78,7 +83,7 @@ describe('Medications <App>', () => {
   });
 
   it('feature flag set to false', () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(
+    const screenFeatureToggle = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -88,7 +93,7 @@ describe('Medications <App>', () => {
   });
 
   it('feature flag set to true', async () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(
+    const screenFeatureToggle = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -100,7 +105,7 @@ describe('Medications <App>', () => {
   });
 
   it('renders the global downtime notification', async () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -146,7 +151,7 @@ describe('Medications <App>', () => {
   });
 
   it('renders the downtime notification', async () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -192,7 +197,7 @@ describe('Medications <App>', () => {
   });
 
   it('renders the downtime notification for multiple configured services', async () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -238,7 +243,7 @@ describe('Medications <App>', () => {
   });
 
   it('renders the downtime notification for mixed services', async () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -284,7 +289,7 @@ describe('Medications <App>', () => {
   });
 
   it('does NOT render the downtime notification', () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <App>
         <p data-testid="app-unit-test-p">unit test paragraph</p>
       </App>,
@@ -322,5 +327,49 @@ describe('Medications <App>', () => {
       },
     );
     expect(downtimeComponent).to.be.null;
+  });
+
+  it('should call setDatadogRumUser with the correct user ID', async () => {
+    const testAccountUuid = '12345678-1234-1234-1234-123456789012';
+    const setDatadogRumUserStub = sandbox.stub(mhvExports, 'setDatadogRumUser');
+
+    renderWithStoreAndRouterV6(
+      <App>
+        <p data-testid="app-unit-test-p">unit test paragraph</p>
+      </App>,
+      {
+        initialState: {
+          featureToggles: {
+            loading: false,
+            // eslint-disable-next-line camelcase
+            mhv_medications_to_va_gov_release: true,
+          },
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
+            profile: {
+              verified: true,
+              services: [backendServices.RX],
+              accountUuid: testAccountUuid,
+            },
+          },
+          scheduledDowntime: {
+            globalDowntime: null,
+            isReady: true,
+            isPending: false,
+            serviceMap: downtime([]),
+            dismissedDowntimeWarnings: [],
+          },
+        },
+      },
+    );
+
+    await waitFor(() => {
+      expect(setDatadogRumUserStub.calledOnce).to.be.true;
+      expect(setDatadogRumUserStub.firstCall.args[0]).to.deep.equal({
+        id: testAccountUuid,
+      });
+    });
   });
 });

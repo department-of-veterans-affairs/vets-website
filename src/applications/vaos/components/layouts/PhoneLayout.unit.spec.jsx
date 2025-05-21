@@ -39,6 +39,8 @@ describe('VAOS Component: PhoneLayout', () => {
       const appointment = {
         type: 'VA',
         modality: 'phone',
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         practitioners: [
           {
@@ -161,6 +163,8 @@ describe('VAOS Component: PhoneLayout', () => {
         location: {
           stationId: '983',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -193,6 +197,8 @@ describe('VAOS Component: PhoneLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -235,6 +241,8 @@ describe('VAOS Component: PhoneLayout', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         practitioners: [
           {
             name: {
@@ -395,6 +403,8 @@ describe('VAOS Component: PhoneLayout', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -630,7 +640,7 @@ describe('VAOS Component: PhoneLayout', () => {
       );
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility to schedule./i,
         ),
       );
       expect(screen.queryByRole('heading', { level: 2, name: /How to join/ }))
@@ -745,7 +755,7 @@ describe('VAOS Component: PhoneLayout', () => {
       );
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility to schedule./i,
         ),
       );
       expect(screen.queryByRole('heading', { level: 2, name: /How to join/ }))

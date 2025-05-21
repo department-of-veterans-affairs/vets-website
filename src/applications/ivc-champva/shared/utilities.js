@@ -188,22 +188,32 @@ export function getObjectsWithAttachmentId(obj) {
 }
 
 /**
- * Tests whether a string meets regex requirements and, if not, provides
- * a clear message to be presented to users filling out text fields.
- *
- * @param {String} value The string to test against the regex
- * @returns {String | null} Error messsage explaining invalid characters or null
- * if no violations detected
+ * Produces a simple (non secure) hash of the passed in string.
+ * See https://stackoverflow.com/a/8831937
+ * @param {string} str string to be hashed
+ * @returns hash of input string
  */
-export function validateText(value) {
-  const invalidCharsPattern = /[~!@#$%^&*+=[\]{}()<>;:"`\\/_|]/g;
-  const matches = value.match(invalidCharsPattern);
+export function toHash(str) {
+  let hash = 0;
+  Object.keys(str).forEach(i => {
+    const chr = str.charCodeAt(i);
+    hash = hash * 32 - hash + chr;
+    hash = Math.floor(hash);
+  });
+  return hash.toString(16);
+}
 
-  let retVal = null;
-  if (matches) {
-    const uniqueInvalidChars = [...new Set(matches)].join(', ');
-    const staticText = 'You entered a character we can’t accept. Try removing';
-    retVal = `${staticText} ${uniqueInvalidChars}`;
-  }
-  return retVal;
+/**
+ * Converts date string in YYYY-MM-DD fmt to MM/DD/YYYY
+ * TODO: replace other functions in ivc module that do this type of thing
+ * @param {String} date date in format YYYY-MM-DD
+ * @returns d reformatted as MM/DD/YYYY
+ */
+export function fmtDate(date) {
+  const dt = new Date(date);
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(dt);
 }

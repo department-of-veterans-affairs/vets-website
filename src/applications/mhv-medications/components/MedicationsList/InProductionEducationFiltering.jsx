@@ -12,6 +12,7 @@ import {
   updateTooltipVisibility,
   getTooltip,
 } from '../../actions/tooltip'; // Adjust the import path according to your project structure
+import { selectDontIncrementIpeCountFlag } from '../../util/selectors';
 
 const InProductionEducationFiltering = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,9 @@ const InProductionEducationFiltering = () => {
   const tooltipId = useSelector(
     state => state?.rx?.inProductEducation?.tooltipId,
   );
+  const dontIncrementTooltipCount = useSelector(
+    selectDontIncrementIpeCountFlag,
+  );
 
   useEffect(
     () => {
@@ -31,7 +35,7 @@ const InProductionEducationFiltering = () => {
         if (filterTooltip) {
           dispatch(setTooltip(filterTooltip.id, !filterTooltip.hidden));
 
-          if (!filterTooltip.hidden) {
+          if (!filterTooltip.hidden && !dontIncrementTooltipCount) {
             dispatch(incrementTooltip(filterTooltip.id));
           }
         } else {
@@ -55,8 +59,8 @@ const InProductionEducationFiltering = () => {
       dataDogActionNames.medicationsListPage.STOP_SHOWING_IPE_FILTERING_HINT,
     );
     await dispatch(updateTooltipVisibility(tooltipId, false));
-    const filterAccordionElement = document.getElementById('filter');
-    focusElement(filterAccordionElement);
+    const filterAccordionShadowRoot = document.getElementById('filter');
+    focusElement('button', {}, filterAccordionShadowRoot);
   };
 
   return (
@@ -66,7 +70,7 @@ const InProductionEducationFiltering = () => {
           id="rx-ipe-filtering-container"
           data-testid="rx-ipe-filtering-container"
           className="vads-u-margin-top--3 vads-u-padding--2p5"
-          aria-label="Hint for filter list"
+          aria-label="Filter your list to find a specific medication"
         >
           <p
             className="vads-u-margin--0 vads-u-padding-right--5"

@@ -35,6 +35,7 @@
       "effectiveDate": { "from": "2099-12-01", "to": "2100-01-01" }
     },
     "syncModern0781Flow": true,
+    "mentalHealthWorkflowChoice": "optForOnlineForm0781",
     "form0781": {
       "eventTypes": {
         "combat": true,
@@ -98,6 +99,9 @@
         "communityOutpatient": true,
         "vaPaid": true,
         "dod": true
+      },
+      "treatmentNoneCheckbox": {
+        "none": false
       },
       "optionIndicator": "yes",
       "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?",

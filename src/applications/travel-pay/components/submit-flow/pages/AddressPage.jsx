@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import {
-  HelpTextOptions,
-  HelpTextGeneral,
-  HelpTextModalities,
-} from '../../HelpText';
+import { HelpTextOptions, HelpTextModalities } from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
 
 const AddressPage = ({
   address,
@@ -30,6 +31,7 @@ const AddressPage = ({
 
   useEffect(
     () => {
+      recordSmocPageview('address');
       scrollToTop('topScrollElement');
       if (!address) {
         focusElement('h1');
@@ -44,6 +46,7 @@ const AddressPage = ({
 
   const handlers = {
     onNext: () => {
+      recordSmocButtonClick('address', 'continue');
       if (!yesNo.address) {
         setRequiredAlert(true);
       } else if (yesNo.address !== 'yes') {
@@ -54,6 +57,7 @@ const AddressPage = ({
       }
     },
     onBack: () => {
+      recordSmocButtonClick('address', 'back');
       setPageIndex(pageIndex - 1);
     },
   };
@@ -78,12 +82,13 @@ const AddressPage = ({
           />
         </va-alert>
         <HelpTextModalities />
-        <h2 className="vads-u-font-size--h4">
-          How can I get help with my claim?
-        </h2>
-        <HelpTextGeneral />
         <br />
-        <va-button back onClick={handlers.onBack} class="vads-u-margin-y--2" />
+        <va-button
+          back
+          disable-analytics
+          onClick={handlers.onBack}
+          class="vads-u-margin-y--2"
+        />
       </>
     );
   }
@@ -105,26 +110,27 @@ const AddressPage = ({
             confirm that it’s not a Post Office box.
           </p>
           <hr aria-hidden="true" className="vads-u-margin-y--0" />
-          <p className="vads-u-margin-top--2">
+          <div className="vads-u-margin-y--2">
             <strong>Home address</strong>
-            <br />
-            {address.addressLine1}
-            <br />
-            {address.addressLine2 && (
-              <>
-                {address.addressLine2}
-                <br />
-              </>
-            )}
-            {address.addressLine3 && (
-              <>
-                {address.addressLine3}
-                <br />
-              </>
-            )}
-            {`${address.city}, ${address.stateCode} ${address.zipCode}`}
-            <br />
-          </p>
+            <div data-dd-privacy="mask">
+              {address.addressLine1}
+              <br />
+              {address.addressLine2 && (
+                <>
+                  {address.addressLine2}
+                  <br />
+                </>
+              )}
+              {address.addressLine3 && (
+                <>
+                  {address.addressLine3}
+                  <br />
+                </>
+              )}
+              {`${address.city}, ${address.stateCode} ${address.zipCode}`}
+              <br />
+            </div>
+          </div>
           <hr aria-hidden="true" className="vads-u-margin-y--0" />
         </div>
       </SmocRadio>
@@ -135,6 +141,7 @@ const AddressPage = ({
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
+        disable-analytics
         onPrimaryClick={handlers.onNext}
         onSecondaryClick={handlers.onBack}
       />

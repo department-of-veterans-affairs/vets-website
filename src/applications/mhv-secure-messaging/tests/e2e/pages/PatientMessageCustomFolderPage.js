@@ -1,9 +1,9 @@
-import mockCustomFolderMessages from '../fixtures/customResponse/custom-folder-messages-response.json';
 import mockSingleMessageResponse from '../fixtures/customResponse/custom-single-message-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
 import { Paths, Locators, Data, Assertions } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
+import mockThreadsResponse from '../fixtures/threads-response.json';
 import FolderLoadPage from './FolderLoadPage';
 
 class PatientMessageCustomFolderPage {
@@ -66,7 +66,7 @@ class PatientMessageCustomFolderPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads?*`,
-      mockSingleThreadResponse,
+      mockThreadsResponse,
     ).as('singleFolderThread');
 
     cy.contains(folderName).click({ waitForAnimations: true });
@@ -75,7 +75,7 @@ class PatientMessageCustomFolderPage {
   };
 
   loadMessages = (
-    threadResponse = mockSingleThreadResponse,
+    threadResponse = mockThreadsResponse,
     folderName = this.folderName,
     folderId = this.folderId,
   ) => {
@@ -101,6 +101,8 @@ class PatientMessageCustomFolderPage {
         cy.stub(win, 'print');
       },
     });
+
+    cy.wait(`@customFolderThread`);
   };
 
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
@@ -129,14 +131,14 @@ class PatientMessageCustomFolderPage {
     cy.get('[data-testid="edit-folder-button"]')
       .should('be.visible')
       .then(() => {
-        cy.get(Locators.HEADER).should('have.text', `${text}`);
+        cy.get(Locators.HEADER).should('have.text', `Messages: ${text}`);
       });
   };
 
-  verifyResponseBodyLength = (responseData = mockCustomFolderMessages) => {
+  verifyResponseBodyLength = (responseData = mockThreadsResponse) => {
     cy.get('[data-testid="thread-list-item"]').should(
       'have.length',
-      `${responseData.data.length}`,
+      responseData.data.length,
     );
   };
 
@@ -261,20 +263,18 @@ class PatientMessageCustomFolderPage {
       .and('have.text', Data.REMOVE_FOLDER);
   };
 
-  tabAndPressToRemoveFolderButton = () => {
-    cy.tabToElement(Locators.BUTTONS.REMOVE_FOLDER).should(
+  clickRemoveFolderButton = () => {
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER).should(
       'have.text',
       Data.REMOVE_FOLDER,
     );
-
-    cy.realPress('Enter');
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER).click({ waitForAnimations: true });
   };
 
   verifyEmptyFolderAlert = () => {
-    cy.get(Locators.ALERTS.HEADER).should(
-      'have.text',
-      Assertions.EMPTY_THIS_FOLDER,
-    );
+    cy.get(Locators.ALERTS.HEADER)
+      .find(`#heading`)
+      .should('have.text', Assertions.EMPTY_THIS_FOLDER);
     cy.contains(Data.CANNOT_REMOVE_FOLDER).should('be.visible');
     cy.contains('button', 'Ok');
   };

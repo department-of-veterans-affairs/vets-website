@@ -1,6 +1,39 @@
 import React from 'react';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { focusElement } from 'platform/utilities/ui';
+import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+
+export const applicantRelationToVetRadio = {
+  relationToVetRadio: radioUI({
+    title: 'What’s your relationship to the Veteran?',
+    labels: {
+      familyMember: 'Family member',
+      personalRep: 'Personal representative',
+      repOfVSO: 'Representative of Veterans Service Organization (VSO)',
+      repOfCemetery: 'Representative of a cemetery',
+      repOfFuneralHome: 'Representative of a funeral home',
+      other: 'Other',
+    },
+    required: () => true,
+    errorMessages: {
+      required: 'Please select an option',
+    },
+  }),
+};
+
+export const validateVetRadioOtherComment = (formData, errors) => {
+  if (formData.relationToVetRadio === 'other') {
+    if (!formData.otherRelation) {
+      errors.otherRelation.addError('You must provide a response');
+    } else if (formData.otherRelation.length > 50) {
+      errors.otherRelation.addError(
+        'Character limit exceeded. Maximum 50 characters allowed.',
+      );
+    }
+  }
+  return errors;
+};
 
 export const supportingDocsInfo = formData => {
   return (
@@ -137,3 +170,37 @@ export function parseResponse({ data }) {
     confirmationCode: data.attributes.confirmationCode,
   };
 }
+
+export function isUserSignedIn(formData) {
+  return formData?.isLoggedIn;
+}
+
+export const ApplicantNameHeader = () => {
+  return (
+    <h3 className="vads-u-margin-bottom--3">
+      Confirm the personal information we have on file for you
+    </h3>
+  );
+};
+
+export const ApplicantNameNote = () => {
+  return (
+    <div className="vads-u-margin-bottom--4" data-testid="default-note">
+      <p>
+        <strong>Note:</strong> To protect your personal information, we don’t
+        allow online changes to your name, Social Security number, or date of
+        birth. If you need to change this information, call us at{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone contact="711" tty />
+        ). We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m. ET.
+        We’ll give you instructions for how to change your information. Or you
+        can learn how to change your legal name on file with VA.{' '}
+      </p>
+      <va-link
+        external
+        href="https://www.va.gov/resources/how-to-change-your-legal-name-on-file-with-va/"
+        text="Learn how to change your legal name"
+      />
+    </div>
+  );
+};

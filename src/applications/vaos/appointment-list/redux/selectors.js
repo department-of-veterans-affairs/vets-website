@@ -21,15 +21,13 @@ import {
   isPendingOrCancelledRequest,
   getAppointmentTimezone,
   isClinicVideoAppointment,
+  isInPersonVisit,
   getPatientTelecom,
 } from '../../services/appointment';
 import {
   selectFeatureRequests,
   selectFeatureCancel,
-  selectFeatureVAOSServiceVAAppointments,
-  selectFeatureVAOSServiceCCAppointments,
   selectFeatureFeSourceOfTruth,
-  selectFeatureDisplayPastCancelledAppointments,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
@@ -129,12 +127,19 @@ export const selectUpcomingAppointments = createSelector(
   },
 );
 
-export const selectPastAppointments = createSelector(
-  state => state.appointments.past,
-  past => {
-    return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
-  },
-);
+export const selectPastAppointments = state => {
+  const selector = createSelector(
+    () => state.appointments.past,
+    past => {
+      if (!past) {
+        return null;
+      }
+
+      return past.filter(isValidPastAppointment).sort(sortByDateDescending);
+    },
+  );
+  return selector(state);
+};
 
 /*
  * V2 Past appointments state selectors
@@ -148,16 +153,7 @@ export const selectPastAppointmentsV2 = state => {
         return null;
       }
 
-      const sortedAppointments = past
-        .filter(item =>
-          isValidPastAppointment(
-            item,
-            selectFeatureDisplayPastCancelledAppointments(state),
-          ),
-        )
-        .sort(sortByDateDescending);
-
-      return groupAppointmentsByMonth(sortedAppointments);
+      return groupAppointmentsByMonth(selectPastAppointments(state));
     },
   );
   return selector(state);
@@ -268,16 +264,12 @@ export function getPastAppointmentListInfo(state) {
 
 export function selectCommunityCareDetailsInfo(state, id) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
-  const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-    state,
-  );
   return {
     appointment: selectAppointmentById(state, id, [
       APPOINTMENT_TYPES.ccAppointment,
     ]),
     appointmentDetailsStatus,
     facilityData,
-    useV2: featureVAOSServiceCCAppointments,
   };
 }
 export function selectBackendServiceFailuresInfo(state) {
@@ -312,14 +304,6 @@ export function selectIsCommunityCare(appointment) {
 
 export function selectIsVideo(appointment) {
   return appointment?.vaos?.isVideo;
-}
-
-export function selectIsInPerson(appointment) {
-  return (
-    !selectIsVideo(appointment) &&
-    !selectIsCommunityCare(appointment) &&
-    !selectIsPhone(appointment)
-  );
 }
 
 export function selectPractitionerName(appointment) {
@@ -400,7 +384,7 @@ export function selectAppointmentLocality(
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideo = selectIsVideo(appointment);
-  const isInPerson = selectIsInPerson(appointment);
+  const isInPerson = isInPersonVisit(appointment);
 
   if (isPendingAppointment) {
     const { name: facilityName } = appointment.vaos.facilityData || {
@@ -465,7 +449,7 @@ export function selectIsHomeVideo(appointment) {
 
 export function selectModalityText(appointment, isPendingAppointment = false) {
   const isCommunityCare = selectIsCommunityCare(appointment);
-  const isInPerson = selectIsInPerson(appointment);
+  const isInPerson = isInPersonVisit(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
@@ -566,7 +550,7 @@ export function selectModalityAriaText(appointment) {
 }
 
 export function selectModalityIcon(appointment) {
-  const isInPerson = selectIsInPerson(appointment);
+  const isInPerson = isInPersonVisit(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
@@ -596,7 +580,7 @@ export function selectAppointmentTravelClaim(appointment) {
 export function selectIsEligibleForTravelClaim(appointment) {
   return (
     selectIsPast(appointment) &&
-    (selectIsInPerson(appointment) || selectIsClinicVideo(appointment)) &&
+    (isInPersonVisit(appointment) || selectIsClinicVideo(appointment)) &&
     selectAppointmentTravelClaim(appointment)
   );
 }
@@ -683,18 +667,9 @@ export function selectConfirmedAppointmentData(state, appointment) {
 }
 export function getConfirmedAppointmentDetailsInfo(state, id) {
   const appointment = selectAppointmentById(state, id);
-  const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-    state,
-  );
-  return {
-    ...selectConfirmedAppointmentData(state, appointment),
-    useV2: featureVAOSServiceVAAppointments,
-  };
+  return selectConfirmedAppointmentData(state, appointment);
 }
 export function selectRequestedAppointmentData(state, appointment) {
-  const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-    state,
-  );
   const { facilityData } = state?.appointments || [];
 
   const cancelInfo = getCancelInfo(state);
@@ -714,9 +689,7 @@ export function selectRequestedAppointmentData(state, appointment) {
   const phone = getPatientTelecom(appointment, 'phone');
   const preferredLanguage = appointment?.vaos.apiData.preferredLanguage;
   const preferredTimesForPhoneCall = appointment?.preferredTimesForPhoneCall;
-  const provider = featureVAOSServiceCCAppointments
-    ? appointment?.preferredProviderName
-    : appointment?.preferredCommunityCareProviders?.[0];
+  const provider = appointment?.preferredProviderName;
   const providerAddress = selectProviderAddress(appointment);
   const preferredDates = appointment?.preferredDates;
   const status = appointment?.status;
@@ -753,9 +726,6 @@ export function selectRequestedAppointmentData(state, appointment) {
 }
 export function selectRequestedAppointmentDetails(state, id) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
-  const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-    state,
-  );
   const appointment = selectAppointmentById(state, id, [
     APPOINTMENT_TYPES.request,
     APPOINTMENT_TYPES.ccRequest,
@@ -778,9 +748,7 @@ export function selectRequestedAppointmentDetails(state, id) {
   const phone = getPatientTelecom(appointment, 'phone');
   const preferredLanguage = appointment?.vaos.apiData.preferredLanguage;
   const preferredTimesForPhoneCall = appointment?.preferredTimesForPhoneCall;
-  const provider = featureVAOSServiceCCAppointments
-    ? appointment?.preferredProviderName
-    : appointment?.preferredCommunityCareProviders?.[0];
+  const provider = appointment?.preferredProviderName;
   const providerAddress = selectProviderAddress(appointment);
   const preferredDates = appointment?.preferredDates;
   const status = appointment?.status;

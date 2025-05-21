@@ -3,7 +3,6 @@ import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
 import {
   getAppointmentCreateStatus,
   getDraftAppointmentInfo,
@@ -29,6 +28,7 @@ import {
   getTimezoneByFacilityId,
 } from '../utils/timezone';
 import ProviderAddress from './components/ProviderAddress';
+import { titleCase } from '../utils/formatters';
 
 const ReviewAndConfirm = props => {
   const { attributes: currentReferral } = props.currentReferral;
@@ -43,6 +43,8 @@ const ReviewAndConfirm = props => {
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
+  const [createFailed, setCreateFailed] = useState(false);
+  const [createLoading, setCreateLoading] = useState(false);
   const slotDetails = getSlotById(
     draftAppointmentInfo.slots?.slots,
     selectedSlot,
@@ -72,17 +74,15 @@ const ReviewAndConfirm = props => {
   useEffect(
     () => {
       if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-        dispatch(createDraftReferralAppointment(currentReferral.uuid));
+        dispatch(createDraftReferralAppointment(currentReferral.referralId));
       } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
         setLoading(false);
-        scrollAndFocus('h1');
       } else if (draftAppointmentCreateStatus === FETCH_STATUS.failed) {
         setLoading(false);
         setFailed(true);
-        scrollAndFocus('h2');
       }
     },
-    [currentReferral.uuid, dispatch, draftAppointmentCreateStatus],
+    [currentReferral.referralId, dispatch, draftAppointmentCreateStatus],
   );
 
   useEffect(
@@ -122,26 +122,55 @@ const ReviewAndConfirm = props => {
   };
 
   // handle routing to the next page once the appointment is created
-  // and the appointment id is available
+  // or show error message if the appointment creation failed
   useEffect(
     () => {
+      if (appointmentCreateStatus === FETCH_STATUS.loading) {
+        setCreateLoading(true);
+        setCreateFailed(false);
+      }
       if (
         appointmentCreateStatus === FETCH_STATUS.succeeded &&
-        draftAppointmentInfo?.appointment?.id
+        draftAppointmentInfo?.id
       ) {
+        setCreateLoading(false);
         routeToNextReferralPage(
           history,
           'reviewAndConfirm',
-          null,
-          draftAppointmentInfo.appointment.id,
+          currentReferral.uuid,
+          draftAppointmentInfo.id,
         );
+      } else if (
+        appointmentCreateStatus === FETCH_STATUS.failed &&
+        draftAppointmentInfo?.id &&
+        draftAppointmentCreateStatus === FETCH_STATUS.succeeded
+      ) {
+        setCreateLoading(false);
+        setCreateFailed(true);
       }
     },
-    [appointmentCreateStatus, draftAppointmentInfo?.appointment?.id, history],
+    [
+      appointmentCreateStatus,
+      draftAppointmentInfo?.id,
+      currentReferral.uuid,
+      draftAppointmentCreateStatus,
+      history,
+    ],
   );
 
+  if (loading) {
+    return (
+      <ReferralLayout
+        hasEyebrow
+        heading="Review your appointment details"
+        loadingMessage="Loading your appointment details"
+        apiFailure={failed}
+      />
+    );
+  }
   const headingStyles =
     'vads-u-margin--0 vads-u-font-family--sans vads-u-font-weight--bold vads-u-font-size--source-sans-normalized';
+
   return (
     <ReferralLayout
       hasEyebrow
@@ -155,7 +184,7 @@ const ReviewAndConfirm = props => {
           <div className="vads-l-row">
             <div className="vads-l-col">
               <h2 className={headingStyles}>
-                {`${currentReferral.categoryOfCare} Provider`}
+                {`${titleCase(currentReferral.categoryOfCare)} Provider`}
               </h2>
             </div>
           </div>
@@ -164,10 +193,16 @@ const ReviewAndConfirm = props => {
           {draftAppointmentInfo.provider.name} <br />
           {draftAppointmentInfo.provider.providerOrganization.name}
         </p>
-        <ProviderAddress
-          address={currentReferral.referringFacilityInfo.address}
-          phone={currentReferral.referringFacilityInfo.phone}
-        />
+        {draftAppointmentInfo.provider.location.address}
+        {currentReferral.provider?.telephone && (
+          <p className="vads-u-margin--0" data-testid="phone">
+            Phone:{' '}
+            <va-telephone
+              contact={currentReferral.provider?.telephone}
+              data-testid="provider-telephone"
+            />
+          </p>
+        )}
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
           <div className="vads-l-row">
@@ -224,6 +259,7 @@ const ReviewAndConfirm = props => {
           />
           <va-button
             data-testid="continue-button"
+            loading={createLoading}
             class="vads-u-margin-left--2"
             label="Continue"
             text="Continue"
@@ -232,14 +268,39 @@ const ReviewAndConfirm = props => {
               e.preventDefault();
               dispatch(
                 createReferralAppointment({
-                  referralId: currentReferral.uuid,
+                  referralId: currentReferral.referralId,
                   slotId: selectedSlot,
-                  draftApppointmentId: draftAppointmentInfo.appointment.id,
+                  draftApppointmentId: draftAppointmentInfo.id,
                 }),
               );
             }}
           />
         </div>
+        {createFailed &&
+          !createLoading && (
+            <va-alert
+              status="error"
+              data-testid="create-error-alert"
+              class="vads-u-margin-top--4"
+            >
+              <h3>We couldn’t schedule this appointment</h3>
+              <p>
+                We’re sorry. Something went wrong when we tried to submit your
+                appointment. You can try again later, or call your referring VA
+                facility to help with your appointment.
+              </p>
+              <p>
+                <strong>{currentReferral.referringFacilityInfo.name}</strong>
+                <br />
+                <ProviderAddress
+                  address={currentReferral.referringFacilityInfo.address}
+                  phone={currentReferral.referringFacilityInfo.phone}
+                  showDirections
+                  directionsName={currentReferral.referringFacilityInfo.name}
+                />
+              </p>
+            </va-alert>
+          )}
       </div>
     </ReferralLayout>
   );

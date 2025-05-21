@@ -45,7 +45,8 @@ import { supportingEvidencePageTitle } from '../../content/form0781/supportingEv
 import { consentPageTitle } from '../../content/form0781/consentPage';
 import { additionalInformationPageTitle } from '../../content/form0781/additionalInformationPage';
 import BehaviorIntroCombatPage from '../../components/BehaviorIntroCombatPage';
-
+import TraumaticEventTypesPage from '../../components/TraumaticEventTypesPage';
+import { treatmentReceivedTitle } from '../../content/form0781/treatmentReceivedPage';
 /**
  * Configuration for our modern 0781 paper sync (2024/2025)
  *
@@ -86,6 +87,7 @@ export const form0781PagesConfig = {
     title: eventTypesPageTitle,
     path: 'mental-health-form-0781/events-type',
     depends: formData => isCompletingForm0781(formData),
+    CustomPage: TraumaticEventTypesPage,
     uiSchema: eventTypes.uiSchema,
     schema: eventTypes.schema,
   },
@@ -139,8 +141,9 @@ export const form0781PagesConfig = {
     schema: supportingEvidencePage.schema,
   },
   treatmentReceivedPage: {
+    title: treatmentReceivedTitle,
     path: 'mental-health-form-0781/treatment-received',
-    depends: formData => showBehaviorSummaryPage(formData),
+    depends: formData => isCompletingForm0781(formData),
     uiSchema: treatmentReceivedPage.uiSchema,
     schema: treatmentReceivedPage.schema,
   },

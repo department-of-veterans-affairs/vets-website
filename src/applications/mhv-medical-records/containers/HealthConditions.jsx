@@ -16,7 +16,7 @@ import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 
 const HealthConditions = () => {
   const ABOUT_THE_CODES_LABEL = 'About the codes in some condition names';
@@ -66,13 +66,10 @@ const HealthConditions = () => {
       <h1 className="vads-u-margin--0" data-testid="health-conditions">
         Health conditions
       </h1>
-      <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
-        Health condition records are available{' '}
-        <span className="vads-u-font-weight--bold">36 hours</span> after your
-        providers enter them.
-      </p>
 
-      <CernerFacilityAlert {...CernerAlertContent.HEALTH_CONDITIONS} />
+      <AcceleratedCernerFacilityAlert
+        {...CernerAlertContent.HEALTH_CONDITIONS}
+      />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}

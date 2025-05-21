@@ -14,12 +14,7 @@ describe('AuthApp', () => {
   const mockStore = {
     dispatch: sinon.spy(),
     subscribe: sinon.spy(),
-    getState: () => ({
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_interstitial_enabled: false,
-      },
-    }),
+    getState: () => ({}),
   };
 
   before(() => {
@@ -333,14 +328,17 @@ describe('AuthApp', () => {
     });
   });
 
-  it('should redirect to /sign-in-changes-reminder interstitial page', () => {
+  it('should redirect to /sign-in-changes-reminder interstitial page', async () => {
+    const originalLocation = window.location;
+    delete window.location;
+    window.location = { replace: sinon.spy() };
+
     const store = {
       dispatch: sinon.spy(),
       subscribe: sinon.spy(),
       getState: () => ({
         featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_interstitial_enabled: true,
+          dslogonInterstitialRedirect: true,
         },
       }),
     };
@@ -353,7 +351,7 @@ describe('AuthApp', () => {
             data: {
               attributes: {
                 profile: {
-                  signIn: { serviceName: 'mhv', ssoe: true },
+                  signIn: { serviceName: 'dslogon', ssoe: true },
                 },
               },
             },
@@ -362,13 +360,16 @@ describe('AuthApp', () => {
       ),
     );
 
-    const { queryByTestId } = render(
+    render(
       <Provider store={store}>
-        <AuthApp location={{ query: { auth: 'success', type: 'mhv' } }} />
+        <AuthApp location={{ query: { auth: 'success', type: 'dslogon' } }} />
       </Provider>,
     );
 
-    expect(queryByTestId('loading')).to.not.be.null;
+    await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
+    expect(window.location.replace.calledWith('/sign-in-changes-reminder'));
+
+    window.location = originalLocation;
     sessionStorage.clear();
   });
 });

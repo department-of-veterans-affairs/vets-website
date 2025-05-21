@@ -11,12 +11,14 @@ import {
 
 import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
+import * as mhvExports from '~/platform/mhv/hooks/useDatadogRum';
 import App from '../../containers/App';
 import LandingPage from '../../containers/LandingPage';
 import reducer from '../../reducers';
 import ResizeObserver from '../fixtures/mocks/ResizeObserver';
 
 global.ResizeObserver = ResizeObserver;
+let sandbox;
 
 describe('App', () => {
   let oldLocation;
@@ -24,17 +26,19 @@ describe('App', () => {
   beforeEach(() => {
     mockFetch();
     oldLocation = global.window.location;
-    delete global.window.location;
     global.window.location = {
       replace: sinon.spy(),
     };
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
     resetFetch();
     global.window.location = oldLocation;
+    sandbox.restore();
   });
 
+  const testAccountUuid = '12345678-1234-1234-1234-123456789012';
   const initialState = {
     user: {
       login: {
@@ -44,6 +48,7 @@ describe('App', () => {
         services: [backendServices.MEDICAL_RECORDS],
         verified: true,
         mhvAccountState: 'MULTIPLE',
+        accountUuid: testAccountUuid,
       },
     },
     mr: {
@@ -143,7 +148,9 @@ describe('App', () => {
       );
       expect(screen.getByRole('navigation', { name: 'My HealtheVet' }));
     });
+  });
 
+  describe('Downtime notification logic', () => {
     it('renders the global downtime notification', async () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
@@ -166,12 +173,12 @@ describe('App', () => {
             exact: true,
           }),
         );
+        expect(
+          screen.getByText('We’re making some updates to this tool', {
+            exact: false,
+          }),
+        );
       });
-      expect(
-        screen.getByText('We’re making some updates to this tool', {
-          exact: false,
-        }),
-      );
     });
 
     it('renders the downtime notification', async () => {
@@ -196,15 +203,15 @@ describe('App', () => {
             exact: true,
           }),
         );
+        expect(
+          screen.getByText(
+            'We’re working on this medical records tool right now. The maintenance will last 48 hours.',
+            {
+              exact: false,
+            },
+          ),
+        );
       });
-      expect(
-        screen.getByText(
-          'We’re working on this medical records tool right now. The maintenance will last 48 hours.',
-          {
-            exact: false,
-          },
-        ),
-      );
     });
 
     it('renders the downtime notification for multiple services', async () => {
@@ -229,15 +236,15 @@ describe('App', () => {
             exact: true,
           }),
         );
+        expect(
+          screen.getByText(
+            'We’re working on this medical records tool right now. The maintenance will last 48 hours.',
+            {
+              exact: false,
+            },
+          ),
+        );
       });
-      expect(
-        screen.getByText(
-          'We’re working on this medical records tool right now. The maintenance will last 48 hours.',
-          {
-            exact: false,
-          },
-        ),
-      );
     });
 
     it('does NOT render the downtime notification', () => {
@@ -394,6 +401,28 @@ describe('App', () => {
       });
       await waitFor(() => {
         expect(window.location.replace.called).to.be.false;
+      });
+    });
+  });
+
+  it('should call setDatadogRumUser with the correct user ID', async () => {
+    const setDatadogRumUserStub = sandbox.stub(mhvExports, 'setDatadogRumUser');
+
+    renderWithStoreAndRouter(
+      <App>
+        <div>Test content</div>
+      </App>,
+      {
+        initialState,
+        reducers: reducer,
+        path: `/`,
+      },
+    );
+
+    await waitFor(() => {
+      expect(setDatadogRumUserStub.calledOnce).to.be.true;
+      expect(setDatadogRumUserStub.firstCall.args[0]).to.deep.equal({
+        id: testAccountUuid,
       });
     });
   });

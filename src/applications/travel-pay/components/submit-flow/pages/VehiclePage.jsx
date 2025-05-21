@@ -7,6 +7,10 @@ import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextOptions } from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
 
 const title = 'Did you travel in your own vehicle?';
 
@@ -18,6 +22,7 @@ const VehiclePage = ({
   setIsUnsupportedClaimType,
 }) => {
   useEffect(() => {
+    recordSmocPageview('vehicle');
     focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
@@ -28,6 +33,7 @@ const VehiclePage = ({
 
   const handlers = {
     onNext: () => {
+      recordSmocButtonClick('vehicle', 'continue');
       if (!yesNo.vehicle) {
         setRequiredAlert(true);
       } else if (yesNo.vehicle !== 'yes') {
@@ -38,6 +44,7 @@ const VehiclePage = ({
       }
     },
     onBack: () => {
+      recordSmocButtonClick('vehicle', 'back');
       setPageIndex(pageIndex - 1);
     },
   };
@@ -58,6 +65,7 @@ const VehiclePage = ({
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
+        disable-analytics
         onPrimaryClick={e => handlers.onNext(e)}
         onSecondaryClick={e => handlers.onBack(e)}
       />

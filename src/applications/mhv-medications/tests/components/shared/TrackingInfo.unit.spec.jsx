@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducers from '../../../reducers';
 import TrackingInfo from '../../../components/shared/TrackingInfo';
 import { medicationsUrls } from '../../../util/constants';
 
 describe('Medications Breadcrumbs', () => {
   const setup = (carrier = 'ups') => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <TrackingInfo
         carrier={carrier}
         trackingNumber="000"
@@ -36,7 +36,7 @@ describe('Medications Breadcrumbs', () => {
           },
         },
         reducers,
-        path: '/medications/prescription/000',
+        initialEntries: ['/medications/prescription/000'],
       },
     );
   };
@@ -48,7 +48,9 @@ describe('Medications Breadcrumbs', () => {
 
   it('Find tracking page text', () => {
     const screen = setup();
-    const h2 = screen.getByText('Track your shipment');
+    const h2 = screen.getByText(
+      'Track the shipment of your most recent refill',
+    );
     const h3 = screen.getByText('Tracking number:');
     const trackingNumber = screen.getByTestId('tracking-number');
     expect(h2).to.exist;

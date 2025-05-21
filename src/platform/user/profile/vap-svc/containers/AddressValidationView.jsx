@@ -80,7 +80,7 @@ class AddressValidationView extends React.Component {
     this.props.updateSelectedAddress(address, selectedAddressId);
   };
 
-  onSubmit = event => {
+  onSubmit = async event => {
     event.preventDefault();
     const {
       validationKey,
@@ -150,7 +150,7 @@ class AddressValidationView extends React.Component {
         analyticsSectionName,
       );
     } else {
-      this.props.createTransaction(
+      await this.props.createTransaction(
         VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
         addressValidationType,
