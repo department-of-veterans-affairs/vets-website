@@ -1,13 +1,10 @@
 const { assert } = require('chai');
 
-// Import the async webpack config factory directly via relative path
-// eslint-disable-next-line import/no-dynamic-require, global-require
 const getConfig = require('../config/webpack.config.js');
 
 /**
- * Locate a plugin instance by its constructor name.
- * @param {object[]} plugins - The plugins array from the webpack config.
- * @param {string} name - Constructor name to find.
+ * @param {object[]} plugins
+ * @param {string} name
  * @returns {object|undefined}
  */
 function findPlugin(plugins, name) {

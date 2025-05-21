@@ -65,11 +65,6 @@ fi
 if [ "${assetSource}" = "local" ]; then
     echo "Building application assets"
     yarn build:webpack $webpackArgs
-    # The build historically copied vendor.entry.js to a duplicate filename "shared-modules.entry.js" to
-    # mitigate long-term caching issues.  After introducing content-hashing, the vendor bundle may be
-    # emitted as "vendor.<hash>.entry.js" (or not at all, if a dedicated shared-modules bundle already
-    # exists).  The logic below keeps backward-compatibility without failing the build if the original
-    # file name is absent.
 
     if [ -f "${buildDir}generated/vendor.entry.js" ]; then
         # Legacy, non-hashed filename – keep previous behaviour.
