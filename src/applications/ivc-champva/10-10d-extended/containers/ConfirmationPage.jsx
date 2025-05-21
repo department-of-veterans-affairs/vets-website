@@ -1,86 +1,103 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
-import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from 'platform/utilities/ui';
 import {
   VaLink,
+  VaLinkAction,
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  ConfirmationPagePropTypes,
+  CHAMPVA_PHONE_NUMBER,
+} from '../../shared/constants';
 
-export const ConfirmationPage = props => {
-  const { route } = props;
-  const form = props;
-  const { submission } = form;
+export function ConfirmationPage(props) {
+  const { form } = props;
+  const { submission, data } = form;
   const submitDate = new Date(submission?.timestamp);
-  const confirmationNumber = submission?.response?.confirmationNumber;
+
+  useEffect(() => {
+    focusElement('h2');
+    scrollToTop('topScrollElement');
+  }, []);
 
   return (
-    <ConfirmationView
-      submitDate={submitDate}
-      confirmationNumber={confirmationNumber}
-      formConfig={route}
-      pdfUrl={submission?.response?.pdfUrl}
-      devOnly={{
-        showButtons: true,
-      }}
-    >
-      <ConfirmationView.SubmissionAlert />
-      <ConfirmationView.SavePdfDownload />
-      <ConfirmationView.ChapterSectionCollection />
-      <ConfirmationView.PrintThisPage />
-      <div className="confirmation-whats-next-process-list-section">
-        <h2 className="vads-u-font-size--h3">What to expect next</h2>
-        <p>It will take about 60 days to process your application.</p>
-        <p>
-          If we have any questions or need additional information, we’ll contact
-          you.
-        </p>
+    <div>
+      <div className="print-only">
+        <img
+          src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
+          alt="VA logo"
+          width="300"
+        />
       </div>
-      <div>
-        <h2 className="vads-u-font-size--h3">
-          How to contact us about your application
+      <va-alert status="success">
+        <h2>You've submitted your CHAMPVA benefits application</h2>
+      </va-alert>
+      <div className="inset">
+        <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
+          Your submission information
         </h2>
-        <p>
-          If you have any questions about your form, you can call us at{' '}
-          <VaTelephone contact="800-733-8387" /> (TTY: 711). We’re here Monday
-          through Friday, 8:05 a.m. to 7:30 p.m. ET.
-        </p>
-        <p>You can also contact us online through our Ask VA tool.</p>
-        <VaLink text="Go to Ask VA" href="https://ask.va.gov/" />
+        {data.statementOfTruthSignature && (
+          <span className="veterans-full-name">
+            <strong>Who submitted this form</strong>
+            <br />
+            <span className="dd-privacy-hidden">
+              {data.statementOfTruthSignature}
+            </span>
+            <br />
+          </span>
+        )}
+        {isValid(submitDate) && (
+          <p className="date-submitted">
+            <strong>Date submitted</strong>
+            <br />
+            <span>{format(submitDate, 'MMMM d, yyyy')}</span>
+          </p>
+        )}
+        <span className="veterans-full-name">
+          <strong>Confirmation for your records</strong>
+          <br />
+          You can print this confirmation for page for your records
+        </span>
         <br />
         <br />
+        <va-button
+          uswds
+          className="usa-button screen-only"
+          onClick={window.print}
+          text="Print this page"
+        />
       </div>
-      <ConfirmationView.GoBackLink />
-      <ConfirmationView.NeedHelp />
-    </ConfirmationView>
-  );
-};
 
-ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string.isRequired,
-        middle: PropTypes.string,
-        last: PropTypes.string.isRequired,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      response: PropTypes.shape({
-        attributes: PropTypes.shape({
-          confirmationNumber: PropTypes.string.isRequired,
-        }).isRequired,
-      }).isRequired,
-      timestamp: PropTypes.string.isRequired,
-    }),
-  }),
-  name: PropTypes.string,
-  route: PropTypes.shape({
-    formConfig: PropTypes.object,
-  }),
-};
+      <h2>What to expect next</h2>
+      <p>
+        It will take about 60 days to process your application.
+        <br />
+        <br />
+        If we have any questions or need additional information, we’ll contact
+        you.
+      </p>
+      <h2>How to contact us about your application</h2>
+      <p>
+        If you have any questions about your application, call us at{' '}
+        <VaTelephone contact={CHAMPVA_PHONE_NUMBER} />. We’re here Monday
+        through Friday, 8:05 a.m. to 7:30 p.m. ET.
+        <br />
+        <br />
+        You can also contact us online through our Ask VA tool.
+        <br />
+        <br />
+        <VaLink text="Go to Ask VA" href="https://ask.va.gov/" />
+      </p>
+      <VaLinkAction href="/" text="Go back to VA.gov" />
+    </div>
+  );
+}
+
+ConfirmationPage.propTypes = ConfirmationPagePropTypes;
 
 function mapStateToProps(state) {
   return {
