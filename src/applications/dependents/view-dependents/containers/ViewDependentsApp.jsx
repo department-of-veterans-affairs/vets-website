@@ -1,37 +1,54 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import backendServices from 'platform/user/profile/constants/backendServices';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import titleCase from 'platform/utilities/data/titleCase';
 
-import { fetchAllDependents as fetchAllDependentsAction } from '../actions/index';
+import { fetchAllDependents } from '../actions/index';
 import ViewDependentsLayout from '../layouts/ViewDependentsLayout';
 import { PAGE_TITLE, TITLE_SUFFIX } from '../util';
 
-const ViewDependentsApp = ({
-  user,
-  loading,
-  error,
-  onAwardDependents,
-  notOnAwardDependents,
-  manageDependentsToggle,
-  dependencyVerificationToggle,
-  updateDiariesStatus,
-  fetchAllDependents,
-}) => {
+const ViewDependentsApp = () => {
+  const dispatch = useDispatch();
+
   useEffect(
     () => {
-      fetchAllDependents();
+      dispatch(fetchAllDependents());
       document.title = `${titleCase(PAGE_TITLE)}${TITLE_SUFFIX}`;
     },
-    [fetchAllDependents],
+    [dispatch],
   );
+
+  const {
+    user,
+    loading,
+    error,
+    onAwardDependents,
+    notOnAwardDependents,
+    updateDiariesStatus,
+    manageDependentsToggle,
+    dependencyVerificationToggle,
+  } = useSelector(state => ({
+    user: state.user,
+    loading: state.allDependents.loading,
+    error: state.allDependents.error,
+    onAwardDependents: state.allDependents.onAwardDependents,
+    notOnAwardDependents: state.allDependents.notOnAwardDependents,
+    updateDiariesStatus: state.verifyDependents.updateDiariesStatus,
+    manageDependentsToggle: toggleValues(state)[
+      FEATURE_FLAG_NAMES.manageDependents
+    ],
+    dependencyVerificationToggle: toggleValues(state)[
+      FEATURE_FLAG_NAMES.dependencyVerification
+    ],
+  }));
 
   return (
     <div className="vads-l-grid-container vads-u-padding--2">
@@ -64,30 +81,6 @@ const ViewDependentsApp = ({
   );
 };
 
-const mapStateToProps = state => ({
-  user: state.user,
-  loading: state.allDependents.loading,
-  error: state.allDependents.error,
-  manageDependentsToggle: toggleValues(state)[
-    FEATURE_FLAG_NAMES.manageDependents
-  ],
-  dependencyVerificationToggle: toggleValues(state)[
-    FEATURE_FLAG_NAMES.dependencyVerification
-  ],
-  onAwardDependents: state.allDependents.onAwardDependents,
-  notOnAwardDependents: state.allDependents.notOnAwardDependents,
-  updateDiariesStatus: state.verifyDependents.updateDiariesStatus,
-});
-
-const mapDispatchToProps = {
-  fetchAllDependents: fetchAllDependentsAction,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ViewDependentsApp);
-
 ViewDependentsApp.propTypes = {
   fetchAllDependents: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -101,4 +94,4 @@ ViewDependentsApp.propTypes = {
   onAwardDependents: PropTypes.array,
 };
 
-export { ViewDependentsApp };
+export default ViewDependentsApp;
