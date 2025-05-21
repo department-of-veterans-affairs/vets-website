@@ -18,8 +18,8 @@ const IntroductionPage = ({ route }) => {
   return (
     <article className="schemaform-intro">
       <FormTitle
-        title="Conflicting Interests Certification For Proprietary Schools"
-        subtitle="Equal to VA Form 22-1919 (Conflicting Interests Certification For Proprietary Schools)"
+        title="Conflicting interests certification for proprietary schools"
+        subtitle="Equal to VA Form 22-1919 (Conflicting interests certification for proprietary schools)"
       />
       <p className="vads-u-margin-y--2">VA Form 22-1919</p>
       <va-alert status="info" visible>
@@ -84,7 +84,7 @@ const IntroductionPage = ({ route }) => {
             interest before continuing. Fill out the form online. This is a
             download and upload process. After completing the form, you will
             download a PDF, which you will need to submit later by uploading it
-            to the Education File Upload Portal
+            to the Education File Upload Portal.
           </p>
         </va-process-list-item>
         <va-process-list-item header="Download the completed form as a PDF">

@@ -12,3 +12,9 @@
     width: 100%;
   }
 }
+
+@media (max-width: $small-screen) {
+  .form-22-1919-container {
+    padding-inline: 0.5rem;
+  }
+}
