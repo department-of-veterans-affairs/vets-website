@@ -30,7 +30,7 @@ const delay = ms => {
 export const getListWithRetryRecursively = async (
   dispatch,
   getList,
-  pageParam = 1,
+  pageParam,
   retryInterval = defaultRetryInterval,
   endTimeParam = null,
 ) => {
@@ -68,7 +68,7 @@ export const getListWithRetryRecursively = async (
 export const getListWithRetry = async (
   dispatch,
   getList,
-  pageParam = 1,
+  pageParam,
   retryInterval = defaultRetryInterval,
   endTimeParam = null,
 ) => {
