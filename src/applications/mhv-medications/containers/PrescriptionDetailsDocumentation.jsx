@@ -1,16 +1,13 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { getDocumentation } from '../api/rxApi';
-import { getPrescriptionDetails } from '../actions/prescriptions';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import {
   dateFormat,
-  sanitizeKramesHtmlStr,
   generateTextFile,
   generateMedicationsPDF,
   convertHtmlForDownload,
@@ -18,73 +15,128 @@ import {
 } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import { buildMedicationInformationPDF } from '../util/pdfConfigs';
-import { DOWNLOAD_FORMAT } from '../util/constants';
+import {
+  rxListSortingOptions,
+  defaultSelectedSortOption,
+  filterOptions,
+  DOWNLOAD_FORMAT,
+} from '../util/constants';
 import { pageType } from '../util/dataDogConstants';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import CallPharmacyPhone from '../components/shared/CallPharmacyPhone';
+import { selectGroupingFlag } from '../util/selectors';
+import {
+  getPrescriptionsList,
+  getPrescriptionById,
+  useGetPrescriptionDocumentationQuery,
+} from '../api/prescriptionsApi';
 
 const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
   const contentRef = useRef();
-  const {
-    prescription,
-    isDisplayingDocumentation,
-    hasPrescriptionApiError,
-    dob,
-    userName,
-  } = useSelector(state => ({
-    prescription: state.rx.prescriptions.prescriptionDetails,
+
+  const { isDisplayingDocumentation, dob, userName } = useSelector(state => ({
     isDisplayingDocumentation:
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
       ],
-    hasPrescriptionApiError: state.rx.prescriptions?.apiError,
     userName: state.user.profile.userFullName,
     dob: state.user.profile.dob,
   }));
 
-  const dispatch = useDispatch();
-  const [htmlContent, setHtmlContent] = useState(null);
-  const [hasDocApiError, setHasDocApiError] = useState(false);
-  const [isLoadingDoc, setIsLoadingDoc] = useState(false);
-  const [isLoadingRx, setIsLoadingRx] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const pharmacyPhone = pharmacyPhoneNumber(prescription);
-  useEffect(
-    () => {
-      if (prescriptionId) {
-        setIsLoadingDoc(true);
-        getDocumentation(prescriptionId)
-          .then(response => {
-            setHasDocApiError(false);
-            setHtmlContent(
-              sanitizeKramesHtmlStr(response.data.attributes.html),
-            );
-          })
-          .catch(() => {
-            setHasDocApiError(true);
-          })
-          .finally(() => {
-            setIsLoadingDoc(false);
-          });
-      }
+  const {
+    data: htmlContent,
+    isLoading: isLoadingDoc,
+    error: hasDocApiError,
+  } = useGetPrescriptionDocumentationQuery(prescriptionId);
+
+  // Get sort/filter selections from store.
+  const selectedSortOption = useSelector(
+    state => state.rx.preferences.sortOption,
+  );
+  const selectedFilterOption = useSelector(
+    state => state.rx.preferences.filterOption,
+  );
+  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
+  // Consolidate query parameters into a single state object to avoid multiple re-renders
+  const showGroupingContent = useSelector(selectGroupingFlag);
+  const [queryParams] = useState({
+    page: currentPage || 1,
+    perPage: showGroupingContent ? 10 : 20,
+    sortEndpoint:
+      rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
+      rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+    filterOption: filterOptions[selectedFilterOption]?.url || '',
+  });
+
+  const [
+    cachedPrescriptionAvailable,
+    setCachedPrescriptionAvailable,
+  ] = useState(true);
+  const [prescription, setPrescription] = useState(null);
+  const [hasPrescriptionApiError, setHasPrescriptionApiError] = useState(false);
+  const [prescriptionIsLoading, setPrescriptionIsLoading] = useState(true);
+
+  // Get cached prescription from list if available
+  const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
+    selectFromResult: ({ data: prescriptionsList }) => {
+      return prescriptionsList?.prescriptions?.find(
+        item => item.prescriptionId === Number(prescriptionId),
+      );
     },
-    [prescriptionId],
+  });
+
+  // Fetch individual prescription when needed
+  const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
+    prescriptionId,
+    { skip: cachedPrescriptionAvailable },
   );
 
+  // Handle prescription data from either source
   useEffect(
     () => {
-      if (!prescription && prescriptionId && !isLoadingRx) {
-        setIsLoadingRx(true);
-        dispatch(getPrescriptionDetails(prescriptionId));
-      } else if (prescription && prescriptionId && isLoadingRx) {
-        setIsLoadingRx(false);
+      if (cachedPrescriptionAvailable && cachedPrescription?.prescriptionId) {
+        setPrescription(cachedPrescription);
+        setPrescriptionIsLoading(false);
+      } else if (!queryLoading) {
+        if (data) {
+          setPrescription(data);
+          setPrescriptionIsLoading(false);
+        } else if (error) {
+          setCachedPrescriptionAvailable(false);
+          setHasPrescriptionApiError(error);
+          setPrescriptionIsLoading(false);
+        }
       }
     },
-    [prescriptionId, prescription, dispatch, isLoadingRx],
+    [
+      cachedPrescription,
+      data,
+      error,
+      queryLoading,
+      cachedPrescriptionAvailable,
+    ],
   );
+
+  // Determine when to fetch individual prescription
+  useEffect(
+    () => {
+      if (
+        cachedPrescriptionAvailable &&
+        !cachedPrescription?.prescriptionId &&
+        !queryLoading
+      ) {
+        setCachedPrescriptionAvailable(false);
+      }
+    },
+    [cachedPrescription, queryLoading, cachedPrescriptionAvailable],
+  );
+
+  const isLoadingRx = prescriptionIsLoading;
+  const pharmacyPhone = pharmacyPhoneNumber(prescription);
 
   const buildMedicationInformationTxt = useCallback(
     information => {
