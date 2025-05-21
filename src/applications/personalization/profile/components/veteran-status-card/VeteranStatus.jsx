@@ -14,8 +14,8 @@ import Headline from '../ProfileSectionHeadline';
 import VeteranStatusCard from './VeteranStatusCard';
 import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
 import {
-  ApiMessageAlert,
-  NoServiceHistoryWarningAlert,
+  NotConfirmedAlert,
+  NoServiceHistoryAlert,
   SystemErrorAlert,
 } from './VeteranStatusAlerts';
 import LoadFail from '../alerts/LoadFail';
@@ -185,41 +185,65 @@ const VeteranStatus = ({
     }
     if (isServiceHistory403Error || !isServiceHistoryValid) {
       // Service history 403 error or no service history
-      return <NoServiceHistoryWarningAlert />;
+      return <NoServiceHistoryAlert />;
     }
-    if (!isCardDataValid) {
-      if (formattedFullName) {
-        if (
-          data?.attributes?.veteranStatus === 'not confirmed' &&
-          data?.message?.length > 0
-        ) {
-          // Vet verification status warning
-          return (
-            <ApiMessageAlert
-              headline={data.title}
-              message={data.message}
-              status={data.status}
-            />
-          );
-        }
-        if (
-          vetStatusEligibility?.confirmed === false &&
-          vetStatusEligibility?.message?.length > 0
-        ) {
-          // Vet status eligibility warning
-          return (
-            <ApiMessageAlert
-              headline={vetStatusEligibility.title}
-              message={vetStatusEligibility.message}
-              status={vetStatusEligibility.status}
-            />
-          );
-        }
+    if (formattedFullName) {
+      if (
+        data?.attributes?.veteranStatus === 'not confirmed' &&
+        data?.message?.length > 0
+      ) {
+        // Vet verification status warning
+        return (
+          <NotConfirmedAlert
+            headline={data.title}
+            message={data.message}
+            status={data.status}
+          />
+        );
       }
-      // System error
-      return <SystemErrorAlert />;
+      if (
+        vetStatusEligibility?.confirmed === false &&
+        vetStatusEligibility?.message?.length > 0
+      ) {
+        // Vet status eligibility warning
+        return (
+          <NotConfirmedAlert
+            headline={vetStatusEligibility.title}
+            message={vetStatusEligibility.message}
+            status={vetStatusEligibility.status}
+          />
+        );
+      }
     }
-    return null;
+    // System error
+    return <SystemErrorAlert />;
+  };
+
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <va-loading-indicator
+          set-focus
+          message="Checking your eligibility..."
+          data-testid="veteran-status-loading-indicator"
+        />
+      );
+    }
+    if (isCardDataValid) {
+      return (
+        <div className="vads-l-grid-container--full">
+          <div className="vads-l-row">
+            <VeteranStatusCard
+              edipi={edipi}
+              formattedFullName={formattedFullName}
+              latestService={latestService}
+              totalDisabilityRating={totalDisabilityRating}
+            />
+          </div>
+        </div>
+      );
+    }
+    return renderAlert();
   };
 
   return (
@@ -233,31 +257,7 @@ const VeteranStatus = ({
         appTitle="Veteran Status Card page"
         dependencies={[externalServices.VAPRO_MILITARY_INFO]}
       >
-        <div id="veteran-status">
-          {isLoading ? (
-            <va-loading-indicator
-              set-focus
-              message="Checking your eligibility..."
-              data-testid="veteran-status-loading-indicator"
-            />
-          ) : (
-            <>
-              {renderAlert()}
-              {isCardDataValid && (
-                <div className="vads-l-grid-container--full">
-                  <div className="vads-l-row">
-                    <VeteranStatusCard
-                      edipi={edipi}
-                      formattedFullName={formattedFullName}
-                      latestService={latestService}
-                      totalDisabilityRating={totalDisabilityRating}
-                    />
-                  </div>
-                </div>
-              )}
-            </>
-          )}
-        </div>
+        <div id="veteran-status">{renderContent()}</div>
         <FrequentlyAskedQuestions
           createPdf={isCardDataValid ? createPdf : null}
           pdfError={pdfError}

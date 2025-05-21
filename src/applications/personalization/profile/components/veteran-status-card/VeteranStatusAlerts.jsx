@@ -59,28 +59,7 @@ VeteranStatusAlert.propTypes = {
   status: PropTypes.oneOf(['error', 'warning', 'info', 'success']),
 };
 
-export const ApiMessageAlert = ({
-  headline = '',
-  message = [],
-  status = 'warning',
-}) => {
-  const messages = message.map(item => buildContactElements(item));
-  return (
-    <VeteranStatusAlert
-      headline={headline}
-      messages={messages}
-      status={status}
-    />
-  );
-};
-
-ApiMessageAlert.propTypes = {
-  headline: PropTypes.string,
-  message: PropTypes.arrayOf(PropTypes.string),
-  status: PropTypes.oneOf(['error', 'warning', 'info', 'success']),
-};
-
-export const NoServiceHistoryWarningAlert = () => {
+export const NoServiceHistoryAlert = () => {
   return (
     <va-alert status="warning" uswds class="vads-u-margin-bottom--4">
       <h2 slot="headline">
@@ -115,6 +94,27 @@ export const NoServiceHistoryWarningAlert = () => {
       </div>
     </va-alert>
   );
+};
+
+export const NotConfirmedAlert = ({
+  headline = '',
+  message = [],
+  status = 'warning',
+}) => {
+  const messages = message.map(item => buildContactElements(item));
+  return (
+    <VeteranStatusAlert
+      headline={headline}
+      messages={messages}
+      status={status}
+    />
+  );
+};
+
+NotConfirmedAlert.propTypes = {
+  headline: PropTypes.string,
+  message: PropTypes.arrayOf(PropTypes.string),
+  status: PropTypes.oneOf(['error', 'warning', 'info', 'success']),
 };
 
 export const PDFErrorAlert = () => {
