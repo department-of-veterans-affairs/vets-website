@@ -307,12 +307,8 @@ module.exports = async (env = {}) => {
     output: {
       path: path.resolve(buildPath, 'generated'),
       publicPath: '/generated/',
-      filename: isOptimizedBuild
-        ? '[name].[contenthash].entry.js'
-        : '[name].entry.js',
-      chunkFilename: isOptimizedBuild
-        ? '[name].[contenthash].entry.js'
-        : '[name].entry.js',
+      filename: '[name].entry.js',
+      chunkFilename: '[name].entry.js',
     },
     module: {
       strictExportPresence: true,
@@ -389,9 +385,7 @@ module.exports = async (env = {}) => {
             options: {
               limit: 7000,
               mimetype: 'application/font-woff',
-              name: isOptimizedBuild
-                ? '[name].[contenthash].[ext]'
-                : '[name].[ext]',
+              name: '[name].[ext]',
             },
           },
         },
@@ -400,9 +394,7 @@ module.exports = async (env = {}) => {
           use: {
             loader: 'file-loader',
             options: {
-              name: isOptimizedBuild
-                ? '[name].[contenthash].[ext]'
-                : '[name].[ext]',
+              name: '[name].[ext]',
             },
           },
         },
@@ -530,10 +522,7 @@ module.exports = async (env = {}) => {
         fix: true,
       }),
 
-      new MiniCssExtractPlugin({
-        filename: isOptimizedBuild ? '[name].[contenthash].css' : '[name].css',
-        chunkFilename: isOptimizedBuild ? '[id].[contenthash].css' : '[id].css',
-      }),
+      new MiniCssExtractPlugin(),
 
       new webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,
