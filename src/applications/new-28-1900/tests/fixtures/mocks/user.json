@@ -19,8 +19,28 @@
         "is_veteran": true,
         "served_in_military": true
       },
-      "in_progress_forms": [],
-      "prefills_available": [],
+      "in_progress_forms": [
+        {
+          "form": "28-1900-V2",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/review-and-submit",
+            "savedAt": 1608147143961,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "expiresAt": 9999999999,
+            "lastUpdated": 1608147144,
+            "inProgressFormId": 1234
+          },
+          "lastUpdated": 1608147144
+        }
+      ],
+      "prefills_available": ["28-1900-V2"],
       "services": [
         "facilities",
         "hca",

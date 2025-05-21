@@ -79,6 +79,7 @@ const ApplicationsInProgress = ({
         .sort((a, b) => b.lastUpdated - a.lastUpdated),
     [transformedSavedForms, transformedStatusForms],
   );
+  console.log('===allForms', allForms)
 
   const isEmptyState = allForms.length === 0 && !submittedError;
   const hasForms = allForms.length > 0 && !submittedError;
