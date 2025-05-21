@@ -75,10 +75,21 @@ describe('Prescription details documentation container', () => {
   });
 
   it('should display loading message when loading specific rx documentation', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionIdApi({ sandbox });
+    stubPrescriptionDocumentationQuery({
+      sandbox,
+      isLoading: true,
+      data: null,
+    });
     const screen = setup();
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('loading-indicator')).to.exist;
-      expect(screen.getByText('Loading information...')).to.exist;
+      expect(screen.getByTestId('loading-indicator')).to.have.attribute(
+        'message',
+        'Loading information...',
+      );
     });
   });
 
@@ -193,9 +204,6 @@ describe('Prescription details documentation container', () => {
         const downloadTxtBtn = screen.getByTestId('download-txt-button');
         expect(downloadTxtBtn).to.exist;
         downloadTxtBtn.click();
-      });
-
-      await waitFor(() => {
         expect(screen.getByText('Download started')).to.exist;
       });
     });
@@ -207,9 +215,6 @@ describe('Prescription details documentation container', () => {
         const downloadPdfBtn = screen.getByTestId('download-pdf-button');
         expect(downloadPdfBtn).to.exist;
         downloadPdfBtn.click();
-      });
-
-      await waitFor(() => {
         expect(screen.getByText('Download started')).to.exist;
       });
     });
