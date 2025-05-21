@@ -161,24 +161,22 @@ function createBasicInitialState(serviceHistory) {
   };
 }
 
+// Function to find the PDF link in the view
+function pdfLinkElement(view) {
+  return Array.from(view.container.querySelectorAll('va-link')).find(
+    link =>
+      link.getAttribute('text') === 'Print your Veteran Status Card (PDF)',
+  );
+}
+
 // Function to check if the PDF link is rendered
 function expecPDFLinkToBeRendered(view) {
-  expect(
-    Array.from(view.container.querySelectorAll('va-link')).some(
-      link =>
-        link.getAttribute('text') === 'Print your Veteran Status Card (PDF)',
-    ),
-  ).to.be.true; // PDF link should be available
+  expect(pdfLinkElement(view)).to.exist;
 }
 
 // Function to check if the PDF link is not rendered
 function expectPDFLinkToNoBeRendered(view) {
-  expect(
-    Array.from(view.container.querySelectorAll('va-link')).some(
-      link =>
-        link.getAttribute('text') === 'Print your Veteran Status Card (PDF)',
-    ),
-  ).to.be.not.true; // PDF link should NOT be available
+  expect(pdfLinkElement(view)).to.not.exist;
 }
 
 describe('VeteranStatus', () => {
