@@ -84,7 +84,7 @@ export const mockGetRefreshStatus = () => {
 export const mockGetData = (response, isMhvData) => {
   let oneRecord;
   if (isMhvData) oneRecord = [response[0]];
-  else oneRecord = { entry: [response.entry[0]] };
+  else oneRecord = { ...response, entry: [response.entry[0]] };
 
   switch (scenario) {
     case 4:
