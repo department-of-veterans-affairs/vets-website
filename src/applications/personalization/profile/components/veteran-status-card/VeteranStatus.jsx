@@ -83,7 +83,7 @@ const VeteranStatus = ({
   useEffect(
     () => {
       let isMounted = true;
-      if (isServiceHistoryValid) {
+      if (formattedFullName && isServiceHistoryValid) {
         const fetchVerificationStatus = async () => {
           setIsLoading(true);
 
@@ -112,7 +112,7 @@ const VeteranStatus = ({
         isMounted = false;
       };
     },
-    [isServiceHistoryValid],
+    [formattedFullName, isServiceHistoryValid],
   );
 
   const getLatestService = () => {
@@ -215,8 +215,11 @@ const VeteranStatus = ({
         );
       }
     }
-    // System error
-    return <SystemErrorAlert />;
+    if (!isCardDataValid) {
+      // System error
+      return <SystemErrorAlert />;
+    }
+    return null;
   };
 
   const renderContent = () => {

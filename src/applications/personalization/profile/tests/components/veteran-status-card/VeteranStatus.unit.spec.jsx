@@ -3,62 +3,92 @@ import { expect } from 'chai';
 import * as api from '~/platform/utilities/api';
 import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import { addDays, subDays, format } from 'date-fns';
+import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
+import { externalServices } from '~/platform/monitoring/DowntimeNotification';
 import { renderWithProfileReducers } from '../../unit-test-helpers';
 import VeteranStatus from '../../../components/veteran-status-card/VeteranStatus';
 
-const serviceHistoryItemOlder = {
-  branchOfService: 'Air Force',
-  beginDate: '2000-01-01',
-  endDate: '2001-01-01',
-  personnelCategoryTypeCode: 'V',
-  characterOfDischargeCode: 'A',
+// Mock downtime data
+const downtime = maintenanceWindows => {
+  return createServiceMap(
+    maintenanceWindows.map(maintenanceWindow => {
+      return {
+        attributes: {
+          externalService: maintenanceWindow,
+          status: 'down',
+          startTime: format(subDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+          endTime: format(addDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+        },
+      };
+    }),
+  );
 };
-const serviceHistoryItemMiddle = {
-  branchOfService: 'Air Force',
-  beginDate: '2010-01-01',
-  endDate: '2011-01-01',
-  personnelCategoryTypeCode: 'V',
-  characterOfDischargeCode: 'A',
-};
-const serviceHistoryItemNewer = {
-  branchOfService: 'Air Force',
-  beginDate: '2020-01-01',
-  endDate: '2021-01-01',
-  personnelCategoryTypeCode: 'V',
-  characterOfDischargeCode: 'A',
-};
-const ineligibleServiceHistoryItem = {
-  branchOfService: 'Air Force',
-  beginDate: '2009-04-12',
-  endDate: '2013-04-11',
-  personnelCategoryTypeCode: 'V',
-  characterOfDischargeCode: 'D',
-};
-const neutralServiceHistoryItem = {
-  branchOfService: 'Air Force',
-  beginDate: '2009-04-12',
-  endDate: '2013-04-11',
-  personnelCategoryTypeCode: 'V',
-  characterOfDischargeCode: 'DVN',
-};
-const confirmedEligibility = {
-  confirmed: true,
-  message: [],
-};
-const problematicEligibility = {
-  confirmed: false,
+
+// Mock title, message and status data
+const dischargeProblemData = {
+  title: 'You’re not eligible for a Veteran Status Card',
   message: [
-    'We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now.',
-    'To fix the problem with your records, call the Defense Manpower Data Center at 800-538-9552 (TTY: 711). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
-  ],
-};
-const nonEligibility = {
-  confirmed: false,
-  message: [
-    'Our records show that you’re not eligible for a Veteran status card. To get a Veteran status card, you must have received an honorable discharge for at least one period of service.',
+    'To get a Veteran status card, you must have received an honorable discharge for at least one period of service.',
     'If you think your discharge status is incorrect, call the Defense Manpower Data Center at 800-538-9552 (TTY: 711). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
   ],
+  status: 'warning',
 };
+const notEligibleData = {
+  title: 'You’re not eligible for a Veteran Status Card',
+  message: [
+    'To get a Veteran status card, you must have received an honorable discharge for at least one period of service.',
+    'If you think your discharge status is incorrect, call the Defense Manpower Data Center at 800-538-9552 (TTY: 711). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
+  ],
+  status: 'warning',
+};
+
+// Mock service history data
+const serviceEpisodes = [
+  {
+    branchOfService: 'Air Force',
+    beginDate: '2020-01-01',
+    endDate: '2021-01-01',
+    personnelCategoryTypeCode: 'V',
+    characterOfDischargeCode: 'A',
+  },
+];
+const serviceHistoryConfirmed = {
+  serviceHistory: serviceEpisodes,
+  vetStatusEligibility: {
+    confirmed: true,
+    message: [],
+  },
+};
+const serviceHistory403Error = {
+  error: {
+    errors: [{ code: '403' }],
+  },
+};
+const serviceHistoryNon403Error = {
+  error: {
+    errors: [{ code: '500' }],
+  },
+};
+const serviceHistoryNone = {
+  serviceHistory: [],
+};
+const serviceHistoryDischargeProblem = {
+  serviceHistory: serviceEpisodes,
+  vetStatusEligibility: {
+    confirmed: false,
+    ...dischargeProblemData,
+  },
+};
+const serviceHistoryNotEligible = {
+  serviceHistory: serviceEpisodes,
+  vetStatusEligibility: {
+    confirmed: false,
+    ...notEligibleData,
+  },
+};
+
+// Mock vet verification status data
 const vetStatusConfirmed = {
   data: {
     id: '',
@@ -66,7 +96,7 @@ const vetStatusConfirmed = {
     attributes: { veteranStatus: 'confirmed' },
   },
 };
-const vetStatusNotConfirmed = {
+const vetStatusDischargeProblem = {
   data: {
     id: '',
     type: 'veteran_status_confirmations',
@@ -74,7 +104,7 @@ const vetStatusNotConfirmed = {
       veteranStatus: 'not confirmed',
       notConfirmedReason: 'PERSON_NOT_FOUND',
     },
-    message: problematicEligibility.message,
+    ...dischargeProblemData,
   },
 };
 const vetStatusNotEligible = {
@@ -85,11 +115,12 @@ const vetStatusNotEligible = {
       veteranStatus: 'not confirmed',
       notConfirmedReason: 'NOT_TITLE_38',
     },
-    message: nonEligibility.message,
+    ...notEligibleData,
   },
 };
 
-function createBasicInitialState(serviceHistory, eligibility) {
+// Mock function to create a basic initial state
+function createBasicInitialState(serviceHistory) {
   return {
     featureToggles: {
       loading: false,
@@ -116,21 +147,38 @@ function createBasicInitialState(serviceHistory, eligibility) {
     vaProfile: {
       hero: {
         userFullName: {
-          first: 'Test',
-          last: 'Test',
+          first: 'John',
+          last: 'Doe',
         },
       },
       personalInformation: {
         birthDate: '1986-05-06',
       },
       militaryInformation: {
-        serviceHistory: {
-          serviceHistory,
-          vetStatusEligibility: eligibility,
-        },
+        serviceHistory,
       },
     },
   };
+}
+
+// Function to check if the PDF link is rendered
+function expecPDFLinkToBeRendered(view) {
+  expect(
+    Array.from(view.container.querySelectorAll('va-link')).some(
+      link =>
+        link.getAttribute('text') === 'Print your Veteran Status Card (PDF)',
+    ),
+  ).to.be.true; // PDF link should be available
+}
+
+// Function to check if the PDF link is not rendered
+function expectPDFLinkToNoBeRendered(view) {
+  expect(
+    Array.from(view.container.querySelectorAll('va-link')).some(
+      link =>
+        link.getAttribute('text') === 'Print your Veteran Status Card (PDF)',
+    ),
+  ).to.be.not.true; // PDF link should NOT be available
 }
 
 describe('VeteranStatus', () => {
@@ -139,356 +187,244 @@ describe('VeteranStatus', () => {
   beforeEach(() => {
     apiRequestStub = sinon.stub(api, 'apiRequest');
   });
+
   afterEach(() => {
     apiRequestStub.restore();
   });
 
-  describe('when it exists', () => {
-    const initialState = createBasicInitialState(
-      [serviceHistoryItemMiddle],
-      confirmedEligibility,
-    );
+  // Test case for when the user is eligible for a Veteran Status Card
+  describe('when the user is eligible for a Veteran Status Card', () => {
+    const initialState = createBasicInitialState(serviceHistoryConfirmed);
 
-    it('should render heading', () => {
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-      const heading = view.getByRole('heading', {
-        name: /Veteran Status Card/i,
-      });
-      expect(heading).to.exist;
-    });
-
-    it('should render description copy', () => {
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-      const description = view.getByText(
-        /This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure./i,
-      );
-      expect(description).to.exist;
-    });
-
-    it('should render frequently asked questions', () => {
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-      const faq = view.getByText(/Frequently asked questions/i);
-      expect(faq).to.exist;
-    });
-  });
-
-  describe('should fetch verification status on render', () => {
-    let initialState = createBasicInitialState(
-      [serviceHistoryItemMiddle],
-      confirmedEligibility,
-    );
-
-    it('displays the card successfully', async () => {
+    it('should render the loading indicator, heading, description, card and FAQ’s', async () => {
       apiRequestStub.resolves(vetStatusConfirmed);
-
       const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
 
-      sinon.assert.calledWith(
-        apiRequestStub,
-        '/profile/vet_verification_status',
-      );
-
-      await waitFor(() => {
-        // No alerts should be displayed
-        expect(view.container.querySelectorAll('va-alert').length).to.equal(0);
-        expect(
-          Array.from(view.container.querySelectorAll('va-link')).some(
-            link =>
-              link.getAttribute('text') ===
-              'Print your Veteran Status Card (PDF)',
-          ),
-        ).to.be.true; // PDF link should be available
-      });
-    });
-
-    it('displays the returned not confirmed message', async () => {
-      apiRequestStub.resolves(vetStatusNotConfirmed);
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-
-      await waitFor(() => {
-        expect(
-          view.queryByText(
-            /We’re sorry. There’s a problem with your discharge status records./,
-          ),
-        ).to.exist;
-        expect(
-          Array.from(view.container.querySelectorAll('va-link')).some(
-            link =>
-              link.getAttribute('text') ===
-              'Print your Veteran Status Card (PDF)',
-          ),
-        ).to.be.not.true; // PDF link should NOT be available
-      });
-    });
-
-    it('handles empty API response', async () => {
-      const mockData = {
-        data: {},
-      };
-      apiRequestStub.resolves(mockData);
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-
-      await waitFor(() => {
-        expect(view.queryByText('Something went wrong')).to.exist;
-        expect(
-          Array.from(view.container.querySelectorAll('va-link')).some(
-            link =>
-              link.getAttribute('text') ===
-              'Print your Veteran Status Card (PDF)',
-          ),
-        ).to.be.not.true; // PDF link should NOT be available
-      });
-    });
-
-    it('handles API error', async () => {
-      apiRequestStub.rejects(new Error('API Error'));
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-
-      await waitFor(() => {
-        expect(view.queryByText('Something went wrong')).to.exist;
-        expect(
-          Array.from(view.container.querySelectorAll('va-link')).some(
-            link =>
-              link.getAttribute('text') ===
-              'Print your Veteran Status Card (PDF)',
-          ),
-        ).to.be.not.true; // PDF link should NOT be available
-      });
-    });
-
-    it('handles a 504 API error with service history', async () => {
-      const mockData = {
-        errors: [
-          {
-            title: 'Gateway Timeout',
-            detail: 'Did not receive a timely response.',
-            code: '504',
-            status: '504',
-          },
-        ],
-      };
-      apiRequestStub.rejects(mockData);
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-
-      await waitFor(() => {
-        expect(view.queryByText('Something went wrong')).to.exist;
-        expect(
-          Array.from(view.container.querySelectorAll('va-link')).some(
-            link =>
-              link.getAttribute('text') ===
-              'Print your Veteran Status Card (PDF)',
-          ),
-        ).to.be.not.true; // PDF link should NOT be available
-      });
-    });
-
-    it('handles a 403 API error with service history', async () => {
-      const mockData = {
-        errors: [
-          {
-            title: 'Forbidden',
-            detail: 'User does not have access to the requested resource',
-            code: '403',
-            status: '403',
-          },
-        ],
-      };
-      apiRequestStub.rejects(mockData);
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-
-      await waitFor(() => {
-        expect(view.queryByText('Something went wrong')).to.exist;
-        expect(
-          Array.from(view.container.querySelectorAll('va-link')).some(
-            link =>
-              link.getAttribute('text') ===
-              'Print your Veteran Status Card (PDF)',
-          ),
-        ).to.be.not.true; // PDF link should NOT be available
-      });
-    });
-
-    it('displays loading indicator if fetch not complete', async () => {
-      initialState = createBasicInitialState([], problematicEligibility);
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-
+      // Check that the loading indicator is rendered
       expect(view.getByTestId('veteran-status-loading-indicator')).to.exist;
-    });
-  });
 
-  describe('when eligible', () => {
-    const initialState = createBasicInitialState(
-      [
-        serviceHistoryItemOlder,
-        serviceHistoryItemMiddle,
-        serviceHistoryItemNewer,
-        ineligibleServiceHistoryItem,
-        neutralServiceHistoryItem,
-      ],
-      confirmedEligibility,
-    );
+      // Check that the heading is rendered
+      expect(
+        view.getByRole('heading', {
+          name: 'Veteran Status Card',
+          level: 1,
+        }),
+      ).to.exist;
 
-    it('should render card if service history contains an eligible discharge despite any other discharges', async () => {
-      apiRequestStub.resolves(vetStatusConfirmed);
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
+      // Check that the description is rendered
+      expect(
+        view.getByText(
+          'This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure.',
+        ),
+      ).to.exist;
+
+      // Check that the FAQ section is rendered
+      expect(view.getByText('Frequently asked questions')).to.exist;
 
       await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+
+        // Check that the user's full name is rendered on the card
         expect(
-          Array.from(view.container.querySelectorAll('va-link')).some(
-            link =>
-              link.getAttribute('text') ===
-              'Print your Veteran Status Card (PDF)',
-          ),
-        ).to.be.true; // PDF link should be available
-      });
-    });
-
-    it('should render the latest service item', async () => {
-      apiRequestStub.resolves(vetStatusConfirmed);
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-      await waitFor(() => {
-        expect(view.queryByText(/United States Air Force • 2020–2021/)).to
-          .exist;
-      });
-    });
-  });
-
-  describe('when there is no service history', () => {
-    const initialState = createBasicInitialState([], problematicEligibility);
-
-    it('displays not confirmed message if confirmed', async () => {
-      apiRequestStub.resolves(vetStatusConfirmed);
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-
-      sinon.assert.calledWith(
-        apiRequestStub,
-        '/profile/vet_verification_status',
-      );
-      await waitFor(() => {
-        expect(
-          view.queryByText(
-            /We’re sorry. There’s a problem with your discharge status records./,
+          view.getByText(
+            `${initialState.vaProfile.hero.userFullName.first} ${
+              initialState.vaProfile.hero.userFullName.last
+            }`,
           ),
         ).to.exist;
-        expect(
-          Array.from(view.container.querySelectorAll('va-link')).some(
-            link =>
-              link.getAttribute('text') ===
-              'Print your Veteran Status Card (PDF)',
-          ),
-        ).to.be.not.true; // PDF link should NOT be available
-      });
-    });
 
-    it('displays not confirmed message if not confirmed', async () => {
-      apiRequestStub.resolves(vetStatusNotConfirmed);
-      const view = renderWithProfileReducers(<VeteranStatus />, {
-        initialState,
-      });
-
-      await waitFor(() => {
-        expect(
-          view.queryByText(
-            /We’re sorry. There’s a problem with your discharge status records./,
-          ),
-        ).to.exist;
-        expect(
-          Array.from(view.container.querySelectorAll('va-link')).some(
-            link =>
-              link.getAttribute('text') ===
-              'Print your Veteran Status Card (PDF)',
-          ),
-        ).to.be.not.true; // PDF link should NOT be available
+        // Check that the PDF download link is rendered
+        expecPDFLinkToBeRendered(view);
       });
     });
   });
 
-  describe('when there is no veteran full name', () => {
-    const initialState = createBasicInitialState(
-      [
-        serviceHistoryItemMiddle,
-        ineligibleServiceHistoryItem,
-        neutralServiceHistoryItem,
-      ],
-      confirmedEligibility,
-    );
-    initialState.vaProfile.hero.userFullName = {
-      first: '',
-      middle: '',
-      last: '',
-      suffix: '',
-    };
-
-    it('should render an error and not the HTML card', async () => {
-      apiRequestStub.resolves(vetStatusNotConfirmed);
+  // Test case for when the user is not eligible for a Veteran Status Card
+  describe('when the user is not eligible for a Veteran Status Card', () => {
+    it('should render the LoadFail alert for non-403 service history errors', () => {
+      const initialState = createBasicInitialState(serviceHistoryNon403Error);
       const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
       });
+      expect(view.getByText(`This page isn't available right now.`)).to.exist;
 
-      await waitFor(() => {
-        expect(view.queryByText(/Something went wrong/)).to.exist;
-        expect(
-          Array.from(view.container.querySelectorAll('va-link')).some(
-            link =>
-              link.getAttribute('text') ===
-              'Print your Veteran Status Card (PDF)',
-          ),
-        ).to.be.not.true; // PDF link should NOT be available
-      });
+      // Check that the PDF download link is not rendered
+      expectPDFLinkToNoBeRendered(view);
     });
-  });
 
-  describe('ineligibility message', () => {
-    it('should render if service history does not contain an eligible discharge, but does contain an inelible discharge', async () => {
-      apiRequestStub.resolves(vetStatusNotEligible);
-      const initialState = createBasicInitialState(
-        [ineligibleServiceHistoryItem, neutralServiceHistoryItem],
-        nonEligibility,
-      );
+    it('should render the NoServiceHistoryAlert alert for 403 service history errors', () => {
+      const initialState = createBasicInitialState(serviceHistory403Error);
       const view = renderWithProfileReducers(<VeteranStatus />, {
         initialState,
-      });
-
-      await waitFor(() => {
-        expect(
-          view.queryByText(
-            /Our records show that you’re not eligible for a Veteran status card./,
-          ),
-        ).to.exist;
       });
       expect(
-        Array.from(view.container.querySelectorAll('va-link')).some(
-          link =>
-            link.getAttribute('text') ===
-            'Print your Veteran Status Card (PDF)',
+        view.getByText(
+          `We can’t match your information to any military service records`,
         ),
-      ).to.be.not.true; // PDF link should NOT be available
+      ).to.exist;
+
+      // Check that the PDF download link is not rendered
+      expectPDFLinkToNoBeRendered(view);
+    });
+
+    it('should render the NoServiceHistoryAlert alert when there is no service history', () => {
+      const initialState = createBasicInitialState(serviceHistoryNone);
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+      expect(
+        view.getByText(
+          `We can’t match your information to any military service records`,
+        ),
+      ).to.exist;
+
+      // Check that the PDF download link is not rendered
+      expectPDFLinkToNoBeRendered(view);
+    });
+
+    it('should render the SystemErrorAlert alert when an API error occurs', async () => {
+      apiRequestStub.rejects(new Error('API Error'));
+      const initialState = createBasicInitialState(serviceHistoryConfirmed);
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+        expect(
+          view.getByText(
+            `We’re sorry. Try to view your Veteran Status Card later.`,
+          ),
+        ).to.exist;
+
+        // Check that the PDF download link is not rendered
+        expectPDFLinkToNoBeRendered(view);
+      });
+    });
+
+    it('should render the SystemErrorAlert alert when the user’s name is missing', () => {
+      const initialState = createBasicInitialState(serviceHistoryConfirmed);
+      initialState.vaProfile.hero.userFullName = {
+        first: '',
+        last: '',
+      };
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+      expect(
+        view.getByText(
+          `We’re sorry. Try to view your Veteran Status Card later.`,
+        ),
+      ).to.exist;
+
+      // Check that the PDF download link is not rendered
+      expectPDFLinkToNoBeRendered(view);
+    });
+
+    it('should render the NotConfirmedAlert alert when vet status returns a discharge problem', async () => {
+      apiRequestStub.resolves(vetStatusDischargeProblem);
+      const initialState = createBasicInitialState(serviceHistoryConfirmed);
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+        expect(view.getByText(dischargeProblemData.title)).to.exist;
+
+        // Check that the PDF download link is not rendered
+        expectPDFLinkToNoBeRendered(view);
+      });
+    });
+
+    it('should render the NotConfirmedAlert alert when there vet status returns not eligible', async () => {
+      apiRequestStub.resolves(vetStatusNotEligible);
+      const initialState = createBasicInitialState(serviceHistoryConfirmed);
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+        expect(view.getByText(notEligibleData.title)).to.exist;
+
+        // Check that the PDF download link is not rendered
+        expectPDFLinkToNoBeRendered(view);
+      });
+    });
+
+    it('should render the NotConfirmedAlert alert when service history returns a discharge problem', async () => {
+      apiRequestStub.resolves(vetStatusConfirmed);
+      const initialState = createBasicInitialState(
+        serviceHistoryDischargeProblem,
+      );
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+        expect(view.getByText(dischargeProblemData.title)).to.exist;
+
+        // Check that the PDF download link is not rendered
+        expectPDFLinkToNoBeRendered(view);
+      });
+    });
+
+    it('should render the NotConfirmedAlert alert when service history returns not eligible', async () => {
+      apiRequestStub.resolves(vetStatusConfirmed);
+      const initialState = createBasicInitialState(serviceHistoryNotEligible);
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        sinon.assert.calledWith(
+          apiRequestStub,
+          '/profile/vet_verification_status',
+        );
+        expect(view.getByText(notEligibleData.title)).to.exist;
+
+        // Check that the PDF download link is not rendered
+        expectPDFLinkToNoBeRendered(view);
+      });
+    });
+  });
+
+  // Test case for when military information is unavailable due to a maintenance window
+  describe('when military information is unavailable due to a maintenance window', () => {
+    const initialState = createBasicInitialState(serviceHistoryConfirmed);
+    initialState.scheduledDowntime = {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: downtime([externalServices.VAPRO_MILITARY_INFO]),
+      dismissedDowntimeWarnings: [],
+    };
+
+    it('should render the Downtime Notification alert', () => {
+      const view = renderWithProfileReducers(<VeteranStatus />, {
+        initialState,
+      });
+      expect(view.getByText(`This application is down for maintenance`)).to
+        .exist;
     });
   });
 });
