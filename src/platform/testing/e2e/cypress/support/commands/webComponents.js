@@ -413,3 +413,28 @@ Cypress.Commands.add(
     );
   },
 );
+
+Cypress.Commands.add('fillAddressWebComponent', (fieldName, addressObject) => {
+  cy.selectVaCheckbox(`root_${fieldName}_isMilitary`, addressObject.isMilitary);
+
+  if (addressObject.city) {
+    if (addressObject.isMilitary) {
+      cy.selectVaRadioOption(`root_${fieldName}_city`, addressObject.city);
+    } else {
+      cy.fillVaTextInput(`root_${fieldName}_city`, addressObject.city);
+    }
+  }
+
+  cy.selectVaSelect(`root_${fieldName}_country`, addressObject.country);
+  cy.fillVaTextInput(`root_${fieldName}_street`, addressObject.street);
+  cy.fillVaTextInput(`root_${fieldName}_street2`, addressObject.street2);
+  cy.fillVaTextInput(`root_${fieldName}_street3`, addressObject.street3);
+
+  if (addressObject.isMilitary) {
+    cy.selectVaRadioOption(`root_${fieldName}_state`, addressObject.state);
+  } else {
+    cy.selectVaSelect(`root_${fieldName}_state`, addressObject.state);
+  }
+
+  cy.fillVaTextInput(`root_${fieldName}_postalCode`, addressObject.postalCode);
+});
