@@ -356,7 +356,7 @@ export async function setVaccineClinic(store, label) {
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {MomentDate} preferredDate A Moment date object with the preferred date
+ * @param {Date} preferredDate A date object with the preferred date
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setPreferredDate(store, preferredDate) {
@@ -455,7 +455,7 @@ export async function setCommunityCareFlow({
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {MomentDate} cityValue The value of the city to select
+ * @param {*} cityValue The value of the city to select
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setClosestCity(store, cityValue) {
