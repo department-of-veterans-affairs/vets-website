@@ -21,7 +21,7 @@ function FilesOptional({ item }) {
       </h4>
       <p>
         {cstFriendlyEvidenceRequests
-          ? `Requested from outsdie VA on ${dateFormatter(item.requestedDate)}`
+          ? `Requested from outside VA on ${dateFormatter(item.requestedDate)}`
           : `Requested to others on {dateFormatter(item.requestedDate)}`}
       </p>
       <p className="alert-description">
