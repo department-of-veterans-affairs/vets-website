@@ -1,10 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { rest, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
+
 import * as ssoUtils from 'platform/utilities/sso';
 import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
+import { headKeepAliveSuccess } from '../mocks/msw-mocks';
 
 import { AutoSSO } from '../../containers/AutoSSO';
 
@@ -27,12 +28,7 @@ describe('<AutoSSO>', () => {
   let server;
 
   beforeEach(() => {
-    server = setupServer(
-      rest.head(
-        'https://int.eauth.va.gov/keepalive',
-        () => new HttpResponse(null, { status: 200 }),
-      ),
-    );
+    server = setupServer(headKeepAliveSuccess);
     server.listen();
   });
 
