@@ -180,8 +180,16 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
     generateTextFile(content, fileName);
   };
 
+  /**
+   * Change to page 1 and fetch the list of vaccines from the server.
+   */
   const loadUpdatedRecords = () => {
-    history.push(`${history.location.pathname}?page=1`);
+    if (paramPage === '1') {
+      dispatch(getVaccinesList(true, paramPage, useBackendPagination));
+    } else {
+      // The page change will trigger a fetch.
+      history.push(`${history.location.pathname}?page=1`);
+    }
   };
 
   return (
@@ -248,7 +256,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
           allowTxtDownloads={allowTxtDownloads}
           description="Vaccines"
         />
-        {useBackendPagination ? (
+        {useBackendPagination && vaccines ? (
           <RecordListNew
             records={vaccines}
             type={recordType.VACCINES}

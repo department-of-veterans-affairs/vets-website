@@ -65,7 +65,9 @@ function useListRefresh({
         dispatch(dispatchAction(refreshIsCurrent, page, useBackendPagination));
       }
     },
-    [refreshIsCurrent, page, useBackendPagination, dispatch, dispatchAction],
+    // We don't want to include refreshIsCurrent in the dependency array. It causes unwanted dispatches.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [page, useBackendPagination, dispatch, dispatchAction],
   );
 
   useEffect(

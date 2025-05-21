@@ -81,10 +81,26 @@ export const mockGetRefreshStatus = () => {
   }
 };
 
-export const mockGetData = (response, isMhvData) => {
+export const mockGetData = (response, dataType) => {
   let oneRecord;
-  if (isMhvData) oneRecord = [response[0]];
-  else oneRecord = { ...response, entry: [response.entry[0]] };
+  if (dataType === 'array') oneRecord = [response[0]];
+  else if (dataType === 'fhir')
+    oneRecord = { ...response, entry: [response.entry[0]] };
+  else if (dataType === 'simplified')
+    oneRecord = {
+      ...response,
+      data: [response.data[0]],
+      meta: {
+        ...response.meta,
+        pagination: {
+          currentPage: 1,
+          perPage: 10,
+          totalPages: 1,
+          totalEntries: 1,
+        },
+      },
+    };
+  else throw new Error('Invalid data type');
 
   switch (scenario) {
     case 4:

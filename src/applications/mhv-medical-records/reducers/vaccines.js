@@ -194,13 +194,17 @@ export const vaccineReducer = (state = initialState, action) => {
         vaccinesList,
         updatedList,
         listMetadata: metadata,
+        updateNeeded: false,
       };
     }
     case Actions.Vaccines.CHECK_FOR_UPDATE: {
       const metadata = action.response.meta;
       return {
         ...state,
-        updateNeeded: metadata && metadata !== state.metadata,
+        updateNeeded:
+          metadata?.pagination?.totalEntries &&
+          metadata?.pagination?.totalEntries !==
+            state.listMetadata?.pagination?.totalEntries,
       };
     }
     case Actions.Vaccines.COPY_UPDATED_LIST: {
