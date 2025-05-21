@@ -4,8 +4,9 @@ import sinon from 'sinon';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import MockFacilityResponse from '../tests/fixtures/MockFacilityResponse';
-import { createMockFacility } from '../tests/mocks/data';
-import { getSchedulingConfigurationMock } from '../tests/mocks/mock';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
@@ -39,19 +40,19 @@ describe('VAOS newAppointmentFlow', () => {
         mockFacilitiesApi({
           children: true,
           ids: ['983'],
-          response: [
-            createMockFacility({
-              id: '983',
-            }),
-          ],
+          response: [new MockFacilityResponse()],
         });
         mockSchedulingConfigurationsApi({
           isCCEnabled: true,
           response: [
-            getSchedulingConfigurationMock({
-              id: '983',
-              typeOfCareId: 'primaryCare',
-              requestEnabled: true,
+            new MockSchedulingConfigurationResponse({
+              facilityId: '983',
+              services: [
+                new MockServiceConfiguration({
+                  typeOfCareId: 'primaryCare',
+                  requestEnabled: true,
+                }),
+              ],
             }),
           ],
         });
@@ -124,7 +125,7 @@ describe('VAOS newAppointmentFlow', () => {
         mockFetch();
         mockFacilitiesApi({
           ids: ['983', '984'],
-          response: [new MockFacilityResponse({ id: 1 })],
+          response: [new MockFacilityResponse({ id: '1' })],
         });
         mockSchedulingConfigurationsApi({
           facilityIds: ['1'],
@@ -162,31 +163,25 @@ describe('VAOS newAppointmentFlow', () => {
         mockFetch();
         mockFacilitiesApi({
           ids,
-          response: [
-            createMockFacility({
-              id: '983',
-              name: 'Cheyenne VA Medical Center',
-              isParent: true,
-            }),
-          ],
+          response: [new MockFacilityResponse({ isParent: true })],
         });
         mockFacilitiesApi({
           children: true,
           ids: ['983', '984'],
-          response: [
-            createMockFacility({
-              id: '983',
-            }),
-          ],
+          response: [new MockFacilityResponse()],
         });
         mockSchedulingConfigurationsApi({
           isCCEnabled: true,
           response: [
-            getSchedulingConfigurationMock({
-              id: '983',
-              typeOfCareId: '411',
-              requestEnabled: true,
-              communityCare: false,
+            new MockSchedulingConfigurationResponse({
+              facilityId: '983',
+              services: [
+                new MockServiceConfiguration({
+                  typeOfCareId: '411',
+                  requestEnabled: true,
+                  communityCare: false,
+                }),
+              ],
             }),
           ],
         });
@@ -230,20 +225,20 @@ describe('VAOS newAppointmentFlow', () => {
         mockFacilitiesApi({
           children: true,
           ids: ['983', '984'],
-          response: [
-            createMockFacility({
-              id: '983',
-            }),
-          ],
+          response: [new MockFacilityResponse()],
         });
         mockSchedulingConfigurationsApi({
           isCCEnabled: true,
           response: [
-            getSchedulingConfigurationMock({
-              id: '983',
-              typeOfCareId: '411',
-              requestEnabled: true,
-              communityCare: true,
+            new MockSchedulingConfigurationResponse({
+              facilityId: '983',
+              services: [
+                new MockServiceConfiguration({
+                  typeOfCareId: '411',
+                  requestEnabled: true,
+                  communityCare: true,
+                }),
+              ],
             }),
           ],
         });
@@ -303,20 +298,20 @@ describe('VAOS newAppointmentFlow', () => {
         mockFacilitiesApi({
           children: true,
           ids: ['983', '984'],
-          response: [
-            createMockFacility({
-              id: '983',
-            }),
-          ],
+          response: [new MockFacilityResponse()],
         });
         mockSchedulingConfigurationsApi(
           {
             isCCEnabled: true,
             response: [
-              getSchedulingConfigurationMock({
-                id: '983',
-                typeOfCareId: 'primaryCare',
-                requestEnabled: true,
+              new MockSchedulingConfigurationResponse({
+                facilityId: '983',
+                services: [
+                  new MockServiceConfiguration({
+                    typeOfCareId: 'primaryCare',
+                    requestEnabled: true,
+                  }),
+                ],
               }),
             ],
           },
@@ -737,19 +732,19 @@ describe('VAOS newAppointmentFlow', () => {
       mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        response: [
-          createMockFacility({
-            id: '983',
-          }),
-        ],
+        response: [new MockFacilityResponse()],
       });
       mockSchedulingConfigurationsApi({
         isCCEnabled: true,
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'Optometry',
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: '4088',
+                requestEnabled: true,
+              }),
+            ],
           }),
         ],
       });

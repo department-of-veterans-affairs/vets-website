@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom-v5-compat';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   VaAccordion,
@@ -63,9 +63,10 @@ const VaPrescription = prescription => {
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
   const latestTrackingStatus = prescription?.trackingList?.[0];
+  const fourteenDaysAgoDate = new Date().setDate(new Date().getDate() - 14);
   const showTrackingAlert =
-    prescription?.trackingList?.[0] &&
-    prescription?.dispStatus === 'Active: Submitted';
+    latestTrackingStatus?.completeDateTime &&
+    Date.parse(latestTrackingStatus?.completeDateTime) > fourteenDaysAgoDate;
   const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
 
   const determineStatus = () => {
@@ -188,7 +189,7 @@ const VaPrescription = prescription => {
                     className={`${
                       !showGroupingContent ? 'vads-u-margin-top--3 ' : ''
                     }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
-                    to="/refill"
+                    to="refill"
                     data-testid="refill-nav-link"
                     data-dd-action-name={
                       dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION

@@ -1,0 +1,63 @@
+flow:
+  title: Debt for benefit overpayments and health for health care copay debt for someone else (auth)
+  runOnCI: false # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value: start-your-question-auth
+
+    - action: include
+      target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
+      value: select-category-debt-for-benefit-overpayments-and-health-care-copay-bills
+
+    - action: include
+      target: page
+      value: select-topic-health-care-copay-debt
+
+    - action: include
+      target: page
+      value: who-is-your-question-about-someone-else
+
+    - action: include
+      target: page
+      value: what-is-your-relationship-to-the-veteran-veteran
+
+    - action: include
+      target: page
+      value: what-is-your-relationship-to-the-veteran-family-member-veteran-spouse
+
+    - action: include
+      target: page
+      value: tell-us-about-your-veteran-family-member
+
+    - action: include
+      target: page
+      value: your-family-member-va-health-facility
+
+    - action: include
+      target: page
+      value: your-contact-information-radio-buttons-us-mail
+
+    - action: include
+      target: page
+      value: your-us-mailing-address
+      
+    - action: include
+      target: page
+      value: your-us-mailing-address-confirm
+
+    - action: include
+      target: page
+      value: your-question
+
+    - action: include
+      target: page
+      value: editing-answers
+
+    - action: include
+      target: page
+      value: your-confirmation-number

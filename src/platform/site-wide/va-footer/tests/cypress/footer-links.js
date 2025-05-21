@@ -124,7 +124,7 @@ export const topRail = [
   },
   {
     text: 'TTY: 711',
-    href: 'tel:+1711',
+    href: 'tel:711',
   },
   {
     text: 'Find a VA location',

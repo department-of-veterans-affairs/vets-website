@@ -27,6 +27,9 @@ describe('Medications Details Page Medication Information pdf download', () => {
     medInfoPage.verifyDownloadSuccessConfirmationMessageOnMedInfoPage(
       Data.DOWNLOAD_SUCCESS_CONFIRMATION_MESSAGE,
     );
+    medInfoPage.verifyDownloadSuccessAlertContentOnMedInfoPage(
+      Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
+    );
     medInfoPage.verifyMedicationDescriptionInDownload(
       rxTrackingDetails.data.attributes.prescriptionName,
       'pdf',

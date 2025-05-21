@@ -30,3 +30,97 @@ export const edipiNotFound = `NOTES:
    Active duty service less than 30 days will display.
    
    ** No data was found. **`;
+
+export const ALERT_TYPE_SEI_ERROR = 'self-entered download error';
+
+// used to show failed call list (shows emergency contacts)
+export const SEI_DOMAIN_DISPLAY_MAP = {
+  activityJournal: 'Activity journal',
+  allergies: 'Allergies',
+  demographics: 'Demographics',
+  emergencyContacts: 'Emergency contacts',
+  familyHistory: 'Family health history',
+  foodJournal: 'Food journal',
+  providers: 'Healthcare providers',
+  healthInsurance: 'Health insurance',
+  testEntries: 'Lab and test results',
+  medicalEvents: 'Medical events',
+  medications: 'Medications and supplements',
+  militaryHistory: 'Military health history',
+  treatmentFacilities: 'Treatment facilities',
+  vaccines: 'Vaccines',
+  vitals: 'Vitals and readings',
+};
+
+// used to reference the sections of the SEI document
+// (does not show emergency contacts because it is only a sub-section)
+export const selfEnteredDocSections = {
+  ACTIVITY_JOURNAL: 'activity journal',
+  ALLERGIES: 'allergies',
+  DEMOGRAPHICS: 'demographics',
+  FAMILY_HISTORY: 'family health history',
+  FOOD_JOURNAL: 'food journal',
+  HEALTH_PROVIDERS: 'healthcare providers',
+  HEALTH_INSURANCE: 'health insurance',
+  TEST_ENTRIES: 'lab and test results',
+  MEDICAL_EVENTS: 'medical events',
+  MEDICATIONS: 'medications and supplements',
+  MILITARY_HISTORY: 'military health history',
+  TREATMENT_FACILITIES: 'treatment facilities',
+  VACCINES: 'vaccines',
+  VITALS: 'vitals and readings',
+};
+
+// used to reference the sections of the SEI document
+// (does not show emergency contacts because it is only a sub-section)
+export const selfEnteredDomains = {
+  ACTIVITY_JOURNAL: 'activityJournal',
+  ALLERGIES: 'allergies',
+  DEMOGRAPHICS: 'demographics',
+  EMERGENCY_CONTACTS: 'emergencyContacts',
+  FAMILY_HISTORY: 'familyHistory',
+  FOOD_JOURNAL: 'foodJournal',
+  HEALTH_PROVIDERS: 'providers',
+  HEALTH_INSURANCE: 'healthInsurance',
+  TEST_ENTRIES: 'testEntries',
+  MEDICAL_EVENTS: 'medicalEvents',
+  MEDICATIONS: 'medications',
+  MILITARY_HISTORY: 'militaryHistory',
+  TREATMENT_FACILITIES: 'treatmentFacilities',
+  VACCINES: 'vaccines',
+  VITALS: 'vitals',
+};
+
+// All SEI domains in one place for easy iteration
+export const SEI_DOMAINS = [
+  'activityJournal',
+  'allergies',
+  'demographics',
+  'emergencyContacts',
+  'familyHistory',
+  'foodJournal',
+  'providers',
+  'healthInsurance',
+  'testEntries',
+  'medicalEvents',
+  'medications',
+  'militaryHistory',
+  'treatmentFacilities',
+  'vaccines',
+  'vitals',
+];
+
+export const UNKNOWN = 'Unknown';
+export const NONE_ENTERED = 'None entered';
+
+export const seiVitalTypes = {
+  BLOOD_PRESSURE: 'bloodPressure',
+  BLOOD_SUGAR: 'bloodSugar',
+  BODY_TEMPERATURE: 'bodyTemperature',
+  BODY_WEIGHT: 'bodyWeight',
+  CHOLESTEROL: 'cholesterol',
+  HEART_RATE: 'heartRate',
+  INR: 'inr',
+  PAIN: 'pain',
+  PULSE_OXIMETRY: 'pulseOximetry',
+};
