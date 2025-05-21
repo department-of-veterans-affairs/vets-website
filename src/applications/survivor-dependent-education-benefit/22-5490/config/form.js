@@ -1363,7 +1363,7 @@ const formConfig = {
         },
         marriageDate: {
           path: 'marriage-date',
-          title: 'Marriage Date',
+          title: 'Marriage date',
           depends: formData => {
             return formData.relationshipToMember === 'spouse';
           },
@@ -1395,7 +1395,7 @@ const formConfig = {
         },
         remarriageInformation: {
           path: 'remarriage-information',
-          title: 'Remarriage Information',
+          title: 'Remarriage information',
           depends: formData => {
             return (
               formData.marriageStatus === 'divorced' &&
@@ -1438,7 +1438,7 @@ const formConfig = {
         },
         remarriageDate: {
           path: 'remarriage-date',
-          title: 'Remarriage Date',
+          title: 'Remarriage date',
           depends: formData => {
             return (
               formData.marriageStatus === 'divorced' &&
