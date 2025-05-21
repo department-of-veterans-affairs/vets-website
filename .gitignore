@@ -50,6 +50,7 @@ all-links.csv
 # Track shared IDE config
 !.vscode/extensions.json
 !.vscode/launch.json
+!.vscode/tasks.json
 
 # Ignore custom generated Cypress-TestRail configs
 config/my-cypress-testrail.json

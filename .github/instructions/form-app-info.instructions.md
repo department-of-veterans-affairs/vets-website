@@ -4,7 +4,7 @@ applyTo: "**/src/applications/**/*"
 
 ### Understanding Common App Directory Structure
 
-An application is usually located in `src/applications/{app-name}` but might also be in `src/applications/sub-folder/{app-name}`. 
+An application is usually located in `src/applications/{app-name}` but might also be in `src/applications/sub-folder/{app-name}`.
 
 The app folder typically contains the following:
 - **`manifest.json`**: Contains the `entryName` for `yarn watch` and the `rootUrl` for opening the app in the browser.
