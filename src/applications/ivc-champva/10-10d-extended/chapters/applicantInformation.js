@@ -45,7 +45,6 @@ import {
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
 import { isInRange } from '../../10-10D/helpers/utilities';
 import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
-import { depends18f3 } from '../../10-10D/pages/ApplicantSponsorMarriageDetailsPage';
 import { ApplicantMedicareStatusPage } from '../../10-10D/pages/ApplicantMedicareStatusPage';
 import { ApplicantMedicareStatusContinuedPage } from '../../10-10D/pages/ApplicantMedicareStatusContinuedPage';
 import ApplicantOhiStatusPage from '../../10-10D/pages/ApplicantOhiStatusPage';
@@ -663,7 +662,7 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-relationship-child/:index',
       title: item => `${applicantWording(item)} dependent status`,
       depends: (formData, index) => {
-        if (index === undefined) return true;
+        // if (index === undefined) return true;
         return (
           get(
             'applicantRelationshipToSponsor.relationshipToVeteran',
@@ -678,7 +677,7 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-relationship-child-upload/:index',
       title: item => `${applicantWording(item)} birth certificate`,
       depends: (formData, index) => {
-        if (index === undefined) return true;
+        // if (index === undefined) return true;
         return (
           get(
             'applicantRelationshipToSponsor.relationshipToVeteran',
@@ -693,7 +692,7 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-child-adoption-file/:index',
       title: item => `${applicantWording(item)} adoption documents`,
       depends: (formData, index) => {
-        if (index === undefined) return true;
+        // if (index === undefined) return true;
         return (
           get(
             'applicantRelationshipToSponsor.relationshipToVeteran',
@@ -712,7 +711,7 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-child-marriage-file/:index',
       title: item => `${applicantWording(item)} parental marriage documents`,
       depends: (formData, index) => {
-        if (index === undefined) return true;
+        // if (index === undefined) return true;
         return (
           get(
             'applicantRelationshipToSponsor.relationshipToVeteran',
@@ -731,7 +730,7 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-dependent-status/:index',
       title: item => `${applicantWording(item)} dependent status`,
       depends: (formData, index) => {
-        if (index === undefined) return true;
+        // if (index === undefined) return true;
         return (
           formData.applicants[index]?.applicantRelationshipToSponsor
             ?.relationshipToVeteran === 'child' &&
@@ -749,7 +748,7 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-child-school-upload/:index',
       title: item => `${applicantWording(item)} school documents`,
       depends: (formData, index) => {
-        if (index === undefined) return true;
+        // if (index === undefined) return true;
         return (
           formData.applicants[index]?.applicantRelationshipToSponsor
             ?.relationshipToVeteran === 'child' &&
@@ -770,7 +769,7 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-dependent-upload/:index',
       title: item => `${applicantWording(item)} helpless child documents`,
       depends: (formData, index) => {
-        if (index === undefined) return true;
+        // if (index === undefined) return true;
         return (
           formData.applicants[index]?.applicantRelationshipToSponsor
             ?.relationshipToVeteran === 'child' &&
@@ -786,8 +785,13 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-marriage-date/:index',
       title: item => `${applicantWording(item)} marriage dates`,
       depends: (formData, index) => {
-        if (index === undefined) return true;
-        return depends18f3(formData, index);
+        // if (index === undefined) return true;
+        return (
+          get(
+            'applicantRelationshipToSponsor.relationshipToVeteran',
+            formData?.applicants?.[index],
+          ) === 'spouse'
+        );
       },
       ...applicantMarriageDatesPage,
     }),
@@ -795,7 +799,7 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-marriage-upload/:index',
       title: item => `${applicantWording(item)} marriage documents`,
       depends: (formData, index) => {
-        if (index === undefined) return true;
+        // if (index === undefined) return true;
         return (
           get(
             'applicantRelationshipToSponsor.relationshipToVeteran',
@@ -816,7 +820,7 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-medicare-continued/:index',
       title: item => `${applicantWording(item)} Medicare Part D status`,
       depends: (formData, index) => {
-        if (index === undefined) return true;
+        // if (index === undefined) return true;
         return (
           get(
             'applicantMedicareStatus.eligibility',
