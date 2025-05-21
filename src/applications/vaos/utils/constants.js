@@ -493,7 +493,7 @@ export const TRAVEL_CLAIM_MESSAGES = {
   success: 'Data retrieved successfully.',
 };
 
-export const DATE_FORMAT_STRINGS = {
+export const DATE_FORMATS = {
   // Friendly formats for displaying dates to users
   // e.g. January 1, 2023
   friendlyDate: 'MMMM d, yyyy',
@@ -508,4 +508,6 @@ export const DATE_FORMAT_STRINGS = {
   // Internal formats for use in source code
   // e.g. 2025-05
   yearMonth: 'yyyy-MM',
+  // e.g. 2025-05-21
+  yearMonthDay: 'yyyy-MM-dd',
 };

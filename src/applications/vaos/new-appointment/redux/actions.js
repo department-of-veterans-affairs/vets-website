@@ -45,7 +45,7 @@ import {
   FETCH_STATUS,
   FLOW_TYPES,
   GA_PREFIX,
-  DATE_FORMAT_STRINGS,
+  DATE_FORMATS,
 } from '../../utils/constants';
 import {
   captureError,
@@ -774,7 +774,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
         // for the correct day.
         const correctedSlots = mappedSlots.map(slot => {
           const zonedDate = utcToZonedTime(slot.start, timezone);
-          const time = format(zonedDate, DATE_FORMAT_STRINGS.ISODateTime, {
+          const time = format(zonedDate, DATE_FORMATS.ISODateTime, {
             timeZone: timezone,
           });
           return { ...slot, start: time, startUtc: slot.start };
@@ -797,10 +797,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   };
 }
 
-// function formatInterval(interval) {
-//   return JSON.stringify(interval);
-// }
-
 export function onCalendarChange(
   selectedDates,
   maxSelections,
@@ -813,10 +809,7 @@ export function onCalendarChange(
       slot => slot.start === selectedDates[0],
     );
     if (selectedSlot) {
-      const key = format(
-        new Date(selectedSlot.start),
-        DATE_FORMAT_STRINGS.yearMonth,
-      );
+      const key = format(new Date(selectedSlot.start), DATE_FORMATS.yearMonth);
       const appointments = upcomingAppointments[key];
 
       isSame = appointments?.some(appointment => {
