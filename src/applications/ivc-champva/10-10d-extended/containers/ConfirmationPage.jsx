@@ -83,8 +83,8 @@ export function ConfirmationPage(props) {
       <h2>How to contact us about your application</h2>
       <p>
         If you have any questions about your application, call us at{' '}
-        <VaTelephone contact={CHAMPVA_PHONE_NUMBER} />. We’re here Monday
-        through Friday, 8:05 a.m. to 7:30 p.m. ET.
+        <VaTelephone contact={CHAMPVA_PHONE_NUMBER} /> (TTY: 711). We’re here
+        Monday through Friday, 8:05 a.m. to 7:30 p.m. ET.
         <br />
         <br />
         You can also contact us online through our Ask VA tool.
