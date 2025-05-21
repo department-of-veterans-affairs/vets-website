@@ -283,10 +283,11 @@ export default function RecentActivity({ claim }) {
                     status="info"
                     slim
                   >
-                    You don’t have to do anything, but if you have this
-                    information you can{' '}
+                    <strong>You don’t have to do anything.</strong> We asked
+                    someone outside VA for documents related to your claim.
+                    <br />
                     <Link
-                      aria-label={`Add it here for ${item.friendlyName ||
+                      aria-label={`About this notice for ${item.friendlyName ||
                         item.displayName}`}
                       className="add-your-claims-link"
                       to={
@@ -295,7 +296,7 @@ export default function RecentActivity({ claim }) {
                           : `../document-request/${item.id}`
                       }
                     >
-                      add it here.
+                      About this notice
                     </Link>
                   </va-alert>
                 )

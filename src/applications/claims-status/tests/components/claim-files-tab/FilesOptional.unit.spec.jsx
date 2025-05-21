@@ -41,7 +41,12 @@ describe('<FilesOptional>', () => {
     );
 
     getByText(item.displayName);
+    getByText('Requested from outside VA on April 21, 2025');
     getByText(item.description);
+    getByText(/you don’t have to do anything/i);
+    getByText(
+      'We asked someone outside VA for documents related to your claim.',
+    );
     getByText('About this notice');
     getByText('Requested from outside VA on April 21, 2025');
   });

@@ -594,7 +594,7 @@ describe('<RecentActivity>', () => {
           getByText('Request for others');
           getByText('We opened a request: “Needed from others Request”');
           expect($('va-alert', container)).to.exist;
-          getByLabelText('Add it here for Needed from others Request');
+          getByLabelText('About this notice for Needed from others Request');
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should render recent activities section with NO_LONGER_REQUIRED record', () => {
@@ -1033,7 +1033,7 @@ describe('<RecentActivity>', () => {
           getByText('Request for others');
           getByText('We opened a request: “Needed from others Request”');
           expect($('va-alert', container)).to.exist;
-          getByLabelText('Add it here for Needed from others Request');
+          getByLabelText('About this notice for Needed from others Request');
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should render recent activities section with NO_LONGER_REQUIRED record', () => {
@@ -1375,6 +1375,10 @@ describe('<RecentActivity>', () => {
       );
       getByText(
         `We made a request outside the VA: “Third party friendly name”`,
+      );
+      getByText(/you don’t have to do anything/i);
+      getByText(
+        `We asked someone outside VA for documents related to your claim.`,
       );
     });
   });
