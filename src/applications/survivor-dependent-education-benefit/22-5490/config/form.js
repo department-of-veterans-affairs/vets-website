@@ -166,7 +166,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-5490',
-  title: 'Apply to use survivor dependent education benefits',
+  title: 'Survirors’ and Dependents’ Educational Assistance Benefits',
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your DEPENDENTS&#39; APPLICATION FOR VA EDUCATION BENEFITS  application (22-5490) is in progress.',
@@ -393,7 +393,7 @@ const formConfig = {
       },
     },
     yourInformationChapter: {
-      title: 'Your Information',
+      title: 'Your information',
       pages: {
         reviewPersonalInformation: {
           path: 'review-personal-information',
@@ -480,7 +480,7 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Contact Information',
+      title: 'Contact information',
       pages: {
         contactInformation: {
           path: 'contact-information',
@@ -1201,7 +1201,7 @@ const formConfig = {
       },
     },
     applicantInformationChapter: {
-      title: 'Veteran or Service Member Information',
+      title: 'Veteran or service member information',
       pages: {
         applicantInformation: {
           path: 'veteran-or-service-member-information',
@@ -1315,7 +1315,7 @@ const formConfig = {
       },
     },
     additionalConsiderationsChapter: {
-      title: 'Additional Considerations',
+      title: 'Additional Consideration',
       pages: {
         marriageInformation: {
           title: 'Marriage information',
@@ -1511,7 +1511,7 @@ const formConfig = {
       },
     },
     directDepositChapter: {
-      title: 'Direct Deposit',
+      title: 'Direct deposit',
       pages: {
         directDeposit: {
           path: 'direct-deposit',
