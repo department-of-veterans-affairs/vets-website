@@ -26,16 +26,20 @@ function FilesOptional({ item }) {
       </p>
       <p className="alert-description">
         {cstFriendlyEvidenceRequests &&
-        (item.shortDescription || item.activityDescription)
-          ? item.shortDescription || item.activityDescription
-          : truncateDescription(item.description)}
+        (item.shortDescription || item.activityDescription) ? (
+          item.shortDescription || item.activityDescription
+        ) : (
+          <>
+            <p>{truncateDescription(item.description)}</p>
+            <strong>You don’t have to do anything.</strong> We asked someone
+            outside VA for documents related to your claim.
+            <br />
+          </>
+        )}
       </p>
-      <br />
+
       {cstFriendlyEvidenceRequests ? (
         <div className="call-to-action">
-          <strong>You don’t have to do anything.</strong> We asked someone
-          outside VA for documents related to your claim.
-          <br />
           <Link
             aria-label={`About this notice for ${item.friendlyName ||
               item.displayName}`}
