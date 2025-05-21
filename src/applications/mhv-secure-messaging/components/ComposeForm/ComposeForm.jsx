@@ -61,6 +61,7 @@ const ComposeForm = props => {
   const history = useHistory();
 
   const { isComboBoxEnabled } = useFeatureToggles();
+  const { isPilot } = useSelector(state => state.sm.app);
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
@@ -835,7 +836,8 @@ const ComposeForm = props => {
           }
         />
         <div>
-          {!noAssociations &&
+          {!isPilot &&
+            !noAssociations &&
             !allTriageGroupsBlocked && (
               <div
                 className={`vads-u-border-top--1px vads-u-padding-top--3 vads-u-margin-top--3 ${
@@ -863,6 +865,7 @@ const ComposeForm = props => {
                 setCheckboxMarked={setCheckboxMarked}
                 setElectronicSignature={setElectronicSignature}
                 setComboBoxInputValue={setComboBoxInputValue}
+                currentRecipient={currentRecipient}
               />
             )}
           <div className="compose-form-div">
@@ -889,23 +892,30 @@ const ComposeForm = props => {
             {noAssociations || allTriageGroupsBlocked ? (
               <ViewOnlyDraftSection title={FormLabels.SUBJECT} body={subject} />
             ) : (
-              <va-text-input
-                label={FormLabels.SUBJECT}
-                required
-                type="text"
-                id="message-subject"
-                name="message-subject"
-                class="message-subject"
-                data-testid="message-subject-field"
-                onInput={subjectHandler}
-                value={subject}
-                error={subjectError}
-                data-dd-privacy="mask"
-                data-dd-action-name="Subject (Required) Input Field"
-                maxlength="50"
-                uswds
-                charcount
-              />
+              <>
+                {isPilot && (
+                  <h3 className="vads-u-margin-top--4 vads-u-margin-bottom--neg1">
+                    Write your message
+                  </h3>
+                )}
+                <va-text-input
+                  label={FormLabels.SUBJECT}
+                  required
+                  type="text"
+                  id="message-subject"
+                  name="message-subject"
+                  class="message-subject"
+                  data-testid="message-subject-field"
+                  onInput={subjectHandler}
+                  value={subject}
+                  error={subjectError}
+                  data-dd-privacy="mask"
+                  data-dd-action-name="Subject (Required) Input Field"
+                  maxlength="50"
+                  uswds
+                  charcount
+                />
+              </>
             )}
           </div>
           <div className="compose-form-div vads-u-margin-bottom--0">

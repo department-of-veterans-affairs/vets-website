@@ -4,6 +4,7 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useSelector } from 'react-redux';
 import { RadioCategories } from '../../util/inputContants';
 
 const CategoryInput = props => {
@@ -16,6 +17,8 @@ const CategoryInput = props => {
     setUnsavedNavigationError,
   } = props;
 
+  const { isPilot } = useSelector(state => state.sm.app);
+
   const categoryChangeHandler = e => {
     setCategory(e.detail.value);
     if (e.detail.value) setCategoryError(null);
@@ -24,6 +27,11 @@ const CategoryInput = props => {
 
   return (
     <>
+      {isPilot && (
+        <h3 className="vads-u-margin-top--4 vads-u-margin-bottom--neg1">
+          Choose a topic for your message
+        </h3>
+      )}
       {categories === undefined && <va-loading-indicator />}
 
       {categories?.length > 0 && (
