@@ -12,3 +12,12 @@ export const lettersUseLighthouse = state =>
 // 'letters_check_discrepancies'
 export const lettersCheckDiscrepancies = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.lettersCheckDiscrepancies];
+
+// 'letters_page_new_design'
+export const lettersPageNewDesign = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.lettersPageNewDesign];
+
+// Verify toggles are loaded
+export const togglesAreLoaded = state => {
+  return !toggleValues(state)?.loading;
+};
