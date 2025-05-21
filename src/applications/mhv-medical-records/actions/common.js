@@ -30,6 +30,7 @@ const delay = ms => {
 export const getListWithRetryRecursively = async (
   dispatch,
   getList,
+  pageParam = 1,
   retryInterval = defaultRetryInterval,
   endTimeParam = null,
 ) => {
@@ -41,7 +42,7 @@ export const getListWithRetryRecursively = async (
     throw new Error(TIMEOUT_ERROR);
   }
 
-  const response = await getList();
+  const response = await getList(pageParam);
   let nestedReturn = { isInitial: false, response };
   if (response?.status === 202) {
     dispatch({
@@ -67,6 +68,7 @@ export const getListWithRetryRecursively = async (
 export const getListWithRetry = async (
   dispatch,
   getList,
+  pageParam = 1,
   retryInterval = defaultRetryInterval,
   endTimeParam = null,
 ) => {
@@ -81,6 +83,7 @@ export const getListWithRetry = async (
     } = await getListWithRetryRecursively(
       dispatch,
       getList,
+      pageParam,
       retryInterval,
       endTimeParam,
     );

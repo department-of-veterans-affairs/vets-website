@@ -203,8 +203,10 @@ export const getAcceleratedAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = async () => {
-  return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
+export const getVaccineList = async page => {
+  // Send pagination params if page is defined and != 0
+  const query = page ? `?page=${page}&per_page=10` : '';
+  return apiRequest(`${apiBasePath}/medical_records/vaccines${query}`, {
     headers,
   });
 };

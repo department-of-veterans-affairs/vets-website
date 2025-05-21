@@ -28,6 +28,7 @@ describe('getListWithRetry', () => {
       result = await getListWithRetry(
         mockDispatch,
         mockedGetListNoRetry,
+        1,
         200,
         Date.now() + 100,
       );
@@ -45,6 +46,7 @@ describe('getListWithRetry', () => {
       await getListWithRetry(
         mockDispatch,
         mockedGetListRetry,
+        1,
         200,
         Date.now() + 100,
       );
@@ -63,6 +65,7 @@ describe('getListWithRetry', () => {
       result = await getListWithRetry(
         mockDispatch,
         mockedGetListRetry,
+        1,
         200,
         Date.now() + 500,
       );
