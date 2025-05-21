@@ -41,7 +41,28 @@
         "effectiveDate": "2024-10-01",
         "expirationDate": "2024-10-02",
         "throughEmployer": true,
-        "healthcareParticipants": { "28e7f1064a74": true }
+        "healthcareParticipants": { "28e7f1064a74": true },
+        "insuranceCard": []
+      },
+      {
+        "insuranceType": "medigap",
+        "medigapPlan": "K",
+        "provider": "Cigna",
+        "effectiveDate": "2024-10-01",
+        "expirationDate": "2024-10-02",
+        "throughEmployer": true,
+        "healthcareParticipants": { "28e7f1064a74": true },
+        "insuranceCard": []
+      },
+      {
+        "insuranceType": "medigap",
+        "medigapPlan": "K",
+        "provider": "Bligna",
+        "effectiveDate": "2024-10-01",
+        "expirationDate": "2024-10-02",
+        "throughEmployer": true,
+        "healthcareParticipants": { "28e7f1064a74": true },
+        "insuranceCard": []
       }
     ],
     "ssn": {
@@ -75,9 +96,6 @@
     "sponsorDob": "1958-01-01",
     "sponsorIsDeceased": true,
     "sponsorDOD": "2001-01-01",
-    "sponsorDeathConditions": false,
-    "statementOfTruthSignature": "Johnny T Alvin",
-    "statementOfTruthCertified": true,
-    "consentToMailMissingRequiredFiles": true
+    "sponsorDeathConditions": false
   }
 }
