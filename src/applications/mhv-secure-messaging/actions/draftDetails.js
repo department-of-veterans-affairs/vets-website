@@ -9,6 +9,7 @@ import {
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
+import { decodeHtmlEntities } from '../util/helpers';
 
 const sendSaveDraft = async (messageData, id) => {
   try {
@@ -46,11 +47,26 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
   });
   dispatch({ type: Actions.Thread.DRAFT_SAVE_STARTED });
 
-  const response = await sendSaveDraft(messageData, id);
+  const request = {
+    ...messageData,
+    body: decodeHtmlEntities(messageData.body),
+    subject: decodeHtmlEntities(messageData.subject),
+  };
+
+  const response = await sendSaveDraft(request, id);
   if (response.data) {
     dispatch({
       type: Actions.Draft.CREATE_SUCCEEDED,
-      response,
+      response: {
+        data: {
+          ...response.data,
+          attributes: {
+            ...response.data.attributes,
+            body: decodeHtmlEntities(response.data.attributes.body),
+            subject: decodeHtmlEntities(response.data.attributes.subject),
+          },
+        },
+      },
     });
   }
   if (response.errors) {
@@ -91,11 +107,26 @@ export const saveReplyDraft = (
     payload: { messageId: id },
   });
 
-  const response = await sendReplyDraft(replyToId, messageData, id);
+  const request = {
+    ...messageData,
+    body: decodeHtmlEntities(messageData.body),
+    subject: decodeHtmlEntities(messageData.subject),
+  };
+
+  const response = await sendReplyDraft(replyToId, request, id);
   if (response.data) {
     dispatch({
       type: Actions.Draft.CREATE_SUCCEEDED,
-      response,
+      response: {
+        data: {
+          ...response.data,
+          attributes: {
+            ...response.data.attributes,
+            body: decodeHtmlEntities(response.data.attributes.body),
+            subject: decodeHtmlEntities(response.data.attributes.subject),
+          },
+        },
+      },
     });
     return response.data.attributes;
   }

@@ -47,7 +47,7 @@ describe('useBotPonyfill', () => {
 
       expect(apiRequestStub.calledOnce).to.be.true;
       expect(
-        apiRequestStub.calledWith('/virtual_agent_speech_token', {
+        apiRequestStub.calledWith('/chatbot/speech_token', {
           method: 'POST',
         }),
       ).to.be.true;
@@ -86,7 +86,7 @@ describe('useBotPonyfill', () => {
 
       expect(apiRequestStub.calledOnce).to.be.true;
       expect(
-        apiRequestStub.calledWith('/virtual_agent_speech_token', {
+        apiRequestStub.calledWith('/chatbot/speech_token', {
           method: 'POST',
         }),
       ).to.be.true;
@@ -125,7 +125,7 @@ describe('useBotPonyfill', () => {
 
       expect(apiRequestStub.calledOnce).to.be.true;
       expect(
-        apiRequestStub.calledWith('/virtual_agent_speech_token', {
+        apiRequestStub.calledWith('/chatbot/speech_token', {
           method: 'POST',
         }),
       ).to.be.true;
