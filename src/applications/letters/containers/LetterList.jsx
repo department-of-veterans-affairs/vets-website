@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
-import { TOGGLE_NAMES, Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
@@ -69,14 +69,15 @@ export class LetterList extends React.Component {
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
         letterTitle = 'Benefit Summary and Service Verification Letter';
         content = (
-          <Toggler toggleName={TOGGLE_NAMES.lettersPageNewDesign}>
-            <Toggler.Enabled>
-              <VeteranBenefitSummaryOptions />
-            </Toggler.Enabled>
-            <Toggler.Disabled>
-              <VeteranBenefitSummaryLetter />
-            </Toggler.Disabled>
-          </Toggler>
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue ? (
+                <VeteranBenefitSummaryOptions />
+              ) : (
+                <VeteranBenefitSummaryLetter />
+              )
+            }
+          </Toggler.Hoc>
         );
         helpText = bslHelpInstructions;
       } else if (letter.letterType === LETTER_TYPES.proofOfService) {
@@ -112,7 +113,7 @@ export class LetterList extends React.Component {
         conditionalDownloadElem = (
           <DownloadLetterLink
             letterType={letter.letterType}
-            letterTitle={letterTitle}
+            letterTitle={`Download ${letterTitle}`}
             downloadStatus={downloadStatus[letter.letterType]}
             // eslint-disable-next-line -- LH_MIGRATION
             LH_MIGRATION__options={this.state.LH_MIGRATION__options}
