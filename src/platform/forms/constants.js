@@ -113,6 +113,7 @@ export const getAllFormLinks = getAppUrlImpl => {
   }
 
   const tryGetAppUrl = formId => {
+    console.log('formId', formId)
     try {
       return getAppUrlImpl(formId);
     } catch (e) {

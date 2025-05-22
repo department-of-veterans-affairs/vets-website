@@ -124,6 +124,7 @@ const ApplicationsInProgress = ({
               );
 
               if (Object.hasOwn(form, 'savedAt')) {
+                console.log('******** THIS form', form)
                 // if form is draft, then render Draft Card
                 const { expiresAt } = form || {};
                 const expirationDate = format(
