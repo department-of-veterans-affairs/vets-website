@@ -42,7 +42,7 @@ describe('<FilesOptional>', () => {
     getByText('add it here.');
   });
   it('should render updated UI when cstFriendlyEvidenceRequests is true', () => {
-    const { getByText } = renderWithRouter(
+    const { getByText, queryByText } = renderWithRouter(
       <Provider store={getStore(true)}>
         <FilesOptional item={item} />
       </Provider>,
@@ -50,7 +50,7 @@ describe('<FilesOptional>', () => {
 
     getByText(item.displayName);
     getByText('Requested from outside VA on April 21, 2025');
-    getByText(item.description);
+    expect(queryByText(item.description)).to.be.null;
     getByText(/you don’t have to do anything/i);
     getByText(
       'We asked someone outside VA for documents related to your claim.',

@@ -224,7 +224,12 @@ export default function RecentActivity({ claim }) {
           status="info"
           slim
         >
-          {!item.activityDescription && (
+          {item.activityDescription ? (
+            <>
+              {item.activityDescription}
+              <br />
+            </>
+          ) : (
             <>
               <strong>You don’t have to do anything.</strong> We asked someone
               outside VA for documents related to your claim.
