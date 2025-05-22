@@ -40,11 +40,21 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '22-1919',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your education benefits application (22-1919) is in progress.',
-    //   expired: 'Your saved education benefits application (22-1919) has expired. If you want to apply for education benefits, please start a new application.',
-    //   saved: 'Your education benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your form (22-1919) is in progress.',
+      expired:
+        'Your saved form (22-1919) has expired. Please start a new form.',
+      saved: 'Your form has been saved.',
+    },
+  },
+  customText: {
+    appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    finishAppLaterMessage: 'Finish this form later',
+    reviewPageTitle: 'Review',
+    startNewAppButtonText: 'Start a new form',
+    submitButtonText: 'Continue',
   },
   version: 0,
   prefillEnabled: true,
