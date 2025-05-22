@@ -86,7 +86,7 @@ class SaveInProgressIntro extends React.Component {
     // e.g. appContinuing = 'for planning and career guidance' =>
     // You can continue applying now for planning and career guidance, or...
     const appContinuing = formConfig?.customText?.appContinuing || '';
-
+    const Header = `h${this.props.headingLevel}`;
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         /**
@@ -111,7 +111,7 @@ class SaveInProgressIntro extends React.Component {
         const isExpired = isBefore(expiresAt, new Date());
         const inProgressMessage = getInProgressMessage(formConfig);
 
-        const Header = `h${this.props.headingLevel}`;
+        // const Header = `h${this.props.headingLevel}`;
         if (!isExpired) {
           const lastSavedDateTime =
             savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
@@ -166,7 +166,9 @@ class SaveInProgressIntro extends React.Component {
         alert = (
           <div>
             <va-alert status="info" visible>
-              <h3>We've prefilled some of your information</h3>
+              <Header slot="headline">
+                We've prefilled some of your information
+              </Header>
               Since you’re signed in, we can prefill part of your {appType}{' '}
               based on your profile details. You can also save your {appType} in
               progress and come back later to finish filling it out.
