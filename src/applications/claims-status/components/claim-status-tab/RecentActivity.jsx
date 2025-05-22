@@ -110,7 +110,7 @@ export default function RecentActivity({ claim }) {
         ) {
           addItems(
             item.requestedDate,
-            `We made a request outside the VA: “${displayName}”`,
+            `We made a request outside the VA: “${displayName}.”`,
             item,
           );
         } else {

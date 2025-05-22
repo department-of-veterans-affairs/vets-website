@@ -1400,7 +1400,7 @@ describe('<RecentActivity>', () => {
         </Provider>,
       );
       getByText(
-        `We made a request outside the VA: “Third party friendly name”`,
+        `We made a request outside the VA: “Third party friendly name.”`,
       );
       getByText(/you don’t have to do anything/i);
       getByText(
@@ -1418,7 +1418,7 @@ describe('<RecentActivity>', () => {
         </Provider>,
       );
       getByText(
-        `We made a request outside the VA: “Third party friendly name”`,
+        `We made a request outside the VA: “Third party friendly name.”`,
       );
       expect(queryByText(/you don’t have to do anything/i)).to.be.null;
       expect(
