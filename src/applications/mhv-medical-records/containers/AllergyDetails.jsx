@@ -113,7 +113,13 @@ const AllergyDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, details: generateAllergyItem(allergyData) };
     const pdfName = `VA-allergies-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Allergy details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Allergy details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateAllergyTextContent = () => {

@@ -218,24 +218,26 @@ const ReviewPage = props => {
     }
 
     return (
-      <div className="vads-u-display--flex vads-u-justify-content--space-between">
-        <div className="vads-u-margin-right--2">Attachments</div>
-        <div>
-          {displayData.map(file => (
-            <div
-              className="vads-u-margin-bottom--2 vads-u-color--link-default"
-              key={`${file.id}-${file.name}`}
-            >
-              <va-icon icon="attach_file" size={3} />
-              <DownloadLink
-                fileUrl={file.base64}
-                fileName={file.name}
-                fileSize={file.size}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
+      <dl className="vads-u-display--flex vads-u-justify-content--space-between">
+        <dt className="vads-u-margin-right--2">Attachments</dt>
+        <dd>
+          <ul className="vads-u-margin-top--0 attachments-list">
+            {displayData.map(file => (
+              <li
+                className="vads-u-margin-bottom--2 vads-u-color--link-default"
+                key={`${file.id}-${file.name}`}
+              >
+                <va-icon icon="attach_file" size={3} />
+                <DownloadLink
+                  fileUrl={file.base64}
+                  fileName={file.name}
+                  fileSize={file.size}
+                />
+              </li>
+            ))}
+          </ul>
+        </dd>
+      </dl>
     );
   };
 

@@ -164,7 +164,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-5490',
-  title: 'Apply to use survivor dependent education benefits',
+  title: 'Survirors’ and Dependents’ Educational Assistance Benefits',
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your DEPENDENTS&#39; APPLICATION FOR VA EDUCATION BENEFITS  application (22-5490) is in progress.',
@@ -201,7 +201,7 @@ const formConfig = {
       pages: {
         benefitSelection: {
           path: 'benefit-selection',
-          title: 'Benefit selection',
+          title: 'Review benefit selection',
           uiSchema: {
             'view:subHeading': {
               'ui:description': (
@@ -394,7 +394,7 @@ const formConfig = {
       pages: {
         reviewPersonalInformation: {
           path: 'review-personal-information',
-          title: 'Review your Personal Information',
+          title: 'Review your personal information',
           CustomPageReview: PersonalInformationReviewField,
           uiSchema: {
             'view:subHeadings': {
@@ -481,7 +481,7 @@ const formConfig = {
       pages: {
         contactInformation: {
           path: 'contact-information',
-          title: 'Review your phone numbers and email address',
+          title: 'Review your phone number and email address',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -582,7 +582,7 @@ const formConfig = {
           },
         },
         mailingAddress: {
-          title: 'Mailing address',
+          title: 'Review your mailing address',
           path: 'contact-information/mailing-address',
           uiSchema: {
             'view:subHeadings': {
@@ -615,9 +615,6 @@ const formConfig = {
             mailingAddressInput: {
               'ui:description': (
                 <>
-                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
-                    Mailing address
-                  </h4>
                   <p className="meb-review-page-only">
                     If you’d like to update your mailing address, please edit
                     the form fields below.
@@ -1201,11 +1198,11 @@ const formConfig = {
       },
     },
     applicantInformationChapter: {
-      title: 'Veteran or Service Member Information',
+      title: 'Veteran or service member information',
       pages: {
         applicantInformation: {
           path: 'veteran-or-service-member-information',
-          title: 'Veteran or Service Member Information',
+          title: 'Review veteran or service member information',
           uiSchema: {
             relationshipToMember: {
               'ui:title':
@@ -1223,17 +1220,7 @@ const formConfig = {
               'ui:title': 'Veteran or service member information',
               first: {
                 ...fullNameUI.first,
-                'ui:title': 'First name',
-                'ui:options': {
-                  updateSchema: (formData, schema) => {
-                    const flag = formData?.showMeb54901990eTextUpdate;
-
-                    return {
-                      ...schema,
-                      title: flag ? 'Veteran first name' : 'First name',
-                    };
-                  },
-                },
+                'ui:title': 'Veteran or service member first name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -1250,17 +1237,7 @@ const formConfig = {
               },
               middle: {
                 ...fullNameUI.middle,
-                'ui:title': 'Middle name',
-                'ui:options': {
-                  updateSchema: (formData, schema) => {
-                    const flag = formData?.showMeb54901990eTextUpdate;
-
-                    return {
-                      ...schema,
-                      title: flag ? 'Veteran middle name' : 'Middle name',
-                    };
-                  },
-                },
+                'ui:title': 'Veteran or service member middle name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -1277,17 +1254,7 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
-                'ui:title': 'Last name',
-                'ui:options': {
-                  updateSchema: (formData, schema) => {
-                    const flag = formData?.showMeb54901990eTextUpdate;
-
-                    return {
-                      ...schema,
-                      title: flag ? 'Veteran last name' : 'Last name',
-                    };
-                  },
-                },
+                'ui:title': 'Veteran or service member last name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidLastName(field)) {
@@ -1306,34 +1273,12 @@ const formConfig = {
               },
             },
             dateOfBirth: {
-              ...currentOrPastDateUI('Date of birth'),
-              'ui:title': 'Date of birth',
-              'ui:options': {
-                updateSchema: (formData, schema) => {
-                  const flag = formData?.showMeb54901990eTextUpdate;
-
-                  return {
-                    ...schema,
-                    title: flag ? 'Veteran date of birth' : 'Date of birth',
-                  };
-                },
-              },
+              ...currentOrPastDateUI('Veteran date of birth'),
+              'ui:title': 'Veteran or service member date of birth',
             },
             ssn: {
               ...ssnUI,
-              'ui:title': 'Social security number',
-              'ui:options': {
-                updateSchema: (formData, schema) => {
-                  const flag = formData?.showMeb54901990eTextUpdate;
-
-                  return {
-                    ...schema,
-                    title: flag
-                      ? 'Veteran social security number'
-                      : 'Social security number',
-                  };
-                },
-              },
+              'ui:title': 'Veteran or service member social security number',
               'ui:reviewField': ObfuscateReviewField,
             },
             'view:incorrectFormWarning': {
@@ -1366,7 +1311,7 @@ const formConfig = {
       },
     },
     additionalConsiderationsChapter: {
-      title: 'Additional considerations',
+      title: 'Additional consideration',
       pages: {
         marriageInformation: {
           title: 'Marriage information',
@@ -1414,7 +1359,7 @@ const formConfig = {
         },
         marriageDate: {
           path: 'marriage-date',
-          title: 'Marriage Date',
+          title: 'Marriage date',
           depends: formData => {
             return formData.relationshipToMember === 'spouse';
           },
@@ -1422,7 +1367,7 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Marriage Date</h3>
+                  <h3>Marriage date</h3>
                 </>
               ),
             },
@@ -1446,7 +1391,7 @@ const formConfig = {
         },
         remarriageInformation: {
           path: 'remarriage-information',
-          title: 'Remarriage Information',
+          title: 'Remarriage information',
           depends: formData => {
             return (
               formData.marriageStatus === 'divorced' &&
@@ -1489,7 +1434,7 @@ const formConfig = {
         },
         remarriageDate: {
           path: 'remarriage-date',
-          title: 'Remarriage Date',
+          title: 'Remarriage date',
           depends: formData => {
             return (
               formData.marriageStatus === 'divorced' &&
@@ -1501,7 +1446,7 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Remarriage Date</h3>
+                  <h3>Remarriage date</h3>
                 </>
               ),
             },
@@ -1523,7 +1468,7 @@ const formConfig = {
         },
         outstandingFelony: {
           path: 'outstanding-felony',
-          title: 'Outstanding Felony',
+          title: 'Outstanding felony',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
