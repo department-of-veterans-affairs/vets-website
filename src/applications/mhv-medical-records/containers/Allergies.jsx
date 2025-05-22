@@ -126,7 +126,13 @@ const Allergies = props => {
       ...generateAllergiesContent(allergies, isAcceleratingAllergies),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Allergies - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateAllergyListItemTxt = item => {

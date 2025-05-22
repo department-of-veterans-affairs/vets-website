@@ -1725,5 +1725,17 @@
     "src": "/RONEWORLEANS",
     "dest": "/new-orleans-va-regional-benefit-office-at-new-orleans-va-medical-center/",
     "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pittsburgh",
+    "dest": "/pittsburgh-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROPITTSBURGH",
+    "dest": "/pittsburgh-va-regional-benefit-office/",
+    "catchAll": true
   }
 ]

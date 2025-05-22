@@ -7,6 +7,10 @@ export const annualReceivedIncomeFromAnnuityRequired = (form, index) =>
 export const annualReceivedIncomeFromTrustRequired = (form, index) =>
   get(['trusts', index, 'receivingIncomeFromTrust'], form);
 
+export const hasSession = () => {
+  return localStorage.getItem('hasSession') === 'true';
+};
+
 export const formatCurrency = num => `$${num.toLocaleString()}`;
 
 /**

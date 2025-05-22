@@ -1,7 +1,7 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-const NeedHelp = () => (
+const NeedHelp = ({ showVHAPaymentHistory = false }) => (
   <>
     <article className="vads-u-padding-x--0">
       <h2
@@ -25,11 +25,20 @@ const NeedHelp = () => (
         </li>
         <li>A waiver (ask us to stop collection on the debt)</li>
       </ul>
-      <p>
-        <strong>Note:</strong> The time limit to request a waiver (debt
-        forgiveness) has changed. You now have <strong>1 year</strong> from the
-        date you received your first debt letter to request a waiver.
-      </p>
+      {showVHAPaymentHistory ? (
+        <p>
+          <strong>Note:</strong> The time limit to request a waiver (debt
+          forgiveness) is 1 year from the date you received your first debt
+          letter.
+        </p>
+      ) : (
+        <p>
+          <strong>Note:</strong> The time limit to request a waiver (debt
+          forgiveness) has changed. You now have <strong>1 year</strong> from
+          the date you received your first debt letter to request a waiver.
+        </p>
+      )}
+
       <a
         className="vads-c-action-link--blue"
         href="/manage-va-debt/request-debt-help-form-5655/"
