@@ -61,7 +61,7 @@ export const IntroductionProcessList = ({ showTextUpdate }) => {
                 Reserve; <strong>or</strong>
               </li>
               <li>
-                You’re an officer in the Selected Reserves who agreed to serve 6
+                You’re an officer in the Selected Reserve who agreed to serve 6
                 years beyond your initial service obligation;{' '}
                 <strong>and</strong>
               </li>
