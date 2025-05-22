@@ -94,6 +94,7 @@ export const IntroductionProcessList = ({ showTextUpdate }) => {
               application, you can download your denial letter. We’ll also mail
               you a copy of your decision letter.
             </p>
+            <br />
             <p>
               <strong>Note:</strong> In some cases, we may need more time to
               make a decision. If you don’t get an automatic decision right
@@ -156,6 +157,7 @@ export const IntroductionProcessList = ({ showTextUpdate }) => {
             application, you can download your denial letter. We’ll also mail
             you a copy of your decision letter.
           </p>
+          <br />
           <p className="vads-u-margin-bottom--0">
             <strong>Note</strong>: In some cases, we may need more time to make
             a decision. If you don’t get an automatic decision right after you
