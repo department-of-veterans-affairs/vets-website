@@ -702,7 +702,7 @@ jobs:
         run: git fetch origin new-axe-checks --depth=1
 
       - name: Checkout axeCheck.js from new-axe-checks branch
-        run: git checkout new-axe-checks src/platform/testing/e2e/cypress/support/commands/axeCheck.js
+        run: git checkout origin/new-axe-checks src/platform/testing/e2e/cypress/support/commands/axeCheck.js
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
