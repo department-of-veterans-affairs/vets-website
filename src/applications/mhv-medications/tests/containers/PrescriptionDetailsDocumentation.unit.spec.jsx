@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/dom';
+import { cleanup } from '@testing-library/react';
 import { Route, Routes } from 'react-router-dom-v5-compat';
 import { prescriptionsApi } from '../../api/prescriptionsApi';
 import { allergiesApi } from '../../api/allergiesApi';
@@ -63,14 +64,15 @@ describe('Prescription details documentation container', () => {
     stubPrescriptionDocumentationQuery({ sandbox });
   });
 
-  afterEach(() => {
-    sandbox.restore();
+  afterEach(async () => {
+    cleanup();
+    await sandbox.restore();
   });
 
   it('renders without errors', async () => {
     const screen = setup();
     await waitFor(() => {
-      expect(screen);
+      expect(screen).to.exist;
     });
   });
 
