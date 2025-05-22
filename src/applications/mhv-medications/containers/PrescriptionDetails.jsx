@@ -15,6 +15,8 @@ import {
   generateTextFile,
   getErrorTypeFromFormat,
   pharmacyPhoneNumber,
+  hasCmopNdcNumber,
+  getRefillHistory,
 } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import NonVaPrescription from '../components/PrescriptionDetails/NonVaPrescription';
@@ -74,28 +76,6 @@ const PrescriptionDetails = () => {
     queryParams,
   );
 
-  // Prefetch prescription documentation for faster loading when
-  // going to the documentation page
-  const prefetchPrescriptionDocumentation = usePrefetch(
-    'getPrescriptionDocumentation',
-  );
-  useEffect(
-    () => {
-      if (!isLoading && prescriptionId) {
-        const refillHistory = [...(prescription?.rxRfRecords || [])];
-        if (refillHistory.some(p => p.cmopNdcNumber)) {
-          prefetchPrescriptionDocumentation(prescriptionId);
-        }
-      }
-    },
-    [
-      isLoading,
-      prescriptionId,
-      prefetchPrescriptionDocumentation,
-      prescription?.rxRfRecords,
-    ],
-  );
-
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
 
   const userName = useSelector(state => state.user.profile.userFullName);
@@ -114,13 +94,26 @@ const PrescriptionDetails = () => {
     (prescription?.dispStatus === 'Active: Non-VA'
       ? prescription?.orderableItem
       : '');
-  const refillHistory = [...(prescription?.rxRfRecords || [])];
-  refillHistory.push({
-    prescriptionName: prescription?.prescriptionName,
-    dispensedDate: prescription?.dispensedDate,
-    cmopNdcNumber: prescription?.cmopNdcNumber,
-    id: prescription?.prescriptionId,
-  });
+  const refillHistory = getRefillHistory(prescription);
+
+  // Prefetch prescription documentation for faster loading when
+  // going to the documentation page
+  const prefetchPrescriptionDocumentation = usePrefetch(
+    'getPrescriptionDocumentation',
+  );
+  useEffect(
+    () => {
+      if (!isLoading && hasCmopNdcNumber(refillHistory)) {
+        prefetchPrescriptionDocumentation(prescriptionId);
+      }
+    },
+    [
+      isLoading,
+      prefetchPrescriptionDocumentation,
+      prescriptionId,
+      refillHistory,
+    ],
+  );
 
   useEffect(
     () => {
