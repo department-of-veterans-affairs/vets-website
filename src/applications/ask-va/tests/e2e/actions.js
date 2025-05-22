@@ -158,8 +158,22 @@ const clickRadioButtonYesNo = selector => {
   cy.get(newSelector).click();
 };
 
-const clickCallToActionButton = (isPrimary = true, text) => {
-  const selectorPrimary = isPrimary ? '-primary' : '';
+const clickCallToActionButton = (isPrimary = 'primary', text) => {
+  let selectorPrimary;
+  switch (isPrimary) {
+    case 'primary':
+      selectorPrimary = '-primary';
+      break;
+    case 'secondary':
+      selectorPrimary = '-secondary';
+      break;
+    case 'neither':
+      selectorPrimary = '';
+      break;
+    default:
+      selectorPrimary = '';
+      break;
+  }
   if (text) {
     cy.get(`.usa-button${selectorPrimary}`, { includeShadowDom: true })
       .contains(text)
