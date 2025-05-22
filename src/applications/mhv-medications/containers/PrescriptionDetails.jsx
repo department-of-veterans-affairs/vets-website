@@ -44,6 +44,7 @@ import { pageType } from '../util/dataDogConstants';
 import { selectGroupingFlag } from '../util/selectors';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
+import { usePrefetch } from '../api/prescriptionsApi';
 
 const PrescriptionDetails = () => {
   const { prescriptionId } = useParams();
@@ -71,6 +72,28 @@ const PrescriptionDetails = () => {
   const { prescription, prescriptionApiError, isLoading } = usePrescriptionData(
     prescriptionId,
     queryParams,
+  );
+
+  // Prefetch prescription documentation for faster loading when
+  // going to the documentation page
+  const prefetchPrescriptionDocumentation = usePrefetch(
+    'getPrescriptionDocumentation',
+  );
+  useEffect(
+    () => {
+      if (!isLoading && prescriptionId) {
+        const refillHistory = [...(prescription?.rxRfRecords || [])];
+        if (refillHistory.some(p => p.cmopNdcNumber)) {
+          prefetchPrescriptionDocumentation(prescriptionId);
+        }
+      }
+    },
+    [
+      isLoading,
+      prescriptionId,
+      prefetchPrescriptionDocumentation,
+      prescription?.rxRfRecords,
+    ],
   );
 
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
