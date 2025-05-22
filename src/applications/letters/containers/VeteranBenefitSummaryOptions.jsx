@@ -1,25 +1,16 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
-import {
-  VaAlert,
-  VaLoadingIndicator,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import {
   benefitOptionsMap,
   getBenefitSummaryLetterLabels,
 } from '../utils/helpers';
-import {
-  BENEFIT_OPTIONS,
-  UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
-} from '../utils/constants';
+import { UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION } from '../utils/constants';
 
 const VeteranBenefitSummaryOptions = () => {
   const dispatch = useDispatch();
   const benefitsInfoSelector = useSelector(state => state.letters.benefitInfo);
-  const optionsAvailableSelector = useSelector(
-    state => state.letters.optionsAvailable,
-  );
   const optionsLoadingSelector = useSelector(
     state => state.letters.optionsLoading,
   );
@@ -44,8 +35,6 @@ const VeteranBenefitSummaryOptions = () => {
       value: e.target.checked,
     });
   };
-
-  console.log(requestOptionsSelector);
 
   const renderBenefitsCheckboxes = () => {
     const benefitKeys = Object.keys(benefitsInfoSelector);
@@ -95,7 +84,11 @@ const VeteranBenefitSummaryOptions = () => {
             type="checkbox"
             onChange={e => handleChange(e)}
           />
-          <label name="militaryService-label" htmlFor="militaryService">
+          <label
+            name="militaryService-label"
+            className="vads-u-margin-top--0"
+            htmlFor="militaryService"
+          >
             Military service information
           </label>
         </li>
@@ -107,13 +100,12 @@ const VeteranBenefitSummaryOptions = () => {
 
   switch (true) {
     // Loading options from vets-api
-    case optionsLoadingSelector && !optionsAvailableSelector:
+    case optionsLoadingSelector:
       return (
-        <VaLoadingIndicator message="Getting your benefit summary options..." />
+        <VaLoadingIndicator message="Loading your benefit summary options..." />
       );
-      break;
     // Options are available and loading is complete
-    case !optionsLoadingSelector && optionsAvailableSelector:
+    case !optionsLoadingSelector:
       return (
         <>
           <p className="vads-u-margin-top--0">
@@ -124,7 +116,7 @@ const VeteranBenefitSummaryOptions = () => {
 
           <p>Some of the ways you might be able to use this letter:</p>
 
-          <ul className="usa-list">
+          <ul className="usa-list vads-u-margin-bottom--3">
             <li>Apply for housing assistance</li>
             <li>Apply for a civil service job</li>
             <li>Reduce property taxes</li>
@@ -133,7 +125,7 @@ const VeteranBenefitSummaryOptions = () => {
 
           <fieldset>
             <legend>
-              <h4 className="vads-u-font-family--sans vads-u-font-size--h4">
+              <h4 className="vads-u-font-family--sans vads-u-font-size--h4 vads-u-margin-y--0">
                 Choose the information you want to include in your letter:
               </h4>
             </legend>
@@ -145,62 +137,9 @@ const VeteranBenefitSummaryOptions = () => {
           </fieldset>
         </>
       );
-      break;
-    // Options are not available and loading is cancelled
-    case !optionsLoadingSelector && !optionsAvailableSelector:
-      return (
-        <VaAlert class="vads-u-margin-top--2" status="error" role="alert">
-          <h4 slot="headline">
-            Your VA Benefit Summary letter is currently unavailable
-          </h4>
-          <p>
-            Your letter isn't available at this time. If you need help with
-            accessing your letter, please <CallVBACenter />
-          </p>
-        </VaAlert>
-      );
-      break;
     default:
-      return <div>Yeah, I have no goodly idea.</div>;
+      return <div>Refresh the browser to download your letter.</div>;
   }
-
-  //   return (
-  //     <>
-  //       {!optionsAvailableSelector ? (
-  //         <div>Not now Biff</div>
-  //       ) : (
-  //         <>
-  //           <p className="vads-u-margin-top--0">
-  //             The Benefit Summary and Service Verification Letter includes your VA
-  //             benefits and service history. You can customize this letter
-  //             depending on your needs.
-  //           </p>
-
-  //           <p>Some of the ways you might be able to use this letter:</p>
-
-  //           <ul className="usa-list">
-  //             <li>Apply for housing assistance</li>
-  //             <li>Apply for a civil service job</li>
-  //             <li>Reduce property taxes</li>
-  //             <li>Reduce car taxes</li>
-  //           </ul>
-
-  //           <fieldset>
-  //             <legend>
-  //               <h4 className="vads-u-font-family--sans vads-u-font-size--h4">
-  //                 Choose the information you want to include in your letter:
-  //               </h4>
-  //             </legend>
-
-  //             <ul className="usa-unstyled-list">
-  //               {renderMilitaryServiceCheckbox()}
-  //               {renderBenefitsCheckboxes()}
-  //             </ul>
-  //           </fieldset>
-  //         </>
-  //       )}
-  //     </>
-  //   );
 };
 
 export default VeteranBenefitSummaryOptions;

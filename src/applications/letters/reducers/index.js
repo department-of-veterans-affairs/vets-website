@@ -33,7 +33,6 @@ export const initialState = {
   letterDownloadStatus: {},
   fullName: '',
   addressAvailability: AVAILABILITY_STATUSES.awaitingResponse,
-  optionsAvailable: false,
   optionsLoading: true,
   requestOptions: {},
   serviceInfo: [],
@@ -120,17 +119,12 @@ function letters(state = initialState, action) {
         ...state,
         benefitInfo: action.data.benefitInformation,
         serviceInfo: action.data.militaryService,
-        optionsAvailable: true,
         optionsLoading: false,
         requestOptions,
       };
     }
     case GET_BENEFIT_SUMMARY_OPTIONS_FAILURE:
-      return {
-        ...state,
-        optionsLoading: false,
-        optionsAvailable: false,
-      };
+      return set('optionsAvailable', false, state);
     case UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION:
       return set(['requestOptions', action.propertyPath], action.value, state);
     case GET_LETTER_PDF_DOWNLOADING:
