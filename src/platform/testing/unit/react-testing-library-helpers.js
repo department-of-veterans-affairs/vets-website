@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 import { Provider } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
@@ -115,4 +116,51 @@ export function renderWithStoreAndRouter(
   );
 
   return { ...screen, history: historyObject };
+}
+
+/**
+ * Takes a React element and wraps it in a Redux Provider and a React Router v6 MemoryRouter.
+ *
+ * @export
+ * @param {ReactElement} ui ReactElement that you want to render for testing
+ * @param {Object} renderParams
+ * @param {Object} [renderParams.initialState] Initial Redux state, used to create a new store if a store is not passed
+ * @param {Object} [renderParams.reducers={}] App specific reducers
+ * @param {ReduxStore} [renderParams.store=null] Redux store to use for the rendered page or section of the app
+ * @param {string[]} [renderParams.initialEntries=['/'] Array of initial entries for the router
+ * @returns {Object} Return value of the React Testing Library render function
+ */
+export function renderWithStoreAndRouterV6(
+  ui,
+  {
+    initialState,
+    reducers = {},
+    store = null,
+    initialEntries = ['/'],
+    additionalMiddlewares = [],
+  },
+) {
+  const testStore =
+    store ||
+    createStore(
+      combineReducers({ ...commonReducer, ...reducers }),
+      initialState,
+      applyMiddleware(thunk, ...additionalMiddlewares),
+    );
+
+  // Convert single string path to array if needed
+  const entries = Array.isArray(initialEntries)
+    ? initialEntries
+    : [initialEntries];
+
+  const screen = renderInReduxProvider(
+    <MemoryRouter initialEntries={entries}>{ui}</MemoryRouter>,
+    {
+      store: testStore,
+      initialState,
+      reducers,
+    },
+  );
+
+  return { ...screen };
 }

@@ -22,7 +22,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // const { } = fullSchema.definitions;
 
 // pages
-import { designatingOfficial } from '../pages';
+import { designatingOfficial, primaryOfficial } from '../pages';
 import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
 
@@ -81,6 +81,17 @@ const formConfig = {
           title: 'Service History',
           uiSchema: serviceHistory.uiSchema,
           schema: serviceHistory.schema,
+        },
+      },
+    },
+    primaryOfficialChapter: {
+      title: 'Primary certifying official',
+      pages: {
+        primaryOfficial: {
+          path: 'primary-certifying-official',
+          title: 'Your information',
+          uiSchema: primaryOfficial.uiSchema,
+          schema: primaryOfficial.schema,
         },
       },
     },

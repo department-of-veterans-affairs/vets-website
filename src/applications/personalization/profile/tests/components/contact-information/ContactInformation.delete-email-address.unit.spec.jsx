@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
+import { setupServer } from 'platform/testing/unit/msw-adapter';
 
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';

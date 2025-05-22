@@ -27,8 +27,7 @@ export default function MobileClaimPhaseDiagram({ currentPhase }) {
   return (
     <div className="mobile vads-u-margin-bottom--4">
       <svg
-        width="352"
-        height="115"
+        style={{ maxWidth: '100%' }}
         viewBox="0 0 352 115"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

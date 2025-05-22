@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/dom';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import MedicationsListCard from '../../../components/MedicationsList/MedicationsListCard';
@@ -8,8 +8,7 @@ import reducers from '../../../reducers';
 
 describe('Medication card component', () => {
   const setup = (rx = prescriptionsListItem, initialState = {}) => {
-    return renderWithStoreAndRouter(<MedicationsListCard rx={rx} />, {
-      path: '/',
+    return renderWithStoreAndRouterV6(<MedicationsListCard rx={rx} />, {
       state: initialState,
       reducers,
     });

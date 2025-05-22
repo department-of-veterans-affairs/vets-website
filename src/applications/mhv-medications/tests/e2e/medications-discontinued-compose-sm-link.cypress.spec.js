@@ -14,5 +14,17 @@ describe('Medications List Page DropDown -- discontinued SM Compose Link', () =>
       .shadow()
       .first()
       .should('have.text', 'Start a new message');
+    cy.location().then(loc => {
+      const baseUrl = loc.origin;
+      cy.get('[data-testid="discontinued-compose-message-link"]')
+        .shadow()
+        .first()
+        .find('a')
+        .should(
+          'have.attr',
+          'href',
+          `${baseUrl}/my-health/secure-messages/new-message/`,
+        );
+    });
   });
 });

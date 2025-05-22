@@ -13,6 +13,7 @@ import {
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { validateWhiteSpace } from 'platform/forms/validations';
 
 const phoneLabels = {
   us: 'US phone number',
@@ -37,6 +38,7 @@ const uiSchema = {
         errorMessages: {
           required: 'Enter your title',
         },
+        validations: [validateWhiteSpace],
       }),
     },
     phoneType: radioUI({

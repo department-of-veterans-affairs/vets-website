@@ -284,7 +284,7 @@ const formConfig = {
       title: 'Sponsor information',
       pages: {
         sponsorSelection: {
-          title: 'Choose your sponsors',
+          title: 'Choose your sponsor',
           path: 'sponsor-selection',
           CustomPageReview: SelectedSponsorsReviewPage,
           depends: formData => formData.sponsors?.sponsors?.length,

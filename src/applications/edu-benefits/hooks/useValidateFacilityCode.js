@@ -33,6 +33,10 @@ export const useValidateFacilityCode = formData => {
               },
             }),
           );
+          localStorage.setItem(
+            'isAccredited',
+            JSON.stringify(response?.data?.attributes?.accredited),
+          );
         } catch (error) {
           setInstitutionData({});
           setLoader(false);
@@ -45,6 +49,7 @@ export const useValidateFacilityCode = formData => {
               },
             }),
           );
+          localStorage.setItem('isAccredited', false);
         }
       };
       if (formData?.institutionDetails?.facilityCode?.length === 8) {
