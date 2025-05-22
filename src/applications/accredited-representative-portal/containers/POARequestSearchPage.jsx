@@ -93,15 +93,15 @@ const POARequestSearchPage = title => {
         data-testid="poa-requests-heading"
         className="poa-request__search-header"
       >
-        Power of attorney requests
+        Representation requests
       </h1>
       <p className="poa-request__copy">
-        You can accept or decline power of attorney (POA) requests in the
-        Accredited Representative Portal. Requests will expire and be removed
-        from the portal after 60 days.
+        You can accept or decline representation requests (power of attorney) in
+        the Accredited Representative Portal. Requests will expire and be
+        removed from the portal after 60 days.
       </p>
       <p className="poa-request__copy vads-u-margin--0">
-        <strong>Note:</strong> POA requests need to be submitted using the
+        <strong>Note:</strong> Claimants need to submit requests using the
         online{' '}
         <va-link
           href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
@@ -145,7 +145,7 @@ const POARequestSearchPage = title => {
                         data-testid="poa-requests-table-heading"
                         className="poa-request__tab-heading"
                       >
-                        Pending POA requests
+                        Pending representation requests
                       </h2>
                       <SortForm
                         asc={SORT_BY.ASC}
@@ -163,7 +163,7 @@ const POARequestSearchPage = title => {
                         data-testid="poa-requests-table-heading"
                         className="poa-request__tab-heading"
                       >
-                        Processed POA requests
+                        Processed representation requests
                       </h2>
                       <SortForm
                         asc={SORT_BY.ASC}

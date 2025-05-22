@@ -2,8 +2,12 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
-import { rest } from 'msw';
+import {
+  setupServer,
+  createGetHandler,
+  createPostHandler,
+  jsonResponse,
+} from 'platform/testing/unit/msw-adapter';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import TermsOfUse from '../containers/TermsOfUse';
@@ -59,9 +63,9 @@ describe('TermsOfUse', () => {
   it('should display buttons by default', async () => {
     const mockStore = store();
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
-        (_, res, ctx) => res(ctx.status(200)),
+        () => jsonResponse({}, { status: 200 }),
       ),
     );
     const { container } = render(
@@ -78,11 +82,9 @@ describe('TermsOfUse', () => {
   it('should NOT display buttons if URL comes back as a 401', async () => {
     const mockStore = store();
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
-        (_, res, ctx) => {
-          return res(ctx.status(401), ctx.json({ errors: [{ code: '401' }] }));
-        },
+        () => jsonResponse({ errors: [{ code: '401' }] }, { status: 401 }),
       ),
     );
     const { container } = render(
@@ -99,14 +101,13 @@ describe('TermsOfUse', () => {
   it('should NOT display buttons if title is `Not authorized`', async () => {
     const mockStore = store();
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
-        (_, res, ctx) => {
-          return res(
-            ctx.status(401),
-            ctx.json({ errors: [{ code: '500', title: 'Not authorized' }] }),
-          );
-        },
+        () =>
+          jsonResponse(
+            { errors: [{ code: '500', title: 'Not authorized' }] },
+            { status: 401 },
+          ),
       ),
     );
     const { container } = render(
@@ -134,9 +135,9 @@ describe('TermsOfUse', () => {
   it('should display the declined modal if the decline button is clicked', async () => {
     const mockStore = store();
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
-        (_, res, ctx) => res(ctx.status(200)),
+        () => jsonResponse({}, { status: 200 }),
       ),
     );
     const { container, queryAllByTestId } = render(
@@ -163,15 +164,16 @@ describe('TermsOfUse', () => {
 
     const mockStore = store();
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
-        (_, res, ctx) => res(ctx.status(200)),
+        () => jsonResponse({}, { status: 200 }),
       ),
-      rest.post(
+      createPostHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline`,
-        (req, res, ctx) => {
-          expect(req.url.searchParams.get('terms_code')).to.eql(termsCode);
-          return res(ctx.status(200), ctx.json(touResponse200));
+        ({ request }) => {
+          const url = new URL(request.url);
+          expect(url.searchParams.get('terms_code')).to.eql(termsCode);
+          return jsonResponse(touResponse200);
         },
       ),
     );
@@ -201,13 +203,13 @@ describe('TermsOfUse', () => {
 
     const mockStore = store();
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
-        (_, res, ctx) => res(ctx.status(200)),
+        () => jsonResponse({}, { status: 200 }),
       ),
-      rest.post(
+      createPostHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
-        (_, res, ctx) => res(ctx.status(200), ctx.json(touResponse200)),
+        () => jsonResponse(touResponse200, { status: 200 }),
       ),
     );
     const { queryAllByTestId } = render(
@@ -233,13 +235,13 @@ describe('TermsOfUse', () => {
 
     const mockStore = store();
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
-        (_, res, ctx) => res(ctx.status(200)),
+        () => jsonResponse({}, { status: 200 }),
       ),
-      rest.post(
+      createPostHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
-        (_, res, ctx) => res(ctx.status(200), ctx.json(touResponse200)),
+        () => jsonResponse(touResponse200, { status: 200 }),
       ),
     );
     const { queryAllByTestId } = render(
@@ -266,13 +268,13 @@ describe('TermsOfUse', () => {
 
     const mockStore = store();
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
-        (_, res, ctx) => res(ctx.status(200)),
+        () => jsonResponse({}, { status: 200 }),
       ),
-      rest.post(
+      createPostHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
-        (_, res, ctx) => res(ctx.status(200), ctx.json(touResponse200)),
+        () => jsonResponse(touResponse200, { status: 200 }),
       ),
     );
     const { queryAllByTestId } = render(
@@ -298,15 +300,16 @@ describe('TermsOfUse', () => {
 
     const mockStore = store();
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
-        (_, res, ctx) => res(ctx.status(200)),
+        () => jsonResponse({}, { status: 200 }),
       ),
-      rest.post(
+      createPostHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
-        (req, res, ctx) => {
-          expect(req.url.searchParams.get('terms_code')).to.eql(termsCode);
-          return res(ctx.status(200), ctx.json(touResponse200));
+        ({ request }) => {
+          const url = new URL(request.url);
+          expect(url.searchParams.get('terms_code')).to.eql(termsCode);
+          return jsonResponse(touResponse200, { status: 200 });
         },
       ),
     );
@@ -331,17 +334,18 @@ describe('TermsOfUse', () => {
 
     const mockStore = store();
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
-        (_, res, ctx) => res(ctx.status(200)),
+        () => jsonResponse({}, { status: 200 }),
       ),
-      rest.post(
+      createPostHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
-        (req, res, ctx) => {
-          expect(req.url.searchParams.get('skip_mhv_account_creation')).to.eql(
-            skipMhvAccountCreation,
+        ({ request }) => {
+          const url = new URL(request.url);
+          expect(url.searchParams.get('skip_mhv_account_creation')).to.eql(
+            String(skipMhvAccountCreation),
           );
-          return res(ctx.status(200), ctx.json(touResponse200));
+          return jsonResponse(touResponse200, { status: 200 });
         },
       ),
     );
@@ -362,9 +366,9 @@ describe('TermsOfUse', () => {
   it('should close the Decline modal when Close or Go Back buttons are clicked', async () => {
     const mockStore = store();
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
-        (_, res, ctx) => res(ctx.status(200)),
+        () => jsonResponse({}, { status: 200 }),
       ),
     );
     const { container, queryAllByTestId } = render(
@@ -400,13 +404,13 @@ describe('TermsOfUse', () => {
       const authenticatedWithSiS = authBroker === 'sis';
       const mockStore = store({ authenticatedWithSiS });
       server.use(
-        rest.get(
+        createGetHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
-          (_, res, ctx) => res(ctx.status(200)),
+          () => jsonResponse({}, { status: 200 }),
         ),
-        rest.post(
+        createPostHandler(
           `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline`,
-          (_, res, ctx) => res(ctx.status(200), ctx.json(touResponse200)),
+          () => jsonResponse(touResponse200, { status: 200 }),
         ),
       );
       const { container, queryAllByTestId } = render(

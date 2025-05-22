@@ -68,7 +68,7 @@ const routes = [
           {
             path: 'poa-requests',
             element: (
-              <POARequestSearchPage title="Power of attorney requests | Veterans Affairs" />
+              <POARequestSearchPage title="Representation requests | Veterans Affairs" />
             ),
             loader: POARequestSearchPage.loader,
           },

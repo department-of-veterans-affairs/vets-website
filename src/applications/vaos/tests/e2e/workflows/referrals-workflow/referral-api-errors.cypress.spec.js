@@ -314,7 +314,6 @@ describe('VAOS Referral API Error Handling', () => {
         const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
           {
             appointmentId,
-            referralId,
             [errorType]: true,
           },
         ).toJSON();
