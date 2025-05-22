@@ -15,8 +15,11 @@ const matchingFiles = CHANGED_FILES.filter(filePath =>
   APPS_NOT_ISOLATED.some(app => filePath.includes(app)),
 );
 
+console.log(matchingFiles);
+
 const nonStaticFiles = matchingFiles.filter(
-  filePath => !filePath.includes('static-pages'),
+  filePath =>
+    !filePath.includes('static-pages') && !filePath.includes('platform'),
 );
 
 if (APPS_NOT_ISOLATED.length > 0 && nonStaticFiles.length > 0) {

@@ -146,11 +146,26 @@ const getPlatformAppImports = (platformImports, appFolder) => {
  * @param {string} appFolder - The name of an app's folder in 'src/applications'.
  * @returns {boolean} - True if app has cross-app imports in graph.
  */
+
+const ignoredApps = new Set(['static-pages', 'platform']);
+
 const appHasCrossAppImports = (importGraph, appFolder) => {
-  return (
-    Object.keys(importGraph[appFolder].appsThatThisAppImportsFrom).length ||
-    Object.keys(importGraph[appFolder].appsThatImportFromThisApp).length
+  const importedFrom = importGraph[appFolder].appsThatThisAppImportsFrom;
+  const importedTo = importGraph[appFolder].appsThatImportFromThisApp;
+
+  const hasRelevantImportsFrom = Object.keys(importedFrom).some(
+    app => !ignoredApps.has(app),
   );
+
+  console.log('relevant imports from: ', Object.keys(importedFrom));
+
+  const hasRelevantImportsTo = Object.keys(importedTo).some(
+    app => !ignoredApps.has(app),
+  );
+
+  console.log('relevant imports to: ', Object.keys(importedTo));
+
+  return hasRelevantImportsFrom || hasRelevantImportsTo;
 };
 
 /**
@@ -212,12 +227,21 @@ const failOnCrossAppImport = options['fail-on-cross-app-import'];
 if (!appFolders && !checkAllowlist) {
   const outputPath = path.join('./tmp', 'cross-app-imports.json');
   const crossAppJson = getCrossAppImports();
+  console.log('cross app json', crossAppJson);
   fs.outputFileSync(outputPath, JSON.stringify(crossAppJson, null, 2));
   core.exportVariable(
     'APPS_NOT_ISOLATED',
     JSON.stringify(
       Object.keys(crossAppJson).filter(app => {
         const appData = crossAppJson[app];
+        console.log(
+          `relevant imports from ${app}: `,
+          appData.appsThatThisAppImportsFrom,
+        );
+        console.log(
+          `relevant imports to ${app}: `,
+          appData.appsThatImportFromThisApp,
+        );
         return (
           appData.appsThatThisAppImportsFrom &&
           Object.keys(appData.appsThatThisAppImportsFrom).length > 0

@@ -68,7 +68,7 @@ const Autocomplete = ({
 
     if (!inputValue) {
       closeList();
-      setAriaLiveText('Input is empty. Please enter a condition.');
+      setAriaLiveText('Input is empty. Please enter a conditionnn.');
       return;
     }
 
