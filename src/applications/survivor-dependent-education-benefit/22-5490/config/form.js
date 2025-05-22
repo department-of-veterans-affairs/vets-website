@@ -164,7 +164,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-5490',
-  title: 'Survirors’ and Dependents’ Educational Assistance Benefits',
+  title: 'Survivors’ and Dependents’ Educational Assistance Benefits',
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your DEPENDENTS&#39; APPLICATION FOR VA EDUCATION BENEFITS  application (22-5490) is in progress.',
@@ -1220,7 +1220,7 @@ const formConfig = {
               'ui:title': 'Veteran or service member information',
               first: {
                 ...fullNameUI.first,
-                'ui:title': 'Veteran or service member first name',
+                'ui:title': 'Veteran or service member First Name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -1237,7 +1237,7 @@ const formConfig = {
               },
               middle: {
                 ...fullNameUI.middle,
-                'ui:title': 'Veteran or service member middle name',
+                'ui:title': 'Veteran or service member Middle Name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -1254,7 +1254,7 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
-                'ui:title': 'Veteran or service member last name',
+                'ui:title': 'Veteran or service member Last Name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidLastName(field)) {
@@ -1274,11 +1274,11 @@ const formConfig = {
             },
             dateOfBirth: {
               ...currentOrPastDateUI('Veteran date of birth'),
-              'ui:title': 'Veteran or service member date of birth',
+              'ui:title': 'Veteran or service member Date of birth',
             },
             ssn: {
               ...ssnUI,
-              'ui:title': 'Veteran or service member social security number',
+              'ui:title': 'Veteran or service member Social Security number',
               'ui:reviewField': ObfuscateReviewField,
             },
             'view:incorrectFormWarning': {
@@ -1311,7 +1311,7 @@ const formConfig = {
       },
     },
     additionalConsiderationsChapter: {
-      title: 'Additional consideration',
+      title: 'Additional considerations',
       pages: {
         marriageInformation: {
           title: 'Marriage information',
