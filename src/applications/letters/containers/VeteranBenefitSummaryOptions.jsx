@@ -4,7 +4,7 @@ import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-li
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import {
   benefitOptionsMap,
-  getBenefitSummaryLetterLabels,
+  getFriendlyBenefitSummaryLabels,
 } from '../utils/helpers';
 import { UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION } from '../utils/constants';
 
@@ -47,7 +47,7 @@ const VeteranBenefitSummaryOptions = () => {
       const value = benefitsInfoSelector[key];
       // Assume Lighthouse data from beneFitInformation is the source of truth
       const displayOption = value !== false;
-      const labelText = getBenefitSummaryLetterLabels(key, value, isVeteran);
+      const labelText = getFriendlyBenefitSummaryLabels(key, isVeteran);
 
       if (displayOption && labelText) {
         benefitCheckboxes.push(

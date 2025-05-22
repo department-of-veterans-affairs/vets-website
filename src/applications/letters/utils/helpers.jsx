@@ -180,6 +180,64 @@ export const optionsToAlwaysDisplay = [
   BENEFIT_OPTIONS.serviceConnectedPercentage,
 ];
 
+// This is a new option map that assumes the only letter making use of it
+// will be the new Benefit Summary and Service Verification letter. This letter
+// is Veteran-only, so there is no dependent option for the first iteration.
+// We are leaving the dependent option in place, because there may be a future
+// enhancement to offer options in the dependent Benefit Summary letter.
+const benefitSummaryLetterLabels = {
+  awardEffectiveDate: {
+    veteran: undefined,
+    dependent: undefined,
+  },
+  hasAdaptedHousing: {
+    veteran:
+      'Qualification for Specially Adapted Housing (SAH) and Special Home Adaption (SHA) grants',
+    dependent: undefined,
+  },
+  hasChapter35Eligibility: {
+    veteran:
+      'Status of being permanently or temporarily disabled due to service-connected disabilities',
+    dependent: undefined,
+  },
+  hasDeathResultOfDisability: {
+    veteran: undefined,
+    dependent: undefined,
+  },
+  hasIndividualUnemployabilityGranted: {
+    veteran: 'Individual unemployment placeholder',
+    dependent: undefined,
+  },
+  hasNonServiceConnectedPension: {
+    veteran: 'Status of non-service connected pension',
+    dependent: undefined,
+  },
+  hasServiceConnectedDisabilities: {
+    veteran: 'Service connected disabilities',
+    dependent: undefined,
+  },
+  hasSpecialMonthlyCompensation: {
+    veteran: 'Status of special monthly compensation',
+    dependent: undefined,
+  },
+  hasSurvivorsIndemnityCompensationAward: {
+    veteran: undefined,
+    dependent: undefined,
+  },
+  hasSurvivorsPensionAward: {
+    veteran: undefined,
+    dependent: undefined,
+  },
+  monthlyAwardAmount: {
+    veteran: 'Current monthly compensation',
+    dependent: undefined,
+  },
+  serviceConnectedPercentage: {
+    veteran: 'Combined service connected rating',
+    dependent: undefined,
+  },
+};
+
 const benefitOptionText = {
   hasNonServiceConnectedPension: {
     true: {
@@ -355,6 +413,11 @@ export const getFormattedDate = dateTime => {
 
   return formatDateShort(stripOffTime(dateTime));
 };
+
+export function getFriendlyBenefitSummaryLabels(option, isVeteran) {
+  const personTypeString = isVeteran ? 'veteran' : 'dependent';
+  return benefitSummaryLetterLabels[option][personTypeString];
+}
 
 export function getBenefitOptionText(
   option,
