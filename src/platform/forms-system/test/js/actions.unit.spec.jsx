@@ -327,6 +327,7 @@ describe('Schemaform actions:', () => {
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too large. ' +
               `File size must be less than 5B.`,
+            size: 10,
           });
           done();
         },
@@ -364,6 +365,7 @@ describe('Schemaform actions:', () => {
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too large. ' +
               `File size must be less than 5B.`,
+            size: 10,
           });
           done();
         },
@@ -402,6 +404,7 @@ describe('Schemaform actions:', () => {
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too large. ' +
               `File size must be less than 5 Bytes.`,
+            size: 10,
           });
           done();
         },
