@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import * as api from '~/platform/utilities/api';
-import { waitFor } from '@testing-library/react';
+import * as pdf from '~/platform/pdf';
+import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
@@ -163,21 +164,23 @@ function createBasicInitialState(serviceHistory) {
 
 // Function to find the PDF link in the view
 function pdfLink(view) {
-  return Array.from(view.container.querySelectorAll('va-link')).find(
-    link =>
-      link.getAttribute('text') === 'Print your Veteran Status Card (PDF)',
+  return view.container.querySelector(
+    'va-link[text="Print your Veteran Status Card (PDF)"]',
   );
 }
 
 describe('VeteranStatus', () => {
   let apiRequestStub;
+  let generatePdfStub;
 
   beforeEach(() => {
     apiRequestStub = sinon.stub(api, 'apiRequest');
+    generatePdfStub = sinon.stub(pdf, 'generatePdf');
   });
 
   afterEach(() => {
     apiRequestStub.restore();
+    generatePdfStub.restore();
   });
 
   // Test case for when the user is eligible for a Veteran Status Card
@@ -228,6 +231,11 @@ describe('VeteranStatus', () => {
 
         // Check that the PDF download link is rendered
         expect(pdfLink(view)).to.exist;
+
+        // Check that the PDF download link can be clicked
+        generatePdfStub.resolves();
+        fireEvent.click(pdfLink(view));
+        expect(generatePdfStub.calledOnce).to.be.true;
       });
     });
   });
