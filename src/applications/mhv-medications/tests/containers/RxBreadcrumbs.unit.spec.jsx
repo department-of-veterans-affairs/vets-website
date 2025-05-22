@@ -1,13 +1,14 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { Route, Routes } from 'react-router-dom-v5-compat';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducers from '../../reducers';
 import RxBreadcrumbs from '../../containers/RxBreadcrumbs';
 import { medicationsUrls } from '../../util/constants';
 
 describe('Medications Breadcrumbs', () => {
   const setup = (state = {}) => {
-    return renderWithStoreAndRouter(<RxBreadcrumbs />, {
+    return renderWithStoreAndRouterV6(<RxBreadcrumbs />, {
       initialState: {
         rx: {
           breadcrumbs: {
@@ -30,7 +31,7 @@ describe('Medications Breadcrumbs', () => {
         ...state,
       },
       reducers,
-      path: '/medications/prescription/000',
+      initialEntries: ['/medications/prescription/000'],
     });
   };
 
@@ -43,6 +44,31 @@ describe('Medications Breadcrumbs', () => {
     const screen = setup();
     const breadcrumbs = screen.getByTestId('rx-breadcrumb-link');
     expect(breadcrumbs).to.exist;
+  });
+
+  it('Correct link is shown on documentation page', () => {
+    const screen = renderWithStoreAndRouterV6(
+      <Routes>
+        <Route
+          path="/prescription/:prescriptionId/documentation"
+          element={<RxBreadcrumbs />}
+        />
+      </Routes>,
+      {
+        initialState: {
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medications_display_documentation_content: true,
+          },
+        },
+        reducers,
+        initialEntries: [`/prescription/5678/documentation`],
+      },
+    );
+    const breadcrumbs = screen.getByTestId('rx-breadcrumb-link');
+    // get the href of the link
+    const href = breadcrumbs.getAttribute('href');
+    expect(href).to.equal(`${medicationsUrls.PRESCRIPTION_DETAILS}/5678`);
   });
 
   it('Renders breadcrumb if Rx details call fails', () => {
