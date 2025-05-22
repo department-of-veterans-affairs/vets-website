@@ -2,7 +2,6 @@ import { validateTopLevelDomain } from '../validation';
 
 export function validateEmail(errors, pageData) {
   const email = pageData;
-  // Allow letters, numbers, _, ., +, -, and @
   const validCharacters = /^[a-zA-Z0-9_.%+@-]+$/;
   if (!validCharacters.test(email)) {
     errors.addError(
