@@ -185,11 +185,12 @@ export default {
               </p>
               <h4 className="vads-u-color--gray-dark">Acknowledgment</h4>
               <p>
-                I hereby authorize the sources listed in this form, to release
-                any information that may have been obtained in connection with a
-                physical, psychological or psychiatric examination or treatment,
-                with the understanding that VA will use this information in
-                determining my eligibility to veterans benefits I have claimed.
+                I hereby authorize the medical facilities I list in this form,
+                to release any information that may have been obtained in
+                connection with a physical, psychological or psychiatric
+                examination or treatment, with the understanding that VA will
+                use this information in determining my eligibility to veterans
+                benefits I have claimed.
               </p>
               <p>
                 I understand that the source being asked to provide the Veterans
