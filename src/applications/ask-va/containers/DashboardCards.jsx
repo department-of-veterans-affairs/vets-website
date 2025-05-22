@@ -70,7 +70,7 @@ const DashboardCards = () => {
       setLoading(false);
     };
 
-    if (mockTestingFlagforAPI) {
+    if (mockTestingFlagforAPI && !window.Cypress) {
       processData(mockInquiries.data);
       return Promise.resolve();
     }
