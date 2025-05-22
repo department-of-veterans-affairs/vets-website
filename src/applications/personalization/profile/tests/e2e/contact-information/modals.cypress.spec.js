@@ -133,19 +133,30 @@ const checkRemovalWhileEditingModal = options => {
 describe('Modals for removal of field', () => {
   it('should show edit notice modal when attempting to remove field after editing another field', () => {
     setup(false);
-
     checkRemovalWhileEditingModal({
       editSectionName: 'mailing address',
       editLineId: 'root_addressLine1',
       removalSectionName: 'home address',
     });
+    cy.axeCheck();
+  });
+});
 
+describe('Modals for removal of field', () => {
+  it('should show edit notice modal when attempting to remove field after editing another field', () => {
+    setup(false);
     checkRemovalWhileEditingModal({
       editSectionName: 'home phone number',
       editLineId: 'root_inputPhoneNumber',
       removalSectionName: 'mobile phone number',
     });
+    cy.axeCheck();
+  });
+});
 
+describe('Modals for removal of field', () => {
+  it('should show edit notice modal when attempting to remove field after editing another field', () => {
+    setup(false);
     checkRemovalWhileEditingModal({
       editSectionName: 'mailing address',
       editLineId: 'root_addressLine1',
@@ -159,28 +170,45 @@ describe('Modals for removal of field', () => {
 describe('Modals on the contact information and content page', () => {
   it('should render as expected on Desktop', () => {
     setup();
-
     // should appear when editing mailing address
     checkModals({
       otherSectionName: 'home address',
       editLineId: 'root_addressLine3',
       sectionName: 'mailing address',
     });
+    cy.axeCheck();
+  });
+});
 
+describe('Modals on the contact information and content page', () => {
+  it('should render as expected on Desktop', () => {
+    setup();
     // should appear when editing residential address
     checkModals({
       otherSectionName: 'mailing address',
       editLineId: 'root_addressLine3',
       sectionName: 'home address',
     });
+    cy.axeCheck();
+  });
+});
 
+describe('Modals on the contact information and content page', () => {
+  it('should render as expected on Desktop', () => {
+    setup();
     // should appear when editing home phone number
     checkModals({
       otherSectionName: 'mailing address',
       editLineId: 'root_extension',
       sectionName: 'home phone number',
     });
+    cy.axeCheck();
+  });
+});
 
+describe('Modals on the contact information and content page', () => {
+  it('should render as expected on Desktop', () => {
+    setup();
     // should appear when editing email address
     checkModals({
       otherSectionName: 'mailing address',
