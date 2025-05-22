@@ -69,7 +69,7 @@ const RecordList = props => {
       </h2>
       <RecordListHeader
         currentPage={currentPage}
-        recordsLength={currentRecords?.length}
+        recordsLength={records?.length}
         totalEntries={totalEntries}
         domainOptions={domainOptions}
         hidePagination={hidePagination}
