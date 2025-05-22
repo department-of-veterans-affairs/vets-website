@@ -21,12 +21,6 @@ const getForms = () => {
       'Source-App-Name': window.appName,
     },
   };
-  console.log('options', options);
-  console.log('return', apiRequest(
-    `${environment.API_URL}/v0/my_va/submission_statuses`,
-    options,
-  ));
-
   return apiRequest(
     `${environment.API_URL}/v0/my_va/submission_statuses`,
     options,
@@ -60,8 +54,6 @@ const recordSuccess = () =>
   });
 
 export const fetchFormStatuses = () => async dispatch => {
-  console.log('***** fetchFormStatuses');
-  console.log('======= forms', await getForms())
   dispatch(actionStart());
   try {
     const response = await getForms();

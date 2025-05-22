@@ -3,7 +3,7 @@
 const mockUser = require('./user.json');
 const mockFeatureToggles = require('./featureToggles.json');
 // const mockSipPut = require('./sip-put.json');
-// const mockSipGet = require('./sip-get.json');
+const mockSipGet = require('./sip-get.json');
 const submissionStatues = require('./submission-statuses.json');
 
 
@@ -12,7 +12,7 @@ const responses = {
 
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': mockFeatureToggles,
-  // 'GET /v0/in_progress_forms/28-1900-V2': mockSipGet,
+  'GET /v0/in_progress_forms/28-1900-V2': mockSipGet,
   // 'PUT /v0/in_progress_forms/28-1900-V2': mockSipPut,
 
 

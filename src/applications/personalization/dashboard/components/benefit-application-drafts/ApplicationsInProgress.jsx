@@ -79,7 +79,6 @@ const ApplicationsInProgress = ({
         .sort((a, b) => b.lastUpdated - a.lastUpdated),
     [transformedSavedForms, transformedStatusForms],
   );
-  console.log('===allForms', allForms)
 
   const isEmptyState = allForms.length === 0 && !submittedError;
   const hasForms = allForms.length > 0 && !submittedError;
@@ -124,7 +123,6 @@ const ApplicationsInProgress = ({
               );
 
               if (Object.hasOwn(form, 'savedAt')) {
-                console.log('******** THIS form', form)
                 // if form is draft, then render Draft Card
                 const { expiresAt } = form || {};
                 const expirationDate = format(
