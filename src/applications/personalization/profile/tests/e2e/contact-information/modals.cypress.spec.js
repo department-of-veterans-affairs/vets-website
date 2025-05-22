@@ -228,21 +228,33 @@ describe('Modals on the contact information and content page', () => {
       editLineId: 'root_addressLine3',
       sectionName: 'mailing address',
     });
+    cy.axeCheck();
+  });
 
+  it('should render as expected on Mobile', () => {
+    setup(true);
     // should appear when editing residential address
     checkModals({
       otherSectionName: 'mailing address',
       editLineId: 'root_addressLine3',
       sectionName: 'home address',
     });
+    cy.axeCheck();
+  });
 
+  it('should render as expected on Mobile', () => {
+    setup(true);
     // should appear when editing home phone number
     checkModals({
       otherSectionName: 'mailing address',
       editLineId: 'root_extension',
       sectionName: 'home phone number',
     });
+    cy.axeCheck();
+  });
 
+  it('should render as expected on Mobile', () => {
+    setup(true);
     // should appear when editing email address
     checkModals({
       otherSectionName: 'mailing address',
