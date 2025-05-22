@@ -48,6 +48,7 @@ const SmBreadcrumbs = () => {
     Constants.Paths.MESSAGE_THREAD,
     Constants.Paths.REPLY,
     Constants.Paths.COMPOSE,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
     Constants.Paths.CONTACT_LIST,
     Constants.Paths.DRAFTS,
     Constants.Paths.DELETED,
@@ -58,6 +59,7 @@ const SmBreadcrumbs = () => {
 
   const pathsWithBackBreadcrumb = [
     Constants.Paths.COMPOSE,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
     Constants.Paths.CONTACT_LIST,
     Constants.Paths.DRAFTS,
     Constants.Paths.DELETED,
