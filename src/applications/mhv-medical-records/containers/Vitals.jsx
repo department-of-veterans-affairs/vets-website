@@ -28,6 +28,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import RecordListSection from '../components/shared/RecordListSection';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const Vitals = () => {
   const dispatch = useDispatch();
@@ -197,17 +198,20 @@ const Vitals = () => {
             <hr className="vads-u-margin-y--1 vads-u-padding-0" />
           </div>
         )}
-
-        <RecordList
-          records={cards}
-          type={recordType.VITALS}
-          perPage={PER_PAGE}
-          hidePagination
-          domainOptions={{
-            isAccelerating: isAcceleratingVitals,
-            timeFrame: acceleratedVitalsDate,
-          }}
-        />
+        {cards?.length ? (
+          <RecordList
+            records={cards}
+            type={recordType.VITALS}
+            perPage={PER_PAGE}
+            hidePagination
+            domainOptions={{
+              isAccelerating: isAcceleratingVitals,
+              timeFrame: acceleratedVitalsDate,
+            }}
+          />
+        ) : (
+          <NoRecordsMessage type={recordType.VITALS} />
+        )}
       </RecordListSection>
     );
   };

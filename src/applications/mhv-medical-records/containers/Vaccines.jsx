@@ -45,6 +45,7 @@ import {
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -211,7 +212,11 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
           allowTxtDownloads={allowTxtDownloads}
           description="Vaccines"
         />
-        <RecordList records={vaccines} type={recordType.VACCINES} />
+        {vaccines?.length ? (
+          <RecordList records={vaccines} type={recordType.VACCINES} />
+        ) : (
+          <NoRecordsMessage type={recordType.VACCINES} />
+        )}
       </RecordListSection>
     </div>
   );
