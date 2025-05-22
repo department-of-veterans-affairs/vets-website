@@ -162,7 +162,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   prefillTransformer,
-  title: 'Apply for Pre-need Eligibility Determination',
+  title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   preSubmitInfo,
   footerContent: ({ currentLocation }) => (
