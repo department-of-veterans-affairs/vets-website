@@ -49,6 +49,8 @@ import {
   getAcceleratedAllergies,
   getAcceleratedAllergy,
   getAcceleratedVitals,
+  getAcceleratedLabsAndTests,
+  getAcceleratedLabsAndTestsDetails,
 } from '../../api/MrApi';
 
 describe('Get labs and tests api call', () => {
@@ -391,6 +393,40 @@ describe('Accelerated OH API calls', () => {
       mockApiRequest(mockData);
 
       return getAcceleratedVitals().then(res => {
+        expect(res.mock).to.equal('data');
+      });
+    });
+  });
+  describe('getAcceleratedLabsAndTests', () => {
+    it('should make an api call to get all labs and tests', () => {
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+
+      return getAcceleratedLabsAndTests().then(res => {
+        expect(res.mock).to.equal('data');
+      });
+    });
+    it('should make an api call to get all labs and tests with a date', () => {
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+
+      return getAcceleratedLabsAndTests('2023-01-01').then(res => {
+        expect(res.mock).to.equal('data');
+        // expect fetch to be called with the correct date
+        const expectedUrl = `${
+          environment.API_URL
+        }/my_health/v2/medical_records/labs_and_tests?from=2023-01-01&to=2023-01-01`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
+      });
+    });
+  });
+
+  describe('getAcceleratedLabsAndTestsDetails', () => {
+    it('should make an api call to get a single lab or test', () => {
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+
+      return getAcceleratedLabsAndTestsDetails('123').then(res => {
         expect(res.mock).to.equal('data');
       });
     });

@@ -26,6 +26,7 @@ const messages = require('./secure-messaging/messages');
 const session = require('./medical-records/session');
 const status = require('./medical-records/status');
 const labsAndTests = require('./medical-records/labs-and-tests');
+const acceleratedLabsAndTests = require('./medical-records/labs-and-tests/accelerated');
 const mhvRadiology = require('./medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
 const healthConditions = require('./medical-records/health-conditions');
@@ -76,6 +77,7 @@ const responses = {
     mhvAcceleratedDeliveryEnabled: true,
     mhvAcceleratedDeliveryAllergiesEnabled: true,
     mhvAcceleratedDeliveryVitalSignsEnabled: true,
+    mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
   }),
 
   // VAMC facility data that apps query for on startup
@@ -159,6 +161,25 @@ const responses = {
   'GET /my_health/v1/medical_records/status': status.error,
   'GET /my_health/v1/medical_records/labs_and_tests': labsAndTests.all,
   'GET /my_health/v1/medical_records/labs_and_tests/:id': labsAndTests.single,
+  'GET /my_health/v2/medical_records/labs_and_tests':
+    acceleratedLabsAndTests.sample,
+  'GET /my_health/v2/medical_records/labs_and_tests/:id': (req, res) => {
+    const { id } = req.params;
+    const sampleData = acceleratedLabsAndTests.single(id);
+    if (!sampleData) {
+      return res.status(404).json({
+        errors: [
+          {
+            title: 'Not Found',
+            detail: `No lab or test found with id ${id}`,
+            code: '404',
+            status: '404',
+          },
+        ],
+      });
+    }
+    return res.json(sampleData);
+  },
   'GET /my_health/v1/medical_records/radiology': mhvRadiology.empty,
   'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
   'GET /my_health/v1/medical_records/clinical_notes/:id':
