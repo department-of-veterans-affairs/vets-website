@@ -20,7 +20,6 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import ArrayBuilderCards from './ArrayBuilderCards';
 import ArrayBuilderSummaryReviewPage from './ArrayBuilderSummaryReviewPage';
 import ArrayBuilderSummaryNoSchemaFormPage from './ArrayBuilderSummaryNoSchemaFormPage';
-
 import {
   arrayBuilderContextObject,
   createArrayBuilderItemAddPath,
