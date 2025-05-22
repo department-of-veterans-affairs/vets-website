@@ -119,13 +119,22 @@ const ensureExists = (content, selector = null) => {
   }
 };
 
+const clickTab = text => {
+  cy.get('.react-tabs__tab-list li', { includeShadowDom: true })
+    .contains(text)
+    .should('exist');
+  cy.get('.react-tabs__tab-list li', { includeShadowDom: true })
+    .contains(text)
+    .click({ force: true });
+};
+
 const clickLink = text => {
   cy.get('a', { includeShadowDom: true })
     .contains(text)
     .should('exist');
   cy.get('a', { includeShadowDom: true })
     .contains(text)
-    .click();
+    .click({ force: true });
 };
 
 const clickSearchButton = () => {
@@ -157,10 +166,10 @@ const clickCallToActionButton = (isPrimary = true, text) => {
       .should('exist');
     cy.get(`.usa-button${selectorPrimary}`, { includeShadowDom: true })
       .contains(text)
-      .click();
+      .click({ force: true });
   } else {
     cy.get(`.usa-button${selectorPrimary}`).should('exist');
-    cy.get(`.usa-button${selectorPrimary}`).click();
+    cy.get(`.usa-button${selectorPrimary}`).click({ force: true });
   }
 };
 
@@ -215,6 +224,8 @@ const selectOption = (selector, value) => {
 };
 
 export default class STEPS {
+  static clickTab = clickTab;
+
   static clickLink = clickLink;
 
   static clickRadioButton = clickRadioButton;

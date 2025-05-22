@@ -258,6 +258,7 @@ export default function RecentActivity({ claim }) {
               cstFriendlyEvidenceRequests &&
               item.activityDescription ? (
                 <va-alert
+                  data-testid={`item-from-others-${item.id}`}
                   class="optional-alert vads-u-padding-bottom--1"
                   status="info"
                   slim
@@ -276,6 +277,7 @@ export default function RecentActivity({ claim }) {
               ) : (
                 item.status === 'NEEDED_FROM_OTHERS' && (
                   <va-alert
+                    data-testid={`item-from-others-${item.id}`}
                     class="optional-alert vads-u-padding-bottom--1"
                     status="info"
                     slim

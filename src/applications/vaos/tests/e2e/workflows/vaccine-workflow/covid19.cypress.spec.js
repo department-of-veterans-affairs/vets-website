@@ -47,9 +47,8 @@ describe('VAOS covid-19 vaccine flow', () => {
         id: 'mock1',
         localStartTime: new Date(),
         status: 'booked',
-        serviceType: 'covid',
         future: true,
-      });
+      }).setTypeOfCare('covid');
 
       mockAppointmentCreateApi({ response });
       mockAppointmentGetApi({
@@ -212,9 +211,8 @@ describe('VAOS covid-19 vaccine flow', () => {
         id: 'mock1',
         localStartTime: new Date(),
         status: 'booked',
-        serviceType: 'covid',
         future: true,
-      });
+      }).setTypeOfCare('covid');
 
       mockAppointmentCreateApi({ response });
       mockAppointmentGetApi({

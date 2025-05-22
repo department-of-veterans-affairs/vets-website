@@ -1,10 +1,14 @@
 flow:
   title: Guardianship, Custodianship or Fiduciary issues (auth)
-  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  runOnCI: false # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
       target: page
       value: start-your-question-auth
+
+    - action: include
+      target: page
+      value: your-personal-information
 
     - action: include
       target: page
@@ -21,10 +25,6 @@ flow:
     - action: include
       target: page
       value: what-is-your-relationship-to-the-veteran-veteran
-
-    - action: include
-      target: page
-      value: tell-us-about-you
 
     - action: include
       target: page

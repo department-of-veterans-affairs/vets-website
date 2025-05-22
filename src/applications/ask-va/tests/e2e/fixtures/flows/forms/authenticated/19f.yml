@@ -8,6 +8,10 @@ flow:
 
     - action: include
       target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
       value: select-category-veteran-readiness-and-employment
 
     - action: include
@@ -48,11 +52,7 @@ flow:
 
     - action: include
       target: page
-      value: tell-us-about-yourself-general
-
-    - action: include
-      target: page
-      value: your-contact-information-business-no-prefill
+      value: your-contact-information-radio-buttons-phone-call
 
     - action: include
       target: page
