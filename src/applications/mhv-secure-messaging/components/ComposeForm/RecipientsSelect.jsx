@@ -236,8 +236,9 @@ const RecipientsSelect = ({
         isPilot && (
           <>
             <h2 className="recipientSelectHeading vads-u-margin-top--3">
-              You’re sending a message to {activeFacility?.vamcSystemName}{' '}
-              teams.
+              {`You’re sending a message to ${
+                activeFacility?.vamcSystemName
+              } teams.`}
             </h2>
             <Link
               to="select-health-care-system"

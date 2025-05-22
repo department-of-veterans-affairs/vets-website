@@ -501,3 +501,10 @@ export const smFooter = {
   FIND_FACILITY: 'Find your VA health facility',
   NEED_HELP: 'Need help?',
 };
+
+export const teamNotListedReasons = [
+  'Your account isn’t connected to the care team.',
+  'The care team doesn’t use secure messaging.',
+  'Your care team is part of a different VA health care system.',
+  'You removed the care team from your contact list.',
+];

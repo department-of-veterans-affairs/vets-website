@@ -2,7 +2,7 @@ import React from 'react';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Paths } from '../../util/constants';
+import { Paths, teamNotListedReasons } from '../../util/constants';
 
 const CantFindYourTeam = () => {
   const isPilot = useSelector(state => state.sm.app.isPilot);
@@ -39,12 +39,9 @@ const CantFindYourTeam = () => {
         <section className="cant-fnd-your-team">
           <p>Your care team may not be listed for these reasons:</p>
           <ul className="vads-u-margin-y--0">
-            <li>Your account isn’t connected to the care team.</li>
-            <li>The care team doesn’t use secure messaging.</li>
-            <li>
-              Your care team is part of a different VA health care system.
-            </li>
-            <li>You removed the care team from your contact list.</li>
+            {teamNotListedReasons.map((reason, index) => (
+              <li key={index}>{reason}</li>
+            ))}
           </ul>
           <p>
             You can send messages to other care teams by adding them to your
