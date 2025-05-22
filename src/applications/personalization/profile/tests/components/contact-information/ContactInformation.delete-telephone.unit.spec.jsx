@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
+import { setupServer } from 'platform/testing/unit/msw-adapter';
 
 import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
 
