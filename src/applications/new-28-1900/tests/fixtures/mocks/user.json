@@ -2,17 +2,17 @@
   "data": {
     "attributes": {
       "profile": {
-        "email": "john.doe@example.com",
+        "sign_in": {
+          "service_name": "idme"
+        },
+        "email": "john.preparer@example.com",
         "loa": { "current": 3 },
         "first_name": "John",
         "middle_name": "",
-        "last_name": "Doe",
+        "last_name": "Preparer",
         "gender": "M",
         "birth_date": "1985-01-01",
         "verified": true
-      },
-      "session": {
-        "ssoe": true
       },
       "veteran_status": {
         "status": "OK",
@@ -21,10 +21,10 @@
       },
       "in_progress_forms": [
         {
-          "form": "28-1900-V2",
+          "form": "10-7959F-1",
           "metadata": {
             "version": 0,
-            "returnUrl": "/review-and-submit",
+            "returnUrl": "/reason-for-visit",
             "savedAt": 1608147143961,
             "submission": {
               "status": false,
@@ -40,7 +40,7 @@
           "lastUpdated": 1608147144
         }
       ],
-      "prefills_available": ["28-1900-V2"],
+      "prefills_available": ["10-7959C", "10-7959F-1"],
       "services": [
         "facilities",
         "hca",
@@ -55,7 +55,7 @@
       "va_profile": {
         "status": "OK",
         "birth_date": "19850101",
-        "family_name": "Doe",
+        "family_name": "Preparer",
         "gender": "M",
         "given_names": ["John", ""],
         "active_status": "active",
