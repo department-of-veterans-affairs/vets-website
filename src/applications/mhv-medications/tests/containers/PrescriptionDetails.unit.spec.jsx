@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
+import { Route, Routes } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
@@ -8,6 +9,7 @@ import {
   stubAllergiesApi,
   stubPrescriptionsApiCache,
   stubPrescriptionIdApi,
+  stubUsePrefetch,
 } from '../testing-utils';
 import singlePrescription from '../fixtures/prescriptionsListItem.json';
 import { allergiesApi } from '../../api/allergiesApi';
@@ -22,15 +24,23 @@ let sandbox;
 
 describe('Prescription details container', () => {
   const setup = (state = {}) => {
-    return renderWithStoreAndRouterV6(<PrescriptionDetails />, {
-      initialState: state,
-      reducers: reducer,
-      initialEntries: ['/1234567891'],
-      additionalMiddlewares: [
-        allergiesApi.middleware,
-        prescriptionsApi.middleware,
-      ],
-    });
+    return renderWithStoreAndRouterV6(
+      <Routes>
+        <Route
+          path="/prescriptions/:prescriptionId"
+          element={<PrescriptionDetails />}
+        />
+      </Routes>,
+      {
+        initialState: state,
+        reducers: reducer,
+        initialEntries: ['/prescriptions/1234567891'],
+        additionalMiddlewares: [
+          allergiesApi.middleware,
+          prescriptionsApi.middleware,
+        ],
+      },
+    );
   };
 
   beforeEach(() => {
@@ -38,6 +48,7 @@ describe('Prescription details container', () => {
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox });
     stubPrescriptionIdApi({ sandbox });
+    stubUsePrefetch({ sandbox });
   });
 
   afterEach(() => {
@@ -231,6 +242,40 @@ describe('Prescription details container', () => {
     const screen = setup();
     await waitFor(() => {
       expect(screen.getByTestId('pending-med-alert')).to.exist;
+    });
+  });
+
+  it('should prefetch the prescription documentation when there is an NDC number', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: null, error: true });
+    const data = JSON.parse(JSON.stringify(singlePrescription));
+    data.rxRfRecords = [{ cmopNdcNumber: '00093314705' }];
+    stubPrescriptionIdApi({ sandbox, data });
+    const prefetchStub = stubUsePrefetch({ sandbox });
+    const screen = setup();
+    await waitFor(() => {
+      expect(screen.getByTestId('prescription-name')).to.exist.and.to.have.text(
+        singlePrescription.prescriptionName,
+      );
+      expect(prefetchStub.called).to.be.true;
+    });
+  });
+
+  it('should not prefetch the prescription documentation when there is not an NDC number', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: null, error: true });
+    const data = JSON.parse(JSON.stringify(singlePrescription));
+    data.rxRfRecords = [{ cmopNdcNumber: null }];
+    stubPrescriptionIdApi({ sandbox, data });
+    const prefetchStub = stubUsePrefetch({ sandbox });
+    const screen = setup();
+    await waitFor(() => {
+      expect(screen.getByTestId('prescription-name')).to.exist.and.to.have.text(
+        singlePrescription.prescriptionName,
+      );
+      expect(prefetchStub.called).to.be.false;
     });
   });
 });

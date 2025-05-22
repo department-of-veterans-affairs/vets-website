@@ -15,6 +15,8 @@ import {
   generateTextFile,
   getErrorTypeFromFormat,
   pharmacyPhoneNumber,
+  hasCmopNdcNumber,
+  getRefillHistory,
 } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import NonVaPrescription from '../components/PrescriptionDetails/NonVaPrescription';
@@ -43,10 +45,8 @@ import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import { pageType } from '../util/dataDogConstants';
 import { selectGroupingFlag } from '../util/selectors';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
-import {
-  getPrescriptionsList,
-  getPrescriptionById,
-} from '../api/prescriptionsApi';
+import { usePrescriptionData } from '../hooks/usePrescriptionData';
+import { usePrefetch } from '../api/prescriptionsApi';
 
 const PrescriptionDetails = () => {
   const { prescriptionId } = useParams();
@@ -70,67 +70,10 @@ const PrescriptionDetails = () => {
     filterOption: filterOptions[selectedFilterOption]?.url || '',
   });
 
-  const [
-    cachedPrescriptionAvailable,
-    setCachedPrescriptionAvailable,
-  ] = useState(true);
-  const [prescription, setPrescription] = useState(null);
-  const [prescriptionsApiError, setPrescriptionsApiError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Get cached prescription from list if available
-  const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
-    selectFromResult: ({ data: prescriptionsList }) => {
-      return prescriptionsList?.prescriptions?.find(
-        item => item.prescriptionId === Number(prescriptionId),
-      );
-    },
-  });
-
-  // Fetch individual prescription when needed
-  const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
+  // Use the custom hook to fetch prescription data
+  const { prescription, prescriptionApiError, isLoading } = usePrescriptionData(
     prescriptionId,
-    { skip: cachedPrescriptionAvailable },
-  );
-
-  // Handle prescription data from either source
-  useEffect(
-    () => {
-      if (cachedPrescriptionAvailable && cachedPrescription?.prescriptionId) {
-        setPrescription(cachedPrescription);
-        setIsLoading(false);
-      } else if (!queryLoading) {
-        if (error) {
-          setCachedPrescriptionAvailable(false);
-          setPrescriptionsApiError(error);
-          setIsLoading(false);
-        } else if (data) {
-          setPrescription(data);
-          setIsLoading(false);
-        }
-      }
-    },
-    [
-      cachedPrescription,
-      data,
-      error,
-      queryLoading,
-      cachedPrescriptionAvailable,
-    ],
-  );
-
-  // Determine when to fetch individual prescription
-  useEffect(
-    () => {
-      if (
-        cachedPrescriptionAvailable &&
-        !cachedPrescription?.prescriptionId &&
-        !queryLoading
-      ) {
-        setCachedPrescriptionAvailable(false);
-      }
-    },
-    [cachedPrescription, queryLoading, cachedPrescriptionAvailable],
+    queryParams,
   );
 
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
@@ -151,13 +94,26 @@ const PrescriptionDetails = () => {
     (prescription?.dispStatus === 'Active: Non-VA'
       ? prescription?.orderableItem
       : '');
-  const refillHistory = [...(prescription?.rxRfRecords || [])];
-  refillHistory.push({
-    prescriptionName: prescription?.prescriptionName,
-    dispensedDate: prescription?.dispensedDate,
-    cmopNdcNumber: prescription?.cmopNdcNumber,
-    id: prescription?.prescriptionId,
-  });
+  const refillHistory = getRefillHistory(prescription);
+
+  // Prefetch prescription documentation for faster loading when
+  // going to the documentation page
+  const prefetchPrescriptionDocumentation = usePrefetch(
+    'getPrescriptionDocumentation',
+  );
+  useEffect(
+    () => {
+      if (!isLoading && hasCmopNdcNumber(refillHistory)) {
+        prefetchPrescriptionDocumentation(prescriptionId);
+      }
+    },
+    [
+      isLoading,
+      prefetchPrescriptionDocumentation,
+      prescriptionId,
+      refillHistory,
+    ],
+  );
 
   useEffect(
     () => {
@@ -382,7 +338,7 @@ const PrescriptionDetails = () => {
   );
 
   const hasPrintError =
-    prescription && !prescriptionsApiError && !allergiesError;
+    prescription && !prescriptionApiError && !allergiesError;
 
   const pendingMedAlert = () => {
     const { orderedDate } = prescription;
@@ -452,7 +408,7 @@ const PrescriptionDetails = () => {
       );
     }
 
-    if (prescription || prescriptionsApiError) {
+    if (prescription || prescriptionApiError) {
       return (
         <div>
           <div className="no-print">
@@ -465,7 +421,7 @@ const PrescriptionDetails = () => {
             >
               {prescriptionHeader}
             </h1>
-            {prescriptionsApiError ? (
+            {prescriptionApiError ? (
               <ApiErrorNotification errorType="access" content="medications" />
             ) : (
               <>

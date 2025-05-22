@@ -9,13 +9,14 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 import {
+  dateFormat,
+  getImageUri,
+  getRefillHistory,
+  hasCmopNdcNumber,
+  isRefillTakingLongerThanExpected,
+  pharmacyPhoneNumber,
   validateField,
   validateIfAvailable,
-  getImageUri,
-  dateFormat,
-  createOriginalFillRecord,
-  pharmacyPhoneNumber,
-  isRefillTakingLongerThanExpected,
 } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
@@ -46,10 +47,7 @@ const VaPrescription = prescription => {
         FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
       ],
   );
-  const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const originalFill = prescription?.dispensedDate
-    ? createOriginalFillRecord(prescription)
-    : null;
+  const refillHistory = getRefillHistory(prescription);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
   const pendingMed =
     prescription?.prescriptionSource === 'PD' &&
@@ -57,9 +55,6 @@ const VaPrescription = prescription => {
   const pendingRenewal =
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'Renew';
-  if (originalFill) {
-    refillHistory.push(originalFill);
-  }
   const hasBeenDispensed =
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
@@ -483,7 +478,7 @@ const VaPrescription = prescription => {
                 <p>{validateIfAvailable('Quantity', prescription.quantity)}</p>
                 {isDisplayingDocumentation &&
                   // Any of the Rx's NDC's will work here. They should all show the same information
-                  refillHistory.some(p => p.cmopNdcNumber) && (
+                  hasCmopNdcNumber(refillHistory) && (
                     <Link
                       to={`/prescription/${
                         prescription.prescriptionId
@@ -507,7 +502,7 @@ const VaPrescription = prescription => {
               <div className="medication-details-div vads-u-margin-bottom--3">
                 {isDisplayingDocumentation &&
                   // Any of the Rx's NDC's will work here. They should all show the same information
-                  refillHistory.some(p => p.cmopNdcNumber) && (
+                  hasCmopNdcNumber(refillHistory) && (
                     <Link
                       to={`/prescription/${
                         prescription.prescriptionId
@@ -549,7 +544,7 @@ const VaPrescription = prescription => {
                     </h3>
                   )}
                   {refillHistory?.length > 1 &&
-                    refillHistory.some(rx => rx.cmopNdcNumber) && (
+                    hasCmopNdcNumber(refillHistory) && (
                       <p className="vads-u-margin--0">
                         <strong>Note:</strong> Images on this page are for
                         identification purposes only. They don’t mean that this
