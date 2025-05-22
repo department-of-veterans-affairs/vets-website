@@ -4,6 +4,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { TASK_KEYS } from '../../../constants';
 import { addDependentOptions } from './helpers';
+import { AddDependentsOptionsDescription } from '../../../../components/AddDependentsOptionsDescription';
 
 export const uiSchema = {
   'view:addDependentOptions': {
@@ -43,6 +44,9 @@ export const uiSchema = {
       },
     },
   },
+  'view:addDependentOptionsDescription': {
+    'ui:description': AddDependentsOptionsDescription,
+  },
 };
 
 export const schema = {
@@ -55,5 +59,9 @@ export const schema = {
       TASK_KEYS.report674,
       TASK_KEYS.addDisabledChild,
     ]),
+    'view:addDependentOptionsDescription': {
+      type: 'object',
+      properties: {},
+    },
   },
 };

@@ -93,12 +93,15 @@ describe('Authed Letter Test', () => {
         cy.get(`#${id}`).should('not.be.checked');
       });
     });
+
+    // TODO: Restore test when Design System fix is ready
+    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/110212
     // collapse the bsl accordion
-    cy.get('.step-content va-accordion-item:nth-of-type(4)')
-      .shadow()
-      .find('button[aria-expanded=true]')
-      .click();
-    cy.get('label[name="militaryService-label"]').should('not.be.visible');
+    // cy.get('.step-content va-accordion-item:nth-of-type(4)')
+    //   .shadow()
+    //   .find('button[aria-expanded=true]')
+    //   .click();
+    // cy.get('label[name="militaryService-label"]').should('not.be.visible');
 
     // poke the back button
     cy.get('.step-content p:nth-of-type(4) a').click();

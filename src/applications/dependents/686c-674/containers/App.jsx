@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
@@ -17,6 +18,7 @@ function App({
   isLoading,
   vaFileNumber,
   featureToggles,
+  savedForms,
 }) {
   // Must match the H1
   document.title = DOC_TITLE;
@@ -44,7 +46,16 @@ function App({
     return <va-loading-indicator message="Loading your information..." />;
   }
 
-  if (!featureToggles?.loading && featureToggles?.vaDependentsV2 === false) {
+  const flipperV2 = featureToggles.vaDependentsV2;
+  const hasV1Form = savedForms.some(
+    form => form.form === VA_FORM_IDS.FORM_21_686C,
+  );
+  const hasV2Form = savedForms.some(
+    form => form.form === VA_FORM_IDS.FORM_21_686CV2,
+  );
+
+  const shouldUseV2 = hasV2Form || (flipperV2 && !hasV1Form);
+  if (!shouldUseV2) {
     window.location.href = '/view-change-dependents/add-remove-form-21-686c/';
     return <></>;
   }
@@ -112,6 +123,7 @@ App.propTypes = {
   isLoading: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
+  savedForms: PropTypes.object,
   vaFileNumber: PropTypes.object,
 };
 

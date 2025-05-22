@@ -51,17 +51,12 @@ export const fetchDebts = async dispatch => {
 
   try {
     const response = await getDebts();
-    const approvedDeductionCodes = Object.keys(deductionCodes);
-    // filter approved deductionCodes &&
-    // remove debts that have a current amount owed of 0
-    const filteredResponse = response.debts
-      .filter(debt => approvedDeductionCodes.includes(debt.deductionCode))
-      .filter(debt => debt.currentAr > 0)
-      .map((debt, index) => ({
-        ...debt,
-        id: index,
-        debtType: DEBT_TYPES.DEBT,
-      }));
+
+    const filteredResponse = response.debts.map((debt, index) => ({
+      ...debt,
+      id: index,
+      debtType: DEBT_TYPES.DEBT,
+    }));
 
     const simplifiedResponse = filteredResponse.map(debt => ({
       compositeDebtId: debt.compositeDebtId,
