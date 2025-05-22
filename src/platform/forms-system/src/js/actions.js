@@ -246,11 +246,17 @@ export function uploadFile(
       const fileTooBigErrorAlert = uiOptions?.fileTooBigErrorAlert;
       const changePayload = {
         name: file.name,
-        size: file.size,
-        lastModified: file.lastModified,
         errorMessage: fileTooBigErrorMessage,
-        ...(fileTooBigErrorAlert && { alert: fileTooBigErrorAlert }),
       };
+      if (file.size) {
+        changePayload.size = file.size;
+      }
+      if (file.lastModified) {
+        changePayload.lastModified = file.lastModified;
+      }
+      if (fileTooBigErrorAlert) {
+        changePayload.alert = fileTooBigErrorAlert;
+      }
       onChange(changePayload);
       onError();
       return null;
