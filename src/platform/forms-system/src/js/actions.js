@@ -227,6 +227,7 @@ export function uploadFile(
   onError,
   trackingPrefix,
   password,
+  enableShortWorkflow,
 ) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -244,13 +245,24 @@ export function uploadFile(
         'We couldn\u2019t upload your file because it\u2019s too large. ' +
           `File size must be less than ${fileSizeText}.`;
       const fileTooBigErrorAlert = uiOptions?.fileTooBigErrorAlert;
-      const changePayload = {
-        name: file.name,
-        size: file.size,
-        lastModified: file.lastModified,
-        errorMessage: fileTooBigErrorMessage,
-        ...(fileTooBigErrorAlert && { alert: fileTooBigErrorAlert }),
-      };
+
+      // When enableShortWorkflow is true, only include name and errorMessage
+      let changePayload;
+      if (enableShortWorkflow) {
+        changePayload = {
+          name: file.name,
+          errorMessage: fileTooBigErrorMessage,
+        };
+      } else {
+        changePayload = {
+          name: file.name,
+          size: file.size,
+          lastModified: file.lastModified,
+          errorMessage: fileTooBigErrorMessage,
+          ...(fileTooBigErrorAlert && { alert: fileTooBigErrorAlert }),
+        };
+      }
+
       onChange(changePayload);
       onError();
       return null;
