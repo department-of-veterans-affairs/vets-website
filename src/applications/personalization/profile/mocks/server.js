@@ -110,6 +110,7 @@ const responses = {
             profileShowPrivacyPolicy: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
+            vetStatusStage1: true,
           }),
         ),
       secondsOfDelay,
