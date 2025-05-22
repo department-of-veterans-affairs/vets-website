@@ -29,7 +29,7 @@
     "./SessionTimeoutModal": "./authentication/components/SessionTimeoutModal.jsx",
     "./SignInModal": "./authentication/components/SignInModal.jsx",
     "./VerifyAccountLink": "./authentication/components/VerifyAccountLink.jsx",
-    "./VerifyAlert": "./authorization/components/VerifyAlert.jsx",
+    "./VerifyAlert": "./authentication/components/VerifyAlert.jsx",
     "./VerifyButton": "./authentication/components/VerifyButton.jsx"
   },
   "scripts": {
