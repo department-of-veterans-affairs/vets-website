@@ -162,21 +162,11 @@ function createBasicInitialState(serviceHistory) {
 }
 
 // Function to find the PDF link in the view
-function pdfLinkElement(view) {
+function pdfLink(view) {
   return Array.from(view.container.querySelectorAll('va-link')).find(
     link =>
       link.getAttribute('text') === 'Print your Veteran Status Card (PDF)',
   );
-}
-
-// Function to check if the PDF link is rendered
-function expecPDFLinkToBeRendered(view) {
-  expect(pdfLinkElement(view)).to.exist;
-}
-
-// Function to check if the PDF link is not rendered
-function expectPDFLinkToNoBeRendered(view) {
-  expect(pdfLinkElement(view)).to.not.exist;
 }
 
 describe('VeteranStatus', () => {
@@ -237,7 +227,7 @@ describe('VeteranStatus', () => {
         ).to.exist;
 
         // Check that the PDF download link is rendered
-        expecPDFLinkToBeRendered(view);
+        expect(pdfLink(view)).to.exist;
       });
     });
   });
@@ -252,7 +242,7 @@ describe('VeteranStatus', () => {
       expect(view.getByText(`This page isn't available right now.`)).to.exist;
 
       // Check that the PDF download link is not rendered
-      expectPDFLinkToNoBeRendered(view);
+      expect(pdfLink(view)).to.not.exist;
     });
 
     it('should render the NoServiceHistoryAlert alert for 403 service history errors', () => {
@@ -267,7 +257,7 @@ describe('VeteranStatus', () => {
       ).to.exist;
 
       // Check that the PDF download link is not rendered
-      expectPDFLinkToNoBeRendered(view);
+      expect(pdfLink(view)).to.not.exist;
     });
 
     it('should render the NoServiceHistoryAlert alert when there is no service history', () => {
@@ -282,7 +272,7 @@ describe('VeteranStatus', () => {
       ).to.exist;
 
       // Check that the PDF download link is not rendered
-      expectPDFLinkToNoBeRendered(view);
+      expect(pdfLink(view)).to.not.exist;
     });
 
     it('should render the SystemErrorAlert alert when an API error occurs', async () => {
@@ -304,7 +294,7 @@ describe('VeteranStatus', () => {
         ).to.exist;
 
         // Check that the PDF download link is not rendered
-        expectPDFLinkToNoBeRendered(view);
+        expect(pdfLink(view)).to.not.exist;
       });
     });
 
@@ -324,7 +314,7 @@ describe('VeteranStatus', () => {
       ).to.exist;
 
       // Check that the PDF download link is not rendered
-      expectPDFLinkToNoBeRendered(view);
+      expect(pdfLink(view)).to.not.exist;
     });
 
     it('should render the NotConfirmedAlert alert when vet status returns a discharge problem', async () => {
@@ -342,7 +332,7 @@ describe('VeteranStatus', () => {
         expect(view.getByText(dischargeProblemData.title)).to.exist;
 
         // Check that the PDF download link is not rendered
-        expectPDFLinkToNoBeRendered(view);
+        expect(pdfLink(view)).to.not.exist;
       });
     });
 
@@ -361,7 +351,7 @@ describe('VeteranStatus', () => {
         expect(view.getByText(notEligibleData.title)).to.exist;
 
         // Check that the PDF download link is not rendered
-        expectPDFLinkToNoBeRendered(view);
+        expect(pdfLink(view)).to.not.exist;
       });
     });
 
@@ -382,7 +372,7 @@ describe('VeteranStatus', () => {
         expect(view.getByText(dischargeProblemData.title)).to.exist;
 
         // Check that the PDF download link is not rendered
-        expectPDFLinkToNoBeRendered(view);
+        expect(pdfLink(view)).to.not.exist;
       });
     });
 
@@ -401,7 +391,7 @@ describe('VeteranStatus', () => {
         expect(view.getByText(notEligibleData.title)).to.exist;
 
         // Check that the PDF download link is not rendered
-        expectPDFLinkToNoBeRendered(view);
+        expect(pdfLink(view)).to.not.exist;
       });
     });
   });

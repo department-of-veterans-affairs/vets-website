@@ -88,9 +88,7 @@ describe('VeteranStatusAlerts', () => {
       const { getByText } = render(<PDFErrorAlert />);
       expect(getByText('Something went wrong')).to.exist;
       expect(
-        getByText(
-          'We’re sorry. Try to download your Veteran Status Card later.',
-        ),
+        getByText('We’re sorry. Try to print your Veteran Status Card later.'),
       ).to.exist;
     });
   });

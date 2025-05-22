@@ -63,7 +63,7 @@ describe('<FrequentlyAskedQuestions />', () => {
 
     // Check that the link is not rendered
     expect(
-      getByText('We’re sorry. Try to download your Veteran Status Card later.'),
+      getByText('We’re sorry. Try to print your Veteran Status Card later.'),
     ).to.exist;
   });
 
@@ -72,10 +72,10 @@ describe('<FrequentlyAskedQuestions />', () => {
     render(<FrequentlyAskedQuestions createPdf={mockCreatePdf} />);
 
     // Click the link
-    const printLink = document.querySelector(
+    const pdfLink = document.querySelector(
       'va-link[text="Print your Veteran Status Card (PDF)"]',
     );
-    fireEvent.click(printLink);
+    fireEvent.click(pdfLink);
 
     // Check that createPdf was called
     expect(mockCreatePdf.calledOnce).to.be.true;

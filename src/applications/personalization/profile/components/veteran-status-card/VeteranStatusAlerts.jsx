@@ -121,9 +121,7 @@ export const PDFErrorAlert = () => {
   return (
     <VeteranStatusAlert
       headline="Something went wrong"
-      messages={[
-        'We’re sorry. Try to download your Veteran Status Card later.',
-      ]}
+      messages={['We’re sorry. Try to print your Veteran Status Card later.']}
     />
   );
 };
