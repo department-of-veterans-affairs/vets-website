@@ -10,8 +10,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 
-const ChooseVAHealthcareSystem = props => {
-  const { acknowledge } = props;
+const SelectHealthCareSystem = ({ acknowledge }) => {
   const allFacilities = useSelector(state => state.sm.recipients.allFacilities);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
@@ -23,17 +22,19 @@ const ChooseVAHealthcareSystem = props => {
   }, []);
 
   const onChangeHandler = e => {
-    setSelectedFacility(e.detail.value);
-    if (e.detail.value) setShowError(null);
+    setSelectedFacility(e?.detail?.value);
+    if (e?.detail?.value) setShowError(null);
   };
 
-  const handleContinue = () => {
-    if (!selectedFacility) {
-      setShowError('Select a VA health care system');
-    } else {
-      setShowError(null);
-      acknowledge();
-    }
+  const handlers = {
+    onContinue: () => {
+      if (!selectedFacility) {
+        setShowError('Select a VA health care system');
+      } else {
+        setShowError(null);
+        acknowledge();
+      }
+    },
   };
 
   useEffect(() => {
@@ -60,13 +61,12 @@ const ChooseVAHealthcareSystem = props => {
   }, []);
 
   return (
-    <div className="choose-va-healthcare-systema">
+    <div className="choose-va-health-care-system">
       <h1 className="vads-u-margin-bottom--2">
         Which VA health care system do you want to send a message to?
       </h1>
       <div>
         <VaRadio
-          hint=""
           label="Select the VA health care system your care team is a part of to send them a message"
           error={showError}
           name="va-health-care-system"
@@ -76,6 +76,7 @@ const ChooseVAHealthcareSystem = props => {
           {allFacilities.map((facility, i) => (
             <>
               <VaRadioOption
+                data-testid={`facility-${facility}`}
                 id={facility}
                 key={i}
                 label={
@@ -96,7 +97,7 @@ const ChooseVAHealthcareSystem = props => {
           class="continue-go-back vads-u-padding-y--1p5 vads-u-margin-top--0 vads-u-margin-bottom--3"
           data-testid="continue-go-back-buttons"
           data-dd-action-name="Continue button on Choose a VA Healthcare System Page"
-          onClick={handleContinue}
+          onPrimaryClick={e => handlers.onContinue(e)}
           text={null}
         />
       </div>
@@ -104,9 +105,9 @@ const ChooseVAHealthcareSystem = props => {
   );
 };
 
-ChooseVAHealthcareSystem.propTypes = {
+SelectHealthCareSystem.propTypes = {
   acknowledge: PropType.func,
   type: PropType.string,
 };
 
-export default ChooseVAHealthcareSystem;
+export default SelectHealthCareSystem;

@@ -22,7 +22,6 @@ import {
 } from '../util/constants';
 import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
-import ChooseVAHealthcareSystem from './ChooseVAHealthcareSystemPage';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -40,7 +39,6 @@ const Compose = () => {
   const { allTriageGroupsBlocked } = recipients;
 
   const [acknowledged, setAcknowledged] = useState(false);
-  const [vaSystemAcknowledged, setVaSystemAcknowledged] = useState(false);
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState('Start a new message');
   const location = useLocation();
@@ -194,8 +192,6 @@ const Compose = () => {
     !acknowledged &&
     (noAssociations === (undefined || false) && !allTriageGroupsBlocked);
 
-  const shouldShowChooseSystem = acknowledged;
-
   const shouldShowComposeContent =
     draftType &&
     (noAssociations === (undefined || false) && !allTriageGroupsBlocked);
@@ -232,18 +228,7 @@ const Compose = () => {
           type={draftType}
         />
       )}
-      {shouldShowChooseSystem &&
-        !vaSystemAcknowledged && (
-          <>
-            <ChooseVAHealthcareSystem
-              acknowledge={() => {
-                setVaSystemAcknowledged(true);
-              }}
-            />
-          </>
-        )}
-      {vaSystemAcknowledged &&
-        shouldShowComposeContent &&
+      {shouldShowComposeContent &&
         !allTriageGroupsBlocked && (
           <div className="vads-l-grid-container compose-container">
             {content()}
