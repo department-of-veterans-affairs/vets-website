@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
-import { generatePdfScaffold } from '@department-of-veterans-affairs/mhv/exports';
-import { getNameDateAndTime, makePdf } from '../../util/helpers';
+import {
+  generatePdfScaffold,
+  getNameDateAndTime,
+  makePdf,
+} from '@department-of-veterans-affairs/mhv/exports';
 import {
   generateLabsIntro,
   generateRadiologyContent,
@@ -15,7 +18,13 @@ const GenerateRadiologyPdf = async (record, user, runningUnitTest) => {
     ...generateRadiologyContent(record),
   };
   const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-  makePdf(pdfName, pdfData, 'Radiology details', runningUnitTest);
+  makePdf(
+    pdfName,
+    pdfData,
+    'medicalRecords',
+    'Medical Records - Radiology details - PDF generation error',
+    runningUnitTest,
+  );
 };
 
 export default GenerateRadiologyPdf;

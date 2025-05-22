@@ -26,7 +26,6 @@ describe('Download Actions', () => {
     });
     afterEach(() => {
       delete window.URL;
-      delete window.location;
       HTMLAnchorElement.prototype.click = clickToRestore;
     });
     it('should dispatch an error on failed API calls', async () => {

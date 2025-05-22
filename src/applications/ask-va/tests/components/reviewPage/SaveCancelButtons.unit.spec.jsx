@@ -43,8 +43,8 @@ describe('<SaveCancelButtons />', () => {
       />,
     );
 
-    expect(getByRole(document.body, 'button', { name: 'Update TestSection' }))
-      .to.exist;
+    expect(getByRole(document.body, 'button', { name: 'Save TestSection' })).to
+      .exist;
     expect(getByRole(document.body, 'button', { name: 'Cancel' })).to.exist;
   });
 
@@ -59,7 +59,7 @@ describe('<SaveCancelButtons />', () => {
     );
 
     const saveButton = getByRole(document.body, 'button', {
-      name: 'Update TestSection',
+      name: 'Save TestSection',
     });
     fireEvent.click(saveButton);
 

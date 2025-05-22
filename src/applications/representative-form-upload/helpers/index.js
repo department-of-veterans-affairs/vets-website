@@ -8,7 +8,7 @@ import {
 
 const formMappings = {
   '21-686c': {
-    subTitle: 'Declaration of Status of Dependents',
+    subTitle: 'Application Request to Add and/or Remove Dependents',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
   },
 };
@@ -32,7 +32,7 @@ export const getFormContent = (pathname = null) => {
     ombInfo,
     subTitle,
     pdfDownloadUrl,
-    title: `Upload form ${formNumber}`,
+    title: `Submit VA Form ${formNumber}`,
   };
 };
 

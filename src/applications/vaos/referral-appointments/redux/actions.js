@@ -47,13 +47,16 @@ export function setFormCurrentPage(currentPage) {
   };
 }
 
-export function createDraftReferralAppointment(referralId) {
+export function createDraftReferralAppointment(referralNumber) {
   return async dispatch => {
     try {
       dispatch({
         type: CREATE_DRAFT_REFERRAL_APPOINTMENT,
       });
-      const providerDetails = await postDraftReferralAppointment(referralId);
+
+      const providerDetails = await postDraftReferralAppointment(
+        referralNumber,
+      );
 
       dispatch({
         type: CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED,
@@ -147,7 +150,7 @@ export function pollFetchAppointmentInfo(
       });
       const appointmentInfo = await getAppointmentInfo(appointmentId);
       // If the appointment is still in draft state, retry the request in 1 second to avoid spamming the api with requests
-      if (appointmentInfo.attributes.status !== 'booked') {
+      if (appointmentInfo.attributes?.status !== 'booked') {
         setTimeout(() => {
           dispatch(
             pollFetchAppointmentInfo(appointmentId, {
@@ -214,9 +217,11 @@ export function startNewAppointmentFlow() {
 }
 
 export function createReferralAppointment({
-  referralId,
-  slotId,
   draftApppointmentId,
+  referralNumber,
+  slotId,
+  networkId,
+  providerServiceId,
 }) {
   return async dispatch => {
     try {
@@ -225,9 +230,11 @@ export function createReferralAppointment({
       });
 
       const appointmentInfo = await postReferralAppointment({
-        referralId,
-        slotId,
         draftApppointmentId,
+        referralNumber,
+        slotId,
+        networkId,
+        providerServiceId,
       });
 
       dispatch({
