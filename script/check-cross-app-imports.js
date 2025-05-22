@@ -236,11 +236,11 @@ if (!appFolders && !checkAllowlist) {
         const appData = crossAppJson[app];
         console.log(
           `relevant imports from ${app}: `,
-          appData.appsThatThisAppImportsFrom,
+          Object.keys(appData.appsThatThisAppImportsFrom),
         );
         console.log(
           `relevant imports to ${app}: `,
-          appData.appsThatImportFromThisApp,
+          Object.keys(appData.appsThatImportFromThisApp),
         );
         return (
           appData.appsThatThisAppImportsFrom &&
