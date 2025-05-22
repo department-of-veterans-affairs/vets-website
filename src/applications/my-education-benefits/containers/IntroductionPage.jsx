@@ -29,28 +29,6 @@ export const IntroductionPage = ({ featureTogglesLoaded, route }) => {
         omb-number="2900-0154"
         exp-date="03/31/2026"
       />
-
-      <div className="vads-u-padding--0 vads-u-margin-top--4 vads-u-margin-bottom--2">
-        <h2>Need help?</h2>
-        <p>
-          If you need help with your application or have questions about
-          enrollment or eligibility, submit a request with{' '}
-          <a
-            href="https://ask.va.gov/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ask VA
-          </a>
-          .
-        </p>
-        <p>
-          If you have technical difficulties using this online application,
-          MyVA411 main information line at{' '}
-          <va-telephone contact="8006982411" extension="711" />. We’re here
-          24/7.
-        </p>
-      </div>
     </div>
   );
 };
