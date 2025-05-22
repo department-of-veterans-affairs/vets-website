@@ -4,9 +4,13 @@ import maxTestData from '../fixtures/data/maximal-test.json';
 const { data: testData } = maxTestData;
 
 // navigation helpers
-export const goToNextPage = pagePath => {
+export const goToNextPage = (pagePath, isArrayBuilderEditPage = false) => {
   // clicks Continue button, and optionally checks destination path.
-  cy.findAllByText(/continue/i, { selector: 'button' }).click();
+  if (isArrayBuilderEditPage) {
+    cy.get('va-button[text="continue"]').click();
+  } else {
+    cy.findAllByText(/continue/i, { selector: 'button' }).click();
+  }
   if (pagePath) {
     cy.location('pathname').should('include', pagePath);
   }
@@ -232,4 +236,28 @@ export const selectRadioWithKeyboard = (fieldName, value) => {
 export const selectDropdownWithKeyboard = (fieldName, value) => {
   cy.tabToElement(`[name="root_${fieldName}"]`);
   cy.chooseSelectOptionUsingValue(value);
+};
+
+export const clearVeteranIncome = () => {
+  cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').clear();
+  cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').clear();
+  cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').clear();
+};
+
+export const clearSpousalIncome = () => {
+  cy.get('[name="root_view:spouseGrossIncome_spouseGrossIncome"]').clear();
+  cy.get('[name="root_view:spouseNetIncome_spouseNetIncome"]').clear();
+  cy.get('[name="root_view:spouseOtherIncome_spouseOtherIncome"]').clear();
+};
+
+export const clearDeductibleExpenses = () => {
+  cy.get(
+    '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses"',
+  ).clear();
+  cy.get(
+    '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses"',
+  ).clear();
+  cy.get(
+    '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses"',
+  ).clear();
 };
