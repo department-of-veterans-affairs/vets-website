@@ -15,6 +15,7 @@ const setup = (mobile = false) => {
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
   // should show a loading indicator
+  // test causing issues locally, skipping for now
   // cy.get('va-loading-indicator')
   //   .should('exist')
   //   .then($container => {
@@ -140,9 +141,7 @@ describe('Modals for removal of field', () => {
     });
     cy.axeCheck();
   });
-});
 
-describe('Modals for removal of field', () => {
   it('should show edit notice modal when attempting to remove field after editing another field', () => {
     setup(false);
     checkRemovalWhileEditingModal({
@@ -152,9 +151,7 @@ describe('Modals for removal of field', () => {
     });
     cy.axeCheck();
   });
-});
 
-describe('Modals for removal of field', () => {
   it('should show edit notice modal when attempting to remove field after editing another field', () => {
     setup(false);
     checkRemovalWhileEditingModal({
@@ -168,7 +165,7 @@ describe('Modals for removal of field', () => {
 });
 
 describe('Modals on the contact information and content page', () => {
-  it('should render as expected on Desktop', () => {
+  it('should render as expected on Desktop 1', () => {
     setup();
     // should appear when editing mailing address
     checkModals({
@@ -178,10 +175,8 @@ describe('Modals on the contact information and content page', () => {
     });
     cy.axeCheck();
   });
-});
 
-describe('Modals on the contact information and content page', () => {
-  it('should render as expected on Desktop', () => {
+  it('should render as expected on Desktop 2', () => {
     setup();
     // should appear when editing residential address
     checkModals({
@@ -191,10 +186,8 @@ describe('Modals on the contact information and content page', () => {
     });
     cy.axeCheck();
   });
-});
 
-describe('Modals on the contact information and content page', () => {
-  it('should render as expected on Desktop', () => {
+  it('should render as expected on Desktop 3', () => {
     setup();
     // should appear when editing home phone number
     checkModals({
@@ -204,10 +197,8 @@ describe('Modals on the contact information and content page', () => {
     });
     cy.axeCheck();
   });
-});
 
-describe('Modals on the contact information and content page', () => {
-  it('should render as expected on Desktop', () => {
+  it('should render as expected on Desktop 4', () => {
     setup();
     // should appear when editing email address
     checkModals({
@@ -219,7 +210,7 @@ describe('Modals on the contact information and content page', () => {
     cy.axeCheck();
   });
 
-  it('should render as expected on Mobile', () => {
+  it('should render as expected on Mobile 1', () => {
     setup(true);
 
     // should appear when editing mailing address
@@ -231,7 +222,7 @@ describe('Modals on the contact information and content page', () => {
     cy.axeCheck();
   });
 
-  it('should render as expected on Mobile', () => {
+  it('should render as expected on Mobile 2', () => {
     setup(true);
     // should appear when editing residential address
     checkModals({
@@ -242,7 +233,7 @@ describe('Modals on the contact information and content page', () => {
     cy.axeCheck();
   });
 
-  it('should render as expected on Mobile', () => {
+  it('should render as expected on Mobile 3', () => {
     setup(true);
     // should appear when editing home phone number
     checkModals({
@@ -253,7 +244,7 @@ describe('Modals on the contact information and content page', () => {
     cy.axeCheck();
   });
 
-  it('should render as expected on Mobile', () => {
+  it('should render as expected on Mobile 4', () => {
     setup(true);
     // should appear when editing email address
     checkModals({
