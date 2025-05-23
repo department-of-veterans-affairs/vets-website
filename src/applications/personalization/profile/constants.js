@@ -3,7 +3,6 @@ export const PROFILE_TOGGLES = {
   profileShowPronounsAndSexualOrientation: false,
   representativeStatusEnableV2Features: false,
   profileHideDirectDeposit: false,
-  profileShowPaymentsNotificationSetting: false,
   profileShowMhvNotificationSettings: false,
   profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,

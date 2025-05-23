@@ -29,7 +29,6 @@ describe('useNotificationSettingsUtils hook -> useAvailableGroups', () => {
       featureToggles: {
         loading: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
-        [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
         [TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting]: true,
       },
       user: {
@@ -74,7 +73,6 @@ describe('useNotificationSettingsUtils hook -> useAvailableGroups', () => {
       featureToggles: {
         loading: false,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: false,
-        [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: false,
         [TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting]: false,
       },
       user: {
@@ -97,10 +95,9 @@ describe('useNotificationSettingsUtils hook -> useAvailableGroups', () => {
     );
 
     const hookResults = JSON.parse(getByTestId('hookResults').textContent);
-    expect(hookResults.length).to.equal(2);
+    expect(hookResults.length).to.equal(3);
 
     expect(hookResults.some(({ name }) => name === 'QuickSubmit')).to.be.false;
-    expect(hookResults.some(({ name }) => name === 'Payments')).to.be.false;
     expect(
       hookResults.some(
         ({ name }) => name === 'General VA Updates and Information',

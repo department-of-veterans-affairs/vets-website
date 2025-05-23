@@ -80,16 +80,8 @@ export const useNotificationSettingsUtils = () => {
     TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages,
   );
 
-  const profileShowNewBenefitOverpaymentDebtNotificationSetting = useToggleValue(
-    TOGGLE_NAMES.profileShowNewBenefitOverpaymentDebtNotificationSetting,
-  );
-
   const profileShowNewHealthCareCopayBillNotificationSetting = useToggleValue(
     TOGGLE_NAMES.profileShowNewHealthCareCopayBillNotificationSetting,
-  );
-
-  const showPaymentsNotificationSetting = useToggleValue(
-    TOGGLE_NAMES.profileShowPaymentsNotificationSetting,
   );
 
   const showQuickSubmitNotificationSetting = useToggleValue(
@@ -100,25 +92,21 @@ export const useNotificationSettingsUtils = () => {
     () => {
       return {
         loading,
-        showPaymentsNotificationSetting,
         showQuickSubmitNotificationSetting,
         profileShowMhvNotificationSettingsEmailAppointmentReminders,
         profileShowMhvNotificationSettingsEmailRxShipment,
         profileShowMhvNotificationSettingsNewSecureMessaging,
         profileShowMhvNotificationSettingsMedicalImages,
-        profileShowNewBenefitOverpaymentDebtNotificationSetting,
         profileShowNewHealthCareCopayBillNotificationSetting,
       };
     },
     [
       loading,
-      showPaymentsNotificationSetting,
       showQuickSubmitNotificationSetting,
       profileShowMhvNotificationSettingsEmailAppointmentReminders,
       profileShowMhvNotificationSettingsEmailRxShipment,
       profileShowMhvNotificationSettingsNewSecureMessaging,
       profileShowMhvNotificationSettingsMedicalImages,
-      profileShowNewBenefitOverpaymentDebtNotificationSetting,
       profileShowNewHealthCareCopayBillNotificationSetting,
     ],
   );
@@ -130,7 +118,6 @@ export const useNotificationSettingsUtils = () => {
         toggles.profileShowMhvNotificationSettingsEmailRxShipment ||
         toggles.profileShowMhvNotificationSettingsMedicalImages ||
         toggles.profileShowMhvNotificationSettingsNewSecureMessaging ||
-        toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting ||
         toggles.profileShowNewHealthCareCopayBillNotificationSetting
       );
     },
@@ -169,9 +156,7 @@ export const useNotificationSettingsUtils = () => {
       // will always hide general and quick submit
       return (
         id !== NOTIFICATION_GROUPS.QUICK_SUBMIT &&
-        id !== NOTIFICATION_GROUPS.GENERAL &&
-        (toggles.showPaymentsNotificationSetting ||
-          id !== NOTIFICATION_GROUPS.PAYMENTS)
+        id !== NOTIFICATION_GROUPS.GENERAL
       );
     });
   };
@@ -186,9 +171,6 @@ export const useNotificationSettingsUtils = () => {
       // Always exclude QUICK_SUBMIT and GENERAL
       NOTIFICATION_GROUPS.QUICK_SUBMIT,
       NOTIFICATION_GROUPS.GENERAL,
-      ...(toggles.showPaymentsNotificationSetting
-        ? []
-        : [NOTIFICATION_GROUPS.PAYMENTS]),
     ];
 
     const excludedItemIds = [
@@ -199,9 +181,6 @@ export const useNotificationSettingsUtils = () => {
       ...(toggles.profileShowMhvNotificationSettingsMedicalImages
         ? []
         : [NOTIFICATION_ITEM_IDS.MEDICAL_IMAGES]),
-      ...(toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting
-        ? []
-        : [NOTIFICATION_ITEM_IDS.BENEFIT_OVERPAYMENT_DEBT]),
       ...(toggles.profileShowNewHealthCareCopayBillNotificationSetting
         ? []
         : [NOTIFICATION_ITEM_IDS.HEALTH_CARE_COPAY_BILL]),
@@ -271,10 +250,6 @@ export const useNotificationSettingsUtils = () => {
             !(
               itemId === NOTIFICATION_ITEM_IDS.MEDICAL_IMAGES &&
               !toggles.profileShowMhvNotificationSettingsMedicalImages
-            ) &&
-            !(
-              itemId === NOTIFICATION_ITEM_IDS.BENEFIT_OVERPAYMENT_DEBT &&
-              !toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting
             ) &&
             !(
               itemId === NOTIFICATION_ITEM_IDS.HEALTH_CARE_COPAY_BILL &&

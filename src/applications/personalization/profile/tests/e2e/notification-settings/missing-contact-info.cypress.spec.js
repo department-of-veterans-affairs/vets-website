@@ -47,7 +47,6 @@ describe('Notification Settings', () => {
               profileShowMhvNotificationSettingsNewSecureMessaging: true,
               profileShowMhvNotificationSettingsEmailRxShipment: true,
               profileShowMhvNotificationSettingsMedicalImages: true,
-              profileShowPaymentsNotificationSetting: true,
             }),
           );
           const user = makeMockUser();
@@ -104,7 +103,6 @@ describe('Notification Settings', () => {
               profileShowMhvNotificationSettingsNewSecureMessaging: true,
               profileShowMhvNotificationSettingsEmailRxShipment: true,
               profileShowMhvNotificationSettingsMedicalImages: true,
-              profileShowPaymentsNotificationSetting: true,
             }),
           );
           const user = makeMockUser();
