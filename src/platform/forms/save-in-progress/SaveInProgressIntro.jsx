@@ -86,7 +86,9 @@ class SaveInProgressIntro extends React.Component {
     // e.g. appContinuing = 'for planning and career guidance' =>
     // You can continue applying now for planning and career guidance, or...
     const appContinuing = formConfig?.customText?.appContinuing || '';
-    const Header = `h${this.props.headingLevel}`;
+    const Header = this.props.headingLevel
+      ? `h${this.props.headingLevel}`
+      : `h3`;
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         /**
