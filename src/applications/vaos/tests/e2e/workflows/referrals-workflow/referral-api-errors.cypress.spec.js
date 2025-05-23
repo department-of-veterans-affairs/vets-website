@@ -40,7 +40,6 @@ describe('VAOS Referral API Error Handling', () => {
       vaOnlineSchedulingCCDirectScheduling: true,
       vaOnlineSchedulingFlatFacilityPage: true,
       vaOnlineSchedulingUseV2ApiRequests: true,
-      vaOnlineSchedulingFeatureBreadcrumbUrlUpdate: true,
     });
 
     // Mock the appointments API to at least have one appointment
@@ -179,7 +178,6 @@ describe('VAOS Referral API Error Handling', () => {
     });
   });
 
-  // TODO: This test is failing because the submit appointment page does not display an error
   describe('Submit Appointment API Errors', () => {
     const referralId = 'referral-123';
     const appointmentId = 'EEKoGzEf';
@@ -316,7 +314,6 @@ describe('VAOS Referral API Error Handling', () => {
         const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
           {
             appointmentId,
-            referralId,
             [errorType]: true,
           },
         ).toJSON();

@@ -1,0 +1,7 @@
+flow:
+  title: Access Control for Dashboard Details (auth)
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value: check-access-control

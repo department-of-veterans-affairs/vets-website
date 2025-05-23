@@ -21,8 +21,9 @@ export function CurrentRep({
   vcfUrl,
 }) {
   // "Learn more" link becomes Find-a-Rep link when place in profile (per design)
-  const containerIsProfile =
-    window.location.pathname === '/profile/accredited-representative';
+  const containerIsProfile = window.location.pathname.startsWith(
+    '/profile/accredited-representative',
+  );
 
   const isOrganization = poaType === 'organization';
 
@@ -127,7 +128,7 @@ export function CurrentRep({
               <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                 <va-icon icon="search" size={2} />
               </div>
-              {containerIsProfile ? (
+              {containerIsProfile && isOrganization ? (
                 <va-link
                   href={`${
                     environment.BASE_URL

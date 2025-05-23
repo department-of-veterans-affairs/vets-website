@@ -1,8 +1,12 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as api from '@department-of-veterans-affairs/platform-utilities/api';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import {
+  createGetHandler,
+  createPostHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 import * as constants from '../../constants';
 
 import {
@@ -89,16 +93,17 @@ describe('Actions', () => {
       it('should submit request and set notification', done => {
         const ID = 5;
         server.use(
-          rest.post(
+          createPostHandler(
             `https://dev-api.va.gov/v0/benefits_claims/${ID}/submit5103`,
-            (req, res, ctx) =>
-              res(
-                ctx.status(200),
-                ctx.json({
+            () => {
+              return jsonResponse(
+                {
                   // eslint-disable-next-line camelcase
                   job_id: ID,
-                }),
-              ),
+                },
+                { status: 200 },
+              );
+            },
           ),
         );
 
@@ -133,16 +138,17 @@ describe('Actions', () => {
       it('should submit request and set notification', done => {
         const ID = 5;
         server.use(
-          rest.post(
+          createPostHandler(
             `https://dev-api.va.gov/v0/benefits_claims/${ID}/submit5103`,
-            (req, res, ctx) =>
-              res(
-                ctx.status(200),
-                ctx.json({
+            () => {
+              return jsonResponse(
+                {
                   // eslint-disable-next-line camelcase
                   job_id: ID,
-                }),
-              ),
+                },
+                { status: 200 },
+              );
+            },
           ),
         );
 
@@ -175,9 +181,11 @@ describe('Actions', () => {
       it('should fail on error', done => {
         const ID = 5;
         server.use(
-          rest.post(
+          createPostHandler(
             `https://dev-api.va.gov/v0/benefits_claims/${ID}/submit5103`,
-            (req, res, ctx) => res(ctx.status(400), ctx.json({ status: 400 })),
+            () => {
+              return jsonResponse({ status: 400 }, { status: 400 });
+            },
           ),
         );
         const thunk = submit5103(ID);
@@ -478,9 +486,11 @@ describe('Actions', () => {
 
     it('should fetch stem claims', done => {
       server.use(
-        rest.get(
+        createGetHandler(
           `https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status`,
-          (req, res, ctx) => res(ctx.status(200), ctx.json({ data: [] })),
+          () => {
+            return jsonResponse({ data: [] }, { status: 200 });
+          },
         ),
       );
 
@@ -503,9 +513,11 @@ describe('Actions', () => {
     });
     it('should fail on error', done => {
       server.use(
-        rest.get(
+        createGetHandler(
           `https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status`,
-          (req, res, ctx) => res(ctx.status(400)),
+          () => {
+            return new Response(null, { status: 400 });
+          },
         ),
       );
       const thunk = getStemClaims();

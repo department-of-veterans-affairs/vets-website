@@ -51,6 +51,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
           stationId: '983',
           clinicName: 'CHY PC VAR2',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -103,6 +105,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
 
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -148,6 +152,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
       const appointment = {
         type: 'VA',
         modality: 'claimExamAppointment',
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -238,6 +244,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
         location: {
           stationId: '983',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -268,6 +276,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -306,6 +316,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         practitioners: [
           {
             name: {

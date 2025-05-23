@@ -12,8 +12,8 @@ import {
 } from '../../../tests/mocks/setup';
 
 import ClinicChoicePage from '.';
-import { createMockCheyenneFacility } from '../../../tests/mocks/data';
-import { getV2ClinicMock } from '../../../tests/mocks/mock';
+import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import { mockEligibilityFetches } from '../../../tests/mocks/mockApis';
 
 const initialState = {
@@ -31,20 +31,22 @@ describe('VAOS Page: ClinicChoicePage', () => {
   beforeEach(() => mockFetch());
 
   it('should display multiple clinics and require one to be chosen', async () => {
-    const clinics = [
-      getV2ClinicMock({
-        id: '308',
-        serviceName: 'Green team clinic',
-        stationId: '983',
-      }),
-      getV2ClinicMock({
-        id: '309',
-        serviceName: 'Red team clinic',
-        stationId: '983',
-      }),
-    ];
-    const facilityData = createMockCheyenneFacility();
-    facilityData.id = '983';
+    // Arrange
+    const clinics = MockClinicResponse.createResponses({
+      clinics: [
+        {
+          id: '308',
+          name: 'Green team clinic',
+          locationId: '983',
+        },
+        {
+          id: '309',
+          name: 'Red team clinic',
+          locationId: '983',
+        },
+      ],
+    });
+
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -59,8 +61,14 @@ describe('VAOS Page: ClinicChoicePage', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /primary care/i);
-    await setVAFacility(store, '983', 'primaryCare', { facilityData });
+    await setVAFacility(
+      store,
+      '983',
+      'primaryCare',
+      new MockFacilityResponse(),
+    );
 
+    // Act
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
     });
@@ -97,20 +105,22 @@ describe('VAOS Page: ClinicChoicePage', () => {
   });
 
   it('should go to direct schedule flow when choosing a clinic, request flow when not', async () => {
-    const clinics = [
-      getV2ClinicMock({
-        id: '308',
-        serviceName: 'Green team clinic',
-        stationId: '983',
-      }),
-      getV2ClinicMock({
-        id: '309',
-        serviceName: 'Red team clinic',
-        stationId: '983',
-      }),
-    ];
-    const facilityData = createMockCheyenneFacility();
-    facilityData.id = '983';
+    // Arrange
+    const clinics = MockClinicResponse.createResponses({
+      clinics: [
+        {
+          id: '308',
+          name: 'Green team clinic',
+          locationId: '983',
+        },
+        {
+          id: '309',
+          name: 'Red team clinic',
+          locationId: '983',
+        },
+      ],
+    });
+
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -125,8 +135,9 @@ describe('VAOS Page: ClinicChoicePage', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /amputation care/i);
-    await setVAFacility(store, '983', 'amputation', { facilityData });
+    await setVAFacility(store, '983', 'amputation', new MockFacilityResponse());
 
+    // Act
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
     });
@@ -158,15 +169,17 @@ describe('VAOS Page: ClinicChoicePage', () => {
   });
 
   it('should show a yes/no choice when a single clinic is available', async () => {
-    const clinics = [
-      getV2ClinicMock({
-        id: '308',
-        serviceName: 'Green team clinic',
-        stationId: '983',
-      }),
-    ];
-    const facilityData = createMockCheyenneFacility();
-    facilityData.id = '983';
+    // Arrange
+    const clinics = MockClinicResponse.createResponses({
+      clinics: [
+        {
+          id: '308',
+          name: 'Green team clinic',
+          locationId: '983',
+        },
+      ],
+    });
+
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -181,8 +194,9 @@ describe('VAOS Page: ClinicChoicePage', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /amputation care/i);
-    await setVAFacility(store, '983', 'amputation', { facilityData });
+    await setVAFacility(store, '983', 'amputation', new MockFacilityResponse());
 
+    // Act
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
     });
@@ -232,18 +246,22 @@ describe('VAOS Page: ClinicChoicePage', () => {
   });
 
   it('should retain form data after page changes', async () => {
+    // Arrange
     const clinics = [
-      getV2ClinicMock({
-        id: '308',
-        serviceName: 'Green team clinic',
-        stationId: '983',
-      }),
-      getV2ClinicMock({
-        id: '309',
-        serviceName: 'Red team clinic',
-        stationId: '983',
-      }),
+      MockClinicResponse.createResponses([
+        {
+          id: '308',
+          name: 'Green team clinic',
+          locationId: '983',
+        },
+        {
+          id: '309',
+          name: 'Red team clinic',
+          locationId: '983',
+        },
+      ]),
     ];
+
     mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
@@ -260,6 +278,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
 
+    // Act
     let screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
     });
@@ -287,20 +306,20 @@ describe('VAOS Page: ClinicChoicePage', () => {
 
   it('should show the correct clinic name when filtered to matching', async () => {
     // Given two available clinics
-    const clinics = [
-      getV2ClinicMock({
-        id: '333',
-        serviceName: 'Filtered out clinic',
-        stationId: '983',
-      }),
-      getV2ClinicMock({
-        id: '308',
-        serviceName: 'Green team clinic',
-        stationId: '983',
-      }),
-    ];
-    const facilityData = createMockCheyenneFacility();
-    facilityData.id = '983';
+    const clinics = MockClinicResponse.createResponses({
+      clinics: [
+        {
+          id: '333',
+          name: 'Filtered out clinic',
+          locationId: '983',
+        },
+        {
+          id: '308',
+          name: 'Green team clinic',
+          locationId: '983',
+        },
+      ],
+    });
 
     // And the second clinic matches a past appointment
     mockEligibilityFetches({
@@ -318,7 +337,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /amputation care/i);
-    await setVAFacility(store, '983', 'amputation', { facilityData });
+    await setVAFacility(store, '983', 'amputation', new MockFacilityResponse());
 
     // When the page is displayed
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
