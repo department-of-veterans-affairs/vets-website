@@ -216,25 +216,27 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           />
         )}
 
-        <PrintDownload
-          description="Allergies - List"
-          list
-          downloadPdf={generateAllergiesPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generateAllergiesTxt}
-        />
-        <DownloadingRecordsInfo
-          allowTxtDownloads={allowTxtDownloads}
-          description="Allergies"
-        />
         {allergies?.length ? (
-          <RecordList
-            records={allergies?.map(allergy => ({
-              ...allergy,
-              isOracleHealthData: isAcceleratingAllergies,
-            }))}
-            type={recordType.ALLERGIES}
-          />
+          <>
+            <PrintDownload
+              description="Allergies - List"
+              list
+              downloadPdf={generateAllergiesPdf}
+              allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateAllergiesTxt}
+            />
+            <DownloadingRecordsInfo
+              allowTxtDownloads={allowTxtDownloads}
+              description="Allergies"
+            />
+            <RecordList
+              records={allergies?.map(allergy => ({
+                ...allergy,
+                isOracleHealthData: isAcceleratingAllergies,
+              }))}
+              type={recordType.ALLERGIES}
+            />
+          </>
         ) : (
           <NoRecordsMessage type={recordType.ALLERGIES} />
         )}

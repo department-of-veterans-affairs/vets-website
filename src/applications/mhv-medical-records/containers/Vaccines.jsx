@@ -201,19 +201,21 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
           }}
         />
 
-        <PrintDownload
-          description="Vaccines - List"
-          list
-          downloadPdf={generateVaccinesPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generateVaccinesTxt}
-        />
-        <DownloadingRecordsInfo
-          allowTxtDownloads={allowTxtDownloads}
-          description="Vaccines"
-        />
         {vaccines?.length ? (
-          <RecordList records={vaccines} type={recordType.VACCINES} />
+          <>
+            <PrintDownload
+              description="Vaccines - List"
+              list
+              downloadPdf={generateVaccinesPdf}
+              allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateVaccinesTxt}
+            />
+            <DownloadingRecordsInfo
+              allowTxtDownloads={allowTxtDownloads}
+              description="Vaccines"
+            />
+            <RecordList records={vaccines} type={recordType.VACCINES} />
+          </>
         ) : (
           <NoRecordsMessage type={recordType.VACCINES} />
         )}
