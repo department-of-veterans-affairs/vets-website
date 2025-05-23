@@ -107,7 +107,7 @@ export const poaSearchBC = [
   },
   {
     href: window.location.href,
-    label: 'Power of attorney requests',
+    label: 'Representation requests',
   },
 ];
 export const findClaimantBC = [
@@ -127,7 +127,7 @@ export const poaDetailsBreadcrumbs = [
   },
   {
     href: '/representative/poa-requests',
-    label: 'Power of attorney requests',
+    label: 'Representation requests',
   },
   {
     href: window.location.href,

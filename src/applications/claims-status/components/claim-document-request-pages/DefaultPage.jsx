@@ -45,13 +45,8 @@ export default function DefaultPage({
                   ? `Your ${getDisplayFriendlyName(item)}`
                   : item.displayName}
                 <span className="vads-u-font-family--sans vads-u-margin-top--1">
-                  {item.friendlyName
-                    ? `Requested for you on ${dateFormatter(
-                        item.requestedDate,
-                      )}`
-                    : `Requested to others on ${dateFormatter(
-                        item.requestedDate,
-                      )}`}
+                  Requested from outside VA on{' '}
+                  {dateFormatter(item.requestedDate)}
                 </span>
               </>
             )}

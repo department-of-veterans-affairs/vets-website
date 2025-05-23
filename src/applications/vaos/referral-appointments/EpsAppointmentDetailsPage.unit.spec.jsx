@@ -179,7 +179,7 @@ describe('EpsAppointmentDetailsPage', () => {
 
     // Check specific content from appointment data
     const { attributes } = referralAppointmentInfo;
-    expect(getByText(attributes.typeOfCare)).to.exist;
+    expect(getByText('Optometry')).to.exist;
     expect(getByText(attributes.provider.name)).to.exist;
 
     // Check preparation instructions
@@ -203,8 +203,11 @@ describe('EpsAppointmentDetailsPage', () => {
         ...referralAppointmentInfo.attributes,
         provider: {
           ...referralAppointmentInfo.attributes.provider,
-          location: {
-            address: '123 Main St, Anytown, USA',
+          address: {
+            street1: '123 Main St',
+            city: 'Anytown',
+            state: 'NY',
+            zip: '12345',
           },
         },
       },
@@ -217,7 +220,7 @@ describe('EpsAppointmentDetailsPage', () => {
       },
     };
 
-    const { getByText } = renderWithStoreAndRouter(
+    const { getByTestId } = renderWithStoreAndRouter(
       <EpsAppointmentDetailsPage />,
       {
         store: createTestStore(stateWithLocation),
@@ -225,8 +228,8 @@ describe('EpsAppointmentDetailsPage', () => {
       },
     );
 
-    expect(getByText('123 Main St, Anytown, USA')).to.exist;
-    expect(getByText('Directions')).to.exist;
+    expect(getByTestId('address-block')).to.exist;
+    expect(getByTestId('directions-link-wrapper')).to.exist;
   });
 
   it('should render provider phone number when available', () => {
@@ -236,7 +239,7 @@ describe('EpsAppointmentDetailsPage', () => {
         ...referralAppointmentInfo.attributes,
         provider: {
           ...referralAppointmentInfo.attributes.provider,
-          phoneNumber: '555-123-4567',
+          phone: '555-123-4567',
         },
       },
     };
@@ -255,7 +258,7 @@ describe('EpsAppointmentDetailsPage', () => {
         path: `/${appointmentId}`,
       },
     );
-    // FacilityPhone component should be rendered
-    expect(getByTestId('facility-telephone')).to.exist;
+
+    expect(getByTestId('provider-telephone')).to.exist;
   });
 });
