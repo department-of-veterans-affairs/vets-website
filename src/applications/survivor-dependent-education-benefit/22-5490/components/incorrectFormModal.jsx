@@ -47,22 +47,26 @@ const IncorrectFormModal = props => {
 
   const form1990Link = '/education/apply-for-gi-bill-form-22-1990/introduction';
   const modalContent = (
-    <div>
-      <p>
-        If you are a service member applying on behalf of your dependent, your
-        application will be denied. Your dependent will need to complete the
-        application from their own Login.gov or ID.me account.
+    <>
+      <ul className="vads-u-margin-bottom--2">
+        <li>
+          If you are a service member applying on behalf of your dependent, your
+          application will be denied. Your dependent will need to complete the
+          application from their own Login.gov or ID.me account.
+        </li>
+        <li>
+          If you are a service member applying for a benefit based on your own
+          service,{' '}
+          <a href={form1990Link} target="_blank" rel="noopener noreferrer">
+            apply using VA Form 22-1990
+          </a>
+          .
+        </li>
+      </ul>
+      <p className="vads-u-margin--0">
+        By continuing this claim, you acknowledge your claim may be denied.
       </p>
-      <p>
-        Or If you are a service member applying for a benefit based on your own
-        service,{' '}
-        <a href={form1990Link} target="_blank" rel="noopener noreferrer">
-          apply using VA Form 22-1990
-        </a>
-        .
-      </p>
-      <p>By continuing this claim, you acknowledge your claim may be denied.</p>
-    </div>
+    </>
   );
   return (
     <VaModal
@@ -74,6 +78,7 @@ const IncorrectFormModal = props => {
       primaryButtonText="Yes, continue"
       secondaryButtonText="No, exit application"
       status="warning"
+      modalClass="vads-u-max-width--5xl"
     >
       {modalContent}
     </VaModal>
