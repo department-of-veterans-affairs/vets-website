@@ -1,6 +1,7 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 import {
+  fillAddressWebComponentPattern,
   fillCareExpensesPage,
   fillCurrentEmploymentHistoryPage,
   fillDependentsPage,
@@ -15,7 +16,6 @@ import {
   fillVaMedicalCentersPage,
   shouldNotHaveValidationErrors,
 } from './index';
-
 import pagePaths from '../pagePaths';
 
 const replaceDefaultPostHook = ({ afterHook }) => {
@@ -51,7 +51,7 @@ const pageHooks = returnUrl => ({
   })),
   [pagePaths.mailingAddress]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
-      cy.fillAddressWebComponentPattern('veteranAddress', data.veteranAddress);
+      fillAddressWebComponentPattern('veteranAddress', data.veteranAddress);
       replaceDefaultPostHook({ afterHook });
     });
   },
@@ -134,7 +134,7 @@ const pageHooks = returnUrl => ({
   },
   [pagePaths.currentSpouseAddress]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
-      cy.fillAddressWebComponentPattern('spouseAddress', data.spouseAddress);
+      fillAddressWebComponentPattern('spouseAddress', data.spouseAddress);
       afterHook(replaceDefaultPostHook);
     });
   },
