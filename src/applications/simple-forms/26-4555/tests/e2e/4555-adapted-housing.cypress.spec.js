@@ -5,10 +5,7 @@ import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-tog
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import {
-  fillAddressWebComponentPattern,
-  reviewAndSubmitPageFlow,
-} from '../../../shared/tests/e2e/helpers';
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 import user from './fixtures/mocks/user.json';
 import sipPut from './fixtures/mocks/sip-put.json';
 import sipGet from './fixtures/mocks/sip-get.json';
@@ -51,7 +48,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'veteran_address',
               data.veteran.address,
             );
