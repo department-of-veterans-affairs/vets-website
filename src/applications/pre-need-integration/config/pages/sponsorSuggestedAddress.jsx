@@ -40,6 +40,26 @@ function SponsorSuggestedAddress({ formData }) {
     fetchData();
   }, []);
 
+  // Maintain Screen Reader Focus after isLoading returns and resolves
+  // Sponsor flow needs the shadowRoot to be accessed to set focus on the heading
+  useEffect(
+    () => {
+      if (!isLoading) {
+        const progressBar = document.getElementById('nav-form-header');
+        if (progressBar && progressBar.shadowRoot) {
+          const heading = progressBar.shadowRoot.querySelector(
+            '.usa-step-indicator__heading',
+          );
+          if (heading) {
+            heading.setAttribute('tabindex', '-1');
+            heading.focus();
+          }
+        }
+      }
+    },
+    [isLoading],
+  );
+
   // Handle Address Selection Change
   const onChangeSelectedAddress = event => {
     const selected = JSON.parse(event.detail.value);
