@@ -11,6 +11,7 @@ import {
   limitedConsentDescription,
 } from '../content/privateMedicalRecordsRelease';
 import { isCompletingForm0781 } from '../utils/form0781';
+import { standardTitle } from '../content/form0781';
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
@@ -25,6 +26,7 @@ const {
 const { limitedConsent } = form4142.properties;
 
 export const uiSchema = {
+  'ui:title': standardTitle('Request medical records from private providers'),
   'ui:description': recordReleaseDescription,
   'view:limitedConsent': {
     'ui:webComponentField': VaCheckboxField,

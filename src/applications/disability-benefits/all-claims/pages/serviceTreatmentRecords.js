@@ -6,6 +6,7 @@ import {
 import { serviceTreatmentRecordsSubmitLater } from '../content/serviceTreatmentRecords';
 
 export const uiSchema = {
+  'ui:title': 'Types of supporting evidence',
   'view:uploadServiceTreatmentRecordsQualifier': {
     'view:hasServiceTreatmentRecordsToUpload': yesNoUI({
       title: `Do you want to upload your service treatment records? (You’ll
