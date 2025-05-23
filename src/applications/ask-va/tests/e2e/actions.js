@@ -199,9 +199,9 @@ const typeText = (selector, text) => {
     cy.get(newSelector, { includeShadowDom: true })
       .shadow()
       .find('input')
-      .type(text);
+      .type(text, { force: true });
   } else {
-    cy.get(newSelector, { includeShadowDom: true }).type(text);
+    cy.get(newSelector, { includeShadowDom: true }).type(text, { force: true });
   }
 };
 
@@ -209,7 +209,7 @@ const typeTextArea = (selector, text) => {
   const newSelector = mapSelectorShorthand(`TYPE_${selector}`) || selector;
 
   cy.get(newSelector, { includeShadowDom: true }).should('exist'); // TODO: verify this step works
-  cy.get(newSelector, { includeShadowDom: true }).type(text);
+  cy.get(newSelector, { includeShadowDom: true }).type(text, { force: true });
   // cy.get(selector).type(text);
 };
 
