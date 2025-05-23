@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
@@ -8,11 +8,16 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
 
-const DownloadLetterBlobLink = ({ letterTitle, letterType }) => {
+const DownloadLetterBlobLink = ({ letterTitle, letterType, isOpen }) => {
   const lettersArr = useSelector(state => state.letters.enhancedLetters);
   const lettersStatus = useSelector(
     state => state.letters.enhancedLettersAvailability,
   );
+
+  // useEffect(() => {
+  //   console.log('First render will kick off async download call');
+  // }, []);
+  console.log(isOpen);
 
   switch (lettersStatus) {
     case DOWNLOAD_STATUSES.downloading:

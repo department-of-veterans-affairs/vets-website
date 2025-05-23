@@ -5,6 +5,10 @@ import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  VaAccordion,
+  VaAccordionItem,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
@@ -47,14 +51,14 @@ export class LetterList extends React.Component {
         LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
       },
       () => {
-        if (togglesLoaded && lettersNewDesign) {
-          this.props.getLettersPdfLinksWrapper(
-            // Need updated LH_MIGRATION__options for correct download URL
-            // eslint-disable-next-line -- LH_MIGRATION
-            this.state.LH_MIGRATION__options,
-            letters,
-          );
-        }
+        // if (togglesLoaded && lettersNewDesign) {
+        //   this.props.getLettersPdfLinksWrapper(
+        //     // Need updated LH_MIGRATION__options for correct download URL
+        //     // eslint-disable-next-line -- LH_MIGRATION
+        //     this.state.LH_MIGRATION__options,
+        //     letters,
+        //   );
+        // }
       },
     );
   }
@@ -99,33 +103,48 @@ export class LetterList extends React.Component {
       // NEW conditional download link (KEEP)
       let conditionalDownloadElem;
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
-        conditionalDownloadElem = (
-          <DownloadLetterLink
-            letterType={letter.letterType}
-            letterTitle={letterTitle}
-            downloadStatus={downloadStatus[letter.letterType]}
-            // eslint-disable-next-line -- LH_MIGRATION
-            LH_MIGRATION__options={this.state.LH_MIGRATION__options}
-            key={`download-link-${index}`}
-          />
-        );
+        // conditionalDownloadElem = (
+        //   <DownloadLetterLink
+        //     letterType={letter.letterType}
+        //     letterTitle={letterTitle}
+        //     downloadStatus={downloadStatus[letter.letterType]}
+        //     // eslint-disable-next-line -- LH_MIGRATION
+        //     LH_MIGRATION__options={this.state.LH_MIGRATION__options}
+        //     key={`download-link-${index}`}
+        //   />
+        // );
+        conditionalDownloadElem = () => {
+          return (
+            <DownloadLetterLink
+              letterType={letter.letterType}
+              letterTitle={letterTitle}
+              downloadStatus={downloadStatus[letter.letterType]}
+              // eslint-disable-next-line -- LH_MIGRATION
+              LH_MIGRATION__options={this.state.LH_MIGRATION__options}
+              key={`download-link-${index}`}
+            />
+          );
+        };
       } else {
-        conditionalDownloadElem = (
-          <DownloadLetterBlobLink
-            letterTitle={letterTitle}
-            letterType={letter.letterType}
-          />
-        );
+        conditionalDownloadElem = () => {
+          // How do I pass an "open" Boolean into this component?
+          return (
+            <DownloadLetterBlobLink
+              letterTitle={letterTitle}
+              letterType={letter.letterType}
+            />
+          );
+        };
       }
 
       return (
-        <va-accordion-item key={`panel-${index}`}>
+        <VaAccordionItem key={`panel-${index}`}>
           <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
           <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
             {toggleValue =>
               toggleValue ? (
-                <>{conditionalDownloadElem}</>
+                <>{conditionalDownloadElem()}</>
               ) : (
                 <>
                   {conditionalDownloadButton}
@@ -134,7 +153,7 @@ export class LetterList extends React.Component {
               )
             }
           </Toggler.Hoc>
-        </va-accordion-item>
+        </VaAccordionItem>
       );
     });
 
@@ -195,7 +214,7 @@ export class LetterList extends React.Component {
         </Toggler.Hoc>
 
         {letterItems.length !== 0 && (
-          <va-accordion bordered>{letterItems}</va-accordion>
+          <VaAccordion bordered>{letterItems}</VaAccordion>
         )}
         {eligibilityMessage}
 
