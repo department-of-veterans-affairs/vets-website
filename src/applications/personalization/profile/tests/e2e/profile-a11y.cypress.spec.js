@@ -68,6 +68,15 @@ function checkSubNavFocus(mobile = false) {
   cy.title().should('eq', 'Military Information | Veterans Affairs');
   cy.axeCheck();
 
+  // make the a11y and focus management check on the Veteran Status Card section
+  clickSubNavButton(PROFILE_PATH_NAMES.VETERAN_STATUS_CARD, mobile);
+  cy.url().should(
+    'eq',
+    `${Cypress.config().baseUrl}${PROFILE_PATHS.VETERAN_STATUS_CARD}`,
+  );
+  cy.title().should('eq', 'Veteran Status Card | Veterans Affairs');
+  cy.axeCheck();
+
   // make the a11y and focus management check on the Direct Deposit section
   clickSubNavButton(PROFILE_PATH_NAMES.DIRECT_DEPOSIT, mobile);
   cy.url().should(

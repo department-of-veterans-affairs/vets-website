@@ -44,6 +44,7 @@ const VeteranStatus = ({
     /android/i.test(userAgent);
 
   useEffect(() => {
+    document.title = `Veteran Status Card | Veterans Affairs`;
     let isMounted = true;
 
     const fetchVerificationStatus = async () => {
