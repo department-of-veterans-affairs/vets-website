@@ -3,10 +3,13 @@ import formConfig from '../../../../config/form';
 import {
   annuityPages,
   options,
-} from '../../../../config/chapters/09-annuities/annuityPages';
+} from '../../../../config/chapters/08-annuities/annuityPages';
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
+
 import {
   testOptionsIsItemIncomplete,
+  testOptionsIsItemIncompleteWithZeroes,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
@@ -20,22 +23,71 @@ describe('annuity list and loop pages', () => {
   const { annuityPagesSummary } = annuityPages;
 
   describe('isItemIncomplete function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { addedFundsDate, addedFundsAmount, annualReceivedIncome, surrenderValue, ...baseItem } = testData.data.annuities[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      addedFundsDate,
+      addedFundsAmount,
+      annualReceivedIncome,
+      surrenderValue,
+      ...baseItem
+    } = testData.data.annuities[0];
+    /* eslint-enable no-unused-vars */
     testOptionsIsItemIncomplete(options, baseItem);
   });
 
+  describe('isItemIncomplete function tested with zeroes', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      addedFundsDate,
+      addedFundsAmount,
+      annualReceivedIncome,
+      surrenderValue,
+      ...baseItem
+    } = testDataZeroes.data.annuities[0];
+    /* eslint-enable no-unused-vars */
+    testOptionsIsItemIncompleteWithZeroes(options, baseItem);
+  });
+
   describe('text getItemName function', () => {
-    it('should return text', () => {
-      expect(options.text.getItemName()).to.equal('Annuity');
+    it('should return "Annuity established on `establishedDate`', () => {
+      const item = testData.data.trusts[0];
+      expect(options.text.getItemName(item)).to.equal(
+        'Annuity established on March 15, 2020',
+      );
     });
   });
 
   describe('text cardDescription function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { addedFundsAfterEstablishment, addedFundsDate, addedFundsAmount, revocable, receivingIncomeFromAnnuity, annualReceivedIncome, canBeLiquidated, surrenderValue, ...baseItem } = testData.data.annuities[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      addedFundsAfterEstablishment,
+      addedFundsDate,
+      addedFundsAmount,
+      establishedDate,
+      receivingIncomeFromAnnuity,
+      annualReceivedIncome,
+      canBeLiquidated,
+      surrenderValue,
+      ...baseItem
+    } = testData.data.annuities[0];
+    /* eslint-enable no-unused-vars */
+    testOptionsTextCardDescription(options, baseItem);
+  });
+
+  describe('text cardDescription function with zero values', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      addedFundsAfterEstablishment,
+      addedFundsDate,
+      addedFundsAmount,
+      establishedDate,
+      receivingIncomeFromAnnuity,
+      annualReceivedIncome,
+      canBeLiquidated,
+      surrenderValue,
+      ...baseItem
+    } = testDataZeroes.data.annuities[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem);
   });
 
@@ -77,7 +129,7 @@ describe('annuity list and loop pages', () => {
       uiSchema,
       {
         'va-memorable-date': 1,
-        input: 1,
+        'va-text-input': 1,
       },
       'information',
     );
@@ -85,7 +137,7 @@ describe('annuity list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'information',
     );
     testSubmitsWithoutErrors(
@@ -244,14 +296,14 @@ describe('annuity list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-memorable-date': 1, input: 1 },
+      { 'va-memorable-date': 1, 'va-text-input': 1 },
       'added funds',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'added funds',
     );
     testSubmitsWithoutErrors(

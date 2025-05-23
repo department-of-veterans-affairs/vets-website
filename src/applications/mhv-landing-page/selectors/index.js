@@ -15,10 +15,12 @@ import {
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
 import { personalizationEnabled } from './featureToggles';
+import { hasEdipi } from './hasEdipi';
 import { hasMhvAccount } from './hasMhvAccount';
 import { selectGreetingName } from './personalInformation';
 import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
 import { hasMhvBasicAccount } from './hasMhvBasicAccount';
+import { hasMessagingAccess } from './hasMessagingAccess';
 
 import {
   mhvAccountStatusLoading,
@@ -27,7 +29,18 @@ import {
   mhvAccountStatusNonUserError,
   mhvAccountStatusErrorsSorted,
 } from './mhvAccountStatus';
-
+import {
+  militaryServiceLoading,
+  militaryServiceSuccessfulDownload,
+  militaryServiceFailedDownload,
+  militaryServiceError,
+} from './militaryServicePdf';
+import {
+  seiLoading,
+  seiFailedDomains,
+  seiSuccessfulDownload,
+  seiFailedDownload,
+} from './seiPdf';
 import { profileHasEHRM, profileHasVista } from './facilities';
 import {
   selectVaPatient,
@@ -36,8 +49,10 @@ import {
 } from './accountInformation';
 
 export {
+  hasEdipi,
   hasMhvAccount,
   hasMhvBasicAccount,
+  hasMessagingAccess,
   isAuthenticatedWithSSOe,
   isInMPI,
   isLOA1,
@@ -50,9 +65,17 @@ export {
   mhvAccountStatusUserError,
   mhvAccountStatusErrorsSorted,
   mhvAccountStatusNonUserError,
+  militaryServiceLoading,
+  militaryServiceSuccessfulDownload,
+  militaryServiceFailedDownload,
+  militaryServiceError,
   personalizationEnabled,
   profileHasEHRM,
   profileHasVista,
+  seiLoading,
+  seiFailedDomains,
+  seiSuccessfulDownload,
+  seiFailedDownload,
   selectDrupalStaticData,
   selectGreetingName,
   selectVaPatient,

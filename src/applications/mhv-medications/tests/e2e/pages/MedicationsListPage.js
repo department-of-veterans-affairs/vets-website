@@ -11,6 +11,7 @@ import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.jso
 import { medicationsUrls } from '../../../util/constants';
 import tooltipVisible from '../fixtures/tooltip-visible-list-page.json';
 import noToolTip from '../fixtures/tooltip-not-visible-list-page.json';
+import hidden from '../fixtures/tooltip-hidden.json';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
@@ -164,6 +165,10 @@ class MedicationsListPage {
     );
   };
 
+  verifyFocusOnDownloadFailureAlertBanner = () => {
+    cy.get('[data-testid="api-error-notification"]').should('be.focused');
+  };
+
   verifyTextInsideDropDownOnListPage = () => {
     cy.get('[data-testid="dropdown-info"]').should(
       'contain',
@@ -224,7 +229,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
       );
     });
   };
@@ -236,7 +241,7 @@ class MedicationsListPage {
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
-      .should('contain', 'Download a PDF of this list')
+      .should('contain', 'Download a PDF of all medications')
       .should('be.visible');
     cy.get('[data-testid="download-pdf-button"]').click({
       waitForAnimations: true,
@@ -267,12 +272,21 @@ class MedicationsListPage {
     });
   };
 
-  verifyDownloadCompleteSuccessMessageBanner = () => {
+  verifyDownloadCompleteSuccessMessageBanner = text => {
     cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
-    cy.get('[data-testid="download-success-banner"]').should(
-      'contain',
-      'Download started',
+    cy.get('[data-testid="download-success-banner"]')
+      .should('contain', 'Download started')
+      .and('contain', text);
+  };
+
+  verifyFocusOnDownloadAlertSuccessBanner = () => {
+    cy.get('[data-testid="download-success-banner"] > .hydrated').should(
+      'be.focused',
     );
+  };
+
+  verifyDownloadSuccessMessageBannerNotVisibleAfterReload = () => {
+    cy.get('[data-testid="download-success-banner"]').should('not.exist');
   };
 
   verifyDownloadTextFileHeadless = (
@@ -494,7 +508,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
       );
     });
     cy.intercept(
@@ -539,7 +553,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by name`,
       );
     });
   };
@@ -573,7 +587,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, last filled first`,
       );
     });
   };
@@ -822,6 +836,10 @@ class MedicationsListPage {
       .and('be.focused');
   };
 
+  verifyNoMedicationsInListMessageNotShown = () => {
+    cy.get('[data-testid="alert-message"]').should('not.exist');
+  };
+
   clickResetFilterButtonOnFilterAccordionDropDown = () => {
     cy.get('[data-testid="filter-reset-button"]').should('exist');
     cy.get('[data-testid="filter-reset-button"]').click({
@@ -926,14 +944,6 @@ class MedicationsListPage {
       .and('be.visible');
   };
 
-  clickToolTipCloseButtonOnListPage = () => {
-    cy.intercept(
-      'my_health/v1/tooltips/ad9ced53-3d27-4183-8b35-7c3cab737ce1',
-      noToolTip,
-    ).as('noToolTip');
-    cy.get('[data-testid="rx-ipe-filtering-close"]').click({ force: true });
-  };
-
   verifyToolTipNotVisibleOnListPage = () => {
     cy.get('[data-testid="rx-ipe-filtering-stop-showing-this-hint"]').should(
       'not.exist',
@@ -982,6 +992,15 @@ class MedicationsListPage {
       .then(res => {
         expect(res.body.counter).to.eq(0);
       });
+  };
+
+  verifyErroMessageforFailedAPICallListPage = text => {
+    cy.get('[data-testid="no-medications-list"]').should('contain', text);
+  };
+
+  loadListPageWithoutToolTip = () => {
+    cy.intercept('GET', '/my_health/v1/tooltips', hidden).as('tooltips');
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
   };
 }
 

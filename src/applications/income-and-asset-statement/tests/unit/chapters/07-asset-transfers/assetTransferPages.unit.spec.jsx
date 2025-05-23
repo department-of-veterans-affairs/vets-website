@@ -3,12 +3,15 @@ import formConfig from '../../../../config/form';
 import {
   assetTransferPages,
   options,
-} from '../../../../config/chapters/07-asset-transfers/assetTransferPages';
+} from '../../../../config/chapters/06-asset-transfers/assetTransferPages';
 import { transferMethodLabels } from '../../../../labels';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
+
 import {
   testOptionsIsItemIncomplete,
+  testOptionsIsItemIncompleteWithZeroes,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
@@ -27,17 +30,48 @@ describe('asset transfer list and loop pages', () => {
     testOptionsIsItemIncomplete(options, baseItem);
   });
 
+  describe('isItemIncomplete function tested with zeroes', () => {
+    // eslint-disable-next-line no-unused-vars
+    const { saleValue, ...baseItem } = testDataZeroes.data.assetTransfers[0];
+    testOptionsIsItemIncompleteWithZeroes(options, baseItem);
+  });
+
   describe('text getItemName function', () => {
-    it('should return asset type text', () => {
-      const item = { assetType: 'Real Estate Property' };
-      expect(options.text.getItemName(item)).to.equal('Real Estate Property');
+    it('should return "Asset transferred to `newOwnerName`', () => {
+      const item = testData.data.assetTransfers[0];
+      expect(options.text.getItemName(item)).to.equal(
+        'Asset transferred to Alice Johnson',
+      );
     });
   });
 
   describe('text cardDescription function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { originalOwnerRelationship, assetType, newOwnerName, newOwnerRelationship, saleReportedToIrs, assetTransferredUnderFairMarketValue, saleValue, ...baseItem } = testData.data.assetTransfers[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      originalOwnerRelationship,
+      newOwnerName,
+      newOwnerRelationship,
+      saleReportedToIrs,
+      assetTransferredUnderFairMarketValue,
+      saleValue,
+      ...baseItem
+    } = testData.data.assetTransfers[0];
+    /* eslint-enable no-unused-vars */
+    testOptionsTextCardDescription(options, baseItem, transferMethodLabels);
+  });
+
+  describe('text cardDescription function with zero values', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      originalOwnerRelationship,
+      newOwnerName,
+      newOwnerRelationship,
+      saleReportedToIrs,
+      assetTransferredUnderFairMarketValue,
+      saleValue,
+      ...baseItem
+    } = testDataZeroes.data.assetTransfers[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, transferMethodLabels);
   });
 
@@ -151,7 +185,6 @@ describe('asset transfer list and loop pages', () => {
       {
         'va-radio': 1,
         'va-text-input': 4,
-        'va-select': 1,
       },
       'new owner information',
     );
@@ -249,7 +282,7 @@ describe('asset transfer list and loop pages', () => {
       schema,
       uiSchema,
       {
-        input: 3,
+        'va-text-input': 3,
       },
       'value',
     );

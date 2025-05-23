@@ -4,6 +4,7 @@ import {
   VaIcon,
   VaTextarea,
   VaLink,
+  VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -22,7 +23,6 @@ import {
   formatDate,
   getFiles,
   getVAStatusFromCRM,
-  ServerErrorAlert,
 } from '../config/helpers';
 import {
   envUrl,
@@ -118,7 +118,7 @@ const ResponseInboxPage = ({ router }) => {
     setLoading(true);
     setError(false);
 
-    if (getMockTestingFlagforAPI()) {
+    if (getMockTestingFlagforAPI() && !window.Cypress) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
@@ -194,10 +194,6 @@ const ResponseInboxPage = ({ router }) => {
       });
   };
 
-  const handleRetry = () => {
-    if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
-  };
-
   useEffect(
     () => {
       if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
@@ -214,10 +210,22 @@ const ResponseInboxPage = ({ router }) => {
 
   if (error) {
     return (
-      <VaAlert status="error" className="vads-u-margin-y--4">
-        <ServerErrorAlert />
-        <VaButton onClick={handleRetry} text="Retry" />
-      </VaAlert>
+      <>
+        <VaAlert status="error" className="vads-u-margin-y--4">
+          <h2
+            slot="headline"
+            className="vads-u-font-size--h3 vads-u-margin-y--0 vads-u-font-size--lg"
+          >
+            We’ve run into a problem
+          </h2>
+          <p className="vads-u-font-size--base">
+            We’re sorry. Something went wrong on our end. Please try again later
+            or call us at <VaTelephone contact="800-698-2411" /> (
+            <VaTelephone contact="711" tty />
+            ). We’re here 24/7.
+          </p>
+        </VaAlert>
+      </>
     );
   }
 

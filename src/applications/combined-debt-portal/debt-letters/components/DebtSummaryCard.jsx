@@ -12,7 +12,7 @@ import { debtSummaryText } from '../const/diary-codes/debtSummaryCardContent';
 
 const DebtSummaryCard = ({ debt }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showResolveLinks = useToggleValue(TOGGLE_NAMES.showVHAPaymentHistory);
+  const showResolveLinks = useToggleValue(TOGGLE_NAMES.showCDPOneThingPerPage);
   const dispatch = useDispatch();
   const mostRecentHistory = head(debt?.debtHistory);
   const debtCardTotal = currency.format(parseFloat(debt.currentAr));
@@ -83,7 +83,7 @@ const DebtSummaryCard = ({ debt }) => {
                 debt.compositeDebtId
               }`}
               text="Check details and resolve this debt"
-              aria-label={`Check details and resolve this ${debtCardHeading}`}
+              label={`Check details and resolve this ${debtCardHeading}`}
             />
           </>
         )}

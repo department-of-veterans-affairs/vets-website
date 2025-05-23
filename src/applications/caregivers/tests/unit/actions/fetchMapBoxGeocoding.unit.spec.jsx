@@ -1,41 +1,40 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import { fetchMapBoxGeocoding } from '../../../actions/fetchMapBoxGeocoding';
 import { mockMapBoxClient } from '../../mocks/mapBoxClient';
-import { replaceStrValues } from '../../../utils/helpers';
 import content from '../../../locales/en/content.json';
+
+// declare error message content
+const ERROR_MSG_NO_RESULTS = content['error--no-results-found'];
+const ERROR_MSG_CANCELLED = content['error--facility-search-cancelled'];
+const ERROR_MSG_FAILED = content['error--facility-search-failed'];
 
 describe('CG fetchMapBoxGeocoding action', () => {
   const features = [{ fakeResponse: 'yep' }];
-  const successResponse = {
-    send: sinon.stub().resolves({ body: { features } }),
-  };
   const mockClient = mockMapBoxClient();
+  const query = '33618';
   let clientStub;
 
   beforeEach(() => {
-    clientStub = sinon
-      .stub(mockClient, 'forwardGeocode')
-      .returns(successResponse);
+    clientStub = sinon.stub(mockClient, 'forwardGeocode').returns({
+      send: sinon.stub().resolves({ body: { features } }),
+    });
   });
 
   afterEach(() => {
-    clientStub.restore();
+    sinon.restore();
   });
 
   context('when the query is omitted', () => {
     it('should return an error object', async () => {
       const response = await fetchMapBoxGeocoding('');
-      expect(response).to.be.a('object');
-      expect(response.errorMessage).to.eq(
-        content['error--facility-search-cancelled'],
-      );
+      expect(response.errorMessage).to.eq(ERROR_MSG_CANCELLED);
     });
   });
 
   context('when the response succeeds', () => {
     it('should return an array of boundary coordinates when client is passed', async () => {
-      const response = await fetchMapBoxGeocoding('Tampa', mockClient);
+      const response = await fetchMapBoxGeocoding(query, mockClient);
       expect(response).to.deep.eq(features[0]);
     });
 
@@ -44,44 +43,49 @@ describe('CG fetchMapBoxGeocoding action', () => {
         send: sinon.stub().resolves({ body: { features: undefined } }),
       });
 
-      const response = await fetchMapBoxGeocoding('Dave', mockClient);
-      expect(response).to.be.a('object');
-      expect(response.errorMessage).to.eq(content['error--no-results-found']);
+      const response = await fetchMapBoxGeocoding(query, mockClient);
+      expect(response.errorMessage).to.eq(ERROR_MSG_NO_RESULTS);
     });
   });
 
   context('when the response fails', () => {
-    it('should render the error message string when error origin is not `mapbox.com`', async () => {
-      const error = 'Some bad error occurred.';
-      clientStub.returns({
-        send: sinon.stub().rejects(error),
-      });
+    const errorMessage = 'Some bad error occurred.';
+    let mockLogger;
 
-      const response = await fetchMapBoxGeocoding('33618', mockClient);
-      const errorMessage = replaceStrValues(
-        content['error--facility-search-failed'],
-        error,
-      );
-      expect(response).to.be.a('object');
-      expect(response.errorMessage).to.eq(errorMessage);
+    beforeEach(() => {
+      mockLogger = { error: sinon.spy() };
+
+      Object.defineProperty(window, 'DD_LOGS', {
+        value: { logger: mockLogger },
+        configurable: true,
+      });
     });
 
-    it('should render the error body string when error origin is not `mapbox.com`', async () => {
-      const error = 'Some bad error occurred.';
-      clientStub.returns({
-        send: sinon.stub().rejects({
-          request: { origin: 'https://api.mapbox.com' },
-          body: { message: error },
-        }),
-      });
+    it('should log error to Datadog', async () => {
+      const loggerMessage = 'Error fetching Mapbox coordinates';
+      const error = {
+        request: { origin: 'https://api.mapbox.com' },
+        body: { message: errorMessage },
+      };
 
-      const response = await fetchMapBoxGeocoding('33618', mockClient);
-      const errorMessage = replaceStrValues(
-        content['error--facility-search-failed'],
+      clientStub.returns({ send: sinon.stub().rejects(error) });
+
+      await fetchMapBoxGeocoding(query, mockClient);
+      sinon.assert.calledOnceWithExactly(
+        mockLogger.error,
+        loggerMessage,
+        {},
         error,
       );
-      expect(response).to.be.a('object');
-      expect(response.errorMessage).to.eq(errorMessage);
+    });
+
+    it('should render error message on error', async () => {
+      clientStub.returns({
+        send: sinon.stub().rejects(errorMessage),
+      });
+
+      const response = await fetchMapBoxGeocoding(query, mockClient);
+      expect(response.errorMessage).to.eq(ERROR_MSG_FAILED);
     });
   });
 });

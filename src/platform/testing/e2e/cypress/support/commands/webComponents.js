@@ -220,6 +220,7 @@ Cypress.Commands.add(
             .find(getSelectors('month'))
             .shadow()
             .find('input')
+            .clear({ force: true, delay: 0 })
             .focus();
           cy.realType(month);
         } else {
@@ -227,6 +228,7 @@ Cypress.Commands.add(
             .find(getSelectors('month'))
             .shadow()
             .find('input')
+            .clear({ force: true, delay: 0 })
             .type(month);
         }
 
@@ -236,12 +238,14 @@ Cypress.Commands.add(
             .find(getSelectors('day'))
             .shadow()
             .find('input')
+            .clear({ force: true, delay: 0 })
             .focus();
           cy.realType(day);
           cy.wrap(el)
             .find(getSelectors('year'))
             .shadow()
             .find('input')
+            .clear({ force: true, delay: 0 })
             .focus();
           cy.realType(year);
         } else {
@@ -249,11 +253,13 @@ Cypress.Commands.add(
             .find(getSelectors('day'))
             .shadow()
             .find('input')
+            .clear({ force: true, delay: 0 })
             .type(day);
           cy.wrap(el)
             .find(getSelectors('year'))
             .shadow()
             .find('input')
+            .clear({ force: true, delay: 0 })
             .type(year);
         }
       });
@@ -333,3 +339,39 @@ Cypress.Commands.add(
     }
   },
 );
+
+/**
+ * Custom command to check if the current page uses web components.
+ *
+ * @example
+ * cy.checkWebComponent(hasWebComponents => {
+ *   if (hasWebComponents) {
+ *     // Handle web components case
+ *   } else {
+ *     // Handle traditional form elements
+ *   }
+ * });
+ */
+Cypress.Commands.add('checkWebComponent', callback => {
+  // Check for common VA web component prefixes
+  const webComponentSelectors = [
+    'va-text-input',
+    'va-textarea',
+    'va-select',
+    'va-checkbox',
+    'va-radio-option',
+    'va-date',
+    'va-memorable-date',
+    'va-button',
+    'va-card',
+  ];
+
+  cy.document().then(document => {
+    const hasWebComponents = webComponentSelectors.some(
+      selector => document.querySelector(selector) !== null,
+    );
+
+    // Execute the callback with the result
+    callback(hasWebComponents);
+  });
+});

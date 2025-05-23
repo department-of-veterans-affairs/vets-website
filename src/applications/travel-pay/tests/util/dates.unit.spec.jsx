@@ -1,7 +1,11 @@
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 
-import { getDateFilters, formatDateTime } from '../../util/dates';
+import {
+  getDateFilters,
+  formatDateTime,
+  stripTZOffset,
+} from '../../util/dates';
 
 function formatDateRange(dateRange) {
   const [startDay, startTime] = formatDateTime(dateRange.start);
@@ -226,5 +230,20 @@ describe('formatDateTime', () => {
       'Tuesday, June 25, 2024',
       '2:00 PM',
     ]);
+
+    expect(formatDateTime('2024-06-25T08:00:00.000+02:00', true)).to.deep.equal(
+      ['Tuesday, June 25, 2024', '8:00 AM'],
+    );
+  });
+});
+
+describe('stripTZOffset', () => {
+  it('should remove TZ offset', () => {
+    expect(stripTZOffset('2024-06-25T08:00:00.000-08:00')).to.deep.equal(
+      '2024-06-25T08:00:00',
+    );
+    expect(stripTZOffset('2024-06-25T08:00:00.000+02:00')).to.deep.equal(
+      '2024-06-25T08:00:00',
+    );
   });
 });

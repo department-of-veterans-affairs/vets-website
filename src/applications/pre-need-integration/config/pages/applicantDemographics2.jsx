@@ -27,6 +27,9 @@ export const uiSchema = {
       },
     }),
   },
+  'ui:options': {
+    itemName: 'ethnicity and race',
+  },
 };
 
 export const schema = {
@@ -49,7 +52,7 @@ export const schema = {
               raceComment: {
                 type: 'string',
                 maxLength: 100,
-                pattern: /^(?!\s+$).*/,
+                pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
               },
             },
           ),

@@ -61,6 +61,12 @@ const ClaimsAndAppealsError = () => {
 };
 
 const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const showAccreditedRepresentative = useToggleValue(
+    TOGGLE_NAMES.representativeStatusEnableV2Features,
+  );
+
   return (
     <>
       <IconCTALink
@@ -90,6 +96,22 @@ const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
           }}
         />
       )}
+      {showAccreditedRepresentative &&
+        !isLOA1 && (
+          <IconCTALink
+            text="Get help from your accredited representative or VSO"
+            href="/profile/accredited-representative/"
+            icon="account_circle"
+            onClick={() => {
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header':
+                  'Get help from your accredited representative or VSO',
+                'links-list-section-header': 'Claims and appeals',
+              });
+            }}
+          />
+        )}
     </>
   );
 };

@@ -31,6 +31,7 @@ export const Paths = {
   THREAD: '/thread',
   CONTACT_LIST: '/contact-list',
   NEW_MESSAGE: '/my-health/secure-messages/new-message/',
+  AAL: '/my_health/v1/aal',
   INTERCEPT: {
     MESSAGE_RECIPIENT: '/my_health/v1/messaging/recipients*',
     MESSAGE_CATEGORY: '/my_health/v1/messaging/messages/categories',
@@ -48,6 +49,7 @@ export const Paths = {
     MESSAGES: '/my_health/v1/messaging/messages',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
+    DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
   },
 };
 
@@ -80,15 +82,19 @@ export const Locators = {
   THREADS: '[data-testid="thread-list-item"]',
   MES_COUNT: '[data-testid="message-count"]',
   REPLY_FORM: '[data-testid="reply-form"]',
+  REPLY_TO: '[data-testid="draft-reply-to"]',
   CLEAR_FILTERS: '[text="Clear Filters"]',
   FILTER_INPUT: '#filter-input',
   ADDITIONAL_FILTER: '#additional-filter-accordion',
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
+  ACCORDION_ITEM_OPEN: 'va-accordion-item[open]:not([open="false"])',
   MESSAGE_THREAD_META: '.message-thread-meta',
   SPINNER: `[data-testid="loading-indicator"]`,
   BACK_TO: '.sm-breadcrumb-list-item > a',
   FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
   INBOX_FOOTER: `[data-testid="inbox-footer"]`,
+  COMBO_BOX: '.usa-combo-box',
+  SEARCH_RESULT: `[data-testid="search-messages"]`,
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -115,7 +121,7 @@ export const Locators = {
     // check if below are duplicates
     REPLY_BTN: '#reply-button',
     REPLY: '[data-testid="reply-button-body"]',
-    CONTINUE: '[data-testid="continue-button"]',
+    CONTINUE: 'continue-button',
     TEST2: '[data-testid=radiobutton-TEST2]',
     TESTAGAIN: '[data-testid=radiobutton-TESTAGAIN]',
     NEW_FOLDER_RADIOBTN: '[data-testid=folder-list-radio-button]',
@@ -142,7 +148,6 @@ export const Locators = {
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
     CREATE_FOLDER: '[data-testid="create-folder-button"]',
     REMOVE_FOLDER: '[data-testid="remove-folder-button"]',
-    PREFERENCES: '[data-testid="edit-preferences-button"]',
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
@@ -154,17 +159,17 @@ export const Locators = {
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
-    PREFER_LINK: '[data-testid="edit-preferences-link"]',
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
+    CRUMB_BACK: '[data-testid="sm-breadcrumbs-back"]',
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
     CRUMBS_BACK: '.sm-breadcrumb-list-item',
     OLD_VERSION: `.welcome-message > p > a`,
     EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
   },
   ALERTS: {
-    HEADER: `#heading`,
+    HEADER: `[data-testid="error-folder-not-empty"]`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
     CLOSE_NOTIFICATION: '.va-alert',
@@ -221,6 +226,9 @@ export const Locators = {
     REMOVE_THIS_FOLDER: `[data-testid="remove-this-folder"]`,
     OLD_MSG_HEAD: `[data-testid=expired-alert-message]`,
     NO_ASSOCIATION: '[data-testid="not-connected-alert"]',
+    COMBO_BOX: '.usa-error-message',
+    EL_SIGN_NAME: '#input-error-message .usa-error-message',
+    EL_SIGN_CHECK: `#checkbox-error-message .usa-error-message`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -238,6 +246,7 @@ export const Locators = {
     EL_SIGN: `[message-aria-describedby="Electronic signature"]`,
     MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
     MESSAGE_BODY: `[data-testid="message-body-field"]`,
+    RECIPIENTS_COMBO: `#options`,
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
@@ -263,6 +272,7 @@ export const Locators = {
     RECIPIENTS: `select#options`,
     ADD_INFO: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
+    RECIPIENTS_COMBO: `#options--list`,
   },
   ICONS: {
     ATTCH_ICON: '[data-testid="attachment-icon"]',
@@ -348,6 +358,7 @@ export const Data = {
   FOLDER_RENAMED_SUCCESSFULLY: 'Folder was successfully renamed.',
   SECURE_MSG_SENT_SUCCESSFULLY: 'Message Sent.',
   PLEASE_SELECT_RECIPIENT: 'Please select a recipient.',
+  PLEASE_SELECT_VALID_RECIPIENT: 'Please select a valid recipient.',
   PLEASE_SELECT_CATEGORY: 'Please select a category.',
   SUBJECT_CANNOT_BLANK: 'Subject cannot be blank.',
   BODY_CANNOT_BLANK: 'Message body cannot be blank.',
@@ -361,7 +372,6 @@ export const Data = {
   IS_ACTIVE: 'is-active',
   END_CONVERSATION_IN_FOLDER: 'End of conversations in this folder',
   SAVE_MEG_AS_DRAFT: 'If you save this message as a draft',
-  EDIT_YOUR_MSG_PREFRENCES: 'Edit your message preferences',
   NO_MSG_IN_FOLDER: 'There are no messages in this folder.',
   WHAT_SECURE_MSG_PILOT: 'What is Secure Messaging Pilot?',
   CANNOT_SEND_MSG_TO_CARE_TEAM:
@@ -376,6 +386,8 @@ export const Data = {
   ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
   EDIT_SIGNATURE: `Edit signature for all messages`,
+  READ_RECEIPT: `Opened by your care team`,
+  UNREAD_RECEIPT: `Not yet opened by your care team`,
   BUTTONS: {
     ATTACH_FILE: 'Attach file',
     SEND: `Send`,
@@ -394,7 +406,6 @@ export const Data = {
   },
   LINKS: {
     PROFILE_SIGNATURE: `/profile/personal-information#messaging-signature`,
-    LEGACY_PREFERENCES: 'mhv-portal-web/preferences',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {

@@ -3,11 +3,14 @@ import formConfig from '../../../../config/form';
 import {
   incomeReceiptWaiverPages,
   options,
-} from '../../../../config/chapters/12-income-receipt-waivers/incomeReceiptWaiverPages';
+} from '../../../../config/chapters/11-income-receipt-waivers/incomeReceiptWaiverPages';
 import { relationshipLabels } from '../../../../labels';
 import testData from '../../../e2e/fixtures/data/test-data.json';
+import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
+
 import {
   testOptionsIsItemIncomplete,
+  testOptionsIsItemIncompleteWithZeroes,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
@@ -21,22 +24,63 @@ describe('income receipt waiver list and loop pages', () => {
   const { incomeReceiptWaiverPagesSummary } = incomeReceiptWaiverPages;
 
   describe('isItemIncomplete function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { expectedIncome, 'view:paymentsWillResume': _, paymentResumeDate, ...baseItem } = testData.data.incomeReceiptWaivers[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      expectedIncome,
+      'view:paymentsWillResume': _,
+      paymentResumeDate,
+      ...baseItem
+    } = testData.data.incomeReceiptWaivers[0];
+    /* eslint-enable no-unused-vars */
     testOptionsIsItemIncomplete(options, baseItem);
   });
 
+  describe('isItemIncomplete function tested with zeroes', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      expectedIncome,
+      'view:paymentsWillResume': _,
+      paymentResumeDate,
+      ...baseItem
+    } = testDataZeroes.data.incomeReceiptWaivers[0];
+    /* eslint-enable no-unused-vars */
+    testOptionsIsItemIncompleteWithZeroes(options, baseItem);
+  });
+
   describe('text getItemName function', () => {
-    it('should return text', () => {
-      expect(options.text.getItemName()).to.equal('Income receipt waiver');
+    it('should return "`recipientName`s income receipt waiver', () => {
+      const item = testData.data.incomeReceiptWaivers[0];
+      expect(options.text.getItemName(item)).to.equal(
+        'Jane Smith’s income receipt waiver',
+      );
     });
   });
 
   describe('text cardDescription function', () => {
-    // prettier-ignore
-    // eslint-disable-next-line no-unused-vars
-    const { expectedIncome, 'view:paymentsWillResume': _, paymentResumeDate, ...baseItem } = testData.data.incomeReceiptWaivers[0];
+    /* eslint-disable no-unused-vars */
+    const {
+      expectedIncome,
+      'view:paymentsWillResume': _,
+      recipientRelationship,
+      recipientName,
+      paymentResumeDate,
+      ...baseItem
+    } = testData.data.incomeReceiptWaivers[0];
+    /* eslint-enable no-unused-vars */
+    testOptionsTextCardDescription(options, baseItem, relationshipLabels);
+  });
+
+  describe('text cardDescription function with zero values', () => {
+    /* eslint-disable no-unused-vars */
+    const {
+      expectedIncome,
+      'view:paymentsWillResume': _,
+      recipientRelationship,
+      recipientName,
+      paymentResumeDate,
+      ...baseItem
+    } = testDataZeroes.data.incomeReceiptWaivers[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, relationshipLabels);
   });
 
@@ -117,14 +161,14 @@ describe('income receipt waiver list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-text-input': 1 },
+      { 'va-text-input': 3 },
       'recipient',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -132,9 +176,7 @@ describe('income receipt waiver list and loop pages', () => {
       schema,
       uiSchema,
       'recipient',
-      {
-        recipientName: 'Jane Doe',
-      },
+      testData.data.incomeReceiptWaivers[0],
       { loggedIn: true },
     );
   });
@@ -183,7 +225,7 @@ describe('income receipt waiver list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { input: 1 },
+      { 'va-text-input': 1 },
       'amount',
     );
     testSubmitsWithoutErrors(
@@ -272,7 +314,7 @@ describe('income receipt waiver list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { input: 1 },
+      { 'va-text-input': 1 },
       'amount',
     );
     testSubmitsWithoutErrors(

@@ -42,7 +42,7 @@ const initialState = {
  */
 export const extractLocation = condition => {
   if (isArrayAndHasItems(condition?.recorder?.extension)) {
-    const ref = condition.recorder.extension[0].valueReference?.reference;
+    const ref = condition.recorder.extension[0]?.valueReference?.reference;
     // Use the reference inside "recorder" to get the value from "contained".
     const org = extractContainedResource(condition, ref);
     if (org?.name) {
@@ -63,7 +63,7 @@ export const extractProvider = condition => {
     const ref = condition.recorder?.reference;
     // Use the reference inside "recorder" to get the value from "contained".
     const org = extractContainedResource(condition, ref);
-    if (org?.name) {
+    if (isArrayAndHasItems(org?.name)) {
       return formatNameFirstToLast(org.name[0]);
     }
   }
@@ -97,12 +97,37 @@ export const convertCondition = condition => {
   };
 };
 
+export const convertNewCondition = condition => {
+  if (condition) {
+    return {
+      id: condition.id,
+      name: condition.name || EMPTY_FIELD,
+      date: condition.date ? formatDateLong(condition.date) : EMPTY_FIELD,
+      provider: condition.provider || EMPTY_FIELD,
+      facility: condition.facility || EMPTY_FIELD,
+      comments: isArrayAndHasItems(condition.comments)
+        ? condition.comments
+        : EMPTY_FIELD,
+    };
+  }
+  return null;
+};
+
 export const conditionReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Conditions.GET: {
+      const condition = action.response;
+
+      let conditionDetails = null;
+      if (condition) {
+        conditionDetails = condition.resourceType
+          ? convertCondition(condition)
+          : convertNewCondition(condition.data?.attributes);
+      }
+
       return {
         ...state,
-        conditionDetails: convertCondition(action.response),
+        conditionDetails,
       };
     }
     case Actions.Conditions.GET_FROM_LIST: {
@@ -113,13 +138,20 @@ export const conditionReducer = (state = initialState, action) => {
     }
     case Actions.Conditions.GET_LIST: {
       const oldList = state.conditionsList;
-      const newList =
-        action.response.entry
-          ?.map(record => {
-            const condition = record.resource;
-            return convertCondition(condition);
-          })
-          .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
+      let newList;
+      if (action.response.resourceType) {
+        newList =
+          action.response.entry
+            ?.map(record => {
+              const condition = record.resource;
+              return convertCondition(condition);
+            })
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
+      } else {
+        newList = action.response.data?.map(record =>
+          convertNewCondition(record.attributes),
+        );
+      }
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,

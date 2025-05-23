@@ -15,7 +15,7 @@ describe('Secure Messaging Trash Folder checks', () => {
   it('Verify folder header', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientMessageTrashPage.verifyFolderHeaderText('Trash');
+    PatientMessageTrashPage.verifyFolderHeaderText('Messages: Trash');
     PatientMessageTrashPage.verifyResponseBodyLength();
   });
 

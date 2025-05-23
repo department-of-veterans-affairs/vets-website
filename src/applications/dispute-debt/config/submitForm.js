@@ -9,13 +9,13 @@ export const buildEventData = formData => {
 
 const submitForm = (form, formConfig) => {
   const { submitUrl, trackingPrefix } = formConfig;
-  // Optional transform
-  // const body = formConfig.transformForSubmit(formConfig, form);
 
-  const stringyFormData = JSON.stringify(form.data);
+  const body = formConfig.transformForSubmit(formConfig, form);
+
+  const stringyFormData = JSON.stringify(body);
 
   // eventData for analytics
-  const eventData = buildEventData(form.data);
+  const eventData = buildEventData(body);
   return submitToUrl(stringyFormData, submitUrl, trackingPrefix, eventData);
 };
 

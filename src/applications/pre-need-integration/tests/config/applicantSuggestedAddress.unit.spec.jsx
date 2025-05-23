@@ -7,7 +7,9 @@ import { mount } from 'enzyme';
 import thunk from 'redux-thunk';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
+import sinon from 'sinon';
 import formConfig from '../../config/form';
+import * as helpers from '../../utils/helpers';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -23,11 +25,11 @@ const payload = {
   },
 };
 
-const createStore = () =>
+const createStore = (formData = payload) =>
   mockStore({
     form: {
       data: {
-        application: payload,
+        application: formData.application || payload.application,
       },
     },
   });
@@ -118,6 +120,96 @@ describe('Applicant Suggested Address', () => {
     expect(wrapper.find('va-loading-indicator').length).to.equal(0);
     expect(wrapper.find('SuggestedAddressRadio').length).to.equal(0);
     expect(wrapper.find('AddressConfirmation').length).to.equal(1);
+
+    wrapper.unmount();
+  });
+
+  it('should handle undefined address', async () => {
+    const formData = {};
+    const store = createStore(formData);
+    const wrapper = await renderComponent(store);
+
+    // Check the component's behavior when address is undefined
+    expect(wrapper.find('va-loading-indicator').length).to.equal(1);
+    expect(wrapper.find('SuggestedAddressRadio').length).to.equal(0);
+    expect(wrapper.find('AddressConfirmation').length).to.equal(0);
+
+    wrapper.unmount();
+  });
+
+  it('should handle null address', async () => {
+    const formData = { application: { claimant: { address: null } } };
+    const store = createStore(formData);
+    const wrapper = await renderComponent(store);
+
+    // Check the component's behavior when address is null
+    expect(wrapper.find('va-loading-indicator').length).to.equal(1);
+    expect(wrapper.find('SuggestedAddressRadio').length).to.equal(0);
+    expect(wrapper.find('AddressConfirmation').length).to.equal(0);
+
+    wrapper.unmount();
+  });
+
+  it('should handle defined address', async () => {
+    const formData = {
+      application: { claimant: { address: payload.claimant.address } },
+    };
+    const store = createStore(formData);
+    const wrapper = await renderComponent(store);
+
+    // Check the component's behavior when address is defined
+    expect(wrapper.find('va-loading-indicator').length).to.equal(1);
+    expect(wrapper.find('SuggestedAddressRadio').length).to.equal(0);
+    expect(wrapper.find('AddressConfirmation').length).to.equal(0);
+
+    wrapper.unmount();
+  });
+});
+
+// New test suite for when isAuthorizedAgent returns true
+describe('Applicant Suggested Address as Authorized Agent', () => {
+  let isAuthorizedAgentStub;
+
+  beforeEach(() => {
+    // Stub isAuthorizedAgent to always return true
+    isAuthorizedAgentStub = sinon
+      .stub(helpers, 'isAuthorizedAgent')
+      .returns(true);
+  });
+
+  afterEach(() => {
+    // Restore the original function after each test
+    isAuthorizedAgentStub.restore();
+  });
+
+  it('should render suggested address radio with authorized agent title if given a suggested address', async () => {
+    mockApiRequest(invalidAddressResponse);
+    const store = createStore();
+    const wrapper = await renderComponent(store);
+
+    expect(wrapper.find('va-loading-indicator').length).to.equal(0);
+    expect(wrapper.find('SuggestedAddressRadio').length).to.equal(1);
+    expect(wrapper.find('AddressConfirmation').length).to.equal(0);
+    // Verify that the title prop reflects the authorized agent text
+    expect(wrapper.find('SuggestedAddressRadio').prop('title')).to.equal(
+      'Confirm applicant mailing address',
+    );
+
+    wrapper.unmount();
+  });
+
+  it('should render confirm address with authorized agent subHeader if NOT given a suggested address', async () => {
+    mockApiRequest(validAddressResponse);
+    const store = createStore();
+    const wrapper = await renderComponent(store);
+
+    expect(wrapper.find('va-loading-indicator').length).to.equal(0);
+    expect(wrapper.find('SuggestedAddressRadio').length).to.equal(0);
+    expect(wrapper.find('AddressConfirmation').length).to.equal(1);
+    // Verify that the subHeader prop reflects the authorized agent text
+    expect(wrapper.find('AddressConfirmation').prop('subHeader')).to.equal(
+      'Check applicant mailing address',
+    );
 
     wrapper.unmount();
   });

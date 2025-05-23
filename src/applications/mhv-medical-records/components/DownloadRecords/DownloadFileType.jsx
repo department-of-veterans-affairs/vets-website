@@ -12,7 +12,10 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
+  getNameDateAndTime,
+  makePdf,
+  formatUserDob,
+  formatNameFirstLast,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   VaLoadingIndicator,
@@ -24,12 +27,9 @@ import NeedHelpSection from './NeedHelpSection';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import {
-  getNameDateAndTime,
-  makePdf,
   generateTextFile,
   focusOnErrorField,
   getLastUpdatedText,
-  formatUserDob,
   sendDataDogAction,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
@@ -45,6 +45,7 @@ import {
 import { Actions } from '../../util/actionTypes';
 import useFocusOutline from '../../hooks/useFocusOutline';
 import { updateReportFileType } from '../../actions/downloads';
+import { postCreateAAL } from '../../api/MrApi';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -59,7 +60,7 @@ const DownloadFileType = props => {
   );
 
   const user = useSelector(state => state.user.profile);
-  const name = formatName(user.userFullName);
+  const name = formatNameFirstLast(user.userFullName);
   const dob = formatUserDob(user);
 
   const labsAndTests = useSelector(
@@ -317,12 +318,25 @@ const DownloadFileType = props => {
     [recordData],
   );
 
-  const formatDateRange = () => {
-    return {
-      fromDate:
-        fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'any',
-      toDate: fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
-    };
+  const formatDateRange = useCallback(
+    () => {
+      return {
+        fromDate:
+          fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'any',
+        toDate: fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
+      };
+    },
+    [fromDate, toDate],
+  );
+
+  const logAal = status => {
+    postCreateAAL({
+      activityType: 'Download',
+      action: 'Custom Download Requested',
+      performerType: 'Self',
+      status,
+      oncePerSession: true,
+    });
   };
 
   const generatePdf = useCallback(
@@ -351,28 +365,29 @@ const DownloadFileType = props => {
           await makePdf(
             pdfName,
             pdfData,
-            title,
-            runningUnitTest,
             'blueButtonReport',
+            'Medical Records - Blue Button report - PDF generation error',
+            runningUnitTest,
           );
+          logAal(1);
           dispatch({ type: Actions.Downloads.BB_SUCCESS });
         }
       } catch (error) {
+        logAal(0);
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
     [
-      fromDate,
-      toDate,
       dispatch,
-      dob,
       isDataFetched,
-      name,
+      user,
+      formatDateRange,
       recordData,
       recordFilter,
+      name,
+      dob,
       refreshStatus,
       runningUnitTest,
-      user,
     ],
   );
 
@@ -393,13 +408,15 @@ const DownloadFileType = props => {
           const content = getTxtContent(recordData, user, dateRange);
 
           generateTextFile(content, pdfName, user);
+          logAal(1);
           dispatch({ type: Actions.Downloads.BB_SUCCESS });
         }
       } catch (error) {
+        logAal(0);
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
-    [dispatch, isDataFetched, recordData, user],
+    [dispatch, formatDateRange, isDataFetched, recordData, user],
   );
 
   const checkFileTypeValidity = useCallback(

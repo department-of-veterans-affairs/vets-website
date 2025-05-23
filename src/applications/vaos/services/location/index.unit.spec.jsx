@@ -1,9 +1,9 @@
-import { expect } from 'chai';
 import {
   mockFetch,
-  setFetchJSONResponse,
   setFetchJSONFailure,
+  setFetchJSONResponse,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { expect } from 'chai';
 
 import {
   getCommunityProvidersByTypeOfCare,
@@ -12,13 +12,17 @@ import {
   getLocations,
   getLocationsByTypeOfCareAndSiteIds,
 } from '.';
-import facilityDetails from '../mocks/v2/facilities.json';
-import ccProviders from '../mocks/v2/cc_providers.json';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../tests/fixtures/MockSchedulingConfigurationResponse';
+import {
+  mockFacilitiesApi,
+  mockSchedulingConfigurationsApi,
+} from '../../tests/mocks/mockApis';
 import { VHA_FHIR_ID } from '../../utils/constants';
-import { mockFacilitiesFetch } from '../../tests/mocks/fetch';
-import { createMockFacility } from '../../tests/mocks/data';
-import { mockSchedulingConfigurations } from '../../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import ccProviders from '../mocks/v2/cc_providers.json';
+import facilityDetails from '../mocks/v2/facilities.json';
 
 describe('VAOS Services: Location ', () => {
   describe('getLocations', () => {
@@ -101,30 +105,35 @@ describe('VAOS Services: Location ', () => {
 
     it('should make 3 successful requests', async () => {
       mockFetch();
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
-        facilities: [
-          createMockFacility({
-            id: '983',
-            name: 'Cheyenne VA Medical Center',
+        response: [
+          new MockFacilityResponse(),
+          new MockFacilityResponse({ id: '984' }),
+        ],
+      });
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+                directEnabled: true,
+              }),
+            ],
           }),
-          createMockFacility({
-            id: '984',
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+              }),
+            ],
           }),
         ],
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-        }),
-      ]);
 
       data = await getLocationsByTypeOfCareAndSiteIds({
         typeOfCareId: '323',

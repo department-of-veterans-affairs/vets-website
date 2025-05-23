@@ -13,6 +13,10 @@ import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import { selectAppointment } from '../../../redux/selectors';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
 
 const title = 'Review your travel claim';
 
@@ -26,6 +30,7 @@ const ReviewPage = ({
   setIsAgreementChecked,
 }) => {
   useEffect(() => {
+    recordSmocPageview('review');
     focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
@@ -37,6 +42,7 @@ const ReviewPage = ({
   const [formattedDate, formattedTime] = formatDateTime(data.localStartTime);
 
   const onBack = () => {
+    recordSmocButtonClick('review', 'start-over');
     setYesNo({
       mileage: '',
       vehicle: '',
@@ -76,7 +82,10 @@ const ReviewPage = ({
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
         Where you traveled from
       </h3>
-      <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+      <p
+        className="vads-u-margin-bottom--3 vads-u-margin-top--0"
+        data-dd-privacy="mask"
+      >
         {address.addressLine1}
         <br />
         {address.addressLine2 && (
@@ -129,6 +138,7 @@ const ReviewPage = ({
       <VaButtonPair
         className="vads-u-margin-top--2"
         continue
+        disable-analytics
         rightButtonText="File claim"
         leftButtonText="Start over"
         onPrimaryClick={onSubmit}

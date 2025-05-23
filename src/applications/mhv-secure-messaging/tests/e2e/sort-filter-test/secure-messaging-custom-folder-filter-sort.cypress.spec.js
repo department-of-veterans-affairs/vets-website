@@ -2,9 +2,16 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
+import PatientFilterPage from '../pages/PatientFilterPage';
+import mockThreadsResponse from '../fixtures/threads-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
-describe('Secure Messaging Custom Folder filter-sort checks', () => {
+describe('SM CUSTOM FOLDER FILTER-SORT CHECKS', () => {
+  const filterData = 'test';
+  const filteredResponse = PatientFilterPage.filterMockResponse(
+    mockThreadsResponse,
+    filterData,
+  );
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -13,25 +20,41 @@ describe('Secure Messaging Custom Folder filter-sort checks', () => {
   });
 
   it('verify filter works correctly', () => {
-    PatientMessageCustomFolderPage.inputFilterDataText('test');
-    PatientMessageCustomFolderPage.clickFilterMessagesButton();
-    PatientMessageCustomFolderPage.verifyFilterResultsText('test');
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    PatientFilterPage.inputFilterData(filterData);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
+    PatientFilterPage.verifyFilterResults(filterData, filteredResponse);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('Verify clear filter btn works correctly', () => {
-    PatientMessageCustomFolderPage.inputFilterDataText('any');
-    PatientMessageCustomFolderPage.clickFilterMessagesButton();
-    PatientMessageCustomFolderPage.clickClearFilterButton();
-    PatientMessageCustomFolderPage.verifyFilterFieldCleared();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+  it('verify clear filter btn works correctly', () => {
+    PatientFilterPage.inputFilterData('any');
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
+    PatientFilterPage.clickClearFilterButton();
+    PatientFilterPage.verifyFilterFieldCleared();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('Check sorting works properly', () => {
-    PatientMessageCustomFolderPage.verifySorting();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+  it('check sorting works properly', () => {
+    const sortedResponse = PatientFilterPage.sortMessagesThread(
+      mockThreadsResponse,
+    );
+
+    PatientFilterPage.verifySorting(sortedResponse);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify filter with no matches', () => {
+    const noMatchResponse = PatientFilterPage.filterMockResponse(
+      mockThreadsResponse,
+      'no match',
+    );
+
+    PatientFilterPage.inputFilterData('no match');
+    PatientFilterPage.clickApplyFilterButton(noMatchResponse);
+
+    PatientFilterPage.verifyNoMatchFilterFocusAndText();
   });
 });

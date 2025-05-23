@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -7,7 +8,14 @@ function PercentageCalc({ formData }) {
   return (
     <div className="schemaform-field-template">
       <div className="vads-u-margin-bottom--2">
-        <span className="vads-u-font-weight--bold vads-u-font-size--lg">
+        <span
+          className="vads-u-font-weight--bold vads-u-font-size--lg"
+          tabIndex={0}
+          role="status"
+          aria-label={`VA beneficiary students percentage: ${calculatedPercentage(
+            formData,
+          )}`}
+        >
           {calculatedPercentage(formData)}
         </span>
       </div>
@@ -17,7 +25,7 @@ function PercentageCalc({ formData }) {
         </h4>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           (Number of VA beneficiary students divided by Total number of
-          students) multiplied by 100 = Percentage of VA beneficiary students
+          students) multiplied by 100 = Percentage of VA beneficiary students.
         </p>
         <p className="vads-u-margin-y--0">
           If this percentage seems incorrect, please check the numbers you

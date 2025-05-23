@@ -45,13 +45,47 @@ const transformAddress = formData => {
 };
 
 export default function submitTransformer(formData, uploadFiles) {
+  /* eslint-disable no-param-reassign */
+  const { stateOrResidency } = formData;
+
+  let schoolName;
+  let schoolCode;
+
+  if (formData?.emailAddress) {
+    formData.businessEmail = formData.emailAddress;
+  } else {
+    formData.emailAddress = formData.businessEmail;
+  }
+
+  if (formData?.phoneNumber) {
+    formData.businessPhone = formData.phoneNumber;
+  } else {
+    formData.phoneNumber = formData.businessPhone;
+  }
+
+  if (stateOrResidency?.schoolState || stateOrResidency?.residencyState) {
+    stateOrResidency.schoolState = stateOrResidency?.schoolState || null;
+    stateOrResidency.residencyState = stateOrResidency?.residencyState || null;
+  }
+
+  if (formData?.school) {
+    const schoolInfo = getSchoolInfo(formData.school);
+    if (schoolInfo) {
+      schoolName = schoolInfo.name;
+      schoolCode = schoolInfo.code;
+    }
+  } else {
+    schoolName = formData?.schoolInfo?.schoolName || null;
+    schoolCode = formData?.schoolInfo?.schoolFacilityCode || null;
+  }
+
   return {
     ...formData,
     ...transformAddress(formData),
     files: getFiles(uploadFiles),
     SchoolObj: {
-      InstitutionName: getSchoolInfo(formData.school)?.name,
-      SchoolFacilityCode: getSchoolInfo(formData.school)?.code,
+      InstitutionName: schoolName,
+      SchoolFacilityCode: schoolCode,
       StateAbbreviation:
         formData.stateOfTheSchool ||
         formData.stateOfTheFacility ||

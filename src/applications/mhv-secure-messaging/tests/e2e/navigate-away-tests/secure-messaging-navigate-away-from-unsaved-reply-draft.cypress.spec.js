@@ -26,8 +26,10 @@ describe('SM NAVIGATE AWAY FROM UNSAVED REPLY DRAFT', () => {
   it('navigate away with no data', () => {
     FolderLoadPage.backToParentFolder();
 
-    GeneralFunctionsPage.verifyUrl(`inbox`);
-    GeneralFunctionsPage.verifyPageHeader(`Inbox`);
+    GeneralFunctionsPage.verifyUrl(`thread`);
+    GeneralFunctionsPage.verifyPageHeader(
+      `${updatedSingleThreadResponse.data[0].attributes.subject}`,
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

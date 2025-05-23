@@ -1,9 +1,6 @@
 import { expect } from 'chai';
 import * as api from 'platform/utilities/api';
-import * as Sentry from '@sentry/browser';
-import sinon from 'sinon';
-import { waitFor } from '@testing-library/react';
-import * as recordEventModule from 'platform/monitoring/record-event';
+import sinon from 'sinon-v20';
 import { fetchFacilities } from '../../../actions/fetchFacilities';
 import { API_ENDPOINTS } from '../../../utils/constants';
 import {
@@ -14,193 +11,134 @@ import {
 } from '../../mocks/fetchFacility';
 import content from '../../../locales/en/content.json';
 
+// declare error message content
+const ERROR_MSG_NO_RESULTS = content['error--no-results-found'];
+const ERROR_MSG_GENERIC = content['error--facilities--generic'];
+
 describe('CG fetchFacilities action', () => {
-  const method = 'POST';
-  const headers = { 'Content-Type': 'application/json' };
+  const buildExpectedBody = ({
+    lat = null,
+    long = null,
+    radius = null,
+    page = null,
+    perPage = null,
+    type = 'health',
+    facilityIds = '',
+  } = {}) =>
+    JSON.stringify({
+      type,
+      lat,
+      long,
+      radius,
+      page,
+      perPage,
+      facilityIds,
+    });
+  const requestArgs = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+  };
   const lat = 1;
   const long = 2;
   const perPage = 5;
   const page = 1;
   const radius = 500;
   const facilityIds = ['12', '34'];
-  const errorResponse = { bad: 'some error' };
+  const endpoint = API_ENDPOINTS.facilities;
   let apiRequestStub;
-  let sentrySpy;
-  let recordEventStub;
 
   beforeEach(() => {
     localStorage.setItem('csrfToken', 'my-token');
     apiRequestStub = sinon.stub(api, 'apiRequest').resolves([]);
-    sentrySpy = sinon.spy(Sentry, 'captureMessage');
-    recordEventStub = sinon.stub(recordEventModule, 'default');
   });
 
   afterEach(() => {
-    apiRequestStub.restore();
     localStorage.clear();
-    sentrySpy.restore();
-    recordEventStub.restore();
+    sinon.restore();
   });
 
-  context('success', () => {
-    it('calls correct url when all params are passed', async () => {
+  context('when the fetch succeeds', () => {
+    it('should make the correct request when all params are passed', async () => {
       await fetchFacilities({ long, lat, perPage, radius, page, facilityIds });
-
-      const expectedBody = JSON.stringify({
-        type: 'health',
-        lat,
-        long,
-        radius,
-        page,
-        perPage,
-        facilityIds: `${facilityIds[0]},${facilityIds[1]}`,
-      });
-
-      sinon.assert.calledWith(apiRequestStub, API_ENDPOINTS.facilities, {
-        method,
-        headers,
-        body: expectedBody,
-      });
-
-      await waitFor(() => {
-        expect(apiRequestStub.callCount).to.equal(1);
-        expect(sentrySpy.called).to.be.true;
-        expect(sentrySpy.firstCall.args[0]).to.equal(
-          'FetchFacilities facilityIds',
-        );
+      sinon.assert.calledOnceWithExactly(apiRequestStub, endpoint, {
+        ...requestArgs,
+        body: buildExpectedBody({
+          lat,
+          long,
+          radius,
+          page,
+          perPage,
+          facilityIds: `${facilityIds[0]},${facilityIds[1]}`,
+        }),
       });
     });
 
-    it('calls url without params when no params are passed', async () => {
+    it('should make the correct request when no params are passed', async () => {
       await fetchFacilities({});
-
-      const expectedBody = JSON.stringify({
-        type: 'health',
-        lat: null,
-        long: null,
-        radius: null,
-        page: null,
-        perPage: null,
-        facilityIds: '',
-      });
-
-      sinon.assert.calledWith(apiRequestStub, API_ENDPOINTS.facilities, {
-        method,
-        headers,
-        body: expectedBody,
+      sinon.assert.calledOnceWithExactly(apiRequestStub, endpoint, {
+        ...requestArgs,
+        body: buildExpectedBody(),
       });
     });
 
-    it('formats facility ids correctly when only one facility id', async () => {
+    it('should correctly format facility IDs when only one ID is provided', async () => {
       await fetchFacilities({ facilityIds: ['1'] });
-
-      const expectedBody = JSON.stringify({
-        type: 'health',
-        lat: null,
-        long: null,
-        radius: null,
-        page: null,
-        perPage: null,
-        facilityIds: '1',
-      });
-
-      sinon.assert.calledWith(apiRequestStub, API_ENDPOINTS.facilities, {
-        method,
-        headers,
-        body: expectedBody,
-      });
-
-      await waitFor(() => {
-        expect(apiRequestStub.callCount).to.equal(1);
+      sinon.assert.calledOnceWithExactly(apiRequestStub, endpoint, {
+        ...requestArgs,
+        body: buildExpectedBody({ facilityIds: '1' }),
       });
     });
 
-    it('formats facility addresses', async () => {
+    it('should correctly format facility with address data', async () => {
       apiRequestStub.resolves(mockVetsApiFacilitiesResponse);
       const response = await fetchFacilities({ long, lat, perPage, radius });
       expect(response).to.deep.eq(mockFetchFacilitiesResponse);
-
-      await waitFor(() => {
-        expect(apiRequestStub.callCount).to.equal(1);
-      });
+      sinon.assert.calledOnce(apiRequestStub);
     });
 
-    it('formats facility without address', async () => {
+    it('should correctly format facility without address data', async () => {
       apiRequestStub.resolves(mockVetsApiFacilitiesWithoutAddressResponse);
       const response = await fetchFacilities({ long, lat, perPage, radius });
       expect(response).to.deep.eq(mockFetchFacilitiesReponseWithoutAddress);
-
-      await waitFor(() => {
-        expect(apiRequestStub.callCount).to.equal(1);
-      });
+      sinon.assert.calledOnce(apiRequestStub);
     });
 
-    it('returns NO_SEARCH_RESULTS if no data array', async () => {
+    it('should return `NO_SEARCH_RESULTS` if no data array', async () => {
       apiRequestStub.resolves({ meta: {} });
       const response = await fetchFacilities({ long, lat, perPage, radius });
-
       expect(response).to.deep.eq({
         type: 'NO_SEARCH_RESULTS',
-        errorMessage: content['error--no-results-found'],
+        errorMessage: ERROR_MSG_NO_RESULTS,
       });
-
-      await waitFor(() => {
-        expect(apiRequestStub.callCount).to.equal(1);
-      });
+      sinon.assert.calledOnce(apiRequestStub);
     });
   });
 
-  context('failure', () => {
-    it('should log to sentry and return an error object', async () => {
-      apiRequestStub.rejects(errorResponse);
-
+  context('when the fetch fails', () => {
+    it('should return correctly-formatted error object', async () => {
+      apiRequestStub.rejects({ bad: 'some error' });
       const response = await fetchFacilities({ long, lat });
-      expect(response).to.eql({
+      expect(response).to.deep.eq({
         type: 'SEARCH_FAILED',
-        errorMessage: 'There was an error fetching the health care facilities.',
+        errorMessage: ERROR_MSG_GENERIC,
       });
-
-      expect(sentrySpy.called).to.be.true;
-      expect(sentrySpy.firstCall.args[0]).to.equal(
-        'FetchFacilities facilityIds',
-      );
-      expect(sentrySpy.secondCall.args[0]).to.equal(
-        'Error fetching Lighthouse VA facilities',
-      );
-
-      await waitFor(() => {
-        expect(apiRequestStub.callCount).to.equal(1);
-      });
+      sinon.assert.calledOnce(apiRequestStub);
     });
 
-    it('should log to sentry and reset csrfToken on 403 Invalid Authenticity Token error', async () => {
-      expect(localStorage.getItem('csrfToken')).to.eql('my-token');
+    it('should reset csrfToken on `403 - Invalid Authenticity Token` error', async () => {
       const invalidAuthenticityTokenResponse = {
         errors: [{ status: '403', detail: 'Invalid Authenticity Token' }],
       };
       apiRequestStub.rejects(invalidAuthenticityTokenResponse);
+      expect(localStorage.getItem('csrfToken')).to.eq('my-token');
 
       const response = await fetchFacilities({ long, lat });
-      expect(response).to.eql({
+      expect(response).to.deep.eq({
         type: 'SEARCH_FAILED',
-        errorMessage: 'There was an error fetching the health care facilities.',
+        errorMessage: ERROR_MSG_GENERIC,
       });
-
-      expect(sentrySpy.called).to.be.true;
-      expect(sentrySpy.firstCall.args[0]).to.equal(
-        'FetchFacilities facilityIds',
-      );
-      expect(sentrySpy.secondCall.args[0]).to.equal(
-        'Error fetching Lighthouse VA facilities',
-      );
-      expect(sentrySpy.thirdCall.args[0]).to.equal(
-        'Error in fetchFacilities. Clearing csrfToken in localStorage.',
-      );
-      expect(localStorage.getItem('csrfToken')).to.eql('');
-
-      await waitFor(() => {
-        expect(apiRequestStub.callCount).to.equal(1);
-      });
+      expect(localStorage.getItem('csrfToken')).to.be.null;
+      sinon.assert.calledOnce(apiRequestStub);
     });
   });
 });

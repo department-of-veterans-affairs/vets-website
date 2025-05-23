@@ -4,12 +4,9 @@ import { Locators, Data } from '../../fixtures/constants';
 
 describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
   beforeEach(() => {
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
+    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles(
+      [],
+    );
 
     PersonalInformationPage.load(updatedFeatureToggles);
   });
@@ -37,6 +34,8 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
       .shadow()
       .find(`button`)
       .should(`have.text`, Data.SIGNATURE.ALERTS.CANCEL_REMOVE_BTN);
+
+    cy.injectAxeThenAxeCheck();
   });
 
   it('verify user can cancel remove signature', () => {
@@ -83,6 +82,7 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
       `contain.text`,
       Data.SIGNATURE.CHOOSE_EDIT,
     );
+
     cy.injectAxeThenAxeCheck();
   });
 });

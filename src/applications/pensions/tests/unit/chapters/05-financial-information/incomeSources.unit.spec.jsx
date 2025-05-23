@@ -21,7 +21,7 @@ const { schema, uiSchema } = incomeSources;
 describe('Pension: Financial information, income sources page', () => {
   const pageTitle = 'Gross monthly income';
   describe('should not require type of income additional field', () => {
-    const expectedNumberOfWebComponentFields = 3;
+    const expectedNumberOfWebComponentFields = 4;
     const data = { incomeSources: [{}] };
     testNumberOfWebComponentFields(
       formConfig,
@@ -32,7 +32,7 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    const expectedNumberOfFields = 1;
+    const expectedNumberOfFields = 0;
     testNumberOfFields(
       formConfig,
       schema,
@@ -42,7 +42,7 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    const expectedNumberOfErrors = 1;
+    const expectedNumberOfErrors = 0;
     testNumberOfErrorsOnSubmit(
       formConfig,
       schema,
@@ -52,7 +52,7 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    const expectedNumberOfWebComponentErrors = 3;
+    const expectedNumberOfWebComponentErrors = 4;
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
@@ -63,7 +63,7 @@ describe('Pension: Financial information, income sources page', () => {
     );
   });
   describe('should include a type of income additional field', async () => {
-    const expectedNumberOfWebComponentFields = 4;
+    const expectedNumberOfWebComponentFields = 5;
     const data = {
       incomeSources: [
         {
@@ -80,7 +80,7 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    const expectedNumberOfFields = 1;
+    const expectedNumberOfFields = 0;
     testNumberOfFields(
       formConfig,
       schema,
@@ -91,7 +91,7 @@ describe('Pension: Financial information, income sources page', () => {
     );
   });
   describe('with multiple sources', () => {
-    const expectedNumberOfWebComponentFields = 3;
+    const expectedNumberOfWebComponentFields = 4;
     const data = {
       incomeSources: [
         {
@@ -112,7 +112,7 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    const expectedNumberOfFields = 1;
+    const expectedNumberOfFields = 0;
     testNumberOfFields(
       formConfig,
       schema,
@@ -122,7 +122,7 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    const expectedNumberOfErrors = 1;
+    const expectedNumberOfErrors = 0;
     testNumberOfErrorsOnSubmit(
       formConfig,
       schema,
@@ -132,7 +132,7 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    const expectedNumberOfWebComponentErrors = 3;
+    const expectedNumberOfWebComponentErrors = 4;
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
@@ -151,8 +151,7 @@ describe('Pension: Financial information, income sources page', () => {
     uiSchema,
     {
       'va-radio': 2,
-      'va-text-input': 1,
-      input: 1,
+      'va-text-input': 2,
     },
     pageTitle,
   );

@@ -8,9 +8,7 @@ import { createTestStore } from '../../../tests/mocks/setup';
 const facilityData = new Facility();
 
 describe('VAOS Component: DetailsVA', () => {
-  const initialState = {
-    featureToggles: {},
-  };
+  const initialState = {};
 
   describe('When not canceling an appointment', () => {
     it('should display comp and pension appointment layout', async () => {
@@ -18,6 +16,8 @@ describe('VAOS Component: DetailsVA', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -56,6 +56,8 @@ describe('VAOS Component: DetailsVA', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -92,6 +94,8 @@ describe('VAOS Component: DetailsVA', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {},
         vaos: {
           isCommunityCare: false,

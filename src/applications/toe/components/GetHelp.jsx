@@ -7,9 +7,9 @@ export default function GetHelp() {
         If you need help with your application or have questions about
         enrollment or eligibility, submit a request with{' '}
         <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
-          {' '}
-          Ask VA.
+          Ask VA
         </a>
+        .
       </p>
       <p className="vads-u-margin-bottom--0">
         If you have technical difficulties using this online application, call
