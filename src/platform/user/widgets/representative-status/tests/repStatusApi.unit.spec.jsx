@@ -1,6 +1,10 @@
 import { expect } from 'chai';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import {
+  createGetHandler,
+  jsonResponse,
+  networkError,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 import RepresentativeStatusApi from '../api/RepresentativeStatusApi';
 
 describe('RepresentativeStatusApi', () => {
@@ -17,22 +21,25 @@ describe('RepresentativeStatusApi', () => {
   const createResponse = ({
     status = 200,
     json = {},
-    networkError = false,
+    isNetworkError = false,
   } = {}) => {
-    if (networkError) {
+    if (isNetworkError) {
       server.use(
-        rest.get(
+        createGetHandler(
           `https://dev-api.va.gov/representation_management/v0/power_of_attorney`,
-          (_, res) => res.networkError(),
+          () => networkError('Network error'),
+        ),
+      );
+    } else {
+      server.use(
+        createGetHandler(
+          `https://dev-api.va.gov/representation_management/v0/power_of_attorney`,
+          () => {
+            return jsonResponse(json, { status });
+          },
         ),
       );
     }
-    server.use(
-      rest.get(
-        `https://dev-api.va.gov/representation_management/v0/power_of_attorney`,
-        (_, res, ctx) => res(ctx.status(status), ctx.json(json)),
-      ),
-    );
   };
 
   it('should fetch and return representative status successfully', async () => {
@@ -55,12 +62,12 @@ describe('RepresentativeStatusApi', () => {
 
   it('should handle errors', async () => {
     const mockError = new Error('Network error');
-    createResponse({ networkError: true });
+    createResponse({ isNetworkError: true });
 
     try {
       await RepresentativeStatusApi.getRepresentativeStatus();
     } catch (error) {
-      expect(error.message).to.equal(mockError.message);
+      expect(error.message).to.contain(mockError.message);
     }
   });
 });

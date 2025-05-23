@@ -84,7 +84,7 @@ export const Nav = () => {
               onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
             >
-              Power of Attorney Requests
+              Representation Requests
             </Link>
             <Toggler
               toggleName={

@@ -142,9 +142,11 @@ describe('referral actions', () => {
         .resolves(mockAppointment);
 
       const result = await actions.createReferralAppointment({
-        referralId: 'r1',
-        slotId: 's1',
         draftApppointmentId: 'd1',
+        referralNumber: 'r1',
+        slotId: 's1',
+        networkId: 'n1',
+        providerServiceId: 'p1',
       })(dispatch);
 
       expect(dispatch.firstCall.args[0].type).to.equal(
@@ -163,9 +165,11 @@ describe('referral actions', () => {
         .rejects(new Error('fail'));
 
       await actions.createReferralAppointment({
-        referralId: 'r1',
-        slotId: 's1',
         draftApppointmentId: 'd1',
+        referralNumber: 'r1',
+        slotId: 's1',
+        networkId: 'n1',
+        providerServiceId: 'p1',
       })(dispatch);
 
       expect(

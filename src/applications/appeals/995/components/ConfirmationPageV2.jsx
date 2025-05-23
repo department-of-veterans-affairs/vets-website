@@ -6,11 +6,9 @@ import { selectProfile } from 'platform/user/selectors';
 
 // Content
 import { title995 } from '../content/title';
-import {
-  VaContent,
-  PrivateContent,
-  UploadContent,
-} from './EvidenceSummaryLists';
+import { EvidencePrivateContent } from './EvidencePrivateContent';
+import { EvidenceUploadContent } from './EvidenceUploadContent';
+import { EvidenceVaContent } from './EvidenceVaContent';
 import { content as notice5103Content } from '../content/notice5103';
 import { facilityTypeTitle, facilityTypeList } from '../content/facilityTypes';
 import { content as evidenceContent } from '../content/evidenceSummary';
@@ -196,7 +194,7 @@ export const ConfirmationPageV2 = () => {
       )}
 
       {vaEvidence.length ? (
-        <VaContent
+        <EvidenceVaContent
           list={vaEvidence}
           reviewMode
           showListOnly
@@ -205,7 +203,7 @@ export const ConfirmationPageV2 = () => {
       ) : null}
 
       {privateEvidence.length ? (
-        <PrivateContent
+        <EvidencePrivateContent
           list={privateEvidence}
           limitedConsent={data.limitedConsent}
           privacyAgreementAccepted={data.privacyAgreementAccepted}
@@ -217,7 +215,7 @@ export const ConfirmationPageV2 = () => {
       ) : null}
 
       {otherEvidence.length ? (
-        <UploadContent
+        <EvidenceUploadContent
           list={otherEvidence}
           reviewMode
           showListOnly
