@@ -87,17 +87,25 @@ const IncorrectFormModal = props => {
 };
 
 IncorrectFormModal.propTypes = {
-  relationshipToMember: PropTypes.string.isRequired,
-  showMeb54901990eTextUpdate: PropTypes.bool.isRequired,
   applicantHasServiceRecord: PropTypes.bool,
   claimantDOB: PropTypes.string,
+  relationshipToMember: PropTypes.string,
+  showMeb54901990eTextUpdate: PropTypes.bool,
   sponsorDateOfBirth: PropTypes.string,
+};
+
+IncorrectFormModal.defaultProps = {
+  applicantHasServiceRecord: false,
+  claimantDOB: '',
+  relationshipToMember: '',
+  showMeb54901990eTextUpdate: false,
+  sponsorDateOfBirth: '',
 };
 
 const mapStateToProps = state => {
   return {
     ...state,
-    claimantDOB: state?.data?.formData?.data?.attributes?.claimant.dateOfBirth,
+    claimantDOB: state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
     sponsorDateOfBirth: state?.form?.data?.dateOfBirth,
     relationshipToMember: state?.form?.data?.relationshipToMember,
     applicantHasServiceRecord:
