@@ -13,6 +13,7 @@ declare namespace Cypress {
     axeCheck(): Chainable<Subject>;
 
     fill(selector: string, value: any): Chainable<Subject>;
+
     fillName(baseName: string, name: object): Chainable<Subject>;
     fillAddress(baseName: string, address: object): Chainable<Subject>;
 
