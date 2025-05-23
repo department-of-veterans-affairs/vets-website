@@ -59,8 +59,8 @@ const NoSponsorModal = ({ sponsorsList }) => {
           .
         </li>
         <li>
-          If you are a service member applying for a benefit based on your own
-          service,{' '}
+          If you are a Veteran or service member applying for a benefit based on
+          your own your own service,{' '}
           <a
             href="/education/apply-for-gi-bill-form-22-1990/introduction"
             target="_blank"
