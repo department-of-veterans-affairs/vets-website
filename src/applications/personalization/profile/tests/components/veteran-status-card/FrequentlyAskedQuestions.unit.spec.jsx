@@ -58,15 +58,24 @@ describe('<FrequentlyAskedQuestions />', () => {
     ).to.not.exist;
   });
 
+  it('renders PDF error alert when pdfError is true', () => {
+    const { getByText } = render(<FrequentlyAskedQuestions pdfError />);
+
+    // Check that the link is not rendered
+    expect(
+      getByText('We’re sorry. Try to print your Veteran Status Card later.'),
+    ).to.exist;
+  });
+
   it('calls createPdf when "Print your Veteran Status Card" link is clicked', () => {
     const mockCreatePdf = sinon.spy();
     render(<FrequentlyAskedQuestions createPdf={mockCreatePdf} />);
 
     // Click the link
-    const printLink = document.querySelector(
+    const pdfLink = document.querySelector(
       'va-link[text="Print your Veteran Status Card (PDF)"]',
     );
-    fireEvent.click(printLink);
+    fireEvent.click(pdfLink);
 
     // Check that createPdf was called
     expect(mockCreatePdf.calledOnce).to.be.true;
