@@ -1,0 +1,15 @@
+{
+  "account": {
+    "accountUuid": "88f572d491af46efa393cba6c351e252"
+  },
+  "profile": {
+    "firstName": "William",
+    "lastName": "Phelps",
+    "verified": true,
+    "signIn": {
+      "serviceName": "idme"
+    }
+  },
+  "prefillsAvailable": [],
+  "inProgressForms": []
+}
