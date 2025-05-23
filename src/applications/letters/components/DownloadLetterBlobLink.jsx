@@ -6,6 +6,7 @@ import {
   VaLink,
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
 
 const DownloadLetterBlobLink = ({ letterTitle, letterType }) => {
@@ -16,7 +17,7 @@ const DownloadLetterBlobLink = ({ letterTitle, letterType }) => {
 
   switch (lettersStatus) {
     case DOWNLOAD_STATUSES.downloading:
-      return <VaLoadingIndicator message="Creating letter..." />;
+      return <VaLoadingIndicator message="Loading your letter..." />;
     case DOWNLOAD_STATUSES.success: {
       const enhancedLetter = lettersArr.find(
         letter => letter.letterType === letterType,
@@ -28,7 +29,7 @@ const DownloadLetterBlobLink = ({ letterTitle, letterType }) => {
             href={enhancedLetter.downloadUrl}
             filetype="PDF"
             filename={`${letterTitle}.pdf`}
-            text={letterTitle}
+            text={`Download ${letterTitle}`}
             download
           />
         </div>
@@ -36,20 +37,15 @@ const DownloadLetterBlobLink = ({ letterTitle, letterType }) => {
     }
     case DOWNLOAD_STATUSES.failure:
       return (
-        <VaAlert
-          className="vads-u-margin-top--2"
-          role="alert"
-          status="error"
-          slim
-          visible
-        >
-          <p className="vads-u-margin-y--0">
-            We can’t create your letter right now.
+        <VaAlert class="vads-u-margin-top--2" status="error" role="alert">
+          <h4 slot="headline">{`Your ${letterTitle} is currently unavailable`}</h4>
+          <p>
+            If you need help accessing your letter, please <CallVBACenter />
           </p>
         </VaAlert>
       );
     default:
-      return <div>Your letter should begin loading shortly.</div>;
+      return <div>Refresh the browser to download your letter.</div>;
   }
 };
 
