@@ -1,13 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
 import { getFacilityPhone } from '../../../services/location';
 import FacilityPhone from '../../../components/FacilityPhone';
+import {
+  startRequestAppointmentFlow,
+  routeToNextAppointmentPage,
+} from '../../redux/actions';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
+
+const pageKey = 'selectProvider';
+
+function handleClick(history, dispatch, requestDateTime) {
+  return () => {
+    dispatch(startRequestAppointmentFlow());
+    history.push(requestDateTime.url);
+    dispatch(routeToNextAppointmentPage(history, pageKey));
+  };
+}
 
 export default function ScheduleWithDifferentProvider({
   eligibility,
   selectedFacility,
 }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { requestDateTime } = useSelector(getNewAppointmentFlow);
   const facilityPhone = getFacilityPhone(selectedFacility);
   const overRequestLimit =
     eligibility.requestReasons[0] === ELIGIBILITY_REASONS.overRequestLimit;
@@ -47,7 +67,11 @@ export default function ScheduleWithDifferentProvider({
       <p className="vads-u-margin-top--0">
         We’ll contact you and help you finish scheduling your appointment.
       </p>
-      <va-link active href="#" text="Request an appointment" />
+      <va-link
+        active
+        text="Request an appointment"
+        onClick={handleClick(history, dispatch, requestDateTime)}
+      />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
     </>
   );
