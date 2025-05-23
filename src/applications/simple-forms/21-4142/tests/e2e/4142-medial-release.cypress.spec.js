@@ -8,7 +8,6 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { fillProviderFacility } from './helpers';
 import {
-  fillAddressWebComponentPattern,
   reviewAndSubmitPageFlow,
   selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
@@ -52,7 +51,7 @@ const testConfig = createTestConfig(
                   }
                 }
               } else {
-                fillAddressWebComponentPattern(
+                cy.fillAddressWebComponentPattern(
                   'veteran_address',
                   data.veteran.address,
                 );
