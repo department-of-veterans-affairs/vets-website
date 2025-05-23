@@ -231,7 +231,6 @@ export const testSubmitsWithoutErrors = (
         </FakeProvider>,
       );
       const submitBtn = queryByText('Submit');
-
       fireEvent.click(submitBtn);
 
       expect(getWebComponentErrors(container)).to.be.empty;
