@@ -15,6 +15,7 @@ export function CompareDrawer({
   displayed,
   alwaysDisplay = false,
   dispatchCompareDrawerOpened,
+  showDisclaimer,
 }) {
   const history = useHistory();
 
@@ -235,10 +236,15 @@ export function CompareDrawer({
     dispatchCompareDrawerOpened(!open);
   };
 
-  const compareDrawerClasses = classNames('compare-drawer', {
-    stuck,
-    scrollable,
-  });
+  const compareDrawerClasses = classNames(
+    { row: showDisclaimer && stuck },
+    'compare-drawer',
+    { 'compare-drawer--border': showDisclaimer && stuck },
+    {
+      stuck,
+      scrollable,
+    },
+  );
   const expandCollapse = classNames({
     'compare-drawer-collapsed': !open,
     'compare-drawer-expanded': open,
@@ -344,6 +350,7 @@ CompareDrawer.propTypes = {
   dispatchRemoveCompareInstitution: PropTypes.func.isRequired,
   displayed: PropTypes.bool.isRequired,
   alwaysDisplay: PropTypes.bool,
+  showDisclaimer: PropTypes.bool,
 };
 
 export default connect(

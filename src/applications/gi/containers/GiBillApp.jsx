@@ -109,7 +109,12 @@ export function GiBillApp({
             </div>
           )}
           {!onComparePage &&
-            !onProgramPage && <CompareDrawer alwaysDisplay={onProfilePage} />}
+            !onProgramPage && (
+              <CompareDrawer
+                alwaysDisplay={onProfilePage}
+                showDisclaimer={showDisclaimer}
+              />
+            )}
           <Modals />
         </div>
       </div>
