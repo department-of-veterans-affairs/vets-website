@@ -1,30 +1,26 @@
 const appointmentData = {
   id: '12345',
-  type: 'eps_appointments',
+  type: 'epsAppointment',
   attributes: {
     id: 'qdm61cJ5',
     status: 'booked',
-    start: '2024-11-21T18:00:00',
-    typeOfCare: 'Physical Therapy',
+    start: '2024-11-21T18:00:00Z',
+    typeOfCare: 'OPTOMETRY',
     isLatest: true,
     lastRetrieved: '2024-11-21T18:00:00Z',
     modality: 'Office Visit',
     provider: {
-      id: 'test-provider-id',
-      name: 'Dr. Bones',
-      isActive: true,
-      phoneNumber: '555-555-5555',
-      organization: {
-        name: 'Meridian Health',
+      id: 'DBKQ-123',
+      name: 'Dr. Jane Smith',
+      practice: 'Springfield Medical Group',
+      phone: '(505) 248-4062',
+      address: {
+        street1: '123 Medical Dr',
+        street2: 'Suite 456',
+        city: 'Springfield',
+        state: 'VA',
+        zip: '22150',
       },
-      location: {
-        name: 'Test Medical Complex',
-        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
-        latitude: 33.058736,
-        longitude: -80.032819,
-        timezone: 'America/New_York',
-      },
-      networkIds: ['sandbox-network-test'],
     },
     referringFacility: {
       name: 'Different Test Medical Complex',

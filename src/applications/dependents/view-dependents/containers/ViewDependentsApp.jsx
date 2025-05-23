@@ -1,58 +1,68 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import titleCase from 'platform/utilities/data/titleCase';
 
-import { fetchAllDependents } from '../actions/index';
+import { fetchAllDependents as fetchAllDependentsAction } from '../actions/index';
 import ViewDependentsLayout from '../layouts/ViewDependentsLayout';
 import { PAGE_TITLE, TITLE_SUFFIX } from '../util';
 
-class ViewDependentsApp extends Component {
-  componentDidMount() {
-    this.props.fetchAllDependents();
-    document.title = `${titleCase(PAGE_TITLE)}${TITLE_SUFFIX}`;
-  }
+const ViewDependentsApp = ({
+  user,
+  loading,
+  error,
+  onAwardDependents,
+  notOnAwardDependents,
+  manageDependentsToggle,
+  dependencyVerificationToggle,
+  updateDiariesStatus,
+  fetchAllDependents,
+}) => {
+  useEffect(
+    () => {
+      fetchAllDependents();
+      document.title = `${titleCase(PAGE_TITLE)}${TITLE_SUFFIX}`;
+    },
+    [fetchAllDependents],
+  );
 
-  render() {
-    return (
-      <div className="vads-l-grid-container vads-u-padding--2">
-        <DowntimeNotification
-          appTitle="view dependents tool"
-          dependencies={[
-            externalServices.bgs,
-            externalServices.global,
-            externalServices.mvi,
-            externalServices.vaProfile,
-            externalServices.vbms,
-          ]}
+  return (
+    <div className="vads-l-grid-container vads-u-padding--2">
+      <DowntimeNotification
+        appTitle="view dependents tool"
+        dependencies={[
+          externalServices.bgs,
+          externalServices.global,
+          externalServices.mvi,
+          externalServices.vaProfile,
+          externalServices.vbms,
+        ]}
+      >
+        <RequiredLoginView
+          serviceRequired={backendServices.USER_PROFILE}
+          user={user}
         >
-          <RequiredLoginView
-            serviceRequired={backendServices.USER_PROFILE}
-            user={this.props.user}
-          >
-            <ViewDependentsLayout
-              loading={this.props.loading}
-              error={this.props.error}
-              onAwardDependents={this.props.onAwardDependents}
-              notOnAwardDependents={this.props.notOnAwardDependents}
-              manageDependentsToggle={this.props.manageDependentsToggle}
-              dependencyVerificationToggle={
-                this.props.dependencyVerificationToggle
-              }
-              updateDiariesStatus={this.props.updateDiariesStatus}
-            />
-          </RequiredLoginView>
-        </DowntimeNotification>
-      </div>
-    );
-  }
-}
+          <ViewDependentsLayout
+            loading={loading}
+            error={error}
+            onAwardDependents={onAwardDependents}
+            notOnAwardDependents={notOnAwardDependents}
+            manageDependentsToggle={manageDependentsToggle}
+            dependencyVerificationToggle={dependencyVerificationToggle}
+            updateDiariesStatus={updateDiariesStatus}
+          />
+        </RequiredLoginView>
+      </DowntimeNotification>
+    </div>
+  );
+};
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -70,11 +80,25 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  fetchAllDependents,
+  fetchAllDependents: fetchAllDependentsAction,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ViewDependentsApp);
+
+ViewDependentsApp.propTypes = {
+  fetchAllDependents: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired,
+
+  dependencyVerificationToggle: PropTypes.bool,
+  error: PropTypes.object,
+  manageDependentsToggle: PropTypes.bool,
+  notOnAwardDependents: PropTypes.array,
+  updateDiariesStatus: PropTypes.bool,
+  onAwardDependents: PropTypes.array,
+};
+
 export { ViewDependentsApp };
