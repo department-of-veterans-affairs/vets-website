@@ -1,62 +1,52 @@
-/* eslint-disable camelcase */
-import moment from 'moment-timezone';
-import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
+import * as Sentry from '@sentry/browser';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import moment from 'moment-timezone';
 
-import { createAppointment } from '../../services/appointment';
-import getNewAppointmentFlow from '../newAppointmentFlow';
+import { addMinutes, areIntervalsOverlapping } from 'date-fns';
 import {
-  selectFeatureDirectScheduling,
   selectFeatureCommunityCare,
-  selectSystemIds,
-  selectRegisteredCernerFacilityIds,
+  selectFeatureDirectScheduling,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
-  selectFeatureFeSourceOfTruthVA,
   selectFeatureFeSourceOfTruthModality,
+  selectFeatureFeSourceOfTruthVA,
   selectFeatureRecentLocationsFilter,
+  selectRegisteredCernerFacilityIds,
+  selectSystemIds,
 } from '../../redux/selectors';
 import {
-  getTypeOfCare,
-  getNewAppointment,
-  getFormData,
-  getTypeOfCareFacilities,
-  getCCEType,
-  selectRecentLocations,
-  selectRecentLocationsStatus,
-} from './selectors';
+  FORM_SUBMIT_SUCCEEDED,
+  STARTED_NEW_APPOINTMENT_FLOW,
+} from '../../redux/sitewide';
+import { createAppointment } from '../../services/appointment';
 import {
-  getLocation,
-  getSiteIdFromFacilityId,
-  getLocationsByTypeOfCareAndSiteIds,
-  getCommunityProvidersByTypeOfCare,
-  fetchParentLocations,
   fetchCommunityCareSupportedSites,
+  fetchParentLocations,
+  getCommunityProvidersByTypeOfCare,
+  getLocation,
+  getLocationsByTypeOfCareAndSiteIds,
+  getSiteIdFromFacilityId,
   isCernerLocation,
   isTypeOfCareSupported,
 } from '../../services/location';
+import {
+  fetchFlowEligibilityAndClinics,
+  fetchPatientRelationships,
+} from '../../services/patient';
 import { getSlots } from '../../services/slot';
+import { getCommunityCareV2 } from '../../services/vaos/index';
 import { getPreciseLocation } from '../../utils/address';
 import {
   APPOINTMENT_STATUS,
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
+  FETCH_STATUS,
   FLOW_TYPES,
   GA_PREFIX,
-  FETCH_STATUS,
+  DATE_FORMATS,
 } from '../../utils/constants';
-import {
-  transformFormToVAOSAppointment,
-  transformFormToVAOSCCRequest,
-  transformFormToVAOSVARequest,
-} from './helpers/formSubmitTransformers';
-import {
-  resetDataLayer,
-  recordItemsRetrieved,
-  recordEligibilityFailure,
-} from '../../utils/events';
 import {
   captureError,
   getErrorCodes,
@@ -64,15 +54,26 @@ import {
   has409LevelError,
 } from '../../utils/error';
 import {
-  STARTED_NEW_APPOINTMENT_FLOW,
-  FORM_SUBMIT_SUCCEEDED,
-} from '../../redux/sitewide';
-import {
-  fetchFlowEligibilityAndClinics,
-  fetchPatientRelationships,
-} from '../../services/patient';
+  recordEligibilityFailure,
+  recordItemsRetrieved,
+  resetDataLayer,
+} from '../../utils/events';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
-import { getCommunityCareV2 } from '../../services/vaos/index';
+import getNewAppointmentFlow from '../newAppointmentFlow';
+import {
+  transformFormToVAOSAppointment,
+  transformFormToVAOSCCRequest,
+  transformFormToVAOSVARequest,
+} from './helpers/formSubmitTransformers';
+import {
+  getCCEType,
+  getFormData,
+  getNewAppointment,
+  getTypeOfCare,
+  getTypeOfCareFacilities,
+  selectRecentLocations,
+  selectRecentLocationsStatus,
+} from './selectors';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -769,14 +770,14 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
         }
 
         // Check timezone 1st since conversion might flip the date to the
-        // previous or next day. This insures available slots are displayed
+        // previous or next day. This ensures available slots are displayed
         // for the correct day.
         const correctedSlots = mappedSlots.map(slot => {
           const zonedDate = utcToZonedTime(slot.start, timezone);
-          const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
+          const time = format(zonedDate, DATE_FORMATS.ISODateTime, {
             timeZone: timezone,
           });
-          return { ...slot, start: time };
+          return { ...slot, start: time, startUtc: slot.start };
         });
         const sortedSlots = [...availableSlots, ...correctedSlots].sort(
           (a, b) => a.start.localeCompare(b.start),
@@ -800,23 +801,35 @@ export function onCalendarChange(
   selectedDates,
   maxSelections,
   upcomingAppointments,
-  timezone,
+  availableSlots,
 ) {
   let isSame = false;
-  if (maxSelections === 1 && selectedDates?.length > 0 && timezone) {
-    const selectedDate = selectedDates[0];
-    const key = moment(selectedDate, 'YYYY-MM-DDTHH:mm:ss');
-    const appointments = upcomingAppointments[key.format('YYYY-MM')];
+  if (maxSelections === 1 && selectedDates?.length > 0 && availableSlots) {
+    const selectedSlot = availableSlots?.find(
+      slot => slot.start === selectedDates[0],
+    );
+    if (selectedSlot) {
+      const key = format(new Date(selectedSlot.start), DATE_FORMATS.yearMonth);
+      const appointments = upcomingAppointments[key];
 
-    isSame = appointments?.some(appointment => {
-      // Convert slot date to calendar timezone since slot dates are in UTC
-      const d1 = moment.tz(selectedDate, timezone);
-      const d2 = moment.tz(appointment.start, `${appointment.timezone}`);
+      isSame = appointments?.some(appointment => {
+        // Use UTC timestamps for conflict detection. This avoids timezone conversion issues.
+        const slotInterval = {
+          start: new Date(selectedSlot.startUtc),
+          end: new Date(selectedSlot.end),
+        };
+        const appointmentStart = new Date(appointment.startUtc);
+        const appointmentInterval = {
+          start: appointmentStart,
+          end: addMinutes(appointmentStart, appointment.minutesDuration),
+        };
 
-      return (
-        appointment.status !== APPOINTMENT_STATUS.cancelled && d1.isSame(d2)
-      );
-    });
+        return (
+          appointment.status !== APPOINTMENT_STATUS.cancelled &&
+          areIntervalsOverlapping(slotInterval, appointmentInterval)
+        );
+      });
+    }
   }
 
   return {

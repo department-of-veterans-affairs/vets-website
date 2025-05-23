@@ -47,7 +47,7 @@ export class ScheduleReferralPageObject extends PageObject {
   /**
    * Validates that referring facility information is displayed
    */
-  assertReferringFacilityInfo() {
+  assertreferringFacility() {
     // Verify that the facility information is populated
     cy.findByTestId('referral-facility')
       .should('exist')

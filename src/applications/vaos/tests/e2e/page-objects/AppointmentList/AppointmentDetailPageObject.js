@@ -2,7 +2,7 @@ import { addMinutes } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { getICSTokens } from '../../../../utils/calendar';
 import PageObject from '../PageObject';
-import { VIDEO_TYPES, DATE_FORMAT_STRINGS } from '../../../../utils/constants';
+import { VIDEO_TYPES, DATE_FORMATS } from '../../../../utils/constants';
 
 function assertDescription(type, tokens) {
   // Description text longer than 74 characters should start on newline beginning
@@ -107,16 +107,16 @@ export class AppointmentDetailPageObject extends PageObject {
 
       // And the start time should match the appointment
       expect(tokens.get('DTSTAMP')).to.equal(
-        formatInTimeZone(startDate, 'UTC', DATE_FORMAT_STRINGS.iCalDateTimeUTC),
+        formatInTimeZone(startDate, 'UTC', DATE_FORMATS.iCalDateTimeUTC),
       );
       expect(tokens.get('DTSTART')).to.equal(
-        formatInTimeZone(startDate, 'UTC', DATE_FORMAT_STRINGS.iCalDateTimeUTC),
+        formatInTimeZone(startDate, 'UTC', DATE_FORMATS.iCalDateTimeUTC),
       );
       expect(tokens.get('DTEND')).to.equal(
         formatInTimeZone(
           addMinutes(startDate, 60),
           'UTC',
-          DATE_FORMAT_STRINGS.iCalDateTimeUTC,
+          DATE_FORMATS.iCalDateTimeUTC,
         ),
       );
       expect(tokens.get('END')).includes('VEVENT');

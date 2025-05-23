@@ -5,7 +5,7 @@ import {
   APPOINTMENT_STATUS,
   TYPE_OF_VISIT_ID,
   VIDEO_TYPES,
-  DATE_FORMAT_STRINGS,
+  DATE_FORMATS,
 } from '../../utils/constants';
 
 /**
@@ -80,11 +80,7 @@ export default class MockAppointmentResponse {
       start:
         status === APPOINTMENT_STATUS.proposed
           ? null
-          : formatInTimeZone(
-              timestamp,
-              'UTC',
-              DATE_FORMAT_STRINGS.ISODateTimeUTC,
-            ),
+          : formatInTimeZone(timestamp, 'UTC', DATE_FORMATS.ISODateTimeUTC),
       status,
       telehealth: {
         atlas: null,
