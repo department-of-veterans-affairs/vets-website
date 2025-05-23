@@ -110,7 +110,7 @@ describe('SelectHealthCareSystem', () => {
   it('displays health care system facilities as radio button options', async () => {
     const acknowledge = sinon.spy();
     const screen = renderWithStoreAndRouter(
-      <SelectHealthCareSystem acknowlodge={acknowledge} />,
+      <SelectHealthCareSystem acknowledge={acknowledge} />,
       {
         initialState,
         reducers: reducer,
