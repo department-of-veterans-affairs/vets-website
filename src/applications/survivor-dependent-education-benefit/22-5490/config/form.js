@@ -323,7 +323,7 @@ const formConfig = {
                       aria-hidden="true"
                     />{' '}
                     <span className="sr-only">Informational Note:</span> If
-                    you’re the child of a veteran or service member who died in
+                    you’re the child of a Veteran or service member who died in
                     the line of duty before August 1, 2011 you can use both Fry
                     Scholarship and DEA and get up to 81 months of benefits.
                     You’ll need to apply separately and use one program at a
