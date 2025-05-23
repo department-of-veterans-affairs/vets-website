@@ -51,6 +51,17 @@ describe('<UpdateErrorAlert />', () => {
     ).to.exist;
   });
 
+  it('renders the payment restriction error', async () => {
+    const { findByText } = render(
+      <UpdateErrorAlert saveError={errors.paymentRestrictionsPresent.errors} />,
+    );
+    expect(
+      await findByText(
+        /We’re sorry. We couldn’t process your direct deposit update/i,
+      ),
+    ).to.exist;
+  });
+
   it('renders the flagged routing number error', async () => {
     const { findByText } = render(
       <UpdateErrorAlert saveError={errors.routingNumberFlagged.errors} />,
