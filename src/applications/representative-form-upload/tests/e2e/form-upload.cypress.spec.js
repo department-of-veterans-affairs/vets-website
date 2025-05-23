@@ -23,7 +23,7 @@ const uploadImgPath =
   'src/applications/representative-form-upload/tests/e2e/fixtures/data/vba_21_686c.pdf';
 
 describe('Representative Form Upload', () => {
-  describe('Veteran Claimant', () => {
+  describe('Authorized VSO Rep', () => {
     beforeEach(() => {
       cy.loginArpUser();
       cy.intercept(
@@ -38,7 +38,7 @@ describe('Representative Form Upload', () => {
       );
     });
 
-    it('should allow user through whole form wizard', () => {
+    it('allows veteran claimant submission', () => {
       cy.visit('/representative/representative-form-upload/21-686c/');
       cy.location('pathname').should(
         'eq',
@@ -92,6 +92,81 @@ describe('Representative Form Upload', () => {
         'eq',
         '/representative/representative-form-upload/21-686c/confirmation',
       );
+    });
+
+    it('allows non-veteran claimant submission', () => {
+      cy.visit('/representative/representative-form-upload/21-686c/');
+      cy.location('pathname').should(
+        'eq',
+        '/representative/representative-form-upload/21-686c/introduction',
+      );
+      cy.get('a[href="#start"]')
+        .contains('Start application')
+        .click();
+      cy.location('pathname').should(
+        'eq',
+        '/representative/representative-form-upload/21-686c/is-veteran',
+      );
+      cy.findByLabelText(/^No$/).click();
+      cy.findByRole('button', { name: /^Continue$/ }).click();
+      cy.location('pathname').should(
+        'eq',
+        '/representative/representative-form-upload/21-686c/claimant-information',
+      );
+      fillTextWebComponent(
+        'claimantFullName_first',
+        data.claimantFullName.first,
+      );
+      fillTextWebComponent('claimantFullName_last', data.claimantFullName.last);
+      fillTextWebComponent('claimantSsn', data.claimantSsn);
+      cy.get('select[name="root_claimantDateOfBirthMonth"]').select(
+        'September',
+      );
+      cy.get('input[name="root_claimantDateOfBirthDay"]').type('21');
+      cy.get('input[name="root_claimantDateOfBirthYear"]').type('2009');
+
+      fillTextWebComponent('veteranFullName_first', data.veteranFullName.first);
+      fillTextWebComponent('veteranFullName_last', data.veteranFullName.last);
+      fillTextWebComponent('address_postalCode', data.address.postalCode);
+      fillTextWebComponent('veteranSsn', data.ssn);
+
+      cy.get('select[name="root_veteranDateOfBirthMonth"]').select('August');
+      cy.get('input[name="root_veteranDateOfBirthDay"]').type('17');
+      cy.get('input[name="root_veteranDateOfBirthYear"]').type('1992');
+      cy.fillVaTextInput(`root_email`, data.email);
+
+      cy.findByRole('button', { name: /^Continue$/ }).click();
+      cy.location('pathname').should(
+        'eq',
+        '/representative/representative-form-upload/21-686c/upload',
+      );
+      cy.get('va-file-input')
+        .shadow()
+        .find('input')
+        .selectFile(uploadImgPath, {
+          force: true,
+        });
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(1000);
+      cy.findByRole('button', { name: /^Continue$/ }).click();
+      cy.location('pathname').should(
+        'eq',
+        '/representative/representative-form-upload/21-686c/review-and-submit',
+      );
+      cy.findByText(/^Submit form/, { selector: 'button' })
+        .last()
+        .click();
+      cy.location('pathname').should(
+        'eq',
+        '/representative/representative-form-upload/21-686c/confirmation',
+      );
+    });
+  });
+
+  describe('Unauthorized VSO Rep', () => {
+    it('should not allow access to the form upload page', () => {
+      cy.visit('/representative/representative-form-upload/21-686c/');
+      cy.location('pathname').should('eq', '/sign-in/');
     });
   });
 });

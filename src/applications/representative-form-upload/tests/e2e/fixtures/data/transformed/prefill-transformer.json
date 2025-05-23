@@ -1,34 +1,18 @@
 {
-  "pages": {},
   "formData": {
     "veteranFullName": {
       "first": "John",
       "last": "Veteran"
     },
+    "claimantFullName": {
+      "first": "Stella",
+      "last": "Nonveteran"
+    },
+    "claimantSsn": "234232346",
     "address": {
       "postalCode": "12345"
     },
     "email": "john@veteran.com",
-    "ssn": "234232345",
-    "loa": 3,
-    "dateOfBirth": {
-      "day": 1,
-      "month": 1,
-      "year": 1980
-    }
-  },
-  "metadata": {},
-  "state": {
-    "user": {
-      "profile": {
-        "loa": {
-          "current": 3
-        },
-        "userFullName": {
-          "first": "John",
-          "last": "Veteran"
-        }
-      }
-    }
+    "ssn": "234232345"
   }
 }
