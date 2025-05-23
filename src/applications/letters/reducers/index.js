@@ -33,7 +33,7 @@ export const initialState = {
   letterDownloadStatus: {},
   fullName: '',
   addressAvailability: AVAILABILITY_STATUSES.awaitingResponse,
-  optionsLoading: true,
+  optionsAvailable: false,
   requestOptions: {},
   serviceInfo: [],
   savePending: false,
@@ -119,7 +119,7 @@ function letters(state = initialState, action) {
         ...state,
         benefitInfo: action.data.benefitInformation,
         serviceInfo: action.data.militaryService,
-        optionsLoading: false,
+        optionsAvailable: true,
         requestOptions,
       };
     }
