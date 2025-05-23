@@ -126,7 +126,7 @@ const VeteranBenefitSummaryOptions = () => {
           <fieldset>
             <legend>
               <h4 className="vads-u-font-family--sans vads-u-font-size--h4 vads-u-margin-y--0">
-                Choose the information you want to include in your letter:
+                Choose what to include in your benefit letter:
               </h4>
             </legend>
 
