@@ -40,7 +40,6 @@ describe('RecordListSection component', () => {
       },
     );
 
-    screen.debug();
     expect(screen.queryByTestId('initial-fhir-loading-indicator')).to.exist;
   });
 
