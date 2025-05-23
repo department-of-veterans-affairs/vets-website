@@ -2,6 +2,7 @@ import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
+import { AUTHN_SETTINGS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import sinon from 'sinon';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import MhvTemporaryAccess from '../../containers/MhvTemporaryAccess';
@@ -32,6 +33,31 @@ describe('MhvTemporaryAccess', () => {
     expect(accessButton).to.exist;
 
     fireEvent.click(accessButton);
+
+    await waitFor(() => {
+      sinon.assert.calledOnce(loginStub);
+      sinon.assert.calledWith(loginStub, {
+        policy: 'mhv',
+        queryParams: { operation: 'mhv_exception' },
+      });
+    });
+    loginStub.restore();
+  });
+
+  it('renders button and calls update password with correct parameters on click', async () => {
+    const loginStub = sinon.stub(authUtilities, 'login');
+    const screen = renderInReduxProvider(<MhvTemporaryAccess />);
+    const updateHeading = screen.getByRole('heading', {
+      name: /need to change your credentials/i,
+    });
+    expect(updateHeading).to.exist;
+    const accessButton = await screen.findByTestId('updateMhvBtn');
+    expect(accessButton).to.exist;
+
+    fireEvent.click(accessButton);
+    expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
+      'https://eauth.va.gov/mhv-portal-web/change-password',
+    );
 
     await waitFor(() => {
       sinon.assert.calledOnce(loginStub);
