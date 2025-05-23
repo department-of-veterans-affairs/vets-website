@@ -315,10 +315,11 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         formConfig={{ customText: { appType: 'application' } }}
+        headingLevel={2}
       />,
     );
 
-    expect(tree.find('va-alert h3').text()).to.equal(
+    expect(tree.find('va-alert h2').text()).to.equal(
       "We've prefilled some of your information",
     );
 
