@@ -11,8 +11,8 @@ import { UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION } from '../utils/constants';
 const VeteranBenefitSummaryOptions = () => {
   const dispatch = useDispatch();
   const benefitsInfoSelector = useSelector(state => state.letters.benefitInfo);
-  const optionsLoadingSelector = useSelector(
-    state => state.letters.optionsLoading,
+  const optionsAvailableSelector = useSelector(
+    state => state.letters.optionsAvailable,
   );
   const requestOptionsSelector = useSelector(
     state => state.letters.requestOptions,
@@ -100,12 +100,12 @@ const VeteranBenefitSummaryOptions = () => {
 
   switch (true) {
     // Loading options from vets-api
-    case optionsLoadingSelector:
+    case !optionsAvailableSelector:
       return (
         <VaLoadingIndicator message="Loading your benefit summary options..." />
       );
     // Options are available and loading is complete
-    case !optionsLoadingSelector:
+    case optionsAvailableSelector:
       return (
         <>
           <p className="vads-u-margin-top--0">
