@@ -19,7 +19,7 @@ const PrimaryOfficialExemptInfo = props => {
             educational institution."{' '}
             <a
               href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/covered-educational-institutions.asp"
-              external="true"
+              external
             >
               Get more information about covered institutions.
             </a>
@@ -29,7 +29,7 @@ const PrimaryOfficialExemptInfo = props => {
             FLT) who have completed the training requirement within the current
             training year.
           </li>
-          <li>New designees at schools offering ONLY high school diplomas</li>
+          <li>New designees at schools offering ONLY high school diplomas.</li>
         </ul>
       </div>
       <VaCheckbox
