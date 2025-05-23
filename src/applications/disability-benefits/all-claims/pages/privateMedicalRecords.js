@@ -8,8 +8,10 @@ import {
   patientAcknowledgmentTitle,
   patientAcknowledgmentText,
 } from '../content/privateMedicalRecords';
+import { standardTitle } from '../content/form0781';
 
 export const uiSchema = {
+  'ui:title': standardTitle('Private medical records'),
   'ui:description':
     'Now we’ll ask you about your private medical records for your condition.',
   'view:aboutPrivateMedicalRecords': {
