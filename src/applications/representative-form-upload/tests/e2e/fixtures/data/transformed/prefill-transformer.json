@@ -1,20 +1,21 @@
 {
   "pages": {},
   "formData": {
-    "fullName": {
+    "veteranFullName": {
       "first": "John",
       "last": "Veteran"
     },
     "address": {
       "postalCode": "12345"
     },
-    "phoneNumber": "1231231234",
     "email": "john@veteran.com",
-    "idNumber": {
-      "ssn": "234232345",
-      "vaFileNumber": "456454567"
-    },
-    "loa": 3
+    "ssn": "234232345",
+    "loa": 3,
+    "dateOfBirth": {
+      "day": 1,
+      "month": 1,
+      "year": 1980
+    }
   },
   "metadata": {},
   "state": {
