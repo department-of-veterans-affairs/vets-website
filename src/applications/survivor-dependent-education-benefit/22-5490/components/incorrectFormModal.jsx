@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -83,6 +84,14 @@ const IncorrectFormModal = props => {
       {modalContent}
     </VaModal>
   );
+};
+
+IncorrectFormModal.propTypes = {
+  relationshipToMember: PropTypes.string.isRequired,
+  showMeb54901990eTextUpdate: PropTypes.bool.isRequired,
+  applicantHasServiceRecord: PropTypes.bool,
+  claimantDOB: PropTypes.string,
+  sponsorDateOfBirth: PropTypes.string,
 };
 
 const mapStateToProps = state => {
