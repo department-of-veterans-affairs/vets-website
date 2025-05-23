@@ -1,8 +1,7 @@
 import { expect } from 'chai';
-import moment from 'moment';
 
+import { MockAppointment } from '../../tests/fixtures/MockAppointment';
 import { getAppointmentType, transformVAOSAppointment } from './transformers';
-import { MockAppointment } from '../../tests/mocks/unit-test-helpers';
 
 describe('getAppointmentType util', () => {
   it('should return appointment type as request', async () => {
@@ -80,11 +79,10 @@ describe('getAppointmentType util', () => {
 describe('VAOS <transformVAOSAppointment>', () => {
   describe('When modality feature flag is on', () => {
     const useFeSourceOfTruthModality = true;
-    const now = moment();
 
     it('should set modality fields for claim exams', async () => {
       // Arrange
-      const appointment = new MockAppointment({ start: now });
+      const appointment = new MockAppointment();
       appointment.setModality('claimExamAppointment');
 
       // Act
@@ -104,7 +102,7 @@ describe('VAOS <transformVAOSAppointment>', () => {
     });
     it('should set modality fields for phone appointments', async () => {
       // Arrange
-      const appointment = new MockAppointment({ start: now });
+      const appointment = new MockAppointment();
       appointment.setModality('vaPhone');
 
       // Act
@@ -124,7 +122,7 @@ describe('VAOS <transformVAOSAppointment>', () => {
     });
     it('should set modality fields for vaccine appointments', async () => {
       // Arrange
-      const appointment = new MockAppointment({ start: now });
+      const appointment = new MockAppointment();
       appointment.setModality('vaInPersonVaccine');
 
       // Act
@@ -144,7 +142,7 @@ describe('VAOS <transformVAOSAppointment>', () => {
     });
     it('should set modality fields for in person appointments', async () => {
       // Arrange
-      const appointment = new MockAppointment({ start: now });
+      const appointment = new MockAppointment();
       appointment.setModality('vaInPerson');
 
       // Act
@@ -165,11 +163,10 @@ describe('VAOS <transformVAOSAppointment>', () => {
   });
   describe('When modality flag is off', () => {
     const useFeSourceOfTruthModality = false;
-    const now = moment();
 
     it('should set modality fields for claim exams', async () => {
       // Arrange
-      const appointment = new MockAppointment({ start: now });
+      const appointment = new MockAppointment();
       appointment.serviceCategory = [
         {
           coding: [
@@ -200,7 +197,7 @@ describe('VAOS <transformVAOSAppointment>', () => {
     });
     it('should set modality fields for phone appointments', async () => {
       // Arrange
-      const appointment = new MockAppointment({ start: now });
+      const appointment = new MockAppointment();
       appointment.kind = 'phone';
 
       // Act
@@ -220,7 +217,7 @@ describe('VAOS <transformVAOSAppointment>', () => {
     });
     it('should set modality fields for vaccine appointments', async () => {
       // Arrange
-      const appointment = new MockAppointment({ start: now });
+      const appointment = new MockAppointment();
       appointment.serviceType = 'covid';
 
       // Act
@@ -240,7 +237,7 @@ describe('VAOS <transformVAOSAppointment>', () => {
     });
     it('should set modality fields for in person appointments', async () => {
       // Arrange
-      const appointment = new MockAppointment({ start: now });
+      const appointment = new MockAppointment();
 
       // Act
       const a = transformVAOSAppointment(
