@@ -2,8 +2,11 @@ import React from 'react';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
-import { rest } from 'msw';
+import {
+  setupServer,
+  createGetHandler,
+  jsonResponse,
+} from 'platform/testing/unit/msw-adapter';
 import InterstitialChanges from '../containers/InterstitialChanges';
 
 const store = ({ signInChangesEnabled = true } = {}) => ({
@@ -31,11 +34,8 @@ describe('InterstitialChanges', () => {
 
   it('renders the static content correctly', async () => {
     server.use(
-      rest.get(
-        `https://dev-api.va.gov/v0/user/credential_emails`,
-        (_, res, ctx) => {
-          return res(ctx.status(200));
-        },
+      createGetHandler(`https://dev-api.va.gov/v0/user/credential_emails`, () =>
+        jsonResponse({}),
       ),
     );
     const mockStore = store();
@@ -63,14 +63,8 @@ describe('InterstitialChanges', () => {
   it('renders AccountSwitch when user has Login.gov account', async () => {
     const mockStore = store();
     server.use(
-      rest.get(
-        `https://dev-api.va.gov/v0/user/credential_emails`,
-        (_, res, ctx) => {
-          return res(
-            ctx.status(200),
-            ctx.json({ logingov: 'logingov@test.com' }),
-          );
-        },
+      createGetHandler(`https://dev-api.va.gov/v0/user/credential_emails`, () =>
+        jsonResponse({ logingov: 'logingov@test.com' }),
       ),
     );
     const screen = render(
@@ -87,11 +81,8 @@ describe('InterstitialChanges', () => {
   it('renders AccountSwitch when user has ID.me account', async () => {
     const mockStore = store();
     server.use(
-      rest.get(
-        `https://dev-api.va.gov/v0/user/credential_emails`,
-        (_, res, ctx) => {
-          return res(ctx.status(200), ctx.json({ idme: 'idme@test.com' }));
-        },
+      createGetHandler(`https://dev-api.va.gov/v0/user/credential_emails`, () =>
+        jsonResponse({ idme: 'idme@test.com' }),
       ),
     );
     const screen = render(
@@ -109,11 +100,8 @@ describe('InterstitialChanges', () => {
 
   it('uses the correct returnUrl from sessionStorage', async () => {
     server.use(
-      rest.get(
-        `https://dev-api.va.gov/v0/user/credential_emails`,
-        (_, res, ctx) => {
-          return res(ctx.status(200), ctx.json({ logingov: 'logi@test.com' }));
-        },
+      createGetHandler(`https://dev-api.va.gov/v0/user/credential_emails`, () =>
+        jsonResponse({ logingov: 'logi@test.com' }),
       ),
     );
     const mockStore = store();
@@ -144,11 +132,8 @@ describe('InterstitialChanges', () => {
     global.window.location = '/sign-in-changes-reminder';
 
     server.use(
-      rest.get(
-        `https://dev-api.va.gov/v0/user/credential_emails`,
-        (_, res, ctx) => {
-          return res(ctx.status(400));
-        },
+      createGetHandler(`https://dev-api.va.gov/v0/user/credential_emails`, () =>
+        jsonResponse({}, { status: 400 }),
       ),
     );
     const mockStore = store();

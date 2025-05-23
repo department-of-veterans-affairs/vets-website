@@ -378,7 +378,7 @@ function CalendarWidget({
                                   [date],
                                   maxSelections,
                                   upcomingAppointments,
-                                  timezone,
+                                  availableSlots,
                                 );
                               }
                             }}

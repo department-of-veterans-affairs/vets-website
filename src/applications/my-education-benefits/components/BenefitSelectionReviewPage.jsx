@@ -32,7 +32,7 @@ const BenefitSelectionReviewPage = ({ formData, editPage }) => {
         }}
       >
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          Benefit Selection
+          Benefit selection
         </h4>
         <va-button
           aria-label="Edit benefit selection"
