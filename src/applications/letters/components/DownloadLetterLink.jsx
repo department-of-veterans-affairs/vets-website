@@ -10,6 +10,7 @@ import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
+import { convertNumberToText } from '../utils/helpers';
 
 export class DownloadLetterLink extends React.Component {
   benefitSummaryOptionsLength = 0;
@@ -65,8 +66,12 @@ export class DownloadLetterLink extends React.Component {
                   <p>
                     {`It includes the ${
                       this.benefitSummaryOptionsLength === 1
-                        ? `${this.benefitSummaryOptionsLength} item`
-                        : `${this.benefitSummaryOptionsLength} items`
+                        ? `${convertNumberToText(
+                            this.benefitSummaryOptionsLength,
+                          )} item`
+                        : `${convertNumberToText(
+                            this.benefitSummaryOptionsLength,
+                          )} items`
                     } you selected.`}
                   </p>
                   <p>

@@ -535,3 +535,47 @@ export function isAddressEmpty(address) {
     true,
   );
 }
+
+/**
+ *
+ * Converts a number to its text representation. Currently benefit
+ * count tops out at 12 items, so we're only converting 0-20.
+ * @param {number} tmpNumber
+ * @returns {string} - The text representation of the number
+ */
+export function convertNumberToText(tmpNumber) {
+  if (tmpNumber === undefined || tmpNumber === null) {
+    throw new Error('Input cannot be null or undefined');
+  }
+
+  if (typeof tmpNumber !== 'number') {
+    throw new Error('Input must be a number');
+  }
+
+  const numberString = tmpNumber.toString();
+  const numberLookupTable = {
+    '0': 'zero',
+    '1': 'one',
+    '2': 'two',
+    '3': 'three',
+    '4': 'four',
+    '5': 'five',
+    '6': 'six',
+    '7': 'seven',
+    '8': 'eight',
+    '9': 'nine',
+    '10': 'ten',
+    '11': 'eleven',
+    '12': 'twelve',
+    '13': 'thirteen',
+    '14': 'fourteen',
+    '15': 'fifteen',
+    '16': 'sixteen',
+    '17': 'seventeen',
+    '18': 'eighteen',
+    '19': 'nineteen',
+    '20': 'twenty',
+  };
+
+  return numberLookupTable[numberString];
+}

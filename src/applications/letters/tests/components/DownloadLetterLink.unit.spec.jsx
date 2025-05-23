@@ -252,7 +252,7 @@ describe('[TOGGLER ON]: <DownloadLetterLink>', () => {
       'Commissary Letter (PDF)',
     );
     expect(tree.textContent).to.contain(
-      'Your letter was downloadedIt includes the 0 options you selected. If you want to download your letter again, press the Download Benefit Summary button below.',
+      'You’ve downloaded your benefit letterIt includes the zero items you selected.If you want to create a new letter with different information, update your selections and download your letter again.',
     );
   });
 
