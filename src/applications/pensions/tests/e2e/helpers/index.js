@@ -231,6 +231,7 @@ export const fillDependentsPage = (fields, index) => {
     fields.childDateOfBirth,
   );
 };
+
 export const fillIncomeSourcesPage = (fields, index) => {
   selectRadioWebComponent(
     `incomeSources_${index}_typeOfIncome`,

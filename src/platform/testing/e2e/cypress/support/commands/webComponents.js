@@ -322,6 +322,7 @@ Cypress.Commands.add(
   (fields, index, fillFieldsInVaCard, numItems) => {
     const isFirstItem = index === 0;
     const isLastItem = index === numItems - 1;
+
     if (isFirstItem) {
       fillFieldsInVaCard(fields, index);
     } else {
