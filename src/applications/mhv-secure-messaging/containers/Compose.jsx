@@ -187,15 +187,6 @@ const Compose = () => {
     return null;
   };
 
-  const shouldShowInterstitial =
-    draftType &&
-    !acknowledged &&
-    (noAssociations === (undefined || false) && !allTriageGroupsBlocked);
-
-  const shouldShowComposeContent =
-    draftType &&
-    (noAssociations === (undefined || false) && !allTriageGroupsBlocked);
-
   return (
     <>
       {!draftType && (
@@ -220,20 +211,26 @@ const Compose = () => {
           </div>
         )}
 
-      {shouldShowInterstitial && (
+      {draftType &&
+      !acknowledged &&
+      (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (
         <InterstitialPage
           acknowledge={() => {
             setAcknowledged(true);
           }}
           type={draftType}
         />
+      ) : (
+        <>
+          {draftType &&
+            (noAssociations === (undefined || false) &&
+              !allTriageGroupsBlocked) && (
+              <div className="vads-l-grid-container compose-container">
+                {content()}
+              </div>
+            )}
+        </>
       )}
-      {shouldShowComposeContent &&
-        !allTriageGroupsBlocked && (
-          <div className="vads-l-grid-container compose-container">
-            {content()}
-          </div>
-        )}
     </>
   );
 };
