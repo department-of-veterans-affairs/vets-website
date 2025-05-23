@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { login } from 'platform/user/authentication/utilities';
+import { AUTHN_SETTINGS } from 'platform/user/authentication/constants';
 
 export default function MhvTemporaryAccess() {
   useEffect(() => {
@@ -32,6 +33,23 @@ export default function MhvTemporaryAccess() {
           }
           text="My HealtheVet"
           data-testid="accessMhvBtn"
+        />
+      </div>
+      <h2>Need to change your credentials?</h2>
+      <div className="vads-u-margin-y--2">
+        <va-button
+          onClick={() => {
+            sessionStorage.setItem(
+              AUTHN_SETTINGS.RETURN_URL,
+              'https://eauth.va.gov/mhv-portal-web/change-password',
+            );
+            login({
+              policy: 'mhv',
+              queryParams: { operation: 'mhv_exception' },
+            });
+          }}
+          text="Update Password"
+          data-testid="updateMhvBtn"
         />
       </div>
       <div className="vads-u-margin-y--6">
