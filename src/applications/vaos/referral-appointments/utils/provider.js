@@ -5,418 +5,67 @@ const dateFnsTz = require('date-fns-tz');
 const draftAppointments = {
   'VA0000009880-default': {
     id: 'EEKoGzEf',
-    type: 'draft',
-    provider: {
-      id: '9mN718pH',
-      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
-      isActive: true,
-      individualProviders: [
-        {
-          name: 'Dr. Bones',
-          npi: '91560381x',
+    type: 'draft_appointment',
+    attributes: {
+      provider: {
+        id: '9mN718pH',
+        name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
+        isActive: true,
+        individualProviders: [
+          {
+            name: 'Dr. Bones',
+            npi: '91560381x',
+            sex: 'female',
+          },
+        ],
+        providerOrganization: {
+          name: 'Meridian Health (Sandbox 5vuTac8v)',
         },
-      ],
-      providerOrganization: {
-        name: 'Meridian Health (Sandbox 5vuTac8v)',
-      },
-      location: {
-        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
-        latitude: 28.08061,
-        longitude: -80.60322,
-        timezone: 'America/New_York',
-      },
-      networkIds: ['sandboxnetwork-5vuTac8v'],
-      schedulingNotes:
-        'New patients need to send their previous records to the office prior to their appt.',
-      appointmentTypes: [
-        {
-          id: 'ov',
-          name: 'Office Visit',
-          isSelfSchedulable: true,
+        location: {
+          name: 'FHA South Melbourne Medical Complex',
+          address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
+          latitude: 28.08061,
+          longitude: -80.60322,
+          timezone: 'America/New_York',
         },
-      ],
-      specialties: [
-        {
-          id: '208800000X',
-          name: 'Urology',
-        },
-      ],
-      visitMode: 'phone',
-      features: {
-        isDigital: true,
-        directBooking: {
-          isEnabled: true,
-          requiredFields: ['phone', 'address', 'name', 'birthdate', 'gender'],
-        },
-      },
-    },
-    slots: [],
-    drivetime: {
-      origin: {
-        latitude: 40.7128,
-        longitude: -74.006,
-      },
-      destination: {
-        distanceInMiles: 313,
-        driveTimeInSecondsWithoutTraffic: 19096,
-        driveTimeInSecondsWithTraffic: 19561,
-        latitude: 44.475883,
-        longitude: -73.212074,
-      },
-    },
-  },
-  'add2f0f4-a1ea-4dea-a504-a54ab57c6801': {
-    appointment: {
-      id: 'EEKoGzEf',
-      state: 'draft',
-      patientId: 'care-nav-patient-casey',
-      startDate: '2025-01-02T15:30:00Z',
-      modality: 'In person',
-      typeOfCare: 'Physical Therapy',
-    },
-    provider: {
-      id: '9mN718pH',
-      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
-      isActive: true,
-      individualProviders: [
-        {
-          name: 'Dr. Bones',
-          npi: '91560381x',
-        },
-      ],
-      providerOrganization: {
-        name: 'Meridian Health (Sandbox 5vuTac8v)',
-      },
-      location: {
-        name: 'FHA South Melbourne Medical Complex',
-        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
-        latitude: 28.08061,
-        longitude: -80.60322,
-        timezone: 'America/New_York',
-      },
-      networkIds: ['sandboxnetwork-5vuTac8v'],
-      schedulingNotes:
-        'New patients need to send their previous records to the office prior to their appt.',
-      appointmentTypes: [
-        {
-          id: 'ov',
-          name: 'Office Visit',
-          isSelfSchedulable: true,
-        },
-      ],
-      specialties: [
-        {
-          id: '208800000X',
-          name: 'Urology',
-        },
-      ],
-      visitMode: 'phone',
-      features: {
-        isDigital: true,
-        directBooking: {
-          isEnabled: true,
-          requiredFields: ['phone', 'address', 'name', 'birthdate', 'gender'],
+        networkIds: ['sandboxnetwork-5vuTac8v'],
+        schedulingNotes:
+          'New patients need to send their previous records to the office prior to their appt.',
+        appointmentTypes: [
+          {
+            id: 'ov',
+            name: 'Office Visit',
+            isSelfSchedulable: true,
+          },
+        ],
+        specialties: [
+          {
+            id: '208800000X',
+            name: 'Urology',
+          },
+        ],
+        visitMode: 'phone',
+        features: {
+          isDigital: true,
+          directBooking: {
+            isEnabled: true,
+            requiredFields: ['phone', 'address', 'name', 'birthdate', 'gender'],
+          },
         },
       },
-    },
-    slots: {
-      count: 2,
       slots: [],
-    },
-    drivetime: {
-      origin: {
-        latitude: 40.7128,
-        longitude: -74.006,
-      },
-      destination: {
-        distanceInMiles: 313,
-        driveTimeInSecondsWithoutTraffic: 19096,
-        driveTimeInSecondsWithTraffic: 19561,
-        latitude: 44.475883,
-        longitude: -73.212074,
-      },
-    },
-  },
-  'add2f0f4-a1ea-4dea-a504-a54ab57c6802': {
-    appointment: {
-      id: 'EEKoGzEf',
-      state: 'draft',
-      patientId: 'care-nav-patient-casey',
-      startDate: '2025-01-02T15:30:00Z',
-      modality: 'In person',
-      typeOfCare: 'Physical Therapy',
-    },
-    provider: {
-      id: '9mN718pH',
-      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
-      isActive: true,
-      individualProviders: [
-        {
-          name: 'Dr. Bones',
-          npi: '91560381x',
+      drivetime: {
+        origin: {
+          latitude: 40.7128,
+          longitude: -74.006,
         },
-      ],
-      providerOrganization: {
-        name: 'Meridian Health (Sandbox 5vuTac8v)',
-      },
-      location: {
-        name: 'FHA South Melbourne Medical Complex',
-        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
-        latitude: 28.08061,
-        longitude: -80.60322,
-        timezone: 'America/New_York',
-      },
-      networkIds: ['sandboxnetwork-5vuTac8v'],
-      schedulingNotes:
-        'New patients need to send their previous records to the office prior to their appt.',
-      appointmentTypes: [
-        {
-          id: 'ov',
-          name: 'Office Visit',
-          isSelfSchedulable: true,
+        destination: {
+          distanceInMiles: 313,
+          driveTimeInSecondsWithoutTraffic: 19096,
+          driveTimeInSecondsWithTraffic: 19561,
+          latitude: 44.475883,
+          longitude: -73.212074,
         },
-      ],
-      specialties: [
-        {
-          id: '208800000X',
-          name: 'Urology',
-        },
-      ],
-      visitMode: 'phone',
-      features: {
-        isDigital: true,
-        directBooking: {
-          isEnabled: true,
-          requiredFields: ['phone', 'address', 'name', 'birthdate', 'gender'],
-        },
-      },
-    },
-    slots: {
-      count: 2,
-      slots: [],
-    },
-    drivetime: {
-      origin: {
-        latitude: 40.7128,
-        longitude: -74.006,
-      },
-      destination: {
-        distanceInMiles: 313,
-        driveTimeInSecondsWithoutTraffic: 19096,
-        driveTimeInSecondsWithTraffic: 19561,
-        latitude: 44.475883,
-        longitude: -73.212074,
-      },
-    },
-  },
-  'add2f0f4-a1ea-4dea-a504-a54ab57c6803': {
-    id: 'EEKoGzEf',
-    state: 'draft',
-    patientId: 'care-nav-patient-casey',
-    provider: {
-      id: '9mN718pH',
-      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
-      isActive: true,
-      individualProviders: [
-        {
-          name: 'Dr. Bones',
-          npi: '91560381x',
-        },
-      ],
-      providerOrganization: {
-        name: 'Meridian Health (Sandbox 5vuTac8v)',
-      },
-      location: {
-        name: 'FHA South Melbourne Medical Complex',
-        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
-        latitude: 28.08061,
-        longitude: -80.60322,
-        timezone: 'America/New_York',
-      },
-      networkIds: ['sandboxnetwork-5vuTac8v'],
-      schedulingNotes:
-        'New patients need to send their previous records to the office prior to their appt.',
-      appointmentTypes: [
-        {
-          id: 'ov',
-          name: 'Office Visit',
-          isSelfSchedulable: true,
-        },
-      ],
-      specialties: [
-        {
-          id: '208800000X',
-          name: 'Urology',
-        },
-      ],
-      visitMode: 'phone',
-      features: {
-        isDigital: true,
-        directBooking: {
-          isEnabled: true,
-          requiredFields: ['phone', 'address', 'name', 'birthdate', 'gender'],
-        },
-      },
-    },
-    slots: {
-      count: 2,
-      slots: [],
-    },
-    drivetime: {
-      origin: {
-        latitude: 40.7128,
-        longitude: -74.006,
-      },
-      destination: {
-        distanceInMiles: 313,
-        driveTimeInSecondsWithoutTraffic: 19096,
-        driveTimeInSecondsWithTraffic: 19561,
-        latitude: 44.475883,
-        longitude: -73.212074,
-      },
-    },
-  },
-  timeout: {
-    appointment: {
-      id: 'timeout-appointment-id',
-      state: 'draft',
-      patientId: 'care-nav-patient-casey',
-      startDate: '2025-01-02T15:30:00Z',
-      modality: 'In person',
-      typeOfCare: 'Physical Therapy',
-    },
-    provider: {
-      id: '9mN718pH',
-      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
-      isActive: true,
-      individualProviders: [
-        {
-          name: 'Dr. Bones',
-          npi: '91560381x',
-        },
-      ],
-      providerOrganization: {
-        name: 'Meridian Health (Sandbox 5vuTac8v)',
-      },
-      location: {
-        name: 'FHA South Melbourne Medical Complex',
-        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
-        latitude: 28.08061,
-        longitude: -80.60322,
-        timezone: 'America/New_York',
-      },
-      networkIds: ['sandboxnetwork-5vuTac8v'],
-      schedulingNotes:
-        'New patients need to send their previous records to the office prior to their appt.',
-      appointmentTypes: [
-        {
-          id: 'ov',
-          name: 'Office Visit',
-          isSelfSchedulable: true,
-        },
-      ],
-      specialties: [
-        {
-          id: '208800000X',
-          name: 'Urology',
-        },
-      ],
-      visitMode: 'phone',
-      features: {
-        isDigital: true,
-        directBooking: {
-          isEnabled: true,
-          requiredFields: ['phone', 'address', 'name', 'birthdate', 'gender'],
-        },
-      },
-    },
-    slots: {
-      count: 2,
-      slots: [],
-    },
-    drivetime: {
-      origin: {
-        latitude: 40.7128,
-        longitude: -74.006,
-      },
-      destination: {
-        distanceInMiles: 313,
-        driveTimeInSecondsWithoutTraffic: 19096,
-        driveTimeInSecondsWithTraffic: 19561,
-        latitude: 44.475883,
-        longitude: -73.212074,
-      },
-    },
-  },
-  'eps-error': {
-    appointment: {
-      id: 'eps-error-appointment-id',
-      state: 'draft',
-      patientId: 'care-nav-patient-casey',
-      startDate: '2025-01-02T15:30:00Z',
-      modality: 'In person',
-      typeOfCare: 'Physical Therapy',
-    },
-    provider: {
-      id: '9mN718pH',
-      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
-      isActive: true,
-      individualProviders: [
-        {
-          name: 'Dr. Bones',
-          npi: '91560381x',
-        },
-      ],
-      providerOrganization: {
-        name: 'Meridian Health (Sandbox 5vuTac8v)',
-      },
-      location: {
-        name: 'FHA South Melbourne Medical Complex',
-        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
-        latitude: 28.08061,
-        longitude: -80.60322,
-        timezone: 'America/New_York',
-      },
-      networkIds: ['sandboxnetwork-5vuTac8v'],
-      schedulingNotes:
-        'New patients need to send their previous records to the office prior to their appt.',
-      appointmentTypes: [
-        {
-          id: 'ov',
-          name: 'Office Visit',
-          isSelfSchedulable: true,
-        },
-      ],
-      specialties: [
-        {
-          id: '208800000X',
-          name: 'Urology',
-        },
-      ],
-      visitMode: 'phone',
-      features: {
-        isDigital: true,
-        directBooking: {
-          isEnabled: true,
-          requiredFields: ['phone', 'address', 'name', 'birthdate', 'gender'],
-        },
-      },
-    },
-    slots: {
-      count: 2,
-      slots: [],
-    },
-    drivetime: {
-      origin: {
-        latitude: 40.7128,
-        longitude: -74.006,
-      },
-      destination: {
-        distanceInMiles: 313,
-        driveTimeInSecondsWithoutTraffic: 19096,
-        driveTimeInSecondsWithTraffic: 19561,
-        latitude: 44.475883,
-        longitude: -73.212074,
       },
     },
   },
@@ -426,26 +75,28 @@ const draftAppointments = {
  * Creates a draftAppointmentInfo object with a configurable number of slots an hour apart.
  *
  * @param {Number} numberOfSlots How many slots to create
- * @param {String} referralId The ID for the referral
+ * @param {String} referralNumber The number for the referral
  * @returns {Object} draftAppointmentInfo object
  */
 const createDraftAppointmentInfo = (
   numberOfSlots,
-  referralId = 'VA0000009880-default',
+  referralNumber = 'VA0000009880-default',
 ) => {
-  const draftAppointmentInfo = draftAppointments[referralId];
+  const draftAppointmentInfo = draftAppointments[referralNumber];
   const tomorrow = dateFns.addDays(dateFns.startOfDay(new Date()), 1);
-
-  draftAppointmentInfo.slots = { count: numberOfSlots, slots: [] };
+  draftAppointmentInfo.attributes.slots = [];
   let hourFromNow = 12;
   for (let i = 0; i < numberOfSlots; i++) {
     const startTime = dateFns.addHours(tomorrow, hourFromNow);
-    draftAppointmentInfo.slots.slots.push({
+    const endTime = dateFns.addMinutes(startTime, 30);
+    draftAppointmentInfo.attributes.slots.push({
       id: `5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov${i.toString()}`,
-      providerServiceId: '9mN718pH',
-      appointmentTypeId: 'ov',
       start: startTime.toISOString(),
-      remaining: 1,
+      end: endTime.toISOString(),
+      status: 'free',
+      overbooked: false,
+      localStart: '2024-11-18T08:00:00-05:00',
+      localEnd: '2024-11-18T08:30:00-05:00',
     });
     hourFromNow++;
   }
@@ -464,20 +115,6 @@ const getSlotByDate = (slots, dateTime) => {
     return {};
   }
   return slots.find(slot => slot.start === dateTime);
-};
-
-/**
- * Returns Slot by given id
- *
- * @param {Array} slots Array of slots
- * @param {String} id Id for slot
- * @returns {Object} Slot object
- */
-const getSlotById = (slots, id) => {
-  if (!slots) {
-    return {};
-  }
-  return slots.find(slot => slot.id === id);
 };
 
 /**
@@ -537,6 +174,5 @@ module.exports = {
   createDraftAppointmentInfo,
   draftAppointments,
   getSlotByDate,
-  getSlotById,
   hasConflict,
 };

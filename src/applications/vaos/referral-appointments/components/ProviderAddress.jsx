@@ -4,34 +4,53 @@ import { getAddressString } from '../utils/referrals';
 
 const ProviderAddress = props => {
   const { address, showDirections = false, directionsName, phone } = props;
+  // Ensure address is normalized to use street1, street2, street3 consistently
+  const normalizeAddress = addr => {
+    if (typeof addr !== 'object' || !addr) return addr;
+
+    const { address1, address2, address3, zipCode, ...rest } = addr;
+
+    return {
+      ...rest,
+      street1: rest.street1 || address1,
+      street2: rest.street2 || address2,
+      street3: rest.street3 || address3,
+      zip: rest.zip || zipCode,
+    };
+  };
+
+  const normalizedAddress = normalizeAddress(address);
   // check if address is a string or an object
-  const isAddressString = typeof address === 'string';
+  const isAddressString = typeof normalizedAddress === 'string';
   // if address is an object make it a string for the directions link
-  const addressString = isAddressString ? address : getAddressString(address);
+  const addressString = isAddressString
+    ? normalizedAddress
+    : getAddressString(normalizedAddress);
 
   return (
     <address data-testid="address-block">
       <p className="vads-u-margin--0">
         {!isAddressString ? (
           <>
-            {address.address1} <br />
-            {address.address2 && (
-              <span data-testid="Address2">
-                {address.address2}
+            {normalizedAddress.street1} <br />
+            {normalizedAddress.street2 && (
+              <span data-testid="street2">
+                {normalizedAddress.street2}
                 <br />
               </span>
             )}
-            {address.address3 && (
-              <span data-testid="Address3">
-                {address.address3}
+            {normalizedAddress.street3 && (
+              <span data-testid="street3">
+                {normalizedAddress.street3}
                 <br />
               </span>
             )}
-            {address.city}, {address.state && `${address.state},`}{' '}
-            {address.zipCode}
+            {normalizedAddress.city},{' '}
+            {normalizedAddress.state && `${normalizedAddress.state},`}{' '}
+            {normalizedAddress.zip}
           </>
         ) : (
-          <>{address}</>
+          <>{normalizedAddress}</>
         )}
       </p>
       {showDirections &&

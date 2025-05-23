@@ -33,6 +33,9 @@ const executeSteps = (steps, folder) => {
     switch (step.action) {
       case 'click':
         switch (step.target) {
+          case 'tab':
+            STEPS.clickTab(step.value);
+            break;
           case 'link':
             STEPS.clickLink(step.value);
             break;
@@ -80,16 +83,15 @@ const executeSteps = (steps, folder) => {
         STEPS.typeTextArea(step.target, step.value);
         break;
       case 'select':
-        // let target = step.target;
-        if (step.target === 'month') {
-          step.target =
-            'va-select.usa-form-group--month-select select.usa-select';
+        if (step.target === 'status') {
+          step.target = 'va-select[name="status"] select.usa-select';
+        } else if (step.target === 'category') {
+          step.target = 'va-select[name="category"] select.usa-select';
         }
         STEPS.selectOption(step.target, step.value);
         break;
       case 'log':
         cy.log(step.value);
-        // console.log(step.value);
         break;
       case 'include':
         if (step.target === 'page') {
@@ -131,7 +133,13 @@ describe('YAML tests', () => {
           cy.log(`File ${file}`);
 
           if (flow.runOnCI === true) {
-            cy.visit('http://localhost:3001/contact-us/ask-va/');
+            if (['13m.yml'].includes(file)) {
+              cy.visit(
+                'http://localhost:3001/contact-us/ask-va/user/dashboard/A-20250409-2205184',
+              );
+            } else {
+              cy.visit('http://localhost:3001/contact-us/ask-va/');
+            }
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);
           } else {
@@ -144,38 +152,52 @@ describe('YAML tests', () => {
       const runAndLogTest = function(folder, path, file) {
         if (file.endsWith('.yml')) {
           cy.log('-------------------');
-          cy.log(`Run tests in ${file}`);
+          cy.log(`Run tests in ${file}, ${path} in ${folder}`);
           cy.log('-------------------');
 
-          if (path === 'authenticated') {
-            if (['13g.yml', '17g.yml'].includes(file)) {
-              cy.intercept(
-                'GET',
-                '/v0/in_progress_forms/0873',
-                mockAVAProfileMissingInfo,
-              );
+          if (folder === 'forms') {
+            if (path === 'authenticated') {
+              if (['13g.yml', '17g.yml'].includes(file)) {
+                cy.intercept(
+                  'GET',
+                  '/v0/in_progress_forms/0873',
+                  mockAVAProfileMissingInfo,
+                );
+              } else {
+                cy.intercept(
+                  'GET',
+                  '/v0/in_progress_forms/0873',
+                  mockAVAProfile,
+                );
+              }
+              cy.login(mockUserDefault);
             } else {
-              cy.intercept('GET', '/v0/in_progress_forms/0873', mockAVAProfile);
+              cy.clearAllCookies();
             }
-            cy.login(mockUserDefault);
-          } else if (path === 'dashboard') {
-            if (['13g.yml', '17g.yml'].includes(file)) {
+          } else {
+            if (['4k.yml'].includes(file)) {
               cy.intercept(
                 'GET',
-                '/ask_va_api/v0/inquiries',
+                'http://localhost:3000/ask_va_api/v0/inquiries',
                 mockMultipleInquiries,
               );
             } else if (['14g.yml', '18g.yml'].includes(file)) {
-              cy.intercept('GET', '/ask_va_api/v0/inquiries', mockOneInquiry);
+              cy.intercept(
+                'GET',
+                'http://localhost:3000/ask_va_api/v0/inquiries',
+                mockOneInquiry,
+              );
             } else {
-              cy.intercept('GET', `/ask_va_api/v0/inquiries`, mockNoInquiries);
+              cy.intercept(
+                'GET',
+                `http://localhost:3000/ask_va_api/v0/inquiries`,
+                mockNoInquiries,
+              );
             }
             cy.login(mockUserDefault);
-          } else {
-            cy.clearAllCookies();
           }
-          testRunner.call(this, folder, path, file);
         }
+        testRunner.call(this, folder, path, file);
       };
 
       beforeEach(() => {

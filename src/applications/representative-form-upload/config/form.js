@@ -8,7 +8,6 @@ import * as claimantInformationModule from '../pages/claimantInformation';
 import * as veteranInformationModule from '../pages/veteranInformation';
 import * as isVeteranModule from '../pages/isVeteranPage';
 import transformForSubmit from './submit-transformer';
-import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
 
@@ -46,7 +45,6 @@ const formConfig = {
   trackingPrefix,
   confirmation: ConfirmationPage,
   CustomTopContent,
-  CustomReviewTopContent,
   customText: { appType: 'form' },
   hideReviewChapters: true,
   introduction: IntroductionPage,
