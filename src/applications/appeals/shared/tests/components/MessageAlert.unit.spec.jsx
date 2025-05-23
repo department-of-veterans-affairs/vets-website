@@ -1,21 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-
-import {
-  MessageAlert,
-  NoneSelectedAlert,
-  MaxSelectionsAlert,
-} from '../../content/contestableIssues';
-import { MAX_LENGTH } from '../../constants';
+import { MessageAlert } from '../../components/MessageAlert';
 
 describe('MessageAlert', () => {
   it('should render alert', () => {
     const { container } = render(<MessageAlert />);
     expect($('va-alert[status="error"]', container)).to.exist;
   });
+
   it('should render props', () => {
     const props = {
       title: 'A title',
@@ -30,6 +24,7 @@ describe('MessageAlert', () => {
     expect(content).to.contain('<h4');
     expect(content).to.contain('some-class');
   });
+
   it('should render props', () => {
     global.window.dataLayer = [];
     const props = {
@@ -53,43 +48,5 @@ describe('MessageAlert', () => {
       'alert-box-closeable': false,
       'reason-for-alert': props.errorReason,
     });
-  });
-});
-
-describe('NoneSelectedAlert', () => {
-  it('should render & show default title & class', () => {
-    const { container } = render(<NoneSelectedAlert count={0} />);
-    const content = container.innerHTML;
-
-    expect($('va-alert[status="error"]', container)).to.exist;
-    expect(content).to.contain('<h3');
-    expect(content).to.contain('to add, and select, an issue');
-    expect(content).to.contain('select at least 1 issue');
-    expect(content).to.contain('vads-u-margin-bottom--2');
-  });
-  it('should change title when count more than zero', () => {
-    const { container } = render(<NoneSelectedAlert count={2} />);
-    const content = container.innerHTML;
-    expect(content).to.contain('to select an issue');
-  });
-  it('should render review page class', () => {
-    const { container } = render(<NoneSelectedAlert inReviewMode />);
-    const content = container.innerHTML;
-    expect(content).to.contain('vads-u-margin-y--2');
-  });
-});
-
-describe('MaxSelectionsAlert', () => {
-  it('should render', () => {
-    const { container } = render(
-      <div>
-        <MaxSelectionsAlert closeModal={() => {}} appName="Test app" />
-      </div>,
-    );
-    const content = container.innerHTML;
-
-    expect($('va-modal[status="warning"]', container)).to.exist;
-    expect(content).to.contain(MAX_LENGTH.SELECTIONS);
-    expect(content).to.contain('Test app request');
   });
 });
