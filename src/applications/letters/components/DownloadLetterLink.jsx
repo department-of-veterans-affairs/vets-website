@@ -12,15 +12,26 @@ import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
 
 export class DownloadLetterLink extends React.Component {
+  benefitSummaryOptionsLength = 0;
+
   // Either download the pdf or open it in a new window, depending on the
   // browser. Needs to be manually tested on a variety of
   // vets.gov-supported platforms, particularly iOS/Safari
   downloadLetter = e => {
     e.preventDefault();
+
+    const benefitSummaryOptionList = document.getElementById('va-bsl-options');
+    if (benefitSummaryOptionList) {
+      this.benefitSummaryOptionsLength = benefitSummaryOptionList.querySelectorAll(
+        'input[type="checkbox"]:checked',
+      ).length;
+    }
+
     recordEvent({
       event: 'letter-download',
       'letter-type': this.props.letterType,
     });
+
     this.props.getLetterPdf(
       this.props.letterType,
       this.props.letterTitle,
@@ -50,10 +61,18 @@ export class DownloadLetterLink extends React.Component {
                   class="vads-u-margin-bottom--4"
                   role="alert"
                 >
-                  <h4 slot="headline">Your letter is ready</h4>
+                  <h4 slot="headline">You’ve downloaded your benefit letter</h4>
                   <p>
-                    If you want to download your letter again, press the
-                    Download Benefit Summary button below.
+                    {`It includes the ${
+                      this.benefitSummaryOptionsLength === 1
+                        ? `${this.benefitSummaryOptionsLength} item`
+                        : `${this.benefitSummaryOptionsLength} items`
+                    } you selected.`}
+                  </p>
+                  <p>
+                    If you want to create a new letter with different
+                    information, update your selections and download your letter
+                    again.
                   </p>
                 </va-alert>
               ) : (

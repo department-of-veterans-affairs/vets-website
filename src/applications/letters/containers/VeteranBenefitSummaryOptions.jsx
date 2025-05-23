@@ -89,7 +89,7 @@ const VeteranBenefitSummaryOptions = () => {
             className="vads-u-margin-top--0"
             htmlFor="militaryService"
           >
-            Military service information
+            Military service
           </label>
         </li>
       );
@@ -130,7 +130,7 @@ const VeteranBenefitSummaryOptions = () => {
               </h4>
             </legend>
 
-            <ul className="usa-unstyled-list">
+            <ul id="va-bsl-options" className="usa-unstyled-list">
               {renderMilitaryServiceCheckbox()}
               {renderBenefitsCheckboxes()}
             </ul>

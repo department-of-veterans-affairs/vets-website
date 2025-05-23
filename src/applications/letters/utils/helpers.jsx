@@ -196,8 +196,7 @@ const benefitSummaryLetterLabels = {
     dependent: undefined,
   },
   hasChapter35Eligibility: {
-    veteran:
-      'Status of being permanently or temporarily disabled due to service-connected disabilities',
+    veteran: 'Permanent or temporary disability status',
     dependent: undefined,
   },
   hasDeathResultOfDisability: {
@@ -205,7 +204,7 @@ const benefitSummaryLetterLabels = {
     dependent: undefined,
   },
   hasIndividualUnemployabilityGranted: {
-    veteran: 'Individual unemployment placeholder',
+    veteran: 'Individual unemployability status',
     dependent: undefined,
   },
   hasNonServiceConnectedPension: {
@@ -213,7 +212,7 @@ const benefitSummaryLetterLabels = {
     dependent: undefined,
   },
   hasServiceConnectedDisabilities: {
-    veteran: 'Service connected disabilities',
+    veteran: 'Service-connected disabilities',
     dependent: undefined,
   },
   hasSpecialMonthlyCompensation: {
@@ -229,11 +228,11 @@ const benefitSummaryLetterLabels = {
     dependent: undefined,
   },
   monthlyAwardAmount: {
-    veteran: 'Current monthly compensation',
+    veteran: 'Monthly benefit amount',
     dependent: undefined,
   },
   serviceConnectedPercentage: {
-    veteran: 'Combined service connected rating',
+    veteran: 'Combined disability rating',
     dependent: undefined,
   },
 };
