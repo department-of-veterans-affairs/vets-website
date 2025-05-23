@@ -9,6 +9,7 @@ export default function SmocRadio({
   children,
   onValueChange,
   error,
+  description,
 }) {
   const options = ['Yes', 'No'];
   return (
@@ -20,6 +21,7 @@ export default function SmocRadio({
       error={error ? 'You must make a selection to continue.' : null}
       label={label}
       label-header-level="1"
+      messageAriaDescribedby={description}
     >
       {children}
       {options.map(opt => (
@@ -37,6 +39,7 @@ export default function SmocRadio({
 
 SmocRadio.propTypes = {
   children: PropTypes.node,
+  description: PropTypes.string,
   error: PropTypes.bool,
   label: PropTypes.string,
   name: PropTypes.string,

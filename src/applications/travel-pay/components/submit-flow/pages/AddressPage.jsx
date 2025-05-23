@@ -100,6 +100,11 @@ const AddressPage = ({
         value={yesNo.address}
         error={requiredAlert}
         label={title}
+        description={`Answer “yes” if you traveled from the address listed here and you confirm that it’s not a Post Office box. Home address. ${
+          address.addressLine1
+        } ${address.addressLine2 ?? ''} ${address.addressLine3 ?? ''} ${
+          address.city
+        }, ${address.stateCode} ${address.zipCode}`}
         onValueChange={e => {
           setYesNo({ ...yesNo, address: e.detail.value });
         }}
