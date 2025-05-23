@@ -1,6 +1,11 @@
 {
   "data": {
     "attributes": {
+      "session": {
+        "authBroker": "sis",
+        "ssoe": false,
+        "transactionid": null
+      },
       "profile": {
         "sign_in": {
           "service_name": "idme"
