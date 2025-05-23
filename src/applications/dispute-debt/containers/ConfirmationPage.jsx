@@ -9,9 +9,11 @@ import GetFormHelp from '../components/GetFormHelp';
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
   const form = useSelector(state => state.form || {});
-  const veteranEmail = useSelector(state => state.user.profile.email || {});
+  const veteranEmail = useSelector(state => {
+    return state.user?.profile?.email || '';
+  });
   const { submission, data = {} } = form;
-  const { fullName } = data;
+  const { fullName, selectedDebts = [] } = data;
   const submitDate = submission?.timestamp;
 
   useEffect(
@@ -56,18 +58,14 @@ export const ConfirmationPage = () => {
           </span>
         ) : null}
 
-        {data ? (
-          <>
-            <h4>Requested Dispute</h4>
-            <ul>
-              {data.selectedDebts.map(item => (
-                <li key={item.id}>
-                  <span>{item.label}</span>
-                </li>
-              ))}
-            </ul>
-          </>
-        ) : null}
+        <h4>Requested Dispute</h4>
+        <ul>
+          {selectedDebts.map(item => (
+            <li key={item.id}>
+              <span>{item.label}</span>
+            </li>
+          ))}
+        </ul>
 
         {isValid(submitDate) ? (
           <p>
