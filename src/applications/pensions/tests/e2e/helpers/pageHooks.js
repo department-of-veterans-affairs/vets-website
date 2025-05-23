@@ -16,7 +16,6 @@ import {
   fillVaMedicalCentersPage,
   shouldNotHaveValidationErrors,
 } from './index';
-
 import pagePaths from '../pagePaths';
 
 const replaceDefaultPostHook = ({ afterHook }) => {
