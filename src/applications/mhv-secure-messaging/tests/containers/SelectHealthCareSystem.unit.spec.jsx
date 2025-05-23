@@ -1,7 +1,6 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import configureStore from 'redux-mock-store';
 import reducer from '../../reducers';
@@ -108,16 +107,12 @@ describe('SelectHealthCareSystem', () => {
   });
 
   it('displays health care system facilities as radio button options', async () => {
-    const acknowledge = sinon.spy();
-    const screen = renderWithStoreAndRouter(
-      <SelectHealthCareSystem acknowledge={acknowledge} />,
-      {
-        initialState,
-        reducers: reducer,
-        path: Paths.SELECT_HEALTH_CARE_SYSTEM,
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<SelectHealthCareSystem />, {
+      initialState,
+      reducers: reducer,
+      path: Paths.SELECT_HEALTH_CARE_SYSTEM,
+      store,
+    });
     expect(screen.getByTestId('facility-123')).to.exist; // VA Boston
     expect(screen.getByTestId('facility-456')).to.exist; // VA Seattle
     // Check the number of radio options
