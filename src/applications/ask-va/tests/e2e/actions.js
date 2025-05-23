@@ -230,7 +230,7 @@ const selectOption = (selector, value) => {
   cy.get(newSelector, { includeShadowDom: true })
     .shadow()
     .find(shadowSelector)
-    .select(value);
+    .select(value, { force: true });
   cy.get(newSelector, { includeShadowDom: true })
     .shadow()
     .find(`${shadowSelector} option:selected`)

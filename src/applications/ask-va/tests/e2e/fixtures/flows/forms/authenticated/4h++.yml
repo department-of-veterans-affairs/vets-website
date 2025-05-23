@@ -1,5 +1,5 @@
 flow:
-  title: Life Insurance for Veteran (auth)
+  title: Education benefits and work study for veteran (auth)
   runOnCI: true # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
@@ -16,7 +16,7 @@ flow:
 
     - action: include
       target: page
-      value: select-category-life-insurance
+      value: select-category-education-benefits-and-work-study
 
     - action: include
       target: page
@@ -24,39 +24,43 @@ flow:
 
     - action: include
       target: page
-      value: select-topic-veterans-affairs-life-insurance
+      value: select-topic-work-study
 
     - action: include
       target: page
-      value:  sad-who-is-your-question-about
+      value:  sad-select-subtopic
 
     - action: include
       target: page
-      value: who-is-your-question-about-myself
+      value: select-subtopic-application
     
     - action: include
       target: page
       value:  sad-what-is-your-relationship-to-the-veteran
-    
+
     - action: include
       target: page
       value: what-is-your-relationship-to-the-veteran-veteran
-
-    - action: include
-      target: page
-      value: sad-your-contact-information-radio-buttons
-
-    - action: include
-      target: page
-      value: your-contact-information-radio-buttons-email
-
-    - action: include
-      target: page
-      value:  sad-your-question
       
     - action: include
       target: page
-      value: your-question
+      value: sad-your-school-state-and-residency-state
+      
+    - action: include
+      target: page
+      value: your-school-state-and-residency-state
+
+    - action: include
+      target: page
+      value: your-contact-information
+
+    - action: include
+      target: page
+      value: sad-your-question
+
+    - action: include
+      target: page
+      value: your-question-education
 
     - action: include
       target: page

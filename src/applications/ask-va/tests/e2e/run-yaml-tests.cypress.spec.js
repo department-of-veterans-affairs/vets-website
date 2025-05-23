@@ -76,6 +76,9 @@ const executeSteps = (steps, folder) => {
           case 'error':
             STEPS.ensureExists(step.value, 'span.usa-error-message');
             break;
+          case 'errorInput':
+            STEPS.ensureExists(step.value, 'span.usa-input-error-message');
+            break;
           default:
             throw new Error(
               `Unknown exists target for step #${index + 1}: ${step.target}`,

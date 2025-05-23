@@ -1,22 +1,14 @@
 flow:
-  title: Life Insurance for Veteran (auth)
+  title: DEERS Record Update (Unauth)
   runOnCI: true # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
       target: page
-      value: start-your-question-auth
+      value: start-your-question-unauth
 
     - action: include
       target: page
-      value: your-personal-information
-
-    - action: include
-      target: page
-      value:  sad-select-category
-
-    - action: include
-      target: page
-      value: select-category-life-insurance
+      value: select-category-defense-enrollment-eligibility-reporting-system-deers
 
     - action: include
       target: page
@@ -24,7 +16,7 @@ flow:
 
     - action: include
       target: page
-      value: select-topic-veterans-affairs-life-insurance
+      value: select-topic-updating-deers-records
 
     - action: include
       target: page
@@ -32,28 +24,28 @@ flow:
 
     - action: include
       target: page
-      value: who-is-your-question-about-myself
-    
-    - action: include
-      target: page
-      value:  sad-what-is-your-relationship-to-the-veteran
-    
-    - action: include
-      target: page
-      value: what-is-your-relationship-to-the-veteran-veteran
+      value: who-is-your-question-about-general-question
 
     - action: include
       target: page
-      value: sad-your-contact-information-radio-buttons
+      value: sad-tell-us-about-yourself
 
     - action: include
       target: page
-      value: your-contact-information-radio-buttons-email
+      value: tell-us-about-yourself-general
+
+    - action: include
+      target: page
+      value: sad-your-contact-information
+
+    - action: include
+      target: page
+      value: your-contact-information-email-no-prefill
 
     - action: include
       target: page
       value:  sad-your-question
-      
+
     - action: include
       target: page
       value: your-question
