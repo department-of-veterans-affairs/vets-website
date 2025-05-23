@@ -11,7 +11,6 @@ import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-sub
 import user from './fixtures/mocks/user.json';
 import {
   getPagePaths,
-  fillAddressWebComponentPattern,
   reviewAndSubmitPageFlow,
 } from '../../../shared/tests/e2e/helpers';
 
@@ -57,7 +56,7 @@ const testConfig = createTestConfig(
       [pagePaths.veteranMailingAddressInfo1]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'veteranMailingAddress',
               data.veteranMailingAddress,
             );
@@ -71,7 +70,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             if (data.claimantMailingAddress) {
-              fillAddressWebComponentPattern(
+              cy.fillAddressWebComponentPattern(
                 'claimantMailingAddress',
                 data.claimantMailingAddress,
               );

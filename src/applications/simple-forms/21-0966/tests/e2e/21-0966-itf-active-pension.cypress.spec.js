@@ -4,10 +4,7 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import { statementOfTruthFullNamePath } from '../../config/helpers';
-import {
-  fillAddressWebComponentPattern,
-  reviewAndSubmitPageFlow,
-} from '../../../shared/tests/e2e/helpers';
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 import mockUser from './fixtures/mocks/user.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 
@@ -40,7 +37,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'survivingDependentMailingAddress',
               data.survivingDependentMailingAddress,
             );
@@ -55,7 +52,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'veteranMailingAddress',
               data.veteranMailingAddress,
             );

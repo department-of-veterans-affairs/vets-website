@@ -4,7 +4,6 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import {
-  fillAddressWebComponentPattern,
   fillDateWebComponentPattern,
   fillTextWebComponent,
   reviewAndSubmitPageFlow,
@@ -70,7 +69,7 @@ const testConfig = createTestConfig(
       'veteran-mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'veteranMailingAddress',
               data.veteranMailingAddress,
             );
@@ -115,7 +114,10 @@ const testConfig = createTestConfig(
             const { facilityName, facilityAddress } = medicalTreatments[0];
 
             fillTextWebComponent('facilityName', facilityName);
-            fillAddressWebComponentPattern('facilityAddress', facilityAddress);
+            cy.fillAddressWebComponentPattern(
+              'facilityAddress',
+              facilityAddress,
+            );
 
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()

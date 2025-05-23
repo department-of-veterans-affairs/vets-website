@@ -11,7 +11,6 @@ import manifest from '../manifest.json';
 import {
   verifyAllDataWasSubmitted,
   reviewAndSubmitPageFlow,
-  fillAddressWebComponentPattern,
   selectRadioWebComponent,
   getAllPages,
 } from '../../shared/tests/helpers';
@@ -83,7 +82,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'certifierAddress',
               data.certifierAddress,
             );
@@ -96,7 +95,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'applicantAddress',
               data.applicantAddress,
             );
