@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { generatePdf } from '~/platform/pdf';
 import { captureError } from '~/platform/user/profile/vap-svc/util/analytics';
 import { apiRequest } from '~/platform/utilities/api';
-import { focusElement } from '~/platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import DowntimeNotification, {
   externalServices,
@@ -48,73 +47,6 @@ const VeteranStatus = ({
     (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
     /android/i.test(userAgent);
 
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchVerificationStatus = async () => {
-      setIsLoading(true);
-
-      try {
-        const path = '/profile/vet_verification_status';
-        const response = await apiRequest(path);
-        if (isMounted) {
-          setData(response.data);
-        }
-      } catch (error) {
-        if (isMounted) {
-          setSystemError(true);
-          captureError(error, { eventName: 'vet-status-fetch-verification' });
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
-    };
-    fetchVerificationStatus();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  useEffect(
-    () => {
-      if (pdfError && shouldFocusError) {
-        focusElement('va-alert[status="error"]');
-        setShouldFocusError(false);
-      }
-    },
-    [pdfError, shouldFocusError],
-  );
-
-  const buildContactElements = item => {
-    const contactNumber = `${CONTACTS.DS_LOGON.slice(
-      0,
-      3,
-    )}-${CONTACTS.DS_LOGON.slice(3, 6)}-${CONTACTS.DS_LOGON.slice(6)}`;
-    const startIndex = item.indexOf(contactNumber);
-
-    if (startIndex === -1) {
-      return item;
-    }
-
-    const before = item.slice(0, startIndex);
-    const telephone = item.slice(
-      startIndex,
-      startIndex + contactNumber.length + 11,
-    );
-    const after = item.slice(startIndex + telephone.length);
-
-    return (
-      <>
-        {before}
-        <va-telephone contact={contactNumber} /> (
-        <va-telephone contact={CONTACTS[711]} tty />){after}
-      </>
-    );
-  };
-
   const formattedFullName = formatFullName({
     first,
     middle,
@@ -147,6 +79,10 @@ const VeteranStatus = ({
     isServiceHistoryValid &&
     formattedFullName
   );
+
+  useEffect(() => {
+    document.title = `Veteran Status Card | Veterans Affairs`;
+  }, []);
 
   useEffect(
     () => {
@@ -339,7 +275,6 @@ const VeteranStatus = ({
 };
 
 VeteranStatus.propTypes = {
-  edipi: PropTypes.number,
   militaryInformation: PropTypes.shape({
     serviceHistory: PropTypes.shape({
       error: PropTypes.shape({
@@ -364,10 +299,10 @@ VeteranStatus.propTypes = {
       }),
     }).isRequired,
   }).isRequired,
+  edipi: PropTypes.number,
   mockUserAgent: PropTypes.string,
   totalDisabilityRating: PropTypes.number,
   userFullName: PropTypes.object,
-  vetStatusEligibility: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
