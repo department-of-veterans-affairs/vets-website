@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducers from '../../reducers';
 import PrintOnlyPage from '../../containers/PrintOnlyPage';
 import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
@@ -8,14 +8,14 @@ import PrescriptionPrintOnly from '../../components/PrescriptionDetails/Prescrip
 
 describe('Medications List Print Page', () => {
   const setup = (params = {}) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <PrintOnlyPage>
         <span>This is the page content.</span>
       </PrintOnlyPage>,
       {
         initialState: {},
         reducers,
-        path: '/1',
+        initialEntries: ['/1'],
         ...params,
       },
     );
@@ -38,7 +38,7 @@ describe('Medications detail page with PrintOnlyPage component wrapper', () => {
     ...rxDetailsResponse.data.attributes,
   };
   const setup = (rx = prescription) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <PrintOnlyPage
         title="Medication details"
         preface={
@@ -57,7 +57,7 @@ describe('Medications detail page with PrintOnlyPage component wrapper', () => {
       {
         initialState: {},
         reducers: {},
-        path: '/prescriptions/1234567891',
+        initialEntries: ['/prescriptions/1234567891'],
       },
     );
   };
