@@ -1,13 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
-import React, {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { focusElement, scrollAndFocus } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
@@ -264,21 +257,18 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       [isReviewPage, arrayData?.length],
     );
 
-    const forceRerender = useCallback(
-      (data = props.data) => {
-        // This is a hacky workaround to rerender the page
-        // due to the way SchemaForm interacts with CustomPage
-        // here in order to hide/show alerts correctly.
-        props.setData({
-          ...data,
-          _metadata: {
-            ...data._metadata,
-            [`${nounPlural}ForceRenderTimestamp`]: Date.now(),
-          },
-        });
-      },
-      [props.setData, props.data, nounPlural],
-    );
+    function forceRerender(data = props.data) {
+      // This is a hacky workaround to rerender the page
+      // due to the way SchemaForm interacts with CustomPage
+      // here in order to hide/show alerts correctly.
+      props.setData({
+        ...data,
+        _metadata: {
+          ...data._metadata,
+          [`${nounPlural}ForceRenderTimestamp`]: Date.now(),
+        },
+      });
+    }
 
     useEffect(
       () => {
@@ -296,132 +286,96 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       [hasReviewError, showUpdatedAlert, showRemovedAlert],
     );
 
-    const addAnotherItemButtonClick = useCallback(
-      () => {
-        const index = arrayData ? arrayData.length : 0;
-        const path = createArrayBuilderItemAddPath({
-          path: getFirstItemPagePath(
-            props.data,
-            index,
-            arrayBuilderContextObject({
-              add: true,
-              review: isReviewPage,
-            }),
-          ),
+    function addAnotherItemButtonClick() {
+      const index = arrayData ? arrayData.length : 0;
+      const path = createArrayBuilderItemAddPath({
+        path: getFirstItemPagePath(
+          props.data,
           index,
+          arrayBuilderContextObject({
+            add: true,
+            review: isReviewPage,
+          }),
+        ),
+        index,
+        isReview: isReviewPage,
+        removedAllWarn: !arrayData?.length && required(props.data),
+      });
+
+      props.goToPath(path, {
+        force: true,
+      });
+    }
+
+    function onDismissUpdatedAlert() {
+      setShowUpdatedAlert(false);
+      requestAnimationFrame(() => {
+        focusElement(
+          document.querySelector(
+            `[data-title-for-noun-singular="${nounSingular}"]`,
+          ),
+        );
+      });
+      forceRerender();
+    }
+
+    function onDismissRemovedAlert() {
+      setShowRemovedAlert(false);
+      setRemovedItemText('');
+      setRemovedItemIndex(null);
+      requestAnimationFrame(() => {
+        focusElement(
+          document.querySelector(
+            `[data-title-for-noun-singular="${nounSingular}"]`,
+          ),
+        );
+      });
+      forceRerender();
+    }
+
+    function onRemoveItem(index, item) {
+      // updated alert may be from initial state (URL path)
+      // so we can go ahead and remove it if there is a new
+      // alert
+      setShowUpdatedAlert(false);
+      setRemovedItemText(getText('alertItemDeleted', item, props.data, index));
+      setRemovedItemIndex(index);
+      setShowRemovedAlert(true);
+      requestAnimationFrame(() => {
+        focusElement(removedAlertRef.current);
+      });
+    }
+
+    function onRemoveAllItems(newFormData) {
+      if (required(props.data)) {
+        const path = createArrayBuilderItemAddPath({
+          path: getFirstItemPagePath(newFormData, 0, {
+            add: true,
+            review: isReviewPage,
+          }),
+          index: 0,
           isReview: isReviewPage,
-          removedAllWarn: !arrayData?.length && required(props.data),
+          removedAllWarn: true,
         });
 
         props.goToPath(path, {
           force: true,
         });
-      },
-      [
-        arrayData,
-        props.data,
-        isReviewPage,
-        getFirstItemPagePath,
-        props.goToPath,
-      ],
-    );
+      }
+    }
 
-    const onDismissUpdatedAlert = useCallback(
-      () => {
-        setShowUpdatedAlert(false);
-        requestAnimationFrame(() => {
-          focusElement(
-            document.querySelector(
-              `[data-title-for-noun-singular="${nounSingular}"]`,
-            ),
-          );
-        });
-        forceRerender();
-      },
-      [nounSingular, forceRerender],
-    );
+    const Title = ({ textType }) => {
+      const text = getText(textType, updatedItemData, props.data);
 
-    const onDismissRemovedAlert = useCallback(
-      () => {
-        setShowRemovedAlert(false);
-        setRemovedItemText('');
-        setRemovedItemIndex(null);
-        requestAnimationFrame(() => {
-          focusElement(
-            document.querySelector(
-              `[data-title-for-noun-singular="${nounSingular}"]`,
-            ),
-          );
-        });
-        forceRerender();
-      },
-      [nounSingular, forceRerender],
-    );
-
-    const onRemoveItem = useCallback(
-      (index, item) => {
-        setShowUpdatedAlert(false);
-        setRemovedItemText(
-          getText('alertItemDeleted', item, props.data, index),
-        );
-        setRemovedItemIndex(index);
-        setShowRemovedAlert(true);
-        requestAnimationFrame(() => {
-          focusElement(removedAlertRef.current);
-        });
-      },
-      [getText, props.data],
-    );
-
-    const onRemoveAllItems = useCallback(
-      newFormData => {
-        if (required(props.data)) {
-          const path = createArrayBuilderItemAddPath({
-            path: getFirstItemPagePath(newFormData, 0, {
-              add: true,
-              review: isReviewPage,
-            }),
-            index: 0,
-            isReview: isReviewPage,
-            removedAllWarn: true,
-          });
-
-          props.goToPath(path, {
-            force: true,
-          });
-        }
-      },
-      [
-        required,
-        props.data,
-        getFirstItemPagePath,
-        isReviewPage,
-        props.goToPath,
-      ],
-    );
-
-    const Title = useCallback(
-      ({ textType }) => {
-        const text = getText(textType, updatedItemData, props.data);
-
-        return text ? (
-          <Heading
-            className={`vads-u-color--gray-dark vads-u-margin-top--0${headingStyle}`}
-            data-title-for-noun-singular={nounSingular}
-          >
-            {text}
-          </Heading>
-        ) : null;
-      },
-      [
-        getText,
-        updatedItemData,
-        props.data,
-        Heading,
-        headingStyle,
-        nounSingular,
-      ],
-    );
+      return text ? (
+        <Heading
+          className={`vads-u-color--gray-dark vads-u-margin-top--0${headingStyle}`}
+          data-title-for-noun-singular={nounSingular}
+        >
+          {text}
+        </Heading>
+      ) : null;
+    };
 
     const UpdatedAlert = ({ show }) => {
       return (
@@ -478,145 +432,59 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       );
     };
 
-    const Alerts = useCallback(
-      () => {
-        const showMaxItemsAlert = isMaxItemsReached && !hideMaxItemsAlert;
-        const alertsShown =
-          showMaxItemsAlert ||
-          showUpdatedAlert ||
-          showRemovedAlert ||
-          showReviewErrorAlert;
-        const isButtonOrLink = useLinkInsteadOfYesNo || useButtonInsteadOfYesNo;
+    const Alerts = () => {
+      const showMaxItemsAlert = isMaxItemsReached && !hideMaxItemsAlert;
+      const alertsShown =
+        showMaxItemsAlert ||
+        showUpdatedAlert ||
+        showRemovedAlert ||
+        showReviewErrorAlert;
+      const isButtonOrLink = useLinkInsteadOfYesNo || useButtonInsteadOfYesNo;
 
-        return (
-          <div
-            className={
-              alertsShown && isButtonOrLink && !arrayData?.length
-                ? 'vads-u-margin-bottom--4'
-                : ''
-            }
-          >
-            <MaxItemsAlert show={showMaxItemsAlert} ref={maxItemsAlertRef}>
-              {getText(
-                'alertMaxItems',
-                updatedItemData,
-                props.data,
-                updateItemIndex,
-              )}
-            </MaxItemsAlert>
-            <RemovedAlert show={showRemovedAlert} />
-            <UpdatedAlert show={showUpdatedAlert} />
-            <ReviewErrorAlert show={showReviewErrorAlert} />
-          </div>
-        );
-      },
-      [
-        isMaxItemsReached,
-        hideMaxItemsAlert,
-        showUpdatedAlert,
-        showRemovedAlert,
-        showReviewErrorAlert,
-        useLinkInsteadOfYesNo,
-        useButtonInsteadOfYesNo,
-        arrayData,
-        getText,
-        updatedItemData,
-        props.data,
-        props.reviewErrors,
-        onDismissUpdatedAlert,
-        onDismissRemovedAlert,
-        nounSingular,
-        updateItemIndex,
-        removedItemText,
-        removedItemIndex,
-        hasItemsKey,
-      ],
-    );
+      return (
+        <div
+          className={
+            alertsShown && isButtonOrLink && !arrayData?.length
+              ? 'vads-u-margin-bottom--4'
+              : ''
+          }
+        >
+          <MaxItemsAlert show={showMaxItemsAlert} ref={maxItemsAlertRef}>
+            {getText(
+              'alertMaxItems',
+              updatedItemData,
+              props.data,
+              updateItemIndex,
+            )}
+          </MaxItemsAlert>
+          <RemovedAlert show={showRemovedAlert} />
+          <UpdatedAlert show={showUpdatedAlert} />
+          <ReviewErrorAlert show={showReviewErrorAlert} />
+        </div>
+      );
+    };
 
-    const Cards = useCallback(
-      () => (
-        <ArrayBuilderCards
-          cardDescription={getText(
-            'cardDescription',
-            updatedItemData,
-            props.data,
-            updateItemIndex,
-          )}
-          arrayPath={arrayPath}
-          nounSingular={nounSingular}
-          nounPlural={nounPlural}
-          isIncomplete={isItemIncomplete}
-          getEditItemPathUrl={getFirstItemPagePath}
-          getText={getText}
-          required={required}
-          onRemoveAll={onRemoveAllItems}
-          onRemove={onRemoveItem}
-          isReview={isReviewPage}
-          forceRerender={forceRerender}
-          titleHeaderLevel={headingLevel}
-        />
-      ),
-      [
-        arrayPath,
-        nounSingular,
-        nounPlural,
-        isItemIncomplete,
-        getFirstItemPagePath,
-        getText,
-        required,
-        onRemoveAllItems,
-        onRemoveItem,
-        isReviewPage,
-        forceRerender,
-        headingLevel,
-        updatedItemData,
-        props.data,
-        updateItemIndex,
-      ],
-    );
-
-    const UIDescription = useCallback(
-      () => {
-        if (arrayData?.length > 0) {
-          return (
-            <>
-              <Alerts />
-              <Cards />
-            </>
-          );
-        }
-        return <Alerts />;
-      },
-      [Alerts, Cards, arrayData],
-    );
-
-    const newUiSchema = { ...uiSchema };
-    let newSchema = schema;
-    let titleTextType;
-    let descriptionTextType;
-    const NavButtons = props.NavButtons || FormNavButtons;
-
-    if (arrayData?.length > 0) {
-      titleTextType = 'summaryTitle';
-      descriptionTextType = 'summaryDescription';
-    } else {
-      titleTextType = 'summaryTitleWithoutItems';
-      descriptionTextType = 'summaryDescriptionWithoutItems';
-    }
-
-    const descriptionText = getText(descriptionTextType, null, props.data);
-    const UITitle = useMemo(
-      () => (
-        <>
-          <Title textType={titleTextType} />
-          {descriptionText && (
-            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
-              {descriptionText}
-            </span>
-          )}
-        </>
-      ),
-      [Title, titleTextType, descriptionText],
+    const Cards = () => (
+      <ArrayBuilderCards
+        cardDescription={getText(
+          'cardDescription',
+          updatedItemData,
+          props.data,
+          updateItemIndex,
+        )}
+        arrayPath={arrayPath}
+        nounSingular={nounSingular}
+        nounPlural={nounPlural}
+        isIncomplete={isItemIncomplete}
+        getEditItemPathUrl={getFirstItemPagePath}
+        getText={getText}
+        required={required}
+        onRemoveAll={onRemoveAllItems}
+        onRemove={onRemoveItem}
+        isReview={isReviewPage}
+        forceRerender={forceRerender}
+        titleHeaderLevel={headingLevel}
+      />
     );
 
     if (isReviewPage) {
@@ -634,6 +502,40 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         />
       );
     }
+
+    const newUiSchema = { ...uiSchema };
+    let newSchema = schema;
+    let titleTextType;
+    let descriptionTextType;
+    let UIDescription;
+    const NavButtons = props.NavButtons || FormNavButtons;
+
+    if (arrayData?.length > 0) {
+      titleTextType = 'summaryTitle';
+      descriptionTextType = 'summaryDescription';
+      UIDescription = (
+        <>
+          <Alerts />
+          <Cards />
+        </>
+      );
+    } else {
+      titleTextType = 'summaryTitleWithoutItems';
+      descriptionTextType = 'summaryDescriptionWithoutItems';
+      UIDescription = <Alerts />;
+    }
+
+    const descriptionText = getText(descriptionTextType, null, props.data);
+    const UITitle = (
+      <>
+        <Title textType={titleTextType} />
+        {descriptionText && (
+          <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
+            {descriptionText}
+          </span>
+        )}
+      </>
+    );
 
     newUiSchema['ui:title'] = UITitle;
     newUiSchema['ui:description'] = UIDescription;

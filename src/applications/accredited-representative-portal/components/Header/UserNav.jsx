@@ -34,7 +34,7 @@ const UserHelpLinks = () => {
           onClick={recordDatalayerEvent}
           data-eventname="nav-link-click"
         >
-          Power of Attorney Requests
+          Representation Requests
         </Link>
       </li>
       <Toggler
