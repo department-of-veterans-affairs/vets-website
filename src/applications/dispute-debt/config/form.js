@@ -21,7 +21,8 @@ import NeedHelp from '../components/NeedHelp';
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
 import submitForm from './submitForm';
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE } from '../constants';
+import transformForSubmit from './transformForSubmit';
 
 // Function to return the NeedHelp component
 const getHelp = () => <NeedHelp />;
@@ -29,6 +30,7 @@ const getHelp = () => <NeedHelp />;
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
+  transformForSubmit,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/debts_api/v0/digital_disputes`,
   submit: submitForm,
@@ -57,7 +59,6 @@ const formConfig = {
       'Please sign in again to continue your application to dispute your VA debt.',
   },
   title: TITLE,
-  subTitle: SUBTITLE,
   downtime: {
     dependencies: [
       externalServices.mvi,

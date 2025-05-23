@@ -164,7 +164,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-5490',
-  title: 'Survirors’ and Dependents’ Educational Assistance Benefits',
+  title: 'Survivors’ and Dependents’ Educational Assistance Benefits',
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your DEPENDENTS&#39; APPLICATION FOR VA EDUCATION BENEFITS  application (22-5490) is in progress.',
@@ -314,12 +314,8 @@ const formConfig = {
             'view:benefitInfo': {
               'ui:description': (
                 <>
-                  <span className="fry-dea-labels_label--main vads-u-padding-left--1">
-                    Which education benefit would you like to apply for?
-                  </span>
-                  <br />
-                  <br />
-                  <span className="fry-dea-labels_label--secondary fry-dea-input-message fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
+                  <p>Which education benefit would you like to apply for?</p>
+                  <p className="fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1">
                     <va-icon
                       size={3}
                       icon="info"
@@ -327,13 +323,12 @@ const formConfig = {
                       aria-hidden="true"
                     />{' '}
                     <span className="sr-only">Informational Note:</span> If
-                    you’re the child of a veteran or service member who died in
+                    you’re the child of a Veteran or service member who died in
                     the line of duty before August 1, 2011 you can use both Fry
                     Scholarship and DEA and get up to 81 months of benefits.
                     You’ll need to apply separately and use one program at a
                     time.
-                  </span>
-                  <br />
+                  </p>
                 </>
               ),
             },
@@ -1220,7 +1215,7 @@ const formConfig = {
               'ui:title': 'Veteran or service member information',
               first: {
                 ...fullNameUI.first,
-                'ui:title': 'Veteran or service member first name',
+                'ui:title': 'Veteran or service member First name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -1237,7 +1232,7 @@ const formConfig = {
               },
               middle: {
                 ...fullNameUI.middle,
-                'ui:title': 'Veteran or service member middle name',
+                'ui:title': 'Veteran or service member Middle name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -1254,7 +1249,7 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
-                'ui:title': 'Veteran or service member last name',
+                'ui:title': 'Veteran or service member Last name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidLastName(field)) {
@@ -1274,11 +1269,11 @@ const formConfig = {
             },
             dateOfBirth: {
               ...currentOrPastDateUI('Veteran date of birth'),
-              'ui:title': 'Veteran or service member date of birth',
+              'ui:title': 'Veteran or service member Date of birth',
             },
             ssn: {
               ...ssnUI,
-              'ui:title': 'Veteran or service member social security number',
+              'ui:title': 'Veteran or service member Social Security number',
               'ui:reviewField': ObfuscateReviewField,
             },
             'view:incorrectFormWarning': {
@@ -1311,7 +1306,7 @@ const formConfig = {
       },
     },
     additionalConsiderationsChapter: {
-      title: 'Additional consideration',
+      title: 'Additional considerations',
       pages: {
         marriageInformation: {
           title: 'Marriage information',
