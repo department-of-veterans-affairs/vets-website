@@ -48,9 +48,18 @@ const notEligibleData = {
 const serviceEpisodes = [
   {
     branchOfService: 'Air Force',
-    beginDate: '2020-01-01',
-    endDate: '2021-01-01',
-    personnelCategoryTypeCode: 'V',
+    beginDate: '2009-04-12',
+    endDate: '2013-04-11',
+    periodOfServiceTypeCode: 'V',
+    periodOfServiceTypeText: 'Reserve member',
+    characterOfDischargeCode: 'A',
+  },
+  {
+    branchOfService: 'Air Force',
+    beginDate: '2005-04-12',
+    endDate: '2009-04-11',
+    periodOfServiceTypeCode: 'A',
+    periodOfServiceTypeText: 'Active duty member',
     characterOfDischargeCode: 'A',
   },
 ];
@@ -228,14 +237,25 @@ describe('VeteranStatus', () => {
             }`,
           ),
         ).to.exist;
+      });
 
-        // Check that the PDF download link is rendered
-        expect(pdfLink(view)).to.exist;
-
-        // Check that the PDF download link can be clicked
-        generatePdfStub.resolves();
-        fireEvent.click(pdfLink(view));
+      // Check that the PDF download link exists and can be clicked
+      generatePdfStub.resolves();
+      expect(pdfLink(view)).to.exist;
+      fireEvent.click(pdfLink(view));
+      await waitFor(() => {
         expect(generatePdfStub.calledOnce).to.be.true;
+      });
+
+      // Check that the PDF download link shows the correct error alert
+      generatePdfStub.rejects(new Error('PDF Error'));
+      fireEvent.click(pdfLink(view));
+      await waitFor(() => {
+        expect(
+          view.getByText(
+            'We’re sorry. Try to print your Veteran Status Card later.',
+          ),
+        ).to.exist;
       });
     });
   });
