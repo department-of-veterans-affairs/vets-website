@@ -243,6 +243,20 @@ export default function EstimatedBenefits({
             />
           </ul>
         </div>
+        <va-additional-info
+          trigger="Additional information about out-of-pocket estimates"
+          class="vads-u-margin-top--2"
+        >
+          <p>
+            Estimated out-of-pocket tuition is based on a standard academic
+            year. Some schools may use non-traditional academic schedules which
+            can impact your actual out-of-pocket costs. Contact the institution
+            directly for more information.{' '}
+            <a href="https://www.va.gov/education/benefit-rates/">
+              Learn more about VA education benefit rates.
+            </a>
+          </p>
+        </va-additional-info>
         <hr aria-hidden="true" />
         {perTermSections()}
       </div>
