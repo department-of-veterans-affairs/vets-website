@@ -183,8 +183,7 @@ describe('VAOS <handleLoadError>', () => {
     // Save original location object...
     orig = { ...window.location };
 
-    // Delete location object and redefine it
-    delete window.location;
+    // redefine window.location object
     window.location = {
       pathname: '/',
       replace: Sinon.stub().callsFake(path => {

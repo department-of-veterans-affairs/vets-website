@@ -12,7 +12,6 @@ const REVIEW_PATH =
 
 function stubWindowLocation(url) {
   const originalHref = window.location.href;
-  delete window.location;
   window.location = { href: url };
   return originalHref;
 }

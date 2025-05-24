@@ -1,5 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
+import { fireEvent } from '@testing-library/dom';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -254,10 +255,10 @@ describe('<SchoolSelectField>', () => {
   });
 
   // handleSearchClick
-  it('should call searchSchools and onChange props when search button clicked', done => {
+  it('should call searchSchools and onChange props when search button clicked', async () => {
     const searchSchools = sinon.spy();
     const onChange = sinon.spy();
-    const tree = mount(
+    const screen = render(
       <SchoolSelectField
         formData={{}}
         formContext={{}}
@@ -276,11 +277,11 @@ describe('<SchoolSelectField>', () => {
       />,
     );
 
-    tree
-      .find('.search-schools-button')
-      .first()
-      .simulate('click');
-    setTimeout(() => {
+    const searchLink = screen.getByRole('button', {
+      name: /search/i,
+    });
+    fireEvent.click(searchLink);
+    await waitFor(() => {
       expect(searchSchools.firstCall.args[0]).to.eql({
         institutionQuery: 'test',
       });
@@ -291,9 +292,7 @@ describe('<SchoolSelectField>', () => {
         'view:manualSchoolEntryChecked': false,
         'view:institutionQuery': 'test',
       });
-      tree.unmount();
-      done();
-    }, 200);
+    });
   });
 
   // handleOptionClick
