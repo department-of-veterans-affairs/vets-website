@@ -40,6 +40,20 @@ function PreparerSuggestedAddress({ formData }) {
     fetchData();
   }, []);
 
+  // Maintain Screen Reader Focus after isLoading returns and resolves
+  useEffect(
+    () => {
+      if (!isLoading) {
+        const progressBar = document.getElementById('nav-form-header');
+        if (progressBar) {
+          progressBar.setAttribute('tabindex', '-1');
+          progressBar.focus();
+        }
+      }
+    },
+    [isLoading],
+  );
+
   const onChangeSelectedAddress = event => {
     const selected = JSON.parse(event.detail.value);
     setSelectedAddress(selected);
