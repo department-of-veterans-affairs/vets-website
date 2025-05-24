@@ -20,6 +20,7 @@ import useAlerts from '../hooks/use-alerts';
 import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -99,12 +100,15 @@ const CareSummariesAndNotes = () => {
             dispatch(reloadRecords());
           }}
         />
-
-        <RecordList
-          records={careSummariesAndNotes}
-          type="care summaries and notes"
-          hideRecordsLabel
-        />
+        {careSummariesAndNotes?.length ? (
+          <RecordList
+            records={careSummariesAndNotes}
+            type="care summaries and notes"
+            hideRecordsLabel
+          />
+        ) : (
+          <NoRecordsMessage type={recordType.CARE_SUMMARIES_AND_NOTES} />
+        )}
       </RecordListSection>
     </div>
   );

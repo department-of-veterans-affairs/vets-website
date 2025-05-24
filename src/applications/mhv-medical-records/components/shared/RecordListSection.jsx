@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AccessTroubleAlertBox from './AccessTroubleAlertBox';
-import NoRecordsMessage from './NoRecordsMessage';
 import TrackedSpinner from './TrackedSpinner';
 import useInitialFhirLoadTimeout from '../../hooks/useInitialFhirLoadTimeout';
 
@@ -10,7 +9,6 @@ const RecordListSection = ({
   accessAlert,
   accessAlertType,
   recordCount,
-  recordType,
   listCurrentAsOf,
   initialFhirLoad,
 }) => {
@@ -37,10 +35,7 @@ const RecordListSection = ({
       </div>
     );
   }
-  if (recordCount === 0) {
-    return <NoRecordsMessage type={recordType} />;
-  }
-  if (recordCount) {
+  if (recordCount || recordCount === 0) {
     return children;
   }
   return (

@@ -1,5 +1,5 @@
 export const recordType = {
-  ALLERGIES: 'allergies',
+  ALLERGIES: 'allergies or reactions',
   VACCINES: 'vaccines',
   CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
   LABS_AND_TESTS: 'lab and test results',
