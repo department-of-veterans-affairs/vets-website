@@ -19,10 +19,10 @@ const PrintBtn = props => {
         ref={printButtonRef}
         id="print-button"
         type="button"
-        className={`usa-button-secondary mobile-lg:${
+        className={`usa-button-secondary ${
           activeFolder?.folderId !== DefaultFolders.SENT.id
-            ? 'vads-u-flex--3'
-            : 'vads-l-row--3'
+            ? 'mobile-lg:vads-u-flex--3'
+            : 'vads-u-flex--1 tablet:vads-u-flex--auto'
         } vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2 message-action-button`}
         onClick={() => {
           handleConfirmPrint();
