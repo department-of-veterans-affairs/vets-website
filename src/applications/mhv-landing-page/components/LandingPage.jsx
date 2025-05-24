@@ -52,6 +52,7 @@ const LandingPage = ({ data = {} }) => {
             ]}
           />
           <DowntimeNotification
+            appTitle={manifest.appName}
             dependencies={[externalServices.mhvPlatform]}
             render={renderMHVDowntime}
           />
