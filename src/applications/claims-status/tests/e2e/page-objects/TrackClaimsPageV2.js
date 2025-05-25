@@ -412,15 +412,15 @@ class TrackClaimsPageV2 {
         // Verify some tracked items on page 1
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We completed a review for the request: "Automated 5103 Notice Response"',
+          'We completed a review for the request: “Automated 5103 Notice Response”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We opened a request: "Automated 5103 Notice Response"',
+          'We opened a request: “Automated 5103 Notice Response”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We closed a request: "Closed Tracked Item"',
+          'We closed a request: “Closed Tracked Item”',
         );
         // click the next page
         cy.get('.recent-activity-container va-pagination')
@@ -436,7 +436,7 @@ class TrackClaimsPageV2 {
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We opened a request: "Closed Tracked Item"',
+          'We opened a request: “Closed Tracked Item”',
         );
         // click the next page
         cy.get('.recent-activity-container va-pagination')
@@ -464,15 +464,15 @@ class TrackClaimsPageV2 {
       // Verify some tracked items on page 1
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We completed a review for the request: "Automated 5103 Notice Response"',
+        'We completed a review for the request: “Automated 5103 Notice Response”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We opened a request: "Automated 5103 Notice Response"',
+        'We opened a request: “Automated 5103 Notice Response”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We closed a request: "Closed Tracked Item"',
+        'We closed a request: “Closed Tracked Item”',
       );
       // click the next page
       cy.get('.recent-activity-container va-pagination')
@@ -488,7 +488,7 @@ class TrackClaimsPageV2 {
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We opened a request: "Closed Tracked Item"',
+        'We opened a request: “Closed Tracked Item”',
       );
       // click the next page
       cy.get('.recent-activity-container va-pagination')
@@ -804,11 +804,11 @@ class TrackClaimsPageV2 {
     cy.url().should('contain', '/your-claims/189685/files');
   }
 
-  verifyNeedToMailFiles() {
+  verifyNeedToMailDocuments() {
     cy.get('.additional-evidence-container va-additional-info')
       .shadow()
       .find('.additional-info-title')
-      .should('contain', 'Need to mail your files?');
+      .should('contain', 'Need to mail your documents?');
     cy.get('.additional-evidence-container va-additional-info')
       .shadow()
       .find('a')
@@ -837,7 +837,7 @@ class TrackClaimsPageV2 {
     cy.assertChildText(
       '@friendlyMessage',
       'p:last-of-type',
-      'On January 1, 2022, we mailed you a letter titled, “Request for Specific Evidence or Information,” which may include more details about this request. You can access this and all your claim letters online.',
+      'On January 1, 2022, we mailed you a letter titled “Request for Specific Evidence or Information,” which may include more details about this request. You can access this and all your claim letters online.',
     );
   }
 
