@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
 
-export default function InstituionAddress() {
+export default function InstitutionAddress() {
   const formData = useSelector(state => state.form?.data);
   const address1 = formData?.institutionDetails?.address?.address1;
   const address2 = formData?.institutionDetails?.address?.address2;
@@ -11,18 +10,7 @@ export default function InstituionAddress() {
   const state = formData?.institutionDetails?.address?.state;
   const zip = formData?.institutionDetails?.address?.zip;
   const country = formData?.institutionDetails?.address?.country;
-  const loader = formData?.institutionDetails?.loader;
 
-  useEffect(
-    () => {
-      // Re-focus
-      const facilityCodeInput = document
-        .querySelector('va-text-input')
-        ?.shadowRoot?.querySelector('input');
-      if (!loader && state) focusElement(facilityCodeInput);
-    },
-    [state, loader],
-  );
   return (
     <div>
       {!state ? (

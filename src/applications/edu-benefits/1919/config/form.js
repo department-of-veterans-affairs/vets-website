@@ -74,7 +74,6 @@ const formConfig = {
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,
           depends: formData => {
-            // console.log('formData', formData);
             return formData?.aboutYourInstitution === true;
           },
         },

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
+import { useVaFacilityCode } from '../hooks/useVaFacilityCode';
 
 const InstitutionName = () => {
   const formData = useSelector(state => state.form?.data);
   const institutionName = formData?.institutionDetails?.institutionName;
   const loader = formData?.institutionDetails?.loader;
+  useVaFacilityCode();
 
   useEffect(
     () => {
@@ -21,7 +23,11 @@ const InstitutionName = () => {
   return (
     <div aria-live="polite">
       {loader ? (
-        <va-loading-indicator set-focus message="Finding your institution" />
+        <va-loading-indicator
+          data-testid="loader"
+          set-focus
+          message="Finding your institution"
+        />
       ) : (
         <>
           <h3

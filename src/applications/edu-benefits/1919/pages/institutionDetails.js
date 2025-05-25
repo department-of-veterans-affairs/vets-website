@@ -4,7 +4,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import InstitutionName from '../components/InstitutionName';
-import InstituionAddress from '../components/InstituionAddress';
+import InstitutionAddress from '../components/InstitutionAddress';
 
 const uiSchema = {
   institutionDetails: {
@@ -38,9 +38,9 @@ const uiSchema = {
         classNames: 'vads-u-margin-top--2',
       },
     },
-    instituionAddress: {
+    institutionAddress: {
       'ui:title': ' ',
-      'ui:field': InstituionAddress,
+      'ui:field': InstitutionAddress,
       'ui:options': {
         classNames: 'vads-u-margin-top--2',
       },
@@ -59,7 +59,7 @@ const schema = {
         institutionName: {
           type: 'string',
         },
-        instituionAddress: {
+        institutionAddress: {
           type: 'string',
         },
       },
