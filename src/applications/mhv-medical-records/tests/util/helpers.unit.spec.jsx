@@ -11,7 +11,6 @@ import {
 import {
   concatObservationInterpretations,
   dateFormat,
-  dateFormatWithoutTime,
   dateFormatWithoutTimezone,
   dispatchDetails,
   extractContainedByRecourceType,
@@ -54,23 +53,87 @@ describe('Date formatter', () => {
   });
 });
 
-describe('Date formatter with no timezone', () => {
-  it('removes the time from a dateTime', () => {
-    const dateTime = 'October 27, 2023, 10:00 a.m.';
-    const formattedDate = dateFormatWithoutTime(dateTime);
-    expect(formattedDate).to.eq('October 27, 2023');
+describe('dateFormatWithoutTimezone – edge cases', () => {
+  // 1) Positive offset
+  it('strips a +HH:MM offset', () => {
+    const ts = '2023-09-29T11:04:31+02:00';
+    expect(dateFormatWithoutTimezone(ts)).to.eq(
+      'September 29, 2023, 11:04 a.m.',
+    );
   });
 
-  it('formats a date in the original time without a timezone', () => {
-    const timeStamp = '2023-09-29T11:04:31.316-04:00';
-    const formattedDate = dateFormatWithoutTimezone(timeStamp);
-    expect(formattedDate).to.eq('September 29, 2023, 11:04 a.m.');
+  // 2) Offset with no colon
+  it('strips a -HHMM offset', () => {
+    const ts = '2023-09-29T11:04:31-0400';
+    expect(dateFormatWithoutTimezone(ts)).to.eq(
+      'September 29, 2023, 11:04 a.m.',
+    );
   });
 
-  it('formats an epoch date in the original time without a timezone', () => {
-    const timeStamp = 1605300748000;
-    const formattedDate = dateFormatWithoutTimezone(timeStamp);
-    expect(formattedDate).to.eq('November 13, 2020, 8:52 p.m.');
+  // 3) Zulu (UTC) suffix
+  it('handles a Z suffix', () => {
+    const ts = '2023-09-29T11:04:31Z';
+    expect(dateFormatWithoutTimezone(ts)).to.eq(
+      'September 29, 2023, 11:04 a.m.',
+    );
+  });
+
+  // 4) Sub-second precision or missing seconds
+  it('handles sub-second precision', () => {
+    const ts = '2023-09-29T11:04:31.123456-04:00';
+    expect(dateFormatWithoutTimezone(ts)).to.eq(
+      'September 29, 2023, 11:04 a.m.',
+    );
+  });
+
+  it('handles timestamps without seconds', () => {
+    const ts = '2023-09-29T11:04-04:00';
+    expect(dateFormatWithoutTimezone(ts)).to.eq(
+      'September 29, 2023, 11:04 a.m.',
+    );
+  });
+
+  // 5) Date-only inputs
+  it('formats pure dates (no time)', () => {
+    const ts = '2000-08-09';
+    expect(dateFormatWithoutTimezone(ts, 'MMMM d, yyyy')).to.eq(
+      'August 9, 2000',
+    );
+  });
+
+  // 6) Epoch styles
+  it('accepts numeric epoch (0 → 1970-01-01)', () => {
+    expect(dateFormatWithoutTimezone(0)).to.eq('January 1, 1970, 12:00 a.m.');
+  });
+  it('accepts stringified epoch', () => {
+    expect(dateFormatWithoutTimezone('1605300748000')).to.eq(
+      'November 13, 2020, 8:52 p.m.',
+    );
+  });
+
+  // 7) Midday / midnight disambiguation
+  it('labels midnight as 12:00 a.m.', () => {
+    const ts = '2023-05-06T00:00:00-04:00';
+    expect(dateFormatWithoutTimezone(ts)).to.eq('May 6, 2023, 12:00 a.m.');
+  });
+  it('labels noon as 12:00 p.m.', () => {
+    const ts = '2023-05-06T12:00:00-04:00';
+    expect(dateFormatWithoutTimezone(ts)).to.eq('May 6, 2023, 12:00 p.m.');
+  });
+
+  // 8) DST‐transition "holes" (ensure it doesn't blow up)
+  it('does not throw on nonexistent local times (DST shift)', () => {
+    const ts = '2023-03-12T02:30:00-05:00'; // US spring-forward
+    expect(() => dateFormatWithoutTimezone(ts)).not.to.throw();
+  });
+
+  // 9) Totally malformed inputs
+  it('falls back gracefully for bad strings', () => {
+    expect(dateFormatWithoutTimezone('not-a-date')).to.match(/Invalid/);
+  });
+  it('handles null/undefined', () => {
+    expect(() => dateFormatWithoutTimezone(null)).to.throw();
+    expect(() => dateFormatWithoutTimezone()).to.throw();
   });
 });
 

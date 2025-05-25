@@ -1,8 +1,8 @@
-import moment from 'moment-timezone';
 import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { utcToZonedTime } from 'date-fns-tz';
 import {
   format as dateFnsFormat,
   formatISO,
@@ -24,59 +24,52 @@ import {
 
 /**
  * @param {*} timestamp
- * @param {*} format momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
+ * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
  * @returns {String} formatted timestamp
  */
-export const dateFormat = (timestamp, format = null) => {
-  const timeZone = moment.tz.guess();
-  return moment
-    .tz(timestamp, timeZone)
-    .format(format || 'MMMM D, YYYY, h:mm a z');
+export const dateFormat = (
+  timestamp = null,
+  format = 'MMMM d, yyyy, h:mm a',
+) => {
+  const timeZone = 'America/New_York'; // You can set this dynamically if needed
+  const parsedDate = parseISO(timestamp);
+
+  // Convert the parsed date to the target time zone
+  const zonedDate = utcToZonedTime(parsedDate, timeZone);
+
+  // Format the date in the specified time zone
+  return dateFnsFormat(zonedDate, format);
 };
 
 export const dateFormatWithoutTime = str => {
   return str.replace(/,? \d{1,2}:\d{2} (a\.m\.|p\.m\.)$/, '');
 };
-
 /**
  * @param {*} datetime (2017-08-02T09:50:57-04:00 or 2000-08-09)
  * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
  * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
  */
-export const dateFormatWithoutTimezone = (
-  datetime,
-  format = 'MMMM d, yyyy, h:mm a',
-) => {
-  let withoutTimezone = datetime;
-  if (typeof datetime === 'string' && datetime.includes('-')) {
-    // Check if datetime has a timezone and strip it off if present
-    if (datetime.includes('T')) {
-      withoutTimezone = datetime
-        .substring(datetime.indexOf('T'), datetime.length)
-        .includes('-')
-        ? datetime.substring(0, datetime.lastIndexOf('-'))
-        : datetime.replace('Z', '');
-    } else {
-      // Handle the case where the datetime is just a date (e.g., "2000-08-09")
-      const parsedDate = parseISO(datetime);
-      if (isValid(parsedDate)) {
-        return dateFnsFormat(parsedDate, 'MMMM d, yyyy', { in: 'UTC' });
-      }
-    }
-  } else {
-    withoutTimezone = new Date(datetime).toISOString().replace('Z', '');
+export function dateFormatWithoutTimezone(
+  isoString,
+  fmt = 'MMMM d, yyyy, h:mm a',
+) {
+  // Ensure isoString is a valid ISO string, else return null
+  if (!isoString || typeof isoString !== 'string') return null;
+
+  // 1) Strip off Z, +HH:MM, +HHMM, -HH:MM, or -HHMM (timezone offsets)
+  const stripped = isoString.replace(/([+-]\d{2}:?\d{2}|Z)$/, '');
+
+  // 2) Parse as local time
+  const parsedDate = parseISO(stripped);
+
+  // 3) Check if parsed date is valid
+  if (!isValid(parsedDate)) {
+    throw new Error('Invalid time value');
   }
 
-  const parsedDateTime = parseISO(withoutTimezone);
-  if (isValid(parsedDateTime)) {
-    const formattedDate = dateFnsFormat(parsedDateTime, format, { in: 'UTC' });
-    return formattedDate.replace(/AM|PM/, match =>
-      match.toLowerCase().replace('m', '.m.'),
-    );
-  }
-
-  return null;
-};
+  // 4) Format and return the formatted date
+  return dateFnsFormat(parsedDate, fmt);
+}
 
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
