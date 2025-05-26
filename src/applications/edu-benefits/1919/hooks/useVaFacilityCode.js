@@ -49,11 +49,6 @@ export const useVaFacilityCode = () => {
               },
             }),
           );
-
-          localStorage.setItem(
-            'isAccredited',
-            JSON.stringify(response?.data?.attributes?.accredited),
-          );
         } catch (error) {
           dispatch(
             setData({
@@ -74,7 +69,6 @@ export const useVaFacilityCode = () => {
               },
             }),
           );
-          localStorage.setItem('isAccredited', false);
         }
       };
       if (formData?.institutionDetails?.facilityCode?.length === 8) {
