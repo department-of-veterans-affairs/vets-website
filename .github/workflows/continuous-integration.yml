@@ -264,6 +264,7 @@ jobs:
 
   unit-tests:
     name: Unit Tests
+    if: ${{ steps.get-changed_apps.outputs.folders }}
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
@@ -334,7 +335,6 @@ jobs:
           output-type: 'folder'
 
       - name: Run unit tests
-        if: ${{ steps.get-changed_apps.outputs.folders }}
         id: run-tests
         run: |
           if [[ -n "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
