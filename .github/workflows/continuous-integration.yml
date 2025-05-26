@@ -264,7 +264,7 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    if: ${{ needs.tests-prep.outputs.folders != ''}}
+    if: ${{ needs.tests-prep.outputs.app_folders != ''}}
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
@@ -337,15 +337,14 @@ jobs:
       - name: Run unit tests
         id: run-tests
         run: |
-          if [[ -n "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
+          if [[ ${{ needs.tests-prep.outputs.changed-files }} ]]
             yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
             echo "tests_ran=true" >> $GITHUB_OUTPUT
           else
-            yarn test:unit:gha --coverage --log-level verbose
+            yarn test:unit:gha --full-suite --coverage --log-level verbose
             echo "tests_ran=true" >> $GITHUB_OUTPUT
           fi
-          # yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
-          # echo "tests_ran=true" >> $GITHUB_OUTPUT
+          
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
