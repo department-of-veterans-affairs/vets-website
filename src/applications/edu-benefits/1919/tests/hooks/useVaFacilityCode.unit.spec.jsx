@@ -1,20 +1,20 @@
 import React from 'react';
 import { renderHook } from '@testing-library/react-hooks';
+import { waitFor } from '@testing-library/react';
 import { useDispatch, useSelector, Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { apiRequest } from 'platform/utilities/api';
 import { expect } from 'chai';
 import sinon from 'sinon';
-// import { waitFor } from '@testing-library/react';
-import configureStore from 'redux-mock-store';
 import { useVaFacilityCode } from '../../hooks/useVaFacilityCode';
 
 describe('useVaFacilityCode', () => {
   let useSelectorStub;
+  let useDispatchStub;
 
   let dispatchSpy;
   let apiRequestStub;
-  const mockStore = configureStore([]);
-  let store;
+
   const baseFormData = {
     institutionDetails: {
       facilityCode: '12345678',
@@ -24,25 +24,30 @@ describe('useVaFacilityCode', () => {
     },
   };
 
+  const mockStore = configureStore([]);
+  let store;
+
   beforeEach(() => {
-    store = mockStore({});
     dispatchSpy = sinon.spy();
-    sinon.stub(useDispatch, 'default').returns(dispatchSpy);
+    useDispatchStub = sinon.stub(useDispatch, 'default').returns(dispatchSpy);
     useSelectorStub = sinon.stub(useSelector, 'default');
     apiRequestStub = sinon.stub(apiRequest, 'default');
+    store = mockStore({});
   });
 
   // afterEach(() => {
   //   sinon.restore();
   // });
 
-  it('should not call api if facilityCode is not 8 characters', () => {
+  it('should not call api or dispatch if facilityCode is not 8 chars', () => {
     useSelectorStub.returns({
       institutionDetails: {
         facilityCode: '1234',
       },
     });
-    renderHook(() => useVaFacilityCode());
+    renderHook(() => useVaFacilityCode(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
     expect(apiRequestStub.called).to.be.false;
     expect(dispatchSpy.called).to.be.false;
   });
@@ -57,8 +62,6 @@ describe('useVaFacilityCode', () => {
           address2: 'Suite 1',
           address3: '',
           city: 'Testville',
-          state: 'VA',
-          zip: '12345',
           country: 'USA',
         },
       },
@@ -68,69 +71,65 @@ describe('useVaFacilityCode', () => {
     const { result } = renderHook(() => useVaFacilityCode(), {
       wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
     });
-    // console.log('result', result);
+    console.log('resulttttttt', result);
     expect(result.current.address1).to.be.undefined;
-    // await waitFor(async () => {
-    //   await waitFor(() => {
-    //     expect(dispatchSpy.called).to.be.true;
+  
 
-    //   })
-
-    // });
-    // await waitForNextUpdate();
+    // Wait for the dispatch to be called after the effect runs
+    await waitFor(() => {
+      expect(dispatchSpy.called).to.be.true;
+    });
 
     // Loader true dispatched
-    // expect(dispatchSpy.called).to.be.true;
-    // expect(dispatchSpy.firstCall.args[0]).to.deep.include({
-    //   institutionDetails: sinon.match.has('loader', true),
-    // });
+    expect(dispatchSpy.called).to.be.true;
+    expect(dispatchSpy.firstCall.args[0]).to.deep.include({
+      institutionDetails: sinon.match.has('loader', true),
+    });
 
     // Loader false and data dispatched
-    // expect(dispatchSpy.lastCall.args[0].institutionDetails).to.include({
-    //   institutionName: 'Test Institute',
-    //   loader: false,
-    // });
-    // expect(
-    //   dispatchSpy.lastCall.args[0].institutionDetails.address,
-    // ).to.deep.equal({
-    //   address1: '123 Main St',
-    //   address2: 'Suite 1',
-    //   address3: '',
-    //   city: 'Testville',
-    //   state: 'VA',
-    //   zip: '12345',
-    //   country: 'USA',
-    // });
-    // expect(apiRequestStub.calledOnce).to.be.true;
+    expect(dispatchSpy.lastCall.args[0].institutionDetails).to.include({
+      institutionName: 'Test Institute',
+      loader: false,
+    });
+    expect(
+      dispatchSpy.lastCall.args[0].institutionDetails.address,
+    ).to.deep.equal({
+      address1: '123 Main St',
+      address2: 'Suite 1',
+      address3: '',
+      city: 'Testville',
+      country: 'USA',
+    });
+    expect(apiRequestStub.calledOnce).to.be.true;
   });
 
-  // it('should dispatch not found and empty address on api error', async () => {
-  //   useSelectorStub.returns(baseFormData);
-  //   apiRequestStub.rejects(new Error('Not found'));
+  it('should dispatch not found and empty address on api error', async () => {
+    useSelectorStub.returns(baseFormData);
+    apiRequestStub.rejects(new Error('Not found'));
+    renderHook(() => useVaFacilityCode());
+    await renderHook(() => useVaFacilityCode());
 
-  //   await renderHook(() => useVaFacilityCode());
+    // Loader true dispatched
+    expect(dispatchSpy.firstCall.args[0]).to.deep.include({
+      institutionDetails: sinon.match.has('loader', true),
+    });
 
-  //   // Loader true dispatched
-  //   expect(dispatchSpy.firstCall.args[0]).to.deep.include({
-  //     institutionDetails: sinon.match.has('loader', true),
-  //   });
-
-  //   // Loader false and not found dispatched
-  //   expect(dispatchSpy.lastCall.args[0].institutionDetails).to.include({
-  //     institutionName: 'not found',
-  //     loader: false,
-  //   });
-  //   expect(
-  //     dispatchSpy.lastCall.args[0].institutionDetails.address,
-  //   ).to.deep.equal({
-  //     address1: '',
-  //     address2: '',
-  //     address3: '',
-  //     city: '',
-  //     state: '',
-  //     zip: '',
-  //     country: '',
-  //   });
-  //   expect(apiRequestStub.calledOnce).to.be.true;
-  // });
+    // Loader false and not found dispatched
+    expect(dispatchSpy.lastCall.args[0].institutionDetails).to.include({
+      institutionName: 'not found',
+      loader: false,
+    });
+    expect(
+      dispatchSpy.lastCall.args[0].institutionDetails.address,
+    ).to.deep.equal({
+      address1: '',
+      address2: '',
+      address3: '',
+      city: '',
+      state: '',
+      zip: '',
+      country: '',
+    });
+    expect(apiRequestStub.calledOnce).to.be.true;
+  });
 });
