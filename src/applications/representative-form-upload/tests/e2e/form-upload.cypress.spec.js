@@ -13,7 +13,7 @@ const fillTextWebComponent = (fieldName, value) => {
 
 const data = prefillTransformer.formData;
 Cypress.Commands.add('loginArpUser', () => {
-  cy.intercept('GET', '**/accredited_representative_portal/v0/user', {
+  cy.intercept('GET', '/accredited_representative_portal/v0/user', {
     statusCode: 200,
     body: user,
   }).as('fetchUser');
