@@ -39,15 +39,6 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
   const [submitted, setSubmitted] = useState(false);
 
   const handlers = {
-    onSubmit: event => {
-      // handle page navigation
-      // goToPath needs to be encapsulated separately from setFormData
-      // or data updates won't be reflected when page navigation occurs
-      event.preventDefault();
-      if (!nameError && !amountError && !otherAssetIncomeError) {
-        goToPath(SUMMARY_PATH);
-      }
-    },
     onAssetNameChange: ({ target }) => {
       setAssetName(target.value);
     },
@@ -91,8 +82,8 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             },
           },
         });
+        goToPath(SUMMARY_PATH);
       }
-      handlers.onSubmit(event);
     },
   };
 
@@ -100,7 +91,7 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
 
   return (
     <>
-      <form onSubmit={handlers.onSubmit}>
+      <form>
         <fieldset className="vads-u-margin-y--2">
           <legend
             id="decision-date-description"
@@ -150,7 +141,6 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
               {
                 label: `${labelText} other income`,
                 onClick: handlers.onUpdate,
-                isSubmitting: 'prevent', // If this button submits a form
               },
             ]}
           />

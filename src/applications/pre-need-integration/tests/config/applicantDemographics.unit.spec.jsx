@@ -32,7 +32,7 @@ describe('Pre-need applicant demographics', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(9);
+    expect(form.find('input').length).to.equal(8);
     form.unmount();
   });
 

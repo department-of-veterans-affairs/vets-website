@@ -5,7 +5,6 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../../components/InfoAlert';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import { groupAppointmentByDay } from '../../../services/appointment';
 import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -27,10 +26,6 @@ export default function UpcomingAppointmentsPage() {
     futureStatus,
     hasTypeChanged,
   } = useSelector(state => getUpcomingAppointmentListInfo(state), shallowEqual);
-
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
 
   useEffect(() => {
     recordEvent({
@@ -114,7 +109,6 @@ export default function UpcomingAppointmentsPage() {
               role="list"
             >
               {UpcomingAppointmentLayout({
-                featureBreadcrumbUrlUpdate,
                 hashTable,
                 history,
               })}

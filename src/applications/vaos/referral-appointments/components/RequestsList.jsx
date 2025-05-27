@@ -13,8 +13,7 @@ const RequestList = ({ appointments, requestsError }) => {
         status="error"
         headline="We’re sorry. We’ve run into a problem"
       >
-        We’re having trouble getting your appointment requests. Please try again
-        later.
+        We’re having trouble getting your requests. Please try again later.
       </InfoAlert>
     );
   }
@@ -71,7 +70,7 @@ const RequestList = ({ appointments, requestsError }) => {
             )}
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
-              className="vads-u-padding-left--0 vads-u-margin-top--0"
+              className="usa-unstyled-list vaos-appts__list"
               data-cy="requested-appointment-list"
             >
               {statusBucket[1].map((appt, index) => {

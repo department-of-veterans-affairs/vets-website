@@ -96,6 +96,7 @@ const responses = {
             authExpVbaDowntimeMessage: false,
             profileHideDirectDeposit: false,
             representativeStatusEnableV2Features: true,
+            profileLimitDirectDepositForNonBeneficiaries: true,
             profileShowCredentialRetirementMessaging: true,
             profileShowPaymentsNotificationSetting: true,
             profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
@@ -108,6 +109,7 @@ const responses = {
             profileShowNoValidationKeyAddressAlert: false,
             profileUseExperimental: false,
             profileShowPrivacyPolicy: true,
+            vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
           }),
@@ -190,7 +192,7 @@ const responses = {
     // return res.status(200).json(mockDisabilityCompensations.updates.success);
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
-    const secondsOfDelay = 2;
+    const secondsOfDelay = 1;
     delaySingleResponse(
       () => res.status(200).json(directDeposits.base),
       secondsOfDelay,

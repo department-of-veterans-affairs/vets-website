@@ -4,7 +4,6 @@ import { render, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 
 import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
 import formConfig from '../../../config/form';
 import IntroductionPage from '../../../containers/IntroductionPage';
 import { getFormContent } from '../../../helpers';
@@ -117,9 +116,8 @@ describe('IntroductionPage', () => {
   });
 
   it('opens the Login modal on click', () => {
-    const dispatchSpy = sinon.spy();
     const { container } = render(
-      <Provider store={mockStore(false, dispatchSpy)}>
+      <Provider store={mockStore()}>
         <IntroductionPage {...props} />
       </Provider>,
     );
@@ -127,6 +125,8 @@ describe('IntroductionPage', () => {
 
     userEvent.click(button);
 
-    expect(dispatchSpy.calledOnce).to.be.true;
+    expect(window.location.href).to.eq(
+      'https://dev.va.gov/sign-in?application=arp&oauth=true',
+    );
   });
 });

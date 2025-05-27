@@ -5,11 +5,7 @@ import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-
 import NoAppointments from './NoAppointments';
 
 describe('VAOS Component: NoAppointments', () => {
-  const initialState = {
-    featureToggles: {
-      featureBreadcrumbUrlUpdate: true,
-    },
-  };
+  const initialState = {};
 
   it('should display no appointment info', async () => {
     const screen = renderWithStoreAndRouter(

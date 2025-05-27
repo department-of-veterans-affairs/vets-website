@@ -9,6 +9,15 @@ class PatientFilterSortPage {
   //   cy.get(Locators.BUTTONS.FILTER).click();
   // };
 
+  filterMockResponse = (originalResponse, text) => {
+    return {
+      ...originalResponse,
+      data: originalResponse.data.filter(item =>
+        item.attributes.subject.toLowerCase().includes(text.toLowerCase()),
+      ),
+    };
+  };
+
   openAdditionalFilter = () => {
     cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).click();
   };
@@ -89,6 +98,14 @@ class PatientFilterSortPage {
     cy.get(Locators.FIELDS.SEARCH_MESSAGE_HEADING)
       .should('be.visible')
       .and('have.text', Assertions.NO_MATCHES_SEARCH);
+    cy.get(Locators.SEARCH_RESULT)
+      .find(`ul li`)
+      .each(el => {
+        cy.wrap(el).should(`be.visible`);
+        cy.wrap(el)
+          .invoke(`text`)
+          .should(`not.be.empty`);
+      });
   };
 
   clickClearFilterButton = () => {

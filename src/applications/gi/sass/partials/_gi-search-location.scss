@@ -172,12 +172,11 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 
 input.location-search {
   width: 100%;
-  max-width: 490px;
+  max-width: 100%;
 }
 
 #distance-dropdown {
   select {
-    margin-top: 4px;
     margin-left: 25px;
   }
 }

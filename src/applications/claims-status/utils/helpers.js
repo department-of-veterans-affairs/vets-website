@@ -6,6 +6,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import { scrollAndFocus, scrollToTop } from 'platform/utilities/ui';
 import titleCase from 'platform/utilities/data/titleCase';
 import { setUpPage, isTab } from './page';
+import { evidenceDictionary } from './evidenceDictionary';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
@@ -1203,6 +1204,17 @@ export function setTabDocumentTitle(claim, tabName) {
   setDocumentTitle(generateClaimTitle(claim, 'document', tabName));
 }
 
+export const setPageTitle = trackedItem => {
+  if (trackedItem) {
+    const pageTitle = setDocumentRequestPageTitle(
+      trackedItem.friendlyName || trackedItem.displayName,
+    );
+    setDocumentTitle(pageTitle);
+  } else {
+    setDocumentTitle('Document Request');
+  }
+};
+
 // Used to set the page focus on the CST Tabs
 export function setPageFocus(lastPage, loading) {
   if (!isTab(lastPage)) {
@@ -1238,4 +1250,15 @@ export const getTrackedItemDateFromStatus = item => {
     default:
       return item.requestedDate;
   }
+};
+
+export const getDisplayFriendlyName = item => {
+  if (!evidenceDictionary[item.displayName]?.isProperNoun) {
+    let updatedFriendlyName = item.friendlyName;
+    updatedFriendlyName =
+      updatedFriendlyName.charAt(0).toLowerCase() +
+      updatedFriendlyName.slice(1);
+    return updatedFriendlyName;
+  }
+  return item.friendlyName;
 };

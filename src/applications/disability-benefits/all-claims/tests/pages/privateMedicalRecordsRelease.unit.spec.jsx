@@ -199,7 +199,7 @@ describe('0781 question', () => {
             'view:hasVaMedicalRecords': true,
           },
           syncModern0781Flow: true,
-          'view:mentalHealthWorkflowChoice':
+          mentalHealthWorkflowChoice:
             form0781WorkflowChoices.COMPLETE_ONLINE_FORM, // Opt in/out
         }}
       />,
@@ -221,7 +221,7 @@ describe('0781 question', () => {
             'view:hasVaMedicalRecords': true,
           },
           syncModern0781Flow: true,
-          'view:mentalHealthWorkflowChoice':
+          mentalHealthWorkflowChoice:
             form0781WorkflowChoices.OPT_OUT_OF_FORM0781, // Opt in/out
         }}
       />,

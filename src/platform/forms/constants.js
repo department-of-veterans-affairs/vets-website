@@ -87,6 +87,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION:
     'WELCOME_VA_SETUP_REVIEW_INFORMATION',
   FORM_XX_123: 'XX-123',
+  FORM_10_10D_EXTENDED: '10-10D-EXTENDED',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -166,7 +167,6 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_40_0247]: `${tryGetAppUrl('0247-pmc')}/`,
     [VA_FORM_IDS.FORM_40_10007]: `${tryGetAppUrl('pre-need')}/`,
     [VA_FORM_IDS.FORM_5655]: `${tryGetAppUrl('request-debt-help-form-5655')}/`,
-    [VA_FORM_IDS.FORM_VA_2346A]: `${tryGetAppUrl('order-form-2346')}/`,
     [VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION]: `${tryGetAppUrl(
       'welcome-va-setup-review-information',
     )}/`,
@@ -175,6 +175,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
     // [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900')}/`,
+    [VA_FORM_IDS.FORM_10_10D_EXTENDED]: `${tryGetAppUrl('10-10D-EXTENDED')}/`,
   };
 };
 
@@ -601,6 +602,13 @@ export const MY_VA_SIP_FORMS = [
   //   description: 'VR&E Chapter 31 benefits application',
   //   trackingPrefix: 'new-careers-employment-28-1900-',
   // },
+  {
+    id: VA_FORM_IDS.FORM_10_10D_EXTENDED,
+    benefit: 'CHAMPVA application (includes 10-7959c)',
+    title: '10-10d Extended',
+    description: 'CHAMPVA application (includes 10-7959c)',
+    trackingPrefix: '10-10d-extended-',
+  },
 ];
 
 export const FORM_BENEFITS = MY_VA_SIP_FORMS.reduce((acc, form) => {

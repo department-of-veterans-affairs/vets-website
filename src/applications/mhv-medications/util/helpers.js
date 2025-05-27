@@ -1,5 +1,4 @@
 import moment from 'moment-timezone';
-import cheerio from 'cheerio';
 import * as Sentry from '@sentry/browser';
 import {
   EMPTY_FIELD,
@@ -276,17 +275,11 @@ export const fromToNumbs = (page, total, listLength, maxPerPage) => {
  * It should be called whenever the route changes if breadcrumb updates are needed.
  *
  * @param {Object} location - The location object from React Router, containing the current pathname.
- * @param {String} prescriptionId - A prescription object, used for the details page.
- * @param {Object} pagination - The pagination object used for the prescription list page.
+ * @param {Number} currentPage - The current page number.
  * @param {Boolean} removeLandingPage - mhvMedicationsRemoveLandingPage feature flag value (to be removed once turned on in prod)
  * @returns {Array<Object>} An array of breadcrumb objects with `url` and `label` properties.
  */
-export const createBreadcrumbs = (
-  location,
-  prescription,
-  currentPage,
-  removeLandingPage,
-) => {
+export const createBreadcrumbs = (location, currentPage, removeLandingPage) => {
   const { pathname } = location;
   const defaultBreadcrumbs = [
     {
@@ -527,8 +520,10 @@ export const sanitizeKramesHtmlStr = htmlString => {
 /**
  * Return medication information page HTML as text
  */
-export const convertHtmlForDownload = (html, option) => {
-  const $ = cheerio.load(html);
+export const convertHtmlForDownload = async (html, option) => {
+  // Dynamically import cheerio at runtime
+  const cheerioModule = await import('cheerio');
+  const $ = cheerioModule.load(html);
   const contentElements = [
     'address',
     'blockquote',
@@ -586,16 +581,6 @@ export const convertHtmlForDownload = (html, option) => {
     $(el).after('\n\n');
   });
   return $.text().trim();
-};
-
-/**
- * Categorizes prescriptions into refillable and renewable
- */
-export const categorizePrescriptions = ([refillable, renewable], rx) => {
-  if (rx.isRefillable) {
-    return [[...refillable, rx], renewable];
-  }
-  return [refillable, [...renewable, rx]];
 };
 
 /**

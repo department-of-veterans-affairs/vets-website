@@ -26,7 +26,7 @@ describe('behavior change description pages', () => {
       misconduct: false,
       unlisted: true,
     },
-    'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+    noBehavioralChange: { noChange: false },
     behaviorsDetails: {
       absences: 'exhausted leave',
       unlisted: 'some other behavior',

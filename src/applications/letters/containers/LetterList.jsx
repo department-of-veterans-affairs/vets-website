@@ -7,6 +7,7 @@ import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import DownloadLetterLink from '../components/DownloadLetterLink';
+import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
 import {
@@ -16,7 +17,14 @@ import {
   LH_MIGRATION__getOptions,
 } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
-import { lettersUseLighthouse } from '../selectors';
+
+import { getLettersPdfLinksWrapper } from '../actions/letters';
+
+import {
+  lettersUseLighthouse,
+  lettersPageNewDesign,
+  togglesAreLoaded,
+} from '../selectors';
 
 export class LetterList extends React.Component {
   constructor(props) {
@@ -26,12 +34,29 @@ export class LetterList extends React.Component {
   }
 
   componentDidMount() {
-    const { shouldUseLighthouse } = this.props;
+    const {
+      letters,
+      lettersNewDesign,
+      shouldUseLighthouse,
+      togglesLoaded,
+    } = this.props;
     focusElement('h2#nav-form-header');
-    this.setState({
-      // eslint-disable-next-line -- LH_MIGRATION
-      LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
-    });
+    this.setState(
+      {
+        // eslint-disable-next-line -- LH_MIGRATION
+        LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
+      },
+      () => {
+        if (togglesLoaded && lettersNewDesign) {
+          this.props.getLettersPdfLinksWrapper(
+            // Need updated LH_MIGRATION__options for correct download URL
+            // eslint-disable-next-line -- LH_MIGRATION
+            this.state.LH_MIGRATION__options,
+            letters,
+          );
+        }
+      },
+    );
   }
 
   render() {
@@ -52,6 +77,8 @@ export class LetterList extends React.Component {
         content = letterContent[letter.letterType] || '';
       }
 
+      // OLD conditional download button
+      // TODO: Remove after feature flag is turned off.
       let conditionalDownloadButton;
       if (
         letter.letterType !== LETTER_TYPES.benefitSummary ||
@@ -69,12 +96,44 @@ export class LetterList extends React.Component {
         );
       }
 
+      // NEW conditional download link (KEEP)
+      let conditionalDownloadElem;
+      if (letter.letterType === LETTER_TYPES.benefitSummary) {
+        conditionalDownloadElem = (
+          <DownloadLetterLink
+            letterType={letter.letterType}
+            letterTitle={letterTitle}
+            downloadStatus={downloadStatus[letter.letterType]}
+            // eslint-disable-next-line -- LH_MIGRATION
+            LH_MIGRATION__options={this.state.LH_MIGRATION__options}
+            key={`download-link-${index}`}
+          />
+        );
+      } else {
+        conditionalDownloadElem = (
+          <DownloadLetterBlobLink
+            letterTitle={letterTitle}
+            letterType={letter.letterType}
+          />
+        );
+      }
+
       return (
         <va-accordion-item key={`panel-${index}`}>
           <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
-          {conditionalDownloadButton}
-          {helpText}
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue ? (
+                <>{conditionalDownloadElem}</>
+              ) : (
+                <>
+                  {conditionalDownloadButton}
+                  {helpText}
+                </>
+              )
+            }
+          </Toggler.Hoc>
         </va-accordion-item>
       );
     });
@@ -217,16 +276,26 @@ export class LetterList extends React.Component {
 
 function mapStateToProps(state) {
   const letterState = state.letters;
+  const togglesLoaded = togglesAreLoaded(state);
+  const lettersNewDesign = lettersPageNewDesign(state);
+
   return {
     letters: letterState.letters,
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
     shouldUseLighthouse: lettersUseLighthouse(state),
+    togglesLoaded,
+    lettersNewDesign,
   };
 }
 
+const mapDispatchToProps = {
+  getLettersPdfLinksWrapper,
+};
+
 LetterList.propTypes = {
+  getLettersPdfLinksWrapper: PropTypes.func,
   letterDownloadStatus: PropTypes.shape({}),
   letters: PropTypes.arrayOf(
     PropTypes.shape({
@@ -235,8 +304,13 @@ LetterList.propTypes = {
     }),
   ),
   lettersAvailability: PropTypes.string,
+  lettersNewDesign: PropTypes.bool,
   optionsAvailable: PropTypes.bool,
   shouldUseLighthouse: PropTypes.bool,
+  togglesLoaded: PropTypes.bool,
 };
 
-export default connect(mapStateToProps)(LetterList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LetterList);

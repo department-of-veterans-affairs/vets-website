@@ -42,7 +42,13 @@
             "uploaded": false
           },
           {
-            "name": "applicantMedicarePartAPartBCard",
+            "name": "applicantMedicarePartAPartBCardFront",
+            "path": "applicant-medicare-ab-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartAPartBCardBack",
             "path": "applicant-medicare-ab-file/:index",
             "required": true,
             "uploaded": false

@@ -1,15 +1,15 @@
 export const Data = {
   PAGINATION_TEXT: 'Showing 1 - 10 of 29 medications',
   PAGINATION_ALL_MEDICATIONS:
-    'Showing 1 - 10 of 29 medications, alphabetically by status',
+    'Showing 1 - 10 of 29  medications, alphabetically by status',
   PAGINATION_ACTIVE_TEXT:
-    'Showing 1 - 10 of 29 active medications, alphabetically by status',
+    'Showing 1 - 10 of 29  active medications, alphabetically by status',
   PAGINATION_RENEW:
-    'Showing 1 - 10 of 29 renewal needed before refill medications, alphabetically by status',
+    'Showing 1 - 10 of 29  renewal needed before refill medications, alphabetically by status',
   PAGINATION_NON_ACTIVE:
-    'Showing 1 - 10 of 15 non-active medications, alphabetically by status',
+    'Showing 1 - 10 of 15  non-active medications, alphabetically by status',
   PAGINATION_RECENTLY_REQUESTED:
-    'Showing 1 - 10 of 29 recently requested medications, alphabetically by status',
+    'Showing 1 - 10 of 29  recently requested medications, alphabetically by status',
   ACTIVE_REFILL_IN_PROCESS: 'We expect to fill this prescription on',
   ACTIVE_NON_VA: 'You can’t manage this medication in this online tool.',
   PREVIOUS_PRESCRIPTION_PAGINATION:
@@ -18,7 +18,7 @@ export const Data = {
     'Showing 11 to 20 of 26 prescriptions, from newest to oldest',
   PREVIOUS_PRESCRIPTION_PAGINATION_THIRD:
     'Showing 21 to 26 of 26 prescriptions, from newest to oldest',
-  REFILL_HISTORY_INFO: 'Showing 12 refills, from newest to oldest',
+  REFILL_HISTORY_INFO: 'Showing 11 refills, from newest to oldest',
   FILL_DATE_FIELD: 'Filled by pharmacy on',
   IMAGE_FIELD: 'Image',
   MED_DESCRIPTION: 'Medication description',
@@ -86,8 +86,12 @@ export const Data = {
   PARTIAL_FILL_TEXT:
     'This fill has a smaller quantity on purpose. This is temporary.',
   DOWNLOAD_TXT_REFILL_HISTORY: 'Medication description',
-  TRACKING_HEADING: 'Track your shipment',
+  TRACKING_HEADING: 'Track the shipment of your most recent refill',
   PRESCRIPTION_INFO_TRACKING: 'Prescriptions in this package',
+  FILLED_ON_DATE: 'February 11, 2025',
+  DOWNLOAD_SUCCESS_CONFIRMATION_MESSAGE: 'Download started',
+  DOWNLOAD_SUCCESS_ALERT_CONTENT:
+    'Your file should download automatically. If it doesn’t, try again. If you can’t find it, check your browser settings to find where your browser saves downloaded files.',
 };
 export const Paths = {
   LANDING_LIST:
@@ -105,7 +109,7 @@ export const Paths = {
   SORT_BY_STATUS:
     '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
   ACTIVE_FILTER:
-    '/my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active,Active:%20Refill%20in%20Process,Active:%20Non-VA,Active:%20On%20hold,Active:%20Parked,Active:%20Submitted&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    '/my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active,Active:%20Refill%20in%20Process,Active:%20Non-VA,Active:%20On%20Hold,Active:%20Parked,Active:%20Submitted&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
   INTERCEPT: {
     PAGINATION_NEXT:
       '/my_health/v1/prescriptions?page=2&per_page=10&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
@@ -116,6 +120,7 @@ export const Paths = {
       'my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active,Expired&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
     NON_ACTIVE_FILTER_LIST:
       '/my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    AAL: 'my_health/v1/aal',
   },
 };
 export const Alerts = {

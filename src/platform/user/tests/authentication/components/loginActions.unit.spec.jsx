@@ -10,10 +10,10 @@ import { CSP_IDS } from '../../../authentication/constants';
 
 describe('login DOM ', () => {
   const sandbox = sinon.createSandbox();
-  const generateStore = ({ featureToggles = {} } = {}) => ({
+  const generateStore = () => ({
     dispatch: sinon.spy(),
     subscribe: sinon.spy(),
-    getState: () => ({ featureToggles }),
+    getState: () => ({}),
   });
   const mockStore = generateStore();
 
@@ -39,7 +39,6 @@ describe('login DOM ', () => {
         idme: { policy: CSP_IDS.ID_ME },
         logingov: { policy: CSP_IDS.LOGIN_GOV },
         dslogon: { policy: CSP_IDS.DS_LOGON },
-        mhv: { policy: CSP_IDS.MHV },
       };
 
       button.simulate('click');
@@ -55,50 +54,36 @@ describe('login DOM ', () => {
     loginButtons.find('button').forEach(testButton);
     loginButtons.unmount();
   });
+  it('sets actionLocation to "usip" when isUnifiedSignIn is true and "modal" otherwise', () => {
+    const testActionLocation = (isUnifiedSignIn, expectedLocation) => {
+      const store = {
+        dispatch: sinon.spy(),
+        subscribe: sinon.spy(),
+        getState: () => ({}),
+      };
 
-  it(`should render 3 buttons when flipper is enabled`, () => {
-    global.window.location = new URL(
-      'https://dev.va.gov/sign-in/?application=vaoccmobile',
-    );
-    const store = generateStore({
-      featureToggles: { mhvCredentialButtonDisabled: true },
-    });
-    const loginButtons = mount(
-      <Provider store={store}>
-        <LoginActions externalApplication="vaoccmobile" isUnifiedSignIn />
-      </Provider>,
-    );
-    expect(loginButtons.find('button').length).to.eql(3);
-    loginButtons.unmount();
-  });
+      global.window.location = new URL(
+        'https://dev.va.gov/sign-in/?application=vaoccmobile&OAuth=true',
+      );
 
-  it(`should render 4 buttons when flipper is false`, () => {
-    global.window.location = new URL(
-      'https://dev.va.gov/sign-in/?application=mhv',
-    );
-    const store = generateStore({
-      featureToggles: { mhvCredentialButtonDisabled: false },
-    });
-    const loginButtons = mount(
-      <Provider store={store}>
-        <LoginActions externalApplication="mhv" />
-      </Provider>,
-    );
-    expect(loginButtons.find('button').length).to.eql(4);
-    loginButtons.unmount();
-  });
+      const wrapper = mount(
+        <Provider store={store}>
+          <LoginActions
+            externalApplication="vaoccmobile"
+            isUnifiedSignIn={isUnifiedSignIn}
+          />
+        </Provider>,
+      );
 
-  it(`should use fallback when featureToggles not found`, () => {
-    global.window.location = new URL(
-      'https://dev.va.gov/sign-in/?application=mhv',
-    );
-    const store = generateStore({ featureToggles: {} });
-    const loginButtons = mount(
-      <Provider store={store}>
-        <LoginActions externalApplication="mhv" />
-      </Provider>,
-    );
-    expect(loginButtons.find('button').length).to.eql(4);
-    loginButtons.unmount();
+      wrapper.find('LoginButton').forEach(button => {
+        expect(button.prop('actionLocation')).to.equal(expectedLocation);
+      });
+
+      wrapper.unmount();
+    };
+
+    testActionLocation(true, 'usip');
+    testActionLocation(false, 'modal');
+    testActionLocation(undefined, 'modal'); // also test default
   });
 });

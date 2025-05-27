@@ -1,12 +1,19 @@
-import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
 import React from 'react';
-import Sinon from 'sinon';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import sinon from 'sinon';
+import * as reactRedux from 'react-redux';
 import MedicationsListFilter from '../../../components/MedicationsList/MedicationsListFilter';
-import { ACTIVE_FILTER_KEY, filterOptions } from '../../../util/constants';
+import reducer from '../../../reducers';
+import {
+  ACTIVE_FILTER_KEY,
+  ALL_MEDICATIONS_FILTER_KEY,
+  filterOptions,
+} from '../../../util/constants';
 
-describe('Medicaitons List Filter component', () => {
+let sandbox;
+
+describe('Medications List Filter component', () => {
   const filterCountObj = {
     allMedications: 466,
     active: 58,
@@ -14,19 +21,33 @@ describe('Medicaitons List Filter component', () => {
     renewal: 29,
     nonActive: 403,
   };
+
+  let dispatchSpy;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    dispatchSpy = sandbox.spy();
+    sandbox.stub(reactRedux, 'useDispatch').returns(dispatchSpy);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   const setup = (
+    initialState = {},
     updateFilter,
-    filterOption,
-    setFilterOption,
     filterCount = filterCountObj,
   ) => {
-    return render(
+    return renderWithStoreAndRouterV6(
       <MedicationsListFilter
         filterCount={filterCount}
         updateFilter={updateFilter}
-        filterOption={filterOption}
-        setFilterOption={setFilterOption}
       />,
+      {
+        initialState,
+        reducers: reducer,
+      },
     );
   };
 
@@ -42,77 +63,55 @@ describe('Medicaitons List Filter component', () => {
   });
 
   it('checks radio button that matches filter option', () => {
-    const { container } = render(
-      <MedicationsListFilter
-        updateFilter={() => {}}
-        filterOption={ACTIVE_FILTER_KEY}
-        setFilterOption={() => {}}
-      />,
-    );
-    const radioOptionChecked = container.querySelector(
-      `va-radio-option[label="${filterOptions.ACTIVE.label}"]`,
-    );
-    const radioOptionUnchecked = container.querySelector(
-      `va-radio-option[label="${filterOptions.RENEWAL.label}"]`,
-    );
+    const screen = setup({
+      rx: {
+        preferences: {
+          filterOption: ACTIVE_FILTER_KEY,
+        },
+      },
+    });
+
+    const radioOptionChecked = screen.getByTestId('filter-option-ACTIVE');
+    const radioOptionUnchecked = screen.getByTestId('filter-option-RENEWAL');
 
     expect(radioOptionChecked).to.exist;
     expect(radioOptionUnchecked).to.exist;
 
-    expect(radioOptionChecked).to.have.attr('checked', 'true');
-    expect(radioOptionUnchecked).to.have.attr('checked', 'false');
+    expect(radioOptionChecked).to.have.property('checked', true);
+    expect(radioOptionUnchecked).to.have.property('checked', false);
   });
-  it('calls setFilterOption when radio button is selected ', () => {
-    const setFilterOption = Sinon.spy();
-    const wrapper = mount(
-      <MedicationsListFilter
-        updateFilter={() => {}}
-        filterOption={filterOptions.ACTIVE.label}
-        setFilterOption={setFilterOption}
-      />,
-    );
 
-    const event = { detail: { value: `${filterOptions.RENEWAL.label}` } };
-    wrapper.find('VaRadio').prop('onVaValueChange')(event);
-
-    expect(setFilterOption.calledOnce).to.be.true;
-    wrapper.unmount();
-  });
   it('calls updateFilter when user presses the Filter button ', () => {
-    const updateFilter = Sinon.spy();
-    const wrapper = mount(
-      <MedicationsListFilter
-        updateFilter={updateFilter}
-        filterOption={filterOptions.ACTIVE.label}
-        setFilterOption={() => {}}
-      />,
+    const updateFilter = sandbox.spy();
+    const screen = setup(
+      {
+        rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } },
+      },
+      updateFilter,
     );
 
-    const filterButton = wrapper.find('VaButton[data-testid="filter-button"]');
+    const radioOptionChecked = screen.getByTestId('filter-option-ACTIVE');
+    expect(radioOptionChecked).to.exist;
 
-    filterButton.simulate('click');
+    const filterButton = screen.getByTestId('filter-button');
+    filterButton.click();
+
     expect(updateFilter.calledOnce).to.be.true;
-    wrapper.unmount();
   });
 
-  it('calls setFilterOption AND updateFilter when user presses the Reset button ', () => {
-    const updateFilter = Sinon.spy();
-    const setFilterOption = Sinon.spy();
-    const wrapper = mount(
-      <MedicationsListFilter
-        updateFilter={updateFilter}
-        filterOption={filterOptions.ACTIVE.label}
-        setFilterOption={setFilterOption}
-      />,
+  it('calls setFilterOption AND updateFilter when user presses the Reset button', () => {
+    const updateFilter = sandbox.spy();
+    const screen = setup(
+      {
+        rx: { preferences: { filterOption: filterOptions.ACTIVE.label } },
+      },
+      updateFilter,
     );
 
-    const resetButton = wrapper.find(
-      'VaButton[data-testid="filter-reset-button"]',
-    );
+    const resetButton = screen.getByTestId('filter-reset-button');
+    resetButton.click();
 
-    resetButton.simulate('click');
-    expect(setFilterOption.calledOnce).to.be.true;
-    expect(updateFilter.calledOnce).to.be.true;
-    wrapper.unmount();
+    // Verify updateFilter prop was called
+    expect(updateFilter.calledWith(ALL_MEDICATIONS_FILTER_KEY)).to.be.true;
   });
 });

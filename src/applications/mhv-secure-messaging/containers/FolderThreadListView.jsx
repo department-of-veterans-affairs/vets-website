@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   focusElement,
   waitForRenderThenFocus,
@@ -54,12 +53,6 @@ const FolderThreadListView = props => {
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
-  );
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
   );
 
   const displayingNumberOfThreadsSelector =
@@ -148,7 +141,6 @@ const FolderThreadListView = props => {
       if (folderId !== (null || undefined)) {
         if (folder.name === convertPathNameToTitleCase(location.pathname)) {
           const pageTitleTag = getPageTitle({
-            removeLandingPageFF,
             folderName: folder.name,
           });
           updatePageTitle(pageTitleTag);

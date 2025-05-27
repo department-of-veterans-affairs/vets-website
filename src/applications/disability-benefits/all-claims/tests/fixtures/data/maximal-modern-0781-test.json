@@ -329,7 +329,7 @@
     "skip781ForCombatReason": false,
     "view:ptsdCombatBypassAdditionalInfo": {},
     "view:mentalHealthSupportAlert": {},
-    "view:mentalHealthWorkflowChoice": "optForOnlineForm0781",
+    "mentalHealthWorkflowChoice": "optForOnlineForm0781",
     "eventTypes": {
       "combat": true,
       "mst": true,
@@ -379,8 +379,8 @@
       "socialEconomic": true,
       "unlisted": true
     },
-    "view:noneCheckbox": {
-      "view:noBehaviorChanges": false
+    "noBehavioralChange": {
+      "noChange": false
     },
     "treatmentReceivedNonVaProvider": {
       "nonVa": true,

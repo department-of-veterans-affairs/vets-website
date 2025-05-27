@@ -4,6 +4,7 @@ import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 import MedicationsListPage from './pages/MedicationsListPage';
 import mockPrescriptionDetails from './fixtures/prescription-details.json';
 import rxList from './fixtures/listOfPrescriptions.json';
+import { Data } from './utils/constants';
 
 describe('Medications Details Page Download', () => {
   it('visits Medications Details Page Download PDF Dropdown', () => {
@@ -18,8 +19,10 @@ describe('Medications Details Page Download', () => {
     detailsPage.verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage();
     detailsPage.clickDownloadMedicationDetailsAsPdfOnDetailsPage();
     detailsPage.verifyLoadingSpinnerForDownloadOnDetailsPage();
-    listPage.verifyDownloadCompleteSuccessMessageBanner();
-    detailsPage.verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage();
+    listPage.verifyDownloadCompleteSuccessMessageBanner(
+      Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
+    );
+    listPage.verifyFocusOnDownloadAlertSuccessBanner();
     site.verifyDownloadedPdfFile(
       'VA-medications-list-Safari-Mhvtp',
       moment(),

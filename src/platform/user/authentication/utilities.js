@@ -16,7 +16,6 @@ import {
   POLICY_TYPES,
   SIGNUP_TYPES,
   API_SESSION_URL,
-  EBENEFITS_DEFAULT_PATH,
   AUTH_PARAMS,
   IDME_TYPES,
 } from './constants';
@@ -135,12 +134,6 @@ export const createExternalApplicationUrl = () => {
       break;
     case EXTERNAL_APPS.VA_OCC_MOBILE:
       URL = sanitizeUrl(`${externalRedirectUrl}${window.location.search}`);
-      break;
-    case EXTERNAL_APPS.EBENEFITS:
-      URL = sanitizeUrl(
-        `${externalRedirectUrl}`,
-        `${!to ? EBENEFITS_DEFAULT_PATH : sanitizePath(to)}`,
-      );
       break;
     case EXTERNAL_APPS.MHV:
       URL = sanitizeUrl(

@@ -8,6 +8,7 @@ import { render } from '@testing-library/react';
 import * as digitalFormPatterns from '../../../utils/digitalFormPatterns';
 import * as IntroductionPage from '../../../containers/IntroductionPage';
 import * as submitTransform from '../../../config/submitTransformer';
+import * as listLoopPatterns from '../../../config/pages/listLoop';
 import { normalizedForm } from '../../../config/formConfig';
 import {
   createFormConfig,
@@ -20,6 +21,7 @@ const [
   address,
   phoneAndEmail,
   listLoop,
+  employmentHistory,
   customStep,
 ] = normalizedForm.chapters;
 
@@ -133,6 +135,10 @@ describe('createFormConfig', () => {
 describe('formatPages', () => {
   let spy;
 
+  afterEach(() => {
+    spy.restore();
+  });
+
   context('when digital_form_address', () => {
     beforeEach(() => {
       spy = sinon.spy(digitalFormPatterns, 'addressPages');
@@ -171,13 +177,25 @@ describe('formatPages', () => {
 
   context('when digital_form_list_loop', () => {
     beforeEach(() => {
-      spy = sinon.spy(digitalFormPatterns, 'listLoopPages');
+      spy = sinon.spy(listLoopPatterns, 'listLoopPages');
     });
 
     it('calls listLoopPages', () => {
       formatPages(listLoop);
 
       expect(spy.calledWith(listLoop)).to.eq(true);
+    });
+  });
+
+  context('when list_loop_employment_history', () => {
+    beforeEach(() => {
+      spy = sinon.spy(listLoopPatterns, 'listLoopPages');
+    });
+
+    it('calls listLoopPages', () => {
+      formatPages(employmentHistory);
+
+      expect(spy.calledWith(employmentHistory)).to.eq(true);
     });
   });
 

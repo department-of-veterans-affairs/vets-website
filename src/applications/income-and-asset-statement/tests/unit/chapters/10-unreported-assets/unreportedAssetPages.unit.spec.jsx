@@ -3,7 +3,7 @@ import formConfig from '../../../../config/form';
 import {
   unreportedAssetPages,
   options,
-} from '../../../../config/chapters/10-unreported-assets/unreportedAssetPages';
+} from '../../../../config/chapters/09-unreported-assets/unreportedAssetPages';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
 
@@ -33,27 +33,32 @@ describe('unreported asset list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return text', () => {
-      expect(options.text.getItemName()).to.equal('Unreported Asset');
+    it('should return "`assetType`"', () => {
+      const item = testData.data.unreportedAssets[0];
+      expect(options.text.getItemName(item)).to.equal(item.assetType);
     });
   });
 
   describe('text cardDescription function', () => {
+    /* eslint-disable no-unused-vars */
     const {
-      // eslint-disable-next-line no-unused-vars
+      assetType,
       assetOwnerRelationship,
       ...baseItem
     } = testData.data.unreportedAssets[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem);
   });
 
   describe('text cardDescription function with zero values', () => {
+    /* eslint-disable no-unused-vars */
     const {
-      // eslint-disable-next-line no-unused-vars
+      assetType,
       assetOwnerRelationship,
       ...baseItem
     } = testDataZeroes.data.unreportedAssets[0];
     testOptionsTextCardDescription(options, baseItem);
+    /* eslint-enable no-unused-vars */
   });
 
   describe('summary page', () => {

@@ -1,12 +1,10 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { sentenceCase } from '../../../utils/formatters';
 import { getPreferredCommunityCareProviderName } from '../../../services/appointment';
 import { APPOINTMENT_STATUS, SPACE_BAR } from '../../../utils/constants';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -35,12 +33,7 @@ export default function RequestListItem({ appointment, facility }) {
   const preferredDate = appointment?.preferredDate;
   const idClickable = `id-${appointment.id?.replace('.', '\\.')}`;
 
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-  const link = `${featureBreadcrumbUrlUpdate ? 'pending' : 'requests'}/${
-    appointment.id
-  }`;
+  const link = `${'pending'}/${appointment.id}`;
 
   return (
     <li

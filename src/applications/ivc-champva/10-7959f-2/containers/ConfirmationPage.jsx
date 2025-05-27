@@ -60,7 +60,6 @@ export class ConfirmationPage extends React.Component {
           </p>
 
           <va-button
-            type="button"
             text="Print this page"
             className="usa-button screen-only"
             onClick={window.print}
@@ -97,7 +96,7 @@ export class ConfirmationPage extends React.Component {
         </p>
 
         <va-link
-          href="/resources/how-to-file-a-va-foreign-medical-program-claim/#what-to-expect-after-you-file-"
+          href="https://www.va.gov/health-care/file-foreign-medical-program-claim/#what-to-expect-after-you-file-"
           text="Learn more about what to expect after you file your claim"
         />
 
@@ -124,7 +123,7 @@ export class ConfirmationPage extends React.Component {
           through Friday, 8:05am to 6:45pm. ET.
         </p>
         <va-link
-          href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#by-phone"
+          href="https://www.va.gov/health-care/file-foreign-medical-program-claim/#how-to-contact-us-about-fmp-cl"
           text="Learn more about how to call us toll-free"
         />
         <p>You can also contact us online through our Ask VA tool.</p>
