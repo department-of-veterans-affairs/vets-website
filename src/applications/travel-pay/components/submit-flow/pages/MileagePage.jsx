@@ -62,6 +62,11 @@ const MileagePage = ({
         value={yesNo.mileage}
         label={title}
         error={requiredAlert}
+        description={`For your appointment on ${formattedDate} at ${formattedTime} ${
+          data.location?.attributes?.name
+            ? `at ${data.location.attributes.name}`
+            : ''
+        }, ${data.reasonForAppointment ?? ''}`}
         onValueChange={e => {
           setYesNo({ ...yesNo, mileage: e.detail.value });
         }}
