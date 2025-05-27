@@ -120,6 +120,7 @@ const responses = {
         type,
         modality,
         localStartTime: req.body.slot?.id ? localTime : null,
+        start: req.body.slot?.id ? selectedTime[0] : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
         contact: {
           telecom: [

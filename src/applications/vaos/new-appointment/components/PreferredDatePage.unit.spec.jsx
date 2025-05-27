@@ -1,10 +1,10 @@
-import React from 'react';
 import { expect } from 'chai';
-import moment from 'moment';
+import React from 'react';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
+import { addDays, format } from 'date-fns';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -112,16 +112,9 @@ describe('VAOS Page: PreferredDatePage', () => {
   });
 
   it('should submit with valid data', async () => {
-    const maxMonth = moment()
-      .add(395, 'days')
-      .format('M');
-    const maxDay = moment()
-      .add(395, 'days')
-      .format('DD')
-      .replace(/\b0/g, '');
-    const maxYear = moment()
-      .add(395, 'days')
-      .format('YYYY');
+    const maxMonth = format(addDays(new Date(), 395), 'M');
+    const maxDay = format(addDays(new Date(), 395), 'd').replace(/\b0/g, '');
+    const maxYear = format(addDays(new Date(), 395), 'yyyy');
 
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<PreferredDatePage />, {
