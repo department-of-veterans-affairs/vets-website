@@ -246,9 +246,11 @@ describe('health insurance array builder options.text', () => {
       providerPhone: '1231231234',
       formData: mockData.data,
     };
-    expect(insuranceOptions.text.summaryTitle(completeItem)).to.include(
-      'health insurance review',
+    // It returns JSX with the privacy class wrapper
+    const { container } = render(
+      insuranceOptions.text.summaryTitle(completeItem),
     );
+    expect(container.innerHTML).to.include('health insurance review');
   });
 });
 
@@ -390,7 +392,7 @@ describe('title text logic', () => {
       Object.keys(formConfig.chapters[`${ch}`].pages).forEach(pg => {
         const { title } = formConfig.chapters[`${ch}`].pages[`${pg}`];
         if (typeof title === 'function') {
-          title();
+          title({ formData: {} });
           titleCount += 1;
         }
       });

@@ -19,6 +19,13 @@ export class ReasonForAppointmentPageObject extends PageObject {
     return super.selectRadioButtonShadow(/Routine or follow-up visit/i);
   }
 
+  assertLabel({ label }) {
+    return this.assertShadow({
+      element: 'va-textarea',
+      text: label,
+    });
+  }
+
   typeAdditionalText({ content }) {
     cy.get('va-textarea')
       .shadow()

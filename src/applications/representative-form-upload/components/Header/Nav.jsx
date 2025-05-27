@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import UserNav from './UserNav';
-import { SIGN_IN_URL } from '../../constants/index';
+import { SIGN_IN_URL } from '../../constants';
 import { selectUserProfile } from '../../selectors/user';
 
 function SignInButton() {

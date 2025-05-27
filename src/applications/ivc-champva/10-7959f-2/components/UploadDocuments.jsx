@@ -16,7 +16,7 @@ export const supportingDocsInfo = (
       <li>COVID-19 vaccines</li>
     </ul>
     <a
-      href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#supporting-documents-to-send-w"
+      href="https://www.va.gov/health-care/file-foreign-medical-program-claim/#supporting-documents-to-send-w"
       rel="noreferrer"
       target="_blank"
     >

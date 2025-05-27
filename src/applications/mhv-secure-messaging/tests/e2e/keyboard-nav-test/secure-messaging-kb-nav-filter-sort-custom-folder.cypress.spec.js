@@ -5,14 +5,14 @@ import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 import PatientFilterPage from '../pages/PatientFilterPage';
-import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
+import mockThreadsResponse from '../fixtures/threads-response.json';
 
 describe('SM CUSTOM FOLDER FILTER & SORT KB NAVIGATION', () => {
-  const filteredData = {
-    data: mockSingleThreadResponse.data.filter(item =>
-      item.attributes.subject.toLowerCase().includes('covid'),
-    ),
-  };
+  const filterData = 'test';
+  const filteredData = PatientFilterPage.filterMockResponse(
+    mockThreadsResponse,
+    filterData,
+  );
 
   beforeEach(() => {
     SecureMessagingSite.login();
@@ -22,18 +22,17 @@ describe('SM CUSTOM FOLDER FILTER & SORT KB NAVIGATION', () => {
   });
 
   it('verify filter works correctly', () => {
-    cy.log(JSON.stringify(filteredData));
     GeneralFunctionsPage.verifyHeaderFocused();
-    PatientFilterPage.inputFilterDataByKeyboard('covid');
+    PatientFilterPage.inputFilterDataByKeyboard(filterData);
     PatientFilterPage.submitFilterByKeyboard(filteredData);
-    PatientFilterPage.verifyFilterResults('covid', filteredData);
+    PatientFilterPage.verifyFilterResults(filterData, filteredData);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify clear filter btn works correctly', () => {
-    PatientFilterPage.inputFilterDataByKeyboard('test');
+    PatientFilterPage.inputFilterDataByKeyboard(filterData);
     PatientFilterPage.submitFilterByKeyboard(filteredData);
     PatientFilterPage.clearFilterByKeyboard();
     PatientFilterPage.verifyFilterFieldCleared();
@@ -44,7 +43,7 @@ describe('SM CUSTOM FOLDER FILTER & SORT KB NAVIGATION', () => {
 
   it('verify sorting works properly', () => {
     const sortedResult = PatientFilterPage.sortMessagesThread(
-      mockSingleThreadResponse,
+      mockThreadsResponse,
     );
 
     PatientFilterPage.verifySortingByKeyboard(sortedResult);

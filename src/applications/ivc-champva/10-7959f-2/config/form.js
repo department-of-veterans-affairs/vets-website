@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import React from 'react';
 
@@ -17,9 +18,16 @@ import {
   emailUI,
   emailSchema,
   radioSchema,
+  phoneUI,
+  phoneSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
+import {
+  fileInputMultipleUI,
+  fileInputMultipleSchema,
+} from '../../shared/components/fileInputPattern';
 
 import transformForSubmit from './submitTransformer';
 import prefillTransformer from './prefillTransformer';
@@ -29,10 +37,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import {
-  internationalPhoneSchema,
-  internationalPhoneUI,
-} from '../../shared/components/InternationalPhone';
-import {
   validAddressCharsOnly,
   validObjectCharsOnly,
 } from '../../shared/validations';
@@ -41,7 +45,6 @@ import PaymentSelectionUI, {
   loggedInPaymentInfo,
   loggedOutPaymentInfo,
 } from '../components/PaymentSelection';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import {
   UploadDocumentsVeteran,
   UploadDocumentsProvider,
@@ -171,9 +174,11 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               "We'll send any important information about your claim to this address.",
-            veteranAddress: addressUI({
-              required: {
-                state: () => true,
+            veteranAddress: merge({}, addressUI(), {
+              state: {
+                'ui:errorMessages': {
+                  required: 'Enter a valid State, Province, or Region',
+                },
               },
             }),
             'ui:validations': [
@@ -223,13 +228,13 @@ const formConfig = {
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(`Home address`),
-            physicalAddress: {
-              ...addressUI({
-                required: {
-                  state: () => true,
+            physicalAddress: merge({}, addressUI(), {
+              state: {
+                'ui:errorMessages': {
+                  required: 'Enter a valid State, Province, or Region',
                 },
-              }),
-            },
+              },
+            }),
             'ui:validations': [
               (errors, formData) =>
                 validAddressCharsOnly(
@@ -260,11 +265,15 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'Include a country code for foreign phone numbers',
+              'Enter a 10-digit U.S. phone number',
             ),
-            messageAriaDescribedby:
-              'Include a country code for foreign phone numbers',
-            veteranPhoneNumber: internationalPhoneUI(),
+            messageAriaDescribedby: 'Enter a 10-digit U.S. phone number',
+            veteranPhoneNumber: merge({}, phoneUI(), {
+              'ui:errorMessages': {
+                required:
+                  'Please enter a 10-digit U.S. phone number (with or without dashes)',
+              },
+            }),
             veteranEmailAddress: emailUI(),
           },
           schema: {
@@ -272,7 +281,7 @@ const formConfig = {
             required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: internationalPhoneSchema,
+              veteranPhoneNumber: phoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },
@@ -319,20 +328,24 @@ const formConfig = {
       pages: {
         page7: {
           path: 'upload-supporting-documents',
-          title: 'Included files',
+          title: 'Veteran payment docs',
           depends: formData => formData.sendPayment === 'Veteran',
           uiSchema: {
-            ...titleUI({
-              title: 'Upload billing statements and supporting documents',
-              headerLevel: 2,
-            }),
+            ...titleUI('Upload billing statements and supporting documents'),
             'view:UploadDocuments': {
               'ui:description': UploadDocumentsVeteran,
             },
-            uploadSectionVeteran: fileUploadUI({
-              label: 'Upload file',
-              attachmentName: false,
-            }),
+            uploadSectionVeteran: {
+              ...fileInputMultipleUI({
+                errorMessages: { required: 'This document is required.' },
+                name: 'veteran-payment',
+                fileUploadUrl: `${
+                  environment.API_URL
+                }/ivc_champva/v1/forms/submit_supporting_documents`,
+                title: 'Upload supporting document',
+                formNumber: '10-7959F-2',
+              }),
+            },
           },
           schema: {
             type: 'object',
@@ -343,37 +356,30 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              uploadSectionVeteran: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  properties: {
-                    name: {
-                      type: 'string',
-                    },
-                  },
-                },
-              },
+              uploadSectionVeteran: fileInputMultipleSchema,
             },
           },
         },
         page8: {
           path: 'upload-supporting-documents-provider',
-          title: 'Included files',
+          title: 'Provider payment docs',
           depends: formData => formData.sendPayment === 'Provider',
           uiSchema: {
-            ...titleUI({
-              title: 'Upload billing statements and supporting documents',
-              headerLevel: 2,
-            }),
+            ...titleUI('Upload billing statements and supporting documents'),
             'view:UploadDocuments': {
               'ui:description': UploadDocumentsProvider,
             },
-            uploadSectionProvider: fileUploadUI({
-              label: 'Upload file',
-              attachmentName: false,
-            }),
+            uploadSectionProvider: {
+              ...fileInputMultipleUI({
+                errorMessages: { required: 'This document is required.' },
+                name: 'provider-payment',
+                fileUploadUrl: `${
+                  environment.API_URL
+                }/ivc_champva/v1/forms/submit_supporting_documents`,
+                title: 'Upload supporting document',
+                formNumber: '10-7959F-2',
+              }),
+            },
           },
           schema: {
             type: 'object',
@@ -384,18 +390,7 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              uploadSectionProvider: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  properties: {
-                    name: {
-                      type: 'string',
-                    },
-                  },
-                },
-              },
+              uploadSectionProvider: fileInputMultipleSchema,
             },
           },
         },

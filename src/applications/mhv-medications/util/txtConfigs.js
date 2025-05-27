@@ -118,7 +118,6 @@ ${
               return previousRx.prescriptionNumber;
             })
             .join(', ')}
-  
 `
         : ``
     }`;

@@ -35,6 +35,7 @@
       "effectiveDate": { "from": "2099-12-01", "to": "2100-01-01" }
     },
     "syncModern0781Flow": true,
+    "mentalHealthWorkflowChoice": "optForOnlineForm0781",
     "form0781": {
       "eventTypes": {
         "combat": true,

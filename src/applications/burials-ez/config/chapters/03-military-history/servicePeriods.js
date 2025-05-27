@@ -10,13 +10,8 @@ import {
 import { validateDateRange } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import { VaSelectField } from 'platform/forms-system/src/js/web-component-fields';
 
-import {
-  serviceNumberSchema,
-  serviceNumberUI,
-} from 'platform/forms-system/src/js/web-component-patterns/ssnPattern';
-import { generateTitle, generateHelpText } from '../../../utils/helpers';
+import { generateTitle } from '../../../utils/helpers';
 import ListItemView from '../../../components/ListItemView';
-import ReviewRowView from '../../../components/ReviewRowView';
 
 const { toursOfDuty } = fullSchemaBurials.properties;
 
@@ -68,16 +63,6 @@ export default {
     'ui:options': {
       pageClass: 'service-period-view',
     },
-    militaryServiceNumber: {
-      ...serviceNumberUI('Military Service number'),
-      'ui:description': generateHelpText(
-        'Enter this only if the deceased Veteran has one',
-      ),
-      'ui:reviewField': ReviewRowView,
-      'ui:options': {
-        classNames: 'vads-u-margin-bottom--2',
-      },
-    },
     toursOfDuty: {
       'ui:options': {
         itemName: 'Service period',
@@ -122,7 +107,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      militaryServiceNumber: serviceNumberSchema,
       toursOfDuty,
     },
   },

@@ -15,7 +15,7 @@ export default {
   uiSchema: {
     'ui:title': titleWithTag(workflowChoicePageTitle, form0781HeadingTag),
     'ui:description': ({ formData }) => workflowChoicePageDescription(formData),
-    'view:mentalHealthWorkflowChoice': radioUI({
+    mentalHealthWorkflowChoice: radioUI({
       title: form0781WorkflowChoiceDescription,
       labelHeaderLevel: '4',
       errorMessages: {
@@ -34,9 +34,9 @@ export default {
 
   schema: {
     type: 'object',
-    required: ['view:mentalHealthWorkflowChoice'],
+    required: ['mentalHealthWorkflowChoice'],
     properties: {
-      'view:mentalHealthWorkflowChoice': {
+      mentalHealthWorkflowChoice: {
         type: 'string',
         enum: Object.keys(form0781WorkflowChoices).map(
           key => form0781WorkflowChoices[key],

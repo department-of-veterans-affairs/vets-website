@@ -35,7 +35,6 @@ describe('VAOS Component: VideoLayout', () => {
   describe('When appointment information is missing', () => {
     const nullInitialState = {
       appointments: {},
-      featureToggles: {},
     };
     it('should not display heading and text for empty data', async () => {
       // Arrange
@@ -44,6 +43,8 @@ describe('VAOS Component: VideoLayout', () => {
         type: 'VA',
         modality: 'vaVideoCareAtHome',
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: null,
@@ -158,6 +159,8 @@ describe('VAOS Component: VideoLayout', () => {
         location: {
           stationId: '983',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -197,6 +200,8 @@ describe('VAOS Component: VideoLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -244,6 +249,8 @@ describe('VAOS Component: VideoLayout', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -608,7 +615,7 @@ describe('VAOS Component: VideoLayout', () => {
 
         expect(
           screen.getByText(
-            /If you want to reschedule, call us or schedule a new appointment online/i,
+            /If you still want this appointment, call your VA health facility to schedule./i,
           ),
         );
         expect(
@@ -742,7 +749,7 @@ describe('VAOS Component: VideoLayout', () => {
 
         expect(
           screen.getByText(
-            /If you want to reschedule, call us or schedule a new appointment online/i,
+            /If you still want this appointment, call your VA health facility to schedule./i,
           ),
         );
         expect(
@@ -904,7 +911,7 @@ describe('VAOS Component: VideoLayout', () => {
 
         expect(
           screen.getByText(
-            /If you want to reschedule, call us or schedule a new appointment online/i,
+            /If you still want this appointment, call your VA health facility to schedule./i,
           ),
         );
         expect(

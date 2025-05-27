@@ -20,8 +20,6 @@ const mockStore = {
     featureToggles: [
       {
         [FEATURE_FLAG_NAMES.virtualAgentEnableParamErrorDetection]: false,
-        [FEATURE_FLAG_NAMES.virtualAgentEnableMsftPvaTesting]: false,
-        [FEATURE_FLAG_NAMES.virtualAgentEnableNluPvaTesting]: false,
       },
     ],
   }),

@@ -10,7 +10,6 @@ import FullWidthLayout from '../../../components/FullWidthLayout';
 import CCRequestLayout from '../../../components/layouts/CCRequestLayout';
 import VARequestLayout from '../../../components/layouts/VARequestLayout';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import PageLayout from '../../components/PageLayout';
@@ -49,38 +48,24 @@ export default function RequestedAppointmentDetailsPage() {
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
 
   useEffect(
     () => {
       if (appointment) {
-        let title = `${isCanceled ? 'Canceled' : 'Pending'} ${
+        let title = `${isCanceled ? 'Canceled ' : 'Pending '}${
           isCC ? 'Community care' : 'VA'
         } ${typeOfCareText} appointment`;
 
-        if (featureBreadcrumbUrlUpdate) {
-          title = `${
-            isCanceled ? 'Canceled Request For' : 'Pending Request For'
-          } 
-            ${isCC ? 'Community Care Appointment' : 'Appointment'}`;
-          title = title.concat(` | Veterans Affairs`);
-        }
+        title = `${
+          isCanceled ? 'Canceled Request For ' : 'Pending Request For '
+        }${isCC ? 'Community Care Appointment' : 'Appointment'}`;
+        title = title.concat(` | Veterans Affairs`);
 
         document.title = title;
       }
       scrollAndFocus();
     },
-    [
-      dispatch,
-      typeOfCareText,
-      featureBreadcrumbUrlUpdate,
-      isCanceled,
-      isCC,
-      appointment,
-      cancelInfo,
-    ],
+    [dispatch, typeOfCareText, isCanceled, isCC, appointment, cancelInfo],
   );
 
   useEffect(

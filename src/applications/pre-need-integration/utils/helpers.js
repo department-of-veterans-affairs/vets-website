@@ -208,6 +208,24 @@ export function militaryDetailsSubHeader(formData) {
   );
 }
 
+export function militaryDetailsReviewHeader(formData) {
+  return get(
+    'application.applicant.applicantRelationshipToClaimant',
+    formData,
+  ) === 'Authorized Agent/Rep'
+    ? `Applicant’s military details`
+    : `Your military details`;
+}
+
+export function previousNameReviewHeader(formData) {
+  return get(
+    'application.applicant.applicantRelationshipToClaimant',
+    formData,
+  ) === 'Authorized Agent/Rep'
+    ? `Applicant’s previous name`
+    : `Your previous name`;
+}
+
 export const createPayload = (file, formId, password) => {
   const payload = new FormData();
   payload.set('form_id', formId);
@@ -841,7 +859,6 @@ export const veteranUI = {
       labels: {
         female: 'Female',
         male: 'Male',
-        na: 'Prefer not to answer',
       },
     },
   },
@@ -921,20 +938,19 @@ export const veteranUI = {
       showFieldLabel: true,
     },
   },
-
   raceComment: {
     'ui:title': 'Enter the race that best describes you',
     'ui:widget': 'textarea',
-    'ui:required': form => {
-      return form?.application?.veteran?.race?.isOther;
-    },
+    'ui:required': form => !!form?.application?.veteran?.race?.isOther,
     'ui:options': {
       expandUnder: 'race',
-      maxLength: 100,
-      pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
-      hideIf: form => {
-        return !form?.application?.veteran?.race?.isOther;
+      expandUnderCondition: form => {
+        return !!form?.isOther;
       },
+      expandedContentFocus: true,
+    },
+    'ui:errorMessages': {
+      required: 'Please provide a response.',
     },
   },
   militaryStatus: {
@@ -992,7 +1008,6 @@ export const preparerVeteranUI = {
       labels: {
         female: 'Female',
         male: 'Male',
-        na: 'Prefer not to answer',
       },
     },
   },

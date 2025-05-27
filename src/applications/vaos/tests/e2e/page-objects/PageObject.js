@@ -12,7 +12,18 @@ export default class PageObject {
     return this;
   }
 
-  assertButton({ label, exist = true, isEnabled = true } = {}) {
+  /**
+   * Method to assert a button.
+   *
+   * @param {Object} params
+   * @param {string|RegExp} [params.label] Button label
+   * @param {boolean} [params.exist=true] Assert on existence or non-existence
+   * @param {boolean} [params.isEnabled=true] Assert if button is enabled or not
+   *
+   * @returns
+   * @memberof PageObject
+   */
+  assertButton({ label, exist = true, isEnabled = true }) {
     if (exist) {
       cy.contains('button', label)
         .as('button')

@@ -101,7 +101,7 @@ describe('VAOS Page: ClosestCityStatePage', () => {
     // Then preferences page should open
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-appointment/community-care-preferences',
+        'preferred-provider',
       );
     });
   });

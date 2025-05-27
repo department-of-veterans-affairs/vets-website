@@ -5,9 +5,7 @@ import AtlasLocation from './AtlasLocation';
 import { AtlasAppoinment } from '../../../tests/mocks/unit-test-helpers';
 
 describe('VAOS Component: AtlasLocation', () => {
-  const initialState = {
-    featureToggles: {},
-  };
+  const initialState = {};
   const atlasAppointment = new AtlasAppoinment();
 
   const appointmentData = {

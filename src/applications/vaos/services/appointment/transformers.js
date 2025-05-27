@@ -162,8 +162,14 @@ export function transformVAOSAppointment(
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
   let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  let isPhone = appt.kind === 'phone';
+  let isCovid = appt.serviceType === COVID_VACCINE_ID;
+  let isInPersonVisit = !isVideo && !isCC && !isPhone;
   if (useFeSourceOfTruthModality) {
     isCompAndPen = appt.modality === 'claimExamAppointment';
+    isPhone = appt.modality === 'vaPhone';
+    isCovid = appt.modality === 'vaInPersonVaccine';
+    isInPersonVisit = isCompAndPen || isCovid || appt.modality === 'vaInPerson';
   }
 
   const isCancellable = appt.cancellable;
@@ -176,6 +182,7 @@ export function transformVAOSAppointment(
       facilityId: appt.locationId,
       kind: appt.telehealth?.vvsKind,
       url: appt.telehealth?.url,
+      displayLink: appt.telehealth?.displayLink,
       duration: appt.minutesDuration,
       providers: (providers || [])
         .map(provider => {
@@ -271,6 +278,7 @@ export function transformVAOSAppointment(
     // NOTE: Timezone will be converted to the local timezone when using 'format()'.
     // So use format without the timezone information.
     start: !isRequest ? start.format('YYYY-MM-DDTHH:mm:ss') : null,
+    startUtc: !isRequest ? appt.start : null,
     reasonForAppointment,
     patientComments,
     timezone: appointmentTZ,
@@ -285,7 +293,7 @@ export function transformVAOSAppointment(
       vistaId: appt.locationId?.substr(0, 3) || null,
       clinicId: appt.clinic,
       stationId: appt.locationId,
-      clinicName: appt.friendlyName || appt.serviceName || null,
+      clinicName: appt.serviceName || null,
       clinicPhysicalLocation: appt.physicalLocation || null,
       clinicPhone: appt.extension?.clinic?.phoneNumber || null,
       clinicPhoneExtension:
@@ -331,10 +339,9 @@ export function transformVAOSAppointment(
       appointmentType,
       isCommunityCare: isCC,
       isExpressCare: false,
-      isPhoneAppointment: useFeSourceOfTruthModality
-        ? appt.modality === 'vaPhone'
-        : appt.kind === 'phone',
-      isCOVIDVaccine: appt.serviceType === COVID_VACCINE_ID,
+      isPhoneAppointment: isPhone,
+      isCOVIDVaccine: isCovid,
+      isInPersonVisit,
       isCerner,
       apiData: appt,
       timeZone: appointmentTZ,

@@ -6,12 +6,14 @@ import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-li
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
+import { isLoggedIn } from 'platform/user/selectors';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import { SIGN_IN_URL } from '../config/constants';
+import { SIGN_IN_URL } from '../constants';
 import { fetchUser } from '../actions/user';
 import { selectIsUserLoading } from '../selectors/user';
 import { selectShouldGoToSignIn } from '../selectors/navigation';
+import AccessTokenManager from './AccessTokenManager';
 
 const App = ({ children }) => {
   const {
@@ -27,6 +29,7 @@ const App = ({ children }) => {
   const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
   const shouldGoToSignIn = useSelector(selectShouldGoToSignIn);
   const isUserLoading = useSelector(selectIsUserLoading);
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
 
   const dispatch = useDispatch();
   useEffect(() => dispatch(fetchUser()), [dispatch]);
@@ -56,11 +59,13 @@ const App = ({ children }) => {
   );
 
   return (
-    <div className="container">
-      <Header />
-      <div className="form_container row">{content}</div>
-      <Footer />
-    </div>
+    <AccessTokenManager userLoggedIn={userLoggedIn}>
+      <div className="container">
+        <Header />
+        <div className="form_container row">{content}</div>
+        <Footer />
+      </div>
+    </AccessTokenManager>
   );
 };
 

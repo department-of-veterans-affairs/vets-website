@@ -71,6 +71,7 @@ function apptRequestSort(a, b) {
  * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @param {Boolean} useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @param {Boolean} useFeSourceOfTruthVA whether to use vets-api payload as the FE source of truth for VA appointments and requests
+ * @param {Boolean} useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
 export async function fetchAppointments({
@@ -139,6 +140,7 @@ export async function fetchAppointments({
  * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @param {Boolean} useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @param {Boolean} useFeSourceOfTruthVA whether to use vets-api payload as the FE source of truth for VA appointments and requests
+ * @param {Boolean} useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
  */
 export async function getAppointmentRequests({
@@ -148,6 +150,7 @@ export async function getAppointmentRequests({
   useFeSourceOfTruth = false,
   useFeSourceOfTruthCC = false,
   useFeSourceOfTruthVA = false,
+  useFeSourceOfTruthModality = false,
 }) {
   try {
     const appointments = await getAppointments({
@@ -180,6 +183,7 @@ export async function getAppointmentRequests({
       useFeSourceOfTruth,
       useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
+      useFeSourceOfTruthModality,
     );
 
     transformRequests.push({
@@ -205,6 +209,7 @@ export async function getAppointmentRequests({
  * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @param {Boolean} useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @param {Boolean} useFeSourceOfTruthVA whether to use vets-api payload as the FE source of truth for VA appointments and requests
+ * @param {Boolean} useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @returns {Appointment} An Appointment object for the given request id
  */
 export async function fetchRequestById({
@@ -243,6 +248,7 @@ export async function fetchRequestById({
  * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @param {Boolean} useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @param {Boolean} useFeSourceOfTruthVA whether to use vets-api payload as the FE source of truth for VA appointments and requests
+ * @param {Boolean} useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @returns {Appointment} A transformed appointment with the given id
  */
 export async function fetchBookedAppointment({
@@ -366,14 +372,12 @@ export function hasValidCovidPhoneNumber(facility) {
  *    because these appointments are not from VistA, but we want to show them
  *
  * @param {Appointment} appt A FHIR appointment resource
- * @param {boolean} useDisplayPastCancel whether to display past canceled appointments
  * @returns {boolean} Whether or not the appt should be shown
  */
-export function isValidPastAppointment(appt, useDisplayPastCancel) {
+export function isValidPastAppointment(appt) {
   const isConfirmedAppointment = CONFIRMED_APPOINTMENT_TYPES.has(
     appt.vaos.appointmentType,
   );
-  const isNotCanceled = appt.status !== APPOINTMENT_STATUS.cancelled;
   const isNotInHiddenList = !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description);
   const isVideoWithDefaultStatus =
     appt.videoData?.isVideo && appt.description === DEFAULT_VIDEO_STATUS;
@@ -381,18 +385,8 @@ export function isValidPastAppointment(appt, useDisplayPastCancel) {
     appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment &&
     !appt.description;
 
-  if (useDisplayPastCancel) {
-    return (
-      isConfirmedAppointment &&
-      (isNotInHiddenList ||
-        isVideoWithDefaultStatus ||
-        isCommunityCareWithNullDescription)
-    );
-  }
-
   return (
     isConfirmedAppointment &&
-    isNotCanceled &&
     (isNotInHiddenList ||
       isVideoWithDefaultStatus ||
       isCommunityCareWithNullDescription)
@@ -614,6 +608,7 @@ export function groupAppointmentsByMonth(appointments) {
  * @param {Boolean} params.useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @param {Boolean} params.useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @param {Boolean} params.useFeSourceOfTruthVA whether to use vets-api payload as the FE source of truth for VA appointments and requests
+ * @param {Boolean} params.useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @returns {Appointment} The created appointment
  */
 export async function createAppointment({
@@ -621,6 +616,7 @@ export async function createAppointment({
   useFeSourceOfTruth,
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
+  useFeSourceOfTruthModality,
 }) {
   const result = await postAppointment(appointment);
 
@@ -629,6 +625,7 @@ export async function createAppointment({
     useFeSourceOfTruth,
     useFeSourceOfTruthCC,
     useFeSourceOfTruthVA,
+    useFeSourceOfTruthModality,
   );
 }
 
@@ -643,6 +640,7 @@ const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
  * @param {Boolean} params.useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @param {Boolean} params.useFeSourceOfTruthCC whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @param {Boolean} params.useFeSourceOfTruthVA whether to use vets-api payload as the FE source of truth for VA appointments and requests
+ * @param {Boolean} params.useFeSourceOfTruthModality whether to use vets-api payload as the FE source of truth for appointment modality
  * @returns {?Appointment} Returns either null or the updated appointment data
  */
 export async function cancelAppointment({
@@ -650,6 +648,7 @@ export async function cancelAppointment({
   useFeSourceOfTruth,
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
+  useFeSourceOfTruthModality,
 }) {
   const additionalEventData = {
     appointmentType:
@@ -680,6 +679,7 @@ export async function cancelAppointment({
       useFeSourceOfTruth,
       useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
+      useFeSourceOfTruthModality,
     );
   } catch (e) {
     captureError(e, true);
@@ -693,11 +693,8 @@ export async function cancelAppointment({
   }
 }
 
-export function isInPersonVAAppointment(appointment) {
-  const { isCommunityCare, isVideo } = appointment?.vaos || {};
-  const isPhone = isVAPhoneAppointment(appointment);
-
-  return !isVideo && !isCommunityCare && !isPhone;
+export function isInPersonVisit(appointment) {
+  return appointment?.vaos?.isInPersonVisit;
 }
 
 /**
@@ -717,7 +714,7 @@ export function getCalendarData({ appointment, facility }) {
   const isCommunityCare = appointment?.vaos.isCommunityCare;
   const isPhone = isVAPhoneAppointment(appointment);
   const signinText =
-    'Sign in to https://va.gov/health-care/schedule-view-va-appointments/appointments to get details about this appointment';
+    'Sign in to https://va.gov/my-health/appointments/ to get details about this appointment';
 
   if (isPhone) {
     data = {
@@ -730,7 +727,7 @@ export function getCalendarData({ appointment, facility }) {
       phone: getFacilityPhone(facility),
       additionalText: [signinText],
     };
-  } else if (isInPersonVAAppointment(appointment)) {
+  } else if (isInPersonVisit(appointment)) {
     data = {
       summary: `Appointment at ${facility?.name || 'the VA'}`,
       location: formatFacilityAddress(facility),
@@ -941,14 +938,9 @@ export function groupAppointmentByDay(appointments) {
   }, {});
 }
 
-export function getLink({ featureBreadcrumbUrlUpdate, appointment }) {
-  const { isCommunityCare, isPastAppointment } = appointment.vaos;
+export function getLink({ appointment }) {
+  const { isPastAppointment } = appointment.vaos;
 
-  if (!featureBreadcrumbUrlUpdate) {
-    return isCommunityCare
-      ? `${isPastAppointment ? '/past' : ''}/cc/${appointment.id}`
-      : `${isPastAppointment ? '/past' : ''}/va/${appointment.id}`;
-  }
   return `${isPastAppointment ? 'past' : ''}/${appointment.id}`;
 }
 

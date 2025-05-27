@@ -7,8 +7,6 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockFeatureToggles from './fixtures/mocks/featureToggles.json';
 import mockUser from './fixtures/mocks/loa3-user.json';
-import mockSipPut from './fixtures/mocks/sip-put.json';
-import mockSipGet from './fixtures/mocks/sip-get.json';
 import mockScannedFormUpload from './fixtures/mocks/scanned-form-upload.json';
 
 const config = formConfig;
@@ -137,8 +135,6 @@ const testConfig = createTestConfig(
         'vamcUser',
       );
       cy.intercept('/v0/feature_toggles*', mockFeatureToggles);
-      cy.intercept('PUT', '/v0/in_progress_forms/FORM-UPLOAD-FLOW', mockSipPut);
-      cy.intercept('GET', '/v0/in_progress_forms/FORM-UPLOAD-FLOW', mockSipGet);
       cy.intercept(
         'POST',
         '/simple_forms_api/v1/scanned_form_upload',

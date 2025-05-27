@@ -21,6 +21,10 @@ export const uiSchema = {
       hint: behaviorDescriptionPageHint,
     }),
   },
+  'ui:options': {
+    // title wrapped in a <fieldset> causes screenreader bug
+    forceDivWrapper: true,
+  },
   'view:mentalHealthSupportAlert': {
     'ui:description': mentalHealthSupportAlert,
   },

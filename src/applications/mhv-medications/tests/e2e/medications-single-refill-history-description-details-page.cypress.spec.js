@@ -14,7 +14,7 @@ describe('Medications Details Page refill history', () => {
     listPage.visitMedicationsListPageURL(medicationsList);
     cy.injectAxe();
     cy.axeCheck('main');
-    detailsPage.clickMedicationDetailsLink(olderRxDetails, 7);
+    detailsPage.clickMedicationDetailsLink(olderRxDetails, 3);
     detailsPage.verifyRefillHistoryInformationTextOnDetailsPage(
       Data.SINGLE_REFILL_HISTORY_INFO,
     );
