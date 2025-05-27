@@ -108,7 +108,7 @@ const MrBreadcrumbs = () => {
 
   const backToImagesBreadcrumb = location.pathname.includes('/images')
     ? crumbsList[crumbsList.length - 1].href
-    : `/${locationBasePath}`;
+    : `/${locationBasePath}${pageNumber ? `?page=${pageNumber}` : ''}`;
 
   const backToAllergiesBreadcrumb = () =>
     location.pathname.includes(`/allergies/${allergyId}`)
