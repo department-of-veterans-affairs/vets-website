@@ -1,17 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { signInServiceName } from 'platform/user/authentication/selectors';
+import {
+  authenticatedUser,
+  isLoading,
+  signInServiceName,
+  isVerifiedUser,
+} from 'platform/user/authentication/selectors';
 import {
   VerifyIdmeButton,
   VerifyLogingovButton,
 } from 'platform/user/authentication/components/VerifyButton';
 
 export default function Verify() {
-  const isAuthenticated = useSelector(
-    state => state?.user?.login?.currentlyLoggedIn,
-  );
-  const isVerified = useSelector(state => state?.user?.profile?.verified);
-  const loading = useSelector(state => state?.user?.profile?.loading);
+  const isAuthenticated = useSelector(authenticatedUser);
+  const isVerified = useSelector(isVerifiedUser);
+  const loading = useSelector(isLoading);
   const loginServiceName = useSelector(signInServiceName);
 
   let renderServiceNames;

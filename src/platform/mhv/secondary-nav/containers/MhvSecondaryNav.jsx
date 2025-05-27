@@ -1,6 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { toggleValuesSelector } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 
 const actionPrefix = 'MHV Secondary Nav';
@@ -27,15 +25,15 @@ export const mhvSecNavItems = [
     title: 'Messages',
     actionName: `${actionPrefix} - Messages`,
     icon: 'forum',
-    href: `/my-health/secure-messages`,
+    appRootUrl: '/my-health/secure-messages',
+    href: `/my-health/secure-messages/inbox`,
   },
   {
     title: 'Medications',
     abbreviation: 'Meds',
     actionName: `${actionPrefix} - Medications`,
     icon: 'pill',
-    href: '/my-health/medications/about',
-    appRootUrl: '/my-health/medications',
+    href: '/my-health/medications',
   },
   {
     title: 'Records',
@@ -50,24 +48,7 @@ export const mhvSecNavItems = [
  * @returns the navigation bar
  */
 const MhvSecondaryNav = () => {
-  const {
-    loading = true,
-    mhvMedicationsRemoveLandingPage = false,
-  } = useSelector(toggleValuesSelector);
-
-  const updatedNavItems = mhvSecNavItems.map(item => {
-    // Current URL: /my-health/medications/about
-    // Replace with milestone1 URL: /my-health/medications
-    if (
-      mhvMedicationsRemoveLandingPage &&
-      item.href === '/my-health/medications/about'
-    ) {
-      return { ...item, href: '/my-health/medications' };
-    }
-    return item;
-  });
-
-  return <MhvSecondaryNavMenu items={updatedNavItems} loading={loading} />;
+  return <MhvSecondaryNavMenu items={mhvSecNavItems} />;
 };
 
 export default MhvSecondaryNav;

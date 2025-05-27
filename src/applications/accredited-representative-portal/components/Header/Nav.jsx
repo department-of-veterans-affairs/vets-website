@@ -84,8 +84,23 @@ export const Nav = () => {
               onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
             >
-              Power of Attorney Requests
+              Representation Requests
             </Link>
+            <Toggler
+              toggleName={
+                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
+              }
+            >
+              <Toggler.Enabled>
+                <Link
+                  className="nav__btn desktop"
+                  to="/submissions"
+                  data-testid="desktop-search-link"
+                >
+                  Submissions
+                </Link>
+              </Toggler.Enabled>
+            </Toggler>
             <Toggler
               toggleName={
                 Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp

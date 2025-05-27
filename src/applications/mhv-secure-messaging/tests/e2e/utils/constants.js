@@ -31,6 +31,7 @@ export const Paths = {
   THREAD: '/thread',
   CONTACT_LIST: '/contact-list',
   NEW_MESSAGE: '/my-health/secure-messages/new-message/',
+  AAL: '/my_health/v1/aal',
   INTERCEPT: {
     MESSAGE_RECIPIENT: '/my_health/v1/messaging/recipients*',
     MESSAGE_CATEGORY: '/my_health/v1/messaging/messages/categories',
@@ -86,6 +87,7 @@ export const Locators = {
   FILTER_INPUT: '#filter-input',
   ADDITIONAL_FILTER: '#additional-filter-accordion',
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
+  ACCORDION_ITEM_OPEN: 'va-accordion-item[open]:not([open="false"])',
   MESSAGE_THREAD_META: '.message-thread-meta',
   SPINNER: `[data-testid="loading-indicator"]`,
   BACK_TO: '.sm-breadcrumb-list-item > a',
@@ -119,7 +121,7 @@ export const Locators = {
     // check if below are duplicates
     REPLY_BTN: '#reply-button',
     REPLY: '[data-testid="reply-button-body"]',
-    CONTINUE: '[data-testid="continue-button"]',
+    CONTINUE: 'continue-button',
     TEST2: '[data-testid=radiobutton-TEST2]',
     TESTAGAIN: '[data-testid=radiobutton-TESTAGAIN]',
     NEW_FOLDER_RADIOBTN: '[data-testid=folder-list-radio-button]',

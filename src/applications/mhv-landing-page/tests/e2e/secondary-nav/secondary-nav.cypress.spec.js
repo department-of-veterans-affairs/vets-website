@@ -24,7 +24,11 @@ describe(`${appName} -- MHV Secondary Nav enabled`, () => {
   describe('unregistered user', () => {
     it('does not render', () => {
       ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
-      LandingPage.visit({ registered: false });
+      LandingPage.visit({
+        registered: false,
+        verified: false,
+        serviceName: 'dslogon',
+      });
       LandingPage.secondaryNav().should('not.exist');
       cy.injectAxeThenAxeCheck();
     });

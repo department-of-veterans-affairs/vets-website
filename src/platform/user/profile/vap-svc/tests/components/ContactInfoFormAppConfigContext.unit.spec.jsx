@@ -3,8 +3,11 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { setupServer } from 'msw/node';
-import { rest } from 'msw';
+import {
+  createPutHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 import { setData } from 'platform/forms-system/exportsFile';
 import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
@@ -114,12 +117,12 @@ describe('ContactInfoFormAppConfigProvider - Error Handling', () => {
     const store = createMockStore(defaultState);
 
     server.use(
-      rest.put('/v0/profile/addresses', (req, res, ctx) => {
-        return res(ctx.status(500));
+      createPutHandler('/v0/profile/addresses', () => {
+        return jsonResponse(null, { status: 500 });
       }),
-      rest.put(
+      createPutHandler(
         '/v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS',
-        (req, res, ctx) => {
+        () => {
           const newAddressData = {
             ...defaultState.form.data.veteran.mailingAddress,
             addressLine1: '11 Spooner St',
@@ -150,9 +153,8 @@ describe('ContactInfoFormAppConfigProvider - Error Handling', () => {
           );
 
           // Return the payload that was passed in
-          return res(
-            ctx.status(200),
-            ctx.json({
+          return jsonResponse(
+            {
               data: {
                 id: '',
                 type: 'in_progress_forms',
@@ -165,7 +167,8 @@ describe('ContactInfoFormAppConfigProvider - Error Handling', () => {
                   },
                 },
               },
-            }),
+            },
+            { status: 200 },
           );
         },
       ),
