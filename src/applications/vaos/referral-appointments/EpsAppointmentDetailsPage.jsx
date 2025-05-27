@@ -150,6 +150,7 @@ export default function EpsAppointmentDetailsPage() {
               address={appointment.provider.address}
               showDirections
               directionsName={appointment.provider.name}
+              phone={appointment.provider.phone}
             />
           )}
         </Section>
