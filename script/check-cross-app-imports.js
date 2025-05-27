@@ -163,6 +163,16 @@ const appHasCrossAppImports = (importGraph, appFolder) => {
     app => !ignoredApps.has(app),
   );
 
+  console.log(
+    'Relevant imports from:',
+    Object.keys(importedFrom).filter(app => !ignoredApps.has(app)),
+  );
+
+  console.log(
+    'Relevant imports to:',
+    Object.keys(importedTo).filter(app => !ignoredApps.has(app)),
+  );
+
   console.log('relevant imports to: ', Object.keys(importedTo));
 
   return hasRelevantImportsFrom || hasRelevantImportsTo;
@@ -234,14 +244,7 @@ if (!appFolders && !checkAllowlist) {
     JSON.stringify(
       Object.keys(crossAppJson).filter(app => {
         const appData = crossAppJson[app];
-        console.log(
-          `relevant imports from ${app}: `,
-          Object.keys(appData.appsThatThisAppImportsFrom),
-        );
-        console.log(
-          `relevant imports to ${app}: `,
-          Object.keys(appData.appsThatImportFromThisApp),
-        );
+
         return (
           appData.appsThatThisAppImportsFrom &&
           Object.keys(appData.appsThatThisAppImportsFrom).length > 0
