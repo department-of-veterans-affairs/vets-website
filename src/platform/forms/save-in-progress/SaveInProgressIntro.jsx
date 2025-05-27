@@ -168,7 +168,7 @@ class SaveInProgressIntro extends React.Component {
           <div>
             <va-alert status="info" visible>
               <Header slot="headline">
-                We've prefilled some of your information
+                We’ve prefilled some of your information
               </Header>
               Since you’re signed in, we can prefill part of your {appType}{' '}
               based on your profile details. You can also save your {appType} in

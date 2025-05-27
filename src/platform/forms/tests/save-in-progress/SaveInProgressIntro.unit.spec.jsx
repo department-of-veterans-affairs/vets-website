@@ -320,7 +320,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     // Default heading level is 2
     expect(tree.find('va-alert h2').text()).to.equal(
-      "We've prefilled some of your information",
+      'We’ve prefilled some of your information',
     );
 
     const alertText = tree.find('va-alert').text();
