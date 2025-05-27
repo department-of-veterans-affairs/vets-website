@@ -246,8 +246,10 @@ export const hasCmopNdcNumber = refillHistory => {
 export const getRefillHistory = prescription => {
   if (!prescription) return [];
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const originalFill = createOriginalFillRecord(prescription);
-  refillHistory.push(originalFill);
+  if (prescription?.dispensedDate) {
+    const originalFill = createOriginalFillRecord(prescription);
+    refillHistory.push(originalFill);
+  }
   return refillHistory;
 };
 

@@ -514,10 +514,11 @@ describe('getRefillHistory function', () => {
     expect(originalFill.dispensedDate).to.equal(prescription.dispensedDate);
   });
 
-  it('should handle prescription with empty rxRfRecords array', () => {
+  it('should handle prescription with empty rxRfRecords array and dispensed date', () => {
     const prescription = {
       backImprint: 'back123',
       cmopNdcNumber: '12345-6789-01',
+      dispensedDate: '2023-01-01',
       prescriptionId: '123456',
       prescriptionName: 'Test Medication',
       rxRfRecords: [],
@@ -527,6 +528,19 @@ describe('getRefillHistory function', () => {
     expect(result.length).to.equal(1);
     expect(result[0].prescriptionId).to.equal('123456');
     expect(result[0].prescriptionName).to.equal('Test Medication');
+  });
+
+  it('should handle prescription with empty rxRfRecords array and no dispensed date', () => {
+    const prescription = {
+      backImprint: 'back123',
+      cmopNdcNumber: '12345-6789-01',
+      prescriptionId: '123456',
+      prescriptionName: 'Test Medication',
+      rxRfRecords: [],
+    };
+
+    const result = getRefillHistory(prescription);
+    expect(result.length).to.equal(0);
   });
 });
 
