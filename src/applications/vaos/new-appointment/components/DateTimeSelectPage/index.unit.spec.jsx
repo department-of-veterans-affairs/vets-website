@@ -19,7 +19,6 @@ import {
 } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime } from 'date-fns-tz';
 import MockDate from 'mockdate';
-import moment from 'moment';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import sinon from 'sinon';
@@ -41,7 +40,7 @@ import {
   mockAppointmentSlotApi,
   mockEligibilityFetches,
 } from '../../../tests/mocks/mockApis';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { DATE_FORMATS, FETCH_STATUS } from '../../../utils/constants';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
 
 const initialState = {
@@ -161,7 +160,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
-    await setPreferredDate(store, moment(preferredDate));
+    await setPreferredDate(store, preferredDate);
 
     // First pass check to make sure the slots associated with green team are displayed
     const screen = renderWithStoreAndRouter(
@@ -243,7 +242,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
-    await setPreferredDate(store, moment());
+    await setPreferredDate(store, new Date());
 
     // First pass check to make sure the slots associated with green team are displayed
     const screen = renderWithStoreAndRouter(
@@ -313,7 +312,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, facilityId);
     await setClinic(store, '983_308');
-    await setPreferredDate(store, moment(preferredDate));
+    await setPreferredDate(store, preferredDate);
 
     // First pass check to make sure the slots associated with green team are displayed
     let screen = renderWithStoreAndRouter(
@@ -428,40 +427,40 @@ describe('VAOS Page: DateTimeSelectPage', () => {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
         {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
         {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
         {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
         {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
       ],
@@ -472,7 +471,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
-    await setPreferredDate(store, moment(preferredDate));
+    await setPreferredDate(store, preferredDate);
 
     // First pass check to make sure the slots associated with green team are displayed
     const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
@@ -580,8 +579,8 @@ describe('VAOS Page: DateTimeSelectPage', () => {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
       ],
@@ -592,7 +591,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
-    await setPreferredDate(store, moment(preferredDate));
+    await setPreferredDate(store, preferredDate);
 
     const screen = renderWithStoreAndRouter(<DateTimeSelectPage />, {
       store,
@@ -618,7 +617,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     // And the user has chosen today as their preferred date
     const preferredDate = startOfDay(new Date());
-    await setPreferredDate(store, moment(preferredDate));
+    await setPreferredDate(store, preferredDate);
 
     // And there are slots available today and tomorrow
     const slot308Date = addHours(new Date(), 1);
@@ -646,12 +645,12 @@ describe('VAOS Page: DateTimeSelectPage', () => {
             start: formatInTimeZone(
               slot308Date,
               'UTC',
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
+              DATE_FORMATS.ISODateTimeUTC,
             ),
             end: formatInTimeZone(
               slot308Date,
               'UTC',
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
+              DATE_FORMATS.ISODateTimeUTC,
             ),
           },
         },
@@ -662,12 +661,12 @@ describe('VAOS Page: DateTimeSelectPage', () => {
             start: formatInTimeZone(
               slot308TomorrowDate,
               'UTC',
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
+              DATE_FORMATS.ISODateTimeUTC,
             ),
             end: formatInTimeZone(
               slot308TomorrowDate,
               'UTC',
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
+              DATE_FORMATS.ISODateTimeUTC,
             ),
           },
         },
@@ -711,7 +710,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     // And the user has chosen today as their preferred date
     const preferredDate = new Date();
-    await setPreferredDate(store, moment(preferredDate));
+    await setPreferredDate(store, preferredDate);
 
     // And there are no slots available
     setDateTimeSelectMockFetches({
@@ -762,7 +761,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     await setTypeOfCare(store, /mental health/i);
     await setVAFacility(store, '983', 'outpatientMentalHealth');
     await setClinic(store, '983_308');
-    await setPreferredDate(store, moment(preferredDate));
+    await setPreferredDate(store, preferredDate);
 
     const screen = renderWithStoreAndRouter(
       <Route component={DateTimeSelectPage} />,
@@ -793,7 +792,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
-    await setPreferredDate(store, moment(preferredDate));
+    await setPreferredDate(store, preferredDate);
 
     const screen = renderWithStoreAndRouter(
       <Route component={DateTimeSelectPage} />,
@@ -838,8 +837,8 @@ describe('VAOS Page: DateTimeSelectPage', () => {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
       ],
@@ -850,7 +849,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, '983');
     await setClinic(store, '983_308');
-    await setPreferredDate(store, moment(preferredDate));
+    await setPreferredDate(store, preferredDate);
 
     // When the page is displayed
     const screen = renderWithStoreAndRouter(
@@ -886,7 +885,6 @@ describe('VAOS Page: DateTimeSelectPage', () => {
   it('should fetch slots when moving between months', async () => {
     const facilityId = '983';
     const timezone = getTimezoneByFacilityId(facilityId);
-    // const preferredDate = moment().add(1, 'day').add(1, 'month');
     const preferredDate = addMonths(addDays(new Date(), 1), 1);
     const slot308Date = new Date(
       nextTuesday(
@@ -931,7 +929,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     await setTypeOfCare(store, /primary care/i);
     await setVAFacility(store, facilityId);
     await setClinic(store, '983_308');
-    await setPreferredDate(store, moment(preferredDate));
+    await setPreferredDate(store, preferredDate);
 
     // First pass check to make sure the slots associated with green team are displayed
     const screen = renderWithStoreAndRouter(
@@ -1017,7 +1015,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
   });
 
   it('should show required text next to page heading', async () => {
-    const preferredDate = moment();
+    const preferredDate = new Date();
     const slot308Date = addDays(new Date(), 6);
 
     setDateTimeSelectMockFetches({
@@ -1032,7 +1030,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     await setTypeOfCare(store, /mental health/i);
     await setVAFacility(store, '983', 'outpatientMentalHealth');
     await setClinic(store, '983_308');
-    await setPreferredDate(store, moment(preferredDate));
+    await setPreferredDate(store, preferredDate);
 
     const screen = renderWithStoreAndRouter(
       <Route component={DateTimeSelectPage} />,
