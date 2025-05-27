@@ -19,6 +19,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
+import { DATE_FORMATS } from '../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -168,11 +169,11 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
               description: 'My description',
               startTime: format(
                 subDays(new Date(), '1'),
-                "yyyy-MM-dd'T'HH:mm:ss",
+                DATE_FORMATS.ISODateTime,
               ),
               endTime: format(
                 addDays(new Date(), '1'),
-                "yyyy-MM-dd'T'HH:mm:ss",
+                DATE_FORMATS.ISODateTime,
               ),
             },
           },
