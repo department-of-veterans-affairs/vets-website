@@ -79,24 +79,24 @@ describe(`${appName} -- landing page -- pre-milestone-2`, () => {
   });
 
   // it's not clear why this test is failing
-  it.skip('renders the hub section', () => {
-    const healthBenefits = {
-      level: 2,
-      name: /^My VA health benefits$/,
-    };
-    const moreResources = {
-      level: 2,
-      name: /^More resources and support$/,
-    };
-    const spotlight = {
-      level: 2,
-      name: /^In the spotlight$/,
-    };
-    cy.findByRole('heading', healthBenefits).should('be.visible');
-    cy.findByRole('heading', moreResources).should('be.visible');
-    cy.findByRole('heading', spotlight).should('be.visible');
-    cy.injectAxeThenAxeCheck();
-  });
+  // it.skip('renders the hub section', () => {
+  //   const healthBenefits = {
+  //     level: 2,
+  //     name: /^My VA health benefits$/,
+  //   };
+  //   const moreResources = {
+  //     level: 2,
+  //     name: /^More resources and support$/,
+  //   };
+  //   const spotlight = {
+  //     level: 2,
+  //     name: /^In the spotlight$/,
+  //   };
+  //   cy.findByRole('heading', healthBenefits).should('be.visible');
+  //   cy.findByRole('heading', moreResources).should('be.visible');
+  //   cy.findByRole('heading', spotlight).should('be.visible');
+  //   cy.injectAxeThenAxeCheck();
+  // });
 
   it('renders the Subscribe heading', () => {
     const heading = {
