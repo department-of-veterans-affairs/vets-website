@@ -160,6 +160,7 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
+      tests_ran: ${{ steps.select-unit-tests.outputs.tests_ran }}
 
     steps:
       - name: Checkout
@@ -206,6 +207,7 @@ jobs:
           TEST_TYPE: e2e
 
       - name: Select Unit Tests
+        id: select-unit-tests
         run: node script/github-actions/select-unit-tests.js
         env:
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
@@ -264,7 +266,7 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    if: ${{ needs.tests-prep.outputs.changed-files != ''}}
+    if: ${{ needs.tests-prep.outputs.tests_ran != ''}}
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
@@ -339,10 +341,10 @@ jobs:
         run: |
           if [[ "${{ needs.tests-prep.outputs.app_folders }}" ]]; then
             yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
-            echo "tests_ran=true" >> $GITHUB_OUTPUT
+            # echo "tests_ran=true" >> $GITHUB_OUTPUT
           else
             yarn test:unit:gha '{script,src/platform/**/*.unit.spec.js?(x)}' --coverage --log-level verbose
-            echo "tests_ran=true" >> $GITHUB_OUTPUT
+            # echo "tests_ran=true" >> $GITHUB_OUTPUT
           fi
           
         env:
