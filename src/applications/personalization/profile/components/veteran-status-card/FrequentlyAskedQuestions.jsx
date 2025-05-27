@@ -69,8 +69,4 @@ FrequentlyAskedQuestions.propTypes = {
   pdfError: PropTypes.bool,
 };
 
-FrequentlyAskedQuestions.propTypes = {
-  createPdf: PropTypes.func,
-};
-
 export default FrequentlyAskedQuestions;
