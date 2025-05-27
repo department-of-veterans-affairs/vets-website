@@ -11,6 +11,16 @@ import {
 import { displaySingleLineAddress } from '../../helpers';
 
 describe('<SchoolSelectField>', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   it('should render initial search view', () => {
     const tree = mount(
       <SchoolSelectField
@@ -196,8 +206,8 @@ describe('<SchoolSelectField>', () => {
 
   // handleManualSchoolEntryToggled
   it('should call onChange props on when manual entry is toggled', () => {
-    const toggleManualSchoolEntry = sinon.spy();
-    const onChange = sinon.spy();
+    const toggleManualSchoolEntry = sandbox.spy();
+    const onChange = sandbox.spy();
     const { container } = render(
       <SchoolSelectField
         formData={{}}
@@ -226,7 +236,7 @@ describe('<SchoolSelectField>', () => {
 
   // handleSearchInputChange
   it('should call searchInputChange prop on input change', () => {
-    const searchInputChange = sinon.spy();
+    const searchInputChange = sandbox.spy();
     const tree = mount(
       <SchoolSelectField
         formData={{}}
@@ -256,8 +266,8 @@ describe('<SchoolSelectField>', () => {
 
   // handleSearchClick
   it('should call searchSchools and onChange props when search button clicked', async () => {
-    const searchSchools = sinon.spy();
-    const onChange = sinon.spy();
+    const searchSchools = sandbox.spy();
+    const onChange = sandbox.spy();
     const screen = render(
       <SchoolSelectField
         formData={{}}
@@ -297,8 +307,8 @@ describe('<SchoolSelectField>', () => {
 
   // handleOptionClick
   describe('handleOptionClick', () => {
-    let selectInstitution = sinon.spy();
-    let onChange = sinon.spy();
+    let selectInstitution;
+    let onChange;
     const domesticInstitution = {
       address1: 'testAddress1',
       address2: 'testAddress2',
@@ -323,9 +333,10 @@ describe('<SchoolSelectField>', () => {
     };
     const institutions = [domesticInstitution, internationalInstitution];
     let tree;
+
     beforeEach(() => {
-      selectInstitution = sinon.spy();
-      onChange = sinon.spy();
+      selectInstitution = sandbox.spy();
+      onChange = sandbox.spy();
       tree = mount(
         <SchoolSelectField
           formData={{}}
@@ -346,9 +357,11 @@ describe('<SchoolSelectField>', () => {
         />,
       );
     });
+
     afterEach(() => {
       tree.unmount();
     });
+
     it('should display options correctly and call `selectInstitution` and `onChange` props properly when domestic institution selected', () => {
       expect(displaySingleLineAddress(domesticInstitution)).to.equal(
         'testAddress1, testAddress2, testAddress3, testcity, testState 12345',
@@ -423,8 +436,8 @@ describe('<SchoolSelectField>', () => {
 
   // handleStartOver
   it('should call onChange and clearSearch props when start over is clicked', () => {
-    const onChange = sinon.spy();
-    const clearSearch = sinon.spy();
+    const onChange = sandbox.spy();
+    const clearSearch = sandbox.spy();
     const tree = mount(
       <SchoolSelectField
         formData={{}}
@@ -454,6 +467,7 @@ describe('<SchoolSelectField>', () => {
     expect(clearSearch.calledOnce).to.eql(true);
     tree.unmount();
   });
+
   it('mapStateToProps Without Form Data', () => {
     const ownProps = {
       formContext: {
@@ -487,6 +501,7 @@ describe('<SchoolSelectField>', () => {
     const wrapper = mapStateToProps(state, ownProps);
     expect(wrapper).to.not.be.null;
   });
+
   it('mapStateToProps With Form Data', () => {
     const ownProps = {
       formData: {},
@@ -521,6 +536,7 @@ describe('<SchoolSelectField>', () => {
     const wrapper = mapStateToProps(state, ownProps);
     expect(wrapper).to.not.be.null;
   });
+
   it('should Not render initial search view', () => {
     const tree = mount(
       <SchoolSelectField
@@ -536,6 +552,7 @@ describe('<SchoolSelectField>', () => {
     expect(tree.find('va-checkbox').exists()).to.be.false;
     tree.unmount();
   });
+
   it('should render reviewMode true with institutionSelected', () => {
     const institutionSelected = {
       name: 'John Doe',
