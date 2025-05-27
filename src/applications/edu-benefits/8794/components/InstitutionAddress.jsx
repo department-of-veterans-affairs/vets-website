@@ -37,11 +37,13 @@ const InstitutionAddress = () => {
               either the facility name or address is incorrect, please contact
               your State Approving Agency (SAA) to have your approval
               updated.&nbsp;
-              <va-link
+              <a
                 href="https://nasaa-vetseducation.com/nasaa-contacts/"
-                text="Go here to find your SAA’s email address"
-                external
-              />
+                target="_blank"
+                rel="noreferrer"
+              >
+                Go here to find your SAA’s email address (opens in new tab).
+              </a>
             </p>
           </va-additional-info>
         </>
