@@ -12,16 +12,13 @@ describe('Secure Messaging Inbox Message Sort', () => {
   });
 
   it('Verify folder header', () => {
-    GeneralFunctionsPage.verifyPageHeader(`Inbox`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Inbox`);
     PatientMessagesSentPage.verifyResponseBodyLength();
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('checks for "End of conversations in this folder" text', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
     cy.get('.endOfThreads').should('not.exist');
     cy.get('.usa-pagination__list li').then(pagesList => {
       const lastPageIndex = pagesList.length - 2;
@@ -32,15 +29,16 @@ describe('Secure Messaging Inbox Message Sort', () => {
       );
     });
     FolderLoadPage.verifyPaginationElements();
-  });
-  it('verify breadcrumbs', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
 
-    FolderLoadPage.verifyBreadCrumbsLength(4);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify breadcrumbs', () => {
+    FolderLoadPage.verifyBreadCrumbsLength(3);
     FolderLoadPage.verifyBreadCrumbText(0, 'VA.gov home');
     FolderLoadPage.verifyBreadCrumbText(1, 'My HealtheVet');
-    FolderLoadPage.verifyBreadCrumbText(2, 'Messages');
-    FolderLoadPage.verifyBreadCrumbText(3, 'Inbox');
+    FolderLoadPage.verifyBreadCrumbText(2, 'Messages: Inbox');
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

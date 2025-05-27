@@ -28,7 +28,6 @@ import {
   selectFeatureRequests,
   selectFeatureCancel,
   selectFeatureFeSourceOfTruth,
-  selectFeatureDisplayPastCancelledAppointments,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
@@ -128,12 +127,19 @@ export const selectUpcomingAppointments = createSelector(
   },
 );
 
-export const selectPastAppointments = createSelector(
-  state => state.appointments.past,
-  past => {
-    return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
-  },
-);
+export const selectPastAppointments = state => {
+  const selector = createSelector(
+    () => state.appointments.past,
+    past => {
+      if (!past) {
+        return null;
+      }
+
+      return past.filter(isValidPastAppointment).sort(sortByDateDescending);
+    },
+  );
+  return selector(state);
+};
 
 /*
  * V2 Past appointments state selectors
@@ -147,16 +153,7 @@ export const selectPastAppointmentsV2 = state => {
         return null;
       }
 
-      const sortedAppointments = past
-        .filter(item =>
-          isValidPastAppointment(
-            item,
-            selectFeatureDisplayPastCancelledAppointments(state),
-          ),
-        )
-        .sort(sortByDateDescending);
-
-      return groupAppointmentsByMonth(sortedAppointments);
+      return groupAppointmentsByMonth(selectPastAppointments(state));
     },
   );
   return selector(state);

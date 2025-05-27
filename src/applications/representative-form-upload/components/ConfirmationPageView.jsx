@@ -12,6 +12,11 @@ export const ConfirmationPageView = ({
 }) => {
   const alertRef = useRef(null);
 
+  const formattedSubmitDate =
+    submitDate && typeof submitDate === 'object'
+      ? format(submitDate, 'MMMM d, yyyy')
+      : null;
+
   useEffect(
     () => {
       if (alertRef?.current) {
@@ -33,29 +38,30 @@ export const ConfirmationPageView = ({
         />
       </div>
       <va-alert uswds status="success" ref={alertRef}>
-        {submitDate && (
-          <h2>
-            {' '}
-            Form Submission started on {format(submitDate, 'MMMM d, yyyy')}
-          </h2>
-        )}
-        <p>Your submission is in progress.</p>
-        <p>Your confirmation number is {confirmationNumber}.</p>
+        {submitDate && <h2>You’ve submitted the form</h2>}
+        {formattedSubmitDate ? (
+          <p>
+            You submitted the form and supporting evidence on{' '}
+            <strong>{formattedSubmitDate}</strong>
+          </p>
+        ) : null}
+        <p>Your confirmation number is: {confirmationNumber}.</p>
+        <p>We’ve emailed this confirmation number to you for your records.</p>
       </va-alert>
       <div className="inset">
         <section>
           <h2>What to expect</h2>
           <va-process-list>
-            <va-process-list-item header="Now, We’ll confirm that we’ve received your form">
+            <va-process-list-item header="Now, we'll process your form">
               <p>
-                When we receive your form, we’ll send you an email to the email
-                address provided
+                The submission is in progress and is being processed through
+                Central Mail before reaching VBMS
               </p>
             </va-process-list-item>
-            <va-process-list-item pending header="Next, we’ll review your form">
+            <va-process-list-item pending header="Next, we'll review the files">
               <p>
-                If we need more information after reviewing your form, we’ll
-                contact you via email.
+                If we need more information after reviewing the form and
+                supporting evidence, we’ll contact you by email.
               </p>
             </va-process-list-item>
           </va-process-list>

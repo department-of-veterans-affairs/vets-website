@@ -27,12 +27,6 @@ export default function CurrencyField(fieldProps) {
   const handleInput = event => {
     const { value } = event.target;
     setDisplayVal(value);
-    props.onChange(value);
-  };
-
-  const handleBlur = event => {
-    const { value } = event.target;
-    setDisplayVal(value);
 
     // Not using props.onInput because in the vaTextInputFieldMapping onInput
     // callback, it uses `value || event.target.value;` and sets the value to
@@ -48,16 +42,28 @@ export default function CurrencyField(fieldProps) {
       // Needs to parse as a number
       const parsedValue = parseNumber(value);
       if (!isNaN(parsedValue)) {
-        const roundedValue = Math.round(parsedValue * 100) / 100;
-        const roundedString = roundedValue.toFixed(2);
-        setDisplayVal(roundedString);
-        props.onChange(schemaType === 'number' ? roundedValue : roundedString);
+        setDisplayVal(value);
+        props.onChange(schemaType === 'number' ? parsedValue : value);
       } else {
         props.onChange(value);
       }
     }
+  };
 
+  const handleBlur = event => {
+    const { value } = event.target;
+    setDisplayVal(value);
     props.onBlur(props.name);
+    // Needs to parse as a number
+    const parsedValue = parseNumber(value);
+    if (!isNaN(parsedValue)) {
+      const roundedValue = Math.round(parsedValue * 100) / 100;
+      const roundedString = roundedValue.toFixed(2);
+      setDisplayVal(roundedString);
+      props.onChange(schemaType === 'number' ? roundedValue : roundedString);
+    } else {
+      props.onChange(value);
+    }
   };
 
   const handleFocus = () => {

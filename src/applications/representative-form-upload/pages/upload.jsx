@@ -16,9 +16,8 @@ import { getFormContent, getPdfDownloadUrl, onCloseAlert } from '../helpers';
 import { CustomAlertPage } from './helpers';
 
 const { formNumber, title } = getFormContent();
-const fileUploadUrl = `${
-  environment.API_URL
-}/accredited_representative_portal/v0/representative_form_upload`;
+const baseURL = `${environment.API_URL}/accredited_representative_portal/v0`;
+const fileUploadUrl = `${baseURL}/representative_form_upload`;
 const warningsPresent = formData => formData.uploadedFile?.warnings?.length > 0;
 
 export const uploadPage = {

@@ -22,7 +22,6 @@ const getFlagsByPrefix = (prefix = '', value = false) =>
 const generateDefaultToggles = (value = false) => [
   ...getFlagsByPrefix('myVa', value),
   getFlag('authExpVbaDowntimeMessage', value),
-  getFlag('vaOnlineSchedulingStaticLandingPage', value),
   getFlag('profileUseExperimental', value),
 ];
 

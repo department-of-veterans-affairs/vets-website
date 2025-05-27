@@ -82,6 +82,8 @@ describe('NavCard component', () => {
         <NavCard title="Card title" links={links} />,
       );
       const linkElement = getByRole('link');
+      expect(linkElement).to.have.attribute('href', 'https://www.va.gov');
+      expect(linkElement).to.not.have.attribute('target', '_blank');
       expect(linkElement.text).to.not.include(externalLinkText);
     });
 
@@ -93,7 +95,27 @@ describe('NavCard component', () => {
         <NavCard title="Card title" links={links} />,
       );
       const linkElement = getByRole('link');
+      expect(linkElement).to.have.attribute('href', 'https://www.google.com');
+      expect(linkElement).to.have.attribute('target', '_blank');
       expect(linkElement.text).to.include(externalLinkText);
+    });
+
+    it('external links with omitExternalLinkText', () => {
+      const links = [
+        {
+          text: 'some text',
+          href: 'https://www.google.com',
+          isExternal: true,
+          omitExternalLinkText: true,
+        },
+      ];
+      const { getByRole } = render(
+        <NavCard title="Card title" links={links} />,
+      );
+      const linkElement = getByRole('link');
+      expect(linkElement).to.have.attribute('href', 'https://www.google.com');
+      expect(linkElement).to.not.have.attribute('target', '_blank');
+      expect(linkElement.text).to.not.include(externalLinkText);
     });
   });
 

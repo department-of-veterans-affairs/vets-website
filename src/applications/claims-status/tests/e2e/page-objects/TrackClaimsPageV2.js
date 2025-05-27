@@ -4,6 +4,7 @@ import featureToggleClaimDetailV2Enabled from '../fixtures/mocks/lighthouse/feat
 import featureToggleClaimPhasesEnabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-phases-enabled.json';
 import featureToggle5103UpdateEnabled from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled.json';
 import featureToggle5103UpdateEnabledV2 from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled-v2.json';
+import featureToggleFriendlyEvidenceRequests from '../fixtures/mocks/lighthouse/feature-toggle-cst-friendly-evidence-requests.json';
 // END lighthouse_migration
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
@@ -17,6 +18,7 @@ class TrackClaimsPageV2 {
     cstClaimPhasesToggleEnabled = false,
     cst5103UpdateEnabled = false,
     cst5103UpdateEnabledV2 = false,
+    cstFriendlyEvidenceRequest = false,
   ) {
     if (submitForm) {
       cy.intercept('POST', `/v0/benefits_claims/189685/submit5103`, {
@@ -50,6 +52,13 @@ class TrackClaimsPageV2 {
         'GET',
         '/v0/feature_toggles?*',
         featureToggle5103UpdateEnabledV2,
+      );
+    } else if (cstFriendlyEvidenceRequest) {
+      // When cst_use_claim_details_v2 and cst_friendly_evidence_requests are enabled
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles?*',
+        featureToggleFriendlyEvidenceRequests,
       );
     } else {
       cy.intercept(
@@ -403,15 +412,15 @@ class TrackClaimsPageV2 {
         // Verify some tracked items on page 1
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We completed a review for the request: "Automated 5103 Notice Response"',
+          'We completed a review for the request: “Automated 5103 Notice Response”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We opened a request: "Automated 5103 Notice Response"',
+          'We opened a request: “Automated 5103 Notice Response”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We closed a request: "Closed Tracked Item"',
+          'We closed a request: “Closed Tracked Item”',
         );
         // click the next page
         cy.get('.recent-activity-container va-pagination')
@@ -427,7 +436,7 @@ class TrackClaimsPageV2 {
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We opened a request: "Closed Tracked Item"',
+          'We opened a request: “Closed Tracked Item”',
         );
         // click the next page
         cy.get('.recent-activity-container va-pagination')
@@ -455,15 +464,15 @@ class TrackClaimsPageV2 {
       // Verify some tracked items on page 1
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We completed a review for the request: "Automated 5103 Notice Response"',
+        'We completed a review for the request: “Automated 5103 Notice Response”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We opened a request: "Automated 5103 Notice Response"',
+        'We opened a request: “Automated 5103 Notice Response”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We closed a request: "Closed Tracked Item"',
+        'We closed a request: “Closed Tracked Item”',
       );
       // click the next page
       cy.get('.recent-activity-container va-pagination')
@@ -479,7 +488,7 @@ class TrackClaimsPageV2 {
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We opened a request: "Closed Tracked Item"',
+        'We opened a request: “Closed Tracked Item”',
       );
       // click the next page
       cy.get('.recent-activity-container va-pagination')
@@ -795,11 +804,11 @@ class TrackClaimsPageV2 {
     cy.url().should('contain', '/your-claims/189685/files');
   }
 
-  verifyNeedToMailFiles() {
+  verifyNeedToMailDocuments() {
     cy.get('.additional-evidence-container va-additional-info')
       .shadow()
       .find('.additional-info-title')
-      .should('contain', 'Need to mail your files?');
+      .should('contain', 'Need to mail your documents?');
     cy.get('.additional-evidence-container va-additional-info')
       .shadow()
       .find('a')
@@ -807,6 +816,50 @@ class TrackClaimsPageV2 {
     cy.get('.additional-evidence-container va-additional-info').should(
       'contain',
       'Please upload your documents online here to help us process your claim quickly.',
+    );
+  }
+
+  verifyFirstPartyFriendlyEvidenceRequest() {
+    cy.get('[data-testid="item-2"]')
+      .find('a.vads-c-action-link--blue')
+      .click();
+    cy.url().should('contain', '/needed-from-you/');
+    cy.get('#default-page')
+      .should('be.visible')
+      .as('friendlyMessage');
+    cy.assertChildText('@friendlyMessage', 'h1', 'Submit Buddy Statement(s)');
+    cy.assertChildText('@friendlyMessage', 'h2', 'What we need from you');
+    cy.assertChildText(
+      '@friendlyMessage',
+      'h3',
+      'Learn about this request in your claim letter',
+    );
+    cy.assertChildText(
+      '@friendlyMessage',
+      'p:last-of-type',
+      'On January 1, 2022, we mailed you a letter titled “Request for Specific Evidence or Information,” which may include more details about this request. You can access this and all your claim letters online.',
+    );
+  }
+
+  verifyThirdPartyFriendlyEvidenceRequest() {
+    cy.get('[data-testid^="item-from-others"]')
+      .first()
+      .find('a.add-your-claims-link:first-of-type')
+      .click();
+    cy.url().should('contain', '/needed-from-others/');
+    cy.get('#default-page')
+      .should('be.visible')
+      .as('friendlyMessage');
+    cy.assertChildText('@friendlyMessage', 'h1', 'Need form 21-4142');
+    cy.assertChildText(
+      '@friendlyMessage',
+      'h2',
+      'What we’re notifying you about',
+    );
+    cy.assertChildText(
+      '@friendlyMessage',
+      'div.optional-upload > p',
+      'This is just a notice. No action is needed by you. But, if you have documents related to this request, uploading them on this page may help speed up the evidence review for your claim.',
     );
   }
 }

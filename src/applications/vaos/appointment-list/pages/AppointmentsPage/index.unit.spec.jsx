@@ -1,24 +1,24 @@
-import React from 'react';
-import MockDate from 'mockdate';
-import { expect } from 'chai';
-import moment from 'moment';
-import { waitFor, within } from '@testing-library/dom';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   mockFetch,
   setFetchJSONResponse,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { waitFor, within } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
+import { expect } from 'chai';
+import { addDays, format, subDays, subMonths } from 'date-fns';
+import MockDate from 'mockdate';
+import React from 'react';
+import AppointmentsPage from '.';
+import { createReferralById } from '../../../referral-appointments/utils/referrals';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
+import { mockAppointmentsApi } from '../../../tests/mocks/mockApis';
 import {
   createTestStore,
-  renderWithStoreAndRouter,
   getTestDate,
+  renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import AppointmentsPage from '.';
-import { getVAOSRequestMock } from '../../../tests/mocks/mock';
-import { createReferralById } from '../../../referral-appointments/utils/referrals';
 import { FETCH_STATUS } from '../../../utils/constants';
-import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/mockApis';
 
 const initialState = {
   featureToggles: {
@@ -33,6 +33,40 @@ describe('VAOS Page: AppointmentsPage', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
+
+    mockAppointmentsApi({
+      start: subDays(new Date(), 30),
+      end: addDays(new Date(), 395),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      response: [new MockAppointmentResponse()],
+    });
+    mockAppointmentsApi({
+      start: subDays(new Date(), 30),
+      end: addDays(new Date(), 395),
+      includes: ['facilities', 'clinics', 'eps'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      response: [new MockAppointmentResponse()],
+    });
+    mockAppointmentsApi({
+      start: subMonths(new Date(), 3),
+      end: new Date(),
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      response: [new MockAppointmentResponse()],
+    });
+    mockAppointmentsApi({
+      start: subDays(new Date(), 120),
+      end: addDays(new Date(), 1),
+      statuses: ['proposed', 'cancelled'],
+      response: MockAppointmentResponse.createCCResponses(),
+    });
+    mockAppointmentsApi({
+      start: subDays(new Date(), 120),
+      end: addDays(new Date(), 1),
+      includes: ['facilities', 'clinics', 'eps'],
+      statuses: ['proposed', 'cancelled'],
+      response: MockAppointmentResponse.createCCResponses(),
+    });
   });
   afterEach(() => {
     MockDate.reset();
@@ -55,8 +89,8 @@ describe('VAOS Page: AppointmentsPage', () => {
             attributes: {
               externalService: 'vaosWarning',
               description: 'My description',
-              startTime: moment.utc().subtract('1', 'days'),
-              endTime: moment.utc().add('1', 'days'),
+              startTime: subDays(new Date(), '1'),
+              endTime: addDays(new Date(), '1'),
             },
           },
         ],
@@ -89,7 +123,9 @@ describe('VAOS Page: AppointmentsPage', () => {
     );
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/new-appointment'),
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/schedule/type-of-care',
+      ),
     );
   });
 
@@ -112,9 +148,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     });
 
     // and breadcrumbs should be updated
-    const navigation = screen.getByRole('navigation', {
-      name: 'Breadcrumbs',
-    });
+    const navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.be.ok;
     expect(
       within(navigation).queryByRole('link', {
@@ -129,9 +163,8 @@ describe('VAOS Page: AppointmentsPage', () => {
     expect(screen.getByRole('link', { name: 'Start scheduling' })).to.be.ok;
 
     // and appointment list navigation should be displayed
-    expect(
-      screen.getByRole('navigation', { name: 'Appointment list navigation' }),
-    ).to.be.ok;
+    expect(screen.getByRole('navigation', { name: 'Appointment list' })).to.be
+      .ok;
     expect(screen.getByRole('link', { name: 'Upcoming' })).to.be.ok;
     expect(screen.getByRole('link', { name: /Pending \(\d\)/ })).to.be.ok;
     expect(screen.getByRole('link', { name: 'Past' })).to.be.ok;
@@ -142,38 +175,6 @@ describe('VAOS Page: AppointmentsPage', () => {
 
   it('should display updated appointment request page', async () => {
     // Given the veteran lands on the VAOS homepage
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1';
-    appointment.attributes = {
-      id: '1',
-      kind: 'clinic',
-      locationId: '983',
-      requestedPeriods: [{}],
-      serviceType: 'primaryCare',
-      status: 'proposed',
-    };
-
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(1, 'month')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(1, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
-
     // When the page displays
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
@@ -209,7 +210,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     });
 
     // and breadcrumbs should be updated
-    navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const crumb =
       navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
@@ -269,7 +270,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     });
 
     // and breadcrumbs should be updated
-    navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const crumb =
       navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
@@ -346,9 +347,7 @@ describe('VAOS Page: AppointmentsPage', () => {
       });
 
       // and breadcrumbs should be updated
-      const navigation = screen.getByRole('navigation', {
-        name: 'Breadcrumbs',
-      });
+      const navigation = screen.getByTestId('vaos-breadcrumbs');
       expect(navigation).to.be.ok;
       expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
         .exist;
@@ -359,9 +358,8 @@ describe('VAOS Page: AppointmentsPage', () => {
       expect(screen.getByRole('link', { name: 'Start scheduling' })).to.be.ok;
 
       // and appointment list navigation should be displayed
-      expect(
-        screen.getByRole('navigation', { name: 'Appointment list navigation' }),
-      ).to.be.ok;
+      expect(screen.getByRole('navigation', { name: 'Appointment list' })).to.be
+        .ok;
       expect(screen.getByRole('link', { name: 'Upcoming' })).to.be.ok;
       expect(screen.getByRole('link', { name: /Pending \(\d\)/ })).to.be.ok;
       expect(screen.getByRole('link', { name: 'Past' })).to.be.ok;
@@ -372,38 +370,6 @@ describe('VAOS Page: AppointmentsPage', () => {
 
     it('should display updated title on pending appointments page', async () => {
       // Given the veteran lands on the VAOS homepage
-      const appointment = getVAOSRequestMock();
-      appointment.id = '1';
-      appointment.attributes = {
-        id: '1',
-        kind: 'clinic',
-        locationId: '983',
-        requestedPeriods: [{}],
-        serviceType: 'primaryCare',
-        status: 'proposed',
-      };
-
-      mockVAOSAppointmentsFetch({
-        start: moment()
-          .subtract(1, 'month')
-          .format('YYYY-MM-DD'),
-        end: moment()
-          .add(395, 'days')
-          .format('YYYY-MM-DD'),
-        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-        requests: [appointment],
-      });
-      mockVAOSAppointmentsFetch({
-        start: moment()
-          .subtract(120, 'days')
-          .format('YYYY-MM-DD'),
-        end: moment()
-          .add(1, 'days')
-          .format('YYYY-MM-DD'),
-        statuses: ['proposed', 'cancelled'],
-        requests: [appointment],
-      });
-
       // When the page displays
       const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
@@ -494,38 +460,6 @@ describe('VAOS Page: AppointmentsPage', () => {
 
     it('should display reivew request and referrals link', async () => {
       // Given the veteran lands on the VAOS homepage
-      const appointment = getVAOSRequestMock();
-      appointment.id = '1';
-      appointment.attributes = {
-        id: '1',
-        kind: 'clinic',
-        locationId: '983',
-        requestedPeriods: [{}],
-        serviceType: 'primaryCare',
-        status: 'proposed',
-      };
-
-      mockVAOSAppointmentsFetch({
-        start: moment()
-          .subtract(1, 'month')
-          .format('YYYY-MM-DD'),
-        end: moment()
-          .add(395, 'days')
-          .format('YYYY-MM-DD'),
-        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-        requests: [appointment],
-      });
-      mockVAOSAppointmentsFetch({
-        start: moment()
-          .subtract(120, 'days')
-          .format('YYYY-MM-DD'),
-        end: moment()
-          .add(1, 'days')
-          .format('YYYY-MM-DD'),
-        statuses: ['proposed', 'cancelled'],
-        requests: [appointment],
-      });
-      // Given the veteran lands on the VAOS homepage
       // When the page displays
       const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
@@ -533,7 +467,6 @@ describe('VAOS Page: AppointmentsPage', () => {
 
       // Then it should display the upcoming appointments
       await screen.findByRole('heading', { name: 'Appointments' });
-
       expect(await screen.findByTestId('review-requests-and-referrals')).to
         .exist;
 
@@ -555,7 +488,7 @@ describe('VAOS Page: AppointmentsPage', () => {
               facility: null,
               referralDetails: [
                 createReferralById(
-                  moment().format('YYYY-MM-DD'),
+                  format(new Date(), 'yyyy-MM-dd'),
                   'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
                 ),
               ],

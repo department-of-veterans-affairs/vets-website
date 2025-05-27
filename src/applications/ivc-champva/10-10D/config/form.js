@@ -31,7 +31,11 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import { flattenApplicantSSN } from './migrations';
+import {
+  flattenApplicantSSN,
+  migrateCardUploadKeys,
+  removeOtherRelationshipSpecification,
+} from './migrations';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
@@ -130,6 +134,7 @@ import { fileWithMetadataSchema } from '../../shared/components/fileUploads/atta
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
+import { singleFileSchema } from '../../shared/components/fileUploads/upload';
 
 // Control whether we show the file overview page by calling `hasReq` to
 // determine if any required files have not been uploaded
@@ -183,8 +188,12 @@ const formConfig = {
       saved: 'Your CHAMPVA benefits application has been saved.',
     },
   },
-  version: 1,
-  migrations: [flattenApplicantSSN],
+  version: 3,
+  migrations: [
+    flattenApplicantSSN,
+    migrateCardUploadKeys,
+    removeOtherRelationshipSpecification,
+  ],
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
@@ -907,7 +916,7 @@ const formConfig = {
             `${applicantWording(item)} relationship to the sponsor`,
           CustomPage: ApplicantRelationshipPage,
           CustomPageReview: ApplicantRelationshipReviewPage,
-          schema: applicantListSchema([], {
+          schema: applicantListSchema(['applicantRelationshipToSponsor'], {
             applicantRelationshipToSponsor: {
               type: 'object',
               properties: {
@@ -1335,10 +1344,8 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartAPartBCardsConfig.schema,
-            applicantMedicarePartAPartBCard: fileWithMetadataSchema(
-              acceptableFiles.medicareABCert,
-              2,
-            ),
+            applicantMedicarePartAPartBCardFront: singleFileSchema,
+            applicantMedicarePartAPartBCardBack: singleFileSchema,
           }),
         },
         page20b: {
@@ -1373,10 +1380,8 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantMedicarePartDCardsConfig.schema,
-            applicantMedicarePartDCard: fileWithMetadataSchema(
-              acceptableFiles.medicareDCert,
-              2,
-            ),
+            applicantMedicarePartDCardFront: singleFileSchema,
+            applicantMedicarePartDCardBack: singleFileSchema,
           }),
         },
         // If the user is ineligible for Medicare and over 65 years,
@@ -1470,10 +1475,8 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             ...applicantOhiCardsConfig.schema,
-            applicantOhiCard: fileWithMetadataSchema(
-              acceptableFiles.healthInsCert,
-              2,
-            ),
+            applicantOhiCardFront: singleFileSchema,
+            applicantOhiCardBack: singleFileSchema,
           }),
         },
         page22: {

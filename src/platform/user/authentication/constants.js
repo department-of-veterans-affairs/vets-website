@@ -1,6 +1,4 @@
 import React from 'react';
-import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
-import IDMeSVG from 'platform/user/authentication/components/IDMeSVG';
 import environment from '../../utilities/environment';
 import {
   eauthEnvironmentPrefixes,
@@ -50,15 +48,15 @@ export const SERVICE_PROVIDERS = {
   [CSP_IDS.LOGIN_GOV]: {
     label: 'Login.gov',
     link: 'https://secure.login.gov/account',
-    image: <LoginGovSVG />,
+    image: <img src="/img/logingov.svg" alt="Login.gov" />,
     policy: 'logingov',
     className: `logingov-button`,
   },
   [CSP_IDS.ID_ME]: {
     label: 'ID.me',
     link: 'https://wallet.id.me/settings',
-    image: <IDMeSVG />,
-    altImage: <IDMeSVG />,
+    image: <img src="/img/idme.svg" alt="ID.me" />,
+    altImage: <img src="/img/idme.svg" alt="ID.me" />,
     policy: 'idme',
     className: 'idme-button',
   },
@@ -87,7 +85,6 @@ export const AUTHN_SETTINGS = {
 export const EXTERNAL_APPS = {
   MHV: CSP_IDS.MHV,
   MY_VA_HEALTH: 'myvahealth',
-  EBENEFITS: 'ebenefits',
   VA_FLAGSHIP_MOBILE: 'vamobile',
   VA_OCC_MOBILE: 'vaoccmobile',
   ARP: 'arp',
@@ -98,8 +95,6 @@ export const TEST_APPS = {
   OKTA: 'okta_test',
 };
 
-export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
-
 export const eAuthURL = `https://${
   eauthEnvironmentPrefixes[environment.BUILDTYPE]
 }eauth.va.gov`;
@@ -109,7 +104,6 @@ export const EXTERNAL_REDIRECTS = {
     cernerEnvPrefixes[environment.BUILDTYPE]
   }patientportal.myhealth.va.gov`,
   [EXTERNAL_APPS.MHV]: `${eAuthURL}/mhv-portal-web/eauth`,
-  [EXTERNAL_APPS.EBENEFITS]: `${eAuthURL}/ebenefits`,
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: '',
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
   [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,

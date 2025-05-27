@@ -60,7 +60,6 @@ describe('VAOS request schedule flow - Audiology', () => {
         id: 'mock1',
         localStartTime: new Date(),
         status: APPOINTMENT_STATUS.booked,
-        serviceType: typeOfCareId,
         future: true,
       });
 

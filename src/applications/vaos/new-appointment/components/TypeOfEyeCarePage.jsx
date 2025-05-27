@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
 import { TYPES_OF_EYE_CARE } from '../../utils/constants';
 import { focusFormHeader } from '../../utils/scrollAndFocus';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 import {
   openFormPage,
@@ -58,10 +56,7 @@ const uiSchema = {
   },
 };
 
-export default function TypeOfEyeCarePage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function TypeOfEyeCarePage() {
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
@@ -71,9 +66,6 @@ export default function TypeOfEyeCarePage({ changeCrumb }) {
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
   }, []);
   useEffect(
     () => {
@@ -112,7 +104,3 @@ export default function TypeOfEyeCarePage({ changeCrumb }) {
     </div>
   );
 }
-
-TypeOfEyeCarePage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

@@ -23,7 +23,7 @@ describe('<FormSignatureCheckbox />', () => {
           required={false}
           checked={false}
           setChecked={setChecked}
-          checkboxDescription="I certify the information above is correct and true to the best of my knowledge and belief."
+          checkboxDescription="I certify the information above is true and correct to the best of my knowledge and belief."
           showError
         />
       </div>,

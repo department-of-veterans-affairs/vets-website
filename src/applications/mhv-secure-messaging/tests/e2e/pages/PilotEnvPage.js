@@ -2,13 +2,28 @@ import mockPilotMessages from '../fixtures/pilot-responses/inbox-threads-OH-resp
 import mockFolders from '../fixtures/pilot-responses/folders-respose.json';
 import { Paths, Locators } from '../utils/constants';
 import mockMultiThreadResponse from '../fixtures/pilot-responses/multi-message-thread-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
+import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 
 class PilotEnvPage {
   loadInboxMessages = (
     url = Paths.UI_PILOT,
     messages = mockPilotMessages,
     folders = mockFolders,
+    recipients = mockRecipients,
   ) => {
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS}*`,
+      recipients,
+    ).as('Recipients');
+
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0*`,
+      mockGeneralFolder,
+    ).as('generalFolder');
+
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE +

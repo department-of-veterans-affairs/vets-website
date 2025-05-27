@@ -53,6 +53,7 @@ export function ResultCard({
     preferredProvider,
     programCount,
     programLengthInHours,
+    accredited,
     type,
   } = institution;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -279,10 +280,16 @@ export function ResultCard({
           <strong>Accreditation:</strong>
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
-          {(accreditationType && (
-            <span className="capitalize-value">{accreditationType}</span>
-          )) ||
-            'N/A'}
+          {/* eslint-disable-next-line no-nested-ternary */}
+          {accredited ? (
+            accreditationType ? (
+              <span className="capitalize-value">{accreditationType}</span>
+            ) : (
+              'Yes'
+            )
+          ) : (
+            'N/A'
+          )}
         </p>
       </div>
       <div className="vads-u-flex--1">

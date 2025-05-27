@@ -14,8 +14,6 @@ import {
   selectTimeZoneAbbr,
   selectApptDetailAriaText,
   selectApptDateAriaText,
-  selectTypeOfCareAriaText,
-  selectModalityAriaText,
   selectIsCommunityCare,
 } from '../../redux/selectors';
 import AppointmentColumn from '../../../components/AppointmentColumn';
@@ -44,8 +42,6 @@ export default function AppointmentColumnLayout({
 
   const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
   const dateAriaLabel = useSelector(() => selectApptDateAriaText(data));
-  const typeOfCareAriaLabel = useSelector(() => selectTypeOfCareAriaText(data));
-  const modalityAriaLabel = useSelector(() => selectModalityAriaText(data));
 
   return (
     <>
@@ -159,7 +155,6 @@ export default function AppointmentColumnLayout({
                 size="2"
                 className="vads-u-font-weight--bold vaos-appts__display--table"
                 canceled={isCanceled}
-                aria-label={typeOfCareAriaLabel}
               >
                 <span
                   className={classNames(
@@ -176,7 +171,6 @@ export default function AppointmentColumnLayout({
                 size="3"
                 className="vaos-appts__display--table"
                 canceled={isCanceled}
-                aria-label={modalityAriaLabel}
               >
                 <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
                   {!isCommunityCare && (

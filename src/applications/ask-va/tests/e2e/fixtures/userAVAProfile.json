@@ -1,0 +1,39 @@
+{
+    "formData": {
+        "personalInformation": {
+            "first": "Mark",
+            "middle": "Tux",
+            "last": "Polarbear",
+            "suffix": "Jr.",
+            "preferredName": "STRING NBO",
+            "socialSecurityNumber": "796104437",
+            "dateOfBirth": "1950-10-04"
+        },
+        "contactInformation": {
+            "email": "testAVAPROFILE@gmail.com",
+            "phone": "3145222211",
+            "workPhone": "3145222255",
+            "businessPhone": "2023334499",
+            "address": {
+                "street": "8814 Covey Rise Ct",
+                "city": "Charlotte",
+                "state": "NC",
+                "country": "USA",
+                "postalCode": "28225"
+            }
+        },
+        "avaProfile": {
+            "schoolInfo": {
+                "schoolFacilityCode": "119D9143",
+                "schoolName": "TEXAS STATE UNIVERSITY"
+            },
+            "businessPhone": "2023334442",
+            "businessEmail": "testAVAPROFILE_BUSINESS@test.com"
+        }
+    },
+    "metadata": {
+        "version": 0,
+        "prefill": true,
+        "returnUrl": "/your-personal-information"
+    }
+}

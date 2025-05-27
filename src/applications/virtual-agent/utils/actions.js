@@ -21,15 +21,6 @@ import processCSAT from './processCSAT';
 const START_CONVERSATION = 'startConversation';
 const EVENT = 'event';
 const POST_ACTIVITY = 'DIRECT_LINE/POST_ACTIVITY';
-const SEND_EVENT = 'WEB_CHAT/SEND_EVENT';
-
-const joinActivity = {
-  type: SEND_EVENT,
-  payload: {
-    name: 'webchat/join',
-    value: { language: window.navigator.language },
-  },
-};
 
 function getStartConversationActivity(value) {
   return {
@@ -42,6 +33,7 @@ function getStartConversationActivity(value) {
         value: {
           csrfToken: value.csrfToken,
           apiSession: value.apiSession,
+          code: value.code,
           apiURL: value.apiURL,
           baseURL: value.baseURL,
           userFirstName: value.userFirstName,
@@ -59,27 +51,21 @@ function getEventName(action) {
   return action?.payload?.activity?.name ?? '';
 }
 
-function getEventValue(action, isRootBotToggleOn) {
-  // if toggle on then use this if off the just do action?.payload?.activity?.value
-  if (isRootBotToggleOn) {
-    return action?.payload?.activity?.value?.value ?? '';
-  }
-
-  return action?.payload?.activity?.value ?? '';
+function getEventValue(action) {
+  return (
+    action?.payload?.activity?.value?.value ||
+    action?.payload?.activity?.value ||
+    ''
+  );
 }
 
 function isEventRxSkill(eventValue) {
   return eventValue === 'va_vha_healthassistant_bot';
 }
 
-function handleRxSkillEvent(
-  action,
-  eventName,
-  isRxSkillState,
-  isRootBotToggleOn,
-) {
+function handleRxSkillEvent(action, eventName, isRxSkillState) {
   const actionEventName = getEventName(action);
-  const eventValue = getEventValue(action, isRootBotToggleOn);
+  const eventValue = getEventValue(action);
 
   if (actionEventName === eventName && isEventRxSkill(eventValue)) {
     setIsRxSkill(isRxSkillState);
@@ -87,9 +73,9 @@ function handleRxSkillEvent(
   }
 }
 
-function handleSkillEntryEvent(action, isRootBotToggleOn) {
+function handleSkillEntryEvent(action) {
   const actionEventName = getEventName(action);
-  const eventValue = getEventValue(action, isRootBotToggleOn);
+  const eventValue = getEventValue(action);
   const apiName = `Chatbot Skill Entry - ${eventValue}`;
   if (actionEventName === 'Skill_Entry') {
     setEventSkillValue(eventValue);
@@ -131,9 +117,6 @@ export const processActionConnectFulfilled = ({
   });
 
   dispatch(startConversationActivity);
-  if (!options.isRootBotToggleOn) {
-    dispatch(joinActivity);
-  }
 };
 
 export const processSendMessageActivity = ({ action }) => () => {
@@ -146,7 +129,6 @@ export const processIncomingActivity = ({
   action,
   dispatch,
   isComponentToggleOn,
-  isRootBotToggleOn,
 }) => () => {
   const isAtBeginningOfConversation = !getIsTrackingUtterances();
   const data = action.payload.activity;
@@ -180,7 +162,7 @@ export const processIncomingActivity = ({
     submitForm(data.value.url, data.value.body);
   }
 
-  if (isRootBotToggleOn && isCSATSurveyResponse) {
+  if (isCSATSurveyResponse) {
     processCSAT(data);
   }
 
@@ -189,9 +171,9 @@ export const processIncomingActivity = ({
     sendWindowEventWithActionPayload('webchat-message-activity', action);
   }
 
-  handleRxSkillEvent(action, 'Skill_Entry', true, isRootBotToggleOn);
-  handleRxSkillEvent(action, 'Skill_Exit', false, isRootBotToggleOn);
-  handleSkillEntryEvent(action, isRootBotToggleOn);
+  handleRxSkillEvent(action, 'Skill_Entry', true);
+  handleRxSkillEvent(action, 'Skill_Exit', false);
+  handleSkillEntryEvent(action);
 };
 
 export const processMicrophoneActivity = ({ action }) => () => {

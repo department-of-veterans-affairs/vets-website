@@ -170,6 +170,7 @@ describe('hca <ApplicationDownloadLink>', () => {
         });
       });
 
+      // createObjectURL is not stubbed so it throws error
       it('should display `generic` error message when any other error occurs not in the request response', async () => {
         const { selectors } = subject();
         const { vaLink: link } = selectors();
