@@ -132,11 +132,13 @@ export default function EpsAppointmentDetailsPage() {
           <br />
           <AppointmentTime appointment={appointment} />
         </Section>
-        <Section heading="What">
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            {titleCase(appointment.typeOfCare)}
-          </p>
-        </Section>
+        {appointment.typeOfCare && (
+          <Section heading="What">
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              {titleCase(appointment.typeOfCare)}
+            </p>
+          </Section>
+        )}
         <Section heading="Provider">
           <span>
             {`${appointment.provider.name ||
@@ -148,7 +150,6 @@ export default function EpsAppointmentDetailsPage() {
               address={appointment.provider.address}
               showDirections
               directionsName={appointment.provider.name}
-              phone={appointment.provider.phone}
             />
           )}
         </Section>

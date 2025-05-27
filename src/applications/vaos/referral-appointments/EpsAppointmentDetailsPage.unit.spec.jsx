@@ -172,7 +172,6 @@ describe('EpsAppointmentDetailsPage', () => {
 
     // Check sections exist
     expect(getByText('When')).to.exist;
-    expect(getByText('What')).to.exist;
     expect(getByText('Provider')).to.exist;
     expect(getByText('Prepare for your appointment')).to.exist;
     expect(getByText('Need to make changes?')).to.exist;
