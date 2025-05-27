@@ -41,7 +41,6 @@ export class ConfirmationPage extends React.Component {
     this.initializePage();
     this.handleResults();
     this.resetSubmissionStatus();
-    this.setState({ benefitsList: this.state.benefitsList });
     this.sortBenefits();
   }
 

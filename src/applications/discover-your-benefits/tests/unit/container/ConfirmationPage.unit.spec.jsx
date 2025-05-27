@@ -177,16 +177,14 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     });
     container = wrapper.container;
 
-    const benefitNames = wrapper
-      .getAllByRole('listitem')
-      .map(li => li.textContent);
+    const benefits = wrapper.getAllByRole('listitem').map(li => li.textContent);
 
     const sortedBenefits = BENEFITS_LIST.sort((a, b) => {
       return a.name.localeCompare(b.name);
     });
-    for (let i = 0; i < benefitNames.length; i++) {
-      expect(benefitNames[i].name === sortedBenefits.name).to.be.true;
-    }
+    benefits.forEach(benefit => {
+      expect(benefit.name).to.equal(sortedBenefits.name);
+    });
   });
 
   it('should filter benefits by category', () => {
