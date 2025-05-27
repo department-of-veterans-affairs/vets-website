@@ -123,6 +123,5 @@ describe('isEmptyAddress', () => {
 
   it('detects a non-empty address', () => {
     expect(addressUtils.isEmptyAddress(domestic)).to.equal(false);
-    expect(true).to.equal(true);
   });
 });
