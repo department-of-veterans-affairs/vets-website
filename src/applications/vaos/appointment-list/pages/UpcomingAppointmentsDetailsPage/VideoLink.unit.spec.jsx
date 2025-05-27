@@ -1,18 +1,27 @@
-import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
-import moment from 'moment-timezone';
+import { addMinutes, subMinutes } from 'date-fns';
+import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
+import React from 'react';
 import VideoLink from './VideoLink';
+import { DATE_FORMATS } from '../../../utils/constants';
 
 describe('VAOS Component: VideoLink', () => {
   it('renders join appoinment link', () => {
-    const now = moment();
+    const now = zonedTimeToUtc(
+      addMinutes(new Date(), 240),
+      'America/Anchorage',
+    );
     const appointment = {
       location: {
         vistaId: '983',
         locationId: '983',
       },
-      start: moment.tz(now, 'America/Anchorage').add(240, 'minutes'),
+      start: formatInTimeZone(
+        now,
+        'America/Anchorage',
+        DATE_FORMATS.ISODateTime,
+      ),
       videoData: {
         url: 'test.com',
       },
@@ -30,13 +39,17 @@ describe('VAOS Component: VideoLink', () => {
       .be.true;
   });
   it('renders disabled join appoinment link 35 minutes prior to start time', () => {
-    const now = moment();
+    const now = zonedTimeToUtc(subMinutes(new Date(), 35), 'America/New_York');
     const appointment = {
       location: {
         vistaId: '983',
         locationId: '983',
       },
-      start: moment.tz(now, 'America/New_York').subtract(35, 'minutes'),
+      start: formatInTimeZone(
+        now,
+        'America/New_York',
+        DATE_FORMATS.ISODateTime,
+      ),
       videoData: {
         url: 'test.com',
       },
@@ -48,13 +61,13 @@ describe('VAOS Component: VideoLink', () => {
     expect(wrapper.container.querySelector('.usa-button-disabled')).to.exist;
   });
   it('renders disabled join appoinment link 4 hours after start time', () => {
-    const now = moment();
+    const now = zonedTimeToUtc(addMinutes(new Date(), 242));
     const appointment = {
       location: {
         vistaId: '983',
         locationId: '983',
       },
-      start: moment(now).add(242, 'minutes'),
+      start: now,
       videoData: {
         url: 'test.com',
       },
@@ -66,13 +79,13 @@ describe('VAOS Component: VideoLink', () => {
     expect(wrapper.container.querySelector('.usa-button-disabled')).to.exist;
   });
   it('call preventDefault function', () => {
-    const now = moment();
+    const now = subMinutes(new Date(), 35);
     const appointment = {
       location: {
         vistaId: '983',
         locationId: '983',
       },
-      start: moment(now).subtract(35, 'minutes'),
+      start: now,
       videoData: {
         url: 'test.com',
       },
