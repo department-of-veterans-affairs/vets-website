@@ -7,7 +7,7 @@ describe('go bill CT before search by name', () => {
       body: data,
     });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('education/gi-bill-comparison-tool/');
+    cy.visit('education/gi-bill-comparison-tool/schools-and-employers');
   });
   it('show Comparison Tool title', () => {
     cy.injectAxeThenAxeCheck();
@@ -98,7 +98,7 @@ describe('go bill CT before search by name', () => {
   });
   it('should visited https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp when About this tool link is clicked', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('a[id="about-this-tool"]').then(link => {
+    cy.get('a[id="disclaimer-link-about-this-tool"]').then(link => {
       const href = link.prop('href');
       cy.visit(href);
     });
