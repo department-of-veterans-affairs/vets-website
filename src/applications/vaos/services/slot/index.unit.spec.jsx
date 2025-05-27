@@ -5,7 +5,7 @@ import {
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 
-import { addDays, addMonths, format, formatISO, startOfDay } from 'date-fns';
+import { addDays, addMonths, format, startOfDay } from 'date-fns';
 import { getSlots } from '.';
 import { DATE_FORMATS } from '../../utils/constants';
 
@@ -70,9 +70,10 @@ describe('VAOS Services: Slot ', () => {
       }
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        `/vaos/v2/locations/983/clinics/308/slots?start=${formatISO(
+        `/vaos/v2/locations/983/clinics/308/slots?start=${format(
           startOfDay(startDate),
-        )}&end=${formatISO(startOfDay(endDate))}`,
+          DATE_FORMATS.ISODateTimeLocal,
+        )}&end=${format(startOfDay(endDate), DATE_FORMATS.ISODateTimeLocal)}`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
     });
