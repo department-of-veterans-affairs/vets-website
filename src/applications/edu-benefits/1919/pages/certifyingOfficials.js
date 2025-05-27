@@ -14,19 +14,26 @@ const levelNames = {
   officer: 'Officer',
   other: 'Other',
 };
+const noSpaceOnlyPattern = '^(?!\\s*$).+';
 const uiSchema = {
   certifyingOfficial: {
     ...titleUI('Your name and role'),
     first: {
       ...textUI({
         title: 'First name',
-        errorMessages: { required: 'Please enter a first name' },
+        errorMessages: {
+          required: 'Please enter a first name',
+          pattern: 'You must provide a response',
+        },
       }),
     },
     last: {
       ...textUI({
         title: 'Last name',
-        errorMessages: { required: 'Please enter a last name' },
+        errorMessages: {
+          required: 'Please enter a last name',
+          pattern: 'You must provide a response',
+        },
       }),
     },
     role: {
@@ -39,17 +46,19 @@ const uiSchema = {
         }),
       },
       other: {
-        ...textUI({
-          title: 'Please specify your role',
-          errorMessages: { required: 'Your role must be specified' },
-          required: formData =>
-            formData.certifyingOfficial?.role?.level === 'Other',
-        }),
+        'ui:title': 'Please specify your role',
+        'ui:errorMessages': {
+          required: 'Your role must be specified',
+          pattern: 'You must provide a response',
+        },
+        'ui:required': formData =>
+          formData.certifyingOfficial?.role?.level === 'Other',
         'ui:options': {
-          hideIf: formData =>
-            formData.certifyingOfficial?.role?.level !== 'Other',
-          classNames:
-            'vads-u-margin-left--5 vads-u-margin-top--neg4 other-role',
+          expandUnder: 'level',
+          expandUnderCondition: 'Other',
+          expandedContentFocus: true,
+          preserveHiddenData: true,
+          classNames: 'vads-u-margin-top--neg1',
         },
       },
     },
@@ -62,14 +71,14 @@ const schema = {
       type: 'object',
       required: ['first', 'last', 'role'],
       properties: {
-        first: textSchema,
-        last: textSchema,
+        first: { ...textSchema, pattern: noSpaceOnlyPattern },
+        last: { ...textSchema, pattern: noSpaceOnlyPattern },
         role: {
           type: 'object',
           required: ['level'],
           properties: {
             level: radioSchema(Object.values(levelNames)),
-            other: textSchema,
+            other: { type: 'string', pattern: noSpaceOnlyPattern },
           },
         },
       },

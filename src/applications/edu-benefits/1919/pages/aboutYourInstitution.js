@@ -9,16 +9,19 @@ const uiSchema = {
   aboutYourInstitution: {
     ...yesNoUI({
       title: 'Has your institution been assigned a facility code?',
+      errorMessages: {
+        required: 'Please provide a response',
+      },
       labels: {
         Y: 'Yes',
         N: 'Not yet',
       },
-      errorMessages: { required: 'Please provide a response' },
     }),
   },
 };
 const schema = {
   type: 'object',
+  required: ['aboutYourInstitution'],
   properties: {
     aboutYourInstitution: yesNoSchema,
   },
