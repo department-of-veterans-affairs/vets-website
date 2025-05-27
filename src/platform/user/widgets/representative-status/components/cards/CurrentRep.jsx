@@ -81,17 +81,10 @@ export function CurrentRep({
                 </div>
               </div>
             )}
-            {!isOrganization &&
-              email && (
-                <div className="vads-u-display--flex vads-u-margin-top--1p5">
-                  <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
-                    <va-icon
-                      icon="mail"
-                      size={2}
-                      srtext="Representative email"
-                    />
-                  </div>
-                  <a href={`mailto:${email}`}>{email}</a>
+            {!isOrganization && email && (
+              <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                  <va-icon icon="mail" size={2} srtext="Representative email" />
                 </div>
                 <a href={`mailto:${email}`}>{email}</a>
               </div>
@@ -112,18 +105,10 @@ export function CurrentRep({
                 />
               </div>
             )}
-            {!isOrganization &&
-              (contact || email) && (
-                <div className="vads-u-display--flex vads-u-margin-top--1p5">
-                  <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
-                    <va-icon icon="file_download" size={2} />
-                  </div>
-                  <va-link
-                    filetype="VCF"
-                    filename="accredited_representative_contact"
-                    href={vcfUrl}
-                    text="Download your accredited representative's contact information"
-                  />
+            {!isOrganization && (contact || email) && (
+              <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                  <va-icon icon="file_download" size={2} />
                 </div>
                 <va-link
                   filetype="VCF"
