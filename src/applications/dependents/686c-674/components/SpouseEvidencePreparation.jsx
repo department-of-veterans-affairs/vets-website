@@ -93,7 +93,7 @@ export const SpouseEvidencePreparation = () => {
             must include the date (month, day, and year) and place (city and
             state, county and state, or city and country) where the marriage
             ceremony happened, and the person’s authority for conducting the
-            ceremony
+            ceremony.
           </li>
         </ul>
       </>

@@ -128,7 +128,7 @@ const resolveLandingPageLinks = (
         },
         {
           href: '/health-care/wellness-programs/',
-          text: 'Veteran programs for health and wellness',
+          text: 'Veterans programs for health and wellness',
         },
         {
           href: '/family-and-caregiver-benefits/',
@@ -340,7 +340,7 @@ const resolveLandingPageLinks = (
     },
     {
       href: '/health-care/wellness-programs/',
-      text: 'Veteran programs for health and wellness',
+      text: 'Veterans programs for health and wellness',
     },
   ].filter(isLinkData);
 

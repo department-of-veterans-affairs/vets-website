@@ -2,8 +2,6 @@
 // Location to custom commands type definitions.
 /// <reference path="./index.d.ts" />
 
-import moment from '../../utils/business-days';
-import * as momentTZ from '../../lib/moment-tz';
 import schedulingConfigurations from '../../services/mocks/v2/scheduling_configurations.json';
 import featureFlags from '../../utils/featureFlags';
 
@@ -599,49 +597,6 @@ export function vaosSetup() {
         },
       },
     });
-  });
-
-  Cypress.Commands.add('assertRequestedPeriod', (date, timezone = null) => {
-    // Check for null date since creating a moment with null will use the current date.
-    if (date === null || date === undefined)
-      throw new Error('Request period is null. Expected date string.');
-
-    // Strip timezone information.
-    const requestedDate = timezone ? moment(date) : momentTZ.parseZone(date);
-
-    if (!requestedDate.isValid()) return false;
-    // Using custom momentjs wrapper functions 'addBusinessDay' and 'addBusinessMonth'. These functions
-    // will check to see if adding 5 days to the current date falls on a Sat or Sun. If so, add 1 or 2
-    // days to get to Mon since appointment request are only available Mon thru Fri.
-    let testDate = moment().addBusinessDay(5, 'd');
-
-    // Add 1 month to account for the test clicking the 'next' button.
-    testDate.addBusinessMonth(1);
-
-    // Convert date timezone to that of the facility for scheduled appointment
-    if (timezone) {
-      testDate = moment
-        .tz(testDate.format('YYYY-MM-DDTHH:mm:ss'), 'America/Denver')
-        .utc();
-    }
-
-    Cypress.log({
-      name: 'assertRequestedPeriod',
-      // shorter name for the Command Log
-      displayName: 'assertRequestedPeriod',
-      message: `Requested appointment date: ${requestedDate.format()}, test date: ${testDate.format()}`,
-      consoleProps: () => {
-        // return an object which will
-        // print to dev tools console on click
-        return {
-          Value: date,
-        };
-      },
-    });
-
-    // eslint-disable-next-line no-unused-expressions
-    expect(requestedDate.isSame(testDate, 'day')).to.ok;
-    return true;
   });
 }
 

@@ -28,6 +28,7 @@ import {
   primaryOfficial,
   institutionDetails,
   institutionDetailsFacility,
+  primaryOfficialTraining,
 } from '../pages';
 import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
@@ -64,6 +65,7 @@ const formConfig = {
       Designation of certifying official(s) (VA Form 22-8794)
     </p>
   ),
+  useCustomScrollAndFocus: true,
   defaultDefinitions: {
     fullName,
     ssn,
@@ -116,11 +118,17 @@ const formConfig = {
     primaryOfficialChapter: {
       title: 'Primary certifying official',
       pages: {
-        primaryOfficial: {
+        primaryOfficialDetails: {
           path: 'primary-certifying-official',
-          title: 'Your information',
+          title: 'Tell us about your primary certifying official',
           uiSchema: primaryOfficial.uiSchema,
           schema: primaryOfficial.schema,
+        },
+        primaryOfficialTraining: {
+          path: 'primary-certifying-official-1',
+          title: 'Section 305 training',
+          uiSchema: primaryOfficialTraining.uiSchema,
+          schema: primaryOfficialTraining.schema,
         },
       },
     },

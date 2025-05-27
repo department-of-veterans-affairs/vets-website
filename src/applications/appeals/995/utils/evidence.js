@@ -7,6 +7,11 @@ import {
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { showScNewForm, checkRedirect } from './toggle';
+import {
+  FORMAT_COMPACT_DATE_FNS,
+  FORMAT_YMD_DATE_FNS,
+} from '../../shared/constants';
+import { parseDate } from '../../shared/utils/dates';
 
 export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
 export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
@@ -126,3 +131,8 @@ export const onFormLoaded = props => {
   }
   router?.push(returnUrl);
 };
+
+export const formatDate = (date = '', format = FORMAT_COMPACT_DATE_FNS) =>
+  // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
+  // const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
+  parseDate(date, format, FORMAT_YMD_DATE_FNS) || '';
