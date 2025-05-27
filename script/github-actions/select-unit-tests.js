@@ -52,7 +52,7 @@ core.exportVariable('DISALLOWED_TESTS', DISALLOWED_SPECS);
 if (TESTS_TO_STRESS_TEST.length > 0 && IS_STRESS_TEST === 'false') {
   core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'true');
   core.exportVariable('APPS_TO_STRESS_TEST', CHANGED_APPS_UNIQUE);
-  core.exportVariable('TESTS_RAN', true);
+  core.exportVariable('TESTS_RAN', 'true');
   fs.writeFileSync(
     `unit_tests_to_stress_test.json`,
     JSON.stringify(TESTS_TO_STRESS_TEST),
@@ -60,7 +60,7 @@ if (TESTS_TO_STRESS_TEST.length > 0 && IS_STRESS_TEST === 'false') {
 } else if (IS_STRESS_TEST === 'true') {
   core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'true');
   core.exportVariable('APPS_TO_STRESS_TEST', ALL_APPS);
-  core.exportVariable('TESTS_RAN', true);
+  core.exportVariable('TESTS_RAN', 'true');
   fs.writeFileSync(
     `unit_tests_to_stress_test.json`,
     JSON.stringify(ALL_SPECS.filter(specPath => fs.existsSync(specPath))),

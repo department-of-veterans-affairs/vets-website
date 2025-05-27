@@ -160,7 +160,7 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
-      tests_ran: ${{ steps.select-unit-tests.outputs.tests_ran }}
+      tests_ran: ${{ steps.tests-ran.outputs.tests_ran }}
 
     steps:
       - name: Checkout
@@ -207,10 +207,13 @@ jobs:
           TEST_TYPE: e2e
 
       - name: Select Unit Tests
-        id: select-unit-tests
         run: node script/github-actions/select-unit-tests.js
         env:
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Set output of TESTS_RAN
+        id: tests-ran
+        run: echo "tests_ran=$TESTS_RAN" >> $GITHUB_OUTPUT
 
       - name: Set output of DISALLOWED_TESTS
         if: ${{ always() }}
@@ -266,7 +269,7 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    if: ${{ needs.tests-prep.outputs.tests_ran != ''}}
+    if: ${{ needs.tests-prep.outputs.tests_ran == 'true' }}
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
