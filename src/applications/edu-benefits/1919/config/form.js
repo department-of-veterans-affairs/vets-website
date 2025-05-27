@@ -28,7 +28,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-1919',
-  // useCustomScrollAndFocus: true,
+  useCustomScrollAndFocus: true,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your education benefits application (22-1919) is in progress.',
