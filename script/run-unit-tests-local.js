@@ -80,6 +80,7 @@ async function runCommandAsync(command) {
     exec(command, (error, stdout) => {
       if (error) {
         console.error(`Runtime ${error}`);
+        console.log(stdout);
         reject(error);
       } else {
         console.log(`Output: ${stdout}`);
