@@ -23,7 +23,7 @@ export const uiSchema = {
       title: 'Do you want to upload your private medical records?',
       labels: {
         Y: 'Yes',
-        N: 'No, please get my records from my doctor.',
+        N: 'No, please get my records from my provider.',
       },
     }),
     'view:privateRecordsChoiceHelp': {
