@@ -48,7 +48,7 @@ export default function MhvTemporaryAccess() {
               queryParams: { operation: 'mhv_exception' },
             });
           }}
-          text="Update Password"
+          text="Update password"
           data-testid="updateMhvBtn"
         />
       </div>
