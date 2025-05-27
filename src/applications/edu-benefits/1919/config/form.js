@@ -18,6 +18,7 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import conflictOfInterest from '../pages';
 
 // const { } = fullSchema.properties;
 
@@ -26,6 +27,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
+// import { conflictOfInterest } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -104,37 +106,14 @@ const formConfig = {
         },
       },
     },
-    additionalInformationChapter: {
+    conflictOfInterestChapter: {
       title: 'Additional Information',
       pages: {
-        contactInformation: {
+        conflictOfInterest: {
           path: 'contact-information',
           title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI('Daytime phone'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
-            },
-          },
+          uiSchema: conflictOfInterest.uiSchema,
+          schema: conflictOfInterest.schema,
         },
         directDeposit: {
           path: 'direct-deposit',
