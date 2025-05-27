@@ -8,20 +8,20 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import EvidencePrivateRecordsRequest from '../../components/EvidencePrivateRecordsRequest';
-import { privateRecordsRequestTitle } from '../../content/evidencePrivateRecordsRequest';
+import PrivateRecordsRequest from '../../../components/evidence/PrivateRecordsRequest';
+import { privateRecordsRequestTitle } from '../../../content/evidencePrivateRecordsRequest';
 import {
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
   EVIDENCE_VA_PATH,
-} from '../../constants';
-import errorMessages from '../../../shared/content/errorMessages';
+} from '../../../constants';
+import errorMessages from '../../../../shared/content/errorMessages';
 
-describe('<EvidencePrivateRecordsRequest>', () => {
+describe('<PrivateRecordsRequest>', () => {
   it('should render', () => {
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest />
+        <PrivateRecordsRequest />
       </div>,
     );
 
@@ -32,7 +32,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
   it('should capture google analytics', () => {
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest setFormData={() => {}} />
+        <PrivateRecordsRequest setFormData={() => {}} />
       </div>,
     );
 
@@ -54,7 +54,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     const goSpy = sinon.spy();
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest goForward={goSpy} />
+        <PrivateRecordsRequest goForward={goSpy} />
       </div>,
     );
 
@@ -69,7 +69,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     const data = { [EVIDENCE_PRIVATE]: true };
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest data={data} goForward={goSpy} />
+        <PrivateRecordsRequest data={data} goForward={goSpy} />
       </div>,
     );
 
@@ -87,10 +87,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     });
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest
-          data={data}
-          setFormData={setFormDataSpy}
-        />
+        <PrivateRecordsRequest data={data} setFormData={setFormDataSpy} />
       </div>,
     );
 
@@ -103,7 +100,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     const data = { [EVIDENCE_VA]: false };
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest data={data} goBack={goSpy} />
+        <PrivateRecordsRequest data={data} goBack={goSpy} />
       </div>,
     );
 
@@ -116,7 +113,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     const data = { [EVIDENCE_VA]: true, locations: [{}, {}] };
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsRequest data={data} goToPath={goSpy} />
+        <PrivateRecordsRequest data={data} goToPath={goSpy} />
       </div>,
     );
 

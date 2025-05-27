@@ -6,7 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { countries, states } from 'platform/forms/address';
 
-export const EvidenceFacilityAddress = ({
+export const FacilityAddress = ({
   currentData,
   content,
   handlers,
@@ -121,7 +121,7 @@ export const EvidenceFacilityAddress = ({
   );
 };
 
-EvidenceFacilityAddress.propTypes = {
+FacilityAddress.propTypes = {
   content: PropTypes.shape({
     addressLabels: PropTypes.shape({
       city: PropTypes.string,

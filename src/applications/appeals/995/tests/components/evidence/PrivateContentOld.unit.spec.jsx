@@ -7,20 +7,16 @@ import {
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
   LIMITATION_KEY,
-} from '../../constants';
-import { content } from '../../content/evidenceSummary';
-import { EvidencePrivateContent } from '../../components/EvidencePrivateContent';
-import { records } from '../data/evidence-records';
+} from '../../../constants';
+import { content } from '../../../content/evidenceSummary';
+import { PrivateContent } from '../../../components/evidence/PrivateContent';
+import { records } from '../../data/evidence-records';
 
 describe('buildPrivateContent', () => {
   it('should render editable private content', () => {
     const privateEvidence = records().providerFacility;
     const { container } = render(
-      <EvidencePrivateContent
-        list={privateEvidence}
-        limitedConsent="test"
-        testing
-      />,
+      <PrivateContent list={privateEvidence} limitedConsent="test" testing />,
     );
 
     expect($('.private-title', container).textContent).to.contain(
@@ -41,7 +37,7 @@ describe('buildPrivateContent', () => {
   it('should render nothing when no data is passed in', () => {
     const { container } = render(
       <div>
-        <EvidencePrivateContent testing />
+        <PrivateContent testing />
       </div>,
     );
 
@@ -51,11 +47,7 @@ describe('buildPrivateContent', () => {
   it('should not render limited consent section remove button', () => {
     const privateEvidence = records().providerFacility;
     const { container } = render(
-      <EvidencePrivateContent
-        list={privateEvidence}
-        limitedConsent=""
-        testing
-      />,
+      <PrivateContent list={privateEvidence} limitedConsent="" testing />,
     );
     expect($$('.private-facility', container).length).to.eq(2);
     expect($$('.private-limitation', container).length).to.eq(1);
@@ -65,7 +57,7 @@ describe('buildPrivateContent', () => {
   it('should render review-only private content', () => {
     const privateEvidence = records().providerFacility;
     const { container } = render(
-      <EvidencePrivateContent
+      <PrivateContent
         list={privateEvidence}
         limitedConsent="test"
         reviewMode
@@ -85,7 +77,7 @@ describe('buildPrivateContent', () => {
   });
   it('should show missing facility message', () => {
     const { container } = render(
-      <EvidencePrivateContent list={['']} limitedConsent="" testing />,
+      <PrivateContent list={['']} limitedConsent="" testing />,
     );
 
     const ul = $('ul', container);
@@ -97,11 +89,7 @@ describe('buildPrivateContent', () => {
   it('should show missing issues message', () => {
     const privateEvidence = records({ emptyIssue: true }).providerFacility;
     const { container } = render(
-      <EvidencePrivateContent
-        list={privateEvidence}
-        limitedConsent=""
-        testing
-      />,
+      <PrivateContent list={privateEvidence} limitedConsent="" testing />,
     );
 
     const li = $$('li', container);
@@ -111,7 +99,7 @@ describe('buildPrivateContent', () => {
   it('should have edit links pointing to the appropriate private indexed page or limitation page', () => {
     const privateEvidence = records().providerFacility;
     const { container } = render(
-      <EvidencePrivateContent list={privateEvidence} testing />,
+      <PrivateContent list={privateEvidence} testing />,
     );
 
     const links = $$('.edit-item', container);
@@ -130,11 +118,7 @@ describe('buildPrivateContent', () => {
     const privateEvidence = records().providerFacility;
     const handlers = { showModal: removeSpy };
     const { container } = render(
-      <EvidencePrivateContent
-        list={privateEvidence}
-        handlers={handlers}
-        testing
-      />,
+      <PrivateContent list={privateEvidence} handlers={handlers} testing />,
     );
 
     const buttons = $$('.remove-item', container);
@@ -156,7 +140,7 @@ describe('buildPrivateContent', () => {
     const privateEvidence = records().providerFacility;
     const handlers = { showModal: removeSpy };
     const { container } = render(
-      <EvidencePrivateContent
+      <PrivateContent
         list={privateEvidence}
         limitedConsent="test"
         handlers={handlers}

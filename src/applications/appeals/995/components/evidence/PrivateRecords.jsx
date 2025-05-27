@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { EVIDENCE_PRIVATE_PATH } from '../constants';
-import { content } from '../content/evidencePrivateRecords';
-import { getIndex, hasErrors } from '../utils/evidence';
+import { EVIDENCE_PRIVATE_PATH } from '../../constants';
+import { content } from '../../content/evidencePrivateRecords';
+import { getIndex, hasErrors } from '../../utils/evidence';
 
 import {
   validatePrivateName,
@@ -17,16 +17,16 @@ import {
   validatePrivateToDate,
   validatePrivateUnique,
   isEmptyPrivateEntry,
-} from '../validations/evidence';
-import { focusEvidence } from '../../shared/utils/focus';
-import { EvidenceHeaderAndModal } from './EvidenceHeaderAndModal';
-import { EvidenceFacilityAddress } from './EvidenceFacilityAddress';
-import { EvidenceIssueAndDates } from './EvidenceIssueAndDates';
-import { EvidencePageNavigation } from './EvidencePageNavigation';
+} from '../../validations/evidence';
+import { focusEvidence } from '../../../shared/utils/focus';
+import { HeaderAndModal } from './HeaderAndModal';
+import { FacilityAddress } from './FacilityAddress';
+import { IssueAndDates } from './IssueAndDates';
+import { PageNavigation } from './PageNavigation';
 
-import { getIssueName, getSelected } from '../../shared/utils/issues';
-import { checkValidations } from '../../shared/validations';
-import { customPageProps995 } from '../../shared/props';
+import { getIssueName, getSelected } from '../../../shared/utils/issues';
+import { checkValidations } from '../../../shared/validations';
+import { customPageProps995 } from '../../../shared/props';
 
 const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
@@ -60,7 +60,7 @@ const defaultState = {
   submitted: false,
 };
 
-const EvidencePrivateRecords = ({
+const PrivateRecords = ({
   data,
   goBack,
   goForward,
@@ -335,7 +335,7 @@ const EvidencePrivateRecords = ({
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
-        <EvidenceHeaderAndModal
+        <HeaderAndModal
           currentData={currentData}
           currentState={currentState}
           currentIndex={currentIndex}
@@ -359,14 +359,14 @@ const EvidencePrivateRecords = ({
           uswds
         />
 
-        <EvidenceFacilityAddress
+        <FacilityAddress
           currentData={currentData}
           content={content}
           handlers={handlers}
           showError={showError}
         />
 
-        <EvidenceIssueAndDates
+        <IssueAndDates
           currentData={currentData}
           availableIssues={availableIssues}
           content={content}
@@ -376,7 +376,7 @@ const EvidencePrivateRecords = ({
           dateRangeKey="treatmentDateRange"
         />
 
-        <EvidencePageNavigation
+        <PageNavigation
           path={`${PRIVATE_PATH}?index=${currentIndex + 1}`}
           content={{
             ...content,
@@ -390,6 +390,6 @@ const EvidencePrivateRecords = ({
   );
 };
 
-EvidencePrivateRecords.propTypes = customPageProps995;
+PrivateRecords.propTypes = customPageProps995;
 
-export default EvidencePrivateRecords;
+export default PrivateRecords;

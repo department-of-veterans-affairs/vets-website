@@ -7,17 +7,21 @@ import {
   getVAEvidence,
   getPrivateEvidence,
   getOtherEvidence,
-} from '../utils/evidence';
+} from '../../utils/evidence';
 
-import { content } from '../content/evidenceSummary';
+import { content } from '../../content/evidenceSummary';
 
-import { EvidencePrivateContent } from './EvidencePrivateContent';
-import { EvidenceUploadContent } from './EvidenceUploadContent';
-import { EvidenceVaContent } from './EvidenceVaContent';
-import { SUMMARY_EDIT, SC_NEW_FORM_DATA, EVIDENCE_LIMIT } from '../constants';
-import { data995 } from '../../shared/props';
+import { PrivateContent } from './PrivateContent';
+import { UploadContent } from './UploadContent';
+import { VaContent } from './VaContent';
+import {
+  SUMMARY_EDIT,
+  SC_NEW_FORM_DATA,
+  EVIDENCE_LIMIT,
+} from '../../constants';
+import { data995 } from '../../../shared/props';
 
-const EvidenceSummaryReview = ({ data, editPage }) => {
+const SummaryReview = ({ data, editPage }) => {
   const { limitedConsent = '', privacyAgreementAccepted } = data;
 
   const editRef = useRef(null);
@@ -88,22 +92,22 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         </dl>
       ) : null}
 
-      <EvidenceVaContent list={vaEvidence} {...props} />
-      <EvidencePrivateContent
+      <VaContent list={vaEvidence} {...props} />
+      <PrivateContent
         list={privateEvidence}
         showLimitedConsentYN={showLimitedConsentYN}
         limitedConsent={limitedConsent}
         privacyAgreementAccepted={privacyAgreementAccepted}
         {...props}
       />
-      <EvidenceUploadContent list={otherEvidence} {...props} />
+      <UploadContent list={otherEvidence} {...props} />
     </div>
   );
 };
 
-EvidenceSummaryReview.propTypes = {
+SummaryReview.propTypes = {
   data: data995,
   editPage: PropTypes.func,
 };
 
-export default EvidenceSummaryReview;
+export default SummaryReview;

@@ -5,13 +5,13 @@ import sinon from 'sinon';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import EvidencePrivateRecordsAuthorization from '../../components/EvidencePrivateRecordsAuthorization';
+import PrivateRecordsAuthorization from '../../../components/evidence/PrivateRecordsAuthorization';
 
-describe('<EvidencePrivateRecordsAuthorization>', () => {
+describe('<PrivateRecordsAuthorization>', () => {
   it('should render', () => {
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsAuthorization />
+        <PrivateRecordsAuthorization />
       </div>,
     );
 
@@ -27,7 +27,7 @@ describe('<EvidencePrivateRecordsAuthorization>', () => {
     const setFormDataSpy = sinon.spy();
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsAuthorization
+        <PrivateRecordsAuthorization
           goForward={goSpy}
           setFormData={setFormDataSpy}
         />
@@ -55,7 +55,7 @@ describe('<EvidencePrivateRecordsAuthorization>', () => {
     const data = { privacyAgreementAccepted: true };
     const { container, rerender } = render(
       <div>
-        <EvidencePrivateRecordsAuthorization
+        <PrivateRecordsAuthorization
           goForward={goSpy}
           data={{}}
           setFormData={setFormDataSpy}
@@ -69,7 +69,7 @@ describe('<EvidencePrivateRecordsAuthorization>', () => {
 
     rerender(
       <div>
-        <EvidencePrivateRecordsAuthorization
+        <PrivateRecordsAuthorization
           goForward={goSpy}
           data={data}
           setFormData={setFormDataSpy}
@@ -92,7 +92,7 @@ describe('<EvidencePrivateRecordsAuthorization>', () => {
     };
     const { container } = render(
       <div>
-        <EvidencePrivateRecordsAuthorization goForward={goSpy} data={data} />
+        <PrivateRecordsAuthorization goForward={goSpy} data={data} />
       </div>,
     );
 

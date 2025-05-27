@@ -6,9 +6,9 @@ import {
   VaDate,
   VaMemorableDate,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { NO_ISSUES_SELECTED } from '../constants';
+import { NO_ISSUES_SELECTED } from '../../constants';
 
-export const EvidenceIssueAndDates = ({
+export const IssueAndDates = ({
   currentData,
   availableIssues,
   content,
@@ -103,7 +103,7 @@ export const EvidenceIssueAndDates = ({
   </>
 );
 
-EvidenceIssueAndDates.propTypes = {
+IssueAndDates.propTypes = {
   availableIssues: PropTypes.array,
   content: PropTypes.shape({
     dateStart: PropTypes.string,

@@ -5,8 +5,8 @@ import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import EvidenceSummary from '../../components/EvidenceSummary';
-import { content } from '../../content/evidenceSummary';
+import Summary from '../../../components/evidence/Summary';
+import { content } from '../../../content/evidenceSummary';
 import {
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
@@ -15,7 +15,7 @@ import {
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
   EVIDENCE_UPLOAD_PATH,
-} from '../../constants';
+} from '../../../constants';
 
 const providerFacilityAddress = {
   country: 'USA',
@@ -84,7 +84,7 @@ const setupSummary = ({
 } = {}) =>
   render(
     <div>
-      <EvidenceSummary
+      <Summary
         data={{
           [EVIDENCE_VA]: vaMR,
           [EVIDENCE_PRIVATE]: privateMR,
@@ -105,7 +105,7 @@ const setupSummary = ({
     </div>,
   );
 
-describe('<EvidenceSummary>', () => {
+describe('<Summary>', () => {
   it('should render', () => {
     const { container } = setupSummary({ limit: 'Pizza addiction' });
 

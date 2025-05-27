@@ -2,17 +2,17 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
-import { content } from '../content/evidenceSummary';
-import { content as vaContent } from '../content/evidenceVaRecords';
-import { EVIDENCE_VA_PATH } from '../constants';
-import { FORMAT_READABLE_MMYY_DATE_FNS } from '../../shared/constants';
+import { content } from '../../content/evidenceSummary';
+import { content as vaContent } from '../../content/evidenceVaRecords';
+import { EVIDENCE_VA_PATH } from '../../constants';
+import { FORMAT_READABLE_MMYY_DATE_FNS } from '../../../shared/constants';
 import {
   confirmationPageLabel,
   errorClassNames,
   listClassNames,
   removeButtonClass,
-} from '../utils/evidence-classnames';
-import { formatDate } from '../utils/evidence';
+} from '../../utils/evidence-classnames';
+import { formatDate } from '../../utils/evidence';
 
 /**
  * Build VA evidence list
@@ -24,7 +24,7 @@ import { formatDate } from '../utils/evidence';
  *  an href when not wrapped in a Router
  * @returns {JSX}
  */
-export const EvidenceVaContent = ({
+export const VaContent = ({
   list = [],
   isOnReviewPage,
   reviewMode = false,
@@ -150,7 +150,7 @@ export const EvidenceVaContent = ({
   );
 };
 
-EvidenceVaContent.propTypes = {
+VaContent.propTypes = {
   handlers: PropTypes.shape({}),
   isOnReviewPage: PropTypes.bool,
   list: PropTypes.array,

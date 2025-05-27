@@ -6,14 +6,14 @@ import {
   EVIDENCE_LIMIT,
   EVIDENCE_PRIVATE,
   EVIDENCE_PRIVATE_PATH,
-} from '../constants';
+} from '../../constants';
 
-import { content } from '../content/evidencePrivateLimitation';
-import { showScNewForm } from '../utils/toggle';
+import { content } from '../../content/evidencePrivateLimitation';
+import { showScNewForm } from '../../utils/toggle';
 
-import { customPageProps995 } from '../../shared/props';
+import { customPageProps995 } from '../../../shared/props';
 
-const EvidencePrivateLimitation = ({
+const PrivateLimitation = ({
   data = {},
   goBack,
   goForward,
@@ -85,6 +85,6 @@ const EvidencePrivateLimitation = ({
   );
 };
 
-EvidencePrivateLimitation.propTypes = customPageProps995;
+PrivateLimitation.propTypes = customPageProps995;
 
-export default EvidencePrivateLimitation;
+export default PrivateLimitation;

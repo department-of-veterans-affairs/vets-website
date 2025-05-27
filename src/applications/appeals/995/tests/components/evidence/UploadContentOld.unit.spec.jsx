@@ -3,16 +3,16 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { EVIDENCE_UPLOAD_PATH } from '../../constants';
-import { content } from '../../content/evidenceSummary';
-import { EvidenceUploadContent } from '../../components/EvidenceUploadContent';
-import { records } from '../data/evidence-records';
+import { EVIDENCE_UPLOAD_PATH } from '../../../constants';
+import { content } from '../../../content/evidenceSummary';
+import { UploadContent } from '../../../components/evidence/UploadContent';
+import { records } from '../../data/evidence-records';
 
 describe('buildUploadContent', () => {
   it('should render editable uploaded content', () => {
     const otherEvidence = records().additionalDocuments;
     const { container } = render(
-      <EvidenceUploadContent list={otherEvidence} testing />,
+      <UploadContent list={otherEvidence} testing />,
     );
 
     expect($('.upload-title', container).textContent).to.contain(
@@ -31,7 +31,7 @@ describe('buildUploadContent', () => {
   it('should render nothing when no data is passed in', () => {
     const { container } = render(
       <div>
-        <EvidenceUploadContent testing />
+        <UploadContent testing />
       </div>,
     );
 
@@ -41,7 +41,7 @@ describe('buildUploadContent', () => {
   it('should render review-only uploaded content', () => {
     const otherEvidence = records().additionalDocuments;
     const { container } = render(
-      <EvidenceUploadContent list={otherEvidence} reviewMode testing />,
+      <UploadContent list={otherEvidence} reviewMode testing />,
     );
 
     expect($('.upload-title', container).textContent).to.contain(
@@ -55,7 +55,7 @@ describe('buildUploadContent', () => {
   it('should have edit links pointing to the upload page', () => {
     const otherEvidence = records().additionalDocuments;
     const { container } = render(
-      <EvidenceUploadContent list={otherEvidence} testing />,
+      <UploadContent list={otherEvidence} testing />,
     );
 
     const links = $$('.edit-item', container);
@@ -67,11 +67,7 @@ describe('buildUploadContent', () => {
     const otherEvidence = records().additionalDocuments;
     const handlers = { showModal: removeSpy };
     const { container } = render(
-      <EvidenceUploadContent
-        list={otherEvidence}
-        handlers={handlers}
-        testing
-      />,
+      <UploadContent list={otherEvidence} handlers={handlers} testing />,
     );
 
     const buttons = $$('.remove-item', container);

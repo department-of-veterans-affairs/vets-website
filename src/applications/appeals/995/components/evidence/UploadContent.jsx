@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import { content } from '../content/evidenceSummary';
-import { EVIDENCE_UPLOAD_PATH, ATTACHMENTS_OTHER } from '../constants';
+import { content } from '../../content/evidenceSummary';
+import { EVIDENCE_UPLOAD_PATH, ATTACHMENTS_OTHER } from '../../constants';
 import {
   confirmationPageLabel,
   errorClassNames,
   listClassNames,
   removeButtonClass,
-} from '../utils/evidence-classnames';
+} from '../../utils/evidence-classnames';
 
 /**
  * Build uploaded evidence list
@@ -20,7 +20,7 @@ import {
  *  an href when not wrapped in a Router
  * @returns {JSX}
  */
-export const EvidenceUploadContent = ({
+export const UploadContent = ({
   list = [],
   isOnReviewPage,
   reviewMode = false,
@@ -96,7 +96,7 @@ export const EvidenceUploadContent = ({
   );
 };
 
-EvidenceUploadContent.propTypes = {
+UploadContent.propTypes = {
   handlers: PropTypes.shape({}),
   isOnReviewPage: PropTypes.bool,
   list: PropTypes.array,

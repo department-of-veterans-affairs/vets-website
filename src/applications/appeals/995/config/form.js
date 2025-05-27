@@ -13,13 +13,13 @@ import SubTaskContainer from '../subtask/SubTaskContainer';
 import AddContestableIssue from '../components/AddContestableIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
 import PrimaryPhoneReview from '../components/PrimaryPhoneReview';
-import EvidenceVaRecords from '../components/EvidenceVaRecords';
-import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest';
-import EvidencePrivateRecordsAuthorization from '../components/EvidencePrivateRecordsAuthorization';
-import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
-import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
-import EvidenceSummary from '../components/EvidenceSummary';
-import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
+import VaRecords from '../components/evidence/VaRecords';
+import PrivateRecordsRequest from '../components/evidence/PrivateRecordsRequest';
+import PrivateRecordsAuthorization from '../components/evidence/PrivateRecordsAuthorization';
+import PrivateRecords from '../components/evidence/PrivateRecords';
+import PrivateLimitation from '../components/evidence/PrivateLimitation';
+import Summary from '../components/evidence/Summary';
+import SummaryReview from '../components/evidence/SummaryReview';
 import Notice5103 from '../components/Notice5103';
 import reviewErrors from '../content/reviewErrors';
 
@@ -304,7 +304,7 @@ const formConfig = {
           appStateSelector: state => ({
             [SC_NEW_FORM_DATA]: state.form?.data?.[SC_NEW_FORM_DATA] || false,
           }),
-          CustomPage: EvidenceVaRecords,
+          CustomPage: VaRecords,
           CustomPageReview: null,
           uiSchema: evidenceVaRecords.uiSchema,
           schema: evidenceVaRecords.schema,
@@ -314,7 +314,7 @@ const formConfig = {
         evidencePrivateRecordsRequest: {
           title: 'Request non-VA medical records',
           path: EVIDENCE_PRIVATE_REQUEST,
-          CustomPage: EvidencePrivateRequest,
+          CustomPage: PrivateRecordsRequest,
           CustomPageReview: null,
           uiSchema: evidencePrivateRequest.uiSchema,
           schema: evidencePrivateRequest.schema,
@@ -324,7 +324,7 @@ const formConfig = {
           title: 'Non-VA medical record authorization',
           path: 'supporting-evidence/private-medical-records-authorization',
           depends: hasPrivateEvidence,
-          CustomPage: EvidencePrivateRecordsAuthorization,
+          CustomPage: PrivateRecordsAuthorization,
           CustomPageReview: null,
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
           schema: evidencePrivateRecordsAuthorization.schema,
@@ -351,7 +351,7 @@ const formConfig = {
           title: 'Non-VA medical records',
           path: EVIDENCE_PRIVATE_PATH,
           depends: hasPrivateEvidence,
-          CustomPage: EvidencePrivateRecords,
+          CustomPage: PrivateRecords,
           CustomPageReview: null,
           uiSchema: evidencePrivateRecords.uiSchema,
           schema: evidencePrivateRecords.schema,
@@ -362,7 +362,7 @@ const formConfig = {
           title: 'Non-VA medical record limitations',
           path: EVIDENCE_LIMITATION_PATH,
           depends: hasOriginalPrivateLimitation,
-          CustomPage: EvidencePrivateLimitation,
+          CustomPage: PrivateLimitation,
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
@@ -384,8 +384,8 @@ const formConfig = {
         evidenceSummary: {
           title: 'Summary of evidence',
           path: 'supporting-evidence/summary',
-          CustomPage: EvidenceSummary,
-          CustomPageReview: EvidenceSummaryReview,
+          CustomPage: Summary,
+          CustomPageReview: SummaryReview,
           uiSchema: evidenceSummary.uiSchema,
           schema: evidenceSummary.schema,
           scrollAndFocusTarget: focusAlertH3,

@@ -8,18 +8,18 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import EvidencePrivateLimitation from '../../components/EvidencePrivateLimitation';
+import PrivateLimitation from '../../../components/evidence/PrivateLimitation';
 import {
   EVIDENCE_PRIVATE,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMIT,
-} from '../../constants';
+} from '../../../constants';
 
-describe('<EvidencePrivateLimitation>', () => {
+describe('<PrivateLimitation>', () => {
   it('should render', () => {
     const { container } = render(
       <div>
-        <EvidencePrivateLimitation />
+        <PrivateLimitation />
       </div>,
     );
 
@@ -33,7 +33,7 @@ describe('<EvidencePrivateLimitation>', () => {
     const data = { showScNewForm: true, limitedConsent: 'test' };
     render(
       <div>
-        <EvidencePrivateLimitation data={data} setFormData={setFormDataSpy} />
+        <PrivateLimitation data={data} setFormData={setFormDataSpy} />
       </div>,
     );
 
@@ -50,7 +50,7 @@ describe('<EvidencePrivateLimitation>', () => {
     const goSpy = sinon.spy();
     const { container } = render(
       <div>
-        <EvidencePrivateLimitation goForward={goSpy} />
+        <PrivateLimitation goForward={goSpy} />
       </div>,
     );
 
@@ -63,7 +63,7 @@ describe('<EvidencePrivateLimitation>', () => {
     const data = { [EVIDENCE_PRIVATE]: true, limitedConsent: 'lorem ipsum' };
     const { container } = render(
       <div>
-        <EvidencePrivateLimitation data={data} setFormData={setFormDataSpy} />
+        <PrivateLimitation data={data} setFormData={setFormDataSpy} />
       </div>,
     );
 
@@ -78,7 +78,7 @@ describe('<EvidencePrivateLimitation>', () => {
     const data = { [EVIDENCE_PRIVATE]: true, providerFacility: [{}, {}] };
     const { container } = render(
       <div>
-        <EvidencePrivateLimitation data={data} goToPath={goSpy} />
+        <PrivateLimitation data={data} goToPath={goSpy} />
       </div>,
     );
 
@@ -93,7 +93,7 @@ describe('<EvidencePrivateLimitation>', () => {
     const data = { [EVIDENCE_PRIVATE]: true, providerFacility: null };
     const { container } = render(
       <div>
-        <EvidencePrivateLimitation data={data} goToPath={goSpy} />
+        <PrivateLimitation data={data} goToPath={goSpy} />
       </div>,
     );
 
@@ -106,7 +106,7 @@ describe('<EvidencePrivateLimitation>', () => {
     const data = { [EVIDENCE_PRIVATE]: false, providerFacility: [] };
     const { container } = render(
       <div>
-        <EvidencePrivateLimitation data={data} goBack={goSpy} />
+        <PrivateLimitation data={data} goBack={goSpy} />
       </div>,
     );
 

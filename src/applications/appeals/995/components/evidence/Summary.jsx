@@ -9,19 +9,23 @@ import {
   getVAEvidence,
   getPrivateEvidence,
   getOtherEvidence,
-} from '../utils/evidence';
+} from '../../utils/evidence';
 
-import { content } from '../content/evidenceSummary';
+import { content } from '../../content/evidenceSummary';
 
-import { EvidencePrivateContent } from './EvidencePrivateContent';
-import { EvidenceUploadContent } from './EvidenceUploadContent';
-import { EvidenceVaContent } from './EvidenceVaContent';
+import { PrivateContent } from './PrivateContent';
+import { UploadContent } from './UploadContent';
+import { VaContent } from './VaContent';
 
-import { EVIDENCE_LIMIT, LIMITATION_KEY, SC_NEW_FORM_DATA } from '../constants';
-import { customPageProps995 } from '../../shared/props';
-import { focusFirstError } from '../../shared/utils/focus';
+import {
+  EVIDENCE_LIMIT,
+  LIMITATION_KEY,
+  SC_NEW_FORM_DATA,
+} from '../../constants';
+import { customPageProps995 } from '../../../shared/props';
+import { focusFirstError } from '../../../shared/utils/focus';
 
-const EvidenceSummary = ({
+const Summary = ({
   data,
   goBack,
   goForward,
@@ -218,15 +222,15 @@ const EvidenceSummary = ({
             {removeData?.name ? <strong>{` ${removeData.name}`}</strong> : null}
           </p>
         </VaModal>
-        <EvidenceVaContent list={vaEvidence} {...props} />
-        <EvidencePrivateContent
+        <VaContent list={vaEvidence} {...props} />
+        <PrivateContent
           list={privateEvidence}
           showLimitedConsentYN={showLimitedConsentYN}
           limitedConsent={limitedConsent}
           privacyAgreementAccepted={privacyAgreementAccepted}
           {...props}
         />
-        <EvidenceUploadContent list={otherEvidence} {...props} />
+        <UploadContent list={otherEvidence} {...props} />
 
         {content.addMoreLink()}
 
@@ -254,6 +258,6 @@ const EvidenceSummary = ({
   );
 };
 
-EvidenceSummary.propTypes = customPageProps995;
+Summary.propTypes = customPageProps995;
 
-export default EvidenceSummary;
+export default Summary;

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export const EvidenceHeaderAndModal = ({
+export const HeaderAndModal = ({
   currentData,
   currentState,
   currentIndex,
@@ -34,7 +34,7 @@ export const EvidenceHeaderAndModal = ({
   </>
 );
 
-EvidenceHeaderAndModal.propTypes = {
+HeaderAndModal.propTypes = {
   addOrEdit: PropTypes.string,
   content: PropTypes.shape({
     title: PropTypes.func,

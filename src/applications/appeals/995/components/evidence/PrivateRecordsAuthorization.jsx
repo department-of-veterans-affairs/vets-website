@@ -11,11 +11,11 @@ import {
   authorizationAlertContent,
   authorizationHeader,
   authorizationInfo,
-} from '../content/evidencePrivateRecordsAuthorization';
+} from '../../content/evidencePrivateRecordsAuthorization';
 
-import { customPageProps995 } from '../../shared/props';
+import { customPageProps995 } from '../../../shared/props';
 
-const EvidencePrivateRecordsAuthorization = ({
+const PrivateRecordsAuthorization = ({
   data = {},
   goBack,
   goForward,
@@ -109,6 +109,6 @@ const EvidencePrivateRecordsAuthorization = ({
   );
 };
 
-EvidencePrivateRecordsAuthorization.propTypes = customPageProps995;
+PrivateRecordsAuthorization.propTypes = customPageProps995;
 
-export default EvidencePrivateRecordsAuthorization;
+export default PrivateRecordsAuthorization;

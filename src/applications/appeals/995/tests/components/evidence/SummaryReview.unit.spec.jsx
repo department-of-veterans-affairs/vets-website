@@ -5,14 +5,14 @@ import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import EvidenceSummaryReview from '../../components/EvidenceSummaryReview';
+import SummaryReview from '../../../components/evidence/SummaryReview';
 import {
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
   EVIDENCE_OTHER,
   SUMMARY_EDIT,
-} from '../../constants';
-import { content } from '../../content/evidenceSummary';
+} from '../../../constants';
+import { content } from '../../../content/evidenceSummary';
 
 const providerFacilityAddress = {
   country: 'USA',
@@ -80,7 +80,7 @@ const setupSummary = ({
 } = {}) =>
   render(
     <div>
-      <EvidenceSummaryReview
+      <SummaryReview
         data={{
           [EVIDENCE_VA]: vaMR,
           [EVIDENCE_PRIVATE]: privateMR,
@@ -95,7 +95,7 @@ const setupSummary = ({
     </div>,
   );
 
-describe('<EvidenceSummaryReview>', () => {
+describe('<SummaryReview>', () => {
   it('should render', () => {
     const { container } = setupSummary({ limit: 'Pizza addiction' });
 

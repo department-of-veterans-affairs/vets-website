@@ -3,18 +3,18 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { EVIDENCE_VA_PATH } from '../../constants';
-import { content } from '../../content/evidenceSummary';
-import { content as vaContent } from '../../content/evidenceVaRecords';
-import { EvidenceVaContent } from '../../components/EvidenceVaContent';
-import { records } from '../data/evidence-records';
+import { EVIDENCE_VA_PATH } from '../../../constants';
+import { content } from '../../../content/evidenceSummary';
+import { content as vaContent } from '../../../content/evidenceVaRecords';
+import { VaContent } from '../../../components/evidence/VaContent';
+import { records } from '../../data/evidence-records';
 
 describe('evidenceSummaryList', () => {
   describe('buildVaContent', () => {
     it('should render editable VA content', () => {
       const vaEvidence = records().locations;
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <VaContent list={vaEvidence} showScNewForm testing />,
       );
 
       expect($('.va-title', container).textContent).to.contain(content.vaTitle);
@@ -32,7 +32,7 @@ describe('evidenceSummaryList', () => {
     it('should render nothing when no data is passed in', () => {
       const { container } = render(
         <div>
-          <EvidenceVaContent testing />
+          <VaContent testing />
         </div>,
       );
 
@@ -42,12 +42,7 @@ describe('evidenceSummaryList', () => {
     it('should render review-only VA content', () => {
       const vaEvidence = records().locations;
       const { container } = render(
-        <EvidenceVaContent
-          list={vaEvidence}
-          showScNewForm
-          reviewMode
-          testing
-        />,
+        <VaContent list={vaEvidence} showScNewForm reviewMode testing />,
       );
 
       expect($('.va-title', container).textContent).to.contain(content.vaTitle);
@@ -61,7 +56,7 @@ describe('evidenceSummaryList', () => {
     it('should render list only for confirmation page content', () => {
       const vaEvidence = records().locations;
       const { container } = render(
-        <EvidenceVaContent
+        <VaContent
           list={vaEvidence}
           showScNewForm
           reviewMode
@@ -82,7 +77,7 @@ describe('evidenceSummaryList', () => {
     it('should show missing issues message', () => {
       const vaEvidence = records({ emptyIssue: true }).locations;
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <VaContent list={vaEvidence} showScNewForm testing />,
       );
 
       const li = $$('li', container);
@@ -99,7 +94,7 @@ describe('evidenceSummaryList', () => {
         },
       ];
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <VaContent list={vaEvidence} showScNewForm testing />,
       );
 
       const li = $('li', container);
@@ -109,7 +104,7 @@ describe('evidenceSummaryList', () => {
     it('should show missing location message with partial list', () => {
       const { container } = render(
         <div>
-          <EvidenceVaContent list={['']} showScNewForm testing />
+          <VaContent list={['']} showScNewForm testing />
         </div>,
       );
 
@@ -119,7 +114,7 @@ describe('evidenceSummaryList', () => {
     it('should show missing treatment date', () => {
       const vaEvidence = [{ treatmentDate: '' }];
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <VaContent list={vaEvidence} showScNewForm testing />,
       );
 
       const li = $('li', container);
@@ -129,7 +124,7 @@ describe('evidenceSummaryList', () => {
     it('should not show missing treatment date when no date checkbox is selected', () => {
       const vaEvidence = [{ treatmentDate: '', noDate: true }];
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <VaContent list={vaEvidence} showScNewForm testing />,
       );
 
       const li = $('li', container);
@@ -140,7 +135,7 @@ describe('evidenceSummaryList', () => {
     it('should have edit links pointing to the appropriate VA indexed page', () => {
       const vaEvidence = records().locations;
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <VaContent list={vaEvidence} showScNewForm testing />,
       );
 
       const links = $$('.edit-item', container);
@@ -156,7 +151,7 @@ describe('evidenceSummaryList', () => {
       const vaEvidence = records().locations;
       const handlers = { showModal: removeSpy };
       const { container } = render(
-        <EvidenceVaContent
+        <VaContent
           list={vaEvidence}
           handlers={handlers}
           showScNewForm

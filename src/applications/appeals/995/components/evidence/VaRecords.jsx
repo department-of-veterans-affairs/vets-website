@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { EVIDENCE_VA_PATH } from '../constants';
-import { content, contentOld } from '../content/evidenceVaRecords';
-import { getIndex, getVAEvidence, hasErrors } from '../utils/evidence';
-import { showScNewForm as newFormToggle } from '../utils/toggle';
+import { EVIDENCE_VA_PATH } from '../../constants';
+import { content, contentOld } from '../../content/evidenceVaRecords';
+import { getIndex, getVAEvidence, hasErrors } from '../../utils/evidence';
+import { showScNewForm as newFormToggle } from '../../utils/toggle';
 import {
   validateVaLocation,
   validateVaIssues,
@@ -13,16 +13,16 @@ import {
   validateVaDate, // YYYY-MM
   validateVaUnique,
   isEmptyVaEntry,
-} from '../validations/evidence';
+} from '../../validations/evidence';
 
-import { focusEvidence } from '../../shared/utils/focus';
-import { EvidenceHeaderAndModal } from './EvidenceHeaderAndModal';
-import { EvidenceIssueAndDates } from './EvidenceIssueAndDates';
-import { EvidencePageNavigation } from './EvidencePageNavigation';
+import { focusEvidence } from '../../../shared/utils/focus';
+import { HeaderAndModal } from './HeaderAndModal';
+import { IssueAndDates } from './IssueAndDates';
+import { PageNavigation } from './PageNavigation';
 
-import { getIssueName, getSelected } from '../../shared/utils/issues';
-import { checkValidations } from '../../shared/validations';
-import { customPageProps995 } from '../../shared/props';
+import { getIssueName, getSelected } from '../../../shared/utils/issues';
+import { checkValidations } from '../../../shared/validations';
+import { customPageProps995 } from '../../../shared/props';
 
 const VA_PATH = `/${EVIDENCE_VA_PATH}`;
 
@@ -43,7 +43,7 @@ const defaultState = {
   submitted: false,
 };
 
-const EvidenceVaRecords = ({
+const VaRecords = ({
   data,
   goBack,
   goForward,
@@ -314,7 +314,7 @@ const EvidenceVaRecords = ({
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
-        <EvidenceHeaderAndModal
+        <HeaderAndModal
           currentData={currentData}
           currentState={currentState}
           currentIndex={currentIndex}
@@ -339,7 +339,7 @@ const EvidenceVaRecords = ({
           uswds
         />
 
-        <EvidenceIssueAndDates
+        <IssueAndDates
           currentData={currentData}
           availableIssues={availableIssues}
           content={setContent}
@@ -349,7 +349,7 @@ const EvidenceVaRecords = ({
           dateRangeKey={showScNewForm ? 'treatmentDate' : 'evidenceDates'}
         />
 
-        <EvidencePageNavigation
+        <PageNavigation
           path={`${VA_PATH}?index=${currentIndex + 1}`}
           content={{
             ...setContent,
@@ -363,6 +363,6 @@ const EvidenceVaRecords = ({
   );
 };
 
-EvidenceVaRecords.propTypes = customPageProps995;
+VaRecords.propTypes = customPageProps995;
 
-export default EvidenceVaRecords;
+export default VaRecords;
