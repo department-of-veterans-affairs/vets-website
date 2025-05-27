@@ -1,5 +1,5 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import { AXE_CONTEXT, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Paths, Data } from '../utils/constants';
 import mockFeatureToggles from '../fixtures/toggles-response.json';
 import PilotEnvPage from '../pages/PilotEnvPage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
@@ -22,12 +22,10 @@ describe('SM PILOT NEW MESSAGE', () => {
     PilotEnvPage.loadInboxMessages();
 
     cy.visit(`${Paths.UI_PILOT}/new-message/select-health-care-system`);
-    GeneralFunctionsPage.verifyPageHeader(
-      `Which VA health care system do you want to send a message to?`,
-    );
+    GeneralFunctionsPage.verifyPageHeader(Data.HCS_SELECT);
 
     cy.visit(`${Paths.UI_PILOT}/new-message/start-message`);
-    GeneralFunctionsPage.verifyPageHeader(`Start a new message`);
+    GeneralFunctionsPage.verifyPageHeader(Data.START_NEW_MSG);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
