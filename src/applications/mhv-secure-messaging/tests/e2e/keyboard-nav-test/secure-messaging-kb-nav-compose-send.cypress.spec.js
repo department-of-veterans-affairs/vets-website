@@ -7,6 +7,7 @@ describe('Secure Messaging Compose', () => {
   it('verify user can send message with keyboard', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
+    PatientComposePage.interceptSentFolder();
     PatientInboxPage.navigateToComposePage();
 
     PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');

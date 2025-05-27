@@ -34,13 +34,13 @@ export default function ReferralAppointments() {
     return <Redirect from={basePath.url} to="/" />;
   }
 
-  if (!referral && error) {
-    // Referral Layout shows the error component is apiFailure is true
-    return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
+  if (isLoading) {
+    return <ReferralLayout loadingMessage="Loading your data..." />;
   }
 
-  if (!referral || isLoading) {
-    return <ReferralLayout loadingMessage="Loading your data..." />;
+  if (error) {
+    // Referral Layout shows the error component is apiFailure is true
+    return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
   }
 
   return (

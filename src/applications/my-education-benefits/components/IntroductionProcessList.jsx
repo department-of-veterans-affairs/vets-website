@@ -45,7 +45,7 @@ export const IntroductionProcessList = ({ showTextUpdate }) => {
                 You have a high school diploma, GED, or 12 hours of college{' '}
                 credit; <strong>and</strong>
               </li>
-              <li>You meet other requirements.</li>
+              <li>You meet other requirements</li>
             </ul>
           </va-additional-info>
 
@@ -61,11 +61,11 @@ export const IntroductionProcessList = ({ showTextUpdate }) => {
                 Reserve; <strong>or</strong>
               </li>
               <li>
-                You’re an officer in the Selected Reserves who agreed to serve 6
+                You’re an officer in the Selected Reserve who agreed to serve 6
                 years beyond your initial service obligation;{' '}
                 <strong>and</strong>
               </li>
-              <li>You meet other requirements.</li>
+              <li>You meet other requirements</li>
             </ul>
           </va-additional-info>
         </va-process-list-item>
@@ -94,6 +94,7 @@ export const IntroductionProcessList = ({ showTextUpdate }) => {
               application, you can download your denial letter. We’ll also mail
               you a copy of your decision letter.
             </p>
+            <br />
             <p>
               <strong>Note:</strong> In some cases, we may need more time to
               make a decision. If you don’t get an automatic decision right
@@ -156,6 +157,7 @@ export const IntroductionProcessList = ({ showTextUpdate }) => {
             application, you can download your denial letter. We’ll also mail
             you a copy of your decision letter.
           </p>
+          <br />
           <p className="vads-u-margin-bottom--0">
             <strong>Note</strong>: In some cases, we may need more time to make
             a decision. If you don’t get an automatic decision right after you

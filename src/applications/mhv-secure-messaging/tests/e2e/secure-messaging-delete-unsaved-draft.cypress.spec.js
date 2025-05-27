@@ -8,6 +8,7 @@ describe('Secure Messaging Delete Unsaved Compose Draft', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+    PatientComposePage.interceptSentFolder();
   });
 
   it('verify delete could be canceled', () => {

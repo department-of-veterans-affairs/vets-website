@@ -6,7 +6,7 @@ async function createPonyFill(webchat, environment) {
   const region =
     environment.isDev() || environment.isLocalhost() ? 'eastus' : 'eastus2';
 
-  const speechToken = await apiRequest('/virtual_agent_speech_token', {
+  const speechToken = await apiRequest('/chatbot/speech_token', {
     method: 'POST',
   });
 
