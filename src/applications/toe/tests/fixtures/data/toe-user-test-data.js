@@ -10,7 +10,7 @@ export const toeUser = {
       },
       profile: {
         signIn: {
-          serviceName: CSP_IDS.DS_LOGON,
+          serviceName: CSP_IDS.ID_ME,
           accountType: '2',
           ssoe: false,
         },
@@ -23,7 +23,7 @@ export const toeUser = {
         birthDate: '1985-01-01',
         // dateOfBirth: '1990-01-01',
         verified: true,
-        authnContext: 'dslogon',
+        authnContext: 'idme',
         multifactor: true,
         zip: '21076',
         lastSignedIn: '2022-05-18T22:02:02.188Z',
