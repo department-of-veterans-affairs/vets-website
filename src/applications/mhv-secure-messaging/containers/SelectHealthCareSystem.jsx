@@ -35,11 +35,7 @@ const SelectHealthCareSystem = () => {
         setShowError('Select a VA health care system');
       } else {
         setShowError(null);
-        history.push(
-          `${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}/${
-            Paths.START_MESSAGE
-          }`,
-        );
+        history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}`);
       }
     },
   };

@@ -102,9 +102,7 @@ const AuthorizedRoutes = () => {
         {isPilot && (
           <AppRoute
             exact
-            path={`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}/${
-              Paths.START_MESSAGE
-            }`}
+            path={`${Paths.COMPOSE}${Paths.START_MESSAGE}`}
             key="Compose"
           >
             <Compose skipInterstitial />
