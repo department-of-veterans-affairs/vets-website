@@ -2,6 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { datadogRum } from '@datadog/browser-rum';
 
 export const externalLinkText = '(opens in new tab)';
 
@@ -31,6 +32,7 @@ const NavCard = ({
           aria-label={ariaLabel}
           target={isExternal && !omitExternalLinkText ? '_blank' : ''}
           onClick={() => {
+            datadogRum.addAction(`Click on Landing Page: ${title} - ${text}`);
             recordEvent({
               event: 'nav-linkslist',
               'links-list-header': text,
