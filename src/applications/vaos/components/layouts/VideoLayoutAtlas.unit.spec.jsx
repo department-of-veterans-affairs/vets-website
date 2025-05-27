@@ -46,6 +46,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       const appointment = {
         type: 'VA',
         modality: 'vaVideoCareAtAnAtlasLocation',
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -170,6 +172,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
         location: {
           stationId: '983',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -226,6 +230,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -290,6 +296,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -705,7 +713,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
 
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility to schedule./i,
         ),
       );
       expect(
@@ -869,7 +877,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
 
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility to schedule./i,
         ),
       );
       expect(

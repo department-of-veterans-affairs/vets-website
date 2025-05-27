@@ -56,12 +56,12 @@ export const uiSchema = {
   unlistedBehaviors: textUI({
     title: BEHAVIOR_LIST_SECTION_SUBTITLES.unlisted,
   }),
-  'view:noneCheckbox': checkboxGroupUI({
+  noBehavioralChange: checkboxGroupUI({
     title: BEHAVIOR_LIST_SECTION_SUBTITLES.none,
     labelHeaderLevel: '4',
     hint: BEHAVIOR_LIST_HINTS.none,
     labels: {
-      'view:noBehaviorChanges': behaviorListNoneLabel,
+      noChange: behaviorListNoneLabel,
     },
     required: false,
   }),
@@ -84,7 +84,7 @@ export const schema = {
     workBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_WORK)),
     healthBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_HEALTH)),
     otherBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_OTHER)),
-    'view:noneCheckbox': checkboxGroupSchema(['view:noBehaviorChanges']),
+    noBehavioralChange: checkboxGroupSchema(['noChange']),
     'view:behaviorAdditionalInformation': {
       type: 'object',
       properties: {},

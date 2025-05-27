@@ -9,10 +9,10 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import {
   selectSystemIds,
-  selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
+  selectFeatureFeSourceOfTruthModality,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
@@ -382,10 +382,12 @@ export function prefillContactInfo() {
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
 
     dispatch({
       type: FORM_SUBMIT,
@@ -407,6 +409,7 @@ export function confirmAppointment(history) {
         useFeSourceOfTruth,
         useFeSourceOfTruthCC,
         useFeSourceOfTruthVA,
+        useFeSourceOfTruthModality,
       });
 
       const data = selectCovid19VaccineFormData(getState());
@@ -425,11 +428,7 @@ export function confirmAppointment(history) {
         ...facilityID,
       });
       resetDataLayer();
-      history.push(
-        featureBreadcrumbUrlUpdate
-          ? `/${appointment.id}?confirmMsg=true`
-          : '/new-covid-19-vaccine-appointment/confirmation',
-      );
+      history.push(`/${appointment.id}?confirmMsg=true`);
     } catch (error) {
       captureError(error, true, 'COVID-19 vaccine submission failure');
       dispatch({

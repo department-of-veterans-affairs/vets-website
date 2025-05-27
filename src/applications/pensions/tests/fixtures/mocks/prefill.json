@@ -1,0 +1,33 @@
+{
+  "formData": {
+    "veteranSsnLastFour": "7821",
+    "veteranVaFileNumberLastFour": "7821",
+    "veteranFullName": {
+      "first": "Hector",
+      "middle": "J",
+      "last": "Allen"
+    },
+    "veteranSocialSecurityNumber": "796126859",
+    "veteranDateOfBirth": "1932-02-05",
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "Sesame Street",
+      "city": "Franklin Park",
+      "state": "IL",
+      "postalCode": "60131"
+    },
+    "email": "test2@test1.net",
+    "phone": "4445551212",
+    "mobilePhone": "4445551212",
+    "internationalPhone": "14445551212",
+    "serviceBranch": {},
+    "activeServiceDateRange": {},
+    "serviceNumber": "123456789"
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/applicant/information"
+  }
+}

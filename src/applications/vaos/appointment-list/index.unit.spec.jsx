@@ -32,232 +32,160 @@ describe('VAOS Page: Appointment list routes', () => {
   });
 
   describe('When route is /', () => {
-    describe('And vaOnlineSchedulingBreadcrumbUrlUpdate is true', () => {
-      const initialState = {
-        featureToggles: {
-          vaOnlineSchedulingBreadcrumbUrlUpdate: true,
-        },
-      };
+    const initialState = {};
 
-      beforeEach(() => {
-        AppointmentsPageStub.resetHistory();
+    beforeEach(() => {
+      AppointmentsPageStub.resetHistory();
+    });
+
+    it('should render page for route /', async () => {
+      // Arrange
+      const path = '/';
+
+      // Act
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path,
       });
+      await screen.findByText('Mock Page');
 
-      it('should render page for route /', async () => {
-        // Arrange
-        const path = '/';
-
-        // Act
-        const screen = renderWithStoreAndRouter(<AppointmentList />, {
-          initialState,
-          path,
-        });
-        await screen.findByText('Mock Page');
-
-        // Assert
-        expect(
-          AppointmentsPageStub.firstCall.args[0].location.pathname,
-        ).to.equal(path);
-      });
+      // Assert
+      expect(AppointmentsPageStub.firstCall.args[0].location.pathname).to.equal(
+        path,
+      );
     });
   });
 
   describe('When route is /pending', () => {
-    describe('And vaOnlineSchedulingBreadcrumbUrlUpdate is true', () => {
-      const initialState = {
-        featureToggles: {
-          vaOnlineSchedulingBreadcrumbUrlUpdate: true,
-        },
-      };
+    const initialState = {};
 
-      beforeEach(() => {
-        AppointmentsPageStub.resetHistory();
+    beforeEach(() => {
+      AppointmentsPageStub.resetHistory();
+    });
+
+    it('should render page', async () => {
+      // Arrange
+      const path = '/pending';
+
+      // Act
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path,
       });
+      await screen.findByText('Mock Page');
 
-      it('should render page', async () => {
-        // Arrange
-        const path = '/pending';
-
-        // Act
-        const screen = renderWithStoreAndRouter(<AppointmentList />, {
-          initialState,
-          path,
-        });
-        await screen.findByText('Mock Page');
-
-        // Assert
-        expect(
-          AppointmentsPageStub.firstCall?.args[0].location.pathname,
-        ).to.equal(path);
-      });
+      // Assert
+      expect(
+        AppointmentsPageStub.firstCall?.args[0].location.pathname,
+      ).to.equal(path);
     });
   });
 
   describe('When route is /pending/:id', () => {
-    describe('And vaOnlineSchedulingBreadcrumbUrlUpdate is true', () => {
-      const initialState = {
-        featureToggles: {
-          vaOnlineSchedulingBreadcrumbUrlUpdate: true,
-        },
-      };
+    const initialState = {};
 
-      beforeEach(() => {
-        RequestedAppointmentDetailsPageStub.resetHistory();
+    beforeEach(() => {
+      RequestedAppointmentDetailsPageStub.resetHistory();
+    });
+
+    it('should render page', async () => {
+      // Arrange
+      const path = '/pending/1';
+
+      // Act
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path,
       });
+      await screen.findByText('Mock Page');
 
-      it('should render page', async () => {
-        // Arrange
-        const path = '/pending/1';
-
-        // Act
-        const screen = renderWithStoreAndRouter(<AppointmentList />, {
-          initialState,
-          path,
-        });
-        await screen.findByText('Mock Page');
-
-        // Assert
-        expect(
-          RequestedAppointmentDetailsPageStub.firstCall?.args[0].location
-            .pathname,
-        ).to.equal(path);
-      });
+      // Assert
+      expect(
+        RequestedAppointmentDetailsPageStub.firstCall?.args[0].location
+          .pathname,
+      ).to.equal(path);
     });
   });
 
   describe('When route is /past', () => {
-    describe('And vaOnlineSchedulingBreadcrumbUrlUpdate is true', () => {
-      const initialState = {
-        featureToggles: {
-          vaOnlineSchedulingBreadcrumbUrlUpdate: true,
-        },
-      };
+    const initialState = {};
 
-      beforeEach(() => {
-        AppointmentsPageStub.resetHistory();
+    beforeEach(() => {
+      AppointmentsPageStub.resetHistory();
+    });
+
+    it('should render page', async () => {
+      // Arrange
+      const path = '/past';
+
+      // Act
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path,
       });
+      await screen.findByText('Mock Page');
 
-      it('should render page', async () => {
-        // Arrange
-        const path = '/past';
-
-        // Act
-        const screen = renderWithStoreAndRouter(<AppointmentList />, {
-          initialState,
-          path,
-        });
-        await screen.findByText('Mock Page');
-
-        // Assert
-        expect(
-          AppointmentsPageStub.firstCall?.args[0].location.pathname,
-        ).to.equal(path);
-      });
+      // Assert
+      expect(
+        AppointmentsPageStub.firstCall?.args[0].location.pathname,
+      ).to.equal(path);
     });
   });
 
   describe('When route is /past/:id', () => {
-    describe('And vaOnlineSchedulingBreadcrumbUrlUpdate is true', () => {
-      const initialState = {
-        featureToggles: {
-          vaOnlineSchedulingBreadcrumbUrlUpdate: true,
-        },
-      };
+    const initialState = {};
 
-      beforeEach(() => {
-        ConfirmedAppointmentDetailsPageStub.resetHistory();
+    beforeEach(() => {
+      ConfirmedAppointmentDetailsPageStub.resetHistory();
+    });
+
+    it('should render page', async () => {
+      // Arrange
+      const path = '/past/1';
+
+      // Act
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path,
       });
+      await screen.findByText('Mock Page');
 
-      it('should render page', async () => {
-        // Arrange
-        const path = '/past/1';
-
-        // Act
-        const screen = renderWithStoreAndRouter(<AppointmentList />, {
-          initialState,
-          path,
-        });
-        await screen.findByText('Mock Page');
-
-        // Assert
-        expect(
-          ConfirmedAppointmentDetailsPageStub.firstCall?.args[0].location
-            .pathname,
-        ).to.equal(path);
-      });
+      // Assert
+      expect(
+        ConfirmedAppointmentDetailsPageStub.firstCall?.args[0].location
+          .pathname,
+      ).to.equal(path);
     });
   });
 
   describe('When route is /:id', () => {
-    describe('And vaOnlineSchedulingBreadcrumbUrlUpdate is true', () => {
-      const initialState = {
-        featureToggles: {
-          vaOnlineSchedulingBreadcrumbUrlUpdate: true,
-        },
-      };
+    const initialState = {};
 
-      beforeEach(() => {
-        ConfirmedAppointmentDetailsPageStub.resetHistory();
-      });
-
-      it('should render page', async () => {
-        // Arrange
-        const path = '/1';
-
-        // Act
-        const screen = renderWithStoreAndRouter(<AppointmentList />, {
-          initialState,
-          path,
-        });
-        await screen.findByText('Mock Page');
-
-        // Assert
-        expect(
-          ConfirmedAppointmentDetailsPageStub.firstCall?.args[0].location
-            .pathname,
-        ).to.equal(path);
-      });
+    beforeEach(() => {
+      ConfirmedAppointmentDetailsPageStub.resetHistory();
     });
-  });
 
-  describe('When route is /va/:id', () => {
-    describe('And vaOnlineSchedulingBreadcrumbUrlUpdate is true', () => {
-      const initialState = {
-        featureToggles: {
-          vaOnlineSchedulingBreadcrumbUrlUpdate: true,
-        },
-      };
+    it('should render page', async () => {
+      // Arrange
+      const path = '/1';
 
-      beforeEach(() => {
-        ConfirmedAppointmentDetailsPageStub.resetHistory();
+      // Act
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path,
       });
+      await screen.findByText('Mock Page');
 
-      it('should render page', async () => {
-        // Arrange
-        const path = '/va/1';
-
-        // Act
-        const screen = renderWithStoreAndRouter(<AppointmentList />, {
-          initialState,
-          path,
-        });
-        await screen.findByText('Mock Page');
-
-        // Assert
-        expect(
-          ConfirmedAppointmentDetailsPageStub.firstCall?.args[0].location
-            .pathname,
-        ).to.equal(path);
-      });
+      // Assert
+      expect(
+        ConfirmedAppointmentDetailsPageStub.firstCall?.args[0].location
+          .pathname,
+      ).to.equal(path);
     });
   });
 
   describe('When route is /unknown/path', () => {
-    const initialState = {
-      featureToggles: {
-        vaOnlineSchedulingBreadcrumbUrlUpdate: true,
-      },
-    };
+    const initialState = {};
 
     it('should display 404 page', async () => {
       // Given the veteran lands on the VAOS homepage

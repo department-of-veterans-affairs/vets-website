@@ -1,15 +1,22 @@
 import React from 'react';
 import { expect } from 'chai';
 import { within, waitFor } from '@testing-library/react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import ClaimDetailLayout from '../../components/ClaimDetailLayout';
 import { renderWithRouter } from '../utils';
 
+const getStore = () => createStore(() => ({}));
 describe('<ClaimDetailLayout>', () => {
   it('should render loading indicator', () => {
-    const { container } = renderWithRouter(<ClaimDetailLayout loading />);
+    const { container } = renderWithRouter(
+      <Provider store={getStore()}>
+        <ClaimDetailLayout loading />
+      </Provider>,
+    );
 
     expect($('va-loading-indicator', container)).to.exist;
   });
@@ -17,7 +24,11 @@ describe('<ClaimDetailLayout>', () => {
   it('should render unavailable warning', () => {
     const claim = null;
 
-    const container = renderWithRouter(<ClaimDetailLayout claim={claim} />);
+    const container = renderWithRouter(
+      <Provider store={getStore()}>
+        <ClaimDetailLayout claim={claim} />
+      </Provider>,
+    );
     expect(container.getByRole('heading', { level: 2 })).to.contain.text(
       'Claim status is unavailable',
     );
@@ -32,7 +43,11 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const container = renderWithRouter(<ClaimDetailLayout claim={claim} />);
+    const container = renderWithRouter(
+      <Provider store={getStore()}>
+        <ClaimDetailLayout claim={claim} />
+      </Provider>,
+    );
 
     expect(container.getByRole('heading', { level: 1 })).to.contain.text(
       'Received on November 23, 2023',
@@ -49,7 +64,9 @@ describe('<ClaimDetailLayout>', () => {
     };
 
     const { getByText, container } = renderWithRouter(
-      <ClaimDetailLayout currentTab="Status" claim={claim} />,
+      <Provider store={getStore()}>
+        <ClaimDetailLayout currentTab="Status" claim={claim} />
+      </Provider>,
     );
 
     expect($('va-alert', container)).to.exist;
@@ -68,7 +85,9 @@ describe('<ClaimDetailLayout>', () => {
     };
 
     const { container } = renderWithRouter(
-      <ClaimDetailLayout currentTab="Status" claim={claim} />,
+      <Provider store={getStore()}>
+        <ClaimDetailLayout currentTab="Status" claim={claim} />
+      </Provider>,
     );
 
     expect($('[data-test-id="adding-details"]', container)).to.not.exist;
@@ -84,7 +103,9 @@ describe('<ClaimDetailLayout>', () => {
     };
 
     const { container } = renderWithRouter(
-      <ClaimDetailLayout currentTab="Files" claim={claim} />,
+      <Provider store={getStore()}>
+        <ClaimDetailLayout currentTab="Files" claim={claim} />
+      </Provider>,
     );
 
     const tabList = $('.tabs', container);
@@ -101,9 +122,11 @@ describe('<ClaimDetailLayout>', () => {
     };
 
     const { container } = renderWithRouter(
-      <ClaimDetailLayout currentTab="Status" claim={claim}>
-        <div className="child-content" />
-      </ClaimDetailLayout>,
+      <Provider store={getStore()}>
+        <ClaimDetailLayout currentTab="Status" claim={claim}>
+          <div className="child-content" />
+        </ClaimDetailLayout>
+      </Provider>,
     );
 
     expect($('[data-test-id="adding-details"]', container)).to.not.exist;
@@ -122,7 +145,9 @@ describe('<ClaimDetailLayout>', () => {
     };
 
     const { container } = renderWithRouter(
-      <ClaimDetailLayout message={message} claim={claim} />,
+      <Provider store={getStore()}>
+        <ClaimDetailLayout message={message} claim={claim} />
+      </Provider>,
     );
 
     expect($('.claims-alert', container)).to.exist;
@@ -141,7 +166,9 @@ describe('<ClaimDetailLayout>', () => {
     };
 
     const { container } = renderWithRouter(
-      <ClaimDetailLayout currentTab="Files" claim={claim} message={message} />,
+      <Provider store={getStore()}>
+        <ClaimDetailLayout currentTab="Files" claim={claim} message={message} />
+      </Provider>,
     );
 
     const selector = container.querySelector('va-alert');
@@ -153,7 +180,11 @@ describe('<ClaimDetailLayout>', () => {
 
   describe('<ClaimsBreadcrumbs>', () => {
     it('should render default breadcrumbs for the Your Claims list page while loading', () => {
-      const { container } = renderWithRouter(<ClaimDetailLayout loading />);
+      const { container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimDetailLayout loading />
+        </Provider>,
+      );
       expect($('va-breadcrumbs', container)).to.exist;
     });
     it('should render breadcrumbs specific to the claim once loaded', () => {
@@ -165,7 +196,9 @@ describe('<ClaimDetailLayout>', () => {
         },
       };
       const { container } = renderWithRouter(
-        <ClaimDetailLayout claim={claim} currentTab="Status" />,
+        <Provider store={getStore()}>
+          <ClaimDetailLayout claim={claim} currentTab="Status" />
+        </Provider>,
       );
 
       expect($('va-breadcrumbs', container).breadcrumbList).to.eql([
@@ -184,7 +217,9 @@ describe('<ClaimDetailLayout>', () => {
     });
     it('should render a default breadcrumb if the claim fails to load', () => {
       const { container } = renderWithRouter(
-        <ClaimDetailLayout claim={null} currentTab="Status" />,
+        <Provider store={getStore()}>
+          <ClaimDetailLayout claim={null} currentTab="Status" />
+        </Provider>,
       );
       expect($('va-breadcrumbs', container).breadcrumbList).to.eql([
         { href: '/', label: 'VA.gov home' },

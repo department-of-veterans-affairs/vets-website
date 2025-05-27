@@ -3,6 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import ContactListPage from '../pages/ContactListPage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import { AXE_CONTEXT } from '../utils/constants';
+import mockToggles from '../fixtures/toggles-response.json';
 import mockMixedCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-mixed.json';
 import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
 import mockEhrData from '../fixtures/userResponse/vamc-ehr-cerner-mixed.json';
@@ -11,25 +12,18 @@ import mockRecipients from '../fixtures/recipientsResponse/recipients-response.j
 import PatientComposePage from '../pages/PatientComposePage';
 
 describe('SM CONTACT LIST', () => {
-  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
-    {
-      name: 'mhv_secure_messaging_edit_contact_list',
-      value: true,
-    },
-  ]);
-
   it('verify contact list link', () => {
-    SecureMessagingSite.login(updatedFeatureToggle);
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
     PatientComposePage.openRecipientsDropdown();
     ContactListPage.verifyContactListLink();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify base web-elements - single facility', () => {
-    SecureMessagingSite.login(updatedFeatureToggle);
+    SecureMessagingSite.login();
     ContactListPage.loadContactList();
 
     ContactListPage.verifyHeaders();
@@ -38,13 +32,12 @@ describe('SM CONTACT LIST', () => {
     ContactListPage.verifyAllCheckboxes(false);
     ContactListPage.verifyButtons();
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it(`verify base web-elements - multi facilities`, () => {
     SecureMessagingSite.login(
-      updatedFeatureToggle,
+      mockToggles,
       mockEhrData,
       true,
       mockMixedCernerFacilitiesUser,
@@ -57,8 +50,8 @@ describe('SM CONTACT LIST', () => {
     ContactListPage.selectAllCheckBox();
     ContactListPage.verifyAllCheckboxes(false);
     ContactListPage.verifyButtons();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it(`verify contact list wit plain TG names`, () => {
@@ -67,7 +60,7 @@ describe('SM CONTACT LIST', () => {
       'TG | Type | Name',
     );
 
-    SecureMessagingSite.login(updatedFeatureToggle);
+    SecureMessagingSite.login();
     ContactListPage.loadContactList(updatedMockRecipientsResponse);
 
     cy.get(

@@ -60,11 +60,19 @@ describe('Referral Services', () => {
 
   it('postReferralAppointment sends the correct payload and returns data', async () => {
     const input = {
-      referralId: 'r1',
-      slotId: 's1',
       draftApppointmentId: 'd1',
+      referralNumber: 'r1',
+      slotId: 's1',
+      networkId: 'n1',
+      providerServiceId: 'p1',
     };
-    const expectedBody = JSON.stringify(input);
+    const expectedBody = JSON.stringify({
+      id: 'd1',
+      referralNumber: 'r1',
+      slotId: 's1',
+      networkId: 'n1',
+      providerServiceId: 'p1',
+    });
 
     requestStub.resolves({ data: { success: true } });
 
@@ -90,7 +98,8 @@ describe('Referral Services', () => {
       requestStub.calledWith('/vaos/v2/appointments/draft', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ referralId: 'ref-id-123' }),
+        // eslint-disable-next-line camelcase
+        body: JSON.stringify({ referral_id: 'ref-id-123' }),
       }),
     ).to.be.true;
 
@@ -103,7 +112,7 @@ describe('Referral Services', () => {
     const result = await services.getAppointmentInfo('a1');
 
     expect(
-      requestStub.calledWith('/vaos/v2/appointments/a1', {
+      requestStub.calledWith('/vaos/v2/eps_appointments/a1', {
         method: 'GET',
       }),
     ).to.be.true;

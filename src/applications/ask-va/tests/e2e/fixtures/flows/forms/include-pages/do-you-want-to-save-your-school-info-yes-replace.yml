@@ -1,0 +1,10 @@
+steps:
+  - action: exists
+    target: header
+    value: Your school facility
+  - action: click
+    target: radioYesNo
+    value: replace my saved school
+  - action: click
+    target: call-to-action
+

@@ -8,7 +8,6 @@ import * as claimantInformationModule from '../pages/claimantInformation';
 import * as veteranInformationModule from '../pages/veteranInformation';
 import * as isVeteranModule from '../pages/isVeteranPage';
 import transformForSubmit from './submit-transformer';
-import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
 
@@ -42,10 +41,10 @@ const formConfig = {
     environment.API_URL
   }/accredited_representative_portal/v0/submit_representative_form`,
   dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
+  disableSave: true,
   trackingPrefix,
   confirmation: ConfirmationPage,
   CustomTopContent,
-  CustomReviewTopContent,
   customText: { appType: 'form' },
   hideReviewChapters: true,
   introduction: IntroductionPage,
@@ -53,10 +52,6 @@ const formConfig = {
   version: 0,
   prefillEnabled: false,
   transformForSubmit,
-  savedFormMessages: {
-    notFound: 'Please start over to upload your form.',
-    noAuth: 'Please sign in again to continue uploading your form.',
-  },
   title,
   subTitle,
   defaultDefinitions: {},

@@ -27,7 +27,11 @@ import { getRealFacilityId } from '../../../utils/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
 import { getPageTitle } from '../../newAppointmentFlow';
-import { selectUpcomingAppointments } from '../../../appointment-list/redux/selectors';
+import {
+  selectUpcomingAppointments,
+  getUpcomingAppointmentListInfo,
+} from '../../../appointment-list/redux/selectors';
+import { fetchFutureAppointments } from '../../../appointment-list/redux/actions';
 
 const pageKey = 'selectDateTime';
 
@@ -126,6 +130,10 @@ export default function DateTimeSelectPage() {
     timezoneDescription,
     isAppointmentSelectionError,
   } = useSelector(state => getDateTimeSelect(state, pageKey), shallowEqual);
+  const { futureStatus } = useSelector(
+    state => getUpcomingAppointmentListInfo(state),
+    shallowEqual,
+  );
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -133,7 +141,9 @@ export default function DateTimeSelectPage() {
   const fetchFailed = appointmentSlotsStatus === FETCH_STATUS.failed;
   const loadingSlots =
     appointmentSlotsStatus === FETCH_STATUS.loading ||
-    appointmentSlotsStatus === FETCH_STATUS.notStarted;
+    appointmentSlotsStatus === FETCH_STATUS.notStarted ||
+    futureStatus === FETCH_STATUS.loading ||
+    futureStatus === FETCH_STATUS.notStarted;
 
   const isInitialLoad = useIsInitialLoad(loadingSlots);
   const eligibility = useSelector(selectEligibility);
@@ -178,6 +188,15 @@ export default function DateTimeSelectPage() {
     // determines which update is made
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [loadingSlots, appointmentSlotsStatus],
+  );
+
+  useEffect(
+    () => {
+      if (futureStatus === FETCH_STATUS.notStarted) {
+        dispatch(fetchFutureAppointments({ includeRequests: false }));
+      }
+    },
+    [dispatch, futureStatus],
   );
 
   const { selectedDates } = data;

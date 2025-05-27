@@ -8,12 +8,7 @@ import { smFooter } from '../../util/constants';
 describe('SM INBOX FOOTER', () => {
   beforeEach(() => {
     const updatedFeatureTogglesResponse = GeneralFunctionsPage.updateFeatureToggles(
-      [
-        {
-          name: 'mhv_secure_messaging_remove_landing_page',
-          value: true,
-        },
-      ],
+      [],
     );
 
     SecureMessagingSite.login(updatedFeatureTogglesResponse);

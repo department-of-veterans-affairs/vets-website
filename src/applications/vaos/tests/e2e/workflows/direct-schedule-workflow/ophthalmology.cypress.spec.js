@@ -5,12 +5,12 @@ import {
   APPOINTMENT_STATUS,
   OPHTHALMOLOGY_ID,
 } from '../../../../utils/constants';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import MockSlotResponse from '../../fixtures/MockSlotResponse';
-import MockUser from '../../fixtures/MockUser';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockSlotResponse from '../../../fixtures/MockSlotResponse';
+import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
@@ -60,7 +60,6 @@ describe('VAOS request schedule flow - Audiology', () => {
         id: 'mock1',
         localStartTime: new Date(),
         status: APPOINTMENT_STATUS.booked,
-        serviceType: typeOfCareId,
         future: true,
       });
 

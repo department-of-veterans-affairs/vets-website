@@ -1,12 +1,12 @@
 // @ts-check
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import { AUDIOLOGY_ID } from '../../../../utils/constants';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import MockProviderResponse from '../../fixtures/MockProviderResponse';
-import MockUser from '../../fixtures/MockUser';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockProviderResponse from '../../../fixtures/MockProviderResponse';
+import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import AudiologyPageObject from '../../page-objects/AudiologyPageObject';
 import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
@@ -104,8 +104,7 @@ describe('VAOS community care flow - Audiology', () => {
         id: 'mock1',
         localStartTime: new Date(),
         status: 'proposed',
-        serviceType: 'audiology',
-      });
+      }).setTypeOfCare('audiology');
       mockAppointmentGetApi({
         response,
       });

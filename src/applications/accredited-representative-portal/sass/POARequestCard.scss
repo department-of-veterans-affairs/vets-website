@@ -3,23 +3,24 @@
 .poa-request {
   max-width: 660px;
 
+  va-pagination {
+    padding: 0;
+    border: 0;
+  }
+
   &__search-header {
     margin: 0 0 24px;
   }
   &__copy {
-    margin: 0 0 16px 0;
+    margin: 0 0 24px 0;
   }
   &__tabs {
-    margin: 60px 0 24px;
+    margin: 32px 0;
     background-color: $vads-color-base-lighter;
     border: 2px solid $vads-color-base-lighter;
     border-radius: 6px;
     display: flex;
     max-width: 320px;
-
-    @media (min-width: $small-desktop-screen) {
-      margin: 24px 0;
-    }
   }
 
   &__tab-heading {
@@ -78,15 +79,24 @@
       margin-left: 16px;
     }
   }
+  &__meta {
+    margin-bottom: 32px;
+    @media (min-width: $small-desktop-screen) {
+      margin: 32px 0;
+    }
+  }
   &__list {
     list-style-type: none;
     padding: 0;
     display: block;
+    margin: 0;
+
+    li {
+      margin-bottom: 16px;
+    }
   }
 
   &__card {
-    margin-bottom: 20px;
-
     > a {
       display: flex;
     }

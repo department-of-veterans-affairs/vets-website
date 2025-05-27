@@ -13,6 +13,10 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
+  getNameDateAndTime,
+  makePdf,
+  formatNameFirstLast,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   clearVitalDetails,
@@ -24,14 +28,10 @@ import {
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import {
-  getNameDateAndTime,
   macroCase,
-  makePdf,
   generateTextFile,
   getLastUpdatedText,
-  formatNameFirstLast,
   formatDateInLocalTimezone,
-  formatUserDob,
   sendDataDogAction,
 } from '../util/helpers';
 import {
@@ -238,7 +238,13 @@ const VitalDetails = props => {
       ...generateVitalContent(records, true),
     };
     const pdfName = `VA-vital-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Vital details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Vital details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateVitalsTxt = async () => {

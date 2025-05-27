@@ -22,6 +22,9 @@ import {
   REQUEST_OPTIONS,
   UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
   LETTER_HAS_EMPTY_ADDRESS,
+  GET_ENHANCED_LETTERS_DOWNLOADING,
+  GET_ENHANCED_LETTERS_SUCCESS,
+  GET_ENHANCED_LETTERS_FAILURE,
 } from '../utils/constants';
 
 export const initialState = {
@@ -35,6 +38,8 @@ export const initialState = {
   serviceInfo: [],
   savePending: false,
   benefitInfo: {},
+  enhancedLetters: [],
+  enhancedLettersAvailability: DOWNLOAD_STATUSES.notStarted,
 };
 
 function letters(state = initialState, action) {
@@ -146,6 +151,25 @@ function letters(state = initialState, action) {
         lettersAvailability: AVAILABILITY_STATUSES.hasEmptyAddress,
         addressAvailability: AVAILABILITY_STATUSES.hasEmptyAddress,
       };
+    case GET_ENHANCED_LETTERS_DOWNLOADING: {
+      return {
+        ...state,
+        enhancedLettersAvailability: DOWNLOAD_STATUSES.downloading,
+      };
+    }
+    case GET_ENHANCED_LETTERS_SUCCESS: {
+      return {
+        ...state,
+        enhancedLetters: action.data,
+        enhancedLettersAvailability: DOWNLOAD_STATUSES.success,
+      };
+    }
+    case GET_ENHANCED_LETTERS_FAILURE: {
+      return {
+        ...state,
+        enhancedLettersAvailability: DOWNLOAD_STATUSES.failure,
+      };
+    }
     default:
       return state;
   }

@@ -5,7 +5,7 @@ import {
   isClinicVideoAppointment,
   isAtlasVideoAppointment,
   isVideoHome,
-  isInPersonVAAppointment,
+  isInPersonVisit,
 } from '../../services/appointment';
 
 const appointmentIcon = appointment => {
@@ -26,7 +26,7 @@ const appointmentIcon = appointment => {
   }
 
   if (
-    (isInPersonVAAppointment(appointment) && !isPendingAppointment) ||
+    (isInPersonVisit(appointment) && !isPendingAppointment) ||
     isCOVIDVaccine ||
     isCompAndPenAppointment ||
     isClinicVideoAppointment(appointment) ||

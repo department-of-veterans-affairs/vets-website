@@ -6,6 +6,12 @@
     width: 1000px;
   }
 
+  @media (min-width: $small-desktop-screen) {
+    &__h2 {
+      margin: 32px 0 24px;
+    }
+  }
+
   &__form {
     padding: 35px 14px;
     background-color: $vads-color-base-lightest;
@@ -49,7 +55,7 @@
   &__divider {
     border-bottom: 1px solid $vads-color-base-light;
     width: 100%;
-    margin: 2rem 0;
+    margin: 28px 0;
     display: flex;
   }
 
@@ -63,6 +69,11 @@
     @media (min-width: $small-desktop-screen) {
       flex-direction: row;
       flex-wrap: wrap;
+      margin: 24px 0 48px;
+
+      &--col {
+        margin: 0;
+      }
     }
 
     &-item {
@@ -138,7 +149,7 @@
   }
 
   &__header {
-    margin-bottom: 8px;
+    margin-bottom: 0;
   }
 
   &__name {
@@ -150,6 +161,7 @@
     font-family: inherit;
     @media (min-width: $small-desktop-screen) {
       font-size: 1.875rem;
+      margin: 24px 0;
     }
   }
 
