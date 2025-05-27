@@ -38,6 +38,23 @@ const UserHelpLinks = () => {
         </Link>
       </li>
       <Toggler
+        toggleName={
+          Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
+        }
+      >
+        <li>
+          <Toggler.Enabled>
+            <Link
+              data-testid="submissions-link"
+              className="vads-u-color--white"
+              to="/submissions"
+            >
+              Submissions
+            </Link>
+          </Toggler.Enabled>
+        </li>
+      </Toggler>
+      <Toggler
         toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
       >
         <Toggler.Enabled>
