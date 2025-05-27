@@ -21,6 +21,7 @@ import {
 // import mockData from '../tests/fixtures/data/test-data.json';
 import { applicantPages } from '../chapters/applicantInformation';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
+import transformForSubmit from './submitTransformer';
 
 import {
   sponsorNameDobSchema,
@@ -36,9 +37,8 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   showReviewErrors: true, // May want to hide in prod later, but for now keeping in due to complexity of this form
-  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
-  // submit: () =>
-  // Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  transformForSubmit,
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms/10-10d-ext`,
   trackingPrefix: '10-10d-extended-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
