@@ -176,9 +176,9 @@ export const CompleteReferral = props => {
               Community Care
             </p>
             <ProviderAddress
-              address={attributes.provider.address}
+              address={attributes.provider.location.address}
               showDirections
-              directionsName={attributes.provider.practice}
+              directionsName={attributes.provider.location.name}
               phone={currentReferral.provider.phone}
             />
             <p>
