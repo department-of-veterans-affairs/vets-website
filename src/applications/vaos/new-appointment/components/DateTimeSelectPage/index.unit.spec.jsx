@@ -15,6 +15,7 @@ import {
   setDay,
   startOfDay,
   startOfMonth,
+  subDays,
 } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime } from 'date-fns-tz';
 import MockDate from 'mockdate';
@@ -35,6 +36,7 @@ import DateTimeSelectPage from '.';
 import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
 import MockSlotResponse from '../../../tests/fixtures/MockSlotResponse';
 import {
+  mockAppointmentsApi,
   mockAppointmentSlotApi,
   mockEligibilityFetches,
 } from '../../../tests/mocks/mockApis';
@@ -289,6 +291,14 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       nextThursday(new Date()).setHours(13, 0, 0, 0),
     );
     const preferredDate = new Date();
+    const start = subDays(preferredDate, 30);
+    const end = addDays(preferredDate, 395);
+
+    mockAppointmentsApi({
+      start,
+      end,
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
 
     setDateTimeSelectMockFetchesDateFns({
       slotDatesByClinicId: {
@@ -886,6 +896,16 @@ describe('VAOS Page: DateTimeSelectPage', () => {
         startOfMonth(add(new Date(slot308Date), { months: 2 })),
       ).setHours(10, 0, 0, 0),
     );
+
+    const now = new Date();
+    const start = subDays(now, 30);
+    const end = addDays(now, 395);
+
+    mockAppointmentsApi({
+      start,
+      end,
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
 
     setDateTimeSelectMockFetchesDateFns({
       preferredDate,

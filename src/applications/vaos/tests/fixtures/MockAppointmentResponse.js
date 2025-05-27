@@ -3,7 +3,7 @@ import { addHours, format, startOfDay } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import {
   APPOINTMENT_STATUS,
-  DATE_FORMAT_STRINGS,
+  DATE_FORMATS,
   TYPE_OF_VISIT_ID,
   VIDEO_TYPES,
 } from '../../utils/constants';
@@ -80,11 +80,7 @@ export default class MockAppointmentResponse {
       start:
         status === APPOINTMENT_STATUS.proposed
           ? null
-          : formatInTimeZone(
-              timestamp,
-              'UTC',
-              DATE_FORMAT_STRINGS.ISODateTimeUTC,
-            ),
+          : formatInTimeZone(timestamp, 'UTC', DATE_FORMATS.ISODateTimeUTC),
       status,
       telehealth: {
         atlas: null,

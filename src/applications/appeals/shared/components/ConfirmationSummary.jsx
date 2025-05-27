@@ -1,9 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
-import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
-
 import ConfirmationPdfMessages from './ConfirmationPdfMessages';
 
 export const chapterHeaderClass = [
@@ -12,50 +8,6 @@ export const chapterHeaderClass = [
   'vads-u-padding-bottom--0p5',
   'vads-u-border-color--gray-light',
 ].join(' ');
-
-export const ConfirmationTitle = ({ pageTitle }) => (
-  <div className="print-only">
-    <img
-      src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-      alt="VA logo"
-      width="300"
-    />
-    <h2 className="vads-u-margin-top--0">{pageTitle}</h2>
-  </div>
-);
-
-ConfirmationTitle.propTypes = {
-  pageTitle: PropTypes.string,
-};
-
-export const ConfirmationAlert = ({ alertTitle, children }) => {
-  const alertRef = useRef(null);
-
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        scrollTo('topScrollElement');
-        // delay focus for Safari
-        waitForRenderThenFocus('va-alert h2', alertRef.current);
-      }
-    },
-    [alertRef],
-  );
-
-  return (
-    <div>
-      <va-alert status="success" ref={alertRef}>
-        <h2 slot="headline">{alertTitle}</h2>
-        {children}
-      </va-alert>
-    </div>
-  );
-};
-
-ConfirmationAlert.propTypes = {
-  alertTitle: PropTypes.string,
-  children: PropTypes.element,
-};
 
 export const ConfirmationSummary = ({ name, downloadUrl }) => (
   <div className="screen-only">
