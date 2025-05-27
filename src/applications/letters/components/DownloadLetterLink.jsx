@@ -10,6 +10,7 @@ import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
+import { getDownloadSuccessMessage } from '../utils/helpers';
 
 export class DownloadLetterLink extends React.Component {
   benefitSummaryOptionsLength = 0;
@@ -63,11 +64,9 @@ export class DownloadLetterLink extends React.Component {
                 >
                   <h4 slot="headline">You’ve downloaded your benefit letter</h4>
                   <p>
-                    {`Your letter includes the ${
-                      this.benefitSummaryOptionsLength === 1
-                        ? `${this.benefitSummaryOptionsLength} item`
-                        : `${this.benefitSummaryOptionsLength} items`
-                    } you selected.`}
+                    {getDownloadSuccessMessage(
+                      this.benefitSummaryOptionsLength,
+                    )}
                   </p>
                   <p>
                     If you want to create a new letter with different

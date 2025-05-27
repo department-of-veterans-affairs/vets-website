@@ -535,3 +535,14 @@ export function isAddressEmpty(address) {
     true,
   );
 }
+
+export function getDownloadSuccessMessage(optionsLength) {
+  let message;
+  if (optionsLength === 1) {
+    message = `Your letter includes the one item you selected.`;
+  } else {
+    message = `Your letter includes the ${optionsLength} items you selected.`;
+  }
+
+  return message;
+}
