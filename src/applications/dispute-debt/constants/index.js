@@ -1,5 +1,4 @@
 export const TITLE = 'Dispute your VA debt';
-export const SUBTITLE = 'Process to dispute debt';
 
 // Date formats
 export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';

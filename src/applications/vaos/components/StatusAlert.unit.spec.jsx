@@ -1,19 +1,19 @@
-import React from 'react';
-import { expect } from 'chai';
 import { fireEvent } from '@testing-library/react';
-import { format, addBusinessDays } from 'date-fns';
-import moment from 'moment';
+import { expect } from 'chai';
+import { addBusinessDays, format } from 'date-fns';
+import React from 'react';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
+import { MockAppointment } from '../tests/fixtures/MockAppointment';
+import { Facility } from '../tests/mocks/unit-test-helpers';
 import StatusAlert from './StatusAlert';
-import { Facility, MockAppointment } from '../tests/mocks/unit-test-helpers';
 
 const facilityData = new Facility();
 
 describe('VAOS Component: StatusAlert', () => {
   const initialState = {};
   it('Should display confirmation of VA appointment alert message', () => {
-    const mockAppointment = new MockAppointment({ start: moment() });
+    const mockAppointment = new MockAppointment();
     mockAppointment.setKind('clinic');
     mockAppointment.setStatus('booked');
 
@@ -39,7 +39,7 @@ describe('VAOS Component: StatusAlert', () => {
   });
   it('Should display creation date on VA request alert', () => {
     const today = new Date();
-    const mockAppointment = new MockAppointment({ start: moment() });
+    const mockAppointment = new MockAppointment();
     mockAppointment.setKind('cc');
     mockAppointment.setStatus('proposed');
     mockAppointment.setCreated(today);
@@ -65,7 +65,7 @@ describe('VAOS Component: StatusAlert', () => {
     const PAST_DUE = -Math.abs(4);
     // created date is 4 business days ago from today
     const createdDate = addBusinessDays(new Date(today), PAST_DUE);
-    const mockAppointment = new MockAppointment({ start: moment() });
+    const mockAppointment = new MockAppointment();
     mockAppointment.setKind('clinic');
     mockAppointment.setStatus('proposed');
     mockAppointment.setCreated(createdDate);
@@ -85,7 +85,7 @@ describe('VAOS Component: StatusAlert', () => {
   });
 
   it('Should record google analytics when schedule link is clicked ', () => {
-    const mockAppointment = new MockAppointment({ start: moment() });
+    const mockAppointment = new MockAppointment();
     mockAppointment.setKind('clinic');
     mockAppointment.setStatus('booked');
 
@@ -105,7 +105,7 @@ describe('VAOS Component: StatusAlert', () => {
 
   describe('Cancellation alert', () => {
     it('Should display for canceled VA appointments', () => {
-      const mockAppointment = new MockAppointment({ start: moment() });
+      const mockAppointment = new MockAppointment();
       mockAppointment.setStatus('cancelled');
       mockAppointment.setCancelationReason('pat');
 
@@ -129,7 +129,7 @@ describe('VAOS Component: StatusAlert', () => {
     });
 
     it('Should display for canceled CC appointments', () => {
-      const mockAppointment = new MockAppointment({ start: moment() });
+      const mockAppointment = new MockAppointment();
       mockAppointment.setType('COMMUNITY_CARE_APPOINTMENT');
       mockAppointment.setStatus('cancelled');
       mockAppointment.setCancelationReason('pat');
@@ -154,7 +154,7 @@ describe('VAOS Component: StatusAlert', () => {
     });
 
     it('Should display for canceled C&P appointments', () => {
-      const mockAppointment = new MockAppointment({ start: moment() });
+      const mockAppointment = new MockAppointment();
       mockAppointment.setIsCompAndPenAppointment(true);
       mockAppointment.setStatus('cancelled');
       mockAppointment.setCancelationReason('pat');
@@ -179,7 +179,7 @@ describe('VAOS Component: StatusAlert', () => {
     });
 
     it('Should display for canceled appointment requests', () => {
-      const mockAppointment = new MockAppointment({ start: moment() });
+      const mockAppointment = new MockAppointment();
       mockAppointment.setIsPendingAppointment(true);
       mockAppointment.setStatus('cancelled');
       mockAppointment.setCancelationReason('pat');

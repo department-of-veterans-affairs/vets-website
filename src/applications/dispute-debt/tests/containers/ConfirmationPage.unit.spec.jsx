@@ -8,6 +8,11 @@ import formConfig from '../../config/form';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
 const storeBase = {
+  user: {
+    profile: {
+      email: 'testEmail@gmail.com',
+    },
+  },
   form: {
     formId: formConfig.formId,
     submission: {
@@ -22,6 +27,12 @@ const storeBase = {
         middle: '',
         last: 'Doe',
       },
+      selectedDebts: [
+        {
+          id: '123456789',
+          label: 'testyyyyy',
+        },
+      ],
     },
   },
 };

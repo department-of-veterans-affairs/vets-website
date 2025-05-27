@@ -173,7 +173,7 @@ const SmBreadcrumbs = () => {
               href: `/${locationBasePath}/${locationChildPath}`,
               label: folderList.find(
                 item => item.id === parseInt(locationChildPath, 10),
-              ).name,
+              )?.name,
               isRouterLink: true,
             },
           ]),

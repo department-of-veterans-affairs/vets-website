@@ -8,6 +8,7 @@ describe('Compose a new message with attachments', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+    PatientComposePage.interceptSentFolder();
   });
 
   it('verify use can send a message with attachments', () => {

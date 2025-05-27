@@ -116,6 +116,7 @@ export const IntroductionPage = ({
                     we deny your application, you can download your denial
                     letter. We’ll also mail you a copy of your decision letter.
                   </p>
+                  <br />
                   <p className="vads-u-margin-bottom--0">
                     <strong>Note:</strong> In some cases, we may need more time
                     to make a decision. If you don’t get an automatic decision
@@ -195,6 +196,7 @@ export const IntroductionPage = ({
                     your decision letter right away. We’ll also mail you a copy
                     of your decision letter.
                   </p>
+                  <br />
                   <p className="vads-u-margin-bottom--0">
                     <strong>Note</strong>: In some cases, we may need more time
                     to make a decision. If you don’t get an automatic decision
@@ -222,29 +224,6 @@ export const IntroductionPage = ({
           exp-date="03/31/2026"
         />
       </div>
-      {showMeb54901990eTextUpdate && (
-        <div className="vads-u-margin-top--4">
-          <h2>Need help?</h2>
-          <p>
-            If you need help with your application or have questions about
-            enrollment or eligibility, submit a request with{' '}
-            <a
-              href="https://ask.va.gov/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ask VA
-            </a>
-            .
-          </p>
-          <p>
-            If you have technical difficulties using this online application,
-            call our MyVA411 main information line at{' '}
-            <va-telephone contact="8006982411" extension="711" />. We’re here
-            24/7.
-          </p>
-        </div>
-      )}
     </div>
   );
 };

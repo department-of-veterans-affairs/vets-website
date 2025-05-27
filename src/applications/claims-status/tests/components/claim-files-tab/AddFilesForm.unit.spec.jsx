@@ -379,6 +379,17 @@ describe('<AddFilesForm>', () => {
       getByText('Upload documents');
       getByText('If you have a document to upload, you can do that here.');
     });
+    it('should not render heading section when it is rendered in file tab', () => {
+      const { queryByText } = render(
+        <Provider store={getStore()}>
+          <AddFilesForm {...fileFormProps} fileTab />
+        </Provider>,
+      );
+      expect(queryByText('Upload documents')).to.be.null;
+      expect(
+        queryByText('If you have a document to upload, you can do that here.'),
+      ).to.be.null;
+    });
   });
 
   it('should not add an invalid file type', () => {
