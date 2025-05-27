@@ -128,3 +128,5 @@ export function getRequestedAppointmentListInfo(state) {
     showScheduleButton: selectFeatureRequests(state),
   };
 }
+export const selectFeatureConvertSlotsToUTC = state =>
+  toggleValues(state).vaOnlineSchedulingConvertSlotsToUTC;
