@@ -1,3 +1,4 @@
+import React from 'react';
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
@@ -22,7 +23,12 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // const { } = fullSchema.definitions;
 
 // pages
-import { designatingOfficial, primaryOfficial } from '../pages';
+import {
+  designatingOfficial,
+  primaryOfficial,
+  institutionDetails,
+  institutionDetailsFacility,
+} from '../pages';
 import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
 
@@ -53,7 +59,11 @@ const formConfig = {
       'Please sign in again to continue your application for education benefits.',
   },
   title: "Update your institution's list of certifying officials",
-  subTitle: 'Designation of certifying official(s) (VA Form 22-8794)',
+  subTitle: () => (
+    <p className="vads-u-margin-bottom--0">
+      Designation of certifying official(s) (VA Form 22-8794)
+    </p>
+  ),
   defaultDefinitions: {
     fullName,
     ssn,
@@ -70,6 +80,25 @@ const formConfig = {
           title: 'Your information',
           uiSchema: designatingOfficial.uiSchema,
           schema: designatingOfficial.schema,
+        },
+      },
+    },
+    institutionDetailsChapter: {
+      title: 'Institution details',
+      pages: {
+        institutionDetails: {
+          path: 'institution-details',
+          title: 'Institution details',
+          uiSchema: institutionDetails.uiSchema,
+          schema: institutionDetails.schema,
+        },
+        institutionDetailsFacility: {
+          path: 'institution-details-3',
+          title: 'Institution details',
+          uiSchema: institutionDetailsFacility.uiSchema,
+          schema: institutionDetailsFacility.schema,
+          depends: formData =>
+            formData.institutionDetails.hasVaFacilityCode === true,
         },
       },
     },
