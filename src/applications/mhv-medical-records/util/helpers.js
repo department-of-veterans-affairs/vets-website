@@ -67,8 +67,11 @@ export function dateFormatWithoutTimezone(
     throw new Error('Invalid time value');
   }
 
-  // 4) Format and return the formatted date
-  return dateFnsFormat(parsedDate, fmt);
+  // 4) Format and replace "PM" with "pm"
+  const formattedDate = dateFnsFormat(parsedDate, fmt);
+
+  // Replace "PM" with "pm" (case-insensitive replacement)
+  return formattedDate.replace(/\sPM$/, ' p.m.').replace(/\sAM$/, ' a.m.');
 }
 
 /**
