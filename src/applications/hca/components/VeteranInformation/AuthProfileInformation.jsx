@@ -31,7 +31,7 @@ const AuthProfileInformation = ({ user }) => {
 
       <p>This is the personal information we have on file for you.</p>
 
-      <va-card data-testid="hca-profile-card" background>
+      <va-card data-testid="hca-profile-card">
         <ul className="hca-list-style-none">
           <li>
             <span className="vads-u-visibility--screen-reader">Full name:</span>{' '}

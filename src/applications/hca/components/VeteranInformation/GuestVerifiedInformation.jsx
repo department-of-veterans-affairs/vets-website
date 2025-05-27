@@ -25,7 +25,7 @@ const GuestVerifiedInformation = ({ user }) => {
   return (
     <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
       <p>Confirm your information before you continue.</p>
-      <va-card data-testid="hca-guest-card" background>
+      <va-card data-testid="hca-guest-card">
         <ul className="hca-list-style-none">
           <li>
             <span className="vads-u-visibility--screen-reader">Full name:</span>{' '}
