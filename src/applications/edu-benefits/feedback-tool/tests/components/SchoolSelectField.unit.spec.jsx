@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
@@ -266,6 +266,15 @@ describe('<SchoolSelectField>', () => {
 
   // handleSearchClick
   it('should call searchSchools and onChange props when search button clicked', async () => {
+    const clock = sinon.useFakeTimers({
+      toFake: [
+        'Date',
+        'setTimeout',
+        'clearTimeout',
+        'setInterval',
+        'clearInterval',
+      ],
+    });
     const searchSchools = sandbox.spy();
     const onChange = sandbox.spy();
     const screen = render(
@@ -291,18 +300,26 @@ describe('<SchoolSelectField>', () => {
       name: /search/i,
     });
     fireEvent.click(searchLink);
-    await waitFor(() => {
-      expect(searchSchools.firstCall.args[0]).to.eql({
-        institutionQuery: 'test',
-      });
-      expect(onChange.firstCall.args[0]).to.eql({
-        address: {},
-        name: null,
-        facilityCode: null,
-        'view:manualSchoolEntryChecked': false,
-        'view:institutionQuery': 'test',
-      });
+
+    // Verify onChange was called immediately
+    expect(onChange.firstCall.args[0]).to.eql({
+      address: {},
+      name: null,
+      facilityCode: null,
+      'view:manualSchoolEntryChecked': false,
+      'view:institutionQuery': 'test',
     });
+
+    // Advance timers to trigger the debounced function
+    clock.tick(200);
+
+    // Now verify searchSchools was called after the debounce delay
+    expect(searchSchools.firstCall.args[0]).to.eql({
+      institutionQuery: 'test',
+    });
+
+    // Restore real timers
+    clock.restore();
   });
 
   // handleOptionClick
