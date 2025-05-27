@@ -40,10 +40,13 @@ const executeSteps = (steps, folder) => {
             STEPS.clickLink(step.value);
             break;
           case 'call-to-action':
-            STEPS.clickCallToActionButton();
+            STEPS.clickCallToActionButton('primary');
+            break;
+          case 'call-to-action-secondary':
+            STEPS.clickCallToActionButton('secondary', step.value);
             break;
           case 'call-to-action-not-primary':
-            STEPS.clickCallToActionButton(false, step.value);
+            STEPS.clickCallToActionButton('neither', step.value);
             break;
           case 'radio': // TODO: Refactor into a single radio button function, if possible
             STEPS.clickRadioButton(step.value);
@@ -69,6 +72,12 @@ const executeSteps = (steps, folder) => {
             break;
           case 'paragraph':
             STEPS.ensureExists(step.value, 'p');
+            break;
+          case 'error':
+            STEPS.ensureExists(step.value, 'span.usa-error-message');
+            break;
+          case 'errorInput':
+            STEPS.ensureExists(step.value, 'span.usa-input-error-message');
             break;
           default:
             throw new Error(

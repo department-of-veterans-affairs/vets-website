@@ -314,12 +314,8 @@ const formConfig = {
             'view:benefitInfo': {
               'ui:description': (
                 <>
-                  <span className="fry-dea-labels_label--main vads-u-padding-left--1">
-                    Which education benefit would you like to apply for?
-                  </span>
-                  <br />
-                  <br />
-                  <span className="fry-dea-labels_label--secondary fry-dea-input-message fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
+                  <p>Which education benefit would you like to apply for?</p>
+                  <p className="fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1">
                     <va-icon
                       size={3}
                       icon="info"
@@ -327,13 +323,12 @@ const formConfig = {
                       aria-hidden="true"
                     />{' '}
                     <span className="sr-only">Informational Note:</span> If
-                    you’re the child of a veteran or service member who died in
+                    you’re the child of a Veteran or service member who died in
                     the line of duty before August 1, 2011 you can use both Fry
                     Scholarship and DEA and get up to 81 months of benefits.
                     You’ll need to apply separately and use one program at a
                     time.
-                  </span>
-                  <br />
+                  </p>
                 </>
               ),
             },
@@ -1220,7 +1215,7 @@ const formConfig = {
               'ui:title': 'Veteran or service member information',
               first: {
                 ...fullNameUI.first,
-                'ui:title': 'Veteran or service member First Name',
+                'ui:title': 'Veteran or service member First name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -1237,7 +1232,7 @@ const formConfig = {
               },
               middle: {
                 ...fullNameUI.middle,
-                'ui:title': 'Veteran or service member Middle Name',
+                'ui:title': 'Veteran or service member Middle name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -1254,7 +1249,7 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
-                'ui:title': 'Veteran or service member Last Name',
+                'ui:title': 'Veteran or service member Last name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidLastName(field)) {

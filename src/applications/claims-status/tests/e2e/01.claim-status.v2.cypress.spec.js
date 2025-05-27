@@ -193,7 +193,15 @@ describe('When feature toggle cst_claim_phases enabled', () => {
 
     it('Shows recent activity for a user with tracked items on a open claim', () => {
       const trackClaimsPage = new TrackClaimsPageV2();
-      trackClaimsPage.loadPage(claimsList, claimDetailsOpen, false, true);
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpen,
+        false,
+        true,
+        false,
+        false,
+        false,
+      );
       trackClaimsPage.verifyInProgressClaim(true);
       trackClaimsPage.verifyRecentActivity(false, true);
       cy.axeCheck();
