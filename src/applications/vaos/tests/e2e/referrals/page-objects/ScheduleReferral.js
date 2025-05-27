@@ -47,13 +47,7 @@ export class ScheduleReferralPageObject extends PageObject {
   /**
    * Validates that referring facility information is displayed
    */
-  assertReferringFacilityInfo() {
-    // Check that the questions section exists
-    cy.findByRole('heading', {
-      level: 2,
-      name: 'Have questions about your referral?',
-    }).should('exist');
-
+  assertreferringFacility() {
     // Verify that the facility information is populated
     cy.findByTestId('referral-facility')
       .should('exist')

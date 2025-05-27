@@ -4,14 +4,16 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { expect } from 'chai';
-import moment from 'moment';
+import { addDays, format, subDays } from 'date-fns';
 import React from 'react';
 import { NewBookingSection } from '.';
-import { createMockFacility } from '../tests/mocks/data';
-import { getSchedulingConfigurationMock } from '../tests/mocks/mock';
+import MockFacilityResponse from '../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockFacilitiesApi,
-  mockSchedulingConfigurations,
+  mockSchedulingConfigurationsApi,
 } from '../tests/mocks/mockApis';
 import {
   createTestStore,
@@ -38,41 +40,41 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
   });
 
   it('should not redirect the user to the Contact Facility page when facilities are available', async () => {
+    // Arrange
     const store = createTestStore({
       ...initialState,
     });
 
-    mockFacilitiesApi({
-      children: true,
+    mockSchedulingConfigurationsApi({
       response: [
-        createMockFacility({
-          id: '983',
-          name: 'A facility',
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              directEnabled: true,
+              requestEnabled: true,
+            }),
+          ],
         }),
-        createMockFacility({
-          id: '984',
-          name: 'B facility',
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              id: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
-    mockSchedulingConfigurations([
-      getSchedulingConfigurationMock({
-        id: '983',
-        typeOfCareId: 'covid',
-        requestEnabled: true,
-        directEnabled: true,
-      }),
-      getSchedulingConfigurationMock({
-        id: '984',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-    ]);
 
+    // Act
     const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
     });
 
+    // Assert
     await screen.findByRole('heading', {
       level: 1,
       name: 'COVID-19 vaccine appointment',
@@ -80,6 +82,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
   });
 
   it('should redirect the user to the Contact Facility page when facilities are not available', async () => {
+    // Arrange
     const store = createTestStore({
       ...initialState,
     });
@@ -87,46 +90,72 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     mockFacilitiesApi({
       children: true,
       response: [
-        createMockFacility({
-          id: '983',
-          name: 'Facility that is enabled',
-          lat: 39.1362562,
-          long: -83.1804804,
-          address: {
-            city: 'Bozeman',
-            state: 'MT',
-          },
-          phone: '5555555555x1234',
+        new MockFacilityResponse({ id: '983' }),
+        new MockFacilityResponse({ id: '984' }),
+      ],
+    });
+    mockSchedulingConfigurationsApi({
+      response: [
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
         }),
-        createMockFacility({
-          id: '984',
-          name: 'Facility 2',
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
-    mockSchedulingConfigurations([
-      getSchedulingConfigurationMock({
-        id: '983',
-        typeOfCareId: 'covid',
-        requestEnabled: true,
-      }),
-      getSchedulingConfigurationMock({
-        id: '984',
-        typeOfCareId: 'primaryCare',
-        requestEnabled: true,
-      }),
-    ]);
 
+    // Act
     const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
     });
 
+    // Assert
     expect(
       await screen.findByText(/Contact one of your registered VA facilities/i),
     ).to.be.ok;
   });
 
   it('should render warning message', async () => {
+    // Arrange
+    const store = createTestStore(initialState);
+
+    mockFacilitiesApi({ ids: ['983', '984'] });
+    mockSchedulingConfigurationsApi({
+      response: [
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+      ],
+      responseCode: 404,
+    });
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
       {
@@ -137,19 +166,27 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
             attributes: {
               externalService: 'vaosWarning',
               description: 'My description',
-              startTime: moment.utc().subtract('1', 'days'),
-              endTime: moment.utc().add('1', 'days'),
+              startTime: format(
+                subDays(new Date(), '1'),
+                "yyyy-MM-dd'T'HH:mm:ss",
+              ),
+              endTime: format(
+                addDays(new Date(), '1'),
+                "yyyy-MM-dd'T'HH:mm:ss",
+              ),
             },
           },
         ],
       },
     );
-    const store = createTestStore(initialState);
+
+    // Act
     const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
       basename: '/new-covid-19-vaccine-appointment',
     });
 
+    // Assert
     expect(
       await screen.findByRole('heading', {
         level: 3,
@@ -159,23 +196,71 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
   });
 
   it('should redirect to home page', async () => {
+    // Arrange
     const state = {
       ...initialState,
       newAppointment: {
         isNewAppointmentStarted: false,
       },
     };
-
     const store = createTestStore(state);
+
+    mockFacilitiesApi({
+      ids: ['983'],
+      response: [new MockFacilityResponse()],
+    });
+    mockFacilitiesApi({
+      ids: ['983', '984'],
+      response: [new MockFacilityResponse()],
+    });
+    mockSchedulingConfigurationsApi({
+      response: [
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+      ],
+    });
+    mockSchedulingConfigurationsApi({
+      response: [
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+      ],
+    });
+
+    // Act
     const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
       path: '/covid-vaccine/doses-received',
     });
 
+    // Assert
     expect(screen.history.location.pathname).to.equal('/');
   });
 
   it('should exempt started appointments from redirects', async () => {
+    // Arrange
     const state = {
       ...initialState,
       newAppointment: {
@@ -184,17 +269,65 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     };
 
     const store = createTestStore(state);
+
+    mockFacilitiesApi({
+      ids: ['983'],
+      response: [new MockFacilityResponse()],
+    });
+    mockFacilitiesApi({
+      ids: ['983', '984'],
+      response: [new MockFacilityResponse()],
+    });
+    mockSchedulingConfigurationsApi({
+      response: [
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+      ],
+    });
+    mockSchedulingConfigurationsApi({
+      response: [
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+      ],
+    });
+
+    // Act
     const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
       path: '/covid-vaccine/doses-received',
     });
 
+    // Assert
     expect(screen.history.location.pathname).to.equal(
       '/covid-vaccine/doses-received',
     );
   });
 
   it('should exempt home page from redirects', async () => {
+    // Arrange
     const state = {
       ...initialState,
       newAppointment: {
@@ -203,23 +336,114 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     };
 
     const store = createTestStore(state);
+
+    mockFacilitiesApi({
+      ids: ['983'],
+      response: [new MockFacilityResponse()],
+    });
+    mockFacilitiesApi({
+      ids: ['983', '984'],
+      response: [new MockFacilityResponse()],
+    });
+    mockSchedulingConfigurationsApi({
+      response: [
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+      ],
+    });
+    mockSchedulingConfigurationsApi({
+      response: [
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+      ],
+    });
+
+    // Act
     const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
       path: '/covid-vaccine/',
     });
 
+    // Assert
     expect(screen.history.location.pathname).to.equal('/covid-vaccine/');
   });
 
   it('should show error when facility availability check fails', async () => {
+    // Arrange
     const store = createTestStore({
       ...initialState,
     });
 
+    mockFacilitiesApi({
+      ids: ['983', '984'],
+      response: [new MockFacilityResponse()],
+    });
+    mockSchedulingConfigurationsApi({
+      response: [
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+        new MockSchedulingConfigurationResponse({
+          facilityId: '984',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+      ],
+    });
+    mockSchedulingConfigurationsApi({
+      response: [
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'covid',
+              requestEnabled: true,
+            }),
+          ],
+        }),
+      ],
+      responseCode: 500,
+    });
+
+    // Act
     const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
     });
 
+    // Assert
     expect(
       await screen.findByRole('heading', {
         level: 1,

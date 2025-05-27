@@ -35,7 +35,9 @@ describe('<ClaimStatusPage>', () => {
   describe('when claim is null', () => {
     it('should render null', () => {
       const { container, getByText } = renderWithRouter(
-        <ClaimStatusPage {...props} claim={null} params={params} />,
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} claim={null} params={params} />
+        </Provider>,
       );
       expect($('.claim-status', container)).to.not.exist;
       getByText('Claim status is unavailable');
@@ -45,7 +47,9 @@ describe('<ClaimStatusPage>', () => {
   describe('when there are no claims', () => {
     it('should render null', () => {
       const { container, getByText } = renderWithRouter(
-        <ClaimStatusPage {...props} params={params} />,
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} params={params} />
+        </Provider>,
       );
       expect($('.claim-status', container)).to.not.exist;
       getByText('Claim status is unavailable');
@@ -132,6 +136,20 @@ describe('<ClaimStatusPage>', () => {
         </Provider>,
       );
       expect(document.title).to.equal('');
+    });
+    it('should focus on h1 after render', () => {
+      const { rerender, container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} loading params={params} />
+        </Provider>,
+      );
+      rerenderWithRouter(
+        rerender,
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} claim={claim} params={params} />
+        </Provider>,
+      );
+      expect(document.activeElement).to.equal($('h1', container));
     });
   });
 
@@ -394,7 +412,9 @@ describe('<ClaimStatusPage>', () => {
   context('when loading', () => {
     it('should render empty content', () => {
       const { container } = renderWithRouter(
-        <ClaimStatusPage {...props} loading params={params} />,
+        <Provider store={getStore()}>
+          <ClaimStatusPage {...props} loading params={params} />
+        </Provider>,
       );
       expect($('.claim-status', container)).to.not.exist;
       expect($('va-loading-indicator', container)).to.exist;

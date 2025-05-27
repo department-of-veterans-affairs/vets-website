@@ -1,5 +1,4 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
-import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { appName, rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
@@ -41,7 +40,7 @@ describe(`${appName} -- Status Page`, () => {
 
   it('navigates to the platform 404 page if route not found', () => {
     cy.visit(`${rootUrl}/banana`);
-    cy.findByTestId(pageNotFoundTestId).should('exist');
+    cy.findByTestId('mhv-page-not-found').should('exist');
   });
 
   it('defaults to "most recent" sort order', () => {
@@ -91,7 +90,7 @@ describe(`${appName} -- Status Page`, () => {
     //   .click();
 
     // Instead just find the text for the link and click it
-    cy.contains('Check your travel reimbursement claim status').click();
+    cy.contains('Travel reimbursement claims').click();
 
     cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });

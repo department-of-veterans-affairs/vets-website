@@ -10,6 +10,7 @@ describe('Secure Messaging - Cross Site Scripting', () => {
     PatientInboxPage.loadInboxMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
+    PatientComposePage.interceptSentFolder();
 
     const requestBodyUpdated = {
       ...requestBody,

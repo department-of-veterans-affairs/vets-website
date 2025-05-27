@@ -1580,7 +1580,7 @@
     "dest": "/boston-va-regional-benefit-office/",
     "catchAll": true
   },
-    {
+  {
     "domain": "www.benefits.va.gov",
     "src": "/manchester",
     "dest": "/manchester-va-regional-benefit-office/",
@@ -1713,5 +1713,65 @@
     "src": "/stpaul",
     "dest": "/st-paul-va-regional-benefit-office/",
     "catchAll": true
-  }
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/neworleans",
+    "dest": "/new-orleans-va-regional-benefit-office-at-new-orleans-va-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RONEWORLEANS",
+    "dest": "/new-orleans-va-regional-benefit-office-at-new-orleans-va-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pittsburgh",
+    "dest": "/pittsburgh-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROPITTSBURGH",
+    "dest": "/pittsburgh-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+  "domain": "www.benefits.va.gov",
+  "src": "/atlanta",
+  "dest": "/atlanta-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/desmoines",
+  "dest": "/des-moines-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/roatlanta",
+  "dest": "/atlanta-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rodesmoines",
+  "dest": "/des-moines-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rostpetersburg",
+  "dest": "/st-petersburg-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/stpetersburg",
+  "dest": "/st-petersburg-va-regional-benefit-office/",
+  "catchAll": true
+}
 ]

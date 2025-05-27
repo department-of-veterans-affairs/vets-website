@@ -7,7 +7,7 @@ import { renderFullName, maskVafn } from '../utils/data';
 import { getReadableDate } from '../utils/dates';
 import { showValueOrNotSelected } from '../utils/confirmation';
 
-import { chapterHeaderClass } from './ConfirmationCommon';
+import { chapterHeaderClass } from './ConfirmationSummary';
 
 export const VeteranInfo = ({ dob, userFullName = {}, vaFileLastFour }) => (
   <>

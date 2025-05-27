@@ -7,10 +7,15 @@ import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-sub
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { fillProviderFacility } from './helpers';
-import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
+import {
+  fillAddressWebComponentPattern,
+  reviewAndSubmitPageFlow,
+  selectYesNoWebComponent,
+} from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
     dataPrefix: 'data',
     dataSets: ['minimal-test', 'maximal-test'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
@@ -26,25 +31,36 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.fillPage();
-            // fillPage doesn't catch state select, so select state manually
-            cy.get('select#root_veteran_address_state').select(
-              data.veteran.address.state,
-            );
-            if (data.veteran.address.city) {
-              if (data.veteran.address.isMilitary) {
-                // there is a select dropdown instead when military is checked
-                cy.get('select#root_veteran_address_city').select(
-                  data.veteran.address.city,
+            cy.checkWebComponent(hasWebComponent => {
+              // if the environment is production
+              if (!hasWebComponent) {
+                cy.fillPage();
+                // fillPage doesn't catch state select, so select state manually
+                cy.get('select#root_veteran_address_state').select(
+                  data.veteran.address.state,
                 );
+                if (data.veteran.address.city) {
+                  if (data.veteran.address.isMilitary) {
+                    // there is a select dropdown instead when military is checked
+                    cy.get('select#root_veteran_address_city').select(
+                      data.veteran.address.city,
+                    );
+                  } else {
+                    cy.get('#root_veteran_address_city').type(
+                      data.veteran.address.city,
+                    );
+                  }
+                }
               } else {
-                cy.get('#root_veteran_address_city').type(
-                  data.veteran.address.city,
+                fillAddressWebComponentPattern(
+                  'veteran_address',
+                  data.veteran.address,
                 );
               }
-            }
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            });
+            cy.findByText(/continue/i, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
@@ -52,14 +68,24 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.get('.form-radio-buttons') // get the radio container
-              .find('input[type="radio"]')
-              .eq(
-                data.patientIdentification.isRequestingOwnMedicalRecords
-                  ? 0
-                  : 1,
-              ) // Select the first (0) for true and the second (1) for false
-              .check();
+            cy.checkWebComponent(hasWebComponent => {
+              // if the environment is production
+              if (!hasWebComponent) {
+                cy.get('.form-radio-buttons') // get the radio container
+                  .find('input[type="radio"]')
+                  .eq(
+                    data.patientIdentification.isRequestingOwnMedicalRecords
+                      ? 0
+                      : 1,
+                  ) // Select the first (0) for true and the second (1) for false
+                  .check();
+              } else {
+                selectYesNoWebComponent(
+                  'patientIdentification_isRequestingOwnMedicalRecords',
+                  data.patientIdentification.isRequestingOwnMedicalRecords,
+                );
+              }
+            });
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });

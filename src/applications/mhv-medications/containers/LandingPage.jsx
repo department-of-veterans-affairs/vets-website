@@ -1,7 +1,7 @@
 // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, Navigate, useLocation } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -11,20 +11,11 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
-  getPaginatedFilteredList,
-  getPrescriptionsPaginatedSortedList,
-} from '../actions/prescriptions';
-import {
   medicationsUrls,
-  rxListSortingOptions,
-  defaultSelectedSortOption,
   SESSION_SELECTED_PAGE_NUMBER,
-  filterOptions,
 } from '../util/constants';
 import {
   selectAllergiesFlag,
-  selectFilterFlag,
-  selectGroupingFlag,
   selectRefillContentFlag,
   selectRemoveLandingPageFlag,
 } from '../util/selectors';
@@ -34,7 +25,6 @@ import { dataDogActionNames } from '../util/dataDogConstants';
 
 const LandingPage = () => {
   const user = useSelector(selectUser);
-  const dispatch = useDispatch();
   const location = useLocation();
   const fullState = useSelector(state => state);
   const paginatedPrescriptionsList = useSelector(
@@ -45,9 +35,6 @@ const LandingPage = () => {
   );
   const prescriptionsApiError = useSelector(
     state => state.rx.prescriptions?.apiError,
-  );
-  const selectedSortOption = useSelector(
-    state => state.rx.prescriptions?.selectedSortOption,
   );
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
@@ -61,14 +48,11 @@ const LandingPage = () => {
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
-  const showFilterContent = useSelector(selectFilterFlag);
-  const showGroupingFlag = useSelector(selectGroupingFlag);
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
 
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
   const [isRxRenewAccordionOpen, setIsRxRenewAccordionOpen] = useState(false);
-  const [isPrescriptionsLoading, setIsPrescriptionsLoading] = useState(false);
   const medicationsUrl = fullState.user.login.currentlyLoggedIn
     ? medicationsUrls.subdirectories.BASE
     : medicationsUrls.MEDICATIONS_LOGIN;
@@ -86,8 +70,7 @@ const LandingPage = () => {
       updatePageTitle('About medications | Veterans Affairs');
       if (
         location.hash.includes('accordion-renew-rx') &&
-        !featureTogglesLoading &&
-        !isPrescriptionsLoading
+        !featureTogglesLoading
       ) {
         setIsRxRenewAccordionOpen(true);
         focusElement(manageMedicationsHeader.current);
@@ -96,47 +79,7 @@ const LandingPage = () => {
         }
       }
     },
-    [location.hash, featureTogglesLoading, appEnabled, isPrescriptionsLoading],
-  );
-
-  useEffect(
-    () => {
-      if (!showFilterContent && !paginatedPrescriptionsList) {
-        setIsPrescriptionsLoading(true);
-        dispatch(
-          getPrescriptionsPaginatedSortedList(
-            1,
-            rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-            showGroupingFlag ? 10 : 20,
-          ),
-        )
-          .then(() => setIsPrescriptionsLoading(false))
-          .catch(() => setIsPrescriptionsLoading(false));
-      }
-    },
-    [dispatch, paginatedPrescriptionsList],
-  );
-
-  useEffect(
-    () => {
-      if (showFilterContent && !filteredList) {
-        setIsPrescriptionsLoading(true);
-        const sortOption = selectedSortOption ?? defaultSelectedSortOption;
-        const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
-        dispatch(
-          getPaginatedFilteredList(
-            1,
-            filterOptions.ALL_MEDICATIONS.url,
-            sortEndpoint,
-            showGroupingFlag ? 10 : 20,
-          ),
-        )
-          .then(() => setIsPrescriptionsLoading(false))
-          .catch(() => setIsPrescriptionsLoading(false));
-      }
-    },
-    // disabled warning: filteredList must be left of out dependency array to avoid infinite loop, and filterOption to avoid on change api fetch
-    [dispatch, showFilterContent],
+    [location.hash, featureTogglesLoading, appEnabled],
   );
 
   const content = () => {
@@ -671,7 +614,7 @@ const LandingPage = () => {
     );
   };
 
-  if (featureTogglesLoading || isPrescriptionsLoading) {
+  if (featureTogglesLoading) {
     return (
       <div className="vads-l-grid-container">
         <va-loading-indicator
@@ -692,7 +635,7 @@ const LandingPage = () => {
   }
 
   if (removeLandingPage) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
 
   return (

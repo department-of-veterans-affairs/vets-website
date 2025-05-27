@@ -24,7 +24,7 @@ export const CalculationInstructions = () => {
           <li>
             Provide all approved programs as listed on your most recent WEAMS
             22-1998 Report. All programs must be listed, and calculations
-            provided, even if the program has a Supported Student or Total
+            provided, even if the program has a supported student or Total
             Enrollment of “0”.
           </li>
           <li>
@@ -40,7 +40,7 @@ export const CalculationInstructions = () => {
           </li>
           <li>
             For students taking more than one program, or concentration/track,
-            which requires its own 85/15% calculation, they must be counted for
+            which requires its own 85/15 calculation, they must be counted for
             each program in which they are enrolled. A student is counted as a
             full-time or part-time student under each approved program,
             concentration or track based on the student’s overall rate of
@@ -54,11 +54,9 @@ export const CalculationInstructions = () => {
         <h2 className="vads-u-margin-top--2  vads-u-margin-bottom--2">
           Total number of students enrolled in the program
         </h2>
-        <ul className="vads-u-margin-left--2 list-style  vads-u-margin-bottom--2">
-          <li>
-            Enter the total number of students who are enrolled in the program.
-          </li>
-        </ul>
+        <p className="vads-u-margin-bottom--2">
+          Enter the total number of students who are enrolled in the program.
+        </p>
       </div>
       <div className="bottom-border">
         <h2 className="vads-u-margin-top--2">
@@ -72,11 +70,11 @@ export const CalculationInstructions = () => {
         </p>
         <p>
           <strong>Note:</strong> If the student is receiving multiple types of
-          aid and any of it is Supported, the student must be counted as a
-          Supported Student.
+          aid and any of it is supported, the student must be counted as a
+          supported student.
         </p>
         <p>
-          A student must be considered a "Supported Student" when any of the
+          A student must be considered a "supported student" when any of the
           following conditions are met:
         </p>
         <ul className="vads-u-margin-left--2 list-style">
@@ -106,8 +104,8 @@ export const CalculationInstructions = () => {
         </ul>
         <p>
           <strong>Note:</strong> If the student is receiving multiple types of
-          aid and any of it is Supported, the student must be counted as a
-          Supported Student.
+          aid and any of it is supported, the student must be counted as a
+          supported student.
         </p>
       </div>
       <div className="bottom-border">
@@ -116,7 +114,7 @@ export const CalculationInstructions = () => {
         </h2>
         <ul className="vads-u-margin-left--2 list-style">
           <li>
-            Provide the number of Supported Students for identified approved
+            Provide the number of supported students for identified approved
             program.
           </li>
           <li>
@@ -133,8 +131,8 @@ export const CalculationInstructions = () => {
         </ul>
         <p>
           <strong>Note:</strong> If the student is receiving multiple types of
-          aid and any of it is Supported, the student must be counted as a
-          Supported Student.
+          aid and any of it is supported, the student must be counted as a
+          supported student.
         </p>
       </div>
       <div className="bottom-border">
@@ -143,7 +141,7 @@ export const CalculationInstructions = () => {
         </h2>
         <ul className="vads-u-margin-left--2 list-style">
           <li>
-            Provide the number of Non-Supported Students for identified approved
+            Provide the number of non-supported students for identified approved
             program.
           </li>
           <li>
@@ -160,17 +158,17 @@ export const CalculationInstructions = () => {
         </ul>
         <p>
           <strong>Note:</strong> If the student is receiving multiple types of
-          aid and any of it is Supported, the student must be counted as a
-          Supported Student.
+          aid and any of it is supported, the student must be counted as a
+          supported student.
         </p>
         <p>
-          A student must be considered a "Non-Supported Student" when any of the
+          A student must be considered a "non-supported student" when any of the
           following conditions are met:
         </p>
         <ul className="vads-u-margin-left--2 list-style">
           <li>
-            The Student is not using Gl Bill benefits under Title 10 or Title 38
-            (chapters 30, 31, 33, 35, 36, 1606); <strong> AND</strong>
+            The student is not using GI Bill&reg; benefits under Title 10 or
+            Title 38 (chapters 30, 31, 33, 35, 36, 1606); <strong> AND</strong>
           </li>
           <li>
             The student is not using institutional aid (Note: Institutional aid
@@ -233,8 +231,8 @@ export const CalculationInstructions = () => {
           Total enrollment FTE - Calculated for you
         </h2>
         <p>
-          The result of students provided in the Number of Supported Students
-          FTE added to the Number of NonSupported Students FTE.
+          The result of students provided in the Number of supported students
+          FTE added to the Number of Nonsupported students FTE.
         </p>
       </div>
       <div>
@@ -242,7 +240,7 @@ export const CalculationInstructions = () => {
           Supported student percentage FTE - Calculated for you
         </h2>
         <p>
-          The result of students provided in the Number of Supported Students
+          The result of students provided in the Number of supported students
           FTE (Column 5D), divided by the Total Enrolled FTE.
         </p>
       </div>

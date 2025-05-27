@@ -10,6 +10,7 @@ import {
   FORCE_NEEDED,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
+  CSP_IDS,
 } from 'platform/user/authentication/constants';
 import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
 // import { useDatadogRum } from 'platform/user/authentication/hooks/useDatadogRum';
@@ -51,7 +52,7 @@ export default function AuthApp({ location }) {
     store => store?.featureToggles?.loading,
   );
   const isInterstitialEnabled = useSelector(
-    store => store?.featureToggles?.mhvInterstitialEnabled,
+    store => store?.featureToggles?.dslogonInterstitialRedirect,
   );
 
   const handleAuthError = (error, codeOverride) => {
@@ -75,7 +76,7 @@ export default function AuthApp({ location }) {
   };
 
   const redirect = () => {
-    if (isInterstitialEnabled && ['mhv', 'myhealthevet'].includes(loginType)) {
+    if (isInterstitialEnabled && CSP_IDS.DS_LOGON === loginType) {
       window.location.replace('/sign-in-changes-reminder');
       return;
     }

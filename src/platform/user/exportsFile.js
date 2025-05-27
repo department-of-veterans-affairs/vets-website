@@ -54,7 +54,6 @@ export {
 export {
   default as DowntimeBanners,
 } from './authentication/components/DowntimeBanner';
-export { default as IDMeSVG } from './authentication/components/IDMeSVG';
 export {
   default as LoginActions,
 } from './authentication/components/LoginActions';
@@ -66,9 +65,6 @@ export {
   logoSrc,
   default as LoginContainer,
 } from './authentication/components/LoginContainer';
-export {
-  default as LoginGovSVG,
-} from './authentication/components/LoginGovSVG';
 export {
   default as LoginHeader,
 } from './authentication/components/LoginHeader';
@@ -108,16 +104,12 @@ export {
   CSP_IDS,
   AUTHN_SETTINGS,
   EXTERNAL_APPS,
-  EBENEFITS_DEFAULT_PATH,
   eAuthURL,
   EXTERNAL_REDIRECTS,
   GA,
   IDME_TYPES,
   POLICY_TYPES,
   SIGNUP_TYPES,
-  MHV_TRANSITION_DATE,
-  MHV_TRANSITION_TIME,
-  ACCOUNT_TRANSITION_DISMISSED,
   LINK_TYPES,
   AUTH_PARAMS,
 } from './authentication/constants';
@@ -156,18 +148,10 @@ export {
 
 /* authorization */
 export {
-  default as AcceptTermsPrompt,
-} from './authorization/components/AcceptTermsPrompt';
-export {
   default as RequiredLoginView,
   RequiredLoginLoader,
 } from './authorization/components/RequiredLoginView';
 export { default as VerifyAlert } from './authorization/components/VerifyAlert';
-// TO DO: resolve missing nested import
-// export { MHVApp } from './authorization/containers/MHVApp';
-// export {
-//   RequiredTermsAcceptanceView,
-// } from './authorization/containers/RequiredTermsAcceptanceView';
 
 /* profile */
 

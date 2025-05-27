@@ -12,11 +12,13 @@ import {
   getLocations,
   getLocationsByTypeOfCareAndSiteIds,
 } from '.';
-import { createMockFacility } from '../../tests/mocks/data';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockFacilitiesApi,
-  mockSchedulingConfigurations,
+  mockSchedulingConfigurationsApi,
 } from '../../tests/mocks/mockApis';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import ccProviders from '../mocks/v2/cc_providers.json';
@@ -106,27 +108,32 @@ describe('VAOS Services: Location ', () => {
       mockFacilitiesApi({
         children: true,
         response: [
-          createMockFacility({
-            id: '983',
-            name: 'Cheyenne VA Medical Center',
+          new MockFacilityResponse(),
+          new MockFacilityResponse({ id: '984' }),
+        ],
+      });
+      mockSchedulingConfigurationsApi({
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+                directEnabled: true,
+              }),
+            ],
           }),
-          createMockFacility({
-            id: '984',
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+              }),
+            ],
           }),
         ],
       });
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-        }),
-      ]);
 
       data = await getLocationsByTypeOfCareAndSiteIds({
         typeOfCareId: '323',

@@ -270,15 +270,11 @@ jobs:
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
+      tests_ran: ${{ steps.run-tests.outputs.tests_ran }}
 
     env:
       DISALLOWED_TESTS: ${{ needs.tests-prep.outputs.disallowed-tests }}
 
-    strategy:
-      fail-fast: false
-      max-parallel: 72
-      matrix:
-        ci_node_index: [0,1,2,3,4,5,6,7,8,9]
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -338,34 +334,35 @@ jobs:
           output-type: 'folder'
 
       - name: Run unit tests
-        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+        id: run-tests
+        run: |
+          # if [[ -n "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
+          #   yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+          #   echo "tests_ran=true" >> $GITHUB_OUTPUT
+          # else
+          #   echo "No tests to run"
+          #   echo "tests_ran=false" >> $GITHUB_OUTPUT
+          # fi
+          yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+          echo "tests_ran=true" >> $GITHUB_OUTPUT
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
-          STEP: ${{ matrix.ci_node_index }}
           IS_STRESS_TEST: false
-          NUM_CONTAINERS: 10
       
       - name: Archive unit test results
-        if: ${{ always() && env.NO_APPS_TO_RUN == 'false' }}
+        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: unit-test-report-${{ matrix.ci_node_index }}
+          name: unit-test-report
           path: mocha/results
 
-      - name: Rename Coverage Summary file
-        if: ${{ env.NO_APPS_TO_RUN == 'false' }}
-        run: |
-          cd coverage
-          mv coverage-summary.json coverage-summary-${{ matrix.ci_node_index }}.json
-        
       - name: Upload Coverage Report Artifact
+        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
         uses: ./.github/workflows/upload-artifact
-        if: ${{ always() && env.NO_APPS_TO_RUN == 'false' }}
         with:
-          name: unit-test-coverage-${{ matrix.ci_node_index }}
-          # path: test-results/coverage_report-${{ matrix.ci_node_index }}.txt
+          name: unit-test-coverage
           path: coverage
 
   unit-tests-stress-test:
@@ -1016,7 +1013,7 @@ jobs:
     name: Testing Reports - Unit Tests
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
-    if: ${{ always() && !cancelled() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure')}}
+    if: needs.unit-tests.outputs.tests_ran == 'true'
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -1097,11 +1094,11 @@ jobs:
         run: mkdir -p qa-standards-dashboard-data/coverage
 
       - name: Download Unit Test Mochawesome test results
+        if: needs.unit-tests.outputs.tests_ran == 'true'
         uses: ./.github/workflows/download-artifact
         with:
-          pattern: unit-test-report-*
+          name: unit-test-report
           path: qa-standards-dashboard-data/src/testing-reports/data
-          merge-multiple: true
       
       - name: Archive unit test coverage
         if: ${{ always() }}
@@ -1139,7 +1136,7 @@ jobs:
           name: Unit Tests Summary
           conclusion: ${{ needs.unit-tests.result }}
           output: |
-            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+            {"summary": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{}' }}}
 
 
 
@@ -1231,6 +1228,12 @@ jobs:
       # -------------------------
       # | Unit Tests Summary |
       # -------------------------
+      - name: Download Unit Test Mochawesome test results
+        uses: ./.github/workflows/download-artifact
+        with:
+          pattern: unit-test-stress-test-results-*
+          path: qa-standards-dashboard-data/src/testing-reports/data
+          merge-multiple: true
 
       - name: Publish Unit Test Stability Review Results
         if: ${{ always() }}
@@ -1240,16 +1243,17 @@ jobs:
           name: Unit Test Stability Review Summary
           conclusion: ${{ needs.unit-tests-stress-test.result }}
           output: |
-            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+            {"summary": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{"total": 0, "passed": 0, "failed": 0, "pending": 0}' }}}
 
   testing-reports-unit-tests-coverage:
     name: Testing Reports - Unit Tests Coverage
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
-    if: ${{ always() && !cancelled() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
+    if: needs.unit-tests.outputs.tests_ran == 'true'
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+    
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -1263,9 +1267,6 @@ jobs:
           path: |
             .cache/yarn
             node_modules
-      # ------------------------
-      # | Upload BigQuery Data |
-      # ------------------------
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -1273,7 +1274,6 @@ jobs:
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
-          
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1305,29 +1305,22 @@ jobs:
           role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role_duration: 900
           session_name: vsp-frontendteam-githubaction
-          
-
-      # --------------------------------------
+   # --------------------------------------
       # | Publish Unit Test Coverage Report       |
       # -------------------------------------
       - name: Download Unit Test coverage results
         uses: ./.github/workflows/download-artifact
         with:
-          pattern: unit-test-coverage-*
+          name: unit-test-coverage
           path: qa-standards-dashboard-data/coverage
-          merge-multiple: true
-
-      - name: Merge all coverage reports
-        run: |
-          node script/github-actions/merge-unit-test-coverage.js $(find qa-standards-dashboard-data/coverage -name '*.json')
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
 
-      - name: Copy merged coverage file to data directory
+      - name: Copy coverage file to data directory
         run: |
           mkdir -p qa-standards-dashboard-data/src/testing-reports/data
-          cp qa-standards-dashboard-data/coverage/test-coverage-report.json qa-standards-dashboard-data/src/testing-reports/data
+          cp qa-standards-dashboard-data/coverage/coverage-summary.json qa-standards-dashboard-data/src/testing-reports/data
       
       - name: Archive coverage txt
         if: ${{ always() }}
@@ -1343,16 +1336,16 @@ jobs:
       - name: Upload coverage report to S3
         if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
         run: |
-          if [ -f qa-standards-dashboard-data/coverage/test-coverage-report.json ]; then
-            aws s3 cp qa-standards-dashboard-data/coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+          if [ -f qa-standards-dashboard-data/coverage/coverage-summary.json ]; then
+            aws s3 cp qa-standards-dashboard-data/coverage/coverage-summary.json s3://vetsgov-website-builds-s3-upload-test/coverage/coverage-summary.json --acl public-read --region us-gov-west-1
           else
             echo 'No coverage report exists as no tests were run.'
           fi
-      
+                
       # -------------------------
       # | Unit Tests Summary |
       # -------------------------
-
+        
       - name: Get code coverage
         if: ${{ always() }}
         id: code-coverage
@@ -1993,3 +1986,93 @@ jobs:
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  stress-tests:
+    name: Stress Tests
+    needs: [fetch-allow-lists, tests-prep]
+    timeout-minutes: 30
+    runs-on: ubuntu-16-cores-22.04
+    outputs:
+      tests_ran: ${{ steps.run-tests.outputs.tests_ran }}
+
+    env:
+      TESTS_TO_STRESS_TEST: ${{ needs.tests-prep.outputs.tests-to-stress-test }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch Unit Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
+      
+      - name: Check for newly added disallowed tests
+        run: node script/github-actions/double-check-allow-list.js
+        env:
+          TEST_TYPE: unit_test
+          TESTS: ${{ env.TESTS_TO_STRESS_TEST }}
+          TESTS_PROPERTY: 'TESTS_TO_STRESS_TEST'
+          
+      - name: Create test results folder
+        run: mkdir -p test-results
+
+      - name: Run stress tests
+        id: run-tests
+        run: |
+          if [[ -n "${{ env.TESTS_TO_STRESS_TEST }}" ]]; then
+            yarn test:unit:gha ${{ env.TESTS_TO_STRESS_TEST }} --coverage --log-level verbose
+            echo "tests_ran=true" >> $GITHUB_OUTPUT
+          else
+            echo "No tests to run"
+            echo "tests_ran=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          MOCHA_FILE: test-results/stress-tests.xml
+          IS_STRESS_TEST: true
+      
+      - name: Archive stress test results
+        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-stress-test-results-${{ matrix.ci_node_index }}
+          path: mocha/results
+
+      - name: Upload Coverage Report Artifact
+        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: stress-test-coverage
+          path: coverage

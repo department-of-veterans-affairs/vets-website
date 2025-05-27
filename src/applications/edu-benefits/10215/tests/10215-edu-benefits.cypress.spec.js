@@ -36,12 +36,14 @@ const testConfig = createTestConfig(
         afterHook,
       }) => {
         afterHook(() => {
-          const termStartDate = daysAgoYyyyMmDd(15);
+          const termStartDate = daysAgoYyyyMmDd(10);
           const dateOfCalculations = daysAgoYyyyMmDd(10);
           cy.fillVaTextInput(
             'root_institutionDetails_facilityCode',
             '15012020',
           );
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(200);
           cy.fillVaMemorableDate(
             'root_institutionDetails_termStartDate',
             termStartDate,

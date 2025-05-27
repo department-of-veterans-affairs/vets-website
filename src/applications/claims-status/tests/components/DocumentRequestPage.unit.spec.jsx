@@ -46,11 +46,16 @@ const defaultProps = {
 };
 
 describe('<DocumentRequestPage>', () => {
-  const getStore = (cst5103UpdateEnabled = true) =>
+  const getStore = (
+    cst5103UpdateEnabled = true,
+    cstFriendlyEvidenceRequests = true,
+  ) =>
     createStore(() => ({
       featureToggles: {
         // eslint-disable-next-line camelcase
         cst_5103_update_enabled: cst5103UpdateEnabled,
+        // eslint-disable-next-line camelcase
+        cst_friendly_evidence_requests: cstFriendlyEvidenceRequests,
       },
       disability: {
         status: {
@@ -81,7 +86,7 @@ describe('<DocumentRequestPage>', () => {
       };
 
       const { container } = renderWithRouter(
-        <Provider store={getStore()}>
+        <Provider store={getStore(true, false)}>
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
@@ -115,7 +120,7 @@ describe('<DocumentRequestPage>', () => {
       };
 
       const { container } = renderWithRouter(
-        <Provider store={getStore()}>
+        <Provider store={getStore(true, false)}>
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
@@ -144,7 +149,7 @@ describe('<DocumentRequestPage>', () => {
       expect(document.title).to.equal('Document Request | Veterans Affairs');
     });
 
-    it('when component mounts should scroll to breadcrumbs', async () => {
+    it('when component mounts should scroll to h1', async () => {
       const trackedItem = {
         status: 'NEEDED_FROM_YOU',
         displayName: 'Testing',
@@ -169,7 +174,7 @@ describe('<DocumentRequestPage>', () => {
       );
 
       await waitFor(() => {
-        expect(document.activeElement).to.equal($('va-breadcrumbs', container));
+        expect(document.activeElement).to.equal($('h1', container));
       });
     });
 
@@ -329,7 +334,7 @@ describe('<DocumentRequestPage>', () => {
       };
 
       const { context } = renderWithRouter(
-        <Provider store={getStore(false)}>
+        <Provider store={getStore(false, false)}>
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
@@ -358,7 +363,7 @@ describe('<DocumentRequestPage>', () => {
       };
       const onSubmit = sinon.spy();
       const { container, rerender } = renderWithRouter(
-        <Provider store={getStore(false)}>
+        <Provider store={getStore(false, false)}>
           <DocumentRequestPage
             {...defaultProps}
             trackedItem={trackedItem}
@@ -382,7 +387,7 @@ describe('<DocumentRequestPage>', () => {
 
       rerenderWithRouter(
         rerender,
-        <Provider store={getStore(false)}>
+        <Provider store={getStore(false, false)}>
           <DocumentRequestPage
             {...defaultProps}
             trackedItem={trackedItem}
@@ -405,7 +410,7 @@ describe('<DocumentRequestPage>', () => {
         displayName: 'Testing',
       };
       const { container, rerender } = renderWithRouter(
-        <Provider store={getStore(false)}>
+        <Provider store={getStore(false, false)}>
           <DocumentRequestPage
             {...defaultProps}
             trackedItem={trackedItem}
@@ -430,7 +435,7 @@ describe('<DocumentRequestPage>', () => {
 
       rerenderWithRouter(
         rerender,
-        <Provider store={getStore(false)}>
+        <Provider store={getStore(false, false)}>
           <DocumentRequestPage
             {...defaultProps}
             trackedItem={trackedItem}
@@ -511,4 +516,79 @@ describe('<DocumentRequestPage>', () => {
       expect(navigate.calledWith('../files')).to.be.true;
     });
   });
+  context(
+    'when cstFriendlyEvidenceRequests is true and friendlyName exists in track Item',
+    () => {
+      it('should render friendlyName in  breadcrumb', () => {
+        const item = {
+          closedDate: null,
+          description: '21-4142 text',
+          displayName: '21-4142/21-4142a',
+          friendlyName: 'Authorization to Disclose Information',
+          activityDescription: 'good description',
+          canUploadFile: true,
+          supportAliases: ['VA Form 21-4142'],
+          id: 467558,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-07',
+          status: 'NEEDED_FROM_YOU',
+          suspenseDate: '2024-05-07',
+          uploadsAllowed: true,
+          documents: [],
+          date: '2024-03-07',
+        };
+
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <DocumentRequestPage {...defaultProps} trackedItem={item} />,
+          </Provider>,
+        );
+        const breadcrumbs = $('va-breadcrumbs', container);
+        expect(breadcrumbs.breadcrumbList[3].href).to.equal(
+          `../needed-from-you/${item.id}`,
+        );
+        expect(breadcrumbs.breadcrumbList[3].label).to.equal(
+          'Authorization to Disclose Information',
+        );
+        expect(document.title).to.equal(
+          'Authorization to Disclose Information | Veterans Affairs',
+        );
+      });
+      it('should render Your {friendlyName} in breadcrumb for third party request', () => {
+        const item = {
+          closedDate: null,
+          description: 'reserve record',
+          displayName: 'RV1 - Reserve Records Request',
+          friendlyName: 'Reserve records',
+          activityDescription: 'good description',
+          canUploadFile: true,
+          supportAliases: ['RV1 - Reserve Records Request'],
+          id: 467558,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-07',
+          status: 'NEEDED_FROM_OTHERS',
+          suspenseDate: '2024-05-07',
+          uploadsAllowed: true,
+          documents: [],
+          date: '2024-03-07',
+        };
+
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <DocumentRequestPage {...defaultProps} trackedItem={item} />,
+          </Provider>,
+        );
+        const breadcrumbs = $('va-breadcrumbs', container);
+        expect(breadcrumbs.breadcrumbList[3].href).to.equal(
+          `../needed-from-others/${item.id}`,
+        );
+        expect(breadcrumbs.breadcrumbList[3].label).to.equal(
+          'Your reserve records',
+        );
+        expect(document.title).to.equal('Reserve records | Veterans Affairs');
+      });
+    },
+  );
 });

@@ -3,7 +3,7 @@ import { captureError } from '@@vap-svc/util/analytics';
 import { getData } from '~/platform/user/profile/utilities';
 
 import { API_STATUS } from '../constants';
-import { recordApiEvent } from '../util';
+import { DirectDepositClient } from '../util/direct-deposit';
 
 // action types for direct deposit information
 
@@ -32,21 +32,20 @@ export const DIRECT_DEPOSIT_API_ENDPOINT = '/profile/direct_deposits';
 
 export const fetchDirectDepositArgs = {
   captureError,
-  recordApiEvent,
   getData,
 };
 
+const client = new DirectDepositClient();
 // action creator to fetch direct deposit information
 export function fetchDirectDeposit({
   captureError: captureDirectDepositError,
-  recordApiEvent: recordDirectDepositEvent,
 } = fetchDirectDepositArgs) {
   return async dispatch => {
     dispatch({ type: DIRECT_DEPOSIT_FETCH_STARTED });
     dispatch({ type: DIRECT_DEPOSIT_LOAD_ERROR_CLEARED });
     dispatch({ type: DIRECT_DEPOSIT_SAVE_ERROR_CLEARED });
 
-    recordDirectDepositEvent({
+    client.recordDirectDepositEvent({
       endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
       status: API_STATUS.STARTED,
     });
@@ -54,7 +53,7 @@ export function fetchDirectDeposit({
     const response = await getData(DIRECT_DEPOSIT_API_ENDPOINT);
 
     if (response.error || response.errors || response instanceof Error) {
-      recordDirectDepositEvent({
+      client.recordDirectDepositEvent({
         endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
         status: API_STATUS.FAILED,
       });
@@ -68,9 +67,12 @@ export function fetchDirectDeposit({
         response,
       });
     } else {
-      recordDirectDepositEvent({
+      client.recordDirectDepositEvent({
         endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
         status: API_STATUS.SUCCESSFUL,
+        extraProperties: {
+          veteranStatus: response?.veteranStatus || 'status-unknown',
+        },
       });
 
       dispatch({
@@ -86,16 +88,16 @@ export function saveDirectDeposit(
   data,
   {
     captureError: captureDirectDepositError,
-    recordApiEvent: recordDirectDepositEvent,
     getData: getDataDirectDeposit,
   } = fetchDirectDepositArgs,
 ) {
   return async dispatch => {
     dispatch({ type: DIRECT_DEPOSIT_SAVE_STARTED });
 
-    recordDirectDepositEvent({
+    client.recordDirectDepositEvent({
       endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
       status: API_STATUS.STARTED,
+      method: 'PUT',
     });
 
     const response = await getDataDirectDeposit(DIRECT_DEPOSIT_API_ENDPOINT, {
@@ -119,7 +121,7 @@ export function saveDirectDeposit(
         },
       };
 
-      recordDirectDepositEvent(event);
+      client.recordDirectDepositEvent(event);
 
       captureDirectDepositError(response.message, {
         eventName: 'put-direct-deposit-failed',
@@ -148,7 +150,7 @@ export function saveDirectDeposit(
         },
       };
 
-      recordDirectDepositEvent(event);
+      client.recordDirectDepositEvent(event);
 
       captureDirectDepositError(response, {
         eventName: 'put-direct-deposit-failed',
@@ -163,9 +165,10 @@ export function saveDirectDeposit(
     }
 
     //  record the successful ga event and dispatch the success action
-    recordDirectDepositEvent({
+    client.recordDirectDepositEvent({
       endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
       status: API_STATUS.SUCCESSFUL,
+      method: 'PUT',
     });
 
     dispatch({ type: DIRECT_DEPOSIT_SAVE_ERROR_CLEARED });
