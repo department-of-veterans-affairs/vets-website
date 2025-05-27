@@ -95,7 +95,7 @@ describe('VAOS Page: TypeOfFacilityPage', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/request-date',
+        'community-request/',
       ),
     );
 
@@ -106,9 +106,7 @@ describe('VAOS Page: TypeOfFacilityPage', () => {
     fireEvent.click(screen.getByText(/Continue/));
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/request-date',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('location'),
     );
   });
 

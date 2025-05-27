@@ -1,0 +1,47 @@
+flow:
+  title: Housing assistance and home loans (auth)
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value: start-your-question-auth
+          
+    - action: include
+      target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
+      value: select-category-housing-assistance-and-home-loans
+
+    - action: include
+      target: page
+      value: select-topic-appraisals
+
+    - action: include
+      target: page
+      value: who-is-your-question-about-myself
+
+    - action: include
+      target: page
+      value: what-is-your-relationship-to-the-veteran-veteran
+
+    - action: include
+      target: page
+      value: your-state-of-property
+
+    - action: include
+      target: page
+      value: your-contact-information-radio-buttons-phone-call
+
+    - action: include
+      target: page
+      value: your-question
+
+    - action: include
+      target: page
+      value: editing-answers
+
+    - action: include
+      target: page
+      value: your-confirmation-number

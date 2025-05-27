@@ -1,7 +1,7 @@
 import Scroll from 'react-scroll';
-
 import { focusElement } from './focus';
 import { ERROR_ELEMENTS } from '../constants';
+import { getPageYPosition } from '../scroll';
 
 const { scroller } = Scroll;
 
@@ -58,48 +58,76 @@ export function scrollToTop(position = 0, options = getScrollOptions()) {
  * @param {scrollToFirstErrorOptions} options
  */
 export function scrollToFirstError({ focusOnAlertRole = false } = {}) {
-  setTimeout(() => {
-    // [error] will focus any web-components with an error message
-    const errorEl = document.querySelector(ERROR_ELEMENTS.join(','));
-    if (errorEl) {
-      // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
-      const currentPosition =
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop ||
-        0;
-      const position = errorEl.getBoundingClientRect().top + currentPosition;
-      // Don't animate the scrolling if there is an open modal on the page. This
-      // prevents the page behind the modal from scrolling if there is an error in
-      // modal's form.
+  return new Promise(resolve => {
+    const selectors = ERROR_ELEMENTS.join(',');
+    const timeout = 500;
+    const observerConfig = { childList: true, subtree: true };
+    const rootEl = document.querySelector('#react-root') || document.body;
+    let fallbackTimer;
+    let observer;
 
-      // We have to search the shadow root of web components that have a slotted va-modal
+    const runCleanup = el => {
+      // eslint-disable-next-line no-console
+      if (!el) console.warn('scrollToFirstError: Error element not found', el);
+      clearTimeout(fallbackTimer);
+      observer?.disconnect();
+      resolve();
+    };
+
+    const attemptScrollAndFocus = el => {
+      // check for any modals that would interfere with scrolling
       const isShadowRootModalOpen = Array.from(
         document.querySelectorAll('va-omb-info'),
-      ).some(ombInfo =>
-        ombInfo.shadowRoot?.querySelector(
-          'va-modal[visible]:not([visible="false"])',
-        ),
+      ).some(({ shadowRoot }) =>
+        shadowRoot?.querySelector('va-modal[visible]:not([visible="false"])'),
       );
-
       const isModalOpen =
         document.body.classList.contains('modal-open') ||
         document.querySelector('va-modal[visible]:not([visible="false"])') ||
         isShadowRootModalOpen;
 
+      // prevent page scroll if there is an open modal, as the error could
+      // be within the modal itself
       if (!isModalOpen) {
+        const position = el.getBoundingClientRect().top + getPageYPosition();
         Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
 
-        if (focusOnAlertRole && errorEl.tagName.startsWith('VA-')) {
-          focusElement('[role="alert"]', {}, errorEl.shadowRoot);
+        if (focusOnAlertRole && el.tagName.startsWith('VA-')) {
+          focusElement('[role="alert"]', {}, el.shadowRoot);
         } else {
-          focusElement(errorEl);
+          focusElement(el);
         }
       }
-    } else {
-      // eslint-disable-next-line no-console
-      console.error('scrollToFirstError: No error found');
-    }
+
+      runCleanup(true);
+    };
+
+    const queryForErrors = () => {
+      const el = document.querySelector(selectors);
+      if (el) attemptScrollAndFocus(el);
+    };
+
+    // use MutationObserver to only watch `addedNodes` for the selectors
+    observer = new MutationObserver(mutations => {
+      for (const { addedNodes } of mutations) {
+        for (const node of Array.from(addedNodes)) {
+          if (
+            node.nodeType === Node.ELEMENT_NODE &&
+            (node.matches?.(selectors) || node.querySelector?.(selectors))
+          ) {
+            queryForErrors();
+            return;
+          }
+        }
+      }
+    });
+    if (rootEl) observer.observe(rootEl, observerConfig);
+
+    // don't let the observer run forever
+    fallbackTimer = setTimeout(() => runCleanup(false), timeout);
+
+    // run an initial check for any existing elements
+    queryForErrors();
   });
 }
 

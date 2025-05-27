@@ -1,10 +1,10 @@
 // @ts-check
 import { addDays, addMinutes, addMonths, format, subMinutes } from 'date-fns';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../../utils/constants';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import MockUser from '../../fixtures/MockUser';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockUser from '../../../fixtures/MockUser';
 import AppointmentDetailPageObject from '../../page-objects/AppointmentList/AppointmentDetailPageObject';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import {
@@ -233,10 +233,9 @@ describe('VAOS upcoming appointment flow', () => {
     it('should alow veteran to cancel appointment', () => {
       // Arrange
       const response = new MockAppointmentResponse({
-        cancellable: true,
         localStartTime: new Date(),
         future: true,
-      });
+      }).setCancellable(true);
 
       const canceledAppt = {
         ...response,
@@ -343,7 +342,6 @@ describe('VAOS upcoming appointment flow', () => {
       for (let i = 1; i <= 4; i += 1) {
         const appt = new MockAppointmentResponse({
           id: i,
-          cancellable: false,
           localStartTime: i <= 2 ? today : tomorrow,
           status: APPOINTMENT_STATUS.booked,
           future: true,
@@ -387,7 +385,6 @@ describe('VAOS upcoming appointment flow', () => {
       for (let i = 1; i <= 2; i += 1) {
         const appt = new MockAppointmentResponse({
           id: i,
-          cancellable: false,
           localStartTime: today,
           status: APPOINTMENT_STATUS.booked,
           future: true,
@@ -423,7 +420,6 @@ describe('VAOS upcoming appointment flow', () => {
       for (let i = 1; i <= 2; i += 1) {
         const appt = new MockAppointmentResponse({
           id: i,
-          cancellable: false,
           localStartTime: today,
           status: APPOINTMENT_STATUS.booked,
           future: true,
@@ -434,7 +430,6 @@ describe('VAOS upcoming appointment flow', () => {
       const nextMonth = addMonths(new Date(), 1);
       const appt = new MockAppointmentResponse({
         id: '3',
-        cancellable: false,
         localStartTime: nextMonth,
         status: APPOINTMENT_STATUS.booked,
         future: true,
@@ -713,7 +708,7 @@ describe('VAOS upcoming appointment flow', () => {
         localStartTime: addMinutes(new Date(), 30),
         future: true,
       });
-      response[0].setUrl();
+      response[0].setDisplayLink(true).setUrl();
 
       mockAppointmentsGetApi({
         response,

@@ -1,28 +1,37 @@
-import React from 'react';
-import MockDate from 'mockdate';
-import { expect } from 'chai';
-import moment from 'moment';
 import userEvent from '@testing-library/user-event';
+import { expect } from 'chai';
+import MockDate from 'mockdate';
+import React from 'react';
 
-import { waitFor, within } from '@testing-library/dom';
-import { Route } from 'react-router-dom';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { waitFor, within } from '@testing-library/dom';
+import {
+  addDays,
+  addMonths,
+  format,
+  isMonday,
+  nextMonday,
+  setDate,
+} from 'date-fns';
+import { Route } from 'react-router-dom';
 import DateTimeRequestPage from '.';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
+import {
+  mockFacilitiesApi,
+  mockSchedulingConfigurationsApi,
+} from '../../../tests/mocks/mockApis';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setCommunityCareFlow,
 } from '../../../tests/mocks/setup';
-import { mockSchedulingConfigurations } from '../../../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
-import { createMockFacility } from '../../../tests/mocks/data';
-import { mockFacilitiesFetch } from '../../../tests/mocks/fetch';
+import { FETCH_STATUS } from '../../../utils/constants';
 
 async function chooseMorningRequestSlot(screen) {
-  const currentMonth = moment()
-    .add(5, 'days')
-    .format('MMMM');
+  const currentMonth = format(addDays(new Date(), 5), 'MMMM');
 
   userEvent.click(
     screen
@@ -40,7 +49,7 @@ async function chooseMorningRequestSlot(screen) {
 describe('VAOS Page: DateTimeRequestPage', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(moment('2020-01-26T14:00:00'));
+    MockDate.set(new Date('2020-01-26T14:00:00'));
   });
   afterEach(() => {
     MockDate.reset();
@@ -74,9 +83,7 @@ describe('VAOS Page: DateTimeRequestPage', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: moment()
-          .add(5, 'days')
-          .format('MMMM YYYY'),
+        name: format(addDays(new Date(), 5), 'MMMM yyyy'),
       }),
     ).to.be.ok;
 
@@ -92,9 +99,7 @@ describe('VAOS Page: DateTimeRequestPage', () => {
     ]);
 
     // Find all available appointments for the current month
-    let currentMonth = moment()
-      .add(5, 'days')
-      .format('MMMM');
+    let currentMonth = format(addDays(new Date(), 5), 'MMMM');
 
     let buttons = screen
       .getAllByLabelText(new RegExp(currentMonth))
@@ -105,13 +110,9 @@ describe('VAOS Page: DateTimeRequestPage', () => {
     if (!buttons.length) {
       userEvent.click(screen.getByText('Next'));
       await screen.findByRole('heading', {
-        name: moment()
-          .add(1, 'month')
-          .format('MMMM YYYY'),
+        name: format(addMonths(1, 'month'), 'MMMM yyyy'),
       });
-      currentMonth = moment()
-        .add(1, 'month')
-        .format('MMMM');
+      currentMonth = format(addMonths(1, 'month'), 'MMMM');
 
       buttons = screen
         .getAllByLabelText(new RegExp(currentMonth))
@@ -126,12 +127,7 @@ describe('VAOS Page: DateTimeRequestPage', () => {
     mondayInMonth = mondayInMonth.queryAllByRole('button')[0].textContent;
 
     // Verify the first button in the second week is actually a Monday
-    expect(
-      moment()
-        .add(5, 'days')
-        .date(mondayInMonth)
-        .day(),
-    ).to.equal(1);
+    expect(isMonday(setDate(new Date(), mondayInMonth))).to.be.true;
 
     // it should allow the user to select morning for currently selected date
     userEvent.click(buttons[0]);
@@ -207,9 +203,7 @@ describe('VAOS Page: DateTimeRequestPage', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: moment()
-          .add(1, 'M')
-          .format('MMMM YYYY'),
+        name: format(addMonths(new Date(), 1), 'MMMM yyyy'),
       }),
     ).to.be.ok;
 
@@ -218,7 +212,7 @@ describe('VAOS Page: DateTimeRequestPage', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: moment().format('MMMM YYYY'),
+        name: format(new Date(), 'MMMM yyyy'),
       }),
     ).to.be.ok;
   });
@@ -242,23 +236,19 @@ describe('VAOS Page: DateTimeRequestPage', () => {
     );
 
     // Find all available appointments for the current month
-    const currentMonth = moment()
-      .add(5, 'days')
-      .format('MMMM');
+    const currentMonth = format(addDays(new Date(), 5), 'MMMM');
     let buttons = screen
       .getAllByLabelText(new RegExp(currentMonth))
       .filter(button => button.disabled === false);
 
     if (buttons.length < 4) {
       userEvent.click(screen.getByText(/^Next/));
-      const nextMonth = moment()
-        .add(5, 'days')
-        .add(1, 'month');
+      const nextMonth = addMonths(addDays(new Date(), 5), 1);
       await screen.findByRole('heading', {
-        name: nextMonth.format('MMMM YYYY'),
+        name: format(nextMonth, 'MMMM yyyy'),
       });
       buttons = screen
-        .getAllByLabelText(new RegExp(nextMonth.format('MMMM')))
+        .getAllByLabelText(new RegExp(format(nextMonth, 'MMMM')))
         .filter(button => button.disabled === false);
     }
 
@@ -323,23 +313,19 @@ describe('VAOS Page: DateTimeRequestPage', () => {
     );
 
     // Find all available appointments for the current month
-    const currentMonth = moment()
-      .add(5, 'days')
-      .format('MMMM');
+    const currentMonth = format(addDays(new Date(), 5), 'MMMM');
     let buttons = screen
       .getAllByLabelText(new RegExp(currentMonth))
       .filter(button => button.disabled === false);
 
     if (buttons.length < 2) {
       userEvent.click(screen.getByText(/^Next/));
-      const nextMonth = moment()
-        .add(5, 'days')
-        .add(1, 'month');
+      const nextMonth = addMonths(addDays(new Date(), 5), 1);
       await screen.findByRole('heading', {
-        name: nextMonth.format('MMMM YYYY'),
+        name: format(nextMonth, 'MMMM yyyy'),
       });
       buttons = screen
-        .getAllByLabelText(new RegExp(nextMonth.format('MMMM')))
+        .getAllByLabelText(new RegExp(format(nextMonth, 'MMMM')))
         .filter(button => button.disabled === false);
     }
 
@@ -442,11 +428,9 @@ describe('VAOS Page: DateTimeRequestPage', () => {
       },
     );
 
-    const datePastMax = moment()
-      .add(121, 'days')
-      // first monday after the max
-      .day(8);
-    const endMonth = datePastMax.format('MMMM YYYY');
+    // first monday after the max
+    const datePastMax = nextMonday(addDays(new Date(), 121));
+    const endMonth = format(datePastMax, 'MMMM yyyy');
     let monthHeader = screen.queryByText(endMonth);
     await screen.findByText(/next/i);
     // Doing the normal byText query doesn't grab the button element
@@ -464,7 +448,7 @@ describe('VAOS Page: DateTimeRequestPage', () => {
     if (monthHeader) {
       // if the max date is within a month we can get to, then make sure the
       // date is disabled
-      const dateButton = screen.queryByText(datePastMax.format('D'));
+      const dateButton = screen.queryByText(format(datePastMax, 'd'));
       expect(dateButton.disabled).to.be.true;
     } else {
       // if the max date is in a month we can't get to, make sure next button is disabled
@@ -474,33 +458,36 @@ describe('VAOS Page: DateTimeRequestPage', () => {
 
   describe('community care iterations flag is turned on', () => {
     beforeEach(() => {
-      mockFacilitiesFetch({
+      mockFacilitiesApi({
         children: true,
         ids: ['983', '984'],
-        facilities: [
-          createMockFacility({
-            id: '983',
+        response: MockFacilityResponse.createResponses({
+          facilityIds: ['983', '984'],
+        }),
+      });
+      mockSchedulingConfigurationsApi({
+        isCCEnabled: true,
+        response: [
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+              }),
+            ],
           }),
-          createMockFacility({
-            id: '984',
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+              }),
+            ],
           }),
         ],
       });
-      mockSchedulingConfigurations(
-        [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-          }),
-        ],
-        true,
-      );
     });
     it('should continue to closest city page', async () => {
       // Given the user has two or more supported parent sites
@@ -531,9 +518,7 @@ describe('VAOS Page: DateTimeRequestPage', () => {
 
       // Then they're sent to the closest city selection page
       await waitFor(() => {
-        expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/new-appointment/choose-closest-city',
-        );
+        expect(screen.history.push.lastCall.args[0]).to.equal('closest-city');
       });
     });
 
@@ -567,7 +552,7 @@ describe('VAOS Page: DateTimeRequestPage', () => {
       // Then they're sent to the preferences page
       await waitFor(() => {
         expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/new-appointment/community-care-preferences',
+          'preferred-provider',
         );
       });
     });

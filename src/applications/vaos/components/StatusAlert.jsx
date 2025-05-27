@@ -104,19 +104,34 @@ export default function StatusAlert({ appointment, facility }) {
 
   if (canceled) {
     const who = canceler.get(appointment?.cancelationReason) || 'Facility';
+    let message;
+    let displayScheduleLink = false;
+    if (appointment.type === 'COMMUNITY_CARE_APPOINTMENT') {
+      message = `${who} canceled this appointment. If you still want this appointment, call your community care provider to schedule.`;
+    } else if (appointment.vaos.isCompAndPenAppointment) {
+      message = `${who} canceled this appointment. If you still want this appointment, call your VA health facility’s compensation and pension office to schedule.`;
+    } else if (appointment.vaos.isPendingAppointment) {
+      message = `${who} canceled this request. If you still want this appointment, call your VA health facility or submit another request online.`;
+      displayScheduleLink = true;
+    } else {
+      message = `${who} canceled this appointment. If you still want this appointment, call your VA health facility to schedule.`;
+    }
     return (
       <>
         <InfoAlert status="error" backgroundOnly>
-          {who} canceled this appointment. If you want to reschedule, call us or
-          schedule a new appointment online.
-          <br />
-          <br />
-          <va-link
-            text="Schedule a new appointment"
-            data-testid="schedule-appointment-link"
-            onClick={handleClick(dispatch)}
-            href={`${root.url}${typeOfCare.url}`}
-          />
+          {message}
+          {displayScheduleLink && (
+            <>
+              <br />
+              <br />
+              <va-link
+                text="Request a new appointment"
+                data-testid="schedule-appointment-link"
+                onClick={handleClick(dispatch)}
+                href={`${root.url}${typeOfCare.url}`}
+              />
+            </>
+          )}
         </InfoAlert>
       </>
     );
@@ -156,10 +171,12 @@ export default function StatusAlert({ appointment, facility }) {
 StatusAlert.propTypes = {
   appointment: PropTypes.shape({
     status: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     cancelationReason: PropTypes.string,
     created: PropTypes.string,
     avsPath: PropTypes.string,
     vaos: PropTypes.shape({
+      isCompAndPenAppointment: PropTypes.bool.isRequired,
       isPastAppointment: PropTypes.bool.isRequired,
       isPendingAppointment: PropTypes.bool.isRequired,
     }),

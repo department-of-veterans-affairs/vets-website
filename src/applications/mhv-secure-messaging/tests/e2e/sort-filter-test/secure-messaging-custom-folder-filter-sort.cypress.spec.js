@@ -3,11 +3,15 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 import PatientFilterPage from '../pages/PatientFilterPage';
-import customSearchResponse from '../fixtures/customResponse/custom-search-response.json';
-import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
+import mockThreadsResponse from '../fixtures/threads-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('SM CUSTOM FOLDER FILTER-SORT CHECKS', () => {
+  const filterData = 'test';
+  const filteredResponse = PatientFilterPage.filterMockResponse(
+    mockThreadsResponse,
+    filterData,
+  );
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -16,16 +20,16 @@ describe('SM CUSTOM FOLDER FILTER-SORT CHECKS', () => {
   });
 
   it('verify filter works correctly', () => {
-    PatientFilterPage.inputFilterData('test');
-    PatientFilterPage.clickApplyFilterButton(customSearchResponse);
-    PatientFilterPage.verifyFilterResults('test', customSearchResponse);
+    PatientFilterPage.inputFilterData(filterData);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
+    PatientFilterPage.verifyFilterResults(filterData, filteredResponse);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify clear filter btn works correctly', () => {
     PatientFilterPage.inputFilterData('any');
-    PatientFilterPage.clickApplyFilterButton(customSearchResponse);
+    PatientFilterPage.clickApplyFilterButton(filteredResponse);
     PatientFilterPage.clickClearFilterButton();
     PatientFilterPage.verifyFilterFieldCleared();
 
@@ -34,11 +38,23 @@ describe('SM CUSTOM FOLDER FILTER-SORT CHECKS', () => {
 
   it('check sorting works properly', () => {
     const sortedResponse = PatientFilterPage.sortMessagesThread(
-      mockSingleThreadResponse,
+      mockThreadsResponse,
     );
 
     PatientFilterPage.verifySorting(sortedResponse);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify filter with no matches', () => {
+    const noMatchResponse = PatientFilterPage.filterMockResponse(
+      mockThreadsResponse,
+      'no match',
+    );
+
+    PatientFilterPage.inputFilterData('no match');
+    PatientFilterPage.clickApplyFilterButton(noMatchResponse);
+
+    PatientFilterPage.verifyNoMatchFilterFocusAndText();
   });
 });

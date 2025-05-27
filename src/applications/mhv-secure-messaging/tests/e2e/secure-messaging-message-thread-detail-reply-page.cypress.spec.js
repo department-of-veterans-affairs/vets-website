@@ -26,7 +26,6 @@ describe('SM REPLY MESSAGE DETAILS', () => {
     PatientMessageDraftsPage.verifySendDraftBtn();
     PatientMessageDraftsPage.verifySaveDraftBtn();
     PatientMessageDraftsPage.verifyDeleteDraftBtn();
-
     PatientMessageDetailsPage.verifyExpandedMessageDate(threadResponse);
     PatientMessageDetailsPage.verifyExpandedMessageId(threadResponse);
     PatientMessageDetailsPage.verifyExpandedMessageTo(threadResponse);

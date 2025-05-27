@@ -2,11 +2,11 @@
 import { addDays } from 'date-fns';
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import { PRIMARY_CARE } from '../../../../utils/constants';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import MockSlotResponse from '../../fixtures/MockSlotResponse';
-import MockUser from '../../fixtures/MockUser';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockSlotResponse from '../../../fixtures/MockSlotResponse';
+import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';

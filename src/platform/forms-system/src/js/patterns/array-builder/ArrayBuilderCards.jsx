@@ -127,6 +127,9 @@ const ArrayBuilderCards = ({
       (_, index) => index !== currentIndex,
     );
     const newData = set(arrayPath, arrayWithRemovedItem, formData);
+    if (!required(newData) && !arrayWithRemovedItem?.length) {
+      delete newData[arrayPath];
+    }
     setFormData(newData);
     hideRemoveConfirmationModal({
       focusRemoveButton: false,

@@ -3,21 +3,10 @@ import PropTypes from 'prop-types';
 
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaTextInputFieldMapping from './vaTextInputFieldMapping';
+import { parseNumber } from '../web-component-patterns/numberPattern';
 
-export function coerceStringValue(possibleString) {
-  return typeof possibleString !== 'string'
-    ? possibleString.toString()
-    : possibleString;
-}
-
-export function parseCurrencyString(currencyString = '') {
-  const stringValue = coerceStringValue(currencyString);
-  const value = parseFloat(stringValue.replace(/[^\d.-]/g, ''));
-  if (isNaN(value)) {
-    return undefined;
-  }
-  return Math.round(value * 100) / 100;
-}
+export const CURRENCY_REGEXP = /^[0-9,]*(\.\d*)?$/;
+export const CURRENCY_PATTERN = '^\\d*(\\.\\d{1,2})?$'; // for schemas
 
 /**
  * Use a currencyPattern instead of this.
@@ -32,32 +21,55 @@ export default function CurrencyField(fieldProps) {
   const { uiOptions } = fieldProps;
   const schemaType = fieldProps.childrenProps?.schema.type || 'number';
 
-  const [val, setVal] = useState(parseCurrencyString(props.value));
   const [displayVal, setDisplayVal] = useState(props.value);
   const className = `${props.class || ''} currency-field`;
 
-  const handleChange = event => {
+  const handleInput = event => {
     const { value } = event.target;
-    const parsedValue = parseCurrencyString(value);
-    setVal(parsedValue);
     setDisplayVal(value);
-    const dataValue = schemaType === 'number' ? parsedValue : value;
 
     // Not using props.onInput because in the vaTextInputFieldMapping onInput
     // callback, it uses `value || event.target.value;` and sets the value to
     // undefined. I found that if you enter "--" in the input, the input will
     // highlight like there's an error, but no error message will show.
     // Returning null will show the error message
-    props.onChange(typeof parsedValue === 'undefined' ? null : dataValue);
+    if (value === '' || typeof value === 'undefined') {
+      props.onChange();
+      // Needs to look like a currency
+    } else if (!CURRENCY_REGEXP.test(value)) {
+      props.onChange(value);
+    } else {
+      // Needs to parse as a number
+      const parsedValue = parseNumber(value);
+      if (!isNaN(parsedValue)) {
+        setDisplayVal(value);
+        props.onChange(schemaType === 'number' ? parsedValue : value);
+      } else {
+        props.onChange(value);
+      }
+    }
   };
 
-  const handleBlur = () => {
-    setDisplayVal(val);
+  const handleBlur = event => {
+    const { value } = event.target;
+    setDisplayVal(value);
     props.onBlur(props.name);
+    // Needs to parse as a number
+    const parsedValue = parseNumber(value);
+    if (!isNaN(parsedValue)) {
+      const roundedValue = Math.round(parsedValue * 100) / 100;
+      const roundedString = roundedValue.toFixed(2);
+      setDisplayVal(roundedString);
+      props.onChange(schemaType === 'number' ? roundedValue : roundedString);
+    } else {
+      props.onChange(value);
+    }
   };
 
   const handleFocus = () => {
-    setDisplayVal(val);
+    setDisplayVal(
+      typeof props.value === 'number' ? props.value.toFixed(2) : props.value,
+    );
   };
 
   // Not using currency property because inside the web component, it switches
@@ -74,7 +86,7 @@ export default function CurrencyField(fieldProps) {
       class={className}
       value={displayVal}
       showInputError
-      onInput={handleChange}
+      onInput={handleInput}
       onBlur={handleBlur}
       onFocus={handleFocus}
     />

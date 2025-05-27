@@ -5,7 +5,9 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons, {
+  FormNavButtonContinue,
+} from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 
 import { ADDITIONAL_FILES_HINT } from '../../constants';
@@ -66,10 +68,6 @@ function generateOptions({ data, pagePerItemIndex }) {
       }hild (including adopted children or step children)`,
       value: 'child',
     },
-    {
-      label: 'Other relationship',
-      value: 'other',
-    },
   ];
 
   return {
@@ -103,7 +101,7 @@ export function ApplicantRelationshipReviewPage(props) {
   return data ? (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5 dd-privacy-hidden">
           {props.title(currentListItem)}
         </h4>
         <VaButton
@@ -116,8 +114,8 @@ export function ApplicantRelationshipReviewPage(props) {
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt>{description}</dt>
-          <dd>
+          <dt className="dd-privacy-hidden">{description}</dt>
+          <dd className="dd-privacy-hidden">
             {options.map(
               opt =>
                 opt.value === currentListItem?.[keyname]?.[primary]
@@ -132,13 +130,17 @@ export function ApplicantRelationshipReviewPage(props) {
             <dt>
               {customOtherDescription || (
                 <>
-                  Since {useFirstPerson ? 'your' : `${applicant}’s `}{' '}
-                  relationship with the {personTitle} was not listed, please
-                  describe it here
+                  Since{' '}
+                  <span className="dd-privacy-hidden">
+                    {useFirstPerson ? 'your' : `${applicant}’s `}
+                  </span>{' '}
+                  relationship with the{' '}
+                  <span className="dd-privacy-hidden">{personTitle}</span> was
+                  not listed, please describe it here
                 </>
               )}
             </dt>
-            <dd>{other}</dd>
+            <dd className="dd-privacy-hidden">{other}</dd>
           </div>
         ) : null}
       </dl>
@@ -147,7 +149,9 @@ export function ApplicantRelationshipReviewPage(props) {
 }
 
 export default function ApplicantRelationshipPage({
+  contentAfterButtons,
   data,
+  fullData,
   genOp,
   setFormData,
   goBack,
@@ -159,17 +163,26 @@ export default function ApplicantRelationshipPage({
   updatePage,
   onReviewPage,
 }) {
+  // fulldata is present in array builder pages:
+  const fullOrItemData = fullData ?? data;
   const relationshipStructure = {
     [primary]: undefined,
     [secondary]: undefined,
   };
   const [checkValue, setCheckValue] = useState(
-    data?.applicants?.[pagePerItemIndex]?.[keyname] || relationshipStructure,
+    fullOrItemData?.applicants?.[pagePerItemIndex]?.[keyname] ||
+      relationshipStructure,
   );
   const [checkError, setCheckError] = useState(undefined);
   const [inputError, setInputError] = useState(undefined);
   const [dirty, setDirty] = useState(false);
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const useTopBackLink =
+    contentAfterButtons?.props?.formConfig?.useTopBackLink ?? false;
+  const navButtons = useTopBackLink ? (
+    <FormNavButtonContinue submitToContinue />
+  ) : (
+    <FormNavButtons goBack={goBack} submitToContinue />
+  );
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
   const genOps = genOp || generateOptions;
@@ -184,7 +197,7 @@ export default function ApplicantRelationshipPage({
     description,
     customOtherDescription,
   } = genOps({
-    data,
+    data: fullOrItemData,
     pagePerItemIndex,
   });
 
@@ -235,11 +248,11 @@ export default function ApplicantRelationshipPage({
     onGoForward: event => {
       event.preventDefault();
       if (!handlers.validate()) return;
-      const testVal = { ...data };
+      const testVal = { ...fullOrItemData };
       testVal.applicants[pagePerItemIndex][keyname] = checkValue;
       setFormData(testVal);
       if (onReviewPage) updatePage();
-      goForward(data);
+      goForward({ formData: data });
     },
   };
 
@@ -252,18 +265,20 @@ export default function ApplicantRelationshipPage({
   );
   return (
     <>
-      {
-        titleUI(
-          customTitle ||
-            `${
-              useFirstPerson ? `Your` : `${applicant}’s`
-            } relationship to the ${personTitle}`,
-        )['ui:title']
-      }
+      <span className="dd-privacy-hidden">
+        {
+          titleUI(
+            customTitle ||
+              `${
+                useFirstPerson ? `Your` : `${applicant}’s`
+              } relationship to the ${personTitle}`,
+          )['ui:title']
+        }
+      </span>
 
       <form onSubmit={handlers.onGoForward}>
         <VaRadio
-          class="vads-u-margin-y--2"
+          class="vads-u-margin-y--2 dd-privacy-hidden"
           label={
             description ||
             `What ${data.sponsorIsDeceased ? 'was' : 'is'} ${
@@ -331,7 +346,9 @@ ApplicantRelationshipReviewPage.propTypes = {
 };
 
 ApplicantRelationshipPage.propTypes = {
+  contentAfterButtons: PropTypes.object,
   data: PropTypes.object,
+  fullData: PropTypes.object,
   genOp: PropTypes.func,
   goBack: PropTypes.func,
   goForward: PropTypes.func,

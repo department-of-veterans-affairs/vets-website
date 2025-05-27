@@ -382,7 +382,7 @@ export const keyboardTestPage = (page, data) => {
 export const startForm = () => {
   cy.url().should('include', '/introduction');
 
-  cy.tabToElement('.schemaform-start-button');
+  cy.tabToElement('.schemaform-start-button, .vads-c-action-link--green');
   cy.realPress('Enter');
 };
 

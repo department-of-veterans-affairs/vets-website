@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 import { threadsReducer } from '../../reducers/threads';
 import inboxThreadResponse from '../fixtures/mock-api-responses/inbox-threads-response.json';
 import inboxNoThreadsResponse from '../fixtures/mock-api-responses/inbox-no-threads-response.json';
+import { Actions } from '../../util/actionTypes';
 
 import {
   clearListOfThreads,
@@ -86,6 +87,21 @@ describe('threads reducer', () => {
         folderId: undefined,
         page: 1,
       },
+    });
+  });
+
+  it('should handle ERROR_LOADING_LIST action', () => {
+    const store = mockStore();
+    const errorResponse = { errors: [{ title: 'Some error', code: 500 }] };
+    store.dispatch({
+      type: Actions.Thread.ERROR_LOADING_LIST,
+      response: { ...errorResponse },
+    });
+    expect(store.getState()).to.deep.equal({
+      threadList: undefined,
+      isLoading: false,
+      hasError: true,
+      error: errorResponse.errors,
     });
   });
 });

@@ -53,7 +53,7 @@ export const filterOptions = {
     name: 'filter option',
     description: 'Active prescriptions and non-VA medications',
     url:
-      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On hold,Active: Parked,Active: Submitted',
+      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On Hold,Active: Parked,Active: Submitted',
     showingContentDisplayName: ' active',
   },
   [RECENTLY_REQUESTED_FILTER_KEY]: {

@@ -19,7 +19,6 @@ import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectRegisteredCernerFacilityIds,
-  selectFeatureVAOSServiceVAAppointments,
   selectFeatureRemovePodiatry,
   selectFeatureDirectScheduleAppointmentConflict,
 } from '../../redux/selectors';
@@ -392,9 +391,6 @@ export function selectReviewPage(state) {
 export function selectTypeOfCarePage(state) {
   const newAppointment = getNewAppointment(state);
   const address = selectVAPResidentialAddress(state);
-  const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-    state,
-  );
 
   return {
     ...address,
@@ -406,7 +402,6 @@ export function selectTypeOfCarePage(state) {
     removePodiatry: selectFeatureRemovePodiatry(state),
     showPodiatryApptUnavailableModal:
       newAppointment.showPodiatryAppointmentUnavailableModal,
-    useV2: featureVAOSServiceVAAppointments,
   };
 }
 

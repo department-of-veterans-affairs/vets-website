@@ -6,6 +6,7 @@ import LandingPage from './containers/LandingPage';
 import POARequestSearchPage from './containers/POARequestSearchPage';
 import POARequestIndividualSearchPage from './containers/POARequestIndividualSearchPage';
 import POARequestDetailsPage from './containers/POARequestDetailsPage';
+import SubmissionsPage from './containers/SubmissionsPage';
 import SignedInLayout from './containers/SignedInLayout';
 import ErrorBoundary from './components/ErrorBoundary';
 import GetHelpPage from './containers/GetHelpPage';
@@ -68,7 +69,7 @@ const routes = [
           {
             path: 'poa-requests',
             element: (
-              <POARequestSearchPage title="Power of attorney requests | Veterans Affairs" />
+              <POARequestSearchPage title="Representation requests | Veterans Affairs" />
             ),
             loader: POARequestSearchPage.loader,
           },
@@ -94,6 +95,13 @@ const routes = [
             element: (
               <GetHelpPage title="Get help using the portal | Veterans Affairs" />
             ),
+          },
+          {
+            path: 'submissions',
+            element: (
+              <SubmissionsPage title="Form Submissions | Veterans Affairs" />
+            ),
+            loader: SubmissionsPage.loader,
           },
         ],
       }),

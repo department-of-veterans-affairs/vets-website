@@ -1,36 +1,35 @@
-import React from 'react';
-import moment from 'moment';
-import { expect } from 'chai';
-import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
+import { expect } from 'chai';
+import React from 'react';
 
 import {
-  setFetchJSONFailure,
   mockFetch,
+  setFetchJSONFailure,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
+import { addMinutes, format } from 'date-fns';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
 
-import ReviewPage from './ReviewPage';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import { mockAppointmentSubmitApi } from '../../tests/mocks/mockApis';
 import { onCalendarChange } from '../redux/actions';
-import { mockAppointmentSubmit } from '../../tests/mocks/helpers';
+import ReviewPage from './ReviewPage';
+import { DATE_FORMATS } from '../../utils/constants';
 
 describe('VAOS vaccine flow: ReviewPage', () => {
   let store;
   let start;
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingVAOSServiceVAAppointments: true,
-    },
-  };
+  const initialState = {};
 
   beforeEach(() => {
     mockFetch();
-    start = moment();
+
+    start = new Date();
     store = createTestStore({
       ...initialState,
       covid19Vaccine: {
@@ -59,12 +58,10 @@ describe('VAOS vaccine flow: ReviewPage', () => {
           ],
           availableSlots: [
             {
-              start: start.format(),
+              start: format(start, DATE_FORMATS.ISODateTime),
+
               id: 'test',
-              end: start
-                .clone()
-                .add(30, 'minutes')
-                .format(),
+              end: format(addMinutes(start, 30), DATE_FORMATS.ISODateTime),
             },
           ],
           clinics: {
@@ -80,7 +77,7 @@ describe('VAOS vaccine flow: ReviewPage', () => {
         },
       },
     });
-    store.dispatch(onCalendarChange([start.format()]));
+    store.dispatch(onCalendarChange([format(start, DATE_FORMATS.ISODateTime)]));
   });
 
   it('should submit successfully', async () => {
@@ -89,11 +86,8 @@ describe('VAOS vaccine flow: ReviewPage', () => {
       store,
     });
     await screen.findByText(/COVID-19 vaccine/i);
-    mockAppointmentSubmit({
-      id: 'fake_id',
-      attributes: {
-        reasonCode: {},
-      },
+    mockAppointmentSubmitApi({
+      response: new MockAppointmentResponse({ id: 1 }),
     });
     expect(screen.baseElement).to.contain.text(
       'Make sure the information is correct. Then confirm your appointment.',
@@ -104,7 +98,7 @@ describe('VAOS vaccine flow: ReviewPage', () => {
     userEvent.click(screen.getByText(/Confirm appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-appointment/confirmation',
+        '/1?confirmMsg=true',
       );
     });
 
@@ -144,7 +138,7 @@ describe('VAOS vaccine flow: ReviewPage', () => {
     expect(descHeading).to.have.tagName('h2');
 
     expect(dateHeading).to.contain.text(
-      start.format('dddd, MMMM D, YYYY [at] h:mm a'),
+      format(start, "EEEE, MMMM d, yyyy 'at' h:mm aaaa"),
     );
     expect(dateHeading).to.have.tagName('h3');
 

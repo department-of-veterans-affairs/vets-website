@@ -24,6 +24,7 @@ import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import FeaturesWarning from '../components/FeaturesWarning';
 import NoClaims from '../components/NoClaims';
 import StemClaimListItem from '../components/StemClaimListItem';
+import TravelClaimsSection from '../components/TravelClaimsSection';
 
 import { ITEMS_PER_PAGE } from '../constants';
 
@@ -148,7 +149,7 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
-      return <ClaimsUnavailable />;
+      return <ClaimsUnavailable headerLevel={3} />;
     }
 
     if (
@@ -250,7 +251,6 @@ class YourClaimsPageV2 extends React.Component {
             </div>
             {content}
             <ClaimLetterSection />
-            <FeaturesWarning />
             <h2 id="what-if-i-dont-see-my-appeal">
               What if I can't find my claim, decision review, or appeal?
             </h2>
@@ -259,6 +259,8 @@ class YourClaimsPageV2 extends React.Component {
               Review or Board appeal, we might still be processing it. Check
               back for updates.
             </p>
+            <TravelClaimsSection />
+            <FeaturesWarning />
             <NeedHelp />
           </div>
         </article>

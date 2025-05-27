@@ -1,19 +1,23 @@
-import React from 'react';
 import { expect } from 'chai';
-import moment from 'moment';
+import React from 'react';
 
+import { subDays } from 'date-fns';
+import { MockAppointment } from '../../tests/fixtures/MockAppointment';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import MockFacility from '../../tests/fixtures/MockFacility';
+import MockVideo from '../../tests/fixtures/MockVideo';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../utils/constants';
 import VideoLayoutVA from './VideoLayoutVA';
-import { VIDEO_TYPES } from '../../utils/constants';
 
 describe('VAOS Component: VideoLayoutVA', () => {
   const initialState = {
     appointments: {
       facilityData: {
-        '983': {
+        983: {
           address: {
             line: ['2360 East Pershing Boulevard'],
             city: 'Cheyenne',
@@ -51,6 +55,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -105,6 +111,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
 
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -153,6 +161,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
       const appointment = {
         type: 'VA',
         modality: 'vaVideoCareAtAVaLocation',
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -267,6 +277,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
         location: {
           stationId: '983',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: '983',
@@ -304,6 +316,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           isVideo: true,
           facilityId: null,
@@ -351,6 +365,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
             clinicPhone: '500-500-5000',
             clinicPhoneExtension: '1234',
           },
+          minutesDuration: 60,
+          startUtc: new Date(),
           videoData: {
             isVideo: true,
             facilityId: '983',
@@ -543,6 +559,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
             clinicPhone: '500-500-5000',
             clinicPhoneExtension: '1234',
           },
+          minutesDuration: 60,
+          startUtc: new Date(),
           videoData: {
             isVideo: true,
             facilityId: '983',
@@ -866,7 +884,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
 
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility to schedule./i,
         ),
       );
       expect(
@@ -957,48 +975,18 @@ describe('VAOS Component: VideoLayoutVA', () => {
     it('should display VA video layout when in the past', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {
-          isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: true,
-          },
-          providers: [
-            {
-              name: {
-                firstName: ['TEST'],
-                lastName: 'PROV',
-              },
-              display: 'TEST PROV',
-            },
-          ],
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPastAppointment: true,
-          isPendingAppointment: false,
-          isUpcomingAppointment: false,
-          isVideo: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-        start: moment()
-          .subtract(2, 'day')
-          .format('YYYY-MM-DDTHH:mm:ss'),
-      };
+      const appointment = new MockAppointment({
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setApiData(
+          new MockAppointmentResponse({
+            localStartTime: subDays(new Date(), 2),
+          }),
+        )
+        .setIsPastAppointment(true)
+        .setLocation(new MockFacility())
+        .setPatientComments('Other details: Additional information:colon')
+        .setVideoData(new MockVideo());
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -1017,7 +1005,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
 
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility to schedule./i,
         ),
       );
       expect(

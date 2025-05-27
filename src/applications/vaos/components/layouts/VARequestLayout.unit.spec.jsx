@@ -258,10 +258,10 @@ describe('VAOS Component: VARequestLayout', () => {
       );
       expect(
         screen.container.querySelector(
-          'va-link[text="Schedule a new appointment"]',
+          'va-link[text="Request a new appointment"]',
         ),
       ).to.be.ok;
-      expect(screen.getByText(/Facility canceled this appointment/i));
+      expect(screen.getByText(/Facility canceled this request/i));
       expect(
         screen.getByRole('heading', {
           level: 2,

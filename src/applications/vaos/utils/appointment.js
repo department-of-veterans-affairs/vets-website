@@ -171,3 +171,47 @@ export function getDaysRemainingToFileClaim(appointmentStart) {
   }
   return days;
 }
+
+/**
+ * Function to format the drive time and distance into a readable string.
+ *
+ * @param {number|null} driveTimeInSeconds - The drive time in seconds.
+ * @param {number|null} driveTimeDistance - The distance in miles.
+ * @returns {string|null} - A formatted string representing the drive time and distance,
+ *                         or null if either input is falsy.
+ * @example
+ * // returns "5 hour and 15 minute drive (300 miles)"
+ * getDriveTimeString(18900, 300);
+ *
+ * // returns "45 minute drive (30 miles)"
+ * getDriveTimeString(2700, 30);
+ *
+ * // returns null
+ * getDriveTimeString(null, 30);
+ */
+export function getDriveTimeString(driveTimeInSeconds, driveTimeDistance) {
+  if (!driveTimeInSeconds || !driveTimeDistance) {
+    return null;
+  }
+
+  let driveTimeString = '';
+  if (driveTimeInSeconds >= 3600) {
+    const hours = Math.floor(driveTimeInSeconds / 3600);
+    const minutes = Math.floor((driveTimeInSeconds % 3600) / 60);
+
+    if (minutes > 0) {
+      driveTimeString = `${hours} hour and ${minutes} minute drive (${driveTimeDistance} miles)`;
+    } else {
+      driveTimeString = `${hours} hour${
+        hours > 1 ? 's' : ''
+      } drive (${driveTimeDistance} miles)`;
+    }
+  } else {
+    const minutes = Math.floor(driveTimeInSeconds / 60);
+    driveTimeString = `${minutes} minute${
+      minutes > 1 ? 's' : ''
+    } drive (${driveTimeDistance} miles)`;
+  }
+
+  return driveTimeString;
+}

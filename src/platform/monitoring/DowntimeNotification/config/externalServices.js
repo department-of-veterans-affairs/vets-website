@@ -59,6 +59,8 @@ export default {
   search: 'search',
   // The Image Management System (education forms)
   tims: 'tims',
+  // Travel Pay API
+  travelPay: 'travel_pay',
   // Online appointment scheduling
   vaos: 'vaos',
   // Online appointment scheduling warning message

@@ -44,8 +44,8 @@ const DisabilityRatingContent = ({ rating }) => {
           href="/disability/view-disability-rating/rating"
           aria-label={
             rating
-              ? `View your ${rating}% service connected disability rating`
-              : 'view your disability rating'
+              ? `${rating} percent service connected disability rating`
+              : 'Review your disability rating'
           }
           className="vads-u-color--white medium-screen:vads-u-margin-top--neg0p25 medium-screen:vads-u-margin-left--0 vads-u-margin-left--2"
           style={{ whiteSpace: 'nowrap' }}
@@ -53,7 +53,7 @@ const DisabilityRatingContent = ({ rating }) => {
           <strong>
             {rating
               ? `${rating}% service connected`
-              : 'View disability rating '}
+              : 'Review your disability rating'}
           </strong>
           <va-icon
             icon="chevron_right"
