@@ -5,6 +5,8 @@ import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
+const API_BASE_PATH_V2 = `${environment.API_URL}/my_health/v2`;
+
 const headers = {
   'Content-Type': 'application/json',
 };
@@ -66,6 +68,25 @@ export const getLabsAndTests = async () => {
   return apiRequest(`${apiBasePath}/medical_records/labs_and_tests`, {
     headers,
   });
+};
+export const getAcceleratedLabsAndTests = async timeFrame => {
+  const from = `from=${timeFrame}`;
+  const to = `&to=${timeFrame}`;
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/labs_and_tests?${from}${to}`,
+    {
+      headers,
+    },
+  );
+};
+
+export const getAcceleratedLabsAndTestsDetails = async id => {
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/labs_and_tests/${id}`,
+    {
+      headers,
+    },
+  );
 };
 
 export const getLabOrTest = id => {
