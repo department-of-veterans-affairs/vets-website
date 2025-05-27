@@ -91,8 +91,8 @@ const ProviderAddress = props => {
 
 ProviderAddress.propTypes = {
   address: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  phone: PropTypes.string.isRequired,
   directionsName: PropTypes.string,
+  phone: PropTypes.string,
   showDirections: PropTypes.bool,
 };
 
