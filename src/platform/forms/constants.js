@@ -88,6 +88,7 @@ export const VA_FORM_IDS = Object.freeze({
     'WELCOME_VA_SETUP_REVIEW_INFORMATION',
   FORM_XX_123: 'XX-123',
   FORM_10_10D_EXTENDED: '10-10D-EXTENDED',
+  FORM_21_0538: '21-0538',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -176,6 +177,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
     // [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900')}/`,
     [VA_FORM_IDS.FORM_10_10D_EXTENDED]: `${tryGetAppUrl('10-10D-EXTENDED')}/`,
+    [VA_FORM_IDS.FORM_21_0538]: `${tryGetAppUrl('21-0538')}/`,
   };
 };
 
@@ -608,6 +610,13 @@ export const MY_VA_SIP_FORMS = [
     title: '10-10d Extended',
     description: 'CHAMPVA application (includes 10-7959c)',
     trackingPrefix: '10-10d-extended-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_0538,
+    benefit: 'dependent-benefits',
+    title: '21-0538 Dependents verification',
+    description: 'dependent-benefits',
+    trackingPrefix: '0538-dependents-verification-',
   },
 ];
 
