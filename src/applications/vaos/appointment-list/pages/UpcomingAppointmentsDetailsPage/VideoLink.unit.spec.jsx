@@ -4,6 +4,7 @@ import { addMinutes, subMinutes } from 'date-fns';
 import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import React from 'react';
 import VideoLink from './VideoLink';
+import { DATE_FORMATS } from '../../../utils/constants';
 
 describe('VAOS Component: VideoLink', () => {
   it('renders join appoinment link', () => {
@@ -19,7 +20,7 @@ describe('VAOS Component: VideoLink', () => {
       start: formatInTimeZone(
         now,
         'America/Anchorage',
-        "yyyy-MM-dd'T'HH:mm:ss",
+        DATE_FORMATS.ISODateTime,
       ),
       videoData: {
         url: 'test.com',
@@ -44,7 +45,11 @@ describe('VAOS Component: VideoLink', () => {
         vistaId: '983',
         locationId: '983',
       },
-      start: formatInTimeZone(now, 'America/New_York', "yyyy-MM-dd'T'HH:mm:ss"),
+      start: formatInTimeZone(
+        now,
+        'America/New_York',
+        DATE_FORMATS.ISODateTime,
+      ),
       videoData: {
         url: 'test.com',
       },

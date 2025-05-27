@@ -19,6 +19,7 @@ import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentRespons
 import { mockAppointmentSubmitApi } from '../../tests/mocks/mockApis';
 import { onCalendarChange } from '../redux/actions';
 import ReviewPage from './ReviewPage';
+import { DATE_FORMATS } from '../../utils/constants';
 
 describe('VAOS vaccine flow: ReviewPage', () => {
   let store;
@@ -57,10 +58,10 @@ describe('VAOS vaccine flow: ReviewPage', () => {
           ],
           availableSlots: [
             {
-              start: format(start, "yyyy-MM-dd'T'HH:mm:ss"),
+              start: format(start, DATE_FORMATS.ISODateTime),
 
               id: 'test',
-              end: format(addMinutes(start, 30), "yyyy-MM-dd'T'HH:mm:ss"),
+              end: format(addMinutes(start, 30), DATE_FORMATS.ISODateTime),
             },
           ],
           clinics: {
@@ -76,7 +77,7 @@ describe('VAOS vaccine flow: ReviewPage', () => {
         },
       },
     });
-    store.dispatch(onCalendarChange([format(start, "yyyy-MM-dd'T'HH:mm:ss")]));
+    store.dispatch(onCalendarChange([format(start, DATE_FORMATS.ISODateTime)]));
   });
 
   it('should submit successfully', async () => {

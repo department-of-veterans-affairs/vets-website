@@ -40,7 +40,7 @@ import {
   mockAppointmentSlotApi,
   mockEligibilityFetches,
 } from '../../../tests/mocks/mockApis';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { DATE_FORMATS, FETCH_STATUS } from '../../../utils/constants';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
 
 const initialState = {
@@ -427,40 +427,40 @@ describe('VAOS Page: DateTimeSelectPage', () => {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
         {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
         {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
         {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
         {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
       ],
@@ -579,8 +579,8 @@ describe('VAOS Page: DateTimeSelectPage', () => {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
       ],
@@ -645,12 +645,12 @@ describe('VAOS Page: DateTimeSelectPage', () => {
             start: formatInTimeZone(
               slot308Date,
               'UTC',
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
+              DATE_FORMATS.ISODateTimeUTC,
             ),
             end: formatInTimeZone(
               slot308Date,
               'UTC',
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
+              DATE_FORMATS.ISODateTimeUTC,
             ),
           },
         },
@@ -661,12 +661,12 @@ describe('VAOS Page: DateTimeSelectPage', () => {
             start: formatInTimeZone(
               slot308TomorrowDate,
               'UTC',
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
+              DATE_FORMATS.ISODateTimeUTC,
             ),
             end: formatInTimeZone(
               slot308TomorrowDate,
               'UTC',
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
+              DATE_FORMATS.ISODateTimeUTC,
             ),
           },
         },
@@ -837,8 +837,8 @@ describe('VAOS Page: DateTimeSelectPage', () => {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
+            end: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
           },
         },
       ],

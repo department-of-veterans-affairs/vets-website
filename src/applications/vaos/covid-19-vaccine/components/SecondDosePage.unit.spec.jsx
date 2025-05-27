@@ -9,6 +9,7 @@ import {
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
 
+import { DATE_FORMATS } from '../../utils/constants';
 import SecondDosePage from './SecondDosePage';
 
 const initialState = {
@@ -27,12 +28,12 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
         data: {
           vaFacility: 'var983',
           clinicId: '455',
-          date1: [format(start, "yyyy-MM-dd'T'HH:mm:ss")],
+          date1: [format(start, DATE_FORMATS.ISODateTime)],
         },
         availableSlots: [
           {
-            start: format(start, "yyyy-MM-dd'T'HH:mm:ss"),
-            end: format(addMinutes(start, 30), "yyyy-MM-dd'T'HH:mm:ss"),
+            start: format(start, DATE_FORMATS.ISODateTime),
+            end: format(addMinutes(start, 30), DATE_FORMATS.ISODateTime),
           },
         ],
         clinics: {},

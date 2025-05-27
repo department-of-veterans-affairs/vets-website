@@ -113,7 +113,7 @@ describe('VAOS Page: PreferredDatePage', () => {
 
   it('should submit with valid data', async () => {
     const maxMonth = format(addDays(new Date(), 395), 'M');
-    const maxDay = format(addDays(new Date(), 395), 'dd').replace(/\b0/g, '');
+    const maxDay = format(addDays(new Date(), 395), 'd').replace(/\b0/g, '');
     const maxYear = format(addDays(new Date(), 395), 'yyyy');
 
     const store = createTestStore(initialState);

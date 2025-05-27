@@ -1,4 +1,4 @@
-import { endOfMonth, format } from 'date-fns';
+import { endOfMonth } from 'date-fns';
 import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
 import PageObject from './PageObject';
@@ -9,10 +9,7 @@ export class DateTimeSelectPageObject extends PageObject {
     const d = zonedTimeToUtc(date, timezone);
 
     cy.findByRole('radio', {
-      name: `${formatInTimeZone(d, timezone, 'h:mm')} ${format(
-        d,
-        'a..aa',
-      )} option selected`,
+      name: `${formatInTimeZone(d, timezone, 'h:mm a..aa')} option selected`,
     });
 
     return this;

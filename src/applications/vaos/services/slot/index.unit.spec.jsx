@@ -7,6 +7,7 @@ import {
 
 import { addDays, addMonths, format, formatISO, startOfDay } from 'date-fns';
 import { getSlots } from '.';
+import { DATE_FORMATS } from '../../utils/constants';
 
 describe('VAOS Services: Slot ', () => {
   describe('getSlots', () => {
@@ -22,8 +23,8 @@ describe('VAOS Services: Slot ', () => {
           id: '1',
           type: 'slots',
           attributes: {
-            start: format(startDate, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-            end: format(startDate, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(startDate, DATE_FORMATS.ISODateTimeUTC),
+            end: format(startDate, DATE_FORMATS.ISODateTimeUTC),
           },
         },
       ];
@@ -38,12 +39,13 @@ describe('VAOS Services: Slot ', () => {
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        `/vaos/v2/locations/983/clinics/308/slots?start=${formatISO(
+        `/vaos/v2/locations/983/clinics/308/slots?start=${format(
           startOfDay(startDate),
-        )}&end=${formatISO(startOfDay(endDate))}`,
+          DATE_FORMATS.ISODateTimeLocal,
+        )}&end=${format(startOfDay(endDate), DATE_FORMATS.ISODateTimeLocal)}`,
       );
       expect(data[0].start).to.equal(
-        format(startDate, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+        format(startDate, DATE_FORMATS.ISODateTimeUTC),
       );
     });
 
