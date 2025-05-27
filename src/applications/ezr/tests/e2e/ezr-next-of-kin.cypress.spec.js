@@ -41,7 +41,7 @@ describe('EZR TERA flow', () => {
       '/update-benefits-information-form-10-10ezr/veteran-information/next-of-kin/0/contact',
     );
 
-    const contact = testData.veteranContacts[0];
+    const contact = testData.nextOfKins[0];
     // ec 1 basic info
     cy.get(`[name="root_fullName_first"]`)
       .first()

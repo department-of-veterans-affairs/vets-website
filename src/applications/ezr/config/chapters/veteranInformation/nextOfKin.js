@@ -19,7 +19,7 @@ import { MAX_NEXT_OF_KINS } from '../../../utils/constants';
  * @type {ArrayBuilderOptions}
  */
 const arrayBuilderOptions = {
-  arrayPath: 'veteranContacts',
+  arrayPath: 'nextOfKins',
   nounSingular: 'next of kin',
   nounPlural: 'next of kins',
   required: false,

@@ -16,7 +16,7 @@ import {
 import content from '../locales/en/content.json';
 
 const {
-  veteranContacts: { items: contact },
+  nextOfKins: { items: contact },
 } = ezrSchema.properties;
 
 const {
