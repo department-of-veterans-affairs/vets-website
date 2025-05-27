@@ -242,14 +242,9 @@ if (!appFolders && !checkAllowlist) {
   core.exportVariable(
     'APPS_NOT_ISOLATED',
     JSON.stringify(
-      Object.keys(crossAppJson).filter(app => {
-        const appData = crossAppJson[app];
-
-        return (
-          appData.appsThatThisAppImportsFrom &&
-          Object.keys(appData.appsThatThisAppImportsFrom).length > 0
-        );
-      }),
+      Object.keys(crossAppJson).filter(app =>
+        appHasCrossAppImports(crossAppJson, app),
+      ),
     ),
   );
   console.log(`Cross app import report saved at: ${outputPath}`);
