@@ -30,6 +30,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
+    mhvMedicalRecordsMilestoneTwo = false,
 
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,
@@ -155,6 +156,10 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_medical_records_update_landing_page',
           value: mhvMedicalRecordsMarch17Updates,
         },
+        {
+          name: 'mhv_medical_records_milestone_two',
+          value: mhvMedicalRecordsMilestoneTwo,
+        },
 
         // secure messaging
         {
@@ -164,10 +169,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_recipient_opt_groups',
           value: mhvSecureMessagingRecipientOptGroups,
-        },
-        {
-          name: 'mhv_secure_messaging_remove_landing_page',
-          value: true,
         },
         {
           name: 'mhv_secure_messaging_recipient_combobox',

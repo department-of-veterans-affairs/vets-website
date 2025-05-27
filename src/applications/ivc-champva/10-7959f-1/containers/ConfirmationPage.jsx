@@ -38,9 +38,9 @@ export class ConfirmationPage extends React.Component {
         </VaAlert>
 
         <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
+          <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
             Your submission information
-          </h3>
+          </h2>
           {data.statementOfTruthSignature && (
             <p>
               <strong>Who submitted this form</strong>

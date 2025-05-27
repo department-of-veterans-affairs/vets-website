@@ -2,8 +2,9 @@ import {
   VaPagination,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 
 const EducationSearchItem = ({
   facilityData,
@@ -18,7 +19,7 @@ const EducationSearchItem = ({
   const onPageChange = async page => {
     await getData(`${pageURL}&page=${page}&per_page=10`);
   };
-
+  const alertRef = useRef(null);
   const handleChange = event => {
     const selectedValue = event.detail.value;
     setSelected(selectedValue);
@@ -41,10 +42,19 @@ const EducationSearchItem = ({
     return match ? parseInt(match[1], 10) : 1;
   };
 
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        focusElement(alertRef.current);
+      }
+    },
+    [alertRef, dataError],
+  );
+
   if (dataError.hasError) {
     return (
       <>
-        <p className="vads-u-margin-bottom--0">
+        <p ref={alertRef} className="vads-u-margin-bottom--0">
           We didn’t find any results for "<strong>{searchInput}</strong>"
         </p>
         <p className="vads-u-margin-top--0p5">{dataError.errorMessage}</p>
@@ -56,7 +66,7 @@ const EducationSearchItem = ({
   return (
     facilityData.data.length > 0 && (
       <>
-        <p>
+        <p ref={alertRef}>
           {`Showing ${facilityData.data.length} results for`}
           <strong>{`"${searchInput.place_name || searchInput}"`}</strong>{' '}
         </p>

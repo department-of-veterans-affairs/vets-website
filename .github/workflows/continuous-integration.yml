@@ -336,13 +336,15 @@ jobs:
       - name: Run unit tests
         id: run-tests
         run: |
-          if [[ -n "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
-            yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
-            echo "tests_ran=true" >> $GITHUB_OUTPUT
-          else
-            echo "No tests to run"
-            echo "tests_ran=false" >> $GITHUB_OUTPUT
-          fi
+          # if [[ -n "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
+          #   yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+          #   echo "tests_ran=true" >> $GITHUB_OUTPUT
+          # else
+          #   echo "No tests to run"
+          #   echo "tests_ran=false" >> $GITHUB_OUTPUT
+          # fi
+          yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+          echo "tests_ran=true" >> $GITHUB_OUTPUT
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
@@ -1092,6 +1094,7 @@ jobs:
         run: mkdir -p qa-standards-dashboard-data/coverage
 
       - name: Download Unit Test Mochawesome test results
+        if: needs.unit-tests.outputs.tests_ran == 'true'
         uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-report
@@ -1207,7 +1210,7 @@ jobs:
       - name: Download Unit Test Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: unit-test-stress-test-results-*
+          pattern: unit-test-stress-test-results-*
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
 
@@ -1225,15 +1228,13 @@ jobs:
       # -------------------------
       # | Unit Tests Summary |
       # -------------------------
-
       - name: Download Unit Test Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
           pattern: unit-test-stress-test-results-*
-          name:    unit-test-stress-test-results-*
-          path:    qa-standards-dashboard-data/src/testing-reports/data
+          path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
-        
+
       - name: Publish Unit Test Stability Review Results
         if: ${{ always() }}
         uses: ./.github/workflows/checks-action
@@ -1242,7 +1243,7 @@ jobs:
           name: Unit Test Stability Review Summary
           conclusion: ${{ needs.unit-tests-stress-test.result }}
           output: |
-            {"summary": ${{ env.MOCHAWESOME_REPORT_RESULTS || '""' }}}
+            {"summary": ${{ env.MOCHAWESOME_REPORT_RESULTS || '{"total": 0, "passed": 0, "failed": 0, "pending": 0}' }}}
 
   testing-reports-unit-tests-coverage:
     name: Testing Reports - Unit Tests Coverage

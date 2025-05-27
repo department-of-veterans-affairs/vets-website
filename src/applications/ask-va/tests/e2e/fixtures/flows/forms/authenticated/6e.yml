@@ -1,0 +1,71 @@
+flow:
+  title: Benefits issues outside the US for Disability Compensation by Spouse for someone else (auth)
+  runOnCI: false # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value: start-your-question-auth
+
+    - action: include
+      target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
+      value: select-category-benefits-issues-outside-the-us
+
+    - action: include
+      target: page
+      value: select-topic-disability-compensation
+
+    - action: include
+      target: page
+      value: who-is-your-question-about-someone-else
+
+    - action: include
+      target: page
+      value: what-is-your-relationship-to-the-veteran-family-member
+
+    - action: include
+      target: page
+      value: who-is-your-question-about-someone-else-or-veteran
+
+    - action: include
+      target: page
+      value: what-is-their-relationship-to-the-veteran-spouse
+
+    - action: include
+      target: page
+      value: tell-us-about-your-veteran-family-member
+
+    - action: include
+      target: page
+      value: tell-us-about-your-veteran-family-member-with-service-branch
+
+    - action: include
+      target: page
+      value: tell-us-about-your-family-member-veteran-death
+
+    - action: include
+      target: page
+      value: your-contact-information-radio-buttons-us-mail
+
+    - action: include
+      target: page
+      value: your-us-mailing-address
+
+    - action: include
+      target: page
+      value: your-us-mailing-address-confirm
+
+    - action: include
+      target: page
+      value: your-question
+
+    - action: include
+      target: page
+      value: editing-answers
+
+    - action: include
+      target: page
+      value: your-confirmation-number

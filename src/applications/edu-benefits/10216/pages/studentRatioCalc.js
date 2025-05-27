@@ -67,7 +67,7 @@ export default {
         ...currentOrPastDateUI({
           title: 'Date of calculation',
           hint:
-            'Provide the date that the 35% calculation was completed. This must be within 30 calendar days of the term start date.',
+            'Provide the date the 35% calculation was performed. This date must be on or after but not later than 30 days after the start of the term.',
           errorMessages: {
             required: 'Please enter a date',
           },

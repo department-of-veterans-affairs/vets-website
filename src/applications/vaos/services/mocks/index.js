@@ -120,6 +120,7 @@ const responses = {
         type,
         modality,
         localStartTime: req.body.slot?.id ? localTime : null,
+        start: req.body.slot?.id ? selectedTime[0] : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
         contact: {
           telecom: [
@@ -243,21 +244,21 @@ const responses = {
   //   return res.json(errors);
   // },
 
-  // 'GET /vaos/v2/appointments/:id': (req, res) => {
-  //   const appointments = {
-  //     data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
-  //   };
-  //   const appointment = appointments.data.find(
-  //     appt => appt.id === req.params.id,
-  //   );
+  'GET /vaos/v2/appointments/:id': (req, res) => {
+    const appointments = {
+      data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
+    };
+    const appointment = appointments.data.find(
+      appt => appt.id === req.params.id,
+    );
 
-  //   if (appointment.start) {
-  //     appointment.future = moment(appointment.start).isAfter(moment());
-  //   }
-  //   return res.json({
-  //     data: appointment,
-  //   });
-  // },
+    if (appointment.start) {
+      appointment.future = moment(appointment.start).isAfter(moment());
+    }
+    return res.json({
+      data: appointment,
+    });
+  },
   'GET /vaos/v2/scheduling/configurations': (req, res) => {
     if (req.query.cc_enabled === 'true') {
       return res.json(schedulingConfigurationsCC);
@@ -409,6 +410,18 @@ const responses = {
       return res.status(500).json({ error: true });
     }
 
+    if (req.params.referralId === 'scheduled-referral') {
+      const scheduledReferral = referralUtils.createReferralById(
+        '2024-12-02',
+        'scheduled-referral',
+      );
+      // Set hasAppointments to true to test redirect
+      scheduledReferral.attributes.hasAppointments = true;
+      return res.json({
+        data: scheduledReferral,
+      });
+    }
+
     if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
       const expiredReferral = referralUtils.createReferralById(
         '2024-12-02',
@@ -427,21 +440,21 @@ const responses = {
     });
   },
   'POST /vaos/v2/appointments/draft': (req, res) => {
-    const { referralId } = req.body;
+    const { referral_id: referralNumber } = req.body;
     // Provider 3 throws error
-    if (referralId === '') {
+    if (referralNumber === '') {
       return res.status(500).json({ error: true });
     }
 
     let slots = 5;
     // Provider 0 has no available slots
-    if (referralId === '0') {
+    if (referralNumber === '0') {
       slots = 0;
     }
 
     const draftAppointment = providerUtils.createDraftAppointmentInfo(
       slots,
-      referralId,
+      referralNumber,
     );
 
     draftAppointments[draftAppointment.id] = draftAppointment;
@@ -453,9 +466,10 @@ const responses = {
   'GET /vaos/v2/eps_appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
+    // create a mock appointment in draft state for polling simulation
     const mockAppointment = epsAppointmentUtils.createMockEpsAppointment(
       appointmentId,
-      null,
+      'draft',
       epsAppointmentUtils.appointmentData,
     );
 
@@ -468,6 +482,22 @@ const responses = {
       return res.status(400).json({ error: true });
     }
 
+    // Check if the request is coming from the details page
+    // We can determine this by checking the referer header or request path
+    const refererHeader = req.headers.referer || '';
+    const isDetailsView =
+      refererHeader.includes(`/${appointmentId}`) ||
+      req.query.view === 'details';
+
+    if (isDetailsView) {
+      // For details view, immediately return appointment in booked state
+      mockAppointment.attributes.status = 'booked';
+      return res.json({
+        data: mockAppointment,
+      });
+    }
+
+    // Continue with normal polling behavior for ReviewAndConfirm component
     const count = draftAppointmentPollCount[appointmentId] || 0;
 
     // Mock polling for appointment state change
@@ -484,16 +514,22 @@ const responses = {
     });
   },
   'POST /vaos/v2/appointments/submit': (req, res) => {
-    const { slotId, draftApppointmentId, referralId } = req.body;
+    const {
+      id,
+      referralNumber,
+      slotId,
+      networkId,
+      providerServiceId,
+    } = req.body;
 
-    if (!referralId || !slotId || !draftApppointmentId) {
+    if (!id || !referralNumber || !slotId || !networkId || !providerServiceId) {
       return res.status(400).json({ error: true });
     }
 
-    draftAppointmentPollCount[draftApppointmentId] = 1;
+    draftAppointmentPollCount[id] = 1;
 
     return res.status(201).json({
-      data: { id: draftApppointmentId },
+      data: { id },
     });
   },
   // Required v0 APIs
@@ -700,4 +736,4 @@ const responses = {
   // End of required v0 APIs
 };
 
-module.exports = delay(responses, 1000);
+module.exports = delay(responses, 100);

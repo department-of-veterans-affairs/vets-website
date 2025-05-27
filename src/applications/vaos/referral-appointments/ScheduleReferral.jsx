@@ -7,6 +7,7 @@ import ReferralLayout from './components/ReferralLayout';
 import ReferralAppLink from './components/ReferralAppLink';
 import { setFormCurrentPage, setInitReferralFlow } from './redux/actions';
 import { getReferralSlotKey } from './utils/referrals';
+import { titleCase } from '../utils/formatters';
 
 export default function ScheduleReferral(props) {
   const { attributes: currentReferral } = props.currentReferral;
@@ -21,16 +22,17 @@ export default function ScheduleReferral(props) {
     },
     [location, dispatch, selectedSlotKey],
   );
+  const categoryOfCare = titleCase(currentReferral.categoryOfCare);
   return (
     <ReferralLayout
       hasEyebrow
-      heading={`Referral for ${currentReferral.categoryOfCare}`}
+      heading={`Referral for ${categoryOfCare}`}
       categoryOfCare={currentReferral?.categoryOfCare}
     >
       <div>
         <p data-testid="subtitle">
-          We’ve approved your referral with a community care provider. You can
-          schedule your first appointment now.
+          We’ve approved your referral for community care. You can schedule your
+          first appointment now.
         </p>
         <va-additional-info
           data-testid="help-text"
@@ -39,9 +41,14 @@ export default function ScheduleReferral(props) {
           class="vads-u-margin-bottom--2"
         >
           <p>
-            Contact your referring VA facility if you have already scheduled
-            with a community care provider.
+            Upcoming appointments with community care providers may not appear
+            in this tool. If you want us to add your community care appointment
+            to your appointments list, call your VA facility.
           </p>
+          <va-link
+            href="/find-locations/?facilityType=health"
+            text="Find your VA health facility"
+          />
         </va-additional-info>
         <ReferralAppLink
           linkText="Schedule your appointment"
@@ -54,41 +61,29 @@ export default function ScheduleReferral(props) {
           ${format(new Date(currentReferral.expirationDate), 'MMMM d, yyyy')}`}
           <br />
           <strong>Type of care: </strong>
-          {currentReferral.categoryOfCare}
+          {categoryOfCare}
           <br />
           <strong>Provider: </strong>
           {currentReferral.provider.name}
           <br />
           <strong>Location: </strong>
-          {currentReferral.provider.location}
+          {currentReferral.provider.facilityName}
           <br />
           <strong>Referral number: </strong>
-          {currentReferral.referralId}
+          {currentReferral.referralNumber}
         </p>
-        <va-additional-info
-          data-testid="additional-appointment-help-text"
-          uswds
-          trigger="If you were approved for more than one appointment"
-          class="vads-u-margin-bottom--2"
-        >
-          <p>
-            If you were approved for more than one appointment, schedule your
-            first appointment using this tool. You’ll need to schedule the
-            remaining appointments later with your community care provider.
-          </p>
-        </va-additional-info>
-
-        <h2>Have questions about your referral?</h2>
+        <h2>If you have questions about your referral</h2>
         <p>
-          Contact your referring VA facility if you have questions about your
-          referral or how to schedule your appointment.
+          Contact the team at your referring VA facility. They can answer
+          questions about your referral, like how many appointments are included
+          and how to schedule your first one.
         </p>
         <p data-testid="referral-facility">
           <strong>Referring VA facility: </strong>
-          {currentReferral.referringFacilityInfo.name}
+          {currentReferral.referringFacility.name}
           <br />
           <strong>Phone: </strong>
-          {currentReferral.referringFacilityInfo.phone}
+          {currentReferral.referringFacility.phone}
         </p>
       </div>
     </ReferralLayout>

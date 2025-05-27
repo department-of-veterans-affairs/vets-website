@@ -1,14 +1,15 @@
-import React from 'react';
-import moment from 'moment';
-import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
+import { expect } from 'chai';
+import React from 'react';
 
 import { waitFor } from '@testing-library/dom';
+import { addDays, addMinutes, format } from 'date-fns';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
 
+import { DATE_FORMATS } from '../../utils/constants';
 import SecondDosePage from './SecondDosePage';
 
 const initialState = {
@@ -18,7 +19,7 @@ const initialState = {
 };
 
 describe('VAOS vaccine flow: SecondDosePage', () => {
-  const start = moment();
+  const start = new Date();
   const store = createTestStore({
     ...initialState,
     covid19Vaccine: {
@@ -27,15 +28,12 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
         data: {
           vaFacility: 'var983',
           clinicId: '455',
-          date1: [start.format()],
+          date1: [format(start, DATE_FORMATS.ISODateTime)],
         },
         availableSlots: [
           {
-            start: start.format(),
-            end: start
-              .clone()
-              .add(30, 'minutes')
-              .format(),
+            start: format(start, DATE_FORMATS.ISODateTime),
+            end: format(addMinutes(start, 30), DATE_FORMATS.ISODateTime),
           },
         ],
         clinics: {},
@@ -65,7 +63,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
     ).to.be.ok;
     expect(
       screen.getByText(
-        new RegExp(`${start.clone().format('dddd, MMMM DD, YYYY')}`, 'i'),
+        new RegExp(`${format(start, 'EEEE, MMMM d, yyyy')}`, 'i'),
       ),
     ).to.be.ok;
     expect(
@@ -82,10 +80,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
     expect(
       screen.getByText(
         new RegExp(
-          `after ${start
-            .clone()
-            .add(21, 'days')
-            .format('dddd, MMMM DD, YYYY')}`,
+          `after ${format(addDays(start, 21), 'EEEE, MMMM d, yyyy')}`,
           'i',
         ),
       ),
@@ -93,10 +88,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
     expect(
       screen.getByText(
         new RegExp(
-          `after ${start
-            .clone()
-            .add(28, 'days')
-            .format('dddd, MMMM DD, YYYY')}`,
+          `after ${format(addDays(start, 28), 'EEEE, MMMM d, yyyy')}`,
           'i',
         ),
       ),
@@ -116,7 +108,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
 
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-appointment/contact-info',
+        'contact-information',
       ),
     );
   });

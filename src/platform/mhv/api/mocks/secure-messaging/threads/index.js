@@ -86,7 +86,20 @@ const moveThread = (req, res) => {
   return res.status(204).json();
 };
 
+const errorResponse = (req, res) => {
+  return res.status(500).json({
+    errors: [
+      {
+        status: '500',
+        title: 'Internal Server Error',
+        detail: 'An error occurred while processing your request.',
+      },
+    ],
+  });
+};
+
 module.exports = {
-  paginatedThreads,
+  errorResponse,
   moveThread,
+  paginatedThreads,
 };

@@ -19,7 +19,6 @@ import { FACILITY_TYPES } from '../../../utils/constants';
 
 import ReviewPage from '.';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
-import { createMockCheyenneFacility } from '../../../tests/mocks/data';
 import {
   mockAppointmentSubmitApi,
   mockFacilityApi,
@@ -92,7 +91,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/pending/fake_id?confirmMsg=true',
       );
     });
 
@@ -141,7 +140,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/pending/fake_id?confirmMsg=true',
       );
     });
 
@@ -191,7 +190,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/pending/fake_id?confirmMsg=true',
       );
     });
 
@@ -208,8 +207,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
   it('should show error message on failure', async () => {
     store = createTestStore(defaultState);
     mockFacilityApi({
-      id: ['983'],
-      response: createMockCheyenneFacility({}),
+      id: '983',
       responseCode: 404,
     });
     setFetchJSONFailure(

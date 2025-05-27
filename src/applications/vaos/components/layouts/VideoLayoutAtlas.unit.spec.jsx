@@ -46,6 +46,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       const appointment = {
         type: 'VA',
         modality: 'vaVideoCareAtAnAtlasLocation',
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -170,6 +172,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
         location: {
           stationId: '983',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -226,6 +230,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       const store = createTestStore(initialState);
       const appointment = {
         location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -290,6 +296,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        minutesDuration: 60,
+        startUtc: new Date(),
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {

@@ -1,5 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from 'platform/utilities/environment';
 import {
   TITLE,
   SUBTITLE,
@@ -18,15 +19,13 @@ import newMailingAddressPage from '../pages/newMailingAddress';
 import personalInformationPage from '../pages/personalInformation';
 import phoneAndEmailPage from '../pages/phoneAndEmail';
 import yearsOfCollegeStudiesPage from '../pages/yearsOfCollegeStudies';
-import yearsOfGraduateStudiesPage from '../pages/yearsOfGraduateStudiesPage';
+import yearsOfGraduateStudiesPage from '../pages/yearsOfGraduateStudies';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/veteran_readiness_employment_claims`,
   trackingPrefix: 'new-careers-employment-28-1900-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -109,6 +108,7 @@ const formConfig = {
           schema: movingYesNoPage.schema,
         },
         newMailingAddressPage: {
+          depends: formData => formData.isMoving,
           path: 'new-mailing-address',
           title:
             CONTACT_INFORMATION_CHAPTER_CONSTANTS.newMailingAddressPageTitle,

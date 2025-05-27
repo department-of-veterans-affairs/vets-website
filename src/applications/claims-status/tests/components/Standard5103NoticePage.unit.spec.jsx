@@ -42,7 +42,9 @@ const getStore = () =>
 describe('<Standard5103NoticePage>', () => {
   it('when component mounts should set document title', () => {
     const { container } = renderWithRouter(
-      <Standard5103NoticePage {...props} />,
+      <Provider store={getStore()}>
+        <Standard5103NoticePage {...props} />
+      </Provider>,
     );
     expect($('#default-5103-notice-page', container)).to.not.exist;
     expect(document.title).to.equal(
@@ -52,7 +54,9 @@ describe('<Standard5103NoticePage>', () => {
 
   it('should render loading div', () => {
     const { container } = renderWithRouter(
-      <Standard5103NoticePage {...props} loading />,
+      <Provider store={getStore()}>
+        <Standard5103NoticePage {...props} loading />
+      </Provider>,
     );
     expect($('#default-5103-notice-page', container)).to.not.exist;
     expect($('va-loading-indicator', container)).to.exist;

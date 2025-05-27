@@ -9,7 +9,6 @@ import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
 import Folders from './Folders';
 import FolderThreadListView from './FolderThreadListView';
-import LandingPageAuth from './LandingPageAuth';
 import ThreadDetails from './ThreadDetails';
 import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
@@ -36,19 +35,12 @@ const AuthorizedRoutes = () => {
   const location = useLocation();
   const isPilot = useSelector(state => state.sm.app.isPilot);
 
-  const removeLandingPage = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
-
   const cernerPilotSmFeatureFlag = useSelector(
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
   );
 
-  if (removeLandingPage && location.pathname === `/`) {
+  if (location.pathname === `/`) {
     const basePath = `${
       cernerPilotSmFeatureFlag && isPilot
         ? pilotManifest.rootUrl
@@ -66,11 +58,6 @@ const AuthorizedRoutes = () => {
     >
       <ScrollToTop />
       <Switch>
-        {/* Remove this landing page block when mhvSecureMessagingRemoveLandingPage FF is removed */}
-        <AppRoute exact path="/" key="App">
-          <LandingPageAuth />
-        </AppRoute>
-        {/*  */}
         <AppRoute exact path={Paths.FOLDERS} key="Folders">
           <Folders />
         </AppRoute>

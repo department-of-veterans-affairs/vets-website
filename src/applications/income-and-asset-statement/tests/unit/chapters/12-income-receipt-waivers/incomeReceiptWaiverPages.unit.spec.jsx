@@ -3,7 +3,7 @@ import formConfig from '../../../../config/form';
 import {
   incomeReceiptWaiverPages,
   options,
-} from '../../../../config/chapters/12-income-receipt-waivers/incomeReceiptWaiverPages';
+} from '../../../../config/chapters/11-income-receipt-waivers/incomeReceiptWaiverPages';
 import { relationshipLabels } from '../../../../labels';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
@@ -48,8 +48,11 @@ describe('income receipt waiver list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return text', () => {
-      expect(options.text.getItemName()).to.equal('Income receipt waiver');
+    it('should return "`recipientName`s income receipt waiver', () => {
+      const item = testData.data.incomeReceiptWaivers[0];
+      expect(options.text.getItemName(item)).to.equal(
+        'Jane Smith’s income receipt waiver',
+      );
     });
   });
 
@@ -58,6 +61,8 @@ describe('income receipt waiver list and loop pages', () => {
     const {
       expectedIncome,
       'view:paymentsWillResume': _,
+      recipientRelationship,
+      recipientName,
       paymentResumeDate,
       ...baseItem
     } = testData.data.incomeReceiptWaivers[0];
@@ -70,6 +75,8 @@ describe('income receipt waiver list and loop pages', () => {
     const {
       expectedIncome,
       'view:paymentsWillResume': _,
+      recipientRelationship,
+      recipientName,
       paymentResumeDate,
       ...baseItem
     } = testDataZeroes.data.incomeReceiptWaivers[0];
@@ -154,14 +161,14 @@ describe('income receipt waiver list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-text-input': 1 },
+      { 'va-text-input': 3 },
       'recipient',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -169,9 +176,7 @@ describe('income receipt waiver list and loop pages', () => {
       schema,
       uiSchema,
       'recipient',
-      {
-        recipientName: 'Jane Doe',
-      },
+      testData.data.incomeReceiptWaivers[0],
       { loggedIn: true },
     );
   });

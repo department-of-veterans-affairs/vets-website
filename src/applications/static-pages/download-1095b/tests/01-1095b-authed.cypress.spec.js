@@ -1,17 +1,9 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 import { form } from './e2e/fixtures/mocks/mocks';
 import mockUsers from '../mocks/endpoints/user';
-import { generateFeatureToggles } from '../mocks/endpoints/feature-toggles';
 
 describe('Authed 1095-B Form Download PDF', () => {
   beforeEach(() => {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        showDigitalForm1095b: true,
-      }),
-    ).as('featureToggles');
     cy.intercept('GET', 'v0/form1095_bs/available_forms', form).as('form');
     cy.intercept('GET', 'v0/form1095_bs/download_pdf/*', {
       fixture:
@@ -29,7 +21,6 @@ describe('Authed 1095-B Form Download PDF', () => {
 
     cy.login(mockUsers.loa3User);
     cy.visit('/health-care/download-1095b/');
-    cy.wait(['@featureToggles', '@form', '@vamcUser']);
   });
 
   it('downloads the 1095-B PDF form', () => {
