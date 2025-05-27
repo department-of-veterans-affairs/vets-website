@@ -75,12 +75,16 @@ const ProviderAddress = props => {
             </a>
           </div>
         )}
-      <p className="vads-u-margin-bottom--0" data-testid="phone">
-        <strong>Main phone:</strong>
-      </p>
-      <p className="vads-u-margin--0">
-        <va-telephone contact={phone} data-testid="provider-telephone" />
-      </p>
+      {phone && (
+        <div data-testid="provider-phone">
+          <p className="vads-u-margin-bottom--0" data-testid="phone">
+            <strong>Main phone:</strong>
+          </p>
+          <p className="vads-u-margin--0">
+            <va-telephone contact={phone} data-testid="provider-telephone" />
+          </p>
+        </div>
+      )}
     </address>
   );
 };
