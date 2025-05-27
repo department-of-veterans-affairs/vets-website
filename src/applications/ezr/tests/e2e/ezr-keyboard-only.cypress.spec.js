@@ -84,7 +84,7 @@ describe('Form 10-10EZR Keyboard Only', () => {
       cy.tabToElementAndPressSpace('.usa-button-primary'); // Proceed to add a contact
 
       // Use the first contact from your data
-      const contact = data.veteranContacts[0];
+      const contact = data.emergencyContacts[0];
 
       // Fill in the contact's basic info
       fillNameWithKeyboard('fullName', contact.fullName);

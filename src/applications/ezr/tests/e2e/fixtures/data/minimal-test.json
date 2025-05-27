@@ -45,7 +45,21 @@
       "first": "Jane",
       "last": "Doe"
     },
-    "veteranContacts": [
+    "emergencyContacts": [
+      {
+        "fullName": {
+          "first": "John",
+          "middle": "A",
+          "last": "Doe",
+          "suffix": "Jr."
+        },
+        "primaryPhone": "5551234567",
+        "alternatePhone": "5559876543",
+        "relationship": "BROTHER",
+        "contactType": "Emergency Contact"
+      }
+    ],
+    "nextOfKins": [
       {
         "fullName": {
           "first": "John",

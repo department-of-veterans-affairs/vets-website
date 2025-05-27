@@ -45,7 +45,7 @@ describe('EZR TERA flow', () => {
       '/update-benefits-information-form-10-10ezr/veteran-information/emergency-contacts/0/contact',
     );
 
-    const contact = testData.veteranContacts[0];
+    const contact = testData.emergencyContacts[0];
     // ec 1 basic info
     fillNameWithKeyboard('fullName', contact.fullName);
     fillTextWebComponent('primaryPhone', contact.primaryPhone);

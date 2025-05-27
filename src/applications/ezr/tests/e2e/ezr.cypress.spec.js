@@ -77,7 +77,7 @@ const testConfig = createTestConfig(
       'veteran-information/emergency-contacts/0/contact': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactPersonalInfo(data.veteranContacts[0]);
+            fillEmergencyContactPersonalInfo(data.emergencyContacts[0]);
           });
         });
       },
@@ -86,14 +86,14 @@ const testConfig = createTestConfig(
       }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactAddress(data.veteranContacts[0]);
+            fillEmergencyContactAddress(data.emergencyContacts[0]);
           });
         });
       },
       'veteran-information/emergency-contacts/1/contact': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactPersonalInfo(data.veteranContacts[1]);
+            fillEmergencyContactPersonalInfo(data.emergencyContacts[1]);
           });
         });
       },
@@ -102,7 +102,7 @@ const testConfig = createTestConfig(
       }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactAddress(data.veteranContacts[1]);
+            fillEmergencyContactAddress(data.emergencyContacts[1]);
           });
         });
       },
@@ -120,11 +120,12 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-checkbox[name="privacyAgreementAccepted"]')
-            .scrollIntoView()
-            .shadow()
-            .find('label')
-            .click();
+          cy.get(
+            'va-checkbox[name="privacyAgreementAccepted"]',
+          ).scrollIntoView();
+          cy.get('va-checkbox[name="privacyAgreementAccepted"]').shadow();
+          cy.get('va-checkbox[name="privacyAgreementAccepted"]').find('label');
+          cy.get('va-checkbox[name="privacyAgreementAccepted"]').click();
           cy.findByText(/submit/i, { selector: 'button' }).click();
         });
       },

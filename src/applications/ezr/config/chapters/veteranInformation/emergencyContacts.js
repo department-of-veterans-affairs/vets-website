@@ -18,7 +18,7 @@ import {
  * @type {ArrayBuilderOptions}
  */
 const arrayBuilderOptions = {
-  arrayPath: 'veteranContacts',
+  arrayPath: 'emergencyContacts',
   nounSingular: 'emergency contact',
   nounPlural: 'emergency contacts',
   required: false,
@@ -62,7 +62,7 @@ const emergencyContactPages = arrayBuilderPages(
       uiSchema: emergencyContactsPageSchemas.uiSchema,
       schema: emergencyContactsPageSchemas.schema,
       onNavForward: props => {
-        return props.formData.veteranContacts[props.index][
+        return props.formData.emergencyContacts[props.index][
           'view:hasEmergencyContactAddress'
         ]
           ? helpers.navForwardKeepUrlParams(props) // go to next page
