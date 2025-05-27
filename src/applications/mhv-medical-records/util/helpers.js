@@ -1,8 +1,9 @@
+import moment from 'moment-timezone';
 import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { utcToZonedTime } from 'date-fns-tz';
+
 import {
   format as dateFnsFormat,
   formatISO,
@@ -27,18 +28,11 @@ import {
  * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
  * @returns {String} formatted timestamp
  */
-export const dateFormat = (
-  timestamp = null,
-  format = 'MMMM d, yyyy, h:mm a',
-) => {
-  const timeZone = 'America/New_York'; // You can set this dynamically if needed
-  const parsedDate = parseISO(timestamp);
-
-  // Convert the parsed date to the target time zone
-  const zonedDate = utcToZonedTime(parsedDate, timeZone);
-
-  // Format the date in the specified time zone
-  return dateFnsFormat(zonedDate, format);
+export const dateFormat = (timestamp, format = null) => {
+  const timeZone = moment.tz.guess();
+  return moment
+    .tz(timestamp, timeZone)
+    .format(format || 'MMMM D, YYYY, h:mm a z');
 };
 
 export const dateFormatWithoutTime = str => {
@@ -59,18 +53,28 @@ export function dateFormatWithoutTimezone(
   // 1) Strip off Z, +HH:MM, +HHMM, -HH:MM, or -HHMM (timezone offsets)
   const stripped = isoString.replace(/([+-]\d{2}:?\d{2}|Z)$/, '');
 
-  // 2) Parse as local time
+  // 2) If the string does not include a time zone, handle the case for a date (e.g., "2000-08-09")
+  if (!stripped.includes('T')) {
+    // Handle the case where the datetime is just a date (e.g., "2000-08-09")
+    const parsedDate = parseISO(stripped);
+    if (isValid(parsedDate)) {
+      // Return formatted date in UTC without any time zone
+      return dateFnsFormat(parsedDate, 'MMMM d, yyyy', { timeZone: 'UTC' });
+    }
+  }
+
+  // 3) Parse as local time
   const parsedDate = parseISO(stripped);
 
-  // 3) Check if parsed date is valid
+  // 4) Check if parsed date is valid
   if (!isValid(parsedDate)) {
     throw new Error('Invalid time value');
   }
 
-  // 4) Format and replace "PM" with "pm"
+  // 5) Format and replace "PM" with "pm"
   const formattedDate = dateFnsFormat(parsedDate, fmt);
 
-  // Replace "PM" with "pm" (case-insensitive replacement)
+  // Replace "PM" with "pm" and "AM" with "am"
   return formattedDate.replace(/\sPM$/, ' p.m.').replace(/\sAM$/, ' a.m.');
 }
 
