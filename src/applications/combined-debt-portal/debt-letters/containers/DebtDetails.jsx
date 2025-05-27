@@ -188,7 +188,7 @@ const DebtDetails = () => {
           </>
         )}
         <HowDoIPay userData={howToUserData} />
-        <NeedHelp />
+        <NeedHelp showVHAPaymentHistory={false} />
       </div>
     </article>
   );

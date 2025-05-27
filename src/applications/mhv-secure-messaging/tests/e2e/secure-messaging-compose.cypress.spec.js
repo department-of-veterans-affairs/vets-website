@@ -13,6 +13,7 @@ describe('SM MESSAGING COMPOSE', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+    PatientComposePage.interceptSentFolder();
   });
 
   it('verify interface', () => {

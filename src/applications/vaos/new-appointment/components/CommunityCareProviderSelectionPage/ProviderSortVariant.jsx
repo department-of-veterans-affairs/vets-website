@@ -125,7 +125,7 @@ export default function ProviderSortVariant({
       >
         {hasUserAddress ? options : options.slice(1)}
       </VaSelect>
-      {!hasUserAddress && <NoAddressNote />}
+      {!hasUserAddress && <NoAddressNote optionType="providers" />}
       {requestLocationStatusFailed && (
         <div
           id="providerSelectionBlockedLocation"

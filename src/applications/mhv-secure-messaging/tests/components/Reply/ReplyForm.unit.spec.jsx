@@ -93,7 +93,7 @@ describe('Reply form component', () => {
     const screen = render();
     await waitFor(() => {
       expect(
-        screen.queryByText(`${category}: ${subject}`, {
+        screen.queryByText(`Messages: ${category} - ${subject}`, {
           selector: 'h1',
         }),
       ).to.exist;
@@ -135,7 +135,9 @@ describe('Reply form component', () => {
 
     await waitFor(() => {
       const replyTitle = screen.getByTestId('reply-form-title');
-      expect(replyTitle).to.have.text('General: test replace category');
+      expect(replyTitle).to.have.text(
+        'Messages: General - test replace category',
+      );
     });
   });
 
@@ -149,7 +151,7 @@ describe('Reply form component', () => {
 
     await waitFor(() => {
       const replyTitle = screen.getByTestId('reply-form-title');
-      expect(replyTitle).to.have.text('Test: test replace category');
+      expect(replyTitle).to.have.text('Messages: Test - test replace category');
     });
   });
 

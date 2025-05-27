@@ -24,6 +24,17 @@ export const expiresSoon = expDate => {
   return null;
 };
 
+export const requestsContainStatus = (status, requests) => {
+  if (status === 'pending') {
+    return requests.find(poaRequest => poaRequest.resolution === null);
+  }
+  return requests.find(
+    poaRequest =>
+      (poaRequest.resolution?.decisionType || poaRequest.resolution?.type) ===
+      status,
+  );
+};
+
 export const formatStatus = x => {
   if (x === 'declination') {
     return 'Declined';
@@ -96,17 +107,17 @@ export const poaSearchBC = [
   },
   {
     href: window.location.href,
-    label: 'Power of attorney requests',
+    label: 'Representation requests',
   },
 ];
-export const searchPeopleBC = [
+export const findClaimantBC = [
   {
     href: '/representative',
-    label: '/representative home',
+    label: 'Representative.va.gov home',
   },
   {
     href: window.location.href,
-    label: 'Search People',
+    label: 'Find claimant',
   },
 ];
 export const poaDetailsBreadcrumbs = [
@@ -115,9 +126,8 @@ export const poaDetailsBreadcrumbs = [
     label: 'VA.gov/representative home',
   },
   {
-    href:
-      '/representative/poa-requests?status=pending&pageSize=20&pageNumber=1',
-    label: 'Power of attorney requests',
+    href: '/representative/poa-requests',
+    label: 'Representation requests',
   },
   {
     href: window.location.href,
@@ -138,19 +148,23 @@ export const SORT_BY = {
   DESC: 'desc',
 };
 
-export const PENDING = {
-  DESC_OPTION: 'Submitted date (newest)',
-  ASC_OPTION: 'Submitted date (oldest)',
-};
-
-export const PROCESSED = {
-  DESC_OPTION: 'Processed date (newest)',
-  ASC_OPTION: 'Processed date (oldest)',
-};
-
 export const STATUSES = {
   PENDING: 'pending',
   PROCESSED: 'processed',
+};
+
+export const PROCESSED_SORT_DEFAULTS = {
+  SORT_BY: 'resolved_at',
+  SORT_ORDER: 'desc',
+  // default is 20 per page
+  SIZE: '20',
+  // default is page 1
+  NUMBER: '1',
+};
+
+export const PENDING_SORT_DEFAULTS = {
+  SORT_BY: 'created_at',
+  SORT_ORDER: 'desc',
   // default is 20 per page
   SIZE: '20',
   // default is page 1

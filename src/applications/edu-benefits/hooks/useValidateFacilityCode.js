@@ -19,31 +19,39 @@ export const useValidateFacilityCode = formData => {
             headers: {
               'Content-Type': 'application/json',
             },
-          },
-        );
-        setInstitutionData(response?.data);
-        setLoader(false);
-        dispatch(
-          setData({
-            ...formData,
-            institutionDetails: {
-              ...formData.institutionDetails,
-              institutionName: response?.data?.attributes?.name,
-            },
-          }),
-        );
-      } catch (error) {
-        setInstitutionData({});
-        setLoader(false);
-        dispatch(
-          setData({
-            ...formData,
-            institutionDetails: {
-              ...formData.institutionDetails,
-              institutionName: 'not found',
-            },
-          }),
-        );
+          );
+          setInstitutionData(response?.data);
+          setLoader(false);
+          dispatch(
+            setData({
+              ...formData,
+              institutionDetails: {
+                ...formData.institutionDetails,
+                institutionName: response?.data?.attributes?.name,
+              },
+            }),
+          );
+          localStorage.setItem(
+            'isAccredited',
+            JSON.stringify(response?.data?.attributes?.accredited),
+          );
+        } catch (error) {
+          setInstitutionData({});
+          setLoader(false);
+          dispatch(
+            setData({
+              ...formData,
+              institutionDetails: {
+                ...formData.institutionDetails,
+                institutionName: 'not found',
+              },
+            }),
+          );
+          localStorage.setItem('isAccredited', false);
+        }
+      };
+      if (formData?.institutionDetails?.facilityCode?.length === 8) {
+        fetchInstitutionName();
       }
     };
     if (formData?.institutionDetails?.facilityCode?.length === 8) {

@@ -36,6 +36,7 @@ const backgroundInformationDetails = ({
       [documentsKey]: {
         ...fileInputUI({
           title: 'Provide any relevant documents',
+          required: () => false,
           hint:
             'You may add .pdf, .doc, .jpg, or .txt documents under 25MB. Please name documents with clear, descriptive names.',
           name: `${path}-file-input`,

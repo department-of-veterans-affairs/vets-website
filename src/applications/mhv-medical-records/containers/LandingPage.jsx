@@ -15,12 +15,13 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
+import environment from 'platform/utilities/environment';
 import {
   CernerAlertContent,
   downtimeNotificationParams,
   pageTitles,
 } from '../util/constants';
-import { createSession } from '../api/MrApi';
+import { createSession, postCreateAAL } from '../api/MrApi';
 import {
   selectConditionsFlag,
   selectNotesFlag,
@@ -44,6 +45,8 @@ const MEDICAL_RECORDS_DOWNLOAD_LABEL =
   'Go to download your medical records reports';
 const MEDICAL_RECORDS_SETTINGS_LABEL =
   'Go to manage your electronic sharing settings';
+const SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM =
+  'Go to the Share My Health Data website';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -56,6 +59,10 @@ const LandingPage = () => {
   const displayMarch17Updates = useSelector(selectMarch17UpdatesFlag);
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
+  );
+  const SMHDL = useSelector(
+    state =>
+      state.featureToggles.mhv_landing_page_show_share_my_health_data_link,
   );
 
   const { isLoading } = useAcceleratedData();
@@ -87,6 +94,16 @@ const LandingPage = () => {
     focusElement(document.querySelector('h1'));
     updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
   }, [dispatch]);
+
+  const sendAalViewList = activityType => {
+    postCreateAAL({
+      activityType,
+      action: 'View',
+      performerType: 'Self',
+      status: 1,
+      oncePerSession: true,
+    });
+  };
 
   return (
     <div className="landing-page">
@@ -145,6 +162,7 @@ const LandingPage = () => {
                 className="vads-c-action-link--blue"
                 data-testid="labs-and-tests-landing-page-link"
                 onClick={() => {
+                  sendAalViewList('Lab and test results');
                   sendDataDogAction(LAB_TEST_RESULTS_LABEL);
                 }}
               >
@@ -168,6 +186,7 @@ const LandingPage = () => {
                   className="vads-c-action-link--blue"
                   data-testid="notes-landing-page-link"
                   onClick={() => {
+                    sendAalViewList('Care Summaries and Notes');
                     sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
                   }}
                 >
@@ -190,6 +209,7 @@ const LandingPage = () => {
                 className="vads-c-action-link--blue"
                 data-testid="vaccines-landing-page-link"
                 onClick={() => {
+                  sendAalViewList('Vaccines');
                   sendDataDogAction(VACCINES_LABEL);
                 }}
               >
@@ -211,6 +231,7 @@ const LandingPage = () => {
               className="vads-c-action-link--blue"
               data-testid="allergies-landing-page-link"
               onClick={() => {
+                sendAalViewList('Allergy and Reactions');
                 sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
               }}
             >
@@ -231,6 +252,7 @@ const LandingPage = () => {
                 className="vads-c-action-link--blue"
                 data-testid="conditions-landing-page-link"
                 onClick={() => {
+                  sendAalViewList('Health Conditions');
                   sendDataDogAction(HEALTH_CONDITIONS_LABEL);
                 }}
               >
@@ -258,6 +280,7 @@ const LandingPage = () => {
                 className="vads-c-action-link--blue"
                 data-testid="vitals-landing-page-link"
                 onClick={() => {
+                  sendAalViewList('Vitals');
                   sendDataDogAction(VITALS_LABEL);
                 }}
               >
@@ -360,6 +383,31 @@ const LandingPage = () => {
                   {MEDICAL_RECORDS_SETTINGS_LABEL}
                 </Link>
               </section>
+              {SMHDL && (
+                <section className="vads-u-padding-bottom--3">
+                  <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                    Share personal health data with your care team
+                  </h2>
+                  <p className="vads-u-margin-bottom--2">
+                    You can share your personal health data with your care team
+                    using the Share My Health Data website.
+                  </p>
+                  <va-link
+                    href={
+                      environment.isProduction()
+                        ? 'https://veteran.apps.va.gov/smhdWeb'
+                        : 'https://veteran.apps-staging.va.gov/smhdWeb'
+                    }
+                    text={SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}
+                    data-testid="health-data-landing-page-link"
+                    onClick={() => {
+                      sendDataDogAction(
+                        SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM,
+                      );
+                    }}
+                  />
+                </section>
+              )}
             </>
           )}
 

@@ -37,21 +37,32 @@ const setRumUser = user => {
   });
 };
 
-const useDatadogRum = config => {
-  useEffect(() => {
-    if (
-      // Prevent RUM from running on local/CI environments.
-      environment.BASE_URL.indexOf('localhost') < 0 &&
-      // Prevent re-initializing the SDK.
-      !window.DD_RUM?.getInitConfiguration() &&
-      !window.Mocha
-    ) {
-      initializeDatadogRum(config);
-    }
-  }, [config]);
+const shouldRumBeEnabled = () => {
+  // Prevent RUM from running on local/CI environments.
+  return environment.BASE_URL.indexOf('localhost') < 0 && !window.Mocha;
 };
 
-// REMINDER: Always be conscience of PII and Datadog
+const isRumConfigured = () => {
+  // Check if Datadog RUM is configured.
+  return !!window.DD_RUM?.getInitConfiguration();
+};
+
+const useDatadogRum = config => {
+  useEffect(
+    () => {
+      if (
+        shouldRumBeEnabled() &&
+        // Prevent re-initializing the SDK.
+        !isRumConfigured()
+      ) {
+        initializeDatadogRum(config);
+      }
+    },
+    [config],
+  );
+};
+
+// REMINDER: Always be conscious of PII and Datadog
 /**
  * Sets the Datadog RUM user information if the environment is not local/CI,
  * Datadog is configured, and the user object has an id.
@@ -65,15 +76,7 @@ const useDatadogRum = config => {
  * @param {boolean} user.isVAPatient - Indicates if the user is a VA patient.
  */
 const setDatadogRumUser = user => {
-  if (
-    // // Prevent RUM from running on local/CI environments.
-    environment.BASE_URL.indexOf('localhost') < 0 &&
-    // Only run if DD is configured.
-    window.DD_RUM?.getInitConfiguration() &&
-    // Not during unit tests
-    !window.Mocha &&
-    user?.id
-  ) {
+  if (shouldRumBeEnabled() && isRumConfigured() && user?.id) {
     setRumUser({
       id: user.id,
       hasEHRM: user.hasEHRM,
@@ -85,4 +88,19 @@ const setDatadogRumUser = user => {
   }
 };
 
-export { useDatadogRum, setDatadogRumUser };
+// REMINDER: Always be conscious of PII and Datadog
+/**
+ * Adds user properties to existing Datadog RUM user object if the environment is not local/CI,
+ *
+ * @param {Object} userData - The user object containing user information.
+ */
+const addUserProperties = userData => {
+  if (shouldRumBeEnabled() && isRumConfigured() && userData) {
+    const userProps = Object.entries(userData);
+    userProps.forEach(([key, val]) => {
+      datadogRum.setUserProperty(key, val);
+    });
+  }
+};
+
+export { addUserProperties, setDatadogRumUser, useDatadogRum };

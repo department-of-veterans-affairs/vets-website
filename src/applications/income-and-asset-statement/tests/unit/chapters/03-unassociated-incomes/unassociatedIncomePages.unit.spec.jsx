@@ -2,7 +2,7 @@ import formConfig from '../../../../config/form';
 import {
   unassociatedIncomePages,
   options,
-} from '../../../../config/chapters/03-unassociated-incomes/unassociatedIncomePages';
+} from '../../../../config/chapters/02-unassociated-incomes/unassociatedIncomePages';
 import { incomeTypeLabels } from '../../../../labels';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';
@@ -11,7 +11,7 @@ import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json
 import {
   testOptionsIsItemIncomplete,
   testOptionsIsItemIncompleteWithZeroes,
-  testOptionsTextGetItemName,
+  testOptionsTextGetItemNameRecurringIncome,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
@@ -35,24 +35,30 @@ describe('unassociated income list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    testOptionsTextGetItemName(options);
+    testOptionsTextGetItemNameRecurringIncome(options);
   });
 
   describe('text cardDescription function', () => {
+    /* eslint-disable no-unused-vars */
     const {
-      // eslint-disable-next-line no-unused-vars
       recipientRelationship,
+      recipientName,
+      payer,
       ...baseItem
     } = testData.data.unassociatedIncomes[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, incomeTypeLabels);
   });
 
   describe('text cardDescription function with zero values', () => {
+    /* eslint-disable no-unused-vars */
     const {
-      // eslint-disable-next-line no-unused-vars
       recipientRelationship,
+      recipientName,
+      payer,
       ...baseItem
-    } = testDataZeroes.data.unassociatedIncomes[0];
+    } = testData.data.unassociatedIncomes[0];
+    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, incomeTypeLabels);
   });
 
@@ -133,14 +139,14 @@ describe('unassociated income list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-text-input': 1 },
+      { 'va-text-input': 3 },
       'recipient',
     );
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      1,
+      2,
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -148,9 +154,7 @@ describe('unassociated income list and loop pages', () => {
       schema,
       uiSchema,
       'recipient',
-      {
-        recipientName: 'Jane Doe',
-      },
+      testData.data.unassociatedIncomes[0],
       { loggedIn: true },
     );
   });

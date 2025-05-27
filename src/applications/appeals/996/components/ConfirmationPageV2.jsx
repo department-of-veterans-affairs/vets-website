@@ -28,11 +28,11 @@ import { formTitle } from '../content/title';
 
 import {
   chapterHeaderClass,
-  ConfirmationTitle,
-  ConfirmationAlert,
   ConfirmationSummary,
   ConfirmationReturnLink,
-} from '../../shared/components/ConfirmationCommon';
+} from '../../shared/components/ConfirmationSummary';
+import { ConfirmationAlert } from '../../shared/components/ConfirmationAlert';
+import { ConfirmationTitle } from '../../shared/components/ConfirmationTitle';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
 

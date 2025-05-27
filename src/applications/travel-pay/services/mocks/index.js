@@ -19,7 +19,14 @@ const claimDetails = {
   v2: require('./travel-claim-details-v2.json'),
 };
 
+const maintenanceWindows = {
+  none: require('./maintenance-windows/none.json'),
+  enabled: require('./maintenance-windows/enabled.json'),
+};
+
 const responses = {
+  'OPTIONS /v0/maintenance_windows': 'OK',
+  'GET /v0/maintenance_windows': maintenanceWindows.none,
   'GET /v0/user': user.withAddress,
   'GET /v0/feature_toggles': {
     data: {

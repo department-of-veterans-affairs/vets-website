@@ -1,10 +1,18 @@
 import moment from 'moment-timezone';
-import * as Sentry from '@sentry/browser';
 import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
+import {
+  format as dateFnsFormat,
+  formatISO,
+  subYears,
+  addMonths,
+  startOfDay,
+  endOfDay,
+  parseISO,
+  isValid,
+} from 'date-fns';
 import {
   EMPTY_FIELD,
   interpretationMap,
@@ -152,67 +160,12 @@ export const processList = list => {
 };
 
 /**
- * @param {Error} error javascript error
- * @param {String} page name of the page sending the error
- * @returns {undefined}
- */
-export const sendErrorToSentry = (error, page) => {
-  Sentry.captureException(error);
-  Sentry.captureMessage(
-    `MHV - Medical Records - ${page} - PDF generation error`,
-  );
-};
-
-/**
  * Macro case is naming with all letters Capitalized but the words are joined with _ ( underscore)
  * @param {String} str string
  * @returns {String} MACRO_CASE
  */
 export const macroCase = str => {
   return snakeCase(str).toUpperCase();
-};
-
-/**
- * Cache the dynamic import promise to avoid redundant network requests
- * and improve performance when makePdf is called multiple times.
- */
-let pdfModulePromise = null;
-
-/**
- * Create a pdf using the platform pdf generator tool
- * @param {Boolean} pdfName what the pdf file should be named
- * @param {Object} pdfData data to be passed to pdf generator
- * @param {String} sentryError name of the app feature where the call originated
- * @param {Boolean} runningUnitTest pass true when running unit tests because calling generatePdf will break unit tests
- * @param {String} templateId the template id in the pdfGenerator utility, defaults to medicalRecords
- */
-export const makePdf = async (
-  pdfName,
-  pdfData,
-  sentryError,
-  runningUnitTest,
-  templateId,
-) => {
-  try {
-    // Use cached module promise if available, otherwise create a new one
-    if (!pdfModulePromise) {
-      pdfModulePromise = import(
-        '@department-of-veterans-affairs/platform-pdf/exports'
-      );
-    }
-
-    // Wait for the module to load and extract the generatePdf function
-    const { generatePdf } = await pdfModulePromise;
-
-    if (!runningUnitTest) {
-      await generatePdf(templateId || 'medicalRecords', pdfName, pdfData);
-    }
-  } catch (error) {
-    // Reset the pdfModulePromise so subsequent calls can try again
-    pdfModulePromise = null;
-
-    sendErrorToSentry(error, sentryError);
-  }
 };
 
 /**
@@ -275,17 +228,6 @@ export const generateTextFile = (content, fileName) => {
   a.click();
   window.URL.revokeObjectURL(url);
   a.remove();
-};
-
-/**
- * Returns the date and time for file download name
- * @param {Object} user user object from redux store
- * @returns the user's name with the date and time in the format John-Doe-M-D-YYYY_hhmmssa
- */
-export const getNameDateAndTime = user => {
-  return `${user.userFullName.first}-${user.userFullName.last}-${moment()
-    .format('M-D-YYYY_hhmmssa')
-    .replace(/\./g, '')}`;
 };
 
 /**
@@ -550,31 +492,12 @@ export const getLastUpdatedText = (refreshStateStatus, extractType) => {
     );
 
     if (lastSuccessfulUpdate) {
-      return `Last updated at ${lastSuccessfulUpdate.time} on ${lastSuccessfulUpdate.date}`;
+      return `Last updated at ${lastSuccessfulUpdate.time} on ${
+        lastSuccessfulUpdate.date
+      }`;
     }
   }
   return null;
-};
-
-/**
- * @param {Object} nameObject {first, middle, last, suffix}
- * @returns {String} formatted timestamp
- */
-export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
-  let returnName = '';
-
-  let firstName = `${first}`;
-  let lastName = `${last}`;
-
-  if (!first) {
-    return lastName;
-  }
-  if (middle) firstName += ` ${middle}`;
-  if (suffix) lastName += `, ${suffix}`;
-
-  returnName = `${firstName} ${lastName}`;
-
-  return returnName;
 };
 
 /**
@@ -720,10 +643,6 @@ export const focusOnErrorField = () => {
   }, 300);
 };
 
-export const formatUserDob = userProfile => {
-  return userProfile?.dob ? formatDateLong(userProfile.dob) : 'Not found';
-};
-
 /**
  * Removes the trailing slash from a path
  *
@@ -733,4 +652,35 @@ export const formatUserDob = userProfile => {
 export const removeTrailingSlash = path => {
   if (!path) return path;
   return path.replace(/\/$/, '');
+};
+
+export const getAppointmentsDateRange = (fromDate, toDate) => {
+  function clamp(d, min, max) {
+    if (d < min) return min;
+    if (d > max) return max;
+    return d;
+  }
+
+  const now = new Date();
+  const earliest = startOfDay(subYears(now, 2));
+  const latest = endOfDay(addMonths(now, 13));
+
+  // parse or default
+  const rawFrom = fromDate ? startOfDay(parseISO(fromDate)) : earliest;
+  const rawTo = toDate ? endOfDay(parseISO(toDate)) : latest;
+
+  // clamp both ends
+  let clampedFrom = clamp(rawFrom, earliest, latest);
+  let clampedTo = clamp(rawTo, earliest, latest);
+
+  // ensure from <= to
+  if (clampedFrom > clampedTo) {
+    clampedFrom = earliest;
+    clampedTo = latest;
+  }
+
+  return {
+    startDate: formatISO(clampedFrom),
+    endDate: formatISO(clampedTo),
+  };
 };

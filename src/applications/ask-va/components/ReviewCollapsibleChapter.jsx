@@ -160,7 +160,7 @@ class ReviewCollapsibleChapter extends React.Component {
       'vads-u-margin-bottom--0': true,
     });
     const title = page.reviewTitle || page.title || '';
-    const ariaLabel = `Update ${(typeof title === 'function'
+    const ariaLabel = `Save ${(typeof title === 'function'
       ? title(pageData)
       : title) || 'page'}`;
 

@@ -118,7 +118,6 @@ const Payments = ({
 
 Payments.propTypes = {
   tableVersion: PropTypes.oneOf(['received', 'returned']).isRequired,
-  alertMessage: PropTypes.element,
   data: PropTypes.array,
   fields: PropTypes.array,
   textContent: PropTypes.element,

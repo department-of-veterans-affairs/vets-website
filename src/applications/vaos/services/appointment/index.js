@@ -372,14 +372,12 @@ export function hasValidCovidPhoneNumber(facility) {
  *    because these appointments are not from VistA, but we want to show them
  *
  * @param {Appointment} appt A FHIR appointment resource
- * @param {boolean} useDisplayPastCancel whether to display past canceled appointments
  * @returns {boolean} Whether or not the appt should be shown
  */
-export function isValidPastAppointment(appt, useDisplayPastCancel) {
+export function isValidPastAppointment(appt) {
   const isConfirmedAppointment = CONFIRMED_APPOINTMENT_TYPES.has(
     appt.vaos.appointmentType,
   );
-  const isNotCanceled = appt.status !== APPOINTMENT_STATUS.cancelled;
   const isNotInHiddenList = !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description);
   const isVideoWithDefaultStatus =
     appt.videoData?.isVideo && appt.description === DEFAULT_VIDEO_STATUS;
@@ -387,18 +385,8 @@ export function isValidPastAppointment(appt, useDisplayPastCancel) {
     appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment &&
     !appt.description;
 
-  if (useDisplayPastCancel) {
-    return (
-      isConfirmedAppointment &&
-      (isNotInHiddenList ||
-        isVideoWithDefaultStatus ||
-        isCommunityCareWithNullDescription)
-    );
-  }
-
   return (
     isConfirmedAppointment &&
-    isNotCanceled &&
     (isNotInHiddenList ||
       isVideoWithDefaultStatus ||
       isCommunityCareWithNullDescription)
@@ -726,7 +714,7 @@ export function getCalendarData({ appointment, facility }) {
   const isCommunityCare = appointment?.vaos.isCommunityCare;
   const isPhone = isVAPhoneAppointment(appointment);
   const signinText =
-    'Sign in to https://va.gov/health-care/schedule-view-va-appointments/appointments to get details about this appointment';
+    'Sign in to https://va.gov/my-health/appointments/ to get details about this appointment';
 
   if (isPhone) {
     data = {

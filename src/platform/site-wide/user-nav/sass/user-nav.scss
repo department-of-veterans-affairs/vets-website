@@ -269,7 +269,7 @@ button.idme-verify-button {
     display: block;
     padding: 0.75rem;
 
-    & svg {
+    & img {
       height: 16px;
       padding: 0;
     }
@@ -281,7 +281,7 @@ button.idme-verify-button {
     justify-content: center;
     align-self: center;
 
-    & svg {
+    & img {
       height: 18px;
       width: auto;
       margin-left: 5px;
@@ -307,7 +307,7 @@ button.logingov-verify-button {
     align-self: center;
   }
 
-  svg {
+  img {
     height: 15px;
     width: auto;
     margin-left: 5px;
@@ -330,7 +330,7 @@ button.logingov-verify-buttons {
   margin: 1em 0;
   white-space: normal !important;
 
-  svg {
+  img {
     height: 1em;
     padding: 0 0.25em;
   }

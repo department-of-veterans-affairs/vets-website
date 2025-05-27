@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import recordEvent from 'platform/monitoring/record-event';
@@ -30,49 +29,45 @@ const Folders = () => {
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
   );
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
 
   // clear out alerts if user navigates away from this component
-  useEffect(() => {
-    return () => {
-      if (location.pathname) {
-        dispatch(closeAlert());
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
+
+  useEffect(
+    () => {
+      dispatch(getFolders());
+    },
+    [dispatch, location, isModalVisible],
+  );
+
+  useEffect(
+    () => {
+      if (!isModalVisible) {
+        const alertVisible = alertList[alertList?.length - 1];
+        const alertSelector =
+          folders !== undefined && !alertVisible?.isActive
+            ? 'h1'
+            : alertVisible?.isActive && 'va-alert';
+
+        const pageTitleTag = getPageTitle({
+          pathname: location.pathname,
+        });
+
+        focusElement(document.querySelector(alertSelector));
+        updatePageTitle(pageTitleTag);
       }
-    };
-  }, [location.pathname, dispatch]);
-
-  useEffect(() => {
-    dispatch(getFolders());
-  }, [dispatch, location, isModalVisible]);
-
-  useEffect(() => {
-    if (!isModalVisible) {
-      const alertVisible = alertList[alertList?.length - 1];
-      const alertSelector =
-        folders !== undefined && !alertVisible?.isActive
-          ? 'h1'
-          : alertVisible?.isActive && 'va-alert';
-
-      const pageTitleTag = getPageTitle({
-        removeLandingPageFF,
-        pathname: location.pathname,
-      });
-
-      focusElement(document.querySelector(alertSelector));
-      updatePageTitle(pageTitleTag);
-    }
-  }, [
-    alertList,
-    folders,
-    isModalVisible,
-    location.pathname,
-    removeLandingPageFF,
-  ]);
+    },
+    [alertList, folders, isModalVisible, location.pathname],
+  );
 
   const openNewModal = () => {
     dispatch(closeAlert());
@@ -107,7 +102,7 @@ const Folders = () => {
     return (
       <>
         <h1 className="vads-u-margin-bottom--2" data-testid="my-folder-header">
-          {removeLandingPageFF ? 'Messages: ' : ''} {Breadcrumbs.FOLDERS.label}
+          Messages: {Breadcrumbs.FOLDERS.label}
         </h1>
         {(noAssociations || allTriageGroupsBlocked) && (
           <BlockedTriageGroupAlert

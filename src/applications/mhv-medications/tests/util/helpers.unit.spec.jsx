@@ -219,7 +219,6 @@ describe('createBreadcrumbs', () => {
   it('should return breadcrumbs for the ABOUT path', () => {
     const breadcrumbs = createBreadcrumbs(
       locationMock(medicationsUrls.subdirectories.ABOUT),
-      null,
       1,
     );
     expect(breadcrumbs).to.deep.equal([
@@ -231,7 +230,6 @@ describe('createBreadcrumbs', () => {
   it('should return breadcrumbs for the BASE path', () => {
     const breadcrumbs = createBreadcrumbs(
       locationMock(medicationsUrls.subdirectories.BASE),
-      null,
       2,
     );
     expect(breadcrumbs).to.deep.equal([
@@ -263,7 +261,6 @@ describe('createBreadcrumbs', () => {
   it('should return breadcrumbs for the REFILL path', () => {
     const breadcrumbs = createBreadcrumbs(
       locationMock(medicationsUrls.subdirectories.REFILL),
-      null,
       1,
     );
     expect(breadcrumbs).to.deep.equal([

@@ -21,8 +21,11 @@ export function CurrentRep({
   vcfUrl,
 }) {
   // "Learn more" link becomes Find-a-Rep link when place in profile (per design)
-  const containerIsProfile =
-    window.location.pathname === '/profile/accredited-representative';
+  const containerIsProfile = window.location.pathname.startsWith(
+    '/profile/accredited-representative',
+  );
+
+  const isOrganization = poaType === 'organization';
 
   return (
     <va-card show-shadow>
@@ -40,7 +43,7 @@ export function CurrentRep({
           <DynamicSubheader className="vads-u-font-size--h4 vads-u-margin-top--0">
             {name}
           </DynamicSubheader>
-          {poaType === 'organization' && (
+          {isOrganization && (
             <p className="vads-u-margin-top--0">
               <strong>Note:</strong> You can work with any accredited VSO
               representative at this organization.
@@ -78,10 +81,17 @@ export function CurrentRep({
                 </div>
               </div>
             )}
-            {poaType === 'representative' && email && (
-              <div className="vads-u-display--flex vads-u-margin-top--1p5">
-                <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
-                  <va-icon icon="mail" size={2} srtext="Representative email" />
+            {!isOrganization &&
+              email && (
+                <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                  <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                    <va-icon
+                      icon="mail"
+                      size={2}
+                      srtext="Representative email"
+                    />
+                  </div>
+                  <a href={`mailto:${email}`}>{email}</a>
                 </div>
                 <a href={`mailto:${email}`}>{email}</a>
               </div>
@@ -102,10 +112,18 @@ export function CurrentRep({
                 />
               </div>
             )}
-            {poaType === 'representative' && (contact || email) && (
-              <div className="vads-u-display--flex vads-u-margin-top--1p5">
-                <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
-                  <va-icon icon="file_download" size={2} />
+            {!isOrganization &&
+              (contact || email) && (
+                <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                  <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                    <va-icon icon="file_download" size={2} />
+                  </div>
+                  <va-link
+                    filetype="VCF"
+                    filename="accredited_representative_contact"
+                    href={vcfUrl}
+                    text="Download your accredited representative's contact information"
+                  />
                 </div>
                 <va-link
                   filetype="VCF"
@@ -119,7 +137,7 @@ export function CurrentRep({
               <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                 <va-icon icon="search" size={2} />
               </div>
-              {containerIsProfile ? (
+              {containerIsProfile && isOrganization ? (
                 <va-link
                   href={`${environment.BASE_URL}/get-help-from-accredited-representative/find-rep`}
                   text="Find an accredited VSO representative at this organization"

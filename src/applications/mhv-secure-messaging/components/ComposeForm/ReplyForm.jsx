@@ -6,7 +6,6 @@ import {
   focusElement,
   scrollTo,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import EmergencyNote from '../EmergencyNote';
@@ -47,12 +46,6 @@ const ReplyForm = props => {
   const { replyToName, isSaving } = useSelector(
     state => state.sm.threadDetails,
   );
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
 
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [category, setCategory] = useState(null);
@@ -64,47 +57,63 @@ const ReplyForm = props => {
   const [hideDraft, setHideDraft] = useState(false);
   const [currentRecipient, setCurrentRecipient] = useState(null);
 
-  useEffect(() => {
-    const draftToEdit = drafts?.[0];
-    if (draftToEdit) {
-      const tempRecipient = {
-        recipientId: draftToEdit.recipientId,
-        name:
-          messages.find(m => m.triageGroupName === draftToEdit.triageGroupName)
-            ?.triageGroupName || draftToEdit.triageGroupName,
-        type: Recipients.CARE_TEAM,
-        status: RecipientStatus.ALLOWED,
+  useEffect(
+    () => {
+      const draftToEdit = drafts?.[0];
+      if (draftToEdit) {
+        const tempRecipient = {
+          recipientId: draftToEdit.recipientId,
+          name:
+            messages.find(
+              m => m.triageGroupName === draftToEdit.triageGroupName,
+            )?.triageGroupName || draftToEdit.triageGroupName,
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.ALLOWED,
+        };
+
+        setCurrentRecipient(tempRecipient);
+      }
+      // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
+    },
+    [drafts, recipients],
+  );
+
+  useEffect(
+    () => {
+      const pageTitleTag = getPageTitle({});
+      setSubject(replyMessage.subject);
+      setCategory(Categories[replyMessage.category]);
+      updatePageTitle(pageTitleTag);
+    },
+    [replyMessage],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearThread());
       };
+    },
+    [dispatch],
+  );
 
-      setCurrentRecipient(tempRecipient);
-    }
-    // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
-  }, [drafts, recipients]);
+  useEffect(
+    () => {
+      if (!signature) {
+        dispatch(getPatientSignature());
+      }
+    },
+    [signature, dispatch],
+  );
 
-  useEffect(() => {
-    const pageTitleTag = getPageTitle({ removeLandingPageFF });
-    setSubject(replyMessage.subject);
-    setCategory(Categories[replyMessage.category]);
-    updatePageTitle(pageTitleTag);
-  }, [removeLandingPageFF, replyMessage]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearThread());
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!signature) {
-      dispatch(getPatientSignature());
-    }
-  }, [signature, dispatch]);
-
-  useEffect(() => {
-    if (alertStatus) {
-      focusElement(lastFocusableElement);
-    }
-  }, [alertStatus]);
+  useEffect(
+    () => {
+      if (alertStatus) {
+        focusElement(lastFocusableElement);
+      }
+    },
+    [alertStatus],
+  );
 
   useEffect(() => {
     if (header.current) {
@@ -112,15 +121,14 @@ const ReplyForm = props => {
     }
   }, []);
 
-  const messageTitle = useMemo(() => {
-    const casedCategory =
-      category === 'COVID' ? category : capitalize(category);
-    return `${
-      removeLandingPageFF
-        ? `Messages: ${casedCategory} - ${subject}`
-        : `${casedCategory}: ${subject}`
-    }`;
-  }, [category, removeLandingPageFF, subject]);
+  const messageTitle = useMemo(
+    () => {
+      const casedCategory =
+        category === 'COVID' ? category : capitalize(category);
+      return `Messages: ${casedCategory} - ${subject}`;
+    },
+    [category, subject],
+  );
 
   return (
     replyMessage && (
@@ -174,9 +182,8 @@ const ReplyForm = props => {
             className="reply-form vads-u-padding-bottom--2"
             data-testid="reply-form"
           >
-            {!cannotReply && !showBlockedTriageGroupAlert && (
-              <EmergencyNote dropDownFlag />
-            )}
+            {!cannotReply &&
+              !showBlockedTriageGroupAlert && <EmergencyNote dropDownFlag />}
             {/* {DELETE BUTTON IS PRESSED, DELETES SINGLE DRAFT} */}
             {!hideDraft && (
               <>

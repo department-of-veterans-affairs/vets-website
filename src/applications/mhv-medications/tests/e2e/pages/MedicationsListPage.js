@@ -165,6 +165,10 @@ class MedicationsListPage {
     );
   };
 
+  verifyFocusOnDownloadFailureAlertBanner = () => {
+    cy.get('[data-testid="api-error-notification"]').should('be.focused');
+  };
+
   verifyTextInsideDropDownOnListPage = () => {
     cy.get('[data-testid="dropdown-info"]').should(
       'contain',
@@ -225,7 +229,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
       );
     });
   };
@@ -268,12 +272,21 @@ class MedicationsListPage {
     });
   };
 
-  verifyDownloadCompleteSuccessMessageBanner = () => {
+  verifyDownloadCompleteSuccessMessageBanner = text => {
     cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
-    cy.get('[data-testid="download-success-banner"]').should(
-      'contain',
-      'Download started',
+    cy.get('[data-testid="download-success-banner"]')
+      .should('contain', 'Download started')
+      .and('contain', text);
+  };
+
+  verifyFocusOnDownloadAlertSuccessBanner = () => {
+    cy.get('[data-testid="download-success-banner"] > .hydrated').should(
+      'be.focused',
     );
+  };
+
+  verifyDownloadSuccessMessageBannerNotVisibleAfterReload = () => {
+    cy.get('[data-testid="download-success-banner"]').should('not.exist');
   };
 
   verifyDownloadTextFileHeadless = (
@@ -487,7 +500,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
       );
     });
     cy.intercept(
@@ -532,7 +545,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by name`,
       );
     });
   };
@@ -566,7 +579,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, last filled first`,
       );
     });
   };
@@ -811,6 +824,10 @@ class MedicationsListPage {
     cy.get('[data-testid="zero-filter-results"]')
       .should('have.text', text)
       .and('be.focused');
+  };
+
+  verifyNoMedicationsInListMessageNotShown = () => {
+    cy.get('[data-testid="alert-message"]').should('not.exist');
   };
 
   clickResetFilterButtonOnFilterAccordionDropDown = () => {

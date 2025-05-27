@@ -1,0 +1,67 @@
+flow:
+  title: Veteran readiness and employment financial issues (auth)
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value: start-your-question-auth
+
+    - action: include
+      target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
+      value: select-category-veteran-readiness-and-employment
+
+    - action: include
+      target: page
+      value: select-topic-financial-issues
+
+    - action: include
+      target: page
+      value: who-is-your-question-about-someone-else
+
+    - action: include
+      target: page
+      value: what-is-your-relationship-to-the-veteran-connected-through-work
+
+    - action: include
+      target: page
+      value: what-is-your-role-funeral-director
+
+    - action: include
+      target: page
+      value: tell-us-about-your-family-member-veteran
+
+    - action: include
+      target: page
+      value: tell-us-about-your-family-member-veteran-death
+
+    - action: include
+      target: page
+      value: have-they-applied-for-VRE-benefits-yes
+
+    - action: include
+      target: page
+      value: their-counselor-name
+
+    - action: include
+      target: page
+      value: family-member-veteran-residence
+
+    - action: include
+      target: page
+      value: your-contact-information-radio-buttons-phone-call
+
+    - action: include
+      target: page
+      value: your-question
+
+    - action: include
+      target: page
+      value: editing-answers
+
+    - action: include
+      target: page
+      value: your-confirmation-number

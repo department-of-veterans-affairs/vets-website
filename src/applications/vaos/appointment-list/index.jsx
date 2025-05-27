@@ -18,6 +18,7 @@ function AppointmentListSection() {
   // Parse the query parameters
   const searchParams = new URLSearchParams(location.search);
   const eps = searchParams.get('eps'); // Get the 'eps' query parameter
+
   return (
     <>
       <Switch>
@@ -29,19 +30,15 @@ function AppointmentListSection() {
         {isInCCPilot && <Redirect from="/pending" to="/referrals-requests" />}
 
         <Route path="/pending" component={AppointmentsPage} />
+        {isInCCPilot &&
+          eps && <Route path="/:id" component={EpsAppointmentDetailsPage} />}
+
         {isInCCPilot && (
           <Route path="/referrals-requests" component={ReferralsAndRequests} />
         )}
         <Route path="/past/:id" component={UpcomingAppointmentsDetailsPage} />
         <Route path="/past" component={AppointmentsPage} />
-        {isInCCPilot && eps && (
-          <Route path="/:id" component={EpsAppointmentDetailsPage} />
-        )}
-        <Route
-          exact
-          path={['/va/:id', '/:id']}
-          component={UpcomingAppointmentsDetailsPage}
-        />
+        <Route exact path="/:id" component={UpcomingAppointmentsDetailsPage} />
         <Route
           exact
           path={['/', '/pending', '/past']}
