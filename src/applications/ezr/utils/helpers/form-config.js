@@ -208,15 +208,6 @@ export function includeHouseholdInformation(formData) {
 }
 
 /**
- * Helper that determines if the form should show the emergency contacts page
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user can add emergency contacts.
- */
-export function includeEmergencyContacts(formData) {
-  return formData['view:isEmergencyContactsEnabled'];
-}
-
-/**
  * Helper that determines if the form data contains values that require the financial
  * status alert to be shown
  * @param {Object} formData - the current data object passed from the form

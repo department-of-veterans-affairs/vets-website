@@ -80,7 +80,7 @@ describe('Form 10-10EZR Keyboard Only', () => {
       cy.tabToContinueForm();
 
       // Start of Emergency Contacts section
-      selectRadioWithKeyboard('view:isEmergencyContactsEnabled', 'Y');
+      selectRadioWithKeyboard('view:hasEmergencyContacts', 'Y');
       cy.tabToElementAndPressSpace('.usa-button-primary'); // Proceed to add a contact
 
       // Use the first contact from your data

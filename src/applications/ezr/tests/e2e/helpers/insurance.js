@@ -22,7 +22,7 @@ export const advanceToInsurancePolicies = testData => {
   // Skip Emergency Contacts Section
   goToNextPage('/veteran-information/emergency-contacts-summary');
 
-  selectYesNoWebComponent('view:isEmergencyContactsEnabled', false);
+  selectYesNoWebComponent('view:hasEmergencyContacts', false);
 
   // Skip TERA Section
   goToNextPage('/military-service/toxic-exposure');

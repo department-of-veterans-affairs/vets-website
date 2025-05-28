@@ -40,7 +40,7 @@ describe('EZR TERA flow', () => {
     // Accessibility check after navigation to emergency contacts section
     cy.injectAxeThenAxeCheck();
 
-    selectYesNoWebComponent('view:isEmergencyContactsEnabled', true);
+    selectYesNoWebComponent('view:hasEmergencyContacts', true);
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/veteran-information/emergency-contacts/0/contact',
     );

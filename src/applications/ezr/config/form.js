@@ -21,7 +21,7 @@ import {
   includeAgentOrangeExposureDates,
   includeOtherExposureDates,
   includeOtherExposureDetails,
-  includeEmergencyContacts,
+  isEmergencyContactsEnabled,
   showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
@@ -208,15 +208,15 @@ const formConfig = {
         },
         emergencyContactsSummary: {
           ...emergencyContactPages.emergencyContactsSummary,
-          depends: includeEmergencyContacts,
+          depends: isEmergencyContactsEnabled,
         },
         emergencyContactsPage: {
           ...emergencyContactPages.emergencyContactsPage,
-          depends: includeEmergencyContacts,
+          depends: isEmergencyContactsEnabled,
         },
         emergencyContactsAddressPage: {
           ...emergencyContactPages.emergencyContactsAddressPage,
-          depends: includeEmergencyContacts,
+          depends: isEmergencyContactsEnabled,
         },
         /** NOTE: this page needs to live in the "Veteran Info" section to avoid
          * having an empty/inactive "Household Info" accordion on the review page

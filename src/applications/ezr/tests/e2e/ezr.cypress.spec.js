@@ -60,12 +60,12 @@ const testConfig = createTestConfig(
             cy.get('body').then($body => {
               if (
                 $body.find(
-                  'va-radio-option[name="root_view:isEmergencyContactsEnabled"]',
+                  'va-radio-option[name="root_view:hasEmergencyContacts"]',
                 ).length
               ) {
                 selectYesNoWebComponent(
-                  'view:isEmergencyContactsEnabled',
-                  data['view:isEmergencyContactsEnabled'],
+                  'view:hasEmergencyContacts',
+                  data['view:hasEmergencyContacts'],
                 );
               }
             });
