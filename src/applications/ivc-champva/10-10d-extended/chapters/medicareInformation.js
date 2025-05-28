@@ -602,18 +602,114 @@ const medicarePartCCardUploadPage = {
   },
 };
 
+// Medicare Part D status page definition
+const medicarePartDStatusPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(formData)} Medicare Part D status`,
+    ),
+    hasMedicarePartD: {
+      ...yesNoUI({
+        title:
+          'Do you have Medicare Part D (prescription drug coverage) information to provide or update at this time?',
+        hint:
+          'Depending on your response, you may need to submit additional documents with this application.',
+        required: () => true,
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['hasMedicarePartD'],
+    properties: {
+      titleSchema,
+      hasMedicarePartD: yesNoSchema,
+    },
+  },
+};
+
+// Medicare Part D carrier and effective date page definition
+const medicarePartDCarrierEffectiveDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(
+          formData,
+        )} Medicare Part D carrier and effective date`,
+    ),
+    medicarePartDCarrier: textUI({
+      title: 'Name of insurance carrier',
+      hint: 'Your insurance carrier is your insurance company.',
+    }),
+    medicarePartDEffectiveDate: currentOrPastDateUI({
+      title: 'Medicare Part D effective date',
+      hint:
+        'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+      required: () => true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartDCarrier', 'medicarePartDEffectiveDate'],
+    properties: {
+      titleSchema,
+      medicarePartDCarrier: textSchema,
+      medicarePartDEffectiveDate: currentOrPastDateSchema,
+    },
+  },
+};
+
+// Define the Medicare Part D card upload page
+const medicarePartDCardUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload Medicare Part D card',
+      'You’ll need to submit a copy of the front and back of your Medicare Part D prescription drug coverage card.',
+    ),
+    ...fileUploadBlurb,
+    medicarePartDFrontCard: fileUploadUI({
+      label: 'Upload front of Part D Medicare card',
+    }),
+    medicarePartDBackCard: fileUploadUI({
+      label: 'Upload back of Part D Medicare card',
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartDFrontCard', 'medicarePartDBackCard'],
+    properties: {
+      titleSchema,
+      'view:fileUploadBlurb': blankSchema,
+      medicarePartDFrontCard: {
+        type: 'array',
+        maxItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+      medicarePartDBackCard: {
+        type: 'array',
+        maxItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 // PAGES NEEDED:
-// IF USER SPECIFIES PART C:
-//   - medicare parts a/b effective dates (includes part C explanatory dropdown)
-//   - medicare parts a/b card upload
-//   - medicare part C carrier and effective date
-//   - pharmacy benefits yes/no
-//   - medicare parts c card upload
-// IF USER SELECTED (A & B) OR D
-//   - Do you have medicare part D info to add? yes/no
-//   - medicare part D carrier and effective date
-//   - medicare parts D card upload
-// - Summary page
 // - generic disallowance yes/no + upload screen (TBD, need Jamie's design)
 
 export const medicarePages = arrayBuilderPages(
@@ -796,6 +892,38 @@ export const medicarePages = arrayBuilderPages(
       },
       CustomPage: FileFieldCustom,
       ...medicarePartCCardUploadPage,
+    }),
+    medicarePartDStatus: pageBuilder.itemPage({
+      path: 'medicare-part-d-status/:index',
+      title: 'Medicare Part D status',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'ab' || planType === 'c';
+      },
+      ...medicarePartDStatusPage,
+    }),
+    medicarePartDCarrierEffectiveDate: pageBuilder.itemPage({
+      path: 'medicare-part-d-carrier-effective-date/:index',
+      title: 'Medicare Part D carrier and effective date',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        const hasPartD = formData?.medicare?.[index]?.hasMedicarePartD;
+        // Only show if user indicated they have Part D
+        return (planType === 'ab' || planType === 'c') && hasPartD;
+      },
+      ...medicarePartDCarrierEffectiveDatePage,
+    }),
+    medicarePartDCardUpload: pageBuilder.itemPage({
+      path: 'medicare-part-d-card-upload/:index',
+      title: 'Upload Medicare Part D card',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        const hasPartD = formData?.medicare?.[index]?.hasMedicarePartD;
+        // Only show if user indicated they have Part D
+        return (planType === 'ab' || planType === 'c') && hasPartD;
+      },
+      CustomPage: FileFieldCustom,
+      ...medicarePartDCardUploadPage,
     }),
   }),
 );
