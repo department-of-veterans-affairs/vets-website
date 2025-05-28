@@ -8,7 +8,7 @@ import { addDays, addMonths, setDate } from 'date-fns';
 class MockReferralDraftAppointmentResponse {
   constructor(options = {}) {
     this.options = {
-      referralId: 'PmDYsBz-egEtG13flMnHUQ==',
+      referralNumber: 'PmDYsBz-egEtG13flMnHUQ==',
       categoryOfCare: 'Physical Therapy',
       notFound: false,
       serverError: false,
@@ -126,12 +126,12 @@ class MockReferralDraftAppointmentResponse {
    * Creates a draftAppointment object
    *
    * @param {Object} options - Options for the draft appointment
-   * @param {string} options.referralId - The referral ID
+   * @param {string} options.referralNumber - The referral Number
    * @param {string} options.typeOfCare - Type of care
    * @returns {Object} A draft appointment object
    */
   static createDraftAppointment({
-    referralId = 'PmDYsBz-egEtG13flMnHUQ==',
+    referralNumber = 'PmDYsBz-egEtG13flMnHUQ==',
     typeOfCare = 'Physical Therapy',
   } = {}) {
     const providerId = `provider-${Math.random()
@@ -151,7 +151,7 @@ class MockReferralDraftAppointmentResponse {
         appointmentType: 'COMMUNITY_CARE',
         status: 'BOOKED',
         schedulingMethod: 'direct',
-        referralId,
+        referralNumber,
         reasonForVisit: 'Follow-up/Routine',
         providerId,
         locationId,
@@ -177,15 +177,15 @@ class MockReferralDraftAppointmentResponse {
   /**
    * Creates a 404 Not Found error response
    *
-   * @param {string} referralId - ID of the referral that wasn't found
+   * @param {string} referralNumber - ID of the referral that wasn't found
    * @returns {Object} A 404 error response object
    */
-  static create404Response(referralId = 'PmDYsBz-egEtG13flMnHUQ==') {
+  static create404Response(referralNumber = 'PmDYsBz-egEtG13flMnHUQ==') {
     return {
       errors: [
         {
           title: 'Referral not found',
-          detail: `Referral with ID ${referralId} was not found`,
+          detail: `Referral with ID ${referralNumber} was not found`,
           code: '404',
           status: '404',
         },
@@ -217,11 +217,18 @@ class MockReferralDraftAppointmentResponse {
    * @returns {Object} The complete response object or error
    */
   toJSON() {
-    const { referralId, notFound, serverError, numberOfSlots } = this.options;
+    const {
+      referralNumber,
+      notFound,
+      serverError,
+      numberOfSlots,
+    } = this.options;
 
     // Return 404 error if notFound is true
     if (notFound) {
-      return MockReferralDraftAppointmentResponse.create404Response(referralId);
+      return MockReferralDraftAppointmentResponse.create404Response(
+        referralNumber,
+      );
     }
 
     // Return 500 error if serverError is true
@@ -262,23 +269,22 @@ class MockReferralDraftAppointmentResponse {
     return {
       data: {
         id: 'EEKoGzEf',
-        type: 'draft',
-        provider,
-        slots: {
-          count: numberOfSlots,
+        type: 'draft_appointment',
+        attributes: {
+          provider,
           slots: slotsArray,
-        },
-        drivetime: {
-          origin: {
-            latitude: 40.7128,
-            longitude: -74.006,
-          },
-          destination: {
-            distanceInMiles: 313,
-            driveTimeInSecondsWithoutTraffic: 19096,
-            driveTimeInSecondsWithTraffic: 19561,
-            latitude: 44.475883,
-            longitude: -73.212074,
+          drivetime: {
+            origin: {
+              latitude: 40.7128,
+              longitude: -74.006,
+            },
+            destination: {
+              distanceInMiles: 313,
+              driveTimeInSecondsWithoutTraffic: 19096,
+              driveTimeInSecondsWithTraffic: 19561,
+              latitude: 44.475883,
+              longitude: -73.212074,
+            },
           },
         },
       },

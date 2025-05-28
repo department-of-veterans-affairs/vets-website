@@ -1,15 +1,15 @@
 export const Data = {
   PAGINATION_TEXT: 'Showing 1 - 10 of 29 medications',
   PAGINATION_ALL_MEDICATIONS:
-    'Showing 1 - 10 of 29 medications, alphabetically by status',
+    'Showing 1 - 10 of 29  medications, alphabetically by status',
   PAGINATION_ACTIVE_TEXT:
-    'Showing 1 - 10 of 29 active medications, alphabetically by status',
+    'Showing 1 - 10 of 29  active medications, alphabetically by status',
   PAGINATION_RENEW:
-    'Showing 1 - 10 of 29 renewal needed before refill medications, alphabetically by status',
+    'Showing 1 - 10 of 29  renewal needed before refill medications, alphabetically by status',
   PAGINATION_NON_ACTIVE:
-    'Showing 1 - 10 of 15 non-active medications, alphabetically by status',
+    'Showing 1 - 10 of 15  non-active medications, alphabetically by status',
   PAGINATION_RECENTLY_REQUESTED:
-    'Showing 1 - 10 of 29 recently requested medications, alphabetically by status',
+    'Showing 1 - 10 of 29  recently requested medications, alphabetically by status',
   ACTIVE_REFILL_IN_PROCESS: 'We expect to fill this prescription on',
   ACTIVE_NON_VA: 'You can’t manage this medication in this online tool.',
   PREVIOUS_PRESCRIPTION_PAGINATION:
@@ -120,6 +120,7 @@ export const Paths = {
       'my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active,Expired&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
     NON_ACTIVE_FILTER_LIST:
       '/my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    AAL: 'my_health/v1/aal',
   },
 };
 export const Alerts = {

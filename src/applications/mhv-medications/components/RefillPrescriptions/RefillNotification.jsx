@@ -1,19 +1,13 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useSelector } from 'react-redux';
 import { dataDogActionNames } from '../../util/dataDogConstants';
-import { SESSION_RX_FILTER_OPEN_BY_DEFAULT } from '../../util/constants';
+import { setFilterOpen } from '../../redux/preferencesSlice';
 
-const RefillNotification = ({ refillStatus }) => {
-  // Selectors
-  const successfulMeds = useSelector(
-    state => state.rx.prescriptions?.refillNotification?.successfulMeds,
-  );
-  const failedMeds = useSelector(
-    state => state.rx.prescriptions?.refillNotification?.failedMeds,
-  );
+const RefillNotification = ({ refillStatus, successfulMeds, failedMeds }) => {
+  const dispatch = useDispatch();
 
   useEffect(
     () => {
@@ -36,9 +30,7 @@ const RefillNotification = ({ refillStatus }) => {
   );
 
   const handleGoToMedicationsListOnSuccess = () => {
-    if (!sessionStorage.getItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT)) {
-      sessionStorage.setItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT, true);
-    }
+    dispatch(setFilterOpen(true));
   };
 
   const isNotSubmitted =
@@ -159,7 +151,9 @@ const RefillNotification = ({ refillStatus }) => {
 };
 
 RefillNotification.propTypes = {
+  failedMeds: PropTypes.array,
   refillStatus: PropTypes.string,
+  successfulMeds: PropTypes.array,
 };
 
 export default RefillNotification;

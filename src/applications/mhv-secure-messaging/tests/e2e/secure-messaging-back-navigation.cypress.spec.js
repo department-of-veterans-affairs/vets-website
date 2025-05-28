@@ -12,6 +12,7 @@ describe('SM back navigation', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
+    PatientComposePage.interceptSentFolder();
   });
 
   it('user navigate to inbox folder after message sent', () => {

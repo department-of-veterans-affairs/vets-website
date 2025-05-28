@@ -118,7 +118,7 @@ const ResponseInboxPage = ({ router }) => {
     setLoading(true);
     setError(false);
 
-    if (getMockTestingFlagforAPI()) {
+    if (getMockTestingFlagforAPI() && !window.Cypress) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {

@@ -48,7 +48,7 @@ export const ProfileTabContainer = ({
           concatAddress={concatAddress}
           vcfUrl={vcfUrl}
         />
-        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+        <h2 className="vads-u-font-size--h3">
           How to replace your current accredited representative
         </h2>{' '}
         <p>

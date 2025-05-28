@@ -3,8 +3,11 @@ import { Provider } from 'react-redux';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import configureStore from 'redux-mock-store';
-import { setupServer } from 'msw/node';
-import { rest } from 'msw';
+import {
+  createGetHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import App from './index';
 
@@ -19,14 +22,9 @@ const emptyAvailableFormsResponse = {
 
 const setupAvailableFormsResponse = (server, status, responsePayload) => {
   server.use(
-    rest.get(
+    createGetHandler(
       'https://dev-api.va.gov/v0/form1095_bs/available_forms',
-      (_, res, ctx) => {
-        if (responsePayload) {
-          return res(ctx.status(status), ctx.json(responsePayload));
-        }
-        return res(ctx.status(status));
-      },
+      () => jsonResponse(responsePayload || {}, { status }),
     ),
   );
 };
@@ -190,7 +188,9 @@ describe('App component', () => {
         expect(getByTestId('downloadError')).to.exist;
       });
       const target = getByTestId('downloadError');
-      expect(document.activeElement).to.eq(target);
+      await waitFor(() => {
+        expect(document.activeElement).to.eq(target);
+      });
     });
 
     describe('when the forms endpoint fails', () => {
