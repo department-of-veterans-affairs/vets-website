@@ -48,10 +48,6 @@ describe('After-visit Summary - Happy Path', () => {
   it('only the top accordion is open by default', () => {
     cy.visit(testUrl);
     cy.get('h1').contains('After-visit summary');
-    // cy.get("[header='Your appointment on January 1, 2023'][open='true']")
-    //   .get('.avs-accordion-item')
-    //   .contains('Providers')
-    //   .should('be.visible');
     cy.get("[header='Your appointment on January 1, 2023'][open='true']")
       .get('.avs-accordion-item')
       .contains('You were diagnosed with')
