@@ -114,7 +114,7 @@ describe('CompleteReferral', () => {
       'Monday, November 18th, 2024',
     );
     expect(getByTestId('appointment-type')).to.have.text(
-      'Optometry with Dr. Jane Smith',
+      'Optometry with Dr. Moreen S. Rafa',
     );
 
     expect(getByTestId('survey-info-block')).to.exist;

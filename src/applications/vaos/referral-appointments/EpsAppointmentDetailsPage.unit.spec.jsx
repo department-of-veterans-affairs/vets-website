@@ -178,7 +178,7 @@ describe('EpsAppointmentDetailsPage', () => {
 
     // Check specific content from appointment data
     const { attributes } = referralAppointmentInfo;
-    expect(getByText(attributes.provider.name)).to.exist;
+    expect(getByText(attributes.provider.location.name)).to.exist;
 
     // Check preparation instructions
     expect(getByText(/Bring your insurance cards/)).to.exist;

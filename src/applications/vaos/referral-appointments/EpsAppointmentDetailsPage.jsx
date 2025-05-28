@@ -133,15 +133,15 @@ export default function EpsAppointmentDetailsPage() {
         </Section>
         <Section heading="Provider">
           <span>
-            {`${appointment.provider.name ||
+            {`${appointment.provider.location.name ||
               'Provider information not available'}`}
           </span>
           <br />
-          {appointment.provider.address && (
+          {appointment.provider.location.address && (
             <ProviderAddress
-              address={appointment.provider.address}
+              address={appointment.provider.location.address}
               showDirections
-              directionsName={appointment.provider.name}
+              directionsName={appointment.provider.location.name}
               phone={appointment.provider.phone}
             />
           )}
