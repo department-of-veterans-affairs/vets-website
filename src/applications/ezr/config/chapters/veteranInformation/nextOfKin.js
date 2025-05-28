@@ -5,6 +5,14 @@ import {
   getDeleteTitle,
   getDeleteYes,
   getDeleteDescription,
+  getCancelAddDescription,
+  getCancelEditDescription,
+  getCancelAddYes,
+  getCancelAddNo,
+  getCancelEditNo,
+  getCancelEditYes,
+  getCancelEditTitle,
+  getCancelAddTitle,
 } from '../../../utils/helpers/nextOfKinUtils';
 import content from '../../../locales/en/content.json';
 import {
@@ -36,6 +44,14 @@ const arrayBuilderOptions = {
     deleteTitle: getDeleteTitle,
     deleteYes: getDeleteYes,
     deleteDescription: getDeleteDescription,
+    cancelAddDescription: getCancelAddDescription,
+    cancelEditDescription: getCancelEditDescription,
+    cancelAddYes: getCancelAddYes,
+    cancelAddNo: getCancelAddNo,
+    cancelEditNo: getCancelEditNo,
+    cancelEditYes: getCancelEditYes,
+    cancelAddTitle: getCancelAddTitle,
+    cancelEditTitle: getCancelEditTitle,
   },
 };
 
