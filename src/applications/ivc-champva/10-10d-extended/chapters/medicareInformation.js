@@ -33,7 +33,7 @@ import {
 const MEDICARE_TYPE_LABELS = {
   ab: 'Original Medicare Parts A and B (hospital and medical coverage)',
   c:
-    'Medicare Part C Advantage Plan (this option includes being previously enrolled in Part A and B )',
+    'Medicare Part C Advantage Plan (this option includes being previously enrolled in Part A and B)',
   a: 'Medicare Part A only (hospital coverage)',
   b: 'Medicare Part B only (medical coverage)',
 };
@@ -167,41 +167,65 @@ const medicarePlanUnder65 = {
 };
 
 // Medicare effective dates page definition
-const medicarePartAPartBEffectiveDatesPage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${generateParticipantName(formData)} Medicare effective dates`,
-    ),
-    'view:partATitle': {
-      'ui:description': <h3>Medicare Part A</h3>,
+// This is used for Parts A&B as well as Part C.
+const medicarePartAPartBEffectiveDatesPage = partC => {
+  const uiProperties = {};
+  const schemaProperties = {};
+  if (partC) {
+    uiProperties['view:partCExplanation'] = {
+      'ui:description': (
+        <va-additional-info
+          trigger="If I have a Part C plan why do you need Part A and B information?"
+          class="vads-u-margin-bottom--4"
+        >
+          <p className="vads-u-margin-y--0">
+            We need to confirm the dates you first became eligible for Part A
+            and B.
+          </p>
+        </va-additional-info>
+      ),
+    };
+
+    schemaProperties['view:partCExplanation'] = blankSchema;
+  }
+  return {
+    uiSchema: {
+      ...arrayBuilderItemSubsequentPageTitleUI(
+        ({ formData }) =>
+          `${generateParticipantName(formData)} Medicare effective dates`,
+      ),
+      'view:partATitle': {
+        'ui:description': <h3>Medicare Part A</h3>,
+      },
+      medicarePartAEffectiveDate: currentOrPastDateUI({
+        title: 'Effective date',
+        hint:
+          'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+        required: () => true,
+      }),
+      'view:partBTitle': {
+        'ui:description': <h3>Medicare Part B</h3>,
+      },
+      medicarePartBEffectiveDate: currentOrPastDateUI({
+        title: 'Effective date',
+        hint:
+          'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+        required: () => true,
+      }),
+      ...uiProperties,
     },
-    medicarePartAEffectiveDate: currentOrPastDateUI({
-      title: 'Effective date',
-      hint:
-        'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
-      required: () => true,
-    }),
-    'view:partBTitle': {
-      'ui:description': <h3>Medicare Part A</h3>,
+    schema: {
+      type: 'object',
+      properties: {
+        titleSchema,
+        'view:partATitle': blankSchema,
+        medicarePartAEffectiveDate: currentOrPastDateSchema,
+        'view:partBTitle': blankSchema,
+        medicarePartBEffectiveDate: currentOrPastDateSchema,
+        ...schemaProperties,
+      },
     },
-    medicarePartBEffectiveDate: currentOrPastDateUI({
-      title: 'Effective date',
-      hint:
-        'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
-      required: () => true,
-    }),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      titleSchema,
-      'view:partATitle': blankSchema,
-      medicarePartAEffectiveDate: currentOrPastDateSchema,
-      'view:partBTitle': blankSchema,
-      medicarePartBEffectiveDate: currentOrPastDateSchema,
-    },
-  },
+  };
 };
 
 // IF USER SPECIFIES ONLY A/B:
@@ -617,14 +641,23 @@ export const medicarePages = arrayBuilderPages(
         const planType = formData?.medicare?.[index]?.medicarePlanType;
         return planType === 'ab';
       },
-      ...medicarePartAPartBEffectiveDatesPage,
+      ...medicarePartAPartBEffectiveDatesPage(false),
+    }),
+    medicarePartCABEffectiveDates: pageBuilder.itemPage({
+      path: 'medicare-effective-dates-part-c-ab/:index',
+      title: 'Medicare effective dates',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'c';
+      },
+      ...medicarePartAPartBEffectiveDatesPage(true),
     }),
     medicareABCardUpload: pageBuilder.itemPage({
       path: 'medicare-ab-card-upload/:index',
       title: 'Upload Medicare card (A/B)',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
-        return planType === 'ab';
+        return planType === 'ab' || planType === 'c';
       },
       CustomPage: FileFieldCustom,
       ...medicareABCardUploadPage,
