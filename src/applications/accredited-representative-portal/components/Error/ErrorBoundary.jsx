@@ -15,7 +15,7 @@ const ErrorBoundary = () => {
             <Toggler
               toggleName={
                 Toggler.TOGGLE_NAMES
-                  .accreditedRepresentativePortalSelfServiceAuth403Err
+                  .accreditedRepresentativePortalSelfServiceAuth
               }
             >
               <Toggler.Enabled>
