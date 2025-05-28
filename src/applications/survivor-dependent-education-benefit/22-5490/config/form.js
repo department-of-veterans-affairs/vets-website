@@ -164,7 +164,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-5490',
-  title: 'Apply to use survivor dependent education benefits',
+  title: 'Survivors’ and Dependents’ Educational Assistance Benefits',
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your DEPENDENTS&#39; APPLICATION FOR VA EDUCATION BENEFITS  application (22-5490) is in progress.',
@@ -197,11 +197,11 @@ const formConfig = {
   },
   chapters: {
     benefitSelectionChapter: {
-      title: 'Benefit Selection',
+      title: 'Benefit selection',
       pages: {
         benefitSelection: {
           path: 'benefit-selection',
-          title: 'Benefit selection',
+          title: 'Review benefit selection',
           uiSchema: {
             'view:subHeading': {
               'ui:description': (
@@ -314,12 +314,8 @@ const formConfig = {
             'view:benefitInfo': {
               'ui:description': (
                 <>
-                  <span className="fry-dea-labels_label--main vads-u-padding-left--1">
-                    Which education benefit would you like to apply for?
-                  </span>
-                  <br />
-                  <br />
-                  <span className="fry-dea-labels_label--secondary fry-dea-input-message fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
+                  <p>Which education benefit would you like to apply for?</p>
+                  <p className="fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1">
                     <va-icon
                       size={3}
                       icon="info"
@@ -327,13 +323,12 @@ const formConfig = {
                       aria-hidden="true"
                     />{' '}
                     <span className="sr-only">Informational Note:</span> If
-                    you’re the child of a veteran or service member who died in
+                    you’re the child of a Veteran or service member who died in
                     the line of duty before August 1, 2011 you can use both Fry
                     Scholarship and DEA and get up to 81 months of benefits.
                     You’ll need to apply separately and use one program at a
                     time.
-                  </span>
-                  <br />
+                  </p>
                 </>
               ),
             },
@@ -390,11 +385,11 @@ const formConfig = {
       },
     },
     yourInformationChapter: {
-      title: 'Your Information',
+      title: 'Your information',
       pages: {
         reviewPersonalInformation: {
           path: 'review-personal-information',
-          title: 'Review your Personal Information',
+          title: 'Review your personal information',
           CustomPageReview: PersonalInformationReviewField,
           uiSchema: {
             'view:subHeadings': {
@@ -477,7 +472,7 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Contact Information',
+      title: 'Contact information',
       pages: {
         contactInformation: {
           path: 'contact-information',
@@ -1198,11 +1193,11 @@ const formConfig = {
       },
     },
     applicantInformationChapter: {
-      title: 'Veteran or Service Member Information',
+      title: 'Veteran or service member information',
       pages: {
         applicantInformation: {
           path: 'veteran-or-service-member-information',
-          title: 'Veteran or Service Member Information',
+          title: 'Review veteran or service member information',
           uiSchema: {
             relationshipToMember: {
               'ui:title':
@@ -1220,17 +1215,7 @@ const formConfig = {
               'ui:title': 'Veteran or service member information',
               first: {
                 ...fullNameUI.first,
-                'ui:title': 'First name',
-                'ui:options': {
-                  updateSchema: (formData, schema) => {
-                    const flag = formData?.showMeb54901990eTextUpdate;
-
-                    return {
-                      ...schema,
-                      title: flag ? 'Veteran first name' : 'First name',
-                    };
-                  },
-                },
+                'ui:title': 'Veteran or service member First name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -1247,17 +1232,7 @@ const formConfig = {
               },
               middle: {
                 ...fullNameUI.middle,
-                'ui:title': 'Middle name',
-                'ui:options': {
-                  updateSchema: (formData, schema) => {
-                    const flag = formData?.showMeb54901990eTextUpdate;
-
-                    return {
-                      ...schema,
-                      title: flag ? 'Veteran middle name' : 'Middle name',
-                    };
-                  },
-                },
+                'ui:title': 'Veteran or service member Middle name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidName(field)) {
@@ -1274,17 +1249,7 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
-                'ui:title': 'Last name',
-                'ui:options': {
-                  updateSchema: (formData, schema) => {
-                    const flag = formData?.showMeb54901990eTextUpdate;
-
-                    return {
-                      ...schema,
-                      title: flag ? 'Veteran last name' : 'Last name',
-                    };
-                  },
-                },
+                'ui:title': 'Veteran or service member Last name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isValidLastName(field)) {
@@ -1303,34 +1268,12 @@ const formConfig = {
               },
             },
             dateOfBirth: {
-              ...currentOrPastDateUI('Date of birth'),
-              'ui:title': 'Date of birth',
-              'ui:options': {
-                updateSchema: (formData, schema) => {
-                  const flag = formData?.showMeb54901990eTextUpdate;
-
-                  return {
-                    ...schema,
-                    title: flag ? 'Veteran date of birth' : 'Date of birth',
-                  };
-                },
-              },
+              ...currentOrPastDateUI('Veteran date of birth'),
+              'ui:title': 'Veteran or service member Date of birth',
             },
             ssn: {
               ...ssnUI,
-              'ui:title': 'Social security number',
-              'ui:options': {
-                updateSchema: (formData, schema) => {
-                  const flag = formData?.showMeb54901990eTextUpdate;
-
-                  return {
-                    ...schema,
-                    title: flag
-                      ? 'Veteran social security number'
-                      : 'Social security number',
-                  };
-                },
-              },
+              'ui:title': 'Veteran or service member Social Security number',
               'ui:reviewField': ObfuscateReviewField,
             },
             'view:incorrectFormWarning': {
@@ -1363,7 +1306,7 @@ const formConfig = {
       },
     },
     additionalConsiderationsChapter: {
-      title: 'Additional Considerations',
+      title: 'Additional considerations',
       pages: {
         marriageInformation: {
           title: 'Marriage information',
@@ -1411,7 +1354,7 @@ const formConfig = {
         },
         marriageDate: {
           path: 'marriage-date',
-          title: 'Marriage Date',
+          title: 'Marriage date',
           depends: formData => {
             return formData.relationshipToMember === 'spouse';
           },
@@ -1419,7 +1362,7 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Marriage Date</h3>
+                  <h3>Marriage date</h3>
                 </>
               ),
             },
@@ -1443,7 +1386,7 @@ const formConfig = {
         },
         remarriageInformation: {
           path: 'remarriage-information',
-          title: 'Remarriage Information',
+          title: 'Remarriage information',
           depends: formData => {
             return (
               formData.marriageStatus === 'divorced' &&
@@ -1486,7 +1429,7 @@ const formConfig = {
         },
         remarriageDate: {
           path: 'remarriage-date',
-          title: 'Remarriage Date',
+          title: 'Remarriage date',
           depends: formData => {
             return (
               formData.marriageStatus === 'divorced' &&
@@ -1498,7 +1441,7 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Remarriage Date</h3>
+                  <h3>Remarriage date</h3>
                 </>
               ),
             },
@@ -1520,7 +1463,7 @@ const formConfig = {
         },
         outstandingFelony: {
           path: 'outstanding-felony',
-          title: 'Outstanding Felony',
+          title: 'Outstanding felony',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -1559,7 +1502,7 @@ const formConfig = {
       },
     },
     directDepositChapter: {
-      title: 'Direct Deposit',
+      title: 'Direct deposit',
       pages: {
         directDeposit: {
           path: 'direct-deposit',

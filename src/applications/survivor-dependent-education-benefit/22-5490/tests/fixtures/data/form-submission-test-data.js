@@ -887,7 +887,7 @@ export const submissionForm = {
                 key: null,
                 ref: null,
                 props: {
-                  children: 'Marriage Date',
+                  children: 'Marriage date',
                 },
                 _owner: null,
                 _store: {},
@@ -986,7 +986,7 @@ export const submissionForm = {
                 key: null,
                 ref: null,
                 props: {
-                  children: 'Remarriage Date',
+                  children: 'Remarriage date',
                 },
                 _owner: null,
                 _store: {},

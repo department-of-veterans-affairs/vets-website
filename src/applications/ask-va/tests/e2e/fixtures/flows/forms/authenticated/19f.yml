@@ -52,7 +52,7 @@ flow:
 
     - action: include
       target: page
-      value: your-contact-information
+      value: your-contact-information-radio-buttons-phone-call
 
     - action: include
       target: page

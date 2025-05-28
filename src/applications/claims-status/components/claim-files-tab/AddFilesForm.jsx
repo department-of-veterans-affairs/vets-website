@@ -170,13 +170,19 @@ class AddFilesForm extends React.Component {
           >
             <Toggler.Enabled>
               <div>
-                <h2>Upload documents</h2>
-                <p>If you have a document to upload, you can do that here.</p>
+                {!this.props.fileTab && (
+                  <>
+                    <h2>Upload documents</h2>
+                    <p>
+                      If you have a document to upload, you can do that here.
+                    </p>
+                  </>
+                )}
                 <VaFileInput
                   id="file-upload"
                   className="vads-u-margin-bottom--3"
                   error={this.getErrorMessage()}
-                  label="Upload document(s)"
+                  label="Upload additional evidence"
                   hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
                   accept={FILE_TYPES.map(type => `.${type}`).join(',')}
                   onVaChange={e => this.add(e.detail.files)}
@@ -329,6 +335,7 @@ AddFilesForm.propTypes = {
   onRemoveFile: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   backUrl: PropTypes.string,
+  fileTab: PropTypes.bool,
   mockReadAndCheckFile: PropTypes.func,
   progress: PropTypes.number,
   uploading: PropTypes.bool,

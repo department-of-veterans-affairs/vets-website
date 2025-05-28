@@ -2,6 +2,7 @@
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
   "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
   "accreditedRepresentativePortalSearch": "accredited_representative_portal_search",
+  "accreditedRepresentativePortalSubmissions": "accredited_representative_portal_submissions",
   "aedpVADX": "aedp_vadx",
   "aedpPrefill": "aedp_prefill",
   "appointARepresentativeEnableFrontend": "appoint_a_representative_enable_frontend",
@@ -282,6 +283,7 @@
   "travelPayClaimsManagement": "travel_pay_claims_management",
   "useFacilitiesApiV2ForCernerCTA": "use_facilities_api_v2_for_cerner_cta",
   "useLighthouseFormsSearchLogic": "new_va_forms_search",
+  "vaDependentsVerification": "va_dependents_verification",
   "vaDependentsV2": "va_dependents_v2",
   "vaDependentsV2Banner": "va_dependents_v2_banner",
   "vaDependentsBrowserMonitoringEnabled": "va_dependents_browser_monitoring_enabled",
@@ -302,6 +304,7 @@
   "vaOnlineSchedulingFeSourceOfTruthModality": "va_online_scheduling_fe_source_of_truth_modality",
   "vaOnlineSchedulingFeSourceOfTruthTelehealth": "va_online_scheduling_fe_source_of_truth_telehealth",
   "vaOnlineSchedulingMHVRouteGuards": "va_online_scheduling_mhv_route_guards",
+  "vaOnlineSchedulingConvertSlotsToUTC": "va_online_scheduling_convert_slots_to_utc",
   "vaOnlineSchedulingDirectScheduleAppointmentConflict": "va_online_scheduling_direct_schedule_appointment_conflict",
   "vetStatusStage1": "vet_status_stage_1",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
@@ -329,5 +332,6 @@
   "forms1516Links": "forms_10215_10216_release",
   "accreditedRepresentativePortalSortBy": "accredited_representative_portal_sort_by",
   "accreditedRepresentativePortalHelp": "accredited_representative_portal_help",
-  "accreditedRepresentativePortalProfile": "accredited_representative_portal_profile"
+  "accreditedRepresentativePortalProfile": "accredited_representative_portal_profile",
+  "myVaAuthExpRedesignEnabled": "my_va_auth_exp_redesign_enabled"
 }

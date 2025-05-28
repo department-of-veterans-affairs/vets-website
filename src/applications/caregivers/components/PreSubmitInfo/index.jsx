@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
@@ -57,14 +57,10 @@ export const SIGNATURE_CERTIFICATION_STATEMENTS = {
   ],
 };
 
-const PreSubmitCheckboxGroup = props => {
-  const {
-    onSectionComplete,
-    formData,
-    showError,
-    submission,
-    setFormData,
-  } = props;
+const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
+  const submission = useSelector(state => state.form.submission);
+  const dispatch = useDispatch();
+
   const hasPrimary = hasPrimaryCaregiver(formData);
   const hasSecondaryOne = hasSecondaryCaregiverOne(formData);
   const hasSecondaryTwo = hasSecondaryCaregiverTwo(formData);
@@ -134,13 +130,15 @@ const PreSubmitCheckboxGroup = props => {
       // do not clear signatures once form has been submitted
       if (hasSubmittedForm) return;
 
-      setFormData({
-        ...formData,
-        ...transformSignatures(signatures),
-      });
+      dispatch(
+        setData({
+          ...formData,
+          ...transformSignatures(signatures),
+        }),
+      );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setFormData, signatures],
+    [dispatch, signatures],
   );
 
   // when no empty signature inputs or unchecked signature checkboxes exist set AGREED (onSectionComplete) to true
@@ -307,30 +305,11 @@ const PreSubmitCheckboxGroup = props => {
 
 PreSubmitCheckboxGroup.propTypes = {
   formData: PropTypes.object.isRequired,
-  setFormData: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   onSectionComplete: PropTypes.func.isRequired,
-  submission: PropTypes.shape({
-    hasAttemptedSubmit: PropTypes.bool,
-    errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  }),
-};
-
-const mapStateToProps = state => {
-  return {
-    submission: state.form.submission,
-  };
-};
-
-const mapDispatchToProps = {
-  setFormData: setData,
 };
 
 export default {
   required: true,
-  CustomComponent: connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(PreSubmitCheckboxGroup),
+  CustomComponent: PreSubmitCheckboxGroup,
 };

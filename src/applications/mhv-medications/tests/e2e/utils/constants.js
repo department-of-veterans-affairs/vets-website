@@ -120,6 +120,7 @@ export const Paths = {
       'my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active,Expired&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
     NON_ACTIVE_FILTER_LIST:
       '/my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    AAL: 'my_health/v1/aal',
   },
 };
 export const Alerts = {
