@@ -64,6 +64,7 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   const hasPrimary = hasPrimaryCaregiver(formData);
   const hasSecondaryOne = hasSecondaryCaregiverOne(formData);
   const hasSecondaryTwo = hasSecondaryCaregiverTwo(formData);
+  const hasSubmittedForm = !!submission.status;
   const showRepresentativeSignatureBox =
     formData.signAsRepresentativeYesNo === 'yes';
   const defaultSignatureKey = [
@@ -86,6 +87,34 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
       !checkbox.shadowRoot?.querySelector('#checkbox-element')?.checked,
   )?.length;
 
+  const transformSignatures = signature => {
+    const keys = Object.keys(signature);
+
+    // takes in labels and renames to what schema expects
+    const getKeyName = key => {
+      const keyMap = {
+        [content['vet-input-label']]: 'veteran',
+        [content['representative-signature-label']]: 'veteran',
+        [content['primary-signature-label']]: 'primary',
+        [content['secondary-one-signature-label']]: 'secondaryOne',
+        [content['secondary-two-signature-label']]: 'secondaryTwo',
+      };
+      return keyMap[key];
+    };
+
+    // iterates through all keys and normalizes them using getKeyName
+    const renameObjectKeys = (keysMap, obj) =>
+      Object.keys(obj).reduce((acc, key) => {
+        const cleanKey = `${getKeyName(key)}Signature`;
+        return {
+          ...acc,
+          ...{ [keysMap[cleanKey] || cleanKey]: obj[key] },
+        };
+      }, {});
+
+    return renameObjectKeys(keys, signatures);
+  };
+
   const removePartyIfFalsy = (predicate, label) => {
     if (!predicate) {
       setSignatures(prevState => {
@@ -99,34 +128,17 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   useEffect(
     () => {
       // do not clear signatures once form has been submitted
-      if (submission.status) return;
-
-      // transform signature values into form data
-      const keyMap = {
-        [content['vet-input-label']]: 'veteran',
-        [content['representative-signature-label']]: 'veteran',
-        [content['primary-signature-label']]: 'primary',
-        [content['secondary-one-signature-label']]: 'secondaryOne',
-        [content['secondary-two-signature-label']]: 'secondaryTwo',
-      };
-
-      const transformedSignatures = Object.keys(signatures).reduce(
-        (acc, key) => {
-          const cleanKey = `${keyMap[key]}Signature`;
-          acc[cleanKey] = signatures[key];
-          return acc;
-        },
-        {},
-      );
+      if (hasSubmittedForm) return;
 
       dispatch(
         setData({
           ...formData,
-          ...transformedSignatures,
+          ...transformSignatures(signatures),
         }),
       );
     },
-    [dispatch, formData, signatures, submission.status],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dispatch, signatures],
   );
 
   // when no empty signature inputs or unchecked signature checkboxes exist set AGREED (onSectionComplete) to true
