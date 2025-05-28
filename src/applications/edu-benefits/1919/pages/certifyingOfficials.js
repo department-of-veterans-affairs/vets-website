@@ -6,6 +6,7 @@ import {
 import {
   titleUI,
   radioUI,
+  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const levelNames = {
@@ -42,6 +43,7 @@ const uiSchema = {
           title:
             'Which of the following best describes your role at this institution?',
           errorMessages: { required: 'Please make a selection' },
+          labels: levelNames,
         }),
       },
       other: {
@@ -87,9 +89,7 @@ const schema = {
           required: ['level'],
           properties: {
             level: {
-              type: 'string',
-              enum: Object.keys(levelNames),
-              enumNames: Object.keys(levelNames).map(key => levelNames[key]),
+              ...radioSchema(Object.keys(levelNames)),
             },
             other: { type: 'string', pattern: noSpaceOnlyPattern },
           },
