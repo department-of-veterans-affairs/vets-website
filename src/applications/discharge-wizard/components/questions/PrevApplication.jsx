@@ -25,15 +25,21 @@ const PrevApplication = ({
   const hint =
     'Note: You can still apply even if you’ve been denied before. We’ll tell you where to send your application based on your answer. ';
 
-  useEffect(() => {
-    pageSetup(H1);
-  }, [H1]);
+  useEffect(
+    () => {
+      pageSetup(H1);
+    },
+    [H1],
+  );
 
-  useEffect(() => {
-    if (!viewedIntroPage) {
-      router.push(ROUTES.HOME);
-    }
-  }, [router, viewedIntroPage]);
+  useEffect(
+    () => {
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
+      }
+    },
+    [router, viewedIntroPage],
+  );
 
   return (
     <RadioGroup
@@ -70,4 +76,7 @@ const mapDispatchToProps = {
   setPrevApplication: updatePrevApplication,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrevApplication);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PrevApplication);

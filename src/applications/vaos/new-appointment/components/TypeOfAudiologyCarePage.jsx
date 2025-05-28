@@ -67,11 +67,14 @@ export default function TypeOfAudiologyCarePage() {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
   }, []);
-  useEffect(() => {
-    if (schema) {
-      focusFormHeader();
-    }
-  }, [schema]);
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div className="vaos-form__radio-field-descriptive">

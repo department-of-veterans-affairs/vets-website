@@ -42,11 +42,14 @@ export default function TravelClaimDetails() {
 
   const featureFlagIsLoading = useToggleLoadingValue();
 
-  useEffect(() => {
-    if (id && !data[id] && !error) {
-      dispatch(getClaimDetails(id));
-    }
-  }, [dispatch, data, error, id]);
+  useEffect(
+    () => {
+      if (id && !data[id] && !error) {
+        dispatch(getClaimDetails(id));
+      }
+    },
+    [dispatch, data, error, id],
+  );
 
   if (isLoading || featureFlagIsLoading) {
     return (

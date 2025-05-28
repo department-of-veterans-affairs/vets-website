@@ -43,7 +43,9 @@ export const AppointmentInfoText = ({ appointment }) => {
         </p>
         <va-link-action
           text="View your claim details"
-          href={`/my-health/travel-pay/claims/${appointment.travelPayClaim.claim.id}`}
+          href={`/my-health/travel-pay/claims/${
+            appointment.travelPayClaim.claim.id
+          }`}
         />
       </>
     );

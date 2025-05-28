@@ -46,33 +46,36 @@ const ValidateVeteran = props => {
 
   const [showValidateError, setShowValidateError] = useState(false);
   const app = '';
-  const onClick = useCallback(() => {
-    setShowValidateError(false);
-    validateLogin(
+  const onClick = useCallback(
+    () => {
+      setShowValidateError(false);
+      validateLogin(
+        lastName,
+        dob,
+        dobError,
+        setLastNameError,
+        setIsLoading,
+        setShowValidateError,
+        goToNextPage,
+        token,
+        setSession,
+        app,
+        updateError,
+        setDobError,
+      );
+    },
+    [
+      app,
+      goToNextPage,
       lastName,
       dob,
       dobError,
-      setLastNameError,
-      setIsLoading,
-      setShowValidateError,
-      goToNextPage,
-      token,
       setSession,
-      app,
+      token,
       updateError,
       setDobError,
-    );
-  }, [
-    app,
-    goToNextPage,
-    lastName,
-    dob,
-    dobError,
-    setSession,
-    token,
-    updateError,
-    setDobError,
-  ]);
+    ],
+  );
 
   const validateErrorMessage = t(
     'sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob',

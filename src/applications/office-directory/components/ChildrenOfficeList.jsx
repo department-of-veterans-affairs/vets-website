@@ -5,9 +5,7 @@ export default function ChildrenOfficeList({ offices }) {
   return (
     <va-additional-info trigger="Works with these offices">
       <ul>
-        {offices?.map(office => (
-          <li key={office.entityId}>{office.title}</li>
-        ))}
+        {offices?.map(office => <li key={office.entityId}>{office.title}</li>)}
       </ul>
     </va-additional-info>
   );

@@ -783,7 +783,9 @@ export function getCalendarData({ appointment, facility }) {
           location: formatFacilityAddress(atlasLocation),
           text: 'Join this video meeting from this ATLAS (non-VA) location:',
           additionalText: [
-            `Your appointment code is ${appointment.videoData.atlasConfirmationCode}. Use this code to find your appointment on the computer at the ATLAS facility.`,
+            `Your appointment code is ${
+              appointment.videoData.atlasConfirmationCode
+            }. Use this code to find your appointment on the computer at the ATLAS facility.`,
           ],
         };
 

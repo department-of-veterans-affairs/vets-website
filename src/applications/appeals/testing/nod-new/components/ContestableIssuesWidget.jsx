@@ -76,21 +76,27 @@ const ContestableIssuesWidget = props => {
   const [removeIndex, setRemoveIndex] = useState(null);
   const [editState] = useState(window.sessionStorage.getItem(LAST_ISSUE));
 
-  useEffect(() => {
-    if (
-      attempts < 1 &&
-      contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_FAILED
-    ) {
-      attempts += 1; // only attempt reload once
-      getContestableIssues();
-    }
-  }, [contestableIssues, getContestableIssues]);
+  useEffect(
+    () => {
+      if (
+        attempts < 1 &&
+        contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_FAILED
+      ) {
+        attempts += 1; // only attempt reload once
+        getContestableIssues();
+      }
+    },
+    [contestableIssues, getContestableIssues],
+  );
 
-  useEffect(() => {
-    if (editState) {
-      focusIssue();
-    }
-  }, [editState]);
+  useEffect(
+    () => {
+      if (editState) {
+        focusIssue();
+      }
+    },
+    [editState],
+  );
 
   useEffect(
     () => {
@@ -169,8 +175,9 @@ const ContestableIssuesWidget = props => {
       } else {
         // additional issue check toggle
         const adjustedIndex = calculateIndexOffset(index, value.length);
-        const updatedAdditionalIssues = additionalIssues.map((issue, indx) =>
-          adjustedIndex === indx ? { ...issue, [SELECTED]: checked } : issue,
+        const updatedAdditionalIssues = additionalIssues.map(
+          (issue, indx) =>
+            adjustedIndex === indx ? { ...issue, [SELECTED]: checked } : issue,
         );
         setFormData({
           ...formData,
@@ -234,13 +241,15 @@ const ContestableIssuesWidget = props => {
     <>
       <div name="eligibleScrollElement" />
       {showNoIssues && <NoEligibleIssuesAlert />}
-      {!showNoIssues && !hasSelected && (onReviewPage || submitted) && (
-        <NoneSelectedAlert
-          count={value.length}
-          headerLevel={onReviewPage ? 4 : 3}
-          inReviewMode={inReviewMode}
-        />
-      )}
+      {!showNoIssues &&
+        !hasSelected &&
+        (onReviewPage || submitted) && (
+          <NoneSelectedAlert
+            count={value.length}
+            headerLevel={onReviewPage ? 4 : 3}
+            inReviewMode={inReviewMode}
+          />
+        )}
       <fieldset className="review-fieldset">
         <ContestableIssuesLegend
           onReviewPage={onReviewPage}

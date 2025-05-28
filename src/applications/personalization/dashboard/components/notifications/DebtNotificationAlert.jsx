@@ -9,7 +9,7 @@ import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import { dismissNotificationById } from '../../../common/actions/notifications';
 
 /*
- * This component uses the va-alert web component
+ * This component uses the va-alert web component 
  * and can be deleted once we remove the feature toggle
  */
 
@@ -78,4 +78,7 @@ const mapDispatchToProps = {
   dismissNotification: dismissNotificationById,
 };
 
-export default connect(null, mapDispatchToProps)(DebtNotificationAlert);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(DebtNotificationAlert);

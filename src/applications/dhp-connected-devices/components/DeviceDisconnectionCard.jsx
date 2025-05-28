@@ -13,7 +13,9 @@ export const DeviceDisconnectionCard = ({ device }) => {
 
   function disconnectDevice() {
     closeModal();
-    window.location.href = `${environment.API_URL}/dhp_connected_devices${device.disconnectUrl}`;
+    window.location.href = `${environment.API_URL}/dhp_connected_devices${
+      device.disconnectUrl
+    }`;
   }
 
   return (

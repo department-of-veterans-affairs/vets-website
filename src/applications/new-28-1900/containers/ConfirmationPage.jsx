@@ -29,12 +29,15 @@ export const ConfirmationPage = () => {
     submitDateHumanFriendly = format(submitDate, 'MMMM d, yyyy');
   }
 
-  useEffect(() => {
-    if (alertRef?.current) {
-      scrollTo('topScrollElement');
-      waitForRenderThenFocus('h2', alertRef.current);
-    }
-  }, [alertRef]);
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo('topScrollElement');
+        waitForRenderThenFocus('h2', alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   return (
     <div>

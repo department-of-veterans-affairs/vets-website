@@ -47,32 +47,35 @@ const Index = ({ router }) => {
 
   const [showValidateError, setShowValidateError] = useState(false);
 
-  const validateHandler = useCallback(() => {
-    validateLogin(
+  const validateHandler = useCallback(
+    () => {
+      validateLogin(
+        lastName,
+        dob,
+        dobError,
+        setLastNameError,
+        setIsLoading,
+        setShowValidateError,
+        goToNextPage,
+        token,
+        setSession,
+        app,
+        updateError,
+        setDobError,
+      );
+    },
+    [
+      app,
+      goToNextPage,
       lastName,
       dob,
       dobError,
-      setLastNameError,
-      setIsLoading,
-      setShowValidateError,
-      goToNextPage,
-      token,
       setSession,
-      app,
+      token,
       updateError,
       setDobError,
-    );
-  }, [
-    app,
-    goToNextPage,
-    lastName,
-    dob,
-    dobError,
-    setSession,
-    token,
-    updateError,
-    setDobError,
-  ]);
+    ],
+  );
 
   const validateErrorMessage = t(
     'sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob',

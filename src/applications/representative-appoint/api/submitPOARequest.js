@@ -20,7 +20,9 @@ export const submitPOARequest = async formData => {
     body: JSON.stringify(transformedFormData),
   };
 
-  const requestUrl = `${environment.API_URL}/representation_management/v0/power_of_attorney_requests`;
+  const requestUrl = `${
+    environment.API_URL
+  }/representation_management/v0/power_of_attorney_requests`;
 
   try {
     const response = await fetch(requestUrl, apiSettings);

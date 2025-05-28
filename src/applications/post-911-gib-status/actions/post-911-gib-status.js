@@ -52,7 +52,9 @@ export function getEnrollmentData(apiVersion) {
           }
           return Promise.reject(
             new Error(
-              `post-911-gib-status getEnrollmentData() received unexpected error: ${error.status}: ${error.title}: ${error.detail}`,
+              `post-911-gib-status getEnrollmentData() received unexpected error: ${
+                error.status
+              }: ${error.title}: ${error.detail}`,
             ),
           );
         }

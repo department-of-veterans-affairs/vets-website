@@ -5,9 +5,12 @@ import { getAllTriageTeamRecipients } from '../actions/recipients';
 const FetchRecipients = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getAllTriageTeamRecipients());
-  }, [dispatch]);
+  useEffect(
+    () => {
+      dispatch(getAllTriageTeamRecipients());
+    },
+    [dispatch],
+  );
 
   return null;
 };

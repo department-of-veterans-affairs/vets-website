@@ -10,14 +10,17 @@ const NoMHVAccount = ({
   recordEventFn = recordEvent,
 }) => {
   const heading = `Please create a My HealtheVet account to ${serviceDescription}`;
-  useEffect(() => {
-    recordEventFn({
-      event: 'nav-alert-box-load',
-      action: 'load',
-      'alert-box-headline': heading,
-      'alert-box-status': 'warning',
-    });
-  }, [heading, recordEventFn]);
+  useEffect(
+    () => {
+      recordEventFn({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': heading,
+        'alert-box-status': 'warning',
+      });
+    },
+    [heading, recordEventFn],
+  );
   const content = {
     heading,
     alertText: (
@@ -46,8 +49,8 @@ const NoMHVAccount = ({
 };
 
 NoMHVAccount.propTypes = {
-  primaryButtonHandler: PropTypes.func.isRequired,
   serviceDescription: PropTypes.string.isRequired,
+  primaryButtonHandler: PropTypes.func.isRequired,
   recordEventFn: PropTypes.func,
 };
 

@@ -84,27 +84,3 @@ describe('SM SENT FOLDER PLAIN TG NAME FILTERING', () => {
     cy.injectAxeThenAxeCheck();
   });
 });
-
-describe('SM SENT FOLDER PLAIN TG NAME FILTERING', () => {
-  const updatedThreadResponse = GeneralFunctionsPage.updateTGSuggestedName(
-    mockSentMessages,
-    'TG | Type | Name',
-  );
-
-  beforeEach(() => {
-    SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
-    PatientMessageSentPage.loadMessages(updatedThreadResponse);
-  });
-
-  it('verify filter works correctly', () => {
-    PatientMessageSentPage.inputFilterDataText(
-      updatedThreadResponse.data[0].attributes.subject,
-    );
-    PatientMessageSentPage.clickFilterMessagesButton(updatedThreadResponse);
-    PatientMessageSentPage.verifySentToField(
-      updatedThreadResponse.data[0].attributes.subject,
-    );
-    cy.injectAxeThenAxeCheck();
-  });
-});

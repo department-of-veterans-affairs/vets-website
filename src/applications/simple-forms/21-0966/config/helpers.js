@@ -243,7 +243,9 @@ export const getIntentsToFile = ({
     goPath('get-itf-status');
 
     apiRequest(
-      `${environment.API_URL}/simple_forms_api/v1/simple_forms/get_intents_to_file`,
+      `${
+        environment.API_URL
+      }/simple_forms_api/v1/simple_forms/get_intents_to_file`,
     )
       .then(({ compensationIntent, pensionIntent }) => {
         goPathAfterGettingITF(

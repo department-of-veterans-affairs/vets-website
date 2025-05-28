@@ -356,4 +356,7 @@ const mapDispatchToProps = {
 
 export { Profile as ProfileUnconnected, mapStateToProps };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Profile);

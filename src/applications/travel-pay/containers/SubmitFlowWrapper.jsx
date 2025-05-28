@@ -46,11 +46,14 @@ const SubmitFlowWrapper = () => {
     TOGGLE_NAMES.travelPaySubmitMileageExpense,
   );
 
-  useEffect(() => {
-    if (apptId && !appointmentData && !error) {
-      dispatch(getAppointmentData(apptId));
-    }
-  }, [dispatch, appointmentData, apptId, error]);
+  useEffect(
+    () => {
+      if (apptId && !appointmentData && !error) {
+        dispatch(getAppointmentData(apptId));
+      }
+    },
+    [dispatch, appointmentData, apptId, error],
+  );
 
   const [yesNo, setYesNo] = useState({
     mileage: '',

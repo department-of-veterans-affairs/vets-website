@@ -32,10 +32,13 @@ const Validate = ({ router }) => {
     },
     [dispatch, setPermissions],
   );
-  const recordTimeAndGoToNextPage = useCallback(() => {
-    dispatch(setFormData({ startedTime: new Date().getTime() }));
-    goToNextPage();
-  }, [dispatch, goToNextPage]);
+  const recordTimeAndGoToNextPage = useCallback(
+    () => {
+      dispatch(setFormData({ startedTime: new Date().getTime() }));
+      goToNextPage();
+    },
+    [dispatch, goToNextPage],
+  );
   const selectContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectContext);
 
@@ -48,31 +51,34 @@ const Validate = ({ router }) => {
 
   const [showValidateError, setShowValidateError] = useState(false);
 
-  const validateHandler = useCallback(() => {
-    validateLogin(
+  const validateHandler = useCallback(
+    () => {
+      validateLogin(
+        lastName,
+        dob,
+        dobError,
+        setLastNameError,
+        setIsLoading,
+        setShowValidateError,
+        recordTimeAndGoToNextPage,
+        token,
+        setSession,
+        APP_NAMES.TRAVEL_CLAIM,
+        updateError,
+        setDobError,
+      );
+    },
+    [
+      recordTimeAndGoToNextPage,
       lastName,
       dob,
       dobError,
-      setLastNameError,
-      setIsLoading,
-      setShowValidateError,
-      recordTimeAndGoToNextPage,
-      token,
       setSession,
-      APP_NAMES.TRAVEL_CLAIM,
+      token,
       updateError,
       setDobError,
-    );
-  }, [
-    recordTimeAndGoToNextPage,
-    lastName,
-    dob,
-    dobError,
-    setSession,
-    token,
-    updateError,
-    setDobError,
-  ]);
+    ],
+  );
 
   const validateErrorMessage = t(
     'sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob',

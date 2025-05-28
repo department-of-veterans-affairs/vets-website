@@ -12,9 +12,12 @@ const VADXContainer = () => {
 
   const showVADX = !!preferences?.showVADX;
 
-  const handleShowVADX = useCallback(() => {
-    updateShowVADX(!showVADX);
-  }, [showVADX, updateShowVADX]);
+  const handleShowVADX = useCallback(
+    () => {
+      updateShowVADX(!showVADX);
+    },
+    [showVADX, updateShowVADX],
+  );
 
   return (
     <>

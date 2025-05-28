@@ -84,4 +84,7 @@ const mapStateToProps = ({ form, fsr }) => ({
   pending: fsr.pending,
 });
 
-export default connect(mapStateToProps, null)(Benefits);
+export default connect(
+  mapStateToProps,
+  null,
+)(Benefits);

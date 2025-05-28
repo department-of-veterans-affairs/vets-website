@@ -55,9 +55,12 @@ const App = ({ children }) => {
     defaultPrivacyLevel: 'mask-user-input',
   };
   useDatadogRum(datadogRumConfig);
-  useEffect(() => {
-    setDatadogRumUser({ id: user?.profile?.accountUuid });
-  }, [user]);
+  useEffect(
+    () => {
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
+    },
+    [user],
+  );
 
   if (featureTogglesLoading) {
     return (

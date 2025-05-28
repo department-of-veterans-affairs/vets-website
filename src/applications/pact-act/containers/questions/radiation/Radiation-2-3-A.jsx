@@ -23,15 +23,21 @@ const Radiation23A = ({
   const radiation23A = formResponses[shortName];
   const { NO, NOT_SURE, YES } = RESPONSES;
 
-  useEffect(() => {
-    pageSetup(H1);
-  }, [H1]);
+  useEffect(
+    () => {
+      pageSetup(H1);
+    },
+    [H1],
+  );
 
-  useEffect(() => {
-    if (!viewedIntroPage) {
-      router.push(ROUTES.HOME);
-    }
-  }, [router, viewedIntroPage]);
+  useEffect(
+    () => {
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
+      }
+    },
+    [router, viewedIntroPage],
+  );
 
   const locationList = (
     <ul>
@@ -76,4 +82,7 @@ Radiation23A.propTypes = {
   viewedIntroPage: PropTypes.bool.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Radiation23A);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Radiation23A);

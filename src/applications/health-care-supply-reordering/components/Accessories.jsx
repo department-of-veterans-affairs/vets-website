@@ -237,4 +237,7 @@ const mapDispatchToProps = {
   setData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Accessories);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Accessories);

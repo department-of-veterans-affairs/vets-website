@@ -25,4 +25,7 @@ const mapStateToProps = state => ({
   formData: state.form?.data,
 });
 
-export default connect(mapStateToProps, null)(OutsideVAAuthorizationUnsureNote);
+export default connect(
+  mapStateToProps,
+  null,
+)(OutsideVAAuthorizationUnsureNote);

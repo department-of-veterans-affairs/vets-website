@@ -34,12 +34,15 @@ const HeadingHierarchyInspectorBase = ({ location }) => {
     setIsOpen(true);
   };
 
-  useEffect(() => {
-    setAnalysis(null);
-    setTimeout(() => {
-      runAnalysis();
-    }, 500);
-  }, [location]);
+  useEffect(
+    () => {
+      setAnalysis(null);
+      setTimeout(() => {
+        runAnalysis();
+      }, 500);
+    },
+    [location],
+  );
 
   return (
     <div>

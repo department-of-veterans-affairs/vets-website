@@ -112,4 +112,7 @@ function mapStateToProps(state) {
 }
 
 export { SelectOrganization };
-export default connect(mapStateToProps, null)(SelectOrganization);
+export default connect(
+  mapStateToProps,
+  null,
+)(SelectOrganization);

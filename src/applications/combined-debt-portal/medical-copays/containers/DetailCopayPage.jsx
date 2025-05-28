@@ -79,11 +79,14 @@ const DetailCopayPage = ({ match }) => {
     setPageFocus('h1');
   }, []);
 
-  useEffect(() => {
-    if (!isCurrentBalance) {
-      setAlert('past-due-balance');
-    }
-  }, [isCurrentBalance]);
+  useEffect(
+    () => {
+      if (!isCurrentBalance) {
+        setAlert('past-due-balance');
+      }
+    },
+    [isCurrentBalance],
+  );
 
   return (
     <>
@@ -216,7 +219,9 @@ const DetailCopayPage = ({ match }) => {
             <br />
             {selectedCopay?.station.staTAddress1}
             <br />
-            {`${selectedCopay?.station.city}, ${selectedCopay?.station.state} ${selectedCopay?.station.ziPCdeOutput}`}
+            {`${selectedCopay?.station.city}, ${selectedCopay?.station.state} ${
+              selectedCopay?.station.ziPCdeOutput
+            }`}
           </p>
 
           <h3 className="vads-u-font-size--h4 vads-u-margin-top--2">

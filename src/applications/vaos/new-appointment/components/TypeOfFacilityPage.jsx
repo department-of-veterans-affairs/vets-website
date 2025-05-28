@@ -61,11 +61,14 @@ export default function TypeOfFacilityPage() {
     dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
   }, []);
 
-  useEffect(() => {
-    if (schema) {
-      focusFormHeader();
-    }
-  }, [schema]);
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div className="vaos-form__facility-type">

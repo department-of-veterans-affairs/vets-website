@@ -42,15 +42,18 @@ const ContestableIssuesWidget = props => {
 
   const hasAttempted = useRef(false);
 
-  useEffect(() => {
-    if (
-      !hasAttempted.current &&
-      contestableIssues.status === FETCH_CONTESTABLE_ISSUES_FAILED
-    ) {
-      hasAttempted.current = true; // only call API once if previously failed
-      getContestableIssues();
-    }
-  }, [contestableIssues.status, getContestableIssues]);
+  useEffect(
+    () => {
+      if (
+        !hasAttempted.current &&
+        contestableIssues.status === FETCH_CONTESTABLE_ISSUES_FAILED
+      ) {
+        hasAttempted.current = true; // only call API once if previously failed
+        getContestableIssues();
+      }
+    },
+    [contestableIssues.status, getContestableIssues],
+  );
 
   useEffect(() => {
     // contestedIssues becomes undefined after a new save-in-progress loads

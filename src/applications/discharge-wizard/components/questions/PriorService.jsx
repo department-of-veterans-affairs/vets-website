@@ -27,15 +27,21 @@ const PriorService = ({
     PRIOR_SERVICE_NO,
   } = RESPONSES;
 
-  useEffect(() => {
-    pageSetup(H1);
-  }, [H1]);
+  useEffect(
+    () => {
+      pageSetup(H1);
+    },
+    [H1],
+  );
 
-  useEffect(() => {
-    if (!viewedIntroPage) {
-      router.push(ROUTES.HOME);
-    }
-  }, [router, viewedIntroPage]);
+  useEffect(
+    () => {
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
+      }
+    },
+    [router, viewedIntroPage],
+  );
 
   return (
     <RadioGroup
@@ -75,4 +81,7 @@ const mapDispatchToProps = {
   setPriorService: updatePriorService,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PriorService);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PriorService);

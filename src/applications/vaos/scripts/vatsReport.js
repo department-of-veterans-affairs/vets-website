@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 /*
  * How to run:
- *
+ * 
  * 1. Download https://veteran.apps.va.gov/facilities/v1/request-eligibility-criteria
  * 2. Run node vatsReport.js <path to request criteria json>
- *
+ * 
  * Output will be in vats.csv
  */
 const fs = require('fs');
@@ -15,8 +15,7 @@ const data = JSON.parse(vatsSettings);
 function typeSort(a, b) {
   if (a.typeOfCare < b.typeOfCare) {
     return -1;
-  }
-  if (a.typeOfCare > b.typeOfCare) {
+  } else if (a.typeOfCare > b.typeOfCare) {
     return 1;
   }
 
@@ -49,8 +48,7 @@ const output = data
   .sort((a, b) => {
     if (a[0] < b[0]) {
       return -1;
-    }
-    if (a[0] > b[0]) {
+    } else if (a[0] > b[0]) {
       return 1;
     }
 

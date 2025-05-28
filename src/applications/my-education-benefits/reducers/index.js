@@ -154,10 +154,11 @@ export default {
           eligibility:
             filterEligibility(
               action?.response?.data?.attributes?.eligibility,
-            ).map(benefit =>
-              benefit.veteranIsEligible === null
-                ? `${benefit.chapter}null`
-                : benefit.chapter,
+            ).map(
+              benefit =>
+                benefit.veteranIsEligible === null
+                  ? `${benefit.chapter}null`
+                  : benefit.chapter,
             ) || [],
         };
       case FETCH_DUPLICATE_CONTACT_INFO_SUCCESS:

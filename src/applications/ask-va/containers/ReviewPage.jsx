@@ -1477,8 +1477,8 @@ ReviewPage.propTypes = {
   formData: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  isUserLOA3: PropTypes.bool,
   loggedIn: PropTypes.bool,
+  isUserLOA3: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

@@ -67,20 +67,26 @@ const IntroductionPage = props => {
   // TODO Feature toggle this for CRM announcements on/off
   const showAnnouncements = false;
 
-  const showSignInModal = useCallback(() => {
-    toggleLoginModal(true, 'ask-va', true);
-  }, [toggleLoginModal]);
+  const showSignInModal = useCallback(
+    () => {
+      toggleLoginModal(true, 'ask-va', true);
+    },
+    [toggleLoginModal],
+  );
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (
-      params.get('showSignInModal') === 'true' &&
-      !loggedIn &&
-      !showLoadingIndicator
-    ) {
-      showSignInModal();
-    }
-  }, [loggedIn, showLoadingIndicator, toggleLoginModal, showSignInModal]);
+  useEffect(
+    () => {
+      const params = new URLSearchParams(window.location.search);
+      if (
+        params.get('showSignInModal') === 'true' &&
+        !loggedIn &&
+        !showLoadingIndicator
+      ) {
+        showSignInModal();
+      }
+    },
+    [loggedIn, showLoadingIndicator, toggleLoginModal, showSignInModal],
+  );
 
   const getStartPage = () => {
     const data = formData || {};
@@ -88,9 +94,12 @@ const IntroductionPage = props => {
     return pageList[1].path;
   };
 
-  useEffect(() => {
-    focusElement('.schemaform-title > h1');
-  }, [props]);
+  useEffect(
+    () => {
+      focusElement('.schemaform-title > h1');
+    },
+    [props],
+  );
 
   const getApiData = url => {
     setHasError(false);
@@ -150,7 +159,9 @@ const IntroductionPage = props => {
     if (inquiryData?.attributes?.status) {
       const { status } = inquiryData.attributes;
       const AskVAStatus = getVAStatusFromCRM(status);
-      const classes = `vads-u-border-left--5px vads-u-padding--0p5 ${getVAStatusIconAndMessage[AskVAStatus]?.color}`;
+      const classes = `vads-u-border-left--5px vads-u-padding--0p5 ${
+        getVAStatusIconAndMessage[AskVAStatus]?.color
+      }`;
       return (
         <div data-testid="status-message">
           <h3

@@ -24,11 +24,14 @@ const MonetaryCheckList = ({
 
   const headerRef = useRef(null);
   // Header ref for setting focus
-  useEffect(() => {
-    if (headerRef?.current) {
-      focusElement(headerRef?.current);
-    }
-  }, [headerRef]);
+  useEffect(
+    () => {
+      if (headerRef?.current) {
+        focusElement(headerRef?.current);
+      }
+    },
+    [headerRef],
+  );
 
   const onChange = ({ name, checked }) => {
     setFormData({

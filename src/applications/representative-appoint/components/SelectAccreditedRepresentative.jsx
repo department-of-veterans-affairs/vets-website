@@ -161,13 +161,16 @@ const SelectAccreditedRepresentative = props => {
     }
   };
 
-  useEffect(() => {
-    const searchHeader = document.querySelector('.search-header');
+  useEffect(
+    () => {
+      const searchHeader = document.querySelector('.search-header');
 
-    if (searchHeader) {
-      focusElement('.search-header');
-    }
-  }, [loadingReps, representativeResults?.length]);
+      if (searchHeader) {
+        focusElement('.search-header');
+      }
+    },
+    [loadingReps, representativeResults?.length],
+  );
 
   if (loadingPOA) {
     return <va-loading-indicator set-focus />;
@@ -246,5 +249,8 @@ const mapDispatchToProps = {
 export { SelectAccreditedRepresentative }; // Named export for testing
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SelectAccreditedRepresentative),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SelectAccreditedRepresentative),
 );

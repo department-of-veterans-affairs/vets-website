@@ -58,10 +58,7 @@ class RepresentativeFinderApi {
           };
           return res;
         })
-        .then(
-          data => resolve(data),
-          error => reject(error),
-        );
+        .then(data => resolve(data), error => reject(error));
     });
   }
 
@@ -91,10 +88,7 @@ class RepresentativeFinderApi {
           };
           return res;
         })
-        .then(
-          data => resolve(data),
-          error => reject(error),
-        );
+        .then(data => resolve(data), error => reject(error));
     });
   }
 }

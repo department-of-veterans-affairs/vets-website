@@ -69,7 +69,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsOrderedDate = () => {
-    cy.get('[data-testid="ordered-date"]').should(
+    cy.get('[datat-testid="ordered-date"]').should(
       'have.text',
       'April 14, 2023',
     );
@@ -89,7 +89,9 @@ class MedicationsDetailsPage {
   clickMedicationHistoryAndDetailsLink = prescriptionDetails => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions/${prescriptionDetails.data.attributes.prescriptionId}`,
+      `/my_health/v1/prescriptions/${
+        prescriptionDetails.data.attributes.prescriptionId
+      }`,
       prescriptionDetails,
     ).as('prescription_details');
     cy.get('a[data-testid ="medications-history-details-link"]')
@@ -100,7 +102,9 @@ class MedicationsDetailsPage {
   clickMedicationDetailsLink = (prescriptionDetails, cardNumber) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions/${prescriptionDetails.data.attributes.prescriptionId}`,
+      `/my_health/v1/prescriptions/${
+        prescriptionDetails.data.attributes.prescriptionId
+      }`,
       prescriptionDetails,
     ).as('prescriptionDetails');
     cy.get(

@@ -165,13 +165,16 @@ UpdatePhoneNumberError.propTypes = {
 export const UpdateErrorAlert = ({ className, saveError }) => {
   const alertRef = React.useRef();
 
-  useEffect(() => {
-    if (saveError) {
-      alertRef?.current?.scrollIntoView?.();
-      alertRef?.current?.setAttribute?.('tabindex', '-1');
-      alertRef?.current?.focus?.();
-    }
-  }, [saveError]);
+  useEffect(
+    () => {
+      if (saveError) {
+        alertRef?.current?.scrollIntoView?.();
+        alertRef?.current?.setAttribute?.('tabindex', '-1');
+        alertRef?.current?.focus?.();
+      }
+    },
+    [saveError],
+  );
 
   if (!saveError) {
     return null;

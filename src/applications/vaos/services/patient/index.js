@@ -194,28 +194,26 @@ function logEligibilityExplanation(
     /* eslint-disable no-console */
     console.log('----');
     console.log(
-      `%cEligibility checks for location ${location.id} and type of care ${typeOfCare.id}`,
+      `%cEligibility checks for location ${location.id} and type of care ${
+        typeOfCare.id
+      }`,
       'font-weight: bold',
     );
 
     if (!direct) {
       console.log('%cUser not eligible for direct scheduling:', 'color: red');
-      directReasons
-        .map(reason => reasonMapping[reason])
-        .forEach(message => {
-          console.log(`  ${message}`);
-        });
+      directReasons.map(reason => reasonMapping[reason]).forEach(message => {
+        console.log(`  ${message}`);
+      });
     } else {
       console.log('%cUser passed checks for direct scheduling', 'color: green');
     }
 
     if (!request) {
       console.log('%cUser not eligible for requests:', 'color: red');
-      requestReasons
-        .map(reason => reasonMapping[reason])
-        .forEach(message => {
-          console.log(`  ${message}`);
-        });
+      requestReasons.map(reason => reasonMapping[reason]).forEach(message => {
+        console.log(`  ${message}`);
+      });
     } else {
       console.log('%cUser passed checks for requests', 'color: green');
     }

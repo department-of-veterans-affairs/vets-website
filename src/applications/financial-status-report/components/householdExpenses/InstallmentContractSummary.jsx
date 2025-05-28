@@ -95,13 +95,14 @@ const InstallmentContractSummary = ({
 
     return (
       <p className="vads-u-margin--0">
-        {Object.entries(formattedFields).map(([key, value]) =>
-          value ? (
-            <React.Fragment key={key}>
-              <strong>{key}:</strong> {value}
-              <br />
-            </React.Fragment>
-          ) : null,
+        {Object.entries(formattedFields).map(
+          ([key, value]) =>
+            value ? (
+              <React.Fragment key={key}>
+                <strong>{key}:</strong> {value}
+                <br />
+              </React.Fragment>
+            ) : null,
         )}
       </p>
     );

@@ -135,11 +135,14 @@ export default function SelectDate1Page() {
     [loadingSlots, appointmentSlotsStatus],
   );
 
-  useEffect(() => {
-    if (validationError && submitted) {
-      scrollAndFocus('.usa-input-error-message');
-    }
-  }, [validationError, submitted]);
+  useEffect(
+    () => {
+      if (validationError && submitted) {
+        scrollAndFocus('.usa-input-error-message');
+      }
+    },
+    [validationError, submitted],
+  );
 
   return (
     <div>

@@ -89,13 +89,16 @@ export const DevToolsLoader = ({ devToolsData, nanoidImp, showIcon }) => {
     },
   };
 
-  useEffect(() => {
-    document.addEventListener('devToolsPanelUpdate', updatePanel);
+  useEffect(
+    () => {
+      document.addEventListener('devToolsPanelUpdate', updatePanel);
 
-    return () => {
-      document.removeEventListener('devToolsPanelUpdate', updatePanel);
-    };
-  }, [updatePanel]);
+      return () => {
+        document.removeEventListener('devToolsPanelUpdate', updatePanel);
+      };
+    },
+    [updatePanel],
+  );
 
   return (
     <div className="devtools-container">

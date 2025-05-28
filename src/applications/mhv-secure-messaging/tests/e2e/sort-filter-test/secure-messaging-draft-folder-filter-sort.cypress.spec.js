@@ -86,29 +86,3 @@ describe('SM DRAFT FOLDER PLAIN TG NAME FILTERING', () => {
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
-
-describe('SM DRAFT FOLDER PLAIN TG NAME FILTERING', () => {
-  const updatedThreadResponse = GeneralFunctionsPage.updateTGSuggestedName(
-    mockDraftMessages,
-    'TG | Type | Name',
-  );
-
-  beforeEach(() => {
-    SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
-    FolderLoadPage.loadDraftMessages(updatedThreadResponse);
-  });
-
-  it('verify filter works correctly', () => {
-    PatientMessageDraftsPage.inputFilterDataText(
-      updatedThreadResponse.data[0].attributes.subject,
-    );
-    PatientMessageDraftsPage.clickFilterMessagesButton(updatedThreadResponse);
-
-    PatientMessageDraftsPage.verifyDraftToField(
-      updatedThreadResponse.data[0].attributes.subject,
-    );
-
-    cy.injectAxeThenAxeCheck();
-  });
-});

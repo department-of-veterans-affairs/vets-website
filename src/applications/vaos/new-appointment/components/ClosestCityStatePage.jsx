@@ -68,11 +68,14 @@ export default function ClosestCityStatePage() {
     document.title = `${pageTitle} | Veterans Affairs`;
   }, []);
 
-  useEffect(() => {
-    if (schema) {
-      focusFormHeader();
-    }
-  }, [schema]);
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div>

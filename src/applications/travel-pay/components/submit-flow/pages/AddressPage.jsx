@@ -29,15 +29,18 @@ const AddressPage = ({
 
   useSetPageTitle(title);
 
-  useEffect(() => {
-    recordSmocPageview('address');
-    scrollToTop('topScrollElement');
-    if (!address) {
-      focusElement('h1');
-    } else {
-      focusElement('h1', {}, 'va-radio');
-    }
-  }, [address]);
+  useEffect(
+    () => {
+      recordSmocPageview('address');
+      scrollToTop('topScrollElement');
+      if (!address) {
+        focusElement('h1');
+      } else {
+        focusElement('h1', {}, 'va-radio');
+      }
+    },
+    [address],
+  );
 
   const [requiredAlert, setRequiredAlert] = useState(false);
 

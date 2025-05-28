@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import formConfig, { subTitle, submitFormLogic } from '../../config/form';
 import manifest from '../../manifest.json';
-// import {subTitle} from "../../../../appeals/996/content/title";
 
 describe('22-10216 Form Config', () => {
   it('should render', () => {

@@ -20,9 +20,12 @@ export default function SearchAccordion({
   const [id] = useState(`${createId(button)}-accordion`);
   const [buttonId] = useState(`update-${createId(button)}-button`);
 
-  useEffect(() => {
-    setExpanded(expanded);
-  }, [expanded]);
+  useEffect(
+    () => {
+      setExpanded(expanded);
+    },
+    [expanded],
+  );
 
   const toggle = () => {
     setExpanded(!isExpanded);

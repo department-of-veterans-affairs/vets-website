@@ -117,7 +117,9 @@ export default function CompareHeader({
                           pathname: profileLink,
                           state: { prevPath: location.pathname },
                         }}
-                        aria-labelledby={`${institution.facilityCode}-label ${institution.facilityCode}-classification`}
+                        aria-labelledby={`${institution.facilityCode}-label ${
+                          institution.facilityCode
+                        }-classification`}
                       >
                         <span
                           aria-label={`${institution.name}, `}
@@ -136,7 +138,9 @@ export default function CompareHeader({
                         onClick={() => {
                           setPromptingFacilityCode(institution.facilityCode);
                         }}
-                        aria-label={`Remove ${institution.name} from comparison`}
+                        aria-label={`Remove ${
+                          institution.name
+                        } from comparison`}
                       />
                     </div>
                   </div>

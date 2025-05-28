@@ -5,9 +5,12 @@ const SectionGuideButton = props => {
   const { onMenuClick, setNavMenuButtonRef, isExpanded } = props;
   const navMenuButtonRef = useRef(null);
 
-  useEffect(() => {
-    setNavMenuButtonRef(navMenuButtonRef.current);
-  }, [navMenuButtonRef, setNavMenuButtonRef]);
+  useEffect(
+    () => {
+      setNavMenuButtonRef(navMenuButtonRef.current);
+    },
+    [navMenuButtonRef, setNavMenuButtonRef],
+  );
   return (
     <div className="va-btn-sidebarnav-trigger button-wrapper vads-u-padding--0">
       <button

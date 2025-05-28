@@ -49,63 +49,73 @@ export default function UpcomingAppointmentsDetailsPage() {
 
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
-  useEffect(() => {
-    dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
-    scrollAndFocus();
-    return () => {
-      dispatch(closeCancelAppointment());
-    };
-  }, [id, dispatch, appointmentTypePrefix]);
-
-  useEffect(() => {
-    let pageTitle = 'VA appointment on';
-    let prefix = 'Upcoming';
-
-    if (isCanceled) prefix = 'Canceled';
-    else if (isPast) prefix = 'Past';
-
-    if (isCommunityCare) pageTitle = `${prefix} Community Care Appointment On`;
-    if (isInPerson) {
-      if (appointment?.vaos?.isCompAndPenAppointment)
-        pageTitle = `${prefix} Claim Exam Appointment On`;
-      else pageTitle = `${prefix} In-person Appointment On`;
-    }
-    if (isVideo) {
-      pageTitle = `${prefix} Video Appointment On`;
-      if (isClinicVideoAppointment(appointment)) {
-        pageTitle = `${prefix} Video Appointment At A VA Location On`;
-      }
-      if (isAtlasVideoAppointment(appointment)) {
-        pageTitle = `${prefix} Video Appointment At An ATLAS Location On`;
-      }
-    } else if (isVAPhoneAppointment(appointment)) {
-      pageTitle = `${prefix} Phone Appointment On`;
-    }
-
-    if (appointment && appointmentDate) {
-      document.title = `${pageTitle} ${appointmentDate.format(
-        'dddd, MMMM D, YYYY',
-      )} | Veterans Affairs`;
+  useEffect(
+    () => {
+      dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
       scrollAndFocus();
-    }
-  }, [
-    appointment,
-    appointmentDate,
-    isCommunityCare,
-    isCanceled,
-    isInPerson,
-    isPast,
-    isVideo,
-  ]);
+      return () => {
+        dispatch(closeCancelAppointment());
+      };
+    },
+    [id, dispatch, appointmentTypePrefix],
+  );
 
-  useEffect(() => {
-    if (
-      appointmentDetailsStatus === FETCH_STATUS.failed ||
-      (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
-    ) {
-      scrollAndFocus();
-    }
-  }, [appointmentDetailsStatus, appointment]);
+  useEffect(
+    () => {
+      let pageTitle = 'VA appointment on';
+      let prefix = 'Upcoming';
+
+      if (isCanceled) prefix = 'Canceled';
+      else if (isPast) prefix = 'Past';
+
+      if (isCommunityCare)
+        pageTitle = `${prefix} Community Care Appointment On`;
+      if (isInPerson) {
+        if (appointment?.vaos?.isCompAndPenAppointment)
+          pageTitle = `${prefix} Claim Exam Appointment On`;
+        else pageTitle = `${prefix} In-person Appointment On`;
+      }
+      if (isVideo) {
+        pageTitle = `${prefix} Video Appointment On`;
+        if (isClinicVideoAppointment(appointment)) {
+          pageTitle = `${prefix} Video Appointment At A VA Location On`;
+        }
+        if (isAtlasVideoAppointment(appointment)) {
+          pageTitle = `${prefix} Video Appointment At An ATLAS Location On`;
+        }
+      } else if (isVAPhoneAppointment(appointment)) {
+        pageTitle = `${prefix} Phone Appointment On`;
+      }
+
+      if (appointment && appointmentDate) {
+        document.title = `${pageTitle} ${appointmentDate.format(
+          'dddd, MMMM D, YYYY',
+        )} | Veterans Affairs`;
+        scrollAndFocus();
+      }
+    },
+    [
+      appointment,
+      appointmentDate,
+      isCommunityCare,
+      isCanceled,
+      isInPerson,
+      isPast,
+      isVideo,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (
+        appointmentDetailsStatus === FETCH_STATUS.failed ||
+        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [appointmentDetailsStatus, appointment],
+  );
   if (appointmentDetailsStatus === FETCH_STATUS.failed && isBadAppointmentId) {
     return (
       <PageLayout showNeedHelp>

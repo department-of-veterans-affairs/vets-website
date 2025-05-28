@@ -108,7 +108,9 @@ describe('facilityTypeList', () => {
 
   it('should render an unknown choice message', () => {
     const data = { vamc: true, other: 'testing', other2: true };
-    const result = `${facilityTypeChoices.vamc}, testing, and Unknown facility type choice`;
+    const result = `${
+      facilityTypeChoices.vamc
+    }, testing, and Unknown facility type choice`;
     expect(facilityTypeList(data)).to.eq(result);
   });
 });
@@ -144,7 +146,9 @@ describe('facilityTypeReviewField', () => {
 
   it('should render an unknown choice message', () => {
     const data = { vamc: true, other: 'testing', other2: true };
-    const result = `${facilityTypeChoices.vamc}, testing, and Unknown facility type choice`;
+    const result = `${
+      facilityTypeChoices.vamc
+    }, testing, and Unknown facility type choice`;
     const { container } = render(<ReviewField formData={data} />);
     expect($('dd', container).textContent).to.eq(result);
   });

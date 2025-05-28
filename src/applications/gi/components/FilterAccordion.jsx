@@ -156,8 +156,8 @@ FilterAccordion.propTypes = {
   button: PropTypes.string.isRequired,
   buttonLabel: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  resetSearch: PropTypes.func.isRequired,
   open: PropTypes.bool,
+  resetSearch: PropTypes.func.isRequired,
   updateResults: PropTypes.func,
 };
 

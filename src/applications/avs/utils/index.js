@@ -109,7 +109,9 @@ const getFormattedAppointmentTime = twentyFourHourTime => {
 
 const getFormattedAppointmentDate = avs => {
   try {
-    const dateTime = `${avs.clinicsVisited[0].date}@${avs.clinicsVisited[0].time}`;
+    const dateTime = `${avs.clinicsVisited[0].date}@${
+      avs.clinicsVisited[0].time
+    }`;
     const formattedDate = formatDateLong(parseVistaDateTime(dateTime));
 
     if (formattedDate === 'Invalid Date') {

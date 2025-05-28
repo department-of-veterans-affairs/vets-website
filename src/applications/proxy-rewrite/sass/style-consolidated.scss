@@ -1,6 +1,6 @@
 // eslint-disable function-url-scheme-disallowed-list
 // eslint-disable color-no-hex
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities.css";
+
 @font-face {
   font-family: "Source Sans Pro";
   src: url("https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/sourcesanspro-regular-webfont.woff2");
@@ -49,6 +49,10 @@
 #ts-modal-crisisline {
   $font-path: "/fonts";
   $image-path: "~uswds/src/img";
+  
+  @import "./accordions.scss";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/core";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities.css";
 
   /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
@@ -66,11 +70,6 @@
 
   p, li, a {
     font-family: $font-stack !important;
-  }
-
-  /* used to override uswds v1 list styles */
-  ul li {
-    max-width: unset;
   }
 
   header,
@@ -383,15 +382,6 @@
       font-size: 1.5rem;
       padding-bottom: 0;
     }
-  }
-
-  .usa-banner-expanded {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 400;
-      min-height: 0px;
-      padding-right: 0px;
-      border-bottom: none;
   }
 
   .usa-banner-content {
@@ -2498,10 +2488,6 @@
       margin-bottom: 0;
       max-width: unset
     }
-  }
-
-  .usa-accordion-content[aria-hidden="true"] {
-    display: none;
   }
 
   .footer {

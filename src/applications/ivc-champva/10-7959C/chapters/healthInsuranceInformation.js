@@ -331,9 +331,13 @@ export function applicantInsuranceTypeSchema(isPrimary) {
           updateUiSchema: formData => {
             const wording = nameWordingExt(formData);
             return {
-              'ui:title': `Select the type of insurance plan or program ${wording.beingVerb} enrolled in`,
+              'ui:title': `Select the type of insurance plan or program ${
+                wording.beingVerb
+              } enrolled in`,
               'ui:options': {
-                hint: `You may find this information on the front of ${wording.posessive} health insurance card.`,
+                hint: `You may find this information on the front of ${
+                  wording.posessive
+                } health insurance card.`,
               },
             };
           },
@@ -376,7 +380,9 @@ export function applicantMedigapSchema(isPrimary) {
           updateUiSchema: formData => {
             const wording = nameWordingExt(formData);
             return {
-              'ui:title': `Select the Medigap plan ${wording.beingVerb} enrolled in`,
+              'ui:title': `Select the Medigap plan ${
+                wording.beingVerb
+              } enrolled in`,
             };
           },
         }),

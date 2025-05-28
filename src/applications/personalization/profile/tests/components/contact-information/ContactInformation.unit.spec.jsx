@@ -34,7 +34,9 @@ const testContactInfo = () => {
     .exist;
   expect(
     view.getByText(
-      `${residentialAddress.city}, ${residentialAddress.stateCode} ${residentialAddress.zipCode}`,
+      `${residentialAddress.city}, ${residentialAddress.stateCode} ${
+        residentialAddress.zipCode
+      }`,
       { exact: false },
     ),
   ).to.exist;
@@ -43,7 +45,9 @@ const testContactInfo = () => {
     .exist;
   expect(
     view.getByText(
-      `${mailingAddress.city}, ${mailingAddress.stateCode} ${mailingAddress.zipCode}`,
+      `${mailingAddress.city}, ${mailingAddress.stateCode} ${
+        mailingAddress.zipCode
+      }`,
       { exact: false },
     ),
   ).to.exist;

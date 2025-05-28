@@ -6,9 +6,12 @@ export default function SearchFilter({ offices }) {
   const [searchResults, setSearchResults] = useState(offices);
   const [filterInputTimeout, setFilterInputTimeout] = useState(null);
 
-  useEffect(() => {
-    setSearchResults(offices);
-  }, [offices]);
+  useEffect(
+    () => {
+      setSearchResults(offices);
+    },
+    [offices],
+  );
 
   const handleFilterChange = e => {
     clearTimeout(filterInputTimeout);

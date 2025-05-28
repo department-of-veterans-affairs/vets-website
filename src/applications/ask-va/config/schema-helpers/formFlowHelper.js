@@ -157,11 +157,15 @@ export const ch3Pages = {
     onNavForward: ({ formData, goPath }) => {
       if (formData.isQuestionAboutVeteranOrSomeoneElse === 'Veteran') {
         goPath(
-          `/${flowPaths.aboutSomeoneElseRelationshipFamilyMemberAboutVeteran}-1`,
+          `/${
+            flowPaths.aboutSomeoneElseRelationshipFamilyMemberAboutVeteran
+          }-1`,
         );
       } else {
         goPath(
-          `/${flowPaths.aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember}-1`,
+          `/${
+            flowPaths.aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember
+          }-1`,
         );
       }
     },
@@ -197,9 +201,9 @@ export const ch3Pages = {
       form.schoolInfo?.schoolName &&
       ((form.selectCategory === CategoryDebt &&
         form.selectTopic === TopicEducationBenefitOverpayments) ||
-        form.yourRole === yourRoleOptionsEducation.SCO ||
-        form.yourRole ===
-          yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
+        (form.yourRole === yourRoleOptionsEducation.SCO ||
+          form.yourRole ===
+            yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP)),
   },
   searchSchools: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -207,11 +211,11 @@ export const ch3Pages = {
     schema: searchSchoolsPage.schema,
     depends: form =>
       (!form.schoolInfo?.schoolName &&
-        form.selectCategory === CategoryDebt &&
-        form.selectTopic === TopicEducationBenefitOverpayments) ||
+        (form.selectCategory === CategoryDebt &&
+          form.selectTopic === TopicEducationBenefitOverpayments)) ||
       (form.useSchoolInProfile === schoolInYourProfileOptions.NO &&
-        form.selectCategory === CategoryDebt &&
-        form.selectTopic === TopicEducationBenefitOverpayments) ||
+        (form.selectCategory === CategoryDebt &&
+          form.selectTopic === TopicEducationBenefitOverpayments)) ||
       ((form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
         !form.schoolInfo?.schoolName) &&
         (form.yourRole === yourRoleOptionsEducation.SCO ||

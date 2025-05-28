@@ -91,4 +91,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, null)(FacilityLocatorApp);
+export default connect(
+  mapStateToProps,
+  null,
+)(FacilityLocatorApp);

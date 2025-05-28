@@ -14,8 +14,8 @@ these codes or a health condition, ask your provider at your next appointment.
 Showing ${records?.length} records from newest to oldest
 
 ${records
-  .map(
-    record => `
+    .map(
+      record => `
 ${record.name}
 ${txtLineDotted}
 Date: ${record.date}
@@ -25,7 +25,7 @@ Status of health condition: ${record.active}
 Location: ${record.facility}
 SNOMED Clinical term: ${record.name}
 `,
-  )
-  .join('')}
+    )
+    .join('')}
 `;
 };

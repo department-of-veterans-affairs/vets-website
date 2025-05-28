@@ -117,7 +117,10 @@ const mapStateToProps = state => ({
   submittedDependents: state?.removeDependents?.submittedDependents,
 });
 
-export default connect(mapStateToProps, null)(ViewDependentsListItem);
+export default connect(
+  mapStateToProps,
+  null,
+)(ViewDependentsListItem);
 
 export { ViewDependentsListItem };
 

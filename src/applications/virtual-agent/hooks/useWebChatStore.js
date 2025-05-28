@@ -20,16 +20,19 @@ export default function useWebChatStore({
   environment,
   ...params
 }) {
-  return useMemo(() => {
-    return createStore(
-      {},
-      StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
-        apiURL: getApiUrl(environment),
-        baseURL: environment.BASE_URL,
-        userFirstName: getUserFirstName(userFirstName),
-        userUuid: getUserUuid(userUuid),
-        ...params,
-      }),
-    );
-  }, [createStore]);
+  return useMemo(
+    () => {
+      return createStore(
+        {},
+        StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
+          apiURL: getApiUrl(environment),
+          baseURL: environment.BASE_URL,
+          userFirstName: getUserFirstName(userFirstName),
+          userUuid: getUserUuid(userUuid),
+          ...params,
+        }),
+      );
+    },
+    [createStore],
+  );
 }

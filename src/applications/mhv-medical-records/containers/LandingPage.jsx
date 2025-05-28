@@ -69,6 +69,8 @@ const LandingPage = () => {
 
   const accordionRef = useRef(null);
 
+  const headingRef = useRef(null);
+
   useEffect(() => {
     const expandButton = accordionRef.current?.shadowRoot?.querySelector(
       'button.va-accordion__button',
@@ -88,12 +90,25 @@ const LandingPage = () => {
     };
   });
 
-  useEffect(() => {
-    // Create the user's MHV session when they arrive at the MR landing page
-    createSession();
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
-  }, [dispatch]);
+  useEffect(
+    () => {
+      setTimeout(() => {
+        const heading = headingRef.current;
+        focusElement(heading);
+      }, 400);
+    },
+    [headingRef],
+  );
+
+  useEffect(
+    () => {
+      // Create the user's MHV session when they arrive at the MR landing page
+      createSession();
+
+      updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const sendAalViewList = activityType => {
     postCreateAAL({
@@ -109,6 +124,7 @@ const LandingPage = () => {
     <div className="landing-page">
       <section className="vads-u-margin-bottom--2">
         <h1
+          ref={headingRef}
           className="vads-u-margin-top--0 vads-u-margin-bottom--1"
           data-testid="mr-landing-page-title"
         >

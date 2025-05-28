@@ -52,47 +52,50 @@ const useDetectFieldChanges = formData => {
   const prevDataRef = useRef();
   const [shouldShowReviewButton, setShouldShowReviewButton] = useState(true);
 
-  useEffect(() => {
-    if (!formData?.reviewNavigation) {
-      return;
-    }
+  useEffect(
+    () => {
+      if (!formData?.reviewNavigation) {
+        return;
+      }
 
-    const prevData = prevDataRef.current;
-    if (!prevData) {
+      const prevData = prevDataRef.current;
+      if (!prevData) {
+        prevDataRef.current = formData;
+        return;
+      }
+
+      const prevStreamlinedValue = getStreamlinedValue(
+        isStreamlinedShortForm(prevData),
+        isStreamlinedLongForm(prevData),
+      );
+
+      const currentStreamlinedValue = getStreamlinedValue(
+        isStreamlinedShortForm(formData),
+        isStreamlinedLongForm(formData),
+      );
+
+      const prevQuestions = prevData?.questions || {};
+      const currentQuestions = formData?.questions || {};
+
+      const didSpouseChange = didSpouseDetailsChange(
+        prevQuestions,
+        currentQuestions,
+      );
+      const spouseIncomplete = isSpouseDetailsIncomplete(currentQuestions);
+
+      if (didSpouseChange && spouseIncomplete) {
+        setGlobalState({ spouseChanged: true });
+        setShouldShowReviewButton(false);
+      } else if (prevStreamlinedValue !== currentStreamlinedValue) {
+        setShouldShowReviewButton(false);
+      } else {
+        setShouldShowReviewButton(true);
+      }
+
       prevDataRef.current = formData;
-      return;
-    }
-
-    const prevStreamlinedValue = getStreamlinedValue(
-      isStreamlinedShortForm(prevData),
-      isStreamlinedLongForm(prevData),
-    );
-
-    const currentStreamlinedValue = getStreamlinedValue(
-      isStreamlinedShortForm(formData),
-      isStreamlinedLongForm(formData),
-    );
-
-    const prevQuestions = prevData?.questions || {};
-    const currentQuestions = formData?.questions || {};
-
-    const didSpouseChange = didSpouseDetailsChange(
-      prevQuestions,
-      currentQuestions,
-    );
-    const spouseIncomplete = isSpouseDetailsIncomplete(currentQuestions);
-
-    if (didSpouseChange && spouseIncomplete) {
-      setGlobalState({ spouseChanged: true });
-      setShouldShowReviewButton(false);
-    } else if (prevStreamlinedValue !== currentStreamlinedValue) {
-      setShouldShowReviewButton(false);
-    } else {
-      setShouldShowReviewButton(true);
-    }
-
-    prevDataRef.current = formData;
-  }, [formData]);
+    },
+    [formData],
+  );
 
   return { shouldShowReviewButton };
 };

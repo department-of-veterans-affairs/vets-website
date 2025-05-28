@@ -38,7 +38,9 @@ describe('ezr insurance information helpers', () => {
           'view:policyOrGroup': { insurancePolicyNumber: '005588' },
         };
         expect(getInsuranceSrLabel(formData)).to.equal(
-          `${formData.insuranceName}, ${content['insurance-policy-number-label']} ${formData['view:policyOrGroup'].insurancePolicyNumber}`,
+          `${formData.insuranceName}, ${
+            content['insurance-policy-number-label']
+          } ${formData['view:policyOrGroup'].insurancePolicyNumber}`,
         );
       });
     });
@@ -59,7 +61,9 @@ describe('ezr insurance information helpers', () => {
           'view:policyOrGroup': { insuranceGroupCode: '005588' },
         };
         expect(getInsuranceSrLabel(formData)).to.equal(
-          `${formData.insuranceName}, ${content['insurance-group-code-label']} ${formData['view:policyOrGroup'].insuranceGroupCode}`,
+          `${formData.insuranceName}, ${
+            content['insurance-group-code-label']
+          } ${formData['view:policyOrGroup'].insuranceGroupCode}`,
         );
       });
     });

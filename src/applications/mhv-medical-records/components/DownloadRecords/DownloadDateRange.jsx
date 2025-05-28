@@ -60,23 +60,31 @@ const DownloadDateRange = () => {
 
   useFocusOutline(progressBarRef);
 
-  useEffect(() => {
-    if (dateFilter && dateFilter.option) {
-      setSelectedDate(dateFilter.option);
-      if (dateFilter.option === 'custom') {
-        setCustomFromDate(dateFilter.fromDate);
-        setCustomToDate(dateFilter.toDate);
+  useEffect(
+    () => {
+      if (dateFilter && dateFilter.option) {
+        setSelectedDate(dateFilter.option);
+        if (dateFilter.option === 'custom') {
+          setCustomFromDate(dateFilter.fromDate);
+          setCustomToDate(dateFilter.toDate);
+        }
       }
-    }
-  }, [dateFilter]);
+    },
+    [dateFilter],
+  );
 
-  useEffect(() => {
-    setTimeout(() => {
-      const heading = progressBarRef?.current?.shadowRoot?.querySelector('h2');
-      focusElement(heading);
-    }, 400);
-    updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
-  }, [progressBarRef]);
+  useEffect(
+    () => {
+      setTimeout(() => {
+        const heading = progressBarRef?.current?.shadowRoot?.querySelector(
+          'h2',
+        );
+        focusElement(heading);
+      }, 400);
+      updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
+    },
+    [progressBarRef],
+  );
 
   const handleBack = () => {
     history.push('/download');

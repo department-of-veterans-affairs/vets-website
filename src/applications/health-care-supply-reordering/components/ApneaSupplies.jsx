@@ -241,4 +241,7 @@ const mapDispatchToProps = {
   setData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApneaSupplies);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ApneaSupplies);

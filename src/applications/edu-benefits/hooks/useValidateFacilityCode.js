@@ -8,16 +8,18 @@ export const useValidateFacilityCode = formData => {
   const [institutionData, setInstitutionData] = useState(null);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchInstitutionName = async () => {
-      setLoader(true);
-      try {
-        const response = await apiRequest(
-          `/gi/institutions/${formData?.institutionDetails.facilityCode}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
+  useEffect(
+    () => {
+      const fetchInstitutionName = async () => {
+        setLoader(true);
+        try {
+          const response = await apiRequest(
+            `/gi/institutions/${formData?.institutionDetails.facilityCode}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
             },
           );
           setInstitutionData(response?.data);
@@ -53,11 +55,9 @@ export const useValidateFacilityCode = formData => {
       if (formData?.institutionDetails?.facilityCode?.length === 8) {
         fetchInstitutionName();
       }
-    };
-    if (formData?.institutionDetails?.facilityCode?.length === 8) {
-      fetchInstitutionName();
-    }
-  }, [formData?.institutionDetails?.facilityCode]);
+    },
+    [formData?.institutionDetails?.facilityCode],
+  );
   return {
     loader,
     institutionName: institutionData?.attributes?.name || 'not found',

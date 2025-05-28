@@ -23,13 +23,16 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
   const { formConfig, pageList } = route;
   const sipProps = { formConfig, pageList };
 
-  useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
-    if (isUserLOA3) {
-      fetchEnrollmentStatus();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isUserLOA3]);
+  useEffect(
+    () => {
+      focusElement('.va-nav-breadcrumbs-list');
+      if (isUserLOA3) {
+        fetchEnrollmentStatus();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [isUserLOA3],
+  );
 
   return (
     <>
@@ -71,4 +74,7 @@ const mapDispatchToProps = {
   fetchEnrollmentStatus: fetchEnrollmentStatusAction,
 };
 
-export default connect(null, mapDispatchToProps)(IntroductionPage);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(IntroductionPage);

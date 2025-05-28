@@ -41,31 +41,34 @@ export const VADXProvider = ({ children }) => {
   // mock login functions
   const { logIn, logOut, loggedIn } = useMockedLogin();
 
-  useEffect(() => {
-    // Initialize data from IndexedDB
-    const initializeData = async () => {
-      try {
-        const storedData = await vadxPreferencesStorage.get('preferences');
-        if (storedData) {
-          setPreferences(storedData);
+  useEffect(
+    () => {
+      // Initialize data from IndexedDB
+      const initializeData = async () => {
+        try {
+          const storedData = await vadxPreferencesStorage.get('preferences');
+          if (storedData) {
+            setPreferences(storedData);
+          }
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.error('Failed to initialize preferences:', error);
         }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('Failed to initialize preferences:', error);
-      }
-    };
+      };
 
-    initializeData();
+      initializeData();
 
-    // Listen for changes from other tabs
-    broadcastChannel.onmessage = event => {
-      setPreferences(event.data);
-    };
+      // Listen for changes from other tabs
+      broadcastChannel.onmessage = event => {
+        setPreferences(event.data);
+      };
 
-    return () => {
-      broadcastChannel.close();
-    };
-  }, [broadcastChannel]);
+      return () => {
+        broadcastChannel.close();
+      };
+    },
+    [broadcastChannel],
+  );
 
   /**
    * Update synced data and notify other tabs

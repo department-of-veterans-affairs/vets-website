@@ -114,22 +114,28 @@ const OfficialReport = props => {
     arrayPath: props.arrayBuilder.arrayPath,
   });
 
-  useEffect(() => {
-    if (showModal && modalRef.current) {
-      setTimeout(() => {
-        const modalEl = modalRef.current;
-        const modalHeading = modalEl?.shadowRoot?.querySelector('#heading');
-        if (modalHeading) {
-          modalHeading.focus({ preventScroll: true });
-        }
-      }, 0);
-    }
-  }, [showModal]);
-  useEffect(() => {
-    if (showAlert && alertRef.current) {
-      alertRef.current.focus();
-    }
-  }, [showAlert]);
+  useEffect(
+    () => {
+      if (showModal && modalRef.current) {
+        setTimeout(() => {
+          const modalEl = modalRef.current;
+          const modalHeading = modalEl?.shadowRoot?.querySelector('#heading');
+          if (modalHeading) {
+            modalHeading.focus({ preventScroll: true });
+          }
+        }, 0);
+      }
+    },
+    [showModal],
+  );
+  useEffect(
+    () => {
+      if (showAlert && alertRef.current) {
+        alertRef.current.focus();
+      }
+    },
+    [showAlert],
+  );
 
   if (!props.onReviewPage && !isEdit && !isAdd) {
     const path = props.arrayBuilder.summaryRoute;
@@ -286,7 +292,6 @@ OfficialReport.propTypes = {
   name: PropTypes.string.isRequired,
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object.isRequired,
-  NavButtons: PropTypes.func,
   appStateData: PropTypes.object,
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
@@ -296,14 +301,15 @@ OfficialReport.propTypes = {
   getFormData: PropTypes.func,
   goBack: PropTypes.func,
   goToPath: PropTypes.func,
-  pageContentBeforeButtons: PropTypes.element,
-  pagePerItemIndex: PropTypes.string,
-  title: PropTypes.string,
-  trackingPrefix: PropTypes.string,
   onChange: PropTypes.func,
   onContinue: PropTypes.func,
   onReviewPage: PropTypes.bool,
   onSubmit: PropTypes.func,
+  pageContentBeforeButtons: PropTypes.element,
+  pagePerItemIndex: PropTypes.string,
+  title: PropTypes.string,
+  trackingPrefix: PropTypes.string,
+  NavButtons: PropTypes.func,
 };
 
 export default OfficialReport;

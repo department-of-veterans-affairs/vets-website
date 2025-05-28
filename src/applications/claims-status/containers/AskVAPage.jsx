@@ -149,7 +149,10 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(AskVAPage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AskVAPage),
 );
 
 AskVAPage.propTypes = {

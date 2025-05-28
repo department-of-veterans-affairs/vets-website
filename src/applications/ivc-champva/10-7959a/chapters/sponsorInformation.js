@@ -36,7 +36,11 @@ const sponsorHint = (
 );
 
 const otherHint = addressee =>
-  `Enter the information for the sponsor (this is the Veteran or service member ${addressee[0]} connected to). We’ll use the sponsor’s information to confirm ${addressee[1]} eligibility.`;
+  `Enter the information for the sponsor (this is the Veteran or service member ${
+    addressee[0]
+  } connected to). We’ll use the sponsor’s information to confirm ${
+    addressee[1]
+  } eligibility.`;
 
 export const sponsorNameSchema = {
   uiSchema: {

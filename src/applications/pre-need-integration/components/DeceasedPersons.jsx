@@ -32,14 +32,16 @@ export default class DeceasedPersons extends React.Component {
     // Throw an error if there’s no viewField (should be React component)
     if (!isReactComponent(this.props.uiSchema['ui:options'].viewField)) {
       throw new Error(
-        `No viewField found in uiSchema for DeceasedPersons ${this.props.idSchema.$id}.`,
+        `No viewField found in uiSchema for DeceasedPersons ${
+          this.props.idSchema.$id
+        }.`,
       );
     }
 
     /*
-     * We’re keeping the editing state in local state because it’s easier to manage and
-     * doesn’t need to persist from page to page
-     */
+         * We’re keeping the editing state in local state because it’s easier to manage and
+         * doesn’t need to persist from page to page
+         */
 
     this.state = {
       editing: props.formData
@@ -124,8 +126,8 @@ export default class DeceasedPersons extends React.Component {
   }
 
   /*
-   * Clicking Add another
-   */
+     * Clicking Add another
+     */
   handleAdd() {
     const numberOfItems = this.props.formData.length;
     const lastIndex = numberOfItems - 1;
@@ -133,13 +135,14 @@ export default class DeceasedPersons extends React.Component {
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
       // last item, but not ones above it
-      const newEditing = this.state.editing.map((val, index) =>
-        index + 1 === this.state.editing.length ? false : val,
+      const newEditing = this.state.editing.map(
+        (val, index) => (index + 1 === this.state.editing.length ? false : val),
       );
 
       // Update the showSave array to include a true value for the new item
-      const newShowSave = this.state.showSave.map((val, index) =>
-        index + 1 === this.state.showSave.length ? false : val,
+      const newShowSave = this.state.showSave.map(
+        (val, index) =>
+          index + 1 === this.state.showSave.length ? false : val,
       );
       const editingState = this.props.uiSchema['ui:options'].reviewMode;
       const newState = {
@@ -351,14 +354,15 @@ export default class DeceasedPersons extends React.Component {
         <CurrentlyBurriedPersonsDescriptionWrapper formContext={formContext} />
         {hasTitleOrDescription && (
           <div className="schemaform-block-header">
-            {title && !hideTitle && (
-              <TitleField
-                id={`${idSchema.$id}__title`}
-                title={title}
-                formContext={formContext}
-                useHeaderStyling={uiOptions.useHeaderStyling}
-              />
-            )}
+            {title &&
+              !hideTitle && (
+                <TitleField
+                  id={`${idSchema.$id}__title`}
+                  title={title}
+                  formContext={formContext}
+                  useHeaderStyling={uiOptions.useHeaderStyling}
+                />
+              )}
             {textDescription && <p>{textDescription}</p>}
             {DescriptionField && <DescriptionField options={uiOptions} />}
             {!textDescription && !DescriptionField && description}
@@ -521,7 +525,9 @@ export default class DeceasedPersons extends React.Component {
                     <button
                       type="button"
                       className="usa-button-secondary edit vads-u-flex--auto"
-                      aria-label={`Edit ${item?.name?.first} ${item?.name?.last}`}
+                      aria-label={`Edit ${item?.name?.first} ${
+                        item?.name?.last
+                      }`}
                       onClick={() => this.handleEdit(index)}
                     >
                       Edit
@@ -532,7 +538,9 @@ export default class DeceasedPersons extends React.Component {
                     <button
                       type="button"
                       className="usa-button-secondary edit vads-u-flex--auto"
-                      aria-label={`Edit ${item?.name?.first} ${item?.name?.last}`}
+                      aria-label={`Edit ${item?.name?.first} ${
+                        item?.name?.last
+                      }`}
                       onClick={() => this.handleEdit(index, item)}
                     >
                       Edit
@@ -580,11 +588,14 @@ export default class DeceasedPersons extends React.Component {
 
 DeceasedPersons.propTypes = {
   schema: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
+  uiSchema: PropTypes.object,
   errorSchema: PropTypes.object,
-  formData: PropTypes.array,
+  requiredSchema: PropTypes.object,
   idSchema: PropTypes.object,
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
+  formData: PropTypes.array,
+  disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
     widgets: PropTypes.objectOf(
@@ -594,7 +605,4 @@ DeceasedPersons.propTypes = {
     definitions: PropTypes.object.isRequired,
     formContext: PropTypes.object.isRequired,
   }),
-  requiredSchema: PropTypes.object,
-  uiSchema: PropTypes.object,
-  onBlur: PropTypes.func,
 };

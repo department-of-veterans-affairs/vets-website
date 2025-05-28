@@ -15,27 +15,30 @@ export function useAccountCreationApi(dispatchFunction = useDispatch()) {
   const userVerified = useSelector(isLOA3);
   const userHasMhvAccount = useSelector(hasMhvAccount);
 
-  useEffect(() => {
-    if (!profile.loading && userVerified) {
-      if (userHasMhvAccount) {
-        dispatch({
-          type: fetchAccountStatusSuccess,
-          data: { error: false },
-        });
-      } else {
-        dispatch({ type: fetchAccountStatus });
-
-        getMHVAccount().then(resp => {
+  useEffect(
+    () => {
+      if (!profile.loading && userVerified) {
+        if (userHasMhvAccount) {
           dispatch({
             type: fetchAccountStatusSuccess,
-            data: resp,
+            data: { error: false },
           });
-          dispatch({
-            type: UPDATE_MHV_STATE_VALUE,
-            accountState: resp.errors ? 'ERROR' : 'OK',
+        } else {
+          dispatch({ type: fetchAccountStatus });
+
+          getMHVAccount().then(resp => {
+            dispatch({
+              type: fetchAccountStatusSuccess,
+              data: resp,
+            });
+            dispatch({
+              type: UPDATE_MHV_STATE_VALUE,
+              accountState: resp.errors ? 'ERROR' : 'OK',
+            });
           });
-        });
+        }
       }
-    }
-  }, [userHasMhvAccount, profile.loading, userVerified, dispatch]);
+    },
+    [userHasMhvAccount, profile.loading, userVerified, dispatch],
+  );
 }

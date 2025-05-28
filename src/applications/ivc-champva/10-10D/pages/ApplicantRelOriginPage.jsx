@@ -14,7 +14,9 @@ function generateOptions({ data, pagePerItemIndex }) {
   // Create dynamic radio labels based on above phrasing
   const options = [
     {
-      label: `${relativeBeingVerb} the ${bp.personTitle}’s ${surv} biological child`,
+      label: `${relativeBeingVerb} the ${
+        bp.personTitle
+      }’s ${surv} biological child`,
       value: 'blood',
     },
     {
@@ -22,7 +24,9 @@ function generateOptions({ data, pagePerItemIndex }) {
       value: 'step',
     },
     {
-      label: `${relativeBeingVerb} the ${bp.personTitle}’s ${surv} adopted child`,
+      label: `${relativeBeingVerb} the ${
+        bp.personTitle
+      }’s ${surv} adopted child`,
       value: 'adoption',
     },
   ];

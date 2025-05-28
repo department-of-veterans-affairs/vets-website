@@ -13,22 +13,28 @@ const CernerFacilityAlert = ({ linkPath, pageName }) => {
 
   const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
-  const cernerFacilities = useMemo(() => {
-    return userFacilities?.filter(facility =>
-      drupalCernerFacilities?.some(
-        f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
-      ),
-    );
-  }, [userFacilities, drupalCernerFacilities]);
-
-  const cernerFacilitiesNames = useMemo(() => {
-    if (ehrDataByVhaId) {
-      return cernerFacilities?.map(facility =>
-        getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
+  const cernerFacilities = useMemo(
+    () => {
+      return userFacilities?.filter(facility =>
+        drupalCernerFacilities?.some(
+          f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
+        ),
       );
-    }
-    return [];
-  }, [cernerFacilities, ehrDataByVhaId]);
+    },
+    [userFacilities, drupalCernerFacilities],
+  );
+
+  const cernerFacilitiesNames = useMemo(
+    () => {
+      if (ehrDataByVhaId) {
+        return cernerFacilities?.map(facility =>
+          getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
+        );
+      }
+      return [];
+    },
+    [cernerFacilities, ehrDataByVhaId],
+  );
 
   return (
     <>

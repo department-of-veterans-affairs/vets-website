@@ -21,9 +21,12 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
   const searchParams = new URLSearchParams(location.search);
   const referrer = searchParams.get('referrer');
 
-  useEffect(() => {
-    setBreadcrumb(newLabel);
-  }, [location, newLabel]);
+  useEffect(
+    () => {
+      setBreadcrumb(newLabel);
+    },
+    [location, newLabel],
+  );
 
   const getBreadcrumbList = () => {
     const isPast = location.pathname.includes('/past');

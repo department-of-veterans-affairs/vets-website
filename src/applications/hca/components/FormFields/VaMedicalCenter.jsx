@@ -78,50 +78,59 @@ const VaMedicalCenter = props => {
     [dirtyFields, errorSchema, localData, reqFields, submitted],
   );
 
-  useEffect(() => {
-    onChange({
-      'view:facilityState': facilityState || undefined,
-      vaMedicalFacility: localData.vaMedicalFacility || undefined,
-    });
-  }, [facilityState, localData.vaMedicalFacility, onChange]);
+  useEffect(
+    () => {
+      onChange({
+        'view:facilityState': facilityState || undefined,
+        vaMedicalFacility: localData.vaMedicalFacility || undefined,
+      });
+    },
+    [facilityState, localData.vaMedicalFacility, onChange],
+  );
 
-  useEffect(() => {
-    if (!facilityState || facilityState === prevFacilityState) return;
+  useEffect(
+    () => {
+      if (!facilityState || facilityState === prevFacilityState) return;
 
-    const fetchFacilities = async () => {
-      setError(false);
-      setLoading(true);
-      setFacilities([]);
-      try {
-        const response = await apiRequest(
-          `${API_ENDPOINTS.facilities}?type=health&per_page=1000&state=${facilityState}`,
-        );
-        const facilityList = response
-          .map(({ id, name }) => ({ id, name }))
-          .sort((a, b) => a.name.localeCompare(b.name));
-        setLocalData(prevState =>
-          prevFacilityState && prevFacilityState !== facilityState
-            ? { ...prevState, vaMedicalFacility: undefined }
-            : prevState,
-        );
-        setFacilities(facilityList);
-      } catch (err) {
-        setError(true);
-        // Clear out selected state on error
-        setLocalData(prevState => ({
-          ...prevState,
-          'view:facilityState': undefined,
-        }));
-        // Clear dirty fields to not display state selector error
-        setDirtyFields([]);
-        focusElement('.server-error-message');
-      } finally {
-        setLoading(false);
-      }
-    };
+      const fetchFacilities = async () => {
+        setError(false);
+        setLoading(true);
+        setFacilities([]);
+        try {
+          const response = await apiRequest(
+            `${
+              API_ENDPOINTS.facilities
+            }?type=health&per_page=1000&state=${facilityState}`,
+          );
+          const facilityList = response
+            .map(({ id, name }) => ({ id, name }))
+            .sort((a, b) => a.name.localeCompare(b.name));
+          setLocalData(
+            prevState =>
+              prevFacilityState && prevFacilityState !== facilityState
+                ? { ...prevState, vaMedicalFacility: undefined }
+                : prevState,
+          );
+          setFacilities(facilityList);
+        } catch (err) {
+          setError(true);
+          // Clear out selected state on error
+          setLocalData(prevState => ({
+            ...prevState,
+            'view:facilityState': undefined,
+          }));
+          // Clear dirty fields to not display state selector error
+          setDirtyFields([]);
+          focusElement('.server-error-message');
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    fetchFacilities();
-  }, [facilityState, prevFacilityState]);
+      fetchFacilities();
+    },
+    [facilityState, prevFacilityState],
+  );
 
   const selectedFacilityName = useMemo(
     () =>

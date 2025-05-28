@@ -12,11 +12,14 @@ const Complete = props => {
   const { updateError } = useUpdateError();
   const { isLoading, travelPayClaimError } = usePostTravelOnlyClaim({ router });
 
-  useEffect(() => {
-    if (travelPayClaimError) {
-      updateError('completing-travel-submission');
-    }
-  }, [travelPayClaimError, updateError]);
+  useEffect(
+    () => {
+      if (travelPayClaimError) {
+        updateError('completing-travel-submission');
+      }
+    },
+    [travelPayClaimError, updateError],
+  );
   if (isLoading) {
     return (
       <va-loading-indicator

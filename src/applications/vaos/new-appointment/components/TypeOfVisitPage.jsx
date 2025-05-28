@@ -63,11 +63,14 @@ export default function TypeOfVisitPage() {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
   }, []);
-  useEffect(() => {
-    if (schema) {
-      focusFormHeader();
-    }
-  }, [schema]);
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div className="vads-u-margin-top--neg3">

@@ -6,20 +6,23 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { acknowledgeDuplicate, toggleModal } from '../actions';
 
 function DuplicateContactInfoModal(props) {
-  useEffect(() => {
-    const allPotentialDuplicates = props?.duplicateEmail?.concat(
-      props?.duplicatePhone,
-    );
-    const filteredPotentialDuplicates = allPotentialDuplicates?.filter(
-      entry => entry?.dupe === true && entry.acknowledged === undefined,
-    );
+  useEffect(
+    () => {
+      const allPotentialDuplicates = props?.duplicateEmail?.concat(
+        props?.duplicatePhone,
+      );
+      const filteredPotentialDuplicates = allPotentialDuplicates?.filter(
+        entry => entry?.dupe === true && entry.acknowledged === undefined,
+      );
 
-    if (filteredPotentialDuplicates?.length === 0) {
-      props.toggleModal(false);
-    } else if (filteredPotentialDuplicates?.length > 0) {
-      props.toggleModal(true);
-    }
-  }, [props.duplicateEmail]);
+      if (filteredPotentialDuplicates?.length === 0) {
+        props.toggleModal(false);
+      } else if (filteredPotentialDuplicates?.length > 0) {
+        props.toggleModal(true);
+      }
+    },
+    [props.duplicateEmail],
+  );
 
   function primaryClick() {
     props.toggleModal();
@@ -98,9 +101,9 @@ function DuplicateContactInfoModal(props) {
 DuplicateContactInfoModal.propTypes = {
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
-  email: PropTypes.string,
-  openModal: PropTypes.bool,
   toggleModal: PropTypes.func,
+  openModal: PropTypes.bool,
+  email: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

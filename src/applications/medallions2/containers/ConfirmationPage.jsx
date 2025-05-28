@@ -12,12 +12,15 @@ export const ConfirmationPage = () => {
   const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
 
-  useEffect(() => {
-    if (alertRef?.current) {
-      scrollTo('topScrollElement');
-      waitForRenderThenFocus('h2', alertRef.current);
-    }
-  }, [alertRef]);
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo('topScrollElement');
+        waitForRenderThenFocus('h2', alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   return (
     <div>

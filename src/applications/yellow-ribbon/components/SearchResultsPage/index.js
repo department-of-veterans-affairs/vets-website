@@ -97,4 +97,7 @@ const mapDispatchToProps = dispatch => ({
   toggleShowMobileForm: () => dispatch(toggleShowMobileFormAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResultsPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchResultsPage);

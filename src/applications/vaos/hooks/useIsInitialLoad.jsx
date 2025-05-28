@@ -12,11 +12,14 @@ import { useRef, useEffect } from 'react';
  */
 export default function useIsInitialLoad(isLoading) {
   const initialLoadRef = useRef(true);
-  useEffect(() => {
-    if (!isLoading) {
-      initialLoadRef.current = false;
-    }
-  }, [isLoading]);
+  useEffect(
+    () => {
+      if (!isLoading) {
+        initialLoadRef.current = false;
+      }
+    },
+    [isLoading],
+  );
 
   return initialLoadRef.current;
 }

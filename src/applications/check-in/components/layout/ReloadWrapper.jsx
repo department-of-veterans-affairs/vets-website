@@ -55,58 +55,70 @@ const ReloadWrapper = props => {
 
   const completeTimeStamp = getCompleteTimestamp(window);
 
-  useEffect(() => {
-    if (completeTimeStamp) {
-      const timeSinceComplete = Date.now() - completeTimeStamp;
-      if (timeSinceComplete > CONFIG_STALE_DURATION[app]) {
-        window.location = CONFIG_STALE_REDIRECT_LOCATION[app];
+  useEffect(
+    () => {
+      if (completeTimeStamp) {
+        const timeSinceComplete = Date.now() - completeTimeStamp;
+        if (timeSinceComplete > CONFIG_STALE_DURATION[app]) {
+          window.location = CONFIG_STALE_REDIRECT_LOCATION[app];
+        }
       }
-    }
-  }, [completeTimeStamp, app]);
+    },
+    [completeTimeStamp, app],
+  );
 
-  useEffect(() => {
-    if (checkInDataError || upcomingAppointmentsDataError) {
-      updateError('reload-data-error');
-    }
-  }, [checkInDataError, upcomingAppointmentsDataError, updateError]);
+  useEffect(
+    () => {
+      if (checkInDataError || upcomingAppointmentsDataError) {
+        updateError('reload-data-error');
+      }
+    },
+    [checkInDataError, upcomingAppointmentsDataError, updateError],
+  );
 
-  useEffect(() => {
-    if (!reduxToken && sessionToken?.token) {
-      const savedPermissions = getPermissions(window);
-      const savedToken = sessionToken.token;
-      if (savedPermissions && savedToken) {
-        dispatch(setForm(progressState));
-        dispatch(
-          createSetSession({
-            token: savedToken,
-            permissions: savedPermissions,
-          }),
-        );
-        refreshCheckInData();
-        if (reloadUpcoming) {
-          refreshUpcomingData();
+  useEffect(
+    () => {
+      if (!reduxToken && sessionToken?.token) {
+        const savedPermissions = getPermissions(window);
+        const savedToken = sessionToken.token;
+        if (savedPermissions && savedToken) {
+          dispatch(setForm(progressState));
+          dispatch(
+            createSetSession({
+              token: savedToken,
+              permissions: savedPermissions,
+            }),
+          );
+          refreshCheckInData();
+          if (reloadUpcoming) {
+            refreshUpcomingData();
+          }
+        } else {
+          setRefreshData(false);
         }
       } else {
         setRefreshData(false);
       }
-    } else {
-      setRefreshData(false);
-    }
-  }, [
-    reduxToken,
-    sessionToken,
-    location,
-    refreshCheckInData,
-    refreshUpcomingData,
-    dispatch,
-    getPermissions,
-    progressState,
-    reloadUpcoming,
-  ]);
+    },
+    [
+      reduxToken,
+      sessionToken,
+      location,
+      refreshCheckInData,
+      refreshUpcomingData,
+      dispatch,
+      getPermissions,
+      progressState,
+      reloadUpcoming,
+    ],
+  );
 
-  useEffect(() => {
-    setProgressState(window, currentForm);
-  }, [currentForm, setProgressState]);
+  useEffect(
+    () => {
+      setProgressState(window, currentForm);
+    },
+    [currentForm, setProgressState],
+  );
 
   if (refreshData || isLoading || isUpcomingLoading) {
     window.scrollTo(0, 0);

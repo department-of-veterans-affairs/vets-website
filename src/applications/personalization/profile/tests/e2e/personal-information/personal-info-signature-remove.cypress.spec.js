@@ -82,6 +82,7 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
       `contain.text`,
       Data.SIGNATURE.CHOOSE_EDIT,
     );
+
     cy.injectAxeThenAxeCheck();
   });
 });

@@ -18,7 +18,9 @@ const AddYourInfoDescription = ({ channel }) => {
   if (description) {
     return (
       <p className="vads-u-margin-top--0">
-        {`Add your ${description} to your profile to manage these ${channel.name} notification settings:`}
+        {`Add your ${description} to your profile to manage these ${
+          channel.name
+        } notification settings:`}
       </p>
     );
   }

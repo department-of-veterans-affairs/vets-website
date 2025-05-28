@@ -23,15 +23,21 @@ const CourtMartial = ({
   const courtMartial = formResponses[shortName];
   const { COURT_MARTIAL_YES, COURT_MARTIAL_NO, NOT_SURE } = RESPONSES;
 
-  useEffect(() => {
-    pageSetup(H1);
-  }, [H1]);
+  useEffect(
+    () => {
+      pageSetup(H1);
+    },
+    [H1],
+  );
 
-  useEffect(() => {
-    if (!viewedIntroPage) {
-      router.push(ROUTES.HOME);
-    }
-  }, [router, viewedIntroPage]);
+  useEffect(
+    () => {
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
+      }
+    },
+    [router, viewedIntroPage],
+  );
 
   return (
     <RadioGroup
@@ -67,4 +73,7 @@ const mapDispatchToProps = {
   setCourtMartial: updateCourtMartial,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourtMartial);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CourtMartial);

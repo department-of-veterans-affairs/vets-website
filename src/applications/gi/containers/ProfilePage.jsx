@@ -45,20 +45,29 @@ export function ProfilePage({
     };
   }, []);
 
-  useEffect(() => {
-    if (institutionName) {
-      document.title = `${institutionName}: GI Bill® Comparison Tool | Veterans Affairs`;
-    }
-  }, [institutionName]);
+  useEffect(
+    () => {
+      if (institutionName) {
+        document.title = `${institutionName}: GI Bill® Comparison Tool | Veterans Affairs`;
+      }
+    },
+    [institutionName],
+  );
 
-  useEffect(() => {
-    scrollTo('profilePage', getScrollOptions());
-    focusElement('.profile-page h1');
-  }, [profile.inProgress]);
+  useEffect(
+    () => {
+      scrollTo('profilePage', getScrollOptions());
+      focusElement('.profile-page h1');
+    },
+    [profile.inProgress],
+  );
 
-  useEffect(() => {
-    dispatchFetchProfile(facilityCode, version);
-  }, [version]);
+  useEffect(
+    () => {
+      dispatchFetchProfile(facilityCode, version);
+    },
+    [version],
+  );
 
   let content;
 
@@ -159,4 +168,7 @@ ProfilePage.propTypes = {
   gibctSchoolRatings: PropTypes.object,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ProfilePage);

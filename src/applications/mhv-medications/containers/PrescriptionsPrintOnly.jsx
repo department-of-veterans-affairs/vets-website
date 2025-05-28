@@ -13,10 +13,13 @@ const PrescriptionsPrintOnly = ({ list, isFullList, hasError = false }) => {
   const selectedSortOption = useSelector(
     state => state.rx.preferences.sortOption,
   );
-  const page = useMemo(() => {
-    const query = new URLSearchParams(search);
-    return Number(query.get('page'));
-  }, [search]);
+  const page = useMemo(
+    () => {
+      const query = new URLSearchParams(search);
+      return Number(query.get('page'));
+    },
+    [search],
+  );
   const content = () => {
     return (
       <>

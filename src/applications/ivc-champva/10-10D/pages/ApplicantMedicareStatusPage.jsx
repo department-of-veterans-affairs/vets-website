@@ -24,7 +24,9 @@ export function generateOptions({ data, pagePerItemIndex }) {
       value: 'ineligible',
     },
     {
-      label: `No, ${bp.applicant} is eligible for Medicare but has not been signed up for it yet`,
+      label: `No, ${
+        bp.applicant
+      } is eligible for Medicare but has not been signed up for it yet`,
       value: 'eligibleNotSignedUp',
     },
   ];

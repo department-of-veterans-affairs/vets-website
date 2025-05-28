@@ -94,7 +94,7 @@ export const EvidencePrivateContent = ({
                 authorizationLabel
               ) : (
                 // including non-empty error attribute for focus management
-                <span className="usa-input-error-message">
+                <span className="usa-input-error-message" error="error">
                   {authorizationError}
                 </span>
               )}

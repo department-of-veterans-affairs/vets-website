@@ -16,12 +16,15 @@ export const ConfirmationPage = () => {
   const { fullName, selectedDebts = [] } = data;
   const submitDate = submission?.timestamp;
 
-  useEffect(() => {
-    if (alertRef?.current) {
-      scrollTo('topScrollElement');
-      waitForRenderThenFocus('h2', alertRef.current);
-    }
-  }, [alertRef]);
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo('topScrollElement');
+        waitForRenderThenFocus('h2', alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   return (
     <div>

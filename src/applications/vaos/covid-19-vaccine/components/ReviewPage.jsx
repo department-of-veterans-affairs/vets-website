@@ -46,11 +46,14 @@ export default function ReviewPage() {
     scrollAndFocus();
   }, []);
 
-  useEffect(() => {
-    if (submitStatus === FETCH_STATUS.failed) {
-      scrollAndFocus('.info-alert');
-    }
-  }, [submitStatus]);
+  useEffect(
+    () => {
+      if (submitStatus === FETCH_STATUS.failed) {
+        scrollAndFocus('.info-alert');
+      }
+    },
+    [submitStatus],
+  );
 
   if (!vaFacility) {
     return <Redirect to="/" />;

@@ -37,12 +37,15 @@ const CombinedPortalApp = ({ children }) => {
   const { isPending, isPendingVBMS, isProfileUpdating } = debtLetters;
   const isDebtLoading = isPending || isPendingVBMS || isProfileUpdating;
 
-  useEffect(() => {
-    if (!profileLoading && userLoggedIn) {
-      fetchDebtLetters(dispatch, debtLettersActive);
-      getStatements(dispatch);
-    }
-  }, [debtLettersActive, dispatch, profileLoading, userLoggedIn]);
+  useEffect(
+    () => {
+      if (!profileLoading && userLoggedIn) {
+        fetchDebtLetters(dispatch, debtLettersActive);
+        getStatements(dispatch);
+      }
+    },
+    [debtLettersActive, dispatch, profileLoading, userLoggedIn],
+  );
 
   // Authentication!
   if (!profileLoading && !userLoggedIn) {

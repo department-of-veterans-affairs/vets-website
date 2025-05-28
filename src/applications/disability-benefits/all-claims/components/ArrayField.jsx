@@ -31,7 +31,9 @@ export default class ArrayField extends React.Component {
     // Throw an error if there’s no viewField (should be React component)
     if (!isReactComponent(this.props.uiSchema['ui:options'].viewField)) {
       throw new Error(
-        `No viewField found in uiSchema for ArrayField ${this.props.idSchema.$id}.`,
+        `No viewField found in uiSchema for ArrayField ${
+          this.props.idSchema.$id
+        }.`,
       );
     }
 
@@ -219,8 +221,8 @@ export default class ArrayField extends React.Component {
       // last item, but not ones above it
       this.setState(
         state => {
-          const newEditing = this.state.editing.map((val, index) =>
-            index + 1 === state.editing.length ? false : val,
+          const newEditing = this.state.editing.map(
+            (val, index) => (index + 1 === state.editing.length ? false : val),
           );
           return { editing: newEditing };
         },
@@ -245,8 +247,8 @@ export default class ArrayField extends React.Component {
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
       // last item, but not ones above it
-      const newEditing = this.state.editing.map((val, index) =>
-        index + 1 === this.state.editing.length ? false : val,
+      const newEditing = this.state.editing.map(
+        (val, index) => (index + 1 === this.state.editing.length ? false : val),
       );
       const newState = {
         ...this.state,
@@ -522,11 +524,14 @@ export default class ArrayField extends React.Component {
 
 ArrayField.propTypes = {
   schema: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
+  uiSchema: PropTypes.object,
   errorSchema: PropTypes.object,
-  formData: PropTypes.array,
+  requiredSchema: PropTypes.object,
   idSchema: PropTypes.object,
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
+  formData: PropTypes.array,
+  disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
     widgets: PropTypes.objectOf(
@@ -536,7 +541,4 @@ ArrayField.propTypes = {
     definitions: PropTypes.object.isRequired,
     formContext: PropTypes.object.isRequired,
   }),
-  requiredSchema: PropTypes.object,
-  uiSchema: PropTypes.object,
-  onBlur: PropTypes.func,
 };

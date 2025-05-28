@@ -58,4 +58,7 @@ const mapStateToProps = state => ({
 
 export { ReplaceAccreditedRepresentative }; // Named export for testing
 
-export default connect(mapStateToProps, null)(ReplaceAccreditedRepresentative);
+export default connect(
+  mapStateToProps,
+  null,
+)(ReplaceAccreditedRepresentative);

@@ -53,7 +53,9 @@ describe('<ClaimLetterListItem>', () => {
       recordEventStub.calledWith({
         event: 'claim-letters-download',
         'gtm.element.textContent': 'Download Claim Letter (PDF)',
-        'gtm.elementUrl': `${environment.API_URL}/v0/claim_letters/[${mockLetter.docType}]:id.pdf`,
+        'gtm.elementUrl': `${environment.API_URL}/v0/claim_letters/[${
+          mockLetter.docType
+        }]:id.pdf`,
         'letter-type': 'Claim decision or other notification',
       }),
     ).to.be.true;

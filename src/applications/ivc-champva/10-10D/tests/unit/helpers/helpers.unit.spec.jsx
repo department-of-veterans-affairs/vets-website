@@ -37,7 +37,7 @@ describe('getAgeInYears', () => {
 
   beforeEach(() => {
     // Mock Date.now() to always return a fixed value in 2024
-    // (Similar to ReferralTaskCard.unit.spec.jsx)
+    // (Similar to ReferralTaskCard.unit.spec.js)
     const fixedTimestamp = new Date('2024-12-31T00:00:00Z').getTime();
     clock = sinon.useFakeTimers({ now: fixedTimestamp, toFake: ['Date'] });
   });

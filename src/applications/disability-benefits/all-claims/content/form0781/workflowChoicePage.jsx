@@ -396,21 +396,27 @@ const WorkflowChoicePage = props => {
   const [showAlert, setShowAlert] = useState(false);
   const [shouldGoForward, setShouldGoForward] = useState(false);
 
-  useEffect(() => {
-    if (showAlert) {
-      scrollTo('success-alert');
-    }
-  }, [showAlert]);
+  useEffect(
+    () => {
+      if (showAlert) {
+        scrollTo('success-alert');
+      }
+    },
+    [showAlert],
+  );
 
-  useEffect(() => {
-    if (
-      shouldGoForward &&
-      data?.mentalHealthWorkflowChoice === selectedMentalHealthWorkflowChoice
-    ) {
-      setShouldGoForward(false);
-      goForward(data);
-    }
-  }, [data?.mentalHealthWorkflowChoice, shouldGoForward]);
+  useEffect(
+    () => {
+      if (
+        shouldGoForward &&
+        data?.mentalHealthWorkflowChoice === selectedMentalHealthWorkflowChoice
+      ) {
+        setShouldGoForward(false);
+        goForward(data);
+      }
+    },
+    [data?.mentalHealthWorkflowChoice, shouldGoForward],
+  );
 
   const missingSelectionErrorMessage =
     'A response is needed for this question.';

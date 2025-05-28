@@ -47,39 +47,45 @@ const MessageThreadItem = props => {
     }
   };
 
-  useEffect(() => {
-    if (open && !preloaded) {
-      // opening an accordion by triggering an event, as passing in the open prop makes the accordion uncontrolled and rerender
-      const accordionItemToggledEvent = new CustomEvent(
-        'accordionItemToggled',
-        {
-          bubbles: true,
-          detail: {},
-        },
-      );
-      accordionItemRef.current.dispatchEvent(accordionItemToggledEvent);
+  useEffect(
+    () => {
+      if (open && !preloaded) {
+        // opening an accordion by triggering an event, as passing in the open prop makes the accordion uncontrolled and rerender
+        const accordionItemToggledEvent = new CustomEvent(
+          'accordionItemToggled',
+          {
+            bubbles: true,
+            detail: {},
+          },
+        );
+        accordionItemRef.current.dispatchEvent(accordionItemToggledEvent);
 
-      // Checks if the screen less than full desktop size and prevents focus from shifting to bottom of the page whenever the accordion is opened
-      if (window.matchMedia('(max-width: 1024px)').matches) {
-        window.scrollTo(0, 0);
+        // Checks if the screen less than full desktop size and prevents focus from shifting to bottom of the page whenever the accordion is opened
+        if (window.matchMedia('(max-width: 1024px)').matches) {
+          window.scrollTo(0, 0);
+        }
       }
-    }
-  }, [dispatch, isDraftThread, messageId, open, preloaded]);
+    },
+    [dispatch, isDraftThread, messageId, open, preloaded],
+  );
 
-  const accordionAriaLabel = useMemo(() => {
-    return `${!isSentOrReadOrDraft ? 'New ' : ''}message ${
-      isSent ? 'sent' : 'received'
-    } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
-      hasAttachments || attachment ? 'with attachment' : ''
-    } from ${senderName}.`;
-  }, [
-    attachment,
-    isSent,
-    hasAttachments,
-    isSentOrReadOrDraft,
-    senderName,
-    sentDate,
-  ]);
+  const accordionAriaLabel = useMemo(
+    () => {
+      return `${!isSentOrReadOrDraft ? 'New ' : ''}message ${
+        isSent ? 'sent' : 'received'
+      } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
+        hasAttachments || attachment ? 'with attachment' : ''
+      } from ${senderName}.`;
+    },
+    [
+      attachment,
+      isSent,
+      hasAttachments,
+      isSentOrReadOrDraft,
+      senderName,
+      sentDate,
+    ],
+  );
 
   return (
     <VaAccordionItem

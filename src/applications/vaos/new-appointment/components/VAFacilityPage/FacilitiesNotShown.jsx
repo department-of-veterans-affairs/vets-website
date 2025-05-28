@@ -8,16 +8,22 @@ import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function FacilitiesNotShown({ sortMethod }) {
   const [isOpen, setIsOpen] = useState(false);
-  useEffect(() => {
-    setIsOpen(false);
-  }, [sortMethod]);
-  useEffect(() => {
-    if (isOpen) {
-      recordEvent({
-        event: `${GA_PREFIX}-facilities-not-listed-click`,
-      });
-    }
-  }, [isOpen]);
+  useEffect(
+    () => {
+      setIsOpen(false);
+    },
+    [sortMethod],
+  );
+  useEffect(
+    () => {
+      if (isOpen) {
+        recordEvent({
+          event: `${GA_PREFIX}-facilities-not-listed-click`,
+        });
+      }
+    },
+    [isOpen],
+  );
 
   return (
     <div className="vads-u-margin-bottom--7">

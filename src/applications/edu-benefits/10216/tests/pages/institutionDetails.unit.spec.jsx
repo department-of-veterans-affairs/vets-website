@@ -110,6 +110,7 @@ describe('Form Configuration', () => {
       'Please provide a valid current or past date',
     );
   });
+
   it('should show errors when required field is empty', () => {
     const onSubmit = sinon.spy();
     delete uiSchema.institutionDetails.institutionName;

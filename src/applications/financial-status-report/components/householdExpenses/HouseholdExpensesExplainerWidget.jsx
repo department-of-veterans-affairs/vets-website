@@ -20,11 +20,14 @@ const HouseholdExpensesExplainerWidget = ({
 
   // Always setting focus on the header
   const headerRef = useRef(null);
-  useEffect(() => {
-    if (headerRef?.current) {
-      focusElement(headerRef?.current);
-    }
-  }, [headerRef]);
+  useEffect(
+    () => {
+      if (headerRef?.current) {
+        focusElement(headerRef?.current);
+      }
+    },
+    [headerRef],
+  );
 
   const handleBackNavigation = () => {
     if (reviewNavigation && showReviewNavigation) {

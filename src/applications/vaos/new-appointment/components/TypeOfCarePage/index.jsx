@@ -61,25 +61,31 @@ export default function TypeOfCarePage() {
   } = useSelector(selectTypeOfCarePage, shallowEqual);
 
   const history = useHistory();
-  const showUpdateAddressAlert = useMemo(() => {
-    return (
-      !hideUpdateAddressAlert &&
-      (!addressLine1 || addressLine1.match(/^PO Box/))
-    );
-  }, [addressLine1, hideUpdateAddressAlert]);
+  const showUpdateAddressAlert = useMemo(
+    () => {
+      return (
+        !hideUpdateAddressAlert &&
+        (!addressLine1 || addressLine1.match(/^PO Box/))
+      );
+    },
+    [addressLine1, hideUpdateAddressAlert],
+  );
 
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
 
-    if (showUpdateAddressAlert) {
-      recordEvent({
-        event: 'vaos-update-address-alert-displayed',
-      });
-    }
+      if (showUpdateAddressAlert) {
+        recordEvent({
+          event: 'vaos-update-address-alert-displayed',
+        });
+      }
 
-    dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
-  }, [showUpdateAddressAlert, dispatch]);
+      dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
+    },
+    [showUpdateAddressAlert, dispatch],
+  );
 
   const { data, schema, setData, uiSchema } = useFormState({
     initialSchema: () => {
@@ -87,8 +93,9 @@ export default function TypeOfCarePage() {
         typeOfCare =>
           typeOfCare.id !== PODIATRY_ID ||
           (showCommunityCare && !removePodiatry),
-      ).sort((careA, careB) =>
-        careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
+      ).sort(
+        (careA, careB) =>
+          careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
       );
 
       return {

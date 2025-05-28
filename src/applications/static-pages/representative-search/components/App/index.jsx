@@ -76,4 +76,7 @@ const mapStateToProps = state => ({
   show: state?.featureToggles?.findARepresentativeEnableFrontend,
 });
 
-export default connect(mapStateToProps, null)(App);
+export default connect(
+  mapStateToProps,
+  null,
+)(App);

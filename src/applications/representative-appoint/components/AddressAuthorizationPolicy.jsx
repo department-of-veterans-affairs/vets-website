@@ -50,4 +50,7 @@ const mapStateToProps = state => ({
   formData: state.form?.data,
 });
 
-export default connect(mapStateToProps, null)(AddressAuthorizationPolicy);
+export default connect(
+  mapStateToProps,
+  null,
+)(AddressAuthorizationPolicy);

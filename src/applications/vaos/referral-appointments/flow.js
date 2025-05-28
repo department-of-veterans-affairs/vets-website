@@ -115,7 +115,7 @@ export function routeToCCPage(history, page, referralId = null) {
 }
 
 /* Function to get label from the flow
- * The URL displayed in the browser address bar is compared to the
+ * The URL displayed in the browser address bar is compared to the 
  * flow URL
  *
  * @export

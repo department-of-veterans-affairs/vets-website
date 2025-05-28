@@ -36,7 +36,9 @@ const redirectIfNecessary = currentWindow => {
 
           if (regexMatch.test(currentPath)) {
             // eslint-disable-next-line no-param-reassign
-            currentWindow.location.href = `${environment.BASE_URL}${batchRedirect.dest}`;
+            currentWindow.location.href = `${environment.BASE_URL}${
+              batchRedirect.dest
+            }`;
           }
         }
       }
@@ -57,7 +59,9 @@ const redirectIfNecessary = currentWindow => {
   // Redirect if it's an exact match first.
   if (absoluteRedirectMatch) {
     // eslint-disable-next-line no-param-reassign
-    currentWindow.location.href = `${environment.BASE_URL}${absoluteRedirectMatch.dest}`;
+    currentWindow.location.href = `${environment.BASE_URL}${
+      absoluteRedirectMatch.dest
+    }`;
 
     return;
   }
@@ -79,7 +83,9 @@ const redirectIfNecessary = currentWindow => {
   // Redirect if if there is a catch-all match.
   if (catchAllRedirectMatch) {
     // eslint-disable-next-line no-param-reassign
-    currentWindow.location.href = `${environment.BASE_URL}${catchAllRedirectMatch.dest}`;
+    currentWindow.location.href = `${environment.BASE_URL}${
+      catchAllRedirectMatch.dest
+    }`;
   }
 
   // Check if redirect destination is to a subdomain

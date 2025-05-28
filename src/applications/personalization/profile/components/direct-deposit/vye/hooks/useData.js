@@ -7,9 +7,12 @@ export const useData = () => {
   const dispatch = useDispatch();
   const { personalInfo, isLoading } = useSelector(state => state.personalInfo);
 
-  useEffect(() => {
-    dispatch(fetchPersonalInfo());
-  }, [dispatch]);
+  useEffect(
+    () => {
+      dispatch(fetchPersonalInfo());
+    },
+    [dispatch],
+  );
   const userInfo = personalInfo && personalInfo['vye::UserInfo'];
 
   return {

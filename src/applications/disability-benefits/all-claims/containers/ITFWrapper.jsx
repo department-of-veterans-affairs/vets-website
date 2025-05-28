@@ -62,8 +62,9 @@ export class ITFWrapper extends React.Component {
    * calls.
    */
   shouldBlockITF(pathname) {
-    return this.props.noITFPages.some(noITFPath =>
-      noITFPath.test ? noITFPath.test(pathname) : noITFPath === pathname,
+    return this.props.noITFPages.some(
+      noITFPath =>
+        noITFPath.test ? noITFPath.test(pathname) : noITFPath === pathname,
     );
   }
 
@@ -165,8 +166,6 @@ const itfShape = {
 };
 
 ITFWrapper.propTypes = {
-  createITF: PropTypes.func.isRequired,
-  fetchITF: PropTypes.func.isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }).isRequired,
@@ -176,6 +175,8 @@ ITFWrapper.propTypes = {
     currentITF: PropTypes.shape(itfShape),
     previousITF: PropTypes.shape(itfShape),
   }),
+  fetchITF: PropTypes.func.isRequired,
+  createITF: PropTypes.func.isRequired,
   noITFPages: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(RegExp)]),
   ),
@@ -190,4 +191,7 @@ const mapDispatchToProps = {
   fetchITF: fetchITFAction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ITFWrapper);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ITFWrapper);

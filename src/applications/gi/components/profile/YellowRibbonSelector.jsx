@@ -171,7 +171,9 @@ const YellowRibbonSelector = ({ programs }) => {
         tabIndex="-1"
         className="vads-u-margin-top--3 vads-u-margin-bottom--3"
       >
-        {`Showing ${startIndex}-${endIndex} of ${filteredPrograms.length} ${resultText} for `}
+        {`Showing ${startIndex}-${endIndex} of ${
+          filteredPrograms.length
+        } ${resultText} for `}
         {activeOptionLabel}
       </p>
     );

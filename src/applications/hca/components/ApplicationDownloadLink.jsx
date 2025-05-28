@@ -21,11 +21,14 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   ]);
 
   // Default name to Applicant Submission if view:veteranInformation is empty for some reason
-  const name = useMemo(() => {
-    const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
-      form.data?.['view:veteranInformation'] ?? {};
-    return veteranFullName;
-  }, [form.data]);
+  const name = useMemo(
+    () => {
+      const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
+        form.data?.['view:veteranInformation'] ?? {};
+      return veteranFullName;
+    },
+    [form.data],
+  );
 
   const handlePdfDownload = useCallback(
     blob => {
@@ -76,9 +79,12 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   );
 
   // apply focus to the error alert if we have errors set
-  useEffect(() => {
-    if (errorMessage) focusElement('.hca-download-error');
-  }, [errorMessage]);
+  useEffect(
+    () => {
+      if (errorMessage) focusElement('.hca-download-error');
+    },
+    [errorMessage],
+  );
 
   // render loading indicator while application download is processing
   if (loading) {

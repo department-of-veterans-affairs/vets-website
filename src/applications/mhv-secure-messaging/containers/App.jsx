@@ -49,9 +49,12 @@ const App = ({ isPilot }) => {
     state => state.featureToggles['mhv-mock-session'],
   );
 
-  useEffect(() => {
-    if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
-  }, [mhvMockSessionFlag]);
+  useEffect(
+    () => {
+      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+    },
+    [mhvMockSessionFlag],
+  );
 
   const scheduledDownTimeIsReady = useSelector(
     state => state.scheduledDowntime?.isReady,
@@ -61,27 +64,36 @@ const App = ({ isPilot }) => {
     state => state.scheduledDowntime?.serviceMap || [],
   );
 
-  const mhvSMDown = useMemo(() => {
-    if (scheduledDowntimes.size > 0) {
-      return (
-        scheduledDowntimes?.get(externalServices.mhvSm)?.status ||
-        scheduledDowntimes?.get(externalServices.mhvPlatform)?.status
-      );
-    }
-    return 'downtime status: ok';
-  }, [scheduledDowntimes]);
+  const mhvSMDown = useMemo(
+    () => {
+      if (scheduledDowntimes.size > 0) {
+        return (
+          scheduledDowntimes?.get(externalServices.mhvSm)?.status ||
+          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status
+        );
+      }
+      return 'downtime status: ok';
+    },
+    [scheduledDowntimes],
+  );
 
-  useEffect(() => {
-    if (!scheduledDownTimeIsReady) {
-      dispatch(getScheduledDowntime());
-    }
-  }, [dispatch, scheduledDownTimeIsReady]);
+  useEffect(
+    () => {
+      if (!scheduledDownTimeIsReady) {
+        dispatch(getScheduledDowntime());
+      }
+    },
+    [dispatch, scheduledDownTimeIsReady],
+  );
 
-  useEffect(() => {
-    if (isPilot) {
-      dispatch({ type: Actions.App.IS_PILOT });
-    }
-  }, [isPilot, dispatch]);
+  useEffect(
+    () => {
+      if (isPilot) {
+        dispatch({ type: Actions.App.IS_PILOT });
+      }
+    },
+    [isPilot, dispatch],
+  );
 
   const datadogRumConfig = {
     applicationId: '02c72297-5059-4ed8-8472-874276f4a9b2',
@@ -99,9 +111,12 @@ const App = ({ isPilot }) => {
   };
 
   useDatadogRum(datadogRumConfig);
-  useEffect(() => {
-    setDatadogRumUser({ id: user?.profile?.accountUuid });
-  }, [user]);
+  useEffect(
+    () => {
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
+    },
+    [user],
+  );
 
   if (featureTogglesLoading) {
     return (

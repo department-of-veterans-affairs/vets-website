@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 
 const LandingPage = title => {
-  useEffect(() => {
-    document.title = title.title;
-  }, [title]);
+  useEffect(
+    () => {
+      document.title = title.title;
+    },
+    [title],
+  );
   return (
     <section className="home">
       <div className="home__hero">

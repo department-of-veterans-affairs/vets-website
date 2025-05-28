@@ -58,13 +58,14 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
 
   const onUpdate = () => {
     if (error) return;
-    const updatedIncomeArray = incomeArray.map(income =>
-      income.veteranOrSpouse === 'VETERAN'
-        ? {
-            ...income,
-            [benefitType]: inputValue,
-          }
-        : income,
+    const updatedIncomeArray = incomeArray.map(
+      income =>
+        income.veteranOrSpouse === 'VETERAN'
+          ? {
+              ...income,
+              [benefitType]: inputValue,
+            }
+          : income,
     );
 
     dispatch(

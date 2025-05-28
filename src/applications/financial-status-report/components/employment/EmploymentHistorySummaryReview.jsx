@@ -34,7 +34,9 @@ const renderDeductions = (job, isSpouse) => {
             className="review-row"
             key={
               isSpouse
-                ? `spouse${deductionIndex}${job.employerName}${job.type}deduction`
+                ? `spouse${deductionIndex}${job.employerName}${
+                    job.type
+                  }deduction`
                 : `vet${deductionIndex}${job.employerName}${job.type}deduction`
             }
           >

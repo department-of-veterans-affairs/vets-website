@@ -252,10 +252,10 @@ const PrintDownload = props => {
 export default PrintDownload;
 
 PrintDownload.propTypes = {
-  isLoading: PropTypes.bool,
   isSuccess: PropTypes.bool,
   list: PropTypes.any,
   onDownload: PropTypes.any,
   onPrint: PropTypes.func,
   onText: PropTypes.func,
+  isLoading: PropTypes.bool,
 };

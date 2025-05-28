@@ -23,21 +23,24 @@ const IntroductionPage = ({ route, router }) => {
     window.location = SIGN_IN_URL;
   };
 
-  const startBtn = useMemo(() => {
-    const startForm = () => {
-      recordEvent({ event: `${formNumber}-start-form` });
-      return router.push(route.pageList[1].path);
-    };
-    return (
-      <a
-        href="#start"
-        className="vads-c-action-link--green"
-        onClick={startForm}
-      >
-        Start application
-      </a>
-    );
-  }, [route.pageList, router]);
+  const startBtn = useMemo(
+    () => {
+      const startForm = () => {
+        recordEvent({ event: `${formNumber}-start-form` });
+        return router.push(route.pageList[1].path);
+      };
+      return (
+        <a
+          href="#start"
+          className="vads-c-action-link--green"
+          onClick={startForm}
+        >
+          Start application
+        </a>
+      );
+    },
+    [route.pageList, router],
+  );
 
   return (
     <article className="schemaform-intro">

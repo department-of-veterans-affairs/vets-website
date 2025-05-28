@@ -118,10 +118,7 @@ describe('Marriage count component', () => {
     const goForwardSpy = sinon.spy();
     const setFormDataSpy = sinon.spy();
     const initialData = {
-      marriages: [
-        { id: 1, spouse: 'Alice' },
-        { id: 2, spouse: 'Bob' },
-      ],
+      marriages: [{ id: 1, spouse: 'Alice' }, { id: 2, spouse: 'Bob' }],
     };
     const { data } = getData({ loggedIn: false, formData: initialData });
     const store = mockStore(data);

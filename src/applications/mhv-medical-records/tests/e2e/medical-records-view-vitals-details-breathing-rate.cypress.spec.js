@@ -22,7 +22,9 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[7].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${defaultVitals.entry[7].resource.valueQuantity.value} breaths per minute`,
+      `${
+        defaultVitals.entry[7].resource.valueQuantity.value
+      } breaths per minute`,
       defaultVitals.entry[4].resource.contained[0].name,
       'None recorded',
     );
@@ -32,7 +34,9 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[17].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${defaultVitals.entry[17].resource.valueQuantity.value} breaths per minute`,
+      `${
+        defaultVitals.entry[17].resource.valueQuantity.value
+      } breaths per minute`,
       defaultVitals.entry[17].resource.contained[0].name,
       'None recorded',
     );
@@ -42,7 +46,9 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[27].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${defaultVitals.entry[27].resource.valueQuantity.value} breaths per minute`,
+      `${
+        defaultVitals.entry[27].resource.valueQuantity.value
+      } breaths per minute`,
       defaultVitals.entry[27].resource.contained[0].name,
       'None recorded',
     );
@@ -52,7 +58,9 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[37].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${defaultVitals.entry[37].resource.valueQuantity.value} breaths per minute`,
+      `${
+        defaultVitals.entry[37].resource.valueQuantity.value
+      } breaths per minute`,
       defaultVitals.entry[37].resource.contained[0].name,
       'None recorded',
     );

@@ -277,11 +277,11 @@ describe('CG <FacilitySearch>', () => {
     });
   });
 
-  /*
+  /* 
    * NOTE: There is an existing bug with the va-search-input component triggers two submit requests.
    * We need to handle the fact that this does exist, but also don't let the test break if it gets
    * fixed.
-   *
+   * 
    * https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/3117
    */
   context('when the `Load more` button is clicked', () => {

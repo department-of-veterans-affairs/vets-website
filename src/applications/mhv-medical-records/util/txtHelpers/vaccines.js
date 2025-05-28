@@ -10,9 +10,9 @@ allergies and reactions (including any reactions to vaccines), download your all
 Showing ${records?.length} records from newest to oldest
 
 ${records
-  .map(
-    record =>
-      `
+    .map(
+      record =>
+        `
 ${record.name}
 ${txtLineDotted}
 ${`Date received: ${record.date}`}
@@ -20,7 +20,7 @@ ${`Location: ${record.location}`}
 Provider notes
 ${record.notes.map(note => `${note}`)}
             `,
-  )
-  .join('')}
+    )
+    .join('')}
     `;
 };

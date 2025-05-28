@@ -1,10 +1,10 @@
 import {
   createNoDescriptionText,
-  createOriginalFillRecord,
+  createVAPharmacyText,
   dateFormat,
+  getRefillHistory,
   processList,
   validateField,
-  createVAPharmacyText,
 } from './helpers';
 import {
   pdfStatusDefinitions,
@@ -348,10 +348,7 @@ export const buildAllergiesPDFList = allergies => {
  * @returns {Array<PdfConfigItem>}
  */
 export const buildVAPrescriptionPDFList = prescription => {
-  const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const originalFill = createOriginalFillRecord(prescription);
-  refillHistory.push(originalFill);
-
+  const refillHistory = getRefillHistory(prescription);
   const VAPrescriptionPDFList = [
     {
       header: 'Most recent prescription',
@@ -534,7 +531,9 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
         },
         ...prescription.groupedMedications.map(previousPrescription => {
           return {
-            header: `Prescription number: ${previousPrescription.prescriptionNumber}`,
+            header: `Prescription number: ${
+              previousPrescription.prescriptionNumber
+            }`,
             indent: 32,
             items: [
               {

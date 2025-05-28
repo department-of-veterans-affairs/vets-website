@@ -532,4 +532,7 @@ ConfirmationPage.propTypes = {
   setSubmission: PropTypes.func,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmationPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConfirmationPage);

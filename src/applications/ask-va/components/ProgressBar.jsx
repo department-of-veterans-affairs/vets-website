@@ -107,95 +107,104 @@ const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
     return replaceWith;
   };
 
-  useEffect(() => {
-    // Scroll back to the top of the form
-    scrollTo('topScrollElement');
-    focusElement('h2');
-    if (!viewedPages.includes(currentPath))
-      setViewedPages([...viewedPages, currentPath]);
+  useEffect(
+    () => {
+      // Scroll back to the top of the form
+      scrollTo('topScrollElement');
+      focusElement('h2');
+      if (!viewedPages.includes(currentPath))
+        setViewedPages([...viewedPages, currentPath]);
 
-    if (!viewedPages.includes(currentPath) && percent < 100) {
-      if (onCategoryPage) {
-        setPercent(0);
-        setPagePercent({ ...pagePercent, [currentPath]: percent });
+      if (!viewedPages.includes(currentPath) && percent < 100) {
+        if (onCategoryPage) {
+          setPercent(0);
+          setPagePercent({ ...pagePercent, [currentPath]: percent });
+        }
+        if (
+          isConstantPath &&
+          currentPath !== CHAPTER_2.PAGE_3.PATH &&
+          currentPath !== CHAPTER_1.PAGE_1.PATH
+        ) {
+          setPercent(percent + 5);
+          setPagePercent({ ...pagePercent, [currentPath]: percent + 5 });
+        }
+        if (isFlowPath) {
+          setPercent(percent + 3);
+          setPagePercent({ ...pagePercent, [currentPath]: percent + 3 });
+        }
+        if (isConstantPath && currentPath === CHAPTER_2.PAGE_3.PATH) {
+          setPercent(90);
+          setPagePercent({ ...pagePercent, [currentPath]: 90 });
+        }
+        if (onReviewPage) {
+          setPercent(98);
+          setPagePercent({ ...pagePercent, [currentPath]: 98 });
+        }
+        setFormCopy(cloneDeep(formData));
       }
-      if (
-        isConstantPath &&
-        currentPath !== CHAPTER_2.PAGE_3.PATH &&
-        currentPath !== CHAPTER_1.PAGE_1.PATH
-      ) {
-        setPercent(percent + 5);
-        setPagePercent({ ...pagePercent, [currentPath]: percent + 5 });
-      }
-      if (isFlowPath) {
-        setPercent(percent + 3);
-        setPagePercent({ ...pagePercent, [currentPath]: percent + 3 });
-      }
-      if (isConstantPath && currentPath === CHAPTER_2.PAGE_3.PATH) {
-        setPercent(90);
-        setPagePercent({ ...pagePercent, [currentPath]: 90 });
-      }
-      if (onReviewPage) {
-        setPercent(98);
-        setPagePercent({ ...pagePercent, [currentPath]: 98 });
-      }
-      setFormCopy(cloneDeep(formData));
-    }
 
-    if (viewedPages.includes(currentPath) && percent < 100 && percent >= 0) {
-      if (onCategoryPage) setPercent(pagePercent[currentPath]);
-      if (
-        isConstantPath &&
-        currentPath !== CHAPTER_2.PAGE_3.PATH &&
-        currentPath !== CHAPTER_1.PAGE_1.PATH
-      )
-        setPercent(pagePercent[currentPath]);
-      if (isFlowPath) setPercent(pagePercent[currentPath]);
-      if (isConstantPath && currentPath === CHAPTER_2.PAGE_3.PATH)
-        setPercent(pagePercent[currentPath]);
-      if (onReviewPage) setPercent(pagePercent[currentPath]);
-    }
-
-    if (onReviewPage && invalidPages.length > 0) {
-      const invalidKeys = invalidPages
-        .filter(path => !skipPaths.includes(path))
-        .map(pagePath => getFormDataKeys(flowPaths, pagePath))
-        .flat();
-
-      const questionKeys = viewedPages
-        .filter(
-          path =>
-            path !== 'review-then-submit' &&
-            path !== 'your-personal-information',
+      if (viewedPages.includes(currentPath) && percent < 100 && percent >= 0) {
+        if (onCategoryPage) setPercent(pagePercent[currentPath]);
+        if (
+          isConstantPath &&
+          currentPath !== CHAPTER_2.PAGE_3.PATH &&
+          currentPath !== CHAPTER_1.PAGE_1.PATH
         )
-        .map(pagePath => getFormDataKeys(flowPaths, pagePath))
-        .flat();
+          setPercent(pagePercent[currentPath]);
+        if (isFlowPath) setPercent(pagePercent[currentPath]);
+        if (isConstantPath && currentPath === CHAPTER_2.PAGE_3.PATH)
+          setPercent(pagePercent[currentPath]);
+        if (onReviewPage) setPercent(pagePercent[currentPath]);
+      }
 
-      const filteredInvalid = removeViewedFromInvalidPages(
-        invalidKeys,
-        questionKeys,
-      );
-      const clearWith = buildReplacementObj(filteredInvalid);
+      if (onReviewPage && invalidPages.length > 0) {
+        const invalidKeys = invalidPages
+          .filter(path => !skipPaths.includes(path))
+          .map(pagePath => getFormDataKeys(flowPaths, pagePath))
+          .flat();
 
-      if (Object.keys(clearWith).length)
-        setFormData({ ...formData, ...clearWith });
-    }
-  }, [currentPath]);
+        const questionKeys = viewedPages
+          .filter(
+            path =>
+              path !== 'review-then-submit' &&
+              path !== 'your-personal-information',
+          )
+          .map(pagePath => getFormDataKeys(flowPaths, pagePath))
+          .flat();
 
-  useEffect(() => {
-    if (
-      viewedPages.includes(currentPath) &&
-      viewedPages.indexOf(currentPath) !== viewedPages.length - 1 &&
-      !isEqual(formCopy, formData)
-    ) {
-      const nextPageIndex = viewedPages.indexOf(currentPath) + 1;
-      const viewedPagesToClearData = viewedPages.slice(nextPageIndex);
-      setInvalidPages([...invalidPages, ...viewedPagesToClearData]);
+        const filteredInvalid = removeViewedFromInvalidPages(
+          invalidKeys,
+          questionKeys,
+        );
+        const clearWith = buildReplacementObj(filteredInvalid);
 
-      const resetViewedPagesToCurrentPath = viewedPages.slice(0, nextPageIndex);
-      setViewedPages(resetViewedPagesToCurrentPath);
-    }
-  }, [formData]);
+        if (Object.keys(clearWith).length)
+          setFormData({ ...formData, ...clearWith });
+      }
+    },
+    [currentPath],
+  );
+
+  useEffect(
+    () => {
+      if (
+        viewedPages.includes(currentPath) &&
+        viewedPages.indexOf(currentPath) !== viewedPages.length - 1 &&
+        !isEqual(formCopy, formData)
+      ) {
+        const nextPageIndex = viewedPages.indexOf(currentPath) + 1;
+        const viewedPagesToClearData = viewedPages.slice(nextPageIndex);
+        setInvalidPages([...invalidPages, ...viewedPagesToClearData]);
+
+        const resetViewedPagesToCurrentPath = viewedPages.slice(
+          0,
+          nextPageIndex,
+        );
+        setViewedPages(resetViewedPagesToCurrentPath);
+      }
+    },
+    [formData],
+  );
 
   return isConstantPath || isFlowPath || onReviewPage ? (
     <div className="ava-progress-bar">
@@ -209,9 +218,9 @@ const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
 };
 
 ProgressBar.propTypes = {
-  emptyFormData: PropTypes.object,
-  formData: PropTypes.object,
   pathname: PropTypes.string,
+  formData: PropTypes.object,
+  emptyFormData: PropTypes.object,
   setFormData: PropTypes.func,
 };
 

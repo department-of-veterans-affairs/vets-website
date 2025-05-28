@@ -38,9 +38,9 @@ import {
 } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -93,10 +93,13 @@ const Allergies = props => {
     [dispatch],
   );
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
-  }, [dispatch]);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,
@@ -213,24 +216,30 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           />
         )}
 
-        <PrintDownload
-          description="Allergies - List"
-          list
-          downloadPdf={generateAllergiesPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generateAllergiesTxt}
-        />
-        <DownloadingRecordsInfo
-          allowTxtDownloads={allowTxtDownloads}
-          description="Allergies"
-        />
-        <RecordList
-          records={allergies?.map(allergy => ({
-            ...allergy,
-            isOracleHealthData: isAcceleratingAllergies,
-          }))}
-          type={recordType.ALLERGIES}
-        />
+        {allergies?.length ? (
+          <>
+            <PrintDownload
+              description="Allergies - List"
+              list
+              downloadPdf={generateAllergiesPdf}
+              allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateAllergiesTxt}
+            />
+            <DownloadingRecordsInfo
+              allowTxtDownloads={allowTxtDownloads}
+              description="Allergies"
+            />
+            <RecordList
+              records={allergies?.map(allergy => ({
+                ...allergy,
+                isOracleHealthData: isAcceleratingAllergies,
+              }))}
+              type={recordType.ALLERGIES}
+            />
+          </>
+        ) : (
+          <NoRecordsMessage type={recordType.ALLERGIES} />
+        )}
       </RecordListSection>
     </div>
   );

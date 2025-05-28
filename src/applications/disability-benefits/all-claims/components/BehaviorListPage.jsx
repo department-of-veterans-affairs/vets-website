@@ -65,18 +65,24 @@ const BehaviorListPage = ({
   const [showAlert, setShowAlert] = useState(false);
 
   const alertRef = useRef(null);
-  useEffect(() => {
-    if (showAlert && alertRef.current) {
-      alertRef.current.focus();
-    }
-  }, [showAlert]);
+  useEffect(
+    () => {
+      if (showAlert && alertRef.current) {
+        alertRef.current.focus();
+      }
+    },
+    [showAlert],
+  );
   const modalRef = useRef(null);
-  useEffect(() => {
-    if (showModal && modalRef.current) {
-      const modalHeading = document.querySelector('h4');
-      scrollAndFocus(modalHeading);
-    }
-  }, [showModal]);
+  useEffect(
+    () => {
+      if (showModal && modalRef.current) {
+        const modalHeading = document.querySelector('h4');
+        scrollAndFocus(modalHeading);
+      }
+    },
+    [showModal],
+  );
 
   const checkErrors = updatedData => {
     const result = showConflictingAlert(updatedData);
@@ -322,19 +328,20 @@ const BehaviorListPage = ({
       </>
       {behaviorListDescription}
 
-      {data && data.behaviorsDetails && (
-        <VaModal
-          visible={showModal}
-          onPrimaryButtonClick={handlers.onConfirmDeleteBehaviorDetails}
-          onSecondaryButtonClick={handlers.onCancelDeleteBehaviorDetails}
-          onCloseEvent={handlers.onCancelDeleteBehaviorDetails}
-          primaryButtonText="Yes, remove behavioral changes"
-          secondaryButtonText="No, return to claim"
-          status="warning"
-        >
-          {modalContent(data)}
-        </VaModal>
-      )}
+      {data &&
+        data.behaviorsDetails && (
+          <VaModal
+            visible={showModal}
+            onPrimaryButtonClick={handlers.onConfirmDeleteBehaviorDetails}
+            onSecondaryButtonClick={handlers.onCancelDeleteBehaviorDetails}
+            onCloseEvent={handlers.onCancelDeleteBehaviorDetails}
+            primaryButtonText="Yes, remove behavioral changes"
+            secondaryButtonText="No, return to claim"
+            status="warning"
+          >
+            {modalContent(data)}
+          </VaModal>
+        )}
 
       <div className="vads-u-margin-bottom--1">
         <VaAlert

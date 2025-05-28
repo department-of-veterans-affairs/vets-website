@@ -26,23 +26,29 @@ export const ResultsList = ({
   const [resultsData, setResultsData] = useState(null);
   const currentPage = pagination ? pagination.currentPage : 1;
 
-  useEffect(() => {
-    setResultsData(
-      results.map((result, index) => ({
-        ...result,
-        resultItem: true,
-        searchString,
-        currentPage,
-        markerText: index + 1,
-      })),
-    );
-  }, [results]);
+  useEffect(
+    () => {
+      setResultsData(
+        results.map((result, index) => ({
+          ...result,
+          resultItem: true,
+          searchString,
+          currentPage,
+          markerText: index + 1,
+        })),
+      );
+    },
+    [results],
+  );
 
-  useEffect(() => {
-    if (resultsData?.length) {
-      recordSearchResultsEvents(props, resultsData);
-    }
-  }, [resultsData]);
+  useEffect(
+    () => {
+      if (resultsData?.length) {
+        recordSearchResultsEvents(props, resultsData);
+      }
+    },
+    [resultsData],
+  );
 
   /**
    * Returns Result items by type
@@ -164,4 +170,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResultsList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ResultsList);

@@ -52,4 +52,7 @@ const mapStateToProps = ({ form }) => ({
   country: form.data.personalData.address?.country,
 });
 
-export default connect(mapStateToProps, null)(ContactInfoCard);
+export default connect(
+  mapStateToProps,
+  null,
+)(ContactInfoCard);

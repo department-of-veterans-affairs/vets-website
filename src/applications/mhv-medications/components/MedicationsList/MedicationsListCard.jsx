@@ -116,8 +116,12 @@ const MedicationsListCard = ({ rx }) => {
           id={`card-header-${rx.prescriptionId}`}
           aria-describedby={
             pendingMed || pendingRenewal
-              ? `prescription-number-${rx.prescriptionId} pending-med-content-${rx.prescriptionId}`
-              : `status-${rx.prescriptionId} status-description-${rx.prescriptionId} fill-or-refill-button-${rx.prescriptionId}`
+              ? `prescription-number-${rx.prescriptionId} pending-med-content-${
+                  rx.prescriptionId
+                }`
+              : `status-${rx.prescriptionId} status-description-${
+                  rx.prescriptionId
+                } fill-or-refill-button-${rx.prescriptionId}`
           }
           data-dd-privacy="mask"
           data-dd-action-name={
@@ -130,15 +134,16 @@ const MedicationsListCard = ({ rx }) => {
           {rx.prescriptionName ||
             (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
         </Link>
-        {rx.dispStatus !== 'Unknown' && rx.dispStatus !== 'Active: Non-VA' && (
-          <p
-            data-testid="rx-number"
-            data-dd-privacy="mask"
-            id={`prescription-number-${rx.prescriptionId}`}
-          >
-            Prescription number: {rx.prescriptionNumber}
-          </p>
-        )}
+        {rx.dispStatus !== 'Unknown' &&
+          rx.dispStatus !== 'Active: Non-VA' && (
+            <p
+              data-testid="rx-number"
+              data-dd-privacy="mask"
+              id={`prescription-number-${rx.prescriptionId}`}
+            >
+              Prescription number: {rx.prescriptionNumber}
+            </p>
+          )}
         {cardBodyContent()}
       </div>
     </div>

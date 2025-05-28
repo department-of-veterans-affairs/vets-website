@@ -115,13 +115,19 @@ const CategorySelectPage = props => {
       });
   };
 
-  useEffect(() => {
-    getApiData(getApiUrl(URL.GET_CATEGORIES));
-  }, [isLoggedIn]);
+  useEffect(
+    () => {
+      getApiData(getApiUrl(URL.GET_CATEGORIES));
+    },
+    [isLoggedIn],
+  );
 
-  useEffect(() => {
-    focusElement('h2');
-  }, [loading]);
+  useEffect(
+    () => {
+      focusElement('h2');
+    },
+    [loading],
+  );
 
   const handleGoBack = () => {
     if (!hasPrefillInformation(formData)) {

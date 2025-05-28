@@ -12,7 +12,9 @@ const Pagination = ({ meta }) => {
     const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
     const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
     navigate(
-      `?status=${status}&sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${e.detail.page}&pageSize=${pageSize}`,
+      `?status=${status}&sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${
+        e.detail.page
+      }&pageSize=${pageSize}`,
     );
   };
 

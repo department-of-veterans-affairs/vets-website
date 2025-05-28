@@ -51,20 +51,23 @@ export const ConnectedDevicesContainer = () => {
     getConnectedDevices();
   }, []);
   // run if updates to successAlert, failureAlert states
-  useEffect(() => {
-    const handleRedirectQueryParams = () => {
-      const resUrl = new URL(window.location);
-      resUrl.searchParams.forEach((status, vendor) => {
-        showAlert(vendor, status);
-      });
-    };
-    handleRedirectQueryParams();
-  }, [
-    successAlert,
-    failureAlert,
-    disconnectSuccessAlert,
-    disconnectFailureAlert,
-  ]);
+  useEffect(
+    () => {
+      const handleRedirectQueryParams = () => {
+        const resUrl = new URL(window.location);
+        resUrl.searchParams.forEach((status, vendor) => {
+          showAlert(vendor, status);
+        });
+      };
+      handleRedirectQueryParams();
+    },
+    [
+      successAlert,
+      failureAlert,
+      disconnectSuccessAlert,
+      disconnectFailureAlert,
+    ],
+  );
 
   return (
     <>

@@ -71,12 +71,12 @@ export default function NewFeatureProgramsYRTAlert({
 }
 
 NewFeatureProgramsYRTAlert.propTypes = {
+  institution: PropTypes.object,
+  programTypes: PropTypes.array,
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   customHeadline: PropTypes.node,
   customParagraph: PropTypes.node,
-  institution: PropTypes.object,
-  programTypes: PropTypes.array,
 };
 
 NewFeatureProgramsYRTAlert.defaultProps = {

@@ -4,6 +4,8 @@ import { Paths, Locators } from '../utils/constants';
 import mockMultiThreadResponse from '../fixtures/pilot-responses/multi-message-thread-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
+import mockSignature from '../fixtures/signature-response.json';
+import mockCategories from '../fixtures/categories-response.json';
 
 class PilotEnvPage {
   loadInboxMessages = (
@@ -43,6 +45,16 @@ class PilotEnvPage {
       messages,
     ).as('inboxPilotMessages');
 
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_SIGNATURE, mockSignature).as(
+      'signature',
+    );
+
+    cy.intercept(
+      'GET',
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
+      mockCategories,
+    ).as('categories');
+
     cy.visit(url + Paths.INBOX, {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
@@ -53,7 +65,9 @@ class PilotEnvPage {
   loadThread = (mockThreadResponse = mockMultiThreadResponse) => {
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${mockPilotMessages.data[0].attributes.messageId}/thread?full_body=true&requires_oh_messages=1`,
+      `${Paths.SM_API_EXTENDED}/${
+        mockPilotMessages.data[0].attributes.messageId
+      }/thread?full_body=true&requires_oh_messages=1`,
       mockThreadResponse,
     ).as('single-thread');
 

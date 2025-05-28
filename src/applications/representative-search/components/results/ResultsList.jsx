@@ -113,4 +113,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResultsList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ResultsList);

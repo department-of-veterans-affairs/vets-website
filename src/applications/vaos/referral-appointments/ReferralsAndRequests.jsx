@@ -12,9 +12,12 @@ export default function ReferralsAndRequests() {
   const dispatch = useDispatch();
 
   const location = useLocation();
-  useEffect(() => {
-    dispatch(setFormCurrentPage('referralsAndRequests'));
-  }, [location, dispatch]);
+  useEffect(
+    () => {
+      dispatch(setFormCurrentPage('referralsAndRequests'));
+    },
+    [location, dispatch],
+  );
 
   const {
     loading,

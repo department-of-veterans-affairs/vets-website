@@ -9,13 +9,28 @@ import { setFilterOpen } from '../../redux/preferencesSlice';
 const RefillNotification = ({ refillStatus, successfulMeds, failedMeds }) => {
   const dispatch = useDispatch();
 
+  const handleGoToMedicationsListOnSuccess = () => {
+    dispatch(setFilterOpen(true));
+  };
+
+  const isNotSubmitted =
+    refillStatus === 'finished' &&
+    successfulMeds?.length === 0 &&
+    failedMeds?.length === 0;
+  const isError = failedMeds?.length > 0 && successfulMeds?.length === 0;
+  const isPartiallySubmitted =
+    failedMeds?.length > 0 && successfulMeds?.length > 0;
+  const isSuccess = successfulMeds?.length > 0;
+
   useEffect(
     () => {
       if (refillStatus === 'finished') {
         let elemId = '';
-        if (successfulMeds?.length === 0) {
+        if (isNotSubmitted) {
           elemId = 'failed-refill';
-        } else if (failedMeds?.length > 0) {
+        } else if (isError) {
+          elemId = 'error-refill';
+        } else if (isPartiallySubmitted) {
           elemId = 'partial-refill';
         } else {
           elemId = 'success-refill';
@@ -25,28 +40,16 @@ const RefillNotification = ({ refillStatus, successfulMeds, failedMeds }) => {
           focusElement(element);
         }
       }
-      const element = document.getElementById(elemId);
-      if (element) {
-        focusElement(element);
-      }
-    }
-  }, [refillStatus, successfulMeds, failedMeds]);
+    },
+    [refillStatus, successfulMeds, failedMeds],
+  );
 
-  const handleGoToMedicationsListOnSuccess = () => {
-    dispatch(setFilterOpen(true));
-  };
-
-  const isNotSubmitted =
-    refillStatus === 'finished' &&
-    successfulMeds?.length === 0 &&
-    failedMeds?.length === 0;
-  const isPartiallySubmitted = failedMeds?.length > 0;
-  const isSuccess = successfulMeds?.length > 0;
   return (
     <>
       <va-alert
         visible={isNotSubmitted}
         id="failed-refill"
+        data-testid="failed-refill"
         status="error"
         setFocus
         uswds
@@ -65,8 +68,32 @@ const RefillNotification = ({ refillStatus, successfulMeds, failedMeds }) => {
         </p>
       </va-alert>
       <va-alert
+        visible={isError}
+        id="error-refill"
+        data-testid="error-refill"
+        status="error"
+        setFocus
+        uswds
+        class={isError ? 'vads-u-margin-y--1' : ''}
+      >
+        <h2
+          className="vads-u-margin-y--0 vads-u-font-size--h3"
+          data-testid="failed-message-title"
+        >
+          Request not submitted
+        </h2>
+        <p data-testid="failed-request-text">
+          We’re sorry. There’s a problem with our system.
+        </p>
+        <p data-testid="failed-request-suggestion">
+          Try requesting your refills again. If it still doesn’t work, contact
+          your VA pharmacy.
+        </p>
+      </va-alert>
+      <va-alert
         visible={isPartiallySubmitted}
         id="partial-refill"
+        data-testid="partial-refill"
         status="error"
         setFocus
         uswds
@@ -74,7 +101,7 @@ const RefillNotification = ({ refillStatus, successfulMeds, failedMeds }) => {
       >
         <h2
           className="vads-u-margin-y--0 vads-u-font-size--h3"
-          data-testid="failed-message-title"
+          data-testid="partial-failed-message-title"
         >
           Only part of your request was submitted
         </h2>
@@ -104,6 +131,7 @@ const RefillNotification = ({ refillStatus, successfulMeds, failedMeds }) => {
       <va-alert
         visible={isSuccess}
         id="success-refill"
+        data-testid="success-refill"
         status="success"
         setFocus
         uswds

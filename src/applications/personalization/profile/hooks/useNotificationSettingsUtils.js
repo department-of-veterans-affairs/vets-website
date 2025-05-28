@@ -96,8 +96,21 @@ export const useNotificationSettingsUtils = () => {
     TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting,
   );
 
-  const toggles = useMemo(() => {
-    return {
+  const toggles = useMemo(
+    () => {
+      return {
+        loading,
+        showPaymentsNotificationSetting,
+        showQuickSubmitNotificationSetting,
+        profileShowMhvNotificationSettingsEmailAppointmentReminders,
+        profileShowMhvNotificationSettingsEmailRxShipment,
+        profileShowMhvNotificationSettingsNewSecureMessaging,
+        profileShowMhvNotificationSettingsMedicalImages,
+        profileShowNewBenefitOverpaymentDebtNotificationSetting,
+        profileShowNewHealthCareCopayBillNotificationSetting,
+      };
+    },
+    [
       loading,
       showPaymentsNotificationSetting,
       showQuickSubmitNotificationSetting,
@@ -107,29 +120,22 @@ export const useNotificationSettingsUtils = () => {
       profileShowMhvNotificationSettingsMedicalImages,
       profileShowNewBenefitOverpaymentDebtNotificationSetting,
       profileShowNewHealthCareCopayBillNotificationSetting,
-    };
-  }, [
-    loading,
-    showPaymentsNotificationSetting,
-    showQuickSubmitNotificationSetting,
-    profileShowMhvNotificationSettingsEmailAppointmentReminders,
-    profileShowMhvNotificationSettingsEmailRxShipment,
-    profileShowMhvNotificationSettingsNewSecureMessaging,
-    profileShowMhvNotificationSettingsMedicalImages,
-    profileShowNewBenefitOverpaymentDebtNotificationSetting,
-    profileShowNewHealthCareCopayBillNotificationSetting,
-  ]);
+    ],
+  );
 
-  const showEmail = useMemo(() => {
-    return (
-      toggles.profileShowMhvNotificationSettingsEmailAppointmentReminders ||
-      toggles.profileShowMhvNotificationSettingsEmailRxShipment ||
-      toggles.profileShowMhvNotificationSettingsMedicalImages ||
-      toggles.profileShowMhvNotificationSettingsNewSecureMessaging ||
-      toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting ||
-      toggles.profileShowNewHealthCareCopayBillNotificationSetting
-    );
-  }, [toggles]);
+  const showEmail = useMemo(
+    () => {
+      return (
+        toggles.profileShowMhvNotificationSettingsEmailAppointmentReminders ||
+        toggles.profileShowMhvNotificationSettingsEmailRxShipment ||
+        toggles.profileShowMhvNotificationSettingsMedicalImages ||
+        toggles.profileShowMhvNotificationSettingsNewSecureMessaging ||
+        toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting ||
+        toggles.profileShowNewHealthCareCopayBillNotificationSetting
+      );
+    },
+    [toggles],
+  );
 
   const emailAddress = useSelector(selectVAPEmailAddress);
   const mobilePhone = useSelector(selectVAPMobilePhone);
@@ -253,29 +259,32 @@ export const useNotificationSettingsUtils = () => {
   };
 
   const useFilteredItemsForMHVNotifications = itemIds =>
-    useMemo(() => {
-      return itemIds.filter(itemId => {
-        return (
-          !BLOCKED_MHV_NOTIFICATION_IDS.includes(itemId) &&
-          !(
-            itemId === NOTIFICATION_ITEM_IDS.SECURE_MESSAGING &&
-            !toggles.profileShowMhvNotificationSettingsNewSecureMessaging
-          ) &&
-          !(
-            itemId === NOTIFICATION_ITEM_IDS.MEDICAL_IMAGES &&
-            !toggles.profileShowMhvNotificationSettingsMedicalImages
-          ) &&
-          !(
-            itemId === NOTIFICATION_ITEM_IDS.BENEFIT_OVERPAYMENT_DEBT &&
-            !toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting
-          ) &&
-          !(
-            itemId === NOTIFICATION_ITEM_IDS.HEALTH_CARE_COPAY_BILL &&
-            !toggles.profileShowNewHealthCareCopayBillNotificationSetting
-          )
-        );
-      });
-    }, [itemIds]);
+    useMemo(
+      () => {
+        return itemIds.filter(itemId => {
+          return (
+            !BLOCKED_MHV_NOTIFICATION_IDS.includes(itemId) &&
+            !(
+              itemId === NOTIFICATION_ITEM_IDS.SECURE_MESSAGING &&
+              !toggles.profileShowMhvNotificationSettingsNewSecureMessaging
+            ) &&
+            !(
+              itemId === NOTIFICATION_ITEM_IDS.MEDICAL_IMAGES &&
+              !toggles.profileShowMhvNotificationSettingsMedicalImages
+            ) &&
+            !(
+              itemId === NOTIFICATION_ITEM_IDS.BENEFIT_OVERPAYMENT_DEBT &&
+              !toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting
+            ) &&
+            !(
+              itemId === NOTIFICATION_ITEM_IDS.HEALTH_CARE_COPAY_BILL &&
+              !toggles.profileShowNewHealthCareCopayBillNotificationSetting
+            )
+          );
+        });
+      },
+      [itemIds],
+    );
 
   return {
     toggles,

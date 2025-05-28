@@ -33,17 +33,18 @@ export default function VAOSApp({ children }) {
           <va-loading-indicator />
         </FullWidthLayout>
       )}
-      {!loadingFeatureToggles && showApplication && (
-        <DowntimeNotification
-          appTitle="VA online scheduling tool"
-          dependencies={[externalServices.mvi, externalServices.vaos]}
-          render={(props, childContent) => (
-            <DowntimeMessage {...props}>{childContent}</DowntimeMessage>
-          )}
-        >
-          {children}
-        </DowntimeNotification>
-      )}
+      {!loadingFeatureToggles &&
+        showApplication && (
+          <DowntimeNotification
+            appTitle="VA online scheduling tool"
+            dependencies={[externalServices.mvi, externalServices.vaos]}
+            render={(props, childContent) => (
+              <DowntimeMessage {...props}>{childContent}</DowntimeMessage>
+            )}
+          >
+            {children}
+          </DowntimeNotification>
+        )}
       {!loadingFeatureToggles && !showApplication && <AppUnavailable />}
     </>
   );

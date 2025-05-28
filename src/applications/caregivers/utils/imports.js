@@ -11,7 +11,9 @@ export {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+export {
+  CONTACTS,
+} from '@department-of-veterans-affairs/component-library/contacts';
 
 export const STATES_USA = SCHEMA_CONSTANTS.states.USA;
 

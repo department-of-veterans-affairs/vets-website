@@ -22,11 +22,14 @@ const RenderMap = forwardRef(
     },
     ref,
   ) => {
-    useEffect(() => {
-      if (map) {
-        map.resize();
-      }
-    }, [map]);
+    useEffect(
+      () => {
+        if (map) {
+          map.resize();
+        }
+      },
+      [map],
+    );
     const speakMapInstructions = () => {
       const mapInstructionsElement = document.getElementById(
         'map-instructions',

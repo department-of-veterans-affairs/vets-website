@@ -37,7 +37,9 @@ const { isVeteranPage } = isVeteranModule;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: `/${formNumber.toLowerCase()}/`,
-  submitUrl: `${environment.API_URL}/accredited_representative_portal/v0/submit_representative_form`,
+  submitUrl: `${
+    environment.API_URL
+  }/accredited_representative_portal/v0/submit_representative_form`,
   dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
   disableSave: true,
   trackingPrefix,

@@ -60,10 +60,8 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
     >
       <Route {...rest}>
         {/* Show NoRegistrationMessage only if the feature flag is off and user is not registered */}
-        {!featureMhvRouteGuards && !hasRegisteredSystems && (
-          <NoRegistrationMessage />
-        )}
-
+        {!featureMhvRouteGuards &&
+          !hasRegisteredSystems && <NoRegistrationMessage />}
         {hasRegisteredSystems && <RouteComponent />}
       </Route>
     </RequiredLoginView>

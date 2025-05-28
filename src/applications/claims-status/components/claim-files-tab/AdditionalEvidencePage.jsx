@@ -254,7 +254,10 @@ AdditionalEvidencePage.propTypes = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(AdditionalEvidencePage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AdditionalEvidencePage),
 );
 
 export { AdditionalEvidencePage };

@@ -42,33 +42,42 @@ const LandingPageContainer = () => {
     state => state.featureToggles,
   );
 
-  const data = useMemo(() => {
-    return resolveLandingPageLinks(
-      ssoe,
-      featureToggles,
-      unreadMessageAriaLabel,
-      registered,
-    );
-  }, [featureToggles, ssoe, unreadMessageAriaLabel, registered]);
+  const data = useMemo(
+    () => {
+      return resolveLandingPageLinks(
+        ssoe,
+        featureToggles,
+        unreadMessageAriaLabel,
+        registered,
+      );
+    },
+    [featureToggles, ssoe, unreadMessageAriaLabel, registered],
+  );
 
   const loading =
     featureToggles.loading || profile.loading || mhvAccountStatusIsLoading;
 
-  useEffect(() => {
-    async function loadMessages() {
-      const folders = await getFolderList();
-      const unreadMessages = countUnreadMessages(folders);
-      setUnreadMessageCount(unreadMessages);
-    }
-    if (userHasMessagingAccess) {
-      loadMessages();
-    }
-  }, [userHasMessagingAccess, loading]);
+  useEffect(
+    () => {
+      async function loadMessages() {
+        const folders = await getFolderList();
+        const unreadMessages = countUnreadMessages(folders);
+        setUnreadMessageCount(unreadMessages);
+      }
+      if (userHasMessagingAccess) {
+        loadMessages();
+      }
+    },
+    [userHasMessagingAccess, loading],
+  );
 
-  useEffect(() => {
-    // For accessibility purposes.
-    focusElement('h1');
-  }, [loading]);
+  useEffect(
+    () => {
+      // For accessibility purposes.
+      focusElement('h1');
+    },
+    [loading],
+  );
 
   useAccountCreationApi();
 

@@ -48,7 +48,9 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
   };
 
   const onSignInButtonClick = () => {
-    const redirectLocation = `${formConfig.rootUrl}${formConfig.urlPrefix}introduction?loggedIn=true`;
+    const redirectLocation = `${formConfig.rootUrl}${
+      formConfig.urlPrefix
+    }introduction?loggedIn=true`;
 
     window.location = redirectLocation;
   };

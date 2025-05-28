@@ -40,12 +40,15 @@ export function KeywordSearch({
     [inputValue],
   );
 
-  useEffect(() => {
-    debouncedFetchSuggestion();
+  useEffect(
+    () => {
+      debouncedFetchSuggestion();
 
-    // Cancel previous debounce calls during useEffect cleanup.
-    return debouncedFetchSuggestion.cancel;
-  }, [inputValue, debouncedFetchSuggestion]);
+      // Cancel previous debounce calls during useEffect cleanup.
+      return debouncedFetchSuggestion.cancel;
+    },
+    [inputValue, debouncedFetchSuggestion],
+  );
 
   const handleSuggestionSelected = selected => {
     recordEvent({
@@ -178,15 +181,16 @@ export function KeywordSearch({
                 ref={inputRef}
               />
               {/* eslint-disable-next-line no-nested-ternary */}
-              {inputValue && inputValue.length > 0 && (
-                <va-icon
-                  size={3}
-                  icon="cancel"
-                  id="clear-input"
-                  class="vads-u-display--flex vads-u-align-items--center"
-                  onClick={handleClearInput}
-                />
-              )}
+              {inputValue &&
+                inputValue.length > 0 && (
+                  <va-icon
+                    size={3}
+                    icon="cancel"
+                    id="clear-input"
+                    class="vads-u-display--flex vads-u-align-items--center"
+                    onClick={handleClearInput}
+                  />
+                )}
             </div>
             {isOpen && (
               <div
@@ -246,4 +250,7 @@ KeywordSearch.propTypes = {
   isLocationSearch: PropTypes.bool,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(KeywordSearch);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(KeywordSearch);

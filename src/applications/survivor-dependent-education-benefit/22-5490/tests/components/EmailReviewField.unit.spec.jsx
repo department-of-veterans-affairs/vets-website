@@ -7,7 +7,7 @@ describe('EmailReviewField component', () => {
   it('renders the EmailReviewField footer', () => {
     const wrapper = mount(
       <EmailReviewField>
-        <div />
+        <div formData="test@test.com" />
       </EmailReviewField>,
     );
     expect(wrapper.text()).to.include('test');

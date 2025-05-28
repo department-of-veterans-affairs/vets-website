@@ -278,4 +278,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatch)(CCServiceTypeAhead);
+export default connect(
+  mapStateToProps,
+  mapDispatch,
+)(CCServiceTypeAhead);

@@ -128,11 +128,14 @@ export default function ReasonForAppointmentPage() {
     [dispatch],
   );
 
-  useEffect(() => {
-    if (schema) {
-      focusFormHeader();
-    }
-  }, [schema]);
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div

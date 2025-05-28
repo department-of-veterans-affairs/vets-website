@@ -31,7 +31,10 @@ const mapDispatchToProps = dispatch => ({
   toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
 });
 
-export default connect(null, mapDispatchToProps)(UnauthenticatedPageContent);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(UnauthenticatedPageContent);
 
 UnauthenticatedPageContent.propTypes = {
   toggleLoginModal: PropTypes.func,
