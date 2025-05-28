@@ -70,7 +70,9 @@ describe('Medications Refill Page Delay Alert Behavior', () => {
       failedRequest.data.attributes.prescriptionId,
       failedRefill,
     );
-    refillPage.verifyFailedRequestMessageAlertOnRefillPage();
+    refillPage.verifyFailedRequestMessageAlertOnRefillPage(
+      Data.REFILL_REQUEST_ERROR_ALERT_TEXT,
+    );
     refillPage.verifyRefillDelayAlertNotVisibleOnRefillPage(
       Data.DELAY_ALERT_BANNER,
     );

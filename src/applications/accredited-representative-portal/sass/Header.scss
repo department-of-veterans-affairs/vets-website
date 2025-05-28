@@ -8,7 +8,7 @@
   &__govt-site {
     width: 100%;
     padding: 8px 16px;
-    max-width: 1000px;
+    max-width: 960px;
     @media (min-width: $medium-screen) {
       margin: 0 auto;
       padding: 4px 16px;
@@ -113,7 +113,7 @@
     width: 100%;
     flex-wrap: wrap;
     margin: 0 auto;
-    max-width: 1000px;
+    max-width: 960px;
     align-items: center;
     flex-wrap: nowrap;
   }
@@ -131,7 +131,7 @@
 
     @media (min-width: $medium-screen) {
       display: flex;
-      max-width: 1000px;
+      max-width: 960px;
       margin: 0 auto 48px;
     }
   }
