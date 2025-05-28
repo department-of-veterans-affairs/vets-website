@@ -44,6 +44,7 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
    * See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
    * for available rulesets.
    */
+  //
   let axeBuilder = {
     runOnly: {
       type: 'tag',
@@ -52,6 +53,15 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
     rules: {
       'color-contrast': {
         enabled: false,
+      },
+      'empty-heading': {
+        enabled: true,
+      },
+      'heading-order': {
+        enabled: true,
+      },
+      'page-has-heading-one': {
+        enabled: true,
       },
     },
   };
