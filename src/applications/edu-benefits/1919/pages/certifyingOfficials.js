@@ -52,7 +52,7 @@ const uiSchema = {
           <input
             className="usa-input"
             type="text"
-            placeholder="Registrar, Bursar, Campus director"
+            placeholder="Example: Registrar, Bursar, Campus director"
             defaultValue={props.value || ''}
             onChange={e => props.onChange(e.target.value)}
           />
