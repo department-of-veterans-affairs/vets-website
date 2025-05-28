@@ -3,13 +3,8 @@ import { useSelector } from 'react-redux';
 
 export default function InstitutionAddress() {
   const formData = useSelector(state => state.form?.data);
-  const address1 = formData?.institutionDetails?.address?.address1;
-  const address2 = formData?.institutionDetails?.address?.address2;
-  const address3 = formData?.institutionDetails?.address?.address3;
-  const city = formData?.institutionDetails?.address?.city;
-  const state = formData?.institutionDetails?.address?.state;
-  const zip = formData?.institutionDetails?.address?.zip;
-  const country = formData?.institutionDetails?.address?.country;
+  const { address1, address2, address3, city, state, zip, country } =
+    formData?.institutionDetails?.address || {};
 
   return (
     <div>

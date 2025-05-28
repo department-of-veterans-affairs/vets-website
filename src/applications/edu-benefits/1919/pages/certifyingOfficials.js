@@ -1,10 +1,10 @@
+import React from 'react';
 import {
   textSchema,
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns/textPatterns';
 import {
   titleUI,
-  radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -42,20 +42,29 @@ const uiSchema = {
           title:
             'Which of the following best describes your role at this institution?',
           errorMessages: { required: 'Please make a selection' },
-          labels: levelNames,
         }),
       },
       other: {
         'ui:title': 'Please specify your role',
+        'ui:widget': props => (
+          <input
+            className="usa-input"
+            type="text"
+            placeholder="Registrar, Bursar, Campus director"
+            defaultValue={props.value || ''}
+            onChange={e => props.onChange(e.target.value)}
+          />
+        ),
         'ui:errorMessages': {
           required: 'Your role must be specified',
           pattern: 'You must provide a response',
         },
-        'ui:required': formData =>
-          formData.certifyingOfficial?.role?.level === 'Other',
+        'ui:required': formData => {
+          return formData.certifyingOfficial?.role?.level === 'other';
+        },
         'ui:options': {
           expandUnder: 'level',
-          expandUnderCondition: 'Other',
+          expandUnderCondition: 'other',
           expandedContentFocus: true,
           preserveHiddenData: true,
           classNames: 'vads-u-margin-top--neg1',
@@ -77,7 +86,11 @@ const schema = {
           type: 'object',
           required: ['level'],
           properties: {
-            level: radioSchema(Object.values(levelNames)),
+            level: {
+              type: 'string',
+              enum: Object.keys(levelNames),
+              enumNames: Object.keys(levelNames).map(key => levelNames[key]),
+            },
             other: { type: 'string', pattern: noSpaceOnlyPattern },
           },
         },
