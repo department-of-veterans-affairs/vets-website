@@ -15,7 +15,7 @@ import {
 } from './helpers';
 
 describe('Form 10-10EZR Keyboard Only', () => {
-  // NOTE: This test is skipped in CI due to a limitiation with Electron not allowing
+  // NOTE: This test is skipped in CI due to a limitation with Electron not allowing
   // `realPress` to be utilized
   // eslint-disable-next-line func-names
   beforeEach(function() {
@@ -372,7 +372,7 @@ describe("Form 10-10EZR Keyboard Only, with the 'ezrProvidersAndDependentsPrefil
     },
   };
 
-  // NOTE: This test is skipped in CI due to a limitiation with Electron not allowing
+  // NOTE: This test is skipped in CI due to a limitation with Electron not allowing
   // `realPress` to be utilized
   // eslint-disable-next-line func-names
   beforeEach(function() {

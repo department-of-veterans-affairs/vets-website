@@ -71,11 +71,6 @@ export const formatCurrency = str => {
   // Convert the string to a number
   const number = Number(str);
 
-  // Check if the conversion is successful
-  if (Number.isNaN(number)) {
-    return 'Invalid input';
-  }
-
   // Format the number as a currency string
   return number.toLocaleString('en-US', {
     style: 'currency',
