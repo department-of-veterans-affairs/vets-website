@@ -165,7 +165,7 @@ const medicarePlanUnder65 = {
 };
 
 // Medicare effective dates page definition
-const medicareEffectiveDatesPage = {
+const medicarePartAPartBEffectiveDatesPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
@@ -254,6 +254,30 @@ const medicareABCardUploadPage = {
   schema: medicareCardSchema,
 };
 
+// Medicare Part A effective date page definition
+const medicarePartAEffectiveDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(formData)} Medicare Part A effective date`,
+    ),
+    medicarePartAEffectiveDate: currentOrPastDateUI({
+      title: 'Medicare Part A effective date',
+      hint:
+        'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+      required: () => true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartAEffectiveDate'],
+    properties: {
+      titleSchema,
+      medicarePartAEffectiveDate: currentOrPastDateSchema,
+    },
+  },
+};
+
 // PAGES NEEDED:
 // IF USER SPECIFIES ONLY A:
 //   - medicare parts a effective date
@@ -336,15 +360,23 @@ export const medicarePages = arrayBuilderPages(
       },
       ...medicarePlanUnder65,
     }),
-    medicareEffectiveDates: pageBuilder.itemPage({
+    medicarePartAEffectiveDate: pageBuilder.itemPage({
+      path: 'medicare-part-a-effective-date/:index',
+      title: 'Medicare Part A effective date',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'a';
+      },
+      ...medicarePartAEffectiveDatePage,
+    }),
+    medicarePartAPartBEffectiveDates: pageBuilder.itemPage({
       path: 'medicare-effective-dates/:index',
       title: 'Medicare effective dates',
       depends: (formData, index) => {
-        // TODO: use `get()`?
         const planType = formData?.medicare?.[index]?.medicarePlanType;
         return planType && ['ab'].includes(planType);
       },
-      ...medicareEffectiveDatesPage,
+      ...medicarePartAPartBEffectiveDatesPage,
     }),
     medicareABCardUpload: pageBuilder.itemPage({
       path: 'medicare-ab-card-upload/:index',
