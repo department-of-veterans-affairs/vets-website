@@ -172,13 +172,12 @@ describe('EpsAppointmentDetailsPage', () => {
 
     // Check sections exist
     expect(getByText('When')).to.exist;
-    expect(getByText('Provider')).to.exist;
     expect(getByText('Prepare for your appointment')).to.exist;
     expect(getByText('Need to make changes?')).to.exist;
 
     // Check specific content from appointment data
     const { attributes } = referralAppointmentInfo;
-    expect(getByText(attributes.provider.name)).to.exist;
+    expect(getByText(attributes.provider.location.address)).to.exist;
 
     // Check preparation instructions
     expect(getByText(/Bring your insurance cards/)).to.exist;

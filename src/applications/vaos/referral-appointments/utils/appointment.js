@@ -2,24 +2,24 @@ const appointmentData = {
   id: 'yyQYn7be',
   type: 'epsAppointment',
   attributes: {
-    id: 'yyQYn7be',
+    id: '1YuyeLuc',
     status: 'booked',
-    start: '2024-11-18T13:30:00Z',
-    isLatest: false,
-    lastRetrieved: '2025-01-29T16:30:25Z',
+    start: '2025-05-27T15:00:00Z',
+    typeOfCare: null,
+    isLatest: true,
+    lastRetrieved: '2025-05-27T19:30:50Z',
     modality: 'OV',
     provider: {
-      id: 'DBKQ-123',
-      name: 'Dr. Jane Smith',
-      practice: 'Springfield Medical Group',
-      address: {
-        street1: '123 Medical Dr',
-        street2: 'Suite 456',
-        city: 'Springfield',
-        state: 'VA',
-        zip: '22150',
+      id: '8is2_VVQ',
+      location: {
+        name: 'FHA South Melbourne Medical Complex',
+        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
+        latitude: 28.08061,
+        longitude: -80.60322,
+        timezone: 'America/New_York',
       },
     },
+    referringFacility: {},
   },
 };
 
