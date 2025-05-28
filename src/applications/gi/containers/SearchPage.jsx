@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import SearchTabs from '../components/search/SearchTabs';
@@ -40,6 +41,8 @@ export function SearchPage({
       return true;
     return false;
   };
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const mapboxMitigation = useToggleValue(TOGGLE_NAMES.giCtMapboxMitigation);
   const history = useHistory();
   const { tab, error, query } = search;
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
@@ -145,6 +148,20 @@ export function SearchPage({
       <span className="search-page">
         <div className={searchPageClasses}>
           <div className="column medium-screen:vads-u-padding-bottom--2 mobile-lg:vads-u-padding-bottom--0 vads-u-padding-x--0">
+            {mapboxMitigation && (
+              <va-alert
+                visible
+                status="warning"
+                class="vads-u-margin-top--neg2 vads-u-margin-bottom--4"
+                slim
+              >
+                <p className="vads-u-margin-y--0">
+                  We're experiencing a service outage with Search Location. Our
+                  team is currently working to restore the service. We apologize
+                  for any inconvenience.
+                </p>
+              </va-alert>
+            )}
             {!smallScreen && (
               <SearchTabs
                 onChange={tabChange}
