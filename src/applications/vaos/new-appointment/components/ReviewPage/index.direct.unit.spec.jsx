@@ -1,7 +1,6 @@
 import { waitFor, within } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
-import moment from 'moment';
 import React from 'react';
 import { Route } from 'react-router-dom';
 
@@ -11,6 +10,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
+import { addMinutes, format } from 'date-fns';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -23,6 +23,7 @@ import {
   mockAppointmentSubmitApi,
   mockFacilityApi,
 } from '../../../tests/mocks/mockApis';
+import { DATE_FORMATS } from '../../../utils/constants';
 import { onCalendarChange, startDirectScheduleFlow } from '../../redux/actions';
 
 const initialState = {
@@ -40,7 +41,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     mockFacilityApi({
       id: '983',
     });
-    start = moment.tz();
+    start = new Date();
     store = createTestStore({
       ...initialState,
       newAppointment: {
@@ -89,11 +90,8 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
         availableSlots: [
           {
             id: 'slot-id',
-            start: start.format(),
-            end: start
-              .clone()
-              .add(30, 'minutes')
-              .format(),
+            start: format(start, DATE_FORMATS.ISODateTime),
+            end: format(addMinutes(start, 30), DATE_FORMATS.ISODateTime),
           },
         ],
         clinics: {
@@ -109,7 +107,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       },
     });
     store.dispatch(startDirectScheduleFlow());
-    store.dispatch(onCalendarChange([start.format()]));
+    store.dispatch(onCalendarChange([format(start, DATE_FORMATS.ISODateTime)]));
   });
 
   it('should show form information for review', async () => {
@@ -140,11 +138,9 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     expect(dateHeading).to.contain.text('Date and time');
     expect(screen.baseElement).to.contain.text(
-      start.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+      format(start, 'EEEE, MMMM d, yyyy'),
     );
-    expect(screen.baseElement).to.contain.text(
-      start.tz('America/Denver').format('h:mm a'),
-    );
+    expect(screen.baseElement).to.contain.text(format(start, 'h:mm aaaa'));
 
     expect(reasonHeading).to.contain.text(
       'Details to share with your provider',
