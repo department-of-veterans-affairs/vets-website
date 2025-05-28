@@ -2,7 +2,11 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 
 import { PROFILE_PATHS } from '@@profile/constants';
 import { loa3User72 } from '../../../mocks/endpoints/user';
-import { airForce, none } from '../../../mocks/endpoints/service-history';
+import {
+  airForce,
+  none,
+  withServiceHistoryNotConfirmed,
+} from '../../../mocks/endpoints/service-history';
 import {
   apiError,
   confirmed,
@@ -34,7 +38,7 @@ describe('Veteran Status Card', () => {
       cy.intercept('GET', '/v0/user', loa3User72);
       cy.intercept('GET', '/v0/profile/full_name', fullName);
     });
-    it('Should display Lighthouse API error', () => {
+    it('Should display Vet verification status warning', () => {
       cy.intercept('GET', '/v0/profile/service_history', airForce);
       cy.intercept(
         'GET',
@@ -45,19 +49,23 @@ describe('Veteran Status Card', () => {
       cy.injectAxeThenAxeCheck();
 
       VeteranStatusInfo.veteranStatusShouldNotExist();
-      cy.findByText(notConfirmedProblem.data.message[0]).should('exist');
+      cy.findByText(notConfirmedProblem.data.title).should('exist');
     });
 
-    it('Should display Profile API error', () => {
-      cy.intercept('GET', '/v0/profile/service_history', none);
+    it('Should display Vet status eligibility warning', () => {
+      cy.intercept(
+        'GET',
+        '/v0/profile/service_history',
+        withServiceHistoryNotConfirmed,
+      );
       cy.intercept('GET', '/v0/profile/vet_verification_status', confirmed);
       cy.visit(PROFILE_PATHS.VETERAN_STATUS_CARD);
       cy.injectAxeThenAxeCheck();
 
       VeteranStatusInfo.veteranStatusShouldNotExist();
-      cy.findByText(
-        none.data.attributes.vetStatusEligibility.message[0],
-      ).should('exist');
+      cy.findByText(none.data.attributes.vetStatusEligibility.title).should(
+        'exist',
+      );
     });
 
     it('Should display system error', () => {
