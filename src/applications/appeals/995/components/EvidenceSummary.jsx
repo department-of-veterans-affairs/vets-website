@@ -13,7 +13,7 @@ import {
 
 import { content } from '../content/evidenceSummary';
 
-import EvidencePrivateContent from './EvidencePrivateContent';
+import { EvidencePrivateContent } from './EvidencePrivateContent';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
 import { EvidenceVaContent } from './EvidenceVaContent';
 

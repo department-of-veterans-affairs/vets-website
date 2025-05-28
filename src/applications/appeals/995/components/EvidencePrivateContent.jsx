@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
@@ -42,7 +41,7 @@ import BasicLink from '../../shared/components/web-component-wrappers/BasicLink'
  *  an href when not wrapped in a Router
  * @returns {JSX}
  */
-const EvidencePrivateContent = ({
+export const EvidencePrivateContent = ({
   list = [],
   limitedConsent = '',
   isOnReviewPage,
@@ -77,8 +76,6 @@ const EvidencePrivateContent = ({
       {errors.address}
     </div>
   );
-
-  console.log('I AM HERE');
 
   return (
     <>
@@ -134,10 +131,10 @@ const EvidencePrivateContent = ({
             <div>{showLimitedConsentYN ? 'Yes' : 'No'}</div>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
-                <VaLink
+                <BasicLink
                   id="edit-limitation-y-n"
                   className="edit-item"
-                  onClick={() => router.push(`/${EVIDENCE_LIMITATION_PATH1}`)}
+                  path={`/${EVIDENCE_LIMITATION_PATH1}`}
                   aria-label={`${content.edit} ${limitContent.title} `}
                   data-link={testing ? EVIDENCE_LIMITATION_PATH1 : null}
                   text={content.edit}
@@ -316,4 +313,4 @@ EvidencePrivateContent.propTypes = {
   testing: PropTypes.bool,
 };
 
-export default withRouter(EvidencePrivateContent);
+export default EvidencePrivateContent;

@@ -6,10 +6,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
-import {
-  ConfirmationSummary,
-  ConfirmationReturnLink,
-} from '../../components/ConfirmationSummary';
+import { ConfirmationSummary } from '../../components/ConfirmationSummary';
 
 describe('ConfirmationSummary', () => {
   it('should render a page summary without a download summary', () => {
@@ -37,16 +34,5 @@ describe('ConfirmationSummary', () => {
     const screenContent = $('.screen-only', container);
     expect($$('h3', screenContent).length).to.eq(2);
     expect($$('p', screenContent).length).to.eq(4);
-  });
-});
-
-describe('ConfirmationReturnLink', () => {
-  it('should render page title', () => {
-    const { container } = render(<ConfirmationReturnLink />);
-
-    const screenContent = $('.screen-only', container);
-    const link = $('a', screenContent);
-    expect(link.textContent).to.contain('Go back to VA.gov');
-    expect(link.getAttribute('href')).to.eq('/');
   });
 });

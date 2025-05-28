@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
-
 import { EVIDENCE_PRIVATE_REQUEST } from '../constants';
 import { title4142 } from './title';
+import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 
 export const authorizationLabel =
   'I acknowledge and authorize this release of information';
@@ -27,7 +26,10 @@ export const authorizationAlertContent = onAnchorClick => (
       non-VA medical records. Then you can upload your records or submit a
       21-4142 and 21-4142a after submitting this form.
     </p>
-    <Link to={`/${EVIDENCE_PRIVATE_REQUEST}`}>Go back to upload records</Link>
+    <BasicLink
+      path={`/${EVIDENCE_PRIVATE_REQUEST}`}
+      text="Go back to upload records"
+    />
   </>
 );
 

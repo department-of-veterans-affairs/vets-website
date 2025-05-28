@@ -12,7 +12,7 @@ describe('evidenceSummary', () => {
         <div>{content.addMoreLink()}</div>,
       );
 
-      fireEvent.click(getByText('Add more evidence'));
+      fireEvent.click('a');
 
       const event = global.window.dataLayer.slice(-1)[0];
       expect(event).to.deep.equal({

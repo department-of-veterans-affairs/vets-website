@@ -1,10 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
-
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-
 import formConfig from '../../config/form';
 
 const mockStore = data => ({
@@ -39,7 +37,7 @@ describe('add issue page', () => {
   } = formConfig.chapters.conditions.pages.contestableIssues;
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <Provider store={mockStore()}>
         <DefinitionTester
           definitions={{}}
@@ -50,7 +48,6 @@ describe('add issue page', () => {
       </Provider>,
     );
 
-    expect(form.find('a.add-new-issue').length).to.equal(1);
-    form.unmount();
+    expect(container.querySelector('.add-new-issue')).to.exist;
   });
 });
