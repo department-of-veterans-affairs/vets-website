@@ -290,8 +290,8 @@ const modalDescriptionUpload = (
 const modalDescriptionSkip = (
   <>
     <p>
-      <strong>What to know:</strong> If you choose to delete this statement,
-      we’ll delete this information from your claim:
+      If you choose to delete this statement, we’ll delete this information from
+      your claim:
     </p>
     <ul>
       {sectionsOfMentalHealthStatement.map((section, i) => (
@@ -307,8 +307,8 @@ const modalDescriptionOnline = formData => {
   return (
     <>
       <p>
-        <strong>What to know:</strong> If you choose to answer questions online,
-        we’ll delete this PDF you uploaded:
+        If you choose to answer questions online, we’ll delete this PDF you
+        uploaded:
       </p>
       <p>
         <ul>
