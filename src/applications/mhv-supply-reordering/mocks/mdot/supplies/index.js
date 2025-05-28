@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 const { unprocessableEntity, internalServerError } = require('../../errors');
 
+// eslint-disable-next-line no-unused-vars
 const accepted = [
   {
     status: 'Order Processed',
