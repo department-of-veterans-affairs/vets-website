@@ -76,7 +76,9 @@ export const generateSelfEnteredData = ({
       type: selfEnteredDocSections.FAMILY_HISTORY,
       title: `Self-entered ${selfEnteredDocSections.FAMILY_HISTORY}`,
       subtitles: [
-        `Showing ${familyHistory.length} records, alphabetically by relationship`,
+        `Showing ${
+          familyHistory.length
+        } records, alphabetically by relationship`,
       ],
       records: familyHistory.map(record =>
         generateFamilyHistoryContent(record),
@@ -135,7 +137,9 @@ export const generateSelfEnteredData = ({
       type: selfEnteredDocSections.MEDICAL_EVENTS,
       title: `Self-entered ${selfEnteredDocSections.MEDICAL_EVENTS}`,
       subtitles: [
-        `Showing ${medicalEvents.length} records, from newest to oldest start date`,
+        `Showing ${
+          medicalEvents.length
+        } records, from newest to oldest start date`,
       ],
       records: medicalEvents.map(record =>
         generateMedicalEventsContent(record),

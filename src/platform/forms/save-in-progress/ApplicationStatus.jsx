@@ -274,19 +274,13 @@ export class ApplicationStatus extends React.Component {
 }
 
 ApplicationStatus.propTypes = {
-  additionalText: PropTypes.string,
+  formId: PropTypes.string,
+  formType: PropTypes.string,
   applyHeading: PropTypes.string,
   applyLink: PropTypes.string,
   applyRender: PropTypes.func,
   applyText: PropTypes.string,
-  formConfig: PropTypes.shape({
-    customText: PropTypes.shape({
-      continueAppButtonText: PropTypes.string,
-      startNewAppButtonText: PropTypes.string,
-    }),
-  }),
-  formId: PropTypes.string,
-  formType: PropTypes.string,
+  additionalText: PropTypes.string,
   login: PropTypes.shape({
     currentlyLoggedIn: PropTypes.bool.isRequired,
   }),
@@ -294,8 +288,14 @@ ApplicationStatus.propTypes = {
     loading: PropTypes.bool.isRequired,
     savedForms: PropTypes.array.isRequired,
   }),
-  showLearnMoreLink: PropTypes.bool,
   stayAfterDelete: PropTypes.bool,
+  showLearnMoreLink: PropTypes.bool,
+  formConfig: PropTypes.shape({
+    customText: PropTypes.shape({
+      continueAppButtonText: PropTypes.string,
+      startNewAppButtonText: PropTypes.string,
+    }),
+  }),
 };
 
 ApplicationStatus.defaultProps = {
@@ -316,4 +316,7 @@ const mapDispatchToProps = {
   removeSavedForm,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationStatus);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ApplicationStatus);

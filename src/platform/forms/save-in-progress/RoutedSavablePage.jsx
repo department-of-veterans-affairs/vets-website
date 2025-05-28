@@ -133,7 +133,10 @@ RoutedSavablePage.propTypes = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(RoutedSavablePage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(RoutedSavablePage),
 );
 
 export { RoutedSavablePage };

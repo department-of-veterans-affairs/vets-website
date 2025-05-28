@@ -8,11 +8,14 @@ const MhvRegisteredUserGuard = ({ children }) => {
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
 
-  useEffect(() => {
-    if (!userRegistered) {
-      window.location.replace('/my-health');
-    }
-  }, [userRegistered]);
+  useEffect(
+    () => {
+      if (!userRegistered) {
+        window.location.replace('/my-health');
+      }
+    },
+    [userRegistered],
+  );
 
   return <>{children}</>;
 };

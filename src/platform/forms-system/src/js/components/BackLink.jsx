@@ -28,33 +28,36 @@ export const BackLinkImpl = ({
 }) => {
   const [href, setHref] = useState(null);
 
-  useEffect(() => {
-    if (!routes || !form.data || !location.pathname) {
-      return;
-    }
-    try {
-      let newHref;
-      const route = getRoute(routes, location);
-
-      if (typeof route.pageConfig?.onNavBack === 'function') {
-        // if onNavBack is defined, then the consumer is doing
-        // something custom and we can't determine the newHref,
-        // possibly including side effects like setting data
-        newHref = '#';
-      } else {
-        newHref = getPreviousPagePath(
-          route.pageList,
-          form.data,
-          location.pathname,
-        );
+  useEffect(
+    () => {
+      if (!routes || !form.data || !location.pathname) {
+        return;
       }
+      try {
+        let newHref;
+        const route = getRoute(routes, location);
 
-      setHref(newHref);
-    } catch (e) {
-      // possible if we're already on first page
-      setHref(null);
-    }
-  }, [location, form.data, routes, form, setData]);
+        if (typeof route.pageConfig?.onNavBack === 'function') {
+          // if onNavBack is defined, then the consumer is doing
+          // something custom and we can't determine the newHref,
+          // possibly including side effects like setting data
+          newHref = '#';
+        } else {
+          newHref = getPreviousPagePath(
+            route.pageList,
+            form.data,
+            location.pathname,
+          );
+        }
+
+        setHref(newHref);
+      } catch (e) {
+        // possible if we're already on first page
+        setHref(null);
+      }
+    },
+    [location, form.data, routes, form, setData],
+  );
 
   function onClick(e) {
     e.preventDefault();
@@ -106,7 +109,10 @@ BackLinkImpl.propTypes = {
 };
 
 const BackLink = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(BackLinkImpl),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(BackLinkImpl),
 );
 
 export default BackLink;

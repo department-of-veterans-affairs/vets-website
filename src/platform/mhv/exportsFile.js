@@ -1,9 +1,12 @@
 export { useBackToTop } from './hooks/useBackToTop';
 export { default as MHVDown } from './downtime/components/MHVDown';
-export { default as MHVDowntimeApproaching } from './downtime/components/MHVDowntimeApproaching';
+export {
+  default as MHVDowntimeApproaching,
+} from './downtime/components/MHVDowntimeApproaching';
 export { default as MHVDowntime } from './downtime/containers/MHVDowntime';
-export { default as MhvSecondaryNav } from './secondary-nav/containers/MhvSecondaryNav';
-
+export {
+  default as MhvSecondaryNav,
+} from './secondary-nav/containers/MhvSecondaryNav';
 export { default as MhvPageNotFound } from './components/MhvPageNotFound';
 export { default as MhvUnauthorized } from './components/MhvUnauthorized';
 export { renderMHVDowntime } from './downtime';

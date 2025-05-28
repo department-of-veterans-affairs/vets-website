@@ -59,9 +59,8 @@ export default function VaSelectField(props) {
         undefined
       }
     >
-      {addDefaultEntry && !props.childrenProps.schema.default && (
-        <option value="" />
-      )}
+      {addDefaultEntry &&
+        !props.childrenProps.schema.default && <option value="" />}
       {enumOptions.map((option, index) => {
         return (
           <option key={index} value={option.value}>

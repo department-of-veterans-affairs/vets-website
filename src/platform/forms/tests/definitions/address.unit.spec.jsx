@@ -2,9 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-import { render, waitFor, fireEvent } from '@testing-library/react';
 
-import definitions from 'vets-json-schema/dist/definitions.json';
 import {
   DefinitionTester,
   fillData,
@@ -15,6 +13,7 @@ import {
   requireStateWithCountry,
   requireStateWithData,
 } from '../../definitions/address';
+import definitions from 'vets-json-schema/dist/definitions.json';
 
 const { address } = definitions;
 const addressSchema = {
@@ -22,10 +21,6 @@ const addressSchema = {
     address,
   },
 };
-const mouseClick = new MouseEvent('click', {
-  bubbles: true,
-  cancelable: true,
-});
 
 describe('Forms library address definition', () => {
   it('should render address', () => {
@@ -145,70 +140,51 @@ describe('Forms library address definition', () => {
     form.unmount();
   }).timeout(4000);
 
-  it('should require state for non-required addresses with other info', async () => {
+  it('should require state for non-required addresses with other info', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = render(<DefinitionTester schema={s} uiSchema={uis} />);
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    const street = form.container.querySelector('input#root_street');
-    fireEvent.change(street, { target: { value: '123 st' } });
-    const city = form.container.querySelector('input#root_city');
-    fireEvent.change(city, { target: { value: 'Northampton' } });
-    const zip = form.container.querySelector('input#root_postalCode');
-    fireEvent.change(zip, { target: { value: '12345' } });
+    fillData(form, 'input#root_street', '123 st');
+    fillData(form, 'input#root_city', 'Northampton');
+    fillData(form, 'input#root_postalCode', '12345');
 
-    const submitButton = form.getByRole('button', { name: 'Submit' });
+    form.find('form').simulate('submit');
 
-    fireEvent(submitButton, mouseClick);
+    const errors = form.find('.usa-input-error-message');
+    expect(errors.length).to.equal(1);
+    form.unmount();
+  }).timeout(4000);
 
-    await waitFor(() => {
-      const errors = form.container.querySelectorAll(
-        '.usa-input-error-message',
-      );
-      expect(Array.from(errors).length).to.equal(0);
-    });
-  });
-
-  it('should not require state for non-required addresses with no other info', async () => {
+  it('should not require state for non-required addresses with no other info', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = render(<DefinitionTester schema={s} uiSchema={uis} />);
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    const submitButton = form.getByRole('button', { name: 'Submit' });
+    form.find('form').simulate('submit');
 
-    fireEvent(submitButton, mouseClick);
+    const errors = form.find('.usa-input-error-message');
+    expect(errors.length).to.equal(0);
+    form.unmount();
+  }).timeout(4000);
 
-    await waitFor(() => {
-      const errors = form.container.querySelectorAll(
-        '.usa-input-error-message',
-      );
-      expect(Array.from(errors).length).to.equal(0);
-    });
-  });
-
-  it('should require state if the country requires it', async () => {
+  it('should require state if the country requires it', () => {
     const s = schema(addressSchema, true);
     const uis = uiSchema();
-    const form = render(<DefinitionTester schema={s} uiSchema={uis} />);
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    const country = form.container.querySelector('select#root_country');
-    fireEvent.change(country, { target: { value: 'USA' } });
+    fillData(form, 'select#root_country', 'USA');
+    fillData(form, 'input#root_street', '123 st');
+    fillData(form, 'input#root_city', 'Northampton');
+    fillData(form, 'input#root_postalCode', '12345');
 
-    const street = form.container.querySelector('input#root_street');
-    fireEvent.change(street, { target: { value: '123 st' } });
-    const city = form.container.querySelector('input#root_city');
-    fireEvent.change(city, { target: { value: 'Northampton' } });
-    const zip = form.container.querySelector('input#root_postalCode');
-    fireEvent.change(zip, { target: { value: '12345' } });
+    form.find('form').simulate('submit');
 
-    const submitButton = form.getByRole('button', { name: 'Submit' });
-
-    fireEvent(submitButton, mouseClick);
-
-    await waitFor(() => {
-      form.getByText('Error Please enter a state');
-    });
-  });
+    const errors = form.find('.usa-input-error-message');
+    expect(errors.length).to.equal(1);
+    expect(errors.first().text()).to.equal('Error Please enter a state');
+    form.unmount();
+  }).timeout(4000);
 });
 
 describe('Forms library address validation', () => {

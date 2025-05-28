@@ -5,8 +5,7 @@ import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 function processValue({ type }, value) {
   if (type === 'boolean') {
     return value === 'true';
-  }
-  if (type === 'number') {
+  } else if (type === 'number') {
     return asNumber(value);
   }
   return value === '' ? undefined : value;
@@ -59,7 +58,7 @@ function SelectWidget({
         onChange(processValue(schema, newValue));
       }}
       {...widgetProps}
-      {...((value && selectedProps[value]) || {})}
+      {...(value && selectedProps[value]) || {}}
     >
       {!schema.default && <option value="">{placeholder}</option>}
       {enumOptions.map((option, i) => (

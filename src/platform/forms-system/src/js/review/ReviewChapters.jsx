@@ -128,10 +128,11 @@ export function mapStateToProps(state, ownProps) {
       hasErrors || pageKeys.some(key => !viewedPages.has(key));
 
     return {
-      expandedPages: expandedPages.map(page =>
-        page.appStateSelector
-          ? { ...page, appStateData: page.appStateSelector(state) }
-          : page,
+      expandedPages: expandedPages.map(
+        page =>
+          page.appStateSelector
+            ? { ...page, appStateData: page.appStateSelector(state) }
+            : page,
       ),
       formConfig: chapterFormConfig,
       name: chapterName,
@@ -179,7 +180,10 @@ ReviewChapters.propTypes = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ReviewChapters),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ReviewChapters),
 );
 
 // for tests

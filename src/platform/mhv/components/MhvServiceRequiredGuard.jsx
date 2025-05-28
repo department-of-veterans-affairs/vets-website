@@ -8,22 +8,28 @@ const MhvServiceRequiredGuard = ({ children, serviceRequired, user }) => {
   const [isVerified, setIsVerified] = useState(null);
   const [authorized, setAuthorized] = useState(false);
 
-  useEffect(() => {
-    setHasRequiredService(
-      serviceRequired.some(service => userServices.includes(service)),
-    );
-    setIsVerified(user.profile.verified);
-  }, [serviceRequired, userServices, user.profile.verified]);
+  useEffect(
+    () => {
+      setHasRequiredService(
+        serviceRequired.some(service => userServices.includes(service)),
+      );
+      setIsVerified(user.profile.verified);
+    },
+    [serviceRequired, userServices, user.profile.verified],
+  );
 
-  useEffect(() => {
-    if (isVerified !== null && hasRequiredService !== null) {
-      if (!isVerified || !hasRequiredService) {
-        window.location.replace('/my-health');
-      } else {
-        setAuthorized(true);
+  useEffect(
+    () => {
+      if (isVerified !== null && hasRequiredService !== null) {
+        if (!isVerified || !hasRequiredService) {
+          window.location.replace('/my-health');
+        } else {
+          setAuthorized(true);
+        }
       }
-    }
-  }, [isVerified, hasRequiredService]);
+    },
+    [isVerified, hasRequiredService],
+  );
 
   if (isVerified === null || hasRequiredService === null) {
     return null; // Do not render children or redirect until values are fetched

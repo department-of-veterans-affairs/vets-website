@@ -1,21 +1,12 @@
-import { http } from 'msw';
+import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-function getResponse() {
-  return new Response(null, {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-}
-
 const defaultHandlers = [
-  http.get('*', () => getResponse()),
-  http.post('*', () => getResponse()),
-  http.patch('*', () => getResponse()),
-  http.put('*', () => getResponse()),
-  http.delete('*', () => getResponse()),
+  rest.get('*', (req, res, ctx) => res(ctx.status(200), ctx.json({}))),
+  rest.post('*', (req, res, ctx) => res(ctx.status(200), ctx.json({}))),
+  rest.patch('*', (req, res, ctx) => res(ctx.status(200), ctx.json({}))),
+  rest.put('*', (req, res, ctx) => res(ctx.status(200), ctx.json({}))),
+  rest.delete('*', (req, res, ctx) => res(ctx.status(200), ctx.json({}))),
 ];
 
 export const server = setupServer(...defaultHandlers);

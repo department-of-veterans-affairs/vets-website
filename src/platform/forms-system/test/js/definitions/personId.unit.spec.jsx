@@ -2,17 +2,14 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render, fireEvent, waitFor } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 
-const mouseClick = new MouseEvent('click', {
-  bubbles: true,
-  cancelable: true,
-});
-
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import {
+  DefinitionTester,
+  submitForm,
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import * as personId from '../../../src/js/definitions/personId';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 describe('Edu personId', () => {
   const uiSchema = personId.uiSchema('veteran', 'view:noSSN');
@@ -27,8 +24,8 @@ describe('Edu personId', () => {
     expect(inputs.length).to.equal(2);
   });
 
-  it('should conditionally require SSN or file number', async () => {
-    const form = render(
+  it('should conditionally require SSN or file number', () => {
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         formData={{}}
         schema={schema}
@@ -37,36 +34,39 @@ describe('Edu personId', () => {
       />,
     );
 
-    const submitButton = form.getByRole('button', { name: 'Submit' });
-    fireEvent.click(submitButton);
+    const formDOM = findDOMNode(form);
+    submitForm(form);
 
-    await waitFor(() => {
-      const ssnError = form.container.querySelector(
+    // VA file number input is not visible; error is shown for empty SSN input
+    expect(
+      formDOM.querySelector(
         '.usa-input-error #root_veteranSocialSecurityNumber',
-      );
-      expect(ssnError).not.to.be.null;
-      const vaFileNumber = form.container.querySelector('#root_vaFileNumber');
-      expect(vaFileNumber).to.be.null;
-    });
-    const checkbox = form.getByLabelText(
-      /I don’t have a Social Security number/,
-    );
-    fireEvent.click(checkbox);
+      ),
+    ).not.to.be.null;
+    expect(formDOM.querySelector('#root_vaFileNumber')).to.be.null;
 
-    await waitFor(() => {
-      const rootVetSSn = form.container.querySelector(
-        '.usa-input-error #root_veteranSocialSecurityNumber',
-      );
-      expect(rootVetSSn).to.be.null;
-      const rootVaFileNumber = form.container.querySelector(
-        '.usa-input-error #root_vaFileNumber',
-      );
-      expect(rootVaFileNumber).not.to.be.null;
+    // Check no-SSN box
+    const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(
+      form,
+      'input',
+    ).find(input => input.id === 'root_view:noSSN');
+    ReactTestUtils.Simulate.change(noSSNBox, {
+      target: {
+        checked: true,
+      },
     });
+
+    expect(
+      formDOM.querySelector(
+        '.usa-input-error #root_veteranSocialSecurityNumber',
+      ),
+    ).to.be.null;
+    expect(formDOM.querySelector('.usa-input-error #root_vaFileNumber')).not.to
+      .be.null;
   });
-  it('should submit with no errors when required field is filled', async () => {
+  it('should submit with no errors when required field is filled', () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         formData={{}}
         schema={schema}
@@ -75,18 +75,23 @@ describe('Edu personId', () => {
         uiSchema={uiSchema}
       />,
     );
+    const formDOM = findDOMNode(form);
+    const find = formDOM.querySelector.bind(formDOM);
 
-    const submitButton = form.getByRole('button', { name: 'Submit' });
+    submitForm(form);
+    expect(onSubmit.called).to.be.false;
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
+      .empty;
 
-    const ssnInput = form.container.querySelector(
-      '#root_veteranSocialSecurityNumber',
-    );
-    fireEvent.change(ssnInput, { target: { value: '123456789' } });
-    fireEvent(submitButton, mouseClick);
-
-    await waitFor(() => {
-      const errors = form.container.querySelectorAll('.usa-input-error');
-      expect(Array.from(errors)).to.be.empty;
+    ReactTestUtils.Simulate.change(find('#root_veteranSocialSecurityNumber'), {
+      target: {
+        value: '123456788',
+      },
     });
+
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
+      .empty;
+    submitForm(form);
+    expect(onSubmit.called).to.be.true;
   });
 });

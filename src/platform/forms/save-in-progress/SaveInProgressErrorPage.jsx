@@ -177,6 +177,10 @@ class SaveInProgressErrorPage extends React.Component {
 }
 
 SaveInProgressErrorPage.propTypes = {
+  loadedStatus: PropTypes.string.isRequired,
+  isStartingOver: PropTypes.bool.isRequired,
+  // For SignInLink
+  isLoggedIn: PropTypes.bool.isRequired,
   formConfig: PropTypes.shape({
     savedFormMessages: PropTypes.shape({
       notFound: PropTypes.string,
@@ -186,10 +190,6 @@ SaveInProgressErrorPage.propTypes = {
       continueAppButtonText: PropTypes.string,
     }),
   }).isRequired,
-  // For SignInLink
-  isLoggedIn: PropTypes.bool.isRequired,
-  isStartingOver: PropTypes.bool.isRequired,
-  loadedStatus: PropTypes.string.isRequired,
 };
 
 SaveInProgressErrorPage.defaultProps = {
@@ -217,7 +217,10 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SaveInProgressErrorPage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SaveInProgressErrorPage),
 );
 
 export { SaveInProgressErrorPage };

@@ -537,7 +537,9 @@ export function replaceRefSchemas(schema, definitions, path = '') {
     const definition = get(refPath, definitions);
     if (!definition) {
       throw new Error(
-        `Missing definition for ${schema.$ref} at ${path}. You probably need to add it to defaultDefinitions`,
+        `Missing definition for ${
+          schema.$ref
+        } at ${path}. You probably need to add it to defaultDefinitions`,
       );
     }
 
@@ -852,7 +854,9 @@ export function createInitialState(formConfig) {
       if (state.pages[page.pageKey]) {
         // eslint-disable-next-line no-console
         console?.warn(
-          `Duplicate page key found: ${page.pageKey}. Page keys must be unique.`,
+          `Duplicate page key found: ${
+            page.pageKey
+          }. Page keys must be unique.`,
         );
       }
 

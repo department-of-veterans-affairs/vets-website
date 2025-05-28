@@ -65,7 +65,9 @@ export const generateDemographicsContent = record => {
           },
           {
             title: 'Mailing or destination address',
-            value: `${record.address.street}, ${record.address.city}, ${record.address.state}, ${record.address.zip}, ${record.address.country}`,
+            value: `${record.address.street}, ${record.address.city}, ${
+              record.address.state
+            }, ${record.address.zip}, ${record.address.country}`,
             inline: true,
           },
         ],

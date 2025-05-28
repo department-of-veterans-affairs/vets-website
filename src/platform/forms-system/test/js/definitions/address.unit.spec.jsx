@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import { render, waitFor, fireEvent } from '@testing-library/react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
@@ -142,94 +141,19 @@ describe('Schemaform definition address', () => {
     form.unmount();
   }).timeout(4000);
 
-  it('should require state for non-required addresses with other info', async () => {
+  it('should require state for non-required addresses with other info', () => {
     const s = schema(addressSchema, false);
     const uis = uiSchema();
-    const form = render(<DefinitionTester schema={s} uiSchema={uis} />);
+    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
 
-    const streetInput = form.container.querySelector('input#root_street');
-    fireEvent.change(streetInput, { target: { value: '123 st' } });
+    fillData(form, 'input#root_street', '123 st');
+    fillData(form, 'input#root_city', 'Northampton');
+    fillData(form, 'input#root_postalCode', '12345');
 
-    const cityInput = form.container.querySelector('input#root_city');
-    fireEvent.change(cityInput, { target: { value: 'Northampton' } });
+    form.find('form').simulate('submit');
 
-    const postalCodeInput = form.container.querySelector(
-      'input#root_postalCode',
-    );
-    fireEvent.change(postalCodeInput, { target: { value: '12345' } });
-
-    const submitButton = form.getByRole('button', { name: 'Submit' });
-    const mouseClick = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-    });
-    fireEvent(submitButton, mouseClick);
-
-    await waitFor(() => {
-      form.getByText(
-        'Please enter a state or province, or remove other address information.',
-      );
-    });
-  });
-
-  it('should contain state maxLength in accordance with schema', () => {
-    definitions.address.oneOf[3].properties.state.maxLength = 2;
-
-    const newAddress = definitions.address;
-
-    const newAddressSchema = {
-      definitions: {
-        address: newAddress,
-      },
-    };
-
-    const s = schema(newAddressSchema, false);
-    s.properties.state.maxLength = 2;
-
-    const uis = uiSchema();
-
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={s} uiSchema={uis} />,
-    );
-
-    const formDOM = findDOMNode(form);
-    const countrySelect = formDOM.querySelector('select#root_country');
-    countrySelect.value = 'BEL';
-    ReactTestUtils.Simulate.change(countrySelect);
-
-    expect(
-      formDOM.querySelector('#root_state').getAttribute('maxlength'),
-    ).to.equal('2');
-  }).timeout(4000);
-
-  it('should contain state maxLength in accordance with schema', () => {
-    definitions.address.oneOf[3].properties.state.maxLength = 2;
-
-    const newAddress = definitions.address;
-
-    const newAddressSchema = {
-      definitions: {
-        address: newAddress,
-      },
-    };
-
-    const s = schema(newAddressSchema, false);
-    s.properties.state.maxLength = 2;
-
-    const uis = uiSchema();
-
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={s} uiSchema={uis} />,
-    );
-
-    const formDOM = findDOMNode(form);
-    const countrySelect = formDOM.querySelector('select#root_country');
-    countrySelect.value = 'BEL';
-    ReactTestUtils.Simulate.change(countrySelect);
-
-    expect(
-      formDOM.querySelector('#root_state').getAttribute('maxlength'),
-    ).to.equal('2');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    form.unmount();
   }).timeout(4000);
 
   it('should contain state maxLength in accordance with schema', () => {

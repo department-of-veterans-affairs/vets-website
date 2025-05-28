@@ -495,7 +495,10 @@ FormPage.propTypes = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(FormPage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FormPage),
 );
 
 export { FormPage };

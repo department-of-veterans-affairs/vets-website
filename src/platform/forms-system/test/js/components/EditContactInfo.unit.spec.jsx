@@ -46,7 +46,7 @@ describe('EditContactInfo', () => {
         container,
       );
       expect(phoneNumber).to.exist;
-      expect(phoneNumber.getAttribute('required')).to.equal('true');
+      expect(phoneNumber.required).to.be.true;
       const extension = $('va-text-input[label^="Extension"]', container);
       expect(extension).to.exist;
 
