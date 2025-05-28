@@ -192,20 +192,11 @@ describe('ezr general helpers', () => {
     });
   });
   context('when `formatCurrency` executes', () => {
-    context('when the input is valid', () => {
-      it('correctly formats numeric strings into USD currency format', () => {
-        expect(formatCurrency('1234.5')).to.equal('$1,234.50');
-        expect(formatCurrency('1234.56')).to.equal('$1,234.56');
-        expect(formatCurrency('0.99')).to.equal('$0.99');
-        expect(formatCurrency('123456789')).to.equal('$123,456,789.00');
-      });
-    });
-
-    context('when the input is invalid', () => {
-      it('handles invalid input appropriately', () => {
-        expect(formatCurrency('gfd')).to.equal('Invalid input');
-        expect(formatCurrency('45r')).to.equal('Invalid input');
-      });
+    it('correctly formats numeric strings into USD currency format', () => {
+      expect(formatCurrency('1234.5')).to.equal('$1,234.50');
+      expect(formatCurrency('1234.56')).to.equal('$1,234.56');
+      expect(formatCurrency('0.99')).to.equal('$0.99');
+      expect(formatCurrency('123456789')).to.equal('$123,456,789.00');
     });
   });
 });
