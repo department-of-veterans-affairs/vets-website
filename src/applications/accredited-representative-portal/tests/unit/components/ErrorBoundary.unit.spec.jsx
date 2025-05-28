@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { BrowserRouter } from 'react-router-dom';
-import ErrorBoundary from '../../../components/ErrorBoundary';
+import ErrorBoundary from '../../../components/Error/ErrorBoundary';
 
 describe('ErrorBoundary', () => {
   const getErrorBoundary = () =>
