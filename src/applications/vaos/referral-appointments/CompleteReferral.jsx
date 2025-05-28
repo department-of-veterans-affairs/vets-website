@@ -167,7 +167,8 @@ export const CompleteReferral = props => {
             </h2>
             <strong data-testid="appointment-type">
               {titleCase(currentReferral.categoryOfCare)} with{' '}
-              {`${attributes.provider.name || 'Provider name not available'}`}
+              {`${currentReferral.provider.name ||
+                'Provider name not available'}`}
             </strong>
             <p
               className="vads-u-margin-bottom--0"
