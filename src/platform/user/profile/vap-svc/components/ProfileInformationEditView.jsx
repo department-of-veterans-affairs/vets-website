@@ -143,7 +143,7 @@ export class ProfileInformationEditView extends Component {
     );
   };
 
-  onSubmit = () => {
+  onSubmit = async () => {
     const {
       convertCleanDataToPayload,
       fieldName,
@@ -208,13 +208,37 @@ export class ProfileInformationEditView extends Component {
       return;
     }
 
-    this.props.createTransaction(
-      apiRoute,
-      method,
-      fieldName,
-      payload,
-      analyticsSectionName,
-    );
+    try {
+      const result = await this.props.createTransaction(
+        apiRoute,
+        method,
+        fieldName,
+        payload,
+        analyticsSectionName,
+      );
+
+      if (result?.formOnlyUpdate && this.context?.updateContactInfoForFormApp) {
+        // Update the form data with the payload format
+        await this.context.updateContactInfoForFormApp(
+          fieldName,
+          payload,
+          'no', // Force form-only update
+        );
+
+        // Update UI state with the schema-compatible structure
+        this.onChangeFormDataAndSchemas(
+          payload,
+          field.formSchema,
+          field.uiSchema,
+        );
+      } else {
+        // For profile updates, make sure we trigger a transaction refresh
+        // so contact info displays reflect the new values without a page refresh
+        this.refreshTransaction();
+      }
+    } catch (error) {
+      // Silently handle error - form state is preserved
+    }
   };
 
   onInput = (value, schema, uiSchema) => {
@@ -427,7 +451,6 @@ ProfileInformationEditView.propTypes = {
   }),
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
-  successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
