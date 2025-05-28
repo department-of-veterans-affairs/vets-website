@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import {
@@ -49,30 +49,27 @@ const RefillPrescriptions = () => {
   ] = useBulkRefillPrescriptionsMutation();
   const { isLoading: isRefilling, error: bulkRefillError } = result;
 
-  const getMedicationsByIds = (ids, prescriptions) => {
-    if (!ids || !prescriptions) return [];
-    return ids.map(id =>
-      prescriptions.find(
-        prescription => prescription.prescriptionId === Number(id),
-      ),
-    );
-  };
+  // Store prescription data for notifications
+  const [refillSubmissionData, setRefillSubmissionData] = useState({});
+
+  const getMedicationsByIds = useCallback(
+    ids => {
+      if (!ids || !refillSubmissionData) return [];
+      return ids.map(id => refillSubmissionData[Number(id)]).filter(Boolean);
+    },
+    [refillSubmissionData],
+  );
 
   const successfulMeds = useMemo(
-    () =>
-      getMedicationsByIds(
-        result?.data?.successfulIds,
-        refillableData?.prescriptions,
-      ),
-    [result?.data?.successfulIds, refillableData],
+    () => {
+      return getMedicationsByIds(result?.data?.successfulIds);
+    },
+    [getMedicationsByIds, result?.data?.successfulIds],
   );
+
   const failedMeds = useMemo(
-    () =>
-      getMedicationsByIds(
-        result?.data?.failedIds,
-        refillableData?.prescriptions,
-      ),
-    [result?.data?.failedIds, refillableData],
+    () => getMedicationsByIds(result?.data?.failedIds),
+    [getMedicationsByIds, result?.data?.failedIds],
   );
 
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
@@ -108,6 +105,13 @@ const RefillPrescriptions = () => {
     if (selectedRefillListLength > 0) {
       setRefillStatus('inProgress');
       window.scrollTo(0, 0);
+
+      // Create a map of prescriptions by ID before submitting
+      const prescriptionsMap = selectedRefillList.reduce((acc, rx) => {
+        acc[Number(rx.prescriptionId)] = rx;
+        return acc;
+      }, {});
+      setRefillSubmissionData(prescriptionsMap);
 
       // Get just the prescription IDs for the bulk refill
       const prescriptionIds = selectedRefillList.map(rx => rx.prescriptionId);
