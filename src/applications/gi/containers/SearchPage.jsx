@@ -156,9 +156,9 @@ export function SearchPage({
                 slim
               >
                 <p className="vads-u-margin-y--0">
-                  We're experiencing a service outage with Search Location. Our
-                  team is currently working to restore the service. We apologize
-                  for any inconvenience.
+                  Search by location is temporarily unavailable due to an
+                  unexpected service outage. We're working to restore service
+                  and apologize for any inconvenience.
                 </p>
               </va-alert>
             )}
