@@ -32,12 +32,12 @@ const AuthProfileInformation = ({ user }) => {
       <p>This is the personal information we have on file for you.</p>
 
       <va-card data-testid="hca-profile-card">
-        <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Personal Information
-        </h4>
+        </h2>
         <ul className="hca-list-style-none">
           <li className="vads-u-margin-y--1">
-            <span className="vads-u-font-weight--bold">Full name:</span>{' '}
+            <strong>Full name:</strong>{' '}
             <span
               className="vads-u-margin-bottom--1 dd-privacy-mask"
               data-dd-action-name="Veteran name"
@@ -47,7 +47,7 @@ const AuthProfileInformation = ({ user }) => {
           </li>
           {veteranDOB ? (
             <li className="vads-u-margin-y--1">
-              <span className="vads-u-font-weight--bold">Date of birth:</span>{' '}
+              <strong>Date of birth:</strong>{' '}
               <span
                 className="dd-privacy-mask"
                 data-dd-action-name="Date of birth"
@@ -56,7 +56,7 @@ const AuthProfileInformation = ({ user }) => {
               </span>
             </li>
           ) : null}
-          <li className="vads-u-margin-top--1">
+          <li>
             And our records show that you have a{' '}
             <strong>
               VA service-connected disability rating of{' '}
