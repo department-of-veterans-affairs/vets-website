@@ -9,7 +9,7 @@ import { fileUploadUi } from './upload';
  *
  * @param {object} options Configuration options for the upload schema
  * @param {React.ReactNode} options.customDescription JSX element to display above the images
- * @param {boolean} options.blurbBeforeImages Whether to position the fileUploadBlurb before the card images (true) or after (false)
+ * @param {boolean} options.showFilesBlurb Whether or not to show fileUploadBlurb after the card images
  * @param {string} options.frontProperty Property name for the front card upload (e.g., 'medicareFrontCard')
  * @param {string} options.backProperty Property name for the back card upload (e.g., 'medicareBackCard')
  * @param {string} options.frontImageSrc Image source path for the front card example
@@ -21,7 +21,7 @@ import { fileUploadUi } from './upload';
  */
 export const createCardUploadSchema = ({
   customDescription,
-  blurbBeforeImages = false,
+  showFilesBlurb = true,
   frontProperty,
   backProperty,
   frontImageSrc,
@@ -81,11 +81,6 @@ export const createCardUploadSchema = ({
     });
   }
 
-  // Add file upload blurb before images if specified
-  if (blurbBeforeImages) {
-    uiElements.push(fileUploadBlurbCustom());
-  }
-
   // Add card sample display
   uiElements.push({
     'view:cardSampleDisplay': {
@@ -93,8 +88,8 @@ export const createCardUploadSchema = ({
     },
   });
 
-  // Add file upload blurb after images if not placed before
-  if (!blurbBeforeImages) {
+  // Add file upload blurb after images
+  if (showFilesBlurb) {
     uiElements.push(fileUploadBlurbCustom());
   }
 
@@ -169,6 +164,10 @@ export const createCardUploadSchema = ({
       },
     },
   };
+
+  if (!showFilesBlurb) {
+    delete schemaProperties['view:fileUploadBlurb'];
+  }
 
   // Create the complete schema
   const schema = {

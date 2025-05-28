@@ -17,6 +17,7 @@ import medicarePartAPartBFrontImage from '../assets/images/medicare_pt_a_pt_b_fr
 import medicarePartAPartBBackImage from '../assets/images/medicare_pt_a_pt_b_back.png';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { createCardUploadSchema } from '../../shared/components/fileUploads/genericCardUpload';
+import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import {
   toHash,
   applicantWording,
@@ -229,7 +230,6 @@ const {
   schema: medicareCardSchema,
 } = createCardUploadSchema({
   customDescription: medicarePartAPartBDescription,
-  blurbBeforeImages: false, // Keep fileUploadBlurb in the same position
   frontProperty: 'medicarePartAPartBFrontCard',
   backProperty: 'medicarePartAPartBBackCard',
   frontImageSrc: medicarePartAPartBFrontImage,
@@ -254,6 +254,7 @@ const medicareABCardUploadPage = {
   schema: medicareCardSchema,
 };
 
+// IF USER SPECIFIES ONLY A:
 // Medicare Part A effective date page definition
 const medicarePartAEffectiveDatePage = {
   uiSchema: {
@@ -278,10 +279,47 @@ const medicarePartAEffectiveDatePage = {
   },
 };
 
+// Create custom description component for Medicare Part A card
+const medicarePartADescription = (
+  <div>
+    <p>
+      You’ll need to submit a copy of your Original Medicare Health Part A Card,
+      sometimes referred to as the "red, white, and blue" Medicare card.
+    </p>
+    {fileUploadBlurb['view:fileUploadBlurb']['ui:description']}
+  </div>
+);
+
+// Use the generic card upload schema for Medicare Part A
+const {
+  uiSchema: medicarePartACardUiSchema,
+  schema: medicarePartACardSchema,
+} = createCardUploadSchema({
+  customDescription: medicarePartADescription,
+  showFilesBlurb: false,
+  frontProperty: 'medicarePartAFrontCard',
+  backProperty: 'medicarePartABackCard',
+  frontImageSrc: medicarePartAPartBFrontImage,
+  backImageSrc: medicarePartAPartBBackImage,
+  frontAltText:
+    'Red, white, and blue Medicare card. It states "Medicare Health Insurance" and lists the Medicare number and coverage dates for Part A hospital coverage.',
+  backAltText:
+    'Back of a red, white, and blue Medicare card. Includes card usage instructions and the Medicare phone number and website.',
+  cardTitle: 'Sample of Medicare Part A card',
+  frontLabel: 'Upload front of Part A Medicare card',
+  backLabel: 'Upload back of Part A Medicare card',
+});
+
+// Define the Medicare Part A card upload page using the generic schema
+const medicarePartACardUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Upload Medicare Part A card'),
+    ...medicarePartACardUiSchema,
+  },
+  schema: medicarePartACardSchema,
+};
+
 // PAGES NEEDED:
-// IF USER SPECIFIES ONLY A:
-//   - medicare parts a effective date
-//   - medicare parts a card upload
 // IF USER SPECIFIES ONLY B:
 //   - medicare parts b effective date
 //   - medicare parts b card upload
@@ -368,6 +406,16 @@ export const medicarePages = arrayBuilderPages(
         return planType === 'a';
       },
       ...medicarePartAEffectiveDatePage,
+    }),
+    medicarePartACardUpload: pageBuilder.itemPage({
+      path: 'medicare-part-a-card-upload/:index',
+      title: 'Upload Medicare Part A card',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'a';
+      },
+      CustomPage: FileFieldCustom,
+      ...medicarePartACardUploadPage,
     }),
     medicarePartAPartBEffectiveDates: pageBuilder.itemPage({
       path: 'medicare-effective-dates/:index',
