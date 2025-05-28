@@ -2851,13 +2851,13 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/component-library@50.2.2":
-  version "50.2.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-50.2.2.tgz#45d4d59bb77a16a753cfc7ba39b5a1c3043f00ba"
-  integrity sha512-m4Ws6OVRAOzINOs288be1sxgCSUvIphaMNhlnHbzIc37QayRrtLs2BQzJFN3ZM48IhTm2VgU64DqsrwBB9l5Fw==
+"@department-of-veterans-affairs/component-library@50.3.0":
+  version "50.3.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-50.3.0.tgz#5cac029abdd6e7243a1b7eb20f31cc49d65d467e"
+  integrity sha512-aC62ztuDWf3V2dMM6BNqzSYkrMwU4h71N0hYqk/NZ2UNQYjk3JuwfxCS7QwgbcevjXXw6CiuVUrYadMy0GlQtg==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "18.1.3"
+    "@department-of-veterans-affairs/web-components" "18.2.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2951,10 +2951,10 @@
     classnames "^2.3.1"
     intersection-observer "^0.12.0"
 
-"@department-of-veterans-affairs/web-components@18.1.3":
-  version "18.1.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-18.1.3.tgz#e21808d2d5ff7e765387bfc68948cd980e3d1883"
-  integrity sha512-3IjTnY/mk0l3gSWfoN+WmDmSIDG3IimVIdPy9yb4B9Tdh2DKzSagyV9A5Q2U+BzrbhQPIQU6RDXIaWKHBoc4QQ==
+"@department-of-veterans-affairs/web-components@18.2.0":
+  version "18.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-18.2.0.tgz#dbf988a892b649e23a8219a6c511a44e1ad89928"
+  integrity sha512-svQx7qL7IByzVrSgXRauWmwU86c62msAakPfgWIBesfoGM+U6lxwe93SyHXslnl1rmIHHmW7ntOek4DvJSUrMg==
   dependencies:
     "@stencil/core" "4.20.0"
     aria-hidden "^1.1.3"
@@ -2962,6 +2962,7 @@
     chromatic "^11.0.4"
     classnames "^2.3.1"
     intersection-observer "^0.12.0"
+    libphonenumber-js "^1.12.7"
 
 "@discoveryjs/json-ext@^0.5.0", "@discoveryjs/json-ext@^0.5.7":
   version "0.5.7"
@@ -14439,6 +14440,11 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
+libphonenumber-js@^1.12.7:
+  version "1.12.8"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.12.8.tgz#20e5b57f24e60359d795e2fa2ee185776331e34f"
+  integrity sha512-f1KakiQJa9tdc7w1phC2ST+DyxWimy9c3g3yeF+84QtEanJr2K77wAmBPP22riU05xldniHsvXuflnLZ4oysqA==
+
 libxmljs2@^0.28.0:
   version "0.28.0"
   resolved "https://registry.yarnpkg.com/libxmljs2/-/libxmljs2-0.28.0.tgz#ba217cf7d8dadd80449fdd81b147575fa969c942"
@@ -22207,9 +22213,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#71b49c2d04ab2edd8b5a582c03ab309bfc5500d2":
-  version "24.14.3"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#71b49c2d04ab2edd8b5a582c03ab309bfc5500d2"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#ebbcfc5d318132c70dc48419573dc934a3b0855c":
+  version "24.15.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ebbcfc5d318132c70dc48419573dc934a3b0855c"
   dependencies:
     minimist "^1.2.3"
 
