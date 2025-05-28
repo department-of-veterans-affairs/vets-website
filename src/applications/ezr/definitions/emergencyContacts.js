@@ -118,7 +118,7 @@ export const emergencyContactsAddressPage = () => ({
  */
 export const emergencyContactsSummaryPage = (options = {}) => ({
   uiSchema: {
-    'view:isEmergencyContactsEnabled': arrayBuilderYesNoUI(options, {
+    'view:hasEmergencyContacts': arrayBuilderYesNoUI(options, {
       title: content['emergency-contact-add-contacts-label'],
       titleHeaderLevel: 'h2',
       hint: content['emergency-contact-hint-text'],
@@ -127,8 +127,8 @@ export const emergencyContactsSummaryPage = (options = {}) => ({
   schema: {
     type: 'object',
     properties: {
-      'view:isEmergencyContactsEnabled': arrayBuilderYesNoSchema,
+      'view:hasEmergencyContacts': arrayBuilderYesNoSchema,
     },
-    required: ['view:isEmergencyContactsEnabled'],
+    required: ['view:hasEmergencyContacts'],
   },
 });
