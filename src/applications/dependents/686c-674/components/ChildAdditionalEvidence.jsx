@@ -86,7 +86,7 @@ export const ChildAdditionalEvidence = () => {
             <li>File types you can upload: JPEG, JPG, PNG or PDF</li>
             <li>
               You can upload multiple files, but they have to add up to 10 MB or
-              less.
+              less
             </li>
           </ul>
         </div>

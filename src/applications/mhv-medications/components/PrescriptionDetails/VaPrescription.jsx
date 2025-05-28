@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
@@ -33,6 +33,7 @@ import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import GroupedMedications from './GroupedMedications';
 import CallPharmacyPhone from '../shared/CallPharmacyPhone';
 import ProcessList from '../shared/ProcessList';
+import { landMedicationDetailsAal } from '../../api/rxApi';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
@@ -68,6 +69,26 @@ const VaPrescription = prescription => {
     latestTrackingStatus?.completeDateTime &&
     Date.parse(latestTrackingStatus?.completeDateTime) > fourteenDaysAgoDate;
   const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
+
+  useEffect(async () => {
+    const userLanded = async () => {
+      if (prescription) {
+        try {
+          await landMedicationDetailsAal(prescription);
+        } catch (e) {
+          if (window.DD_RUM) {
+            const error = new Error(
+              `Error submitting AAL on Medication Details landing. ${e
+                ?.errors?.[0] && JSON.stringify(e?.errors?.[0])}`,
+            );
+            window.DD_RUM.addError(error);
+          }
+        }
+      }
+    };
+
+    userLanded();
+  }, []);
 
   const determineStatus = () => {
     if (pendingRenewal) {
@@ -169,6 +190,7 @@ const VaPrescription = prescription => {
                 ? 'vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--3 medium-screen:vads-u-margin-top--4 '
                 : ''
             }medication-details-div vads-u-margin-bottom--3`}
+            data-testid="va-prescription-container"
           >
             {/* TODO: clean after grouping flag is gone */}
             {!showGroupingContent && (

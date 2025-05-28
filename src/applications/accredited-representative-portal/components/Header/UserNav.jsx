@@ -34,9 +34,26 @@ const UserHelpLinks = () => {
           onClick={recordDatalayerEvent}
           data-eventname="nav-link-click"
         >
-          Power of Attorney Requests
+          Representation Requests
         </Link>
       </li>
+      <Toggler
+        toggleName={
+          Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
+        }
+      >
+        <li>
+          <Toggler.Enabled>
+            <Link
+              data-testid="submissions-link"
+              className="vads-u-color--white"
+              to="/submissions"
+            >
+              Submissions
+            </Link>
+          </Toggler.Enabled>
+        </li>
+      </Toggler>
       <Toggler
         toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
       >

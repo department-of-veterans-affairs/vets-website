@@ -1,0 +1,34 @@
+.submissions__search-header {
+  margin-top: 20px;
+}
+
+.submissions-subtext__copy {
+  font-size: 20px;
+}
+
+ul.submissions__list {
+  li {
+    margin-bottom: 16px;
+  }
+}
+
+.submission__card-name {
+  margin-top: 0px;
+}
+
+.submissions__inline-status-icon {
+  transform: translateY(-4px);
+
+  &.submissions__card-check {
+    color: var(--vads-color-success-dark);
+  }
+
+  &.submissions__card-error {
+    color: var(--vads-color-warning);
+  }
+}
+
+ul.submissions__list {
+  list-style-type: none;
+  padding-left: 0px;
+}

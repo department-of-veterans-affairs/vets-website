@@ -116,13 +116,36 @@ export const convertVaccine = vaccine => {
   };
 };
 
+export const convertNewVaccine = vaccine => {
+  if (vaccine) {
+    return {
+      ...vaccine,
+      date: vaccine.dateReceived
+        ? formatDate(vaccine.dateReceived)
+        : EMPTY_FIELD,
+      location: vaccine.location || EMPTY_FIELD,
+      manufacturer: vaccine.manufacturer || EMPTY_FIELD,
+      reactions: vaccine.reactions || EMPTY_FIELD,
+    };
+  }
+  return null;
+};
+
 export const vaccineReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Vaccines.GET: {
       const vaccine = action.response;
+
+      let vaccineDetails = null;
+      if (vaccine) {
+        vaccineDetails = vaccine.resourceType
+          ? convertVaccine(vaccine)
+          : convertNewVaccine(vaccine.data?.attributes);
+      }
+
       return {
         ...state,
-        vaccineDetails: convertVaccine(vaccine),
+        vaccineDetails,
       };
     }
     case Actions.Vaccines.GET_FROM_LIST: {
@@ -133,13 +156,20 @@ export const vaccineReducer = (state = initialState, action) => {
     }
     case Actions.Vaccines.GET_LIST: {
       const oldList = state.vaccinesList;
-      const newList =
-        action.response.entry
-          ?.map(record => {
-            const vaccine = record.resource;
-            return convertVaccine(vaccine);
-          })
-          .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
+      let newList;
+      if (action.response.resourceType) {
+        newList =
+          action.response.entry
+            ?.map(record => {
+              const vaccine = record.resource;
+              return convertVaccine(vaccine);
+            })
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
+      } else {
+        newList = action.response.data?.map(record =>
+          convertNewVaccine(record.attributes),
+        );
+      }
 
       return {
         ...state,

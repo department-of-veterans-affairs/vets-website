@@ -32,7 +32,7 @@ export const App = ({
   );
 
   const containerIsProfile =
-    window.location.pathname === '/profile/accredited-representative' &&
+    window.location.pathname.startsWith('/profile/accredited-representative') &&
     isUserLOA3WithParticipantId;
 
   const DynamicHeader = `h${baseHeader}`;

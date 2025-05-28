@@ -21,8 +21,9 @@ export function CurrentRep({
   vcfUrl,
 }) {
   // "Learn more" link becomes Find-a-Rep link when place in profile (per design)
-  const containerIsProfile =
-    window.location.pathname === '/profile/accredited-representative';
+  const containerIsProfile = window.location.pathname.startsWith(
+    '/profile/accredited-representative',
+  );
 
   const isOrganization = poaType === 'organization';
 

@@ -493,14 +493,23 @@ export const TRAVEL_CLAIM_MESSAGES = {
   success: 'Data retrieved successfully.',
 };
 
-export const DATE_FORMAT_STRINGS = {
+export const DATE_FORMATS = {
   // Friendly formats for displaying dates to users
   // e.g. January 1, 2023
   friendlyDate: 'MMMM d, yyyy',
   // ISO 8601
+  // e.g. 2025-05-06T21:00:00
+  ISODateTime: "yyyy-MM-dd'T'HH:mm:ss",
   // e.g. 2025-05-06T21:00:00Z
   ISODateTimeUTC: "yyyy-MM-dd'T'HH:mm:ss'Z'",
+  // e.g. 2025-05-06T21:00:00-05:00"
+  ISODateTimeLocal: "yyyy-MM-dd'T'HH:mm:ssxxx",
   // iCalendar RFC 5545
   // e.g. 20250506T225403Z
   iCalDateTimeUTC: "yyyyMMdd'T'HHmmss'Z'",
+  // Internal formats for use in source code
+  // e.g. 2025-05
+  yearMonth: 'yyyy-MM',
+  // e.g. 2025-05-21
+  yearMonthDay: 'yyyy-MM-dd',
 };

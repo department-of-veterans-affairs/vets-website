@@ -51,7 +51,7 @@ describe('VAOS referral generator', () => {
       const referral = referralUtil.createReferralById('2024-10-30', '111')
         .attributes;
       expect(
-        referralUtil.getAddressString(referral.referringFacilityInfo.address),
+        referralUtil.getAddressString(referral.referringFacility.address),
       ).to.equal('222 Richmond Avenue, BATAVIA, 14020');
     });
   });

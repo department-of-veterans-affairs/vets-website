@@ -103,14 +103,14 @@ export const SpouseAdditionalEvidence = () => {
                   This must include the date (month, day, and year) and place
                   (city and state, county and state, or city and country) where
                   the marriage ceremony happened, and the person’s authority for
-                  conducting the ceremony
+                  conducting the ceremony.
                 </li>
               </>
             )}
             {isProxyMarriage && (
               <li>
                 Copies of all documents and certificates issued in connection
-                with your proxy marriage.
+                with your proxy marriage
               </li>
             )}
           </ul>
@@ -124,7 +124,7 @@ export const SpouseAdditionalEvidence = () => {
             <li>File types you can upload: JPEG, JPG, PNG or PDF</li>
             <li>
               You can upload multiple files, but they have to add up to 10 MB or
-              less.
+              less
             </li>
           </ul>
         </div>

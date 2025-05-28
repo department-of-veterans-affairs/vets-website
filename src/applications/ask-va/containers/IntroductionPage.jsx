@@ -133,7 +133,7 @@ const IntroductionPage = props => {
   const handleSearchInputChange = async e => {
     setHasError(false);
     setInquiryData(false);
-    const searchInputValue = e.target.value;
+    const searchInputValue = e.target.value.trim();
     setSearchReferenceNumber(searchInputValue);
   };
 

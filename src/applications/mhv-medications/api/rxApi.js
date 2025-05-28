@@ -110,3 +110,25 @@ export const incrementTooltipCounter = async tooltipId => {
     },
   );
 };
+
+/**
+ * Posts an activity log when user lands medications details page
+ */
+export const landMedicationDetailsAal = prescription => {
+  return apiRequest(`${apiBasePath}/aal`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      aal: {
+        activityType: 'View med detail page',
+        action: `RX #: ${prescription.prescriptionNumber} RX Name: ${
+          prescription.prescriptionName
+        }`,
+        performerType: 'Self',
+        status: '1',
+      },
+      product: 'rx',
+      oncePerSession: true,
+    }),
+  });
+};

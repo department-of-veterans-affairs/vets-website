@@ -119,13 +119,22 @@ const ensureExists = (content, selector = null) => {
   }
 };
 
+const clickTab = text => {
+  cy.get('.react-tabs__tab-list li', { includeShadowDom: true })
+    .contains(text)
+    .should('exist');
+  cy.get('.react-tabs__tab-list li', { includeShadowDom: true })
+    .contains(text)
+    .click({ force: true });
+};
+
 const clickLink = text => {
   cy.get('a', { includeShadowDom: true })
     .contains(text)
     .should('exist');
   cy.get('a', { includeShadowDom: true })
     .contains(text)
-    .click();
+    .click({ force: true });
 };
 
 const clickSearchButton = () => {
@@ -149,8 +158,22 @@ const clickRadioButtonYesNo = selector => {
   cy.get(newSelector).click();
 };
 
-const clickCallToActionButton = (isPrimary = true, text) => {
-  const selectorPrimary = isPrimary ? '-primary' : '';
+const clickCallToActionButton = (isPrimary = 'primary', text) => {
+  let selectorPrimary;
+  switch (isPrimary) {
+    case 'primary':
+      selectorPrimary = '-primary';
+      break;
+    case 'secondary':
+      selectorPrimary = '-secondary';
+      break;
+    case 'neither':
+      selectorPrimary = '';
+      break;
+    default:
+      selectorPrimary = '';
+      break;
+  }
   if (text) {
     cy.get(`.usa-button${selectorPrimary}`, { includeShadowDom: true })
       .contains(text)
@@ -176,9 +199,9 @@ const typeText = (selector, text) => {
     cy.get(newSelector, { includeShadowDom: true })
       .shadow()
       .find('input')
-      .type(text);
+      .type(text, { force: true });
   } else {
-    cy.get(newSelector, { includeShadowDom: true }).type(text);
+    cy.get(newSelector, { includeShadowDom: true }).type(text, { force: true });
   }
 };
 
@@ -186,7 +209,7 @@ const typeTextArea = (selector, text) => {
   const newSelector = mapSelectorShorthand(`TYPE_${selector}`) || selector;
 
   cy.get(newSelector, { includeShadowDom: true }).should('exist'); // TODO: verify this step works
-  cy.get(newSelector, { includeShadowDom: true }).type(text);
+  cy.get(newSelector, { includeShadowDom: true }).type(text, { force: true });
   // cy.get(selector).type(text);
 };
 
@@ -207,7 +230,7 @@ const selectOption = (selector, value) => {
   cy.get(newSelector, { includeShadowDom: true })
     .shadow()
     .find(shadowSelector)
-    .select(value);
+    .select(value, { force: true });
   cy.get(newSelector, { includeShadowDom: true })
     .shadow()
     .find(`${shadowSelector} option:selected`)
@@ -215,6 +238,8 @@ const selectOption = (selector, value) => {
 };
 
 export default class STEPS {
+  static clickTab = clickTab;
+
   static clickLink = clickLink;
 
   static clickRadioButton = clickRadioButton;
