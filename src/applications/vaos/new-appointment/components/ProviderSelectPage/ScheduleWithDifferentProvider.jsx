@@ -1,23 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getFacilityPhone } from '../../../services/location';
 import FacilityPhone from '../../../components/FacilityPhone';
-import {
-  startRequestAppointmentFlow,
-  routeToNextAppointmentPage,
-} from '../../redux/actions';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
+import { startRequestAppointmentFlow } from '../../redux/actions';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 
-const pageKey = 'selectProvider';
-
-function handleClick(history, dispatch) {
+function handleClick(history, dispatch, requestDateTime) {
   return () => {
     dispatch(startRequestAppointmentFlow());
-    dispatch(routeToNextAppointmentPage(history, pageKey));
+    history.push(requestDateTime.url);
   };
 }
+
+// const pageKey = 'selectProvider';
+// // function handleClick(history, dispatch, requestDateTime, selectProvider) {
+// function handleClick(history, dispatch, requestDateTime) {
+//   return e => {
+//     // Stop default behavior for anchor tag since we are using React routing.
+//     e.preventDefault();
+
+//     dispatch(routeToNextAppointmentPage(history, pageKey));
+//     // history.push(selectProvider.url);
+//     history.push(requestDateTime.url);
+//   };
+// }
 
 export default function ScheduleWithDifferentProvider({
   eligibility,
@@ -25,6 +34,7 @@ export default function ScheduleWithDifferentProvider({
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { requestDateTime } = useSelector(getNewAppointmentFlow);
   const facilityPhone = getFacilityPhone(selectedFacility);
   const overRequestLimit =
     eligibility.requestReasons[0] === ELIGIBILITY_REASONS.overRequestLimit;
@@ -67,7 +77,8 @@ export default function ScheduleWithDifferentProvider({
       <va-link
         active
         text="Request an appointment"
-        onClick={handleClick(history, dispatch)}
+        // href={`${root.url}/${requestDateTime.url}`}
+        onClick={handleClick(history, dispatch, requestDateTime)}
       />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
     </>
