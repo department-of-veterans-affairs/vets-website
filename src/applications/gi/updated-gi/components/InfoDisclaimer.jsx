@@ -38,7 +38,7 @@ const InfoDisclaimer = () => {
             href="https://www.va.gov/ogc/apps/accreditation/index.asp"
             id="disclaimer-link-vso"
           >
-            Veterans Service Organization (VSO), or a VA-accredited attorney or
+            Veterans Service Organization (VSO) or a VA-accredited attorney or
             agent.
           </a>
         </p>
