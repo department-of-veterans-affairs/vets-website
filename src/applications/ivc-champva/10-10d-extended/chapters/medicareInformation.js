@@ -234,6 +234,10 @@ const {
   backProperty: 'medicarePartAPartBBackCard',
   frontImageSrc: medicarePartAPartBFrontImage,
   backImageSrc: medicarePartAPartBBackImage,
+  frontAltText:
+    'Red, white, and blue Medicare card. It states "Medicare Health Insurance" and lists the Medicare number and coverage dates for Part A hospital and Part B medical coverage.',
+  backAltText:
+    'Back of a red, white, and blue Medicare card. Includes card usage instructions and the Medicare phone number and website.',
   cardTitle: 'Sample of Original Medicare card',
   frontLabel: 'Upload front of original Medicare card',
   backLabel: 'Upload back of original Medicare card',

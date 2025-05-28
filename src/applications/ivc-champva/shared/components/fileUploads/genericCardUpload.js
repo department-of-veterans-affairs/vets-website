@@ -26,6 +26,8 @@ export const createCardUploadSchema = ({
   backProperty,
   frontImageSrc,
   backImageSrc,
+  frontAltText,
+  backAltText,
   cardTitle = 'Sample card',
   frontLabel = 'Upload front of card',
   backLabel = 'Upload back of card',
@@ -47,7 +49,7 @@ export const createCardUploadSchema = ({
           <p key="front-label">Front of card</p>
           <img
             key="front-image"
-            alt={`Sample ${cardTitle} front`}
+            alt={frontAltText ?? `Sample ${cardTitle} front`}
             className="vads-u-border--2px vads-u-border-color--gray-light vads-u-margin-bottom--2 radius-sm"
             src={frontImageSrc}
             width="300"
@@ -57,7 +59,7 @@ export const createCardUploadSchema = ({
           <p key="back-label">Back of card</p>
           <img
             key="back-image"
-            alt={`Sample ${cardTitle} back`}
+            alt={backAltText ?? `Sample ${cardTitle} back`}
             className="vads-u-border--2px vads-u-border-color--gray-light radius-sm"
             src={backImageSrc}
             width="300"
