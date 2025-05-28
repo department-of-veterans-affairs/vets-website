@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { cloneDeep } from 'lodash';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
@@ -57,18 +57,13 @@ export const SIGNATURE_CERTIFICATION_STATEMENTS = {
   ],
 };
 
-const PreSubmitCheckboxGroup = props => {
-  const {
-    onSectionComplete,
-    formData,
-    showError,
-    submission,
-    setFormData,
-  } = props;
+const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
+  const submission = useSelector(state => state.form.submission);
+  const dispatch = useDispatch();
+
   const hasPrimary = hasPrimaryCaregiver(formData);
   const hasSecondaryOne = hasSecondaryCaregiverOne(formData);
   const hasSecondaryTwo = hasSecondaryCaregiverTwo(formData);
-  const hasSubmittedForm = !!submission.status;
   const showRepresentativeSignatureBox =
     formData.signAsRepresentativeYesNo === 'yes';
   const defaultSignatureKey = [
@@ -91,34 +86,6 @@ const PreSubmitCheckboxGroup = props => {
       !checkbox.shadowRoot?.querySelector('#checkbox-element')?.checked,
   )?.length;
 
-  const transformSignatures = signature => {
-    const keys = Object.keys(signature);
-
-    // takes in labels and renames to what schema expects
-    const getKeyName = key => {
-      const keyMap = {
-        [content['vet-input-label']]: 'veteran',
-        [content['representative-signature-label']]: 'veteran',
-        [content['primary-signature-label']]: 'primary',
-        [content['secondary-one-signature-label']]: 'secondaryOne',
-        [content['secondary-two-signature-label']]: 'secondaryTwo',
-      };
-      return keyMap[key];
-    };
-
-    // iterates through all keys and normalizes them using getKeyName
-    const renameObjectKeys = (keysMap, obj) =>
-      Object.keys(obj).reduce((acc, key) => {
-        const cleanKey = `${getKeyName(key)}Signature`;
-        return {
-          ...acc,
-          ...{ [keysMap[cleanKey] || cleanKey]: obj[key] },
-        };
-      }, {});
-
-    return renameObjectKeys(keys, signatures);
-  };
-
   const removePartyIfFalsy = (predicate, label) => {
     if (!predicate) {
       setSignatures(prevState => {
@@ -132,15 +99,34 @@ const PreSubmitCheckboxGroup = props => {
   useEffect(
     () => {
       // do not clear signatures once form has been submitted
-      if (hasSubmittedForm) return;
+      if (submission.status) return;
 
-      setFormData({
-        ...formData,
-        ...transformSignatures(signatures),
-      });
+      // transform signature values into form data
+      const keyMap = {
+        [content['vet-input-label']]: 'veteran',
+        [content['representative-signature-label']]: 'veteran',
+        [content['primary-signature-label']]: 'primary',
+        [content['secondary-one-signature-label']]: 'secondaryOne',
+        [content['secondary-two-signature-label']]: 'secondaryTwo',
+      };
+
+      const transformedSignatures = Object.keys(signatures).reduce(
+        (acc, key) => {
+          const cleanKey = `${keyMap[key]}Signature`;
+          acc[cleanKey] = signatures[key];
+          return acc;
+        },
+        {},
+      );
+
+      dispatch(
+        setData({
+          ...formData,
+          ...transformedSignatures,
+        }),
+      );
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setFormData, signatures],
+    [dispatch, formData, signatures, submission.status],
   );
 
   // when no empty signature inputs or unchecked signature checkboxes exist set AGREED (onSectionComplete) to true
@@ -307,30 +293,11 @@ const PreSubmitCheckboxGroup = props => {
 
 PreSubmitCheckboxGroup.propTypes = {
   formData: PropTypes.object.isRequired,
-  setFormData: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   onSectionComplete: PropTypes.func.isRequired,
-  submission: PropTypes.shape({
-    hasAttemptedSubmit: PropTypes.bool,
-    errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  }),
-};
-
-const mapStateToProps = state => {
-  return {
-    submission: state.form.submission,
-  };
-};
-
-const mapDispatchToProps = {
-  setFormData: setData,
 };
 
 export default {
   required: true,
-  CustomComponent: connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(PreSubmitCheckboxGroup),
+  CustomComponent: PreSubmitCheckboxGroup,
 };
