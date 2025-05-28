@@ -5,6 +5,14 @@ import {
   getDeleteTitle,
   getDeleteYes,
   getDeleteDescription,
+  getCancelAddDescription,
+  getCancelEditDescription,
+  getCancelEditTitle,
+  getCancelAddTitle,
+  getCancelAddYes,
+  getCancelAddNo,
+  getCancelEditYes,
+  getCancelEditNo,
 } from '../../../utils/helpers/emergencyContactUtils';
 import content from '../../../locales/en/content.json';
 import {
@@ -34,6 +42,14 @@ const arrayBuilderOptions = {
     deleteTitle: getDeleteTitle,
     deleteYes: getDeleteYes,
     deleteDescription: getDeleteDescription,
+    cancelAddDescription: getCancelAddDescription,
+    cancelEditDescription: getCancelEditDescription,
+    cancelEditTitle: getCancelEditTitle,
+    cancelAddTitle: getCancelAddTitle,
+    cancelAddYes: getCancelAddYes,
+    cancelAddNo: getCancelAddNo,
+    cancelEditYes: getCancelEditYes,
+    cancelEditNo: getCancelEditNo,
   },
   hideMaxItemsAlert: true,
 };
