@@ -96,7 +96,7 @@ const responses = {
         },
       },
     };
-    return res.json(data);
+    delaySingleResponse(() => res.json(data), 3000);
   },
   'GET /my_health/v1/prescriptions/:id': (req, res) => {
     const { id } = req.params;
