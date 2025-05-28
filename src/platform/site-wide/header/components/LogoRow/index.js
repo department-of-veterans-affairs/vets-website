@@ -101,4 +101,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateExpandedMenuIDAction(expandedMenuID)),
 });
 
-export default connect(null, mapDispatchToProps)(LogoRow);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(LogoRow);

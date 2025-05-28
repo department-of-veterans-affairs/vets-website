@@ -98,13 +98,23 @@ export const App = ({
       const newHeaderState = determineHeaderState(
         show,
         showMinimalHeader,
-        newHeaderState,
+        path,
         isDesktop,
       );
-      setHeaderState(newHeaderState);
-      dispatch(updateLayoutHeaderType(newHeaderState));
-    }
-  }, [show, showMinimalHeader, path, isDesktop, dispatch, headerState]);
+
+      if (headerState !== newHeaderState) {
+        setStaticHeaderDisplay(
+          show,
+          showMinimalHeader,
+          newHeaderState,
+          isDesktop,
+        );
+        setHeaderState(newHeaderState);
+        dispatch(updateLayoutHeaderType(newHeaderState));
+      }
+    },
+    [show, showMinimalHeader, path, isDesktop, dispatch, headerState],
+  );
 
   if (!show || headerState !== 'mobile') {
     return null;

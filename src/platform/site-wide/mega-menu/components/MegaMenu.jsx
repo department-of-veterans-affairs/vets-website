@@ -190,30 +190,33 @@ export default class MegaMenu extends React.Component {
                     }`}
                     hidden={currentDropdown !== item.title}
                   >
-                    {item.title === currentDropdown && item.menuSections && (
-                      <ul aria-label={item.title}>
-                        {Array.isArray(item.menuSections)
-                          ? item.menuSections.map((section, j) => (
-                              <MenuSection
-                                key={`${section}-${j}`}
-                                title={section.title}
-                                currentSection={currentSection}
-                                updateCurrentSection={() =>
-                                  this.updateCurrentSection(section.title)
-                                }
-                                href={section.href}
-                                links={section.links}
-                                linkClicked={linkClicked}
-                                mobileMediaQuery={this.mobileMediaQuery}
-                                smallDesktopMediaQuery={
-                                  this.smallDesktopMediaQuery
-                                }
-                                columnThreeLinkClicked={columnThreeLinkClicked}
-                              />
-                            ))
-                          : this.getSubmenu(item, currentSection)}
-                      </ul>
-                    )}
+                    {item.title === currentDropdown &&
+                      item.menuSections && (
+                        <ul aria-label={item.title}>
+                          {Array.isArray(item.menuSections)
+                            ? item.menuSections.map((section, j) => (
+                                <MenuSection
+                                  key={`${section}-${j}`}
+                                  title={section.title}
+                                  currentSection={currentSection}
+                                  updateCurrentSection={() =>
+                                    this.updateCurrentSection(section.title)
+                                  }
+                                  href={section.href}
+                                  links={section.links}
+                                  linkClicked={linkClicked}
+                                  mobileMediaQuery={this.mobileMediaQuery}
+                                  smallDesktopMediaQuery={
+                                    this.smallDesktopMediaQuery
+                                  }
+                                  columnThreeLinkClicked={
+                                    columnThreeLinkClicked
+                                  }
+                                />
+                              ))
+                            : this.getSubmenu(item, currentSection)}
+                        </ul>
+                      )}
                   </div>
                 </li>
               ))}
@@ -238,39 +241,39 @@ MegaMenu.propTypes = {
     }),
   ).isRequired,
   /**
-   * Function to update if the MegaMenu is displayed or not
+   * Function to update currentSection in state
    */
-  toggleDisplayHidden: PropTypes.func.isRequired,
+  updateCurrentSection: PropTypes.func.isRequired,
   /**
    * Function to update currentDropdown in state
    */
   toggleDropDown: PropTypes.func.isRequired,
   /**
-   * Function to update currentSection in state
+   * Function to update if the MegaMenu is displayed or not
    */
-  updateCurrentSection: PropTypes.func.isRequired,
-  /**
-   * Optional function to intercept links clicked at column three
-   */
-  columnThreeLinkClicked: PropTypes.func,
+  toggleDisplayHidden: PropTypes.func.isRequired,
   /**
    * String value of current dropdown
    */
   currentDropdown: PropTypes.string,
-
   /**
    * String value of current dropdown section
    */
   currentSection: PropTypes.string,
 
-  display: PropTypes.shape({
-    hidden: PropTypes.bool,
-  }),
-
   /**
    * Optional function to intercept links clicked
    */
   linkClicked: PropTypes.func,
+
+  /**
+   * Optional function to intercept links clicked at column three
+   */
+  columnThreeLinkClicked: PropTypes.func,
+
+  display: PropTypes.shape({
+    hidden: PropTypes.bool,
+  }),
 };
 
 MegaMenu.defaultProps = {

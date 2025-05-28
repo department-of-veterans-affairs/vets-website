@@ -11,9 +11,6 @@ import { AnnouncementBehavior } from '../constants';
 
 export class Announcement extends Component {
   static propTypes = {
-    // From mapDispatchToProps.
-    dismissAnnouncement: PropTypes.func.isRequired,
-    initDismissedAnnouncements: PropTypes.func.isRequired,
     // From mapStateToProps.
     announcement: PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -24,6 +21,9 @@ export class Announcement extends Component {
     dismissed: PropTypes.array,
     isLoggedIn: PropTypes.bool,
     profile: PropTypes.object,
+    // From mapDispatchToProps.
+    dismissAnnouncement: PropTypes.func.isRequired,
+    initDismissedAnnouncements: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -100,4 +100,7 @@ const mapDispatchToProps = {
   initDismissedAnnouncements,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Announcement);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Announcement);

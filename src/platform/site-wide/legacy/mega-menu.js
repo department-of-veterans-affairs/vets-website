@@ -88,16 +88,14 @@ class MegaMenu {
   exitSmallMegaMenu(e) {
     if (
       e.target === this.firstTabbableMenuElement &&
-      !isWideScreen() &&
-      isReverseTab(e)
+      (!isWideScreen() && isReverseTab(e))
     ) {
       e.preventDefault();
       this.closeControl.focus();
     }
     if (
       e.target === this.lastTabbableMenuElement &&
-      !isWideScreen() &&
-      isTab(e)
+      (!isWideScreen() && isTab(e))
     ) {
       this.lastTabbableElement.focus();
     }

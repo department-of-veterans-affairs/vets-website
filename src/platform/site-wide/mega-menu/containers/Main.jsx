@@ -32,8 +32,9 @@ export function flagCurrentPageInTopLevelLinks(
   pathname = window.location.pathname,
 ) {
   const currentPath = pathname.endsWith('/') ? pathname : `${pathname}/`;
-  return links.map(link =>
-    currentPath.startsWith(link.href) ? { ...link, currentPage: true } : link,
+  return links.map(
+    link =>
+      currentPath.startsWith(link.href) ? { ...link, currentPage: true } : link,
   );
 }
 
@@ -216,4 +217,7 @@ const mapDispatchToProps = {
   updateCurrentSection,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);
