@@ -9,7 +9,14 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   arrayBuilderItemSubsequentPageTitleUI,
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import medicarePartAPartBFrontImage from '../assets/images/medicare_pt_a_pt_b_front.png';
+import medicarePartAPartBBackImage from '../assets/images/medicare_pt_a_pt_b_back.png';
+import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
+import { createCardUploadSchema } from '../../shared/components/fileUploads/genericCardUpload';
 import {
   toHash,
   applicantWording,
@@ -157,10 +164,93 @@ const medicarePlanUnder65 = {
   },
 };
 
-// PAGES NEEDED:
+// Medicare effective dates page definition
+const medicareEffectiveDatesPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(formData)} Medicare effective dates`,
+    ),
+    'view:partATitle': {
+      'ui:description': <h3>Medicare Part A</h3>,
+    },
+    medicarePartAEffectiveDate: currentOrPastDateUI({
+      title: 'Effective date',
+      hint:
+        'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+      required: () => true,
+    }),
+    'view:partBTitle': {
+      'ui:description': <h3>Medicare Part A</h3>,
+    },
+    medicarePartBEffectiveDate: currentOrPastDateUI({
+      title: 'Effective date',
+      hint:
+        'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+      required: () => true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      titleSchema,
+      'view:partATitle': blankSchema,
+      medicarePartAEffectiveDate: currentOrPastDateSchema,
+      'view:partBTitle': blankSchema,
+      medicarePartBEffectiveDate: currentOrPastDateSchema,
+    },
+  },
+};
+
 // IF USER SPECIFIES ONLY A/B:
-//   - medicare parts a/b effective dates
-//   - medicare parts a/b card upload
+// Create custom description component for Medicare card
+const medicarePartAPartBDescription = (
+  <div>
+    <p>
+      You’ll need to submit a copy of your Original Medicare Health Card,
+      sometimes referred to as the "red, white, and blue" Medicare card.
+    </p>
+    <p>This card shows:</p>
+    <ul>
+      <li>
+        You have Medicare Part A (listed as HOSPITAL), <strong>and</strong>
+      </li>
+      <li>
+        You have Medicare Part B (listed as MEDICAL), <strong>and</strong>
+      </li>
+      <li>The date your coverage begins</li>
+    </ul>
+  </div>
+);
+
+// Use the generic card upload schema
+const {
+  uiSchema: medicareCardUiSchema,
+  schema: medicareCardSchema,
+} = createCardUploadSchema({
+  customDescription: medicarePartAPartBDescription,
+  blurbBeforeImages: false, // Keep fileUploadBlurb in the same position
+  frontProperty: 'medicarePartAPartBFrontCard',
+  backProperty: 'medicarePartAPartBBackCard',
+  frontImageSrc: medicarePartAPartBFrontImage,
+  backImageSrc: medicarePartAPartBBackImage,
+  cardTitle: 'Sample of Original Medicare card',
+  frontLabel: 'Upload front of original Medicare card',
+  backLabel: 'Upload back of original Medicare card',
+});
+
+// Define the Medicare A/B card upload page using the generic schema
+const medicareABCardUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload Medicare card for hospital and medical coverage',
+    ),
+    ...medicareCardUiSchema,
+  },
+  schema: medicareCardSchema,
+};
+
+// PAGES NEEDED:
 // IF USER SPECIFIES ONLY A:
 //   - medicare parts a effective date
 //   - medicare parts a card upload
@@ -241,6 +331,26 @@ export const medicarePages = arrayBuilderPages(
         return age < 65;
       },
       ...medicarePlanUnder65,
+    }),
+    medicareEffectiveDates: pageBuilder.itemPage({
+      path: 'medicare-effective-dates/:index',
+      title: 'Medicare effective dates',
+      depends: (formData, index) => {
+        // TODO: use `get()`?
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType && ['ab'].includes(planType);
+      },
+      ...medicareEffectiveDatesPage,
+    }),
+    medicareABCardUpload: pageBuilder.itemPage({
+      path: 'medicare-ab-card-upload/:index',
+      title: 'Upload Medicare card (A/B)',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType && ['ab'].includes(planType);
+      },
+      CustomPage: FileFieldCustom,
+      ...medicareABCardUploadPage,
     }),
   }),
 );
