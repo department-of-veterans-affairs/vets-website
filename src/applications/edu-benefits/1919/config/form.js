@@ -25,7 +25,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
 import directDeposit from '../pages/directDeposit';
-import serviceHistory from '../pages/serviceHistory';
+import proprietaryProfit from '../pages/proprietaryProfit';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -63,7 +63,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-  title: 'Complex Form',
+  title: 'Conflicting interests certification for proprietary schools',
+  subTitle: 'VA Form 22-1919',
   defaultDefinitions: {
     fullName,
     ssn,
@@ -93,14 +94,14 @@ const formConfig = {
         },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Service History',
+    proprietaryProfitChapter: {
+      title: 'Proprietary profit schools only',
       pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
+        proprietaryProfit: {
+          path: 'proprietary-profit',
+          title: "Confirm your institution's classification",
+          uiSchema: proprietaryProfit.uiSchema,
+          schema: proprietaryProfit.schema,
         },
       },
     },
