@@ -164,6 +164,13 @@ const responses = {
     // );
   },
 
+  'PUT /v0/in_progress_forms/28-1900': (_req, res) => {
+    res.status(200);
+  },
+  'POST /v0/veteran_readiness_employment_claims': (_req, res) => {
+    res.status(200);
+  },
+
   'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
     // return res.status(500).json(genericErrors.error500);
 

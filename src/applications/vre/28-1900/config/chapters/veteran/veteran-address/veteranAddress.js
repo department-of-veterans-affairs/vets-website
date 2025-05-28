@@ -3,6 +3,7 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
 
 import { VeteranAddressDescription } from '../../../../components/VeteranAddressDescription';
+import { CutoverAlert } from '../../../../components/CutoverAlert';
 
 const { veteranAddress, mainPhone, cellPhone, email } = fullSchema.properties;
 
@@ -12,6 +13,10 @@ const checkboxTitle =
 export const schema = {
   type: 'object',
   properties: {
+    'view:cutoverAlert': {
+      type: 'object',
+      properties: {},
+    },
     'view:addressDescription': {
       type: 'object',
       properties: {},
@@ -28,6 +33,9 @@ export const schema = {
 };
 
 export const uiSchema = {
+  'view:cutoverAlert': {
+    'ui:description': CutoverAlert,
+  },
   'view:addressDescription': {
     'ui:description': VeteranAddressDescription,
   },
