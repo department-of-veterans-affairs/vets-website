@@ -355,12 +355,10 @@ class MedicationsRefillPage {
     );
   };
 
-  verifyFailedRequestMessageAlertOnRefillPage = () => {
-    cy.get('[data-testid="failed-message-title"]').should('exist');
-    cy.get('[data-testid="failed-message-title"]').should(
-      'contain',
-      'Request not submitted',
-    );
+  verifyFailedRequestMessageAlertOnRefillPage = text => {
+    cy.get('[data-testid="error-refill"]', { includeShadowDom: true })
+      .should('be.visible')
+      .and('have.text', text);
   };
 
   verifyNetworkResponseForFailedRefillRequest = failedId => {
