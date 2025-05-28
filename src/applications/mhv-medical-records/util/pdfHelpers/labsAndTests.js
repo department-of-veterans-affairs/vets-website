@@ -1,6 +1,6 @@
 export const generateLabsIntro = record => {
   return {
-    title: `Lab and test results: ${record.name}`,
+    title: `${record.name}`,
     subject: 'VA Medical Record',
     subtitles: [
       'If you have questions about these results, send a secure message to your care team.',
