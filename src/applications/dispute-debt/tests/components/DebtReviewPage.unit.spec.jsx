@@ -153,9 +153,7 @@ describe('DebtReviewPage Component', () => {
 
     expect(container.textContent).to.include('Reason for dispute');
     expect(container.textContent).to.include('Test dispute reason');
-    expect(container.textContent).to.not.include(
-      "Why you're disputing this debt",
-    );
+    expect(container.textContent).to.not.include('disputing this debt');
     expect(container.textContent).to.not.include('Test support statement');
   });
 
@@ -178,7 +176,7 @@ describe('DebtReviewPage Component', () => {
 
     const { container } = render(<DebtReviewPage {...props} />);
 
-    expect(container.textContent).to.include("Why you're disputing this debt");
+    expect(container.textContent).to.include('disputing this debt');
     expect(container.textContent).to.include('Test support statement');
     expect(container.textContent).to.not.include('Reason for dispute');
     expect(container.textContent).to.not.include('Test dispute reason');
