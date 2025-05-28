@@ -8,6 +8,11 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { scrollToFirstError, scrollTo } from 'platform/utilities/ui';
 import { form0781HeadingTag, titleWithTag } from '../form0781';
+/**
+ * TODO: tech-debt(import/no-cycle): Fix upstream import cycle
+ * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110538
+ */
+// eslint-disable-next-line import/no-cycle
 import { checkValidations } from '../../utils/submit';
 
 export const workflowChoicePageTitle =
@@ -269,15 +274,13 @@ const confirmationCompleteOnline = {
 const modalDescriptionUpload = (
   <>
     <p>
-      <strong>What to know:</strong> If you choose to upload a PDF statement,
-      we’ll delete this information from your claim:
+      If you choose to upload a PDF statement, we’ll delete this information
+      from your claim:
     </p>
     <p>
       <ul>
         {sectionsOfMentalHealthStatement.map((section, i) => (
-          <li key={i}>
-            <b>{section}</b>
-          </li>
+          <li key={i}>{section}</li>
         ))}
       </ul>
     </p>
@@ -415,6 +418,12 @@ const WorkflowChoicePage = props => {
         goForward(data);
       }
     },
+
+    /**
+     * TODO: tech-debt(react-hooks/exhaustive-deps): Validate this rule exception is needed and why
+     * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110539
+     */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [data?.mentalHealthWorkflowChoice, shouldGoForward],
   );
 
@@ -656,13 +665,11 @@ const WorkflowChoicePage = props => {
         </VaModal>
       </fieldset>
       {onReviewPage ? (
-        <button
-          className="usa-button-primary"
-          type="button"
+        <va-button
+          class="usa-button-primary"
+          text="Update page"
           onClick={event => handlers.onUpdatePage(event)}
-        >
-          Update page
-        </button>
+        />
       ) : (
         <>
           {contentBeforeButtons}
