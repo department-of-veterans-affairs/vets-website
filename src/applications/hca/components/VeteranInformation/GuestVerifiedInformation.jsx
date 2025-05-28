@@ -26,18 +26,21 @@ const GuestVerifiedInformation = ({ user }) => {
     <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
       <p>Confirm your information before you continue.</p>
       <va-card data-testid="hca-guest-card">
+        <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
+          Personal Information
+        </h4>
         <ul className="hca-list-style-none">
-          <li>
-            <span className="vads-u-visibility--screen-reader">Full name:</span>{' '}
+          <li className="vads-u-margin-y--1">
+            <span className="vads-u-font-weight--bold">Full name:</span>{' '}
             <span
-              className="vads-u-font-weight--bold vads-u-margin-bottom--1 dd-privacy-mask"
+              className="dd-privacy-mask"
               data-dd-action-name="Veteran name"
             >
               {veteranName}
             </span>
           </li>
-          <li className="vads-u-margin--0">
-            <span>Date of birth:</span>{' '}
+          <li className="vads-u-margin-y--1">
+            <span className="vads-u-font-weight--bold">Date of birth:</span>{' '}
             <span
               className="dd-privacy-mask"
               data-dd-action-name="Date of birth"
@@ -45,8 +48,10 @@ const GuestVerifiedInformation = ({ user }) => {
               {veteranDOB}
             </span>
           </li>
-          <li>
-            <span>Social Security number:</span>{' '}
+          <li className="vads-u-margin-top--1">
+            <span className="vads-u-font-weight--bold">
+              Social Security number:
+            </span>{' '}
             <span
               className="dd-privacy-mask"
               data-dd-action-name="Social Security number"
