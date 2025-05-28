@@ -4,6 +4,7 @@ import {
   VreCommunicationInformation,
   validateAtLeastOneSelected,
 } from './helpers';
+import { CutoverAlert } from '../../../components/CutoverAlert';
 
 const titleClasses = 'vads-u-display--inline-block vads-u-margin--0';
 
@@ -17,6 +18,10 @@ export const schema = {
   type: 'object',
   required: ['useEva', 'useTelecounseling'],
   properties: {
+    'view:cutoverAlert': {
+      type: 'object',
+      properties: {},
+    },
     'view:VreCommunicationInformation': {
       type: 'object',
       properties: {},
@@ -28,6 +33,9 @@ export const schema = {
 };
 
 export const uiSchema = {
+  'view:cutoverAlert': {
+    'ui:description': CutoverAlert,
+  },
   'view:VreCommunicationInformation': {
     'ui:options': { showFieldLabel: false },
     'ui:description': VreCommunicationInformation,
