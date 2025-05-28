@@ -56,7 +56,7 @@ describe('TG PLAIN NAMES', () => {
   );
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages(updatedThreadResponse);
     FolderLoadPage.loadFolders();
     PatientMessageSentPage.loadMessages(updatedThreadResponse);
   });
