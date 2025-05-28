@@ -1,7 +1,6 @@
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
-import { CutoverAlert } from '../../../components/CutoverAlert';
 
 const { newAddress, isMoving, yearsOfEducation } = fullSchema.properties;
 
@@ -17,10 +16,6 @@ const newAddressUi = addressUiSchema(
 export const schema = {
   type: 'object',
   properties: {
-    'view:cutoverAlert': {
-      type: 'object',
-      properties: {},
-    },
     yearsOfEducation,
     isMoving,
     newAddress,
@@ -28,9 +23,6 @@ export const schema = {
 };
 
 export const uiSchema = {
-  'view:cutoverAlert': {
-    'ui:description': CutoverAlert,
-  },
   'ui:title': 'Additional Information',
   yearsOfEducation: {
     'ui:title': 'What’s your highest level of education?',

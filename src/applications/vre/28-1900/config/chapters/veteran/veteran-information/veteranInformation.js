@@ -1,24 +1,16 @@
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import { CutoverAlert } from '../../../../components/CutoverAlert';
 
 const { veteranInformation } = fullSchema.properties;
 
 export const schema = {
   type: 'object',
   properties: {
-    'view:cutoverAlert': {
-      type: 'object',
-      properties: {},
-    },
     veteranInformation,
   },
 };
 
 export const uiSchema = {
-  'view:cutoverAlert': {
-    'ui:description': CutoverAlert,
-  },
   veteranInformation: {
     'ui:title': 'Veteran Information',
     fullName: {
