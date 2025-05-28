@@ -1,42 +1,17 @@
 /* eslint-disable react/sort-prop-types */
-import React from 'react';
 import PropTypes from 'prop-types';
-import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import React from 'react';
+// import { toHash } from 'platform/forms-system/src/js/utilities/stringHelpers';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import {
-  titleUI,
-  titleSchema,
-  radioUI,
-  radioSchema,
   arrayBuilderItemSubsequentPageTitleUI,
+  radioSchema,
+  radioUI,
+  titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { toHash, nameWording } from '../../shared/utilities';
-
-// This is the original schema that will be dynamically overrulled as soon
-// as the user lands on this page. We need this since we won't have the
-// applicants array at initial form load.
-export const selectMedicareParticipantPage = {
-  uiSchema: {
-    ...titleUI('Applicant Medicare plans'),
-    medicareParticipant: radioUI({
-      title: 'Which applicant would you like to add Medicare insurance for?',
-      hint:
-        'If you have more applicants with Medicare plans you can add them later in this form.',
-      required: () => true,
-      labels: {
-        na: 'NA',
-      },
-    }),
-  },
-  schema: {
-    type: 'object',
-    required: [],
-    properties: {
-      titleSchema,
-      medicareParticipant: radioSchema(['na']),
-    },
-  },
-};
+// import { nameWording } from '../helpers';
+import { nameWording, toHash } from '../../shared/utilities';
 
 /**
  * Gets applicants eligible for Medicare selection
@@ -84,66 +59,65 @@ function createApplicantLabels(applicants) {
   return Object.assign({}, ...labelObjects);
 }
 
-/**
- * Creates UI schema for the form
- * @param {string} title Form title
- * @param {Object} labels Label objects for radio buttons
- * @returns {Object} UI schema
- */
-function createParticipantUiSchema(title, labels) {
-  return {
+// This is the original schema that will be dynamically overridden as soon
+// as the user lands on this page. We need this since we won't have the
+// applicants array at initial form load.
+export const selectMedicareParticipantPage = {
+  uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Applicant Medicare plans'),
-    medicareParticipant: radioUI({
-      title,
-      hint:
-        'If you have more applicants with Medicare plans you can add them later in this form.',
-      required: () => true,
-      labels,
-    }),
-  };
-}
+    medicareParticipant: {
+      ...radioUI({
+        title: 'Which applicant would you like to add Medicare insurance for?',
+        hint:
+          'If you have more applicants with Medicare plans you can add them later in this form.',
+        required: () => true,
+        labels: {
+          na: 'NA',
+        },
+      }),
+      'ui:options': {
+        updateSchema: (
+          formData,
+          schema,
+          uiSchema,
+          index,
+          path,
+          formContext,
+        ) => {
+          // Get data from formContext on the review page, or formData when on the edit page
+          const fullData = formContext?.reviewMode
+            ? formData
+            : formContext || formData;
+          const pagePerItemIndex = index;
 
-/**
- * Creates JSON schema for the form
- * @param {Object} labels Label objects for radio buttons
- * @returns {Object} JSON schema
- */
-function createParticipantSchema(labels) {
-  return {
+          // Get eligible applicants and their labels
+          const eligibleApplicants = getEligibleApplicants(
+            fullData,
+            pagePerItemIndex,
+          );
+          const labels = createApplicantLabels(eligibleApplicants);
+
+          // Return updated schema with correct enum values
+          return {
+            enum: Object.keys(labels).length > 0 ? Object.keys(labels) : ['na'],
+            enumNames:
+              Object.keys(labels).length > 0
+                ? Object.values(labels)
+                : ['No eligible applicants'],
+          };
+        },
+      },
+    },
+  },
+  schema: {
     type: 'object',
     required: ['medicareParticipant'],
     properties: {
       titleSchema,
-      medicareParticipant: radioSchema(Object.keys(labels)),
+      medicareParticipant: radioSchema(['na']),
     },
-  };
-}
-
-/**
- * This function creates a radio schema/uiSchema that includes
- * dynamic labels/values based on the applicants array available
- * in the form data. It allows us to have a radio
- * button for each applicant outside the list loop and to dynamically
- * update the available buttons if applicant data changes.
- * @param {Object} data Full form data
- * @param {Object} item Current list item data
- * @param {number} idx Current index in the medicare array
- * @returns {Object} Object containing a radio uiSchema and schema
- */
-function dynamicParticipantSchema(data, item, idx) {
-  // Get eligible applicants (those not already selected for Medicare)
-  const eligibleApplicants = getEligibleApplicants(data, idx);
-
-  // Create labels for radio buttons
-  const labels = createApplicantLabels(eligibleApplicants);
-
-  const title = 'Which applicant would you like to add Medicare insurance for?';
-
-  return {
-    uiSchema: createParticipantUiSchema(title, labels),
-    schema: createParticipantSchema(labels),
-  };
-}
+  },
+};
 
 export function selectMedicareParticipantOnGoForward(props) {
   const medicareWithApplicants = props?.fullData?.medicare.map(med => {
@@ -160,28 +134,25 @@ export function selectMedicareParticipantOnGoForward(props) {
 
 /** @type {CustomPageType} */
 export function SelectMedicareParticipantPage(props) {
-  const sch = dynamicParticipantSchema(
-    props?.fullData,
-    props?.data,
-    props?.pagePerItemIndex,
-  );
-
   return (
     <SchemaForm
       name={props.name}
       title={props.title}
       data={props.data}
       appStateData={props.appStateData}
-      schema={sch.schema} // dynamically computed checkbox schema
-      uiSchema={sch.uiSchema} // dynamically computed checkbox schema
+      schema={props.schema}
+      uiSchema={props.uiSchema}
       pagePerItemIndex={props.pagePerItemIndex}
-      formContext={props.formContext}
+      formContext={{
+        ...props.formContext,
+        ...props.fullData,
+        pagePerItemIndex: props.pagePerItemIndex,
+      }}
       trackingPrefix={props.trackingPrefix}
       onChange={props.onChange}
       onSubmit={props.onSubmit}
     >
       <>
-        {/* contentBeforeButtons = save-in-progress links */}
         {props.contentBeforeButtons}
         <FormNavButtons
           goBack={props.goBack}
