@@ -9,6 +9,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
+import VeteranBenefitSummaryOptions from './VeteranBenefitSummaryOptions';
 
 import {
   letterContent,
@@ -67,7 +68,17 @@ export class LetterList extends React.Component {
       let helpText;
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
         letterTitle = 'Benefit Summary and Service Verification Letter';
-        content = <VeteranBenefitSummaryLetter />;
+        content = (
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue ? (
+                <VeteranBenefitSummaryOptions />
+              ) : (
+                <VeteranBenefitSummaryLetter />
+              )
+            }
+          </Toggler.Hoc>
+        );
         helpText = bslHelpInstructions;
       } else if (letter.letterType === LETTER_TYPES.proofOfService) {
         letterTitle = 'Proof of Service Card';
@@ -102,7 +113,7 @@ export class LetterList extends React.Component {
         conditionalDownloadElem = (
           <DownloadLetterLink
             letterType={letter.letterType}
-            letterTitle={letterTitle}
+            letterTitle={`Download ${letterTitle}`}
             downloadStatus={downloadStatus[letter.letterType]}
             // eslint-disable-next-line -- LH_MIGRATION
             LH_MIGRATION__options={this.state.LH_MIGRATION__options}
