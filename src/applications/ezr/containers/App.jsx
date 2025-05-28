@@ -111,6 +111,8 @@ const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
+    isEmergencyContactsEnabled:
+      state.featureToggles.ezrEmergencyContactsEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,
