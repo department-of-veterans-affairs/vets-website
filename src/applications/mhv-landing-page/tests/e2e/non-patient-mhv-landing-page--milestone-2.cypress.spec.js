@@ -109,47 +109,38 @@ describe(`${appName} -- non Patient landing page -- milestone-2`, () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  // it's not clear why this test is failing
-  // it.skip('renders the SEI information download link', () => {
-  //   cy.get('va-links').should('be.visible');
-  //   cy.get('va-links')
-  //     .shadow()
-  //     .findByRole('link', {
-  //       name: /Download self-entered health information report (PDF)/i,
-  //     });
-  //   cy.injectAxeThenAxeCheck();
-  // });
+  it('renders the SEI information download link', () => {
+    cy.get('va-link')
+      .contains('Download self-entered health information report (PDF)')
+      .should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
 
-  // it's not clear why this test is failing
-  // it.skip('renders the DoD information download link', () => {
-  //   cy.get('va-links').should('be.visible');
-  //   cy.get('va-links')
-  //     .shadow()
-  //     .findByRole('link', {
-  //       name: /Download your DOD military service data (PDF)/,
-  //     });
-  //   cy.injectAxeThenAxeCheck();
-  // });
+  it('renders the DoD information download link', () => {
+    cy.get('va-link')
+      .contains('Download your DOD military service data (PDF)')
+      .should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
 
-  // it's not clear why this test is failing
-  // it.skip('renders the hub section', () => {
-  //   const healthBenefits = {
-  //     level: 2,
-  //     name: /^My VA health benefits$/,
-  //   };
-  //   const moreResources = {
-  //     level: 2,
-  //     name: /^More resources and support$/,
-  //   };
-  //   const spotlight = {
-  //     level: 2,
-  //     name: /^In the spotlight$/,
-  //   };
-  //   cy.findByRole('heading', healthBenefits).should('be.visible');
-  //   cy.findByRole('heading', moreResources).should('be.visible');
-  //   cy.findByRole('heading', spotlight).should('be.visible');
-  //   cy.injectAxeThenAxeCheck();
-  // });
+  it('renders the hub section', () => {
+    const healthBenefits = {
+      level: 2,
+      name: /^VA health benefits$/,
+    };
+    const moreResources = {
+      level: 2,
+      name: /^More resources$/,
+    };
+    const spotlight = {
+      level: 2,
+      name: /^In the spotlight$/,
+    };
+    cy.findByRole('heading', healthBenefits).should('be.visible');
+    cy.findByRole('heading', moreResources).should('be.visible');
+    cy.findByRole('heading', spotlight).should('be.visible');
+    cy.injectAxeThenAxeCheck();
+  });
 
   it('renders the Subscribe heading', () => {
     const heading = {
