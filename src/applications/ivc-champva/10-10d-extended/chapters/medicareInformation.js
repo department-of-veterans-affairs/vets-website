@@ -4,7 +4,11 @@ import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-b
 import {
   titleUI,
   titleSchema,
+  textUI,
+  textSchema,
   radioUI,
+  yesNoUI,
+  yesNoSchema,
   radioSchema,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -427,16 +431,12 @@ const medicarePartADenialPage = {
       </va-alert>,
     ),
     hasPartADenial: {
-      ...radioUI({
+      ...yesNoUI({
         title:
           'Do you have a notice of disallowance, denial, or other proof of ineligibility for Medicare Part A?',
         hint:
           'Depending on your response, you may need to submit additional documents with this application.',
         required: () => true,
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
       }),
     },
   },
@@ -445,7 +445,7 @@ const medicarePartADenialPage = {
     required: ['hasPartADenial'],
     properties: {
       titleSchema,
-      hasPartADenial: radioSchema(['Y', 'N']),
+      hasPartADenial: yesNoSchema,
     },
   },
 };
@@ -480,6 +480,113 @@ const medicarePartADenialProofUploadPage = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       medicarePartADenialProof: {
+        type: 'array',
+        maxItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+// Medicare Part C carrier and effective date page definition
+const medicarePartCCarrierEffectiveDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(
+          formData,
+        )} Medicare Part C carrier and effective date`,
+    ),
+    medicarePartCCarrier: textUI({
+      title: 'Name of insurance carrier',
+      hint: 'Your insurance carrier is your insurance company.',
+    }),
+    medicarePartCEffectiveDate: currentOrPastDateUI({
+      title: 'Medicare Part C effective date',
+      hint:
+        'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+      required: () => true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartCCarrier', 'medicarePartCEffectiveDate'],
+    properties: {
+      titleSchema,
+      medicarePartCCarrier: textSchema,
+      medicarePartCEffectiveDate: currentOrPastDateSchema,
+    },
+  },
+};
+
+// Medicare Part C pharmacy benefits page definition
+const medicarePartCPharmacyBenefitsPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(formData)} Medicare pharmacy benefits`,
+    ),
+    hasPharmacyBenefits: {
+      ...yesNoUI({
+        title:
+          'Does this Medicare Part C (Advantage Plan) provide pharmacy benefits?',
+        hint:
+          'This information can be found on your Medicare Part C (Advantage Plan) card.',
+        required: () => true,
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['hasPharmacyBenefits'],
+    properties: {
+      titleSchema,
+      hasPharmacyBenefits: yesNoSchema,
+    },
+  },
+};
+
+// Define the Medicare Part C card upload page using the generic schema
+const medicarePartCCardUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload Medicare Part C card',
+      'You’ll need to submit a copy of the front and back of the applicant’s Medicare Part C (Medicare Advantage Plan) card.',
+    ),
+    ...fileUploadBlurb,
+    medicarePartCFrontCard: fileUploadUI({
+      label: 'Upload front of Part C Medicare card',
+    }),
+    medicarePartCBackCard: fileUploadUI({
+      label: 'Upload back of Part C Medicare card',
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartCFrontCard', 'medicarePartCBackCard'],
+    properties: {
+      titleSchema,
+      'view:fileUploadBlurb': blankSchema,
+      medicarePartCFrontCard: {
+        type: 'array',
+        maxItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+      medicarePartCBackCard: {
         type: 'array',
         maxItems: 1,
         items: {
@@ -629,7 +736,7 @@ export const medicarePages = arrayBuilderPages(
         );
         const over65 = getAgeInYears(curApp?.applicantDob) >= 65;
 
-        return planType === 'b' && hasProof === 'Y' && over65;
+        return planType === 'b' && hasProof && over65;
       },
       CustomPage: FileFieldCustom,
       ...medicarePartADenialProofUploadPage,
@@ -661,6 +768,34 @@ export const medicarePages = arrayBuilderPages(
       },
       CustomPage: FileFieldCustom,
       ...medicareABCardUploadPage,
+    }),
+    medicarePartCCarrierEffectiveDate: pageBuilder.itemPage({
+      path: 'medicare-part-c-carrier-effective-date/:index',
+      title: 'Medicare Part C carrier and effective date',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'c';
+      },
+      ...medicarePartCCarrierEffectiveDatePage,
+    }),
+    medicarePartCPharmacyBenefits: pageBuilder.itemPage({
+      path: 'medicare-part-c-pharmacy-benefits/:index',
+      title: 'Medicare Part C pharmacy benefits',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'c';
+      },
+      ...medicarePartCPharmacyBenefitsPage,
+    }),
+    medicarePartCCardUpload: pageBuilder.itemPage({
+      path: 'medicare-part-c-card-upload/:index',
+      title: 'Upload Medicare Part C card',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'c';
+      },
+      CustomPage: FileFieldCustom,
+      ...medicarePartCCardUploadPage,
     }),
   }),
 );
