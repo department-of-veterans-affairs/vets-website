@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
+import {
+  VaAccordion,
+  VaAccordionItem,
+  VaCheckbox,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
+import {
+  focusElement,
+  scrollTo,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {
   authorizationLabel,
   authorizationAlertContent,
   authorizationHeader,
-  authorizationInfo,
 } from '../content/evidencePrivateRecordsAuthorization';
+import OmbInfo from '../content/OmbInfo';
 
 import { customPageProps995 } from '../../shared/props';
 
@@ -24,6 +31,7 @@ const EvidencePrivateRecordsAuthorization = ({
   contentAfterButtons,
 }) => {
   const [hasError, setHasError] = useState(false);
+
   useEffect(
     () => {
       if (hasError) {
@@ -79,6 +87,10 @@ const EvidencePrivateRecordsAuthorization = ({
     },
   };
 
+  const focusSection = (_, element) => {
+    focusElement(element);
+  };
+
   return (
     <>
       <form onSubmit={handlers.onSubmit}>
@@ -92,12 +104,320 @@ const EvidencePrivateRecordsAuthorization = ({
           label={authorizationLabel}
           checked={data.privacyAgreementAccepted}
           onVaChange={handlers.onChange}
-          aria-describedby="authorize-text"
           required
           enable-analytics
-          uswds
         >
-          <div slot="description">{authorizationInfo}</div>
+          <div slot="description">
+            <p>
+              Only provide this authorization if you want The Department of
+              Veterans Affairs (VA) to obtain non-VA medical records on your
+              behalf. If you’ve already provided these records or intend to get
+              them yourself, there’s no need to fill out this authorization.
+              Doing so will lengthen your claim processing time.
+            </p>
+            <VaAccordion>
+              <VaAccordionItem
+                header="1. Expiration & how to cancel authorization"
+                id="section-one"
+                open
+              >
+                <p className="vads-u-margin-top--0">
+                  This authorization will automatically expire in 12 months from
+                  the date you authorize the form.
+                </p>
+                <p>
+                  Providing this authorization is voluntary, but if you don’t
+                  authorize it, or if you revoke it before we receive necessary
+                  information, it could prevent an accurate or timely decision
+                  on your claim, and could result in denial or loss of benefits.
+                </p>
+                <p>
+                  You may revoke this authorization in writing at any time,
+                  except to the extent a source of information has already
+                  relied on it to take an action.
+                </p>
+                <p>
+                  To revoke this authorization, you must send a written
+                  statement to the VA Regional Office handling your claim. Also,
+                  send a copy directly to any of your sources that you no longer
+                  wish to disclose information about you. By providing this
+                  authorization you understand that VA may use information
+                  disclosed prior to revocation to decide your claim. If you
+                  don’t know which VA Regional Office is handling your claim,
+                  mail your written revocation to the Evidence Intake Center
+                  address:
+                </p>
+                <p className="va-address-block vads-u-margin-top--3">
+                  Department of Veterans Affairs
+                  <br />
+                  Evidence Intake Center
+                  <br />
+                  PO Box 4444
+                  <br />
+                  Janesville, WI 53547-4444
+                  <br />
+                  United States of America
+                </p>
+              </VaAccordionItem>
+              <VaAccordionItem
+                header="2. Sources of records"
+                id="section-two"
+                open
+              >
+                <ul className="vads-u-margin-top--0">
+                  <li>
+                    <strong>ALL</strong> medical sources (hospitals, clinics,
+                    labs, physicians, psychologists, etc.) including mental
+                    health, correctional, addiction treatment, and VA health
+                    care facilities,
+                  </li>
+                  <li>Social workers/rehabilitation counselors,</li>
+                  <li>Consulting examiners used by VA,</li>
+                  <li>
+                    Employers, insurance companies, workers' compensation
+                    programs, and
+                  </li>
+                  <li>
+                    Others who may know about my condition (family, neighbors,
+                    friends, public officials)
+                  </li>
+                </ul>
+                <p>
+                  You’ll have the option on the next page to limit your
+                  authorization of types of sources and/or types of information.
+                </p>
+              </VaAccordionItem>
+              <VaAccordionItem header="3. Costs for records" open>
+                <p className="vads-u-margin-top--0">
+                  VA won’t pay any fees charged by a custodian (source) to
+                  provide records requested.
+                </p>
+              </VaAccordionItem>
+              <VaAccordionItem header="4. Penalties" open>
+                <p className="vads-u-margin-top--0">
+                  The law provides severe penalties which include fine or
+                  imprisonment, or both, for the willful submission of any
+                  statement or evidence of material fact knowing it to be false.
+                </p>
+              </VaAccordionItem>
+              <VaAccordionItem
+                header="5. Validity of electronic records and signatures"
+                open
+              >
+                <p className="vads-u-margin-top--0">
+                  Under the Government Paperwork Elimination Act (GPEA) (Public
+                  Law 105-277), the Office of Management and Budget (OMB)
+                  ensures that agencies, when practicable, provide for the
+                  option of electronic maintenance, submission of disclosure of
+                  information and for the use and acceptance of electronic
+                  signatures. GPEA states that electronic records submitted or
+                  maintained in accordance with the procedures developed by OMB,
+                  or electronic signature or other forms of electronic
+                  authentication used in accordance with such procedures, "shall
+                  not be denied legal effect, validity, or enforceability merely
+                  because such records are in electronic form" (Public Law
+                  105-277, section 1707).
+                </p>
+              </VaAccordionItem>
+              <VaAccordionItem
+                header="6. Submitting evidence and other mail"
+                open
+              >
+                <p className="vads-u-margin-top--0">
+                  You’ll have the option to upload documents later in this form.
+                  Or, you can upload them later on{' '}
+                  <va-link href="https://www.va.gov" text="VA.gov" />.
+                </p>
+                <p>
+                  Documents may be submitted by mail, in person at a VA regional
+                  office, or electronically. However, VA recommends submitting
+                  correspondence electronically as this is the fastest method of
+                  receipt.
+                </p>
+                <h5>Send by mail</h5>
+                <p className="va-address-block vads-u-margin-top--3">
+                  Department of Veterans Affairs
+                  <br />
+                  Evidence Intake Center
+                  <br />
+                  PO Box 4444
+                  <br />
+                  Janesville, WI 53547-4444
+                  <br />
+                  United States of America
+                </p>
+                <p className="vads-u-margin-bottom--0">
+                  This address serves all United States and foreign locations.
+                </p>
+              </VaAccordionItem>
+            </VaAccordion>
+            <div className="hipaa-privacy-agreement vads-u-padding--3 vads-u-margin-top--3">
+              <h3 className="vads-u-margin-top--0" id="acknowledgement">
+                Acknowledgement & HIPAA compliance
+              </h3>
+              <p>
+                I hereby authorize the sources listed in{' '}
+                <va-link
+                  href="#section-two"
+                  onClick={() => focusSection('#section-two')}
+                  text="Section 2"
+                />
+                , to release any information that may have been obtained in
+                connection with a physical, psychological or psychiatric
+                examination or treatment, with the understanding that VA will
+                use this information in determining my eligibility to veterans
+                benefits I have claimed. I understand that the source being
+                asked to provide the Veterans Benefits Administration with
+                records under this authorization may not require me to execute
+                this authorization before it provides me with treatment, payment
+                for health care, enrollment in a health plan, or eligibility for
+                benefits provided by it.
+              </p>
+              <p>
+                I understand that once my source sends this information to VA
+                under this authorization, the information will no longer be
+                protected by the HIPAA Privacy Rule, but will be protected by
+                the Federal Privacy Act, 5 USC 552a, and VA may disclose this
+                information as authorized by law.
+              </p>
+              {/* <OmbInfo /> */}
+              <p>
+                I also understand that I may revoke this authorization in
+                writing, at any time except to the extent a source of
+                information has already relied on it to take an action. To
+                revoke, I must send a written statement to the VA Regional
+                Office handling my claim or the Board of Veterans' Appeals (if
+                my claim is related to an appeal) and also send a copy directly
+                to any of my sources that I no longer wish to disclose
+                information about me. I understand that VA may use information
+                disclosed prior to revocation to decide my claim.
+              </p>
+              <p>
+                HIPAA NOTE: This general and special authorization to disclose
+                was developed to comply with the provisions regarding disclosure
+                of medical and other information under P.L. 104-191 ("HIPAA");
+                45 C.F.R. parts 160 and 164; 42 U.S.C. §290dd-2; 42 C.F.R. part
+                2, and State Law.
+              </p>
+              <h4>Authorization</h4>
+              <h5>Records to be released</h5>
+              <p>
+                I voluntarily authorize and request disclosure (including paper,
+                oral, and electronic interchange) of:{' '}
+                <strong>All my medical records</strong>; including information
+                related to my ability to perform tasks of daily living. This
+                includes specific permission to release:
+              </p>
+              <ol>
+                <li>
+                  All records and other information regarding my treatment,
+                  hospitalization, and outpatient care for my impairment(s)
+                  including, but not limited to:
+                  <ol type="a">
+                    <li>
+                      Psychological, psychiatric, or other mental impairment(s)
+                      excluding "psychotherapy notes" as defined in 45 C.F.R.
+                      §164.501,
+                    </li>
+                    <li>Drug abuse, alcoholism, or other substance abuse,</li>
+                    <li>Sickle cell anemia,</li>
+                    <li>
+                      Records which may indicate the presence of a communicable
+                      or non-communicable disease; and tests for or records of
+                      HIV/AIDS,
+                    </li>
+                    <li>
+                      Gene-related impairments (including genetic test results)
+                    </li>
+                  </ol>
+                  <li>
+                    Information about how my impairment(s) affects my ability to
+                    complete tasks and activities of daily living, and affects
+                    my ability to work.
+                  </li>
+                  <li>
+                    Information created within 12 months after the date I
+                    provide this authorization, as well as past information.
+                  </li>
+                </li>
+              </ol>
+              <p>
+                I authorize the sources listed in{' '}
+                <va-link
+                  href="#section-two"
+                  onClick={focusSection}
+                  text="Section 2"
+                />
+                , to release any information that may have been obtained in
+                connection with a physical, psychological or psychiatric
+                examination or treatment, with the understanding that VA will
+                use this information in determining my eligibility to veterans
+                benefits I have claimed.
+              </p>
+              <h4>Authorization and consent</h4>
+              <p>
+                <strong>Recipient</strong>: The Department of Veterans Affairs
+                (VA)
+              </p>
+              <p>
+                <strong>Purpose</strong>: Determining my eligibility for
+                benefits, and whether you can manage such benefits
+              </p>
+              <p>
+                Although the information we obtain with this authorization is
+                almost never used for any purpose other than those stated in
+                this page, the information may be disclosed by VA without your
+                consent if authorized by Federal laws such as the Privacy Act.
+              </p>
+              {/* <OmbInfo /> */}
+              <p>
+                <strong>Expires</strong>: This authorization is good for 12
+                months from the date this form is submitted.
+              </p>
+              <p>By authorizing you acknowledge:</p>
+              <ul>
+                <li>
+                  I authorize the use of a copy (including electronic copy) of
+                  this authorization for the disclosure of information described
+                  in this page.
+                </li>
+                <li>
+                  I understand that there are some circumstances in which this
+                  information may be re-disclosed to other parties (Review{' '}
+                  <va-link
+                    href="#acknowledgement"
+                    onClick={() => focusSection('#acknowledgement')}
+                    text="Acknowledgment & HIPAA compliance"
+                  />
+                  ).
+                </li>
+                <li>
+                  I may write to VA and my source(s) to revoke this
+                  authorization at any time (Review
+                  <va-link
+                    href="#section-one"
+                    onClick={() => focusSection('#section-one')}
+                    text="Section 1. Expiration and
+                  How to Cancel"
+                  />
+                  ).
+                </li>
+                <li>
+                  VA will give me a copy of this authorization, if I ask. I may
+                  also ask the source(s) to allow me to inspect or get a copy of
+                  material to be disclosed.
+                </li>
+                <li>
+                  I have read this authorization and agree to the disclosures
+                  from the types of sources listed.
+                </li>
+              </ul>
+              <p>
+                You’ll have the option on the next page to limit your
+                authorization to types of sources and/or types of information.
+              </p>
+            </div>
+          </div>
         </VaCheckbox>
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
