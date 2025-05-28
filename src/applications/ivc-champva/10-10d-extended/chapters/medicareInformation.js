@@ -319,6 +319,70 @@ const medicarePartACardUploadPage = {
   schema: medicarePartACardSchema,
 };
 
+// Medicare Part B effective date page definition
+const medicarePartBEffectiveDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(formData)} Medicare Part B effective date`,
+    ),
+    medicarePartBEffectiveDate: currentOrPastDateUI({
+      title: 'Medicare Part B effective date',
+      hint:
+        'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+      required: () => true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartBEffectiveDate'],
+    properties: {
+      titleSchema,
+      medicarePartBEffectiveDate: currentOrPastDateSchema,
+    },
+  },
+};
+
+// Create custom description component for Medicare Part B card
+const medicarePartBDescription = (
+  <div>
+    <p>
+      You’ll need to submit a copy of your Original Medicare Health Part B Card,
+      sometimes referred to as the "red, white, and blue" Medicare card.
+    </p>
+    {fileUploadBlurb['view:fileUploadBlurb']['ui:description']}
+  </div>
+);
+
+// Use the generic card upload schema for Medicare Part B
+const {
+  uiSchema: medicarePartBCardUiSchema,
+  schema: medicarePartBCardSchema,
+} = createCardUploadSchema({
+  customDescription: medicarePartBDescription,
+  showFilesBlurb: false,
+  frontProperty: 'medicarePartBFrontCard',
+  backProperty: 'medicarePartBBackCard',
+  frontImageSrc: medicarePartAPartBFrontImage,
+  backImageSrc: medicarePartAPartBBackImage,
+  frontAltText:
+    'Red, white, and blue Medicare card. It states "Medicare Health Insurance" and lists the Medicare number and coverage dates for Part B medical coverage.',
+  backAltText:
+    'Back of a red, white, and blue Medicare card. Includes card usage instructions and the Medicare phone number and website.',
+  cardTitle: 'Sample of Medicare Part B card',
+  frontLabel: 'Upload front of Part B Medicare card',
+  backLabel: 'Upload back of Part B Medicare card',
+});
+
+// Define the Medicare Part B card upload page using the generic schema
+const medicarePartBCardUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Upload Medicare Part B card'),
+    ...medicarePartBCardUiSchema,
+  },
+  schema: medicarePartBCardSchema,
+};
+
 // PAGES NEEDED:
 // IF USER SPECIFIES ONLY B:
 //   - medicare parts b effective date
@@ -417,12 +481,31 @@ export const medicarePages = arrayBuilderPages(
       CustomPage: FileFieldCustom,
       ...medicarePartACardUploadPage,
     }),
+    medicarePartBEffectiveDate: pageBuilder.itemPage({
+      path: 'medicare-part-b-effective-date/:index',
+      title: 'Medicare Part B effective date',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'b';
+      },
+      ...medicarePartBEffectiveDatePage,
+    }),
+    medicarePartBCardUpload: pageBuilder.itemPage({
+      path: 'medicare-part-b-card-upload/:index',
+      title: 'Upload Medicare Part B card',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'b';
+      },
+      CustomPage: FileFieldCustom,
+      ...medicarePartBCardUploadPage,
+    }),
     medicarePartAPartBEffectiveDates: pageBuilder.itemPage({
       path: 'medicare-effective-dates/:index',
       title: 'Medicare effective dates',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
-        return planType && ['ab'].includes(planType);
+        return planType === 'ab';
       },
       ...medicarePartAPartBEffectiveDatesPage,
     }),
@@ -431,7 +514,7 @@ export const medicarePages = arrayBuilderPages(
       title: 'Upload Medicare card (A/B)',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
-        return planType && ['ab'].includes(planType);
+        return planType === 'ab';
       },
       CustomPage: FileFieldCustom,
       ...medicareABCardUploadPage,
