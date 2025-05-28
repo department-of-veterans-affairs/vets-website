@@ -31,10 +31,11 @@ const {
  * Declare schema attributes for emergency contacts page
  * @returns {PageSchema}
  */
-export const emergencyContactsPage = () => ({
+export const emergencyContactsPage = options => ({
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: content['emergency-contact-title'],
+      nounSingular: options.nounSingular,
     }),
     fullName: fullNameUI(title => `Emergency contact's ${title}`, {
       first: {
@@ -77,7 +78,7 @@ export const emergencyContactsPage = () => ({
       relationship,
       contactType: {
         ...contactType,
-        default: contactType.enum[2],
+        default: contactType.enum[0],
       },
       'view:hasEmergencyContactAddress': yesNoSchema,
     },
@@ -98,11 +99,7 @@ export const emergencyContactsPage = () => ({
 export const emergencyContactsAddressPage = () => ({
   uiSchema: {
     ...titleUI(content['emergency-contact-address-title'], ' '),
-    address: addressUI({
-      labels: {
-        militaryCheckbox: content['emergency-contact-military-checkbox'],
-      },
-    }),
+    address: addressUI(),
   },
   schema: {
     type: 'object',
@@ -119,7 +116,7 @@ export const emergencyContactsAddressPage = () => ({
  * Declare schema attributes for emergency contact summary page
  * @returns {PageSchema}
  */
-export const summaryPage = (options = {}) => ({
+export const emergencyContactsSummaryPage = (options = {}) => ({
   uiSchema: {
     'view:isEmergencyContactsEnabled': arrayBuilderYesNoUI(options, {
       title: content['emergency-contact-add-contacts-label'],

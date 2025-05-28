@@ -10,7 +10,7 @@ import content from '../../../locales/en/content.json';
 import {
   emergencyContactsPage,
   emergencyContactsAddressPage,
-  summaryPage,
+  emergencyContactsSummaryPage,
 } from '../../../definitions/emergencyContacts';
 
 /**
@@ -39,9 +39,13 @@ const arrayBuilderOptions = {
 };
 
 // build schemas based on declared options
-const summaryPageSchemas = summaryPage(arrayBuilderOptions);
-const emergencyContactsPageSchemas = emergencyContactsPage();
-const emergencyContactsAddressPageSchemas = emergencyContactsAddressPage();
+const emergencyContactsSummaryPageSchemas = emergencyContactsSummaryPage(
+  arrayBuilderOptions,
+);
+const emergencyContactsPageSchemas = emergencyContactsPage(arrayBuilderOptions);
+const emergencyContactsAddressPageSchemas = emergencyContactsAddressPage(
+  arrayBuilderOptions,
+);
 
 /**
  * build list of pages to populate in the form config
@@ -53,8 +57,8 @@ const emergencyContactPages = arrayBuilderPages(
     emergencyContactsSummary: pageBuilder.summaryPage({
       title: content['emergency-contact-summary-title'],
       path: 'veteran-information/emergency-contacts-summary',
-      uiSchema: summaryPageSchemas.uiSchema,
-      schema: summaryPageSchemas.schema,
+      uiSchema: emergencyContactsSummaryPageSchemas.uiSchema,
+      schema: emergencyContactsSummaryPageSchemas.schema,
     }),
     emergencyContactsPage: pageBuilder.itemPage({
       title: content['emergency-contact-title'],
