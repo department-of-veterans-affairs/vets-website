@@ -212,6 +212,7 @@ jobs:
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
 
       - name: Set output of TESTS_RAN
+        if: ${{ always() }}
         id: tests-ran
         run: echo "tests_ran=$TESTS_RAN" >> $GITHUB_OUTPUT
 
