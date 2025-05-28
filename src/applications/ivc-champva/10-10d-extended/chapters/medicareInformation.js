@@ -17,6 +17,7 @@ import medicarePartAPartBFrontImage from '../assets/images/medicare_pt_a_pt_b_fr
 import medicarePartAPartBBackImage from '../assets/images/medicare_pt_a_pt_b_back.png';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { createCardUploadSchema } from '../../shared/components/fileUploads/genericCardUpload';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import {
   toHash,
@@ -319,6 +320,7 @@ const medicarePartACardUploadPage = {
   schema: medicarePartACardSchema,
 };
 
+// IF USER SPECIFIES ONLY B:
 // Medicare Part B effective date page definition
 const medicarePartBEffectiveDatePage = {
   uiSchema: {
@@ -383,12 +385,93 @@ const medicarePartBCardUploadPage = {
   schema: medicarePartBCardSchema,
 };
 
+// Define the Medicare Part A denial page
+const medicarePartADenialPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) => `${generateParticipantName(formData)} Medicare status`,
+      <va-alert
+        status="info"
+        class="vads-u-margin-bottom--3"
+        uswds
+        background-color="true"
+      >
+        <p>
+          Applicants that don’t have Medicare Part A and B or proof of
+          ineligibility may not be eligible for CHAMPVA.
+        </p>
+      </va-alert>,
+    ),
+    hasPartADenial: {
+      ...radioUI({
+        title:
+          'Do you have a notice of disallowance, denial, or other proof of ineligibility for Medicare Part A?',
+        hint:
+          'Depending on your response, you may need to submit additional documents with this application.',
+        required: () => true,
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['hasPartADenial'],
+    properties: {
+      titleSchema,
+      hasPartADenial: radioSchema(['Y', 'N']),
+    },
+  },
+};
+
+const medicarePartADenialProofUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload proof of Medicare ineligibility',
+      ({ formData }) => {
+        return (
+          <>
+            {generateParticipantName(formData)} is 65 years or older and you
+            selected that they do not have Medicare Part A.
+            <br />
+            <br />
+            You’ll need to submit a copy of a letter from the Social Security
+            Administration that confirms that they don’t qualify for Medicare
+            benefits under anyone’s Social Security number.
+          </>
+        );
+      },
+    ),
+    ...fileUploadBlurb,
+    medicarePartADenialProof: fileUploadUI({
+      label: 'Upload proof of Medicare ineligibility',
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartADenialProof'],
+    properties: {
+      titleSchema,
+      'view:fileUploadBlurb': blankSchema,
+      medicarePartADenialProof: {
+        type: 'array',
+        maxItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 // PAGES NEEDED:
-// IF USER SPECIFIES ONLY B:
-//   - medicare parts b effective date
-//   - medicare parts b card upload
-//   - Medicare status (ask if denied 'A')
-//     - Disallowance of A upload
 // IF USER SPECIFIES PART C:
 //   - medicare parts a/b effective dates (includes part C explanatory dropdown)
 //   - medicare parts a/b card upload
@@ -499,6 +582,33 @@ export const medicarePages = arrayBuilderPages(
       },
       CustomPage: FileFieldCustom,
       ...medicarePartBCardUploadPage,
+    }),
+    medicarePartADenial: pageBuilder.itemPage({
+      path: 'medicare-part-a-denial/:index',
+      title: 'Medicare Part A denial',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'b';
+      },
+      ...medicarePartADenialPage,
+    }),
+    medicarePartADenialProofUpload: pageBuilder.itemPage({
+      path: 'medicare-part-a-denial-upload/:index',
+      title: 'Upload proof of Medicare ineligibility',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        const hasProof = formData?.medicare?.[index]?.hasPartADenial;
+        const curAppHash = formData?.medicare?.[index]?.medicareParticipant;
+
+        const curApp = formData?.applicants?.find(
+          a => toHashMemoized(a.applicantSSN) === curAppHash,
+        );
+        const over65 = getAgeInYears(curApp?.applicantDob) >= 65;
+
+        return planType === 'b' && hasProof === 'Y' && over65;
+      },
+      CustomPage: FileFieldCustom,
+      ...medicarePartADenialProofUploadPage,
     }),
     medicarePartAPartBEffectiveDates: pageBuilder.itemPage({
       path: 'medicare-effective-dates/:index',
