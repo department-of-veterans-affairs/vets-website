@@ -104,28 +104,34 @@ const PreSubmitSignature = ({
     }
   }, []);
 
-  useEffect(() => {
-    // show error if user has touched input and signature does not match
-    // show error if there is a form error and has not been submitted
-    if ((isDirty && !signatureMatches) || (showError && !hasSubmit)) {
-      setSignatureError(true);
-    }
+  useEffect(
+    () => {
+      // show error if user has touched input and signature does not match
+      // show error if there is a form error and has not been submitted
+      if ((isDirty && !signatureMatches) || (showError && !hasSubmit)) {
+        setSignatureError(true);
+      }
 
-    // if input has been touched and signature matches allow submission
-    // if input is dirty and representative is signing skip validation
-    // make sure signature is not undefined
-    if (isDirty && signatureMatches) {
-      setSignatureError(false);
-    }
-  }, [showError, hasSubmit, isDirty, signature.dirty, signatureMatches]);
+      // if input has been touched and signature matches allow submission
+      // if input is dirty and representative is signing skip validation
+      // make sure signature is not undefined
+      if (isDirty && signatureMatches) {
+        setSignatureError(false);
+      }
+    },
+    [showError, hasSubmit, isDirty, signature.dirty, signatureMatches],
+  );
 
-  useEffect(() => {
-    if (showError && !hasSubmit) {
-      setCertifyCheckboxError(!certifyChecked);
-      setPrivacyCheckboxError(!privacyChecked);
-      setSignatureError(!signatureMatches);
-    }
-  }, [showError, hasSubmit, certifyChecked, privacyChecked, signatureMatches]);
+  useEffect(
+    () => {
+      if (showError && !hasSubmit) {
+        setCertifyCheckboxError(!certifyChecked);
+        setPrivacyCheckboxError(!privacyChecked);
+        setSignatureError(!signatureMatches);
+      }
+    },
+    [showError, hasSubmit, certifyChecked, privacyChecked, signatureMatches],
+  );
 
   useEffect(
     () => {
@@ -220,15 +226,15 @@ const PreSubmitSignature = ({
           name="veteran-certify"
           label="By checking this box, I certify that the information in this request is true and correct to the best of my knowledge and belief."
           checked={certifyChecked}
-          onVaChange={value => setCertifyChecked(value.detail.checked)}
-          aria-describedby="vet-certify"
+          onVaChange={event => {
+            setCertifyChecked(event.target.checked);
+          }}
           error={
             certifyCheckboxError
               ? 'You must certify by checking the box.'
               : null
           }
           required
-          enable-analytics
         />
       </article>
 
@@ -267,5 +273,8 @@ const mapStateToProps = ({ form }) => {
 
 export default {
   required: true,
-  CustomComponent: connect(mapStateToProps, null)(PreSubmitSignature),
+  CustomComponent: connect(
+    mapStateToProps,
+    null,
+  )(PreSubmitSignature),
 };

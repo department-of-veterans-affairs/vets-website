@@ -165,6 +165,10 @@ class MedicationsListPage {
     );
   };
 
+  verifyFocusOnDownloadFailureAlertBanner = () => {
+    cy.get('[data-testid="api-error-notification"]').should('be.focused');
+  };
+
   verifyTextInsideDropDownOnListPage = () => {
     cy.get('[data-testid="dropdown-info"]').should(
       'contain',
@@ -225,7 +229,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
       );
     });
   };
@@ -268,12 +272,21 @@ class MedicationsListPage {
     });
   };
 
-  verifyDownloadCompleteSuccessMessageBanner = () => {
+  verifyDownloadCompleteSuccessMessageBanner = text => {
     cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
-    cy.get('[data-testid="download-success-banner"]').should(
-      'contain',
-      'Download started',
+    cy.get('[data-testid="download-success-banner"]')
+      .should('contain', 'Download started')
+      .and('contain', text);
+  };
+
+  verifyFocusOnDownloadAlertSuccessBanner = () => {
+    cy.get('[data-testid="download-success-banner"] > .hydrated').should(
+      'be.focused',
     );
+  };
+
+  verifyDownloadSuccessMessageBannerNotVisibleAfterReload = () => {
+    cy.get('[data-testid="download-success-banner"]').should('not.exist');
   };
 
   verifyDownloadTextFileHeadless = (
@@ -294,9 +307,15 @@ class MedicationsListPage {
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');
       const downloadsFolder = Cypress.config('downloadsFolder');
-      const txtPath1 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${this.downloadTime1sec}.txt`;
-      const txtPath2 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${this.downloadTime2sec}.txt`;
-      const txtPath3 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${this.downloadTime3sec}.txt`;
+      const txtPath1 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
+        this.downloadTime1sec
+      }.txt`;
+      const txtPath2 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
+        this.downloadTime2sec
+      }.txt`;
+      const txtPath3 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
+        this.downloadTime3sec
+      }.txt`;
       this.internalReadFileMaybe(txtPath1, searchText);
       this.internalReadFileMaybe(txtPath2, searchText);
       this.internalReadFileMaybe(txtPath3, searchText);
@@ -418,7 +437,9 @@ class MedicationsListPage {
   clickRefillButton = () => {
     cy.intercept(
       'PATCH',
-      `/my_health/v1/prescriptions/${prescription.data.attributes.prescriptionId}/refill`,
+      `/my_health/v1/prescriptions/${
+        prescription.data.attributes.prescriptionId
+      }/refill`,
       prescription,
     );
     cy.get(
@@ -487,7 +508,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
       );
     });
     cy.intercept(
@@ -532,7 +553,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by name`,
       );
     });
   };
@@ -566,7 +587,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, last filled first`,
       );
     });
   };
@@ -591,7 +612,9 @@ class MedicationsListPage {
       .its('response')
       .then(res => {
         expect(res.body.data[14].attributes).to.include({
-          expirationDate: `${expiredPrescription.data.attributes.expirationDate}`,
+          expirationDate: `${
+            expiredPrescription.data.attributes.expirationDate
+          }`,
         });
       });
   };
@@ -811,6 +834,10 @@ class MedicationsListPage {
     cy.get('[data-testid="zero-filter-results"]')
       .should('have.text', text)
       .and('be.focused');
+  };
+
+  verifyNoMedicationsInListMessageNotShown = () => {
+    cy.get('[data-testid="alert-message"]').should('not.exist');
   };
 
   clickResetFilterButtonOnFilterAccordionDropDown = () => {

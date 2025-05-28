@@ -8,7 +8,6 @@ import * as claimantInformationModule from '../pages/claimantInformation';
 import * as veteranInformationModule from '../pages/veteranInformation';
 import * as isVeteranModule from '../pages/isVeteranPage';
 import transformForSubmit from './submit-transformer';
-import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
 
@@ -38,13 +37,14 @@ const { isVeteranPage } = isVeteranModule;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: `/${formNumber.toLowerCase()}/`,
-  submitUrl: `${environment.API_URL}/accredited_representative_portal/v0/submit_representative_form`,
+  submitUrl: `${
+    environment.API_URL
+  }/accredited_representative_portal/v0/submit_representative_form`,
   dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
   disableSave: true,
   trackingPrefix,
   confirmation: ConfirmationPage,
   CustomTopContent,
-  CustomReviewTopContent,
   customText: { appType: 'form' },
   hideReviewChapters: true,
   introduction: IntroductionPage,

@@ -83,4 +83,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MessageTable);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MessageTable);

@@ -228,15 +228,16 @@ export const ProfileInformationEditViewFc = ({
   }, [transactionRequest, transaction]);
 
   // ComponentDidUpdate for transaction polling
-  useEffect(() => {
-    // If transaction just became pending, start calling refreshTransaction on an interval
-    if (isPendingTransactionMemo && !intervalId) {
-      const newIntervalId = window.setInterval(
-        () => handleRefreshTransaction(),
-        window.VetsGov.pollTimeout || 1000,
-      );
-      setIntervalId(newIntervalId);
-    }
+  useEffect(
+    () => {
+      // If transaction just became pending, start calling refreshTransaction on an interval
+      if (isPendingTransactionMemo && !intervalId) {
+        const newIntervalId = window.setInterval(
+          () => handleRefreshTransaction(),
+          window.VetsGov.pollTimeout || 2000,
+        );
+        setIntervalId(newIntervalId);
+      }
 
     // If we had an interval but transaction is no longer pending, clean it up
     if (intervalId && !isPendingTransactionMemo) {

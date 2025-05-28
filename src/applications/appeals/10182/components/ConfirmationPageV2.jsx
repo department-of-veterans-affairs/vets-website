@@ -19,11 +19,11 @@ import {
 
 import {
   chapterHeaderClass,
-  ConfirmationTitle,
-  ConfirmationAlert,
   ConfirmationSummary,
   ConfirmationReturnLink,
-} from '../../shared/components/ConfirmationCommon';
+} from '../../shared/components/ConfirmationSummary';
+import { ConfirmationAlert } from '../../shared/components/ConfirmationAlert';
+import { ConfirmationTitle } from '../../shared/components/ConfirmationTitle';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
 import { showValueOrNotSelected } from '../../shared/utils/confirmation';
@@ -37,13 +37,16 @@ export const ConfirmationPageV2 = () => {
   const form = useSelector(state => state.form || {});
   const profile = useSelector(state => selectProfile(state));
 
-  useEffect(() => {
-    if (alertRef?.current) {
-      scrollTo('topScrollElement');
-      // delay focus for Safari
-      waitForRenderThenFocus('#main h2', alertRef.current);
-    }
-  }, [alertRef]);
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo('topScrollElement');
+        // delay focus for Safari
+        waitForRenderThenFocus('#main h2', alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   const { submission, data = {} } = form;
   const submitDate = getReadableDate(

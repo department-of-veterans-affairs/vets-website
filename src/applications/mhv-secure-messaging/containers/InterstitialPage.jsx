@@ -1,25 +1,44 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
+import { Paths } from '../util/constants';
 
 const InterstitialPage = props => {
   const { acknowledge, type } = props;
+  const history = useHistory();
+  const isPilot = useSelector(state => state.sm.app.isPilot);
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
 
-  const continueButtonText = useMemo(() => {
-    switch (type) {
-      case 'reply':
-        return 'Continue to reply';
-      case 'draft':
-        return 'Continue to draft';
-      default:
-        return 'Continue to start message';
-    }
-  }, [type]);
+  const continueButtonText = useMemo(
+    () => {
+      switch (type) {
+        case 'reply':
+          return 'Continue to reply';
+        case 'draft':
+          return 'Continue to draft';
+        default:
+          return 'Continue to start message';
+      }
+    },
+    [type],
+  );
+
+  const handleContinueButton = useCallback(
+    () => {
+      if (isPilot) {
+        history.push(`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`);
+      } else {
+        acknowledge();
+      }
+    },
+    [history, acknowledge, isPilot],
+  );
 
   return (
     <div className="interstitial-page">
@@ -36,7 +55,7 @@ const InterstitialPage = props => {
         <button
           className="continue-button vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-margin-top--0 vads-u-margin-bottom--3"
           data-testid="continue-button"
-          onClick={acknowledge}
+          onClick={handleContinueButton}
           data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
         >
           {continueButtonText}

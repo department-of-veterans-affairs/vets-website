@@ -47,7 +47,9 @@ const ContactInfoOnFile = ({
           {mobilePhoneNumber && (
             <VaTelephone
               data-testid="mobile-phone-number-on-file"
-              contact={`${mobilePhoneNumber.areaCode}${mobilePhoneNumber.phoneNumber}`}
+              contact={`${mobilePhoneNumber.areaCode}${
+                mobilePhoneNumber.phoneNumber
+              }`}
               notClickable
             />
           )}

@@ -851,7 +851,9 @@ export default function formReducer(state = initialState, action) {
       const typeOfCare = getTypeOfCare(formData);
       let initialSchema = set(
         'properties.hasCommunityCareProvider.title',
-        `Do you have a preferred VA-approved community care provider for this ${typeOfCare.name} appointment?`,
+        `Do you have a preferred VA-approved community care provider for this ${
+          typeOfCare.name
+        } appointment?`,
         action.schema,
       );
 

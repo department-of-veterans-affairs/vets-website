@@ -1,34 +1,44 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
+
 import { clearThread } from '../actions/threadDetails';
+import { getListOfThreads } from '../actions/threads';
+import { closeAlert } from '../actions/alerts';
+import { getPatientSignature } from '../actions/preferences';
 import { retrieveMessageThread } from '../actions/messages';
+
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
-import { closeAlert } from '../actions/alerts';
-import { PageTitles, Paths, BlockedTriageAlertStyles } from '../util/constants';
-import { getPatientSignature } from '../actions/preferences';
+import {
+  PageTitles,
+  Paths,
+  BlockedTriageAlertStyles,
+  DefaultFolders,
+  threadSortingOptions,
+} from '../util/constants';
+import { getRecentThreads } from '../util/threads';
+import { getUniqueTriageGroups } from '../util/recipients';
 
-const Compose = () => {
+const Compose = ({ skipInterstitial }) => {
   const dispatch = useDispatch();
   const recipients = useSelector(state => state.sm.recipients);
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
   const signature = useSelector(state => state.sm.preferences.signature);
   const { noAssociations } = useSelector(state => state.sm.recipients);
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
+
+  const { threadList, isLoading, hasError: hasThreadListError } = useSelector(
+    state => state.sm.threads,
   );
+
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
   const { allTriageGroupsBlocked } = recipients;
 
-  const [acknowledged, setAcknowledged] = useState(false);
+  const [acknowledged, setAcknowledged] = useState(skipInterstitial);
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState('Start a new message');
   const location = useLocation();
@@ -36,55 +46,116 @@ const Compose = () => {
   const isDraftPage = location.pathname.includes('/draft');
   const header = useRef();
 
-  useEffect(() => {
-    if (location.pathname === Paths.COMPOSE) {
-      dispatch(clearThread());
-      setDraftType('compose');
-    } else {
-      dispatch(retrieveMessageThread(draftId));
-    }
-
-    const checkNextPath = history.listen(nextPath => {
-      if (nextPath.pathname !== Paths.CONTACT_LIST) {
+  useEffect(
+    () => {
+      if (location.pathname.startsWith(Paths.COMPOSE)) {
         dispatch(clearThread());
+        setDraftType('compose');
+      } else {
+        dispatch(retrieveMessageThread(draftId));
       }
-    });
-    return () => {
-      checkNextPath();
-    };
-  }, [dispatch, draftId, location.pathname]);
 
-  useEffect(() => {
-    if (!signature) {
-      dispatch(getPatientSignature());
-    }
-  }, [signature, dispatch]);
+      const checkNextPath = history.listen(nextPath => {
+        if (nextPath.pathname !== Paths.CONTACT_LIST) {
+          dispatch(clearThread());
+        }
+      });
+      return () => {
+        checkNextPath();
+      };
+    },
+    [dispatch, draftId, history, location.pathname],
+  );
 
-  useEffect(() => {
-    if (draftMessage?.messageId && draftMessage.draftDate === null) {
-      history.push(Paths.INBOX);
-    }
-    return () => {
+  useEffect(
+    () => {
+      if (!signature) {
+        dispatch(getPatientSignature());
+      }
+    },
+    [signature, dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (draftMessage?.messageId && draftMessage.draftDate === null) {
+        history.push(Paths.INBOX);
+      }
+      return () => {
+        if (isDraftPage) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [isDraftPage, draftMessage, history, dispatch],
+  );
+
+  useEffect(
+    () => {
       if (isDraftPage) {
-        dispatch(closeAlert());
+        setPageTitle('Edit draft');
       }
-    };
-  }, [isDraftPage, draftMessage, history, dispatch]);
+    },
+    [isDraftPage],
+  );
 
-  useEffect(() => {
-    if (isDraftPage) {
-      setPageTitle('Edit draft');
-    }
-  }, [isDraftPage]);
+  useEffect(
+    () => {
+      if (acknowledged && header) focusElement(document.querySelector('h1'));
+      document.title = `${pageTitle} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+    },
+    [header, acknowledged, pageTitle],
+  );
+  // make sure the thread list is fetched when navigating to the compose page
+  useEffect(
+    () => {
+      const shouldLoadSentFolder = () => {
+        const isThreadListEmpty = !threadList;
+        const didThreadListError = hasThreadListError;
+        const isFirstThreadNotSentFolder =
+          threadList?.[0]?.folderId !== DefaultFolders.SENT.id;
+        return (
+          !isLoading &&
+          !didThreadListError &&
+          (isThreadListEmpty || isFirstThreadNotSentFolder)
+        );
+      };
 
-  useEffect(() => {
-    if (acknowledged && header) focusElement(document.querySelector('h1'));
-    document.title = `${pageTitle} ${
-      removeLandingPageFF
-        ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
-        : PageTitles.PAGE_TITLE_TAG
-    }`;
-  }, [header, acknowledged, removeLandingPageFF, pageTitle]);
+      const loadSentFolder = () => {
+        dispatch(
+          getListOfThreads(
+            DefaultFolders.SENT.id,
+            100,
+            1,
+            threadSortingOptions.SENT_DATE_DESCENDING.value,
+            false,
+          ),
+        );
+      };
+      if (shouldLoadSentFolder()) {
+        loadSentFolder();
+      }
+    },
+    [dispatch, hasThreadListError, isLoading, threadList],
+  );
+
+  useEffect(
+    () => {
+      if (threadList?.length > 0 && !isLoading && recipients) {
+        const groups = getUniqueTriageGroups(threadList);
+        const recentMessages = getRecentThreads(threadList);
+        const dataForDataDog = {
+          allowedSMRecipients: recipients.allowedRecipients.length,
+          countOfSentMessagesInTheLastSixMonths: recentMessages.length || 0,
+          uniqueRecentTriageGroups: groups.length,
+        };
+        addUserProperties({
+          ...dataForDataDog,
+        });
+      }
+    },
+    [threadList, isLoading, recipients],
+  );
 
   const content = () => {
     if (!isDraftPage && recipients) {
@@ -126,23 +197,23 @@ const Compose = () => {
         />
       )}
 
-      {draftType && (noAssociations || allTriageGroupsBlocked) && (
-        <div className="vads-l-grid-container compose-container">
-          <h1>Start a new message</h1>
-          <BlockedTriageGroupAlert
-            alertStyle={
-              allTriageGroupsBlocked
-                ? BlockedTriageAlertStyles.WARNING
-                : BlockedTriageAlertStyles.INFO
-            }
-          />
-        </div>
-      )}
+      {draftType &&
+        (noAssociations || allTriageGroupsBlocked) && (
+          <div className="vads-l-grid-container compose-container">
+            <h1>Start a new message</h1>
+            <BlockedTriageGroupAlert
+              alertStyle={
+                allTriageGroupsBlocked
+                  ? BlockedTriageAlertStyles.WARNING
+                  : BlockedTriageAlertStyles.INFO
+              }
+            />
+          </div>
+        )}
 
       {draftType &&
       !acknowledged &&
-      noAssociations === (undefined || false) &&
-      !allTriageGroupsBlocked ? (
+      (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (
         <InterstitialPage
           acknowledge={() => {
             setAcknowledged(true);
@@ -152,8 +223,8 @@ const Compose = () => {
       ) : (
         <>
           {draftType &&
-            noAssociations === (undefined || false) &&
-            !allTriageGroupsBlocked && (
+            (noAssociations === (undefined || false) &&
+              !allTriageGroupsBlocked) && (
               <div className="vads-l-grid-container compose-container">
                 {content()}
               </div>

@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   updatePageTitle,
@@ -34,62 +33,67 @@ const FolderHeader = props => {
   const showInnerNav =
     folder.folderId === Folders.INBOX.id || folder.folderId === Folders.SENT.id;
 
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
   const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
   );
 
-  const cernerFacilities = useMemo(() => {
-    return userFacilities?.filter(facility =>
-      drupalCernerFacilities.some(
-        f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
-      ),
-    );
-  }, [userFacilities, drupalCernerFacilities]);
+  const cernerFacilities = useMemo(
+    () => {
+      return userFacilities?.filter(facility =>
+        drupalCernerFacilities.some(
+          f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
+        ),
+      );
+    },
+    [userFacilities, drupalCernerFacilities],
+  );
 
-  const folderDescription = useMemo(() => {
-    switch (folder.folderId) {
-      case Folders.INBOX.id:
-      case Folders.SENT.id: // Inbox
-        return Folders.INBOX.desc;
-      case Folders.DRAFTS.id: // Drafts
-        return Folders.DRAFTS.desc;
-      case Folders.DELETED.id: // Trash
-        return Folders.DELETED.desc;
-      default:
-        return Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-header;
-    }
-  }, [folder]);
+  const folderDescription = useMemo(
+    () => {
+      switch (folder.folderId) {
+        case Folders.INBOX.id:
+        case Folders.SENT.id: // Inbox
+          return Folders.INBOX.desc;
+        case Folders.DRAFTS.id: // Drafts
+          return Folders.DRAFTS.desc;
+        case Folders.DELETED.id: // Trash
+          return Folders.DELETED.desc;
+        default:
+          return Folders.CUSTOM_FOLDER.desc; // Custom Folder Sub-header;
+      }
+    },
+    [folder],
+  );
 
-  const handleFolderDescription = useCallback(() => {
-    return (
-      folderDescription && (
-        <p
-          data-testid="folder-description"
-          className="va-introtext folder-description vads-u-margin-top--0"
-        >
-          {folderDescription}
-        </p>
-      )
-    );
-  }, [folderDescription]);
+  const handleFolderDescription = useCallback(
+    () => {
+      return (
+        folderDescription && (
+          <p
+            data-testid="folder-description"
+            className="va-introtext folder-description vads-u-margin-top--0"
+          >
+            {folderDescription}
+          </p>
+        )
+      );
+    },
+    [folderDescription],
+  );
 
-  useEffect(() => {
-    if (location.pathname.includes(folder?.folderId)) {
-      const pageTitleTag = getPageTitle({
-        removeLandingPageFF,
-        folderName: folder.name,
-      });
-      updatePageTitle(pageTitleTag);
-    }
-  }, [folder, location.pathname, removeLandingPageFF]);
+  useEffect(
+    () => {
+      if (location.pathname.includes(folder?.folderId)) {
+        const pageTitleTag = getPageTitle({
+          folderName: folder.name,
+        });
+        updatePageTitle(pageTitleTag);
+      }
+    },
+    [folder, location.pathname],
+  );
 
   const { folderName, ddTitle, ddPrivacy } = handleHeader(folder);
 
@@ -101,7 +105,7 @@ const FolderHeader = props => {
         data-dd-action-name={ddTitle}
         data-dd-privacy={ddPrivacy}
       >
-        {removeLandingPageFF ? `Messages: ${folderName}` : folderName}
+        {`Messages: ${folderName}`}
       </h1>
 
       {folder.folderId === Folders.INBOX.id && (
@@ -116,9 +120,10 @@ const FolderHeader = props => {
         <CernerTransitioningFacilityAlert />
       )}
 
-      {folder.folderId === Folders.INBOX.id && cernerFacilities?.length > 0 && (
-        <CernerFacilityAlert cernerFacilities={cernerFacilities} />
-      )}
+      {folder.folderId === Folders.INBOX.id &&
+        cernerFacilities?.length > 0 && (
+          <CernerFacilityAlert cernerFacilities={cernerFacilities} />
+        )}
 
       <>
         {folder.folderId === Folders.INBOX.id &&
@@ -134,9 +139,10 @@ const FolderHeader = props => {
           )}
 
         <>{handleFolderDescription()}</>
-        {showInnerNav && !noAssociations && !allTriageGroupsBlocked && (
-          <ComposeMessageButton />
-        )}
+        {showInnerNav &&
+          (!noAssociations && !allTriageGroupsBlocked) && (
+            <ComposeMessageButton />
+          )}
 
         {showInnerNav && <InnerNavigation />}
 

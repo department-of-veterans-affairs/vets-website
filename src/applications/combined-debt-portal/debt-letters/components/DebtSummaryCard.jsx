@@ -12,7 +12,7 @@ import { debtSummaryText } from '../const/diary-codes/debtSummaryCardContent';
 
 const DebtSummaryCard = ({ debt }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showResolveLinks = useToggleValue(TOGGLE_NAMES.showVHAPaymentHistory);
+  const showResolveLinks = useToggleValue(TOGGLE_NAMES.showCDPOneThingPerPage);
   const dispatch = useDispatch();
   const mostRecentHistory = head(debt?.debtHistory);
   const debtCardTotal = currency.format(parseFloat(debt.currentAr));
@@ -48,7 +48,9 @@ const DebtSummaryCard = ({ debt }) => {
                 recordEvent({ event: 'cta-link-click-debt-summary-card' });
                 dispatch(setActiveDebt(debt));
               }}
-              href={`/manage-va-debt/summary/debt-balances/details/${debt.compositeDebtId}`}
+              href={`/manage-va-debt/summary/debt-balances/details/${
+                debt.compositeDebtId
+              }`}
               text="Review details"
               aria-label={`Check details for ${debtCardHeading}`}
             />
@@ -60,7 +62,9 @@ const DebtSummaryCard = ({ debt }) => {
                   recordEvent({ event: 'cta-link-click-debt-summary-card' });
                   dispatch(setActiveDebt(debt));
                 }}
-                href={`/manage-va-debt/summary/debt-balances/details/${debt.compositeDebtId}/resolve`}
+                href={`/manage-va-debt/summary/debt-balances/details/${
+                  debt.compositeDebtId
+                }/resolve`}
                 text="Resolve this debt"
                 aria-label={`Resolve ${debtCardHeading}`}
               />
@@ -75,7 +79,9 @@ const DebtSummaryCard = ({ debt }) => {
                 recordEvent({ event: 'cta-link-click-debt-summary-card' });
                 dispatch(setActiveDebt(debt));
               }}
-              href={`/manage-va-debt/summary/debt-balances/details/${debt.compositeDebtId}`}
+              href={`/manage-va-debt/summary/debt-balances/details/${
+                debt.compositeDebtId
+              }`}
               text="Check details and resolve this debt"
               label={`Check details and resolve this ${debtCardHeading}`}
             />

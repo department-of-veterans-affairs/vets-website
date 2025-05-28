@@ -9,18 +9,16 @@ import {
   crisisLineHeader,
   txtLine,
   usePrintTitle,
+  makePdf,
+  getNameDateAndTime,
+  formatNameFirstLast,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
-import {
-  makePdf,
-  getNameDateAndTime,
-  generateTextFile,
-  formatNameFirstLast,
-  formatUserDob,
-} from '../../util/helpers';
+import { generateTextFile } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 
@@ -43,9 +41,12 @@ const PathologyDetails = props => {
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-  }, [record]);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+    },
+    [record],
+  );
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
@@ -64,7 +65,13 @@ const PathologyDetails = props => {
       ...generatePathologyContent(record),
     };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Pathology details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Pathology details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generatePathologyTxt = async () => {

@@ -11,7 +11,9 @@ export const getSignerFullName = data => {
   }
 
   if (signerFullName?.middle !== '' && signerFullName?.middle !== undefined) {
-    return `${signerFullName.first} ${signerFullName.middle} ${signerFullName.last}`;
+    return `${signerFullName.first} ${signerFullName.middle} ${
+      signerFullName.last
+    }`;
   }
 
   return `${signerFullName.first} ${signerFullName.last}`;

@@ -10,17 +10,15 @@ import {
   txtLine,
   updatePageTitle,
   generatePdfScaffold,
+  getNameDateAndTime,
+  formatNameFirstLast,
+  makePdf,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import {
-  formatNameFirstLast,
-  generateTextFile,
-  getNameDateAndTime,
-  makePdf,
-  formatUserDob,
-} from '../../util/helpers';
+import { generateTextFile } from '../../util/helpers';
 import { pageTitles, dischargeSummarySortFields } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
@@ -42,9 +40,12 @@ const AdmissionAndDischargeDetails = props => {
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-  }, [record]);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+    },
+    [record],
+  );
 
   usePrintTitle(
     pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE,
@@ -63,7 +64,13 @@ const AdmissionAndDischargeDetails = props => {
       ...generateDischargeSummaryContent(record),
     };
     const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Admission/discharge details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Admission/discharge details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateCareNotesTxt = () => {

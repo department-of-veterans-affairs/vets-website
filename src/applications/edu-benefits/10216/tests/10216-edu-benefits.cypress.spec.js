@@ -48,6 +48,19 @@ const testConfig = createTestConfig(
           cy.tabToSubmitForm();
         });
       },
+      '/school-administrators/85-15-rule-enrollment-ratio/35-percent-exemption/student-ratio-calculation': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          const dateOfCalculation = daysAgoYyyyMmDd(15);
+          cy.fillVaMemorableDate(
+            'root_studentRatioCalcChapter_dateOfCalculation',
+            dateOfCalculation,
+            true,
+          );
+          cy.tabToSubmitForm();
+        });
+      },
       '/school-administrators/35-percent-exemption/review-and-submit': ({
         afterHook,
       }) => {

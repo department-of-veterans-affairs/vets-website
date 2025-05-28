@@ -13,7 +13,6 @@ import {
 import { fetchFutureAppointments } from '../appointment-list/redux/actions';
 import { getDraftAppointmentInfo } from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
 import DateAndTimeContent from './components/DateAndTimeContent';
 
 export const ChooseDateAndTime = props => {
@@ -32,41 +31,47 @@ export const ChooseDateAndTime = props => {
 
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
-  useEffect(() => {
-    if (
-      draftAppointmentCreateStatus === FETCH_STATUS.notStarted ||
-      futureStatus === FETCH_STATUS.notStarted
-    ) {
-      if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-        dispatch(createDraftReferralAppointment(currentReferral.referralId));
+  useEffect(
+    () => {
+      if (
+        draftAppointmentCreateStatus === FETCH_STATUS.notStarted ||
+        futureStatus === FETCH_STATUS.notStarted
+      ) {
+        if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
+          dispatch(
+            createDraftReferralAppointment(currentReferral.referralNumber),
+          );
+        }
+        if (futureStatus === FETCH_STATUS.notStarted) {
+          dispatch(fetchFutureAppointments({ includeRequests: false }));
+        }
+      } else if (
+        draftAppointmentCreateStatus === FETCH_STATUS.succeeded &&
+        futureStatus === FETCH_STATUS.succeeded
+      ) {
+        setLoading(false);
+      } else if (
+        draftAppointmentCreateStatus === FETCH_STATUS.failed ||
+        futureStatus === FETCH_STATUS.failed
+      ) {
+        setLoading(false);
+        setFailed(true);
       }
-      if (futureStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchFutureAppointments({ includeRequests: false }));
-      }
-    } else if (
-      draftAppointmentCreateStatus === FETCH_STATUS.succeeded &&
-      futureStatus === FETCH_STATUS.succeeded
-    ) {
-      setLoading(false);
-      scrollAndFocus('h1');
-    } else if (
-      draftAppointmentCreateStatus === FETCH_STATUS.failed ||
-      futureStatus === FETCH_STATUS.failed
-    ) {
-      setLoading(false);
-      setFailed(true);
-      scrollAndFocus('h1');
-    }
-  }, [
-    currentReferral.referralId,
-    currentReferral.uuid,
-    dispatch,
-    draftAppointmentCreateStatus,
-    futureStatus,
-  ]);
-  useEffect(() => {
-    dispatch(setFormCurrentPage('scheduleAppointment'));
-  }, [location, dispatch]);
+    },
+    [
+      currentReferral.referralNumber,
+      currentReferral.uuid,
+      dispatch,
+      draftAppointmentCreateStatus,
+      futureStatus,
+    ],
+  );
+  useEffect(
+    () => {
+      dispatch(setFormCurrentPage('scheduleAppointment'));
+    },
+    [location, dispatch],
+  );
 
   if (loading) {
     return (

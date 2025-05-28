@@ -56,18 +56,24 @@ export default function ClinicChoicePage() {
   const usingPastClinics =
     typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
 
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
-  }, [dispatch]);
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    if (schema.properties.clinicId.enum.length > 2) {
-      focusFormHeader();
-    } else {
-      scrollAndFocus();
-    }
-  }, [schema]);
+  useEffect(
+    () => {
+      if (schema.properties.clinicId.enum.length > 2) {
+        focusFormHeader();
+      } else {
+        scrollAndFocus();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div className="vaos-form__radio-field">

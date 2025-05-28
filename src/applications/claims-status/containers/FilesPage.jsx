@@ -153,7 +153,10 @@ FilesPage.propTypes = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(FilesPage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FilesPage),
 );
 
 export { FilesPage };

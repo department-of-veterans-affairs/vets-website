@@ -58,11 +58,14 @@ const BankruptcyDetails = ({
       : 'Continue';
 
   // Header ref for setting focus
-  useEffect(() => {
-    if (headerRef?.current) {
-      focusElement(headerRef?.current);
-    }
-  }, [headerRef]);
+  useEffect(
+    () => {
+      if (headerRef?.current) {
+        focusElement(headerRef?.current);
+      }
+    },
+    [headerRef],
+  );
 
   // Set errors and data
   const onGoForward = () => {

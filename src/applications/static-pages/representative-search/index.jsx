@@ -6,10 +6,8 @@ import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(
-      /* webpackChunkName: "find-a-rep-landing-content" */
-      './components/App'
-    ).then(module => {
+    import(/* webpackChunkName: "find-a-rep-landing-content" */
+    './components/App').then(module => {
       const App = module.default;
       connectFeatureToggle(store.dispatch);
 

@@ -24,21 +24,24 @@ const EvidencePrivateRecordsAuthorization = ({
   contentAfterButtons,
 }) => {
   const [hasError, setHasError] = useState(false);
-  useEffect(() => {
-    if (hasError) {
-      recordEvent({
-        event: 'visible-alert-box',
-        'alert-box-type': 'warning',
-        'alert-box-heading':
-          'Authorize your doctor to release your records or upload them yourself',
-        'error-key': 'not_authorizing_records_release',
-        'alert-box-full-width': false,
-        'alert-box-background-only': false,
-        'alert-box-closeable': false,
-        'reason-for-alert': 'Not authorizing records release',
-      });
-    }
-  }, [hasError]);
+  useEffect(
+    () => {
+      if (hasError) {
+        recordEvent({
+          event: 'visible-alert-box',
+          'alert-box-type': 'warning',
+          'alert-box-heading':
+            'Authorize your doctor to release your records or upload them yourself',
+          'error-key': 'not_authorizing_records_release',
+          'alert-box-full-width': false,
+          'alert-box-background-only': false,
+          'alert-box-closeable': false,
+          'reason-for-alert': 'Not authorizing records release',
+        });
+      }
+    },
+    [hasError],
+  );
 
   const focusOnAlert = () => {
     scrollTo('topScrollElement');
@@ -79,7 +82,7 @@ const EvidencePrivateRecordsAuthorization = ({
   return (
     <>
       <form onSubmit={handlers.onSubmit}>
-        <va-alert status="error" visible={hasError} uswds>
+        <va-alert status="error" visible={hasError} uswds role="alert">
           {hasError && authorizationAlertContent(handlers.onAnchorClick)}
         </va-alert>
         {authorizationHeader}

@@ -1,10 +1,10 @@
 import {
+  createNoDescriptionText,
+  createVAPharmacyText,
   dateFormat,
+  getRefillHistory,
   processList,
   validateField,
-  createVAPharmacyText,
-  createNoDescriptionText,
-  createOriginalFillRecord,
 } from './helpers';
 import {
   pdfStatusDefinitions,
@@ -22,9 +22,9 @@ export const buildNonVAPrescriptionTXT = prescription => {
 
 
 ${prescription.prescriptionName ||
-  (prescription.dispStatus === 'Active: Non-VA'
-    ? prescription.orderableItem
-    : '')}
+    (prescription.dispStatus === 'Active: Non-VA'
+      ? prescription.orderableItem
+      : '')}
 
 Instructions: ${validateField(prescription.sig)}
 
@@ -86,9 +86,10 @@ Prescription number: ${rx.prescriptionNumber}
 
 Status: ${validateField(rx.dispStatus)}
 ${(pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition).reduce(
-  (fullStatus, item) => fullStatus + item.value + (item.continued ? ' ' : '\n'),
-  '',
-)}
+      (fullStatus, item) =>
+        fullStatus + item.value + (item.continued ? ' ' : '\n'),
+      '',
+    )}
 Refills left: ${validateField(rx.refillRemaining)}
 
 Request refills by this prescription expiration date: ${dateFormat(
@@ -111,16 +112,15 @@ Prescribed on: ${dateFormat(rx.orderedDate, 'MMMM D, YYYY')}
 Prescribed by: ${(rx.providerFirstName && rx.providerLastName) || 'None noted'}
 
 ${
-  rx.groupedMedications?.length > 0
-    ? `Previous prescriptions associated with this medication: ${rx.groupedMedications
-        .map(previousRx => {
-          return previousRx.prescriptionNumber;
-        })
-        .join(', ')}
-  
+      rx.groupedMedications?.length > 0
+        ? `Previous prescriptions associated with this medication: ${rx.groupedMedications
+            .map(previousRx => {
+              return previousRx.prescriptionNumber;
+            })
+            .join(', ')}
 `
-    : ``
-}`;
+        : ``
+    }`;
   });
 
   return result;
@@ -175,18 +175,15 @@ Provider notes: ${validateField(item.notes)}
  * Return VA prescription TXT
  */
 export const buildVAPrescriptionTXT = prescription => {
-  const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const originalFill = createOriginalFillRecord(prescription);
-  refillHistory.push(originalFill);
-
+  const refillHistory = getRefillHistory(prescription);
   let result = `
 ---------------------------------------------------------------------------------
 
 
 ${prescription?.prescriptionName ||
-  (prescription?.dispStatus === 'Active: Non-VA'
-    ? prescription?.orderableItem
-    : '')}
+    (prescription?.dispStatus === 'Active: Non-VA'
+      ? prescription?.orderableItem
+      : '')}
 
 
 Most recent prescription
@@ -202,11 +199,13 @@ Prescription number: ${prescription.prescriptionNumber}
 
 Status: ${validateField(prescription.dispStatus)}
 ${(
-  pdfStatusDefinitions[prescription.refillStatus] || pdfDefaultStatusDefinition
-).reduce(
-  (fullStatus, item) => fullStatus + item.value + (item.continued ? ' ' : '\n'),
-  '',
-)}
+    pdfStatusDefinitions[prescription.refillStatus] ||
+    pdfDefaultStatusDefinition
+  ).reduce(
+    (fullStatus, item) =>
+      fullStatus + item.value + (item.continued ? ' ' : '\n'),
+    '',
+  )}
 Refills left: ${validateField(prescription.refillRemaining)}
 
 Request refills by this prescription expiration date: ${dateFormat(
@@ -258,12 +257,12 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
     result += `
 ${index === 0 ? 'Original fill' : `Refill`}: ${dateFormat(entry.dispensedDate)}
 ${
-  i === 0
-    ? `
+      i === 0
+        ? `
 Shipped on: ${dateFormat(prescription?.trackingList?.[0]?.completeDateTime)}
 `
-    : ``
-}
+        : ``
+    }
 Medication description: ${description}
 
     `;

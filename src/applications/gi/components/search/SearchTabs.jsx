@@ -10,11 +10,14 @@ import { TABS } from '../../constants';
 export default function SearchTabs({ onChange, search, dispatchError }) {
   const { tab } = search;
 
-  useEffect(() => {
-    if (search.inProgress) {
-      scrollTo('search-form', getScrollOptions());
-    }
-  }, [search.inProgress]);
+  useEffect(
+    () => {
+      if (search.inProgress) {
+        scrollTo('search-form', getScrollOptions());
+      }
+    },
+    [search.inProgress],
+  );
 
   const tabbedSearch = {
     [TABS.name]: <NameSearchForm />,

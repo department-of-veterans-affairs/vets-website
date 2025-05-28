@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
@@ -42,52 +41,58 @@ const MessageThreadHeader = props => {
   const [currentRecipient, setCurrentRecipient] = useState(null);
 
   const messages = useSelector(state => state.sm.threadDetails.messages);
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
+
+  useEffect(
+    () => {
+      if (message) {
+        const tempRecipient = {
+          recipientId,
+          name:
+            messages.find(m => m.triageGroupName === message.triageGroupName)
+              ?.triageGroupName || message.triageGroupName,
+          suggestedNameDisplay: message.suggestedNameDisplay,
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.ALLOWED,
+        };
+
+        setCurrentRecipient(tempRecipient);
+      }
+
+      // The Blocked Triage Group alert should stay visible until the user navigates away
+    },
+    [message, recipients],
   );
 
-  useEffect(() => {
-    if (message) {
-      const tempRecipient = {
-        recipientId,
-        name:
-          messages.find(m => m.triageGroupName === message.triageGroupName)
-            ?.triageGroupName || message.triageGroupName,
-        suggestedNameDisplay: message.suggestedNameDisplay,
-        type: Recipients.CARE_TEAM,
-        status: RecipientStatus.ALLOWED,
-      };
-
-      setCurrentRecipient(tempRecipient);
-    }
-
-    // The Blocked Triage Group alert should stay visible until the user navigates away
-  }, [message, recipients]);
-
-  useEffect(() => {
-    if (new Date() > cannotReplyDate) {
-      setReplyButton(true);
-    }
-  }, [cannotReplyDate, hideReplyButton, sentReplyDate, sentDate]);
-
-  useEffect(() => {
-    return () => {
-      if (location.pathname) {
-        dispatch(closeAlert());
+  useEffect(
+    () => {
+      if (new Date() > cannotReplyDate) {
+        setReplyButton(true);
       }
-    };
-  }, [location.pathname, dispatch]);
+    },
+    [cannotReplyDate, hideReplyButton, sentReplyDate, sentDate],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
 
   const categoryLabel = Categories[category];
 
-  useEffect(() => {
-    const pageTitleTag = getPageTitle({ removeLandingPageFF });
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitleTag);
-  }, [categoryLabel, message, removeLandingPageFF, subject]);
+  useEffect(
+    () => {
+      const pageTitleTag = getPageTitle({});
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitleTag);
+    },
+    [categoryLabel, message, subject],
+  );
 
   useEffect(() => {
     setTimeout(() => {
@@ -104,11 +109,7 @@ const MessageThreadHeader = props => {
           aria-label={`Message subject. ${categoryLabel}: ${subject}`}
           data-dd-privacy="mask"
         >
-          {`${
-            removeLandingPageFF
-              ? `Messages: ${categoryLabel} - ${subject}`
-              : `${categoryLabel}: ${subject}`
-          }`}
+          {`Messages: ${categoryLabel} - ${subject}`}
         </h1>
 
         <CannotReplyAlert

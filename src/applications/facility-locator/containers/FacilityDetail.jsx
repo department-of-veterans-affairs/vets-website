@@ -27,7 +27,9 @@ class FacilityDetail extends Component {
 
     if (justLoaded) {
       this.__previousDocTitle = document.title;
-      document.title = `${this.props.facility.attributes.name} | Veterans Affairs`;
+      document.title = `${
+        this.props.facility.attributes.name
+      } | Veterans Affairs`;
 
       // Need to wait until the data is loaded to focus
       this.headerRef.current.focus();
@@ -106,7 +108,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FacilityDetail);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FacilityDetail);
 
 FacilityDetail.propTypes = {
   currentQuery: PropTypes.object,

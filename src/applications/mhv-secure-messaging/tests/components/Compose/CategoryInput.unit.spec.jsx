@@ -84,7 +84,9 @@ describe('CategoryInput component', () => {
       },
     );
     const selectedRadioOption = document.querySelector(
-      `va-radio-option[label="${RadioCategories.OTHER.label}: ${RadioCategories.OTHER.description}"]`,
+      `va-radio-option[label="${RadioCategories.OTHER.label}: ${
+        RadioCategories.OTHER.description
+      }"]`,
     );
 
     const uncheckedCategories = document.querySelectorAll(

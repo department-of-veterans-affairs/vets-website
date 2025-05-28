@@ -1,27 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { fillPrescription } from '../../actions/prescriptions';
+import { useRefillPrescriptionMutation } from '../../api/prescriptionsApi';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { pharmacyPhoneNumber } from '../../util/helpers';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const FillRefillButton = rx => {
-  const dispatch = useDispatch();
+  const [refillPrescription, { isLoading }] = useRefillPrescriptionMutation();
 
   const { dispensedDate, error, prescriptionId, success, isRefillable } = rx;
 
-  const [isLoading, setIsLoading] = useState(false);
   const hasBeenDispensed =
     dispensedDate || rx.rxRfRecords?.find(record => record.dispensedDate);
   const pharmacyPhone = pharmacyPhoneNumber(rx);
-
-  useEffect(() => {
-    if (success || error) {
-      setIsLoading(false);
-    }
-  }, [success, error]);
 
   if (isRefillable) {
     return (
@@ -34,29 +26,30 @@ const FillRefillButton = rx => {
             </p>
           </va-alert>
         )}
-        {error && !isLoading && (
-          <>
-            <va-alert
-              status="error"
-              setFocus
-              id="fill-error-alert"
-              data-testid="error-alert"
-              aria-live="polite"
-              uswds
-            >
-              <p className="vads-u-margin-y--0" data-testid="error-message">
-                We didn’t get your request. Try again.
+        {error &&
+          !isLoading && (
+            <>
+              <va-alert
+                status="error"
+                setFocus
+                id="fill-error-alert"
+                data-testid="error-alert"
+                aria-live="polite"
+                uswds
+              >
+                <p className="vads-u-margin-y--0" data-testid="error-message">
+                  We didn’t get your request. Try again.
+                </p>
+              </va-alert>
+              <p className="vads-u-margin-bottom--1 vads-u-margin-top--2">
+                If it still doesn’t work, call your VA pharmacy
+                <CallPharmacyPhone
+                  cmopDivisionPhone={pharmacyPhone}
+                  page={pageType.LIST}
+                />
               </p>
-            </va-alert>
-            <p className="vads-u-margin-bottom--1 vads-u-margin-top--2">
-              If it still doesn’t work, call your VA pharmacy
-              <CallPharmacyPhone
-                cmopDivisionPhone={pharmacyPhone}
-                page={pageType.LIST}
-              />
-            </p>
-          </>
-        )}
+            </>
+          )}
         {isLoading && (
           <va-loading-indicator
             message="Submitting your request..."
@@ -76,8 +69,7 @@ const FillRefillButton = rx => {
           data-testid="refill-request-button"
           hidden={success || isLoading}
           onClick={() => {
-            setIsLoading(true);
-            dispatch(fillPrescription(prescriptionId));
+            refillPrescription(prescriptionId);
           }}
           text={`Request ${hasBeenDispensed ? 'a refill' : 'the first fill'}`}
         />

@@ -23,6 +23,8 @@ const selectorShorthand = {
   SELECT_BRANCH_OF_SERVICE: "va-select[name='root_yourBranchOfService']",
   SELECT_BRANCH_OF_SERVICE_ABOUT_YOU:
     "va-select[name='root_aboutYourself_branchOfService']",
+  SELECT_BRANCH_OF_SERVICE_VETERAN:
+    "va-select[name='root_aboutTheVeteran_branchOfService']",
   SELECT_COUNTRY: "va-select[name='root_address_country']",
   SELECT_STATE: "va-select[name='root_address_state']",
   SELECT_MONTH: 'va-select.usa-form-group--month-select',
@@ -62,6 +64,7 @@ const selectorShorthand = {
     "va-text-input[name='root_aboutTheFamilyMember_socialOrServiceNum_ssn']",
   SELECT_SCHOOL: "va-select[name='schoolState']",
   SELECT_FACILITY: "va-select[name='root_stateOfTheFacility']",
+  SELECT_PROPERTY_STATE: "va-select[name='root_stateOfProperty']",
 };
 /*
 
@@ -116,13 +119,22 @@ const ensureExists = (content, selector = null) => {
   }
 };
 
+const clickTab = text => {
+  cy.get('.react-tabs__tab-list li', { includeShadowDom: true })
+    .contains(text)
+    .should('exist');
+  cy.get('.react-tabs__tab-list li', { includeShadowDom: true })
+    .contains(text)
+    .click({ force: true });
+};
+
 const clickLink = text => {
   cy.get('a', { includeShadowDom: true })
     .contains(text)
     .should('exist');
   cy.get('a', { includeShadowDom: true })
     .contains(text)
-    .click();
+    .click({ force: true });
 };
 
 const clickSearchButton = () => {
@@ -146,18 +158,32 @@ const clickRadioButtonYesNo = selector => {
   cy.get(newSelector).click();
 };
 
-const clickCallToActionButton = (isPrimary = true, text) => {
-  const selectorPrimary = isPrimary ? '-primary' : '';
+const clickCallToActionButton = (isPrimary = 'primary', text) => {
+  let selectorPrimary;
+  switch (isPrimary) {
+    case 'primary':
+      selectorPrimary = '-primary';
+      break;
+    case 'secondary':
+      selectorPrimary = '-secondary';
+      break;
+    case 'neither':
+      selectorPrimary = '';
+      break;
+    default:
+      selectorPrimary = '';
+      break;
+  }
   if (text) {
     cy.get(`.usa-button${selectorPrimary}`, { includeShadowDom: true })
       .contains(text)
       .should('exist');
     cy.get(`.usa-button${selectorPrimary}`, { includeShadowDom: true })
       .contains(text)
-      .click();
+      .click({ force: true });
   } else {
     cy.get(`.usa-button${selectorPrimary}`).should('exist');
-    cy.get(`.usa-button${selectorPrimary}`).click();
+    cy.get(`.usa-button${selectorPrimary}`).click({ force: true });
   }
 };
 
@@ -173,9 +199,9 @@ const typeText = (selector, text) => {
     cy.get(newSelector, { includeShadowDom: true })
       .shadow()
       .find('input')
-      .type(text);
+      .type(text, { force: true });
   } else {
-    cy.get(newSelector, { includeShadowDom: true }).type(text);
+    cy.get(newSelector, { includeShadowDom: true }).type(text, { force: true });
   }
 };
 
@@ -183,7 +209,7 @@ const typeTextArea = (selector, text) => {
   const newSelector = mapSelectorShorthand(`TYPE_${selector}`) || selector;
 
   cy.get(newSelector, { includeShadowDom: true }).should('exist'); // TODO: verify this step works
-  cy.get(newSelector, { includeShadowDom: true }).type(text);
+  cy.get(newSelector, { includeShadowDom: true }).type(text, { force: true });
   // cy.get(selector).type(text);
 };
 
@@ -204,7 +230,7 @@ const selectOption = (selector, value) => {
   cy.get(newSelector, { includeShadowDom: true })
     .shadow()
     .find(shadowSelector)
-    .select(value);
+    .select(value, { force: true });
   cy.get(newSelector, { includeShadowDom: true })
     .shadow()
     .find(`${shadowSelector} option:selected`)
@@ -212,6 +238,8 @@ const selectOption = (selector, value) => {
 };
 
 export default class STEPS {
+  static clickTab = clickTab;
+
   static clickLink = clickLink;
 
   static clickRadioButton = clickRadioButton;

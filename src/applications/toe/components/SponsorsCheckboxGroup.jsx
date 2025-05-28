@@ -101,5 +101,8 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SponsorCheckboxGroup),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SponsorCheckboxGroup),
 );

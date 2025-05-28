@@ -13,12 +13,12 @@ import { commonReducer } from '@department-of-veterans-affairs/platform-startup/
 import { renderWithStoreAndRouter as platformRenderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import { cleanup } from '@testing-library/react';
+import { format, setHours, setMinutes } from 'date-fns';
 import covid19VaccineReducer from '../../covid-19-vaccine/redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import reducers from '../../redux/reducer';
 
 import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
-import moment from '../../lib/moment-tz';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import PreferredDatePageVaDate from '../../new-appointment/components/PreferredDatePageVaDate';
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
@@ -31,13 +31,15 @@ import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityP
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import { vaosApi } from '../../redux/api/vaosApi';
 import { TYPES_OF_CARE } from '../../utils/constants';
-import { createMockFacility } from './data';
-import { getSchedulingConfigurationMock } from './mock';
+import MockFacilityResponse from '../fixtures/MockFacilityResponse';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
 } from './mockApis';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../fixtures/MockSchedulingConfigurationResponse';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -119,10 +121,10 @@ export function renderWithStoreAndRouter(
  * @returns {string} An ISO date string for a date
  */
 export function getTestDate() {
-  return moment()
-    .set('hour', 0)
-    .set('minute', 30)
-    .format('YYYY-MM-DD[T]HH:mm:ss');
+  return format(
+    setMinutes(setHours(new Date(), 0), 30),
+    "yyyy-MM-dd'T'HH:mm:ss",
+  );
 }
 
 /**
@@ -161,11 +163,10 @@ export async function setTypeOfFacility(store, value) {
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setTypeOfCare(store, label) {
-  const {
-    findByLabelText,
-    getByText,
-    history,
-  } = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
+  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
+    <TypeOfCarePage />,
+    { store },
+  );
 
   const radioButton = await findByLabelText(label);
   fireEvent.click(radioButton);
@@ -223,20 +224,21 @@ export async function setVAFacility(
   // const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
   const facilities = [
-    facilityData ||
-      createMockFacility({
-        id: facilityId,
-      }),
+    facilityData || new MockFacilityResponse({ id: facilityId }),
   ];
 
   mockFacilitiesApi({ children: true, response: facilities });
   mockSchedulingConfigurationsApi({
     response: [
-      getSchedulingConfigurationMock({
-        id: '983',
-        typeOfCareId,
-        directEnabled: true,
-        requestEnabled: true,
+      new MockSchedulingConfigurationResponse({
+        facilityId: '983',
+        services: [
+          new MockServiceConfiguration({
+            typeOfCareId,
+            directEnabled: true,
+            requestEnabled: true,
+          }),
+        ],
       }),
     ],
   });
@@ -260,24 +262,23 @@ export async function setVAFacility(
  * @param {string} facilityId The facility id of the facility to be selected
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setVaccineFacility(store, facilityId, facilityData = {}) {
+export async function setVaccineFacility(store, facilityData = {}) {
   // TODO: Make sure this works in staging before removal
   // const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
-  const facilities = [
-    createMockFacility({
-      id: facilityId,
-      ...facilityData,
-    }),
-  ];
+  const facilities = [facilityData];
 
   mockFacilitiesApi({ children: true, response: facilities });
   mockSchedulingConfigurationsApi({
     response: [
-      getSchedulingConfigurationMock({
-        id: '983',
-        typeOfCareId: TYPE_OF_CARE_ID,
-        directEnabled: true,
+      new MockSchedulingConfigurationResponse({
+        facilityId: '983',
+        services: [
+          new MockServiceConfiguration({
+            typeOfCareId: TYPE_OF_CARE_ID,
+            directEnabled: true,
+          }),
+        ],
       }),
     ],
   });
@@ -355,7 +356,7 @@ export async function setVaccineClinic(store, label) {
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {MomentDate} preferredDate A Moment date object with the preferred date
+ * @param {Date} preferredDate A date object with the preferred date
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setPreferredDate(store, preferredDate) {
@@ -368,7 +369,7 @@ export async function setPreferredDate(store, preferredDate) {
 
   const vaDate = screen.container.querySelector('va-date');
   vaDate.__events.dateChange({
-    target: { value: preferredDate.format('YYYY-MM-DD') },
+    target: { value: format(preferredDate, 'yyyy-MM-dd') },
   });
 
   fireEvent.click(screen.getByText(/Continue/));
@@ -427,9 +428,14 @@ export async function setCommunityCareFlow({
 
   mockFacilitiesApi({
     ids: registered,
-    response: parentSites.map(data =>
-      createMockFacility({ ...data, isParent: true }),
-    ),
+    response: parentSites.map(data => {
+      const facility = new MockFacilityResponse({
+        id: data.id,
+        isParent: true,
+      });
+      if (data.address) facility.setAddress(data.address);
+      return facility;
+    }),
   });
   mockV2CommunityCareEligibility({
     parentSites: parentSites.map(data => data.id),
@@ -449,7 +455,7 @@ export async function setCommunityCareFlow({
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {MomentDate} cityValue The value of the city to select
+ * @param {*} cityValue The value of the city to select
  * @returns {string} The url path that was routed to after clicking Continue
  */
 export async function setClosestCity(store, cityValue) {

@@ -306,7 +306,9 @@ export function HouseholdInformation({ title, id, formData }) {
 }
 
 export function FinancialDisclosure({ title, id, formData }) {
-  const veteranName = `${formData?.veteranFullName?.first} ${formData?.veteranFullName?.last}'s`;
+  const veteranName = `${formData?.veteranFullName?.first} ${
+    formData?.veteranFullName?.last
+  }'s`;
   return (
     <>
       <h2

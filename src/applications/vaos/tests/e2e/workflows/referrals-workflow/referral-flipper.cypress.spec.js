@@ -32,7 +32,6 @@ describe('VAOS Referral Appointments', () => {
         vaOnlineSchedulingCCDirectScheduling: false,
         vaOnlineSchedulingFlatFacilityPage: true,
         vaOnlineSchedulingUseV2ApiRequests: true,
-        vaOnlineSchedulingFeatureBreadcrumbUrlUpdate: true,
       });
     });
 
@@ -50,7 +49,6 @@ describe('VAOS Referral Appointments', () => {
         vaOnlineSchedulingCCDirectScheduling: true,
         vaOnlineSchedulingFlatFacilityPage: true,
         vaOnlineSchedulingUseV2ApiRequests: true,
-        vaOnlineSchedulingFeatureBreadcrumbUrlUpdate: true,
       });
     });
 

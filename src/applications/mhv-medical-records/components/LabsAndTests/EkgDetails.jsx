@@ -8,16 +8,13 @@ import {
   updatePageTitle,
   txtLine,
   usePrintTitle,
+  getNameDateAndTime,
+  makePdf,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import {
-  generateTextFile,
-  getNameDateAndTime,
-  makePdf,
-  sendDataDogAction,
-} from '../../util/helpers';
+import { generateTextFile, sendDataDogAction } from '../../util/helpers';
 
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -41,12 +38,15 @@ const EkgDetails = props => {
   const user = useSelector(state => state.user.profile);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(
-      `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-    );
-  }, [record.date, record.name]);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(
+        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
+      );
+    },
+    [record.date, record.name],
+  );
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
@@ -61,7 +61,13 @@ const EkgDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, subtitles, ...generateEkgContent(record) };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Electrocardiogram details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Electrocardiogram details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateEkgTxt = async () => {
@@ -119,7 +125,7 @@ const EkgDetails = props => {
             actionName="[lab and tests - ekg facility]"
           />
           <LabelValue label="Results">
-            <p data-testid="ekg-results">
+            <p testId="ekg-results">
               Your EKG results aren’t available in this tool. To get your EKG
               results, you can request a copy of your complete medical record
               from your VA health facility.

@@ -68,4 +68,7 @@ const mapStateToProps = ({ form }) => ({
   fileNumber: form?.data?.personalIdentification?.fileNumber,
 });
 
-export default connect(mapStateToProps, null)(VeteranInfoBox);
+export default connect(
+  mapStateToProps,
+  null,
+)(VeteranInfoBox);

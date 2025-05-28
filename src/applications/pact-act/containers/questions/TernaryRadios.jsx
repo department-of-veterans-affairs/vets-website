@@ -169,4 +169,7 @@ TernaryRadios.propTypes = {
   textBeforeList: PropTypes.string,
 };
 
-export default connect(null, mapDispatchToProps)(TernaryRadios);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(TernaryRadios);

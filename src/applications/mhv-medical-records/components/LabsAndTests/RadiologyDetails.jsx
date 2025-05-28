@@ -10,6 +10,9 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
+  formatNameFirstLast,
+  getNameDateAndTime,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -26,11 +29,8 @@ import {
   radiologyErrors,
 } from '../../util/constants';
 import {
-  formatNameFirstLast,
   generateTextFile,
-  getNameDateAndTime,
   formatDateAndTime,
-  formatUserDob,
   sendDataDogAction,
 } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
@@ -86,7 +86,6 @@ const RadiologyDetails = props => {
 
   const activeAlert = useAlerts(dispatch);
 
-
   useEffect(
     () => {
       dispatch(fetchImageRequestStatus());
@@ -114,17 +113,23 @@ const RadiologyDetails = props => {
     [dispatch, studyJobs, studyRequestLimitReached],
   );
 
-  useEffect(() => {
-    if (processingAlertHeadingRef.current) {
-      setImageProcessingAlertRendered(true);
-    }
-  }, [processingAlertHeadingRef.current]);
+  useEffect(
+    () => {
+      if (processingAlertHeadingRef.current) {
+        setImageProcessingAlertRendered(true);
+      }
+    },
+    [processingAlertHeadingRef.current],
+  );
 
-  useEffect(() => {
-    if (imageProcessingAlertRendered && isImageRequested) {
-      focusElement(processingAlertHeadingRef.current);
-    }
-  }, [imageProcessingAlertRendered, isImageRequested]);
+  useEffect(
+    () => {
+      if (imageProcessingAlertRendered && isImageRequested) {
+        focusElement(processingAlertHeadingRef.current);
+      }
+    },
+    [imageProcessingAlertRendered, isImageRequested],
+  );
 
   const studyJob = useMemo(
     () =>
@@ -168,9 +173,12 @@ const RadiologyDetails = props => {
     [studyJob?.status, pollInterval, dispatch],
   );
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-  }, [record]);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+    },
+    [record],
+  );
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,

@@ -11,14 +11,12 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
-} from '@department-of-veterans-affairs/mhv/exports';
-import {
   formatNameFirstLast,
-  generateTextFile,
   getNameDateAndTime,
   makePdf,
   formatUserDob,
-} from '../util/helpers';
+} from '@department-of-veterans-affairs/mhv/exports';
+import { generateTextFile } from '../util/helpers';
 import { clearVaccineDetails, getVaccineDetails } from '../actions/vaccines';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -52,24 +50,33 @@ const VaccineDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(() => {
-    if (vaccineId) {
-      dispatch(getVaccineDetails(vaccineId, vaccines));
-    }
-  }, [vaccineId, vaccines, dispatch]);
+  useEffect(
+    () => {
+      if (vaccineId) {
+        dispatch(getVaccineDetails(vaccineId, vaccines));
+      }
+    },
+    [vaccineId, vaccines, dispatch],
+  );
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearVaccineDetails());
-    };
-  }, [dispatch]);
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearVaccineDetails());
+      };
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    if (record) {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.VACCINE_DETAILS_PAGE_TITLE);
-    }
-  }, [dispatch, record]);
+  useEffect(
+    () => {
+      if (record) {
+        focusElement(document.querySelector('h1'));
+        updatePageTitle(pageTitles.VACCINE_DETAILS_PAGE_TITLE);
+      }
+    },
+    [dispatch, record],
+  );
 
   usePrintTitle(
     pageTitles.VACCINES_PAGE_TITLE,
@@ -85,7 +92,13 @@ const VaccineDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, details: generateVaccineItem(record) };
     const pdfName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Vaccine details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Vaccine details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateVaccineTxt = async () => {

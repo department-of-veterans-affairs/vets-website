@@ -37,30 +37,25 @@ const App = ({
   showCoe,
   user,
 }) => {
-  useEffect(() => {
-    if (
-      // Show WIP alert if the feature flag isn't set - remove once @ 100%
-      !isLoading &&
-      showCoe &&
-      // get COE status
-      !profileIsUpdating &&
-      !coe
-    ) {
-      if (typeof getCoeMock === 'function' && !environment.isProduction()) {
-        getCoeMock(!canApply);
-      } else {
-        getCoe(!canApply);
+  useEffect(
+    () => {
+      if (
+        // Show WIP alert if the feature flag isn't set - remove once @ 100%
+        !isLoading &&
+        showCoe &&
+        // get COE status
+        !profileIsUpdating &&
+        !coe
+      ) {
+        if (typeof getCoeMock === 'function' && !environment.isProduction()) {
+          getCoeMock(!canApply);
+        } else {
+          getCoe(!canApply);
+        }
       }
-    }
-  }, [
-    coe,
-    getCoe,
-    getCoeMock,
-    isLoading,
-    canApply,
-    profileIsUpdating,
-    showCoe,
-  ]);
+    },
+    [coe, getCoe, getCoeMock, isLoading, canApply, profileIsUpdating, showCoe],
+  );
 
   // Show WIP alert if the feature flag isn't set - remove once @ 100%
   if (!showCoe && !isLoading) {
@@ -192,6 +187,9 @@ App.propTypes = {
   user: PropTypes.object,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
 
 export { App };

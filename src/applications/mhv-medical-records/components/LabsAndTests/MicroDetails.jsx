@@ -10,18 +10,16 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
+  formatNameFirstLast,
+  getNameDateAndTime,
+  makePdf,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
-import {
-  formatNameFirstLast,
-  generateTextFile,
-  getNameDateAndTime,
-  makePdf,
-  formatUserDob,
-} from '../../util/helpers';
+import { generateTextFile } from '../../util/helpers';
 
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -45,9 +43,12 @@ const MicroDetails = props => {
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-  }, [record]);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+    },
+    [record],
+  );
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
@@ -66,7 +67,13 @@ const MicroDetails = props => {
       ...generateMicrobioContent(record),
     };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Microbiology details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Microbiology details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateMicroTxt = async () => {
@@ -81,10 +88,10 @@ Date: ${record.date}\n
 ${txtLine}\n\n
 Details about this test\n
 ${
-  record.name !== 'Microbiology' && record.labType
-    ? `Lab type: ${record.labType}\n`
-    : ''
-}
+      record.name !== 'Microbiology' && record.labType
+        ? `Lab type: ${record.labType}\n`
+        : ''
+    }
 Site or sample tested: ${record.sampleTested}\n
 Collection sample: ${record.sampleFrom}\n
 Ordered by: ${record.orderedBy}\n
@@ -133,14 +140,15 @@ ${record.results}`;
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
-            {record.name !== 'Microbiology' && record.labType && (
-              <LabelValue
-                label="Lab type"
-                value={record.labType}
-                testId="microbio-lab-type"
-                action-name="[lab and tests - microbio lab type]"
-              />
-            )}
+            {record.name !== 'Microbiology' &&
+              record.labType && (
+                <LabelValue
+                  label="Lab type"
+                  value={record.labType}
+                  testId="microbio-lab-type"
+                  action-name="[lab and tests - microbio lab type]"
+                />
+              )}
             <LabelValue
               label="Site or sample tested"
               value={record.sampleTested}

@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-closing-tag-location */
-/* eslint-disable react/jsx-wrap-multilines */
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import React from 'react';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -33,7 +31,11 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import { flattenApplicantSSN, migrateCardUploadKeys } from './migrations';
+import {
+  flattenApplicantSSN,
+  migrateCardUploadKeys,
+  removeOtherRelationshipSpecification,
+} from './migrations';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
@@ -186,8 +188,12 @@ const formConfig = {
       saved: 'Your CHAMPVA benefits application has been saved.',
     },
   },
-  version: 2,
-  migrations: [flattenApplicantSSN, migrateCardUploadKeys],
+  version: 3,
+  migrations: [
+    flattenApplicantSSN,
+    migrateCardUploadKeys,
+    removeOtherRelationshipSpecification,
+  ],
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
@@ -910,7 +916,7 @@ const formConfig = {
             `${applicantWording(item)} relationship to the sponsor`,
           CustomPage: ApplicantRelationshipPage,
           CustomPageReview: ApplicantRelationshipReviewPage,
-          schema: applicantListSchema([], {
+          schema: applicantListSchema(['applicantRelationshipToSponsor'], {
             applicantRelationshipToSponsor: {
               type: 'object',
               properties: {

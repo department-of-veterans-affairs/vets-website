@@ -44,27 +44,30 @@ export const ContactInformation = ({
   const updatedSection = location?.query?.updatedSection;
   const success = location?.query?.success;
 
-  useEffect(() => {
-    const progressBar = document.getElementById('nav-form-header');
-    if (updatedSection) {
-      const sectionTimeout = setTimeout(() => {
-        waitForRenderThenFocus(`#${updatedSection}`);
-        scrollToElement(updatedSection);
-      }, 100);
+  useEffect(
+    () => {
+      const progressBar = document.getElementById('nav-form-header');
+      if (updatedSection) {
+        const sectionTimeout = setTimeout(() => {
+          waitForRenderThenFocus(`#${updatedSection}`);
+          scrollToElement(updatedSection);
+        }, 100);
 
-      return () => clearTimeout(sectionTimeout);
-    }
-
-    const progressBarTimeout = setTimeout(() => {
-      scrollTo('topScrollElement');
-      if (progressBar) {
-        progressBar.style.display = 'block';
-        focusElement(progressBar);
+        return () => clearTimeout(sectionTimeout);
       }
-    }, 250);
 
-    return () => clearTimeout(progressBarTimeout);
-  }, [updatedSection]);
+      const progressBarTimeout = setTimeout(() => {
+        scrollTo('topScrollElement');
+        if (progressBar) {
+          progressBar.style.display = 'block';
+          focusElement(progressBar);
+        }
+      }, 250);
+
+      return () => clearTimeout(progressBarTimeout);
+    },
+    [updatedSection],
+  );
 
   const { homePhone, mobilePhone, email } = data;
 
@@ -104,9 +107,10 @@ export const ContactInformation = ({
             name="veteranAddress"
             level={subHeadingLevel}
           />
-          {success && updatedSection === 'veteranAddress' && (
-            <SaveSuccessAlert updatedText="Address" />
-          )}
+          {success &&
+            updatedSection === 'veteranAddress' && (
+              <SaveSuccessAlert updatedText="Address" />
+            )}
           <dl>
             <InfoSection.InfoBlock
               label="Street address"
@@ -133,9 +137,10 @@ export const ContactInformation = ({
             level={subHeadingLevel}
           />
 
-          {success && updatedSection === 'otherContactInformation' && (
-            <SaveSuccessAlert updatedText="Other contact information" />
-          )}
+          {success &&
+            updatedSection === 'otherContactInformation' && (
+              <SaveSuccessAlert updatedText="Other contact information" />
+            )}
           <dl>
             <InfoSection.InfoBlock label="Email address" value={email} />
             <InfoSection.InfoBlock

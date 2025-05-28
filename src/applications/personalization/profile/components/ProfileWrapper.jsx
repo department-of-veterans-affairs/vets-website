@@ -50,11 +50,14 @@ const ProfileWrapper = ({
 
   const routesForNav = getRoutesForNav();
 
-  const layout = useMemo(() => {
-    return getLayout({
-      currentPathname: location.pathname,
-    });
-  }, [location.pathname]);
+  const layout = useMemo(
+    () => {
+      return getLayout({
+        currentPathname: location.pathname,
+      });
+    },
+    [location.pathname],
+  );
 
   return (
     <>

@@ -116,7 +116,7 @@ class FolderManagementPage {
   moveMessageToNewFolder = foldersList => {
     cy.intercept(
       `POST`,
-      Paths.SM_API_BASE + Paths.FOLDERS,
+      Paths.INTERCEPT.MESSAGE_FOLDERS,
       createdFolderResponse,
     ).as(`createdFolder`);
     cy.intercept(`GET`, `${Paths.SM_API_BASE}/folders*`, foldersList).as(
@@ -124,7 +124,9 @@ class FolderManagementPage {
     );
     cy.intercept(
       `PATCH`,
-      `${Paths.SM_API_BASE}/threads/7176615/move?folder_id=${createdFolderResponse.data.attributes.folderId}`,
+      `${Paths.SM_API_BASE}/threads/7176615/move?folder_id=${
+        createdFolderResponse.data.attributes.folderId
+      }`,
       { statusCode: 204 },
     ).as(`threadNoContent`);
 
@@ -135,17 +137,14 @@ class FolderManagementPage {
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
   };
 
-  backToCreatedFolder = threadData => {
+  backToInbox = () => {
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_BASE}/folders/${createdFolderResponse.data.attributes.folderId}*`,
-      createdFolderResponse,
+      `${Paths.SM_API_BASE}/folders/${
+        createdFolderResponse.data.attributes.folderId
+      }/threads*`,
+      defaultMockThread,
     ).as(`updatedFolder`);
-    cy.intercept(
-      `GET`,
-      `${Paths.SM_API_BASE}/folders/${createdFolderResponse.data.attributes.folderId}/threads*`,
-      threadData,
-    ).as(`updatedThread`);
 
     cy.get(Locators.LINKS.CRUMBS_BACK).then(btn => {
       return new Cypress.Promise(resolve => {

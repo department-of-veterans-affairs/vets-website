@@ -11,18 +11,21 @@ export const Portal = ({
     return document.createElement(element);
   });
 
-  React.useEffect(() => {
-    if (prepend) {
-      target.prepend(container);
-    } else {
-      target.appendChild(container);
-    }
-    return () => {
-      if (target) {
-        target.removeChild(container);
+  React.useEffect(
+    () => {
+      if (prepend) {
+        target.prepend(container);
+      } else {
+        target.appendChild(container);
       }
-    };
-  }, [container, prepend, target]);
+      return () => {
+        if (target) {
+          target.removeChild(container);
+        }
+      };
+    },
+    [container, prepend, target],
+  );
 
   return createPortal(children, container);
 };

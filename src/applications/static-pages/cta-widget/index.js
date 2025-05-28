@@ -43,18 +43,14 @@ import { ctaWidgetsLookup, CTA_WIDGET_TYPES } from './ctaWidgets';
 
 export class CallToActionWidget extends Component {
   static propTypes = {
-    // From mapDispatchToProps.
-    fetchMHVAccount: PropTypes.func.isRequired,
-    toggleLoginModal: PropTypes.func.isRequired,
     // Directly passed in props.
     appId: PropTypes.string,
-    ariaDescribedby: PropTypes.string,
-    ariaLabel: PropTypes.string,
+    children: PropTypes.node,
+    headerLevel: PropTypes.string,
+    setFocus: PropTypes.bool,
     // From mapStateToProps.
     authenticatedWithSSOe: PropTypes.bool,
-    children: PropTypes.node,
     featureToggles: PropTypes.object,
-    headerLevel: PropTypes.string,
     isLoggedIn: PropTypes.bool,
     isVaPatient: PropTypes.bool,
     mhvAccount: PropTypes.object,
@@ -62,7 +58,11 @@ export class CallToActionWidget extends Component {
     mviStatus: PropTypes.string,
     profile: PropTypes.object,
     serviceName: PropTypes.string,
-    setFocus: PropTypes.bool,
+    // From mapDispatchToProps.
+    fetchMHVAccount: PropTypes.func.isRequired,
+    toggleLoginModal: PropTypes.func.isRequired,
+    ariaLabel: PropTypes.string,
+    ariaDescribedby: PropTypes.string,
   };
 
   static defaultProps = {
@@ -578,4 +578,7 @@ const mapDispatchToProps = {
   toggleLoginModal,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CallToActionWidget);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CallToActionWidget);

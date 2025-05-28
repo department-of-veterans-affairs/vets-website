@@ -17,13 +17,16 @@ export const ConfirmationPageView = ({
 }) => {
   const alertRef = useRef(null);
 
-  useEffect(() => {
-    if (alertRef?.current) {
-      scrollTo('topScrollElement');
-      // delay focus for Safari
-      waitForRenderThenFocus('h2', alertRef.current);
-    }
-  }, [alertRef]);
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo('topScrollElement');
+        // delay focus for Safari
+        waitForRenderThenFocus('h2', alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   const { first, middle, last, suffix } = submitterName;
   const { headlineText, nextStepsText } = content;

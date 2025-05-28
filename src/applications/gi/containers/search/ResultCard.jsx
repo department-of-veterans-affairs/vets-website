@@ -53,6 +53,7 @@ export function ResultCard({
     preferredProvider,
     programCount,
     programLengthInHours,
+    accredited,
     type,
   } = institution;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -279,10 +280,16 @@ export function ResultCard({
           <strong>Accreditation:</strong>
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
-          {(accreditationType && (
-            <span className="capitalize-value">{accreditationType}</span>
-          )) ||
-            'N/A'}
+          {/* eslint-disable-next-line no-nested-ternary */}
+          {accredited ? (
+            accreditationType ? (
+              <span className="capitalize-value">{accreditationType}</span>
+            ) : (
+              'Yes'
+            )
+          ) : (
+            'N/A'
+          )}
         </p>
       </div>
       <div className="vads-u-flex--1">
@@ -359,19 +366,20 @@ export function ResultCard({
             </div>
           )}
           <>
-            {showSchoolContentBasedOnType(type) && type !== 'FOREIGN' && (
-              <div
-                className={classNames(
-                  'vads-u-padding-x--2 vads-u-margin-bottom--4',
-                  {
-                    'vads-u-border-top--3px': cautionFlags.length === 0,
-                    'vads-u-border-color--white': cautionFlags.length === 0,
-                  },
-                )}
-              >
-                {tuitionAndEligibility}
-              </div>
-            )}
+            {showSchoolContentBasedOnType(type) &&
+              type !== 'FOREIGN' && (
+                <div
+                  className={classNames(
+                    'vads-u-padding-x--2 vads-u-margin-bottom--4',
+                    {
+                      'vads-u-border-top--3px': cautionFlags.length === 0,
+                      'vads-u-border-color--white': cautionFlags.length === 0,
+                    },
+                  )}
+                >
+                  {tuitionAndEligibility}
+                </div>
+              )}
             <div className="vads-u-border-top--3px vads-u-border-color--white vads-u-padding-x--2">
               <div className="vads-u-display--flex vads-u-margin-top--1 ">
                 {!vetTecProvider
@@ -433,4 +441,7 @@ ResultCard.propTypes = {
   version: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResultCard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ResultCard);

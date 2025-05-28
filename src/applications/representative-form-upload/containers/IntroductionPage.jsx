@@ -23,67 +23,55 @@ const IntroductionPage = ({ route, router }) => {
     window.location = SIGN_IN_URL;
   };
 
-  const startBtn = useMemo(() => {
-    const startForm = () => {
-      recordEvent({ event: `${formNumber}-start-form` });
-      return router.push(route.pageList[1].path);
-    };
-    return (
-      <a
-        href="#start"
-        className="vads-c-action-link--green"
-        onClick={startForm}
-      >
-        Start application
-      </a>
-    );
-  }, [route.pageList, router]);
+  const startBtn = useMemo(
+    () => {
+      const startForm = () => {
+        recordEvent({ event: `${formNumber}-start-form` });
+        return router.push(route.pageList[1].path);
+      };
+      return (
+        <a
+          href="#start"
+          className="vads-c-action-link--green"
+          onClick={startForm}
+        >
+          Start application
+        </a>
+      );
+    },
+    [route.pageList, router],
+  );
 
   return (
     <article className="schemaform-intro">
       <FormTitle title={title} subTitle={subTitle} />
-      <h2>How to submit VA form {formNumber}</h2>
-      <p>This upload tool allows Veterans to submit a completed VA form.</p>
+      <h2>Follow these steps to submit the form</h2>
       <VaProcessList>
-        <VaProcessListItem header="Download the form">
-          <p>Download the official VA Form {formNumber} from VA.gov.</p>
+        <VaProcessListItem header="Download, fill out, and sign the form">
+          <p>
+            Download the form on your computer and fill it out, or print and
+            complete it by hand. For smooth processing, make sure you:
+          </p>
+          <ul>
+            <li>Provide all the required information</li>
+            <li>Sign the form</li>
+          </ul>
           <VaLink
             external
             filetype="PDF"
             href={pdfDownloadUrl}
-            text={`Download VA Form ${formNumber}`}
+            text={`Download VA Form ${formNumber} (PDF)`}
           />
         </VaProcessListItem>
-        <VaProcessListItem header="Fill out the form">
+        <VaProcessListItem header="Upload and submit the form">
           <div>
+            <p>Upload the form, review and submit the form.</p>
             <p>
-              Complete the form on your device, or print and complete it by
-              hand. For smooth processing, make sure you:
+              <strong>Note:</strong> The portal can’t check for mistakes in your
+              form, so make sure you review all the information before you
+              upload and submit.
             </p>
-            <ul>
-              <li>Provide all the required information</li>
-              <li>Sign the form</li>
-            </ul>
-          </div>
-        </VaProcessListItem>
-        <VaProcessListItem header="Upload your form here">
-          <div>
-            <p>
-              When you’re ready to submit your form, you can use the upload tool
-              below:
-            </p>
-            <ul>
-              <li>
-                First we’ll ask you for some personal details. The information
-                you provide needs to match the form. If it doesn’t, it will
-                cause delays.
-              </li>
-              <li>Then we’ll ask you to upload your completed form.</li>
-              <li>
-                <b>Note:</b> The upload tool can’t check for mistakes in your
-                form. Make sure you review your file before you submit.
-              </li>
-            </ul>
+            <p>When you’re ready, start the process below.</p>
           </div>
         </VaProcessListItem>
       </VaProcessList>

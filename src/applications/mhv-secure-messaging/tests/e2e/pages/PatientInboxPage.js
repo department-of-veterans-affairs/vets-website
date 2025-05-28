@@ -138,7 +138,9 @@ class PatientInboxPage {
       mockThread,
     ).as('full-thread');
     cy.tabToElement(
-      `a[href*="/my-health/secure-messages/message/${inputMockMessage.attributes.messageId}"]`,
+      `a[href*="/my-health/secure-messages/message/${
+        inputMockMessage.attributes.messageId
+      }"]`,
     );
     cy.realPress(['Enter']);
     cy.wait(Locators.INFO.MESSAGE);
@@ -160,19 +162,25 @@ class PatientInboxPage {
     );
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${mockMessages.data[0].attributes.messageId}/thread?full_body=true`,
+      `${Paths.SM_API_EXTENDED}/${
+        mockMessages.data[0].attributes.messageId
+      }/thread?full_body=true`,
       this.singleThread,
     ).as('full-thread');
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${this.singleThread.data[0].attributes.messageId}`,
+      `${Paths.SM_API_EXTENDED}/${
+        this.singleThread.data[0].attributes.messageId
+      }`,
       { data: this.singleThread.data[0] },
     ).as('fist-message-in-thread');
 
     if (this.singleThread.data.length > 1) {
       cy.intercept(
         'GET',
-        `${Paths.SM_API_EXTENDED}/${this.singleThread.data[1].attributes.messageId}`,
+        `${Paths.SM_API_EXTENDED}/${
+          this.singleThread.data[1].attributes.messageId
+        }`,
         { data: this.singleThread.data[1] },
       ).as('second-message-in-thread');
     }
@@ -319,7 +327,7 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
-    cy.get(Locators.BUTTONS.CONTINUE).click();
+    cy.findByTestId(Locators.BUTTONS.CONTINUE).click();
   };
 
   navigateToComposePage = (checkFocusOnVcl = false) => {
@@ -349,7 +357,9 @@ class PatientInboxPage {
   navigateToComposePageByKeyboard = () => {
     cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE);
     cy.realPress(['Enter']);
-    cy.tabToElement(Locators.BUTTONS.CONTINUE);
+    cy.findByTestId(Locators.BUTTONS.CONTINUE).then($el => {
+      cy.tabToElement($el);
+    });
     cy.realPress(['Enter']);
   };
 
@@ -380,15 +390,6 @@ class PatientInboxPage {
   navigateReply = () => {
     cy.tabToElement(Locators.BUTTONS.REPLY);
     cy.realPress(['Enter']);
-  };
-
-  loadLandingPageByTabbingAndEnterKey = () => {
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE +
-        Paths.FOLDERS}/0/messages?per_page=-1&useCache=false`,
-      mockFolders,
-    ).as('folders');
   };
 
   selectAdvancedSearchCategoryCustomFolder = () => {

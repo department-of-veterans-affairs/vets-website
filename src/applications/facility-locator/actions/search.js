@@ -59,6 +59,7 @@ export const searchWithBounds = ({
 
           return;
         }
+
         fetchLocations(
           address,
           bounds,

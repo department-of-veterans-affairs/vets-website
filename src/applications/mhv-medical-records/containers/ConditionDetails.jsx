@@ -11,15 +11,12 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
-} from '@department-of-veterans-affairs/mhv/exports';
-import {
   formatNameFirstLast,
-  generateTextFile,
   getNameDateAndTime,
   makePdf,
-  processList,
   formatUserDob,
-} from '../util/helpers';
+} from '@department-of-veterans-affairs/mhv/exports';
+import { generateTextFile, processList } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
   getConditionDetails,
@@ -59,22 +56,32 @@ const ConditionDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearConditionDetails());
-    };
-  }, [dispatch]);
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearConditionDetails());
+      };
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    if (conditionId) dispatch(getConditionDetails(conditionId, conditionList));
-  }, [conditionId, conditionList, dispatch]);
+  useEffect(
+    () => {
+      if (conditionId)
+        dispatch(getConditionDetails(conditionId, conditionList));
+    },
+    [conditionId, conditionList, dispatch],
+  );
 
-  useEffect(() => {
-    if (record?.name) {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.HEALTH_CONDITIONS_DETAILS_PAGE_TITLE);
-    }
-  }, [record]);
+  useEffect(
+    () => {
+      if (record?.name) {
+        focusElement(document.querySelector('h1'));
+        updatePageTitle(pageTitles.HEALTH_CONDITIONS_DETAILS_PAGE_TITLE);
+      }
+    },
+    [record],
+  );
 
   usePrintTitle(
     pageTitles.HEALTH_CONDITIONS_PAGE_TITLE,
@@ -90,7 +97,13 @@ const ConditionDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, ...generateConditionContent(record) };
     const pdfName = `VA-conditions-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Condition details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Condition details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateConditionTxt = async () => {

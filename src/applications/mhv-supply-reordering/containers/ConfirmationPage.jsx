@@ -36,12 +36,15 @@ export const ConfirmationPage = () => {
     .map(id => supplies.find(({ productId }) => id == productId)) // eslint-disable-line eqeqeq
     .map(({ productName }) => productName);
 
-  useEffect(() => {
-    if (alertRef?.current) {
-      scrollTo('topScrollElement');
-      waitForRenderThenFocus('h2', alertRef.current);
-    }
-  }, [alertRef]);
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo('topScrollElement');
+        waitForRenderThenFocus('h2', alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   return (
     <div>

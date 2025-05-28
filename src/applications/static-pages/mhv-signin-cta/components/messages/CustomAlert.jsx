@@ -22,14 +22,17 @@ const CustomAlert = ({
   status = 'info',
   icon = 'info',
 }) => {
-  useEffect(() => {
-    recordEvent({
-      event: 'nav-alert-box-load',
-      action: 'load',
-      'alert-box-headline': headline,
-      'alert-box-status': status,
-    });
-  }, [headline, recordEvent, status]);
+  useEffect(
+    () => {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': headline,
+        'alert-box-status': status,
+      });
+    },
+    [headline, recordEvent, status],
+  );
 
   const alertClasses = classNames({
     'mhv-c-reg-alert usa-alert vads-u-display--flex vads-u-align-items--flex-start': true,

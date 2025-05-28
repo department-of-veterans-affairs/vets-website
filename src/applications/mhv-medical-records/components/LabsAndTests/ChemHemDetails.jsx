@@ -11,6 +11,10 @@ import {
   txtLine,
   txtLineDotted,
   usePrintTitle,
+  makePdf,
+  getNameDateAndTime,
+  formatNameFirstLast,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import ItemList from '../shared/ItemList';
@@ -18,14 +22,7 @@ import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
-import {
-  makePdf,
-  processList,
-  generateTextFile,
-  getNameDateAndTime,
-  formatNameFirstLast,
-  formatUserDob,
-} from '../../util/helpers';
+import { processList, generateTextFile } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
@@ -47,9 +44,12 @@ const ChemHemDetails = props => {
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-  }, [record.date, record.name]);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+    },
+    [record.date, record.name],
+  );
 
   usePrintTitle(
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
@@ -68,7 +68,13 @@ const ChemHemDetails = props => {
       ...generateChemHemContent(record),
     };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Chem/Hem details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Chem/Hem details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateChemHemTxt = async () => {
@@ -89,8 +95,8 @@ Lab comments: ${processList(record.comments)} \n
 ${txtLine}\n\n
 Results:
 ${record.results
-  .map(
-    entry => `
+      .map(
+        entry => `
 ${txtLine}\n
 ${entry.name}
 ${txtLineDotted}
@@ -98,8 +104,8 @@ Result: ${entry.result}
 Standard range: ${entry.standardRange}
 Status: ${entry.status}
 Lab comments: ${entry.labComments}\n`,
-  )
-  .join('')}`;
+      )
+      .join('')}`;
 
     generateTextFile(
       content,

@@ -28,17 +28,20 @@ export const useLocalStorage = (key, defaultValue, json = false) => {
     return currentValue;
   });
 
-  useEffect(() => {
-    if (value === null) {
-      localStorage.removeItem(key);
-      return;
-    }
-    if (json) {
-      localStorage.setItem(key, JSON.stringify(value));
-      return;
-    }
-    localStorage.setItem(key, value);
-  }, [value, key, json]);
+  useEffect(
+    () => {
+      if (value === null) {
+        localStorage.removeItem(key);
+        return;
+      }
+      if (json) {
+        localStorage.setItem(key, JSON.stringify(value));
+        return;
+      }
+      localStorage.setItem(key, value);
+    },
+    [value, key, json],
+  );
 
   const clearValue = () => {
     setValue(null);

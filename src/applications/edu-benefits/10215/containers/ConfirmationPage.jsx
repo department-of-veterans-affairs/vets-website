@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { scrollAndFocus } from 'platform/utilities/ui';
 import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
 import environment from '~/platform/utilities/environment';
+import { setSubmission } from 'platform/forms-system/src/js/actions';
 import GetFormHelp from '../components/GetFormHelp';
 import { childContent } from '../helpers';
 
@@ -22,13 +24,24 @@ export const ConfirmationPage = ({ router, route }) => {
   const [claimId, setClaimId] = React.useState(null);
   const form = useSelector(state => state?.form);
   const { submission } = form;
-
   const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
+
+  const dispatch = useDispatch();
+
+  const resetSubmissionStatus = () => {
+    const now = new Date().getTime();
+
+    dispatch(setSubmission('status', false));
+    dispatch(setSubmission('timestamp', now));
+  };
+
   const goBack = e => {
     e.preventDefault();
+    resetSubmissionStatus();
     router.push('/review-and-submit');
   };
+
   useEffect(
     () => {
       setClaimIdInLocalStage(submission);
@@ -36,6 +49,11 @@ export const ConfirmationPage = ({ router, route }) => {
     },
     [submission],
   );
+
+  useEffect(() => {
+    const firsth2 = document.querySelector('va-alert + h2');
+    scrollAndFocus(firsth2);
+  }, []);
 
   useEffect(() => {
     const h2Element = document.querySelector('.custom-classname h2');

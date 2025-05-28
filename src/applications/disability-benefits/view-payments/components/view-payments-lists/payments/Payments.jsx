@@ -61,11 +61,14 @@ const Payments = ({
 
   const tablePaginationRef = useResizeObserver(onPaginationResize);
 
-  useEffect(() => {
-    const paginatedData = paginateData(data);
-    setCurrentData(paginatedData[currentPage - 1]);
-    totalPages.current = paginatedData.length;
-  }, [currentPage, data]);
+  useEffect(
+    () => {
+      const paginatedData = paginateData(data);
+      setCurrentData(paginatedData[currentPage - 1]);
+      totalPages.current = paginatedData.length;
+    },
+    [currentPage, data],
+  );
 
   if (currentData) {
     return (
@@ -118,7 +121,6 @@ const Payments = ({
 
 Payments.propTypes = {
   tableVersion: PropTypes.oneOf(['received', 'returned']).isRequired,
-  alertMessage: PropTypes.element,
   data: PropTypes.array,
   fields: PropTypes.array,
   textContent: PropTypes.element,

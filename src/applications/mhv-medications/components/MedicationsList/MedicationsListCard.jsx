@@ -1,18 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dispStatusForRefillsLeft } from '../../util/constants';
-import { setPrescriptionDetails } from '../../actions/prescriptions';
 import { selectRefillContentFlag } from '../../util/selectors';
 import { dateFormat } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MedicationsListCard = ({ rx }) => {
-  const dispatch = useDispatch();
   const showRefillContent = useSelector(selectRefillContentFlag);
   const pendingMed =
     rx.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
@@ -29,9 +27,6 @@ const MedicationsListCard = ({ rx }) => {
       return <p data-dd-privacy="mask">{rx.refillRemaining} refill left</p>;
     }
     return <p data-dd-privacy="mask">{rx.refillRemaining} refills left</p>;
-  };
-  const handleLinkClick = () => {
-    dispatch(setPrescriptionDetails(rx));
   };
 
   const cardBodyContent = () => {
@@ -121,8 +116,12 @@ const MedicationsListCard = ({ rx }) => {
           id={`card-header-${rx.prescriptionId}`}
           aria-describedby={
             pendingMed || pendingRenewal
-              ? `prescription-number-${rx.prescriptionId} pending-med-content-${rx.prescriptionId}`
-              : `status-${rx.prescriptionId} status-description-${rx.prescriptionId} fill-or-refill-button-${rx.prescriptionId}`
+              ? `prescription-number-${rx.prescriptionId} pending-med-content-${
+                  rx.prescriptionId
+                }`
+              : `status-${rx.prescriptionId} status-description-${
+                  rx.prescriptionId
+                } fill-or-refill-button-${rx.prescriptionId}`
           }
           data-dd-privacy="mask"
           data-dd-action-name={
@@ -130,21 +129,21 @@ const MedicationsListCard = ({ rx }) => {
           }
           data-testid="medications-history-details-link"
           className="vads-u-font-weight--bold"
-          to={`/prescription/${rx.prescriptionId}`}
-          onClick={handleLinkClick}
+          to={`prescription/${rx.prescriptionId}`}
         >
           {rx.prescriptionName ||
             (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
         </Link>
-        {rx.dispStatus !== 'Unknown' && rx.dispStatus !== 'Active: Non-VA' && (
-          <p
-            data-testid="rx-number"
-            data-dd-privacy="mask"
-            id={`prescription-number-${rx.prescriptionId}`}
-          >
-            Prescription number: {rx.prescriptionNumber}
-          </p>
-        )}
+        {rx.dispStatus !== 'Unknown' &&
+          rx.dispStatus !== 'Active: Non-VA' && (
+            <p
+              data-testid="rx-number"
+              data-dd-privacy="mask"
+              id={`prescription-number-${rx.prescriptionId}`}
+            >
+              Prescription number: {rx.prescriptionNumber}
+            </p>
+          )}
         {cardBodyContent()}
       </div>
     </div>

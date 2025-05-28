@@ -10,7 +10,6 @@ import { renderDOB } from '@@vap-svc/util/personal-information/personalInformati
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { getMessagingSignature } from 'platform/user/profile/actions';
-import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 import LegalName from './LegalName';
 import DisabilityRating from './DisabilityRating';
@@ -36,12 +35,6 @@ const LegalNameDescription = () => (
 const PersonalInformationSection = ({ dob }) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const messagingSignatureEnabled = useSelector(
-    state =>
-      state.featureToggles[
-        featureFlagNames.mhvSecureMessagingSignatureSettings
-      ],
-  );
   const userServices = useSelector(state => state.user.profile.services);
   const isMessagingServiceEnabled = userServices.includes(
     backendServices.MESSAGING,
@@ -53,86 +46,85 @@ const PersonalInformationSection = ({ dob }) => {
   const messagingSignatureName = messagingSignature?.signatureName;
   const hasMessagingSignatureError = messagingSignature?.error !== undefined;
 
-  useEffect(() => {
-    if (
-      messagingSignatureEnabled &&
-      isMessagingServiceEnabled &&
-      messagingSignature == null
-    )
-      dispatch(getMessagingSignature());
-  }, [
-    dispatch,
-    isMessagingServiceEnabled,
-    messagingSignature,
-    messagingSignatureEnabled,
-  ]);
+  useEffect(
+    () => {
+      if (isMessagingServiceEnabled && messagingSignature == null)
+        dispatch(getMessagingSignature());
+    },
+    [dispatch, isMessagingServiceEnabled, messagingSignature],
+  );
 
-  useEffect(() => {
-    const fieldName = `#${FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE]}`;
-    if (messagingSignatureName !== null && location.hash === fieldName) {
-      const targetElement = document.querySelector(fieldName);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-        focusElement(targetElement.querySelector('h2'));
+  useEffect(
+    () => {
+      const fieldName = `#${FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE]}`;
+      if (messagingSignatureName !== null && location.hash === fieldName) {
+        const targetElement = document.querySelector(fieldName);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+          focusElement(targetElement.querySelector('h2'));
+        }
       }
-    }
-  }, [messagingSignatureName, location.hash]);
+    },
+    [messagingSignatureName, location.hash],
+  );
 
-  const updatedCardFields = useMemo(() => {
-    const cardFields = [
-      {
-        title: 'Legal name',
-        description: <LegalNameDescription />,
-        value: <LegalName />,
-      },
-      { title: 'Date of birth', value: renderDOB(dob) },
-      {
-        title: 'Preferred name',
-        description:
-          "Share this information if you'd like us to use a first name that's different from your legal name when you come in to VA.",
-        id: FIELD_IDS[FIELD_NAMES.PREFERRED_NAME],
-        value: (
-          <ProfileInformationFieldController
-            fieldName={FIELD_NAMES.PREFERRED_NAME}
-            isDeleteDisabled
-          />
-        ),
-      },
-      {
-        title: 'Disability rating',
-        value: <DisabilityRating />,
-      },
-    ];
-
-    if (messagingSignatureEnabled && isMessagingServiceEnabled) {
-      const signaturePresent =
-        messagingSignature?.signatureName?.trim() &&
-        messagingSignature?.signatureTitle?.trim();
-      return [
-        ...cardFields,
+  const updatedCardFields = useMemo(
+    () => {
+      const cardFields = [
         {
-          title: FIELD_TITLES[FIELD_NAMES.MESSAGING_SIGNATURE],
+          title: 'Legal name',
+          description: <LegalNameDescription />,
+          value: <LegalName />,
+        },
+        { title: 'Date of birth', value: renderDOB(dob) },
+        {
+          title: 'Preferred name',
           description:
-            'You can add a signature and signature title to be automatically added to all outgoing secure messages.',
-          id: FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE],
+            "Share this information if you'd like us to use a first name that's different from your legal name when you come in to VA.",
+          id: FIELD_IDS[FIELD_NAMES.PREFERRED_NAME],
           value: (
-            <MessagingSignature
-              hasError={hasMessagingSignatureError}
-              fieldName={FIELD_NAMES.MESSAGING_SIGNATURE}
-              signaturePresent={signaturePresent}
+            <ProfileInformationFieldController
+              fieldName={FIELD_NAMES.PREFERRED_NAME}
+              isDeleteDisabled
             />
           ),
         },
+        {
+          title: 'Disability rating',
+          value: <DisabilityRating />,
+        },
       ];
-    }
-    return cardFields;
-  }, [
-    dob,
-    hasMessagingSignatureError,
-    isMessagingServiceEnabled,
-    messagingSignatureEnabled,
-    messagingSignature,
-  ]);
+
+      if (isMessagingServiceEnabled) {
+        const signaturePresent =
+          messagingSignature?.signatureName?.trim() &&
+          messagingSignature?.signatureTitle?.trim();
+        return [
+          ...cardFields,
+          {
+            title: FIELD_TITLES[FIELD_NAMES.MESSAGING_SIGNATURE],
+            description:
+              'You can add a signature and signature title to be automatically added to all outgoing secure messages.',
+            id: FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE],
+            value: (
+              <MessagingSignature
+                hasError={hasMessagingSignatureError}
+                fieldName={FIELD_NAMES.MESSAGING_SIGNATURE}
+                signaturePresent={signaturePresent}
+              />
+            ),
+          },
+        ];
+      }
+      return cardFields;
+    },
+    [
+      dob,
+      hasMessagingSignatureError,
+      isMessagingServiceEnabled,
+      messagingSignature,
+    ],
+  );
 
   return (
     <div className="vads-u-margin-bottom--6">

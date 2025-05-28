@@ -55,9 +55,12 @@ export default function AppointmentsPage() {
   //   selectFeatureBookingExclusion(state),
   // );
 
-  useEffect(() => {
-    dispatch(setFormCurrentPage('appointments'));
-  }, [location, dispatch]);
+  useEffect(
+    () => {
+      dispatch(setFormCurrentPage('appointments'));
+    },
+    [location, dispatch],
+  );
 
   let prefix = 'Your';
   const isPending = location.pathname.endsWith('/pending');
@@ -88,22 +91,29 @@ export default function AppointmentsPage() {
   //     ? !!hasRegisteredOHTransitionSite && !hasRegisteredNonTransitionSite
   //     : false;
 
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus('h1');
-  }, [location.pathname, prefix, pageTitle]);
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus('h1');
+    },
+    [location.pathname, prefix, pageTitle],
+  );
 
   const [count, setCount] = useState(0);
-  useEffect(() => {
-    // Get non cancelled appointment requests from store
-    setCount(
-      pendingAppointments
-        ? pendingAppointments.filter(
-            appointment => appointment.status !== APPOINTMENT_STATUS.cancelled,
-          ).length
-        : 0,
-    );
-  }, [pendingAppointments]);
+  useEffect(
+    () => {
+      // Get non cancelled appointment requests from store
+      setCount(
+        pendingAppointments
+          ? pendingAppointments.filter(
+              appointment =>
+                appointment.status !== APPOINTMENT_STATUS.cancelled,
+            ).length
+          : 0,
+      );
+    },
+    [pendingAppointments],
+  );
 
   const handleCCLinkClick = e => {
     e.preventDefault();
@@ -123,7 +133,6 @@ export default function AppointmentsPage() {
       >
         {pageTitle}
       </h1>
-      {/* display paragraphText on RequestedAppointmentsListGroup page when print list flag is on */}
       <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
       {/* {featureBookingExclusion && (
         <CernerTransitionAlert
@@ -140,7 +149,7 @@ export default function AppointmentsPage() {
       {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
 
-      {/* TODO: Add this back in when VeText adds support for a 
+      {/* TODO: Add this back in when VeText adds support for a
       referral id in the url sent to the veteran  */}
       {/* {isInCCPilot && <ReferralTaskCardWithReferral />} */}
 

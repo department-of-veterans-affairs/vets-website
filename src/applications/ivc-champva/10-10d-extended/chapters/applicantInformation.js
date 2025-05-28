@@ -122,8 +122,7 @@ const applicantIntroPage = {
 const applicantIdentificationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${applicantWording(formData) || 'Applicant'} identification`,
+      ({ formData }) => `${applicantWording(formData)} identification`,
     ),
     applicantSSN: ssnUI(),
   },
@@ -144,8 +143,7 @@ const applicantAddressSelectionPage = {
 const applicantMailingAddressPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${applicantWording(formData) || 'Applicant'} mailing address`,
+      ({ formData }) => `${applicantWording(formData)} mailing address`,
     ),
     applicantAddress: addressUI({
       labels: {
@@ -166,8 +164,7 @@ const applicantMailingAddressPage = {
 const applicantContactInfoPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `${applicantWording(formData) || 'Applicant'} contact information`,
+      ({ formData }) => `${applicantWording(formData)} contact information`,
       ({ formData }) =>
         `We’ll use this information to contact ${applicantWording(
           formData,

@@ -55,11 +55,9 @@ export function featureCombinationsTogglesToTest(
     const toggles = arrayChooseK(toggleNames, i);
     togglesCombinations.push(...toggles);
   }
-  return createFlipperFeatureSet(
-    togglesCombinations,
-    toggleNames,
-  ).filter(features =>
-    requiredToggles.every(toggle => features.some(isFeatureEnabled(toggle))),
+  return createFlipperFeatureSet(togglesCombinations, toggleNames).filter(
+    features =>
+      requiredToggles.every(toggle => features.some(isFeatureEnabled(toggle))),
   );
 }
 

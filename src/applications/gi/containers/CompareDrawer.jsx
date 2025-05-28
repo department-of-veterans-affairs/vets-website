@@ -15,6 +15,7 @@ export function CompareDrawer({
   displayed,
   alwaysDisplay = false,
   dispatchCompareDrawerOpened,
+  showDisclaimer,
 }) {
   const history = useHistory();
 
@@ -141,7 +142,9 @@ export function CompareDrawer({
                   onClick={() => {
                     setPromptingFacilityCode(facilityCode);
                   }}
-                  aria-label={`Remove ${institutions[facilityCode].name} from comparison`}
+                  aria-label={`Remove ${
+                    institutions[facilityCode].name
+                  } from comparison`}
                 />
               </div>
             </div>
@@ -151,47 +154,56 @@ export function CompareDrawer({
     );
   };
 
-  useEffect(() => {
-    if (loaded.length === 0) {
-      makeHeaderLabel();
-      makeLoadedCards();
-      setBlanks(renderBlanks());
-      dispatchCompareDrawerOpened(false);
-    } else if (loaded.length === 1 && !open) {
-      dispatchCompareDrawerOpened(true);
-      setTimeout(() => {
+  useEffect(
+    () => {
+      if (loaded.length === 0) {
         makeHeaderLabel();
         makeLoadedCards();
         setBlanks(renderBlanks());
+        dispatchCompareDrawerOpened(false);
+      } else if (loaded.length === 1 && !open) {
+        dispatchCompareDrawerOpened(true);
         setTimeout(() => {
-          dispatchCompareDrawerOpened(false);
-        }, 800);
-      }, 300);
-    } else if (loaded.length >= 1 && loaded.length <= 3) {
-      makeHeaderLabel();
-      makeLoadedCards();
-      setBlanks(renderBlanks());
-      dispatchCompareDrawerOpened(true);
-    }
+          makeHeaderLabel();
+          makeLoadedCards();
+          setBlanks(renderBlanks());
+          setTimeout(() => {
+            dispatchCompareDrawerOpened(false);
+          }, 800);
+        }, 300);
+      } else if (loaded.length >= 1 && loaded.length <= 3) {
+        makeHeaderLabel();
+        makeLoadedCards();
+        setBlanks(renderBlanks());
+        dispatchCompareDrawerOpened(true);
+      }
 
-    setPreviousLoaded(loaded);
-    setPreviousInstitutions(institutions);
-  }, [loaded]);
+      setPreviousLoaded(loaded);
+      setPreviousInstitutions(institutions);
+    },
+    [loaded],
+  );
 
-  useEffect(() => {
-    if (sizeChanged) {
-      setScrollable(tooTall());
-      setSizeChanged(false);
-    }
-  }, [sizeChanged]);
+  useEffect(
+    () => {
+      if (sizeChanged) {
+        setScrollable(tooTall());
+        setSizeChanged(false);
+      }
+    },
+    [sizeChanged],
+  );
 
   const checkSize = () => {
     setSizeChanged(true);
   };
 
-  useEffect(() => {
-    checkSize();
-  }, [open]);
+  useEffect(
+    () => {
+      checkSize();
+    },
+    [open],
+  );
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, true);
@@ -224,10 +236,15 @@ export function CompareDrawer({
     dispatchCompareDrawerOpened(!open);
   };
 
-  const compareDrawerClasses = classNames('compare-drawer', {
-    stuck,
-    scrollable,
-  });
+  const compareDrawerClasses = classNames(
+    { row: showDisclaimer && stuck },
+    'compare-drawer',
+    { 'compare-drawer--border': showDisclaimer && stuck },
+    {
+      stuck,
+      scrollable,
+    },
+  );
   const expandCollapse = classNames({
     'compare-drawer-collapsed': !open,
     'compare-drawer-expanded': open,
@@ -333,6 +350,10 @@ CompareDrawer.propTypes = {
   dispatchRemoveCompareInstitution: PropTypes.func.isRequired,
   displayed: PropTypes.bool.isRequired,
   alwaysDisplay: PropTypes.bool,
+  showDisclaimer: PropTypes.bool,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CompareDrawer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CompareDrawer);

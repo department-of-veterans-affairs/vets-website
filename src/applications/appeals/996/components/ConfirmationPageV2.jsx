@@ -28,11 +28,11 @@ import { formTitle } from '../content/title';
 
 import {
   chapterHeaderClass,
-  ConfirmationTitle,
-  ConfirmationAlert,
   ConfirmationSummary,
   ConfirmationReturnLink,
-} from '../../shared/components/ConfirmationCommon';
+} from '../../shared/components/ConfirmationSummary';
+import { ConfirmationAlert } from '../../shared/components/ConfirmationAlert';
+import { ConfirmationTitle } from '../../shared/components/ConfirmationTitle';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
 
@@ -46,13 +46,16 @@ export const ConfirmationPageV2 = () => {
   const form = useSelector(state => state.form || {});
   const profile = useSelector(state => selectProfile(state));
 
-  useEffect(() => {
-    if (alertRef?.current) {
-      scrollTo('topScrollElement');
-      // delay focus for Safari
-      waitForRenderThenFocus('#main h2', alertRef.current);
-    }
-  }, [alertRef]);
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo('topScrollElement');
+        // delay focus for Safari
+        waitForRenderThenFocus('#main h2', alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   // Fix this after Lighthouse sets up the download URL
   const downloadUrl = ''; // HLR_PDF_DOWNLOAD_URL;

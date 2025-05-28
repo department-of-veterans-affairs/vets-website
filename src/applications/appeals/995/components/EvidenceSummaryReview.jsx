@@ -11,11 +11,9 @@ import {
 
 import { content } from '../content/evidenceSummary';
 
-import {
-  VaContent,
-  PrivateContent,
-  UploadContent,
-} from './EvidenceSummaryLists';
+import { EvidencePrivateContent } from './EvidencePrivateContent';
+import { EvidenceUploadContent } from './EvidenceUploadContent';
+import { EvidenceVaContent } from './EvidenceVaContent';
 import { SUMMARY_EDIT, SC_NEW_FORM_DATA, EVIDENCE_LIMIT } from '../constants';
 import { data995 } from '../../shared/props';
 
@@ -24,16 +22,19 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
 
   const editRef = useRef(null);
 
-  useEffect(() => {
-    if (
-      window.sessionStorage.getItem(SUMMARY_EDIT) === 'true' &&
-      editRef?.current
-    ) {
-      // focus on edit button _after_ editing and returning
-      window.sessionStorage.removeItem(SUMMARY_EDIT);
-      setTimeout(() => focusElement('button', {}, editRef.current));
-    }
-  }, [editRef]);
+  useEffect(
+    () => {
+      if (
+        window.sessionStorage.getItem(SUMMARY_EDIT) === 'true' &&
+        editRef?.current
+      ) {
+        // focus on edit button _after_ editing and returning
+        window.sessionStorage.removeItem(SUMMARY_EDIT);
+        setTimeout(() => focusElement('button', {}, editRef.current));
+      }
+    },
+    [editRef],
+  );
 
   // on review & submit in review mode (not editing)
   const vaEvidence = getVAEvidence(data);
@@ -87,15 +88,15 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         </dl>
       ) : null}
 
-      <VaContent list={vaEvidence} {...props} />
-      <PrivateContent
+      <EvidenceVaContent list={vaEvidence} {...props} />
+      <EvidencePrivateContent
         list={privateEvidence}
         showLimitedConsentYN={showLimitedConsentYN}
         limitedConsent={limitedConsent}
         privacyAgreementAccepted={privacyAgreementAccepted}
         {...props}
       />
-      <UploadContent list={otherEvidence} {...props} />
+      <EvidenceUploadContent list={otherEvidence} {...props} />
     </div>
   );
 };

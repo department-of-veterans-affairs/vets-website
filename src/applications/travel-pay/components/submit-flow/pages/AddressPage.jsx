@@ -8,11 +8,7 @@ import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import {
-  HelpTextOptions,
-  HelpTextGeneral,
-  HelpTextModalities,
-} from '../../HelpText';
+import { HelpTextOptions, HelpTextModalities } from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
 import {
   recordSmocButtonClick,
@@ -33,15 +29,18 @@ const AddressPage = ({
 
   useSetPageTitle(title);
 
-  useEffect(() => {
-    recordSmocPageview('address');
-    scrollToTop('topScrollElement');
-    if (!address) {
-      focusElement('h1');
-    } else {
-      focusElement('h1', {}, 'va-radio');
-    }
-  }, [address]);
+  useEffect(
+    () => {
+      recordSmocPageview('address');
+      scrollToTop('topScrollElement');
+      if (!address) {
+        focusElement('h1');
+      } else {
+        focusElement('h1', {}, 'va-radio');
+      }
+    },
+    [address],
+  );
 
   const [requiredAlert, setRequiredAlert] = useState(false);
 
@@ -83,10 +82,6 @@ const AddressPage = ({
           />
         </va-alert>
         <HelpTextModalities />
-        <h2 className="vads-u-font-size--h4">
-          How can I get help with my claim?
-        </h2>
-        <HelpTextGeneral />
         <br />
         <va-button
           back
@@ -105,6 +100,11 @@ const AddressPage = ({
         value={yesNo.address}
         error={requiredAlert}
         label={title}
+        description={`Answer “yes” if you traveled from the address listed here and you confirm that it’s not a Post Office box. Home address. ${
+          address.addressLine1
+        } ${address.addressLine2 ?? ''} ${address.addressLine3 ?? ''} ${
+          address.city
+        }, ${address.stateCode} ${address.zipCode}`}
         onValueChange={e => {
           setYesNo({ ...yesNo, address: e.detail.value });
         }}

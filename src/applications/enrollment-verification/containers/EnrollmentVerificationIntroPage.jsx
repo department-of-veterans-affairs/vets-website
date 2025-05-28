@@ -29,16 +29,19 @@ export function EnrollmentVerificationIntroPage({
     setCalledGetPost911GiBillEligibility,
   ] = useState(false);
 
-  useEffect(() => {
-    if (!calledGetPost911GiBillEligibility) {
-      setCalledGetPost911GiBillEligibility(true);
-      getPost911GiBillEligibility();
-    }
-  }, [
-    calledGetPost911GiBillEligibility,
-    getPost911GiBillEligibility,
-    post911GiBillEligibility,
-  ]);
+  useEffect(
+    () => {
+      if (!calledGetPost911GiBillEligibility) {
+        setCalledGetPost911GiBillEligibility(true);
+        getPost911GiBillEligibility();
+      }
+    },
+    [
+      calledGetPost911GiBillEligibility,
+      getPost911GiBillEligibility,
+      post911GiBillEligibility,
+    ],
+  );
 
   const onVerifyEnrollmentsClick = useCallback(
     event => {
@@ -87,9 +90,10 @@ export function EnrollmentVerificationIntroPage({
       </p>
 
       {!isLoggedIn && <EnrollmentVerificationLogin />}
-      {isLoggedIn && !enrollmentVerificationFetchComplete && (
-        <EnrollmentVerificationLoadingIndicator message="Loading..." />
-      )}
+      {isLoggedIn &&
+        !enrollmentVerificationFetchComplete && (
+          <EnrollmentVerificationLoadingIndicator message="Loading..." />
+        )}
       {isLoggedIn &&
         enrollmentVerificationFetchComplete &&
         enrollmentsLoadedOrFetchFailed &&

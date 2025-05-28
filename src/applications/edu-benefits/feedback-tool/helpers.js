@@ -129,7 +129,9 @@ function pollStatus(guid, onDone, onError) {
           recordEvent({ event: `${trackingPrefix}submission-failed` });
           // needs to start with this string to get the right message on the form
           throw new Error(
-            `vets_server_error_gi_bill_feedbacks: status ${res.data.attributes.state}`,
+            `vets_server_error_gi_bill_feedbacks: status ${
+              res.data.attributes.state
+            }`,
           );
         }
       })

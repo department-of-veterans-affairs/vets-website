@@ -207,10 +207,12 @@ class ReviewCollapsibleChapter extends React.Component {
       // Remove bottom margin when the div content is empty
       'vads-u-margin-bottom--0': !pageSchema && arrayFields.length === 0,
     });
+
     const title = page.reviewTitle || page.title || '';
-    const ariaLabel = `Update ${(typeof title === 'function'
-      ? title(pageData)
-      : title) || 'page'}`;
+    const labelTitle = pageUiSchema['ui:options']?.itemAriaLabel || title;
+    const ariaText =
+      typeof labelTitle === 'function' ? labelTitle(pageData) : labelTitle;
+    const ariaLabel = `Update ${ariaText || 'page'}`;
 
     const visibleFields =
       pageSchema &&

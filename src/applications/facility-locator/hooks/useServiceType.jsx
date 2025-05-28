@@ -221,9 +221,12 @@ export default function useServiceType() {
     selector = vaHealthcareServices;
   }
 
-  useEffect(() => {
-    connectDrupalStaticDataFileVaHealthServices(dispatch);
-  }, [dispatch]);
+  useEffect(
+    () => {
+      connectDrupalStaticDataFileVaHealthServices(dispatch);
+    },
+    [dispatch],
+  );
 
   /**
    * When the autosuggest component is first loaded,

@@ -47,22 +47,28 @@ const TraumaticEventTypesPage = ({
 
   const deletedEvidenceConfirmationRef = useRef(null);
 
-  useEffect(() => {
-    if (
-      showDeletedEvidenceConfirmation &&
-      deletedEvidenceConfirmationRef.current
-    ) {
-      deletedEvidenceConfirmationRef.current.focus();
-    }
-  }, [showDeletedEvidenceConfirmation]);
+  useEffect(
+    () => {
+      if (
+        showDeletedEvidenceConfirmation &&
+        deletedEvidenceConfirmationRef.current
+      ) {
+        deletedEvidenceConfirmationRef.current.focus();
+      }
+    },
+    [showDeletedEvidenceConfirmation],
+  );
 
   const modalRef = useRef(null);
-  useEffect(() => {
-    if (showDeleteMSTEvidenceModal && modalRef.current) {
-      const modalHeading = document.querySelector('h4');
-      scrollAndFocus(modalHeading);
-    }
-  }, [showDeleteMSTEvidenceModal]);
+  useEffect(
+    () => {
+      if (showDeleteMSTEvidenceModal && modalRef.current) {
+        const modalHeading = document.querySelector('h4');
+        scrollAndFocus(modalHeading);
+      }
+    },
+    [showDeleteMSTEvidenceModal],
+  );
 
   const claimedIncidentReportsForEvents = () => {
     if (data.events) {

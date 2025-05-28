@@ -6,10 +6,13 @@ import { useProcessManager } from '../../../context/processManager';
 export const Servers = () => {
   const { fetchManifests, fetchStatus } = useProcessManager();
 
-  useEffect(() => {
-    fetchManifests();
-    fetchStatus();
-  }, [fetchManifests, fetchStatus]);
+  useEffect(
+    () => {
+      fetchManifests();
+      fetchStatus();
+    },
+    [fetchManifests, fetchStatus],
+  );
 
   return (
     <div className="vads-l-grid-container--full vads-u-padding-x--2">

@@ -6,7 +6,9 @@ import { fileTypes } from './attachments';
 
 // Modified version of the file upload from applications/appeals/995
 
-const uploadUrl = `${environment.API_URL}/ivc_champva/v1/forms/submit_supporting_documents`;
+const uploadUrl = `${
+  environment.API_URL
+}/ivc_champva/v1/forms/submit_supporting_documents`;
 
 export function createPayload(file, _formId, password) {
   const payload = new FormData();

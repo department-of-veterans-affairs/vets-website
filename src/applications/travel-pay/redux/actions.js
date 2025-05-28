@@ -83,7 +83,9 @@ export function getAppointmentData(apptId) {
   return async dispatch => {
     dispatch(fetchAppointmentStart());
     try {
-      const apptUrl = `${environment.API_URL}/vaos/v2/appointments/${apptId}?_include=facilities,travel_pay_claims`;
+      const apptUrl = `${
+        environment.API_URL
+      }/vaos/v2/appointments/${apptId}?_include=facilities,travel_pay_claims`;
       const response = await apiRequest(apptUrl);
       const appointmentData = transformVAOSAppointment(
         response.data.attributes,

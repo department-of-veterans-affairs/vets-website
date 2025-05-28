@@ -26,13 +26,17 @@ class PatientMessageCustomFolderPage {
   loadCustomFolderWithNoMessages = () => {
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_BASE}/folders/${createdFolderResponse.data.attributes.folderId}*`,
+      `${Paths.SM_API_BASE}/folders/${
+        createdFolderResponse.data.attributes.folderId
+      }*`,
       createdFolderResponse,
     ).as(`loadedFolderResponse`);
 
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_BASE}/folders/${createdFolderResponse.data.attributes.folderId}/threads*`,
+      `${Paths.SM_API_BASE}/folders/${
+        createdFolderResponse.data.attributes.folderId
+      }/threads*`,
       { data: [] },
     ).as(`emptyFolderThread`);
 
@@ -104,13 +108,17 @@ class PatientMessageCustomFolderPage {
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${detailedMessage.data.attributes.messageId}/thread`,
+      `${Paths.INTERCEPT.MESSAGES}/${
+        detailedMessage.data.attributes.messageId
+      }/thread`,
       mockSingleThreadResponse,
     ).as('threadResponse');
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${detailedMessage.data.attributes.messageId}`,
+      `${Paths.INTERCEPT.MESSAGES}/${
+        detailedMessage.data.attributes.messageId
+      }`,
       mockSingleMessageResponse,
     ).as('detailedMessage');
 
@@ -123,7 +131,7 @@ class PatientMessageCustomFolderPage {
     cy.get('[data-testid="edit-folder-button"]')
       .should('be.visible')
       .then(() => {
-        cy.get(Locators.HEADER).should('have.text', `${text}`);
+        cy.get(Locators.HEADER).should('have.text', `Messages: ${text}`);
       });
   };
 
@@ -180,7 +188,9 @@ class PatientMessageCustomFolderPage {
   deleteCustomFolder = () => {
     cy.intercept(
       'DELETE',
-      `${Paths.SM_API_BASE}/folders/${createdFolderResponse.data.attributes.folderId}`,
+      `${Paths.SM_API_BASE}/folders/${
+        createdFolderResponse.data.attributes.folderId
+      }`,
       {
         statusCode: 204,
       },
@@ -258,7 +268,7 @@ class PatientMessageCustomFolderPage {
       'have.text',
       Data.REMOVE_FOLDER,
     );
-    cy.get(Locators.BUTTONS.REMOVE_FOLDER).click();
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER).click({ waitForAnimations: true });
   };
 
   verifyEmptyFolderAlert = () => {

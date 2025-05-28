@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import Sinon from 'sinon';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { edipiNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import labsAndTests from '../fixtures/labsAndTests.json';
 import pathology from '../fixtures/pathology.json';
 import notes from '../fixtures/notes.json';
@@ -24,8 +25,6 @@ const militaryService = fs.readFileSync(
   'src/applications/mhv-medical-records/tests/fixtures/blueButton/military-service.txt',
   'utf8',
 );
-
-import edipiNotFound from '../../util/edipiNotFound';
 
 import {
   getAllergies,
@@ -287,7 +286,9 @@ describe('Get appointments api call', () => {
 
     const statusParams =
       '&statuses[]=booked&statuses[]=arrived&statuses[]=fulfilled&statuses[]=cancelled';
-    const expectedUrl = `${environment.API_URL}/vaos/v2/appointments?_include=facilities,clinics&start=${fromDate}&end=${toDate}${statusParams}`;
+    const expectedUrl = `${
+      environment.API_URL
+    }/vaos/v2/appointments?_include=facilities,clinics&start=${fromDate}&end=${toDate}${statusParams}`;
     expect(fetchStub.firstCall.args[0]).to.equal(expectedUrl);
     expect(result.data.length).to.equal(2);
 

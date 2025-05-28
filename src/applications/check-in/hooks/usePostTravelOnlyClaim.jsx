@@ -38,54 +38,57 @@ const usePostTravelOnlyClaim = props => {
   const alreadyPosted =
     differenceInCalendarDays(Date.now(), parseISO(travelPaySent)) === 0;
 
-  useEffect(() => {
-    if (
-      data['travel-vehicle'] !== 'yes' ||
-      data['travel-address'] !== 'yes' ||
-      data['travel-review'] !== 'yes'
-    ) {
-      jumpToPage(URLS.TRAVEL_INTRO);
-      return;
-    }
-    const markTravelPayClaimSent = () => {
-      setTravelPaySent(window, new Date());
-    };
-    if (isLoading && !isComplete) {
-      return;
-    }
-    setIsLoading(true);
-    if (alreadyPosted) {
-      setIsLoading(false);
-      return;
-    }
-    api.v2
-      .postTravelOnlyClaim(appointmentStartTime, uuid, timeToComplete)
-      .catch(() => {
-        setTravelPayClaimError(true);
-      })
-      .finally(() => {
-        markTravelPayClaimSent();
+  useEffect(
+    () => {
+      if (
+        data['travel-vehicle'] !== 'yes' ||
+        data['travel-address'] !== 'yes' ||
+        data['travel-review'] !== 'yes'
+      ) {
+        jumpToPage(URLS.TRAVEL_INTRO);
+        return;
+      }
+      const markTravelPayClaimSent = () => {
+        setTravelPaySent(window, new Date());
+      };
+      if (isLoading && !isComplete) {
+        return;
+      }
+      setIsLoading(true);
+      if (alreadyPosted) {
         setIsLoading(false);
-        setIsComplete(true);
-        const completeTime = getCompleteTimestamp(window);
-        if (!completeTime) {
-          setCompleteTimestamp(window, Date.now());
-        }
-      });
-  }, [
-    isLoading,
-    setTravelPaySent,
-    uuid,
-    isComplete,
-    travelPaySent,
-    data,
-    jumpToPage,
-    timeToComplete,
-    alreadyPosted,
-    appointmentStartTime,
-    setCompleteTimestamp,
-    getCompleteTimestamp,
-  ]);
+        return;
+      }
+      api.v2
+        .postTravelOnlyClaim(appointmentStartTime, uuid, timeToComplete)
+        .catch(() => {
+          setTravelPayClaimError(true);
+        })
+        .finally(() => {
+          markTravelPayClaimSent();
+          setIsLoading(false);
+          setIsComplete(true);
+          const completeTime = getCompleteTimestamp(window);
+          if (!completeTime) {
+            setCompleteTimestamp(window, Date.now());
+          }
+        });
+    },
+    [
+      isLoading,
+      setTravelPaySent,
+      uuid,
+      isComplete,
+      travelPaySent,
+      data,
+      jumpToPage,
+      timeToComplete,
+      alreadyPosted,
+      appointmentStartTime,
+      setCompleteTimestamp,
+      getCompleteTimestamp,
+    ],
+  );
 
   return {
     travelPayClaimError,

@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
 import medicationInformation from '../fixtures/patient-medications-information.json';
@@ -67,7 +69,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsOrderedDate = () => {
-    cy.get('[data-testid="ordered-date"]').should(
+    cy.get('[datat-testid="ordered-date"]').should(
       'have.text',
       'April 14, 2023',
     );
@@ -87,7 +89,9 @@ class MedicationsDetailsPage {
   clickMedicationHistoryAndDetailsLink = prescriptionDetails => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions/${prescriptionDetails.data.attributes.prescriptionId}`,
+      `/my_health/v1/prescriptions/${
+        prescriptionDetails.data.attributes.prescriptionId
+      }`,
       prescriptionDetails,
     ).as('prescription_details');
     cy.get('a[data-testid ="medications-history-details-link"]')
@@ -98,7 +102,9 @@ class MedicationsDetailsPage {
   clickMedicationDetailsLink = (prescriptionDetails, cardNumber) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions/${prescriptionDetails.data.attributes.prescriptionId}`,
+      `/my_health/v1/prescriptions/${
+        prescriptionDetails.data.attributes.prescriptionId
+      }`,
       prescriptionDetails,
     ).as('prescriptionDetails');
     cy.get(
@@ -553,7 +559,7 @@ class MedicationsDetailsPage {
   };
 
   verifyLastFilledDateOnDetailsPage = text => {
-    cy.get('[data-testid="rx-last-filled-date"]').should('have.text', text);
+    cy.get('[data-testid="rx-last-filled-date"]').should('contain', text);
   };
 
   verifyRefillLinkTextOnDetailsPage = text => {
@@ -737,6 +743,124 @@ class MedicationsDetailsPage {
   verifyPrescriptionInformationInTrackingAlertOnDetailsPage = (text, name) => {
     cy.get('[data-testid="prescription-info"]').should('contain', text);
     cy.get('[data-testid="rx-name"]').should('contain', name);
+  };
+
+  verifyLastFilledDateInAccordionOnDetailsPage = text => {
+    cy.get('[data-testid="accordion-fill-date-info"]')
+      .shadow({ force: true })
+      .find('[class="va-accordion__subheader"]', { force: true })
+      .should('contain', text);
+  };
+
+  verifyShippedOnDateNotAvailableTextInRefillAccordion = text => {
+    cy.get('[data-testid="shipped-on"]').should('contain', text);
+  };
+
+  verifyRxRfDispensedDateOnStepTwoProgressTracker = text => {
+    cy.get('[data-testid="active-step-two"] > .vads-u-color--gray-dark').should(
+      'be.visible',
+    );
+    const apiDate = text;
+    const expectedDate = 'March 22, 2024';
+    const parsedDate = new Date(apiDate);
+    const timeZone = 'America/New_York';
+    const zonedDate = utcToZonedTime(parsedDate, timeZone);
+    // Format the date to match the UI format
+    const formattedDate = format(zonedDate, 'MMMM d, yyyy');
+    cy.get('[data-testid="active-step-two"] > .vads-u-color--gray-dark').should(
+      'have.text',
+      `Completed on ${expectedDate}`,
+    );
+    expect(formattedDate).to.equal(expectedDate);
+  };
+
+  formatToEDTString(date) {
+    return `${date
+      .toLocaleString('en-US', {
+        weekday: 'short',
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZone: 'America/New_York',
+        hour12: false,
+      })
+      .replace(',', '')
+      .replace(' at', '')} EDT`;
+  }
+
+  updateCompleteDateTime(data, prescriptionName) {
+    const fourteenDaysAgo = new Date();
+    fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 13);
+    const formattedDate = this.formatToEDTString(fourteenDaysAgo);
+
+    return {
+      ...data,
+      data: data.data.map(
+        item =>
+          item.attributes.prescriptionName === prescriptionName
+            ? {
+                ...item,
+                attributes: {
+                  ...item.attributes,
+                  tracking: true,
+                  trackingList: [
+                    {
+                      ...item.attributes.trackingList[0],
+                      completeDateTime: formattedDate,
+                    },
+                  ],
+                },
+              }
+            : item,
+      ),
+    };
+  }
+
+  updateRefillAndCompleteDates = (
+    data,
+    prescriptionName,
+    refillDateOffset = 15,
+  ) => {
+    const currentDate = new Date();
+
+    // Fixed completeDateTime to 14 days ago (T-14)
+    const completeDate = new Date(currentDate);
+    completeDate.setDate(currentDate.getDate() - 13);
+
+    // Dynamic refillDate based on the provided offset
+    const refillDate = new Date(currentDate);
+    refillDate.setDate(currentDate.getDate() + refillDateOffset);
+
+    return {
+      ...data,
+      data: data.data.map(
+        item =>
+          item.attributes.prescriptionName === prescriptionName
+            ? {
+                ...item,
+                attributes: {
+                  ...item.attributes,
+                  refillDate:
+                    item.attributes.refillDate != null
+                      ? refillDate.toISOString()
+                      : null,
+                  tracking: true, // Ensure tracking is enabled
+                  trackingList: item.attributes.trackingList?.length
+                    ? [
+                        {
+                          ...item.attributes.trackingList[0],
+                          completeDateTime: completeDate.toISOString(), // Fixed completeDateTime
+                        },
+                      ]
+                    : [],
+                },
+              }
+            : item,
+      ),
+    };
   };
 }
 

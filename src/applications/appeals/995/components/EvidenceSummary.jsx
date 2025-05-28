@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement, scrollTo } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -14,11 +13,9 @@ import {
 
 import { content } from '../content/evidenceSummary';
 
-import {
-  VaContent,
-  PrivateContent,
-  UploadContent,
-} from './EvidenceSummaryLists';
+import { EvidencePrivateContent } from './EvidencePrivateContent';
+import { EvidenceUploadContent } from './EvidenceUploadContent';
+import { EvidenceVaContent } from './EvidenceVaContent';
 
 import { EVIDENCE_LIMIT, LIMITATION_KEY, SC_NEW_FORM_DATA } from '../constants';
 import { customPageProps995 } from '../../shared/props';
@@ -50,19 +47,25 @@ const EvidenceSummary = ({
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
 
-  useEffect(() => {
-    setHasErrors(
-      containerRef?.current.querySelectorAll('.usa-input-error-message')
-        .length > 0,
-    );
-  }, [containerRef, evidenceLength]);
+  useEffect(
+    () => {
+      setHasErrors(
+        containerRef?.current.querySelectorAll('.usa-input-error-message')
+          .length > 0,
+      );
+    },
+    [containerRef, evidenceLength],
+  );
 
-  useEffect(() => {
-    if (evidenceLength === 0) {
-      focusElement('#no-evidence');
-      scrollTo('evidenceSummaryScrollElement');
-    }
-  }, [evidenceLength]);
+  useEffect(
+    () => {
+      if (evidenceLength === 0) {
+        focusElement('#no-evidence');
+        scrollTo('evidenceSummaryScrollElement');
+      }
+    },
+    [evidenceLength],
+  );
 
   const callbacks = {
     va: () => {
@@ -211,19 +214,19 @@ const EvidenceSummary = ({
           }
         >
           <p>
-            {content.removeEvidence[removeData?.type] || ''}
+            {content.removeEvidence[(removeData?.type)] || ''}
             {removeData?.name ? <strong>{` ${removeData.name}`}</strong> : null}
           </p>
         </VaModal>
-        <VaContent list={vaEvidence} {...props} />
-        <PrivateContent
+        <EvidenceVaContent list={vaEvidence} {...props} />
+        <EvidencePrivateContent
           list={privateEvidence}
           showLimitedConsentYN={showLimitedConsentYN}
           limitedConsent={limitedConsent}
           privacyAgreementAccepted={privacyAgreementAccepted}
           {...props}
         />
-        <UploadContent list={otherEvidence} {...props} />
+        <EvidenceUploadContent list={otherEvidence} {...props} />
 
         {content.addMoreLink()}
 

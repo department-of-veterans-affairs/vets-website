@@ -47,10 +47,7 @@ describe('Get allergy details action', () => {
     const mockData = allergy;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getAllergyDetails(
-      '3106',
-      undefined,
-    )(dispatch).then(() => {
+    return getAllergyDetails('3106', undefined)(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Allergies.GET);
     });
   });

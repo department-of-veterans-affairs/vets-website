@@ -26,7 +26,9 @@ describe('Verify Thread - Blocked from Facility', () => {
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({
       waitForAnimations: true,
     });
-    cy.get(Locators.BUTTONS.CONTINUE).click({ waitForAnimations: true });
+    cy.findByTestId(Locators.BUTTONS.CONTINUE).click({
+      waitForAnimations: true,
+    });
 
     // TODO create a loop to check all triageGroups in facility
 
@@ -61,7 +63,9 @@ describe('Verify Thread - Blocked from Facility', () => {
       .should('be.visible')
       .and(
         'include.text',
-        `${Alerts.BLOCKED.HEADER} ${mockFacilityBlockedRecipients.data[3].attributes.name}`,
+        `${Alerts.BLOCKED.HEADER} ${
+          mockFacilityBlockedRecipients.data[3].attributes.name
+        }`,
       );
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)

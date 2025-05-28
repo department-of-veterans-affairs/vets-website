@@ -16,7 +16,7 @@ import UnsupportedClaimTypePage from '../components/submit-flow/pages/Unsupporte
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 
 import { selectAppointment } from '../redux/selectors';
-import { HelpTextManage } from '../components/HelpText';
+import { HelpTextGeneral } from '../components/HelpText';
 import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
 import { stripTZOffset } from '../util/dates';
 import {
@@ -46,11 +46,14 @@ const SubmitFlowWrapper = () => {
     TOGGLE_NAMES.travelPaySubmitMileageExpense,
   );
 
-  useEffect(() => {
-    if (apptId && !appointmentData && !error) {
-      dispatch(getAppointmentData(apptId));
-    }
-  }, [dispatch, appointmentData, apptId, error]);
+  useEffect(
+    () => {
+      if (apptId && !appointmentData && !error) {
+        dispatch(getAppointmentData(apptId));
+      }
+    },
+    [dispatch, appointmentData, apptId, error],
+  );
 
   const [yesNo, setYesNo] = useState({
     mileage: '',
@@ -201,7 +204,7 @@ const SubmitFlowWrapper = () => {
           <div className="vads-u-margin-top--4">
             <va-need-help>
               <div slot="content">
-                <HelpTextManage />
+                <HelpTextGeneral />
               </div>
             </va-need-help>
           </div>

@@ -6,8 +6,10 @@ import React from 'react';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import { createMockFacility } from '../../../tests/mocks/data';
-import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
+import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockEligibilityFetches,
   mockFacilitiesApi,
@@ -39,17 +41,12 @@ describe('VAOS Page: VAFacilityPage', () => {
     };
 
     const facilityIds = ['983', '983GC', '983GB', '983HK', '983QA', '984'];
-    const facilities = facilityIds.map((id, index) =>
-      createMockFacility({
-        id: id.replace('vha_', ''),
-        name: `Fake facility name ${index + 1}`,
-        lat: Math.random() * 90,
-        long: Math.random() * 180,
-        address: {
-          city: `Fake city ${index + 1}`,
-          state: 'FakeState',
-        },
-      }),
+    const facilities = facilityIds.map(
+      (id, index) =>
+        new MockFacilityResponse({
+          id,
+          name: `Fake facility name ${index + 1}`,
+        }),
     );
 
     const closestFacility = facilities[2];
@@ -68,11 +65,11 @@ describe('VAOS Page: VAFacilityPage', () => {
         children: true,
         ids: ['983', '984'],
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'Facility 983',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983GC',
             name: 'Facility 983GC',
           }),
@@ -80,26 +77,38 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
-            requestEnabled: false,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+                requestEnabled: false,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '983GC',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
-            requestEnabled: false,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983GC',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+                requestEnabled: false,
+              }),
+            ],
           }),
         ],
       });
 
       mockEligibilityFetches({
         facilityId: '983',
-        typeOfCareId: 'primaryCare',
-        limit: true,
-        directPastVisits: true,
+        services: [
+          new MockServiceConfiguration({
+            typeOfCareId: 'primaryCare',
+            limit: true,
+            directPastVisits: true,
+          }),
+        ],
       });
       mockGetCurrentPosition({ fail: true });
       const store = createTestStore({
@@ -152,30 +161,50 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '983GC',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983GC',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '983GB',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983GB',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '983HK',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983HK',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '983QA',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983QA',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -204,7 +233,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
 
-      expect(screen.getByText(/Which VA location would you like to go to?/i)).to
+      expect(screen.getByText(/Which VA facility would you like to go to?/i)).to
         .exist;
 
       // Should contain radio buttons
@@ -221,26 +250,34 @@ describe('VAOS Page: VAFacilityPage', () => {
         children: true,
         ids: ['983', '984'],
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'Fake facility name 1',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '984',
           }),
         ],
       });
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -297,33 +334,41 @@ describe('VAOS Page: VAFacilityPage', () => {
       mockFacilitiesApi({
         children: true,
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'Facility 983',
-            lat: 39.1362562,
-            long: -85.6804804,
-          }),
-          createMockFacility({
+          })
+            .setLatitude(39.1362562)
+            .setLongitude(-85.6804804),
+          new MockFacilityResponse({
             id: '984',
             name: 'Facility 984',
-            lat: 39.1362562,
-            long: -86.6804804,
-          }),
+          })
+            .setLatitude(39.1362562)
+            .setLongitude(-86.6804804),
         ],
       });
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            directEnabled: false,
-            requestEnabled: false,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: false,
+                requestEnabled: false,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'primaryCare',
-            directEnabled: false,
-            requestEnabled: false,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: false,
+                requestEnabled: false,
+              }),
+            ],
           }),
         ],
       });
@@ -370,7 +415,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     it('should show no facilities message with up to five unsupported facilities for users without address', async () => {
       // Arrange
-      const facilityDetails = createMockFacility({
+      const facilityDetails = new MockFacilityResponse({
         id: '123',
         name: 'Bozeman VA medical center',
       });
@@ -392,35 +437,40 @@ describe('VAOS Page: VAFacilityPage', () => {
         ids: ['983', '984'],
         response: [
           facilityDetails,
-          createMockFacility({
+          new MockFacilityResponse({
             id: '124',
             name: 'Facility 124',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '125',
             name: 'Facility 125',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '126',
             name: 'Facility 126',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '127',
             name: 'Facility 127',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '128',
             name: 'Facility 128',
           }),
         ],
       });
 
-      const response = ['123', '124', '125', '126', '127', '128'].map(id =>
-        getSchedulingConfigurationMock({
-          id,
-          typeOfCareId: 'primaryCare',
-          requestEnabled: false,
-        }),
+      const response = ['123', '124', '125', '126', '127', '128'].map(
+        id =>
+          new MockSchedulingConfigurationResponse({
+            facilityId: id,
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: false,
+              }),
+            ],
+          }),
       );
       mockSchedulingConfigurationsApi({ response });
 
@@ -472,234 +522,45 @@ describe('VAOS Page: VAFacilityPage', () => {
       ).to.exist;
     });
 
-    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
-    it('should show additional info link if there are unsupported facilities within 100 miles', async () => {
-      // Arrange
-      mockFacilitiesApi({
-        children: true,
-        ids: ['983', '984'],
-        response: [
-          createMockFacility({
-            id: '983',
-            name: 'Facility that is enabled',
-          }),
-          createMockFacility({
-            id: '983GC',
-            name: 'Facility that is also enabled',
-          }),
-          createMockFacility({
-            id: '984',
-            name: 'Facility that is disabled',
-            lat: 39.1362562,
-            // tweaked longitude to be around 80 miles away
-            long: -83.1804804,
-            address: {
-              city: 'Bozeman',
-              state: 'MT',
-            },
-            phone: '5555555555x1234',
-          }),
-          createMockFacility({
-            id: '984GC',
-            name: 'Facility that is over 100 miles away and disabled',
-            lat: 39.1362562,
-            // tweaked longitude to be over 100 miles away
-            long: -82.1804804,
-          }),
-        ],
-      });
-      mockSchedulingConfigurationsApi({
-        response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '983GC',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'optometry',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '984GC',
-            typeOfCareId: 'optometry',
-            requestEnabled: true,
-          }),
-        ],
-      });
-
-      const store = createTestStore({
-        ...initialState,
-        user: {
-          ...initialState.user,
-          profile: {
-            ...initialState.user.profile,
-            vapContactInfo: {
-              residentialAddress: {
-                latitude: 39.1362562,
-                longitude: -84.6804804,
-              },
-            },
-          },
-        },
-      });
-      await setTypeOfCare(store, /primary care/i);
-
-      // Act
-      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-        store,
-      });
-
-      // Assert
-      expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
-        .ok;
-      expect(screen.getByTestId('facility-not-listed')).to.exist;
-      await screen.findByText(/Facility that is disabled/i);
-      expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
-      expect(screen.getByText(/80\.4 miles/i)).to.be.ok;
-      expect(screen.getByTestId('facility-telephone')).to.exist;
-      expect(
-        screen.queryByText(
-          /Facility that is over 100 miles away and disabled/i,
-        ),
-      ).to.be.null;
-      expect(
-        screen.getByRole('link', { name: /different VA location/i }),
-      ).to.have.attribute('href', '/find-locations');
-    });
-
-    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
-    it('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
-      // Arrange
-      mockFacilitiesApi({
-        children: true,
-        ids: ['983', '984'],
-        response: [
-          createMockFacility({
-            id: '983',
-            name: 'Facility that is enabled',
-          }),
-          createMockFacility({
-            id: '983GC',
-            name: 'Facility that is also enabled',
-          }),
-          createMockFacility({
-            id: '984',
-            name: 'Disabled facility near residential address',
-            lat: 39.1362562,
-            long: -83.1804804,
-          }),
-          createMockFacility({
-            id: '984GC',
-            name: 'Disabled facility near current location',
-            lat: 53.2734,
-            long: -7.77832031,
-          }),
-        ],
-      });
-      mockSchedulingConfigurationsApi({
-        response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '983GC',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'optometry',
-            requestEnabled: true,
-          }),
-          getSchedulingConfigurationMock({
-            id: '984GC',
-            typeOfCareId: 'optometry',
-            requestEnabled: true,
-          }),
-        ],
-      });
-      mockGetCurrentPosition();
-      const store = createTestStore({
-        ...initialState,
-        user: {
-          ...initialState.user,
-          profile: {
-            ...initialState.user.profile,
-            vapContactInfo: {
-              residentialAddress: {
-                latitude: 39.1362562,
-                longitude: -84.6804804,
-              },
-            },
-          },
-        },
-      });
-      await setTypeOfCare(store, /primary care/i);
-
-      // Act
-      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-        store,
-      });
-
-      // Assert
-      expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
-        .ok;
-      expect(screen.getByTestId('facility-not-listed')).to.exist;
-      expect(
-        await screen.findByText(/Disabled facility near residential address/i),
-      ).to.be.ok;
-      expect(screen.queryByText(/Disabled facility near current location/i)).to
-        .be.null;
-
-      const facilitiesSelect = await screen.findByTestId('facilitiesSelect');
-      // call VaSelect custom event for onChange handling
-      facilitiesSelect.__events.vaSelect({
-        detail: { value: 'distanceFromCurrentLocation' },
-      });
-
-      expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
-        .ok;
-
-      expect(screen.getByTestId('facility-not-listed')).to.exist;
-      expect(
-        await screen.findByText(/Disabled facility near current location/i),
-      ).to.be.ok;
-      expect(screen.queryByText(/Disabled facility near residential address/i))
-        .to.be.null;
-    });
-
-    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it('should display correct facilities after changing type of care', async () => {
       // Arrange
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '983GB',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983GB',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'optometry',
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'optometry',
+                requestEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984GB',
-            typeOfCareId: 'optometry',
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984GB',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'optometry',
+                requestEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -707,20 +568,20 @@ describe('VAOS Page: VAFacilityPage', () => {
         children: true,
         ids: ['983', '984'],
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'First cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          }),
-          createMockFacility({ id: '983GB' }),
-          createMockFacility({
+          })
+            .setLatitude(39.1362562)
+            .setLongitude(-83.1804804),
+          new MockFacilityResponse({ id: '983GB' }),
+          new MockFacilityResponse({
             id: '984',
             name: 'Second Cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          }),
-          createMockFacility({ id: '984GB' }),
+          })
+            .setLatitude(39.1362562)
+            .setLongitude(-83.1804804),
+          new MockFacilityResponse({ id: '984GB' }),
         ],
       });
 
@@ -749,12 +610,17 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     it('should display a list of facilities with a show more button', async () => {
       // Arrange
-      const response = facilities.map(facility =>
-        getSchedulingConfigurationMock({
-          id: facility.id,
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
+      const response = facilities.map(
+        facility =>
+          new MockSchedulingConfigurationResponse({
+            facilityId: facility.id,
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+              }),
+            ],
+          }),
       );
 
       mockSchedulingConfigurationsApi({ response });
@@ -791,15 +657,15 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          'Which VA location would you like to go to? | Veterans Affairs',
+          'Which VA facility would you like to go to? | Veterans Affairs',
         );
       });
 
-      expect(screen.getByText(/Which VA location would you like to go to?/i)).to
+      expect(screen.getByText(/Which VA facility would you like to go to?/i)).to
         .exist;
 
       expect(screen.baseElement).to.contain.text(
-        'Select a VA facility where you’re registered that offers primary care appointments.',
+        "These facilities you're registered at offer primary care.",
       );
 
       expect(await screen.findByTestId('facilitiesSelect')).to.be.ok;
@@ -818,8 +684,11 @@ describe('VAOS Page: VAFacilityPage', () => {
       expect(screen.baseElement).not.to.contain.text('Fake facility name 6');
 
       // Find show more button and fire click event
-      const moreLocationsBtn = screen.getByText('Show 1 more location');
-      expect(moreLocationsBtn).to.have.tagName('span');
+      const moreLocationsBtn = await screen.findByTestId('show-more-locations');
+      // Check the text attribute (since va-button uses the 'text' prop for its label)
+      expect(moreLocationsBtn.getAttribute('text')).to.equal(
+        'Show 1 more location',
+      );
       fireEvent.click(moreLocationsBtn);
 
       // Should show 6th facility
@@ -842,12 +711,17 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     it('should sort by distance from home address if we have coordinates', async () => {
       // Arrange
-      const response = facilities.map(facility =>
-        getSchedulingConfigurationMock({
-          id: facility.id,
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
+      const response = facilities.map(
+        facility =>
+          new MockSchedulingConfigurationResponse({
+            facilityId: facility.id,
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+              }),
+            ],
+          }),
       );
 
       mockSchedulingConfigurationsApi({ response });
@@ -899,9 +773,9 @@ describe('VAOS Page: VAFacilityPage', () => {
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
 
-      expect(screen.getByText(/Which VA location would you like to go to?/i)).to
+      expect(screen.getByText(/Which VA facility would you like to go to?/i)).to
         .exist;
-      expect(screen.baseElement).to.contain.text('By your home address');
+      expect(screen.baseElement).to.contain.text('Closest to your home');
 
       // It should sort by distance, making Closest facility the first facility
       const firstRadio = screen.container.querySelector('.form-radio-buttons');
@@ -924,12 +798,17 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     it('should sort by distance from current location when user selects dropdown option for current location', async () => {
       // Arrange
-      const response = facilities.map(facility =>
-        getSchedulingConfigurationMock({
-          id: facility.id,
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
+      const response = facilities.map(
+        facility =>
+          new MockSchedulingConfigurationResponse({
+            facilityId: facility.id,
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+              }),
+            ],
+          }),
       );
 
       mockSchedulingConfigurationsApi({ response });
@@ -981,7 +860,9 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
 
       await screen.findAllByRole('radio');
-      expect(screen.baseElement).to.contain.text('By your current location');
+      expect(screen.baseElement).to.contain.text(
+        'Closest to your current location',
+      );
 
       // Providers should be sorted.
       const miles = screen.queryAllByText(/miles$/);
@@ -1004,12 +885,17 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     it('should sort alphabetically when user selects dropdown option for alphabetical', async () => {
       // Arrange
-      const response = facilities.map(facility =>
-        getSchedulingConfigurationMock({
-          id: facility.id,
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
+      const response = facilities.map(
+        facility =>
+          new MockSchedulingConfigurationResponse({
+            facilityId: facility.id,
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+              }),
+            ],
+          }),
       );
 
       mockSchedulingConfigurationsApi({ response });
@@ -1072,11 +958,15 @@ describe('VAOS Page: VAFacilityPage', () => {
       // Arrange
       const response = facilities.reduce((acc, facility) => {
         if (facility.id === '983' || facility.id === '984') {
-          const config = getSchedulingConfigurationMock({
-            id: facility.id,
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
-            requestEnabled: false,
+          const config = new MockSchedulingConfigurationResponse({
+            facilityId: facility.id,
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+                requestEnabled: false,
+              }),
+            ],
           });
           return [...acc, config];
         }
@@ -1087,18 +977,18 @@ describe('VAOS Page: VAFacilityPage', () => {
       mockFacilitiesApi({
         children: true,
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'Facility 983',
-            lat: 41.148179,
-            long: -104.786159,
-          }),
-          createMockFacility({
+          })
+            .setLatitude(41.148179)
+            .setLongitude(-104.786159),
+          new MockFacilityResponse({
             id: '984',
             name: 'Closest facility',
-            lat: '39.7424427',
-            long: '-84.2651895',
-          }),
+          })
+            .setLatitude('39.7424427')
+            .setLongitude(-84.2651895),
         ],
       });
       mockGetCurrentPosition();
@@ -1147,17 +1037,17 @@ describe('VAOS Page: VAFacilityPage', () => {
         children: true,
         ids: ['983'],
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'San Diego VA Medical Center',
-            address: {
+          })
+            .setAddress({
               line: ['2360 East Pershing Boulevard'],
               city: 'San Diego',
               state: 'CA',
               postalCode: '92128',
-            },
-            phone: '858-779-0338',
-          }),
+            })
+            .setPhoneNumber('858-779-0338'),
         ],
       });
       mockEligibilityFetches({
@@ -1168,10 +1058,14 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                requestEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -1197,9 +1091,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       fireEvent.click(await findByText(/Continue/));
       await waitFor(() =>
-        expect(history.push.firstCall.args[0]).to.equal(
-          '/new-appointment/request-date',
-        ),
+        expect(history.push.firstCall.args[0]).to.equal('va-request/'),
       );
     });
 
@@ -1209,15 +1101,15 @@ describe('VAOS Page: VAFacilityPage', () => {
         children: true,
         ids: ['983'],
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'Facility 1',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983GC',
             name: 'Facility 2',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983GD',
             name: 'Facility 3',
           }),
@@ -1237,20 +1129,32 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'optometry',
-            requestEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'optometry',
+                requestEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '983GC',
-            typeOfCareId: 'ophthalmology',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983GC',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'ophthalmology',
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '983GD',
-            typeOfCareId: 'ophthalmology',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983GD',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'ophthalmology',
+                directEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -1283,16 +1187,15 @@ describe('VAOS Page: VAFacilityPage', () => {
         children: true,
         ids: ['983'],
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'Facility 1',
           }),
-          createMockFacility({
+          new MockFacilityResponse({
             id: '984',
             name: 'Facility 2',
-            address: { city: null, state: null },
-          }),
-          createMockFacility({
+          }).setAddress({ city: null, state: null }),
+          new MockFacilityResponse({
             id: '983GA',
             name: 'Facility 3',
           }),
@@ -1318,20 +1221,32 @@ describe('VAOS Page: VAFacilityPage', () => {
       });
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '983GA',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983GA',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -1414,32 +1329,40 @@ describe('VAOS Page: VAFacilityPage', () => {
       mockFacilitiesApi({
         children: true,
         response: [
-          createMockFacility({
+          new MockFacilityResponse({
             id: '983',
             name: 'First cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          }),
-          createMockFacility({
+          })
+            .setLatitude(39.1362562)
+            .setLongitude(-83.1804804),
+          new MockFacilityResponse({
             id: '984',
             name: 'Second Cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          }),
+          })
+            .setLatitude(39.1362562)
+            .setLongitude(-83.1804804),
         ],
       });
 
       mockSchedulingConfigurationsApi({
         response: [
-          getSchedulingConfigurationMock({
-            id: '983',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '983',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
-          getSchedulingConfigurationMock({
-            id: '984',
-            typeOfCareId: 'primaryCare',
-            directEnabled: true,
+          new MockSchedulingConfigurationResponse({
+            facilityId: '984',
+            services: [
+              new MockServiceConfiguration({
+                typeOfCareId: 'primaryCare',
+                directEnabled: true,
+              }),
+            ],
           }),
         ],
       });
@@ -1478,7 +1401,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       userEvent.click(screen.getByText(/Continue/));
       await waitFor(() =>
         expect(screen.history.push.firstCall.args[0]).to.equal(
-          '/new-appointment/how-to-schedule',
+          'how-to-schedule',
         ),
       );
     });

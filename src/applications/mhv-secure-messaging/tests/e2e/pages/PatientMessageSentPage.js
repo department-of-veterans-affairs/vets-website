@@ -26,13 +26,17 @@ class PatientMessageSentPage {
     const singleMessageResponse = { data: singleThreadResponse.data[0] };
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_EXTENDED}/${multiThreadsResponse.data[0].attributes.messageId}/thread*`,
+      `${Paths.SM_API_EXTENDED}/${
+        multiThreadsResponse.data[0].attributes.messageId
+      }/thread*`,
       singleThreadResponse,
     ).as(`threadResponse`);
 
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_EXTENDED}/${singleThreadResponse.data[0].attributes.messageId}`,
+      `${Paths.SM_API_EXTENDED}/${
+        singleThreadResponse.data[0].attributes.messageId
+      }`,
       singleMessageResponse,
     ).as(`threadFirstMessageResponse`);
     cy.get(
@@ -43,13 +47,17 @@ class PatientMessageSentPage {
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${detailedMessage.data.attributes.messageId}/thread`,
+      `${Paths.INTERCEPT.MESSAGES}/${
+        detailedMessage.data.attributes.messageId
+      }/thread`,
       mockThreadResponse,
     ).as('threadResponse');
 
     cy.intercept(
       'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${detailedMessage.data.attributes.messageId}`,
+      `${Paths.INTERCEPT.MESSAGES}/${
+        detailedMessage.data.attributes.messageId
+      }`,
       mockSingleMessageResponse,
     ).as('detailedMessage');
 
@@ -69,8 +77,14 @@ class PatientMessageSentPage {
     cy.get('[data-testid="message-list-item"]').should('contain.text', value);
   };
 
-  verifySentToField = value => {
-    cy.get('[data-testid="message-list-item"]').should('contain.text', value);
+  verifyReadReceipt = text => {
+    cy.get('[data-testid^="expand-message-button-"]')
+      .not('[data-testid*="for-print"]')
+      .each(el => {
+        cy.wrap(el)
+          .should(`be.visible`)
+          .and(`contain.text`, text);
+      });
   };
 }
 

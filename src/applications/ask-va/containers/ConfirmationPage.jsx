@@ -22,11 +22,14 @@ const ConfirmationPage = ({ location }) => {
     profile: { loading },
   } = user;
 
-  useEffect(() => {
-    if (alertRef?.current) {
-      focusElement(alertRef.current);
-    }
-  }, [alertRef]);
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        focusElement(alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   if (loading) {
     return (

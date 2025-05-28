@@ -4,10 +4,13 @@ import { focusElement } from 'platform/utilities/ui';
 import { HELP_BC_LABEL, HelpBC } from '../utilities/poaRequests';
 
 const GetHelpPage = title => {
-  useEffect(() => {
-    focusElement('h1');
-    document.title = title.title;
-  }, [title]);
+  useEffect(
+    () => {
+      focusElement('h1');
+      document.title = title.title;
+    },
+    [title],
+  );
 
   return (
     <section className="help">

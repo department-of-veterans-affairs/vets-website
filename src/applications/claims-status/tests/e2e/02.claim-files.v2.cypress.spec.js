@@ -37,13 +37,13 @@ describe('Secondary Alert Test', () => {
   });
 });
 
-describe('Need To Mail Files Test', () => {
-  it('Shows data when a user clicks "Need To Mail Your Files?"', () => {
+describe('Need To Mail Documents Test', () => {
+  it('Shows data when a user clicks "Need to mail your documents?"', () => {
     const trackClaimsPage = new TrackClaimsPageV2();
     trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
     trackClaimsPage.verifyInProgressClaim(false);
     trackClaimsPage.navigateToFilesTab();
-    trackClaimsPage.verifyNeedToMailFiles();
+    trackClaimsPage.verifyNeedToMailDocuments();
     cy.axeCheck();
   });
 });

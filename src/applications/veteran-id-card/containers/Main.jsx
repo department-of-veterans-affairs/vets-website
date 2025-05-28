@@ -170,5 +170,8 @@ const mapDispatchToProps = {
   timeoutRedirect,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);
 export { Main };

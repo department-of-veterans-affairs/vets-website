@@ -54,23 +54,24 @@ const HealthCareCTA = ({
   if (useToggleValue(TOGGLE_NAMES.myVaMhvLinkDesignUpdate)) {
     return (
       <>
-        {!isLOA1 && viewMhvLink && (
-          <div className="vads-u-margin-bottom--2">
-            <va-link
-              active
-              text="Go to My HealtheVet"
-              href={urls.myHealthEVet}
-              testId="visit-mhv-on-va-gov"
-              onClick={() =>
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'Visit MHV on Va.gov',
-                  'links-list-section-header': 'Health care',
-                })
-              }
-            />
-          </div>
-        )}
+        {!isLOA1 &&
+          viewMhvLink && (
+            <div className="vads-u-margin-bottom--2">
+              <va-link
+                active
+                text="Go to My HealtheVet"
+                href={urls.myHealthEVet}
+                testId="visit-mhv-on-va-gov"
+                onClick={() =>
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': 'Visit MHV on Va.gov',
+                    'links-list-section-header': 'Health care',
+                  })
+                }
+              />
+            </div>
+          )}
 
         {(!isVAPatient || isLOA1) && (
           <IconCTALink
@@ -88,96 +89,98 @@ const HealthCareCTA = ({
           />
         )}
 
-        {isVAPatient && !isLOA1 && (
-          <>
-            {!hasUpcomingAppointment && !hasAppointmentsError && (
+        {isVAPatient &&
+          !isLOA1 && (
+            <>
+              {!hasUpcomingAppointment &&
+                !hasAppointmentsError && (
+                  <IconCTALink
+                    href={urls.appointments}
+                    icon="calendar_today"
+                    text="Schedule and manage appointments"
+                    testId="view-manage-appointments-link-from-cta"
+                    onClick={() => {
+                      recordEvent({
+                        event: 'nav-linkslist',
+                        'links-list-header':
+                          'Schedule and manage your appointments',
+                        'links-list-section-header': 'Health care',
+                      });
+                    }}
+                  />
+                )}
+
               <IconCTALink
-                href={urls.appointments}
-                icon="calendar_today"
-                text="Schedule and manage appointments"
-                testId="view-manage-appointments-link-from-cta"
+                text="Go to inbox"
+                icon="forum"
+                dotIndicator={unreadMessagesCount > 0}
+                ariaLabel={
+                  unreadMessagesCount > 0 &&
+                  'You have unread messages. Go to your inbox.'
+                }
+                href={urls.inbox}
+                testId="view-your-messages-link-from-cta"
+                onClick={() =>
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': 'View your messages',
+                    'links-list-section-header': 'Health care',
+                  })
+                }
+              />
+
+              {/* Prescriptions */}
+              <IconCTALink
+                href={urls.refillPrescriptions}
+                icon="pill"
+                text="Refill medications"
+                testId="refill-prescriptions-link-from-cta"
                 onClick={() => {
                   recordEvent({
                     event: 'nav-linkslist',
-                    'links-list-header':
-                      'Schedule and manage your appointments',
+                    'links-list-header': 'Refill and track your prescriptions',
                     'links-list-section-header': 'Health care',
                   });
                 }}
               />
-            )}
 
-            <IconCTALink
-              text="Go to inbox"
-              icon="forum"
-              dotIndicator={unreadMessagesCount > 0}
-              ariaLabel={
-                unreadMessagesCount > 0 &&
-                'You have unread messages. Go to your inbox.'
-              }
-              href={urls.inbox}
-              testId="view-your-messages-link-from-cta"
-              onClick={() =>
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'View your messages',
-                  'links-list-section-header': 'Health care',
-                })
-              }
-            />
+              {/* VA Medical records */}
+              <IconCTALink
+                href={urls.medicalRecords}
+                icon="note_add"
+                text="Get medical records"
+                testId="get-medical-records-link-from-cta"
+                onClick={() => {
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': 'Get your VA medical records',
+                    'links-list-section-header': 'Health care',
+                  });
+                }}
+              />
 
-            {/* Prescriptions */}
-            <IconCTALink
-              href={urls.refillPrescriptions}
-              icon="pill"
-              text="Refill medications"
-              testId="refill-prescriptions-link-from-cta"
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'Refill and track your prescriptions',
-                  'links-list-section-header': 'Health care',
-                });
-              }}
-            />
-
-            {/* VA Medical records */}
-            <IconCTALink
-              href={urls.medicalRecords}
-              icon="note_add"
-              text="Get medical records"
-              testId="get-medical-records-link-from-cta"
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'Get your VA medical records',
-                  'links-list-section-header': 'Health care',
-                });
-              }}
-            />
-
-            {/* Request travel reimbursement */}
-            <IconCTALink
-              href={urls.travelReimbursement}
-              icon="attach_money"
-              text={
-                smocEnabled
-                  ? 'Review and file travel claims'
-                  : 'Request travel reimbursement'
-              }
-              testId="request-travel-reimbursement-link-from-cta"
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': smocEnabled
+              {/* Request travel reimbursement */}
+              <IconCTALink
+                href={urls.travelReimbursement}
+                icon="attach_money"
+                text={
+                  smocEnabled
                     ? 'Review and file travel claims'
-                    : 'Request travel reimbursement',
-                  'links-list-section-header': 'Health care',
-                });
-              }}
-            />
-          </>
-        )}
+                    : 'Request travel reimbursement'
+                }
+                testId="request-travel-reimbursement-link-from-cta"
+                onClick={() => {
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': smocEnabled
+                      ? 'Review and file travel claims'
+                      : 'Request travel reimbursement',
+                    'links-list-section-header': 'Health care',
+                  });
+                }}
+              />
+            </>
+          )}
       </>
     );
   }
@@ -199,109 +202,113 @@ const HealthCareCTA = ({
           }
         />
       )}
-      {!isLOA1 && viewMhvLink && (
-        <IconCTALink
-          text="Visit My HealtheVet on VA.gov"
-          icon="language"
-          href={urls.myHealthEVet}
-          testId="visit-mhv-on-va-gov"
-          onClick={() =>
-            recordEvent({
-              event: 'nav-linkslist',
-              'links-list-header': 'Visit MHV on Va.gov',
-              'links-list-section-header': 'Health care',
-            })
-          }
-        />
-      )}
-      {isVAPatient && !isLOA1 && (
-        <>
+      {!isLOA1 &&
+        viewMhvLink && (
           <IconCTALink
-            text="Go to your inbox"
-            icon="inbox"
-            dotIndicator={unreadMessagesCount > 0}
-            ariaLabel={
-              unreadMessagesCount > 0 &&
-              'You have unread messages. Go to your inbox.'
-            }
-            href={urls.inbox}
-            testId="view-your-messages-link-from-cta"
+            text="Visit My HealtheVet on VA.gov"
+            icon="language"
+            href={urls.myHealthEVet}
+            testId="visit-mhv-on-va-gov"
             onClick={() =>
               recordEvent({
                 event: 'nav-linkslist',
-                'links-list-header': 'View your messages',
+                'links-list-header': 'Visit MHV on Va.gov',
                 'links-list-section-header': 'Health care',
               })
             }
           />
-          {!hasUpcomingAppointment && !hasAppointmentsError && (
+        )}
+      {isVAPatient &&
+        !isLOA1 && (
+          <>
             <IconCTALink
-              href={urls.appointments}
-              icon="calendar_today"
-              text="Schedule and manage your appointments"
-              testId="view-manage-appointments-link-from-cta"
+              text="Go to your inbox"
+              icon="inbox"
+              dotIndicator={unreadMessagesCount > 0}
+              ariaLabel={
+                unreadMessagesCount > 0 &&
+                'You have unread messages. Go to your inbox.'
+              }
+              href={urls.inbox}
+              testId="view-your-messages-link-from-cta"
+              onClick={() =>
+                recordEvent({
+                  event: 'nav-linkslist',
+                  'links-list-header': 'View your messages',
+                  'links-list-section-header': 'Health care',
+                })
+              }
+            />
+            {!hasUpcomingAppointment &&
+              !hasAppointmentsError && (
+                <IconCTALink
+                  href={urls.appointments}
+                  icon="calendar_today"
+                  text="Schedule and manage your appointments"
+                  testId="view-manage-appointments-link-from-cta"
+                  onClick={() => {
+                    recordEvent({
+                      event: 'nav-linkslist',
+                      'links-list-header':
+                        'Schedule and manage your appointments',
+                      'links-list-section-header': 'Health care',
+                    });
+                  }}
+                />
+              )}
+
+            {/* Prescriptions */}
+            <IconCTALink
+              href={urls.refillPrescriptions}
+              icon="pill"
+              text="Refill and track your prescriptions"
+              testId="refill-prescriptions-link-from-cta"
               onClick={() => {
                 recordEvent({
                   event: 'nav-linkslist',
-                  'links-list-header': 'Schedule and manage your appointments',
+                  'links-list-header': 'Refill and track your prescriptions',
                   'links-list-section-header': 'Health care',
                 });
               }}
             />
-          )}
 
-          {/* Prescriptions */}
-          <IconCTALink
-            href={urls.refillPrescriptions}
-            icon="pill"
-            text="Refill and track your prescriptions"
-            testId="refill-prescriptions-link-from-cta"
-            onClick={() => {
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'Refill and track your prescriptions',
-                'links-list-section-header': 'Health care',
-              });
-            }}
-          />
-
-          {/* Request travel reimbursement */}
-          <IconCTALink
-            href={urls.travelReimbursement}
-            icon="work"
-            text={
-              smocEnabled
-                ? 'Review and file travel claims'
-                : 'Request travel reimbursement'
-            }
-            testId="request-travel-reimbursement-link-from-cta"
-            onClick={() => {
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': smocEnabled
+            {/* Request travel reimbursement */}
+            <IconCTALink
+              href={urls.travelReimbursement}
+              icon="work"
+              text={
+                smocEnabled
                   ? 'Review and file travel claims'
-                  : 'Request travel reimbursement',
-                'links-list-section-header': 'Health care',
-              });
-            }}
-          />
+                  : 'Request travel reimbursement'
+              }
+              testId="request-travel-reimbursement-link-from-cta"
+              onClick={() => {
+                recordEvent({
+                  event: 'nav-linkslist',
+                  'links-list-header': smocEnabled
+                    ? 'Review and file travel claims'
+                    : 'Request travel reimbursement',
+                  'links-list-section-header': 'Health care',
+                });
+              }}
+            />
 
-          {/* VA Medical records */}
-          <IconCTALink
-            href={urls.medicalRecords}
-            icon="note_add"
-            text="Get your VA medical records and lab and test results"
-            testId="get-medical-records-link-from-cta"
-            onClick={() => {
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'Get your VA medical records',
-                'links-list-section-header': 'Health care',
-              });
-            }}
-          />
-        </>
-      )}
+            {/* VA Medical records */}
+            <IconCTALink
+              href={urls.medicalRecords}
+              icon="note_add"
+              text="Get your VA medical records and lab and test results"
+              testId="get-medical-records-link-from-cta"
+              onClick={() => {
+                recordEvent({
+                  event: 'nav-linkslist',
+                  'links-list-header': 'Get your VA medical records',
+                  'links-list-section-header': 'Health care',
+                });
+              }}
+            />
+          </>
+        )}
     </>
   );
 };

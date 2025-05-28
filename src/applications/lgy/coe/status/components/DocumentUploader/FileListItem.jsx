@@ -2,9 +2,12 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 const FileListItem = ({ index, file, onClick }) => {
-  const _onClick = useCallback(() => {
-    onClick(index);
-  }, [index, onClick]);
+  const _onClick = useCallback(
+    () => {
+      onClick(index);
+    },
+    [index, onClick],
+  );
 
   return (
     <div

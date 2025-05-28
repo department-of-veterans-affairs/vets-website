@@ -55,7 +55,7 @@ describe('SM MULTI FACILITY CONTACT LIST', () => {
     ContactListPage.verifyContactListSavedAlert();
     ContactListPage.clickBackToInbox();
     GeneralFunctionsPage.verifyUrl(`inbox`);
-    GeneralFunctionsPage.verifyPageHeader(`Inbox`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Inbox`);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

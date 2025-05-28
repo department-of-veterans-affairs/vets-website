@@ -14,7 +14,6 @@ import * as Sentry from '@sentry/browser';
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
 import recordEvent from '~/platform/monitoring/record-event';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 
 const fetchDebtsInitiated = () => ({ type: DEBTS_FETCH_INITIATED });
 const fetchDebtLettersInitiated = () => ({
@@ -94,7 +93,9 @@ const validateHistory = debts => {
     history?.forEach(h => {
       if (!h.date) {
         errors.push(
-          `Missing date; letterCode: ${h?.letterCode}; deductionCode: ${debt?.deductionCode}; diaryCode: ${debt?.diaryCode}`,
+          `Missing date; letterCode: ${h?.letterCode}; deductionCode: ${
+            debt?.deductionCode
+          }; diaryCode: ${debt?.diaryCode}`,
         );
       }
     });
@@ -133,12 +134,7 @@ export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
     }
 
     const { hasDependentDebts } = response;
-    const approvedDeductionCodes = Object.keys(deductionCodes);
-    // remove any debts that do not have approved deductionCodes or
-    // that have a current amount owed of 0
-    const filteredResponse = response.debts
-      .filter(res => approvedDeductionCodes.includes(res.deductionCode))
-      .filter(debt => debt.currentAr > 0);
+    const filteredResponse = response.debts;
 
     recordEvent({
       event: 'bam-get-veteran-dmc-info-successful',

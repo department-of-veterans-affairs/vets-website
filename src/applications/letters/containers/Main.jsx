@@ -185,4 +185,7 @@ const mapDispatchToProps = {
   profileHasEmptyAddress,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);

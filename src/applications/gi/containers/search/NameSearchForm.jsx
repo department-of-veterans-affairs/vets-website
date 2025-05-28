@@ -73,33 +73,45 @@ export function NameSearchForm({
    * is clicked
    */
 
-  useEffect(() => {
-    if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
-      // doSearch(name || search?.query?.name);
-      doSearch(null);
-    }
-  }, [filters.search]);
+  useEffect(
+    () => {
+      if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
+        // doSearch(name || search?.query?.name);
+        doSearch(null);
+      }
+    },
+    [filters.search],
+  );
 
-  useEffect(() => {
-    if (
-      search.loadFromUrl &&
-      search.query.name !== null &&
-      search.query.name !== ''
-    ) {
-      doSearch(search.query.name);
-    }
-  }, [search.loadFromUrl]);
+  useEffect(
+    () => {
+      if (
+        search.loadFromUrl &&
+        search.query.name !== null &&
+        search.query.name !== ''
+      ) {
+        doSearch(search.query.name);
+      }
+    },
+    [search.loadFromUrl],
+  );
   // This effect runs to focus on search when Reset Search button is clicked.
-  useEffect(() => {
-    if (focusOnSearch) {
-      inputRef.current.focus();
-      dispatch({ type: 'RESET_FOCUS' });
-    }
-  }, [focusOnSearch, inputRef, dispatch]);
+  useEffect(
+    () => {
+      if (focusOnSearch) {
+        inputRef.current.focus();
+        dispatch({ type: 'RESET_FOCUS' });
+      }
+    },
+    [focusOnSearch, inputRef, dispatch],
+  );
 
-  useEffect(() => {
-    sessionStorage.setItem('show', JSON.stringify(name?.length <= 0));
-  }, [showFiltersBeforeResult]);
+  useEffect(
+    () => {
+      sessionStorage.setItem('show', JSON.stringify(name?.length <= 0));
+    },
+    [showFiltersBeforeResult],
+  );
   const onApplyFilterClick = () => {
     if (name.length === 0) {
       inputRef.current.focus();
@@ -226,4 +238,7 @@ NameSearchForm.propTypes = {
   smallScreen: PropTypes.bool,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NameSearchForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NameSearchForm);

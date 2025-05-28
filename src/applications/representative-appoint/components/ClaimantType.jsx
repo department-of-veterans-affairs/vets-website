@@ -80,4 +80,7 @@ const mapStateToProps = state => ({
   loggedIn: isLoggedIn(state),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClaimantType);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ClaimantType);

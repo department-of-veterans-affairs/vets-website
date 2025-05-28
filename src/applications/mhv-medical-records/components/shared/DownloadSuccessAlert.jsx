@@ -15,11 +15,14 @@ import { ALERT_TYPE_SUCCESS } from '../../util/constants';
 const DownloadSuccessAlert = props => {
   const { className, type, focusId } = props;
 
-  useEffect(() => {
-    if (focusId) {
-      focusElement(`#${focusId}`);
-    }
-  }, [focusId]);
+  useEffect(
+    () => {
+      if (focusId) {
+        focusElement(`#${focusId}`);
+      }
+    },
+    [focusId],
+  );
 
   return (
     <VaAlert

@@ -40,23 +40,15 @@ export function getAppointmentType(
   if (isCerner && isEmpty(appt?.end)) {
     return APPOINTMENT_TYPES.request;
   }
-
-  if (useFeSourceOfTruthCC) {
-    if (appt?.type === 'COMMUNITY_CARE_APPOINTMENT') {
-      return APPOINTMENT_TYPES.ccAppointment;
-    }
-    if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
-      return APPOINTMENT_TYPES.ccRequest;
-    }
-  } else {
-    if (appt?.kind === 'cc' && appt?.start) {
-      return APPOINTMENT_TYPES.ccAppointment;
-    }
-    if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
-      return APPOINTMENT_TYPES.ccRequest;
-    }
+  if (isCerner && !isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.vaAppointment;
   }
-
+  if (appt?.kind === 'cc' && appt?.start) {
+    return APPOINTMENT_TYPES.ccAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.ccRequest;
+  }
   if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.request;
   }
@@ -286,6 +278,7 @@ export function transformVAOSAppointment(
     // NOTE: Timezone will be converted to the local timezone when using 'format()'.
     // So use format without the timezone information.
     start: !isRequest ? start.format('YYYY-MM-DDTHH:mm:ss') : null,
+    startUtc: !isRequest ? appt.start : null,
     reasonForAppointment,
     patientComments,
     timezone: appointmentTZ,

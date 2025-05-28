@@ -19,20 +19,36 @@ function FilesOptional({ item }) {
           ? item.friendlyName
           : item.displayName}
       </h4>
-      <p>Requested to others on {dateFormatter(item.requestedDate)}</p>
+      <p>
+        {cstFriendlyEvidenceRequests
+          ? `Requested from outside VA on ${dateFormatter(item.requestedDate)}`
+          : `Requested to others on ${dateFormatter(item.requestedDate)}`}
+      </p>
       <p className="alert-description">
         {cstFriendlyEvidenceRequests &&
-        (item.shortDescription || item.activityDescription)
-          ? item.shortDescription || item.activityDescription
-          : truncateDescription(item.description)}
+          (item.shortDescription || item.activityDescription ? (
+            item.shortDescription || item.activityDescription
+          ) : (
+            <>
+              <strong>You don’t have to do anything.</strong> We asked someone
+              outside VA for documents related to your claim.
+              <br />
+            </>
+          ))}
       </p>
+      {!cstFriendlyEvidenceRequests && (
+        <p className="alert-description">
+          {truncateDescription(item.description)}
+        </p>
+      )}
+
       {cstFriendlyEvidenceRequests ? (
         <div className="call-to-action">
           <Link
             aria-label={`About this notice for ${item.friendlyName ||
               item.displayName}`}
             className="add-your-claims-link"
-            to={`../document-request/${item.id}`}
+            to={`../needed-from-others/${item.id}`}
           >
             About this notice
           </Link>

@@ -349,6 +349,14 @@
 
 .claims-header {
   margin: 0;
+  display: inline-block;
+
+  & > span {
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 30px;
+    display: block;
+  }
 }
 
 .claims-files-cancel {
@@ -1079,6 +1087,17 @@ $marker-text-width: 5.625rem;
   }
 }
 
+.external-active-link {
+  display: flex;
+  font-weight: 700;
+  margin-top: 16px;
+  font-size: medium;
+}
+
+.active-link-icon {
+  position: relative;
+  top: 4px;
+}
 .tabs {
   list-style: none;
   margin-bottom: -1px;

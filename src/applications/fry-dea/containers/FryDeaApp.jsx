@@ -24,36 +24,39 @@ function FryDeaApp({
 }) {
   const [fetchedVeterans, setFetchedVeterans] = useState(false);
 
-  useEffect(() => {
-    if (!user.login.currentlyLoggedIn) {
-      return;
-    }
+  useEffect(
+    () => {
+      if (!user.login.currentlyLoggedIn) {
+        return;
+      }
 
-    if (!fetchedVeterans) {
-      setFetchedVeterans(true);
-      getVeterans();
-    }
+      if (!fetchedVeterans) {
+        setFetchedVeterans(true);
+        getVeterans();
+      }
 
-    if (
-      formData.showUpdatedFryDeaApp !== showUpdatedFryDeaApp ||
-      formData.veterans !== veterans
-    ) {
-      setFormData({
-        ...formData,
-        showUpdatedFryDeaApp,
-        veterans,
-      });
-    }
-  }, [
-    fetchedVeterans,
-    formData,
-    getVeterans,
-    location.pathname,
-    setFormData,
-    showUpdatedFryDeaApp,
-    user.login.currentlyLoggedIn,
-    veterans,
-  ]);
+      if (
+        formData.showUpdatedFryDeaApp !== showUpdatedFryDeaApp ||
+        formData.veterans !== veterans
+      ) {
+        setFormData({
+          ...formData,
+          showUpdatedFryDeaApp,
+          veterans,
+        });
+      }
+    },
+    [
+      fetchedVeterans,
+      formData,
+      getVeterans,
+      location.pathname,
+      setFormData,
+      showUpdatedFryDeaApp,
+      user.login.currentlyLoggedIn,
+      veterans,
+    ],
+  );
 
   const breadCrumbs = [
     { href: '/', label: 'Home' },
@@ -99,4 +102,7 @@ const mapDispatchToProps = {
   getVeterans: fetchVeterans,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FryDeaApp);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FryDeaApp);

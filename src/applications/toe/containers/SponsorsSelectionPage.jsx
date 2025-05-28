@@ -120,5 +120,8 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SponsorSelectionPage),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SponsorSelectionPage),
 );

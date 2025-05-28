@@ -3,12 +3,11 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { datadogRum } from '@datadog/browser-rum';
 import MedicationsListCard from './MedicationsListCard';
 import {
   ALL_MEDICATIONS_FILTER_KEY,
-  SESSION_SELECTED_FILTER_OPTION,
   filterOptions,
   rxListSortingOptions,
 } from '../../util/constants';
@@ -19,7 +18,7 @@ import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MAX_PAGE_LIST_LENGTH = 6;
 const MedicationsList = props => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const {
     isFullList,
     rxList,
@@ -45,8 +44,10 @@ const MedicationsList = props => {
   const onPageChange = page => {
     datadogRum.addAction(dataDogActionNames.medicationsListPage.PAGINATION);
     document.getElementById('showingRx').scrollIntoView();
-    updateLoadingStatus(false, 'Loading your medications...');
-    history.push(`/?page=${page}`);
+    navigate(`/?page=${page}`, {
+      replace: true,
+    });
+    updateLoadingStatus(null, 'Loading your medications...');
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 
@@ -57,21 +58,22 @@ const MedicationsList = props => {
     perPage,
   );
 
-  const selectedFilterOption =
-    filterOptions[
-      sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
-        ALL_MEDICATIONS_FILTER_KEY
-    ]?.showingContentDisplayName;
+  const selectedFilterOption = useSelector(
+    state => state.rx.preferences.filterOption,
+  );
+  const selectedFilterDisplay =
+    filterOptions[selectedFilterOption]?.showingContentDisplayName;
 
   const filterAndSortContent = () => {
+    const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;
     return (
       <>
         {!isFullList &&
-          selectedFilterOption?.length > 0 && (
-            <strong>{selectedFilterOption} medications</strong>
+          !allMedsSelected && (
+            <strong>{selectedFilterDisplay} medications</strong>
           )}
         {`${
-          !isFullList && selectedFilterOption?.length > 0 ? '' : ' medications'
+          !isFullList && !allMedsSelected ? '' : ' medications'
         }, ${sortOptionLowercase}`}
       </>
     );
@@ -85,11 +87,13 @@ const MedicationsList = props => {
         id="showingRx"
       >
         <span className="no-print">
-          {`Showing ${displayNums[0]} - ${displayNums[1]} of ${totalMedications}`}
+          {`Showing ${displayNums[0]} - ${
+            displayNums[1]
+          } of ${totalMedications} `}
           {filterAndSortContent()}
         </span>
         <span className="print-only">
-          {`Showing ${totalMedications}`}
+          {`Showing ${totalMedications} `}
           {filterAndSortContent()}
         </span>
       </p>
@@ -103,14 +107,15 @@ const MedicationsList = props => {
         data-testid="medication-list"
       >
         {rxList?.length > 0 &&
-          rxList.map((rx, idx) =>
-            rx.prescriptionId === prescriptionId ? (
-              <div ref={scrollLocation} key={idx}>
-                <MedicationsListCard rx={rx} />
-              </div>
-            ) : (
-              <MedicationsListCard key={idx} rx={rx} />
-            ),
+          rxList.map(
+            (rx, idx) =>
+              rx.prescriptionId === prescriptionId ? (
+                <div ref={scrollLocation} key={idx}>
+                  <MedicationsListCard rx={rx} />
+                </div>
+              ) : (
+                <MedicationsListCard key={idx} rx={rx} />
+              ),
           )}
       </div>
       <VaPagination

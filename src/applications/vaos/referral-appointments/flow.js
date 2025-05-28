@@ -42,13 +42,13 @@ export function getPageFlow(referralId, appointmentId) {
       previous: 'scheduleAppointment',
     },
     complete: {
-      url: `/schedule-referral/complete/${appointmentId}`,
+      url: `/schedule-referral/complete/${appointmentId}?id=${referralId}`,
       label: 'Your appointment is scheduled',
-      next: '',
+      next: 'details',
       previous: 'appointments',
     },
     details: {
-      url: `/${appointmentId}`,
+      url: `/${appointmentId}?eps=true`,
       label: '',
       next: '',
       previous: 'complete',
@@ -115,7 +115,7 @@ export function routeToCCPage(history, page, referralId = null) {
 }
 
 /* Function to get label from the flow
- * The URL displayed in the browser address bar is compared to the
+ * The URL displayed in the browser address bar is compared to the 
  * flow URL
  *
  * @export

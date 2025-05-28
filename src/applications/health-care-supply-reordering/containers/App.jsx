@@ -66,11 +66,13 @@ class App extends Component {
             Loading your information...
           </va-loading-indicator>
         )}
-        {isError && !pending && isLoggedIn && (
-          <div className="row vads-u-margin-bottom--3">
-            <ErrorMessage />
-          </div>
-        )}
+        {isError &&
+          !pending &&
+          isLoggedIn && (
+            <div className="row vads-u-margin-bottom--3">
+              <ErrorMessage />
+            </div>
+          )}
         {showMainContent && (
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
             {children}
@@ -91,4 +93,7 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({ fetchFormStatus }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

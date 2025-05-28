@@ -10,6 +10,7 @@ import {
   FORCE_NEEDED,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
+  CSP_IDS,
 } from 'platform/user/authentication/constants';
 import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
 // import { useDatadogRum } from 'platform/user/authentication/hooks/useDatadogRum';
@@ -50,6 +51,9 @@ export default function AuthApp({ location }) {
   const isFeatureToggleLoading = useSelector(
     store => store?.featureToggles?.loading,
   );
+  const isInterstitialEnabled = useSelector(
+    store => store?.featureToggles?.dslogonInterstitialRedirect,
+  );
 
   const handleAuthError = (error, codeOverride) => {
     const { errorCode: detailedErrorCode } = getAuthError(
@@ -72,6 +76,11 @@ export default function AuthApp({ location }) {
   };
 
   const redirect = () => {
+    if (isInterstitialEnabled && CSP_IDS.DS_LOGON === loginType) {
+      window.location.replace('/sign-in-changes-reminder');
+      return;
+    }
+
     // remove from session storage
     sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
@@ -119,7 +128,9 @@ export default function AuthApp({ location }) {
     } catch (err) {
       const message = err?.error;
       if (message === 'Agreement not accepted') {
-        window.location = `${environment.BASE_URL}/terms-of-use/myvahealth/?ssoeTarget=${returnUrl}`;
+        window.location = `${
+          environment.BASE_URL
+        }/terms-of-use/myvahealth/?ssoeTarget=${returnUrl}`;
       } else if (message === 'Account not Provisioned') {
         handleAuthError(null, '111');
       } else {
@@ -185,15 +196,18 @@ export default function AuthApp({ location }) {
     }
   };
 
-  useEffect(() => {
-    if (!isFeatureToggleLoading) {
-      if (hasError) {
-        handleAuthError();
-      } else {
-        validateSession();
+  useEffect(
+    () => {
+      if (!isFeatureToggleLoading) {
+        if (hasError) {
+          handleAuthError();
+        } else {
+          validateSession();
+        }
       }
-    }
-  }, [isFeatureToggleLoading]);
+    },
+    [isFeatureToggleLoading],
+  );
 
   const openLoginModal = () => {
     dispatch(toggleLoginModal(true));

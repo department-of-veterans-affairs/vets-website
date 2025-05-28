@@ -26,6 +26,7 @@ import { Actions } from '../util/actionTypes';
 import { downtimeNotificationParams, Paths } from '../util/constants';
 import useTrackPreviousUrl from '../hooks/use-previous-url';
 import FetchRecipients from '../components/FetchRecipients';
+import LaunchMessagingAal from '../components/util/LaunchMessagingAal';
 
 const App = ({ isPilot }) => {
   useTrackPreviousUrl();
@@ -44,20 +45,16 @@ const App = ({ isPilot }) => {
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
   );
 
-  const removeLandingPage = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
-
   const mhvMockSessionFlag = useSelector(
     state => state.featureToggles['mhv-mock-session'],
   );
 
-  useEffect(() => {
-    if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
-  }, [mhvMockSessionFlag]);
+  useEffect(
+    () => {
+      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+    },
+    [mhvMockSessionFlag],
+  );
 
   const scheduledDownTimeIsReady = useSelector(
     state => state.scheduledDowntime?.isReady,
@@ -67,27 +64,36 @@ const App = ({ isPilot }) => {
     state => state.scheduledDowntime?.serviceMap || [],
   );
 
-  const mhvSMDown = useMemo(() => {
-    if (scheduledDowntimes.size > 0) {
-      return (
-        scheduledDowntimes?.get(externalServices.mhvSm)?.status ||
-        scheduledDowntimes?.get(externalServices.mhvPlatform)?.status
-      );
-    }
-    return 'downtime status: ok';
-  }, [scheduledDowntimes]);
+  const mhvSMDown = useMemo(
+    () => {
+      if (scheduledDowntimes.size > 0) {
+        return (
+          scheduledDowntimes?.get(externalServices.mhvSm)?.status ||
+          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status
+        );
+      }
+      return 'downtime status: ok';
+    },
+    [scheduledDowntimes],
+  );
 
-  useEffect(() => {
-    if (!scheduledDownTimeIsReady) {
-      dispatch(getScheduledDowntime());
-    }
-  }, [dispatch, scheduledDownTimeIsReady]);
+  useEffect(
+    () => {
+      if (!scheduledDownTimeIsReady) {
+        dispatch(getScheduledDowntime());
+      }
+    },
+    [dispatch, scheduledDownTimeIsReady],
+  );
 
-  useEffect(() => {
-    if (isPilot) {
-      dispatch({ type: Actions.App.IS_PILOT });
-    }
-  }, [isPilot, dispatch]);
+  useEffect(
+    () => {
+      if (isPilot) {
+        dispatch({ type: Actions.App.IS_PILOT });
+      }
+    },
+    [isPilot, dispatch],
+  );
 
   const datadogRumConfig = {
     applicationId: '02c72297-5059-4ed8-8472-874276f4a9b2',
@@ -105,9 +111,12 @@ const App = ({ isPilot }) => {
   };
 
   useDatadogRum(datadogRumConfig);
-  useEffect(() => {
-    setDatadogRumUser({ id: user?.profile?.accountUuid });
-  }, [user]);
+  useEffect(
+    () => {
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
+    },
+    [user],
+  );
 
   if (featureTogglesLoading) {
     return (
@@ -127,11 +136,8 @@ const App = ({ isPilot }) => {
   // Feature flag maintains whitelist for cerner integration pilot environment.
   // If the user lands on /my-health/secure-messages-pilot and is not whitelisted,
   // redirect to the SM main experience landing page
-  // If mhvSecureMessagingRemoveLandingPage Feature Flag is enabled, redirect to the inbox
-  // When removing the landing page changes are fully implemented, update manifest.json to set
-  // rootURL to /my-health/secure-messages/inbox
   if (isPilot && !cernerPilotSmFeatureFlag) {
-    const url = `${manifest.rootUrl}${removeLandingPage ? Paths.INBOX : ''}`;
+    const url = `${manifest.rootUrl}${Paths.INBOX}`;
     window.location.replace(url);
     return <></>;
   }
@@ -144,6 +150,7 @@ const App = ({ isPilot }) => {
         user={user}
         serviceRequired={[backendServices.MESSAGING]}
       >
+        <LaunchMessagingAal />
         <FetchRecipients />
         <MhvSecondaryNav />
         <div className="vads-l-grid-container">

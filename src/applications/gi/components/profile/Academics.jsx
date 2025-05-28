@@ -34,24 +34,22 @@ export default function Academics({ institution, onShowModal }) {
           )}
         </>
       )}
-      {accredited &&
-        accreditationType && (
-          <>
-            &nbsp;
-            {upperCaseFirstLetterOnly(accreditationType)} (
-            <a
-              href={`http://nces.ed.gov/collegenavigator/?id=${
-                institution.cross
-              }#accred`}
-              target="_blank"
-              rel="noopener noreferrer"
-              id="see-accreditors"
-            >
-              See accreditors
-            </a>
-            )
-          </>
-        )}
+      {accredited && (
+        <>
+          {accreditationType && upperCaseFirstLetterOnly(accreditationType)} (
+          <a
+            href={`http://nces.ed.gov/collegenavigator/?id=${
+              institution.cross
+            }#accred`}
+            target="_blank"
+            rel="noopener noreferrer"
+            id="see-accreditors"
+          >
+            See accreditors
+          </a>
+          )
+        </>
+      )}
       {!accredited &&
         !accreditationType && (
           <>

@@ -20,33 +20,40 @@ export const FormSignature = ({
 }) => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Required validation always comes first
-    if (required)
-      validations.unshift(signatureValue =>
-        !signatureValue ? requiredErrorMessage : undefined,
+  useEffect(
+    () => {
+      // Required validation always comes first
+      if (required)
+        validations.unshift(
+          signatureValue =>
+            !signatureValue ? requiredErrorMessage : undefined,
+        );
+
+      // First validation error in the array gets displayed
+      setSignatureError(
+        validations.reduce(
+          (errorMessage, validator) =>
+            errorMessage || validator(signature.value, formData),
+          null,
+        ),
       );
+    },
+    [
+      required,
+      signature,
+      formData,
+      validations,
+      requiredErrorMessage,
+      setSignatureError,
+    ],
+  );
 
-    // First validation error in the array gets displayed
-    setSignatureError(
-      validations.reduce(
-        (errorMessage, validator) =>
-          errorMessage || validator(signature.value, formData),
-        null,
-      ),
-    );
-  }, [
-    required,
-    signature,
-    formData,
-    validations,
-    requiredErrorMessage,
-    setSignatureError,
-  ]);
-
-  useEffect(() => {
-    dispatch(setData(set(signaturePath, signature.value, formData)));
-  }, [signature, signaturePath]);
+  useEffect(
+    () => {
+      dispatch(setData(set(signaturePath, signature.value, formData)));
+    },
+    [signature, signaturePath],
+  );
 
   return (
     <>
@@ -67,17 +74,17 @@ export const FormSignature = ({
 };
 
 FormSignature.propTypes = {
-  formData: PropTypes.object.isRequired,
   setSignature: PropTypes.func.isRequired,
   setSignatureError: PropTypes.func.isRequired,
+  formData: PropTypes.object.isRequired,
   showError: PropTypes.bool.isRequired,
   required: PropTypes.bool,
-  requiredErrorMessage: PropTypes.string,
-  signature: PropTypes.object,
-  signatureError: PropTypes.string,
   signatureLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   signaturePath: PropTypes.string,
   validations: PropTypes.arrayOf(PropTypes.func),
+  requiredErrorMessage: PropTypes.string,
+  signature: PropTypes.object,
+  signatureError: PropTypes.string,
 };
 
 FormSignature.defaultProps = {

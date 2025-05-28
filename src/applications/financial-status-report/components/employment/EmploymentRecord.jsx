@@ -217,4 +217,7 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmploymentRecord);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EmploymentRecord);

@@ -1,9 +1,7 @@
 export const formatOptions = options => {
-  return options
-    .sort((a, b) => (a > b ? 1 : -1))
-    .map(item => ({
-      label: item,
-    }));
+  return options.sort((a, b) => (a > b ? 1 : -1)).map(item => ({
+    label: item,
+  }));
 };
 
 export const utilityTypes = [

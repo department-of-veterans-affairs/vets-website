@@ -56,4 +56,7 @@ const mapStateToProps = state => ({
   formData: state.form?.data,
 });
 
-export default connect(mapStateToProps, null)(MedicalAuthorizationPolicy);
+export default connect(
+  mapStateToProps,
+  null,
+)(MedicalAuthorizationPolicy);

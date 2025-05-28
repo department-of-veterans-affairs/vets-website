@@ -66,19 +66,28 @@ const BehaviorIntroCombatPage = ({
 
   const deletedAnswerConfirmationRef = useRef(null);
 
-  useEffect(() => {
-    if (showDeletedAnswerConfirmation && deletedAnswerConfirmationRef.current) {
-      deletedAnswerConfirmationRef.current.focus();
-    }
-  }, [showDeletedAnswerConfirmation]);
+  useEffect(
+    () => {
+      if (
+        showDeletedAnswerConfirmation &&
+        deletedAnswerConfirmationRef.current
+      ) {
+        deletedAnswerConfirmationRef.current.focus();
+      }
+    },
+    [showDeletedAnswerConfirmation],
+  );
 
   const modalRef = useRef(null);
-  useEffect(() => {
-    if (showDeleteAnswersModal && modalRef.current) {
-      const modalHeading = document.querySelector('h4');
-      scrollAndFocus(modalHeading);
-    }
-  }, [showDeleteAnswersModal]);
+  useEffect(
+    () => {
+      if (showDeleteAnswersModal && modalRef.current) {
+        const modalHeading = document.querySelector('h4');
+        scrollAndFocus(modalHeading);
+      }
+    },
+    [showDeleteAnswersModal],
+  );
 
   const missingSelection = (error, _fieldData, formData) => {
     if (!formData?.answerCombatBehaviorQuestions) {

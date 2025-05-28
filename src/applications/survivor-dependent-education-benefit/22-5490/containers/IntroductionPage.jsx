@@ -23,25 +23,40 @@ export const IntroductionPage = ({
         subTitle="Form 22-5490 (Dependent's Application for VA Education Benefits)"
       />
       <p>
-        <strong>Note:</strong> This application is only for these 2 education
-        benefits:
+        Use VA Form 22-5490 if you are a spouse or dependent applying for
+        educational benefits under
+        <strong>
+          {' '}
+          Chapter 35 Survivors' and Dependents' Education Assistance (DEA){' '}
+        </strong>{' '}
+        or <strong>Chapter 33 Fry Scholarship.</strong>
       </p>
-      <ul>
-        <li>
-          <strong>Fry Scholarship</strong> (Chapter 33)
-        </li>
-        <li>
-          <strong>Survivors’ and Dependents’ Educational Assistance</strong>{' '}
-          (DEA, Chapter 35)
-        </li>
-      </ul>
+
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="warning"
+        visible
+      >
+        <div>
+          If you are a Veteran or service member claiming a benefit based on
+          your own service, this may not be the right benefit for you.{' '}
+          <a
+            target="_blank"
+            href="https://www.va.gov/education/other-va-education-benefits"
+            rel="noreferrer"
+          >
+            Learn more about other other education benefits
+          </a>
+        </div>
+      </va-alert>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow these steps to get started
       </h2>
       <va-process-list>
         <va-process-list-item header="Check your eligibility">
           <p>
-            Make sure you meet our eligibility requirements before you apply.
+            <strong> You must be an eligible spouse or dependent </strong> in
+            order to receive this benefit.
           </p>
           <va-additional-info trigger="What are the Fry Scholarship (Chapter 33) eligibility requirements?">
             <p>
@@ -71,7 +86,7 @@ export const IntroductionPage = ({
             </ul>
           </va-additional-info>
 
-          <va-additional-info trigger="What are the Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)?">
+          <va-additional-info trigger="What are the Survivors' and Dependents' Educational Assistance (DEA, Chapter 35) eligibility requirements?">
             <p>
               <strong>
                 You may be eligible to get these benefits if both you and the
@@ -104,9 +119,9 @@ export const IntroductionPage = ({
                 90 days, <strong>or</strong>
               </li>
               <li>
-                The service member is in the hospital or getting outpatient
-                treatment for a service-connected permanent and total disability
-                and is likely to be discharged for the disability,{' '}
+                The Veteran or service member is in the hospital or getting
+                outpatient treatment for a service-connected permanent and total
+                disability and is likely to be discharged for the disability,{' '}
                 <strong>and</strong>
               </li>
               <li>You meet other requirements</li>
@@ -117,7 +132,10 @@ export const IntroductionPage = ({
           <h4>Here’s what you’ll need to apply:</h4>
           <div>
             <ul>
-              <li>Knowledge of your military service history</li>
+              <li>
+                Knowledge of your chosen Veteran or service member’s military
+                service history
+              </li>
               <li>Your current address and contact information</li>
               <li>Bank account direct deposit information</li>
             </ul>
@@ -129,23 +147,20 @@ export const IntroductionPage = ({
             about 15 minutes.
           </p>
           <va-additional-info trigger="What happens after I apply?">
-            <ul className="vads-u-margin-bottom--0">
-              <li>
-                {' '}
-                After you apply, you may get an automatic decision. If we
-                approve your application, you’ll be able to download your
-                Certificate of Eligibility (or award letter) right away. If we
-                deny your application, you can download your denial letter.
-                We’ll also mail you a copy of your decision letter.
-              </li>
-              <li>
-                <strong>Note:</strong> In some cases, we may need more time to
-                make a decision. If you don’t get an automatic decision right
-                after you apply, you’ll receive a decision letter in the mail in
-                about 30 days. And we’ll contact you if we need more
-                information.
-              </li>
-            </ul>
+            <p>
+              After you apply, you may get an automatic decision. If we approve
+              your application, you’ll be able to download your Certificate of
+              Eligibility (or award letter) right away. If we deny your
+              application, you can download your denial letter. We’ll also mail
+              you a copy of your decision letter.
+            </p>
+            <br />
+            <p className="vads-u-margin-bottom--0">
+              <strong>Note:</strong> In some cases, we may need more time to
+              make a decision. If you don’t get an automatic decision right
+              after you apply, you’ll receive a decision letter in the mail in
+              about 30 days. And we’ll contact you if we need more information.
+            </p>
           </va-additional-info>
         </va-process-list-item>
       </va-process-list>

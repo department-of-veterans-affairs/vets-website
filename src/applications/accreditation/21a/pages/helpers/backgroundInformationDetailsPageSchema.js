@@ -22,7 +22,9 @@ const backgroundInformationDetails = ({
   const explanationKey = `${key}Explanation`;
   const documentsKey = `${key}Documents`;
   const certificationKey = `${key}Certification`;
-  const url = `${environment.API_URL}/accredited_representative_portal/v0/form21a/${path}`;
+  const url = `${
+    environment.API_URL
+  }/accredited_representative_portal/v0/form21a/${path}`;
 
   return {
     title,
@@ -36,6 +38,7 @@ const backgroundInformationDetails = ({
       [documentsKey]: {
         ...fileInputUI({
           title: 'Provide any relevant documents',
+          required: () => false,
           hint:
             'You may add .pdf, .doc, .jpg, or .txt documents under 25MB. Please name documents with clear, descriptive names.',
           name: `${path}-file-input`,

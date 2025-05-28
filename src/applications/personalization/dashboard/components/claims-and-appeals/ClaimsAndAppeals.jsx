@@ -61,6 +61,12 @@ const ClaimsAndAppealsError = () => {
 };
 
 const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const showAccreditedRepresentative = useToggleValue(
+    TOGGLE_NAMES.representativeStatusEnableV2Features,
+  );
+
   return (
     <>
       <IconCTALink
@@ -90,21 +96,22 @@ const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
           }}
         />
       )}
-      {!isLOA1 && (
-        <IconCTALink
-          text="Get help from your accredited representative or VSO"
-          href="/profile/accredited-representative/"
-          icon="account_circle"
-          onClick={() => {
-            recordEvent({
-              event: 'nav-linkslist',
-              'links-list-header':
-                'Get help from your accredited representative or VSO',
-              'links-list-section-header': 'Claims and appeals',
-            });
-          }}
-        />
-      )}
+      {showAccreditedRepresentative &&
+        !isLOA1 && (
+          <IconCTALink
+            text="Get help from your accredited representative or VSO"
+            href="/profile/accredited-representative/"
+            icon="account_circle"
+            onClick={() => {
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header':
+                  'Get help from your accredited representative or VSO',
+                'links-list-section-header': 'Claims and appeals',
+              });
+            }}
+          />
+        )}
     </>
   );
 };
@@ -124,17 +131,23 @@ const ClaimsAndAppeals = ({
   shouldLoadClaims,
   shouldShowLoadingIndicator,
 }) => {
-  React.useEffect(() => {
-    if (!dataLoadingDisabled && shouldLoadAppeals) {
-      getAppeals();
-    }
-  }, [dataLoadingDisabled, getAppeals, shouldLoadAppeals]);
+  React.useEffect(
+    () => {
+      if (!dataLoadingDisabled && shouldLoadAppeals) {
+        getAppeals();
+      }
+    },
+    [dataLoadingDisabled, getAppeals, shouldLoadAppeals],
+  );
 
-  React.useEffect(() => {
-    if (!dataLoadingDisabled && shouldLoadClaims) {
-      getClaims();
-    }
-  }, [dataLoadingDisabled, getClaims, shouldLoadClaims]);
+  React.useEffect(
+    () => {
+      if (!dataLoadingDisabled && shouldLoadClaims) {
+        getClaims();
+      }
+    },
+    [dataLoadingDisabled, getClaims, shouldLoadClaims],
+  );
 
   // the most recently updated open claim or appeal or
   // the latest closed claim or appeal that has been updated in the past 60 days
@@ -178,11 +191,13 @@ const ClaimsAndAppeals = ({
             </>
           )}
         </DashboardWidgetWrapper>
-        {highlightedClaimOrAppeal && !hasAPIError && !isLOA1 && (
-          <DashboardWidgetWrapper>
-            <PopularActionsForClaimsAndAppeals />
-          </DashboardWidgetWrapper>
-        )}
+        {highlightedClaimOrAppeal &&
+          !hasAPIError &&
+          !isLOA1 && (
+            <DashboardWidgetWrapper>
+              <PopularActionsForClaimsAndAppeals />
+            </DashboardWidgetWrapper>
+          )}
       </div>
     </div>
   );
@@ -254,4 +269,7 @@ const mapDispatchToProps = {
   getClaims: getClaimsAction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClaimsAndAppeals);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ClaimsAndAppeals);

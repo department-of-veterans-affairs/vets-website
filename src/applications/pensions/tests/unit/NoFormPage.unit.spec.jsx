@@ -1,8 +1,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { render, waitFor } from '@testing-library/react';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import {
+  createGetHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 import { expect } from 'chai';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
@@ -75,12 +78,9 @@ describe('NoFormPage', () => {
 
   it('should render if NOT logged in', async () => {
     server.use(
-      rest.get(
+      createGetHandler(
         'https://dev-api.va.gov/v0/in_progress_forms/21P-527EZ',
-        (req, res, ctx) => {
-          const responseData = { formData: {}, metadata: {} };
-          return res(ctx.json(responseData), ctx.status(200));
-        },
+        () => jsonResponse({ formData: {}, metadata: {} }, { status: 200 }),
       ),
     );
     const mockStore = store();
@@ -101,12 +101,9 @@ describe('NoFormPage', () => {
 
   it('should render if IS logged in && DOES NOT have form data in progress', async () => {
     server.use(
-      rest.get(
+      createGetHandler(
         'https://dev-api.va.gov/v0/in_progress_forms/21P-527EZ',
-        (req, res, ctx) => {
-          const responseData = { formData: {}, metadata: {} };
-          return res(ctx.json(responseData), ctx.status(200));
-        },
+        () => jsonResponse({ formData: {}, metadata: {} }, { status: 200 }),
       ),
     );
     const mockStore = store({ isLoggedIn: true });
@@ -124,15 +121,16 @@ describe('NoFormPage', () => {
 
   it('should render if IS logged in && DOES have form data in progress', async () => {
     server.use(
-      rest.get(
+      createGetHandler(
         'https://dev-api.va.gov/v0/in_progress_forms/21P-527EZ',
-        (req, res, ctx) => {
-          const responseData = {
-            formData: { ...mockFormData },
-            metadata: { inProgressFormId: 5, createdAt: 1695063470866 },
-          };
-          return res(ctx.json(responseData), ctx.status(200));
-        },
+        () =>
+          jsonResponse(
+            {
+              formData: { ...mockFormData },
+              metadata: { inProgressFormId: 5, createdAt: 1695063470866 },
+            },
+            { status: 200 },
+          ),
       ),
     );
     const mockStore = store({ isLoggedIn: true });

@@ -25,12 +25,15 @@ export default function RequestedAppointmentDetailsPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchRequestDetails(id));
-    return () => {
-      dispatch(closeCancelAppointment());
-    };
-  }, [dispatch, id]);
+  useEffect(
+    () => {
+      dispatch(fetchRequestDetails(id));
+      return () => {
+        dispatch(closeCancelAppointment());
+      };
+    },
+    [dispatch, id],
+  );
 
   const {
     appointment,
@@ -46,30 +49,37 @@ export default function RequestedAppointmentDetailsPage() {
     shallowEqual,
   );
 
-  useEffect(() => {
-    if (appointment) {
-      let title = `${isCanceled ? 'Canceled ' : 'Pending '}${
-        isCC ? 'Community care' : 'VA'
-      } ${typeOfCareText} appointment`;
+  useEffect(
+    () => {
+      if (appointment) {
+        let title = `${isCanceled ? 'Canceled ' : 'Pending '}${
+          isCC ? 'Community care' : 'VA'
+        } ${typeOfCareText} appointment`;
 
-      title = `${
-        isCanceled ? 'Canceled Request For ' : 'Pending Request For '
-      }${isCC ? 'Community Care Appointment' : 'Appointment'}`;
-      title = title.concat(` | Veterans Affairs`);
+        title = `${
+          isCanceled ? 'Canceled Request For ' : 'Pending Request For '
+        }${isCC ? 'Community Care Appointment' : 'Appointment'}`;
+        title = title.concat(` | Veterans Affairs`);
 
-      document.title = title;
-    }
-    scrollAndFocus();
-  }, [dispatch, typeOfCareText, isCanceled, isCC, appointment, cancelInfo]);
-
-  useEffect(() => {
-    if (
-      appointmentDetailsStatus === FETCH_STATUS.failed ||
-      (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
-    ) {
+        document.title = title;
+      }
       scrollAndFocus();
-    }
-  }, [appointmentDetailsStatus, appointment]);
+    },
+    [dispatch, typeOfCareText, isCanceled, isCC, appointment, cancelInfo],
+  );
+
+  useEffect(
+    () => {
+      if (
+        appointmentDetailsStatus === FETCH_STATUS.failed ||
+        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+      ) {
+        scrollAndFocus();
+      }
+    },
+
+    [appointmentDetailsStatus, appointment],
+  );
 
   if (
     appointmentDetailsStatus === FETCH_STATUS.failed ||
@@ -151,19 +161,20 @@ export default function RequestedAppointmentDetailsPage() {
                   />
                 </>
               )}
-              {!!facility && !isCC && (
-                <>
-                  <VAFacilityLocation
-                    facility={facility}
-                    facilityName={facility?.name}
-                    facilityId={facility?.id}
-                    showDirectionsLink={false}
-                    showPhone={false}
-                  />
-                  <br />
-                  <FacilityPhone contact={facilityPhone} level={3} />
-                </>
-              )}
+              {!!facility &&
+                !isCC && (
+                  <>
+                    <VAFacilityLocation
+                      facility={facility}
+                      facilityName={facility?.name}
+                      facilityId={facility?.id}
+                      showDirectionsLink={false}
+                      showPhone={false}
+                    />
+                    <br />
+                    <FacilityPhone contact={facilityPhone} level={3} />
+                  </>
+                )}
             </p>
           </VaAlert>
         </div>

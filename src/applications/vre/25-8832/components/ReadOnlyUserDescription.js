@@ -5,9 +5,12 @@ import { LOA_LEVEL_REQUIRED } from '../constants';
 
 const ReadOnlyUserDescription = props => {
   const [isLoggedIn, setIsLoggedIn] = useState();
-  useEffect(() => {
-    setIsLoggedIn(props.isLoggedIn);
-  }, [props]);
+  useEffect(
+    () => {
+      setIsLoggedIn(props.isLoggedIn);
+    },
+    [props],
+  );
   const display = {
     'Your first name': props?.profile?.userFullName?.first || '',
     'Your middle name': props?.profile?.userFullName?.middle || '',

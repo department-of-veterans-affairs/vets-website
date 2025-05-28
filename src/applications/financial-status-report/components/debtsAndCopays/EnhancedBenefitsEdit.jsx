@@ -35,9 +35,13 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
   };
 
   const handleChange = event => {
-    const { value } = event.target;
+    setError(null);
+    const { value } = event?.target;
     setInputValue(value);
+  };
 
+  const handleBlur = event => {
+    const { value } = event?.target;
     if (!value) {
       setError(ERROR_MESSAGES.EMPTY_VALUE);
     } else if (!validateNumber(value)) {
@@ -54,13 +58,14 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
 
   const onUpdate = () => {
     if (error) return;
-    const updatedIncomeArray = incomeArray.map(income =>
-      income.veteranOrSpouse === 'VETERAN'
-        ? {
-            ...income,
-            [benefitType]: inputValue,
-          }
-        : income,
+    const updatedIncomeArray = incomeArray.map(
+      income =>
+        income.veteranOrSpouse === 'VETERAN'
+          ? {
+              ...income,
+              [benefitType]: inputValue,
+            }
+          : income,
     );
 
     dispatch(
@@ -99,6 +104,7 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
           id={`${benefitType}-benefitAmount`}
           name={benefitType}
           onInput={handleChange}
+          onBlur={handleBlur}
           inputmode="numeric"
           value={inputValue}
           width="md"

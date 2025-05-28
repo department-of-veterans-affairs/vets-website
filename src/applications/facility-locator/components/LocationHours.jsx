@@ -17,13 +17,13 @@ const LocationHours = ({ location }) => {
   ];
 
   const renderHoursByDay = () => {
-    return days.map((day, idx) => {
+    return days.map(day => {
       const hours = formatOperatingHours(get(hoursInfo, day));
       const dayToDisplay = day.charAt(0).toUpperCase() + day.slice(1);
 
       if (hours) {
         return (
-          <div key={`${day}-${idx}`} className="row">
+          <div className="row">
             <p className="small-6 columns vads-u-margin--0">{dayToDisplay}:</p>
             <p
               data-testid={`${day}-hours`}

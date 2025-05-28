@@ -9,7 +9,6 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import {
   selectSystemIds,
-  selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
@@ -383,7 +382,6 @@ export function prefillContactInfo() {
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
@@ -430,11 +428,7 @@ export function confirmAppointment(history) {
         ...facilityID,
       });
       resetDataLayer();
-      history.push(
-        featureBreadcrumbUrlUpdate
-          ? `/${appointment.id}?confirmMsg=true`
-          : '/new-covid-19-vaccine-appointment/confirmation',
-      );
+      history.push(`/${appointment.id}?confirmMsg=true`);
     } catch (error) {
       captureError(error, true, 'COVID-19 vaccine submission failure');
       dispatch({

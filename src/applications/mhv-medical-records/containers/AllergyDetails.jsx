@@ -11,19 +11,17 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
+  formatNameFirstLast,
+  getNameDateAndTime,
+  makePdf,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import {
-  formatNameFirstLast,
-  generateTextFile,
-  getNameDateAndTime,
-  makePdf,
-  formatUserDob,
-} from '../util/helpers';
+import { generateTextFile } from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -58,36 +56,48 @@ const AllergyDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  const allergyData = useMemo(() => {
-    if (!allergy) {
-      return null;
-    }
-    return {
-      ...allergy,
-      isOracleHealthData: isAcceleratingAllergies,
-    };
-  }, [allergy, isAcceleratingAllergies]);
+  const allergyData = useMemo(
+    () => {
+      if (!allergy) {
+        return null;
+      }
+      return {
+        ...allergy,
+        isOracleHealthData: isAcceleratingAllergies,
+      };
+    },
+    [allergy, isAcceleratingAllergies],
+  );
 
-  useEffect(() => {
-    if (allergyId && !isLoading) {
-      dispatch(
-        getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
-      );
-    }
-  }, [allergyId, allergyList, dispatch, isAcceleratingAllergies, isLoading]);
+  useEffect(
+    () => {
+      if (allergyId && !isLoading) {
+        dispatch(
+          getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
+        );
+      }
+    },
+    [allergyId, allergyList, dispatch, isAcceleratingAllergies, isLoading],
+  );
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearAllergyDetails());
-    };
-  }, [dispatch]);
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearAllergyDetails());
+      };
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    if (allergyData) {
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
-    }
-  }, [dispatch, allergyData]);
+  useEffect(
+    () => {
+      if (allergyData) {
+        focusElement(document.querySelector('h1'));
+        updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
+      }
+    },
+    [dispatch, allergyData],
+  );
 
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,
@@ -103,7 +113,13 @@ const AllergyDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, details: generateAllergyItem(allergyData) };
     const pdfName = `VA-allergies-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Allergy details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Allergy details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateAllergyTextContent = () => {

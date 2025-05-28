@@ -128,7 +128,9 @@ const CombinedStatements = () => {
     if (!mailingAddress) return '';
 
     return mailingAddress.city && mailingAddress.stateCode
-      ? `${mailingAddress.city}, ${mailingAddress.stateCode} ${mailingAddress.zipCode}`
+      ? `${mailingAddress.city}, ${mailingAddress.stateCode} ${
+          mailingAddress.zipCode
+        }`
       : '';
   };
 
@@ -142,11 +144,14 @@ const CombinedStatements = () => {
     },
   };
 
-  const showOneVADebtLetterDownloadButton = useMemo(() => {
-    // 403 error is not enrolled, so bills aren't proper borked
-    const billsBorked = billError ? billError?.code !== '403' : false;
-    return showOneVADebtLetterDownload && !debtError && !billsBorked;
-  }, [billError, debtError, showOneVADebtLetterDownload]);
+  const showOneVADebtLetterDownloadButton = useMemo(
+    () => {
+      // 403 error is not enrolled, so bills aren't proper borked
+      const billsBorked = billError ? billError?.code !== '403' : false;
+      return showOneVADebtLetterDownload && !debtError && !billsBorked;
+    },
+    [billError, debtError, showOneVADebtLetterDownload],
+  );
 
   // give features a chance to fully load before we conditionally render
   if (togglesLoading || dataLoading) {
@@ -321,8 +326,12 @@ const CombinedStatements = () => {
                 </p>
 
                 <va-table
-                  table-title={`Copay charges for ${statement.station.facilityName}`}
-                  data-testid={`combined-statements-copay-table-${statement.station.facilityName}`}
+                  table-title={`Copay charges for ${
+                    statement.station.facilityName
+                  }`}
+                  data-testid={`combined-statements-copay-table-${
+                    statement.station.facilityName
+                  }`}
                   className="vads-u-width--full"
                 >
                   <va-table-row slot="headers">

@@ -65,7 +65,9 @@ describe('getAppealsV2', () => {
   };
 
   Object.keys(appealsErrors).forEach(code => {
-    it(`Dispatches ${appealsErrors[code]} when GET fails with ${code}`, done => {
+    it(`Dispatches ${
+      appealsErrors[code]
+    } when GET fails with ${code}`, done => {
       setFetchJSONResponse(
         global.fetch.onCall(0),
         Promise.reject({

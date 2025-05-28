@@ -24,7 +24,10 @@ const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
-export default connect(null, mapDispatchToProps)(EnrollmentVerificationLogin);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(EnrollmentVerificationLogin);
 
 EnrollmentVerificationLogin.propTypes = {
   toggleLoginModal: PropTypes.func,

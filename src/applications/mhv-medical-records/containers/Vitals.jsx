@@ -28,6 +28,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import RecordListSection from '../components/shared/RecordListSection';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const Vitals = () => {
   const dispatch = useDispatch();
@@ -57,11 +58,18 @@ const Vitals = () => {
   const isLoadingAcceleratedData =
     isAcceleratingVitals && listState === Constants.loadStates.FETCHING;
 
-  const dispatchAction = useMemo(() => {
-    return isCurrent => {
-      return getVitals(isCurrent, isAcceleratingVitals, acceleratedVitalsDate);
-    };
-  }, [acceleratedVitalsDate, isAcceleratingVitals]);
+  const dispatchAction = useMemo(
+    () => {
+      return isCurrent => {
+        return getVitals(
+          isCurrent,
+          isAcceleratingVitals,
+          acceleratedVitalsDate,
+        );
+      };
+    },
+    [acceleratedVitalsDate, isAcceleratingVitals],
+  );
   useListRefresh({
     listState,
     listCurrentAsOf: vitalsCurrentAsOf,
@@ -83,23 +91,29 @@ const Vitals = () => {
     [dispatch, listState],
   );
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
-  }, [dispatch]);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    // Only update if there is no time frame. This is only for on initial page load.
-    const timeFrame = new URLSearchParams(location.search).get('timeFrame');
-    if (!timeFrame) {
-      const searchParams = new URLSearchParams(location.search);
-      searchParams.set('timeFrame', acceleratedVitalsDate);
-      history.push({
-        pathname: location.pathname,
-        search: searchParams.toString(),
-      });
-    }
-  }, [acceleratedVitalsDate, history, location.pathname, location.search]);
+  useEffect(
+    () => {
+      // Only update if there is no time frame. This is only for on initial page load.
+      const timeFrame = new URLSearchParams(location.search).get('timeFrame');
+      if (!timeFrame) {
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set('timeFrame', acceleratedVitalsDate);
+        history.push({
+          pathname: location.pathname,
+          search: searchParams.toString(),
+        });
+      }
+    },
+    [acceleratedVitalsDate, history, location.pathname, location.search],
+  );
 
   usePrintTitle(
     pageTitles.VITALS_PAGE_TITLE,
@@ -108,32 +122,41 @@ const Vitals = () => {
     updatePageTitle,
   );
 
-  const VITAL_TYPES = useMemo(() => {
-    if (isAcceleratingVitals) {
-      return { ...vitalTypes };
-    }
-    // remove PAIN_SEVERITY from the list of vital types
-    const vitalTypesCopy = { ...vitalTypes };
-    delete vitalTypesCopy.PAIN_SEVERITY;
-    return vitalTypesCopy;
-  }, [isAcceleratingVitals]);
-
-  const PER_PAGE = useMemo(() => {
-    return Object.keys(VITAL_TYPES).length;
-  }, [VITAL_TYPES]);
-
-  useEffect(() => {
-    if (vitals?.length) {
-      // create vital type cards based on the types of records present
-      const firstOfEach = [];
-      for (const [key, types] of Object.entries(VITAL_TYPES)) {
-        const firstOfType = vitals.find(item => types.includes(item.type));
-        if (firstOfType) firstOfEach.push(firstOfType);
-        else firstOfEach.push({ type: key, noRecords: true });
+  const VITAL_TYPES = useMemo(
+    () => {
+      if (isAcceleratingVitals) {
+        return { ...vitalTypes };
       }
-      setCards(firstOfEach);
-    }
-  }, [vitals, VITAL_TYPES]);
+      // remove PAIN_SEVERITY from the list of vital types
+      const vitalTypesCopy = { ...vitalTypes };
+      delete vitalTypesCopy.PAIN_SEVERITY;
+      return vitalTypesCopy;
+    },
+    [isAcceleratingVitals],
+  );
+
+  const PER_PAGE = useMemo(
+    () => {
+      return Object.keys(VITAL_TYPES).length;
+    },
+    [VITAL_TYPES],
+  );
+
+  useEffect(
+    () => {
+      if (vitals?.length) {
+        // create vital type cards based on the types of records present
+        const firstOfEach = [];
+        for (const [key, types] of Object.entries(VITAL_TYPES)) {
+          const firstOfType = vitals.find(item => types.includes(item.type));
+          if (firstOfType) firstOfEach.push(firstOfType);
+          else firstOfEach.push({ type: key, noRecords: true });
+        }
+        setCards(firstOfEach);
+      }
+    },
+    [vitals, VITAL_TYPES],
+  );
 
   const content = () => {
     return (
@@ -175,17 +198,20 @@ const Vitals = () => {
             <hr className="vads-u-margin-y--1 vads-u-padding-0" />
           </div>
         )}
-
-        <RecordList
-          records={cards}
-          type={recordType.VITALS}
-          perPage={PER_PAGE}
-          hidePagination
-          domainOptions={{
-            isAccelerating: isAcceleratingVitals,
-            timeFrame: acceleratedVitalsDate,
-          }}
-        />
+        {cards?.length ? (
+          <RecordList
+            records={cards}
+            type={recordType.VITALS}
+            perPage={PER_PAGE}
+            hidePagination
+            domainOptions={{
+              isAccelerating: isAcceleratingVitals,
+              timeFrame: acceleratedVitalsDate,
+            }}
+          />
+        ) : (
+          <NoRecordsMessage type={recordType.VITALS} />
+        )}
       </RecordListSection>
     );
   };

@@ -34,7 +34,9 @@ describe('Verify thread - No association with particular Triage Group', () => {
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({
       waitForAnimations: true,
     });
-    cy.get(Locators.BUTTONS.CONTINUE).click({ waitForAnimations: true });
+    cy.findByTestId(Locators.BUTTONS.CONTINUE).click({
+      waitForAnimations: true,
+    });
     cy.get(Locators.ALERTS.REPT_SELECT).should(
       'not.contain',
       mockRecipients.data[0].attributes.name,
@@ -81,7 +83,9 @@ describe('Verify thread - No association with particular Triage Group', () => {
       .should('be.visible')
       .and(
         'include.text',
-        `${Alerts.NO_ASSOCIATION.HEADER} ${mockRecipients.data[0].attributes.name}`,
+        `${Alerts.NO_ASSOCIATION.HEADER} ${
+          mockRecipients.data[0].attributes.name
+        }`,
       );
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)

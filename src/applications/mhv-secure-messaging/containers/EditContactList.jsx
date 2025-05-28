@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
@@ -50,13 +49,6 @@ const EditContactList = () => {
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
-
   const isContactListChanged = useMemo(
     () => !_.isEqual(allRecipients, allTriageTeams),
     [allRecipients, allTriageTeams],
@@ -69,26 +61,30 @@ const EditContactList = () => {
 
   const updatePreferredTeam = (triageTeamId, selected) => {
     setAllTriageTeams(prevTeams =>
-      prevTeams.map(team =>
-        team.triageTeamId === triageTeamId
-          ? {
-              ...team,
-              preferredTeam: selected || !team.preferredTeam,
-            }
-          : team,
+      prevTeams.map(
+        team =>
+          team.triageTeamId === triageTeamId
+            ? {
+                ...team,
+                preferredTeam: selected || !team.preferredTeam,
+              }
+            : team,
       ),
     );
   };
 
-  const navigateBack = useCallback(() => {
-    if (previousUrl === Paths.COMPOSE && activeDraftId) {
-      history.push(`${Paths.MESSAGE_THREAD}${activeDraftId}/`);
-    } else if (previousUrl) {
-      history.push(previousUrl);
-    } else {
-      history.push(Paths.INBOX);
-    }
-  }, [history, previousUrl]);
+  const navigateBack = useCallback(
+    () => {
+      if (previousUrl === Paths.COMPOSE && activeDraftId) {
+        history.push(`${Paths.MESSAGE_THREAD}${activeDraftId}/`);
+      } else if (previousUrl) {
+        history.push(previousUrl);
+      } else {
+        history.push(Paths.INBOX);
+      }
+    },
+    [history, previousUrl],
+  );
 
   const handleSave = async e => {
     e.preventDefault();
@@ -110,43 +106,51 @@ const EditContactList = () => {
     navigateBack();
   };
 
-  useEffect(() => {
-    return () => {
-      if (location.pathname) {
-        dispatch(closeAlert());
-      }
-    };
-  }, [location.pathname, dispatch]);
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
 
-  useEffect(() => {
-    setAllTriageTeams(allRecipients);
-  }, [allRecipients]);
+  useEffect(
+    () => {
+      setAllTriageTeams(allRecipients);
+    },
+    [allRecipients],
+  );
 
   useEffect(() => {
     updatePageTitle(
-      `${removeLandingPageFF ? 'Messages: ' : ''}${
-        ParentComponent.CONTACT_LIST
-      } ${
-        removeLandingPageFF
-          ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
-          : PageTitles.PAGE_TITLE_TAG
+      `Messages: ${ParentComponent.CONTACT_LIST} ${
+        PageTitles.DEFAULT_PAGE_TITLE_TAG
       }`,
     );
     focusElement(document.querySelector('h1'));
   }, []);
 
-  useEffect(() => {
-    if (isContactListChanged) {
-      dispatch(closeAlert());
-    }
-    setIsNavigationBlocked(isContactListChanged);
-  }, [dispatch, isContactListChanged]);
+  useEffect(
+    () => {
+      if (isContactListChanged) {
+        dispatch(closeAlert());
+      }
+      setIsNavigationBlocked(isContactListChanged);
+    },
+    [dispatch, isContactListChanged],
+  );
 
-  useEffect(() => {
-    if (isMinimumSelected) {
-      setCheckboxError('');
-    }
-  }, [isMinimumSelected]);
+  useEffect(
+    () => {
+      if (isMinimumSelected) {
+        setCheckboxError('');
+      }
+    },
+    [isMinimumSelected],
+  );
 
   const GoBackButton = () => {
     if (!allTriageTeams) {
@@ -185,7 +189,7 @@ const EditContactList = () => {
         confirmButtonText={navigationError?.confirmButtonText}
         cancelButtonText={navigationError?.cancelButtonText}
       />
-      <h1>{`${removeLandingPageFF ? `Messages: ` : ''}Contact list`}</h1>
+      <h1>Messages: Contact list</h1>
       <AlertBackgroundBox closeable focus />
 
       <div

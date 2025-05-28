@@ -33,11 +33,14 @@ export const ConfirmationPage = ({
   chosenBenefit,
   meb160630Automation,
 }) => {
-  useEffect(() => {
-    if (!claimStatus) {
-      getClaimStatus(chosenBenefit || 'Chapter33');
-    }
-  }, [getClaimStatus, claimStatus, chosenBenefit]);
+  useEffect(
+    () => {
+      if (!claimStatus) {
+        getClaimStatus(chosenBenefit || 'Chapter33');
+      }
+    },
+    [getClaimStatus, claimStatus, chosenBenefit],
+  );
 
   const confirmationResult = claimStatus?.claimStatus;
   const confirmationDate = claimStatus?.receivedDate
@@ -168,7 +171,10 @@ const mapDispatchToProps = {
   sendConfirmation: sendConfirmationAction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmationPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConfirmationPage);
 
 ConfirmationPage.propTypes = {
   getClaimStatus: PropTypes.func.isRequired,

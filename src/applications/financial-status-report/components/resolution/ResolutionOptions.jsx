@@ -21,14 +21,17 @@ const ResolutionOptions = ({ formContext }) => {
     !isNullOrUndefinedOrEmpty(currentDebt.resolutionOption),
   );
 
-  useEffect(() => {
-    if (formContext.submitted && !isResolutionOptionSelected) {
-      setSelectionError('Please select a resolution option for this debt');
-      setFocus('VaRadio');
-    } else {
-      setSelectionError(null);
-    }
-  }, [formContext.submitted, isResolutionOptionSelected]);
+  useEffect(
+    () => {
+      if (formContext.submitted && !isResolutionOptionSelected) {
+        setSelectionError('Please select a resolution option for this debt');
+        setFocus('VaRadio');
+      } else {
+        setSelectionError(null);
+      }
+    },
+    [formContext.submitted, isResolutionOptionSelected],
+  );
 
   const onResolutionChange = target => {
     const newlySelectedDebtsAndCopays = selectedDebtsAndCopays.map(debt => {

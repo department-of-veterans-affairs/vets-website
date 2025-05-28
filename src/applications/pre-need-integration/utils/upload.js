@@ -1,6 +1,6 @@
 import environment from '~/platform/utilities/environment';
-import fileUiSchema from '~/platform/forms-system/src/js/definitions/file';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
+import fileUiSchema from '../definitions/file';
 
 import { createPayload, parseResponse } from './helpers';
 
@@ -10,7 +10,9 @@ export function fileUploadUi(content) {
       buttonText: 'Upload file',
       addAnotherLabel: 'Upload another file',
       itemDescription: content.description,
-      fileUploadUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+      fileUploadUrl: `${
+        environment.API_URL
+      }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
       fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
       maxSize: 1024 * 1024 * 100, // 100 MB max size,
       minSize: 1024,

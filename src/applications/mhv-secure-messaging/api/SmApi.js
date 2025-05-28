@@ -321,7 +321,9 @@ export const moveMessageThread = (threadId, toFolderId) => {
  */
 export const deleteMessageThread = threadId => {
   return apiRequest(
-    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${DefaultFolders.DELETED.id}
+    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${
+      DefaultFolders.DELETED.id
+    }
   `,
     {
       method: 'PATCH',
@@ -407,5 +409,44 @@ export const getSignature = () => {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
+  });
+};
+
+export const submitLaunchMyVaHealthAal = () => {
+  return apiRequest(`${apiBasePath}/aal`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      aal: {
+        activityType: 'Messaging',
+        action: 'Launch My VA Health',
+        performerType: 'Self',
+        status: '1',
+      },
+      product: 'sm',
+    }),
+  });
+};
+
+export const submitLaunchMessagingAal = () => {
+  return apiRequest(`${apiBasePath}/aal`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      aal: {
+        activityType: 'Messages',
+        action: 'Launch Messages',
+        performerType: 'Self',
+        status: '1',
+      },
+      product: 'sm',
+      oncePerSession: true,
+    }),
   });
 };

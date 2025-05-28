@@ -42,6 +42,7 @@ const InnerNavigation = () => {
           <div
             key={i}
             data-testid={path.datatestid}
+            activetab={handleActiveLinksStyle(path)}
             className={`
               vads-u-font-size--lg
               vads-u-display--flex

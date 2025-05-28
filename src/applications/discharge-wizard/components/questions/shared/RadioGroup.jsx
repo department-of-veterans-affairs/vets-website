@@ -219,4 +219,7 @@ const mapStateToProps = state => ({
     state?.dischargeUpgradeWizard?.duwForm?.questionSelectedToEdit,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RadioGroup);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(RadioGroup);

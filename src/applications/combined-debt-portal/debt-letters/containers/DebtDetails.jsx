@@ -96,7 +96,9 @@ const DebtDetails = () => {
             label: 'Current debts',
           },
           {
-            href: `/manage-va-debt/summary/debt-balances/details/${selectedDebt.compositeDebtId}`,
+            href: `/manage-va-debt/summary/debt-balances/details/${
+              selectedDebt.compositeDebtId
+            }`,
             label: `${title}`,
           },
         ]}
@@ -188,7 +190,7 @@ const DebtDetails = () => {
           </>
         )}
         <HowDoIPay userData={howToUserData} />
-        <NeedHelp />
+        <NeedHelp showVHAPaymentHistory={false} />
       </div>
     </article>
   );

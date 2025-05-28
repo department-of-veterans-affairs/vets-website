@@ -52,12 +52,15 @@ const Autocomplete = ({
     }, debounceDelay),
   ).current;
 
-  const closeList = useCallback(() => {
-    debouncedSearch.cancel();
-    debouncedSetAriaLiveText.cancel();
-    setResults([]);
-    setActiveIndex(null);
-  }, [debouncedSearch, debouncedSetAriaLiveText]);
+  const closeList = useCallback(
+    () => {
+      debouncedSearch.cancel();
+      debouncedSetAriaLiveText.cancel();
+      setResults([]);
+      setActiveIndex(null);
+    },
+    [debouncedSearch, debouncedSetAriaLiveText],
+  );
 
   const handleInputChange = inputValue => {
     setValue(inputValue);
@@ -132,21 +135,24 @@ const Autocomplete = ({
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target)
-      ) {
-        closeList();
-      }
-    };
+  useEffect(
+    () => {
+      const handleClickOutside = event => {
+        if (
+          containerRef.current &&
+          !containerRef.current.contains(event.target)
+        ) {
+          closeList();
+        }
+      };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [closeList]);
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    },
+    [closeList],
+  );
 
   const handleFocus = () => {
     if (value && results.length === 0) {

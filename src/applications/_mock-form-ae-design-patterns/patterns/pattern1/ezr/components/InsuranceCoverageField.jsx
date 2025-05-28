@@ -11,11 +11,14 @@ const InsuranceCoverageField = ({ defaultValue, error, hasList, onChange }) => {
   const fieldsetRef = useRef(null);
 
   // set focus to this component on form error
-  useEffect(() => {
-    if (error && fieldsetRef?.current) {
-      scrollAndFocus(fieldsetRef?.current);
-    }
-  }, [error, fieldsetRef]);
+  useEffect(
+    () => {
+      if (error && fieldsetRef?.current) {
+        scrollAndFocus(fieldsetRef?.current);
+      }
+    },
+    [error, fieldsetRef],
+  );
 
   return (
     <fieldset

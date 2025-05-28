@@ -36,6 +36,7 @@ import PropTypes from 'prop-types';
 import { getConditionalPages } from '../../utilities';
 import SupportingDocsVerification from './supportingDocsVerification';
 import MissingFileList from './MissingFileList';
+import { CHAMPVA_ELIGIBILITY_ADDRESS } from '../../constants';
 
 const mailInfo = (address, officeName, faxNum, preamble, appType) => {
   const faxNumMarkup = (
@@ -57,21 +58,18 @@ const mailInfo = (address, officeName, faxNum, preamble, appType) => {
           <p>Mail your {appType} and supporting document copies to:</p>
         </>
       )}
-      <address className="vads-u-border-color--primary vads-u-border-left--4px vads-u-margin-left--3">
-        <p className="vads-u-padding-x--10px vads-u-margin-left--1">
-          {address ?? (
-            <>
-              VHA Office of Integrated Veteran Care
-              <br />
-              CHAMPVA Eligibility
-              <br />
-              PO Box 137
-              <br />
-              Spring City. PA 19475
-            </>
-          )}
-        </p>
-      </address>
+      {address ? (
+        <address className="vads-u-border-color--primary vads-u-border-left--4px vads-u-margin-left--3">
+          <p className="vads-u-padding-x--10px vads-u-margin-left--1">
+            {address}
+          </p>
+        </address>
+      ) : (
+        <>
+          {CHAMPVA_ELIGIBILITY_ADDRESS}
+          <br />
+        </>
+      )}
       Or fax it to:
       {officeName ? (
         <>
@@ -140,10 +138,11 @@ export function checkFlags(pages, person, newListOfMissingFiles) {
 
     // Update with any conditionally shown uploads that weren't in last list
     const fm = personUpdated.missingUploads.flatMap(el => el.name);
-    newListOfMissingFiles.forEach(el =>
-      !fm.includes(el.name)
-        ? missingUploads.push({ ...el, uploaded: false })
-        : null,
+    newListOfMissingFiles.forEach(
+      el =>
+        !fm.includes(el.name)
+          ? missingUploads.push({ ...el, uploaded: false })
+          : null,
     );
     personUpdated.missingUploads = missingUploads; // Shallow
   }

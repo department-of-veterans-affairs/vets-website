@@ -41,26 +41,29 @@ const IdentityPage = ({ location, route, router }) => {
       router.push(getNextPagePath(route.pageList, formData, location.pathname)),
     [formData, location.pathname, route.pageList, router],
   );
-  const triggerPrefill = useCallback(() => {
-    const fullName = {
-      ...formData.veteranFullName,
-      first: localData.firstName,
-      middle: localData.middleName,
-      last: localData.lastName,
-      suffix: localData.suffix,
-    };
-    const dataToSet = {
-      ...formData,
-      veteranDateOfBirth: localData.dob,
-      'view:isUserInMvi': isUserInMPI,
-      'view:veteranInformation': {
-        veteranFullName: fullName,
+  const triggerPrefill = useCallback(
+    () => {
+      const fullName = {
+        ...formData.veteranFullName,
+        first: localData.firstName,
+        middle: localData.middleName,
+        last: localData.lastName,
+        suffix: localData.suffix,
+      };
+      const dataToSet = {
+        ...formData,
         veteranDateOfBirth: localData.dob,
-        veteranSocialSecurityNumber: localData.ssn,
-      },
-    };
-    dispatch(setData(dataToSet));
-  }, [dispatch, formData, isUserInMPI, localData]);
+        'view:isUserInMvi': isUserInMPI,
+        'view:veteranInformation': {
+          veteranFullName: fullName,
+          veteranDateOfBirth: localData.dob,
+          veteranSocialSecurityNumber: localData.ssn,
+        },
+      };
+      dispatch(setData(dataToSet));
+    },
+    [dispatch, formData, isUserInMPI, localData],
+  );
 
   /**
    * reset enrollment status data on when first loading the page if user is
@@ -76,15 +79,18 @@ const IdentityPage = ({ location, route, router }) => {
   );
 
   // trigger prefill and navigation if enrollment status criteria is met
-  useAfterRenderEffect(() => {
-    if (fetchAttempted) {
-      const { noneOfTheAbove } = HCA_ENROLLMENT_STATUSES;
-      if (!vesRecordFound || statusCode === noneOfTheAbove) {
-        triggerPrefill();
-        goToNextPage();
+  useAfterRenderEffect(
+    () => {
+      if (fetchAttempted) {
+        const { noneOfTheAbove } = HCA_ENROLLMENT_STATUSES;
+        if (!vesRecordFound || statusCode === noneOfTheAbove) {
+          triggerPrefill();
+          goToNextPage();
+        }
       }
-    }
-  }, [fetchAttempted]);
+    },
+    [fetchAttempted],
+  );
 
   return (
     <>

@@ -80,7 +80,17 @@ export const makeFetchFormPdfUrl = (d = download, r = recordEvent) => (
   } catch (error) {
     recordFail(r, 'internal error');
     dispatch(actionFail(submissionGuid, error));
-    throw new Error(error);
+    if (error.response && error.response.status === 400) {
+      return {
+        error:
+          "Sorry, we're unable to generate a PDF at this time. You can try again later.",
+      };
+    }
+
+    return {
+      error:
+        "You can't download a copy of your form right now. We're sorry. Check back later.",
+    };
   }
 };
 

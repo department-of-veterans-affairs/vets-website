@@ -10,6 +10,7 @@ const SubmitHelper = props => {
   return (
     <div
       id="submit-helper"
+      visible="false"
       aria-hidden="true"
       onClick={handleClick}
       onKeyDown={() => {}}
@@ -34,4 +35,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubmitHelper);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SubmitHelper);

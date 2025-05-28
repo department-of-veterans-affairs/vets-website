@@ -266,7 +266,7 @@ export function getFacilityPageV2Info(state) {
   } = newAppointment;
 
   const address = selectVAPResidentialAddress(state);
-  const facilities = newAppointment.facilities[typeOfCare?.id];
+  const facilities = newAppointment.facilities[(typeOfCare?.id)];
   const eligibility = selectEligibility(state);
 
   return {

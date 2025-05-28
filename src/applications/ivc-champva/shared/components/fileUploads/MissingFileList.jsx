@@ -83,19 +83,20 @@ function buildListItems({
       ) : (
         <>
           {listItemShowNamePrefix ? `${entryName}’s` : ''} {fnStr}
-          {fn?.href !== undefined && fn?.linkText !== undefined && (
-            <>
-              <br />
-              <a
-                className="vads-u-margin-left--3"
-                href={fn.href}
-                rel="noreferrer"
-                target="_blank"
-              >
-                {fn.linkText}
-              </a>
-            </>
-          )}
+          {fn?.href !== undefined &&
+            fn?.linkText !== undefined && (
+              <>
+                <br />
+                <a
+                  className="vads-u-margin-left--3"
+                  href={fn.href}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {fn.linkText}
+                </a>
+              </>
+            )}
         </>
       )}
     </li>

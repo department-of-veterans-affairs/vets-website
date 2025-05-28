@@ -83,6 +83,7 @@ export const SearchResultsHeader = props => {
           id="test-button"
           label="test-button"
           type="button"
+          text-label="button"
           onClick={onClickApplyButton}
         />
       ) : null}

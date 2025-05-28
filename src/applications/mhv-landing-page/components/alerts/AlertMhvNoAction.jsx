@@ -6,14 +6,17 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 
 const AlertMhvNoAction = ({ errorCode, testId, recordEvent }) => {
   const headline = `You can't access messages, medications, or medical records right now`;
-  useEffect(() => {
-    recordEvent({
-      event: 'nav-alert-box-load',
-      action: 'load',
-      'alert-box-headline': headline,
-      'alert-box-status': 'warning',
-    });
-  }, [headline, recordEvent]);
+  useEffect(
+    () => {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': headline,
+        'alert-box-status': 'warning',
+      });
+    },
+    [headline, recordEvent],
+  );
 
   return (
     <VaAlert
@@ -35,7 +38,7 @@ const AlertMhvNoAction = ({ errorCode, testId, recordEvent }) => {
           If the problem persists, call the My HealtheVet helpdesk at
           877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m.
           to 8 p.m. ET. Tell the representative that you received{' '}
-          <b>error code {errorCode}</b>.
+          <b>error code: {errorCode}</b>.
         </p>
 
         <p>
@@ -60,10 +63,10 @@ AlertMhvNoAction.defaultProps = {
 
 AlertMhvNoAction.propTypes = {
   errorCode: PropTypes.string,
+  title: PropTypes.string,
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
   testId: PropTypes.string,
-  title: PropTypes.string,
 };
 
 export default AlertMhvNoAction;

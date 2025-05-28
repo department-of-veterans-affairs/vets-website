@@ -3,6 +3,7 @@ import {
   phoneUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { MedallionsDescription } from '../components/MedallionsDescription';
 
 /** @type {PageSchema} */
 export default {
@@ -11,6 +12,7 @@ export default {
       'Your organization’s contact information',
       'We’ll contact your organization at the email address and phone number you provide here.',
     ),
+    'ui:description': formContext => MedallionsDescription(formContext),
     yourOrganizationContactInfoEmail: {
       ...emailUI(),
       'ui:errorMessages': {

@@ -2,9 +2,12 @@ import { useCallback, useMemo } from 'react';
 import { createStorageKeys } from '../utils/storage';
 
 const useStorage = (app, local = false) => {
-  const STORAGE_KEYS = useMemo(() => {
-    return createStorageKeys({ app });
-  }, [app]);
+  const STORAGE_KEYS = useMemo(
+    () => {
+      return createStorageKeys({ app });
+    },
+    [app],
+  );
 
   const clearCurrentStorage = useCallback(
     window => {

@@ -28,9 +28,12 @@ export const Notifications = ({
     ? 'warning'
     : 'error';
 
-  useEffect(() => {
-    getNotifications();
-  }, [getNotifications]);
+  useEffect(
+    () => {
+      getNotifications();
+    },
+    [getNotifications],
+  );
   const debtNotifications = notifications.filter(
     n => n.attributes.templateId === debtTemplateId,
   );
@@ -109,4 +112,7 @@ const mapDispatchToProps = {
   getNotifications: fetchNotifications,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Notifications);

@@ -138,4 +138,7 @@ CheckboxGroup.propTypes = {
   locationList: PropTypes.node,
 };
 
-export default connect(null, mapDispatchToProps)(CheckboxGroup);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(CheckboxGroup);

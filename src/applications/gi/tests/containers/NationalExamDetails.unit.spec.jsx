@@ -49,8 +49,9 @@ describe('NationalExamDetails', () => {
     };
     sinon
       .stub(document, 'querySelector')
-      .callsFake(selector =>
-        selector === '.exams-table va-table-inner' ? mockVaTableInner : null,
+      .callsFake(
+        selector =>
+          selector === '.exams-table va-table-inner' ? mockVaTableInner : null,
       );
   });
 
@@ -220,10 +221,7 @@ describe('NationalExamDetails', () => {
   it('renders single-test layout when exactly one valid test exists', () => {
     const mockExamDetails = {
       name: 'Single Test Exam',
-      tests: [
-        { name: 'Single Test', fee: '150' },
-        { name: 'Blank', fee: '' },
-      ],
+      tests: [{ name: 'Single Test', fee: '150' }, { name: 'Blank', fee: '' }],
       institution: {
         name: 'Single Institution',
         physicalAddress: {

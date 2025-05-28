@@ -98,4 +98,7 @@ function mapStateToProps(state) {
 
 export { RepresentativeSubmissionMethod }; // Named export for testing
 
-export default connect(mapStateToProps, null)(RepresentativeSubmissionMethod);
+export default connect(
+  mapStateToProps,
+  null,
+)(RepresentativeSubmissionMethod);

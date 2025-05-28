@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import { createPayload, parseResponse } from '../../../../utils/helpers';
 
 const mockFile = new File(['test'], 'test.txt', { type: 'text/plain' });

@@ -53,4 +53,7 @@ const mapStateToProps = state => ({
   show: state?.featureToggles?.hcaPerformanceAlertEnabled,
 });
 
-export default connect(mapStateToProps, null)(App);
+export default connect(
+  mapStateToProps,
+  null,
+)(App);

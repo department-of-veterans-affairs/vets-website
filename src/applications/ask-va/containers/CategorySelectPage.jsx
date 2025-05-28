@@ -89,6 +89,9 @@ const CategorySelectPage = props => {
       //   schoolFacilityCode: '31002144',
       //   schoolName: 'WESTERN GOVERNORS UNIVERSITY',
       // },
+      // businessPhone: '333444555556',
+      // businessEmail: 'test@business.email',
+      /// /
       initialFormData: initialData,
       categoryId: selected.id,
       selectCategory: selectedValue,
@@ -112,13 +115,19 @@ const CategorySelectPage = props => {
       });
   };
 
-  useEffect(() => {
-    getApiData(getApiUrl(URL.GET_CATEGORIES));
-  }, [isLoggedIn]);
+  useEffect(
+    () => {
+      getApiData(getApiUrl(URL.GET_CATEGORIES));
+    },
+    [isLoggedIn],
+  );
 
-  useEffect(() => {
-    focusElement('h2');
-  }, [loading]);
+  useEffect(
+    () => {
+      focusElement('h2');
+    },
+    [loading],
+  );
 
   const handleGoBack = () => {
     if (!hasPrefillInformation(formData)) {

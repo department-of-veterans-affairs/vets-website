@@ -48,16 +48,18 @@ export const veteranApplicantDetailsSubHeader = (
 export function veteranApplicantDetailsSummary({ formContext }) {
   return (
     <>
-      {formContext.isLoggedIn && !formContext.onReviewPage && (
-        <div className="veteranApplicantDetailsSummaryBox">
-          <va-summary-box>
-            <p className="veteranApplicantDetailsSummaryBoxText">
-              We’ve prefilled some of your information from your account. If you
-              need to correct anything, you can edit the form fields below.
-            </p>
-          </va-summary-box>
-        </div>
-      )}
+      {formContext.isLoggedIn &&
+        !formContext.onReviewPage && (
+          <div className="veteranApplicantDetailsSummaryBox">
+            <va-summary-box>
+              <p className="veteranApplicantDetailsSummaryBoxText">
+                We’ve prefilled some of your information from your account. If
+                you need to correct anything, you can edit the form fields
+                below.
+              </p>
+            </va-summary-box>
+          </div>
+        )}
     </>
   );
 }
@@ -111,17 +113,18 @@ export function isApplicantTheSponsor(item) {
 export function sponsorDetailsSubHeader({ formContext, formData }) {
   return (
     <>
-      {isApplicantTheSponsor(formData) && !formContext.onReviewPage && (
-        <div className="sponsorDetailsSummaryBox">
-          <va-summary-box>
-            <p className="sponsorDetailsSummaryBoxText">
-              We’ve prefilled your details since you indicated you’re the
-              applicant’s sponsor. If you need to correct anything, you can edit
-              the fields below.
-            </p>
-          </va-summary-box>
-        </div>
-      )}
+      {isApplicantTheSponsor(formData) &&
+        !formContext.onReviewPage && (
+          <div className="sponsorDetailsSummaryBox">
+            <va-summary-box>
+              <p className="sponsorDetailsSummaryBoxText">
+                We’ve prefilled your details since you indicated you’re the
+                applicant’s sponsor. If you need to correct anything, you can
+                edit the fields below.
+              </p>
+            </va-summary-box>
+          </div>
+        )}
       <div className="sponsorDetailsSubHeader">
         <h3 className="vads-u-font-size--h5">Sponsor details</h3>
       </div>
@@ -203,6 +206,24 @@ export function militaryDetailsSubHeader(formData) {
       )}
     </div>
   );
+}
+
+export function militaryDetailsReviewHeader(formData) {
+  return get(
+    'application.applicant.applicantRelationshipToClaimant',
+    formData,
+  ) === 'Authorized Agent/Rep'
+    ? `Applicant’s military details`
+    : `Your military details`;
+}
+
+export function previousNameReviewHeader(formData) {
+  return get(
+    'application.applicant.applicantRelationshipToClaimant',
+    formData,
+  ) === 'Authorized Agent/Rep'
+    ? `Applicant’s previous name`
+    : `Your previous name`;
 }
 
 export const createPayload = (file, formId, password) => {
@@ -656,8 +677,9 @@ export function transform(formConfig, form) {
               application.veteran.serviceName === undefined
                 ? application.claimant.name
                 : application.veteran.serviceName.first === undefined
-                ? application.claimant.name
-                : application.veteran.serviceName || application.claimant.name,
+                  ? application.claimant.name
+                  : application.veteran.serviceName ||
+                    application.claimant.name,
           },
         })
       : application;
@@ -682,9 +704,9 @@ export function transform(formConfig, form) {
           application.veteran.serviceName === undefined
             ? application.veteran.currentName
             : application.veteran.serviceName.first === undefined
-            ? application.veteran.currentName
-            : application.veteran.serviceName ||
-              application.veteran.currentName,
+              ? application.veteran.currentName
+              : application.veteran.serviceName ||
+                application.veteran.currentName,
       },
       applicant: {
         applicantEmail: application.claimant.email,
@@ -705,52 +727,52 @@ export function transform(formConfig, form) {
   return JSON.stringify({ application }, stringifyFormReplacer);
 
   /* Transformation for multiple applicants.
-   *
-   *  const matchClaimant = name => a => formatName(a.claimant.name) === name;
-   *
-   *  formCopy.applications = formCopy.applications.map(application => {
-   *    // Fill in veteran info that veterans didn't need to enter separately.
-   *    if (isVeteran(application)) {
-   *      return merge({}, application, {
-   *        veteran: {
-   *          address: application.claimant.address,
-   *          currentName: application.claimant.name,
-   *          dateOfBirth: application.claimant.dateOfBirth,
-   *          ssn: application.claimant.ssn,
-   *          isDeceased: 'no'
-   *        }
-   *      });
-   *    }
-   *
-   *    // Fill in veteran info in each application
-   *    // where the sponsor is another claimant.
-   *    const sponsorName = application['view:sponsor'];
-   *    if (sponsorName !== 'Other') {
-   *      const veteranApplication = form.applications.find(matchClaimant(sponsorName));
-   *      const veteran = set('isDeceased', 'no', veteranApplication.veteran);
-   *      return set('veteran', veteran, application);
-   *    }
-   *
-   *    return application;
-   *  });
-   *
-   *  // Fill in applicant info in each application
-   *  // if the applicant is another claimant.
-   *  const applicantName = form['view:preparer'];
-   *  if (applicantName !== 'Other') {
-   *    const applicantApplication = form.applications.find(matchClaimant(applicantName));
-   *    const { address, email, name, phoneNumber } = applicantApplication.claimant;
-   *    formCopy.applications = formCopy.applications.map(application => set('applicant',  {
-   *      applicantEmail: email,
-   *      applicantPhoneNumber: phoneNumber,
-   *      applicantRelationshipToClaimant: application.claimant.ssn === applicantApplication.claimant.ssn ? 'Self' : 'Authorized Agent/Rep',
-   *      completingReason: '',
-   *      mailingAddress: address,
-   *      name
-   *    }, application));
-   *  }
-   *
-   */
+     *
+     *  const matchClaimant = name => a => formatName(a.claimant.name) === name;
+     *
+     *  formCopy.applications = formCopy.applications.map(application => {
+     *    // Fill in veteran info that veterans didn't need to enter separately.
+     *    if (isVeteran(application)) {
+     *      return merge({}, application, {
+     *        veteran: {
+     *          address: application.claimant.address,
+     *          currentName: application.claimant.name,
+     *          dateOfBirth: application.claimant.dateOfBirth,
+     *          ssn: application.claimant.ssn,
+     *          isDeceased: 'no'
+     *        }
+     *      });
+     *    }
+     *
+     *    // Fill in veteran info in each application
+     *    // where the sponsor is another claimant.
+     *    const sponsorName = application['view:sponsor'];
+     *    if (sponsorName !== 'Other') {
+     *      const veteranApplication = form.applications.find(matchClaimant(sponsorName));
+     *      const veteran = set('isDeceased', 'no', veteranApplication.veteran);
+     *      return set('veteran', veteran, application);
+     *    }
+     *
+     *    return application;
+     *  });
+     *
+     *  // Fill in applicant info in each application
+     *  // if the applicant is another claimant.
+     *  const applicantName = form['view:preparer'];
+     *  if (applicantName !== 'Other') {
+     *    const applicantApplication = form.applications.find(matchClaimant(applicantName));
+     *    const { address, email, name, phoneNumber } = applicantApplication.claimant;
+     *    formCopy.applications = formCopy.applications.map(application => set('applicant',  {
+     *      applicantEmail: email,
+     *      applicantPhoneNumber: phoneNumber,
+     *      applicantRelationshipToClaimant: application.claimant.ssn === applicantApplication.claimant.ssn ? 'Self' : 'Authorized Agent/Rep',
+     *      completingReason: '',
+     *      mailingAddress: address,
+     *      name
+     *    }, application));
+     *  }
+     *
+     */
 }
 
 export const fullMaidenNameUI = merge({}, fullNameUI, {
@@ -916,20 +938,19 @@ export const veteranUI = {
       showFieldLabel: true,
     },
   },
-
   raceComment: {
     'ui:title': 'Enter the race that best describes you',
     'ui:widget': 'textarea',
-    'ui:required': form => {
-      return form?.application?.veteran?.race?.isOther;
-    },
+    'ui:required': form => !!form?.application?.veteran?.race?.isOther,
     'ui:options': {
       expandUnder: 'race',
-      maxLength: 100,
-      pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
-      hideIf: form => {
-        return !form?.application?.veteran?.race?.isOther;
+      expandUnderCondition: form => {
+        return !!form?.isOther;
       },
+      expandedContentFocus: true,
+    },
+    'ui:errorMessages': {
+      required: 'Please provide a response.',
     },
   },
   militaryStatus: {

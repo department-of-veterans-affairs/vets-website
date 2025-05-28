@@ -10,9 +10,12 @@ const ReplyButton = props => {
     state => state.sm.threadDetails.messages[0]?.messageId,
   );
 
-  const handleReplyButton = useCallback(() => {
-    history.push(`${Paths.REPLY}${messageId}/`);
-  }, [history, messageId]);
+  const handleReplyButton = useCallback(
+    () => {
+      history.push(`${Paths.REPLY}${messageId}/`);
+    },
+    [history, messageId],
+  );
 
   return (
     props.visible && (

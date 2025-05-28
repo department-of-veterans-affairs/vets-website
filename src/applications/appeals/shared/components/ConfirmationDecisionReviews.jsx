@@ -26,13 +26,16 @@ export const ConfirmationDecisionReviews = ({
   const form = useSelector(state => state.form || {});
   const name = useSelector(state => selectProfile(state)?.userFullName || {});
 
-  useEffect(() => {
-    if (alertRef?.current) {
-      scrollTo('topScrollElement');
-      // delay focus for Safari
-      waitForRenderThenFocus('#main h2', alertRef.current);
-    }
-  }, [alertRef]);
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo('topScrollElement');
+        // delay focus for Safari
+        waitForRenderThenFocus('#main h2', alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   const { submission, data } = form;
   const issues = data ? getIssuesListItems(data) : [];

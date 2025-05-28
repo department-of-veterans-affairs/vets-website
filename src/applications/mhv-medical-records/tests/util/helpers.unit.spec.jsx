@@ -1,6 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
+  parseISO,
+  startOfDay,
+  endOfDay,
+  subYears,
+  addMonths,
+  formatISO,
+} from 'date-fns';
+import {
   concatObservationInterpretations,
   dateFormat,
   dateFormatWithoutTime,
@@ -9,21 +17,20 @@ import {
   extractContainedByRecourceType,
   extractContainedResource,
   formatDate,
-  formatNameFirstLast,
+  formatDateInLocalTimezone,
   formatNameFirstToLast,
   getActiveLinksStyle,
+  getAppointmentsDateRange,
   getLastUpdatedText,
+  getMonthFromSelectedDate,
   getObservationValueWithUnits,
   getReactions,
   getStatusExtractPhase,
+  handleDataDogAction,
   nameFormat,
   processList,
-  getMonthFromSelectedDate,
-  formatDateInLocalTimezone,
-  handleDataDogAction,
   removeTrailingSlash,
 } from '../../util/helpers';
-
 import { refreshPhases } from '../../util/constants';
 
 describe('Name formatter', () => {
@@ -107,10 +114,7 @@ describe('processList', () => {
 describe('extractContainedResource', () => {
   it('should extract the contained resource when provided a valid reference ID', () => {
     const resource = {
-      contained: [
-        { id: 'a1', type: 'TypeA' },
-        { id: 'b2', type: 'TypeB' },
-      ],
+      contained: [{ id: 'a1', type: 'TypeA' }, { id: 'b2', type: 'TypeB' }],
     };
 
     const result = extractContainedResource(resource, '#a1');
@@ -608,38 +612,6 @@ describe('formatNameFirstToLast', () => {
   });
 });
 
-describe('formatNameFirstLast', () => {
-  const user1 = {
-    userFullName: {
-      first: 'Joe',
-      last: 'Schmo',
-    },
-  };
-
-  const user2 = {
-    userFullName: {
-      first: 'Joe',
-      last: 'Schmo',
-      middle: 'R',
-      suffix: 'Jr',
-    },
-  };
-
-  it('returns a name formatted with the first name before to the last name', () => {
-    const lastFirstName = 'Joe Schmo';
-    const updatedName = formatNameFirstLast(user1.userFullName);
-
-    expect(updatedName).to.eq(lastFirstName);
-  });
-
-  it('returns a name formatted with the first name and middle initial and suffix', () => {
-    const firstMiddleLastSuffixName = 'Joe R Schmo, Jr';
-    const updatedName = formatNameFirstLast(user2.userFullName);
-
-    expect(updatedName).to.eq(firstMiddleLastSuffixName);
-  });
-});
-
 describe('getMonthFromSelectedDate', () => {
   it('should return the formatted date', () => {
     const date = '2024-01';
@@ -754,5 +726,156 @@ describe('removeTrailingSlash', () => {
     const string = null;
     const result = removeTrailingSlash(string);
     expect(result).to.equal(string);
+  });
+});
+
+describe('getAppointmentsDateRange', () => {
+  let clock;
+  // Freeze "now" at Jan 1, 2022 local time
+  const fakeNow = new Date(2022, 0, 1, 0, 0, 0);
+  const earliestFormatted = formatISO(startOfDay(subYears(fakeNow, 2)));
+  const latestFormatted = formatISO(endOfDay(addMonths(fakeNow, 13)));
+
+  beforeEach(() => {
+    clock = sinon.useFakeTimers({
+      now: fakeNow.getTime(),
+      toFake: ['Date'],
+    });
+  });
+
+  afterEach(() => {
+    clock.restore();
+  });
+
+  function assertDateComponents(
+    isoString,
+    year,
+    month,
+    day,
+    hours,
+    minutes,
+    seconds,
+  ) {
+    const d = parseISO(isoString);
+    expect(d.getFullYear()).to.equal(year);
+    expect(d.getMonth()).to.equal(month);
+    expect(d.getDate()).to.equal(day);
+    expect(d.getHours()).to.equal(hours);
+    expect(d.getMinutes()).to.equal(minutes);
+    expect(d.getSeconds()).to.equal(seconds);
+  }
+
+  it('returns the full allowed window when both inputs are null', () => {
+    const { startDate, endDate } = getAppointmentsDateRange(null, null);
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('defaults `from` to earliest when only fromDate is null', () => {
+    const to = '2021-06-15';
+    const { startDate, endDate } = getAppointmentsDateRange(null, to);
+
+    const providedTo = endOfDay(parseISO(to));
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(formatISO(providedTo));
+  });
+
+  it('defaults `to` to latest when only toDate is null', () => {
+    const from = '2021-06-15';
+    const { startDate, endDate } = getAppointmentsDateRange(from, null);
+
+    const providedFrom = startOfDay(parseISO(from));
+
+    expect(startDate).to.equal(formatISO(providedFrom));
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('returns the exact provided range when both dates are within bounds', () => {
+    const from = '2021-06-01';
+    const to = '2021-12-31';
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    expect(startDate).to.equal(formatISO(startOfDay(parseISO(from))));
+    expect(endDate).to.equal(formatISO(endOfDay(parseISO(to))));
+  });
+
+  it('clamps out-of-bounds dates to [earliest, latest]', () => {
+    const from = '2018-01-01'; // too early
+    const to = '2025-01-01'; // too late
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('resets to full window if fromDate > latestAllowed and toDate in range', () => {
+    const from = '2024-01-01'; // after fakeNow + 13m (2023-02-01)
+    const to = '2022-05-01'; // within bounds
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('resets to full window if toDate < earliestAllowed and fromDate in range', () => {
+    const from = '2021-05-01'; // within bounds
+    const to = '2019-01-01'; // before fakeNow - 2y (2020-01-01)
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('returns a single‐day window [latest, latest] when fromDate > latestAllowed & toDate is null', () => {
+    const from = '2024-01-01'; // after fakeNow + 13m
+    const { startDate, endDate } = getAppointmentsDateRange(from, null);
+
+    expect(startDate).to.equal(latestFormatted);
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('returns a single‐day window [earliest, earliest] when toDate < earliestAllowed & fromDate is null', () => {
+    const to = '2019-01-01'; // before fakeNow - 2y
+    const { startDate, endDate } = getAppointmentsDateRange(null, to);
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(earliestFormatted);
+  });
+
+  it('resets to full window when provided fromDate > toDate but both are within bounds', () => {
+    const from = '2022-06-01';
+    const to = '2021-06-01';
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    expect(startDate).to.equal(earliestFormatted);
+    expect(endDate).to.equal(latestFormatted);
+  });
+
+  it('handles the one‐day case when fromDate === toDate within bounds', () => {
+    const date = '2021-07-15';
+    const { startDate, endDate } = getAppointmentsDateRange(date, date);
+
+    expect(startDate).to.equal(formatISO(startOfDay(parseISO(date))));
+    expect(endDate).to.equal(formatISO(endOfDay(parseISO(date))));
+  });
+
+  it('uses the correct start and end dates', () => {
+    const from = '2021-06-01';
+    const to = '2022-06-01';
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    assertDateComponents(startDate, 2021, 5, 1, 0, 0, 0); // 2021-06-01T00:00:00 local time
+    assertDateComponents(endDate, 2022, 5, 1, 23, 59, 59); // 2022-06-01T23:59:59 local time
+  });
+
+  it('uses the correct start and end dates for maximum window', () => {
+    const from = '2018-01-01';
+    const to = '2025-01-01';
+    const { startDate, endDate } = getAppointmentsDateRange(from, to);
+
+    assertDateComponents(startDate, 2020, 0, 1, 0, 0, 0); // 2020-01-01T00:00:00 local time
+    assertDateComponents(endDate, 2023, 1, 1, 23, 59, 59); // 2023-02-01T23:59:59 local time
   });
 });

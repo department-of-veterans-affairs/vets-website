@@ -16,9 +16,12 @@ export default function ReferralBreadcrumbs({ categoryOfCare = '' }) {
     getReferralUrlLabel(currentPage, categoryOfCare),
   );
 
-  useEffect(() => {
-    setBreadcrumb(() => getReferralUrlLabel(currentPage, categoryOfCare));
-  }, [location, categoryOfCare, currentPage]);
+  useEffect(
+    () => {
+      setBreadcrumb(() => getReferralUrlLabel(currentPage, categoryOfCare));
+    },
+    [location, categoryOfCare, currentPage],
+  );
 
   const isBackLink = breadcrumb?.startsWith('Back');
 
@@ -30,7 +33,7 @@ export default function ReferralBreadcrumbs({ categoryOfCare = '' }) {
           aria-label="Back link"
           data-testid="back-link"
           text={breadcrumb}
-          href="#"
+          href={currentPage === 'complete' ? '/my-health/appointments' : '#'}
           onClick={e => {
             e.preventDefault();
             const params = new URLSearchParams(history.location.search);

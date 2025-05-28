@@ -47,7 +47,9 @@ const captureMilitaryInfoErrorResponse = ({ error, apiEventName }) => {
   });
 };
 
-export const POA_URL = `${environment.API_URL}/representation_management/v0/power_of_attorney`;
+export const POA_URL = `${
+  environment.API_URL
+}/representation_management/v0/power_of_attorney`;
 
 export function fetchPowerOfAttorney() {
   return async dispatch => {

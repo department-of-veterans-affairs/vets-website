@@ -63,6 +63,7 @@ export const renderMarkdown = text => MarkdownRenderer.render(text);
 
 const WebChat = ({
   token,
+  code,
   webChatFramework,
   apiSession,
   setParamLoadingStatus,
@@ -88,12 +89,12 @@ const WebChat = ({
     TOGGLE_NAMES.virtualAgentComponentTesting,
   );
 
-  const isRootBotToggleOn = useToggleValue(
-    TOGGLE_NAMES.virtualAgentEnableRootBot,
-  );
-
   const isDatadogLoggingEnabled = useToggleValue(
     TOGGLE_NAMES.virtualAgentEnableDatadogLogging,
+  );
+
+  const isStsAuthEnabled = useToggleValue(
+    TOGGLE_NAMES.virtualAgentUseStsAuthentication,
   );
 
   logger.info('Winston logger: Ding! Testing, 1, 2, 3!');
@@ -111,12 +112,13 @@ const WebChat = ({
     createStore,
     csrfToken,
     apiSession,
+    code,
     userFirstName,
     userUuid,
     isMobile,
     environment,
     isComponentToggleOn,
-    isRootBotToggleOn,
+    isStsAuthEnabled,
   });
 
   clearBotSessionStorageEventListener(isLoggedIn);
@@ -138,9 +140,9 @@ const WebChat = ({
         store={store}
         renderMarkdown={renderMarkdown}
         onTelemetry={handleTelemetry}
-        {...(isRXSkill === 'true' && {
+        {...isRXSkill === 'true' && {
           webSpeechPonyfillFactory: speechPonyfill,
-        })}
+        }}
       >
         <BasicWebChat />
       </Composer>
@@ -160,6 +162,7 @@ WebChat.propTypes = {
       Composer: PropTypes.func.isRequired,
     }),
   }).isRequired,
+  code: PropTypes.string,
 };
 
 export default WebChat;

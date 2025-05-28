@@ -13,6 +13,7 @@ describe('SM MESSAGING COMPOSE', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+    PatientComposePage.interceptSentFolder();
   });
 
   it('verify interface', () => {
@@ -109,11 +110,15 @@ describe('COMPOSE WITH PLAIN TG NAMES', () => {
   it('verify recipients list indicates suggested TG name', () => {
     cy.get(`#options`)
       .find(
-        `[value=${updatedMockRecipientsResponse.data[0].attributes.triageTeamId}]`,
+        `[value=${
+          updatedMockRecipientsResponse.data[0].attributes.triageTeamId
+        }]`,
       )
       .should(
         `have.text`,
-        `${updatedMockRecipientsResponse.data[0].attributes.suggestedNameDisplay}`,
+        `${
+          updatedMockRecipientsResponse.data[0].attributes.suggestedNameDisplay
+        }`,
       );
     cy.injectAxeThenAxeCheck();
   });

@@ -22,10 +22,8 @@ export default function createDisabilityIncreaseApplicationStatus(
     return;
   }
 
-  import(
-    /* webpackChunkName: "disability-application-status" */
-    './wizard-entry'
-  ).then(module => {
+  import(/* webpackChunkName: "disability-application-status" */
+  './wizard-entry').then(module => {
     const { ApplicationStatus } = module.default;
     connectFeatureToggle(store.dispatch);
 

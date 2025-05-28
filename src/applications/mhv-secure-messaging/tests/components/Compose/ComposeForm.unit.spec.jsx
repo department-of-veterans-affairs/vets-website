@@ -121,32 +121,6 @@ describe('Compose form component', () => {
     expect(body).to.exist;
   });
 
-  it('displays Edit List modal if path is /new-message', async () => {
-    const screen = setup(initialState, Paths.COMPOSE);
-
-    const editListLink = await screen.getByTestId('edit-preferences-button', {
-      selector: 'button',
-      exact: true,
-    });
-    expect(
-      document.querySelector('#edit-list').getAttribute('visible'),
-    ).to.equal('false');
-
-    fireEvent.click(editListLink);
-    const modalContent = await screen.getByText(
-      Prompts.Compose.EDIT_PREFERENCES_CONTENT,
-    );
-
-    expect(
-      document.querySelector('#edit-list').getAttribute('visible'),
-    ).to.equal('true');
-    expect(
-      document.querySelector('.vads-c-action-link--green').getAttribute('href'),
-    ).to.equal('https://mhv-syst.myhealth.va.gov/mhv-portal-web/preferences');
-    expect(modalContent).to.exist;
-    fireEvent.click(document.querySelector('.vads-c-action-link--green'));
-  });
-
   it('displays compose action buttons if path is /new-message', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
@@ -955,7 +929,9 @@ describe('Compose form component', () => {
     ).id;
     selectVaSelect(screen.container, tgRecipient);
 
-    const checkboxSelector = `va-checkbox[label="${ElectronicSignatureBox.CHECKBOX_LABEL}"]`;
+    const checkboxSelector = `va-checkbox[label="${
+      ElectronicSignatureBox.CHECKBOX_LABEL
+    }"]`;
 
     await waitFor(() => {
       const sendButton = screen.getByTestId('send-button');
@@ -1225,7 +1201,6 @@ describe('Compose form component', () => {
   it('should contain Edit Signature Link', () => {
     const customState = { ...initialState, featureToggles: { loading: false } };
     // eslint-disable-next-line camelcase
-    customState.featureToggles.mhv_secure_messaging_signature_settings = true;
     customState.sm.preferences.signature.includeSignature = true;
     const screen = setup(customState, Paths.COMPOSE);
     expect(screen.getByText('Edit signature for all messages')).to.exist;

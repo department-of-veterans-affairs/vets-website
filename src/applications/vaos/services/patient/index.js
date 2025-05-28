@@ -141,30 +141,18 @@ function locationSupportsRequests(location, typeOfCare) {
   );
 }
 
-function hasMatchingClinics(
-  clinics,
-  pastAppointments,
-  featureClinicFilter = false,
-) {
+function hasMatchingClinics(clinics, pastAppointments) {
   return clinics?.some(
     clinic =>
       !!pastAppointments.find(appt => {
         const clinicIds = clinic.id.split('_');
-        if (appt.version === 2 && featureClinicFilter) {
+        if (appt.version === 2) {
           return (
             clinic.stationId === appt.location.stationId &&
             clinicIds[1] === appt.location.clinicId &&
             clinic.patientDirectScheduling === true
           );
         }
-        // TODO remove lines since v0 returns pre-filtered direct schedule clinics
-        // if (appt.version === 1 && featureClinicFilter) {
-        //   return (
-        //     clinicIds[0] === appt.facilityId &&
-        //     clinicIds[1] === appt.clinicId &&
-        //     clinic.patientDirectScheduling === 'Y'
-        //   );
-        // }
         return (
           clinicIds[0] === appt.facilityId && clinicIds[1] === appt.clinicId
         );
@@ -206,28 +194,26 @@ function logEligibilityExplanation(
     /* eslint-disable no-console */
     console.log('----');
     console.log(
-      `%cEligibility checks for location ${location.id} and type of care ${typeOfCare.id}`,
+      `%cEligibility checks for location ${location.id} and type of care ${
+        typeOfCare.id
+      }`,
       'font-weight: bold',
     );
 
     if (!direct) {
       console.log('%cUser not eligible for direct scheduling:', 'color: red');
-      directReasons
-        .map(reason => reasonMapping[reason])
-        .forEach(message => {
-          console.log(`  ${message}`);
-        });
+      directReasons.map(reason => reasonMapping[reason]).forEach(message => {
+        console.log(`  ${message}`);
+      });
     } else {
       console.log('%cUser passed checks for direct scheduling', 'color: green');
     }
 
     if (!request) {
       console.log('%cUser not eligible for requests:', 'color: red');
-      requestReasons
-        .map(reason => reasonMapping[reason])
-        .forEach(message => {
-          console.log(`  ${message}`);
-        });
+      requestReasons.map(reason => reasonMapping[reason]).forEach(message => {
+        console.log(`  ${message}`);
+      });
     } else {
       console.log('%cUser passed checks for requests', 'color: green');
     }
@@ -247,7 +233,6 @@ function logEligibilityExplanation(
  * @param {TypeOfCare} params.typeOfCare Type of care object for the currently chosen type of care
  * @param {Location} params.location The current location to check eligibility against
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
- * @param {boolean} [params.featureClinicFilter=false] feature flag to filter clinics based on VATS
  * @param {boolean} [params.useFeSourceOfTruth=false] whether to use vets-api payload as the FE source of truth
  * @param {boolean} [params.useFeSourceOfTruthCC=false] whether to use vets-api payload as the FE source of truth for CC appointments and requests
  * @param {boolean} [params.useFeSourceOfTruthVA=false] whether to use vets-api payload as the FE source of truth for VA appointments and requests
@@ -258,7 +243,6 @@ export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
   directSchedulingEnabled,
-  featureClinicFilter = false,
   useFeSourceOfTruth = false,
   useFeSourceOfTruthCC = false,
   useFeSourceOfTruthVA = false,
@@ -288,11 +272,10 @@ export async function fetchFlowEligibilityAndClinics({
       typeOfCare,
     }).catch(createErrorHandler('direct-available-clinics-error'));
     // Primary care and mental health is exempt from past appt history requirement
-    const isDirectAppointmentHistoryRequired = featureClinicFilter
-      ? typeOfCare.id !== PRIMARY_CARE &&
-        typeOfCare.id !== MENTAL_HEALTH &&
-        directTypeOfCareSettings.patientHistoryRequired === true
-      : typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
+    const isDirectAppointmentHistoryRequired =
+      typeOfCare.id !== PRIMARY_CARE &&
+      typeOfCare.id !== MENTAL_HEALTH &&
+      directTypeOfCareSettings.patientHistoryRequired === true;
 
     if (isDirectAppointmentHistoryRequired) {
       apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
@@ -345,7 +328,7 @@ export async function fetchFlowEligibilityAndClinics({
   }
 
   // Similar to above, but for direct scheduling
-  if (featureClinicFilter && !isCerner) {
+  if (!isCerner) {
     results.clinics = results?.clinics?.filter(
       clinic => clinic.patientDirectScheduling === true,
     );
@@ -383,31 +366,12 @@ export async function fetchFlowEligibilityAndClinics({
       );
     }
 
-    if (featureClinicFilter) {
-      if (
-        !isCerner &&
-        typeOfCare.id !== PRIMARY_CARE &&
-        typeOfCare.id !== MENTAL_HEALTH &&
-        directTypeOfCareSettings.patientHistoryRequired &&
-        !hasMatchingClinics(
-          results.clinics,
-          results.pastAppointments,
-          featureClinicFilter,
-        )
-      ) {
-        eligibility.direct = false;
-        eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
-        recordEligibilityFailure('direct-no-matching-past-clinics');
-      }
-    } else if (
+    if (
       !isCerner &&
       typeOfCare.id !== PRIMARY_CARE &&
       typeOfCare.id !== MENTAL_HEALTH &&
-      !hasMatchingClinics(
-        results.clinics,
-        results.pastAppointments,
-        featureClinicFilter,
-      )
+      directTypeOfCareSettings.patientHistoryRequired &&
+      !hasMatchingClinics(results.clinics, results.pastAppointments)
     ) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);

@@ -66,25 +66,28 @@ export default function PhoneLayout({ data: appointment }) {
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
-      {APPOINTMENT_STATUS.booked === status && !isPastAppointment && (
-        <Section heading="How to join">
-          We’ll call you at the appointment time. If you have questions or need
-          to reschedule, contact the facility you originally scheduled through.
-        </Section>
-      )}
+      {APPOINTMENT_STATUS.booked === status &&
+        !isPastAppointment && (
+          <Section heading="How to join">
+            We’ll call you at the appointment time. If you have questions or
+            need to reschedule, contact the facility you originally scheduled
+            through.
+          </Section>
+        )}
       <When>
         <AppointmentDate date={startDate} />
         <br />
         <AppointmentTime appointment={appointment} />
         <br />
-        {APPOINTMENT_STATUS.cancelled !== status && !isPastAppointment && (
-          <div className="vads-u-margin-top--2 vaos-hide-for-print">
-            <AddToCalendarButton
-              appointment={appointment}
-              facility={facility}
-            />
-          </div>
-        )}
+        {APPOINTMENT_STATUS.cancelled !== status &&
+          !isPastAppointment && (
+            <div className="vads-u-margin-top--2 vaos-hide-for-print">
+              <AddToCalendarButton
+                appointment={appointment}
+                facility={facility}
+              />
+            </div>
+          )}
       </When>
       <What>{typeOfCareName}</What>
       <Who>{practitionerName}</Who>

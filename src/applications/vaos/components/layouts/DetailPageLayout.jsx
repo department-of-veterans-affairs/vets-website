@@ -219,9 +219,10 @@ export default function DetailPageLayout({
             <AfterVisitSummary data={appointment} />
           )}
         {children}
-        {featureTravelPayViewClaimDetails && isNotCanceledAppointment && (
-          <TravelReimbursementSection appointment={appointment} />
-        )}
+        {featureTravelPayViewClaimDetails &&
+          isNotCanceledAppointment && (
+            <TravelReimbursementSection appointment={appointment} />
+          )}
         <div
           className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print"
           style={{ rowGap: '16px' }}

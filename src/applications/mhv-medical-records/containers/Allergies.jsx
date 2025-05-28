@@ -10,6 +10,10 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
+  getNameDateAndTime,
+  makePdf,
+  formatNameFirstLast,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import {
@@ -24,14 +28,7 @@ import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import {
-  generateTextFile,
-  getNameDateAndTime,
-  makePdf,
-  getLastUpdatedText,
-  formatNameFirstLast,
-  formatUserDob,
-} from '../util/helpers';
+import { generateTextFile, getLastUpdatedText } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import RecordListSection from '../components/shared/RecordListSection';
@@ -41,9 +38,9 @@ import {
 } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -96,10 +93,13 @@ const Allergies = props => {
     [dispatch],
   );
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
-  }, [dispatch]);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,
@@ -126,7 +126,13 @@ const Allergies = props => {
       ...generateAllergiesContent(allergies, isAcceleratingAllergies),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Allergies - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateAllergyListItemTxt = item => {
@@ -210,24 +216,30 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           />
         )}
 
-        <PrintDownload
-          description="Allergies - List"
-          list
-          downloadPdf={generateAllergiesPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generateAllergiesTxt}
-        />
-        <DownloadingRecordsInfo
-          allowTxtDownloads={allowTxtDownloads}
-          description="Allergies"
-        />
-        <RecordList
-          records={allergies?.map(allergy => ({
-            ...allergy,
-            isOracleHealthData: isAcceleratingAllergies,
-          }))}
-          type={recordType.ALLERGIES}
-        />
+        {allergies?.length ? (
+          <>
+            <PrintDownload
+              description="Allergies - List"
+              list
+              downloadPdf={generateAllergiesPdf}
+              allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateAllergiesTxt}
+            />
+            <DownloadingRecordsInfo
+              allowTxtDownloads={allowTxtDownloads}
+              description="Allergies"
+            />
+            <RecordList
+              records={allergies?.map(allergy => ({
+                ...allergy,
+                isOracleHealthData: isAcceleratingAllergies,
+              }))}
+              type={recordType.ALLERGIES}
+            />
+          </>
+        ) : (
+          <NoRecordsMessage type={recordType.ALLERGIES} />
+        )}
       </RecordListSection>
     </div>
   );
