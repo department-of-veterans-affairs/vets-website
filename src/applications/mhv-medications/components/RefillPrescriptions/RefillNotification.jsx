@@ -82,8 +82,10 @@ const RefillNotification = ({ refillStatus, successfulMeds, failedMeds }) => {
         >
           Request not submitted
         </h2>
-        <p>We’re sorry. There’s a problem with our system.</p>
-        <p>
+        <p data-testid="failed-request-text">
+          We’re sorry. There’s a problem with our system.
+        </p>
+        <p data-testid="failed-request-suggestion">
           Try requesting your refills again. If it still doesn’t work, contact
           your VA pharmacy.
         </p>
@@ -99,7 +101,7 @@ const RefillNotification = ({ refillStatus, successfulMeds, failedMeds }) => {
       >
         <h2
           className="vads-u-margin-y--0 vads-u-font-size--h3"
-          data-testid="failed-message-title"
+          data-testid="partial-failed-message-title"
         >
           Only part of your request was submitted
         </h2>

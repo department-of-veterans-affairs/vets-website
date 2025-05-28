@@ -92,8 +92,12 @@ export const Data = {
   DOWNLOAD_SUCCESS_CONFIRMATION_MESSAGE: 'Download started',
   DOWNLOAD_SUCCESS_ALERT_CONTENT:
     'Your file should download automatically. If it doesn’t, try again. If you can’t find it, check your browser settings to find where your browser saves downloaded files.',
-  REFILL_REQUEST_ERROR_ALERT_TEXT:
-    'Request not submittedWe’re sorry. There’s a problem with our system.Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
+  REFILL_REQUEST_ERROR_ALERT_TEXT: 'Request not submitted',
+  FAILED_REQUEST_DESCRIPTION_TEXT:
+    'We’re sorry. There’s a problem with our system.',
+  FAILED_REQUEST_RETRY_TEXT:
+    'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
+  PARTIAL_FAILED_REQUEST_ALERT_TEXT: 'Only part of your request was submitted',
 };
 export const Paths = {
   LANDING_LIST:

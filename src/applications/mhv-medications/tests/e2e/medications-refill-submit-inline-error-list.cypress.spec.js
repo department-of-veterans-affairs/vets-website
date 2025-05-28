@@ -24,6 +24,10 @@ describe('Medications Refill Submit Error Message List Page', () => {
     refillPage.verifyFailedRequestMessageAlertOnRefillPage(
       Data.REFILL_REQUEST_ERROR_ALERT_TEXT,
     );
+    refillPage.verifyFailedAlertTextExistsOnRefillPage(
+      Data.FAILED_REQUEST_DESCRIPTION_TEXT,
+      Data.FAILED_REQUEST_RETRY_TEXT,
+    );
 
     refillPage.verifyNetworkResponseForFailedRefillRequest(
       failedRequest.data.attributes.prescriptionId,
