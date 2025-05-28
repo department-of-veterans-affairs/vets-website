@@ -3,7 +3,7 @@
 .poa-request-details {
   width: 100%;
   @media (min-width: $small-desktop-screen) {
-    width: 1000px;
+    width: 960px;
   }
 
   @media (min-width: $small-desktop-screen) {
@@ -91,6 +91,7 @@
         margin: 0;
         display: flex;
         flex-direction: column;
+        max-width: 100%;
 
         @media (min-width: $small-desktop-screen) {
           flex-direction: row;
@@ -203,7 +204,7 @@
   }
 
   &__info {
-    max-width: 650px;
+    max-width: 627px;
   }
 }
 .processing-date {

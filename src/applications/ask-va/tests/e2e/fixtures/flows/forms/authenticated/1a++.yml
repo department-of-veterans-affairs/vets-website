@@ -1,10 +1,18 @@
 flow:
-  title: Health Care for Child (Unauth)
+  title: Veteran ID Card - VIC for Discounts for myself (auth)
   runOnCI: true # when this is false, the flow will only run on a scheduled job
   steps:
     - action: include
       target: page
-      value:  start-your-question-unauth
+      value:  start-your-question-auth
+
+    - action: include
+      target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
+      value:  sad-select-category
 
     - action: include
       target: page
@@ -12,11 +20,23 @@ flow:
 
     - action: include
       target: page
+      value:  sad-select-topic
+
+    - action: include
+      target: page
       value:  select-topic-veteran-id-card-vic-for-discounts
 
     - action: include
       target: page
-      value:  select-subtopic-checking-application-status
+      value:  sad-select-subtopic
+
+    - action: include
+      target: page
+      value:  select-subtopic-other
+
+    - action: include
+      target: page
+      value:  sad-who-is-your-question-about
       
     - action: include
       target: page
@@ -24,31 +44,27 @@ flow:
     
     - action: include
       target: page
+      value:  sad-what-is-your-relationship-to-the-veteran
+    
+    - action: include
+      target: page
       value:  what-is-your-relationship-to-the-veteran-veteran
 
     - action: include
       target: page
-      value:  tell-us-about-yourself
-
-    # - action: include
-    #   target: page
-    #   value:  your-branch-of-service-air-force
-
-    # - action: include
-    #   target: page
-    #   value:  have-you-applied-for-VRE-benefits
+      value:  sad-your-branch-of-service
 
     - action: include
       target: page
-      value:  your-contact-information-email-no-prefill
+      value:  your-branch-of-service-air-force
 
-    # - action: include
-    #   target: page
-    #   value:  your-location-of-residence
+    - action: include
+      target: page
+      value:  your-contact-information 
 
-    # - action: include
-    #   target: page
-    #   value:  your-postal-code-veteran
+    - action: include
+      target: page
+      value:  sad-your-question
 
     - action: include
       target: page
