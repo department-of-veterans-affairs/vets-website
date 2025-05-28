@@ -17,12 +17,12 @@ import {
   authorizationLabel,
   authorizationAlertContent,
   authorizationHeader,
-} from '../content/evidencePrivateRecordsAuthorization';
-import OmbInfo from '../content/OmbInfo';
+} from '../../content/evidencePrivateRecordsAuthorization';
+import OmbInfo from '../../content/OmbInfo';
 
-import { customPageProps995 } from '../../shared/props';
+import { customPageProps995 } from '../../../shared/props';
 
-const EvidencePrivateRecordsAuthorization = ({
+const PrivateRecordsAuthorization = ({
   data = {},
   goBack,
   goForward,
@@ -419,7 +419,7 @@ const EvidencePrivateRecordsAuthorization = ({
             </div>
           </div>
         </VaCheckbox>
-        <div className="vads-u-margin-top--4">
+        <div className="vads-u-margin-top--5">
           {contentBeforeButtons}
           <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
           {contentAfterButtons}
@@ -429,6 +429,6 @@ const EvidencePrivateRecordsAuthorization = ({
   );
 };
 
-EvidencePrivateRecordsAuthorization.propTypes = customPageProps995;
+PrivateRecordsAuthorization.propTypes = customPageProps995;
 
-export default EvidencePrivateRecordsAuthorization;
+export default PrivateRecordsAuthorization;
