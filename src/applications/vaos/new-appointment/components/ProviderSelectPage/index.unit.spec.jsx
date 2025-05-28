@@ -127,10 +127,10 @@ describe('VAOS Page: ProviderSelectPage', () => {
       );
 
       userEvent.click(link);
-
-      await waitFor(() =>
-        expect(screen.history.push.lastCall.args[0]).to.equal('va-request/'),
-      );
+      expect(screen.history.push.called).to.be.true;
+      await waitFor(() => {
+        expect(screen.history.push.lastCall.args[0]).to.equal('va-request/');
+      });
     });
   });
 

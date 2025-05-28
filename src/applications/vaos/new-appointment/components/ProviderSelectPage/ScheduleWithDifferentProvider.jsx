@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import getNewAppointmentFlow from '../../newAppointmentFlow';
+import { useDispatch } from 'react-redux';
 import { getFacilityPhone } from '../../../services/location';
 import FacilityPhone from '../../../components/FacilityPhone';
 import {
@@ -13,10 +12,9 @@ import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 
 const pageKey = 'selectProvider';
 
-function handleClick(history, dispatch, requestDateTime) {
+function handleClick(history, dispatch) {
   return () => {
     dispatch(startRequestAppointmentFlow());
-    history.push(requestDateTime.url);
     dispatch(routeToNextAppointmentPage(history, pageKey));
   };
 }
@@ -27,7 +25,6 @@ export default function ScheduleWithDifferentProvider({
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { requestDateTime } = useSelector(getNewAppointmentFlow);
   const facilityPhone = getFacilityPhone(selectedFacility);
   const overRequestLimit =
     eligibility.requestReasons[0] === ELIGIBILITY_REASONS.overRequestLimit;
@@ -70,7 +67,7 @@ export default function ScheduleWithDifferentProvider({
       <va-link
         active
         text="Request an appointment"
-        onClick={handleClick(history, dispatch, requestDateTime)}
+        onClick={handleClick(history, dispatch)}
       />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
     </>
