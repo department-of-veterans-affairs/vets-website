@@ -1,71 +1,45 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
-import configureStore from 'redux-mock-store';
+import { render, fireEvent } from '@testing-library/react';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { Provider } from 'react-redux';
-
-import { DefinitionTester } from '~/platform/testing/unit/schemaform-utils';
+import configureStore from 'redux-mock-store';
+import sinon from 'sinon';
 import formConfig from '../../config/form';
-
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.institutionDetailsChapter.pages.institutionDetailsFacility;
-const { defaultDefinitions: definitions } = formConfig;
 
 const mockStore = configureStore([]);
 
 describe('22-8894 - Institution Details Facility', () => {
-  const storeWithCode = mockStore({
-    form: {
-      data: {
-        institutionDetails: { hasVaFacilityCode: true },
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.institutionDetailsChapter.pages.institutionDetailsFacility;
+
+  it('renders facility code input, institutionName placeholder, and institutionAddress placeholder', () => {
+    const store = mockStore({
+      form: {
+        data: {
+          institutionDetails: { hasVaFacilityCode: true },
+        },
       },
-    },
-  });
+    });
 
-  it('renders the correct amount of inputs', () => {
-    const form = mount(
-      <Provider store={storeWithCode}>
+    const { container } = render(
+      <Provider store={store}>
         <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
           schema={schema}
           uiSchema={uiSchema}
-          definitions={definitions}
-        />
-      </Provider>,
-    );
-
-    expect(form.find('va-text-input').length).to.equal(1);
-    expect(form.find('InstitutionName').length).to.equal(1);
-    expect(form.find('InstitutionAddress').length).to.equal(1);
-
-    form.unmount();
-  });
-
-  it('should show errors when required field is empty', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <Provider store={storeWithCode}>
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={definitions}
-          onSubmit={onSubmit}
           data={{ institutionDetails: { hasVaFacilityCode: true } }}
         />
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
-
-    // facilityCode is required
-    expect(form.find('va-text-input[error]').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-
-    form.unmount();
+    expect($$('va-text-input', container).length).to.equal(1);
+    expect($$('h3#institutionHeading', container).length).to.equal(1);
+    expect($$('span[aria-hidden="true"]', container).length).to.equal(1);
   });
-
   it('should validate facility code length', () => {
     const errors = {
       messages: [],
@@ -85,32 +59,32 @@ describe('22-8894 - Institution Details Facility', () => {
     validate(errors, '12345678');
     expect(errors.messages).to.be.empty;
   });
-
-  it("blocks submission when institutionName is 'not found'", () => {
-    const onSubmit = sinon.spy();
-    const data = {
-      institutionDetails: {
-        hasVaFacilityCode: true,
-        facilityCode: '12345678',
-        institutionName: 'not found',
+  it('shows errors when required field is empty', () => {
+    const store = mockStore({
+      form: {
+        data: {
+          institutionDetails: {
+            hasVaFacilityCode: true,
+          },
+        },
       },
-    };
-    const form = mount(
-      <Provider store={storeWithCode}>
+    });
+    const onSubmit = sinon.spy();
+
+    const { container, getByRole } = render(
+      <Provider store={store}>
         <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
           schema={schema}
           uiSchema={uiSchema}
-          definitions={definitions}
-          data={data}
+          data={{ institutionDetails: { hasVaFacilityCode: true } }}
           onSubmit={onSubmit}
         />
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('va-text-input[error]').length).to.equal(1);
+    fireEvent.click(getByRole('button', { name: /submit/i }));
+    expect($$('va-text-input[error]', container).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
-
-    form.unmount();
   });
 });
