@@ -22208,7 +22208,7 @@ verror@1.10.0:
     extsprintf "^1.2.0"
 
 "vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#71b49c2d04ab2edd8b5a582c03ab309bfc5500d2":
-  version "24.14.3"
+  version "24.15.1"
   resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#71b49c2d04ab2edd8b5a582c03ab309bfc5500d2"
   dependencies:
     minimist "^1.2.3"
