@@ -9,7 +9,7 @@ describe('Primary certifying official page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.primaryOfficialChapter.pages.primaryOfficial;
+  } = formConfig.chapters.primaryOfficialChapter.pages.primaryOfficialDetails;
 
   it('Renders the page with the correct number of inputs', () => {
     const { container, getByRole } = render(
