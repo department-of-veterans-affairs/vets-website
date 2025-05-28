@@ -133,7 +133,6 @@ export default function AppointmentsPage() {
       >
         {pageTitle}
       </h1>
-      {/* display paragraphText on RequestedAppointmentsListGroup page when print list flag is on */}
       <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
       {/* {featureBookingExclusion && (
         <CernerTransitionAlert
@@ -150,7 +149,7 @@ export default function AppointmentsPage() {
       {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
 
-      {/* TODO: Add this back in when VeText adds support for a 
+      {/* TODO: Add this back in when VeText adds support for a
       referral id in the url sent to the veteran  */}
       {/* {isInCCPilot && <ReferralTaskCardWithReferral />} */}
 
