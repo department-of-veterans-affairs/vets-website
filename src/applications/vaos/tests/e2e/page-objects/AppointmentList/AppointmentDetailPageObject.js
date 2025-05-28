@@ -76,7 +76,7 @@ function assertSummary(type, tokens) {
   }
 }
 
-export class AppointmentDetailPageObject extends PageObject {
+class AppointmentDetailPageObject extends PageObject {
   assertAddToCalendar() {
     this.assertShadow({
       element: '[data-testid="add-to-calendar-button"]',
