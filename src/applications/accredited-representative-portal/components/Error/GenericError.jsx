@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Error404 = () => {
+const GenericError = () => {
   return (
     <>
       <h2 slot="headline">We’re sorry. Something went wrong.</h2>
@@ -14,4 +14,4 @@ const Error404 = () => {
   );
 };
 
-export default Error404;
+export default GenericError;
