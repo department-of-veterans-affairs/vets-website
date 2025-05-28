@@ -63,7 +63,9 @@ const nextOfKinPages = arrayBuilderPages(
       uiSchema: pageSchemas.uiSchema,
       schema: pageSchemas.schema,
       onNavForward: props => {
-        return props.formData['view:hasNextOfKinAddress']
+        return props.formData.nextOfKins[props.index][
+          'view:hasNextOfKinAddress'
+        ]
           ? helpers.navForwardKeepUrlParams(props) // go to next page
           : helpers.navForwardFinishedItem(props); // return to summary
       },

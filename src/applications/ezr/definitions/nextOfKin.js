@@ -65,7 +65,10 @@ export const nextOfKinPage = options => ({
     contactType: {
       ...selectUI({ title: 'Default relationship type', inert: true }),
     },
-    'view:hasNextOfKinAddress': yesNoUI(content['next-of-kin-address-label']),
+    'view:hasNextOfKinAddress': yesNoUI({
+      title: content['next-of-kin-address-label'],
+      hint: content['next-of-kin-address-hint'],
+    }),
   },
   schema: {
     type: 'object',
@@ -117,8 +120,8 @@ export const nextOfKinSummaryPage = (options = {}) => ({
   uiSchema: {
     'view:isNextOfKinEnabled': arrayBuilderYesNoUI(options, {
       title: content['next-of-kin-add-contacts-label'],
-      labelHeaderLevel: 'p',
-      hint: ' ',
+      titleHeaderLevel: 'h2',
+      hint: content['next-of-kin-hint-text'],
     }),
   },
   schema: {
