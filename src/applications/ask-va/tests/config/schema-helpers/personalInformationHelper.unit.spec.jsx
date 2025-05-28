@@ -16,8 +16,8 @@ describe('Personal Information Form Schemas', () => {
     it('should have correct schema for first name', () => {
       const schema = personalInformationFormSchemas.first;
       expect(schema).to.have.property('type', 'string');
-      expect(schema).to.have.property('pattern', '^[A-Za-z]+$');
-      expect(schema).to.have.property('maxLength', 25);
+      expect(schema).to.have.property('pattern', '^[^0-9]*$');
+      expect(schema).to.have.property('maxLength', 30);
     });
 
     it('should have correct schema for suffix with select schema', () => {
@@ -43,8 +43,8 @@ describe('Personal Information Form Schemas', () => {
     it('should have correct schema for general information fields', () => {
       const schema = aboutYourselfGeneralSchema.first;
       expect(schema).to.have.property('type', 'string');
-      expect(schema).to.have.property('pattern', '^[A-Za-z]+$');
-      expect(schema).to.have.property('maxLength', 25);
+      expect(schema).to.have.property('pattern', '^[^0-9]*$');
+      expect(schema).to.have.property('maxLength', 30);
     });
   });
 });

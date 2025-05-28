@@ -4,4 +4,4 @@ flow:
   steps:
     - action: include
       target: page
-      value: start-your-question-auth
+      value: your-empty-inquiries

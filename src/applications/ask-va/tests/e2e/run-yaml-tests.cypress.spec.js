@@ -33,14 +33,20 @@ const executeSteps = (steps, folder) => {
     switch (step.action) {
       case 'click':
         switch (step.target) {
+          case 'tab':
+            STEPS.clickTab(step.value);
+            break;
           case 'link':
             STEPS.clickLink(step.value);
             break;
           case 'call-to-action':
-            STEPS.clickCallToActionButton();
+            STEPS.clickCallToActionButton('primary');
+            break;
+          case 'call-to-action-secondary':
+            STEPS.clickCallToActionButton('secondary', step.value);
             break;
           case 'call-to-action-not-primary':
-            STEPS.clickCallToActionButton(false, step.value);
+            STEPS.clickCallToActionButton('neither', step.value);
             break;
           case 'radio': // TODO: Refactor into a single radio button function, if possible
             STEPS.clickRadioButton(step.value);
@@ -67,6 +73,12 @@ const executeSteps = (steps, folder) => {
           case 'paragraph':
             STEPS.ensureExists(step.value, 'p');
             break;
+          case 'error':
+            STEPS.ensureExists(step.value, 'span.usa-error-message');
+            break;
+          case 'errorInput':
+            STEPS.ensureExists(step.value, 'span.usa-input-error-message');
+            break;
           default:
             throw new Error(
               `Unknown exists target for step #${index + 1}: ${step.target}`,
@@ -80,16 +92,15 @@ const executeSteps = (steps, folder) => {
         STEPS.typeTextArea(step.target, step.value);
         break;
       case 'select':
-        // let target = step.target;
-        if (step.target === 'month') {
-          step.target =
-            'va-select.usa-form-group--month-select select.usa-select';
+        if (step.target === 'status') {
+          step.target = 'va-select[name="status"] select.usa-select';
+        } else if (step.target === 'category') {
+          step.target = 'va-select[name="category"] select.usa-select';
         }
         STEPS.selectOption(step.target, step.value);
         break;
       case 'log':
         cy.log(step.value);
-        // console.log(step.value);
         break;
       case 'include':
         if (step.target === 'page') {
@@ -119,53 +130,83 @@ const executeSteps = (steps, folder) => {
 describe('YAML tests', () => {
   describe(`Preload flows`, () => {
     describe('Run tests', () => {
-      const testRunner = (folder, path, file) => {
+      // eslint-disable-next-line func-names
+      const testRunner = function(folder, path, file) {
         let flowYML = EMPTY_FLOW_YML;
         const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${folder}/${path}/${file}`;
         cy.readFile(p).then(f => {
           flowYML = f;
 
           const { flow } = YAML.parse(flowYML);
+          cy.log(`Flow.runOnCI ${flow.runOnCI}`);
+          cy.log(`File ${file}`);
 
           if (flow.runOnCI === true) {
-            cy.visit('http://localhost:3001/contact-us/ask-va/');
+            if (['13m.yml'].includes(file)) {
+              cy.visit(
+                'http://localhost:3001/contact-us/ask-va/user/dashboard/A-20250409-2205184',
+              );
+            } else {
+              cy.visit('http://localhost:3001/contact-us/ask-va/');
+            }
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);
+          } else {
+            this.skip();
           }
         });
       };
 
-      const runAndLogTest = (folder, path, file) => {
+      // eslint-disable-next-line func-names
+      const runAndLogTest = function(folder, path, file) {
         if (file.endsWith('.yml')) {
           cy.log('-------------------');
-          cy.log(`Run tests in ${file}`);
+          cy.log(`Run tests in ${file}, ${path} in ${folder}`);
           cy.log('-------------------');
 
-          if (path === 'authenticated') {
-            if (['13g.yml', '17g.yml'].includes(file)) {
+          if (folder === 'forms') {
+            if (path === 'authenticated') {
+              if (['13g.yml', '17g.yml'].includes(file)) {
+                cy.intercept(
+                  'GET',
+                  '/v0/in_progress_forms/0873',
+                  mockAVAProfileMissingInfo,
+                );
+              } else {
+                cy.intercept(
+                  'GET',
+                  '/v0/in_progress_forms/0873',
+                  mockAVAProfile,
+                );
+              }
+              cy.login(mockUserDefault);
+            } else {
+              cy.clearAllCookies();
+            }
+          } else {
+            if (['4k.yml'].includes(file)) {
               cy.intercept(
                 'GET',
-                '/v0/in_progress_forms/0873',
-                mockAVAProfileMissingInfo,
+                'http://localhost:3000/ask_va_api/v0/inquiries',
+                mockMultipleInquiries,
+              );
+            } else if (['14g.yml', '18g.yml'].includes(file)) {
+              cy.intercept(
+                'GET',
+                'http://localhost:3000/ask_va_api/v0/inquiries',
+                mockOneInquiry,
               );
             } else {
-              cy.intercept('GET', '/v0/in_progress_forms/0873', mockAVAProfile);
+              cy.intercept(
+                'GET',
+                `http://localhost:3000/ask_va_api/v0/inquiries`,
+                mockNoInquiries,
+              );
             }
             cy.login(mockUserDefault);
-          } else if (path === 'dashboard') {
-            if (['13g.yml', '17g.yml'].includes(file)) {
-              cy.intercept('GET', 'v0/inquiries', mockMultipleInquiries);
-            } else if (['14g.yml', '18g.yml'].includes(file)) {
-              cy.intercept('GET', 'v0/inquiries', mockOneInquiry);
-            } else if (['2k.yml', '3k.yml'].includes(file)) {
-              cy.intercept('GET', 'v0/inquiries', mockNoInquiries);
-            }
-            cy.login(mockUserDefault);
-          } else {
-            cy.clearAllCookies();
           }
-          testRunner(folder, path, file);
         }
+        testRunner.call(this, folder, path, file);
       };
 
       beforeEach(() => {
@@ -173,11 +214,6 @@ describe('YAML tests', () => {
         interceptAskVaResponses();
         interceptVaGovResponses();
         intercept3rdPartyResponses();
-
-        // Intercept the user API request and log in
-        // cy.intercept('GET', `/v0/user`, mockUserDefault);
-        // TODO: This should be in the interceptAskVaResponses function -- Joe
-        // cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
       });
 
       const runTestsForFilesInPath = (folder, files) => {
@@ -186,9 +222,9 @@ describe('YAML tests', () => {
           if (path !== 'include-pages') {
             (() => {
               for (const file of files[path]) {
-                // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-                it(`Run tests in ${folder} for ${file}`, () => {
-                  runAndLogTest(folder, path, file);
+                // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required, func-names
+                it(`Run tests in ${folder} for ${file}`, function() {
+                  runAndLogTest.call(this, folder, path, file);
                 });
               }
             })();

@@ -351,10 +351,7 @@ function CalendarWidget({
                             timezone={timezone}
                             currentlySelectedDate={currentlySelectedDate}
                             handleSelectDate={date => {
-                              if (
-                                maxSelections === 1 &&
-                                date === currentlySelectedDate
-                              ) {
+                              if (maxSelections === 1) {
                                 onChange([]);
                               }
 
@@ -378,7 +375,7 @@ function CalendarWidget({
                                   [date],
                                   maxSelections,
                                   upcomingAppointments,
-                                  timezone,
+                                  availableSlots,
                                 );
                               }
                             }}

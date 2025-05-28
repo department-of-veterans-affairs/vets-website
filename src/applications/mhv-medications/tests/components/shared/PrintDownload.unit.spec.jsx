@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/dom';
 import sinon from 'sinon';
 import PrintDownload from '../../../components/shared/PrintDownload';
 import { DOWNLOAD_FORMAT } from '../../../util/constants';
 
-describe('Medicaitons Print/Download button component', () => {
+describe('Medications Print/Download button component', () => {
   let handleFullListDownload;
   let handlePrintPage;
   const setup = (
@@ -16,7 +16,7 @@ describe('Medicaitons Print/Download button component', () => {
     onPrint = undefined,
     isLoading = undefined,
   ) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <PrintDownload
         onDownload={onDownload}
         onPrint={onPrint}
@@ -24,9 +24,7 @@ describe('Medicaitons Print/Download button component', () => {
         list={list}
         isLoading={isLoading}
       />,
-      {
-        path: '/',
-      },
+      {},
     );
   };
 

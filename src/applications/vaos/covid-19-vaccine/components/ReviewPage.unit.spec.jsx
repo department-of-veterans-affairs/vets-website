@@ -1,7 +1,6 @@
 import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
-import moment from 'moment';
 import React from 'react';
 
 import {
@@ -10,6 +9,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
+import { addMinutes, format } from 'date-fns';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -19,6 +19,7 @@ import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentRespons
 import { mockAppointmentSubmitApi } from '../../tests/mocks/mockApis';
 import { onCalendarChange } from '../redux/actions';
 import ReviewPage from './ReviewPage';
+import { DATE_FORMATS } from '../../utils/constants';
 
 describe('VAOS vaccine flow: ReviewPage', () => {
   let store;
@@ -27,7 +28,8 @@ describe('VAOS vaccine flow: ReviewPage', () => {
 
   beforeEach(() => {
     mockFetch();
-    start = moment();
+
+    start = new Date();
     store = createTestStore({
       ...initialState,
       covid19Vaccine: {
@@ -56,12 +58,10 @@ describe('VAOS vaccine flow: ReviewPage', () => {
           ],
           availableSlots: [
             {
-              start: start.format(),
+              start: format(start, DATE_FORMATS.ISODateTime),
+
               id: 'test',
-              end: start
-                .clone()
-                .add(30, 'minutes')
-                .format(),
+              end: format(addMinutes(start, 30), DATE_FORMATS.ISODateTime),
             },
           ],
           clinics: {
@@ -77,7 +77,7 @@ describe('VAOS vaccine flow: ReviewPage', () => {
         },
       },
     });
-    store.dispatch(onCalendarChange([start.format()]));
+    store.dispatch(onCalendarChange([format(start, DATE_FORMATS.ISODateTime)]));
   });
 
   it('should submit successfully', async () => {
@@ -138,7 +138,7 @@ describe('VAOS vaccine flow: ReviewPage', () => {
     expect(descHeading).to.have.tagName('h2');
 
     expect(dateHeading).to.contain.text(
-      start.format('dddd, MMMM D, YYYY [at] h:mm a'),
+      format(start, "EEEE, MMMM d, yyyy 'at' h:mm aaaa"),
     );
     expect(dateHeading).to.have.tagName('h3');
 

@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function Disclaimer() {
+const Disclaimer = () => {
   return (
-    <div className="border-bottom vads-u-margin-top--3 vads-u-margin-bottom--2 ">
-      <p className="vads-u-font-family--sans" data-testid="info-disclaimer">
+    <div className="disclaimer-border vads-u-margin-y--3">
+      <div className="vads-u-font-family--sans" data-testid="info-disclaimer">
         <h3 className="vads-u-border-bottom--3px vads-u-border-color--primary vads-u-line-height--4 vads-u-font-size--h4">
           Need help?
         </h3>
@@ -52,7 +52,9 @@ export default function Disclaimer() {
             download data on all schools (XLS).
           </a>
         </p>
-      </p>
+      </div>
     </div>
   );
-}
+};
+
+export default Disclaimer;
