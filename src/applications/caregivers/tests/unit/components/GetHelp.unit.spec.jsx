@@ -9,6 +9,5 @@ describe('CG <GetHelp>', () => {
     const { container } = render(<GetHelp />);
     const selector = container.querySelectorAll('.help-talk');
     expect(selector).to.have.length;
-    expect(true).to.equal(true);
   });
 });
