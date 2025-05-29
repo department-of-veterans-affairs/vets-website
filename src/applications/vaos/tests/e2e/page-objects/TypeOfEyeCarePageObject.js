@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class TypeOfEyeCarePageObject extends PageObject {
+class TypeOfEyeCarePageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/eye-care');
     cy.axeCheckBestPractice();
