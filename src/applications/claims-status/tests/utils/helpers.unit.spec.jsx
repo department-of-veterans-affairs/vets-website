@@ -7,7 +7,7 @@ import {
   jsonResponse,
   setupServer,
 } from 'platform/testing/unit/msw-adapter';
-import * as scroll from 'platform/utilities/ui/scroll';
+import * as scroll from 'platform/utilities/scroll';
 import * as page from '../../utils/page';
 
 import {

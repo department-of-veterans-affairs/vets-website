@@ -7,7 +7,7 @@ import constants from 'vets-json-schema/dist/constants.json';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
 import { scroller } from 'react-scroll';
-import { getScrollOptions } from 'platform/utilities/ui';
+import { getScrollOptions } from 'platform/utilities/scroll';
 import environment from 'platform/utilities/environment';
 import mapboxClient from '../components/MapboxClient';
 

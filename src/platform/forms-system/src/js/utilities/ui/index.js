@@ -1,10 +1,9 @@
 import Scroll from 'react-scroll';
+import { focusElement, focusByOrder } from '../../../../../utilities/ui/focus';
 import {
-  focusElement,
-  focusByOrder,
   scrollToFirstError,
   getScrollOptions,
-} from '../../../../../utilities/ui';
+} from '../../../../../utilities/scroll';
 import { webComponentList } from '../../web-component-fields/webComponentList';
 import {
   SCROLL_ELEMENT_SUFFIX,
