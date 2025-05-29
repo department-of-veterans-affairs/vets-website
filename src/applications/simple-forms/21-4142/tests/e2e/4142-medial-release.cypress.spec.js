@@ -28,6 +28,7 @@ const testConfig = createTestConfig(
       },
       'contact-information-1': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
+
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.checkWebComponent(hasWebComponent => {
