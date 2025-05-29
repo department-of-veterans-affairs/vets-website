@@ -112,11 +112,13 @@ const IntroductionPage = ({ route }) => {
             </strong>{' '}
             Please email the PDF file to your SAA for their approval action. If
             you need help finding their email address,{' '}
-            <va-link
+            <a
               href="https://nasaa-vetseducation.com/nasaa-contacts/"
-              text="search the SAA contact directory"
-              external
-            />
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              search the SAA contact directory (opens in a new tab)
+            </a>
           </p>
         </va-process-list-item>
       </va-process-list>
