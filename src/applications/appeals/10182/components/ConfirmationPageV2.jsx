@@ -84,9 +84,10 @@ export const ConfirmationPageV2 = () => {
         status tool. It may take <strong>7 to 10 days</strong> to appear there.
       </p>
       <p>
-        <a href="/claim-or-appeal-status/">
-          Check the status of your request for a Board Appeal online
-        </a>
+        <va-link
+          href="/claim-or-appeal-status/"
+          text="Check the status of your request for a Board Appeal online"
+        />
       </p>
       <p>
         If we need more information, we’ll contact you to tell you what other
@@ -149,9 +150,10 @@ export const ConfirmationPageV2 = () => {
       </div>
 
       <p>
-        <a href="/decision-reviews/after-you-request-review/">
-          Learn more about what happens after you request a review
-        </a>
+        <va-link
+          href="/decision-reviews/after-you-request-review/"
+          text="Learn more about what happens after you request a review"
+        />
       </p>
       <p>
         If you’re worried about how long it’s taking to receive a decision, do
@@ -162,7 +164,10 @@ export const ConfirmationPageV2 = () => {
       <h2>How to contact us if you have questions</h2>
       <p>You can ask us a question online through Ask VA.</p>
       <p>
-        <a href="https://ask.va.gov/">Contact us online through Ask VA.</a>
+        <va-link
+          href="https://ask.va.gov/"
+          text="Contact us online through Ask VA."
+        />
       </p>
       <p>
         Or call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
