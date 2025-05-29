@@ -15,13 +15,8 @@ const BasicLink = ({ path, search, router, ...props }) => {
       {...props}
       onClick={() => {
         if (search && path) {
-          router.push({
-            pathname: path,
-            search,
-          });
-        }
-
-        if (path) {
+          router.push(`${path}${search}`);
+        } else if (path) {
           router.push(path);
         }
       }}
