@@ -98,8 +98,12 @@ describe('Referral Services', () => {
       requestStub.calledWith('/vaos/v2/appointments/draft', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // eslint-disable-next-line camelcase
-        body: JSON.stringify({ referral_id: 'ref-id-123' }),
+        body: JSON.stringify({
+          // eslint-disable-next-line camelcase
+          referral_id: 'ref-id-123',
+          // eslint-disable-next-line camelcase
+          referral_consult_id: '1234',
+        }),
       }),
     ).to.be.true;
 
