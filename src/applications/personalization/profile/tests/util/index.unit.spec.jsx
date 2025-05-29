@@ -4,7 +4,6 @@ import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-co
 
 import {
   createCNPDirectDepositAnalyticsDataObject,
-  hasAccountFlaggedError,
   hasRoutingNumberFlaggedError,
   hasInvalidHomePhoneNumberError,
 } from '../../util';
@@ -29,9 +28,6 @@ describe('profile utils', () => {
     );
     const badWorkPhoneDataObject = createEventDataObjectWithError(
       'cnp.payment.day.phone.number.invalid',
-    );
-    const accountFlaggedForFraudDataObject = createEventDataObjectWithError(
-      'cnp.payment.account.number.fraud',
     );
     const invalidRoutingNumberDataObject = createEventDataObjectWithError(
       'cnp.payment.routing.number.invalid',
@@ -81,12 +77,6 @@ describe('profile utils', () => {
       );
       expect(eventDataObject).to.deep.equal(badHomePhoneDataObject);
     });
-    it('returns the correct data when an account flagged for fraud error is passed', () => {
-      const eventDataObject = createCNPDirectDepositAnalyticsDataObject(
-        mockDisabilityCompensations.updates.errors.accountNumberFlagged,
-      );
-      expect(eventDataObject).to.deep.equal(accountFlaggedForFraudDataObject);
-    });
     it('returns the correct data when an invalid routing number error is passed', () => {
       const eventDataObject = createCNPDirectDepositAnalyticsDataObject(
         mockDisabilityCompensations.updates.errors.invalidRoutingNumber,
@@ -114,15 +104,6 @@ describe('profile utils', () => {
       expect(
         hasRoutingNumberFlaggedError(
           mockDisabilityCompensations.updates.errors.routingNumberFlagged
-            .errors,
-        ),
-      ).to.equal(true);
-    });
-
-    it('hasAccountFlaggedError returns true on error', () => {
-      expect(
-        hasAccountFlaggedError(
-          mockDisabilityCompensations.updates.errors.accountNumberFlagged
             .errors,
         ),
       ).to.equal(true);
