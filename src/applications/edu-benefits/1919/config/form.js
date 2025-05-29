@@ -2,6 +2,7 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 // import path from 'path-browserify';
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import fullSchema from '../22-1919-schema.json';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -15,6 +16,7 @@ import {
   aboutYourInstitution,
   institutionDetails,
   allProprietarySchools,
+  allProprietarySchoolsEmployeeInfo,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -100,6 +102,19 @@ const formConfig = {
           uiSchema: allProprietarySchools.uiSchema,
           schema: allProprietarySchools.schema,
         },
+        // allProprietarySchoolsEmployeeInfo:{
+        //   path: 'all-proprietary-schools-employee-info',
+        //   title: 'All proprietary schools',
+        //   uiSchema: allProprietarySchoolsEmployeeInfo.uiSchema,
+        //   schema: allProprietarySchoolsEmployeeInfo.schema,
+        //   depends: formData => {console.log(formData, "formmmmmmmm");
+        //     return formData?.allProprietarySchools === true;
+        //   },
+        // },
+        allProprietarySchoolsEmployeeInfo: arrayBuilderPages(
+          arrayBuilderOptions,
+          pageBuilder => ({}),
+        ),
       },
       directDeposit: {
         path: 'direct-deposit',

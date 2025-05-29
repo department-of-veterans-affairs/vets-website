@@ -36,12 +36,6 @@ const uiDescription = (
         new submission is required.{' '}
       </p>{' '}
     </va-alert>
-    {/* <va-alert status="info" visible>
-      <h2 slot="headline">
-        <strong>Note:</strong> Each time the information on this form changes, a
-        new submission is required.
-      </h2>
-    </va-alert> */}
   </>
 );
 
@@ -61,7 +55,7 @@ const uiSchema = {
 
 const schema = {
   type: 'object',
-  required: ['conflictOfInterest'],
+  required: ['allProprietarySchools'],
   properties: {
     allProprietarySchools: yesNoSchema,
   },

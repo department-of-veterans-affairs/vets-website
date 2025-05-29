@@ -1,12 +1,11 @@
 import React from 'react';
-import {
-  textSchema,
-  textUI,
-} from 'platform/forms-system/src/js/web-component-patterns/textPatterns';
+
 import {
   titleUI,
   radioUI,
   radioSchema,
+  textSchema,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const levelNames = {
