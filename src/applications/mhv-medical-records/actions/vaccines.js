@@ -31,7 +31,9 @@ export const getVaccinesList = (
 
 export const checkForVaccineUpdates = () => async dispatch => {
   try {
-    const response = await getListWithRetry(dispatch, getVaccineList, 1);
+    // We don't need to use getListWithRetry here. By the time we are checking for list updates,
+    // the list will already be loaded, by definition.
+    const response = await getVaccineList(1, false);
     dispatch({ type: Actions.Vaccines.CHECK_FOR_UPDATE, response });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
