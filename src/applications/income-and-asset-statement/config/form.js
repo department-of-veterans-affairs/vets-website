@@ -64,7 +64,6 @@ const formConfig = {
           : 'claimantFullName',
     },
   },
-  title: 'Income and Asset Statement Form',
   subTitle: 'VA Form 21P-0969',
   defaultDefinitions: {},
   chapters: {
