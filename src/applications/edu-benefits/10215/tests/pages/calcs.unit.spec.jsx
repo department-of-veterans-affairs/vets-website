@@ -142,7 +142,6 @@ describe('<Calcs />', () => {
       .resolves(mockNonSupportedInput);
 
     const originalLocation = window.location;
-    delete window.location;
     Object.defineProperty(window, 'location', {
       value: { ...originalLocation, href: 'https://fake.url/somePage1' },
       writable: true,

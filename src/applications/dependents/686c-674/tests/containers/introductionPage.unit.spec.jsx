@@ -2,9 +2,12 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { rest } from 'msw';
+import {
+  createGetHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 import IntroductionPage from '../../containers/IntroductionPage';
 
 const generateStore = ({
@@ -73,20 +76,21 @@ describe('IntroductionPage', () => {
     });
 
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
-        (_, res, ctx) =>
-          res(
-            ctx.status(200),
-            ctx.json({
+        () => {
+          return jsonResponse(
+            {
               data: {
                 attributes: {
                   // eslint-disable-next-line camelcase
                   valid_va_file_number: true,
                 },
               },
-            }),
-          ),
+            },
+            { status: 200 },
+          );
+        },
       ),
     );
 
@@ -109,15 +113,16 @@ describe('IntroductionPage', () => {
       hasVaFileNumber: { errors: 'va file num error' },
     });
     server.use(
-      rest.get(
+      createGetHandler(
         `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
-        (_, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({
+        () => {
+          return jsonResponse(
+            {
               errors: 'junk',
-            }),
-          ),
+            },
+            { status: 401 },
+          );
+        },
       ),
     );
 
