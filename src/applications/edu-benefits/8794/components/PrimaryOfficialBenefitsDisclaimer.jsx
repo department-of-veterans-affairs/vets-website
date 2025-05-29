@@ -21,7 +21,7 @@ const PrimaryOfficialBenefitsDisclaimer = ({ required, ...props }) => {
   );
 
   return (
-    <div className="vads-u-border-color--primary-alt-light vads-u-border--1px vads-u-margin-top--5 info ">
+    <div className="vads-u-border-color--primary-alt-light vads-u-border--1px vads-u-margin-top--5 info">
       <div className="vads-u-padding-top--0 vads-u-padding-x--3">
         <p>
           VA will not pay VA benefits for enrollment in a course certified by
@@ -52,7 +52,11 @@ const PrimaryOfficialBenefitsDisclaimer = ({ required, ...props }) => {
         error={props?.formContext?.submitted ? checkboxError : null}
         required
         label="I understand"
-        className="vads-u-margin-y--2 vads-u-padding-x--3"
+        className={
+          props?.formContext?.submitted && checkboxError
+            ? 'vads-u-margin-y--2 vads-u-padding-x--3 error vads-u-margin-left--2 info'
+            : 'vads-u-margin-y--2 vads-u-padding-x--3'
+        }
       />
     </div>
   );
