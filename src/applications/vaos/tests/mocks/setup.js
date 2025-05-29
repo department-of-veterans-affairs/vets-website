@@ -2,12 +2,10 @@
 
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
-import { createMemoryHistory } from 'history-v4';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import sinon from 'sinon';
 
 import { commonReducer } from '@department-of-veterans-affairs/platform-startup/store';
 import { renderWithStoreAndRouter as platformRenderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
@@ -60,23 +58,6 @@ export function createTestStore(initialState) {
     initialState,
     applyMiddleware(thunk, vaosApi.middleware),
   );
-}
-
-/**
- * Creates a history object and attaches a spy to replace and push
- *
- * The history object is fully functional, not stubbed
- *
- * @export
- * @param {string} [path='/'] The url to use initially for the history
- * @returns {History} Returns a History object
- */
-export function createTestHistory(path = '/') {
-  const history = createMemoryHistory({ initialEntries: [path] });
-  sinon.spy(history, 'replace');
-  sinon.spy(history, 'push');
-
-  return history;
 }
 
 /**

@@ -131,12 +131,6 @@ export function selectEligibility(state) {
   );
 }
 
-export function getPreferredDate(state, pageKey) {
-  const data = getFormData(state);
-  const typeOfCare = getTypeOfCare(data)?.name;
-  return { ...getFormPageInfo(state, pageKey), typeOfCare };
-}
-
 export function getChosenSlot(state) {
   const { availableSlots } = getNewAppointment(state);
   const selectedTime = getFormData(state).selectedDates?.[0];
