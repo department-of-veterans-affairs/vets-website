@@ -104,6 +104,8 @@ const NewRecordsIndicator = ({
   const content = () => {
     if (refreshedOnThisPage) {
       if (refreshPhase === refreshPhases.CALL_FAILED) {
+        // Last refreshed while on this page, but the call failed.
+        // Display a YELLOW warning message.
         return (
           <va-alert
             status="warning"
@@ -129,10 +131,14 @@ const NewRecordsIndicator = ({
         );
       }
       if (refreshPhase === refreshPhases.FAILED) {
+        // Last refreshed while on this page, but the refresh failed.
+        // Display a YELLOW warning message.
         return failedMsg();
       }
       if (refreshPhase === refreshPhases.CURRENT) {
         if (newRecordsFound) {
+          // Last refreshed while on this page, and the refresh was successful, and new records were found.
+          // Display the BLUE info bar, prompting the user to reload.
           return (
             <va-alert
               visible
@@ -154,6 +160,8 @@ const NewRecordsIndicator = ({
             </va-alert>
           );
         }
+        // Last refreshed while on this page, and the refresh was successful, and no new records were found.
+        // Display the GREEN success bar, indicating that the list is up to date.
         return (
           <va-alert
             status="success"
@@ -166,6 +174,8 @@ const NewRecordsIndicator = ({
         );
       }
       if (!refreshState.isTimedOut) {
+        // Last refreshed while on this page, and that refresh is still in progress.
+        // Display the loading indicator.
         return (
           <va-loading-indicator
             message="We're checking our system for new records."
@@ -173,9 +183,13 @@ const NewRecordsIndicator = ({
           />
         );
       }
+      // Last refreshed while on this page, but the refresh timed out.
+      // Display a YELLOW warning message.
       return failedMsg();
     }
     if (lastSuccessfulUpdate) {
+      // Did not refresh while on this page, but the last refresh was successful.
+      // Display the GRAY info bar with last updated date and time.
       return (
         <va-card
           background
@@ -188,6 +202,7 @@ const NewRecordsIndicator = ({
         </va-card>
       );
     }
+    // Not enough information to display a message.
     return <></>;
   };
 

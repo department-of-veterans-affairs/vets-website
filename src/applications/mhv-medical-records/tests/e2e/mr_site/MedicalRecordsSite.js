@@ -100,6 +100,14 @@ class MedicalRecordsSite {
             name: 'mhv_medical_records_display_sidenav',
             value: true,
           },
+          {
+            name: 'mhv_medical_records_support_new_model_health_condition',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_support_new_model_vaccine',
+            value: false,
+          },
         ],
       },
     }).as('featureToggles');

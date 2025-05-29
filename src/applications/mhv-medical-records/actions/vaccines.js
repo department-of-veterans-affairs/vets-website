@@ -5,19 +5,36 @@ import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
 import { getListWithRetry } from './common';
 
-export const getVaccinesList = (isCurrent = false) => async dispatch => {
+export const getVaccinesList = (
+  isCurrent = false,
+  page,
+  useBackendPagination = false,
+) => async dispatch => {
   dispatch({
     type: Actions.Vaccines.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getListWithRetry(dispatch, getVaccineList);
+    const response = await getListWithRetry(dispatch, getVaccineList, page);
 
     dispatch({
       type: Actions.Vaccines.GET_LIST,
       response,
       isCurrent,
+      useBackendPagination,
     });
+  } catch (error) {
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
+  }
+};
+
+export const checkForVaccineUpdates = () => async dispatch => {
+  try {
+    // We don't need to use getListWithRetry here. By the time we are checking for list updates,
+    // the list will already be loaded, by definition.
+    const response = await getVaccineList(1, false);
+    dispatch({ type: Actions.Vaccines.CHECK_FOR_UPDATE, response });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     throw error;
