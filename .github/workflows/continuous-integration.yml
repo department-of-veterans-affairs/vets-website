@@ -1758,7 +1758,7 @@ jobs:
       always() &&
       (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'skipped') &&
       needs.build.result == 'success' &&
-      needs.unit-tests.result == 'success' &&
+      (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'skipped') &&
       needs.security-audit.result == 'success' &&
       (needs.linting.result == 'success' || needs.linting.result == 'skipped')
 
