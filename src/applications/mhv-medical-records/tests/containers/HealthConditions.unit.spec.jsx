@@ -38,6 +38,15 @@ describe('Health conditions list container', () => {
     expect(screen.getAllByText('None recorded', { exact: false })).to.exist;
   });
 
+  it('displays intro text for conditions', () => {
+    expect(
+      screen.getAllByText(
+        'This list includes the same information as your "VA problem list"',
+        { exact: false },
+      ),
+    ).to.exist;
+  });
+
   it('displays about codes info', () => {
     expect(
       screen.getByText(
