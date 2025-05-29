@@ -4,6 +4,7 @@ import prescription from './fixtures/parked-prescription-details.json';
 import prescriptions from './fixtures/listOfPrescriptions.json';
 import partialsuccessRequest from './fixtures/refill-partial-success.json';
 import failedprescription from './fixtures/failed-request-prescription.json';
+import { Data } from './utils/constants';
 
 describe('Medications Refill Submit  PartialSuccess Message Refill Page', () => {
   it('visits Partial Success Message on Refill page', () => {
@@ -22,6 +23,8 @@ describe('Medications Refill Submit  PartialSuccess Message Refill Page', () => 
       failedprescription.data.attributes.prescriptionId,
       partialsuccessRequest,
     );
-    refillPage.verifyPartialSuccessAlertOnRefillPage();
+    refillPage.verifyPartiallyFailedRequestMessageAlertOnRefillPage(
+      Data.PARTIAL_FAILED_REQUEST_ALERT_TEXT,
+    );
   });
 });
