@@ -17,8 +17,10 @@ import {
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
-import medicarePartAPartBFrontImage from '../assets/images/medicare_pt_a_pt_b_front.png';
-import medicarePartAPartBBackImage from '../assets/images/medicare_pt_a_pt_b_back.png';
+import medicarePartAPartBFrontImage from '../assets/images/medicare_part_a_and_b_front.png';
+import medicareBackImage from '../assets/images/medicare_back_of_card.png';
+import medicarePartAFrontImage from '../assets/images/medicare_part_a_front.png';
+import medicarePartBFrontImage from '../assets/images/medicare_part_b_front.png';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { createCardUploadSchema } from '../../shared/components/fileUploads/genericCardUpload';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
@@ -262,7 +264,7 @@ const {
   frontProperty: 'medicarePartAPartBFrontCard',
   backProperty: 'medicarePartAPartBBackCard',
   frontImageSrc: medicarePartAPartBFrontImage,
-  backImageSrc: medicarePartAPartBBackImage,
+  backImageSrc: medicareBackImage,
   frontAltText:
     'Red, white, and blue Medicare card. It states "Medicare Health Insurance" and lists the Medicare number and coverage dates for Part A hospital and Part B medical coverage.',
   backAltText:
@@ -328,8 +330,8 @@ const {
   showFilesBlurb: false,
   frontProperty: 'medicarePartAFrontCard',
   backProperty: 'medicarePartABackCard',
-  frontImageSrc: medicarePartAPartBFrontImage,
-  backImageSrc: medicarePartAPartBBackImage,
+  frontImageSrc: medicarePartAFrontImage,
+  backImageSrc: medicareBackImage,
   frontAltText:
     'Red, white, and blue Medicare card. It states "Medicare Health Insurance" and lists the Medicare number and coverage dates for Part A hospital coverage.',
   backAltText:
@@ -393,8 +395,8 @@ const {
   showFilesBlurb: false,
   frontProperty: 'medicarePartBFrontCard',
   backProperty: 'medicarePartBBackCard',
-  frontImageSrc: medicarePartAPartBFrontImage,
-  backImageSrc: medicarePartAPartBBackImage,
+  frontImageSrc: medicarePartBFrontImage,
+  backImageSrc: medicareBackImage,
   frontAltText:
     'Red, white, and blue Medicare card. It states "Medicare Health Insurance" and lists the Medicare number and coverage dates for Part B medical coverage.',
   backAltText:

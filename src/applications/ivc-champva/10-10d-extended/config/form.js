@@ -163,9 +163,7 @@ const formConfig = {
     },
     medicareInformation: {
       title: 'Medicare information',
-      pages: {
-        ...medicarePages,
-      },
+      pages: medicarePages,
     },
     healthInsuranceInformation: {
       title: 'Health insurance information',
