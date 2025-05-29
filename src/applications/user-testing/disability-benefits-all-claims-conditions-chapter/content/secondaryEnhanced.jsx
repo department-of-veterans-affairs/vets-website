@@ -68,7 +68,8 @@ export const createSecondaryEnhancedDescriptionString = (
   // build a readable list
   let conditionsString = '';
   if (keptKeys.length === 1) {
-    conditionsString = keptKeys[0];
+    const [onlyKey] = keptKeys;
+    conditionsString = onlyKey;
   } else if (keptKeys.length === 2) {
     conditionsString = keptKeys.join(' and ');
   } else if (keptKeys.length > 2) {
