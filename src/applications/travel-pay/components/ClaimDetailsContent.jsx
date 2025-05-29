@@ -22,6 +22,7 @@ export default function ClaimDetailsContent({
   totalCostRequested,
   reimbursementAmount,
   documents,
+  allDenialReasons,
 }) {
   useSetPageTitle(title);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -85,7 +86,17 @@ export default function ClaimDetailsContent({
       >
         Claim number: {claimNumber}
       </span>
+
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
+      <va-summary-box>
+        <h3 className="vads-u-font-size--h4">
+          Denial reasons from your decision letter:
+        </h3>
+        <p>{allDenialReasons}</p>
+
+        <p>Download your decision letter to learn more</p>
+      </va-summary-box>
+
       {claimsMgmtToggle && (
         <>
           {STATUSES[toPascalCase(claimStatus)] ? (
