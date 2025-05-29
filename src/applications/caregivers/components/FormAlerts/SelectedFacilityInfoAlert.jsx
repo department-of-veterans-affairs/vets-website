@@ -5,16 +5,19 @@ import FacilityAddress from '../FacilityAddress';
 const SelectedFacilityInfoAlert = ({ plannedClinic }) => (
   <va-alert status="info">
     <h2 slot="headline" className="vads-u-font-size--h3">
-      VA medical center or clinic selected
+      Your current facility selection
     </h2>
     <div>
-      You’ve previously selected in this application the VA medical center or
-      clinic where the Veteran receives or plans to receive care.
+      You selected this VA medical center or clinic location where the Veteran
+      receives or will receive care.
     </div>
     <FacilityAddress facility={plannedClinic?.veteranSelected} />
     <p>
-      Select <strong>"Continue"</strong> without searching to keep your
-      selection
+      If you want to keep this facility, select <strong>Continue</strong>.
+    </p>
+    <p className="vads-u-margin-bottom--0">
+      If you want a different facility, use the <strong>Search</strong> box to
+      select a new facility.
     </p>
   </va-alert>
 );
