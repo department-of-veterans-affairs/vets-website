@@ -15,8 +15,6 @@ const matchingFiles = CHANGED_FILES.filter(filePath =>
   APPS_NOT_ISOLATED.some(app => filePath.includes(app)),
 );
 
-console.log(matchingFiles);
-
 const nonStaticFiles = matchingFiles.filter(
   filePath =>
     !filePath.includes('static-pages') && !filePath.includes('platform'),
@@ -47,6 +45,6 @@ if (APPS_NOT_ISOLATED.length > 0 && nonStaticFiles.length > 0) {
 } else {
   core.exportVariable('ISOLATION_ANNOTATIONS_JSON', JSON.stringify([]));
   console.log(
-    'No non-isolated app changes detected that are not related to static-pages.',
+    'No non-isolated app changes detected that are not related to static-pages or platform.',
   );
 }

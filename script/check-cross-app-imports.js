@@ -237,7 +237,6 @@ const failOnCrossAppImport = options['fail-on-cross-app-import'];
 if (!appFolders && !checkAllowlist) {
   const outputPath = path.join('./tmp', 'cross-app-imports.json');
   const crossAppJson = getCrossAppImports();
-  console.log('cross app json', crossAppJson);
   fs.outputFileSync(outputPath, JSON.stringify(crossAppJson, null, 2));
   core.exportVariable(
     'APPS_NOT_ISOLATED',
