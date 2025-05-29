@@ -16,9 +16,14 @@
   }
 }
 
-.border-bottom {
+.disclaimer-border {
   border-top: 1px solid var(--vads-color-base-light);
   border-width: 100%;
+}
+
+.compare-drawer--border {
+  border-top: 1px solid var(--vads-color-base-light);
+  padding-top: 24px;
 }
 
 .links {

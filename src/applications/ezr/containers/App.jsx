@@ -27,6 +27,7 @@ const App = props => {
   const {
     loading: isLoadingFeatures,
     isProdEnabled,
+    isEmergencyContactsEnabled,
     isProvidersAndDependentsPrefillEnabled,
   } = features;
   const {
@@ -65,6 +66,7 @@ const App = props => {
           'view:userGender': parseVeteranGender(veteranGender),
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:householdEnabled': !!canSubmitFinancialInfo,
+          'view:isEmergencyContactsEnabled': !!isEmergencyContactsEnabled,
           'view:isProvidersAndDependentsPrefillEnabled': isProvidersAndDependentsPrefillEnabled,
         };
 
@@ -116,6 +118,8 @@ const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
+    isEmergencyContactsEnabled:
+      state.featureToggles.ezrEmergencyContactsEnabled,
     isProvidersAndDependentsPrefillEnabled:
       state.featureToggles.ezrProvidersAndDependentsPrefillEnabled,
   },
