@@ -30,73 +30,84 @@ const COUNTRY_NAMES = constants.countries
 
 export default {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Place and date of marriage termination',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formContext }) => {
+      const first =
+        formContext?.formData?.spouseFullName?.first ?? 'your current spouse';
+      return `When and where did ${first}'s previous marriage end?`;
+    }),
     dateOfTermination: currentOrPastDateUI('Date of termination'),
     'view:marriageEndedOutsideUS': {
       'ui:title': 'The marriage ended outside the U.S.',
       'ui:webComponentField': VaCheckboxField,
     },
-    city: {
-      'ui:title': 'City',
-      'ui:webComponentField': VaTextInputField,
-      'ui:errorMessages': {
-        required: 'Please enter the city where you got married',
+    marriageEndLocation: {
+      city: {
+        'ui:title': 'City',
+        'ui:webComponentField': VaTextInputField,
+        'ui:errorMessages': {
+          required: 'Please enter the city where you got married',
+        },
       },
-    },
-    state: {
-      'ui:title': 'State',
-      'ui:webComponentField': VaSelectField,
-      'ui:required': formData => !formData['view:marriageEndedOutsideUS'],
-      'ui:options': {
-        hideIf: formData => formData['view:marriageEndedOutsideUS'],
+      state: {
+        'ui:title': 'State',
+        'ui:webComponentField': VaSelectField,
+        'ui:required': formData => !formData['view:marriageEndedOutsideUS'],
+        'ui:options': {
+          hideIf: formData => formData['view:marriageEndedOutsideUS'],
+        },
+        'ui:errorMessages': {
+          required: 'Please select a state',
+        },
       },
-      'ui:errorMessages': {
-        required: 'Please select a state',
-      },
-    },
-    country: {
-      'ui:title': 'Country',
-      'ui:webComponentField': VaSelectField,
-      'ui:required': formData => formData['view:marriageEndedOutsideUS'],
-      'ui:errorMessages': {
-        required: 'Please select a country',
-      },
-      'ui:options': {
-        updateSchema: formData => {
-          if (formData['view:marriageEndedOutsideUS']) {
+      country: {
+        'ui:title': 'Country',
+        'ui:webComponentField': VaSelectField,
+        'ui:required': formData => formData['view:marriageEndedOutsideUS'],
+        'ui:errorMessages': {
+          required: 'Please select a country',
+        },
+        'ui:options': {
+          updateSchema: formData => {
+            if (formData['view:marriageEndedOutsideUS']) {
+              return {
+                'ui:hidden': false,
+              };
+            }
             return {
-              'ui:hidden': false,
+              'ui:hidden': true,
             };
-          }
-          return {
-            'ui:hidden': true,
-          };
+          },
         },
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['dateOfTermination', 'city', 'state'],
+    required: ['dateOfTermination', 'marriageEndLocation'],
     properties: {
       dateOfTermination: currentOrPastDateSchema,
       'view:marriageEndedOutsideUS': {
         type: 'boolean',
+        default: false,
       },
-      city: {
-        type: 'string',
-      },
-      state: {
-        type: 'string',
-        enum: STATE_VALUES,
-        enumNames: STATE_NAMES,
-      },
-      country: {
-        type: 'string',
-        enum: COUNTRY_VALUES,
-        enumNames: COUNTRY_NAMES,
+      marriageEndLocation: {
+        type: 'object',
+        required: ['city'],
+        properties: {
+          city: {
+            type: 'string',
+          },
+          state: {
+            type: 'string',
+            enum: STATE_VALUES,
+            enumNames: STATE_NAMES,
+          },
+          country: {
+            type: 'string',
+            enum: COUNTRY_VALUES,
+            enumNames: COUNTRY_NAMES,
+          },
+        },
       },
     },
   },

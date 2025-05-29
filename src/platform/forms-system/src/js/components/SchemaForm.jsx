@@ -129,6 +129,7 @@ class SchemaForm extends React.Component {
       hideHeaderRow,
       formContext,
       trackingPrefix,
+      data,
     } = props;
     return {
       formContext: {
@@ -146,6 +147,7 @@ class SchemaForm extends React.Component {
         onError: this.onError,
         trackingPrefix,
         ...formContext,
+        formData: formContext?.formData || data,
       },
     };
   }
@@ -198,6 +200,10 @@ class SchemaForm extends React.Component {
     } = this.props;
 
     const useReviewMode = reviewMode && !editModeOnReviewPage;
+
+    console.log('SchemaForm form context', this.props.formContext);
+    console.log('SchemaForm props.data', this.props.data);
+    console.log('SchemaForm state.formContext', this.state.formContext);
 
     return (
       <Form

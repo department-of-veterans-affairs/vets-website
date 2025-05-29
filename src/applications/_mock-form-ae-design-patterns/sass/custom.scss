@@ -118,6 +118,16 @@ padding-left: 0;
   }
 }
 
+[data-location="6/marital-status/current-spouse-marriage-history/0/reason-former-marriage-ended"] {
+  va-radio::part(legend) {
+    display: none;
+  }
+}
+
+.end-title-span {
+    color: #b50909 !important;
+}
+
 #react-root > div.vads-u-margin-top--4 > div:nth-child(1) > div.form-app > div > div > div.progress-box.progress-box-schemaform > div > form > div.vads-u-margin-y--2.rjsf-object-field > div > fieldset > p {
 color: var(--vads-label-hint-text-color-on-light);
 }

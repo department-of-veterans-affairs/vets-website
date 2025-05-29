@@ -4,7 +4,8 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
+import { MarriageEndReasonTitle } from '../../helpers/dynamicSpouseNameTitles';
 
 const spouseFormerMarriageLabels = {
   Death: 'Spouse death',
@@ -15,22 +16,39 @@ const spouseFormerMarriageLabels = {
 
 export default {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'How did the marriage end?';
-    }),
-    reasonMarriageEnded: radioUI({
-      //   title: 'How did your spouse’s previous marriage end?',
-      title: '',
-      labels: spouseFormerMarriageLabels,
-      labelHeaderLevel: '3',
-    }),
+    'ui:title': MarriageEndReasonTitle,
+    // ...arrayBuilderItemSubsequentPageTitleUI(({ formContext }) => {
+    //   const first =
+    //     formContext?.formData?.spouseFullName?.first ?? 'your current spouse';
+    //   return `How did ${first}'s previous marriage end?`;
+    // }),
+    // reasonMarriageEnded: radioUI({
+    //   title: MarriageEndReasonTitle,
+    //   labels: spouseFormerMarriageLabels,
+    //   labelHeaderLevel: '3',
+    // }),
+    // reasonMarriageEnded: radioUI({
+    //   labels: spouseFormerMarriageLabels,
+    //   labelHeaderLevel: '3',
+    // }),
+    reasonMarriageEnded: {
+      'ui:title': ' ',
+      // 'ui:title': MarriageEndReasonTitle,
+      // 'ui:title': props => MarriageEndReasonTitle(props),
+      'ui:widget': 'radio',
+      'ui:webComponentField': VaRadioField,
+      'ui:options': {
+        labels: spouseFormerMarriageLabels,
+        labelHeaderLevel: '3',
+      },
+    },
     otherReasonMarriageEnded: {
       'ui:title': 'Tell us how the marriage ended',
-      'ui:webComponentField': VaTextInputField,
+      'ui:widget': 'textarea',
       'ui:options': {
         rows: 5,
         expandUnder: 'reasonMarriageEnded',
-        expandUnderCondition: 'Not listed here',
+        expandUnderCondition: 'NOT_LISTED_HERE',
         expandedContentFocus: true,
         preserveHiddenData: true,
       },

@@ -546,7 +546,11 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           nounSingular={nounSingular}
           nounPlural={nounPlural}
           isIncomplete={isItemIncomplete}
-          getEditItemPathUrl={getFirstItemPagePath}
+          // getEditItemPathUrl={getFirstItemPagePath}
+          getEditItemPathUrl={(formData, index, context) => {
+            const basePath = getFirstItemPagePath(formData, index, context);
+            return `/6/marital-status/${basePath}`;
+          }}
           getText={getText}
           required={required}
           onRemoveAll={onRemoveAllItems}

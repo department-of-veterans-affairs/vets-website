@@ -4,18 +4,9 @@ import {
   fileInputUI,
   fileInputSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 
 const MAX_FILE_SIZE_MB = 20;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
-
-const marriageCertUI = fileInputUI({
-  title: 'Upload a copy of your marriage certificate',
-  fileUploadUrl: `${environment.API_URL}/v0/evidence_documents`,
-  maxFileSize: MAX_FILE_SIZE_BYTES,
-  hint:
-    'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',
-});
 
 export default {
   title: 'Marriage certificate',
@@ -24,6 +15,7 @@ export default {
     ...titleUI('Marriage certificate'),
     marriageCertificate: fileInputUI({
       title: 'Upload a copy of your marriage certificate',
+      required: false,
       fileUploadUrl: `${environment.API_URL}/v0/evidence_documents`,
       maxFileSize: MAX_FILE_SIZE_BYTES,
       hint:
@@ -46,6 +38,7 @@ export default {
   },
   schema: {
     type: 'object',
+    required: [],
     properties: {
       'view:marriageCertificateDescription': {
         type: 'object',

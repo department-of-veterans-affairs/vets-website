@@ -23,14 +23,13 @@ const SpousePreviousMarriagesDescription = (
 
 export default {
   uiSchema: {
-    ...titleUI('Has your spouse been married before?'),
-    'view:spousePreviousMarriagesInfo': {
-      'ui:description': SpousePreviousMarriagesDescription,
-    },
+    // ...titleUI('Has your spouse been married before?'),
+    'ui:title': 'Has your spouse been married before?',
     'view:completedSpouseFormerMarriage': arrayBuilderYesNoUI(
       spouseMarriageHistoryOptions,
       {
         title: 'Has your spouse been married before?',
+        hint: '',
         labels: {
           Y: 'Yes',
           N: 'No',
@@ -46,38 +45,40 @@ export default {
         },
       },
     ),
-    // 'view:completedSpouseFormerMarriage': {
-    //   ...arrayBuilderYesNoUI(
-    //     spouseMarriageHistoryOptions,
-    //     {
-    //       title: 'Has your spouse been married before?',
-    //       labels: {
-    //         Y: 'Yes',
-    //         N: 'No',
-    //       },
-    //     },
-    //     {
-    //       title: 'Does your spouse have any other previous marriages?',
-    //       hint:
-    //         'You’ll need to include all of their past marriages, even ones that ended in divorce, annulment, or death.',
-    //       labels: {
-    //         Y: 'Yes',
-    //         N: 'No',
-    //       },
-    //     },
-    //   ),
-    // },
+    'view:spousePreviousMarriagesInfo': {
+      'ui:description': SpousePreviousMarriagesDescription,
+    },
   },
+  // 'view:completedSpouseFormerMarriage': {
+  //   ...arrayBuilderYesNoUI(
+  //     spouseMarriageHistoryOptions,
+  //     {
+  //       title: 'Has your spouse been married before?',
+  //       labels: {
+  //         Y: 'Yes',
+  //         N: 'No',
+  //       },
+  //     },
+  //     {
+  //       title: 'Does your spouse have any other previous marriages?',
+  //       hint:
+  //         'You’ll need to include all of their past marriages, even ones that ended in divorce, annulment, or death.',
+  //       labels: {
+  //         Y: 'Yes',
+  //         N: 'No',
+  //       },
+  //     },
+  //   ),
+  // },
   schema: {
     type: 'object',
     properties: {
+      'view:completedSpouseFormerMarriage': arrayBuilderYesNoSchema,
       'view:spousePreviousMarriagesInfo': {
         type: 'object',
         properties: {},
       },
-      'view:completedSpouseFormerMarriage': arrayBuilderYesNoSchema,
     },
-
     required: ['view:completedSpouseFormerMarriage'],
   },
 };

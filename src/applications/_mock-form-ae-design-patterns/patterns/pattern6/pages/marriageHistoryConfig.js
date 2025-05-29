@@ -1,3 +1,32 @@
+import { capitalize } from 'lodash';
+
+// const formatDate = dateStr => {
+//   console.log('📅 Raw dateStr:', dateStr, '| Type:', typeof dateStr);
+//   if (!dateStr) return '';
+
+//   const date = new Date(dateStr);
+//   if (Number.isNaN(date)) {
+//     console.warn('⚠️ Invalid date detected:', dateStr);
+//     return '';
+//   }
+//   return new Intl.DateTimeFormat('en-US', {
+//     month: 'long',
+//     day: 'numeric',
+//     year: 'numeric',
+//   }).format(date);
+// };
+
+const formatDate = dateStr => {
+  if (!dateStr) return '';
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const date = new Date(year, month - 1, day); // month is 0-indexed
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(date);
+};
+
 /**
  * Configuration for the veteran's previous marriage history
  */
@@ -23,25 +52,38 @@ export const veteranMarriageHistoryOptions = {
 /**
  * Configuration for the spouse's previous marriage history
  */
-const spouseMarriageHistoryOptions = {
+/** @type {ArrayBuilderOptions} */
+export const spouseMarriageHistoryOptions = {
   arrayPath: 'spouseMarriageHistory',
   hint: '',
   nounSingular: 'former marriage',
   nounPlural: 'former marriages',
   required: false,
   isItemIncomplete: item =>
-    !item?.spouseName ||
-    !item?.marriageDate ||
-    !item?.marriageLocation ||
-    !item?.marriageEndDate ||
-    !item?.marriageEndReason,
-  // maxItems: 10,
+    !item?.spouseFormerSpouseFullName ||
+    !item?.dateOfMarriage ||
+    !item?.marriageLocation?.city ||
+    (item?.['view:marriedOutsideUS'] === false &&
+      !item?.marriageLocation?.state) ||
+    (item?.['view:marriedOutsideUS'] === true &&
+      !item?.marriageLocation?.country) ||
+    !item?.reasonMarriageEnded ||
+    !item?.dateOfTermination ||
+    !item?.marriageEndLocation?.city ||
+    (item?.['view:marriageEndedOutsideUS'] === false &&
+      !item?.marriageEndLocation?.state) ||
+    (item?.['view:marriageEndedOutsideUS'] === true &&
+      !item?.marriageEndLocation?.country),
   text: {
     summaryTitle: "Review your spouse's past marriages",
-    getItemName: item => item?.spouseName || 'Spouse’s former marriage',
-    // getItemName: () => "Spouse's former marriage",
-    cardDescription: item => item?.spouseName || 'Marriage details',
+    getItemName: item =>
+      `${capitalize(item?.spouseFormerSpouseFullName?.first) ||
+        ''} ${capitalize(item?.spouseFormerSpouseFullName?.last) || ''} `,
+    cardDescription: item =>
+      `${formatDate(item?.dateOfMarriage)} - ${formatDate(
+        item?.dateOfTermination,
+      )}; ${item?.marriageLocation?.city || ''}, ${item?.marriageLocation
+        ?.state || ''}, ${item?.marriageLocation?.country ||
+        (item?.['view:marriedOutsideUS'] === false ? 'USA' : '')}`,
   },
 };
-
-export { spouseMarriageHistoryOptions };

@@ -162,6 +162,7 @@ export function createArrayBuilderItemAddPath({
  * @returns {string} e.g. `/path-item/0?edit=true`
  */
 export function createArrayBuilderItemEditPath({ path, index, isReview }) {
+  console.log('createArrayBuilderItemEditPath', path, index);
   return `${path.replace(':index', index)}?edit=true${
     isReview ? '&review=true' : ''
   }`;

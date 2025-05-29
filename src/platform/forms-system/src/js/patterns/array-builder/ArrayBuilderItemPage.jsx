@@ -70,6 +70,9 @@ export default function ArrayBuilderItemPage({
     }
 
     const NavButtons = props.NavButtons || FormNavButtons;
+    console.log('data', data);
+    console.log('props.fullData', props.fullData);
+    console.log('props.getFormData', props.getFormData);
 
     return (
       <SchemaForm
@@ -80,7 +83,11 @@ export default function ArrayBuilderItemPage({
         schema={schema}
         uiSchema={uiSchema}
         pagePerItemIndex={props.pagePerItemIndex}
-        formContext={props.formContext}
+        // formContext={props.formContext}
+        formContext={{
+          ...props.formContext,
+          formData: props.fullData,
+        }}
         getFormData={props.getFormData}
         trackingPrefix={props.trackingPrefix}
         onChange={onChange}

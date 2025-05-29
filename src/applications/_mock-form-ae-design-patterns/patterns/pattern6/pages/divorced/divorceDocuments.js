@@ -19,12 +19,14 @@ export default {
         'Upload a copy of your divorce documents. This could include your divorce certificate, decree, or other official document.',
       fileUploadUrl: `${environment.API_URL}/v0/evidence_documents`,
       maxFileSize: MAX_FILE_SIZE_BYTES,
+      required: false,
       // hint:
       // 'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',
     }),
   },
   schema: {
     type: 'object',
+    required: [],
     properties: {
       divorceDocument: fileInputSchema,
     },

@@ -1,3 +1,4 @@
+import React from 'react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
 import ConfirmationPage from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
@@ -5,7 +6,10 @@ import IntroductionPage from 'applications/_mock-form-ae-design-patterns/pattern
 import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
 // import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { arrayBuilderPages } from 'applications/_mock-form-ae-design-patterns/patterns/pattern6/array-builder/arrayBuilder';
-
+import {
+  titleUI,
+  arrayBuilderItemFirstPageTitleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 // Import marital status chapter pages
 import currentMaritalStatus from '../pages/currentMaritalStatus';
 import marriageType from '../pages/marriageType';
@@ -29,11 +33,16 @@ import financialSupport from '../pages/financialSupport';
 import veteranPreviousMarriages from '../pages/veteranPreviousMarriages';
 import spousePreviousMarriages from '../pages/spousePreviousMarriages';
 import previousMarriageDetails from '../pages/previousMarriageDetails';
-import spouseFormerMarriagePersonalInfo from '../pages/marriageHistory/spouseFormerMarriagePersonalInfo';
+import {
+  spouseFormerMarriagePersonalInfo,
+  buildSpouseFormerMarriageUiSchema,
+  spouseFormerMarriageSchema,
+} from '../pages/marriageHistory/spouseFormerMarriagePersonalInfo';
 import spouseFormerMarriageDateLocation from '../pages/marriageHistory/spouseFormerMarriageDateLocation';
 import spouseFormerMarriageEndReason from '../pages/marriageHistory/spouseFormerMarriageEndReason';
 import spouseFormerMarriageEndDateLocation from '../pages/marriageHistory/spouseFormerMarriageEndDateLocation';
 import { spouseMarriageHistoryOptions } from '../pages/marriageHistoryConfig';
+import { description } from 'platform';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -169,9 +178,8 @@ const formConfig = {
             title: 'Previous spouse’s name and date of birth',
             path:
               'current-spouse-marriage-history/:index/former-spouse-information',
-            uiSchema: spouseFormerMarriagePersonalInfo.uiSchema,
-            schema: spouseFormerMarriagePersonalInfo.schema,
-            // depends: () => true,
+            uiSchema: buildSpouseFormerMarriageUiSchema(),
+            schema: spouseFormerMarriageSchema,
             depends: formData => formData['view:completedSpouseFormerMarriage'],
           }),
           spouseMarriageHistoryPartTwo: pageBuilder.itemPage({
@@ -193,86 +201,18 @@ const formConfig = {
           spouseMarriageHistoryPartFour: pageBuilder.itemPage({
             title: 'Place and date of former marriage termination',
             path:
-              'current-spouse-marriage-history/:index/reason-former-marriage-ended',
+              'current-spouse-marriage-history/:index/former-marriage-end-date-location',
             uiSchema: spouseFormerMarriageEndDateLocation.uiSchema,
             schema: spouseFormerMarriageEndDateLocation.schema,
-            depends: formData => formData['view:completedSpouseFormerMarriage'],
+            depends: (formData, index, context) =>
+              context?.edit ||
+              context?.review ||
+              formData['view:completedSpouseFormerMarriage'],
+            // depends: formData => formData['view:completedSpouseFormerMarriage'],
           }),
         })),
-
-        // spouseMarriageDetails: {
-        //   title: "Spouse's Former Marriage",
-        //   path: 'other-marriages/spouse-details/:index',
-        //   depends: (formData, index) => {
-        //     // This check allows the page to show in both add and edit modes
-        //     // Add mode - check main property
-        //     if (
-        //       formData['view:completedSpouseFormerMarriage']?.['view:yesNo'] ===
-        //       true
-        //     ) {
-        //       return true;
-        //     }
-        //     // Edit mode - check if items exist in the array
-        //     return (
-        //       formData?.spouseMarriageHistory &&
-        //       index < formData.spouseMarriageHistory.length
-        //     );
-        //   },
-        //   ...spouseMarriageDetails,
-        // },
       },
     },
-
-    // Second chapter - Spouse Information
-    // spouseInformationChapter: {
-    //   title: 'Spouse Information',
-    //   pages: {
-    //     financialSupport: {
-    //       title:
-    //         'Did you provide any financial support for your spouse in the last year?',
-    //       path: 'spouse-information/financial-support',
-    //       depends: formData => formData?.maritalStatus === 'MARRIED',
-    //       ...financialSupport,
-    //     },
-    //   },
-    // },
-
-    // Third chapter - Other Marriages
-    // otherMarriagesChapter: {
-    //   title: 'Other Marriages',
-    //   pages: {
-    //     veteranPreviousMarriages: {
-    //       title: 'Previous Marriages',
-    //       path: 'other-marriages/veteran-previous',
-    //       depends: formData =>
-    //         ['MARRIED', 'DIVORCED', 'WIDOWED', 'SEPARATED'].includes(
-    //           formData?.maritalStatus,
-    //         ),
-    //       ...veteranPreviousMarriages,
-    //     },
-    //     veteranMarriageDetails: {
-    //       title: 'Your Former Marriage',
-    //       path: 'other-marriages/veteran-details/:index',
-    //       depends: (formData, index) => {
-    //         // This check allows the page to show in both add and edit modes
-    //         // Add mode - check main property
-    //         if (
-    //           formData['view:completedVeteranFormerMarriage']?.[
-    //             'view:yesNo'
-    //           ] === true
-    //         ) {
-    //           return true;
-    //         }
-    //         // Edit mode - check if items exist in the array
-    //         return (
-    //           formData?.veteranMarriageHistory &&
-    //           index < formData.veteranMarriageHistory.length
-    //         );
-    //       },
-    //       ...previousMarriageDetails,
-    //     },
-    //   },
-    // },
   },
 };
 

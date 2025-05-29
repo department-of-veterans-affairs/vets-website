@@ -30,74 +30,98 @@ const COUNTRY_NAMES = constants.countries
 
 export default {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Place and date of marriage',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formContext }) => {
+      const first =
+        formContext?.formData?.spouseFullName?.first ?? 'your current spouse';
+      return `When and where was ${first} previously married?`;
+    }),
     dateOfMarriage: currentOrPastDateUI('Date of marriage'),
     'view:marriedOutsideUS': {
       'ui:title': 'They got married outside the U.S.',
       'ui:webComponentField': VaCheckboxField,
     },
-    city: {
-      'ui:title': 'City',
-      'ui:webComponentField': VaTextInputField,
-      'ui:errorMessages': {
-        required: 'Please enter the city where you got married',
+    marriageLocation: {
+      city: {
+        'ui:title': 'City',
+        'ui:webComponentField': VaTextInputField,
+        'ui:errorMessages': {
+          required: 'Please enter the city where you got married',
+        },
       },
-    },
-    state: {
-      'ui:title': 'State',
-      'ui:webComponentField': VaSelectField,
-      'ui:required': formData => !formData['view:marriedOutsideUS'],
-      'ui:options': {
-        hideIf: formData => formData['view:marriedOutsideUS'],
+      state: {
+        'ui:title': 'State',
+        'ui:webComponentField': VaSelectField,
+        'ui:required': formData => !formData['view:marriedOutsideUS'],
+        'ui:options': {
+          hideIf: formData => formData['view:marriedOutsideUS'],
+        },
+        'ui:errorMessages': {
+          required: 'Please select a state',
+        },
       },
-      'ui:errorMessages': {
-        required: 'Please select a state',
-      },
-    },
-    country: {
-      'ui:title': 'Country',
-      'ui:webComponentField': VaSelectField,
-      'ui:required': formData => formData['view:marriedOutsideUS'],
-      'ui:errorMessages': {
-        required: 'Please select a country',
-      },
-      'ui:options': {
-        updateSchema: formData => {
-          if (formData['view:marriedOutsideUS']) {
+      country: {
+        'ui:title': 'Country',
+        'ui:webComponentField': VaSelectField,
+        'ui:required': formData => formData['view:marriedOutsideUS'],
+        'ui:errorMessages': {
+          required: 'Please select a country',
+        },
+        'ui:options': {
+          updateSchema: formData => {
+            if (formData['view:marriedOutsideUS']) {
+              return {
+                'ui:hidden': false,
+              };
+            }
             return {
-              'ui:hidden': false,
+              'ui:hidden': true,
             };
-          }
-          return {
-            'ui:hidden': true,
-          };
+          },
         },
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['dateOfMarriage', 'city', 'state'],
+    required: ['dateOfMarriage', 'marriageLocation'],
     properties: {
       dateOfMarriage: currentOrPastDateSchema,
       'view:marriedOutsideUS': {
         type: 'boolean',
+        default: false,
       },
-      city: {
-        type: 'string',
+      marriageLocation: {
+        type: 'object',
+        required: ['city'],
+        properties: {
+          city: {
+            type: 'string',
+          },
+          state: {
+            type: 'string',
+            enum: STATE_VALUES,
+            enumNames: STATE_NAMES,
+          },
+          country: {
+            type: 'string',
+            enum: COUNTRY_VALUES,
+            enumNames: COUNTRY_NAMES,
+          },
+        },
       },
-      state: {
-        type: 'string',
-        enum: STATE_VALUES,
-        enumNames: STATE_NAMES,
-      },
-      country: {
-        type: 'string',
-        enum: COUNTRY_VALUES,
-        enumNames: COUNTRY_NAMES,
-      },
+      // city: {
+      //   type: 'string',
+      // },
+      // state: {
+      //   type: 'string',
+      //   enum: STATE_VALUES,
+      //   enumNames: STATE_NAMES,
+      // },
+      // country: {
+      //   type: 'string',
+      //   enum: COUNTRY_VALUES,
+      //   enumNames: COUNTRY_NAMES,
+      // },
     },
   },
 };
