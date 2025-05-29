@@ -1,7 +1,11 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import {
+  createGetHandler,
+  createPutHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 
 import {
   fetchDirectDeposit,
@@ -49,8 +53,8 @@ describe('directDeposit actions', () => {
 
   it('should dispatch DIRECT_DEPOSIT_FETCH_SUCCEEDED with response on success', async () => {
     server = setupServer(
-      rest.get(`${endpointUrl}`, (_, res, ctx) => {
-        return res(ctx.json(base), ctx.status(200));
+      createGetHandler(`${endpointUrl}`, () => {
+        return jsonResponse(base, { status: 200 });
       }),
     );
 
@@ -80,12 +84,13 @@ describe('directDeposit actions', () => {
     ).to.be.true;
 
     expect(dispatchSpy.callCount).to.eql(4);
+    server.close();
   });
 
   it('should dispatch DIRECT_DEPOSIT_FETCH_FAILED with response on error', async () => {
     server = setupServer(
-      rest.get(`${endpointUrl}`, (req, res, ctx) => {
-        return res(ctx.json(error500), ctx.status(500));
+      createGetHandler(`${endpointUrl}`, () => {
+        return jsonResponse(error500, { status: 500 });
       }),
     );
 
@@ -116,6 +121,7 @@ describe('directDeposit actions', () => {
     ).to.be.true;
 
     expect(captureErrorStub.calledOnce).to.be.true;
+    server.close();
   });
 
   describe('toggleDirectDepositInformationEdit', () => {
@@ -132,8 +138,8 @@ describe('directDeposit actions', () => {
   describe('saveDirect deposit action creator', () => {
     it('should dispatch the SUCCESS state', async () => {
       server = setupServer(
-        rest.put(`${endpointUrl}`, (req, res, ctx) => {
-          return res(ctx.json(base), ctx.status(200));
+        createPutHandler(`${endpointUrl}`, () => {
+          return jsonResponse(base, { status: 200 });
         }),
       );
 
@@ -155,11 +161,12 @@ describe('directDeposit actions', () => {
         type: DIRECT_DEPOSIT_SAVE_SUCCEEDED,
         response: base.data.attributes,
       });
+      server.close();
     });
     it('should dispatch the FAILURE state', async () => {
       server = setupServer(
-        rest.put(`${endpointUrl}`, (req, res, ctx) => {
-          return res(ctx.json(error500), ctx.status(400));
+        createPutHandler(`${endpointUrl}`, () => {
+          return jsonResponse(error500, { status: 400 });
         }),
       );
 
@@ -179,12 +186,13 @@ describe('directDeposit actions', () => {
         type: DIRECT_DEPOSIT_SAVE_FAILED,
         response: error500,
       });
+      server.close();
     });
 
     it('should dispatch the FAILURE state when the response is an instance of Error', async () => {
       server = setupServer(
-        rest.put(`${endpointUrl}`, (req, res, ctx) => {
-          return res(ctx.json(error500), ctx.status(400));
+        createPutHandler(`${endpointUrl}`, () => {
+          return jsonResponse(error500, { status: 400 });
         }),
       );
 
@@ -208,6 +216,7 @@ describe('directDeposit actions', () => {
         .true;
 
       expect(captureErrorStub.calledOnce).to.be.true;
+      server.close();
     });
   });
 });

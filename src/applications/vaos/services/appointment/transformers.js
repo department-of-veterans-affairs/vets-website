@@ -85,7 +85,7 @@ function getMomentConfirmedDate(appt) {
  *  +60 min or +240 min in the case of video
  * @param {*} appt VAOS Service appointment object
  */
-export function isPastAppointment(appt) {
+function isPastAppointment(appt) {
   const isVideo = appt.kind === 'telehealth';
   const threshold = isVideo ? 240 : 60;
   const apptDateTime = moment(getMomentConfirmedDate(appt));
@@ -97,7 +97,7 @@ export function isPastAppointment(appt) {
  * @param {*} appt VAOS Service appointment object
  * @param {*} isRequest is appointment a request
  */
-export function isFutureAppointment(appt, isRequest) {
+function isFutureAppointment(appt, isRequest) {
   const apptDateTime = moment(appt.start);
   return (
     !isRequest &&

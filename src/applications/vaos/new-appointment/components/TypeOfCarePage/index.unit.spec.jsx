@@ -23,7 +23,7 @@ import {
   mockFacilitiesApi,
   mockV2CommunityCareEligibility,
 } from '../../../tests/mocks/mockApis';
-import { FLOW_TYPES } from '../../../utils/constants';
+import { DATE_FORMATS, FLOW_TYPES } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -392,11 +392,11 @@ describe('VAOS Page: TypeOfCarePage', () => {
               description: 'My description',
               startTime: format(
                 subDays(new Date(), '1'),
-                "yyyy-MM-dd'T'HH:mm:ss'Z'",
+                DATE_FORMATS.ISODateTimeUTC,
               ),
               endTime: format(
                 addDays(new Date(), '1'),
-                "yyyy-MM-dd'T'HH:mm:ss'Z'",
+                DATE_FORMATS.ISODateTimeUTC,
               ),
             },
           },
@@ -417,7 +417,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     const store = createTestStore(state);
     const screen = renderWithStoreAndRouter(<NewAppointment />, {
       store,
-      path: '/new-appointment',
+      path: '/type-of-care',
     });
 
     expect(
