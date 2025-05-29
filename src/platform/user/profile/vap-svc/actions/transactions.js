@@ -259,6 +259,7 @@ export function createTransaction(
             type: VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE,
             fieldName,
             payload,
+            error,
           });
           // Return special flag to indicate form-only update should proceed
           return { formOnlyUpdate: true };

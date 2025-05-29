@@ -323,7 +323,7 @@ export class ProfileInformationEditView extends Component {
     const isResidentialAddress = fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
 
     const formData =
-      this.context?.formFieldData?.formOnlyUpdate === true
+      transactionRequest?.formOnlyUpdate === true
         ? (() => {
             // Merge objects but also handle inputPhoneNumber explicitly
             const merged = {
@@ -334,13 +334,12 @@ export class ProfileInformationEditView extends Component {
             if (
               [FIELD_NAMES.HOME_PHONE, FIELD_NAMES.MOBILE_PHONE].includes(
                 fieldName,
-              ) &&
-              this.context.formFieldData?.phoneNumber
+              )
             ) {
               merged.inputPhoneNumber =
-                this.context.formFieldData.areaCode +
-                this.context.formFieldData.phoneNumber;
+                field.value.areaCode + field.value.phoneNumber;
             }
+
             return merged;
           })()
         : field?.value;
