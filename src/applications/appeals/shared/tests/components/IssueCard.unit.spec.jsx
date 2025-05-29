@@ -5,7 +5,8 @@ import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import { IssueCardContent, IssueCard } from '../../components/IssueCard';
+import { IssueCard } from '../../components/IssueCard';
+import { IssueCardContent } from '../../components/IssueCardContent';
 import { SELECTED } from '../../constants';
 
 const getContestableIssue = (id, selected) => ({

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { SIGNATURE_CERTIFICATION_STATEMENTS } from '../../../../components/PreSubmitInfo';
+import { STATEMENTS } from '../../../../components/PreSubmitInfo';
 import StatementOfTruth from '../../../../components/PreSubmitInfo/StatementOfTruth';
 
 describe('CG <StatementOfTruth>', () => {
@@ -18,7 +18,7 @@ describe('CG <StatementOfTruth>', () => {
   };
 
   it('should render the appropriate content when the props are fully provided', () => {
-    const text = SIGNATURE_CERTIFICATION_STATEMENTS.veteran;
+    const text = STATEMENTS.veteran;
     const { selectors } = subject({ label: 'Veteran\u2019s', text });
     const { legend, statements } = selectors();
     expect(legend).to.contain.text('Veteran\u2019s statement of truth');
