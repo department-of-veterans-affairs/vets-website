@@ -37,7 +37,7 @@ export async function getSlots({
   clinicId,
   startDate,
   endDate,
-  convertToUtc,
+  convertToUtc = false,
 }) {
   try {
     // Convert to UTC ISO strings with 'Z'

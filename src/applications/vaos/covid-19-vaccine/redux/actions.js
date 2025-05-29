@@ -4,8 +4,8 @@ import {
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
 } from '@department-of-veterans-affairs/platform-user/exports';
-import moment from 'moment';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { startOfMonth, endOfMonth, parseISO, format, isAfter } from 'date-fns';
 
 import {
   selectSystemIds,
@@ -265,8 +265,8 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
     const { data } = newBooking;
     const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
 
-    const startDateMonth = moment(startDate).format('YYYY-MM');
-    const endDateMonth = moment(endDate).format('YYYY-MM');
+    const startDateMonth = format(parseISO(startDate), 'yyyy-MM');
+    const endDateMonth = format(parseISO(endDate), 'yyyy-MM');
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -290,14 +290,10 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
       try {
         const startDateString = !fetchedStartMonth
           ? startDate
-          : moment(endDate)
-              .startOf('month')
-              .format('YYYY-MM-DD');
+          : format(startOfMonth(parseISO(endDate)), 'yyyy-MM-dd');
         const endDateString = !fetchedEndMonth
           ? endDate
-          : moment(startDate)
-              .endOf('month')
-              .format('YYYY-MM-DD');
+          : format(endOfMonth(parseISO(startDate)), 'yyyy-MM-dd');
 
         const fetchedSlots = await getSlots({
           siteId,
@@ -311,10 +307,10 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
           recordItemsRetrieved('covid_slots', fetchedSlots?.length);
         }
 
-        const now = moment();
+        const now = new Date();
 
         mappedSlots = fetchedSlots.filter(slot =>
-          moment(slot.start).isAfter(now),
+          isAfter(parseISO(slot.start), now),
         );
 
         // Keep track of which months we've fetched already so we don't
