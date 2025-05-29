@@ -29,14 +29,11 @@ export const RepresentativeStatusContainer = ({
   } = representative ?? {};
   const isPostLogin = document.location.search?.includes('postLogin=true');
 
-  useEffect(
-    () => {
-      if (isPostLogin) {
-        focusElement('.poa-display');
-      }
-    },
-    [isPostLogin],
-  );
+  useEffect(() => {
+    if (isPostLogin) {
+      focusElement('.poa-display');
+    }
+  }, [isPostLogin]);
 
   if (isLoading) {
     return (

@@ -26,9 +26,7 @@ export { default as checkValidPath } from './data/checkValidPath';
 export { default as deconstructPath } from './data/deconstructPath';
 export { default as deduplicate } from './data/deduplicate';
 export { default as replacementFunctions } from './data/index';
-export {
-  default as removeDeeplyEmptyObjects,
-} from './data/removeDeeplyEmptyObjects';
+export { default as removeDeeplyEmptyObjects } from './data/removeDeeplyEmptyObjects';
 export { titleCase } from './data/titleCase';
 
 /* date */
@@ -59,9 +57,7 @@ export {
 } from './feature-toggles/index';
 export { getFlipperId, generateToken } from './feature-toggles/helpers';
 export { default as makeFlipperClient } from './feature-toggles/flipper-client';
-export {
-  default as featureFlagNames,
-} from './feature-toggles/featureFlagNames';
+export { default as featureFlagNames } from './feature-toggles/featureFlagNames';
 
 /* medical-centers */
 export {

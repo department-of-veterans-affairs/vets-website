@@ -4,12 +4,9 @@ import moment from 'moment';
 
 const StaticInformationReviewField = props => {
   const [isLoggedIn, setIsLoggedIn] = useState();
-  useEffect(
-    () => {
-      setIsLoggedIn(props.isLoggedIn);
-    },
-    [props],
-  );
+  useEffect(() => {
+    setIsLoggedIn(props.isLoggedIn);
+  }, [props]);
   const display = {
     'First name': props?.profile?.userFullName?.first || '',
     'Middle name': props?.profile?.userFullName?.middle || '',

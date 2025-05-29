@@ -38,7 +38,7 @@ jobs:
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ env.BUILD_ENV }}
-        timeout-minutes: 30
+        timeout-minutes: 45
 
       - name: Generate build details
         run: |

@@ -7,12 +7,9 @@ import { serviceMemberPathPageNames } from '../pageList';
 
 const YesIDES = props => {
   const { setWizardStatus } = props;
-  useEffect(
-    () => {
-      setWizardStatus(WIZARD_STATUS_COMPLETE);
-    },
-    [setWizardStatus],
-  );
+  useEffect(() => {
+    setWizardStatus(WIZARD_STATUS_COMPLETE);
+  }, [setWizardStatus]);
   return (
     <div
       className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest"

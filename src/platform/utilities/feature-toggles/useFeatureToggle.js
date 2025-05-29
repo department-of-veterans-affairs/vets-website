@@ -50,40 +50,34 @@ export const useFormFeatureToggleSync = (
   );
 
   // Calculate updates needed for form data and storage
-  const updates = useMemo(
-    () => {
-      if (isLoadingFeatureFlags) return {};
+  const updates = useMemo(() => {
+    if (isLoadingFeatureFlags) return {};
 
-      return normalizedToggles.reduce((acc, { toggleName, formKey }) => {
-        const toggleValue = featureToggles[(TOGGLE_NAMES?.[toggleName])];
-        // Only include in updates if the value differs from current form data
-        if (toggleValue !== formData?.[formKey]) {
-          setStorageItem(formKey, String(toggleValue));
-          return { ...acc, [formKey]: toggleValue };
-        }
+    return normalizedToggles.reduce((acc, { toggleName, formKey }) => {
+      const toggleValue = featureToggles[TOGGLE_NAMES?.[toggleName]];
+      // Only include in updates if the value differs from current form data
+      if (toggleValue !== formData?.[formKey]) {
+        setStorageItem(formKey, String(toggleValue));
+        return { ...acc, [formKey]: toggleValue };
+      }
 
-        return acc;
-      }, {});
-    },
-    [
-      normalizedToggles,
-      featureToggles,
-      isLoadingFeatureFlags,
-      formData,
-      setStorageItem,
-    ],
-  );
+      return acc;
+    }, {});
+  }, [
+    normalizedToggles,
+    featureToggles,
+    isLoadingFeatureFlags,
+    formData,
+    setStorageItem,
+  ]);
 
   // Only dispatch if we have actual updates
-  useEffect(
-    () => {
-      const updateCount = Object.keys(updates).length;
-      if (updateCount > 0) {
-        dispatch(setData({ ...formData, ...updates }));
-      }
-    },
-    [updates, dispatch, formData],
-  );
+  useEffect(() => {
+    const updateCount = Object.keys(updates).length;
+    if (updateCount > 0) {
+      dispatch(setData({ ...formData, ...updates }));
+    }
+  }, [updates, dispatch, formData]);
 };
 
 /**

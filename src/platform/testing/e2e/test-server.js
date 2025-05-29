@@ -39,12 +39,9 @@ routes.sort((a, b) => b.length - a.length);
 routes.forEach(url => {
   app.use(url, fallback(`${url}/index.html`, { root }));
 });
-
 app.listen(options.port, options.host, () => {
   // eslint-disable-next-line no-console
   console.log(
-    `Test server listening on port ${options.port} for type ${
-      options.buildtype
-    }`,
+    `Test server listening on port ${options.host}:${options.port} for type ${options.buildtype}`,
   );
 });

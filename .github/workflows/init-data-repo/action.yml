@@ -20,7 +20,7 @@ runs:
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+        node-version: 22.11.0
 
     # TODO: Potentially use install composite
     - name: Install dependencies

@@ -151,41 +151,30 @@ export const ProfileInformationEditViewFc = ({
 
   const contactInfoFormAppConfig = useContactInfoFormAppConfig();
 
-  const isPendingTransactionMemo = useMemo(
-    () => {
-      return isPendingTransaction(transaction);
-    },
-    [transaction],
-  );
+  const isPendingTransactionMemo = useMemo(() => {
+    return isPendingTransaction(transaction);
+  }, [transaction]);
 
-  const focusOnFirstFormElement = useCallback(
-    () => {
-      if (forceEditView) {
-        // Showing the edit view on its own page, so let the app handle focus
-        return;
-      }
+  const focusOnFirstFormElement = useCallback(() => {
+    if (forceEditView) {
+      // Showing the edit view on its own page, so let the app handle focus
+      return;
+    }
 
-      if (editFormRef.current) {
-        setTimeout(() => {
-          const focusableElement = getFocusableElements(
-            editFormRef.current,
-          )?.[0];
+    if (editFormRef.current) {
+      setTimeout(() => {
+        const focusableElement = getFocusableElements(editFormRef.current)?.[0];
 
-          if (focusableElement) {
-            focusElement(focusableElement);
-          }
-        }, 100);
-      }
-    },
-    [forceEditView],
-  );
+        if (focusableElement) {
+          focusElement(focusableElement);
+        }
+      }, 100);
+    }
+  }, [forceEditView]);
 
-  const handleRefreshTransaction = useCallback(
-    () => {
-      refreshTransactionAction(transaction, analyticsSectionName);
-    },
-    [transaction, analyticsSectionName, refreshTransactionAction],
-  );
+  const handleRefreshTransaction = useCallback(() => {
+    refreshTransactionAction(transaction, analyticsSectionName);
+  }, [transaction, analyticsSectionName, refreshTransactionAction]);
 
   // Component mount effects
   useEffect(() => {
@@ -224,25 +213,19 @@ export const ProfileInformationEditViewFc = ({
   }, []);
 
   // ComponentDidUpdate for field changes
-  useEffect(
-    () => {
-      if (field) {
-        focusOnFirstFormElement();
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [field, focusOnFirstFormElement],
-  );
+  useEffect(() => {
+    if (field) {
+      focusOnFirstFormElement();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [field, focusOnFirstFormElement]);
 
   // ComponentDidUpdate for error handling
-  useEffect(
-    () => {
-      if (transactionRequest?.error || isFailedTransaction(transaction)) {
-        focusElement('button[aria-label="Close notification"]');
-      }
-    },
-    [transactionRequest, transaction],
-  );
+  useEffect(() => {
+    if (transactionRequest?.error || isFailedTransaction(transaction)) {
+      focusElement('button[aria-label="Close notification"]');
+    }
+  }, [transactionRequest, transaction]);
 
   // ComponentDidUpdate for transaction polling
   useEffect(
@@ -256,22 +239,20 @@ export const ProfileInformationEditViewFc = ({
         setIntervalId(newIntervalId);
       }
 
-      // If we had an interval but transaction is no longer pending, clean it up
-      if (intervalId && !isPendingTransactionMemo) {
+    // If we had an interval but transaction is no longer pending, clean it up
+    if (intervalId && !isPendingTransactionMemo) {
+      window.clearInterval(intervalId);
+      setIntervalId(null);
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (intervalId) {
         window.clearInterval(intervalId);
         setIntervalId(null);
       }
-
-      // Cleanup on unmount
-      return () => {
-        if (intervalId) {
-          window.clearInterval(intervalId);
-          setIntervalId(null);
-        }
-      };
-    },
-    [isPendingTransactionMemo, intervalId, handleRefreshTransaction],
-  );
+    };
+  }, [isPendingTransactionMemo, intervalId, handleRefreshTransaction]);
 
   // ComponentWillUnmount
   useEffect(() => {

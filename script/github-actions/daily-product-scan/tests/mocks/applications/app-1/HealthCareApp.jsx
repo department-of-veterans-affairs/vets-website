@@ -19,32 +19,25 @@ const HealthCareEntry = ({
   setFormData,
   formData,
 }) => {
-  const getFlipperData = useCallback(
-    () => {
-      if (caregiverSIGIEnabled !== undefined) {
-        setFormData({
-          ...formData,
-          'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
-        });
-      }
+  const getFlipperData = useCallback(() => {
+    if (caregiverSIGIEnabled !== undefined) {
+      setFormData({
+        ...formData,
+        'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+      });
+    }
 
-      if (hcaAmericanIndianEnabled !== undefined) {
-        setFormData({
-          ...formData,
-          'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
-        });
-      }
-    },
-    [caregiverSIGIEnabled, hcaAmericanIndianEnabled],
-  );
+    if (hcaAmericanIndianEnabled !== undefined) {
+      setFormData({
+        ...formData,
+        'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
+      });
+    }
+  }, [caregiverSIGIEnabled, hcaAmericanIndianEnabled]);
 
-  useEffect(
-    () => {
-      getFlipperData();
-    },
-
-    [getFlipperData, caregiverSIGIEnabled],
-  );
+  useEffect(() => {
+    getFlipperData();
+  }, [getFlipperData, caregiverSIGIEnabled]);
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -74,7 +67,4 @@ HealthCareEntry.propTypes = {
   formData: PropTypes.object,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(HealthCareEntry);
+export default connect(mapStateToProps, mapDispatchToProps)(HealthCareEntry);

@@ -88,12 +88,7 @@ describe('<RequiredLoginView>', () => {
     localStorage.setItem('hasSession', true);
     oldWindow = global.window;
     global.window = Object.create(global.window);
-    Object.assign(global.window, {
-      pathname: '',
-      location: {
-        replace: redirectFunc,
-      },
-    });
+    global.window.location.replace = redirectFunc;
   });
 
   afterEach(() => {

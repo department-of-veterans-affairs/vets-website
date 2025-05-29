@@ -21,22 +21,19 @@ export function onVerifyClick({ useOAuth, policy }) {
 export function useIdentityVerificationURL({ policy, useOAuth }) {
   const [href, setHref] = useState('');
 
-  useEffect(
-    () => {
-      async function generateURL() {
-        const url = await signupOrVerify({
-          policy,
-          allowVerification: true,
-          isSignup: false,
-          isLink: true,
-          useOAuth,
-        });
-        setHref(url);
-      }
-      generateURL();
-    },
-    [policy, useOAuth],
-  );
+  useEffect(() => {
+    async function generateURL() {
+      const url = await signupOrVerify({
+        policy,
+        allowVerification: true,
+        isSignup: false,
+        isLink: true,
+        useOAuth,
+      });
+      setHref(url);
+    }
+    generateURL();
+  }, [policy, useOAuth]);
 
   const onClick = useCallback(onVerifyClick, [useOAuth, policy]);
   return { href, onClick };

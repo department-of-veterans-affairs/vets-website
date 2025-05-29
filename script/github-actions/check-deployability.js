@@ -158,9 +158,7 @@ const isDeployableToProd = async commitSha => {
 
   if (!isNewerCommit) {
     console.log(
-      `Commit is older than the last full deploy of ${
-        ENVIRONMENTS.VAGOVPROD
-      }. Skipping isolated app deploy.`,
+      `Commit is older than the last full deploy of ${ENVIRONMENTS.VAGOVPROD}. Skipping isolated app deploy.`,
     );
     return false;
   }

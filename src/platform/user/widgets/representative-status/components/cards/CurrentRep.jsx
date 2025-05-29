@@ -93,7 +93,9 @@ export function CurrentRep({
                   </div>
                   <a href={`mailto:${email}`}>{email}</a>
                 </div>
-              )}
+                <a href={`mailto:${email}`}>{email}</a>
+              </div>
+            )}
             {contact && (
               <div className="vads-u-display--flex vads-u-margin-top--1p5">
                 <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
@@ -123,23 +125,26 @@ export function CurrentRep({
                     text="Download your accredited representative's contact information"
                   />
                 </div>
-              )}
+                <va-link
+                  filetype="VCF"
+                  filename="accredited_representative_contact"
+                  href={vcfUrl}
+                  text="Download your accredited representative's contact information"
+                />
+              </div>
+            )}
             <div className="vads-u-display--flex vads-u-margin-top--1p5">
               <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                 <va-icon icon="search" size={2} />
               </div>
               {containerIsProfile && isOrganization ? (
                 <va-link
-                  href={`${
-                    environment.BASE_URL
-                  }/get-help-from-accredited-representative/find-rep`}
+                  href={`${environment.BASE_URL}/get-help-from-accredited-representative/find-rep`}
                   text="Find an accredited VSO representative at this organization"
                 />
               ) : (
                 <va-link
-                  href={`${
-                    environment.BASE_URL
-                  }/resources/va-accredited-representative-faqs/`}
+                  href={`${environment.BASE_URL}/resources/va-accredited-representative-faqs/`}
                   text="Learn about accredited representatives"
                 />
               )}

@@ -11,11 +11,18 @@ describe('OAuth - Crypto', () => {
     const rs = generateRandomString(64);
     it('returns a Promise <ArrayBuffer>', async () => {
       const promisedArrBuff = await sha256(rs);
-      expect(promisedArrBuff).to.be.a('string');
+      expect(promisedArrBuff).to.be.an.instanceOf(ArrayBuffer);
       expect(promisedArrBuff.byteLength).to.eql(32);
     });
-    it('should return null if parameter is empty', () => {
-      expect(sha256()).to.be.null;
+    it('should return ArrayBuffer corresponding to hash of "undefined" if parameter is empty', async () => {
+      const promisedArrBuff = await sha256();
+      const hashArray = Array.from(new Uint8Array(promisedArrBuff));
+      const hashHex = hashArray
+        .map(byte => byte.toString(16).padStart(2, '0'))
+        .join(''); // Convert bytes to hex
+      expect(hashHex).to.equal(
+        'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+      );
     });
   });
 

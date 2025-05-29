@@ -6,18 +6,14 @@ import { focusElement } from 'platform/utilities/ui';
 const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
   const id = `${fieldName}-alert`;
 
-  useEffect(
-    () => {
-      const editButton = document
-        .querySelector(`[data-field-name=${fieldName}]`)
-        ?.querySelector("[data-action='edit']");
-      if (editButton) {
-        focusElement(editButton);
-      }
-    },
-
-    [fieldName, id],
-  );
+  useEffect(() => {
+    const editButton = document
+      .querySelector(`[data-field-name=${fieldName}]`)
+      ?.querySelector("[data-action='edit']");
+    if (editButton) {
+      focusElement(editButton);
+    }
+  }, [fieldName, id]);
 
   return (
     <>

@@ -202,7 +202,6 @@ class IDPage extends React.Component {
 }
 
 IDPage.propTypes = {
-  enrollmentStatus: PropTypes.string,
   form: PropTypes.object.isRequired,
   isSubmittingIDForm: PropTypes.bool.isRequired,
   isUserInMVI: PropTypes.bool.isRequired,
@@ -214,6 +213,7 @@ IDPage.propTypes = {
   showServerError: PropTypes.bool.isRequired,
   submitIDForm: PropTypes.func.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
+  enrollmentStatus: PropTypes.string,
 };
 
 const mapDispatchToProps = {
@@ -245,7 +245,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IDPage);
+export default connect(mapStateToProps, mapDispatchToProps)(IDPage);

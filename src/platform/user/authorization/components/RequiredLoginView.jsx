@@ -44,43 +44,34 @@ export const RequiredLoginView = props => {
 
   // Checks that (1) session has a valid authentication token and
   // (2) the user is authorized to use services required by this application
-  const isAccessible = useCallback(
-    () => {
-      const { serviceRequired } = props;
-      const userServices = user.profile.services;
-      const hasRequiredServices =
-        userServices &&
-        (Array.isArray(serviceRequired)
-          ? intersection(userServices, serviceRequired).length > 0
-          : userServices.includes(serviceRequired));
+  const isAccessible = useCallback(() => {
+    const { serviceRequired } = props;
+    const userServices = user.profile.services;
+    const hasRequiredServices =
+      userServices &&
+      (Array.isArray(serviceRequired)
+        ? intersection(userServices, serviceRequired).length > 0
+        : userServices.includes(serviceRequired));
 
-      return hasSession() && hasRequiredServices;
-    },
-    [props, user.profile.services],
-  );
-  const shouldVerify = useCallback(
-    () => {
-      // Certain sign-in methods can grant access to the service,
-      // bypassing the identity proofing requirement.
-      // In particular, MHV sign-in users that are Advanced are not LOA3 but
-      // should have access to Rx, which would normally require verification.
-      return !isAccessible() && verify && !user.profile.verified;
-    },
-    [isAccessible, user.profile.verified, verify],
-  );
+    return hasSession() && hasRequiredServices;
+  }, [props, user.profile.services]);
+  const shouldVerify = useCallback(() => {
+    // Certain sign-in methods can grant access to the service,
+    // bypassing the identity proofing requirement.
+    // In particular, MHV sign-in users that are Advanced are not LOA3 but
+    // should have access to Rx, which would normally require verification.
+    return !isAccessible() && verify && !user.profile.verified;
+  }, [isAccessible, user.profile.verified, verify]);
 
-  useEffect(
-    () => {
-      const redirectIfNeeded = () => {
-        if (!user.profile.loading) {
-          if (shouldSignIn()) window.location.replace(signInUrl(useSiS));
-          else if (shouldVerify()) window.location.replace(verifyUrl);
-        }
-      };
-      redirectIfNeeded();
-    },
-    [shouldSignIn, shouldVerify, user.profile.loading],
-  );
+  useEffect(() => {
+    const redirectIfNeeded = () => {
+      if (!user.profile.loading) {
+        if (shouldSignIn()) window.location.replace(signInUrl(useSiS));
+        else if (shouldVerify()) window.location.replace(verifyUrl);
+      }
+    };
+    redirectIfNeeded();
+  }, [shouldSignIn, shouldVerify, user.profile.loading]);
 
   const renderVerifiedContent = () => {
     if (shouldVerify()) {

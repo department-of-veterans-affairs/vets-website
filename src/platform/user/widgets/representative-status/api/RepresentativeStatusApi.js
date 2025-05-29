@@ -3,9 +3,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 
 class RepresentativeStatusApi {
   static getRepresentativeStatus() {
-    const requestUrl = `${
-      environment.API_URL
-    }/representation_management/v0/power_of_attorney`;
+    const requestUrl = `${environment.API_URL}/representation_management/v0/power_of_attorney`;
     const apiSettings = {
       credentials: 'include',
       headers: {
@@ -33,7 +31,10 @@ class RepresentativeStatusApi {
           };
           return res;
         })
-        .then(data => resolve(data), error => reject(error));
+        .then(
+          data => resolve(data),
+          error => reject(error),
+        );
     });
   }
 }

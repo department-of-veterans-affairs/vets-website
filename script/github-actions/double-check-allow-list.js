@@ -28,9 +28,7 @@ const ALLOW_LIST =
     ? JSON.parse(
         fs.readFileSync(
           path.resolve(
-            `qa-standards-dashboard-data/${
-              process.env.TEST_TYPE
-            }_allow_list.json`,
+            `qa-standards-dashboard-data/${process.env.TEST_TYPE}_allow_list.json`,
           ),
         ),
       )

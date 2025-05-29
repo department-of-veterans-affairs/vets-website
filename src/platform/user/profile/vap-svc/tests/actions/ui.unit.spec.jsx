@@ -1,5 +1,5 @@
-import * as actions from '../../actions/ui';
 import { expect } from 'chai';
+import * as actions from '../../actions/ui';
 
 describe('updateFormFieldWithSchema', () => {
   it('creates the correct action', () => {
