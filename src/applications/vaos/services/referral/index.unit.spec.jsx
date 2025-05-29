@@ -92,7 +92,10 @@ describe('Referral Services', () => {
   it('postDraftReferralAppointment sends the correct payload and returns data', async () => {
     requestStub.resolves({ data: { draft: true } });
 
-    const result = await services.postDraftReferralAppointment('ref-id-123');
+    const result = await services.postDraftReferralAppointment(
+      'ref-id-123',
+      '1234',
+    );
 
     expect(
       requestStub.calledWith('/vaos/v2/appointments/draft', {
@@ -100,7 +103,7 @@ describe('Referral Services', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           // eslint-disable-next-line camelcase
-          referral_id: 'ref-id-123',
+          referral_number: 'ref-id-123',
           // eslint-disable-next-line camelcase
           referral_consult_id: '1234',
         }),
