@@ -43,9 +43,13 @@ const FacilitySearch = props => {
     [],
   );
 
+  const plannedClinic = formData?.['view:plannedClinic'];
+  const [facilityPreviouslySelected, setFacilityPreviouslySelected] = useState(
+    false,
+  );
+
   const goToReviewPath = useCallback(
     () => {
-      const plannedClinic = formData?.['view:plannedClinic'];
       const hasSupportServices =
         plannedClinic?.veteranSelected?.id ===
         plannedClinic?.caregiverSupport?.id;
@@ -66,8 +70,7 @@ const FacilitySearch = props => {
 
   const onGoForward = useCallback(
     () => {
-      const caregiverSupportFacilityId =
-        formData?.['view:plannedClinic']?.caregiverSupport?.id;
+      const caregiverSupportFacilityId = plannedClinic?.caregiverSupport?.id;
 
       // ensure no errors are present before navigating, to include:
       // lack of search query & lack of selected record after search
@@ -278,7 +281,7 @@ const FacilitySearch = props => {
       query: submittedQuery,
       error: localState.listError,
       facilities: localState.facilities,
-      value: formData?.['view:plannedClinic']?.veteranSelected?.id,
+      value: plannedClinic?.veteranSelected?.id,
       onChange: async facilityId => {
         setLocalState(prev => ({
           ...prev,
@@ -289,6 +292,7 @@ const FacilitySearch = props => {
           f => f.id === facilityId,
         );
         const parentFacility = await fetchParentFacility(selectedFacility);
+        setFacilityPreviouslySelected(true);
         dispatch(
           setData({
             ...formData,
@@ -371,9 +375,29 @@ const FacilitySearch = props => {
     ),
     [localState.searchError],
   );
+  // TODO: Move this to own file
+  const facilityAlert = useMemo(() => (
+    <va-alert status="info">
+      <h2 slot="headline" className="vads-u-font-size--h3">
+        VA medical center or clinic selected
+      </h2>
+      <div>
+        You’ve previously selected in this application the VA medical center or
+        clinic where the Veteran receives or plans to receive care.
+      </div>
+      {plannedClinic?.veteranSelected?.name}
+      <p>
+        Select <strong>"Continue"</strong> without searching to keep your
+        selection
+      </p>
+    </va-alert>
+  ));
 
   return (
     <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
+      {plannedClinic?.veteranSelected &&
+        !facilityPreviouslySelected &&
+        facilityAlert}
       <div className="vads-u-margin-y--2 form-panel">
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
           {content['vet-med-center-search-description']}
