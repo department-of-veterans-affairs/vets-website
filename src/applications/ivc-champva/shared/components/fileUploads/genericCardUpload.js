@@ -50,7 +50,7 @@ export const createCardUploadSchema = ({
           <img
             key="front-image"
             alt={frontAltText ?? `Sample ${cardTitle} front`}
-            className="vads-u-border--2px vads-u-border-color--gray-light vads-u-margin-bottom--2 radius-sm"
+            className="vads-u-margin-bottom--2"
             src={frontImageSrc}
             width="300"
           />
@@ -60,7 +60,6 @@ export const createCardUploadSchema = ({
           <img
             key="back-image"
             alt={backAltText ?? `Sample ${cardTitle} back`}
-            className="vads-u-border--2px vads-u-border-color--gray-light radius-sm"
             src={backImageSrc}
             width="300"
           />
