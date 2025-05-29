@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class ContactInfoPageObject extends PageObject {
+class ContactInfoPageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/contact-information');
     cy.axeCheckBestPractice();
