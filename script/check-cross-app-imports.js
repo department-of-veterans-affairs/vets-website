@@ -163,16 +163,6 @@ const appHasCrossAppImports = (importGraph, appFolder) => {
     app => !ignoredApps.has(app),
   );
 
-  console.log(
-    'Relevant imports from:',
-    Object.keys(importedFrom).filter(app => !ignoredApps.has(app)),
-  );
-
-  console.log(
-    'Relevant imports to:',
-    Object.keys(importedTo).filter(app => !ignoredApps.has(app)),
-  );
-
   console.log('relevant imports to: ', Object.keys(importedTo));
 
   return hasRelevantImportsFrom || hasRelevantImportsTo;
