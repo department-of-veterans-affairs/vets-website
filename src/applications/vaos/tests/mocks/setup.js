@@ -22,13 +22,12 @@ import PreferredDatePageVaDate from '../../new-appointment/components/PreferredD
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
 
 import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPage';
-import { TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import { vaosApi } from '../../redux/api/vaosApi';
-import { TYPES_OF_CARE } from '../../utils/constants';
+import { TYPES_OF_CARE, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import MockFacilityResponse from '../fixtures/MockFacilityResponse';
 import {
   mockFacilitiesApi,
@@ -256,7 +255,7 @@ export async function setVaccineFacility(store, facilityData = {}) {
         facilityId: '983',
         services: [
           new MockServiceConfiguration({
-            typeOfCareId: TYPE_OF_CARE_ID,
+            typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
             directEnabled: true,
           }),
         ],
