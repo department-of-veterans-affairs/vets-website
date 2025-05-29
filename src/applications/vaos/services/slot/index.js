@@ -1,7 +1,8 @@
 /**
  * @module services/Slot
  */
-import moment from 'moment';
+import { parseISO, formatISO } from 'date-fns';
+
 import { getAvailableV2Slots } from '../vaos';
 import { mapToFHIRErrors } from '../utils';
 import { transformV2Slots } from './transformers';
@@ -28,16 +29,32 @@ import { transformV2Slots } from './transformers';
  * @param {string} slotsRequest.clinicId clinic id
  * @param {string} slotsRequest.startDate start date to search for appointments lots formatted as YYYY-MM-DD
  * @param {string} slotsRequest.endDate end date to search for appointments lots formatted as YYYY-MM-DD
+ * @param {boolean} slotsRequest.convertToUtc check if flag to convert the start and end dates to UTC is set to true
  * @returns {Array<Slot>} A list of Slot resources
  */
-export async function getSlots({ siteId, clinicId, startDate, endDate }) {
+export async function getSlots({
+  siteId,
+  clinicId,
+  startDate,
+  endDate,
+  convertToUtc,
+}) {
   try {
+    // Convert to UTC ISO strings with 'Z'
+    const startUtc = convertToUtc
+      ? new Date(startDate).toISOString()
+      : formatISO(parseISO(startDate));
+    const endUtc = convertToUtc
+      ? new Date(endDate).toISOString()
+      : formatISO(parseISO(endDate));
+
     const data = await getAvailableV2Slots(
       siteId,
       clinicId.split('_')[1],
-      moment(startDate).format(),
-      moment(endDate).format(),
+      startUtc,
+      endUtc,
     );
+
     return transformV2Slots(data || []);
   } catch (e) {
     if (e.errors) {

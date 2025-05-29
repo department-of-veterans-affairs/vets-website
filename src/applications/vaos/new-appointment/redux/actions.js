@@ -15,6 +15,7 @@ import {
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
+  selectFeatureConvertSlotsToUTC,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -709,6 +710,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
+    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
@@ -750,6 +752,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          convertToUtc: featureConvertSlotsToUTC,
         });
         const tomorrow = moment()
           .add(1, 'day')

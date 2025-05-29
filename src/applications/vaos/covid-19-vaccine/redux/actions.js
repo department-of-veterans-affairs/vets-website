@@ -13,6 +13,7 @@ import {
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
   selectFeatureFeSourceOfTruthModality,
+  selectFeatureConvertSlotsToUTC,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
@@ -262,6 +263,7 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
     );
     const newBooking = selectCovid19VaccineNewBooking(state);
     const { data } = newBooking;
+    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
@@ -302,6 +304,7 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          convertToUtc: featureConvertSlotsToUTC,
         });
 
         if (initialFetch) {
