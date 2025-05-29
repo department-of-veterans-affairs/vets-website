@@ -10,6 +10,7 @@ import { replaceStrValues } from '../../utils/helpers';
 import { VaSearchInput } from '../../utils/imports';
 import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
+import SelectedFacilityInfoAlert from '../FormAlerts/SelectedFacilityInfoAlert';
 
 // declare page paths for review mode
 export const REVIEW_PATHS = {
@@ -375,29 +376,13 @@ const FacilitySearch = props => {
     ),
     [localState.searchError],
   );
-  // TODO: Move this to own file
-  const facilityAlert = useMemo(() => (
-    <va-alert status="info">
-      <h2 slot="headline" className="vads-u-font-size--h3">
-        VA medical center or clinic selected
-      </h2>
-      <div>
-        You’ve previously selected in this application the VA medical center or
-        clinic where the Veteran receives or plans to receive care.
-      </div>
-      {plannedClinic?.veteranSelected?.name}
-      <p>
-        Select <strong>"Continue"</strong> without searching to keep your
-        selection
-      </p>
-    </va-alert>
-  ));
 
   return (
     <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
       {plannedClinic?.veteranSelected &&
-        !facilityPreviouslySelected &&
-        facilityAlert}
+        !facilityPreviouslySelected && (
+          <SelectedFacilityInfoAlert plannedClinic={plannedClinic} />
+        )}
       <div className="vads-u-margin-y--2 form-panel">
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
           {content['vet-med-center-search-description']}
