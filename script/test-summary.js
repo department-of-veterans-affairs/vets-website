@@ -122,8 +122,8 @@ function runTestsForApp(appName) {
   console.log(chalk.cyan(`\n📋 Running tests for ${appName}...`));
 
   try {
-    // Run mocha directly with JSON reporter
-    const command = `BABEL_ENV=test NODE_ENV=test npx mocha --config config/mocha.json --reporter json "src/applications/${appName}/**/*.unit.spec.@(js|jsx)"`;
+    const outputFile = path.join(OUTPUT_DIR, `${appName}-test-results.json`);
+    const command = `BABEL_ENV=test NODE_ENV=test npx mocha --config config/mocha.json --reporter json --reporter-option output=${outputFile} "src/applications/${appName}/**/*.unit.spec.@(js|jsx)"`;
     let testOutput;
 
     try {
@@ -139,12 +139,8 @@ function runTestsForApp(appName) {
         '{"stats":{"suites":0,"tests":0,"passes":0,"pending":0,"failures":1,"start":"","end":"","duration":0},"failures":[]}';
     }
 
-    // Parse JSON output
-    const results = JSON.parse(testOutput);
-
-    // Save raw results to file
-    const outputFile = path.join(OUTPUT_DIR, `${appName}-test-results.json`);
-    fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
+    // Read and parse the JSON output
+    const results = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
 
     // Transform to our expected format
     return {
@@ -507,9 +503,7 @@ async function main() {
         } else {
           console.log(
             chalk.green(
-              `✅ ${appName} passed all tests (${
-                appResult.stats.passes
-              } tests)`,
+              `✅ ${appName} passed all tests (${appResult.stats.passes} tests)`,
             ),
           );
         }
