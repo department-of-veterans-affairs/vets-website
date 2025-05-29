@@ -22,12 +22,12 @@ class IntroductionPage extends React.Component {
         >
           Please complete the XX-123 form to apply for mock sip benefits.
         </SaveInProgressIntro>
-        <h4>Follow the steps below to apply for mock sip benefits.</h4>
+        <h3>Follow the steps below to apply for mock sip benefits.</h3>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
-              <h5>Prepare</h5>
-              <h6>To fill out this application, you’ll need your:</h6>
+              <h4>Prepare</h4>
+              <p>To fill out this application, you’ll need your:</p>
               <ul>
                 <li>Social Security number (required)</li>
               </ul>
@@ -41,7 +41,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-two">
-              <h5>Apply</h5>
+              <h4>Apply</h4>
               <p>Complete this mock sip benefits form.</p>
               <p>
                 After submitting the form, you’ll get a confirmation message.
@@ -49,7 +49,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-three">
-              <h5>VA Review</h5>
+              <h4>VA Review</h4>
               <p>
                 We process claims within a week. If more than a week has passed
                 since you submitted your application and you haven’t heard back,
@@ -57,7 +57,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-four">
-              <h5>Decision</h5>
+              <h4>Decision</h4>
               <p>
                 Once we’ve processed your claim, you’ll get a notice in the mail
                 with our decision.
