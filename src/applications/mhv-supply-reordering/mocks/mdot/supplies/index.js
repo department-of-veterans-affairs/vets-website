@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 const { unprocessableEntity, internalServerError } = require('../../errors');
 
+// eslint-disable-next-line no-unused-vars
 const accepted = [
   {
     status: 'Order Processed',
@@ -24,6 +25,16 @@ const partialOrder = [
 ];
 
 // eslint-disable-next-line no-unused-vars
+const failure = [
+  {
+    status:
+      'Unable to order item since the last order was less than 5 months ago.',
+    orderId: 0,
+    productId: 6650,
+  },
+];
+
+// eslint-disable-next-line no-unused-vars
 const createOrder = (request, response) => {
   const { order } = request.body;
   const responseBody = order.map(({ productId }, i) => ({
@@ -35,9 +46,10 @@ const createOrder = (request, response) => {
 };
 
 module.exports = {
-  'POST /v0/mdot/supplies': (_, res) => res.status(202).json(accepted),
+  // 'POST /v0/mdot/supplies': (_, res) => res.status(200).json(accepted),
   // 'POST /v0/mdot/supplies': partialOrder,
   // 'POST /v0/mdot/supplies': createOrder,
+  'POST /v0/mdot/supplies': (_, res) => res.status(200).json(failure),
   // 'POST /v0/mdot/supplies': (_, res) => res.status(422).json(unprocessableEntity),
   // 'POST /v0/mdot/supplies': (_, res) => res.status(500).json(internalServerError),
 };
