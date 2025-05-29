@@ -665,11 +665,18 @@ const WorkflowChoicePage = props => {
         </VaModal>
       </fieldset>
       {onReviewPage ? (
-        <va-button
-          class="usa-button-primary"
-          text="Update page"
+        /**
+         * Does not use web component for design consistency on all pages.
+         * @see https://github.com/department-of-veterans-affairs/vets-website/pull/35911
+         */
+        // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
+        <button
+          className="usa-button-primary"
+          type="button"
           onClick={event => handlers.onUpdatePage(event)}
-        />
+        >
+          Update page
+        </button>
       ) : (
         <>
           {contentBeforeButtons}
