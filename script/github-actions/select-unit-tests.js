@@ -52,9 +52,7 @@ const DISALLOWED_SPECS_IN_CHANGED_APPS = DISALLOWED_SPECS.filter(
 
 const TESTS_TO_STRESS_TEST = Array.from(
   new Set([
-    // 1. Any spec file that was changed in this PR (new or modified)
     ...CHANGED_SPEC_FILES.filter(filePath => fs.existsSync(filePath)),
-    // 2. Disallowed specs that belong to the changed apps
     ...DISALLOWED_SPECS_IN_CHANGED_APPS,
   ]),
 );
