@@ -1,4 +1,13 @@
 import * as designatingOfficial from './designatingOfficial';
 import * as primaryOfficial from './primaryOfficial';
+import * as institutionDetails from './institutionDetails';
+import * as institutionDetailsFacility from './institutionDetailsFacility';
+import * as primaryOfficialTraining from './primaryOfficialTraining';
 
-export { designatingOfficial, primaryOfficial };
+export {
+  designatingOfficial,
+  primaryOfficial,
+  primaryOfficialTraining,
+  institutionDetails,
+  institutionDetailsFacility,
+};

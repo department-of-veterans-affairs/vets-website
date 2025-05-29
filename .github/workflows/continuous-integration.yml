@@ -702,6 +702,12 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
+      - name: Checkout new-axe-checks branch
+        run: git fetch origin new-axe-checks --depth=1
+
+      - name: Checkout axeCheck.js from new-axe-checks branch
+        run: git checkout origin/new-axe-checks src/platform/testing/e2e/cypress/support/commands/axeCheck.js
+
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/configure-aws-credentials
