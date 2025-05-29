@@ -10,7 +10,7 @@ import mockDraftMessages from './fixtures/draftsResponse/drafts-messages-respons
 describe('SM DRAFT FOLDER VERIFICATION', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages(mockDraftMessages);
     FolderLoadPage.loadFolders();
     FolderLoadPage.loadDraftMessages();
   });
