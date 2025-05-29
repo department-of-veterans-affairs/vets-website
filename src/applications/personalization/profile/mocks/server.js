@@ -98,8 +98,6 @@ const responses = {
             representativeStatusEnableV2Features: true,
             profileLimitDirectDepositForNonBeneficiaries: true,
             profileShowCredentialRetirementMessaging: true,
-            profileShowPaymentsNotificationSetting: true,
-            profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
             profileShowNewHealthCareCopayBillNotificationSetting: false,
             profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
             profileShowMhvNotificationSettingsEmailRxShipment: true,
