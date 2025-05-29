@@ -29,7 +29,10 @@ import {
   sponsorContactInfo,
 } from '../chapters/sponsorInformation';
 import { applicantPages } from '../chapters/applicantInformation';
-import { medicarePages } from '../chapters/medicareInformation';
+import {
+  medicarePages,
+  missingMedicarePage,
+} from '../chapters/medicareInformation';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
 
 /** @type {FormConfig} */
@@ -163,7 +166,10 @@ const formConfig = {
     },
     medicareInformation: {
       title: 'Medicare information',
-      pages: medicarePages,
+      pages: {
+        ...medicarePages,
+        page22: missingMedicarePage,
+      },
     },
     healthInsuranceInformation: {
       title: 'Health insurance information',

@@ -30,6 +30,7 @@ import {
   applicantWording,
   getAgeInYears,
 } from '../../shared/utilities';
+import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 
 import {
   selectMedicareParticipantPage,
@@ -436,8 +437,7 @@ const medicarePartADenialPage = {
       ...yesNoUI({
         title:
           'Do you have a notice of disallowance, denial, or other proof of ineligibility for Medicare Part A?',
-        hint:
-          'Depending on your response, you may need to submit additional documents with this application.',
+        hint: ADDITIONAL_FILES_HINT,
         required: () => true,
       }),
     },
@@ -615,8 +615,7 @@ const medicarePartDStatusPage = {
       ...yesNoUI({
         title:
           'Do you have Medicare Part D (prescription drug coverage) information to provide or update at this time?',
-        hint:
-          'Depending on your response, you may need to submit additional documents with this application.',
+        hint: ADDITIONAL_FILES_HINT,
         required: () => true,
       }),
     },
@@ -707,6 +706,82 @@ const medicarePartDCardUploadPage = {
           },
         },
       },
+    },
+  },
+};
+
+function getEligibleApplicantsWithoutMedicare(formData) {
+  return formData?.applicants?.filter(
+    applicant =>
+      getAgeInYears(applicant?.applicantDob) >= 65 &&
+      !formData?.medicare?.some(
+        plan =>
+          toHashMemoized(applicant.applicantSSN) === plan?.medicareParticipant,
+      ),
+  );
+}
+
+export const missingMedicarePage = {
+  path: 'missing-medicare-applicants',
+  title: 'Medicare status',
+  depends: formData => {
+    const excluded = getEligibleApplicantsWithoutMedicare(formData);
+    return excluded && excluded.length > 0;
+  },
+  // Something to do with array builder/topBackLink was causing us to
+  // always attempt to navigate back inside the medicare array rather
+  // than to the summary page, so manually overriding it here.
+  onNavBack: ({ goPath }) => {
+    goPath('/medicare-summary');
+  },
+  uiSchema: {
+    ...titleUI('Medicare status'),
+    'view:missingList': {
+      'ui:description': <></>,
+    },
+    hasProofMultipleApplicants: yesNoUI({
+      title:
+        'Do you have a notice of disallowance, denial, or other proof of ineligibility for Medicare Part A for the applicant or applicants listed?',
+      hint: ADDITIONAL_FILES_HINT,
+    }),
+    'ui:options': {
+      updateUiSchema: formData => {
+        const excluded = getEligibleApplicantsWithoutMedicare(formData);
+
+        // Show all applicants with no Medicare plan associated
+        const content = (
+          <>
+            <p>
+              Based on your responses, the following applicant or applicants
+              were not listed as having Medicare.
+            </p>
+            <ul>
+              {excluded?.map(a => (
+                <li key={toHashMemoized(a.applicantSSN)}>
+                  {`${a?.applicantName?.first} ${a?.applicantName?.last}`}
+                </li>
+              ))}
+            </ul>
+            <p>
+              If any applicant or applicants listed do have Medicare please
+              select "Back" to add a Medicare plan for them.
+            </p>
+          </>
+        );
+
+        return {
+          'view:missingList': { 'ui:description': content },
+        };
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['hasProofMultipleApplicants'],
+    properties: {
+      titleSchema,
+      'view:missingList': blankSchema,
+      hasProofMultipleApplicants: yesNoSchema,
     },
   },
 };
