@@ -98,7 +98,7 @@ const IntroductionPage = ({ route }) => {
             to the next step.
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Upload your PDF to the Education File Upload Portal or email it to your State Approving Agency (SAA) for approval">
+        <va-process-list-item header="Upload your PDF to the Education File Upload Portal or email it to your State Approving Agency (SAA)">
           <p>
             <strong> If your institution has a facility code: </strong> Please
             go to the Education File Upload Portal and upload the completed PDF
