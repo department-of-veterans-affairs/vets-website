@@ -29,7 +29,7 @@ const ProcessList = ({ isAccredited, id }) => {
                   />
                 </span>
                 <span className="vads-u-display--inline-block">
-                  Then, navigate to{' '}
+                  Then, if you haven’t already, navigate to{' '}
                   <VaLink
                     external
                     text="VA Form 22-10215"

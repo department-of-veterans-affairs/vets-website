@@ -6,13 +6,13 @@
   },
   "exports": {
     ".": "./exportsFile.js",
+    "./analytics-middleware": "./analytics-middleware.js",
     "./index": "./index.js",
-    "./store": "./store.js",
     "./react": "./react.js",
-    "./setup": "./setup.js",
     "./router": "./router.js",
-    "./withoutRouter": "./withoutRouter.js",
-    "./analytics-middleware": "./analytics-middleware.js"
+    "./setup": "./setup.js",
+    "./store": "./store.js",
+    "./withoutRouter": "./withoutRouter.js"
   },
   "peerDependencies": {
     "history": "*",

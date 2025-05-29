@@ -120,14 +120,14 @@ const MegaMenu = ({
 
     return (
       <li
-        className="vads-u-font-size--base vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--1 vads-u-width--full vads-u-font-weight--bold"
+        className="vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--1 vads-u-width--full vads-u-font-weight--bold"
         key={index}
       >
         <a
           className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--3 vads-u-color--white vads-u-width--full"
-          href="https://www.va.gov/find-locations"
+          href={sectionData?.hrefInjectedHeader || sectionData?.href}
         >
-          Find a VA Location
+          {sectionData.title}
         </a>
       </li>
     );
@@ -151,7 +151,7 @@ const MegaMenu = ({
           {megaMenuData.map((section, index) =>
             buildLevelOneLinks(section, index),
           )}
-          <li className="vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--1 vads-u-width--full vads-u-font-weight--bold vads-u-font-size--md">
+          <li className="vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--1 vads-u-width--full vads-u-font-weight--bold">
             <a
               className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--3 vads-u-color--white vads-u-width--full"
               href="https://www.va.gov/contact-us/"

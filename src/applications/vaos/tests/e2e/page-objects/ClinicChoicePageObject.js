@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class ClinicChoicePageObject extends PageObject {
+class ClinicChoicePageObject extends PageObject {
   assertSingleClinic() {
     cy.get('va-radio').contains('Would you like to make an appointment at');
     return this;
@@ -13,6 +13,16 @@ export class ClinicChoicePageObject extends PageObject {
     return this;
   }
 
+  /**
+   * Method to select a clinic.
+   *
+   * @param {Object} params
+   * @param {string|RegExp} [params.selection] Radio button to select
+   * @param {boolean} [params.isCovid=false]
+   *
+   * @returns
+   * @memberof ClinicChoicePageObject
+   */
   selectClinic({ selection, isCovid = false } = {}) {
     if (isCovid) {
       cy.findByText(/Choose a clinic/i, { selector: 'h1' });

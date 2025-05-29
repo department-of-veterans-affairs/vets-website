@@ -97,13 +97,12 @@ export default function CalendarOptions({
       {isAppointmentSelectionError && (
         <div
           className={classNames(
+            'vaos-calendar__options',
             'usa-input-error',
             'vads-u-margin-top--0',
             'vads-u-margin-bottom--0',
             'vads-u-padding-top--0',
             'vads-u-padding-bottom--0',
-            'medium-screen:vads-u-margin-left--1',
-            'vads-u-margin-left--0p5',
           )}
           style={{ position: 'static' }}
         >

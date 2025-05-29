@@ -1,16 +1,35 @@
+import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import get from 'platform/utilities/data/get';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../containers/GetFormHelp';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import mailingAddress from '../pages/mailingAddress';
+import veteranName from '../pages/veteranName';
+import veteranInfo1 from '../pages/veteranInfo1';
+import veteranInfo2 from '../pages/veteranInfo2';
+import applicantName from '../pages/applicantName';
+import veteranDemographics1 from '../pages/veteranDemographics1';
+import veteranDemographics2 from '../pages/veteranDemographics2';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import applicantRelationToVet from '../pages/applicantRelationToVet';
+import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg';
+import applicantRelationToVetOrg2 from '../pages/applicantRelationToVetOrg2';
+import applicantContactInfo from '../pages/applicantContactInfo';
+import applicantContactInfo2 from '../pages/applicantContactInfo2';
+import applicantMailingAddress from '../pages/applicantMailingAddress';
+import applicantMailingAddress2 from '../pages/applicantMailingAddress2';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
+import {
+  ApplicantNameHeader,
+  ApplicantNameNote,
+  isUserSignedIn,
+} from '../utils/helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -49,22 +68,126 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        ...personalInformationPage({
+          key: 'applicantNameView',
+          title: 'Personal information',
+          path: 'applicant-name-view',
+          personalInfoConfig: {
+            ssn: { show: false, required: false },
+            vaFileNumber: { show: false, required: false },
+            dateOfBirth: { show: false, required: false },
+            gender: { show: false, required: false },
+            name: { show: true, required: false },
+          },
+          header: <ApplicantNameHeader />,
+          note: <ApplicantNameNote />,
+          depends: formData => isUserSignedIn(formData),
+        }),
+        applicantName: {
+          path: 'applicant-name',
+          title: 'Your name',
+          uiSchema: applicantName.uiSchema,
+          schema: applicantName.schema,
+          depends: formData => !isUserSignedIn(formData),
+        },
+        applicantRelationToVet: {
+          path: 'applicant-relation-to-vet',
+          title: 'Your relationship to the Veteran',
+          uiSchema: applicantRelationToVet.uiSchema,
+          schema: applicantRelationToVet.schema,
+        },
+        applicantRelationToVetOrg: {
+          path: 'applicant-relation-to-vet-org',
+          title: 'Your organization',
+          uiSchema: applicantRelationToVetOrg.uiSchema,
+          schema: applicantRelationToVetOrg.schema,
+          depends: formData =>
+            ['repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
+        },
+        applicantRelationToVetOrg2: {
+          path: 'applicant-relation-to-vet-org-2',
+          title: 'Your organization',
+          uiSchema: applicantRelationToVetOrg2.uiSchema,
+          schema: applicantRelationToVetOrg2.schema,
+          depends: formData => formData.relationToVetRadio === 'repOfVSO',
+        },
+        applicantContactInfo: {
+          path: 'applicant-contact-info',
+          title: 'Your contact information',
+          uiSchema: applicantContactInfo.uiSchema,
+          schema: applicantContactInfo.schema,
+          depends: formData =>
+            ['familyMember', 'personalRep', 'other'].includes(
+              formData.relationToVetRadio,
+            ),
+        },
+        applicantContactInfo2: {
+          path: 'applicant-contact-info-2',
+          title: 'Your organization’s contact information',
+          uiSchema: applicantContactInfo2.uiSchema,
+          schema: applicantContactInfo2.schema,
+          depends: formData =>
+            ['repOfVSO', 'repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
+        },
+        applicantMailingAddress: {
+          path: 'applicant-mailing-address',
+          title: 'Your mailing address',
+          uiSchema: applicantMailingAddress.uiSchema,
+          schema: applicantMailingAddress.schema,
+          depends: formData =>
+            ['familyMember', 'personalRep', 'other'].includes(
+              formData.relationToVetRadio,
+            ),
+        },
+        applicantMailingAddress2: {
+          path: 'applicant-mailing-address-2',
+          title: 'Your organization’s mailing address ',
+          uiSchema: applicantMailingAddress2.uiSchema,
+          schema: applicantMailingAddress2.schema,
+          depends: formData =>
+            ['repOfVSO', 'repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
         },
       },
     },
     veteranInformation: {
       title: 'Veteran information',
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
+        veteranName: {
+          path: 'veteran-name',
+          title: 'Veteran name',
+          uiSchema: veteranName.uiSchema,
+          schema: veteranName.schema,
+        },
+        veteranInfo1: {
+          path: 'veteran-personal-information-1',
+          title: 'Veteran personal information',
+          uiSchema: veteranInfo1.uiSchema,
+          schema: veteranInfo1.schema,
+        },
+        veteranInfo2: {
+          path: 'veteran-personal-information-2',
+          title: 'Veteran personal information',
+          uiSchema: veteranInfo2.uiSchema,
+          schema: veteranInfo2.schema,
+        },
+        veteranDemographics1: {
+          path: 'veteran-demographics-1',
+          title: 'Veteran demographics',
+          uiSchema: veteranDemographics1.uiSchema,
+          schema: veteranDemographics1.schema,
+        },
+        veteranDemographics2: {
+          path: 'veteran-demographics-2',
+          title: 'Veteran demographics',
+          uiSchema: veteranDemographics2.uiSchema,
+          schema: veteranDemographics2.schema,
+          depends: formData => get('veteranDemoYesNo', formData),
         },
       },
     },

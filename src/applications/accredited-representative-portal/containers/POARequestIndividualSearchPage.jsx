@@ -10,36 +10,162 @@ import SsnField from 'platform/forms-system/src/js/web-component-fields/SsnField
 import { useSearchParams, useNavigation } from 'react-router-dom';
 import { Toggler, useFeatureToggle } from 'platform/utilities/feature-toggles';
 import api from '../utilities/api';
-import { SEARCH_BC_LABEL, searchPeopleBC } from '../utilities/poaRequests';
-import POARequestSearchCard from '../components/POARequestSearchCard';
+import {
+  SEARCH_BC_LABEL,
+  findClaimantBC,
+  requestsContainStatus,
+} from '../utilities/poaRequests';
+import POARequestCard from '../components/POARequestCard';
 
-const SearchResults = ({ poaRequests, searchData }) => {
-  if (poaRequests.length === 0) {
+const lastFour = ssn => {
+  return ssn?.substring(5);
+};
+
+const poaFormLink = () => {
+  return (
+    <va-link
+      href="/get-help-from-accredited-representative/appoint-rep/introduction/"
+      text="VA Form 21-22 (on VA.gov)"
+    />
+  );
+};
+
+const poaStatusCta = claimant => {
+  if (
+    claimant.representative &&
+    requestsContainStatus('declination', claimant.poaRequests)
+  ) {
     return (
-      <p data-testid="poa-requests-table-fetcher-no-poa-requests">
-        We did not find an individual “{searchData.first_name}{' '}
-        {searchData.last_name}
-        ”, “{searchData.dob}
-        ”, “{searchData.ssn}” who has submitted a power of attorney request in
-        the past 60 days to you or your organizations.
-      </p>
+      <span>
+        To change POA, have the claimant submit a new POA request online using{' '}
+        {poaFormLink()}.
+      </span>
+    );
+  }
+  if (
+    claimant.representative &&
+    requestsContainStatus('pending', claimant.poaRequests)
+  ) {
+    return 'If you accept the pending request from the claimant, you will replace the current representative with the new one.';
+  }
+  if (requestsContainStatus('declined', claimant.poaRequests)) {
+    return (
+      <span>
+        To establish POA, have the claimant submit a new POA request online
+        using {poaFormLink()}.
+      </span>
+    );
+  }
+  if (requestsContainStatus('pending', claimant.poaRequests)) {
+    return 'To establish POA, accept the pending request from the claimant.';
+  }
+  return null;
+};
+
+const SearchResults = ({ claimant, searchData }) => {
+  if (!claimant) {
+    return (
+      <>
+        <p data-testid="poa-requests-table-fetcher-no-poa-requests">
+          No result found for{' '}
+          <strong>
+            “{searchData.first_name} {searchData.last_name}”
+          </strong>
+          {', '}
+          <strong>“{searchData.dob}”</strong>
+          {', '}
+          <strong>
+            “***-**-
+            {lastFour(searchData.ssn)}”
+          </strong>
+        </p>
+        <va-banner
+          data-label="Info banner"
+          headline="How to establish power of attorney"
+          type="info"
+          className="home__banner"
+          visible
+        >
+          <p>
+            This individual may exist in the system, but if they have not
+            designated you as their representative, you cannot view their
+            information. To establish POA, have the claimant submit a POA
+            request online using {poaFormLink()}.
+          </p>
+        </va-banner>
+      </>
     );
   }
 
   return (
-    <ul
-      data-testid="poa-requests-card"
-      className="poa-request__list"
-      sort-column={1}
-    >
-      {poaRequests.map((request, index) => {
-        return <POARequestSearchCard poaRequest={request} key={index} />;
-      })}
-    </ul>
+    <>
+      <p data-testid="poa-requests-table-fetcher-poa-requests">
+        Showing result for <strong>“{searchData.first_name}“</strong>
+        {', '}
+        <strong>“{searchData.last_name}“</strong>
+        {', '}
+        <strong>“{searchData.dob}”</strong>
+        {', '}
+        <strong>
+          “***-**-
+          {lastFour(searchData.ssn)}”
+        </strong>
+      </p>
+      <h2>
+        {claimant.lastName}, {claimant.firstName}
+      </h2>
+      {claimant.city}
+      {claimant.city ? ', ' : ''}
+      {claimant.state} {claimant.postalCode}
+      <br />
+      <br />
+      {claimant.representative ? (
+        <>
+          <strong>POA Status:</strong> {claimant.representative} has POA for
+          this claimant.
+        </>
+      ) : (
+        <>
+          <strong>POA Status: </strong>
+          <span>
+            <va-icon size={3} icon="warning" className="yellow-warning" />
+          </span>{' '}
+          You do not have POA for this claimant.
+        </>
+      )}
+      {claimant.poaRequests?.length ? (
+        <>
+          <hr className="divider claimant-search" />
+          <h3>Recent power of attorney requests</h3>
+          {poaStatusCta(claimant)}
+          <ul
+            data-testid="poa-requests-card"
+            className="poa-request__list"
+            sort-column={1}
+          >
+            {claimant.poaRequests.map((request, index) => (
+              <POARequestCard poaRequest={request} key={index} />
+            ))}
+          </ul>
+        </>
+      ) : (
+        ''
+      )}
+    </>
   );
 };
 SearchResults.propTypes = {
-  poaRequests: PropTypes.arrayOf(PropTypes.shape({})),
+  claimant: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    city: PropTypes.string,
+    state: PropTypes.string,
+    postalCode: PropTypes.string,
+    poaStatus: PropTypes.string,
+    representative: PropTypes.string,
+    icnTemporaryIdentifier: PropTypes.string,
+    poaRequests: PropTypes.arrayOf(PropTypes.shape({})),
+  }),
   /* eslint-disable camelcase */
   searchData: PropTypes.shape({
     first_name: PropTypes.string,
@@ -51,7 +177,7 @@ SearchResults.propTypes = {
 };
 
 const POARequestIndividualSearchPage = () => {
-  const [poaRequests, setPoaRequests] = useState([]);
+  const [claimant, setClaimant] = useState({});
   const [searchData, setSearchData] = useState(false);
   const [resetFormKey, setResetFormKey] = useState(0);
   const [validationPerformed, setValidationPerformed] = useState(false);
@@ -72,19 +198,23 @@ const POARequestIndividualSearchPage = () => {
       api
         .claimantSearch({ ...searchData })
         .then(response => {
-          return response.json();
+          response.json().then(json => {
+            setSearchPerformed(true);
+            setClaimant(json.data);
+          });
         })
-        .then(data => {
+        .catch(() => {
           setSearchPerformed(true);
-          setPoaRequests(data);
+          setClaimant(null);
         });
     }
+    return null;
   };
 
   const searchStatusText = () =>
     validationPerformed && !allFieldsPresent()
       ? 'Complete the required search fields and try the search again.'
-      : 'This search returns power of attorney information about the individual, if you or your organization received a power of attorney request from the individual in the past 60 days.';
+      : 'Find claimants who have designated you as their representative or have submitted a power of attorney request recently.';
 
   const handleReset = e => {
     e.preventDefault();
@@ -94,6 +224,7 @@ const POARequestIndividualSearchPage = () => {
     // SsnField does not work properly as a controlled element,
     // so changing the key forces React to re-render it
     setResetFormKey(resetFormKey + 1);
+    return null;
   };
 
   const handleChange = field => {
@@ -120,7 +251,7 @@ const POARequestIndividualSearchPage = () => {
   return (
     <section className="poa-search">
       <VaBreadcrumbs
-        breadcrumbList={searchPeopleBC}
+        breadcrumbList={findClaimantBC}
         label={SEARCH_BC_LABEL}
         homeVeteransAffairs={false}
       />
@@ -128,7 +259,7 @@ const POARequestIndividualSearchPage = () => {
         data-testid="poa-requests-heading"
         className="poa-request__search-header"
       >
-        Search people
+        Find claimant
       </h1>
       <form
         role="search"
@@ -139,7 +270,7 @@ const POARequestIndividualSearchPage = () => {
       >
         <VaTextInput
           label="First name"
-          width="2xl"
+          width="xl"
           name="first_name"
           required="required"
           value={searchData.first_name}
@@ -152,7 +283,7 @@ const POARequestIndividualSearchPage = () => {
         />
         <VaTextInput
           label="Last name"
-          width="2xl"
+          width="xl"
           name="last_name"
           required="required"
           value={searchData.last_name}
@@ -181,7 +312,7 @@ const POARequestIndividualSearchPage = () => {
           name="ssn"
           className="ssn-input"
           required="required"
-          uiOptions={{ width: '2xl' }}
+          uiOptions={{ width: 'xl' }}
           error={
             validationPerformed && (searchData.ssn || '').length < 9
               ? 'Enter a Social Security number'
@@ -212,12 +343,6 @@ const POARequestIndividualSearchPage = () => {
       </form>
       {searchPerformed ? (
         <div className="poa-requests-page-table-container">
-          <h2
-            data-testid="poa-search-results"
-            className="poa-request__search-header"
-          >
-            Search Results
-          </h2>
           {navigation.state === 'loading' ? (
             <VaLoadingIndicator message="Loading..." />
           ) : (
@@ -227,10 +352,7 @@ const POARequestIndividualSearchPage = () => {
               role="tabpanel"
               aria-labelledby={`tab-${searchStatus}`}
             >
-              <SearchResults
-                poaRequests={poaRequests}
-                searchData={searchData}
-              />
+              <SearchResults claimant={claimant} searchData={searchData} />
             </div>
           )}
         </div>

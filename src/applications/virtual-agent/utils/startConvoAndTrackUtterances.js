@@ -28,10 +28,7 @@ const StartConvoAndTrackUtterances = {
       processActionType[action.type]();
     }
 
-    let updatedAction = action;
-    if (event.isRootBotToggleOn) {
-      updatedAction = addActivityData(updatedAction, options);
-    }
+    const updatedAction = addActivityData(action, options);
 
     return next(updatedAction);
   },

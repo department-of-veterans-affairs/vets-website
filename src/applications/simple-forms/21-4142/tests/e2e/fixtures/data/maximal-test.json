@@ -107,14 +107,13 @@
         "country": "USA",
         "street": "street",
         "street2": "street 2",
-        "street3": "street 3",
         "city": "APO",
         "state": "AA",
         "postalCode": "34055"
       },
       "ssn": "789456122",
       "vaFileNumber": "789456123",
-      "veteranServiceNumber": "aA7894561",
+      "veteranServiceNumber": "AA7894561",
       "fullName": {
         "first": "First",
         "middle": "Middle",

@@ -18,6 +18,9 @@ import {
   addForm4142,
   addForm0781,
   addForm0781V2,
+  delete0781BehavioralData,
+  sanitize0781PoliceReportData,
+  sanitize0781BehaviorsDetails,
 } from '../../utils/submit';
 import {
   PTSD_INCIDENT_ITERATION,
@@ -704,36 +707,329 @@ describe('extractDateParts', () => {
 describe('addForm0781V2', () => {
   const formData = {
     syncModern0781Flow: true,
-    eventTypes: ['eventType1'],
-    events: ['event1'],
-    workBehaviors: ['workBehavior1'],
-    healthBehaviors: ['healthBehavior1'],
-    otherBehaviors: ['otherBehavior1'],
-    behaviorsDetails: 'details',
-    supportingEvidenceReports: ['report1'],
-    supportingEvidenceRecords: ['record1'],
-    supportingEvidenceWitness: ['witness1'],
-    supportingEvidenceOther: 'otherEvidence',
-    supportingEvidenceUnlisted: 'unlistedEvidence',
+    answerCombatBehaviorQuestions: 'true',
+    eventTypes: {
+      combat: true,
+      mst: true,
+    },
+    events: [
+      {
+        location: 'Where did the event happen?',
+        otherReports: 'Other official report type listed here',
+        timing: 'When did the event happen?',
+        reports: {
+          restricted: true,
+          unrestricted: true,
+          police: true,
+          none: true,
+        },
+        agency: 'Name of the agency that issued the report',
+        city: 'report city',
+        state: 'report state',
+        township: 'report township',
+        country: 'USA',
+      },
+      {
+        location: 'Where did the event happen?',
+        otherReports: 'Other official report type listed here',
+        reports: {
+          restricted: true,
+          unrestricted: true,
+          police: false,
+          none: true,
+        },
+        agency: 'Name of the agency that issued the report',
+        city: 'report city',
+        state: 'report state',
+        township: 'report township',
+        country: 'USA',
+      },
+      {
+        location: 'Where did the event happen?',
+        reports: {
+          restricted: true,
+          unrestricted: true,
+          police: true,
+          none: true,
+        },
+        agency: 'Name of the agency that issued the report',
+        city: 'report city',
+        state: 'report state',
+        township: 'report township',
+        country: 'USA',
+      },
+    ],
+    workBehaviors: { reassignment: true },
+    healthBehaviors: { medications: true },
+    otherBehaviors: { unlisted: true },
+    behaviorsDetails: {
+      reassignment: 'details',
+      medications: 'details',
+      unlisted: 'details',
+    },
+    supportingEvidenceReports: { police: true },
+    supportingEvidenceRecords: { physicians: true },
+    supportingEvidenceWitness: { family: true },
+    supportingEvidenceOther: { personal: true },
+    supportingEvidenceUnlisted: 'unlisted document',
     supportingEvidenceNoneCheckbox: true,
     treatmentReceivedVaProvider: true,
     treatmentReceivedNonVaProvider: true,
     treatmentNoneCheckbox: true,
-    providerFacility: ['facility1'],
-    vaTreatmentFacilities: [],
-    optionIndicator: 'option1',
+    providerFacility: [
+      {
+        providerFacilityName: 'facility1',
+        treatmentLocation0781Related: true,
+      },
+    ],
+    vaTreatmentFacilities: [
+      {
+        treatmentCenterName: 'Treatment Center the First',
+        treatmentLocation0781Related: true,
+      },
+      {
+        treatmentCenterName: 'Treatment Center the Second',
+        treatmentLocation0781Related: false,
+      },
+      {
+        treatmentCenterName: 'Treatment Center the Third',
+      },
+    ],
+    optionIndicator: 'notEnrolled',
     additionalInformation: 'info',
+    mentalHealthWorkflowChoice: 'optForOnlineForm0781',
   };
+
+  it('should delete 0781 form data if user opted out', () => {
+    const data = {
+      ...formData,
+      mentalHealthWorkflowChoice: 'optOutOfForm0781',
+    };
+    const expectedResult = {
+      providerFacility: [
+        {
+          providerFacilityName: 'facility1',
+          treatmentLocation0781Related: true,
+        },
+      ],
+      vaTreatmentFacilities: [
+        {
+          treatmentCenterName: 'Treatment Center the First',
+          treatmentLocation0781Related: true,
+        },
+        {
+          treatmentCenterName: 'Treatment Center the Second',
+          treatmentLocation0781Related: false,
+        },
+        {
+          treatmentCenterName: 'Treatment Center the Third',
+        },
+      ],
+      answerCombatBehaviorQuestions: 'true',
+      mentalHealthWorkflowChoice: 'optOutOfForm0781',
+      syncModern0781Flow: true,
+    };
+
+    const result = addForm0781V2(data);
+    expect(result).to.deep.equal(expectedResult);
+  });
+
+  it('should delete 0781 form data if user submits paper form', () => {
+    const data = {
+      ...formData,
+      mentalHealthWorkflowChoice: 'optForPaperForm0781Upload',
+    };
+    const expectedResult = {
+      providerFacility: [
+        {
+          providerFacilityName: 'facility1',
+          treatmentLocation0781Related: true,
+        },
+      ],
+      vaTreatmentFacilities: [
+        {
+          treatmentCenterName: 'Treatment Center the First',
+          treatmentLocation0781Related: true,
+        },
+        {
+          treatmentCenterName: 'Treatment Center the Second',
+          treatmentLocation0781Related: false,
+        },
+        {
+          treatmentCenterName: 'Treatment Center the Third',
+        },
+      ],
+      answerCombatBehaviorQuestions: 'true',
+      mentalHealthWorkflowChoice: 'optForPaperForm0781Upload',
+      syncModern0781Flow: true,
+    };
+
+    const result = addForm0781V2(data);
+    expect(result).to.deep.equal(expectedResult);
+  });
+
+  it('delete0781BehavioralData removes all behavioral data when answerCombatBehaviorQuestions is false', () => {
+    const data = {
+      answerCombatBehaviorQuestions: 'false',
+      workBehaviors: { reassignment: true },
+      healthBehaviors: { medications: true },
+      otherBehaviors: { unlisted: true },
+      behaviorsDetails: {
+        reassignment: 'details',
+        medications: 'details',
+        unlisted: 'details',
+      },
+    };
+
+    const expected = {
+      answerCombatBehaviorQuestions: 'false',
+    };
+
+    const result =
+      data.answerCombatBehaviorQuestions === 'false'
+        ? delete0781BehavioralData(data)
+        : data;
+
+    expect(result).to.deep.equal(expected);
+  });
+
+  it('sanitize0781PoliceReportData properly removes police report location data when conditions are met', () => {
+    const data = {
+      events: [
+        {
+          location: 'Where did the event happen?',
+          otherReports: 'Other official report type listed here',
+          timing: 'When did the event happen?',
+          reports: {
+            restricted: true,
+            unrestricted: true,
+            police: true,
+            none: true,
+          },
+          agency: 'Name of the agency that issued the report',
+          city: 'report city',
+          state: 'report state',
+          township: 'report township',
+          country: 'USA',
+        },
+        {
+          location: 'Where did the event happen?',
+          otherReports: 'Other official report type listed here',
+          reports: {
+            restricted: true,
+            unrestricted: true,
+            police: false,
+            none: true,
+          },
+          agency: 'Name of the agency that issued the report',
+          city: 'report city',
+          state: 'report state',
+          township: 'report township',
+          country: 'USA',
+        },
+        {
+          location: 'Where did the event happen?',
+          agency: 'Name of the agency that issued the report',
+          city: 'report city',
+          state: 'report state',
+          township: 'report township',
+          country: 'USA',
+        },
+      ],
+    };
+    const expectedResult = {
+      events: [
+        {
+          location: 'Where did the event happen?',
+          timing: 'When did the event happen?',
+          otherReports: 'Other official report type listed here',
+          reports: {
+            restricted: true,
+            unrestricted: true,
+            police: true,
+            none: true,
+          },
+          agency: 'Name of the agency that issued the report',
+          city: 'report city',
+          state: 'report state',
+          township: 'report township',
+          country: 'USA',
+        },
+        {
+          location: 'Where did the event happen?',
+          otherReports: 'Other official report type listed here',
+          reports: {
+            restricted: true,
+            unrestricted: true,
+            police: false,
+            none: true,
+          },
+        },
+        {
+          location: 'Where did the event happen?',
+        },
+      ],
+    };
+
+    const result = sanitize0781PoliceReportData(data);
+    expect(result).to.deep.equal(expectedResult);
+  });
+
+  describe('sanitize0781BehaviorsDetails', () => {
+    it('removes behavior details not selected in any behavior group', () => {
+      const data = {
+        workBehaviors: { reassignment: true },
+        healthBehaviors: { medications: false },
+        otherBehaviors: { unlisted: false },
+        behaviorsDetails: {
+          reassignment: 'Work detail',
+          medications: 'Health detail',
+          unlisted: 'Other detail',
+        },
+      };
+
+      const expected = {
+        workBehaviors: { reassignment: true },
+        healthBehaviors: { medications: false },
+        otherBehaviors: { unlisted: false },
+        behaviorsDetails: {
+          reassignment: 'Work detail',
+        },
+      };
+
+      const result = sanitize0781BehaviorsDetails(data);
+      expect(result).to.deep.equal(expected);
+    });
+
+    it('clears all behavior details when noBehavioralChange.noChange is true', () => {
+      const data = {
+        noBehavioralChange: { noChange: true },
+        behaviorsDetails: {
+          reassignment: 'Work detail',
+          medications: 'Health detail',
+          unlisted: 'Other detail',
+        },
+      };
+
+      const expected = {
+        noBehavioralChange: { noChange: true },
+        behaviorsDetails: {},
+      };
+
+      const result = sanitize0781BehaviorsDetails(data);
+      expect(result).to.deep.equal(expected);
+    });
+  });
 
   it('should return the same object if syncModern0781Flow is false', () => {
     const formDataSyncModern0781False = {
       syncModern0781Flow: false,
       eventTypes: ['eventType1'],
       workBehaviors: ['workBehavior1'],
+      mentalHealthWorkflowChoice: 'optForOnlineForm0781',
     };
 
     const result = addForm0781V2(formDataSyncModern0781False);
-
     expect(result).to.deep.equal(formDataSyncModern0781False);
   });
 

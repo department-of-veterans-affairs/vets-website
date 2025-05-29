@@ -9,6 +9,8 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+    PatientComposePage.interceptSentFolder();
+
     PatientComposePage.selectRecipient(requestBody.recipientId);
     PatientComposePage.selectCategory(`${requestBody.category}`);
     PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`, {
@@ -34,7 +36,7 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     PatientComposePage.verifySendMessageConfirmationMessageText();
     PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
 
-    PatientComposePage.verifyHeader('Inbox');
+    PatientComposePage.verifyHeader('Messages: Inbox');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

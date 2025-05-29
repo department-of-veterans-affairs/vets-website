@@ -9,6 +9,24 @@ export const emptyObjectSchema = {
   properties: {},
 };
 
+export const uploadTitleAndDescription = {
+  'view:uploadTitle': {
+    'ui:title': 'Upload files',
+  },
+  'view:uploadFormNumberDescription': {
+    'ui:title': `Upload VA Form ${getFormNumber()}`,
+  },
+  'view:uploadDescription': {
+    'ui:description': Object.freeze(
+      <>
+        <span className="vads-u-font-weight--bold">Note:</span> After you upload
+        your file, you’ll need to continue to the next screen to submit it. If
+        you leave before you submit it, you’ll need to upload it again.
+      </>,
+    ),
+  },
+};
+
 export const claimantTitleAndDescription = {
   'view:claimantTitle': {
     'ui:title': 'Claimant information',
@@ -35,7 +53,7 @@ export const representativeTitleAndDescription = {
   },
   'view:representativeDescription': {
     'ui:description':
-      "Note: Changes to information here won't apply to your VA Office of General Counsel (OGC) profile.",
+      "Note: We'll use this email address to send you updates about the form submission.",
   },
 };
 

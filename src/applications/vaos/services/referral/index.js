@@ -26,9 +26,11 @@ export async function getProviderById(providerId) {
 }
 
 export async function postReferralAppointment({
-  referralId,
-  slotId,
   draftApppointmentId,
+  referralNumber,
+  slotId,
+  networkId,
+  providerServiceId,
 }) {
   const response = await apiRequestWithUrl(`/vaos/v2/appointments/submit`, {
     method: 'POST',
@@ -36,21 +38,24 @@ export async function postReferralAppointment({
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      referralId,
+      id: draftApppointmentId,
+      referralNumber,
       slotId,
-      draftApppointmentId,
+      networkId,
+      providerServiceId,
     }),
   });
   return response.data;
 }
 
-export async function postDraftReferralAppointment(referralId) {
+export async function postDraftReferralAppointment(referralNumber) {
   const response = await apiRequestWithUrl(`/vaos/v2/appointments/draft`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ referralId }),
+    // eslint-disable-next-line camelcase
+    body: JSON.stringify({ referral_id: referralNumber }),
   });
 
   return response.data;
@@ -58,7 +63,7 @@ export async function postDraftReferralAppointment(referralId) {
 
 export async function getAppointmentInfo(appointmentId) {
   const response = await apiRequestWithUrl(
-    `/vaos/v2/appointments/${appointmentId}`,
+    `/vaos/v2/eps_appointments/${appointmentId}`,
     {
       method: 'GET',
     },

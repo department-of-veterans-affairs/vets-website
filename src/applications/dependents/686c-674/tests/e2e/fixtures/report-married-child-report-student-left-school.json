@@ -1,0 +1,89 @@
+{
+  "householdIncome": false,
+  "view:completedChildStoppedAttendingSchool": false,
+  "view:completedMarriedChild": false,
+  "veteranContactInformation": {
+    "phoneNumber": "8008885555",
+    "emailAddress": "nope@nope.com",
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "123 Fake St.",
+      "city": "Fakesville",
+      "state": "AL",
+      "postalCode": "12345"
+    }
+  },
+  "view:removeDependentOptions": {
+    "reportStepchildNotInHousehold": false,
+    "reportMarriageOfChildUnder18": true,
+    "reportChild18OrOlderIsNotAttendingSchool": true
+  },
+  "view:addOrRemoveDependents": {
+    "remove": true
+  },
+  "view:addDependentOptions": {},
+  "spouseInformation": {
+    "fullName": {}
+  },
+  "view:certificateNotice": {},
+  "view:cancelAddSpouse": {},
+  "doesLiveWithSpouse": {
+    "address": {
+      "view:militaryBaseDescription": {}
+    }
+  },
+  "currentMarriageInformation": {
+    "location": {},
+    "view:marriageTypeInformation": {}
+  },
+  "reportDivorce": {
+    "fullName": {},
+    "view:cancelDivorce": {},
+    "divorceLocation": {
+      "location": {}
+    }
+  },
+  "childMarriage": [
+    {
+      "fullName": {
+        "first": "John",
+        "middle": "C",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "2008-06-19",
+      "dateMarried": "2025-02-19"
+    }
+  ],
+  "childStoppedAttendingSchool": [
+    {
+      "dateChildLeftSchool": "2025-01-19",
+      "fullName": {
+        "first": "Jane",
+        "last": "Doe"
+      },
+      "ssn": "333445556",
+      "birthDate": "2005-08-21"
+    }
+  ],
+  "view:additionalEvidenceDescription": {},
+  "view:selectable686Options": {
+    "reportStepchildNotInHousehold": false,
+    "reportMarriageOfChildUnder18": true,
+    "reportChild18OrOlderIsNotAttendingSchool": true
+  },
+  "veteranInformation": {
+    "fullName": {
+      "first": "Pauline",
+      "middle": "E",
+      "last": "Foster"
+    },
+    "ssn": "796330625",
+    "birthDate": "1976-06-09",
+    "ssnLastFour": "0625",
+    "vaFileLastFour": "0625"
+  },
+  "useV2": true,
+  "daysTillExpires": 365
+}

@@ -76,6 +76,16 @@ class PatientMessageSentPage {
   verifySentToFieldContainsPalinTGName = value => {
     cy.get('[data-testid="message-list-item"]').should('contain.text', value);
   };
+
+  verifyReadReceipt = text => {
+    cy.get('[data-testid^="expand-message-button-"]')
+      .not('[data-testid*="for-print"]')
+      .each(el => {
+        cy.wrap(el)
+          .should(`be.visible`)
+          .and(`contain.text`, text);
+      });
+  };
 }
 
 export default new PatientMessageSentPage();

@@ -1,6 +1,7 @@
 import {
   txtLine,
   txtLineDotted,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { parseLabsAndTests } from './labsAndTests';
 import { parseCareSummariesAndNotes } from './notes';
@@ -13,7 +14,6 @@ import { parseAppointments } from './appointments';
 import { parseDemographics } from './demographics';
 import { parseMilitaryService } from './militaryService';
 import { parseAccountSummary } from './accountSummary';
-import { formatUserDob } from '../helpers';
 
 // TODO: figure out a way to reduce complexity of the functions in this file
 /**

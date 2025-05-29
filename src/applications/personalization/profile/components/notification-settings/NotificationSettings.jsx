@@ -31,7 +31,6 @@ import { LOADING_STATES } from '../../../common/constants';
 import LoadFail from '../alerts/LoadFail';
 import ContactInfoOnFile from './ContactInfoOnFile';
 import Headline from '../ProfileSectionHeadline';
-import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
 import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
 import { FieldHasBeenUpdated as FieldHasBeenUpdatedAlert } from '../alerts/FieldHasBeenUpdated';
@@ -158,16 +157,11 @@ const NotificationSettings = ({
             {availableGroups.map(({ id }) => {
               // we handle the health care group a little differently
               if (id === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
-                return (
-                  <NotificationGroup groupId={id} key={id}>
-                    <HealthCareGroupSupportingText />
-                  </NotificationGroup>
-                );
+                return <NotificationGroup groupId={id} key={id} />;
               }
               // this will hide the Payments header when there are no items to display
               if (
                 id === NOTIFICATION_GROUPS.PAYMENTS &&
-                !toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting &&
                 !toggles.profileShowNewHealthCareCopayBillNotificationSetting &&
                 !mobilePhoneNumber
               ) {

@@ -19,7 +19,6 @@ import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectRegisteredCernerFacilityIds,
-  selectFeatureVAOSServiceVAAppointments,
   selectFeatureRemovePodiatry,
   selectFeatureDirectScheduleAppointmentConflict,
 } from '../../redux/selectors';
@@ -39,10 +38,6 @@ export function selectPageChangeInProgress(state) {
 
 export function getFlowType(state) {
   return getNewAppointment(state)?.flowType;
-}
-
-export function getAppointmentLength(state) {
-  return getNewAppointment(state).appointmentLength;
 }
 
 export function getFormPageInfo(state, pageKey) {
@@ -122,7 +117,7 @@ export function getChosenCCSystemById(state) {
   );
 }
 
-export function getSiteIdForChosenFacility(state) {
+function getSiteIdForChosenFacility(state) {
   return getSiteIdFromFacilityId(getFormData(state).vaFacility);
 }
 
@@ -220,11 +215,11 @@ export function selectProviderSelectionInfo(state) {
   };
 }
 
-export function selectFacilityPageSortMethod(state) {
+function selectFacilityPageSortMethod(state) {
   return getNewAppointment(state).facilityPageSortMethod;
 }
 
-export function selectNoValidVAFacilities(state) {
+function selectNoValidVAFacilities(state) {
   const newAppointment = getNewAppointment(state);
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const { childFacilitiesStatus } = newAppointment;
@@ -235,7 +230,7 @@ export function selectNoValidVAFacilities(state) {
   );
 }
 
-export function selectSingleValidVALocation(state) {
+function selectSingleValidVALocation(state) {
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const data = getFormData(state);
   const validFacilities = formInfo.schema?.properties.vaFacility.enum;
@@ -344,7 +339,7 @@ export function selectPatientProviderRelationships(state) {
   };
 }
 
-export function getChosenVACityState(state) {
+function getChosenVACityState(state) {
   const schema =
     state.newAppointment.pages.ccPreferences?.properties.communityCareSystemId;
 
@@ -357,20 +352,6 @@ export function getChosenVACityState(state) {
   }
 
   return null;
-}
-
-export function selectConfirmationPage(state) {
-  return {
-    data: getFormData(state),
-    clinic: getChosenClinicInfo(state),
-    facilityDetails: getChosenFacilityInfo(state),
-    slot: getChosenSlot(state),
-    systemId: getSiteIdForChosenFacility(state),
-    submitStatus: getNewAppointment(state).submitStatus,
-    flowType: getFlowType(state),
-    appointmentLength: getAppointmentLength(state),
-    hasResidentialAddress: selectHasVAPResidentialAddress(state),
-  };
 }
 
 export function selectReviewPage(state) {
@@ -392,9 +373,6 @@ export function selectReviewPage(state) {
 export function selectTypeOfCarePage(state) {
   const newAppointment = getNewAppointment(state);
   const address = selectVAPResidentialAddress(state);
-  const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-    state,
-  );
 
   return {
     ...address,
@@ -406,7 +384,6 @@ export function selectTypeOfCarePage(state) {
     removePodiatry: selectFeatureRemovePodiatry(state),
     showPodiatryApptUnavailableModal:
       newAppointment.showPodiatryAppointmentUnavailableModal,
-    useV2: featureVAOSServiceVAAppointments,
   };
 }
 
