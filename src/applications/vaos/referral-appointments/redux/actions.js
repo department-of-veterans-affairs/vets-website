@@ -47,7 +47,10 @@ export function setFormCurrentPage(currentPage) {
   };
 }
 
-export function createDraftReferralAppointment(referralNumber) {
+export function createDraftReferralAppointment(
+  referralNumber,
+  referralConsultId,
+) {
   return async dispatch => {
     try {
       dispatch({
@@ -56,6 +59,7 @@ export function createDraftReferralAppointment(referralNumber) {
 
       const providerDetails = await postDraftReferralAppointment(
         referralNumber,
+        referralConsultId,
       );
 
       dispatch({
