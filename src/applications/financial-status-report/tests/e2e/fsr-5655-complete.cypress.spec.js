@@ -465,25 +465,6 @@ const testConfig = createTestConfig(
       // ==============================================================
       // ================== householdExpensesChapter ==================
       // ==============================================================
-      'household-expenses-checklist': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-checkbox')
-            .shadow()
-            .find('input[type="checkbox"]')
-            .should('exist');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'household-expenses-values': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#Rent0')
-            .first()
-            .shadow()
-            .find('input')
-            .type('123');
-          cy.get('.usa-button-primary').click();
-        });
-      },
       'utility-bill-checklist': ({ afterHook }) => {
         afterHook(() => {
           fillChecklist(utilityRecords);
