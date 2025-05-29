@@ -38,7 +38,6 @@ const VAOS_SERVICE_REQUEST_LIMIT = 'facility-request-limit-exceeded';
 /**
  * Returns patient based eligibility checks for specified request or direct types
  *
- * @export
  * @param {Object} params
  * @param {TypeOfCare} params.typeOfCare Type of care object,
  * @param {Location} params.location Location of where patient should have eligibility checked,
@@ -47,11 +46,7 @@ const VAOS_SERVICE_REQUEST_LIMIT = 'facility-request-limit-exceeded';
  * }
  * @returns {PatientEligibility} Patient eligibility data
  */
-export async function fetchPatientEligibility({
-  typeOfCare,
-  location,
-  type = null,
-}) {
+async function fetchPatientEligibility({ typeOfCare, location, type = null }) {
   const checks = {};
   if (type !== 'request') {
     checks.direct = getPatientEligibility(
