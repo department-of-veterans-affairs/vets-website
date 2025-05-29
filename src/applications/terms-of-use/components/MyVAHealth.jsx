@@ -2,13 +2,47 @@ import React, { useEffect, useState } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { datadogRum } from '@datadog/browser-rum';
+import { datadogLogs } from '@datadog/browser-logs';
+import { useSelector } from 'react-redux';
 import ContactCenterInformation from 'platform/user/authentication/components/ContactCenterInformation';
+import { selectProfile, profileHasEHRM, profileHasVista } from '../selectors';
 import TermsAcceptance from './TermsAcceptanceAction';
 import { parseRedirectUrl, touUpdatedDate, declineAndLogout } from '../helpers';
-import { touStyles, errorMessages } from '../constants';
+import {
+  touStyles,
+  errorMessages,
+  errorCodes,
+  datadogEvents,
+} from '../constants';
 import touData from '../touData';
 
 const redirectToErrorPage = errorCode => {
+  // Add Datadog event tracking for error codes 110 and 111
+  if (
+    errorCode === errorCodes.GENERAL_ERROR ||
+    errorCode === errorCodes.ACCOUNT_PROVISIONING_ERROR
+  ) {
+    // Use datadogRum for user actions
+    if (datadogRum) {
+      datadogRum.addAction(datadogEvents.ERROR, {
+        errorCode,
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    // Use datadogLogs for error logging with additional context
+    if (datadogLogs) {
+      datadogLogs.logger.error(datadogEvents.ERROR, {
+        errorCode,
+        redirectUrl: `${
+          environment.BASE_URL
+        }/auth/login/callback/?auth=fail&code=${errorCode}`,
+        timestamp: new Date().toISOString(),
+      });
+    }
+  }
+
   window.location = `${
     environment.BASE_URL
   }/auth/login/callback/?auth=fail&code=${errorCode}`;
@@ -29,6 +63,7 @@ export default function MyVAHealth() {
   const [isDisabled, setIsDisabled] = useState(false);
   const url = new URL(window.location);
   const ssoeTarget = url.searchParams.get('ssoeTarget');
+  const profile = useSelector(selectProfile);
 
   useEffect(
     () => {
@@ -44,7 +79,27 @@ export default function MyVAHealth() {
                 decodeURIComponent(ssoeTarget),
               );
             } else {
-              redirectToErrorPage(111);
+              // Add additional context to Datadog event for error code 111
+              if (datadogRum) {
+                datadogRum.addAction(datadogEvents.PROVISIONING_FAILED, {
+                  errorCode: errorCodes.ACCOUNT_PROVISIONING_ERROR,
+                  hasEHRM: profileHasEHRM({ profile }),
+                  hasVista: profileHasVista({ profile }),
+                  timestamp: new Date().toISOString(),
+                });
+              }
+
+              // Log the error with datadogLogs
+              if (datadogLogs) {
+                datadogLogs.logger.error(datadogEvents.PROVISIONING_FAILED, {
+                  errorCode: errorCodes.ACCOUNT_PROVISIONING_ERROR,
+                  hasEHRM: profileHasEHRM({ profile }),
+                  hasVista: profileHasVista({ profile }),
+                  timestamp: new Date().toISOString(),
+                });
+              }
+
+              redirectToErrorPage(errorCodes.ACCOUNT_PROVISIONING_ERROR);
             }
           })
           .catch(err => {
@@ -52,18 +107,65 @@ export default function MyVAHealth() {
             if (message === 'Agreement not accepted') {
               setDisplayTerms(true);
             } else if (message === 'Account not Provisioned') {
-              redirectToErrorPage(111);
+              // Add additional context to Datadog event for error code 111
+              if (datadogRum) {
+                datadogRum.addAction(datadogEvents.ACCOUNT_NOT_PROVISIONED, {
+                  errorCode: errorCodes.ACCOUNT_PROVISIONING_ERROR,
+                  errorMessage: message,
+                  hasEHRM: profileHasEHRM({ profile }),
+                  hasVista: profileHasVista({ profile }),
+                  timestamp: new Date().toISOString(),
+                });
+              }
+
+              // Log the error with datadogLogs
+              if (datadogLogs) {
+                datadogLogs.logger.error(
+                  datadogEvents.ACCOUNT_NOT_PROVISIONED,
+                  {
+                    errorCode: errorCodes.ACCOUNT_PROVISIONING_ERROR,
+                    errorMessage: message,
+                    hasEHRM: profileHasEHRM({ profile }),
+                    hasVista: profileHasVista({ profile }),
+                    timestamp: new Date().toISOString(),
+                  },
+                );
+              }
+
+              redirectToErrorPage(errorCodes.ACCOUNT_PROVISIONING_ERROR);
             } else {
               setError({
                 isError: true,
                 message: errorMessages.network,
               });
-              redirectToErrorPage(110);
+              // Add additional context to Datadog event for error code 110
+              if (datadogRum) {
+                datadogRum.addAction(datadogEvents.NETWORK_ERROR, {
+                  errorCode: errorCodes.GENERAL_ERROR,
+                  errorMessage: message || 'Unknown error',
+                  hasEHRM: profileHasEHRM({ profile }),
+                  hasVista: profileHasVista({ profile }),
+                  timestamp: new Date().toISOString(),
+                });
+              }
+
+              // Log the error with datadogLogs
+              if (datadogLogs) {
+                datadogLogs.logger.error(datadogEvents.NETWORK_ERROR, {
+                  errorCode: errorCodes.GENERAL_ERROR,
+                  errorMessage: message || 'Unknown error',
+                  hasEHRM: profileHasEHRM({ profile }),
+                  hasVista: profileHasVista({ profile }),
+                  timestamp: new Date().toISOString(),
+                });
+              }
+
+              redirectToErrorPage(errorCodes.GENERAL_ERROR);
             }
           });
       }
     },
-    [ssoeTarget],
+    [ssoeTarget, profile],
   );
 
   const handleTouClick = async type => {
@@ -101,8 +203,33 @@ export default function MyVAHealth() {
     } catch (err) {
       setError({ isError: true, message: errorMessages.network });
       setIsDisabled(false);
+
+      // Add additional context to Datadog event for error code 110 during accept/decline
+      if (datadogRum) {
+        datadogRum.addAction(datadogEvents.API_ERROR_DURING_ACTION, {
+          errorCode: errorCodes.GENERAL_ERROR,
+          action: type,
+          errorMessage: err?.error || 'Unknown error',
+          hasEHRM: profileHasEHRM({ profile }),
+          hasVista: profileHasVista({ profile }),
+          timestamp: new Date().toISOString(),
+        });
+      }
+
+      // Log the error with datadogLogs
+      if (datadogLogs) {
+        datadogLogs.logger.error(datadogEvents.API_ERROR_DURING_ACTION, {
+          errorCode: errorCodes.GENERAL_ERROR,
+          action: type,
+          errorMessage: err?.error || 'Unknown error',
+          hasEHRM: profileHasEHRM({ profile }),
+          hasVista: profileHasVista({ profile }),
+          timestamp: new Date().toISOString(),
+        });
+      }
+
       // fatal or network error redirect to 110 page
-      redirectToErrorPage(110);
+      redirectToErrorPage(errorCodes.GENERAL_ERROR);
     }
   };
 

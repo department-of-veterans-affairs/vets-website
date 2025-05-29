@@ -3,6 +3,19 @@ export const errorMessages = {
   tooManyRequests: `There are too many requests. Please try again in a few minutes.`,
 };
 
+export const errorCodes = {
+  GENERAL_ERROR: 110,
+  ACCOUNT_PROVISIONING_ERROR: 111,
+};
+
+export const datadogEvents = {
+  ERROR: 'Terms of Use Error',
+  PROVISIONING_FAILED: 'Terms of Use Error - Provisioning Failed',
+  ACCOUNT_NOT_PROVISIONED: 'Terms of Use Error - Account Not Provisioned',
+  NETWORK_ERROR: 'Terms of Use Error - Network Error',
+  API_ERROR_DURING_ACTION: 'Terms of Use Error - API Error During Action',
+};
+
 export const touStyles = `
   #vetnav { display: none; }
   #legacy-header { min-height: auto; }
