@@ -102,7 +102,11 @@ const NewRecordsIndicator = ({
   };
 
   const content = () => {
-    if (refreshedOnThisPage) {
+    if (
+      refreshedOnThisPage ||
+      refreshPhase === refreshPhases.CALL_FAILED ||
+      refreshPhase === refreshPhases.FAILED
+    ) {
       if (refreshPhase === refreshPhases.CALL_FAILED) {
         return (
           <va-alert
@@ -123,7 +127,7 @@ const NewRecordsIndicator = ({
               If it still doesn’t work, call us at{' '}
               <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
               <va-telephone tty contact={CONTACTS['711']} />
-              ). We’re here Monday through Friday, 8:00 a.m to 8:00 p. ET.
+              ). We’re here Monday through Friday, 8:00 a.m to 8:00 p.m. ET.
             </p>
           </va-alert>
         );
