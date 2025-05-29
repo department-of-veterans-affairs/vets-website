@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class PreferredLanguagePageObject extends PageObject {
+class PreferredLanguagePageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', 'preferred-language');
     cy.axeCheckBestPractice();

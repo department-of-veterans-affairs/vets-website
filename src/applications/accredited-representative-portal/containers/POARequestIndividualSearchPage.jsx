@@ -270,7 +270,7 @@ const POARequestIndividualSearchPage = () => {
       >
         <VaTextInput
           label="First name"
-          width="2xl"
+          width="xl"
           name="first_name"
           required="required"
           value={searchData.first_name}
@@ -283,7 +283,7 @@ const POARequestIndividualSearchPage = () => {
         />
         <VaTextInput
           label="Last name"
-          width="2xl"
+          width="xl"
           name="last_name"
           required="required"
           value={searchData.last_name}
@@ -312,7 +312,7 @@ const POARequestIndividualSearchPage = () => {
           name="ssn"
           className="ssn-input"
           required="required"
-          uiOptions={{ width: '2xl' }}
+          uiOptions={{ width: 'xl' }}
           error={
             validationPerformed && (searchData.ssn || '').length < 9
               ? 'Enter a Social Security number'
