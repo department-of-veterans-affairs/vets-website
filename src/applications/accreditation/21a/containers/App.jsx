@@ -15,16 +15,22 @@ import { selectShouldGoToSignIn } from '../selectors/navigation';
 
 const App = ({ children }) => {
   const {
-    TOGGLE_NAMES: { accreditedRepresentativePortalFrontend: appToggleKey },
+    TOGGLE_NAMES,
     useToggleLoadingValue,
     useToggleValue,
   } = useFeatureToggle();
 
-  const isAppEnabled = useToggleValue(appToggleKey);
+  const isAppEnabled = useToggleValue(
+    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
+  );
+  const isForm21Enabled = useToggleValue(
+    TOGGLE_NAMES.accreditedRepresentativePortalForm21a,
+  );
   const isProduction = window.Cypress || environment.isProduction();
   const shouldExitApp = isProduction && !isAppEnabled;
-
-  const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
+  const isAppToggleLoading = useToggleLoadingValue(
+    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
+  );
   const shouldGoToSignIn = useSelector(selectShouldGoToSignIn);
   const isUserLoading = useSelector(selectIsUserLoading);
 
@@ -41,6 +47,11 @@ const App = ({ children }) => {
 
   if (shouldExitApp) {
     window.location.replace('/');
+    return null;
+  }
+
+  if (!isForm21Enabled) {
+    window.location.replace('/representative');
     return null;
   }
 
