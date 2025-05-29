@@ -78,15 +78,14 @@ describe(`${appName} -- landing page -- pre-milestone-2`, () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  // it's not clear why this test is failing
-  it.skip('renders the hub section', () => {
+  it('renders the hub section', () => {
     const healthBenefits = {
       level: 2,
-      name: /^My VA health benefits$/,
+      name: /^VA health benefits$/,
     };
     const moreResources = {
       level: 2,
-      name: /^More resources and support$/,
+      name: /^More health resources$/,
     };
     const spotlight = {
       level: 2,

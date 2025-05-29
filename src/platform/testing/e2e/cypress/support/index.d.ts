@@ -112,5 +112,28 @@ declare namespace Cypress {
     ): Chainable<Subject>;
 
     injectAxeThenAxeCheck(): Chainable<Subject>;
+
+    /**
+     * For `addressUI` pattern
+     * @param fieldName - The base name of the address field.
+     * @param addressObject - The address object containing the address details.
+     */
+    fillAddressWebComponentPattern(
+      fieldName: string,
+      addressObject: object,
+    ): Chainable<Subject>;
+
+    /**
+     * @param fields - The fields to fill.
+     * @param index - The index of the field.
+     * @param fillFieldsInVaCard - The callback function to fill fields in the va-card.
+     * @param numItems - The total number of items.
+     */
+    fillFieldsInVaCardIfNeeded(
+      fields: any,
+      index: number,
+      fillFieldsInVaCard: (fields: any, index: number) => void,
+      numItems: number,
+    ): Chainable<Subject>;
   }
 }
