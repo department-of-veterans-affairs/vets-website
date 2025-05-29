@@ -18,7 +18,7 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import conflictOfInterest from '../pages';
+import { allProprietarySchools } from '../pages';
 
 // const { } = fullSchema.properties;
 
@@ -106,14 +106,14 @@ const formConfig = {
         },
       },
     },
-    conflictOfInterestChapter: {
-      title: 'Additional Information',
+    allProprietarySchoolsChapter: {
+      title: 'All proprietary schools',
       pages: {
-        conflictOfInterest: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: conflictOfInterest.uiSchema,
-          schema: conflictOfInterest.schema,
+        allProprietarySchools: {
+          path: 'all-proprietary-schools',
+          title: 'All proprietary schools',
+          uiSchema: allProprietarySchools.uiSchema,
+          schema: allProprietarySchools.schema,
         },
         directDeposit: {
           path: 'direct-deposit',

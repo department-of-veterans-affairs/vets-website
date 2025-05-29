@@ -1,3 +1,3 @@
-import * as conflictOfInterest from './conflictOfInterest';
+import * as allProprietarySchools from './allProprietarySchools';
 
-export { conflictOfInterest };
+export { allProprietarySchools };
