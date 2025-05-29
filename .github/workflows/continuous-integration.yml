@@ -345,10 +345,8 @@ jobs:
         run: |
           if [[ -n "$APP_FOLDERS" ]]; then
             yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
-            # echo "tests_ran=true" >> $GITHUB_OUTPUT
           else
             yarn test:unit:gha --full-suite --coverage --log-level verbose
-            # echo "tests_ran=true" >> $GITHUB_OUTPUT
           fi
           
         env:
