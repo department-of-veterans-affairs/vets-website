@@ -27,7 +27,6 @@ const redirectToErrorPage = errorCode => {
     if (datadogRum) {
       datadogRum.addAction(datadogEvents.ERROR, {
         errorCode,
-        timestamp: new Date().toISOString(),
       });
     }
 
@@ -38,7 +37,6 @@ const redirectToErrorPage = errorCode => {
         redirectUrl: `${
           environment.BASE_URL
         }/auth/login/callback/?auth=fail&code=${errorCode}`,
-        timestamp: new Date().toISOString(),
       });
     }
   }
@@ -85,7 +83,6 @@ export default function MyVAHealth() {
                   errorCode: errorCodes.ACCOUNT_PROVISIONING_ERROR,
                   hasEHRM: profileHasEHRM({ profile }),
                   hasVista: profileHasVista({ profile }),
-                  timestamp: new Date().toISOString(),
                 });
               }
 
@@ -95,7 +92,6 @@ export default function MyVAHealth() {
                   errorCode: errorCodes.ACCOUNT_PROVISIONING_ERROR,
                   hasEHRM: profileHasEHRM({ profile }),
                   hasVista: profileHasVista({ profile }),
-                  timestamp: new Date().toISOString(),
                 });
               }
 
@@ -114,7 +110,6 @@ export default function MyVAHealth() {
                   errorMessage: message,
                   hasEHRM: profileHasEHRM({ profile }),
                   hasVista: profileHasVista({ profile }),
-                  timestamp: new Date().toISOString(),
                 });
               }
 
@@ -127,7 +122,6 @@ export default function MyVAHealth() {
                     errorMessage: message,
                     hasEHRM: profileHasEHRM({ profile }),
                     hasVista: profileHasVista({ profile }),
-                    timestamp: new Date().toISOString(),
                   },
                 );
               }
@@ -145,7 +139,6 @@ export default function MyVAHealth() {
                   errorMessage: message || 'Unknown error',
                   hasEHRM: profileHasEHRM({ profile }),
                   hasVista: profileHasVista({ profile }),
-                  timestamp: new Date().toISOString(),
                 });
               }
 
@@ -156,7 +149,6 @@ export default function MyVAHealth() {
                   errorMessage: message || 'Unknown error',
                   hasEHRM: profileHasEHRM({ profile }),
                   hasVista: profileHasVista({ profile }),
-                  timestamp: new Date().toISOString(),
                 });
               }
 
@@ -212,7 +204,6 @@ export default function MyVAHealth() {
           errorMessage: err?.error || 'Unknown error',
           hasEHRM: profileHasEHRM({ profile }),
           hasVista: profileHasVista({ profile }),
-          timestamp: new Date().toISOString(),
         });
       }
 
@@ -224,7 +215,6 @@ export default function MyVAHealth() {
           errorMessage: err?.error || 'Unknown error',
           hasEHRM: profileHasEHRM({ profile }),
           hasVista: profileHasVista({ profile }),
-          timestamp: new Date().toISOString(),
         });
       }
 
