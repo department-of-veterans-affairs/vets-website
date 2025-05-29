@@ -74,7 +74,7 @@ import { getTypeOfCare } from './selectors';
 import { distanceBetween } from '../../utils/address';
 import { isTypeOfCareSupported } from '../../services/location';
 
-export const REASON_ADDITIONAL_INFO_TITLES = {
+const REASON_ADDITIONAL_INFO_TITLES = {
   va: 'Add any details you’d like to share with your provider.',
   ccRequest:
     'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',

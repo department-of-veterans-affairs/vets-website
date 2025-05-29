@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { titleCase } from '../utils/formatters';
 import ReferralLayout from './components/ReferralLayout';
+import ProviderAddress from './components/ProviderAddress';
 import { routeToNextReferralPage } from './flow';
 import {
   pollFetchAppointmentInfo,
@@ -165,31 +166,22 @@ export const CompleteReferral = props => {
               {appointmentTime}
             </h2>
             <strong data-testid="appointment-type">
-              {titleCase(attributes.typeOfCare)} with{' '}
-              {`${attributes.provider.name || 'Provider name not available'}`}
+              {titleCase(currentReferral.categoryOfCare)} with{' '}
+              {`${currentReferral.provider.name ||
+                'Provider name not available'}`}
             </strong>
             <p
-              className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--0"
+              className="vads-u-margin-bottom--0"
               data-testid="appointment-modality"
             >
-              <span className="vads-u-margin-right--1">
-                <va-icon
-                  icon="location_city"
-                  aria-hidden="true"
-                  data-testid="appointment-icon"
-                  size={3}
-                />
-              </span>
-              {attributes.modality} at {attributes.provider.practice}
+              Community Care
             </p>
-            {attributes.provider.clinic && (
-              <p
-                className="vads-u-margin-left--4 vads-u-margin-top--0p5"
-                data-testid="appointment-clinic"
-              >
-                Clinic: {attributes.provider.clinic}
-              </p>
-            )}
+            <ProviderAddress
+              address={attributes.provider.location.address}
+              showDirections
+              directionsName={attributes.provider.location.name}
+              phone={currentReferral.provider.phone}
+            />
             <p>
               <va-link
                 href={`${root.url}/${attributes.id}?eps=true`}

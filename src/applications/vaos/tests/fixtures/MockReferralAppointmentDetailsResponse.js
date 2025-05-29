@@ -25,8 +25,6 @@ class MockReferralAppointmentDetailsResponse {
    */
   static createSuccessResponse({
     appointmentId = 'EEKoGzEf',
-    typeOfCare = 'OPTOMETRY',
-    providerName = 'Dr. Bones',
     organizationName = 'Meridian Health',
   } = {}) {
     return {
@@ -39,26 +37,18 @@ class MockReferralAppointmentDetailsResponse {
           start: new Date(
             new Date().setDate(new Date().getDate() + 30),
           ).toISOString(), // 30 days in future
-          typeOfCare,
           isLatest: true,
           lastRetrieved: new Date().toISOString(),
           modality: 'In Person',
           provider: {
             id: 'test-provider-id',
-            name: providerName,
-            practice: organizationName,
-            phone: '555-555-5555',
-            address: {
-              street1: '207 Davishill Ln',
-              street2: 'Suite 456',
-              city: 'Charleston',
-              state: 'SC',
-              zip: '29401',
+            location: {
+              name: 'FHA South Melbourne Medical Complex',
+              address: organizationName,
+              latitude: 28.08061,
+              longitude: -80.60322,
+              timezone: 'America/New_York',
             },
-          },
-          referringFacility: {
-            name: 'VA Boston Healthcare System',
-            phoneNumber: '555-123-4567',
           },
         },
       },
