@@ -195,15 +195,17 @@ export function SearchPage({
                   >
                     <NameSearchForm smallScreen />
                   </AccordionItem>
-                  <AccordionItem
-                    button="Search by location"
-                    expanded={accordions[TABS.location]}
-                    onClick={expanded => {
-                      accordionChange(TABS.location, expanded);
-                    }}
-                  >
-                    <LocationSearchForm smallScreen />
-                  </AccordionItem>
+                  {!mapboxMitigation && (
+                    <AccordionItem
+                      button="Search by location"
+                      expanded={accordions[TABS.location]}
+                      onClick={expanded => {
+                        accordionChange(TABS.location, expanded);
+                      }}
+                    >
+                      <LocationSearchForm smallScreen />
+                    </AccordionItem>
+                  )}
                   {!error && smallScreen && tabbedResults[tab]}
                 </div>
               )}
