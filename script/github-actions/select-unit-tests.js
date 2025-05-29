@@ -41,15 +41,9 @@ const CHANGED_APPS =
     : [];
 
 const CHANGED_APPS_UNIQUE = [...new Set(CHANGED_APPS)];
-
-// Identify spec files that were **modified or added** in the PR
-
 const CHANGED_SPEC_FILES = CHANGED_FILES.filter(filePath =>
   /\.unit\.spec\.jsx?$/.test(filePath),
 );
-
-// Disallowed specs that belong to the changed apps
-
 const DISALLOWED_SPECS_IN_CHANGED_APPS = DISALLOWED_SPECS.filter(
   specPath =>
     CHANGED_APPS_UNIQUE.some(appPath => specPath.includes(appPath)) &&
