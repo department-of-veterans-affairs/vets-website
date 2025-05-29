@@ -179,6 +179,9 @@ describe('The My VA Dashboard', () => {
 
     it('should show success message if download works', () => {
       cy.findAllByTestId('submitted-application').should('have.length', 4);
+      cy.window().then(windowMock => {
+        cy.stub(windowMock, 'open').as('windowOpen');
+      });
       cy.get('button')
         .contains('Download your completed form (PDF)')
         .should('be.visible')
@@ -186,11 +189,13 @@ describe('The My VA Dashboard', () => {
       cy.wait('@pdfEndpoint')
         .its('response.statusCode')
         .should('eq', 200);
-      cy.readFile(
-        `${Cypress.config(
-          'downloadsFolder',
-        )}/Form_21-0845_c4845944-87bf-444c-8e6e-5bfeed67fb12.pdf`,
-      ).should('exist');
+      // The file download moved to a window.open call in a
+      // new window so this is how we can check it fired
+      cy.get('@windowOpen').should(
+        'have.been.calledWith',
+        'https://example.com/form.pdf',
+        '_blank',
+      );
       cy.get('va-alert[status="success"]').should('be.visible');
       cy.injectAxe();
       cy.axeCheck();
