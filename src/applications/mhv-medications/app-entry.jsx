@@ -8,6 +8,9 @@ import { RouterProvider } from 'react-router-dom-v5-compat';
 
 import startReactApp from 'platform/startup/react';
 
+// Initialize MSW in development
+import './msw-browser';
+
 import router from './routes';
 import { store } from './store';
 
