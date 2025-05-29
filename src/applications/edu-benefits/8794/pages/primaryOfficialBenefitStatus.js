@@ -22,22 +22,21 @@ const uiSchema = {
           !formData?.primaryOfficialBenefitStatus?.hasVaEducationBenefits,
       },
     },
-    //  'ui:options': {
-    //   updateSchema: (formData, formSchema) => {
-    //     console.log('formData', formData);
-    //     if (formData.primaryOfficialBenefitStatus?.hasVaEducationBenefits) {
-    //       return {
-    //         ...formSchema,
-    //         required: ['hasVaEducationBenefits', 'view:benefitsDisclaimer'],
-    //       };
-    //     }
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (formData.primaryOfficialBenefitStatus?.hasVaEducationBenefits) {
+          return {
+            ...formSchema,
+            required: ['hasVaEducationBenefits', 'view:benefitsDisclaimer'],
+          };
+        }
 
-    //     else return {
-    //       ...formSchema,
-    //        required: ['hasVaEducationBenefits']
-    //     };
-    //   },
-    // },
+        return {
+          ...formSchema,
+          required: ['hasVaEducationBenefits'],
+        };
+      },
+    },
   },
 };
 

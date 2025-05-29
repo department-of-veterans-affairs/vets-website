@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-const PrimaryOfficialBenefitsDisclaimer = props => {
+const PrimaryOfficialBenefitsDisclaimer = ({ required, ...props }) => {
   const formState = useSelector(state => state?.form?.data);
   const dispatch = useDispatch();
+
+  const [checkboxError, setCheckboxError] = useState(null);
+
+  useEffect(
+    () => {
+      setCheckboxError(
+        required && !props.formData
+          ? 'Please check the box before proceeding'
+          : null,
+      );
+    },
+    [required, !props.formData],
+  );
 
   return (
     <div className="vads-u-border-color--primary-alt-light vads-u-border--1px vads-u-margin-top--5 info ">
@@ -29,11 +42,14 @@ const PrimaryOfficialBenefitsDisclaimer = props => {
               ...formState,
               primaryOfficialBenefitStatus: {
                 ...formState.primaryOfficialBenefitStatus,
-                'view:benefitsDisclaimer': event.target.checked,
+                'view:benefitsDisclaimer': event.target.checked
+                  ? true
+                  : undefined,
               },
             }),
           );
         }}
+        error={props?.formContext?.submitted ? checkboxError : null}
         required
         label="I understand"
         className="vads-u-margin-y--2 vads-u-padding-x--3"
