@@ -32,6 +32,7 @@ import { applicantPages } from '../chapters/applicantInformation';
 import {
   medicarePages,
   missingMedicarePage,
+  proofOfIneligibilityUploadPage,
 } from '../chapters/medicareInformation';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
 
@@ -169,6 +170,7 @@ const formConfig = {
       pages: {
         ...medicarePages,
         page22: missingMedicarePage,
+        page23: proofOfIneligibilityUploadPage,
       },
     },
     healthInsuranceInformation: {

@@ -786,6 +786,47 @@ export const missingMedicarePage = {
   },
 };
 
+export const proofOfIneligibilityUploadPage = {
+  path: 'proof-of-ineligibility-upload',
+  title: 'Proof of Medicare ineligibility',
+  depends: formData => formData?.hasProofMultipleApplicants,
+  uiSchema: {
+    ...titleUI(
+      'Upload proof of Medicare ineligibility',
+      <>
+        You’ll need to submit a copy of a letter from the Social Security
+        Administration that confirms that any applicants don’t qualify for
+        Medicare benefits under anyone’s Social Security number. <br /> <br />
+        If more than one applicant has a proof of Medicare ineligibility, you
+        can submit them all at once.
+      </>,
+    ),
+    ...fileUploadBlurb,
+    proofOfIneligibilityUpload: fileUploadUI({
+      label: 'Upload proof of Medicare ineligibility',
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['proofOfIneligibilityUpload'],
+    properties: {
+      titleSchema,
+      'view:fileUploadBlurb': blankSchema,
+      proofOfIneligibilityUpload: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 // PAGES NEEDED:
 // - generic disallowance yes/no + upload screen (TBD, need Jamie's design)
 
