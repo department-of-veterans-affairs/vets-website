@@ -9,11 +9,12 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
 import directDeposit from '../pages/directDeposit';
-import serviceHistory from '../pages/serviceHistory';
+
 import {
   certifyingOfficials,
   aboutYourInstitution,
   institutionDetails,
+  proprietaryProfit,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -79,15 +80,15 @@ const formConfig = {
         },
       },
     },
-  },
-  serviceHistoryChapter: {
-    title: 'Service History',
-    pages: {
-      serviceHistory: {
-        path: 'service-history',
-        title: 'Service History',
-        uiSchema: serviceHistory.uiSchema,
-        schema: serviceHistory.schema,
+    proprietaryProfitChapter: {
+      title: 'Proprietary profit schools only',
+      pages: {
+        proprietaryProfit: {
+          path: 'proprietary-profit',
+          title: "Confirm your institution's classification",
+          uiSchema: proprietaryProfit.uiSchema,
+          schema: proprietaryProfit.schema,
+        },
       },
     },
   },
