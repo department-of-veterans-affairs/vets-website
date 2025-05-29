@@ -54,7 +54,7 @@ const PrimaryOfficialBenefitsDisclaimer = ({ required, ...props }) => {
         label="I understand"
         className={
           props?.formContext?.submitted && checkboxError
-            ? 'vads-u-margin-y--2 vads-u-padding-x--3 error vads-u-margin-left--2 info'
+            ? 'vads-u-margin-y--2 vads-u-padding-x--3 vads-u-margin-left--2p5'
             : 'vads-u-margin-y--2 vads-u-padding-x--3'
         }
       />
