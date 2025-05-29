@@ -1,5 +1,7 @@
 import React from 'react';
 import { lowercase } from 'lodash';
+
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -13,7 +15,6 @@ import {
   radioSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
   formatFullNameNoSuffix,
@@ -85,6 +86,46 @@ export const options = {
   },
 };
 
+const SupplementaryFormsAlert = props => {
+  const assets = props?.formData?.ownedAssets || [];
+  console.log(assets, props);
+  const assetTypes = ['farm'];
+
+  return (
+    <va-alert status="info">
+      <h2 slot="headline">Additional form needed</h2>
+      <p>
+        You’ve added a {assetTypes.join(' and ')}, so you need to fill out a
+        Report of Income from Property or Business (VA Form 21P-4185) and
+        Pension Claim Questionnaire for Farm Income (VA Form 21P-4165). You can
+        upload them at a later part of this process.
+      </p>
+      <p>
+        <va-link
+          download
+          filetype="PDF"
+          href="https://www.va.gov/find-forms/about-form-21p-4185/"
+          text="Download VA Form 21P-4185 (opens in new tab)"
+          rel="noopener noreferrer"
+          target="_blank"
+          aria-label="Download VA Form 21P-4185 (opens in new tab)"
+        />
+      </p>
+      <p>
+        <va-link
+          download
+          filetype="PDF"
+          href="https://www.va.gov/find-forms/about-form-21p-4165/"
+          text="Download VA Form 21P-4165 (opens in new tab)"
+          rel="noopener noreferrer"
+          target="_blank"
+          aria-label="Download VA Form 21P-4165 (opens in new tab)"
+        />
+      </p>
+    </va-alert>
+  );
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -92,6 +133,9 @@ export const options = {
  */
 const summaryPage = {
   uiSchema: {
+    'view:supplementaryFormsAlert': {
+      'ui:description': SupplementaryFormsAlert,
+    },
     'view:isAddingOwnedAssets': arrayBuilderYesNoUI(
       options,
       {
@@ -115,6 +159,10 @@ const summaryPage = {
   schema: {
     type: 'object',
     properties: {
+      'view:supplementaryFormsAlert': {
+        type: 'object',
+        properties: {},
+      },
       'view:isAddingOwnedAssets': arrayBuilderYesNoSchema,
     },
     required: ['view:isAddingOwnedAssets'],
@@ -184,21 +232,6 @@ const ownedAssetTypePage = {
       title: 'What is the type of the owned asset?',
       labels: ownedAssetTypeLabels,
     }),
-    'view:propertyOrBusinessFormRequestAlert': {
-      'ui:description': RequestPropertyOrBusinessIncomeFormAlert,
-      'ui:options': {
-        expandUnder: 'assetType',
-        expandUnderCondition: assetType =>
-          assetType === 'RENTAL_PROPERTY' || assetType === 'BUSINESS',
-      },
-    },
-    'view:farmFormRequestAlert': {
-      'ui:description': RequestFarmIncomeFormAlert,
-      'ui:options': {
-        expandUnder: 'assetType',
-        expandUnderCondition: 'FARM',
-      },
-    },
     grossMonthlyIncome: currencyUI('Gross monthly income'),
     ownedPortionValue: currencyUI('Value of your portion of the property'),
   },
@@ -206,11 +239,6 @@ const ownedAssetTypePage = {
     type: 'object',
     properties: {
       assetType: radioSchema(Object.keys(ownedAssetTypeLabels)),
-      'view:propertyOrBusinessFormRequestAlert': {
-        type: 'object',
-        properties: {},
-      },
-      'view:farmFormRequestAlert': { type: 'object', properties: {} },
       grossMonthlyIncome: currencySchema,
       ownedPortionValue: currencySchema,
     },
