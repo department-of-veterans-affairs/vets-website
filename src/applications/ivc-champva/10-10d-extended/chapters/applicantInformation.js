@@ -32,7 +32,11 @@ import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUpload
 import ApplicantRelationshipPage from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
-import { applicantWording, getAgeInYears } from '../../shared/utilities';
+import {
+  applicantWording,
+  getAgeInYears,
+  fmtDate,
+} from '../../shared/utilities';
 
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
@@ -71,7 +75,17 @@ const applicantOptions = {
   nounPlural: 'applicants',
   required: true,
   isItemIncomplete: item => {
-    return !item?.applicantName?.first;
+    return !(
+      item.applicantName?.first &&
+      item.applicantDob &&
+      item.applicantSSN &&
+      item.applicantGender &&
+      item.applicantPhone &&
+      item.applicantAddress &&
+      item.applicantRelationshipToSponsor &&
+      item.applicantMedicareStatus &&
+      item.applicantHasOhi
+    );
   }, // TODO: include more required fields here
   maxItems: MAX_APPLICANTS,
   text: {
@@ -79,7 +93,8 @@ const applicantOptions = {
     cardDescription: item => (
       <ul className="no-bullets">
         <li>
-          <b>Date of Birth:</b> {item?.applicantName?.first}
+          <b>Date of Birth:</b>{' '}
+          {item?.applicantDob ? fmtDate(item?.applicantDob) : ''}
         </li>
         <li>
           <b>Address:</b> {item?.applicantAddress?.street}{' '}
