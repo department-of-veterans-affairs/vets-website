@@ -64,15 +64,16 @@ const RefillPrescriptions = () => {
         result?.data?.successfulIds,
         refillableData?.prescriptions,
       ),
-    [result?.data?.successfulIds, refillableData],
+    [result?.data?.successfulIds],
   );
+
   const failedMeds = useMemo(
     () =>
       getMedicationsByIds(
         result?.data?.failedIds,
         refillableData?.prescriptions,
       ),
-    [result?.data?.failedIds, refillableData],
+    [result?.data?.failedIds],
   );
 
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
