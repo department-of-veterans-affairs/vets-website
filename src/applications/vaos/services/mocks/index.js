@@ -440,7 +440,7 @@ const responses = {
     });
   },
   'POST /vaos/v2/appointments/draft': (req, res) => {
-    const { referral_id: referralNumber } = req.body;
+    const { referral_number: referralNumber } = req.body;
     // empty referral number throws error
     if (referralNumber === '') {
       return res.status(500).json({ error: true });

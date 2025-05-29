@@ -59,7 +59,7 @@ export async function postDraftReferralAppointment(
     },
     body: JSON.stringify({
       // eslint-disable-next-line camelcase
-      referral_id: referralNumber,
+      referral_number: referralNumber,
       // eslint-disable-next-line camelcase
       referral_consult_id: referralConsultId,
     }),
