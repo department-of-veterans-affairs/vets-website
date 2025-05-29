@@ -111,14 +111,21 @@ const IntroductionPage = ({ route }) => {
               ownership:
             </strong>{' '}
             Please email the PDF file to your SAA for their approval action. If
-            you need help finding their email address, search the SAA contact
-            directory (opens in a new tab)
+            you need help finding their email address,{' '}
+            <va-link
+              href="https://nasaa-vetseducation.com/nasaa-contacts/"
+              text="search the SAA contact directory"
+              external
+            />
           </p>
         </va-process-list-item>
       </va-process-list>
+      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
+        Start the form
+      </h2>
       <SaveInProgressIntro
-        prefillEnabled={route.formConfig.prefillEnabled}
-        messages={route.formConfig.savedFormMessages}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
         formConfig={formConfig}
         pageList={pageList}
         startText="Start your Conflicting interests certification for proprietary schools report"
