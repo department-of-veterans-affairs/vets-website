@@ -166,8 +166,9 @@ export const ConfirmationPageV2 = () => {
       <p>
         <va-link
           href="https://ask.va.gov/"
-          text="Contact us online through Ask VA."
+          text="Contact us online through Ask VA"
         />
+        .
       </p>
       <p>
         Or call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
