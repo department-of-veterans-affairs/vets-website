@@ -4,12 +4,15 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import manifest from 'applications/personalization/dashboard/manifest.json';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
+import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
+import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import paymentHistory from '../fixtures/test-empty-payments-response.json';
 import formStatusesNoError from '../fixtures/form-statuses-no-errors.json';
 import formStatusesWithError from '../fixtures/form-statuses-with-errors.json';
 import { copaysSuccessEmpty } from '../fixtures/test-copays-response';
 import { notificationsSuccessEmpty } from '../fixtures/test-notifications-response';
 import { debtsSuccessEmpty } from '../fixtures/test-debts-response';
+import MOCK_CC_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
 
 describe('The My VA Dashboard', () => {
   const oneDayInSeconds = 24 * 60 * 60;
@@ -47,6 +50,12 @@ describe('The My VA Dashboard', () => {
       'notifications1',
     );
     cy.intercept('/v0/debts', debtsSuccessEmpty()).as('noDebts');
+    cy.intercept('/v0/debts?countOnly=true', debtsSuccessEmpty()).as(
+      'noDebtsCount',
+    );
+    cy.intercept('/v0/appeals', appealsSuccess());
+    cy.intercept('/v0/benefits_claims', claimsSuccess());
+    cy.intercept('/vaos/v2/appointments*', MOCK_CC_APPOINTMENTS);
   });
 
   describe('there are submitted forms', () => {
