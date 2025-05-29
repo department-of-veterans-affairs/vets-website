@@ -17,7 +17,10 @@ describe('Emergency Contacts Summary Page', () => {
   const { title: pageTitle, schema, uiSchema } = emergencyContactsSummary;
 
   // Include formData to satisfy dependencies
-  const formData = { 'view:isEmergencyContactsEnabled': true };
+  const formData = {
+    'view:isEmergencyContactsEnabled': true,
+    'view:hasEmergencyContacts': true,
+  };
 
   const expectedNumberOfWebComponentFields = 1;
   testNumberOfWebComponentFields(
