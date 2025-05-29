@@ -44,7 +44,7 @@ const MEDICARE_TYPE_LABELS = {
 const medicareYesNoHint =
   'If any applicants have Medicare, you’re required to report it to process your application for CHAMPVA benefits. ';
 
-// Memoizing the `toHash` helper func since it'll be getting hammered
+// Memoizing the `toHash` helper func since it'll be getting called
 // a lot in the `depends` checks.
 const toHashMemoized = memoize(str => toHash(str));
 
@@ -823,9 +823,6 @@ export const proofOfIneligibilityUploadPage = {
   },
 };
 
-// PAGES NEEDED:
-// - generic disallowance yes/no + upload screen (TBD, need Jamie's design)
-
 export const medicarePages = arrayBuilderPages(
   medicareOptions,
   pageBuilder => ({
@@ -1022,7 +1019,6 @@ export const medicarePages = arrayBuilderPages(
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
         const hasPartD = formData?.medicare?.[index]?.hasMedicarePartD;
-        // Only show if user indicated they have Part D
         return (planType === 'ab' || planType === 'c') && hasPartD;
       },
       ...medicarePartDCarrierEffectiveDatePage,
@@ -1033,7 +1029,6 @@ export const medicarePages = arrayBuilderPages(
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
         const hasPartD = formData?.medicare?.[index]?.hasMedicarePartD;
-        // Only show if user indicated they have Part D
         return (planType === 'ab' || planType === 'c') && hasPartD;
       },
       CustomPage: FileFieldCustom,

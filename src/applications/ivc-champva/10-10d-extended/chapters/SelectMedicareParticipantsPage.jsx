@@ -1,7 +1,6 @@
 /* eslint-disable react/sort-prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
-// import { toHash } from 'platform/forms-system/src/js/utilities/stringHelpers';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import {
@@ -10,7 +9,6 @@ import {
   radioUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-// import { nameWording } from '../helpers';
 import { nameWording, toHash, getAgeInYears } from '../../shared/utilities';
 
 /**
