@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
-  VaFileInput,
   VaModal,
   VaSelect,
   VaTextInput,
   VaButton,
+  VaFileInputMultiple,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
@@ -81,9 +80,26 @@ class AddFilesForm extends React.Component {
     });
   };
 
-  add = async files => {
-    const file = files[0];
-    const { onAddFile, mockReadAndCheckFile } = this.props;
+  addFile = (file, extraData) => {
+    const { onAddFile } = this.props;
+
+    this.setState({ errorMessage: null });
+    // Note that the lighthouse api changes the file type to a pdf and the name is then updated as well.
+    // After submitting a file you will see this change in the Documents Filed section.
+    // EX: test.jpg ->> test.pdf
+    onAddFile([file], extraData);
+    setTimeout(() => {
+      scrollToFile(this.props.files.length - 1);
+      setFocus(
+        document.querySelectorAll('.document-item-container')[
+          this.props.files.length - 1
+        ],
+      );
+    });
+  };
+
+  validateFile = async file => {
+    const { mockReadAndCheckFile } = this.props;
     const extraData = {};
     const hasPdfSizeLimit = isPdf(file);
 
@@ -104,20 +120,7 @@ class AddFilesForm extends React.Component {
       if (file.name?.toLowerCase().endsWith('pdf')) {
         extraData.isEncrypted = checkResults.checkIsEncryptedPdf;
       }
-
-      this.setState({ errorMessage: null });
-      // Note that the lighthouse api changes the file type to a pdf and the name is then updated as well.
-      // After submitting a file you will see this change in the Documents Filed section.
-      // EX: test.jpg ->> test.pdf
-      onAddFile([file], extraData);
-      setTimeout(() => {
-        scrollToFile(this.props.files.length - 1);
-        setFocus(
-          document.querySelectorAll('.document-item-container')[
-            this.props.files.length - 1
-          ],
-        );
-      });
+      this.addFile(file, extraData);
     } else if (!isValidFileType(file)) {
       this.setState({
         errorMessage: 'Please choose a file from one of the accepted types.',
@@ -132,6 +135,56 @@ class AddFilesForm extends React.Component {
         errorMessage:
           'The file you selected is empty. Files uploaded must be larger than 0B.',
       });
+    }
+  };
+
+  conditionalMarkupArray = () => {
+    return this.props.files
+      .map(({ isEncrypted }, index) => {
+        if (isEncrypted) {
+          return index;
+        }
+        return undefined;
+      })
+      .filter(x => typeof x === 'number');
+  };
+
+  changeFileEvent = async event => {
+    let componentFiles = [];
+    let propFiles = [];
+    const noFiles = event.state.length === 0;
+
+    if (event.state.length > 0) {
+      // changedFile = event.state.find(file => file.changed);
+      componentFiles = event.state.map((x, index) => {
+        return { index, name: x.file.name };
+      });
+
+      propFiles = this.props.files.map((x, index) => {
+        return { index, name: x.file.name };
+      });
+    }
+
+    if (event.action === 'FILE_ADDED') {
+      await this.validateFile(event.file);
+    }
+
+    if (event.action === 'FILE_UPDATED' || event.action === 'FILE_REMOVED') {
+      if (event.action === 'FILE_REMOVED' && noFiles) {
+        this.props.onRemoveFile(0);
+      } else {
+        const fileToDelete = propFiles.filter(propFile => {
+          return componentFiles.some(
+            componentFile => propFile.name !== componentFile.name,
+          );
+        });
+
+        this.props.onRemoveFile(fileToDelete[0].index);
+        if (event.action === 'FILE_UPDATED') {
+          // add new file
+          await this.validateFile(event.file);
+        }
+      }
     }
   };
 
@@ -158,57 +211,10 @@ class AddFilesForm extends React.Component {
     });
   };
 
-  render() {
-    const showUploadModal =
-      this.props.uploading && this.state.canShowUploadModal;
-
+  additionalFormInputsContent = () => {
+    // console.log('test', this.props.files);
     return (
       <>
-        <div className="add-files-form">
-          <Toggler
-            toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}
-          >
-            <Toggler.Enabled>
-              <div>
-                {!this.props.fileTab && (
-                  <>
-                    <h2>Upload documents</h2>
-                    <p>
-                      If you have a document to upload, you can do that here.
-                    </p>
-                  </>
-                )}
-                <VaFileInput
-                  id="file-upload"
-                  className="vads-u-margin-bottom--3"
-                  error={this.getErrorMessage()}
-                  label="Upload additional evidence"
-                  hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
-                  accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-                  onVaChange={e => this.add(e.detail.files)}
-                  name="fileUpload"
-                  additionalErrorClass="claims-upload-input-error-message"
-                  aria-describedby="file-requirements"
-                  uswds
-                />
-              </div>
-            </Toggler.Enabled>
-            <Toggler.Disabled>
-              <VaFileInput
-                id="file-upload"
-                className="vads-u-margin-bottom--3"
-                error={this.getErrorMessage()}
-                label="Upload additional evidence"
-                hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
-                accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-                onVaChange={e => this.add(e.detail.files)}
-                name="fileUpload"
-                additionalErrorClass="claims-upload-input-error-message"
-                aria-describedby="file-requirements"
-              />
-            </Toggler.Disabled>
-          </Toggler>
-        </div>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (
             <div key={index} className="document-item-container">
@@ -245,7 +251,6 @@ class AddFilesForm extends React.Component {
                       decrypt it.
                     </p>
                     <VaTextInput
-                      id="password-input"
                       required
                       error={
                         validateIfDirty(password, isNotBlank)
@@ -284,14 +289,231 @@ class AddFilesForm extends React.Component {
             </div>
           ),
         )}
+      </>
+    );
+  };
+
+  render() {
+    const slotIndex = JSON.stringify(this.conditionalMarkupArray());
+    // console.log({ slotIndex });
+    const showUploadModal =
+      this.props.uploading && this.state.canShowUploadModal;
+    // const testContent = (
+    //   <div id="peri-rocks">
+    //     <va-select label="What kind of file is this?" required>
+    //       <option key="1" value="1">
+    //         Public Document
+    //       </option>
+    //       <option key="2" value="2">
+    //         Private Document
+    //       </option>
+    //     </va-select>
+    //   </div>
+    // );
+    // const additionalFormInputsContent = (
+    //   <>
+    //     {this.props.files.map(
+    //       ({ file, docType, isEncrypted, password }, index) => (
+    //         <div key={index} className="document-item-container">
+    //           <Element name={`documentScroll${index}`} />
+    //           <div>
+    //             <div className="document-title-row">
+    //               <div className="document-title-text-container">
+    //                 <div>
+    //                   <span
+    //                     className="document-title"
+    //                     data-dd-privacy="mask"
+    //                     data-dd-action-name="document title"
+    //                   >
+    //                     {file.name}
+    //                   </span>
+    //                 </div>
+    //                 <div>{displayFileSize(file.size)}</div>
+    //               </div>
+    //               <div className="remove-document-button">
+    //                 <va-button
+    //                   secondary
+    //                   text="Remove"
+    //                   onClick={() => {
+    //                     this.removeFileConfirmation(index, file.name);
+    //                   }}
+    //                 />
+    //               </div>
+    //             </div>
+    //             {isEncrypted && (
+    //               <>
+    //                 <p className="clearfix">
+    //                   This is an encrypted PDF document. In order for us to be
+    //                   able to view the document, we will need the password to
+    //                   decrypt it.
+    //                 </p>
+    //                 <VaTextInput
+    //                   required
+    //                   error={
+    //                     validateIfDirty(password, isNotBlank)
+    //                       ? undefined
+    //                       : 'Please provide a password to decrypt this file'
+    //                   }
+    //                   label="PDF password"
+    //                   name="password"
+    //                   onInput={e =>
+    //                     this.handlePasswordChange(e.target.value, index)
+    //                   }
+    //                 />
+    //               </>
+    //             )}
+    //             <VaSelect
+    //               required
+    //               error={
+    //                 validateIfDirty(docType, isNotBlank)
+    //                   ? undefined
+    //                   : 'Please provide a response'
+    //               }
+    //               name="docType"
+    //               label="What type of document is this?"
+    //               value={docType}
+    //               onVaSelect={e =>
+    //                 this.handleDocTypeChange(e.detail.value, index)
+    //               }
+    //             >
+    //               {DOC_TYPES.map(doc => (
+    //                 <option key={doc.value} value={doc.value}>
+    //                   {doc.label}
+    //                 </option>
+    //               ))}
+    //             </VaSelect>
+    //           </div>
+    //         </div>
+    //       ),
+    //     )}
+    //   </>
+    // );
+    return (
+      <>
+        <div className="add-files-form">
+          <p className="files-form-information vads-u-margin-top--3 vads-u-margin-bottom--3">
+            Please only submit evidence that supports this claim. To submit
+            supporting documents for a new disability claim, please visit our{' '}
+            <a
+              id="how-to-file-claim"
+              href="/disability/how-to-file-claim"
+              target="_blank"
+            >
+              How to File a Claim page (opens in a new tab)
+            </a>{' '}
+            .
+          </p>
+          {/* <VaFileInput
+            id="file-upload"
+            className="vads-u-margin-bottom--3"
+            error={this.getErrorMessage()}
+            label="Upload additional evidence"
+            hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
+            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+            onVaChange={e => this.add(e.detail.files)}
+            name="fileUpload"
+            additionalErrorClass="claims-upload-input-error-message"
+            aria-describedby="file-requirements"
+          /> */}
+          <VaFileInputMultiple
+            id="file-upload"
+            className="vads-u-margin-bottom--3"
+            error={this.getErrorMessage()}
+            label="Upload additional evidence"
+            hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
+            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+            onVaMultipleChange={e => this.changeFileEvent(e.detail)}
+            name="fileUpload"
+            additionalErrorClass="claims-upload-input-error-message"
+            aria-describedby="file-requirements"
+            slotFieldIndexes={slotIndex}
+          >
+            <>
+              {this.props.files.map(
+                ({ file, docType, isEncrypted, password }, index) => (
+                  <div key={index} className="document-item-container">
+                    <Element name={`documentScroll${index}`} />
+                    <div>
+                      <div className="document-title-row">
+                        <div className="document-title-text-container">
+                          <div>
+                            <span
+                              className="document-title"
+                              data-dd-privacy="mask"
+                              data-dd-action-name="document title"
+                            >
+                              {file.name}
+                            </span>
+                          </div>
+                          <div>{displayFileSize(file.size)}</div>
+                        </div>
+                        <div className="remove-document-button">
+                          <va-button
+                            secondary
+                            text="Remove"
+                            onClick={() => {
+                              this.removeFileConfirmation(index, file.name);
+                            }}
+                          />
+                        </div>
+                      </div>
+                      {isEncrypted && (
+                        <>
+                          <p className="clearfix">
+                            This is an encrypted PDF document. In order for us
+                            to be able to view the document, we will need the
+                            password to decrypt it.
+                          </p>
+                          <VaTextInput
+                            required
+                            error={
+                              validateIfDirty(password, isNotBlank)
+                                ? undefined
+                                : 'Please provide a password to decrypt this file'
+                            }
+                            label="PDF password"
+                            name="password"
+                            onInput={e =>
+                              this.handlePasswordChange(e.target.value, index)
+                            }
+                          />
+                        </>
+                      )}
+                      <VaSelect
+                        required
+                        error={
+                          validateIfDirty(docType, isNotBlank)
+                            ? undefined
+                            : 'Please provide a response'
+                        }
+                        name="docType"
+                        label="What type of document is this?"
+                        value={docType}
+                        onVaSelect={e =>
+                          this.handleDocTypeChange(e.detail.value, index)
+                        }
+                      >
+                        {DOC_TYPES.map(doc => (
+                          <option key={doc.value} value={doc.value}>
+                            {doc.label}
+                          </option>
+                        ))}
+                      </VaSelect>
+                    </div>
+                  </div>
+                ),
+              )}
+            </>
+          </VaFileInputMultiple>
+        </div>
         <VaButton
           id="submit"
-          text="Submit documents for review"
+          text="Submit files for review"
           onClick={this.submit}
         />
         <va-additional-info
           class="vads-u-margin-y--3"
-          trigger="Need to mail your documents?"
+          trigger="Need to mail your files?"
         >
           {mailMessage}
         </va-additional-info>
@@ -335,7 +557,6 @@ AddFilesForm.propTypes = {
   onRemoveFile: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   backUrl: PropTypes.string,
-  fileTab: PropTypes.bool,
   mockReadAndCheckFile: PropTypes.func,
   progress: PropTypes.number,
   uploading: PropTypes.bool,
