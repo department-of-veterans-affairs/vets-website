@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import {
-  VaLink,
-  VaModal,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement, scrollTo } from 'platform/utilities/ui';
-
+import ActionLink from './web-component-wrappers/ActionLink';
 import { LAST_ISSUE, MAX_LENGTH, REVIEW_ISSUES, SELECTED } from '../constants';
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../actions';
 import { IssueCard } from './IssueCard';
@@ -206,10 +201,7 @@ const ContestableIssues = props => {
 
   const handleRouteChange = event => {
     event.preventDefault();
-    router.push({
-      pathname: '/add-issue',
-      search: `?index=${items.length}`,
-    });
+    router.push({});
   };
 
   return (
@@ -267,9 +259,12 @@ const ContestableIssues = props => {
           {content}
         </ul>
         {onReviewPage && inReviewMode ? null : (
-          <VaLink
-            className="add-new-issue vads-c-action-link--green"
+          <ActionLink
+            className="add-new-issue"
             onClick={handleRouteChange}
+            path="/add-issue"
+            search={`?index=${items.length}`}
+            primary
             text="Add a new issue"
           />
         )}
@@ -318,9 +313,7 @@ const mapDispatchToProps = {
 
 export { ContestableIssues };
 
-const ConnectedComponent = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ContestableIssues);
-
-export default withRouter(ConnectedComponent);

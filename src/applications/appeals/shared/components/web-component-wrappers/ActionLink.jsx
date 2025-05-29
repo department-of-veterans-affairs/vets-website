@@ -6,7 +6,7 @@ import { VaLinkAction } from '@department-of-veterans-affairs/component-library/
 // Use this component when you need a react-router <Link> that is also a
 // va-link-action web component from the Design System Library
 // https://design.va.gov/storybook/?path=/docs/components-va-link-action--docs
-const ActionLink = ({ path, onClick, primary, router, ...props }) => {
+const ActionLink = ({ path, search, onClick, primary, router, ...props }) => {
   const ariaLabel = props?.['aria-label'] ?? {};
 
   return (
@@ -16,6 +16,13 @@ const ActionLink = ({ path, onClick, primary, router, ...props }) => {
       onClick={() => {
         if (onClick) {
           onClick();
+        }
+
+        if (search && path) {
+          router.push({
+            pathname: path,
+            search,
+          });
         }
 
         if (path) {
@@ -34,6 +41,7 @@ ActionLink.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  search: PropTypes.string,
   onClick: PropTypes.func,
 };
 

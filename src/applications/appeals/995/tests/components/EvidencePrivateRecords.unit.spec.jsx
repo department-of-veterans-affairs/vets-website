@@ -381,7 +381,7 @@ describe('<EvidencePrivateRecords>', () => {
         expect(setDataSpy.lastCall.args[0].providerFacility.length).to.eq(1);
       });
     });
-    
+
     it('should show & focus on error messages after adding new location on an empty second page', async () => {
       const goSpy = sinon.spy();
       const index = 1;
