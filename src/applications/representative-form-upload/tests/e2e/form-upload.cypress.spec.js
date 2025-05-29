@@ -81,7 +81,7 @@ describe('Representative Form Upload', () => {
         '/representative/representative-form-upload/21-686c/is-veteran',
       );
 
-      cy.findByLabelText(/^Yes$/).click();
+      cy.findByLabelText(/^The claimant is the Veteran$/).click();
       cy.findByRole('button', { name: /^Continue$/ }).click();
 
       cy.location('pathname').should(
@@ -143,7 +143,9 @@ describe('Representative Form Upload', () => {
         'eq',
         '/representative/representative-form-upload/21-686c/is-veteran',
       );
-      cy.findByLabelText(/^No$/).click();
+      cy.findByLabelText(
+        /^The claimant is a survivor or dependent of the Veteran$/,
+      ).click();
       cy.findByRole('button', { name: /^Continue$/ }).click();
       cy.location('pathname').should(
         'eq',
