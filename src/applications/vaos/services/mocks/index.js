@@ -440,14 +440,14 @@ const responses = {
     });
   },
   'POST /vaos/v2/appointments/draft': (req, res) => {
-    const { referral_id: referralNumber } = req.body;
-    // Provider 3 throws error
+    const { referral_number: referralNumber } = req.body;
+    // empty referral number throws error
     if (referralNumber === '') {
       return res.status(500).json({ error: true });
     }
 
     let slots = 5;
-    // Provider 0 has no available slots
+    // referral 0 has no available slots
     if (referralNumber === '0') {
       slots = 0;
     }
