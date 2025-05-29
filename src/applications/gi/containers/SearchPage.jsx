@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import SearchTabs from '../components/search/SearchTabs';
@@ -40,6 +41,8 @@ export function SearchPage({
       return true;
     return false;
   };
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const mapboxMitigation = useToggleValue(TOGGLE_NAMES.giCtMapboxMitigation);
   const history = useHistory();
   const { tab, error, query } = search;
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
@@ -145,6 +148,20 @@ export function SearchPage({
       <span className="search-page">
         <div className={searchPageClasses}>
           <div className="column medium-screen:vads-u-padding-bottom--2 mobile-lg:vads-u-padding-bottom--0 vads-u-padding-x--0">
+            {mapboxMitigation && (
+              <va-alert
+                visible
+                status="warning"
+                class="vads-u-margin-top--neg2 vads-u-margin-bottom--4"
+                slim
+              >
+                <p className="vads-u-margin-y--0">
+                  Search by location is temporarily unavailable due to an
+                  unexpected service outage. We're working to restore service
+                  and apologize for any inconvenience.
+                </p>
+              </va-alert>
+            )}
             {!smallScreen && (
               <SearchTabs
                 onChange={tabChange}
@@ -178,15 +195,17 @@ export function SearchPage({
                   >
                     <NameSearchForm smallScreen />
                   </AccordionItem>
-                  <AccordionItem
-                    button="Search by location"
-                    expanded={accordions[TABS.location]}
-                    onClick={expanded => {
-                      accordionChange(TABS.location, expanded);
-                    }}
-                  >
-                    <LocationSearchForm smallScreen />
-                  </AccordionItem>
+                  {!mapboxMitigation && (
+                    <AccordionItem
+                      button="Search by location"
+                      expanded={accordions[TABS.location]}
+                      onClick={expanded => {
+                        accordionChange(TABS.location, expanded);
+                      }}
+                    >
+                      <LocationSearchForm smallScreen />
+                    </AccordionItem>
+                  )}
                   {!error && smallScreen && tabbedResults[tab]}
                 </div>
               )}

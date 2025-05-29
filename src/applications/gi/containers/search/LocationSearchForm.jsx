@@ -4,6 +4,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, createRef } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import {
   VaModal,
   VaButton,
@@ -49,6 +50,8 @@ export function LocationSearchForm({
   smallScreen,
   focusSearchReducer,
 }) {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const mapboxMitigation = useToggleValue(TOGGLE_NAMES.giCtMapboxMitigation);
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
   const inputRef = createRef();
@@ -66,6 +69,14 @@ export function LocationSearchForm({
     { optionValue: '50', optionLabel: 'within 50 miles' },
     { optionValue: '75', optionLabel: 'within 75 miles' },
   ];
+
+  useEffect(() => {
+    if (mapboxMitigation) {
+      history.push('/schools-and-employers/?search=name&excludeVettec=true');
+      return null;
+    }
+    return undefined;
+  }, []);
 
   useEffect(
     () => {
