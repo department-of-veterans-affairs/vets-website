@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   titleUI,
-  yesNoUI,
+  arrayBuilderYesNoUI,
+  arrayBuilderYesNoSchema,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -44,7 +45,7 @@ const uiSchema = {
     'Individuals with a potential conflict of interest who receive VA educational benefits',
   ),
   'ui:description': uiDescription,
-  allProprietarySchools: yesNoUI({
+  allProprietarySchools: arrayBuilderYesNoUI({
     title:
       'Do any certifying officials, owners, or officers at your institution receive educational benefits based on enrollment at your school?',
     errorMessages: {
@@ -57,7 +58,7 @@ const schema = {
   type: 'object',
   required: ['allProprietarySchools'],
   properties: {
-    allProprietarySchools: yesNoSchema,
+    allProprietarySchools: arrayBuilderYesNoSchema,
   },
 };
 

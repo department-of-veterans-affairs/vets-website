@@ -111,9 +111,31 @@ const formConfig = {
         //     return formData?.allProprietarySchools === true;
         //   },
         // },
-        allProprietarySchoolsEmployeeInfo: arrayBuilderPages(
-          arrayBuilderOptions,
-          pageBuilder => ({}),
+        ...arrayBuilderPages(
+          {
+            arrayPath: 'programs',
+            nounSingular: 'program',
+            nounPlural: 'programs',
+            required: true,
+          },
+          pageBuilder => ({
+            allProprietarySchoolsEmployeeInfo: pageBuilder.itemPage({
+              path: 'all-proprietary-schools-employee-info/:index',
+              title: 'All proprietary schools employee information',
+              uiSchema: allProprietarySchoolsEmployeeInfo.uiSchema,
+              schema: allProprietarySchoolsEmployeeInfo.schema,
+              depends: formData => {
+                console.log(formData, 'formmmmmmmm');
+                return formData?.allProprietarySchools === true;
+              },
+            }),
+            employeeSummary: pageBuilder.summaryPage({
+              title: 'Review your all proprietary schools employee information',
+              path: 'all-proprietary-schools-employee-info/summary',
+              uiSchema: allProprietarySchools.uiSchema,
+              schema: allProprietarySchools.schema,
+            }),
+          }),
         ),
       },
       directDeposit: {
