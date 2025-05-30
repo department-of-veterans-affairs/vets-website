@@ -183,7 +183,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name, url'
+          output-type: 'entry_name, url, folder'
 
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
@@ -270,7 +270,7 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    if: ${{ needs.tests-prep.outputs.tests_ran == 'true' }}
+    # if: ${{ needs.tests-prep.outputs.tests_ran == 'true' }}
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
@@ -346,13 +346,13 @@ jobs:
           if [[ -n "$APP_FOLDERS" ]]; then
             yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
           else
-            yarn test:unit:gha --full-suite --coverage --log-level verbose
+            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
           fi
           
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
-          APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
+          APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
           IS_STRESS_TEST: false
       
       - name: Archive unit test results
