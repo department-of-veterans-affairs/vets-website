@@ -2,9 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import IntroductionPage from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
 
@@ -79,12 +77,17 @@ describe('IntroductionPage', () => {
 
   it('should render start action links', () => {
     const { props, mockStore } = getData();
-    const { container } = render(
+    const { getAllByRole } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect($$('.vads-c-action-link--green', container).length).to.equal(2);
+
+    const actionLinks = getAllByRole('link');
+    const expectedText = 'Start the Board Appeal request';
+
+    expect(actionLinks[0].textContent).to.eq(expectedText);
+    expect(actionLinks[1].textContent).to.eq(expectedText);
   });
 
   it('should render verify identity alert', () => {

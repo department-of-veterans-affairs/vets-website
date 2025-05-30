@@ -14,7 +14,7 @@
       "state": "KS",
       "postalCode": "66099"
     },
-    "movingYesNo": true,
+    "isMoving": true,
     "checkBoxGroup": {},
     "mainMailingAddress": {
       "view:militaryBaseDescription": {},

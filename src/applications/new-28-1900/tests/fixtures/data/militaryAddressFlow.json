@@ -11,7 +11,7 @@
       "street": "Street name",
       "view:militaryBaseDescription": {}
     },
-    "movingYesNo": true,
+    "isMoving": true,
     "newMailingAddress": {
       "city": "FPO",
       "country": "USA",
