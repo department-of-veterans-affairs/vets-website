@@ -9,7 +9,7 @@ import mockSentMessages from './fixtures/sentResponse/sent-messages-response.jso
 describe('secure Messaging Sent Folder checks', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages(mockSentMessages);
     FolderLoadPage.loadFolders();
     PatientMessageSentPage.loadMessages();
   });
@@ -56,7 +56,7 @@ describe('TG PLAIN NAMES', () => {
   );
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages(updatedThreadResponse);
     FolderLoadPage.loadFolders();
     PatientMessageSentPage.loadMessages(updatedThreadResponse);
   });
