@@ -23,7 +23,7 @@ import {
   mockAppointmentSubmitApi,
   mockFacilityApi,
 } from '../../../tests/mocks/mockApis';
-import { DATE_FORMATS } from '../../../utils/constants';
+import { DATE_FORMATS, TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import { onCalendarChange, startDirectScheduleFlow } from '../../redux/actions';
 
 const initialState = {
@@ -47,7 +47,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       newAppointment: {
         pages: {},
         data: {
-          typeOfCareId: '323',
+          typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
           phoneNumber: '2234567890',
           email: 'joeblow@gmail.com',
           reasonForAppointment: 'routine-follow-up',
