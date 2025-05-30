@@ -2,13 +2,13 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import PrimaryOfficialExemptInfo from '../components/primaryOfficialExemptInfo';
-import PrimaryOfficialTrainingInfo from '../components/primaryOfficialTrainingInfo';
+import PrimaryOfficialExemptInfo from '../components/PrimaryOfficialExemptInfo';
+import PrimaryOfficialTrainingInfo from '../components/PrimaryOfficialTrainingInfo';
 
 const uiSchema = {
   primaryOfficialTraining: {
     'ui:description': PrimaryOfficialTrainingInfo,
-    trainingDate: {
+    trainingCompletionDate: {
       ...currentOrPastDateUI({
         title:
           'Enter the date the required annual Section 305 training was completed.',
@@ -32,7 +32,7 @@ const uiSchema = {
 
         return {
           ...formSchema,
-          required: ['trainingDate'],
+          required: ['trainingCompletionDate'],
         };
       },
     },
@@ -45,12 +45,12 @@ const schema = {
     primaryOfficialTraining: {
       type: 'object',
       properties: {
-        trainingDate: currentOrPastDateSchema,
+        trainingCompletionDate: currentOrPastDateSchema,
         trainingExempt: {
           type: 'boolean',
         },
       },
-      required: ['trainingDate'],
+      required: ['trainingCompletionDate'],
     },
   },
 };
