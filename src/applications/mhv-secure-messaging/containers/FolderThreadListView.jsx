@@ -75,7 +75,7 @@ const FolderThreadListView = props => {
       );
       dispatch(getListOfThreads(sortFolderId, perPage, page, value, update));
     },
-    [dispatch, threadSort, threadsPerPage],
+    [dispatch, threadsPerPage],
   );
 
   const handleSortCallback = sortOrderValue => {
@@ -138,25 +138,26 @@ const FolderThreadListView = props => {
 
   useEffect(
     () => {
-      if (folderId !== (null || undefined)) {
-        if (folder.name === convertPathNameToTitleCase(location.pathname)) {
+      if (folderId != null) {
+        let sortOption = threadSortingOptions.SENT_DATE_DESCENDING.value;
+        if (location.pathname === Paths.DRAFTS) {
+          sortOption = threadSortingOptions.DRAFT_DATE_DESCENDING.value;
+        }
+        retrieveListOfThreads({
+          sortFolderId: folderId,
+          value: sortOption,
+          page: 1,
+        });
+
+        dispatch(
+          getListOfThreads(folderId, threadsPerPage, 1, sortOption, false),
+        );
+        if (folder?.name === convertPathNameToTitleCase(location.pathname)) {
           const pageTitleTag = getPageTitle({
             folderName: folder.name,
           });
           updatePageTitle(pageTitleTag);
         }
-        if (folderId !== threadSort?.folderId) {
-          let sortOption = threadSortingOptions.SENT_DATE_DESCENDING.value;
-          if (location.pathname === Paths.DRAFTS) {
-            sortOption = threadSortingOptions.DRAFT_DATE_DESCENDING.value;
-          }
-          retrieveListOfThreads({
-            sortFolderId: folderId,
-            value: sortOption,
-            page: 1,
-          });
-        }
-
         if (folderId !== searchFolder?.folderId) {
           dispatch(clearSearchResults());
         }
@@ -168,11 +169,8 @@ const FolderThreadListView = props => {
       retrieveListOfThreads,
       folder?.name,
       location?.pathname,
-      threadSort?.folderId,
-      threadSort?.value,
-      threadSort?.page,
+      threadsPerPage,
       searchFolder?.folderId,
-      threadList?.length,
     ],
   );
 
