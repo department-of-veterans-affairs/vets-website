@@ -66,3 +66,16 @@ export function parseVeteranGender(birthsex) {
 export function replaceStrValues(src, val, char = '%s') {
   return src && val ? src.toString().replace(char, val) : '';
 }
+
+export const formatCurrency = str => {
+  // Convert the string to a number
+  const number = Number(str);
+
+  // Format the number as a currency string
+  return number.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+};
