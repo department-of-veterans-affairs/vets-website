@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { withRouter } from 'react-router';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import constants from 'vets-json-schema/dist/constants.json';
+import { focusElement } from 'platform/utilities/ui';
 
 export const isChapterFieldRequired = (formData, option) =>
   formData[`view:selectable686Options`][option];
@@ -78,8 +79,12 @@ export const CancelButton = withRouter(
     altMessage = false,
     router,
   }) => {
+    const buttonRef = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
-    const closeModal = () => setIsVisible(false);
+    const closeModal = () => {
+      setIsVisible(false);
+      focusElement('button', {}, buttonRef.current.shadowRoot);
+    };
 
     const cancelText =
       dependentType && typeof dependentType === 'string'
@@ -97,6 +102,7 @@ export const CancelButton = withRouter(
     return (
       <>
         <va-button
+          ref={buttonRef}
           data-testid="cancel-btn"
           aria-label={cancelText}
           onClick={() => setIsVisible(true)}
@@ -105,7 +111,6 @@ export const CancelButton = withRouter(
         />
 
         <VaModal
-          large
           data-testid="cancel-modal"
           modalTitle={modalText}
           primaryButtonText="Yes, cancel"
