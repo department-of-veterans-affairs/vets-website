@@ -351,7 +351,7 @@ jobs:
           
         env:
           MOCHA_FILE: test-results/unit-tests.xml
-          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+          CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
           APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
           IS_STRESS_TEST: false
       
