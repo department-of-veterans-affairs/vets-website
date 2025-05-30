@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';

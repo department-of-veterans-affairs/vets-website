@@ -6,7 +6,7 @@ import {
   VaModal,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { scrollToFirstError, scrollTo } from 'platform/utilities/ui';
+import { scrollToFirstError, scrollTo } from 'platform/utilities/scroll';
 import { form0781HeadingTag, titleWithTag } from '../form0781';
 import { checkValidations } from '../../utils/submit';
 

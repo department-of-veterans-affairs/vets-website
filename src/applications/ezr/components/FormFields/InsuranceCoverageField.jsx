@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import YesNoWidget from 'platform/forms-system/src/js/widgets/YesNoWidget';
 import { INSURANCE_VIEW_FIELDS } from '../../utils/constants';
 import content from '../../locales/en/content.json';

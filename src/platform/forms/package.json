@@ -2,10 +2,10 @@
   "name": "@department-of-veterans-affairs/platform-forms",
   "version": "1.0.0",
   "scripts": {
-    "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+    "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
   },
   "exports": {
-    "." :"./exportsFile.js",
+    ".": "./exportsFile.js",
     "./actions": "./save-in-progress/actions.js",
     "./address": "./address/index.js",
     "./addressHelpers": "./address/helpers.js",
@@ -29,7 +29,7 @@
     "./grid": "./components/commong/grid/index.js",
     "./HealthcareModalContent": "./components/OMBInfoModalContent/HealthcareModalContent.jsx",
     "./helpers": "./helpers.js",
-    "./labels" : "./address/data/labels.js",
+    "./labels": "./address/data/labels.js",
     "./MilitaryPrefillMessage": "./MilitaryPrefillMessage.jsx",
     "./nonMilitaryJobs": "./definitions/nonMilitaryJobs.js",
     "./nonRequiredFullName": "./definitions/nonRequiredFullName.js",
@@ -62,13 +62,12 @@
     "date-fns": "*",
     "date-fns-tz": "*",
     "classnames": "*",
-    "react-scroll": "*",
     "react-dom": "*",
     "@department-of-veterans-affairs/react-jsonschema-form": "*",
     "moment": "*",
     "skin-deep": "*",
-    "@sentry/browser": "*", 
-    "chai": "*", 
+    "@sentry/browser": "*",
+    "chai": "*",
     "sinon": "*",
     "enzyme": "*"
   }
