@@ -38,6 +38,8 @@ import * as militaryDetailsSelf from './pages/militaryDetailsSelf';
 import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
+import * as ContactInfo from './pages/ContactInfo';
+import { EditPhone, EditEmail, EditAddress } from './pages/CustomPage';
 import {
   servicePeriodsPagesVeteran,
   servicePeriodsPagesNonVeteran,
@@ -102,6 +104,7 @@ import {
   isApplicantTheSponsor,
   militaryDetailsReviewHeader,
   previousNameReviewHeader,
+  ReviewDescription,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -187,6 +190,46 @@ const formConfig = {
     ethnicity,
   },
   chapters: {
+    infoPages: {
+      title: 'Veteran details',
+      reviewDescription: ReviewDescription,
+      pages: {
+        // ... other pages
+        confirmContactInformation: {
+          title: 'Contact information',
+          path: 'contact-information',
+          uiSchema: ContactInfo.uiSchema,
+          schema: ContactInfo.schema,
+        },
+        editMobilePhone: {
+          title: 'Edit mobile phone',
+          path: 'edit-mobile-phone',
+          CustomPage: EditPhone,
+          CustomPageReview: null,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editEmailAddress: {
+          title: 'Edit email address',
+          path: 'edit-email-address',
+          CustomPage: EditEmail,
+          CustomPageReview: null,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editMailingAddress: {
+          title: 'Edit mailing address',
+          path: 'edit-mailing-address',
+          CustomPage: EditAddress,
+          CustomPageReview: null,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+      },
+    },
     preparerInformation: {
       title: 'Preparer information',
       pages: {

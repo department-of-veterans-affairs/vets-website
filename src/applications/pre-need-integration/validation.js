@@ -41,3 +41,7 @@ export function validateTopLevelDomain(errors, email) {
       'Enter a valid email address using the format email@domain.com.',
     );
 }
+
+export function contactInfoValidation(errors) {
+  return errors;
+}
