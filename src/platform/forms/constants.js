@@ -65,6 +65,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_26_1880: '26-1880',
   FORM_26_4555: '26-4555',
   FORM_28_1900: '28-1900',
+  FORM_28_1900_V2: '28-1900_V2',
   FORM_28_8832: '28-8832',
   FORM_40_0247: '40-0247',
   FORM_40_10007: '40-10007',
@@ -174,6 +175,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_26_1880]: `${tryGetAppUrl('coe')}/`,
     [VA_FORM_IDS.FORM_26_4555]: `${tryGetAppUrl('4555-adapted-housing')}/`,
     [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900-chapter-31')}/`,
+    [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('new-28-1900-chapter-31')}/`,
     [VA_FORM_IDS.FORM_28_8832]: `${tryGetAppUrl(
       '25-8832-planning-and-career-guidance',
     )}/`,
@@ -187,7 +189,6 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_1330M2]: `${tryGetAppUrl('1330M2')}/`,
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
-    // [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900')}/`,
     [VA_FORM_IDS.FORM_10_10D_EXTENDED]: `${tryGetAppUrl('10-10D-EXTENDED')}/`,
     [VA_FORM_IDS.FORM_21_0538]: `${tryGetAppUrl('21-0538')}/`,
   };
@@ -641,6 +642,14 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: '28-1900-',
   },
   {
+    id: VA_FORM_IDS.FORM_28_1900_V2,
+    benefit: 'Veteran Readiness and Employment Benefits',
+    title: 'Veteran Readiness and Employment Benefits (28-1900)',
+    description:
+      'Veteran Readiness and Employment Benefits application (28-1900)',
+    trackingPrefix: 'new-careers-employment-28-1900-',
+  },
+  {
     id: VA_FORM_IDS.FORM_28_8832,
     benefit: 'personalized career planning and guidance',
     title: 'personalized career planning and guidance (28-8832)',
@@ -693,13 +702,6 @@ export const MY_VA_SIP_FORMS = [
       '35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)',
     trackingPrefix: 'edu-10216-',
   },
-  // {
-  //   id: VA_FORM_IDS.FORM_28_1900,
-  //   benefit: 'VR&E Chapter 31 benefits application',
-  //   title: '28-1900 Veteran Readiness',
-  //   description: 'VR&E Chapter 31 benefits application',
-  //   trackingPrefix: 'new-careers-employment-28-1900-',
-  // },
   {
     id: VA_FORM_IDS.FORM_10_10D_EXTENDED,
     benefit: 'CHAMPVA application (includes 10-7959c)',

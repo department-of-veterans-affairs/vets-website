@@ -1,5 +1,5 @@
 {
-  "data": {
+  "formData": {
     "checkBoxGroup": {
       "checkForMailingAddress": true
     },
@@ -12,5 +12,10 @@
     },
     "veteranDateOfBirth": "2000-01-01",
     "yearsOfEducation": "firstGrade"
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/veteran-information"
   }
 }
