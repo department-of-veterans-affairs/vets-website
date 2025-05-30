@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 export const CutoverAlert = location => {
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlertOnThisPage, setshowAlertOnThisPage] = useState(false);
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
+  const isLoadingFeatureFlags = useToggleLoadingValue();
+  const cutoverAvailable = useToggleValue(TOGGLE_NAMES.vreCutoverNotice);
+  const isCutOverEnabled =
+    isLoadingFeatureFlags === false && cutoverAvailable === true;
 
   useEffect(
     () => {
@@ -9,13 +19,13 @@ export const CutoverAlert = location => {
         location.location.pathname !== `/introduction` &&
         location.location.pathname !== `/confirmation`
       ) {
-        setShowAlert(true);
+        setshowAlertOnThisPage(true);
       }
     },
     [location],
   );
 
-  return showAlert ? (
+  return showAlertOnThisPage && isCutOverEnabled ? (
     <va-alert
       close-btn-aria-label="Close notification"
       status="warning"
@@ -23,8 +33,8 @@ export const CutoverAlert = location => {
     >
       <>
         <p className="vads-u-margin-y--0">
-          This form is scheduled to be updated on MM/DD/YYYY. If you do not
-          complete it by then, all of your saved progress will be lost.
+          This form is scheduled to be updated on August 4th, 2025. If you do
+          not complete it by then, all of your saved progress will be lost.
         </p>
       </>
     </va-alert>
