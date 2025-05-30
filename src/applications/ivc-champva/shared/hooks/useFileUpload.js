@@ -182,7 +182,10 @@ export function useFileUploadState(props, incompleteUploadMsg) {
         setUploadArray(prevArray => {
           const baseArray =
             prevArray.length === 0 ? [...(fd || [])] : prevArray;
-          const newArray = idx > -1 ? baseArray.toSpliced(idx, 1) : baseArray;
+          const newArray =
+            idx > -1
+              ? [...baseArray.slice(0, idx), ...baseArray.slice(idx + 1)]
+              : baseArray;
           pendingUpdate.current = newArray;
           return newArray;
         });
@@ -238,8 +241,8 @@ export function useFileUploadState(props, incompleteUploadMsg) {
             // Check if we already have this message to avoid duplicates
             const hasLoadingMsg = prevErrors.some(
               err =>
-                err.name === fileFromEvent.name &&
-                err.errorMessage === incompleteUploadMsg,
+                err?.name === fileFromEvent.name &&
+                err?.errorMessage === incompleteUploadMsg,
             );
 
             if (hasLoadingMsg) return prevErrors;
