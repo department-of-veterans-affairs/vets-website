@@ -15,7 +15,7 @@ src/site/tests/html/
 .env
 npm-debug.log
 *.log
-*.swp 
+*.swp
 
 config/config.proxy.js
 
@@ -50,6 +50,7 @@ all-links.csv
 # Track shared IDE config
 !.vscode/extensions.json
 !.vscode/launch.json
+!.vscode/tasks.json
 
 # Ignore custom generated Cypress-TestRail configs
 config/my-cypress-testrail.json
@@ -58,3 +59,7 @@ script/cypress-testrail-helper/my-config.json
 
 # Ignore mochawesome report directory
 mochawesome-report/
+
+# Agents
+.agent/tmp/context/*
+.github/prompts/local*
