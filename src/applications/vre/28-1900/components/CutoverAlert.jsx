@@ -30,6 +30,7 @@ export const CutoverAlert = location => {
       close-btn-aria-label="Close notification"
       status="warning"
       visible
+      data-testid="cutover-alert"
     >
       <>
         <p className="vads-u-margin-y--0">
