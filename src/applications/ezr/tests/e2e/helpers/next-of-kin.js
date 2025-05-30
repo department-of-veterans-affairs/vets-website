@@ -16,7 +16,7 @@ export const advanceToNextOfKin = () => {
   goToNextPage('/veteran-information/contact-information');
 
   goToNextPage('/veteran-information/emergency-contacts-summary');
-  selectYesNoWebComponent('view:isEmergencyContactsEnabled', false);
+  selectYesNoWebComponent('view:hasEmergencyContacts', false);
 
   goToNextPage('/veteran-information/next-of-kin-summary');
 };

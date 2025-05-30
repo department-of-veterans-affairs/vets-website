@@ -109,7 +109,7 @@ describe('Form 10-10EZR Keyboard Only', () => {
       cy.tabToElementAndPressSpace('.usa-button-primary'); // Save contact
 
       // On the summary page, select 'No' to indicate no more contacts
-      selectRadioWithKeyboard('view:isEmergencyContactsEnabled', 'N');
+      selectRadioWithKeyboard('view:hasEmergencyContacts', 'N');
       cy.tabToContinueForm(); // Proceed to next section
 
       // Start of Next of Kin section
