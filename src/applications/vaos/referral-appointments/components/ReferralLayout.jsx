@@ -39,7 +39,7 @@ export default function ReferralLayout({
     <>
       <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--2">
         <ReferralBreadcrumbs categoryOfCare={categoryOfCare} />
-        {location.pathname.endsWith('new-appointment') && (
+        {location.pathname.endsWith('type-of-care') && (
           <DowntimeNotification
             appTitle="VA online scheduling tool"
             dependencies={[externalServices.vaosWarning]}
