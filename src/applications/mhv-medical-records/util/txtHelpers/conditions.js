@@ -4,7 +4,8 @@ export const parseHealthConditions = (records, index = 5) => {
   return `
 ${index}) Health conditions
 
-Health conditions are available 36 hours after your providers enter them.
+This list includes the same information as your "VA problem list" in the 
+previous My HealtheVet experience.
 
 About the codes in some condition names: Some of your health conditions may have diagnosis
 codes in the name that start with SCT or ICD. Providers use these codes to track your health

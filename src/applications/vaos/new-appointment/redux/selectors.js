@@ -6,6 +6,7 @@ import {
 } from '../../utils/timezone';
 import {
   FACILITY_TYPES,
+  TYPE_OF_CARE_IDS,
   TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
   TYPES_OF_EYE_CARE,
@@ -40,10 +41,6 @@ export function getFlowType(state) {
   return getNewAppointment(state)?.flowType;
 }
 
-export function getAppointmentLength(state) {
-  return getNewAppointment(state).appointmentLength;
-}
-
 export function getFormPageInfo(state, pageKey) {
   return {
     schema: getNewAppointment(state).pages[pageKey],
@@ -53,14 +50,13 @@ export function getFormPageInfo(state, pageKey) {
 }
 
 const AUDIOLOGY = '203';
-const SLEEP_CARE = 'SLEEP';
-const EYE_CARE = 'EYE';
+
 export function getTypeOfCare(data) {
-  if (data.typeOfCareId === SLEEP_CARE) {
+  if (data.typeOfCareId === TYPE_OF_CARE_IDS.SLEEP_MEDICINE_ID) {
     return TYPES_OF_SLEEP_CARE.find(care => care.id === data.typeOfSleepCareId);
   }
 
-  if (data.typeOfCareId === EYE_CARE) {
+  if (data.typeOfCareId === TYPE_OF_CARE_IDS.EYE_CARE_ID) {
     return TYPES_OF_EYE_CARE.find(care => care.id === data.typeOfEyeCareId);
   }
 
@@ -80,7 +76,7 @@ export function getCCEType(state) {
   const data = getFormData(state);
 
   let typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
-  if (typeOfCare.id === 'EYE') {
+  if (typeOfCare.id === TYPE_OF_CARE_IDS.EYE_CARE_ID) {
     typeOfCare = TYPES_OF_EYE_CARE.find(
       care => care.id === data.typeOfEyeCareId,
     );
@@ -121,7 +117,7 @@ export function getChosenCCSystemById(state) {
   );
 }
 
-export function getSiteIdForChosenFacility(state) {
+function getSiteIdForChosenFacility(state) {
   return getSiteIdFromFacilityId(getFormData(state).vaFacility);
 }
 
@@ -133,12 +129,6 @@ export function selectEligibility(state) {
   return (
     newAppointment.eligibility[`${data.vaFacility}_${typeOfCareId}`] || null
   );
-}
-
-export function getPreferredDate(state, pageKey) {
-  const data = getFormData(state);
-  const typeOfCare = getTypeOfCare(data)?.name;
-  return { ...getFormPageInfo(state, pageKey), typeOfCare };
 }
 
 export function getChosenSlot(state) {
@@ -219,11 +209,11 @@ export function selectProviderSelectionInfo(state) {
   };
 }
 
-export function selectFacilityPageSortMethod(state) {
+function selectFacilityPageSortMethod(state) {
   return getNewAppointment(state).facilityPageSortMethod;
 }
 
-export function selectNoValidVAFacilities(state) {
+function selectNoValidVAFacilities(state) {
   const newAppointment = getNewAppointment(state);
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const { childFacilitiesStatus } = newAppointment;
@@ -234,7 +224,7 @@ export function selectNoValidVAFacilities(state) {
   );
 }
 
-export function selectSingleValidVALocation(state) {
+function selectSingleValidVALocation(state) {
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const data = getFormData(state);
   const validFacilities = formInfo.schema?.properties.vaFacility.enum;
@@ -343,7 +333,7 @@ export function selectPatientProviderRelationships(state) {
   };
 }
 
-export function getChosenVACityState(state) {
+function getChosenVACityState(state) {
   const schema =
     state.newAppointment.pages.ccPreferences?.properties.communityCareSystemId;
 
@@ -356,20 +346,6 @@ export function getChosenVACityState(state) {
   }
 
   return null;
-}
-
-export function selectConfirmationPage(state) {
-  return {
-    data: getFormData(state),
-    clinic: getChosenClinicInfo(state),
-    facilityDetails: getChosenFacilityInfo(state),
-    slot: getChosenSlot(state),
-    systemId: getSiteIdForChosenFacility(state),
-    submitStatus: getNewAppointment(state).submitStatus,
-    flowType: getFlowType(state),
-    appointmentLength: getAppointmentLength(state),
-    hasResidentialAddress: selectHasVAPResidentialAddress(state),
-  };
 }
 
 export function selectReviewPage(state) {

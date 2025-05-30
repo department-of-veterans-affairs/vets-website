@@ -20,6 +20,8 @@ export const Hub = () => {
     TOGGLE_NAMES.representativeStatusEnableV2Features,
   );
 
+  const showVeteranStatus = useToggleValue(TOGGLE_NAMES.vetStatusStage1);
+
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);
 
@@ -90,6 +92,21 @@ export const Hub = () => {
             />
           </>
         </HubCard>
+
+        {showVeteranStatus && (
+          <HubCard
+            heading={PROFILE_PATH_NAMES.VETERAN_STATUS_CARD}
+            content="Your Veteran Status Card makes it easy to prove your service and access Veteran discounts."
+          >
+            <>
+              <ProfileLink
+                className="vads-u-display--block vads-u-margin-bottom--2"
+                text="View your Veteran Status Card"
+                href={PROFILE_PATHS.VETERAN_STATUS_CARD}
+              />
+            </>
+          </HubCard>
+        )}
 
         <HubCard
           heading={PROFILE_PATH_NAMES.DIRECT_DEPOSIT}
