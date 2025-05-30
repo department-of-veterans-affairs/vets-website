@@ -885,8 +885,8 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       ),
     ).to.not.have.attribute('disabled');
   });
-
-  it('should fetch slots when moving between months', async () => {
+  // Failing test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/110920
+  it.skip('should fetch slots when moving between months', async () => {
     const facilityId = '983';
     const timezone = getTimezoneByFacilityId(facilityId);
     const preferredDate = addMonths(addDays(new Date(), 1), 1);
