@@ -86,6 +86,10 @@ describe('Welcome VA Setup - Contact info', () => {
       cy.get('@homePhoneInput').type('5558985555');
       cy.findByTestId('save-edit-button').click();
 
+      // redirect to previous page and show save alert
+      cy.url().should('not.contain', 'edit-mobile-phone');
+      cy.findByText('Mobile phone number updated').should('exist');
+
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -96,29 +100,33 @@ describe('Welcome VA Setup - Contact info', () => {
         statusCode: 500,
         body: { status: 500, error: 'Internal Server Error', exception: {} },
       });
+    });
+    it('changing phone number fails', () => {
+      cy.visit('my-va/welcome-va-setup/contact-information');
 
-      it('changing phone number fails', () => {
-        cy.visit('my-va/welcome-va-setup/contact-information');
+      cy.findByRole('link', {
+        name: /Edit mobile phone number/i,
+      }).click();
 
-        cy.findByRole('link', {
-          name: /Edit mobile phone number/i,
-        }).click();
+      cy.injectAxeThenAxeCheck();
 
-        cy.injectAxeThenAxeCheck();
+      cy.get('va-text-input[name="root_inputPhoneNumber"]')
+        .shadow()
+        .find('input')
+        .as('homePhoneInput');
 
-        cy.get('va-text-input[name="root_inputPhoneNumber"]')
-          .shadow()
-          .find('input')
-          .as('homePhoneInput');
+      cy.injectAxeThenAxeCheck();
 
-        cy.injectAxeThenAxeCheck();
+      cy.get('@homePhoneInput').clear();
+      cy.get('@homePhoneInput').type('5558985555');
+      cy.findByTestId('save-edit-button').click();
 
-        cy.get('@homePhoneInput').clear();
-        cy.get('@homePhoneInput').type('5558985555');
-        cy.findByTestId('save-edit-button').click();
-
-        cy.injectAxeThenAxeCheck();
-      });
+      // stay on current page and show error alert
+      cy.url().should(
+        'contain',
+        '/welcome-va-setup/contact-information/edit-mobile-phone',
+      );
+      cy.findAllByRole('alert', { status: 'error' }).should('exist');
     });
   });
 });
