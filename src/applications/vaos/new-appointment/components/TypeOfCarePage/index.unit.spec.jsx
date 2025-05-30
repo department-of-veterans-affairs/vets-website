@@ -417,7 +417,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     const store = createTestStore(state);
     const screen = renderWithStoreAndRouter(<NewAppointment />, {
       store,
-      path: '/new-appointment',
+      path: '/type-of-care',
     });
 
     expect(

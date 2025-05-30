@@ -6,8 +6,10 @@ export const ChildAdditionalEvidence = () => {
     return state?.form?.data || {};
   });
 
+  const veteranAddress =
+    formData?.veteranContactInformation?.veteranAddress || {};
   const livesOutsideUSA =
-    formData?.veteranContactInformation?.veteranAddress?.country !== 'USA';
+    veteranAddress.country !== 'USA' || veteranAddress.isMilitary;
   const childrenToAdd = formData?.childrenToAdd || [];
   const hasStepChild = childrenToAdd.some(
     childFormData => childFormData?.relationshipToChild?.stepchild,
@@ -40,25 +42,23 @@ export const ChildAdditionalEvidence = () => {
           header="Supporting evidence you need to submit"
           level="4"
         >
-          {showBirthCertificate && (
-            <ul>
+          <ul>
+            {showBirthCertificate && (
               <li>A copy of your child’s birth certificate</li>
-            </ul>
-          )}
-          {hasDisabledChild && (
-            <ul>
-              <li>
-                Copies of medical records that document your child’s permanent
-                physical or mental disability, <strong>and</strong>
-              </li>
-              <li>
-                A statement from your child’s doctor that shows the type and
-                severity of the child’s physical or mental disability
-              </li>
-            </ul>
-          )}
-          {hasAdoptedChild && (
-            <ul>
+            )}
+            {hasDisabledChild && (
+              <>
+                <li>
+                  Copies of medical records that document your child’s permanent
+                  physical or mental disability, <strong>and</strong>
+                </li>
+                <li>
+                  A statement from your child’s doctor that shows the type and
+                  severity of the child’s physical or mental disability
+                </li>
+              </>
+            )}
+            {hasAdoptedChild && (
               <li>
                 A copy of one of these documents:
                 <ul>
@@ -74,8 +74,8 @@ export const ChildAdditionalEvidence = () => {
                   <li>The revised birth certificate</li>
                 </ul>
               </li>
-            </ul>
-          )}
+            )}
+          </ul>
         </va-accordion-item>
       </va-accordion>
       <h4>Submit your files online</h4>

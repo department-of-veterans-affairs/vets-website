@@ -11,7 +11,7 @@ import {
   selectChosenFacilityInfo,
   selectPastAppointments,
 } from '../../redux/selectors';
-import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
+import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 
 const initialSchema = {
   type: 'object',
@@ -42,8 +42,8 @@ export default function useClinicFormState(pageTitle) {
   // primary care and mental health are exempt
   // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
   const isCheckTypeOfCare =
-    initialData.typeOfCareId !== MENTAL_HEALTH &&
-    initialData.typeOfCareId !== PRIMARY_CARE &&
+    initialData.typeOfCareId !== TYPE_OF_CARE_IDS.MENTAL_HEALTH &&
+    initialData.typeOfCareId !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
     location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
       ?.patientHistoryRequired === true;
   if (isCheckTypeOfCare) {
