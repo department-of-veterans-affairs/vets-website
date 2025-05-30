@@ -465,6 +465,17 @@ const testConfig = createTestConfig(
       // ==============================================================
       // ================== householdExpensesChapter ==================
       // ==============================================================
+      // only shows if showUpdatedExpensePages is active
+      'monthly-housing-expenses': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-text-input')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1200');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'utility-bill-checklist': ({ afterHook }) => {
         afterHook(() => {
           fillChecklist(utilityRecords);
