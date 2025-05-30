@@ -22,6 +22,7 @@ import {
   includeOtherExposureDates,
   includeOtherExposureDetails,
   isEmergencyContactsEnabled,
+  isNextOfKinEnabled,
   showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
@@ -52,6 +53,7 @@ import veteranMailingAddress from './chapters/veteranInformation/mailingAddress'
 import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
 import veteranContantInformation from './chapters/veteranInformation/contactInformation';
 import emergencyContactPages from './chapters/veteranInformation/emergencyContacts';
+import nextOfKinPages from './chapters/veteranInformation/nextOfKin';
 
 // chapter 2 - Household Information
 import maritalStatus from './chapters/householdInformation/maritalStatus';
@@ -217,6 +219,18 @@ const formConfig = {
         emergencyContactsAddressPage: {
           ...emergencyContactPages.emergencyContactsAddressPage,
           depends: isEmergencyContactsEnabled,
+        },
+        nextOfKinSummary: {
+          ...nextOfKinPages.nextOfKinSummary,
+          depends: isNextOfKinEnabled,
+        },
+        nextOfKinPage: {
+          ...nextOfKinPages.nextOfKinPage,
+          depends: isNextOfKinEnabled,
+        },
+        nextOfKinAddressPage: {
+          ...nextOfKinPages.nextOfKinAddressPage,
+          depends: isNextOfKinEnabled,
         },
         /** NOTE: this page needs to live in the "Veteran Info" section to avoid
          * having an empty/inactive "Household Info" accordion on the review page

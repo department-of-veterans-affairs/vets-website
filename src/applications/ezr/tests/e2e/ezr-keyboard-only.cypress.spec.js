@@ -109,7 +109,37 @@ describe('Form 10-10EZR Keyboard Only', () => {
       cy.tabToElementAndPressSpace('.usa-button-primary'); // Save contact
 
       // On the summary page, select 'No' to indicate no more contacts
-      selectRadioWithKeyboard('view:isEmergencyContactsEnabled', 'N');
+      selectRadioWithKeyboard('view:hasEmergencyContacts', 'N');
+      cy.tabToContinueForm(); // Proceed to next section
+
+      // Start of Next of Kin section
+      selectRadioWithKeyboard('view:hasNextOfKin', 'Y');
+      cy.tabToElementAndPressSpace('.usa-button-primary'); // Proceed to add a contact
+
+      // Fill in the contact's basic info
+      fillNameWithKeyboard('fullName', contact.fullName);
+
+      // Fill in relationship
+      selectDropdownWithKeyboard('relationship', contact.relationship);
+
+      // Fill in primary phone number
+      fillPhoneNumberWithKeyboard('primaryPhone', contact.primaryPhone);
+
+      // Indicate whether the contact has an address
+      if (contact.address) {
+        selectRadioWithKeyboard('view:hasNextOfKinAddress', 'Y');
+        cy.tabToContinueForm();
+        fillAddressWithKeyboard('address', contact.address);
+      } else {
+        selectRadioWithKeyboard('view:hasNextOfKinAddress', 'N');
+        cy.tabToElementAndPressSpace('.usa-button-primary'); // Proceed without address
+      }
+
+      // Save the contact
+      cy.tabToElementAndPressSpace('.usa-button-primary'); // Save contact
+
+      // On the summary page, select 'No' to indicate no more contacts
+      selectRadioWithKeyboard('view:hasNextOfKin', 'N');
       cy.tabToContinueForm(); // Proceed to next section
 
       // Toxic exposure
