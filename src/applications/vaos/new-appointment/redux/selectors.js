@@ -6,6 +6,7 @@ import {
 } from '../../utils/timezone';
 import {
   FACILITY_TYPES,
+  TYPE_OF_CARE_IDS,
   TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
   TYPES_OF_EYE_CARE,
@@ -49,14 +50,13 @@ export function getFormPageInfo(state, pageKey) {
 }
 
 const AUDIOLOGY = '203';
-const SLEEP_CARE = 'SLEEP';
-const EYE_CARE = 'EYE';
+
 export function getTypeOfCare(data) {
-  if (data.typeOfCareId === SLEEP_CARE) {
+  if (data.typeOfCareId === TYPE_OF_CARE_IDS.SLEEP_MEDICINE_ID) {
     return TYPES_OF_SLEEP_CARE.find(care => care.id === data.typeOfSleepCareId);
   }
 
-  if (data.typeOfCareId === EYE_CARE) {
+  if (data.typeOfCareId === TYPE_OF_CARE_IDS.EYE_CARE_ID) {
     return TYPES_OF_EYE_CARE.find(care => care.id === data.typeOfEyeCareId);
   }
 
@@ -76,7 +76,7 @@ export function getCCEType(state) {
   const data = getFormData(state);
 
   let typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
-  if (typeOfCare.id === 'EYE') {
+  if (typeOfCare.id === TYPE_OF_CARE_IDS.EYE_CARE_ID) {
     typeOfCare = TYPES_OF_EYE_CARE.find(
       care => care.id === data.typeOfEyeCareId,
     );
@@ -129,12 +129,6 @@ export function selectEligibility(state) {
   return (
     newAppointment.eligibility[`${data.vaFacility}_${typeOfCareId}`] || null
   );
-}
-
-export function getPreferredDate(state, pageKey) {
-  const data = getFormData(state);
-  const typeOfCare = getTypeOfCare(data)?.name;
-  return { ...getFormPageInfo(state, pageKey), typeOfCare };
 }
 
 export function getChosenSlot(state) {

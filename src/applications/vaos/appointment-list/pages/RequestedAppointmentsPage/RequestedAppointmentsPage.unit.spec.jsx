@@ -12,12 +12,7 @@ import {
   getTestDate,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import {
-  APPOINTMENT_STATUS,
-  AUDIOLOGY_ID,
-  OPTOMETRY_ID,
-  PRIMARY_CARE,
-} from '../../../utils/constants';
+import { APPOINTMENT_STATUS, TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import RequestedAppointmentsPage from './RequestedAppointmentsPage';
 
 const initialStateVAOSService = {
@@ -77,7 +72,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
       pending: true,
     })
       .setLocation(new MockFacilityResponse())
-      .setTypeOfCare(AUDIOLOGY_ID);
+      .setTypeOfCare(TYPE_OF_CARE_IDS.AUDIOLOGY_ID);
 
     // And developer is using the v2 API
     mockAppointmentsApi({
@@ -141,13 +136,15 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
   it('should display request sorted by create date in descending order', async () => {
     // Given a veteran has VA appointment request
 
-    const appointments = [OPTOMETRY_ID, AUDIOLOGY_ID, PRIMARY_CARE].map(
-      type => {
-        return MockAppointmentResponse.createVAResponse({
-          pending: true,
-        }).setTypeOfCare(type);
-      },
-    );
+    const appointments = [
+      TYPE_OF_CARE_IDS.OPTOMETRY_ID,
+      TYPE_OF_CARE_IDS.AUDIOLOGY_ID,
+      TYPE_OF_CARE_IDS.PRIMARY_CARE,
+    ].map(type => {
+      return MockAppointmentResponse.createVAResponse({
+        pending: true,
+      }).setTypeOfCare(type);
+    });
 
     // And developer is using the v2 API
     mockAppointmentsApi({
