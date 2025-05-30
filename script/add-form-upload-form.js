@@ -44,7 +44,7 @@ const logger = {
  * @returns {string} The escaped string
  */
 function escapeSingleQuotes(str) {
-  return str ? str.replace(/\\/g, "\\\\").replace(/'/g, "\\'") : str;
+  return str ? str.replace(/\\/g, '\\\\').replace(/'/g, "\\'") : str;
 }
 
 /**
