@@ -1,8 +1,8 @@
-import Scroll from 'react-scroll';
 import { focusElement, focusByOrder } from '../../../../../utilities/ui/focus';
 import {
   scrollToFirstError,
   getScrollOptions,
+  scrollTo,
 } from '../../../../../utilities/scroll';
 import { webComponentList } from '../../web-component-fields/webComponentList';
 import {
@@ -119,7 +119,7 @@ export const scrollToElement = name => {
       : name;
 
   if (name && el) {
-    Scroll.scroller.scrollTo(
+    scrollTo(
       el, // pass a string key + 'ScrollElement' or DOM element
       window.Forms.scroll || {
         duration: 500,

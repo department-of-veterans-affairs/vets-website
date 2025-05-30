@@ -40,7 +40,6 @@
     "react": "*",
     "react-dom": "*",
     "react-is": "*",
-    "react-scroll": "*",
     "sinon": "*",
     "url-search-params-polyfill": "*"
   },
