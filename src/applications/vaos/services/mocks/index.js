@@ -36,7 +36,7 @@ const epsAppointmentUtils = require('../../referral-appointments/utils/appointme
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
-const features = require('../../utils/featureFlags');
+const features = require('./featureFlags');
 
 const mockAppts = [];
 let currentMockId = 1;
