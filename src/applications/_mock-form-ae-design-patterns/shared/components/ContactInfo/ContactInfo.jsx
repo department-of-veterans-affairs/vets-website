@@ -5,11 +5,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import {
-  Element,
-  scrollTo,
-  scrollAndFocus,
-} from 'platform/utilities/scroll';
+import { Element, scrollTo, scrollAndFocus } from 'platform/utilities/scroll';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {

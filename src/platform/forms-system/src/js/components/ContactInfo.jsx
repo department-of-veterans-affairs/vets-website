@@ -4,18 +4,13 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import {
-  scrollTo,
-  scrollAndFocus,
-} from 'platform/utilities/scroll';
+import { Element, scrollTo, scrollAndFocus } from 'platform/utilities/scroll';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
   selectProfile,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
-
-import { Element } from 'platform/utilities/scroll';
 
 // import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
 import { generateMockUser } from '../../../../site-wide/user-nav/tests/mocks/user';
