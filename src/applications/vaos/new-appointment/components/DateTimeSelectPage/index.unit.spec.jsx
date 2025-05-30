@@ -40,7 +40,11 @@ import {
   mockAppointmentSlotApi,
   mockEligibilityFetches,
 } from '../../../tests/mocks/mockApis';
-import { DATE_FORMATS, FETCH_STATUS } from '../../../utils/constants';
+import {
+  DATE_FORMATS,
+  FETCH_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../../utils/constants';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
 
 const initialState = {
@@ -195,7 +199,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     const store = createTestStore({
       newAppointment: {
         data: {
-          typeOfCareId: '323',
+          typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
           vaFacility: '983GB',
           clinicId: '308',
         },

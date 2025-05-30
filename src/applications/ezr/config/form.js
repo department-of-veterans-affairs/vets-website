@@ -21,6 +21,7 @@ import {
   includeAgentOrangeExposureDates,
   includeOtherExposureDates,
   includeOtherExposureDetails,
+  isEmergencyContactsEnabled,
   showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
@@ -50,6 +51,7 @@ import veteranBirthSex from './chapters/veteranInformation/birthSex';
 import veteranMailingAddress from './chapters/veteranInformation/mailingAddress';
 import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
 import veteranContantInformation from './chapters/veteranInformation/contactInformation';
+import emergencyContactPages from './chapters/veteranInformation/emergencyContacts';
 
 // chapter 2 - Household Information
 import maritalStatus from './chapters/householdInformation/maritalStatus';
@@ -149,7 +151,11 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: { date },
-  dev: { showNavLinks: true, collapsibleNavLinks: true },
+  dev: {
+    showNavLinks: true,
+    collapsibleNavLinks: true,
+    disableWindowUnloadInCI: true,
+  },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',
@@ -199,6 +205,18 @@ const formConfig = {
           initialData: {},
           uiSchema: veteranContantInformation.uiSchema,
           schema: veteranContantInformation.schema,
+        },
+        emergencyContactsSummary: {
+          ...emergencyContactPages.emergencyContactsSummary,
+          depends: isEmergencyContactsEnabled,
+        },
+        emergencyContactsPage: {
+          ...emergencyContactPages.emergencyContactsPage,
+          depends: isEmergencyContactsEnabled,
+        },
+        emergencyContactsAddressPage: {
+          ...emergencyContactPages.emergencyContactsAddressPage,
+          depends: isEmergencyContactsEnabled,
         },
         /** NOTE: this page needs to live in the "Veteran Info" section to avoid
          * having an empty/inactive "Household Info" accordion on the review page
