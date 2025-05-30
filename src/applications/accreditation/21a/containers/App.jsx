@@ -61,7 +61,7 @@ const App = ({ children }) => {
   const content = isUserLoading ? (
     <VaLoadingIndicator message="Loading user information..." />
   ) : (
-    children
+    <div data-testid="form21a-content">{children}</div>
   );
 
   return (

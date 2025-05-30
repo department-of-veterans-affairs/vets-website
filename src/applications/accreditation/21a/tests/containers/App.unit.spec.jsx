@@ -33,6 +33,18 @@ const getState = ({
 });
 
 describe('<App>', () => {
+  it('should render the app', () => {
+    const { container, getByTestId } = renderWithStoreAndRouter(<App />, {
+      initialState: {
+        ...getState(),
+      },
+    });
+
+    const loadingIndicator = $('va-loading-indicator', container);
+    expect(loadingIndicator).to.not.exist;
+    expect(getByTestId('form21a-content')).to.exist;
+  });
+
   context('when app is loading', () => {
     it('should render loading', () => {
       const { container } = renderWithStoreAndRouter(<App />, {
@@ -79,11 +91,9 @@ describe('<App>', () => {
   );
 
   context('when accredited_representative_portal_form_21a is false', () => {
-    let isProduction;
     let oldLocation;
 
     beforeEach(() => {
-      isProduction = sinon.stub(constants, 'isProduction').returns(false);
       oldLocation = global.window.location;
       global.window.location = {
         replace: sinon.spy(),
@@ -91,7 +101,6 @@ describe('<App>', () => {
     });
 
     afterEach(() => {
-      isProduction.restore();
       global.window.location = oldLocation;
     });
 
@@ -106,11 +115,9 @@ describe('<App>', () => {
   });
 
   context('when selectShouldGoToSignIn is true', () => {
-    let isProduction;
     let oldLocation;
 
     beforeEach(() => {
-      isProduction = sinon.stub(constants, 'isProduction').returns(false);
       oldLocation = global.window.location;
       global.window.location = {
         replace: sinon.spy(),
@@ -119,7 +126,6 @@ describe('<App>', () => {
     });
 
     afterEach(() => {
-      isProduction.restore();
       global.window.location = oldLocation;
     });
 
@@ -136,22 +142,6 @@ describe('<App>', () => {
   });
 
   context('when isUserLoading is true', () => {
-    let isProduction;
-    let oldLocation;
-
-    beforeEach(() => {
-      isProduction = sinon.stub(constants, 'isProduction').returns(false);
-      oldLocation = global.window.location;
-      global.window.location = {
-        replace: sinon.spy(),
-      };
-    });
-
-    afterEach(() => {
-      isProduction.restore();
-      global.window.location = oldLocation;
-    });
-
     it('should show va loading indicator', () => {
       const { container } = renderWithStoreAndRouter(<App />, {
         initialState: {
