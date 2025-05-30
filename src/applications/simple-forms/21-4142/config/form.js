@@ -86,17 +86,6 @@ const formConfig = {
   },
   defaultDefinitions: fullSchema.definitions,
   chapters: {
-    personalInformation2Chapter: {
-      title: "Veteran's identification information",
-      pages: {
-        personalInformation2: {
-          path: 'personal-information-2',
-          title: "Personal Information (cont'd)",
-          uiSchema: personalInformation2.uiSchema,
-          schema: personalInformation2.schema,
-        },
-      },
-    },
     personalInformation1Chapter: {
       title: "Veteran's personal information",
       pages: {
@@ -105,6 +94,17 @@ const formConfig = {
           title: 'Personal Information',
           uiSchema: personalInformation1.uiSchema,
           schema: personalInformation1.schema,
+        },
+      },
+    },
+    personalInformation2Chapter: {
+      title: "Veteran's identification information",
+      pages: {
+        personalInformation2: {
+          path: 'personal-information-2',
+          title: "Personal Information (cont'd)",
+          uiSchema: personalInformation2.uiSchema,
+          schema: personalInformation2.schema,
         },
       },
     },
