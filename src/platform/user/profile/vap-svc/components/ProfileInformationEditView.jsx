@@ -87,7 +87,7 @@ export class ProfileInformationEditView extends Component {
     ) {
       this.interval = window.setInterval(
         this.refreshTransaction,
-        window.VetsGov.pollTimeout || 1000,
+        window.VetsGov.pollTimeout || 2000,
       );
     }
     // if the transaction is no longer pending, stop refreshing it
