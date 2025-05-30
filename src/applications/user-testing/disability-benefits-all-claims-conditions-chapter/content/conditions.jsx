@@ -29,28 +29,45 @@ export const NewConditionDescription = () => (
   </>
 );
 
-const createSecondaryDescriptionString = causedByCondition => {
-  // Just for SecondaryEnhanced demo
-  if (typeof causedByCondition === 'object') {
-    return createSecondaryEnhancedDescriptionString(causedByCondition);
+const createCauseFollowUpDescriptions = (item, fullData = {}) => {
+  if (!item?.cause) return '';
+
+  const { conditions = [], ratedDisabilities = [] } = fullData;
+
+  switch (item.cause) {
+    case 'NEW':
+      return 'caused by an injury, event, disease or exposure during my service';
+
+    case 'SECONDARY': {
+      if (typeof item.causedByCondition === 'object') {
+        return createSecondaryEnhancedDescriptionString(
+          item.causedByCondition,
+          fullData,
+        );
+      }
+
+      const target = item.causedByCondition?.toLowerCase()?.trim();
+      const foundInConditions = conditions.some(
+        c => c.newCondition?.toLowerCase()?.trim() === target,
+      );
+      const foundInRated = ratedDisabilities.some(
+        d => d.name?.toLowerCase()?.trim() === target,
+      );
+
+      return foundInConditions || foundInRated
+        ? `caused by ${item.causedByCondition}`
+        : 'cause is unknown or was removed';
+    }
+
+    case 'WORSENED':
+      return 'existed before I served in the military, but got worse because of my military service';
+
+    case 'VA':
+      return 'caused by an injury or event that happened when I was receiving VA care';
+
+    default:
+      return '';
   }
-
-  return `caused by ${causedByCondition ||
-    'a missing service-connected condition'}`;
-};
-
-const createCauseFollowUpDescriptions = item => {
-  const causeFollowUpDescriptions = {
-    NEW: 'caused by an injury, event, disease or exposure during my service',
-    SECONDARY: createSecondaryDescriptionString(item?.causedByCondition),
-    WORSENED:
-      'existed before I served in the military, but got worse because of my military service',
-    VA:
-      'caused by an injury or event that happened when I was receiving VA care',
-  };
-
-  const cause = item?.cause;
-  return causeFollowUpDescriptions[cause];
 };
 
 const formatDateString = dateString => {
@@ -68,8 +85,11 @@ const formatDateString = dateString => {
   return year;
 };
 
-export const NewConditionCardDescription = item => {
-  const causeFollowUpDescription = createCauseFollowUpDescriptions(item);
+export const NewConditionCardDescription = (item, fullData = {}) => {
+  const causeFollowUpDescription = createCauseFollowUpDescriptions(
+    item,
+    fullData,
+  );
   const date = formatDateString(item?.conditionDate);
 
   return (
