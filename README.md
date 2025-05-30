@@ -151,7 +151,7 @@ yarn test:unit --help
 
 ### End-to-end (E2E) / Browser tests
 
-- E2E or browser tests run in Cypress.
+- E2E or browser tests run in Cypress
 
 **Before running Cypress tests**, first make sure that:
 
