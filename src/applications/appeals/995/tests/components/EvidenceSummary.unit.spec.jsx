@@ -468,7 +468,6 @@ describe('<EvidenceSummary>', () => {
     });
 
     fireEvent.click($('.form-nav-buttons va-button', container));
-    // console.log(container.innerHTML);
     expect(updateSpy.called).to.be.true;
   });
 });
