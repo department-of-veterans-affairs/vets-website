@@ -2,7 +2,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import NoSponsorModal from './NoSponsorModal';
 import ApplicantIdentityView from './ApplicantIdentityView';
 
@@ -13,14 +12,12 @@ import ApplicantIdentityView from './ApplicantIdentityView';
  */
 export const ApplicantIdentityWithModal = ({
   fetchedSponsorsComplete,
-  showTextUpdate,
   sponsors,
 }) => {
   const sponsorsList = Array.isArray(sponsors.sponsors)
     ? sponsors.sponsors
     : [];
-  const shouldShowModal =
-    fetchedSponsorsComplete && showTextUpdate && sponsorsList.length === 0;
+  const shouldShowModal = fetchedSponsorsComplete && sponsorsList.length === 0;
 
   return (
     <>
@@ -32,7 +29,6 @@ export const ApplicantIdentityWithModal = ({
 
 ApplicantIdentityWithModal.propTypes = {
   fetchedSponsorsComplete: PropTypes.bool.isRequired,
-  showTextUpdate: PropTypes.bool.isRequired,
   sponsors: PropTypes.shape({
     sponsors: PropTypes.arrayOf(
       PropTypes.shape({
@@ -45,14 +41,10 @@ ApplicantIdentityWithModal.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const showTextUpdate = Boolean(
-    state.featureToggles?.[featureFlagNames.showMeb54901990eTextUpdate],
-  );
   const { fetchedSponsorsComplete } = state.data;
 
   return {
     fetchedSponsorsComplete,
-    showTextUpdate,
     sponsors: state.data.sponsors || { sponsors: [] },
   };
 };
