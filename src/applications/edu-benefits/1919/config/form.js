@@ -15,6 +15,7 @@ import {
   aboutYourInstitution,
   institutionDetails,
   proprietaryProfit,
+  conflictingInterests,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -88,6 +89,12 @@ const formConfig = {
           title: "Confirm your institution's classification",
           uiSchema: proprietaryProfit.uiSchema,
           schema: proprietaryProfit.schema,
+        },
+        conflictingInterests: {
+          path: 'conflicting-interests', // TODO: verify path name
+          title: 'Individuals with a potential conflict of interest',
+          uiSchema: conflictingInterests.uiSchema,
+          schema: conflictingInterests.schema,
         },
       },
     },
