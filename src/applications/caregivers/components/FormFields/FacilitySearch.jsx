@@ -58,7 +58,7 @@ const FacilitySearch = props => {
           : REVIEW_PATHS.confirmFacility,
       );
     },
-    [plannedClinic?.veteranSelected, goToPath],
+    [plannedClinic?.veteranSelected, plannedClinic?.caregiverSupport, goToPath],
   );
 
   const onGoBack = useCallback(
@@ -104,7 +104,7 @@ const FacilitySearch = props => {
       hasFacilities,
       isReviewMode,
       query,
-      plannedClinic?.veteranSelected,
+      plannedClinic?.caregiverSupport,
     ],
   );
 
