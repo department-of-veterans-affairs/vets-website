@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { focusElement } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 
 import { formTitle, formSubTitle } from '../content/title';
 import {

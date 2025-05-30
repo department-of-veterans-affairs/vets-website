@@ -13,8 +13,7 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { Element } from 'platform/utilities/scroll';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { Element, scrollTo } from 'platform/utilities/scroll';
 import set from 'platform/utilities/data/set';
 import {
   scrollToFirstError,

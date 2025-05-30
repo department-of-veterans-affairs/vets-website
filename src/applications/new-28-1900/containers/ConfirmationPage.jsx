@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { useSelector } from 'react-redux';
-import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const getFullName = (nameObj = {}) => {

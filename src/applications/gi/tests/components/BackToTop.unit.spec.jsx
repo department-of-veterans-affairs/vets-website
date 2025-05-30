@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 import * as recordEventModule from 'platform/monitoring/record-event';
-import * as scrollToTopModule from 'platform/utilities/ui/scrollToTop';
+import * as scrollToTopModule from 'platform/utilities/scroll';
 
 import BackToTop from '../../components/BackToTop';
 

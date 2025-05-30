@@ -1,6 +1,7 @@
 import React from 'react';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { focusByOrder, scrollToTop } from 'platform/utilities/ui';
+import { focusByOrder } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { isCompletingForm0781 } from '../../utils/form0781';
 import eventDetails from './traumaticEventDetails';
 import { officialReportCustom } from './officialReport';

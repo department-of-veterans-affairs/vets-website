@@ -35,7 +35,7 @@ const options = commandLineArgs(COMMAND_LINE_OPTIONS);
 // Helper function to get test paths
 function getTestPaths() {
   if (options['full-suite']) {
-    return glob.sync(DEFAULT_SPEC_PATTERN);
+    return options.path;
   }
 
   const changedFiles = process.env.CHANGED_FILES
