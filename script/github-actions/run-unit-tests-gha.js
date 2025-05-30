@@ -35,7 +35,7 @@ const options = commandLineArgs(COMMAND_LINE_OPTIONS);
 // Helper function to get test paths
 function getTestPaths() {
   if (options['full-suite']) {
-    return glob.sync(DEFAULT_SPEC_PATTERN);
+    return DEFAULT_SPEC_PATTERN;
   }
 
   const changedFiles = process.env.CHANGED_FILES
@@ -96,7 +96,7 @@ function buildTestCommand(testPaths) {
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
     options.config
-  } ${testPaths.join(' ')}`;
+  } ${Array.isArray(testPaths) ? testPaths.join(' ') : `"${testPaths}"`}`;
 }
 
 // Main execution
