@@ -45,9 +45,7 @@ const FacilitySearch = props => {
   );
 
   const plannedClinic = formData?.['view:plannedClinic'];
-  const [facilityPreviouslySelected, setFacilityPreviouslySelected] = useState(
-    false,
-  );
+  const [showFacilityInfoAlert, setShowFacilityInfoAlert] = useState(true);
 
   const goToReviewPath = useCallback(
     () => {
@@ -60,7 +58,7 @@ const FacilitySearch = props => {
           : REVIEW_PATHS.confirmFacility,
       );
     },
-    [formData, goToPath],
+    [plannedClinic?.veteranSelected, goToPath],
   );
 
   const onGoBack = useCallback(
@@ -99,7 +97,15 @@ const FacilitySearch = props => {
       // proceed with navigating forward based on review mode
       return isReviewMode ? goToReviewPath() : goForward(formData);
     },
-    [formData, goForward, goToReviewPath, hasFacilities, isReviewMode, query],
+    [
+      formData,
+      goForward,
+      goToReviewPath,
+      hasFacilities,
+      isReviewMode,
+      query,
+      plannedClinic?.veteranSelected,
+    ],
   );
 
   const handleChange = useCallback(e => setQuery(e.target.value), []);
@@ -293,7 +299,7 @@ const FacilitySearch = props => {
           f => f.id === facilityId,
         );
         const parentFacility = await fetchParentFacility(selectedFacility);
-        setFacilityPreviouslySelected(true);
+        setShowFacilityInfoAlert(false);
         dispatch(
           setData({
             ...formData,
@@ -313,6 +319,7 @@ const FacilitySearch = props => {
       localState.listError,
       props,
       submittedQuery,
+      plannedClinic?.veteranSelected,
     ],
   );
 
@@ -377,14 +384,18 @@ const FacilitySearch = props => {
     [localState.searchError],
   );
 
+  const shouldDisplayFacilityAlert = useMemo(
+    () => {
+      return plannedClinic?.veteranSelected && showFacilityInfoAlert;
+    },
+    [plannedClinic?.veteranSelected, showFacilityInfoAlert],
+  );
+
   return (
     <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
-      {plannedClinic?.veteranSelected &&
-        !facilityPreviouslySelected && (
-          <SelectedFacilityInfoAlert
-            facility={plannedClinic?.veteranSelected}
-          />
-        )}
+      {shouldDisplayFacilityAlert && (
+        <SelectedFacilityInfoAlert facility={plannedClinic?.veteranSelected} />
+      )}
       <div className="vads-u-margin-y--2 form-panel">
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
           {content['vet-med-center-search-description']}
