@@ -31,7 +31,7 @@ describe('CG <FacilitySearch>', () => {
     );
     const selectors = () => ({
       backBtn: getByText('Back'),
-      continueBtn: getByText('Continue'),
+      continueBtn: queryByRole('button', { name: /Continue/i }),
       loadMoreBtn: container.vaButtonGetByText(
         content['form-facilities-load-more-button'],
       ),
@@ -39,9 +39,7 @@ describe('CG <FacilitySearch>', () => {
       searchInputError: queryByRole('alert'),
       vaRadio: container.querySelector('va-radio'),
       vaSearchInput: container.querySelector('va-search-input'),
-      selectedFacilityAlert: queryByText(
-        'VA medical center or clinic selected',
-      ),
+      selectedFacilityAlert: queryByText('Your current selection'),
     });
     return { container, selectors, getByText, queryByText };
   };
