@@ -1,6 +1,6 @@
 import React from 'react';
 
-const OmbInfo = () => (
+const OmbInfo4142 = () => (
   <va-omb-info res-burden="10" omb-number="2900-0858" exp-date="7/31/2024">
     <p>
       <strong>Respondent Burden:</strong> We need this information and your
@@ -54,4 +54,4 @@ const OmbInfo = () => (
   </va-omb-info>
 );
 
-export default OmbInfo;
+export default OmbInfo4142;
