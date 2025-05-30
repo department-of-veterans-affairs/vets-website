@@ -4,7 +4,16 @@ import * as Sentry from '@sentry/browser';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import moment from 'moment-timezone';
 
-import { addMinutes, areIntervalsOverlapping } from 'date-fns';
+import {
+  addMinutes,
+  areIntervalsOverlapping,
+  startOfMonth,
+  endOfMonth,
+  parseISO,
+  startOfDay,
+  addDays,
+  isAfter,
+} from 'date-fns';
 import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
@@ -15,6 +24,7 @@ import {
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
+  selectFeatureConvertSlotsToUTC,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -709,9 +719,10 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
+    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
 
-    const startDateMonth = moment(startDate).format('YYYY-MM');
-    const endDateMonth = moment(endDate).format('YYYY-MM');
+    const startDateMonth = format(parseISO(startDate), 'yyyy-MM');
+    const endDateMonth = format(parseISO(endDate), 'yyyy-MM');
     const timezone = getTimezoneByFacilityId(data.vaFacility);
 
     let fetchedAppointmentSlotMonths = [];
@@ -736,27 +747,23 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
       try {
         const startDateString = !fetchedStartMonth
           ? startDate
-          : moment(endDate)
-              .startOf('month')
-              .format('YYYY-MM-DD');
+          : format(startOfMonth(parseISO(endDate)), 'yyyy-MM-dd');
         const endDateString = !fetchedEndMonth
           ? endDate
-          : moment(startDate)
-              .endOf('month')
-              .format('YYYY-MM-DD');
+          : format(endOfMonth(parseISO(startDate)), 'yyyy-MM-dd');
 
         const fetchedSlots = await getSlots({
           siteId,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          convertToUtc: featureConvertSlotsToUTC,
         });
-        const tomorrow = moment()
-          .add(1, 'day')
-          .startOf('day');
+
+        const tomorrow = startOfDay(addDays(new Date(), 1));
 
         mappedSlots = fetchedSlots.filter(slot =>
-          moment(slot.start).isAfter(tomorrow),
+          isAfter(parseISO(slot.start), tomorrow),
         );
 
         // Keep track of which months we've fetched already so we don't
