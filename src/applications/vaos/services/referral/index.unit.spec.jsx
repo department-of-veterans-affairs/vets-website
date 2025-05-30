@@ -60,11 +60,19 @@ describe('Referral Services', () => {
 
   it('postReferralAppointment sends the correct payload and returns data', async () => {
     const input = {
-      referralId: 'r1',
-      slotId: 's1',
       draftApppointmentId: 'd1',
+      referralNumber: 'r1',
+      slotId: 's1',
+      networkId: 'n1',
+      providerServiceId: 'p1',
     };
-    const expectedBody = JSON.stringify(input);
+    const expectedBody = JSON.stringify({
+      id: 'd1',
+      referralNumber: 'r1',
+      slotId: 's1',
+      networkId: 'n1',
+      providerServiceId: 'p1',
+    });
 
     requestStub.resolves({ data: { success: true } });
 
@@ -84,13 +92,21 @@ describe('Referral Services', () => {
   it('postDraftReferralAppointment sends the correct payload and returns data', async () => {
     requestStub.resolves({ data: { draft: true } });
 
-    const result = await services.postDraftReferralAppointment('ref-id-123');
+    const result = await services.postDraftReferralAppointment(
+      'ref-id-123',
+      '1234',
+    );
 
     expect(
       requestStub.calledWith('/vaos/v2/appointments/draft', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ referralId: 'ref-id-123' }),
+        body: JSON.stringify({
+          // eslint-disable-next-line camelcase
+          referral_number: 'ref-id-123',
+          // eslint-disable-next-line camelcase
+          referral_consult_id: '1234',
+        }),
       }),
     ).to.be.true;
 

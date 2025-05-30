@@ -51,7 +51,7 @@ export const supportingEvidenceBuddyStatement = (
           on the next screen
           <va-link
             external
-            href="https://www.va.gov/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction"
+            href="https://www.va.gov/find-forms/about-form-21-10210"
             text="Get VA Form 21-10210 to download"
           />
         </li>

@@ -16,6 +16,8 @@ export const Paths = {
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
   CONTACT_LIST: '/contact-list/',
+  SELECT_HEALTH_CARE_SYSTEM: 'select-health-care-system',
+  START_MESSAGE: 'start-message',
 };
 
 export const DefaultFolders = {
