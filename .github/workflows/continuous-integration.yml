@@ -183,7 +183,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name, url, folders'
+          output-type: 'entry_name, url, folder'
 
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
