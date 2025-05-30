@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  VaLink,
-  VaLoadingIndicator,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { AUTHN_SETTINGS } from '@department-of-veterans-affairs/platform-user/exports';
 import CreateAccount from '../components/CreateAccount';
@@ -50,27 +47,27 @@ export default function InterstitialChanges() {
         id="interstitialH1"
         className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
       >
-        You’ll need to sign in with a different account after September 30, 2025
+        The DS Logon sign-in option is going away soon
       </h1>
       <p
         className="vads-u-font-size--base section-content vads-u-measure--5"
         id="interstitialP"
       >
-        After this date, we'll remove the <strong>DS Logon</strong> sign-in
-        option. You’ll need to sign in using a <strong>Login.gov</strong> or{' '}
-        <strong>ID.me</strong> account.
+        After September 30, 2025, we'll remove the <strong>DS Logon</strong>{' '}
+        sign-in option. You’ll need to sign in using a{' '}
+        <strong>Login.gov</strong> or <strong>ID.me</strong> account.
       </p>
       {showAccount ? (
         <AccountSwitch userEmails={userEmails} />
       ) : (
         <CreateAccount />
       )}
-      <h2 id="interstitialH2">Or continue using your old account</h2>
+      <h2 id="interstitialH2">Or continue with DS Logon</h2>
       <p className="vads-u-font-size--base" id="interstitialMhvP">
         You can use your <strong>DS Logon</strong> account to sign in until
         September 30, 2025.
       </p>
-      <VaLink
+      <va-link-action
         text="Continue with your DS Logon account for now"
         href={returnUrl}
         id="interstitialVaLink"
