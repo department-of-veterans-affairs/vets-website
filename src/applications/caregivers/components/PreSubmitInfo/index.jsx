@@ -38,130 +38,94 @@ export const STATEMENTS = {
   ],
 };
 
-// declare helpers for element rendering and validation
+// declare default state structure(s)
 const DEFAULT_SIGNATURE_STATE = { value: '', checked: false };
-
-const getCheckboxProps = ({ label, formData }) => {
-  const map = {
-    [LABELS.veteran]: {
-      fullName: formData.veteranFullName,
-      statementText: STATEMENTS.veteran,
-    },
-    [LABELS.representative]: {
-      fullName: formData.veteranFullName,
-      statementText: STATEMENTS.representative,
-    },
-    [LABELS.primary]: {
-      fullName: formData.primaryFullName,
-      statementText: STATEMENTS.caregiver('Primary'),
-    },
-    [LABELS.secondaryOne]: {
-      fullName: formData.secondaryOneFullName,
-      statementText: STATEMENTS.caregiver('Secondary'),
-    },
-    [LABELS.secondaryTwo]: {
-      fullName: formData.secondaryTwoFullName,
-      statementText: STATEMENTS.caregiver('Secondary'),
-    },
-  };
-  return map[label];
-};
 
 const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   const submission = useSelector(state => state.form.submission);
   const dispatch = useDispatch();
 
-  const hasPrimary = hasPrimaryCaregiver(formData);
-  const hasSecondaryOne = hasSecondaryCaregiverOne(formData);
-  const hasSecondaryTwo = hasSecondaryCaregiverTwo(formData);
-  const hasSubmittedForm = !!submission.status;
   const isRep = formData.signAsRepresentativeYesNo === 'yes';
-  const defaultSignatureKey = isRep ? LABELS.representative : LABELS.veteran;
 
-  const requiredLabels = useMemo(
-    () => {
-      const base = [defaultSignatureKey];
-      if (hasPrimary) base.push(LABELS.primary);
-      if (hasSecondaryOne) base.push(LABELS.secondaryOne);
-      if (hasSecondaryTwo) base.push(LABELS.secondaryTwo);
-      return base;
-    },
-    [defaultSignatureKey, hasPrimary, hasSecondaryOne, hasSecondaryTwo],
+  const signatureConfig = useMemo(
+    () => ({
+      veteran: {
+        schemaKey: 'veteran',
+        label: LABELS.veteran,
+        fullName: formData.veteranFullName,
+        statementText: STATEMENTS.veteran,
+        shouldRender: !isRep,
+      },
+      representative: {
+        schemaKey: 'veteran',
+        label: LABELS.representative,
+        fullName: formData.veteranFullName,
+        statementText: STATEMENTS.representative,
+        shouldRender: isRep,
+      },
+      primary: {
+        schemaKey: 'primary',
+        label: LABELS.primary,
+        fullName: formData.primaryFullName,
+        statementText: STATEMENTS.caregiver('Primary'),
+        shouldRender: hasPrimaryCaregiver(formData),
+      },
+      secondaryOne: {
+        schemaKey: 'secondaryOne',
+        label: LABELS.secondaryOne,
+        fullName: formData.secondaryOneFullName,
+        statementText: STATEMENTS.caregiver('Secondary'),
+        shouldRender: hasSecondaryCaregiverOne(formData),
+      },
+      secondaryTwo: {
+        schemaKey: 'secondaryTwo',
+        label: LABELS.secondaryTwo,
+        fullName: formData.secondaryTwoFullName,
+        statementText: STATEMENTS.caregiver('Secondary'),
+        shouldRender: hasSecondaryCaregiverTwo(formData),
+      },
+    }),
+    [formData, isRep],
+  );
+
+  const requiredElements = useMemo(
+    () => Object.values(signatureConfig).filter(config => config.shouldRender),
+    [signatureConfig],
   );
 
   const [signatures, setSignatures] = useState(() =>
-    requiredLabels.reduce(
-      (acc, label) => ({ ...acc, [label]: DEFAULT_SIGNATURE_STATE }),
+    requiredElements.reduce(
+      (acc, { label }) => ({ ...acc, [label]: DEFAULT_SIGNATURE_STATE }),
       {},
     ),
   );
 
-  const checkboxElements = useMemo(
-    () =>
-      requiredLabels.map(label => {
-        const { fullName, statementText } = getCheckboxProps({
-          label,
-          formData,
-        });
-        return (
-          <SignatureCheckbox
-            key={label}
-            label={label}
-            fullName={fullName}
-            showError={showError}
-            submission={submission}
-            signatures={signatures}
-            setSignatures={setSignatures}
-            isRepresentative={label === LABELS.representative}
-            isRequired
-          >
-            <StatementOfTruth content={{ label, text: statementText }} />
-          </SignatureCheckbox>
-        );
-      }),
-    [formData, requiredLabels, showError, signatures, submission],
-  );
-
-  const transformSignatures = signature => {
-    const keys = Object.keys(signature);
-
-    // takes in labels and renames to what schema expects
-    const getKeyName = key => {
-      const keyMap = {
-        [LABELS.veteran]: 'veteran',
-        [LABELS.representative]: 'veteran',
-        [LABELS.primary]: 'primary',
-        [LABELS.secondaryOne]: 'secondaryOne',
-        [LABELS.secondaryTwo]: 'secondaryTwo',
-      };
-      return keyMap[key];
-    };
-
-    // iterates through all keys and normalizes them using getKeyName
-    const renameObjectKeys = (keysMap, obj) =>
-      Object.keys(obj).reduce((acc, key) => {
-        const cleanKey = `${getKeyName(key)}Signature`;
-        return {
-          ...acc,
-          ...{ [keysMap[cleanKey] || cleanKey]: obj[key].value },
-        };
-      }, {});
-
-    return renameObjectKeys(keys, signatures);
-  };
-
-  // set form data with appropriate signature text value(s)
+  // keep signatures in sync with required data
   useEffect(
     () => {
-      // do not clear signatures once form has been submitted
-      if (hasSubmittedForm) return;
+      const syncSignatureState = prev =>
+        requiredElements.reduce((acc, { label }) => {
+          acc[label] = prev[label] || DEFAULT_SIGNATURE_STATE;
+          return acc;
+        }, {});
+      setSignatures(prev => syncSignatureState(prev));
+    },
+    [requiredElements],
+  );
 
-      dispatch(
-        setData({
-          ...formData,
-          ...transformSignatures(signatures),
-        }),
+  // set form data with signature values, if submission has not occurred
+  useEffect(
+    () => {
+      if (submission.status) return;
+
+      const transformedSignatures = requiredElements.reduce(
+        (acc, { label, schemaKey }) => {
+          acc[`${schemaKey}Signature`] = signatures[label]?.value || '';
+          return acc;
+        },
+        {},
       );
+      dispatch(setData({ ...formData, ...transformedSignatures }));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, signatures],
@@ -180,23 +144,27 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
     [signatures],
   );
 
-  // keep signatures in sync with required data
-  useEffect(
-    () => {
-      setSignatures(prev => {
-        // add new required labels with default values
-        const next = { ...prev };
-        requiredLabels.forEach(label => {
-          if (!next[label]) next[label] = DEFAULT_SIGNATURE_STATE;
-        });
-        // remove labels that are no longer required
-        Object.keys(next).forEach(label => {
-          if (!requiredLabels.includes(label)) delete next[label];
-        });
-        return next;
-      });
-    },
-    [requiredLabels],
+  const statementsOfTruth = useMemo(
+    () =>
+      requiredElements.map(config => {
+        const { label, fullName, statementText } = config;
+        return (
+          <SignatureCheckbox
+            key={label}
+            label={label}
+            fullName={fullName}
+            showError={showError}
+            submission={submission}
+            signatures={signatures}
+            setSignatures={setSignatures}
+            isRepresentative={label === LABELS.representative}
+            isRequired
+          >
+            <StatementOfTruth content={{ label, text: statementText }} />
+          </SignatureCheckbox>
+        );
+      }),
+    [requiredElements, showError, signatures, submission],
   );
 
   return (
@@ -207,7 +175,7 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
         applicant must sign the appropriate section.
       </p>
 
-      {checkboxElements}
+      {statementsOfTruth}
 
       <p className="vads-u-margin-bottom--6">
         <strong>Note:</strong> {content['certification-signature-note']}
