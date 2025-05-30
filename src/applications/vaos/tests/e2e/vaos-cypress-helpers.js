@@ -3,7 +3,7 @@
 /// <reference path="./index.d.ts" />
 
 import schedulingConfigurations from '../../services/mocks/v2/scheduling_configurations.json';
-import featureFlags from '../../utils/featureFlags';
+import featureFlags from '../../services/mocks/featureFlags';
 
 /**
  * Function to mock feature toggle endpoint.
