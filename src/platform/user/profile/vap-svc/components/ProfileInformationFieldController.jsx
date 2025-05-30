@@ -407,13 +407,6 @@ class ProfileInformationFieldController extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        <ProfileInformationView
-          data={data}
-          fieldName={fieldName}
-          title={title}
-          id={ariaDescribedBy}
-        />
-
         {this.props.showUpdateSuccessAlert ? (
           <div
             data-testid="update-success-alert"
@@ -422,6 +415,13 @@ class ProfileInformationFieldController extends React.Component {
             <UpdateSuccessAlert fieldName={fieldName} />
           </div>
         ) : null}
+
+        <ProfileInformationView
+          data={data}
+          fieldName={fieldName}
+          title={title}
+          id={ariaDescribedBy}
+        />
 
         <div className="vads-u-width--full">
           <div>
