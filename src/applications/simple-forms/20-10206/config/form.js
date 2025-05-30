@@ -34,14 +34,14 @@ import { getMockData } from '../helpers';
 const mockData = testData.data;
 
 export function isLocalhostOrDev() {
-  return environment.isLocalhost() || environment.isDev();
+  return false;
 }
 
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
+    showNavLinks: false,
+    collapsibleNavLinks: false,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
