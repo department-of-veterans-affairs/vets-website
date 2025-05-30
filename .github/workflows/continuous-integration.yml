@@ -333,13 +333,6 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          delimiter: ','
-          output-type: 'folder'
-
       - name: Run unit tests
         id: run-tests
         run: |
