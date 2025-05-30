@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  VaAccordion,
-  VaAccordionItem,
-  VaCheckbox,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { scrollTo } from 'platform/utilities/scroll';
@@ -13,16 +9,13 @@ import {
 } from 'platform/utilities/ui/focus';
 import recordEvent from 'platform/monitoring/record-event';
 
-import {
-  authorizationLabel,
-  authorizationAlertContent,
-  authorizationHeader,
-} from '../../content/evidencePrivateRecordsAuthorization';
-import OmbInfo from '../../content/OmbInfo';
-
+import { authorizationLabel } from '../../content/evidencePrivateRecordsAuthorization';
+import OmbInfo from './OmbInfo';
+import AuthorizationAlert from './AuthorizationAlert';
+import { title4142 } from '../../content/title';
 import { customPageProps995 } from '../../../shared/props';
 
-const PrivateRecordsAuthorization = ({
+const Authorization = ({
   data = {},
   goBack,
   goForward,
@@ -88,16 +81,24 @@ const PrivateRecordsAuthorization = ({
   };
 
   const focusSection = (_, element) => {
+    const focusedElement = document.querySelector(element);
     focusElement(element);
+
+    if (focusedElement.getAttribute('open') === 'false') {
+      focusedElement.setAttribute('open', 'true');
+    }
   };
 
   return (
     <>
       <form onSubmit={handlers.onSubmit}>
-        <va-alert status="error" visible={hasError} uswds role="alert">
-          {hasError && authorizationAlertContent(handlers.onAnchorClick)}
-        </va-alert>
-        {authorizationHeader}
+        {hasError && (
+          <AuthorizationAlert
+            hasError={hasError}
+            onAnchorClick={handlers.onAnchorClick}
+          />
+        )}
+        <h3>{title4142}</h3>
         <VaCheckbox
           id="privacy-agreement"
           name="privacy-agreement"
@@ -115,8 +116,8 @@ const PrivateRecordsAuthorization = ({
               them yourself, there’s no need to fill out this authorization.
               Doing so will lengthen your claim processing time.
             </p>
-            <VaAccordion>
-              <VaAccordionItem
+            <va-accordion>
+              <va-accordion-item
                 header="1. Expiration & how to cancel authorization"
                 id="section-one"
                 open
@@ -158,8 +159,8 @@ const PrivateRecordsAuthorization = ({
                   <br />
                   United States of America
                 </p>
-              </VaAccordionItem>
-              <VaAccordionItem
+              </va-accordion-item>
+              <va-accordion-item
                 header="2. Sources of records"
                 id="section-two"
                 open
@@ -186,21 +187,21 @@ const PrivateRecordsAuthorization = ({
                   You’ll have the option on the next page to limit your
                   authorization of types of sources and/or types of information.
                 </p>
-              </VaAccordionItem>
-              <VaAccordionItem header="3. Costs for records" open>
+              </va-accordion-item>
+              <va-accordion-item header="3. Costs for records" open>
                 <p className="vads-u-margin-top--0">
                   VA won’t pay any fees charged by a custodian (source) to
                   provide records requested.
                 </p>
-              </VaAccordionItem>
-              <VaAccordionItem header="4. Penalties" open>
+              </va-accordion-item>
+              <va-accordion-item header="4. Penalties" open>
                 <p className="vads-u-margin-top--0">
                   The law provides severe penalties which include fine or
                   imprisonment, or both, for the willful submission of any
                   statement or evidence of material fact knowing it to be false.
                 </p>
-              </VaAccordionItem>
-              <VaAccordionItem
+              </va-accordion-item>
+              <va-accordion-item
                 header="5. Validity of electronic records and signatures"
                 open
               >
@@ -218,8 +219,8 @@ const PrivateRecordsAuthorization = ({
                   because such records are in electronic form" (Public Law
                   105-277, section 1707).
                 </p>
-              </VaAccordionItem>
-              <VaAccordionItem
+              </va-accordion-item>
+              <va-accordion-item
                 header="6. Submitting evidence and other mail"
                 open
               >
@@ -249,8 +250,8 @@ const PrivateRecordsAuthorization = ({
                 <p className="vads-u-margin-bottom--0">
                   This address serves all United States and foreign locations.
                 </p>
-              </VaAccordionItem>
-            </VaAccordion>
+              </va-accordion-item>
+            </va-accordion>
             <div className="hipaa-privacy-agreement vads-u-padding--3 vads-u-margin-top--3">
               <h3 className="vads-u-margin-top--0" id="acknowledgement">
                 Acknowledgement & HIPAA compliance
@@ -259,7 +260,7 @@ const PrivateRecordsAuthorization = ({
                 I hereby authorize the sources listed in{' '}
                 <va-link
                   href="#section-two"
-                  onClick={() => focusSection('#section-two')}
+                  onClick={e => focusSection(e, '#section-two')}
                   text="Section 2"
                 />
                 , to release any information that may have been obtained in
@@ -273,14 +274,14 @@ const PrivateRecordsAuthorization = ({
                 for health care, enrollment in a health plan, or eligibility for
                 benefits provided by it.
               </p>
-              <p>
+              <p className="vads-u-margin-bottom--2">
                 I understand that once my source sends this information to VA
                 under this authorization, the information will no longer be
                 protected by the HIPAA Privacy Rule, but will be protected by
                 the Federal Privacy Act, 5 USC 552a, and VA may disclose this
                 information as authorized by law.
               </p>
-              {/* <OmbInfo /> */}
+              <OmbInfo />
               <p>
                 I also understand that I may revoke this authorization in
                 writing, at any time except to the extent a source of
@@ -345,7 +346,7 @@ const PrivateRecordsAuthorization = ({
                 I authorize the sources listed in{' '}
                 <va-link
                   href="#section-two"
-                  onClick={focusSection}
+                  onClick={e => focusSection(e, '#section-two')}
                   text="Section 2"
                 />
                 , to release any information that may have been obtained in
@@ -363,13 +364,13 @@ const PrivateRecordsAuthorization = ({
                 <strong>Purpose</strong>: Determining my eligibility for
                 benefits, and whether you can manage such benefits
               </p>
-              <p>
+              <p className="vads-u-margin-bottom--2">
                 Although the information we obtain with this authorization is
                 almost never used for any purpose other than those stated in
                 this page, the information may be disclosed by VA without your
                 consent if authorized by Federal laws such as the Privacy Act.
               </p>
-              {/* <OmbInfo /> */}
+              <OmbInfo />
               <p>
                 <strong>Expires</strong>: This authorization is good for 12
                 months from the date this form is submitted.
@@ -386,17 +387,17 @@ const PrivateRecordsAuthorization = ({
                   information may be re-disclosed to other parties (Review{' '}
                   <va-link
                     href="#acknowledgement"
-                    onClick={() => focusSection('#acknowledgement')}
+                    onClick={e => focusSection(e, '#acknowledgement')}
                     text="Acknowledgment & HIPAA compliance"
                   />
                   ).
                 </li>
                 <li>
                   I may write to VA and my source(s) to revoke this
-                  authorization at any time (Review
+                  authorization at any time (Review{' '}
                   <va-link
                     href="#section-one"
-                    onClick={() => focusSection('#section-one')}
+                    onClick={e => focusSection(e, '#section-one')}
                     text="Section 1. Expiration and
                   How to Cancel"
                   />
@@ -412,7 +413,7 @@ const PrivateRecordsAuthorization = ({
                   from the types of sources listed.
                 </li>
               </ul>
-              <p>
+              <p className="vads-u-margin-bottom--0">
                 You’ll have the option on the next page to limit your
                 authorization to types of sources and/or types of information.
               </p>
@@ -429,6 +430,6 @@ const PrivateRecordsAuthorization = ({
   );
 };
 
-PrivateRecordsAuthorization.propTypes = customPageProps995;
+Authorization.propTypes = customPageProps995;
 
-export default PrivateRecordsAuthorization;
+export default Authorization;
