@@ -6,7 +6,7 @@
       "last": "Veteran"
     },
     "veteranDateOfBirth": "1932-02-05",
-    "isVeteran": false,
+    "isVeteran": "no",
     "address": {
       "country": "USA",
       "street": "123 Any St",

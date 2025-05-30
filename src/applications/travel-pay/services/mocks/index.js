@@ -1,3 +1,4 @@
+const fs = require('fs');
 const delay = require('mocker-api/lib/delay');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
@@ -121,5 +122,20 @@ const responses = {
   //     ],
   //   });
   // },
+
+  // Document download
+  'GET /travel_pay/v0/claims/:claimId/documents/:docId': (req, res) => {
+    // Absolute path to our mock docx file
+    const docx = fs.readFileSync(
+      'src/applications/travel-pay/services/mocks/sample-decision-letter.docx',
+    );
+    res.writeHead(200, {
+      'Content-Disposition': 'attachment; filename="Rejection Letter.docx"',
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'Content-Length': docx.length,
+    });
+    res.end(Buffer.from(docx, 'binary'));
+  },
 };
 module.exports = delay(responses, 1000);
