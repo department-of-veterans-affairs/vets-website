@@ -1,15 +1,16 @@
 import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
+import DebtTitle from '../components/DebtTitle';
 
 const EXISTENCE = `I don't think I owe this debt to VA`;
-const AMOUNT = `I don’t think the amount is correct on this debt`;
+const AMOUNT = `I don't think the amount is correct on this debt`;
 
 const disputeReason = {
   uiSchema: {
     selectedDebts: {
       items: {
-        'ui:title': 'Need Debt X of Y: Name of debt',
+        'ui:title': DebtTitle,
         disputeReason: {
-          'ui:title': 'Select the reason you’re disputing this debt.',
+          'ui:title': "Select the reason you're disputing this debt.",
           'ui:webComponentField': VaRadioField,
           'ui:required': () => true,
           'ui:options': {

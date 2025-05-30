@@ -63,6 +63,10 @@ export const fetchDebts = async dispatch => {
       label: getDebtLabel(debt),
       description: getDebtDescription(debt),
       debtType: DEBT_TYPES.DEBT,
+      deductionCode: debt.deductionCode,
+      currentAr: debt.currentAr,
+      originalAr: debt.originalAr,
+      benefitType: debt.benefitType,
     }));
 
     return dispatch({

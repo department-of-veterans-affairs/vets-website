@@ -1,10 +1,11 @@
 import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
+import DebtTitle from '../components/DebtTitle';
 
 const supportStatement = {
   uiSchema: {
     selectedDebts: {
       items: {
-        'ui:title': 'Need Debt X of Y: Name of debt',
+        'ui:title': DebtTitle,
         supportStatement: {
           'ui:title': `Tell us why you're disputing this debt: `,
           'ui:webComponentField': VaTextareaField,
