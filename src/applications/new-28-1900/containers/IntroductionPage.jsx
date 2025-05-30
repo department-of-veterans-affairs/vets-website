@@ -93,6 +93,7 @@ export const IntroductionPage = props => {
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
         <SaveInProgressIntro
+          formConfig={formConfig}
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
