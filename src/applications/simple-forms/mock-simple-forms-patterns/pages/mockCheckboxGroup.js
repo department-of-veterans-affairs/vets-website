@@ -8,7 +8,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('V3 Web component checkbox group'),
+    ...titleUI('Checkbox group'),
     checkboxGroupAtLeastOneRequired: checkboxGroupUI({
       title: 'Checkbox group - At least one required',
       required: true,
