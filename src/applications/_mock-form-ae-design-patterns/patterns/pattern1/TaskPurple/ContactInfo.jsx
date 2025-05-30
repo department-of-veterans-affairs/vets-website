@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
-  focusElement,
   scrollTo,
   scrollAndFocus,
-} from '@department-of-veterans-affairs/platform-utilities/ui';
+} from 'platform/utilities/scroll';
 
 import {
   selectProfile,

@@ -13,7 +13,7 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { Element, scrollTo } from 'platform/utilities/scroll';
+import { Element, getScrollOptions, scrollTo } from 'platform/utilities/scroll';
 import set from 'platform/utilities/data/set';
 import {
   scrollToFirstError,
@@ -22,7 +22,7 @@ import {
 } from '../utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
-import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
+import { isReactComponent } from '../../../../utilities/ui';
 import { isMinimalHeaderPath } from '../patterns/minimal-header';
 
 /* Non-review growable table (array) field */
