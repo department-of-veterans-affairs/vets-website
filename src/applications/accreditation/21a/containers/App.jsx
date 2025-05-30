@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import Footer from '../components/common/Footer/Footer';
 import Header from '../components/common/Header/Header';
-import { SIGN_IN_URL } from '../constants';
+import { SIGN_IN_URL, isProduction } from '../constants';
 import { fetchUser } from '../actions/user';
 import { selectIsUserLoading } from '../selectors/user';
 import { selectShouldGoToSignIn } from '../selectors/navigation';
@@ -26,7 +25,6 @@ const App = ({ children }) => {
   const isForm21Enabled = useToggleValue(
     TOGGLE_NAMES.accreditedRepresentativePortalForm21a,
   );
-  const isProduction = window.Cypress || environment.isProduction();
   const shouldExitApp = isProduction && !isAppEnabled;
   const isAppToggleLoading = useToggleLoadingValue(
     TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
