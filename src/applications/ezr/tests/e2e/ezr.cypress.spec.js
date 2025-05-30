@@ -111,13 +111,12 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             cy.get('body').then($body => {
               if (
-                $body.find(
-                  'va-radio-option[name="root_view:isNextOfKinEnabled"]',
-                ).length
+                $body.find('va-radio-option[name="root_view:hasNextOfKin"]')
+                  .length
               ) {
                 selectYesNoWebComponent(
-                  'view:isNextOfKinEnabled',
-                  data['view:isNextOfKinEnabled'],
+                  'view:hasNextOfKin',
+                  data['view:hasNextOfKin'],
                 );
               }
             });

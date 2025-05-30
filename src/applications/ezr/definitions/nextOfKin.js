@@ -118,7 +118,7 @@ export const nextOfKinAddressPage = () => ({
  */
 export const nextOfKinSummaryPage = (options = {}) => ({
   uiSchema: {
-    'view:isNextOfKinEnabled': arrayBuilderYesNoUI(options, {
+    'view:hasNextOfKin': arrayBuilderYesNoUI(options, {
       title: content['next-of-kin-add-contacts-label'],
       titleHeaderLevel: 'h2',
       hint: content['next-of-kin-hint-text'],
@@ -127,8 +127,8 @@ export const nextOfKinSummaryPage = (options = {}) => ({
   schema: {
     type: 'object',
     properties: {
-      'view:isNextOfKinEnabled': arrayBuilderYesNoSchema,
+      'view:hasNextOfKin': arrayBuilderYesNoSchema,
     },
-    required: ['view:isNextOfKinEnabled'],
+    required: ['view:hasNextOfKin'],
   },
 });

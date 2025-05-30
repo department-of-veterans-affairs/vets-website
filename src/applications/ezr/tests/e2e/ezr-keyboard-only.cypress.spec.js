@@ -113,7 +113,7 @@ describe('Form 10-10EZR Keyboard Only', () => {
       cy.tabToContinueForm(); // Proceed to next section
 
       // Start of Next of Kin section
-      selectRadioWithKeyboard('view:isNextOfKinEnabled', 'Y');
+      selectRadioWithKeyboard('view:hasNextOfKin', 'Y');
       cy.tabToElementAndPressSpace('.usa-button-primary'); // Proceed to add a contact
 
       // Fill in the contact's basic info
@@ -139,7 +139,7 @@ describe('Form 10-10EZR Keyboard Only', () => {
       cy.tabToElementAndPressSpace('.usa-button-primary'); // Save contact
 
       // On the summary page, select 'No' to indicate no more contacts
-      selectRadioWithKeyboard('view:isNextOfKinEnabled', 'N');
+      selectRadioWithKeyboard('view:hasNextOfKin', 'N');
       cy.tabToContinueForm(); // Proceed to next section
 
       // Toxic exposure

@@ -36,7 +36,7 @@ describe('EZR TERA flow', () => {
 
     advanceToNextOfKin();
 
-    selectYesNoWebComponent('view:isNextOfKinEnabled', true);
+    selectYesNoWebComponent('view:hasNextOfKin', true);
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/veteran-information/next-of-kin/0/contact',
     );

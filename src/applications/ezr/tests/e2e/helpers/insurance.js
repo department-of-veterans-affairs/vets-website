@@ -26,7 +26,7 @@ export const advanceToInsurancePolicies = testData => {
 
   // Skip Next of Kin Section
   goToNextPage('/veteran-information/next-of-kin-summary');
-  selectYesNoWebComponent('view:isNextOfKinEnabled', false);
+  selectYesNoWebComponent('view:hasNextOfKin', false);
 
   // Skip TERA Section
   goToNextPage('/military-service/toxic-exposure');

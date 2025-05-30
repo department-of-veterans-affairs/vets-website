@@ -22,6 +22,7 @@ import {
   includeOtherExposureDates,
   includeOtherExposureDetails,
   isEmergencyContactsEnabled,
+  isNextOfKinEnabled,
   showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
@@ -221,13 +222,15 @@ const formConfig = {
         },
         nextOfKinSummary: {
           ...nextOfKinPages.nextOfKinSummary,
+          depends: isNextOfKinEnabled,
         },
         nextOfKinPage: {
           ...nextOfKinPages.nextOfKinPage,
-          depends: formData => formData['view:isNextOfKinEnabled'],
+          depends: isNextOfKinEnabled,
         },
         nextOfKinAddressPage: {
           ...nextOfKinPages.nextOfKinAddressPage,
+          depends: isNextOfKinEnabled,
         },
         /** NOTE: this page needs to live in the "Veteran Info" section to avoid
          * having an empty/inactive "Household Info" accordion on the review page
