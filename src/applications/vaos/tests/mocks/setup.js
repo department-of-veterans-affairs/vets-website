@@ -2,12 +2,10 @@
 
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
-import { createMemoryHistory } from 'history-v4';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import sinon from 'sinon';
 
 import { commonReducer } from '@department-of-veterans-affairs/platform-startup/store';
 import { renderWithStoreAndRouter as platformRenderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
@@ -24,13 +22,12 @@ import PreferredDatePageVaDate from '../../new-appointment/components/PreferredD
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
 
 import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPage';
-import { TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import { vaosApi } from '../../redux/api/vaosApi';
-import { TYPES_OF_CARE } from '../../utils/constants';
+import { TYPES_OF_CARE, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import MockFacilityResponse from '../fixtures/MockFacilityResponse';
 import {
   mockFacilitiesApi,
@@ -60,23 +57,6 @@ export function createTestStore(initialState) {
     initialState,
     applyMiddleware(thunk, vaosApi.middleware),
   );
-}
-
-/**
- * Creates a history object and attaches a spy to replace and push
- *
- * The history object is fully functional, not stubbed
- *
- * @export
- * @param {string} [path='/'] The url to use initially for the history
- * @returns {History} Returns a History object
- */
-export function createTestHistory(path = '/') {
-  const history = createMemoryHistory({ initialEntries: [path] });
-  sinon.spy(history, 'replace');
-  sinon.spy(history, 'push');
-
-  return history;
 }
 
 /**
@@ -275,7 +255,7 @@ export async function setVaccineFacility(store, facilityData = {}) {
         facilityId: '983',
         services: [
           new MockServiceConfiguration({
-            typeOfCareId: TYPE_OF_CARE_ID,
+            typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
             directEnabled: true,
           }),
         ],

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { cloneDeep } from 'lodash';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
   hasPrimaryCaregiver,
@@ -15,46 +14,57 @@ import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 import content from '../../locales/en/content.json';
 
 // organize text content for statement of truth components
-export const SIGNATURE_CERTIFICATION_STATEMENTS = {
+const LABELS = {
+  veteran: content['vet-input-label'],
+  representative: content['representative-signature-label'],
+  primary: content['primary-signature-label'],
+  secondaryOne: content['secondary-one-signature-label'],
+  secondaryTwo: content['secondary-two-signature-label'],
+};
+
+export const STATEMENTS = {
   veteran: [content['certification-statement--vet']],
-  primary: [
-    content['certification-statement--caregiver-1'],
-    replaceStrValues(
-      content['certification-statement--caregiver-2'],
-      'Primary',
-    ),
-    content['certification-statement--caregiver-3'],
-    replaceStrValues(
-      content['certification-statement--caregiver-4'],
-      'Primary',
-    ),
-    replaceStrValues(
-      content['certification-statement--caregiver-5'],
-      'Primary',
-    ),
-    content['certification-statement--caregiver-6'],
-  ],
-  secondary: [
-    content['certification-statement--caregiver-1'],
-    replaceStrValues(
-      content['certification-statement--caregiver-2'],
-      'Secondary',
-    ),
-    content['certification-statement--caregiver-3'],
-    replaceStrValues(
-      content['certification-statement--caregiver-4'],
-      'Secondary',
-    ),
-    replaceStrValues(
-      content['certification-statement--caregiver-5'],
-      'Secondary',
-    ),
-    content['certification-statement--caregiver-6'],
-  ],
   representative: [
     content['certification-statement--rep-1'],
     content['certification-statement--rep-2'],
   ],
+  caregiver: role => [
+    content['certification-statement--caregiver-1'],
+    replaceStrValues(content['certification-statement--caregiver-2'], role),
+    content['certification-statement--caregiver-3'],
+    replaceStrValues(content['certification-statement--caregiver-4'], role),
+    replaceStrValues(content['certification-statement--caregiver-5'], role),
+    content['certification-statement--caregiver-6'],
+  ],
+};
+
+// declare helpers for element rendering and validation
+const DEFAULT_SIGNATURE_STATE = { value: '', checked: false };
+
+const getCheckboxProps = ({ label, formData }) => {
+  const map = {
+    [LABELS.veteran]: {
+      fullName: formData.veteranFullName,
+      statementText: STATEMENTS.veteran,
+    },
+    [LABELS.representative]: {
+      fullName: formData.veteranFullName,
+      statementText: STATEMENTS.representative,
+    },
+    [LABELS.primary]: {
+      fullName: formData.primaryFullName,
+      statementText: STATEMENTS.caregiver('Primary'),
+    },
+    [LABELS.secondaryOne]: {
+      fullName: formData.secondaryOneFullName,
+      statementText: STATEMENTS.caregiver('Secondary'),
+    },
+    [LABELS.secondaryTwo]: {
+      fullName: formData.secondaryTwoFullName,
+      statementText: STATEMENTS.caregiver('Secondary'),
+    },
+  };
+  return map[label];
 };
 
 const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
@@ -65,27 +75,52 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   const hasSecondaryOne = hasSecondaryCaregiverOne(formData);
   const hasSecondaryTwo = hasSecondaryCaregiverTwo(formData);
   const hasSubmittedForm = !!submission.status;
-  const showRepresentativeSignatureBox =
-    formData.signAsRepresentativeYesNo === 'yes';
-  const defaultSignatureKey = [
-    showRepresentativeSignatureBox
-      ? content['representative-signature-label']
-      : content['vet-input-label'],
-  ];
+  const isRep = formData.signAsRepresentativeYesNo === 'yes';
+  const defaultSignatureKey = isRep ? LABELS.representative : LABELS.veteran;
 
-  const [signatures, setSignatures] = useState({
-    [defaultSignatureKey]: '',
-  });
+  const requiredLabels = useMemo(
+    () => {
+      const base = [defaultSignatureKey];
+      if (hasPrimary) base.push(LABELS.primary);
+      if (hasSecondaryOne) base.push(LABELS.secondaryOne);
+      if (hasSecondaryTwo) base.push(LABELS.secondaryTwo);
+      return base;
+    },
+    [defaultSignatureKey, hasPrimary, hasSecondaryOne, hasSecondaryTwo],
+  );
 
-  const unSignedLength = Object.values(signatures).filter(
-    signature => Boolean(signature) === false,
-  ).length;
-  // Get the count of unchecked signature checkboxes
-  const signatureCheckboxes = document.querySelectorAll('.signature-checkbox');
-  const uncheckedSignatureCheckboxesLength = [...signatureCheckboxes].filter(
-    checkbox =>
-      !checkbox.shadowRoot?.querySelector('#checkbox-element')?.checked,
-  )?.length;
+  const [signatures, setSignatures] = useState(() =>
+    requiredLabels.reduce(
+      (acc, label) => ({ ...acc, [label]: DEFAULT_SIGNATURE_STATE }),
+      {},
+    ),
+  );
+
+  const checkboxElements = useMemo(
+    () =>
+      requiredLabels.map(label => {
+        const { fullName, statementText } = getCheckboxProps({
+          label,
+          formData,
+        });
+        return (
+          <SignatureCheckbox
+            key={label}
+            label={label}
+            fullName={fullName}
+            showError={showError}
+            submission={submission}
+            signatures={signatures}
+            setSignatures={setSignatures}
+            isRepresentative={label === LABELS.representative}
+            isRequired
+          >
+            <StatementOfTruth content={{ label, text: statementText }} />
+          </SignatureCheckbox>
+        );
+      }),
+    [formData, requiredLabels, showError, signatures, submission],
+  );
 
   const transformSignatures = signature => {
     const keys = Object.keys(signature);
@@ -93,11 +128,11 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
     // takes in labels and renames to what schema expects
     const getKeyName = key => {
       const keyMap = {
-        [content['vet-input-label']]: 'veteran',
-        [content['representative-signature-label']]: 'veteran',
-        [content['primary-signature-label']]: 'primary',
-        [content['secondary-one-signature-label']]: 'secondaryOne',
-        [content['secondary-two-signature-label']]: 'secondaryTwo',
+        [LABELS.veteran]: 'veteran',
+        [LABELS.representative]: 'veteran',
+        [LABELS.primary]: 'primary',
+        [LABELS.secondaryOne]: 'secondaryOne',
+        [LABELS.secondaryTwo]: 'secondaryTwo',
       };
       return keyMap[key];
     };
@@ -108,23 +143,14 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
         const cleanKey = `${getKeyName(key)}Signature`;
         return {
           ...acc,
-          ...{ [keysMap[cleanKey] || cleanKey]: obj[key] },
+          ...{ [keysMap[cleanKey] || cleanKey]: obj[key].value },
         };
       }, {});
 
     return renameObjectKeys(keys, signatures);
   };
 
-  const removePartyIfFalsy = (predicate, label) => {
-    if (!predicate) {
-      setSignatures(prevState => {
-        const newState = cloneDeep(prevState);
-        delete newState[label];
-        return newState;
-      });
-    }
-  };
-
+  // set form data with appropriate signature text value(s)
   useEffect(
     () => {
       // do not clear signatures once form has been submitted
@@ -141,156 +167,47 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
     [dispatch, signatures],
   );
 
-  // when no empty signature inputs or unchecked signature checkboxes exist set AGREED (onSectionComplete) to true
-  // if user goes to another page (unmount), set AGREED (onSectionComplete) to false
+  // validate that all signature text is valid and all checkboxes have been checked
   useEffect(
     () => {
-      onSectionComplete(!unSignedLength && !uncheckedSignatureCheckboxesLength);
-      return () => {
-        onSectionComplete(false);
-      };
+      const allComplete = Object.values(signatures).every(
+        ({ value, checked }) => Boolean(value) && checked,
+      );
+      onSectionComplete(allComplete);
+      return () => onSectionComplete(false);
     },
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [unSignedLength, uncheckedSignatureCheckboxesLength],
+    [signatures],
   );
 
-  // remove party signature box if yes/no question is answered falsy
+  // keep signatures in sync with required data
   useEffect(
     () => {
-      removePartyIfFalsy(hasPrimary, content['primary-signature-label']);
-      removePartyIfFalsy(
-        hasSecondaryOne,
-        content['secondary-one-signature-label'],
-      );
-      removePartyIfFalsy(
-        hasSecondaryTwo,
-        content['secondary-two-signature-label'],
-      );
-      removePartyIfFalsy(
-        showRepresentativeSignatureBox,
-        content['representative-signature-label'],
-      );
-      removePartyIfFalsy(
-        !showRepresentativeSignatureBox,
-        content['vet-input-label'],
-      );
+      setSignatures(prev => {
+        // add new required labels with default values
+        const next = { ...prev };
+        requiredLabels.forEach(label => {
+          if (!next[label]) next[label] = DEFAULT_SIGNATURE_STATE;
+        });
+        // remove labels that are no longer required
+        Object.keys(next).forEach(label => {
+          if (!requiredLabels.includes(label)) delete next[label];
+        });
+        return next;
+      });
     },
-    [
-      hasPrimary,
-      hasSecondaryOne,
-      hasSecondaryTwo,
-      showRepresentativeSignatureBox,
-    ],
+    [requiredLabels],
   );
-
-  /*
-    - Vet first && last name must match, and be checked
-    - if hasPrimaryCaregiver first && last name must match, and be checked
-    - if hasSecondary one || two, first & last name must match, and be checked to submit
-   */
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
       <p className="vads-u-margin-bottom--5">
         Please review information entered into this application. The{' '}
-        {showRepresentativeSignatureBox ? 'Representative' : 'Veteran'} and each
-        family caregiver applicant must sign the appropriate section.
+        {isRep ? 'representative' : 'Veteran'} and each family caregiver
+        applicant must sign the appropriate section.
       </p>
 
-      {showRepresentativeSignatureBox ? (
-        <SignatureCheckbox
-          fullName={formData.veteranFullName}
-          label={content['representative-signature-label']}
-          signatures={signatures}
-          setSignatures={setSignatures}
-          showError={showError}
-          submission={submission}
-          isRepresentative
-          isRequired
-        >
-          <StatementOfTruth
-            content={{
-              label: content['representative-signature-label'],
-              text: SIGNATURE_CERTIFICATION_STATEMENTS.representative,
-            }}
-          />
-        </SignatureCheckbox>
-      ) : (
-        <SignatureCheckbox
-          fullName={formData.veteranFullName}
-          label={content['vet-input-label']}
-          signatures={signatures}
-          setSignatures={setSignatures}
-          showError={showError}
-          submission={submission}
-          isRequired
-        >
-          <StatementOfTruth
-            content={{
-              label: content['vet-input-label'],
-              text: SIGNATURE_CERTIFICATION_STATEMENTS.veteran,
-            }}
-          />
-        </SignatureCheckbox>
-      )}
-
-      {hasPrimary && (
-        <SignatureCheckbox
-          fullName={formData.primaryFullName}
-          label={content['primary-signature-label']}
-          signatures={signatures}
-          setSignatures={setSignatures}
-          showError={showError}
-          submission={submission}
-          isRequired
-        >
-          <StatementOfTruth
-            content={{
-              label: content['primary-signature-label'],
-              text: SIGNATURE_CERTIFICATION_STATEMENTS.primary,
-            }}
-          />
-        </SignatureCheckbox>
-      )}
-
-      {hasSecondaryOne && (
-        <SignatureCheckbox
-          fullName={formData.secondaryOneFullName}
-          label={content['secondary-one-signature-label']}
-          signatures={signatures}
-          setSignatures={setSignatures}
-          showError={showError}
-          submission={submission}
-          isRequired
-        >
-          <StatementOfTruth
-            content={{
-              label: content['secondary-one-signature-label'],
-              text: SIGNATURE_CERTIFICATION_STATEMENTS.secondary,
-            }}
-          />
-        </SignatureCheckbox>
-      )}
-
-      {hasSecondaryTwo && (
-        <SignatureCheckbox
-          fullName={formData.secondaryTwoFullName}
-          label={content['secondary-two-signature-label']}
-          signatures={signatures}
-          setSignatures={setSignatures}
-          showError={showError}
-          submission={submission}
-          isRequired
-        >
-          <StatementOfTruth
-            content={{
-              label: content['secondary-two-signature-label'],
-              text: SIGNATURE_CERTIFICATION_STATEMENTS.secondary,
-            }}
-          />
-        </SignatureCheckbox>
-      )}
+      {checkboxElements}
 
       <p className="vads-u-margin-bottom--6">
         <strong>Note:</strong> {content['certification-signature-note']}
