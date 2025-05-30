@@ -2,6 +2,9 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+
+import * as focusUtils from 'platform/utilities/ui/focus';
+
 import {
   generateTransition,
   generateTitle,
@@ -43,6 +46,14 @@ describe('generateTransition and generateTitle', () => {
 });
 
 describe('CancelButton Component (Web Components)', () => {
+  let focusElementSpy;
+  beforeEach(() => {
+    focusElementSpy = sinon.stub(focusUtils, 'focusElement');
+  });
+  afterEach(() => {
+    focusElementSpy.restore();
+  });
+
   it('should render the cancel button', () => {
     const { getByTestId } = render(<CancelButton />);
     const cancelBtn = getByTestId('cancel-btn');
@@ -61,6 +72,8 @@ describe('CancelButton Component (Web Components)', () => {
 
     await waitFor(() => {
       expect(modal.getAttribute('visible')).to.eql('false');
+      expect(focusElementSpy.called).to.be.true;
+      expect(focusElementSpy.args[0][0]).to.eq('button');
     });
   });
 

@@ -378,6 +378,7 @@ export const Data = {
     "You can't send messages to your care teams right now",
   REMOVE_FOLDER: 'Remove folder',
   CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
+  HCS_SELECT: `Which VA health care system do you want to send a message to?`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',

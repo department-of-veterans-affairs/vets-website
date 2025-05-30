@@ -7,7 +7,7 @@ export function PreparerDetailsTitle() {
 export function ContactDetailsTitle() {
   return (
     <div className="preparer-contact-details-title">
-      <h3 className="vads-u-font-size--h5">Your contact details</h3>
+      <h3 className="vads-u-font-size--h5">Your mailing address</h3>
     </div>
   );
 }
