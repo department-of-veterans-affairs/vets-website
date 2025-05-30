@@ -1,11 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router';
-
 import recordEvent from 'platform/monitoring/record-event';
-
 import { EVIDENCE_VA_REQUEST } from '../constants';
-
 import { isOnReviewPage } from '../../shared/utils/helpers';
+import ActionLink from '../../shared/components/web-component-wrappers/ActionLink';
 
 const recordActionLinkClick = () => {
   recordEvent({
@@ -49,13 +46,12 @@ export const content = {
       <>
         <Header className="sr-only">Are you missing evidence?</Header>
         <p>
-          <Link
-            to={`/${EVIDENCE_VA_REQUEST}`}
-            className="vads-c-action-link--green"
+          <ActionLink
+            path={`/${EVIDENCE_VA_REQUEST}`}
+            primary
             onClick={recordActionLinkClick}
-          >
-            Add more evidence
-          </Link>
+            text="Add more evidence"
+          />
         </p>
       </>
     );

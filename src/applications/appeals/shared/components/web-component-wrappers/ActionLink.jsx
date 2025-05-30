@@ -13,9 +13,9 @@ const ActionLink = ({ path, search, onClick, primary, router, ...props }) => {
     <VaLinkAction
       label={ariaLabel}
       {...props}
-      onClick={() => {
+      onClick={event => {
         if (onClick) {
-          onClick();
+          onClick(event);
         }
 
         if (search && path) {
