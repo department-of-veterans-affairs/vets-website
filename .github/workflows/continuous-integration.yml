@@ -1749,7 +1749,7 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
-    needs: [build, cypress-tests, unit-tests, security-audit, linting]
+    needs: [build, tests-prep, cypress-tests, unit-tests, security-audit, linting]
 
     env:
       IS_SINGLE_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
@@ -1783,7 +1783,7 @@ jobs:
         run: ./script/github-actions/remove-global-assets.sh
         env:
           ENTRY_NAMES: ${{ needs.build.outputs.entry_names }}
-          APP_DIRS: ${{ needs.unit-tests.outputs.app_folders }}
+          APP_DIRS: ${{ needs.tests-prep.outputs.app_folders }}
           BUILD_DIR: build/${{ matrix.buildtype }}
 
       - name: Generate build details
