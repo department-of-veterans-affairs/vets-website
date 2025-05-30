@@ -141,7 +141,7 @@ describe('the Supplemental Claims Sub-task', () => {
     expect($('va-button[back]', container)).to.exist;
 
     const anchor = BENEFIT_OFFICES_URL.split('#')[1];
-    fireEvent.click($(`a[href$="#${anchor}"]`, container));
+    fireEvent.click($(`[href$="#${anchor}"]`, container));
 
     const event = global.window.dataLayer.slice(-1)[0];
     expect(event).to.deep.equal({
