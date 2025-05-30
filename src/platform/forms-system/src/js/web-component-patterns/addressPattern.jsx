@@ -44,20 +44,20 @@ const CITY_ERROR_MESSAGES_MILITARY = {
 
 const STATE_LABEL_USA = 'State';
 const STATE_ERROR_MESSAGES_USA = {
-  required: 'Select a State',
-  enum: 'Select a State',
+  required: 'Select a state',
+  enum: 'Select a state',
 };
 
-const STATE_LABEL_CAN = 'Province or Territory';
+const STATE_LABEL_CAN = 'Province or territory';
 const STATE_ERROR_MESSAGES_CAN = {
-  required: 'Select a Province or Territory',
-  enum: 'Select a Province or Territory',
+  required: 'Select a province or territory',
+  enum: 'Select a province or territory',
 };
 
 const STATE_LABEL_MEX = 'State';
 const STATE_ERROR_MESSAGES_MEX = {
-  required: 'Select a State',
-  enum: 'Select a State',
+  required: 'Select a state',
+  enum: 'Select a state',
 };
 
 const STATE_LABEL_MILITARY = 'Overseas "state" abbreviation';
@@ -68,8 +68,8 @@ const STATE_ERROR_MESSAGES_MILITARY = {
 
 const STATE_LABEL_DEFAULT = 'State/Province/Region';
 const STATE_ERROR_MESSAGES_DEFAULT = {
-  required: 'Enter a valid State, Province, or Region',
-  enum: 'Enter a valid State, Province, or Region',
+  required: 'Enter a valid state, province, or region',
+  enum: 'Enter a valid state, province, or region',
 };
 
 const MILITARY_CITY_TITLE = 'Military post office';
