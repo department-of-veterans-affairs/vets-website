@@ -148,20 +148,12 @@ const BlockedTriageGroupAlert = props => {
   useEffect(
     () => {
       if (associatedBlockedTriageGroupsQty !== undefined) {
-        if (parentComponent === ParentComponent.FOLDER_HEADER) {
+        if (
+          parentComponent === ParentComponent.FOLDER_HEADER ||
+          parentComponent === ParentComponent.COMPOSE_FORM
+        ) {
           if (noAssociations) {
-            return;
-          }
-
-          if (allTriageGroupsBlocked) {
-            setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
-            setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
-            return;
-          }
-        }
-
-        if (parentComponent === ParentComponent.COMPOSE_FORM) {
-          if (noAssociations) {
+            setAlertTitleText(alertTitle.NO_ASSOCIATIONS);
             return;
           }
 

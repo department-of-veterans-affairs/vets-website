@@ -19,6 +19,7 @@ import {
   BlockedTriageAlertStyles,
   DefaultFolders,
   threadSortingOptions,
+  ParentComponent,
 } from '../util/constants';
 import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
@@ -207,6 +208,7 @@ const Compose = ({ skipInterstitial }) => {
                   ? BlockedTriageAlertStyles.WARNING
                   : BlockedTriageAlertStyles.INFO
               }
+              parentComponent={ParentComponent.COMPOSE}
             />
           </div>
         )}
