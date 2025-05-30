@@ -28,11 +28,7 @@ export const fillEmergencyContactPersonalInfo = contact => {
 };
 
 export const fillEmergencyContactAddress = contact => {
-  selectDropdownWebComponent('address_country', contact.address.country);
-  fillTextWebComponent('address_street', contact.address.street);
-  fillTextWebComponent('address_city', contact.address.city);
-  selectDropdownWebComponent('address_state', contact.address.state);
-  fillTextWebComponent('address_postalCode', contact.address.postalCode);
+  cy.fillAddressWebComponentPattern('address', contact.address);
   cy.injectAxeThenAxeCheck();
   goToNextPage();
 };
