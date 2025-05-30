@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import * as scrollModule from 'platform/utilities/scroll';
+import * as scrollModule from 'platform/utilities/scroll/scroll';
 import { shallow } from 'enzyme';
 import {
   getFileSize,
@@ -101,6 +101,10 @@ describe('Helpers', () => {
     it('calls scrollTo', () => {
       scrollAndFocusTarget();
       expect(scrollToSpy.calledWith('topScrollElement')).to.be.true;
+    });
+
+    afterEach(() => {
+      scrollToSpy.restore();
     });
   });
 
