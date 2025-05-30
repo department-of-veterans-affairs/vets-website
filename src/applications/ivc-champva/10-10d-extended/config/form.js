@@ -1,5 +1,4 @@
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
@@ -37,9 +36,10 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   showReviewErrors: true, // May want to hide in prod later, but for now keeping in due to complexity of this form
-  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
-  // submit: () =>
-  // Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  // submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  // TODO: when we have the submitUrl up and running, remove this dummy response:
+  submit: () =>
+    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-10d-extended-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

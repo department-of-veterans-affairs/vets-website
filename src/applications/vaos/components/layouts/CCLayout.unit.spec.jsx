@@ -1,10 +1,15 @@
-import React from 'react';
 import { expect } from 'chai';
-import moment from 'moment';
+import { subDays } from 'date-fns';
+import React from 'react';
+import MockAddress from '../../tests/fixtures/MockAddress';
+import { MockAppointment } from '../../tests/fixtures/MockAppointment';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import MockCommunityCareProvider from '../../tests/fixtures/MockCommunityCareProvider';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 import CCLayout from './CCLayout';
 
 describe('VAOS Component: CCLayout', () => {
@@ -244,46 +249,16 @@ describe('VAOS Component: CCLayout', () => {
     it('should display CC layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        patientComments: 'This is a test:Additional information',
-        communityCareProvider: {
-          address: {
-            line: ['line 1'],
-            city: 'City',
-            state: 'State',
-            postalCode: 'Postal code',
-          },
-          telecom: [{ system: 'phone', value: '123-456-7890' }],
-          providers: [
-            {
-              name: {
-                familyName: 'Test',
-                lastName: 'User',
-              },
-              providerName: 'Test User',
-            },
-          ],
-          providerName: ['Test User'],
-          treatmentSpecialty: 'Optometrist',
-        },
-        location: {},
-        videoData: {},
-        vaos: {
-          isCommunityCare: true,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPastAppointment: true,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        start: moment()
-          .subtract(1, 'day')
-          .format('YYYY-MM-DDTHH:mm:ss'),
-        status: 'booked',
-      };
+      const appointment = new MockAppointment({
+        start: subDays(new Date(), 1),
+      })
+        .setApiData(new MockAppointmentResponse())
+        .setCommunityCareProvider(
+          new MockCommunityCareProvider({
+            address: new MockAddress(),
+          }),
+        )
+        .setIsPastAppointment(true);
 
       // Act
       const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {
@@ -357,45 +332,18 @@ describe('VAOS Component: CCLayout', () => {
     it('should display CC layout when in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        patientComments: 'This is a test:Additional information',
-        communityCareProvider: {
-          address: {
-            line: ['line 1'],
-            city: 'City',
-            state: 'State',
-            postalCode: 'Postal code',
-          },
-          telecom: [{ system: 'phone', value: '123-456-7890' }],
-          providers: [
-            {
-              name: {
-                familyName: 'Test',
-                lastName: 'User',
-              },
-              providerName: 'Test User',
-            },
-          ],
-          providerName: ['Test User'],
-          treatmentSpecialty: 'Optometrist',
-        },
-        location: {},
-        videoData: {},
-        vaos: {
-          isCommunityCare: true,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPastAppointment: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        start: moment().format('YYYY-MM-DDTHH:mm:ss'),
-        status: 'cancelled',
-        type: 'COMMUNITY_CARE_APPOINTMENT',
-      };
+      const appointment = new MockAppointment({
+        start: subDays(new Date(), 1),
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setApiData(new MockAppointmentResponse())
+        .setCommunityCareProvider(
+          new MockCommunityCareProvider({
+            address: new MockAddress(),
+          }),
+        )
+        .setIsUpcomingAppointment(true)
+        .setType('COMMUNITY_CARE_APPOINTMENT');
 
       // Act
       const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {
@@ -490,47 +438,18 @@ describe('VAOS Component: CCLayout', () => {
     it('should display CC layout when in the past', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        patientComments: 'This is a test:Additional information',
-        communityCareProvider: {
-          address: {
-            line: ['line 1'],
-            city: 'City',
-            state: 'State',
-            postalCode: 'Postal code',
-          },
-          telecom: [{ system: 'phone', value: '123-456-7890' }],
-          providers: [
-            {
-              name: {
-                familyName: 'Test',
-                lastName: 'User',
-              },
-              providerName: 'Test User',
-            },
-          ],
-          providerName: ['Test User'],
-          treatmentSpecialty: 'Optometrist',
-        },
-        location: {},
-        videoData: {},
-        vaos: {
-          isCommunityCare: true,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPastAppointment: true,
-          isPendingAppointment: false,
-          isUpcomingAppointment: false,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        start: moment()
-          .subtract(2, 'day')
-          .format('YYYY-MM-DDTHH:mm:ss'),
-        status: 'cancelled',
-        type: 'COMMUNITY_CARE_APPOINTMENT',
-      };
+      const appointment = new MockAppointment({
+        start: subDays(new Date(), 1),
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setApiData(new MockAppointmentResponse())
+        .setCommunityCareProvider(
+          new MockCommunityCareProvider({
+            address: new MockAddress(),
+          }),
+        )
+        .setIsUpcomingAppointment(true)
+        .setType('COMMUNITY_CARE_APPOINTMENT');
 
       // Act
       const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {

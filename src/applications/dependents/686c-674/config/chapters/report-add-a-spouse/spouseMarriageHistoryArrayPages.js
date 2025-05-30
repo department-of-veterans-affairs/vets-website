@@ -1,7 +1,6 @@
 import React from 'react';
 import { capitalize } from 'lodash';
 import {
-  titleUI,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -120,7 +119,6 @@ export const formerMarriageEndReasonPage = {
     reasonMarriageEnded: radioUI({
       title: 'How did your spouse’s previous marriage end?',
       labels: spouseFormerMarriageLabels,
-      labelHeaderLevel: '3',
     }),
     otherReasonMarriageEnded: {
       'ui:title': 'Briefly describe how your spouse’s previous marriage ended',
@@ -216,10 +214,9 @@ export const formerMarriageStartLocationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Spouse’s former marriage'),
     startLocation: {
-      'ui:title': 'Where did your spouse previously get married?',
-      'ui:options': {
-        labelHeaderLevel: '4',
-      },
+      'ui:description': () => (
+        <h4>Where did your spouse previously get married?</h4>
+      ),
       outsideUsa: {
         'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,
@@ -283,14 +280,16 @@ export const formerMarriageEndLocationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Spouse’s former marriage'),
     endLocation: {
-      ...titleUI({
-        title: 'Where did the marriage end?',
-        description:
-          'If your spouse got a divorce or an annulment, we want to know where they filed the paperwork. If the former spouse died, we want to know where the death certificate was filed.',
-      }),
-      'ui:options': {
-        labelHeaderLevel: '4',
-      },
+      'ui:description': () => (
+        <>
+          <h4>Where did the marriage end?</h4>
+          <p>
+            If your spouse got a divorce or an annulment, we want to know where
+            they filed the paperwork. If the former spouse died, we want to know
+            where the death certificate was filed.
+          </p>
+        </>
+      ),
       outsideUsa: {
         'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,

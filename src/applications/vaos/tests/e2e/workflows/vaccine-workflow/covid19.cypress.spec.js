@@ -1,5 +1,6 @@
 // @ts-check
 import { addDays } from 'date-fns';
+import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
@@ -48,7 +49,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         localStartTime: new Date(),
         status: 'booked',
         future: true,
-      }).setTypeOfCare('covid');
+      }).setTypeOfCare(TYPE_OF_CARE_IDS.COVID_VACCINE_ID);
 
       mockAppointmentCreateApi({ response });
       mockAppointmentGetApi({
@@ -68,7 +69,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: 'covid',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         isDirect: true,
         isRequest: true,
       });
@@ -212,7 +213,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         localStartTime: new Date(),
         status: 'booked',
         future: true,
-      }).setTypeOfCare('covid');
+      }).setTypeOfCare(TYPE_OF_CARE_IDS.COVID_VACCINE_ID);
 
       mockAppointmentCreateApi({ response });
       mockAppointmentGetApi({
@@ -227,7 +228,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: 'covid',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         isDirect: true,
         isRequest: true,
       });
@@ -395,7 +396,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: 'covid',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         isDirect: true,
         isRequest: true,
       });
@@ -438,7 +439,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: 'covid',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         isDirect: true,
         isRequest: true,
       });
@@ -487,7 +488,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         // Site not configured for 'covid'
-        typeOfCareId: 'covid',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         isDirect: false,
         isRequest: false,
       });
@@ -532,7 +533,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: 'covid',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         isDirect: true,
         isRequest: true,
       });
