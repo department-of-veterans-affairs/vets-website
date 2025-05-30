@@ -18,7 +18,7 @@ function handleFailure({ response }) {
     status: 'Failure',
     message: response?.status
       ? 'There was an error with GitHub.'
-      : 'An unkown error occured.',
+      : 'An unknown error occurred.',
     data: JSON.stringify(response, null, 2),
   };
 }

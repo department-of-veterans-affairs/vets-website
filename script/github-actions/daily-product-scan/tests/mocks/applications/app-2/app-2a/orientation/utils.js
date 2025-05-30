@@ -47,7 +47,7 @@ export const orientationSteps = [
           date on, or after, January 1, 2013 there’s no eligibility end date.
         </p>
         <p>
-          <strong>Note:</strong> we may make this basic peirod of eligibility
+          <strong>Note:</strong> we may make this basic period of eligibility
           longer in certain cases.
         </p>
       </>

@@ -76,7 +76,7 @@ const DAYS = 90;
   const environments = await fetchAllEnvironments(OWNER, REPO);
   const oldEnvironments = await filterOldEnvironments(environments, DAYS);
 
-  console.log('Deleting ', oldEnvironments.length, ` envioronments`);
+  console.log('Deleting ', oldEnvironments.length, ` environments`);
 
   for (const environment of oldEnvironments) {
     await deleteEnvironment(OWNER, REPO, environment);

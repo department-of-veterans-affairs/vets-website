@@ -281,7 +281,7 @@ export const lastServiceBranchLabels = {
   'space force': 'Space Force',
   usphs: 'USPHS',
   'f.commonwealth': 'Filipino Commonwealth Army',
-  'f.guerilla': 'Filipino Guerilla Forces',
+  'f.guerilla': 'Filipino Guerrilla Forces',
   'f.scouts new': 'Filipino New Scout',
   'f.scouts old': 'Filipino Old Scout',
   other: 'Other',

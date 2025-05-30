@@ -59,7 +59,7 @@ const formConfig = {
   chapters: {
     veteranInformation: {
       title: 'Applicant information',
-      // TODO: related to the comment direcly below; add reviewDescription back in once the issues with static veteran information have been resolved.
+      // TODO: related to the comment directly below; add reviewDescription back in once the issues with static veteran information have been resolved.
       // reviewDescription: StaticInformationReviewField,
       pages: {
         // TODO: possibly add this back in once issue has been investigated.

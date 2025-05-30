@@ -8,7 +8,7 @@ const getPackageName = importPath => {
 
   // Scoped NPM packages use the form:
   // @org/packageName (ex. @sentry/browser)
-  // so we can take the first 2 segements (@org, packageName)
+  // so we can take the first 2 segments (@org, packageName)
   // and join them
   if (importPath[0] === '@') {
     return parts.slice(0, 2).join('/');
@@ -20,7 +20,7 @@ const getPackageName = importPath => {
 // These packages should be ignored
 const ignoreList = ['@department-of-veterans-affairs/react-components'];
 
-/* This script retrieves the depedency packages and, if available, the corresponding repo root level versioning */
+/* This script retrieves the dependency packages and, if available, the corresponding repo root level versioning */
 
 /* Starts process: */
 fs.readJSON('package.json', (err, data) => {
