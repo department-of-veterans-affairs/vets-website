@@ -68,7 +68,16 @@ const TrashButton = props => {
         <button
           id="trash-button"
           type="button"
-          className="usa-button-secondary mobile-lg:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2 message-action-button"
+          className="usa-button-secondary
+          mobile-lg:vads-u-flex--3
+          vads-u-display--flex
+          vads-u-flex-direction--row
+          vads-u-justify-content--center
+          vads-u-align-items--center
+          vads-u-padding-x--2
+          message-action-button
+          vads-u-margin-right--0
+          mobile-lg:vads-u-margin-left--1"
           onClick={() => {
             setIsDeleteVisible(true);
           }}

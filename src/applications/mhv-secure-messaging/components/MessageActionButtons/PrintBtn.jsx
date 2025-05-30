@@ -22,8 +22,13 @@ const PrintBtn = props => {
         className={`usa-button-secondary ${
           activeFolder?.folderId !== DefaultFolders.SENT.id
             ? 'mobile-lg:vads-u-flex--3'
-            : 'vads-u-flex--1 tablet:vads-u-flex--auto'
-        } vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2 message-action-button`}
+            : 'vads-u-flex--1 tablet:vads-u-flex--auto vads-u-margin-left--0 vads-u-margin-right--0'
+        } vads-u-display--flex
+        vads-u-flex-direction--row
+        vads-u-justify-content--center
+        vads-u-align-items--center
+        vads-u-padding-x--2
+        message-action-button`}
         onClick={() => {
           handleConfirmPrint();
         }}

@@ -7,6 +7,7 @@ const useFeatureToggles = () => {
     isComboBoxEnabled,
     isAalEnabled,
     readReceiptsEnabled,
+    customFoldersRedesignEnabled,
   } = useSelector(
     state => {
       return {
@@ -23,6 +24,10 @@ const useFeatureToggles = () => {
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingReadReceipts
           ],
+        customFoldersRedesignEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingCustomFoldersRedesign
+          ],
       };
     },
     state => state.featureToggles,
@@ -33,6 +38,7 @@ const useFeatureToggles = () => {
     isComboBoxEnabled,
     readReceiptsEnabled,
     isAalEnabled,
+    customFoldersRedesignEnabled,
   };
 };
 

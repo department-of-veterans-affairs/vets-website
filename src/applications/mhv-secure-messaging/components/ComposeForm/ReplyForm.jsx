@@ -23,6 +23,7 @@ import {
 import { getPageTitle } from '../../util/helpers';
 import { clearThread } from '../../actions/threadDetails';
 import { getPatientSignature } from '../../actions/preferences';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const ReplyForm = props => {
   const {
@@ -39,6 +40,7 @@ const ReplyForm = props => {
     setIsSending,
   } = props;
   const dispatch = useDispatch();
+  const { customFoldersRedesignEnabled } = useFeatureToggles();
   const header = useRef();
 
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -56,6 +58,19 @@ const ReplyForm = props => {
   ] = useState(false);
   const [hideDraft, setHideDraft] = useState(false);
   const [currentRecipient, setCurrentRecipient] = useState(null);
+
+  const handleEditDraftButton = () => {
+    if (isEditing === false) {
+      setIsEditing(true);
+      scrollTo('draft-reply-header');
+      focusElement(document.getElementById('draft-reply-header'));
+    } else {
+      setIsEditing(false);
+    }
+  };
+
+  const showEditDraftButton =
+    !cannotReply && !showBlockedTriageGroupAlert && !hideDraft;
 
   useEffect(
     () => {
@@ -156,27 +171,50 @@ const ReplyForm = props => {
           />
         )}
 
-        <MessageActionButtons
-          threadId={threadId}
-          hideDraft={hideDraft}
-          hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
-          replyMsgId={replyMessage.messageId}
-          showEditDraftButton={
-            !cannotReply && !showBlockedTriageGroupAlert && !hideDraft
-          }
-          handleEditDraftButton={() => {
-            if (isEditing === false) {
-              setIsEditing(true);
-              scrollTo('draft-reply-header');
-              focusElement(document.getElementById('draft-reply-header'));
-            } else {
-              setIsEditing(false);
-            }
-          }}
-          hasMultipleDrafts={drafts?.length > 1}
-          isCreateNewModalVisible={isCreateNewModalVisible}
-          setIsCreateNewModalVisible={setIsCreateNewModalVisible}
-        />
+        {customFoldersRedesignEnabled &&
+          showEditDraftButton && (
+            <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto">
+              <button
+                type="button"
+                className="usa-button
+                  vads-u-width--full
+                  mobile-lg:vads-u-width--auto
+                  reply-button-in-body
+                  vads-u-display--flex
+                  vads-u-flex-direction--row
+                  vads-u-justify-content--center
+                  vads-u-align-items--center
+                  vads-u-margin-right--0
+                  mobile-lg:vads-u-padding-x--7"
+                data-testid="edit-draft-button-body"
+                onClick={handleEditDraftButton}
+              >
+                <div className="vads-u-margin-right--0p5">
+                  <va-icon icon="undo" aria-hidden="true" />
+                </div>
+                <span
+                  className="message-action-button-text"
+                  data-testid="edit-draft-button-body-text"
+                >
+                  {`Edit draft repl${drafts?.length > 1 ? 'ies' : 'y'}`}
+                </span>
+              </button>
+            </div>
+          )}
+
+        {!customFoldersRedesignEnabled && (
+          <MessageActionButtons
+            threadId={threadId}
+            hideDraft={hideDraft}
+            hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
+            replyMsgId={replyMessage.messageId}
+            showEditDraftButton={showEditDraftButton}
+            handleEditDraftButton={handleEditDraftButton}
+            hasMultipleDrafts={drafts?.length > 1}
+            isCreateNewModalVisible={isCreateNewModalVisible}
+            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+          />
+        )}
         <section>
           <form
             className="reply-form vads-u-padding-bottom--2"
