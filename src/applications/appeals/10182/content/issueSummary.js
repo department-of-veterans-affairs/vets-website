@@ -27,4 +27,7 @@ export const SummaryTitle = ({ formData }) => {
 
 SummaryTitle.propTypes = {
   formData: PropTypes.shape({}),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import { content } from '../content/evidenceSummary';
@@ -13,6 +12,7 @@ import {
   removeButtonClass,
 } from '../utils/evidence-classnames';
 import { formatDate } from '../utils/evidence';
+import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 
 /**
  * Build VA evidence list
@@ -120,16 +120,15 @@ export const EvidenceVaContent = ({
                   ))}
                 {!reviewMode && (
                   <div className="vads-u-margin-top--1p5">
-                    <Link
+                    <BasicLink
                       key={`edit-va-${index}`}
                       id={`edit-va-${index}`}
                       className="edit-item"
-                      to={path}
+                      path={path}
                       aria-label={`${content.edit} ${locationAndName}`}
                       data-link={testing ? path : null}
-                    >
-                      {content.edit}
-                    </Link>
+                      text={content.edit}
+                    />
                     <va-button
                       data-index={index}
                       data-type="va"

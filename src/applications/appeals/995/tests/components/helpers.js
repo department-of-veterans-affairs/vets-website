@@ -32,5 +32,6 @@ export const clickBack = container => {
 };
 
 export const clickAddAnother = container => {
-  fireEvent.click($('.vads-c-action-link--green', container));
+  const link = container.querySelector('va-link-action');
+  fireEvent.click(link);
 };

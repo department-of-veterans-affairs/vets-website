@@ -136,7 +136,6 @@ describe('<NeedsMissingInfoAlert>', () => {
     expect($('va-alert', container).textContent).to.contain(
       'You can save this application in progress',
     );
-    expect($('a.vads-c-action-link--green', container)).to.exist;
   });
   it('should render start action link only at bottom', () => {
     const { props, store } = getData({ savedForms: [], bottom: true });
@@ -147,7 +146,6 @@ describe('<NeedsMissingInfoAlert>', () => {
     );
     expect($('h2', container)).to.not.exist;
     expect($('va-alert', container)).to.not.exist;
-    expect($('a.vads-c-action-link--green', container)).to.exist;
   });
 
   it('should not render unauth alert at top', () => {

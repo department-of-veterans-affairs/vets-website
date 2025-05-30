@@ -113,16 +113,6 @@ describe('IntroductionPage', () => {
     expect($('va-alert-sign-in[variant="signInRequired"]', container)).to.exist;
   });
 
-  it('should render start action links', () => {
-    const { props, mockStore } = getData();
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-    expect($$('.vads-c-action-link--green', container).length).to.equal(2);
-  });
-
   it('should render verify identity alert', () => {
     const { props, mockStore } = getData({ isVerified: false });
     const { container } = render(

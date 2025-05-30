@@ -1,11 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-
 import ShowIssuesList from '../../shared/components/ShowIssuesList';
-
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { getSelected } from '../../shared/utils/issues';
+import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 
 export const SummaryTitle = ({ formData }) => {
   const issues = getSelected(formData);
@@ -17,14 +15,15 @@ export const SummaryTitle = ({ formData }) => {
       </h3>
       {ShowIssuesList({ issues })}
       <p>
-        <Link
+        <BasicLink
+          path={CONTESTABLE_ISSUES_PATH}
+          search="?redirect"
           to={{
             pathname: CONTESTABLE_ISSUES_PATH,
             search: '?redirect',
           }}
-        >
-          Go back to add more issues
-        </Link>
+          text="Go back to add more issues"
+        />
       </p>
     </>
   );
