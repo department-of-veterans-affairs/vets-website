@@ -71,6 +71,7 @@ export default function InterstitialChanges() {
         text="Continue with your DS Logon account for now"
         href={returnUrl}
         id="interstitialVaLink"
+        type="secondary"
       />
     </div>
   );
