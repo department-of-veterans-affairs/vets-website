@@ -381,7 +381,9 @@ const FacilitySearch = props => {
     <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
       {plannedClinic?.veteranSelected &&
         !facilityPreviouslySelected && (
-          <SelectedFacilityInfoAlert plannedClinic={plannedClinic} />
+          <SelectedFacilityInfoAlert
+            facility={plannedClinic?.veteranSelected}
+          />
         )}
       <div className="vads-u-margin-y--2 form-panel">
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
