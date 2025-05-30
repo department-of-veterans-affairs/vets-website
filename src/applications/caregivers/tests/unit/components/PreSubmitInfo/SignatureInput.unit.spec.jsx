@@ -57,7 +57,9 @@ describe('CG <SignatureInput>', () => {
 
       await waitFor(() => {
         expect(vaTextInput).to.not.have.attr('error');
-        sinon.assert.calledWithExactly(handleChange, { [label]: 'Mary Smith' });
+        sinon.assert.calledWithExactly(handleChange, {
+          [label]: { value: 'Mary Smith' },
+        });
       });
     });
 
@@ -89,7 +91,9 @@ describe('CG <SignatureInput>', () => {
 
       await waitFor(() => {
         expect(vaTextInput).to.not.have.attr('error');
-        sinon.assert.calledWithExactly(handleChange, { [label]: fullName });
+        sinon.assert.calledWithExactly(handleChange, {
+          [label]: { value: fullName },
+        });
       });
     });
 
@@ -107,7 +111,9 @@ describe('CG <SignatureInput>', () => {
 
       await waitFor(() => {
         expect(vaTextInput).to.have.attr('error', error);
-        sinon.assert.calledWithExactly(handleChange, { [label]: '' });
+        sinon.assert.calledWithExactly(handleChange, {
+          [label]: { value: '' },
+        });
       });
     });
   });
