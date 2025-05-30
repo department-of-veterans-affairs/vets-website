@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import * as scrollModule from 'platform/utilities/scroll';
+import * as scrollModule from 'platform/utilities/scroll/scroll';
 import {
   getFileSize,
   getFormNumber,

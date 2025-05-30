@@ -7,7 +7,7 @@ import {
   jsonResponse,
   setupServer,
 } from 'platform/testing/unit/msw-adapter';
-import * as scroll from 'platform/utilities/scroll';
+import * as scrollUtils from 'platform/utilities/scroll/scroll';
 import * as page from '../../utils/page';
 
 import {
@@ -1288,7 +1288,7 @@ describe('Disability benefits helpers: ', () => {
     });
     context('when last page was not a tab and loading is true', () => {
       it('should run scrollToTop', () => {
-        const scrollToTop = sinon.spy(scroll, 'scrollToTop');
+        const scrollToTop = sinon.spy(scrollUtils, 'scrollToTop');
         setPageFocus('/test', true);
 
         expect(scrollToTop.called).to.be.true;
@@ -1296,7 +1296,7 @@ describe('Disability benefits helpers: ', () => {
     });
     context('when last page was a tab', () => {
       it('should run scrollAndFocus', () => {
-        const scrollAndFocus = sinon.spy(scroll, 'scrollAndFocus');
+        const scrollAndFocus = sinon.spy(scrollUtils, 'scrollAndFocus');
         setPageFocus('/status', false);
 
         expect(scrollAndFocus.called).to.be.true;
