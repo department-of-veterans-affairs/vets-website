@@ -8,7 +8,7 @@ import POARequestIndividualSearchPage from './containers/POARequestIndividualSea
 import POARequestDetailsPage from './containers/POARequestDetailsPage';
 import SubmissionsPage from './containers/SubmissionsPage';
 import SignedInLayout from './containers/SignedInLayout';
-import ErrorBoundary from './components/ErrorBoundary';
+import ErrorBoundary from './components/Error/ErrorBoundary';
 import GetHelpPage from './containers/GetHelpPage';
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';

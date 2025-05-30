@@ -1,6 +1,6 @@
 // @ts-check
 import { getTypeOfCareById } from '../../../../utils/appointment';
-import { PODIATRY_ID } from '../../../../utils/constants';
+import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
 import MockProviderResponse from '../../../fixtures/MockProviderResponse';
@@ -28,7 +28,7 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 
-const { cceType } = getTypeOfCareById(PODIATRY_ID);
+const { cceType } = getTypeOfCareById(TYPE_OF_CARE_IDS.PODIATRY_ID);
 
 describe('VAOS community care flow - Podiatry', () => {
   describe('When veteran is CC eligible', () => {

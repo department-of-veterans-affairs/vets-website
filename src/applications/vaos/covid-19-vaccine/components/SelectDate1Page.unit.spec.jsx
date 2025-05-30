@@ -27,8 +27,7 @@ import {
   mockAppointmentSlotApi,
   mockEligibilityFetches,
 } from '../../tests/mocks/mockApis';
-import { DATE_FORMATS } from '../../utils/constants';
-import { TYPE_OF_CARE_ID } from '../utils';
+import { DATE_FORMATS, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import SelectDate1Page from './SelectDate1Page';
 
 const initialState = {
@@ -57,7 +56,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   it('should not submit form with validation error', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
@@ -105,7 +104,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     const preferredDate = new Date();
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
     mockAppointmentSlotApi({
@@ -150,7 +149,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   it('should allow a user to choose available slot and fetch new slots after changing clinics', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
@@ -289,7 +288,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   it('should show validation error if no date selected', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
@@ -326,7 +325,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   it.skip('should fetch slots when moving between months', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 

@@ -1,12 +1,11 @@
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import { FETCH_STATUS } from '../../utils/constants';
+import { FETCH_STATUS, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import {
   getTimezoneByFacilityId,
   getTimezoneDescByFacilityId,
 } from '../../utils/timezone';
 import { getSiteIdFromFacilityId } from '../../services/location';
 import { selectCanUseVaccineFlow } from '../../appointment-list/redux/selectors';
-import { TYPE_OF_CARE_ID } from '../utils';
 
 function selectCovid19Vaccine(state) {
   return state.covid19Vaccine;
@@ -93,7 +92,9 @@ export function getFacilityPageInfo(state) {
   } = newBooking;
 
   const supportedFacilities = facilities?.filter(
-    facility => facility.legacyVAR.settings[TYPE_OF_CARE_ID]?.direct.enabled,
+    facility =>
+      facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]?.direct
+        .enabled,
   );
 
   return {
