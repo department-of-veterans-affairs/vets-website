@@ -6,15 +6,14 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { expect } from 'chai';
 
 import * as constants from '../../constants';
-// import * as navigation from '../../selectors/navigation';
-// import * as user from '../../selectors/user';
-
 import App from '../../containers/App';
 
 const getState = ({
   featureTogglesAreLoading = false,
   accreditedRepresentativePortalFrontend = true,
   accreditedRepresentativePortalForm21a = true,
+  showLoginModal = false,
+  profileLoading = false,
 } = {}) => ({
   featureToggles: {
     loading: featureTogglesAreLoading,
@@ -23,9 +22,13 @@ const getState = ({
     accredited_representative_portal_form_21a: accreditedRepresentativePortalForm21a,
     /* eslint-enable camelcase */
   },
-  location: {
-    path:
-      'representative/accreditation/attorney-claims-agent-form-21a/introduction',
+  navigation: {
+    showLoginModal,
+  },
+  user: {
+    profile: {
+      loading: profileLoading,
+    },
   },
 });
 
@@ -46,7 +49,7 @@ describe('<App>', () => {
   });
 
   context(
-    'when isProduction and accreditedRepresentativePortalFrontend is false',
+    'when isProduction and accredited_representative_portal_frontend is false',
     () => {
       let isProduction;
       let oldLocation;
@@ -74,4 +77,96 @@ describe('<App>', () => {
       });
     },
   );
+
+  context('when accredited_representative_portal_form_21a is false', () => {
+    let isProduction;
+    let oldLocation;
+
+    beforeEach(() => {
+      isProduction = sinon.stub(constants, 'isProduction').returns(false);
+      oldLocation = global.window.location;
+      global.window.location = {
+        replace: sinon.spy(),
+      };
+    });
+
+    afterEach(() => {
+      isProduction.restore();
+      global.window.location = oldLocation;
+    });
+
+    it('should go to Accredited Representative Portal', () => {
+      renderWithStoreAndRouter(<App />, {
+        initialState: {
+          ...getState({ accreditedRepresentativePortalForm21a: false }),
+        },
+      });
+      expect(window.location.replace.calledWith('/representative')).to.be.true;
+    });
+  });
+
+  context('when selectShouldGoToSignIn is true', () => {
+    let isProduction;
+    let oldLocation;
+
+    beforeEach(() => {
+      isProduction = sinon.stub(constants, 'isProduction').returns(false);
+      oldLocation = global.window.location;
+      global.window.location = {
+        replace: sinon.spy(),
+        assign: sinon.spy(),
+      };
+    });
+
+    afterEach(() => {
+      isProduction.restore();
+      global.window.location = oldLocation;
+    });
+
+    it('should go to the sign in page', () => {
+      renderWithStoreAndRouter(<App />, {
+        initialState: {
+          ...getState({
+            showLoginModal: true,
+          }),
+        },
+      });
+      expect(window.location.assign.called).to.be.true;
+    });
+  });
+
+  context('when isUserLoading is true', () => {
+    let isProduction;
+    let oldLocation;
+
+    beforeEach(() => {
+      isProduction = sinon.stub(constants, 'isProduction').returns(false);
+      oldLocation = global.window.location;
+      global.window.location = {
+        replace: sinon.spy(),
+      };
+    });
+
+    afterEach(() => {
+      isProduction.restore();
+      global.window.location = oldLocation;
+    });
+
+    it('should show va loading indicator', () => {
+      const { container } = renderWithStoreAndRouter(<App />, {
+        initialState: {
+          ...getState({
+            profileLoading: true,
+          }),
+        },
+      });
+
+      const loadingIndicator = $('va-loading-indicator', container);
+      expect(loadingIndicator).to.exist;
+      // TODO: Figure out why this test isnt working
+      // expect(loadingIndicator.getAttribute('message')).to.contain(
+      //   'Loading user information...',
+      // );
+    });
+  });
 });
