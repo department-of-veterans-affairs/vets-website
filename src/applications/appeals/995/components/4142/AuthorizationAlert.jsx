@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 import { EVIDENCE_PRIVATE_REQUEST } from '../../constants';
+import BasicLink from '../../../shared/components/web-component-wrappers/BasicLink';
 
 const AuthorizationAlert = ({ hasError, onAnchorClick }) => (
-  <va-alert status="error" visible={hasError} uswds role="alert">
+  <va-alert status="error" visible={hasError} role="alert">
     <h3 slot="headline">
       Authorize your doctor to release your records or upload them yourself
     </h3>
@@ -23,7 +23,10 @@ const AuthorizationAlert = ({ hasError, onAnchorClick }) => (
       non-VA medical records. Then you can upload your records or submit a
       21-4142 and 21-4142a after submitting this form.
     </p>
-    <Link to={`/${EVIDENCE_PRIVATE_REQUEST}`}>Go back to upload records</Link>
+    <BasicLink
+      path={`/${EVIDENCE_PRIVATE_REQUEST}`}
+      text="Go back to upload records"
+    />
   </va-alert>
 );
 

@@ -8,7 +8,6 @@ import {
   waitForRenderThenFocus,
 } from 'platform/utilities/ui/focus';
 import recordEvent from 'platform/monitoring/record-event';
-
 import { authorizationLabel } from '../../content/evidencePrivateRecordsAuthorization';
 import OmbInfo4142 from './OmbInfo4142';
 import AuthorizationAlert from './AuthorizationAlert';

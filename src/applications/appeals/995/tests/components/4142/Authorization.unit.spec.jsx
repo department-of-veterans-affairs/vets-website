@@ -3,20 +3,17 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import PrivateRecordsAuthorization from '../../../components/4142/Authorization';
+import Authorization from '../../../components/4142/Authorization';
 
-describe('<PrivateRecordsAuthorization>', () => {
+describe('<Authorization>', () => {
   it('should render', () => {
     const { container } = render(
       <div>
-        <PrivateRecordsAuthorization />
+        <Authorization />
       </div>,
     );
 
-    const alert = $('va-alert', container);
     const checkbox = $('va-checkbox', container);
-    expect(alert).to.exist;
-    expect(alert.getAttribute('visible')).to.eq('false');
     expect(checkbox).to.exist;
   });
 
@@ -25,10 +22,7 @@ describe('<PrivateRecordsAuthorization>', () => {
     const setFormDataSpy = sinon.spy();
     const { container } = render(
       <div>
-        <PrivateRecordsAuthorization
-          goForward={goSpy}
-          setFormData={setFormDataSpy}
-        />
+        <Authorization goForward={goSpy} setFormData={setFormDataSpy} />
       </div>,
     );
 
@@ -53,7 +47,7 @@ describe('<PrivateRecordsAuthorization>', () => {
     const data = { privacyAgreementAccepted: true };
     const { container, rerender } = render(
       <div>
-        <PrivateRecordsAuthorization
+        <Authorization
           goForward={goSpy}
           data={{}}
           setFormData={setFormDataSpy}
@@ -67,7 +61,7 @@ describe('<PrivateRecordsAuthorization>', () => {
 
     rerender(
       <div>
-        <PrivateRecordsAuthorization
+        <Authorization
           goForward={goSpy}
           data={data}
           setFormData={setFormDataSpy}
@@ -90,7 +84,7 @@ describe('<PrivateRecordsAuthorization>', () => {
     };
     const { container } = render(
       <div>
-        <PrivateRecordsAuthorization goForward={goSpy} data={data} />
+        <Authorization goForward={goSpy} data={data} />
       </div>,
     );
 
