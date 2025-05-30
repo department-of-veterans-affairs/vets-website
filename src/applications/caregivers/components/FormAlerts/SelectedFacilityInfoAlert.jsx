@@ -7,13 +7,11 @@ const SelectedFacilityInfoAlert = ({ facility }) => {
 
   return (
     <va-alert status="info">
-      <h2 slot="headline" className="vads-u-font-size--h3">
-        Your current selection
-      </h2>
-      <div>
+      <h3 slot="headline">Your current selection</h3>
+      <p>
         You selected this VA medical center or clinic location where the Veteran
         receives or will receive care.
-      </div>
+      </p>
       <FacilityAddress facility={facility} />
       <p>
         If you want to keep this facility, select <strong>Continue</strong>.
