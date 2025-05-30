@@ -13,7 +13,7 @@ describe('CG <FacilityAddress>', () => {
     return { queryByText };
   };
 
-  it('should render the facility name and address when data is provied', () => {
+  it('should render the facility name and address when data is provided', () => {
     const { queryByText } = subject();
     const address = facility.address.physical;
     expect(queryByText(new RegExp(facility.name))).to.exist;
