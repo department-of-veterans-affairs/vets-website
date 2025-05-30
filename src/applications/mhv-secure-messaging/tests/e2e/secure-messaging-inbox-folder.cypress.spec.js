@@ -63,7 +63,6 @@ describe('THREAD LIST RE-FETCHING VERIFICATION', () => {
 
     cy.get(`@reFetchResponse.all`).should(`have.length.at.least`, 1);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
