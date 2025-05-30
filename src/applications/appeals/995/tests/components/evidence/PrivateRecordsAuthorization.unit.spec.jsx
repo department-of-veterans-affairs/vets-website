@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import PrivateRecordsAuthorization from '../../../components/evidence/PrivateRecordsAuthorization';
+import PrivateRecordsAuthorization from '../../../components/4142/Authorization';
 
 describe('<PrivateRecordsAuthorization>', () => {
   it('should render', () => {
