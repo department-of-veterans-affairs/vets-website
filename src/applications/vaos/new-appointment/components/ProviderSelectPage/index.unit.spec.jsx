@@ -7,6 +7,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
+import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 
 const defaultState = {
   featureToggles: {
@@ -18,7 +19,7 @@ const defaultState = {
     data: {
       vaFacility: '692',
       facilityType: 'vamc',
-      typeOfCareId: '123',
+      typeOfCareId: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID,
     },
     facilities: {
       '123': [
@@ -27,7 +28,7 @@ const defaultState = {
           legacyVAR: {
             settings: {
               '123': {
-                id: '123',
+                id: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID,
                 name: 'Food and Nutrition',
                 stopCodes: [
                   {

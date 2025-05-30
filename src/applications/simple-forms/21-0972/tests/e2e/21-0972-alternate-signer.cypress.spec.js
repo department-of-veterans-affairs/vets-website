@@ -7,10 +7,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import user from './fixtures/mocks/user.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
-import {
-  fillAddressWebComponentPattern,
-  reviewAndSubmitPageFlow,
-} from '../../../shared/tests/e2e/helpers';
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
@@ -41,7 +38,7 @@ const testConfig = createTestConfig(
       [pagePaths.preparerAddress]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'preparerAddress',
               data.preparerAddress,
             );
@@ -54,7 +51,7 @@ const testConfig = createTestConfig(
       [pagePaths.claimantAddress]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'claimantAddress',
               data.claimantAddress,
             );
