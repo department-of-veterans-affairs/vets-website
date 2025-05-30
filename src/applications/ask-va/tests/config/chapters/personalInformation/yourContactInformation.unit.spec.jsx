@@ -107,9 +107,9 @@ describe('yourContactInformationPage', () => {
         businessEmail: emailSchema,
         preferredName: {
           type: 'string',
-          pattern: '^[A-Za-z]+$',
+          pattern: '^[^0-9]*$',
           minLength: 1,
-          maxLength: 25,
+          maxLength: 30,
         },
       });
     });
@@ -135,9 +135,9 @@ describe('yourContactInformationPage', () => {
         emailAddress: emailSchema,
         preferredName: {
           type: 'string',
-          pattern: '^[A-Za-z]+$',
+          pattern: '^[^0-9]*$',
           minLength: 1,
-          maxLength: 25,
+          maxLength: 30,
         },
       });
     });
@@ -164,9 +164,9 @@ describe('yourContactInformationPage', () => {
         emailAddress: emailSchema,
         preferredName: {
           type: 'string',
-          pattern: '^[A-Za-z]+$',
+          pattern: '^[^0-9]*$',
           minLength: 1,
-          maxLength: 25,
+          maxLength: 30,
         },
       });
     });

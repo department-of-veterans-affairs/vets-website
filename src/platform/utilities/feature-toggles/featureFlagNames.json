@@ -2,6 +2,7 @@
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
   "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
   "accreditedRepresentativePortalSearch": "accredited_representative_portal_search",
+  "accreditedRepresentativePortalSubmissions": "accredited_representative_portal_submissions",
   "aedpVADX": "aedp_vadx",
   "aedpPrefill": "aedp_prefill",
   "appointARepresentativeEnableFrontend": "appoint_a_representative_enable_frontend",
@@ -171,6 +172,7 @@
   "mhvSecureMessagingRecipientCombobox": "mhv_secure_messaging_recipient_combobox",
   "mhvSecureMessagingReadReceipts": "mhv_secure_messaging_read_receipts",
   "mhvSecureMessagingMilestone2AAL": "mhv_secure_messaging_milestone_2_aal",
+  "mhvSecureMessagingCustomFoldersRedesign": "mhv_secure_messaging_custom_folders_redesign",
   "mhvSupplyReorderingEnabled": "mhv_supply_reordering_enabled",
   "mhvVaHealthChatEnabled": "mhv_va_health_chat_enabled",
   "mhvHeaderLinks": "mhv_header_links",
@@ -207,8 +209,6 @@
   "profileShowMhvNotificationSettingsNewSecureMessaging": "profile_show_mhv_notification_settings_new_secure_messaging",
   "profileShowMhvNotificationSettingsEmailRxShipment": "profile_show_mhv_notification_settings_email_rx_shipment",
   "profileShowMhvNotificationSettingsMedicalImages": "profile_show_mhv_notification_settings_medical_images",
-  "profileShowPaymentsNotificationSetting": "profile_show_payments_notification_setting",
-  "profileShowNewBenefitOverpaymentDebtNotificationSetting": "profile_show_new_benefit_overpayment_debt_notification_setting",
   "profileShowNewHealthCareCopayBillNotificationSetting": "profile_show_new_health_care_copay_bill_notification_setting",
   "profileShowPrivacyPolicy": "profile_show_privacy_policy",
   "profileShowPronounsAndSexualOrientation": "profile_show_pronouns_and_sexual_orientation",
@@ -282,6 +282,7 @@
   "travelPayClaimsManagement": "travel_pay_claims_management",
   "useFacilitiesApiV2ForCernerCTA": "use_facilities_api_v2_for_cerner_cta",
   "useLighthouseFormsSearchLogic": "new_va_forms_search",
+  "vaDependentsVerification": "va_dependents_verification",
   "vaDependentsV2": "va_dependents_v2",
   "vaDependentsV2Banner": "va_dependents_v2_banner",
   "vaDependentsBrowserMonitoringEnabled": "va_dependents_browser_monitoring_enabled",
@@ -302,6 +303,7 @@
   "vaOnlineSchedulingFeSourceOfTruthModality": "va_online_scheduling_fe_source_of_truth_modality",
   "vaOnlineSchedulingFeSourceOfTruthTelehealth": "va_online_scheduling_fe_source_of_truth_telehealth",
   "vaOnlineSchedulingMHVRouteGuards": "va_online_scheduling_mhv_route_guards",
+  "vaOnlineSchedulingConvertSlotsToUTC": "va_online_scheduling_convert_slots_to_utc",
   "vaOnlineSchedulingDirectScheduleAppointmentConflict": "va_online_scheduling_direct_schedule_appointment_conflict",
   "vetStatusStage1": "vet_status_stage_1",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
@@ -330,5 +332,6 @@
   "accreditedRepresentativePortalSortBy": "accredited_representative_portal_sort_by",
   "accreditedRepresentativePortalHelp": "accredited_representative_portal_help",
   "accreditedRepresentativePortalProfile": "accredited_representative_portal_profile",
-  "myVaAuthExpRedesignEnabled": "my_va_auth_exp_redesign_enabled"
+  "myVaAuthExpRedesignEnabled": "my_va_auth_exp_redesign_enabled",
+  "accreditedRepresentativePortalSelfServiceAuth": "accredited_representative_portal_self_service_auth"
 }

@@ -3,15 +3,18 @@ import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
-import NeedHelp from '../components/NeedHelp';
+
+import GetFormHelp from '../components/GetFormHelp';
 
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
   const form = useSelector(state => state.form || {});
-  const { submission, formId, data = {} } = form;
-  const { fullName } = data;
+  const veteranEmail = useSelector(state => {
+    return state.user?.profile?.email || '';
+  });
+  const { submission, data = {} } = form;
+  const { fullName, selectedDebts = [] } = data;
   const submitDate = submission?.timestamp;
-  const confirmationNumber = submission?.response?.confirmationNumber;
 
   useEffect(
     () => {
@@ -34,15 +37,19 @@ export const ConfirmationPage = () => {
       </div>
 
       <va-alert status="success" ref={alertRef}>
-        <h2 slot="headline">Your application has been submitted</h2>
+        <h2 slot="headline">Your dispute submission is in progress</h2>
+        <p>
+          When we receive your form, we’ll mail you a letter and send an email
+          to <strong>{veteranEmail}</strong> to confirm we have it.
+          <br />
+          <br />
+          It may take up to 30 days to process your dispute.
+        </p>
       </va-alert>
 
-      <p>We may contact you for more information or documents.</p>
-      <p className="screen-only">Please print this page for your records.</p>
       <div className="inset">
         <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-          Dispute your VA debt Claim{' '}
-          <span className="vads-u-font-weight--normal">(Form {formId})</span>
+          Your submission information
         </h3>
         {fullName ? (
           <span>
@@ -51,12 +58,14 @@ export const ConfirmationPage = () => {
           </span>
         ) : null}
 
-        {confirmationNumber ? (
-          <>
-            <h4>Confirmation number</h4>
-            <p>{confirmationNumber}</p>
-          </>
-        ) : null}
+        <h4>Requested Dispute</h4>
+        <ul>
+          {selectedDebts.map(item => (
+            <li key={item.id}>
+              <span>{item.label}</span>
+            </li>
+          ))}
+        </ul>
 
         {isValid(submitDate) ? (
           <p>
@@ -66,13 +75,30 @@ export const ConfirmationPage = () => {
           </p>
         ) : null}
 
+        <p>
+          <strong>Confirmation for your records </strong>
+          <br />
+          <span>You can print this confirmation page for your records.</span>
+        </p>
         <va-button onClick={window.print} text="Print this for your records" />
       </div>
+      <h2>What to expect next</h2>
+      <p>You don’t need to do anything else at this time</p>
+      <p>
+        After we receive your dispute form, we’ll review your dispute. You will
+        receive an email and a letter in the mail confirming receipt and letting
+        you know whether you need to continue paying.Then we’ll mail you a
+        letter with our decision. If you have questions about your dispute, call
+        us at <va-telephone contact="8664001238" tty />. We’re here Monday
+        through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </p>
       <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
         Go back to VA.gov
       </a>
       <va-need-help>
-        <NeedHelp />
+        <div slot="content">
+          <GetFormHelp />
+        </div>
       </va-need-help>
     </div>
   );

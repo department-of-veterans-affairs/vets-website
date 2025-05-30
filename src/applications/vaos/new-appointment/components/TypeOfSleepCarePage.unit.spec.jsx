@@ -11,6 +11,7 @@ import {
   renderWithStoreAndRouter,
   setTypeOfCare,
 } from '../../tests/mocks/setup';
+import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 
 import TypeOfSleepCarePage from './TypeOfSleepCarePage';
 
@@ -68,7 +69,7 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
     expect(screen.history.push.called).to.not.be.true;
 
     const changeEvent = new CustomEvent('selected', {
-      detail: { value: '349' }, // CPAP
+      detail: { value: TYPE_OF_CARE_IDS.CPAP_ID },
     });
     radioSelector.__events.vaValueChange(changeEvent);
 
@@ -88,7 +89,7 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
 
     const radioSelector = screen.container.querySelector('va-radio');
     const changeEvent = new CustomEvent('selected', {
-      detail: { value: '143' }, // Sleep medicine
+      detail: { value: TYPE_OF_CARE_IDS.HOME_SLEEP_TESTING_ID },
     });
     radioSelector.__events.vaValueChange(changeEvent);
     await cleanup();
@@ -101,7 +102,10 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
     );
 
     await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', '143');
+      expect(radioSelector).to.have.attribute(
+        'value',
+        TYPE_OF_CARE_IDS.HOME_SLEEP_TESTING_ID,
+      );
     });
   });
 });

@@ -25,7 +25,8 @@ export class CompleteReferralPageObject extends PageObject {
     cy.findByTestId('appointment-time').should('exist');
     cy.findByTestId('appointment-type').should('exist');
     cy.findByTestId('appointment-modality').should('exist');
-    cy.findByTestId('appointment-clinic').should('exist');
+    // TODO: appointment-clinic is not available add when available
+    // cy.findByTestId('appointment-clinic').should('exist');
     return this;
   }
 

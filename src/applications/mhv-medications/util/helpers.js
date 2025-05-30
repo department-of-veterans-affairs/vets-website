@@ -228,6 +228,32 @@ export const createOriginalFillRecord = prescription => {
 };
 
 /**
+ * Checks if a prescription has a cmopNdcNumber value directly or in its refill history
+ *
+ * @param {Array} refillHistory - The refill history array of the prescription
+ * @returns {boolean} - Returns true if any refill records have a cmopNdcNumber
+ */
+export const hasCmopNdcNumber = refillHistory => {
+  return refillHistory.some(record => record.cmopNdcNumber);
+};
+
+/**
+ * Get the refill history for a prescription, including the original fill record
+ *
+ * @param {Object} prescription - The prescription object
+ * @returns {Array} - Returns an array of refill history records, including the original fill record
+ */
+export const getRefillHistory = prescription => {
+  if (!prescription) return [];
+  const refillHistory = [...(prescription?.rxRfRecords || [])];
+  if (prescription?.dispensedDate) {
+    const originalFill = createOriginalFillRecord(prescription);
+    refillHistory.push(originalFill);
+  }
+  return refillHistory;
+};
+
+/**
  * Create a plain text string for when a medication description can't be provided
  * @param {String} Phone number, as a string
  * @returns {String} A string suitable for display anywhere plain text is preferable

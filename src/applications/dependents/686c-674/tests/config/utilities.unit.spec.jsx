@@ -1,6 +1,10 @@
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
-import { rest } from 'msw';
+import {
+  createGetHandler,
+  jsonResponse,
+  networkError,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 import {
   customFormReplacer,
   isClientError,
@@ -48,11 +52,8 @@ describe('getData', () => {
 
   it('should succeed', async () => {
     server.use(
-      rest.get(`https://dev-api.va.gov/v0/some/api-route`, (_, res, ctx) =>
-        res(
-          ctx.status(200),
-          ctx.json({ data: { attributes: { name: 'John' } } }),
-        ),
+      createGetHandler(`https://dev-api.va.gov/v0/some/api-route`, () =>
+        jsonResponse({ data: { attributes: { name: 'John' } } }),
       ),
     );
 
@@ -62,8 +63,9 @@ describe('getData', () => {
 
   it('should fail', async () => {
     server.use(
-      rest.get(`https://dev-api.va.gov/v0/some/api-route`, (_, res) =>
-        res.networkError(),
+      createGetHandler(
+        `https://dev-api.va.gov/v0/some/api-route`,
+        networkError(),
       ),
     );
 
