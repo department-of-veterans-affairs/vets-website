@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
 import environment from '~/platform/utilities/environment';
 import { setSubmission } from 'platform/forms-system/src/js/actions';

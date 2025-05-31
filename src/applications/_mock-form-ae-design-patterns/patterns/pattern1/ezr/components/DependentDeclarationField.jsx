@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import YesNoWidget from 'platform/forms-system/src/js/widgets/YesNoWidget';
 import { DEPENDENT_VIEW_FIELDS } from '../../../../utils/constants';
 import content from '../../../../shared/locales/en/content.json';

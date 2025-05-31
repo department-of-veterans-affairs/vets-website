@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 import {
   readAndCheckFile,
@@ -7,7 +6,7 @@ import {
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
-import { getScrollOptions } from 'platform/utilities/ui';
+import { getScrollOptions, scrollTo } from 'platform/utilities/scroll';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   isValidFile,
@@ -23,8 +22,7 @@ const FileUploader = ({ files, onAddFile }) => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   const scrollToFile = position => {
-    const options = getScrollOptions({ offset: -25 });
-    Scroll.scroller.scrollTo(`documentScroll${position}`, options);
+    scrollTo(`documentScroll${position}`, getScrollOptions({ offset: -25 }));
   };
 
   const handleChange = async event => {
