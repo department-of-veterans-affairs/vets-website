@@ -18,8 +18,6 @@ import {
 } from '../chapters/signerInformation';
 
 // import mockData from '../tests/fixtures/data/test-data.json';
-import { applicantPages } from '../chapters/applicantInformation';
-import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
 
 import {
   sponsorNameDobSchema,
@@ -29,6 +27,9 @@ import {
   sponsorAddress,
   sponsorContactInfo,
 } from '../chapters/sponsorInformation';
+import { applicantPages } from '../chapters/applicantInformation';
+import { medicarePages } from '../chapters/medicareInformation';
+import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -159,6 +160,12 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: applicantPages,
+    },
+    medicareInformation: {
+      title: 'Medicare information',
+      pages: {
+        ...medicarePages,
+      },
     },
     healthInsuranceInformation: {
       title: 'Health insurance information',
