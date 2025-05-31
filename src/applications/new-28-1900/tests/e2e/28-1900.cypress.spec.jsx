@@ -13,6 +13,7 @@ import {
   fillAddressWebComponentPattern,
   selectCheckboxWebComponent,
 } from './utilities';
+import { normalizeFullName } from '../../utils';
 
 const testConfig = createTestConfig(
   {
@@ -57,6 +58,22 @@ const testConfig = createTestConfig(
             );
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
+        });
+      },
+      'review-and-submit': () => {
+        cy.get('@testData').then(testData => {
+          cy.get('[data-testid="privacy-agreement-checkbox"]').then($el =>
+            cy.selectVaCheckbox($el, true),
+          );
+          cy.get('.signature-input').then($el => {
+            cy.fillVaTextInput(
+              $el,
+              normalizeFullName(testData.veteranFullName, true),
+            );
+          });
+          cy.get('.signature-checkbox').then($el =>
+            cy.selectVaCheckbox($el, true),
+          );
         });
       },
     },

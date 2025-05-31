@@ -20,6 +20,7 @@ import personalInformationPage from '../pages/personalInformation';
 import phoneAndEmailPage from '../pages/phoneAndEmail';
 import yearsOfCollegeStudiesPage from '../pages/yearsOfCollegeStudies';
 import yearsOfGraduateStudiesPage from '../pages/yearsOfGraduateStudies';
+import PreSubmit from '../components/PreSubmit';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -55,6 +56,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  preSubmitInfo: PreSubmit,
   chapters: {
     yourInformationChapter: {
       title: 'Your information',
