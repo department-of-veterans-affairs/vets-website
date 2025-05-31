@@ -1,4 +1,3 @@
-import React from 'react';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import { intersection, pick } from 'lodash';
@@ -23,21 +22,19 @@ const pageFields = [veteranFields.fullName, veteranFields.dateOfBirth];
 export default {
   uiSchema: environment.isProduction()
     ? {
+        ...titleUI({
+          title: 'Tell us about the Veteran connected to this authorization',
+        }),
         [veteranFields.parentObject]: {
-          'ui:title': (
-            <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-              Tell us about the Veteran connected to this authorization
-            </h3>
-          ),
           [veteranFields.fullName]: fullNameDeprecatedUI,
           [veteranFields.dateOfBirth]: dateUI('Date of birth'),
         },
       }
     : {
+        ...titleUI({
+          title: 'Tell us about the Veteran connected to this authorization',
+        }),
         [veteranFields.parentObject]: {
-          ...titleUI({
-            title: 'Tell us about the Veteran connected to this authorization',
-          }),
           [veteranFields.fullName]: fullNameUI(label =>
             getFullNameLabels(label, false),
           ),
