@@ -10,6 +10,7 @@ import { replaceStrValues } from '../../utils/helpers';
 import { VaSearchInput } from '../../utils/imports';
 import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
+import SelectedFacilityInfoAlert from '../FormAlerts/SelectedFacilityInfoAlert';
 
 // declare page paths for review mode
 export const REVIEW_PATHS = {
@@ -43,9 +44,11 @@ const FacilitySearch = props => {
     [],
   );
 
+  const plannedClinic = formData?.['view:plannedClinic'];
+  const [showFacilityInfoAlert, setShowFacilityInfoAlert] = useState(true);
+
   const goToReviewPath = useCallback(
     () => {
-      const plannedClinic = formData?.['view:plannedClinic'];
       const hasSupportServices =
         plannedClinic?.veteranSelected?.id ===
         plannedClinic?.caregiverSupport?.id;
@@ -55,7 +58,7 @@ const FacilitySearch = props => {
           : REVIEW_PATHS.confirmFacility,
       );
     },
-    [formData, goToPath],
+    [plannedClinic?.veteranSelected, plannedClinic?.caregiverSupport, goToPath],
   );
 
   const onGoBack = useCallback(
@@ -66,8 +69,7 @@ const FacilitySearch = props => {
 
   const onGoForward = useCallback(
     () => {
-      const caregiverSupportFacilityId =
-        formData?.['view:plannedClinic']?.caregiverSupport?.id;
+      const caregiverSupportFacilityId = plannedClinic?.caregiverSupport?.id;
 
       // ensure no errors are present before navigating, to include:
       // lack of search query & lack of selected record after search
@@ -95,7 +97,15 @@ const FacilitySearch = props => {
       // proceed with navigating forward based on review mode
       return isReviewMode ? goToReviewPath() : goForward(formData);
     },
-    [formData, goForward, goToReviewPath, hasFacilities, isReviewMode, query],
+    [
+      formData,
+      goForward,
+      goToReviewPath,
+      hasFacilities,
+      isReviewMode,
+      query,
+      plannedClinic?.caregiverSupport,
+    ],
   );
 
   const handleChange = useCallback(e => setQuery(e.target.value), []);
@@ -278,7 +288,7 @@ const FacilitySearch = props => {
       query: submittedQuery,
       error: localState.listError,
       facilities: localState.facilities,
-      value: formData?.['view:plannedClinic']?.veteranSelected?.id,
+      value: plannedClinic?.veteranSelected?.id,
       onChange: async facilityId => {
         setLocalState(prev => ({
           ...prev,
@@ -289,6 +299,7 @@ const FacilitySearch = props => {
           f => f.id === facilityId,
         );
         const parentFacility = await fetchParentFacility(selectedFacility);
+        setShowFacilityInfoAlert(false);
         dispatch(
           setData({
             ...formData,
@@ -308,6 +319,7 @@ const FacilitySearch = props => {
       localState.listError,
       props,
       submittedQuery,
+      plannedClinic?.veteranSelected,
     ],
   );
 
@@ -372,8 +384,18 @@ const FacilitySearch = props => {
     [localState.searchError],
   );
 
+  const shouldDisplayFacilityAlert = useMemo(
+    () => {
+      return plannedClinic?.veteranSelected && showFacilityInfoAlert;
+    },
+    [plannedClinic?.veteranSelected, showFacilityInfoAlert],
+  );
+
   return (
     <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
+      {shouldDisplayFacilityAlert && (
+        <SelectedFacilityInfoAlert facility={plannedClinic?.veteranSelected} />
+      )}
       <div className="vads-u-margin-y--2 form-panel">
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
           {content['vet-med-center-search-description']}
