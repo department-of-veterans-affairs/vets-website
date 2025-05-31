@@ -1,9 +1,6 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
 // import path from 'path-browserify';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import fullSchema from '../22-1919-schema.json';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -17,6 +14,7 @@ import {
   institutionDetails,
   allProprietarySchools,
   allProprietarySchoolsEmployeeInfo,
+  allProprietarySchoolsSummary,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -96,44 +94,35 @@ const formConfig = {
     allProprietarySchoolsChapter: {
       title: 'All proprietary schools',
       pages: {
-        allProprietarySchools: {
-          path: 'all-proprietary-schools',
-          title: 'All proprietary schools',
-          uiSchema: allProprietarySchools.uiSchema,
-          schema: allProprietarySchools.schema,
-        },
-        // allProprietarySchoolsEmployeeInfo:{
-        //   path: 'all-proprietary-schools-employee-info',
-        //   title: 'All proprietary schools',
-        //   uiSchema: allProprietarySchoolsEmployeeInfo.uiSchema,
-        //   schema: allProprietarySchoolsEmployeeInfo.schema,
-        //   depends: formData => {console.log(formData, "formmmmmmmm");
-        //     return formData?.allProprietarySchools === true;
-        //   },
-        // },
         ...arrayBuilderPages(
           {
-            arrayPath: 'programs',
-            nounSingular: 'program',
-            nounPlural: 'programs',
+            arrayPath: 'all-proprietary-schools',
+            nounSingular: 'individual',
+            nounPlural: 'individuals',
             required: true,
           },
           pageBuilder => ({
+            allProprietarySchoolsIntro: pageBuilder.introPage({
+              path: 'all-proprietary-schools',
+              title: 'All proprietary schools',
+              uiSchema: allProprietarySchools.uiSchema,
+              schema: allProprietarySchools.schema,
+            }),
+            'view:allProprietarySchools': pageBuilder.summaryPage({
+              path: 'all-proprietary-schools-employee-info/summary',
+              title: 'All proprietary schools employee information',
+              uiSchema: allProprietarySchoolsSummary.uiSchema,
+              schema: allProprietarySchoolsSummary.schema,
+            }),
             allProprietarySchoolsEmployeeInfo: pageBuilder.itemPage({
               path: 'all-proprietary-schools-employee-info/:index',
               title: 'All proprietary schools employee information',
+              showPagePerItem: true,
               uiSchema: allProprietarySchoolsEmployeeInfo.uiSchema,
               schema: allProprietarySchoolsEmployeeInfo.schema,
               depends: formData => {
-                console.log(formData, 'formmmmmmmm');
                 return formData?.allProprietarySchools === true;
               },
-            }),
-            employeeSummary: pageBuilder.summaryPage({
-              title: 'Review your all proprietary schools employee information',
-              path: 'all-proprietary-schools-employee-info/summary',
-              uiSchema: allProprietarySchools.uiSchema,
-              schema: allProprietarySchools.schema,
             }),
           }),
         ),

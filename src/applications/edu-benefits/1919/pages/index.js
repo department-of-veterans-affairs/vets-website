@@ -3,6 +3,7 @@ import * as aboutYourInstitution from './aboutYourInstitution';
 import * as institutionDetails from './institutionDetails';
 import * as allProprietarySchools from './allProprietarySchools';
 import * as allProprietarySchoolsEmployeeInfo from './allProprietarySchoolsEmployeeInfo';
+import { allProprietarySchoolsSummary } from './allProprietarySchoolsSummary';
 
 export {
   certifyingOfficials,
@@ -10,4 +11,5 @@ export {
   institutionDetails,
   allProprietarySchools,
   allProprietarySchoolsEmployeeInfo,
+  allProprietarySchoolsSummary,
 };
