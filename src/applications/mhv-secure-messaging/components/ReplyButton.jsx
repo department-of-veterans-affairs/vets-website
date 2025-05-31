@@ -1,11 +1,13 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Paths } from '../util/constants';
+import useFeatureToggles from '../hooks/useFeatureToggles';
 
 const ReplyButton = props => {
   const history = useHistory();
+  const { customFoldersRedesignEnabled } = useFeatureToggles();
   const messageId = useSelector(
     state => state.sm.threadDetails.messages[0]?.messageId,
   );
@@ -18,10 +20,27 @@ const ReplyButton = props => {
   );
 
   return (
-    props.visible && (
+    props.visible &&
+    (customFoldersRedesignEnabled ? (
+      <Link
+        className="compose-message-link vads-c-action-link--green vads-u-font-weight--bold vads-u-padding-left--5"
+        to={`${Paths.REPLY}${messageId}/`}
+        data-testid="reply-to-message-link"
+        data-dd-action-name="Reply Link"
+      >
+        Reply
+      </Link>
+    ) : (
       <button
         type="button"
-        className="usa-button vads-u-width--full reply-button-in-body vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center"
+        className="usa-button
+        vads-u-width--full
+        reply-button-in-body
+        vads-u-display--flex
+        vads-u-flex-direction--row
+        vads-u-justify-content--center
+        vads-u-align-items--center
+        vads-u-margin-right--0"
         data-testid="reply-button-body"
         onClick={handleReplyButton}
         data-dd-action-name="Reply Button"
@@ -36,7 +55,7 @@ const ReplyButton = props => {
           Reply
         </span>
       </button>
-    )
+    ))
   );
 };
 

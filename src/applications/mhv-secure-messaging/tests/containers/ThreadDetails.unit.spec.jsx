@@ -58,6 +58,7 @@ describe('Thread Details container', () => {
       triageGroupName,
     } = threadDetails.messages[0];
 
+    screen.debug(undefined, 10000);
     expect(
       await screen.findByText(`Messages: ${category} - ${subject}`, {
         exact: false,
@@ -90,6 +91,36 @@ describe('Thread Details container', () => {
         .querySelector('.older-messages')
         .querySelectorAll('.older-message'),
     ).to.have.length(2);
+
+    expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
+      '2 messages in this conversation',
+    );
+  });
+
+  it('renders reply link when customFoldersRedesign feature flag is on', async () => {
+    const state = {
+      sm: {
+        threadDetails,
+      },
+      featureToggles: {},
+    };
+
+    // eslint-disable-next-line dot-notation
+    state.featureToggles['mhv_secure_messaging_custom_folders_redesign'] = true;
+
+    const screen = setup(state);
+    const { category, subject } = threadDetails.messages[0];
+
+    screen.debug(undefined, 10000);
+    expect(
+      await screen.findByText(`Messages: ${category} - ${subject}`, {
+        exact: false,
+        selector: 'h1',
+      }),
+    ).to.exist;
+
+    expect(screen.getByTestId('reply-to-message-link')).to.exist;
+    expect(screen.queryByTestId('reply-button-body')).to.not.exist;
 
     expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
       '2 messages in this conversation',
