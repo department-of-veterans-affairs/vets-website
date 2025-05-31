@@ -3,7 +3,6 @@ import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
   dateFormatWithoutTimezone,
-  formatDate,
   extractContainedByRecourceType,
   extractContainedResource,
   getObservationValueWithUnits,
@@ -216,7 +215,7 @@ export const convertMicrobiologyRecord = record => {
     labType: title ? 'Microbiology' : null,
     orderedBy: extractOrderedBy(record) || EMPTY_FIELD,
     dateCompleted: record.effectiveDateTime
-      ? formatDate(record.effectiveDateTime)
+      ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
     date: specimen?.collection?.collectedDateTime
       ? dateFormatWithoutTimezone(specimen.collection.collectedDateTime)
