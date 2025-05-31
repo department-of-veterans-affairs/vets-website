@@ -38,44 +38,58 @@ export const dateFormat = (timestamp, format = null) => {
 export const dateFormatWithoutTime = str => {
   return str.replace(/,? \d{1,2}:\d{2} (a\.m\.|p\.m\.)$/, '');
 };
+
 /**
- * @param {*} datetime (2017-08-02T09:50:57-04:00 or 2000-08-09)
- * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
- * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
+ * Format a FHIR dateTime string as a "local datetime" string, by stripping off the time zone
+ * information and formatting what's left. FHIR allows only:
+ *   - YYYY
+ *   - YYYY-MM
+ *   - YYYY-MM-DD
+ *   - YYYY-MM-DDThh:mm:ss(.sss)(Z|±HH:MM)
+ *
+ * See: https://hl7.org/fhir/R4/datatypes.html#dateTime
+ *
+ * @param {String} datetime FHIR dateTime string, e.g. 2017-08-02T09:50:57-04:00, 2000-08-09
+ * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', ONLY applied to full dateTime strings
+ * @returns {String} a formatted datetime, e.g. August 2, 2017, 9:50 a.m., or null for bad inputs
  */
 export function dateFormatWithoutTimezone(
   isoString,
   fmt = 'MMMM d, yyyy, h:mm a',
 ) {
-  // Ensure isoString is a valid ISO string, else return null
   if (!isoString || typeof isoString !== 'string') return null;
 
-  // 1) Strip off Z, +HH:MM, +HHMM, -HH:MM, or -HHMM (timezone offsets)
-  const stripped = isoString.replace(/([+-]\d{2}:?\d{2}|Z)$/, '');
-
-  // 2) If the string does not include a time zone, handle the case for a date (e.g., "2000-08-09")
-  if (!stripped.includes('T')) {
-    // Handle the case where the datetime is just a date (e.g., "2000-08-09")
-    const parsedDate = parseISO(stripped);
-    if (isValid(parsedDate)) {
-      // Return formatted date in UTC without any time zone
-      return dateFnsFormat(parsedDate, 'MMMM d, yyyy', { timeZone: 'UTC' });
-    }
+  // 1) Year-only: YYYY
+  if (/^\d{4}$/.test(isoString)) {
+    return isoString;
   }
 
-  // 3) Parse as local time
-  const parsedDate = parseISO(stripped);
-
-  // 4) Check if parsed date is valid
-  if (!isValid(parsedDate)) {
-    throw new Error('Invalid time value');
+  // 2) Year+month: YYYY-MM
+  if (/^\d{4}-(0[1-9]|1[0-2])$/.test(isoString)) {
+    const d = parseISO(`${isoString}-01`);
+    if (!isValid(d)) return null;
+    return dateFnsFormat(d, 'MMMM yyyy');
   }
 
-  // 5) Format and replace "PM" with "pm"
-  const formattedDate = dateFnsFormat(parsedDate, fmt);
+  // 3) Full date: YYYY-MM-DD
+  if (/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(isoString)) {
+    const d = parseISO(isoString);
+    if (!isValid(d)) return null;
+    return dateFnsFormat(d, 'MMMM d, yyyy');
+  }
 
-  // Replace "PM" with "pm" and "AM" with "am"
-  return formattedDate.replace(/\sPM$/, ' p.m.').replace(/\sAM$/, ' a.m.');
+  // 4) Date-time (must include seconds + TZ): strip off exactly “Z” or “+HH:MM”
+  const stripped = isoString.replace(/(Z|[+-]\d{2}:\d{2})$/, '');
+
+  // 5) Handle leap-second (“:60” -> “:59”)
+  const fixedLeap = stripped.replace(/:60(\.\d+)?$/, ':59$1');
+
+  const dt = parseISO(fixedLeap);
+  if (!isValid(dt)) return null;
+
+  return dateFnsFormat(dt, fmt)
+    .replace(/\bAM\b/g, 'a.m.')
+    .replace(/\bPM\b/g, 'p.m.');
 }
 
 /**

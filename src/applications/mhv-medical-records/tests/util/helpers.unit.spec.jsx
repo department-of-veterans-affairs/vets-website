@@ -54,39 +54,32 @@ describe('Date formatter', () => {
 });
 
 describe('dateFormatWithoutTimezone', () => {
-  it('should format a valid ISO string correctly without time zone', () => {
-    const isoString = '2021-05-18T10:30:00+02:00';
-    const expectedFormat = 'May 18, 2021, 10:30 a.m.';
-    const result = dateFormatWithoutTimezone(isoString, 'MMMM d, yyyy, h:mm a');
-    expect(result).to.equal(expectedFormat);
+  const testFormat = (isoString, expected) => {
+    expect(dateFormatWithoutTimezone(isoString)).to.equal(expected);
+  };
+
+  it('should format a valid FHIR date string by stripping the time zone', () => {
+    testFormat('2018', '2018'); // Year only
+    testFormat('1973-06', 'June 1973'); // Year + month
+    testFormat('2000-08-09', 'August 9, 2000'); // Full date
+    testFormat('1990-06-30T23:59:60Z', 'June 30, 1990, 11:59 p.m.'); // Leap second
+    testFormat('2020-01-02T03:04:05Z', 'January 2, 2020, 3:04 a.m.'); // Zulu time
+    testFormat('2019-07-19T16:20:30.123Z', 'July 19, 2019, 4:20 p.m.'); // Fractional seconds
+    testFormat('2021-05-18T10:30:00+02:00', 'May 18, 2021, 10:30 a.m.'); // Positive offset
+    testFormat('2017-08-02T09:50:57-04:00', 'August 2, 2017, 9:50 a.m.'); // Negative offset
+    testFormat('2017-01-01T00:00:00.000Z', 'January 1, 2017, 12:00 a.m.'); // Millisecond precision
+    testFormat('2022-11-15T08:00:00+00:00', 'November 15, 2022, 8:00 a.m.'); // Zero offset required
+    testFormat('2020-12-31T23:59:59+05:30', 'December 31, 2020, 11:59 p.m.'); // Non-hour offset
   });
 
-  it('should return null for an invalid string', () => {
-    const invalidString = null;
-    const result = dateFormatWithoutTimezone(invalidString);
-    expect(result).to.equal(null);
-  });
-
-  it('should return null for a non-string input', () => {
-    const nonStringInput = 12345;
-    const result = dateFormatWithoutTimezone(nonStringInput);
-    expect(result).to.equal(null);
-  });
-
-  it('should throw an error for an invalid ISO string', () => {
-    const invalidISO = '2021-05-18T10:30:00';
-    try {
-      dateFormatWithoutTimezone(invalidISO);
-    } catch (error) {
-      expect(error.message).to.equal('Invalid time value');
-    }
-  });
-
-  it('should correctly format date without time zone using default format', () => {
-    const isoString = '2021-05-18T10:30:00+02:00';
-    const expectedFormat = 'May 18, 2021, 10:30 a.m.';
-    const result = dateFormatWithoutTimezone(isoString); // Default format used
-    expect(result).to.equal(expectedFormat);
+  it('should return null for invalid input', () => {
+    testFormat('', null); // empty string
+    testFormat('foo', null); // garbage
+    testFormat(12345, null); // non-string input
+    testFormat(undefined, null); // missing
+    testFormat('2021-13', null); // bad month in YYYY-MM
+    testFormat('2021-02-29', null); // non-leap Feb-29
+    testFormat('2021-00-01', null); // zero month
   });
 
   it('should handle different date formats', () => {
