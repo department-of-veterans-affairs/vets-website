@@ -2,6 +2,7 @@ import { parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
+  formatDate,
   dateFormatWithoutTimezone,
   formatDateInLocalTimezone,
   extractContainedByRecourceType,
@@ -216,7 +217,7 @@ export const convertMicrobiologyRecord = record => {
     labType: title ? 'Microbiology' : null,
     orderedBy: extractOrderedBy(record) || EMPTY_FIELD,
     dateCompleted: record.effectiveDateTime
-      ? dateFormatWithoutTimezone(record.effectiveDateTime)
+      ? formatDate(record.effectiveDateTime)
       : EMPTY_FIELD,
     date: specimen?.collection?.collectedDateTime
       ? dateFormatWithoutTimezone(specimen.collection.collectedDateTime)
