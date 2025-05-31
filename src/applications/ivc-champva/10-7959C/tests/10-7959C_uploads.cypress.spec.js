@@ -22,7 +22,6 @@ import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
 import {
-  fillAddressWebComponentPattern,
   selectRadioWebComponent,
   getAllPages,
   verifyAllDataWasSubmitted,
@@ -59,7 +58,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'applicantAddress',
               data.applicantAddress,
             );
