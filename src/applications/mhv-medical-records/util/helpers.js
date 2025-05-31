@@ -326,8 +326,14 @@ export const getActiveLinksStyle = (linkPath, currentPath) => {
 };
 
 /**
- * Formats the date and accounts for the lack of a 'dd' in a date
- * @param {String} str str
+ * Formats a date string to a human-readable representation, handling cases where only the year or
+ * year-month portion is provided.
+ *
+ * @param {String} str The input date string to format
+ * @returns {string} A human-readable date string (see examples)
+ * @example formatDate("2025"); // "2025"
+ * @example formatDate("2025-07"); // "July, 2025"
+ * @example formatDate("2025-07-15"); // "July 15, 2025" (any other ISO 8601 date returns this format)
  */
 export const formatDate = str => {
   const yearRegex = /^\d{4}$/;
@@ -623,14 +629,29 @@ export const handleDataDogAction = ({
 };
 
 /**
- * Format a iso8601 date in the local browser timezone.
+ * Format an ISO 8601 date in the local browser timezone.
  *
- * @param {string} date the date to format, in ISO8601 format
- * @returns {String} formatted timestamp
+ * @param {string|number} date the date to format, in ISO 8601 format or as a millisecond timestamp
+ * @param {boolean} hideTimeZone hide time zone in output if true, otherwise include it (default is false)
+ * @returns {String} a formatted date and time string in the local timezone
+ * @example formatDateInLocalTimezone(1712264626910, true); // "April 4, 2024 5:03 p.m."
+ * @example formatDateInLocalTimezone('1997-05-07T19:14:00Z', true); // "May 7, 1997 3:14 p.m."
+ * @example formatDateInLocalTimezone('1997-05-07T19:14:00Z'); // "May 7, 1997 3:14 p.m. EDT"
  */
-export const formatDateInLocalTimezone = date => {
-  const dateObj = parseISO(date);
+export const formatDateInLocalTimezone = (date, hideTimeZone = false) => {
+  let dateObj;
+
+  if (typeof date === 'number') {
+    dateObj = new Date(date); // Millisecond timestamp
+  } else {
+    dateObj = parseISO(date); // ISO 8601
+  }
+
   const formattedDate = dateFnsFormat(dateObj, 'MMMM d, yyyy h:mm aaaa');
+  if (hideTimeZone) {
+    return formattedDate;
+  }
+
   const localTimeZoneName = dateObj
     .toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'short' })
     .substring(4);

@@ -693,11 +693,48 @@ describe('handleDataDogAction', () => {
 });
 
 describe('formatDateInLocalTimezone', () => {
+  let originalTZ;
+
+  // Ensure these tests run in a predictable time zone
+  before(() => {
+    originalTZ = process.env.TZ;
+    process.env.TZ = 'UTC';
+  });
+
+  // Restore the original time zone value
+  after(() => {
+    if (originalTZ === undefined) {
+      delete process.env.TZ;
+    } else {
+      process.env.TZ = originalTZ;
+    }
+  });
+
   it('should format a valid ISO8601 date string to the local timezone', () => {
     const dateString = '2023-01-05T14:48:00.000-05:00';
     const formattedDate = formatDateInLocalTimezone(dateString);
     const expectedDate = 'January 5, 2023 7:48 p.m. UTC';
     expect(formattedDate).to.equal(expectedDate);
+  });
+
+  it('should format a date when providing a UNIX timestamp as a number', () => {
+    const timestamp = 1672941680000; // Jan 5, 2023, 19:48 UTC
+    const formattedDate = formatDateInLocalTimezone(timestamp);
+    const expectedDate = 'January 5, 2023 6:01 p.m. UTC';
+    expect(formattedDate).to.equal(expectedDate);
+  });
+
+  it('should hide time zone when hideTimeZone is true', () => {
+    const dateString = '2023-01-05T14:48:00.000-05:00';
+    const formattedDate = formatDateInLocalTimezone(dateString, true);
+    const expectedDate = 'January 5, 2023 7:48 p.m.';
+    expect(formattedDate).to.equal(expectedDate);
+  });
+
+  it('should show time zone by default', () => {
+    const dateString = '2023-01-05T14:48:00.000-05:00';
+    const formattedDate = formatDateInLocalTimezone(dateString);
+    expect(formattedDate).to.include('UTC');
   });
 
   it('should handle an invalid date string gracefully', () => {
