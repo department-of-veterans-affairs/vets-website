@@ -167,7 +167,7 @@ describe('IntroductionPage', () => {
     expect(alert.innerHTML).to.contain(
       'your Social Security number and date of birth.',
     );
-    expect($('va-alert[status="info"]', container)).to.not.exist;
+    expect($('.vads-c-action-link--green', container)).to.not.exist;
   });
 
   it('should render top SIP alert with 2 action links', () => {
