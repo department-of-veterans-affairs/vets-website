@@ -13,9 +13,9 @@ import {
   getCancelAddNo,
   getCancelEditYes,
   getCancelEditNo,
-} from '../../../../utils/helpers/emergencyContactUtils';
+} from '../../../../utils/helpers/nextOfKinUtils';
 
-describe('Emergency Contact Utils', () => {
+describe('Next of Kin Utils', () => {
   describe('getItemName', () => {
     it('should return full name when first and last name are provided', () => {
       const item = { fullName: { first: 'John', last: 'Doe' } };
@@ -58,14 +58,14 @@ describe('Emergency Contact Utils', () => {
   describe('getDeleteTitle', () => {
     it('should return the delete title text', () => {
       const result = getDeleteTitle();
-      expect(result).to.equal('Delete this emergency contact?');
+      expect(result).to.equal('Delete this next of kin?');
     });
   });
 
   describe('getDeleteYes', () => {
     it('should return the delete confirmation text', () => {
       const result = getDeleteYes();
-      expect(result).to.equal('Yes, delete this emergency contact');
+      expect(result).to.equal('Yes, delete this next of kin');
     });
   });
 
@@ -74,7 +74,7 @@ describe('Emergency Contact Utils', () => {
       const item = { itemData: { fullName: { first: 'John', last: 'Doe' } } };
       const result = getDeleteDescription(item);
       expect(result).to.equal(
-        'This will delete John Doe and all the information from your list of emergency contacts.',
+        'This will delete John Doe and all the information from your list of next of kins.',
       );
     });
 
@@ -82,14 +82,14 @@ describe('Emergency Contact Utils', () => {
       const itemWithMissingNames = { itemData: { fullName: {} } };
       const result = getDeleteDescription(itemWithMissingNames);
       expect(result).to.equal(
-        'This will delete this contact and all the information from your list of emergency contacts.',
+        'This will delete this contact and all the information from your list of next of kins.',
       );
     });
 
     it('should return a fallback delete description if item is undefined', () => {
       const result = getDeleteDescription(undefined);
       expect(result).to.equal(
-        'This will delete this contact and all the information from your list of emergency contacts.',
+        'This will delete this contact and all the information from your list of next of kins.',
       );
     });
   });
@@ -98,7 +98,7 @@ describe('Emergency Contact Utils', () => {
     it('should return the cancel add description text', () => {
       const result = getCancelAddDescription();
       expect(result).to.equal(
-        'If you cancel, we won’t add this person as your emergency contact. You’ll return to a page where you can add a new emergency contact.',
+        'If you cancel, we won’t add this person as your next of kin. You’ll return to a page where you can add a new next of kin.',
       );
     });
   });
@@ -107,7 +107,7 @@ describe('Emergency Contact Utils', () => {
     it('should return the cancel edit description text', () => {
       const result = getCancelEditDescription();
       expect(result).to.equal(
-        'If you cancel, you’ll lose any changes you made on this screen. You’ll return to a page where you can review your emergency contact.',
+        'If you cancel, you’ll lose any changes you made on this screen. You’ll return to a page where you can review your next of kin.',
       );
     });
   });
@@ -115,14 +115,14 @@ describe('Emergency Contact Utils', () => {
   describe('getCancelEditTitle', () => {
     it('should return the cancel edit title text', () => {
       const result = getCancelEditTitle();
-      expect(result).to.equal('Cancel editing your emergency contact?');
+      expect(result).to.equal('Cancel editing your next of kin?');
     });
   });
 
   describe('getCancelAddTitle', () => {
     it('should return the cancel add title text', () => {
       const result = getCancelAddTitle();
-      expect(result).to.equal('Cancel adding your emergency contact?');
+      expect(result).to.equal('Cancel adding your next of kin?');
     });
   });
 
@@ -136,7 +136,7 @@ describe('Emergency Contact Utils', () => {
   describe('getCancelAddNo', () => {
     it('should return the cancel add no button text', () => {
       const result = getCancelAddNo();
-      expect(result).to.equal('No, continue adding this');
+      expect(result).to.equal('No, continue adding');
     });
   });
 
