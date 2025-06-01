@@ -122,6 +122,7 @@ const MhvPageNotFound = () => {
   const isVerified = useSelector(isLOA3);
   const isAPatient = useSelector(isVAPatient);
   const loading = useSelector(isProfileLoading);
+  const isSecureMessaging = useSelector(state => state.sm);
 
   if (loading) {
     return (
@@ -135,7 +136,7 @@ const MhvPageNotFound = () => {
   }
   return (
     <>
-      {isVerified && isAPatient && <MhvSecondaryNav />}
+      {isVerified && isAPatient && !isSecureMessaging && <MhvSecondaryNav />}
       <MhvPageNotFoundContent />
     </>
   );
