@@ -213,10 +213,10 @@ export const getVaccineList = async (page, useCache = true) => {
   if (!useCache) {
     params.append('use_cache', 'false');
   }
-  return apiRequest(
-    `${apiBasePath}/medical_records/vaccines?${params.toString()}`,
-    { headers },
-  );
+  const queryString = params.toString() ? `?${params.toString()}` : '';
+  return apiRequest(`${apiBasePath}/medical_records/vaccines${queryString}`, {
+    headers,
+  });
 };
 
 /**
