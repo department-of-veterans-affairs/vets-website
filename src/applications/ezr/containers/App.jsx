@@ -24,7 +24,11 @@ const App = props => {
     user,
   } = props;
   const { veteranFullName } = formData;
-  const { loading: isLoadingFeatures, isProdEnabled } = features;
+  const {
+    loading: isLoadingFeatures,
+    isProdEnabled,
+    isEmergencyContactsEnabled,
+  } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
@@ -61,6 +65,7 @@ const App = props => {
           'view:userGender': parseVeteranGender(veteranGender),
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:householdEnabled': !!canSubmitFinancialInfo,
+          'view:isEmergencyContactsEnabled': !!isEmergencyContactsEnabled,
         };
 
         setFormData({
@@ -106,6 +111,8 @@ const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
+    isEmergencyContactsEnabled:
+      state.featureToggles.ezrEmergencyContactsEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,

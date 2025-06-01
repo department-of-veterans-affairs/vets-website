@@ -13,6 +13,11 @@ export const advanceToHouseholdSection = () => {
   selectYesNoWebComponent('view:doesMailingMatchHomeAddress', true);
 
   goToNextPage('/veteran-information/contact-information');
+
+  // Skip Emergency Contacts Section
+  goToNextPage('/veteran-information/emergency-contacts-summary');
+
+  selectYesNoWebComponent('view:hasEmergencyContacts', false);
 };
 
 export const advanceFromHouseholdToReview = () => {

@@ -271,6 +271,68 @@ describe('App', () => {
       );
       expect(downtimeComponent).to.be.null;
     });
+
+    it('bypasses downtime notification when bypassDowntime flag is true', async () => {
+      const screen = renderWithStoreAndRouter(<App />, {
+        initialState: {
+          ...initialState,
+          scheduledDowntime: {
+            globalDowntime: null,
+            isReady: true,
+            isPending: false,
+            serviceMap: downtime(['mhv_mr']),
+            dismissedDowntimeWarnings: [],
+          },
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_bypass_downtime_notification: true,
+          },
+        },
+        reducers: reducer,
+        path: `/`,
+      });
+      const downtimeComponent = await waitFor(() => {
+        return screen.queryByText('Maintenance on My HealtheVet', {
+          selector: 'h2',
+          exact: true,
+        });
+      });
+      expect(downtimeComponent).to.be.null;
+    });
+
+    it('bypasses the global downtime notification when bypassDowntime flag is true', async () => {
+      const screen = renderWithStoreAndRouter(<App />, {
+        initialState: {
+          ...initialState,
+          scheduledDowntime: {
+            globalDowntime: true,
+            isReady: true,
+            isPending: false,
+            serviceMap: downtime(['global']),
+            dismissedDowntimeWarnings: [],
+          },
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_bypass_downtime_notification: true,
+          },
+        },
+        reducers: reducer,
+        path: `/`,
+      });
+      const [maintenanceText, updatesText] = await waitFor(() => {
+        return [
+          screen.queryByText('This tool is down for maintenance', {
+            selector: 'h3',
+            exact: true,
+          }),
+          screen.queryByText('We’re making some updates to this tool', {
+            exact: false,
+          }),
+        ];
+      });
+      expect(maintenanceText).to.be.null;
+      expect(updatesText).to.be.null;
+    });
   });
 
   it('renders breadcrumbs when downtime and at the landing page', () => {
