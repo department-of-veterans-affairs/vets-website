@@ -1,6 +1,7 @@
 // import fullSchema from 'vets-json-schema/dist/21P-0969-schema.json';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
@@ -48,6 +49,7 @@ const formConfig = {
   dev: {
     disableWindowUnloadInCI: true,
   },
+  ...minimalHeaderFormConfigOptions(),
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -64,7 +66,7 @@ const formConfig = {
           : 'claimantFullName',
     },
   },
-  title: 'Income and Asset Statement Form',
+  title: 'Income and Asset Statement',
   subTitle: 'VA Form 21P-0969',
   defaultDefinitions: {},
   chapters: {

@@ -22,13 +22,13 @@ import {
 } from '../../tests/mocks/setup';
 
 import MockClinicResponse from '../../tests/fixtures/MockClinicResponse';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 import {
   mockAppointmentSlotApi,
   mockEligibilityFetches,
 } from '../../tests/mocks/mockApis';
-import { TYPE_OF_CARE_ID } from '../utils';
+import { DATE_FORMATS, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import SelectDate1Page from './SelectDate1Page';
-import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 
 const initialState = {
   featureToggles: {
@@ -56,7 +56,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   it('should not submit form with validation error', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
@@ -104,7 +104,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     const preferredDate = new Date();
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
     mockAppointmentSlotApi({
@@ -149,7 +149,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   it('should allow a user to choose available slot and fetch new slots after changing clinics', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
@@ -165,10 +165,10 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTime),
             end: format(
               new Date(new Date(slot308Date).setMinutes(20)),
-              "yyyy-MM-dd'T'HH:mm:ss",
+              DATE_FORMATS.ISODateTime,
             ),
           },
         },
@@ -176,10 +176,10 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
           id: '309',
           type: 'slots',
           attributes: {
-            start: format(slot309Date, "yyyy-MM-dd'T'HH:mm:ss"),
+            start: format(slot309Date, DATE_FORMATS.ISODateTime),
             end: format(
               new Date(new Date(slot309Date).setMinutes(20)),
-              "yyyy-MM-dd'T'HH:mm:ss",
+              DATE_FORMATS.ISODateTime,
             ),
           },
         },
@@ -194,10 +194,10 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
           id: '309',
           type: 'slots',
           attributes: {
-            start: format(slot309Date, "yyyy-MM-dd'T'HH:mm:ss"),
+            start: format(slot309Date, DATE_FORMATS.ISODateTime),
             end: format(
               new Date(new Date(slot309Date).setMinutes(20)),
-              "yyyy-MM-dd'T'HH:mm:ss",
+              DATE_FORMATS.ISODateTime,
             ),
           },
         },
@@ -288,7 +288,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   it('should show validation error if no date selected', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
@@ -325,7 +325,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   it.skip('should fetch slots when moving between months', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
@@ -347,10 +347,10 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(slot308Date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
             end: format(
               new Date(new Date(slot308Date).setMinutes(20)),
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
+              DATE_FORMATS.ISODateTimeUTC,
             ),
           },
         },
@@ -365,10 +365,10 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
           id: '308',
           type: 'slots',
           attributes: {
-            start: format(secondSlotDate, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            start: format(secondSlotDate, DATE_FORMATS.ISODateTimeUTC),
             end: format(
               new Date(new Date(secondSlotDate).setMinutes(20)),
-              "yyyy-MM-dd'T'HH:mm:ss'Z'",
+              DATE_FORMATS.ISODateTimeUTC,
             ),
           },
         },

@@ -1,7 +1,7 @@
 import { addDays, addMonths, format, startOfMonth } from 'date-fns';
 import PageObject from './PageObject';
 
-export class PreferredDatePageObject extends PageObject {
+class PreferredDatePageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/preferred-date');
     cy.axeCheckBestPractice();
