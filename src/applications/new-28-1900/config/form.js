@@ -20,6 +20,7 @@ import personalInformationPage from '../pages/personalInformation';
 import phoneAndEmailPage from '../pages/phoneAndEmail';
 import yearsOfCollegeStudiesPage from '../pages/yearsOfCollegeStudies';
 import yearsOfGraduateStudiesPage from '../pages/yearsOfGraduateStudies';
+import PreSubmit from '../components/PreSubmit';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -56,13 +57,16 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   preSubmitInfo: {
-    statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
-      useProfileFullName: true,
-    },
+    field: 'privacyAgreementAccepted',
+    CustomComponent: PreSubmit,
+    required: true,
+    // statementOfTruth: {
+    //   body:
+    //     'I confirm that the identifying information in this form is accurate has been represented correctly.',
+    //   messageAriaDescribedby:
+    //     'I confirm that the identifying information in this form is accurate has been represented correctly.',
+    //   useProfileFullName: true,
+    // },
   },
   chapters: {
     yourInformationChapter: {
