@@ -53,7 +53,6 @@ const Notice5103 = ({
     <>
       <Notice5103Description onReviewPage={onReviewPage} />
       <VaCheckbox
-        description={content.label}
         label={content.label}
         name="5103"
         error={hasError ? content.error : null}
