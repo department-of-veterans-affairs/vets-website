@@ -26,10 +26,10 @@ const Authorization = ({
   contentAfterButtons,
 }) => {
   const [hasError, setHasError] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [activeModal, setActiveModal] = useState(null);
 
-  const toggle4142PrivacyModal = () => {
-    setVisible(!visible);
+  const toggle4142PrivacyModal = index => {
+    setActiveModal(index);
   };
 
   useEffect(
@@ -96,17 +96,17 @@ const Authorization = ({
     }
   };
 
-  const privacyModal4142 = (
+  const showPrivacyModal = index => (
     <>
       <va-button
-        onClick={toggle4142PrivacyModal}
+        onClick={() => toggle4142PrivacyModal(index)}
         secondary
         text="Privacy Act Statement"
       />
       <VaModal
         modalTitle="Privacy Act Statement"
-        onCloseEvent={toggle4142PrivacyModal}
-        visible={visible}
+        onCloseEvent={() => setActiveModal(null)}
+        visible={activeModal === index}
       >
         <PrivacyActStatementContent />
       </VaModal>
@@ -297,7 +297,7 @@ const Authorization = ({
             Act, 5 USC 552a, and VA may disclose this information as authorized
             by law.
           </p>
-          {privacyModal4142}
+          {showPrivacyModal(0)}
           <p>
             I also understand that I may revoke this authorization in writing,
             at any time except to the extent a source of information has already
@@ -384,7 +384,7 @@ const Authorization = ({
             information may be disclosed by VA without your consent if
             authorized by Federal laws such as the Privacy Act.
           </p>
-          {privacyModal4142}
+          {showPrivacyModal(1)}
           <p>
             <strong>Expires</strong>: This authorization is good for 12 months
             from the date this form is submitted.
