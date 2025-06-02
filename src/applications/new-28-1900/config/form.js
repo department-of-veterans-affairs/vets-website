@@ -56,18 +56,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
-  preSubmitInfo: {
-    field: 'privacyAgreementAccepted',
-    CustomComponent: PreSubmit,
-    required: true,
-    // statementOfTruth: {
-    //   body:
-    //     'I confirm that the identifying information in this form is accurate has been represented correctly.',
-    //   messageAriaDescribedby:
-    //     'I confirm that the identifying information in this form is accurate has been represented correctly.',
-    //   useProfileFullName: true,
-    // },
-  },
+  preSubmitInfo: PreSubmit,
   chapters: {
     yourInformationChapter: {
       title: 'Your information',
