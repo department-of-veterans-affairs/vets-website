@@ -108,7 +108,6 @@ export const nextOfKinAddressPage = () => ({
         properties: address.properties,
       }),
     },
-    required: ['address'],
   },
 });
 
