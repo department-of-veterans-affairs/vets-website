@@ -88,7 +88,6 @@ const LabsAndTests = () => {
         initialFhirLoad={refresh.initialFhirLoad}
       >
         <NewRecordsIndicator
-          refreshState={refresh}
           extractType={[refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR]}
           newRecordsFound={
             Array.isArray(labsAndTests) &&

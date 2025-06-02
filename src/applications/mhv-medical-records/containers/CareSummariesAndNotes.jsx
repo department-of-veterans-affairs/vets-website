@@ -89,7 +89,6 @@ const CareSummariesAndNotes = () => {
         initialFhirLoad={refresh.initialFhirLoad}
       >
         <NewRecordsIndicator
-          refreshState={refresh}
           extractType={refreshExtractTypes.VPR}
           newRecordsFound={
             Array.isArray(careSummariesAndNotes) &&

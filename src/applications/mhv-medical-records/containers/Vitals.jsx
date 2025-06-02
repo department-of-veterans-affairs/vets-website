@@ -170,7 +170,6 @@ const Vitals = () => {
       >
         {!isAcceleratingVitals && (
           <NewRecordsIndicator
-            refreshState={refresh}
             extractType={refreshExtractTypes.VPR}
             newRecordsFound={
               Array.isArray(vitals) &&

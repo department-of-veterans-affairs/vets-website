@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { useSelector } from 'react-redux';
 import {
   getStatusExtractListPhase,
   getLastSuccessfulUpdate,
@@ -8,11 +9,11 @@ import {
 import { refreshPhases } from '../../util/constants';
 
 const NewRecordsIndicator = ({
-  refreshState,
   extractType,
   newRecordsFound,
   reloadFunction,
 }) => {
+  const refreshState = useSelector(state => state.mr.refresh);
   const [refreshedOnThisPage, setRefreshedOnThisPage] = useState(false);
 
   /** Helper function to ensure `extractType` is treated as an array. */
@@ -103,31 +104,6 @@ const NewRecordsIndicator = ({
 
   const content = () => {
     if (refreshedOnThisPage) {
-      if (refreshPhase === refreshPhases.CALL_FAILED) {
-        return (
-          <va-alert
-            status="warning"
-            visible
-            aria-live="polite"
-            data-testid="new-records-refreshed-call_failed"
-          >
-            <h2>Your records may not be up to date.</h2>
-            <p>
-              There’s a problem with our system, and we can’t access the date
-              your records were last updated. We’re sorry.
-            </p>
-
-            <p> Please check back later for updates.</p>
-
-            <p>
-              If it still doesn’t work, call us at{' '}
-              <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
-              <va-telephone tty contact={CONTACTS['711']} />
-              ). We’re here Monday through Friday, 8:00 a.m to 8:00 p. ET.
-            </p>
-          </va-alert>
-        );
-      }
       if (refreshPhase === refreshPhases.FAILED) {
         return failedMsg();
       }
@@ -188,7 +164,29 @@ const NewRecordsIndicator = ({
         </va-card>
       );
     }
-    return <></>;
+    return (
+      <va-alert
+        status="warning"
+        visible
+        aria-live="polite"
+        data-testid="new-records-refreshed-call_failed"
+      >
+        <h2>Your records may not be up to date.</h2>
+        <p>
+          There’s a problem with our system, and we can’t access the date your
+          records were last updated. We’re sorry.
+        </p>
+
+        <p> Please check back later for updates.</p>
+
+        <p>
+          If it still doesn’t work, call us at{' '}
+          <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
+          <va-telephone tty contact={CONTACTS['711']} />
+          ). We’re here Monday through Friday, 8:00 a.m to 8:00 p. ET.
+        </p>
+      </va-alert>
+    );
   };
 
   return (
@@ -227,6 +225,5 @@ export default NewRecordsIndicator;
 NewRecordsIndicator.propTypes = {
   extractType: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   newRecordsFound: PropTypes.bool,
-  refreshState: PropTypes.object,
   reloadFunction: PropTypes.func,
 };

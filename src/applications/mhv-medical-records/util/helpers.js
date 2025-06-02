@@ -367,36 +367,76 @@ export const formatDateAndTime = rawDate => {
 /**
  * Determine whether the PHR refresh for a particular extract is stale, in progress, current, or failed.
  *
- * @param {*} retrievedDate the timestamp (in ms) that the refresh status was retrieved
- * @param {*} phrStatus the list of PHR status extracts
- * @param {*} extractType the extract for which to return the phase (e.g. 'VPR')
- * @returns {string|null} the current refresh phase, or null if parameters are invalid.
+ * @param {Date} retrievedDate - The Date the refresh status was retrieved (MUST be a Date object).
+ * @param {Array<Object>} phrStatus - The list of PHR status extracts.
+ * @param {string} extractType - The extract for which to return the phase (e.g. 'VPR').
+ * @returns {string|null} The current refresh phase, or null if parameters are invalid.
  */
 export const getStatusExtractPhase = (
   retrievedDate,
   phrStatus,
   extractType,
 ) => {
-  if (!retrievedDate || !phrStatus || !extractType) return null;
-  const extractStatus = phrStatus.find(
-    status => status.extract === extractType,
-  );
   if (
-    !extractStatus?.lastRequested ||
-    !extractStatus?.lastCompleted ||
-    !extractStatus?.lastSuccessfulCompleted
+    !(retrievedDate instanceof Date) ||
+    Number.isNaN(retrievedDate.getTime()) ||
+    !Array.isArray(phrStatus) ||
+    !extractType
   ) {
     return null;
   }
-  if (retrievedDate - extractStatus.lastCompleted > VALID_REFRESH_DURATION) {
+
+  const extractStatus = phrStatus.find(
+    status => status.extract === extractType,
+  );
+  if (!extractStatus) return null;
+
+  const {
+    upToDate,
+    loadStatus,
+    errorMessage,
+    lastRequested,
+    lastCompleted,
+    lastSuccessfulCompleted,
+  } = extractStatus;
+
+  const errorConditions = upToDate && loadStatus === 'ERROR' && !!errorMessage;
+
+  // Defensive: ensure required dates are Date objects
+  if (
+    (!lastRequested || !lastCompleted || !lastSuccessfulCompleted) &&
+    !errorConditions
+  ) {
+    return null;
+  }
+
+  // If any date is not a Date object, try to convert it
+  const requested =
+    lastRequested instanceof Date ? lastRequested : new Date(lastRequested);
+  const completed =
+    lastCompleted instanceof Date ? lastCompleted : new Date(lastCompleted);
+  const successfulCompleted =
+    lastSuccessfulCompleted instanceof Date
+      ? lastSuccessfulCompleted
+      : new Date(lastSuccessfulCompleted);
+
+  if (
+    Number.isNaN(requested.getTime()) ||
+    Number.isNaN(completed.getTime()) ||
+    Number.isNaN(successfulCompleted.getTime())
+  ) {
+    return null;
+  }
+
+  if (retrievedDate.getTime() - completed.getTime() > VALID_REFRESH_DURATION) {
     return refreshPhases.STALE;
   }
-  if (extractStatus.lastCompleted < extractStatus.lastRequested) {
+  if (completed.getTime() < requested.getTime() && !errorConditions) {
     return refreshPhases.IN_PROGRESS;
   }
   if (
-    extractStatus.lastCompleted.getTime() !==
-    extractStatus.lastSuccessfulCompleted.getTime()
+    errorConditions ||
+    completed.getTime() !== successfulCompleted.getTime()
   ) {
     return refreshPhases.FAILED;
   }
