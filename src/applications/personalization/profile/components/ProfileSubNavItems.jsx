@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { NavLink } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
 import { selectIsBlocked } from '../selectors';
 
 function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
@@ -20,6 +21,16 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
     // mvi check
     return !(route.requiresMVI && !isInMVI);
   });
+  const recordNavUserEvent = routePath => () => {
+    recordEvent({
+      event: 'navigation',
+      'link-location': 'sidebar',
+      'page-path': routePath,
+    });
+    if (clickHandler) {
+      clickHandler();
+    }
+  };
   return (
     <ul>
       {filteredRoutes.map(route => {
@@ -29,7 +40,7 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
               activeClassName="is-active"
               exact
               to={route.path}
-              onClick={clickHandler}
+              onClick={recordNavUserEvent(route.path)}
             >
               {route.name}
             </NavLink>
