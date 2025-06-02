@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import GovBanner from './Header/GovBanner';
+import GovBanner from '../Header/GovBanner';
 
 const ErrorHeader = () => {
   return (
