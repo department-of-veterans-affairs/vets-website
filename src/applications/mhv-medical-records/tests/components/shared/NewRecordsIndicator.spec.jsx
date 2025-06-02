@@ -1,120 +1,175 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { waitFor } from '@testing-library/dom';
+import { render, waitFor } from '@testing-library/react';
 import NewRecordsIndicator from '../../../components/shared/NewRecordsIndicator';
-import { refreshExtractTypes } from '../../../util/constants';
+import { refreshExtractTypes, refreshPhases } from '../../../util/constants';
 
 describe('NewRecordsIndicator', () => {
   const now = new Date();
 
-  const minutesBefore = (date, minutes) => {
-    return new Date(date.getTime() - minutes * 60 * 1000);
-  };
+  const minutesBefore = (date, minutes) =>
+    new Date(date.getTime() - minutes * 60 * 1000);
 
-  const generateState = (requested, completed, successful) => {
-    return {
-      statusDate: now,
-      status: [
-        {
-          extract: 'VPR',
-          lastRequested: minutesBefore(now, requested),
-          lastCompleted: minutesBefore(now, completed),
-          lastSuccessfulCompleted: minutesBefore(now, successful),
-        },
-      ],
-    };
-  };
-
-  const renderRefreshInProgressState = () => {
-    return render(
-      <NewRecordsIndicator
-        refreshState={generateState(10, 80, 80)}
-        extractType={refreshExtractTypes.VPR}
-        newRecordsFound={false}
-      />,
-    );
-  };
-
-  it('should display "last updated" when refresh was not run', () => {
-    const screen = render(
-      <NewRecordsIndicator
-        refreshState={generateState(10, 5, 5)}
-        extractType={refreshExtractTypes.VPR}
-        newRecordsFound={false}
-      />,
-    );
-
-    const lastUpdated = screen.getByText('Last updated at', {
-      exact: false,
-    });
-    expect(lastUpdated).to.exist;
+  // now supports explicit phase and isTimedOut
+  const generateState = ({
+    requested,
+    completed,
+    successful,
+    phase = undefined,
+    isTimedOut = false,
+  }) => ({
+    statusDate: now,
+    status: [
+      {
+        extract: 'VPR',
+        lastRequested: minutesBefore(now, requested),
+        lastCompleted: minutesBefore(now, completed),
+        lastSuccessfulCompleted: minutesBefore(now, successful),
+      },
+    ],
+    phase,
+    isTimedOut,
   });
 
-  it('should display a spinner if refresh is currently running', () => {
-    const screen = renderRefreshInProgressState();
+  const renderWithState = (state, newRecordsFound = false) =>
+    render(
+      <NewRecordsIndicator
+        refreshState={state}
+        extractType={refreshExtractTypes.VPR}
+        newRecordsFound={newRecordsFound}
+        reloadFunction={() => {}}
+      />,
+    );
 
-    const spinner = screen.getByTestId('new-records-loading-indicator');
-    expect(spinner).to.exist;
+  it('should display "last updated" when no live refresh is in progress', () => {
+    const state = generateState({ requested: 10, completed: 5, successful: 5 });
+    const { getByTestId } = renderWithState(state, false);
+    expect(getByTestId('new-records-last-updated')).to.exist;
+  });
+
+  it('should display a spinner if a refresh is currently running', () => {
+    const state = generateState({
+      requested: 10,
+      completed: 80,
+      successful: 80,
+    });
+    const { getByTestId } = renderWithState(state, false);
+    expect(getByTestId('new-records-loading-indicator')).to.exist;
   });
 
   it('should display the green box if refresh ran and records are current', async () => {
-    const { rerender, getByTestId } = renderRefreshInProgressState();
+    const initialState = generateState({
+      requested: 10,
+      completed: 80,
+      successful: 80,
+    });
+    const { rerender, getByTestId, queryByTestId } = renderWithState(
+      initialState,
+      false,
+    );
 
+    const currentState = generateState({
+      requested: 10,
+      completed: 5,
+      successful: 5,
+    });
     rerender(
       <NewRecordsIndicator
-        refreshState={generateState(10, 5, 5)}
+        refreshState={currentState}
         extractType={refreshExtractTypes.VPR}
         newRecordsFound={false}
+        reloadFunction={() => {}}
       />,
     );
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(getByTestId('new-records-refreshed-current')).to.exist;
-      expect(getByTestId('new-records-refreshed-stale')).to.not.exist;
-      expect(getByTestId('new-records-loading-indicator')).to.not.exist;
-      expect(getByTestId('new-records-refreshed-failed')).to.not.exist;
-      expect(getByTestId('new-records-refreshed-call_failed')).to.not.exist;
+      expect(queryByTestId('new-records-refreshed-stale')).to.not.exist;
+      expect(queryByTestId('new-records-loading-indicator')).to.not.exist;
+      expect(queryByTestId('new-records-refreshed-failed')).to.not.exist;
+      expect(queryByTestId('new-records-refreshed-call_failed')).to.not.exist;
     });
   });
 
   it('should display the blue box if refresh ran and records are stale', async () => {
-    const { rerender, getByTestId } = renderRefreshInProgressState();
+    const initialState = generateState({
+      requested: 10,
+      completed: 80,
+      successful: 80,
+    });
+    const { rerender, getByTestId, queryByTestId } = renderWithState(
+      initialState,
+      false,
+    );
 
+    const staleState = generateState({
+      requested: 10,
+      completed: 5,
+      successful: 5,
+    });
     rerender(
       <NewRecordsIndicator
-        refreshState={generateState(10, 80, 80)}
+        refreshState={staleState}
         extractType={refreshExtractTypes.VPR}
         newRecordsFound
+        reloadFunction={() => {}}
       />,
     );
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(getByTestId('new-records-refreshed-stale')).to.exist;
-      expect(getByTestId('new-records-refreshed-current')).to.not.exist;
-      expect(getByTestId('new-records-loading-indicator')).to.not.exist;
-      expect(getByTestId('new-records-refreshed-failed')).to.not.exist;
-      expect(getByTestId('new-records-refreshed-call_failed')).to.not.exist;
+      expect(queryByTestId('new-records-refreshed-current')).to.not.exist;
+      expect(queryByTestId('new-records-loading-indicator')).to.not.exist;
+      expect(queryByTestId('new-records-refreshed-failed')).to.not.exist;
+      expect(queryByTestId('new-records-refreshed-call_failed')).to.not.exist;
     });
   });
 
   it('should display the yellow box if refresh ran and there was an error', async () => {
-    const { rerender, getByTestId } = renderRefreshInProgressState();
+    const initialState = generateState({
+      requested: 10,
+      completed: 80,
+      successful: 80,
+    });
+    const { rerender, getByTestId, queryByTestId } = renderWithState(
+      initialState,
+      false,
+    );
 
+    const errorState = generateState({
+      requested: 10,
+      completed: 5,
+      successful: 80,
+    });
     rerender(
       <NewRecordsIndicator
-        refreshState={generateState(10, 5, 80)}
+        refreshState={errorState}
         extractType={refreshExtractTypes.VPR}
         newRecordsFound
+        reloadFunction={() => {}}
       />,
     );
 
-    waitFor(() => {
-      expect(getByTestId('new-records-refreshed-call_failed')).to.not.exist;
+    await waitFor(() => {
+      expect(queryByTestId('new-records-refreshed-call_failed')).to.not.exist;
       expect(getByTestId('new-records-refreshed-failed')).to.exist;
-      expect(getByTestId('new-records-refreshed-stale')).to.not.exist;
-      expect(getByTestId('new-records-refreshed-current')).to.not.exist;
-      expect(getByTestId('new-records-loading-indicator')).to.not.exist;
+      expect(queryByTestId('new-records-refreshed-stale')).to.not.exist;
+      expect(queryByTestId('new-records-refreshed-current')).to.not.exist;
+      expect(queryByTestId('new-records-loading-indicator')).to.not.exist;
     });
+  });
+
+  it('should display call-failed alert when the refresh request itself fails', () => {
+    const callFailedState = {
+      statusDate: now,
+      status: [],
+      phase: refreshPhases.CALL_FAILED,
+      isTimedOut: false,
+    };
+
+    const { getByTestId, queryByTestId } = renderWithState(callFailedState);
+
+    expect(getByTestId('new-records-refreshed-call_failed')).to.exist;
+    expect(queryByTestId('new-records-loading-indicator')).to.not.exist;
   });
 });
