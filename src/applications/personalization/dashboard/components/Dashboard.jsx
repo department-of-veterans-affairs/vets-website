@@ -363,22 +363,29 @@ const Dashboard = ({
                 </DowntimeNotification>
               )}
               {isLOA3 && (
-                <>
-                  <HealthCare isVAPatient={isVAPatient} />
-                  <Debts />
-                  <BenefitPayments
-                    payments={payments}
-                    showNotifications={showNotifications}
-                  />
-                  <Toggler
-                    toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
-                  >
-                    <Toggler.Disabled>
-                      <EducationAndTraining />
-                    </Toggler.Disabled>
-                  </Toggler>
-                  <BenefitApplications />
-                </>
+                <Toggler
+                  toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+                >
+                  <Toggler.Disabled>
+                    <HealthCare isVAPatient={isVAPatient} />
+                    <Debts />
+                    <BenefitPayments
+                      payments={payments}
+                      showNotifications={showNotifications}
+                    />
+                    <EducationAndTraining />
+                    <BenefitApplications />
+                  </Toggler.Disabled>
+                  <Toggler.Enabled>
+                    <BenefitApplications />
+                    <HealthCare isVAPatient={isVAPatient} />
+                    <BenefitPayments
+                      payments={payments}
+                      showNotifications={showNotifications}
+                    />
+                    <Debts />
+                  </Toggler.Enabled>
+                </Toggler>
               )}
             </div>
           </div>
