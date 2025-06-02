@@ -11,8 +11,7 @@
         "postalCode": "78945"
       },
       "ssn": "555443333",
-      "fullName": { "first": "veteran", "last": "name" },
-      "dateOfBirth": "1950-10-25"
+      "fullName": { "first": "veteran", "last": "name" }
     },
     "preparerIdentification": {
       "relationshipToVeteran": "I am the Veteran",
