@@ -15,9 +15,9 @@ import {
   aboutYourInstitution,
   institutionDetails,
   proprietaryProfit,
-  conflictingInterests,
-  conflictingIndividual,
+  // conflictingInterests,
 } from '../pages';
+import { conflictingIndividualsPages } from '../pages/conflictingIndividuals';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -91,19 +91,15 @@ const formConfig = {
           uiSchema: proprietaryProfit.uiSchema,
           schema: proprietaryProfit.schema,
         },
-        conflictingInterests: {
-          path: 'conflicting-interests', // TODO: verify path name
-          title: 'Individuals with a potential conflict of interest',
-          uiSchema: conflictingInterests.uiSchema,
-          schema: conflictingInterests.schema,
-        },
-        conflictingIndividual: {
-          path: 'conflicting-individual',
-          title:
-            'Individuals affiliated with both your institution and VA or SAA',
-          uiSchema: conflictingIndividual.uiSchema,
-          schema: conflictingIndividual.schema,
-        },
+        // TODO: determine if conflictingInterests should be it's own page or if can add inside config for list and loop in confflictingIndividuals
+
+        // conflictingInterests: {
+        //   path: 'conflicting-interests', // TODO: verify path name
+        //   title: 'Individuals with a potential conflict of interest',
+        //   uiSchema: conflictingInterests.uiSchema,
+        //   schema: conflictingInterests.schema,
+        // },
+        ...conflictingIndividualsPages,
       },
     },
   },
