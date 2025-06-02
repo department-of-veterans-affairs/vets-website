@@ -19,6 +19,7 @@ import { getProviderName } from '../../utils/appointment';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
+  DATE_FORMATS,
   GA_PREFIX,
   VIDEO_TYPES,
 } from '../../utils/constants';
@@ -473,49 +474,6 @@ export function sortByCreatedDateDescending(a, b) {
 }
 
 /**
- * Sort method for future appointment requests
- * @param {Appointment} a A FHIR appointment resource
- * @param {Appointment} b A FHIR appointment resource
- */
-// export function sortUpcoming(a, b) {
-//   if (
-//     CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType) !==
-//     CONFIRMED_APPOINTMENT_TYPES.has(b.vaos.appointmentType)
-//   ) {
-//     return CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType) ? -1 : 1;
-//   }
-
-//   if (CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType)) {
-//     return isBefore(new Date(a.start), new Date(b.start)) ? -1 : 1;
-//   }
-
-//   const typeOfCareA = a.type?.coding?.[0]?.display;
-//   const typeOfCareB = b.type?.coding?.[0]?.display;
-
-//   // If type of care is the same, return the one with the sooner date
-//   if (typeOfCareA === typeOfCareB) {
-//     return isBefore(
-//       new Date(a.requestedPeriod[0].start),
-//       new Date(b.requestedPeriod[0].start),
-//     )
-//       ? -1
-//       : 1;
-//   }
-
-//   // Otherwise, return sorted alphabetically by appointmentType
-//   return typeOfCareA.toLowerCase() < typeOfCareB.toLowerCase() ? -1 : 1;
-// }
-
-/**
- * Sort method for appointment messages
- * @param {Object} a Message object
- * @param {Object} b Message object
- */
-// export function sortMessages(a, b) {
-//   return isBefore(new Date(a.attributes.date), b.attributes.date) ? -1 : 1;
-// }
-
-/**
  * Method to check for home video appointment
  * @param {Appointment} appointment A FHIR appointment resource
  * @return {boolean} Returns whether or not the appointment is a home video appointment.
@@ -843,12 +801,8 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
       const ranges = Array.from(Array(chunks).keys()).map(i => {
         const now = startOfDay(new Date());
         return {
-          start: subYears(now, i + 1, 'year')
-            .toISOString()
-            .split('.')[0],
-          end: subYears(now, i, 'year')
-            .toISOString()
-            .split('.')[0],
+          start: format(subYears(now, i + 1, 'year'), DATE_FORMATS.ISODateTime),
+          end: format(subYears(now, i, 'year'), DATE_FORMATS.ISODateTime),
         };
       });
 
@@ -895,12 +849,6 @@ export function getAppointmentDate(appointment) {
 
 export function groupAppointmentByDay(appointments) {
   return appointments.reduce((previous, current) => {
-    // const tokens = current.start.split('-');
-    // console.log(current.start, tokens)
-    // const key = format(
-    //   new Date(tokens[0], tokens[1] - 1, tokens[2]),
-    //   'yyyy-MM-dd',
-    // );
     const key = format(new Date(current.start), 'yyyy-MM-dd');
     // eslint-disable-next-line no-param-reassign
     previous[key] = previous[key] || [];

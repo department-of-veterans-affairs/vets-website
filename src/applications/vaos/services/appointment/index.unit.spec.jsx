@@ -2,7 +2,7 @@
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 
-import { addDays, format, subDays } from 'date-fns';
+import { addDays, format, startOfDay, subDays } from 'date-fns';
 import {
   fetchBookedAppointment,
   getAppointmentRequests,
@@ -16,7 +16,11 @@ import {
   mockAppointmentApi,
   mockAppointmentsApi,
 } from '../../tests/mocks/mockApis';
-import { APPOINTMENT_TYPES, VIDEO_TYPES } from '../../utils/constants';
+import {
+  APPOINTMENT_TYPES,
+  DATE_FORMATS,
+  VIDEO_TYPES,
+} from '../../utils/constants';
 
 describe('VAOS Services: Appointment ', () => {
   describe('fetchBookedAppointment by id', () => {
@@ -343,9 +347,9 @@ describe('VAOS Services: Appointment ', () => {
       const dateRanges = getDateRanges(3);
       dateRanges.forEach(range => {
         mockAppointmentsApi({
-          start: range.start,
-          end: range.end,
-          useRFC3339: true,
+          start: startOfDay(range.start),
+          end: startOfDay(range.end),
+          useISODateTime: true,
           response: [],
           statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
         });
@@ -354,22 +358,22 @@ describe('VAOS Services: Appointment ', () => {
       await getLongTermAppointmentHistoryV2(true, true, true);
       expect(global.fetch.callCount).to.equal(3);
       expect(global.fetch.firstCall.args[0]).to.contain(
-        dateRanges[0].start.toISOString().slice(0, 19),
+        format(startOfDay(dateRanges[0].start), DATE_FORMATS.ISODateTime),
       );
       expect(global.fetch.firstCall.args[0]).to.contain(
-        dateRanges[0].end.toISOString().slice(0, 19),
+        format(startOfDay(dateRanges[0].end), DATE_FORMATS.ISODateTime),
       );
       expect(global.fetch.secondCall.args[0]).to.contain(
-        dateRanges[1].start.toISOString().slice(0, 19),
+        format(startOfDay(dateRanges[1].start), DATE_FORMATS.ISODateTime),
       );
       expect(global.fetch.secondCall.args[0]).to.contain(
-        dateRanges[1].end.toISOString().slice(0, 19),
+        format(startOfDay(dateRanges[1].end), DATE_FORMATS.ISODateTime),
       );
       expect(global.fetch.thirdCall.args[0]).to.contain(
-        dateRanges[2].start.toISOString().slice(0, 19),
+        format(startOfDay(dateRanges[2].start), DATE_FORMATS.ISODateTime),
       );
       expect(global.fetch.thirdCall.args[0]).to.contain(
-        dateRanges[2].end.toISOString().slice(0, 19),
+        format(startOfDay(dateRanges[2].end), DATE_FORMATS.ISODateTime),
       );
     });
   });

@@ -17,6 +17,7 @@ import sinon from 'sinon';
 import metaWithoutFailures from '../../services/mocks/v2/meta.json';
 import metaWithFailures from '../../services/mocks/v2/meta_failures.json';
 import MockAppointmentResponse from '../fixtures/MockAppointmentResponse';
+import { DATE_FORMATS } from '../../utils/constants';
 
 /**
  * Return a collection of start and end dates. The start date starts from the current
@@ -79,7 +80,7 @@ export function mockAppointmentApi({
  * @param {Array<string>} [arguments.includes] - API parameter to include facility or clinic information.
  * @param {Date} arguments.start - Appointment start date
  * @param {Array<string>} arguments.statuses - Appointment states. Ex. 'booked', 'arrived', 'fulfilled', 'cancelled', 'proposed', 'pending'
- * @param {boolean} [arguments.useRFC3339] - Flag to use RFC3339 format (yyyy-MM-ddTHH:mm:ssZ) for start and end date
+ * @param {boolean} [arguments.useISODateTime] - Flag to use RFC3339 format (yyyy-MM-ddTHH:mm:ssZ) for start and end date
  * @param {Object} arguments.response - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
  *
@@ -91,18 +92,20 @@ export function mockAppointmentsApi({
   includes = ['facilities', 'clinics'],
   start,
   statuses = [],
-  useRFC3339 = false,
+  useISODateTime = false,
   response: data = [],
   responseCode = 200,
 }) {
   const baseUrl = `${
     environment.API_URL
   }/vaos/v2/appointments?_include=${includes}&start=${
-    useRFC3339
-      ? `${start.toISOString().slice(0, 19)}`
+    useISODateTime
+      ? format(start, DATE_FORMATS.ISODateTime)
       : format(start, 'yyyy-MM-dd')
   }&end=${
-    useRFC3339 ? `${end.toISOString().slice(0, 19)}` : format(end, 'yyyy-MM-dd')
+    useISODateTime
+      ? format(end, DATE_FORMATS.ISODateTime)
+      : format(end, 'yyyy-MM-dd')
   }&${statuses.map(status => `statuses[]=${status}`).join('&')}`;
 
   const meta = backendServiceFailures ? metaWithFailures : metaWithoutFailures;
@@ -651,7 +654,7 @@ export function mockEligibilityFetches({
     mockAppointmentsApi({
       start: range.start,
       end: range.end,
-      useRFC3339: true,
+      useISODateTime: true,
       response: pastClinics ? pastAppointments : [],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
