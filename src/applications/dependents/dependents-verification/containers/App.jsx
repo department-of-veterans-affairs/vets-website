@@ -26,6 +26,6 @@ export default function App({ location, children, isLoading }) {
 
 App.propTypes = {
   children: PropTypes.node,
-  location: PropTypes.object,
   isLoading: PropTypes.bool,
+  location: PropTypes.object,
 };
