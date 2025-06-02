@@ -5,7 +5,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { recordEligibilityFailure, recordVaosError } from '../../utils/events';
 import { captureError } from '../../utils/error';
-import { ELIGIBILITY_REASONS } from '../../utils/constants';
+import { ELIGIBILITY_REASONS, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
 import { getPatientEligibility, getPatientRelationships } from '../vaos';
@@ -19,9 +19,6 @@ function createErrorHandler(errorKey) {
     return new Error('Eligibility error');
   };
 }
-
-const PRIMARY_CARE = '323';
-const MENTAL_HEALTH = '502';
 
 function checkEligibilityReason(ineligibilityReasons, ineligibilityType) {
   return !Array.isArray(ineligibilityReasons)
@@ -38,7 +35,6 @@ const VAOS_SERVICE_REQUEST_LIMIT = 'facility-request-limit-exceeded';
 /**
  * Returns patient based eligibility checks for specified request or direct types
  *
- * @export
  * @param {Object} params
  * @param {TypeOfCare} params.typeOfCare Type of care object,
  * @param {Location} params.location Location of where patient should have eligibility checked,
@@ -47,11 +43,7 @@ const VAOS_SERVICE_REQUEST_LIMIT = 'facility-request-limit-exceeded';
  * }
  * @returns {PatientEligibility} Patient eligibility data
  */
-export async function fetchPatientEligibility({
-  typeOfCare,
-  location,
-  type = null,
-}) {
+async function fetchPatientEligibility({ typeOfCare, location, type = null }) {
   const checks = {};
   if (type !== 'request') {
     checks.direct = getPatientEligibility(
@@ -273,8 +265,8 @@ export async function fetchFlowEligibilityAndClinics({
     }).catch(createErrorHandler('direct-available-clinics-error'));
     // Primary care and mental health is exempt from past appt history requirement
     const isDirectAppointmentHistoryRequired =
-      typeOfCare.id !== PRIMARY_CARE &&
-      typeOfCare.id !== MENTAL_HEALTH &&
+      typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
+      typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH &&
       directTypeOfCareSettings.patientHistoryRequired === true;
 
     if (isDirectAppointmentHistoryRequired) {
@@ -368,8 +360,8 @@ export async function fetchFlowEligibilityAndClinics({
 
     if (
       !isCerner &&
-      typeOfCare.id !== PRIMARY_CARE &&
-      typeOfCare.id !== MENTAL_HEALTH &&
+      typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
+      typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH &&
       directTypeOfCareSettings.patientHistoryRequired &&
       !hasMatchingClinics(results.clinics, results.pastAppointments)
     ) {

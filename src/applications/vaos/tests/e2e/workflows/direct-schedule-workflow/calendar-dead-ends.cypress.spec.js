@@ -1,7 +1,7 @@
 // @ts-check
 import { addDays } from 'date-fns';
 import { getTypeOfCareById } from '../../../../utils/appointment';
-import { PRIMARY_CARE } from '../../../../utils/constants';
+import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
@@ -26,8 +26,9 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 
-const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
-const { cceType } = getTypeOfCareById(PRIMARY_CARE);
+const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.PRIMARY_CARE,
+);
 
 describe('VAOS direct schedule flow - calendar dead ends', () => {
   beforeEach(() => {
