@@ -2870,13 +2870,13 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/component-library@50.3.0":
-  version "50.3.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-50.3.0.tgz#5cac029abdd6e7243a1b7eb20f31cc49d65d467e"
-  integrity sha512-aC62ztuDWf3V2dMM6BNqzSYkrMwU4h71N0hYqk/NZ2UNQYjk3JuwfxCS7QwgbcevjXXw6CiuVUrYadMy0GlQtg==
+"@department-of-veterans-affairs/component-library@50.4.0":
+  version "50.4.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-50.4.0.tgz#3a9812ae9e04da6d254b914ee505f82e1ab6b578"
+  integrity sha512-9yUoD3ByATJroKZ/zxfbD0+AxHXyVdSwFpBGhiZ4CNJ409/fn0wrX/jEoTlsGHNgPggCXNM52Q+lItz2Sx23Ig==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "18.2.0"
+    "@department-of-veterans-affairs/web-components" "18.3.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2970,10 +2970,10 @@
     classnames "^2.3.1"
     intersection-observer "^0.12.0"
 
-"@department-of-veterans-affairs/web-components@18.2.0":
-  version "18.2.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-18.2.0.tgz#dbf988a892b649e23a8219a6c511a44e1ad89928"
-  integrity sha512-svQx7qL7IByzVrSgXRauWmwU86c62msAakPfgWIBesfoGM+U6lxwe93SyHXslnl1rmIHHmW7ntOek4DvJSUrMg==
+"@department-of-veterans-affairs/web-components@18.3.0":
+  version "18.3.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-18.3.0.tgz#40b361b0455bfca7858dc00c3d75578dca4c5bc3"
+  integrity sha512-8Y+ZvLRZlJXMaJP4vbMvehTkgIIfpiM4BmW9xh+0vlmKfl3rqy3BlnIw5ZHzxIs/mTVl+d6mlrVDbez2Kc1VrQ==
   dependencies:
     "@stencil/core" "4.20.0"
     aria-hidden "^1.1.3"
