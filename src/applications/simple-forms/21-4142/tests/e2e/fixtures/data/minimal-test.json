@@ -1,0 +1,44 @@
+{
+  "data": {
+    "veteran": {
+      "homePhone": "9876543210",
+      "email": "email@address.com",
+      "address": {
+        "country": "USA",
+        "street": "1 Street Ave",
+        "city": "Place",
+        "state": "AL",
+        "postalCode": "78945"
+      },
+      "ssn": "555443333",
+      "fullName": { "first": "veteran", "last": "name" },
+      "dateOfBirth": "1950-10-25"
+    },
+    "preparerIdentification": {
+      "relationshipToVeteran": "I am the Veteran",
+      "preparerFullName": {},
+      "preparerAddress": {
+        "country": "USA"
+      }
+    },
+    "providerFacility": [
+      {
+        "providerFacilityName": "Hospital 1",
+        "treatmentDateRange": {
+          "from": "2000-01-01",
+          "to": "2000-01-02"
+        },
+        "conditionsTreated": "- condition 1\n- condition two\n- condition x & y",
+        "providerFacilityAddress": {
+          "street": "2 Health St",
+          "city": "City",
+          "country": "USA",
+          "state": "KS",
+          "postalCode": "78945"
+        }
+      }
+    ],
+    "acknowledgeToReleaseInformation": true,
+    "patientIdentification": { "isRequestingOwnMedicalRecords": true }
+  }
+}
