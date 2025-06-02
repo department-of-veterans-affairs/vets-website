@@ -30,7 +30,7 @@ const responses = {
       myVaFormSubmissionStatuses: true,
       myVaFormPdfLink: true,
       veteranOnboardingShowWelcomeMessageToNewUsers: true,
-      myVaAuthExpRedesignEnabled: true,
+      myVaAuthExpRedesignEnabled: false,
     },
     true,
   ),
