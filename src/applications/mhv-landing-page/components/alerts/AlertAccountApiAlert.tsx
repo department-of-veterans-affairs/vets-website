@@ -1,16 +1,23 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 
+interface AlertAccountApiAlertProps {
+  errorCode?: number;
+  headline?: string;
+  recordEvent?(...args: unknown[]): unknown;
+  testId?: string;
+  title?: string;
+}
+
 const AlertAccountApiAlert = ({
   errorCode,
   testId,
   recordEvent,
-  userActionable = false,
-}) => {
+  userActionable = false
+}: AlertAccountApiAlertProps) => {
   const headline = userActionable
     ? `Error code ${errorCode}: Contact the My HealtheVet help desk`
     : `You can't access messages, medications, or medical records right now`;
@@ -98,14 +105,6 @@ AlertAccountApiAlert.defaultProps = {
   errorCode: 0,
   recordEvent: recordEventFn,
   testId: 'mhv-alert--mhv-registration',
-};
-
-AlertAccountApiAlert.propTypes = {
-  errorCode: PropTypes.number,
-  headline: PropTypes.string,
-  recordEvent: PropTypes.func,
-  testId: PropTypes.string,
-  title: PropTypes.string,
 };
 
 export default AlertAccountApiAlert;

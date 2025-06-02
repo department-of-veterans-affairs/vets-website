@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
   setDatadogRumUser,
@@ -14,11 +13,17 @@ import {
   selectVaPatient,
 } from '../selectors';
 
+interface AppConfigProps {
+  children?: React.ReactNode;
+  setDatadogRumUserFn?(...args: unknown[]): unknown;
+  useDatadogRumFn?(...args: unknown[]): unknown;
+}
+
 const AppConfig = ({
   children,
   setDatadogRumUserFn = setDatadogRumUser,
-  useDatadogRumFn = useDatadogRum,
-}) => {
+  useDatadogRumFn = useDatadogRum
+}: AppConfigProps) => {
   const profile = useSelector(selectProfile);
 
   useDatadogRumFn({
@@ -51,12 +56,6 @@ const AppConfig = ({
   }, [profile, setDatadogRumUserFn]);
 
   return <>{children}</>;
-};
-
-AppConfig.propTypes = {
-  children: PropTypes.node,
-  setDatadogRumUserFn: PropTypes.func,
-  useDatadogRumFn: PropTypes.func,
 };
 
 export default AppConfig;

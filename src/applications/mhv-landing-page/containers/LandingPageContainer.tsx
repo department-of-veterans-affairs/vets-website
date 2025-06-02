@@ -19,6 +19,7 @@ import {
   hasMessagingAccess,
   mhvAccountStatusLoading,
 } from '../selectors';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const LandingPageContainer = () => {
   const mhvAccountStatusIsLoading = useSelector(mhvAccountStatusLoading);
@@ -56,17 +57,14 @@ const LandingPageContainer = () => {
     }
   }, [userHasMessagingAccess, loading]);
 
-  useEffect(() => {
-    // For accessibility purposes.
-    focusElement('h1');
-  }, [loading]);
+  useEffect(() => focusElement('h1'), [loading]);
 
   useAccountCreationApi();
 
   if (loading)
     return (
       <div className="vads-u-margin--5">
-        <va-loading-indicator
+        <VaLoadingIndicator
           data-testid="mhv-landing-page-loading"
           message="Please wait..."
         />

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import {
   renderMHVDowntime,
   MhvSecondaryNav,
@@ -24,7 +23,13 @@ import {
 } from '../selectors';
 import manifest from '../manifest.json';
 
-const LandingPage = ({ data = {} }) => {
+interface LandingPageProps {
+  data?: object;
+}
+
+const LandingPage = ({
+  data = {}
+}: LandingPageProps) => {
   const { cards = [], hubs = [] } = data;
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userVerified = useSelector(isLOA3);
@@ -73,10 +78,6 @@ const LandingPage = ({ data = {} }) => {
       </div>
     </>
   );
-};
-
-LandingPage.propTypes = {
-  data: PropTypes.object,
 };
 
 export default LandingPage;

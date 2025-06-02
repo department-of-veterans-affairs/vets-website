@@ -1,10 +1,15 @@
 import React from 'react';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 import { datadogRum } from '@datadog/browser-rum';
 
-const Welcome = ({ name }) => (
+interface WelcomeProps {
+  name?: string;
+}
+
+const Welcome = ({
+  name
+}: WelcomeProps) => (
   <div
     className={classnames(
       'vads-u-display--flex',
@@ -56,9 +61,5 @@ const Welcome = ({ name }) => (
     </div>
   </div>
 );
-
-Welcome.propTypes = {
-  name: PropTypes.string,
-};
 
 export default Welcome;

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
@@ -10,7 +9,19 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 
-const AlertUnregistered = ({ headline, recordEvent, ssoe, testId }) => {
+interface AlertUnregisteredProps {
+  headline?: string;
+  recordEvent?(...args: unknown[]): unknown;
+  ssoe?: boolean;
+  testId?: string;
+}
+
+const AlertUnregistered = ({
+  headline,
+  recordEvent,
+  ssoe,
+  testId
+}: AlertUnregisteredProps) => {
   const mhvHomeUrl = mhvUrl(ssoe, 'home');
 
   useEffect(() => {
@@ -69,13 +80,6 @@ AlertUnregistered.defaultProps = {
   recordEvent: recordEventFn,
   ssoe: false,
   testId: 'mhv-alert--unregistered',
-};
-
-AlertUnregistered.propTypes = {
-  headline: PropTypes.string,
-  recordEvent: PropTypes.func,
-  ssoe: PropTypes.bool,
-  testId: PropTypes.string,
 };
 
 export default AlertUnregistered;
