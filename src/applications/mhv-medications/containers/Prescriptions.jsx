@@ -280,13 +280,6 @@ const Prescriptions = () => {
     [filteredList, isLoading, filterCount],
   );
 
-  useEffect(
-    () => {
-      focusElement(document.getElementById('showingRx'));
-    },
-    [isLoading],
-  );
-
   // Update page title
   useEffect(
     () => {
@@ -804,6 +797,7 @@ const Prescriptions = () => {
             />
             {showIPEContent && <InProductionEducationFiltering />}
           </>
+          {isLoading && renderLoadingIndicator()}
           {hasMedications && (
             <>
               {!isLoading && (
@@ -811,24 +805,20 @@ const Prescriptions = () => {
               )}
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               {!isLoading && renderMedicationsList()}
-              {!isLoading && (
-                <>
-                  <BeforeYouDownloadDropdown page={pageType.LIST} />
-                  <PrintDownload
-                    onDownload={handleFullListDownload}
-                    isSuccess={
-                      pdfTxtGenerateStatus.status ===
-                      PDF_TXT_GENERATE_STATUS.Success
-                    }
-                    isLoading={
-                      !allergiesError &&
-                      pdfTxtGenerateStatus.status ===
-                        PDF_TXT_GENERATE_STATUS.InProgress
-                    }
-                    list
-                  />
-                </>
-              )}
+              <BeforeYouDownloadDropdown page={pageType.LIST} />
+              <PrintDownload
+                onDownload={handleFullListDownload}
+                isSuccess={
+                  pdfTxtGenerateStatus.status ===
+                  PDF_TXT_GENERATE_STATUS.Success
+                }
+                isLoading={
+                  !allergiesError &&
+                  pdfTxtGenerateStatus.status ===
+                    PDF_TXT_GENERATE_STATUS.InProgress
+                }
+                list
+              />
             </>
           )}
           {!isLoading && noFilterMatches && renderNoFilterMatches()}
@@ -851,10 +841,9 @@ const Prescriptions = () => {
             <CernerFacilityAlert />
             {renderRefillAlert()}
             {renderMedicationsContent()}
-            {isLoading && renderLoadingIndicator()}
           </>
         )}
-        {removeLandingPage && !isLoading && <NeedHelp page={pageType.LIST} />}
+        {removeLandingPage && <NeedHelp page={pageType.LIST} />}
       </div>
     );
   };
