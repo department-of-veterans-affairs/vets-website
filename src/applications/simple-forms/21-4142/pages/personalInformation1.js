@@ -11,10 +11,10 @@ import { getFullNameLabels } from '../helpers';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    ...titleUI({
+      title: 'Tell us about the Veteran connected to this authorization',
+    }),
     [veteranFields.parentObject]: {
-      ...titleUI({
-        title: 'Tell us about the Veteran connected to this authorization',
-      }),
       [veteranFields.fullName]: fullNameUI(label =>
         getFullNameLabels(label, false),
       ),
