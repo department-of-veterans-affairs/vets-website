@@ -136,7 +136,8 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
       );
       dispatch(setData({ ...formData, ...transformedSignatures }));
     },
-    [dispatch, formData, requiredElements, signatures, submission.status],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dispatch, signatures],
   );
 
   // validate that all signature text is valid and all checkboxes have been checked
