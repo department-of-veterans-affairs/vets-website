@@ -229,7 +229,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
       );
     });
   };
@@ -508,7 +508,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
       );
     });
     cy.intercept(
@@ -553,7 +553,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by name`,
       );
     });
   };
@@ -587,7 +587,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, last filled first`,
       );
     });
   };
@@ -836,6 +836,10 @@ class MedicationsListPage {
       .and('be.focused');
   };
 
+  verifyNoMedicationsInListMessageNotShown = () => {
+    cy.get('[data-testid="alert-message"]').should('not.exist');
+  };
+
   clickResetFilterButtonOnFilterAccordionDropDown = () => {
     cy.get('[data-testid="filter-reset-button"]').should('exist');
     cy.get('[data-testid="filter-reset-button"]').click({
@@ -919,7 +923,9 @@ class MedicationsListPage {
   };
 
   verifyNeedHelpSectionOnListPage = text => {
-    cy.get('[data-testid="rx-need-help-container"]').should('contain', text);
+    cy.get('[data-testid="rx-need-help-container"]')
+      .should('contain', text)
+      .and('be.visible');
   };
 
   verifyGoToUseMedicationLinkOnListPage = () => {

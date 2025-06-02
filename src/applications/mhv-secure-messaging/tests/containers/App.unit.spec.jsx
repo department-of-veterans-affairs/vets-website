@@ -8,6 +8,7 @@ import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
 import { waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
+import * as SmApi from '../../api/SmApi';
 import reducer from '../../reducers';
 import pilotRoutes from '../../pilot/routes';
 
@@ -16,7 +17,6 @@ describe('App', () => {
 
   beforeEach(() => {
     oldLocation = global.window.location;
-    delete global.window.location;
     global.window.location = {
       replace: sinon.spy(),
     };
@@ -365,5 +365,27 @@ describe('App', () => {
         }),
       ).to.exist;
     });
+  });
+
+  it('renders LaunchMessagingAal component', async () => {
+    const stubUseFeatureToggles = value => {
+      const useFeatureToggles = require('../../hooks/useFeatureToggles');
+      return sinon.stub(useFeatureToggles, 'default').returns(value);
+    };
+
+    const submitStub = sinon.stub(SmApi, 'submitLaunchMessagingAal');
+    submitStub.resolves();
+    const useFeatureTogglesStub = stubUseFeatureToggles({ isAalEnabled: true });
+    renderWithStoreAndRouter(<App />, {
+      initialState,
+      reducers: reducer,
+    });
+    await waitFor(() => {
+      expect(submitStub.calledOnce).to.be.true;
+    });
+    submitStub.restore();
+    if (useFeatureTogglesStub && useFeatureTogglesStub.restore) {
+      useFeatureTogglesStub.restore();
+    }
   });
 });

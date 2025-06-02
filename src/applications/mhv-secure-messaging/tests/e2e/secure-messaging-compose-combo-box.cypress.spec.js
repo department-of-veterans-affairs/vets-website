@@ -16,9 +16,11 @@ describe('SM MESSAGING COMBO BOX', () => {
     SecureMessagingSite.login(updatedFeatureToggles);
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+    PatientComposePage.interceptSentFolder();
   });
 
-  it('verify drop down list behavior', () => {
+  // Temporarily skipping this test due to known issues with the TG name
+  it.skip('verify drop down list behavior', () => {
     PatientComposePage.verifyHeader(Data.START_NEW_MSG);
     cy.get(Locators.FIELDS.RECIPIENTS_COMBO).click();
     cy.get(Locators.DROPDOWN.RECIPIENTS_COMBO).should('be.visible');

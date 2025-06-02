@@ -50,17 +50,22 @@ export const validateSSandSNGroup = (errors, values, formData) => {
 export const personalInformationFormSchemas = {
   first: {
     type: 'string',
-    pattern: '^[A-Za-z]+$',
+    pattern: '^[^0-9]*$',
     minLength: 1,
-    maxLength: 25,
+    maxLength: 30,
   },
   middle: {
     type: 'string',
-    pattern: '^[A-Za-z]+$',
+    pattern: '^[^0-9]*$',
     minLength: 1,
-    maxLength: 25,
+    maxLength: 30,
   },
-  last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
+  last: {
+    type: 'string',
+    pattern: '^[^0-9]*$',
+    minLength: 1,
+    maxLength: 30,
+  },
   suffix: selectSchema(suffixes),
   isVeteranDeceased: yesNoSchema,
   socialOrServiceNum: {
@@ -78,17 +83,22 @@ export const personalInformationFormSchemas = {
 export const aboutYourselfGeneralSchema = {
   first: {
     type: 'string',
-    pattern: '^[A-Za-z]+$',
+    pattern: '^[^0-9]*$',
     minLength: 1,
-    maxLength: 25,
+    maxLength: 30,
   },
   middle: {
     type: 'string',
-    pattern: '^[A-Za-z]+$',
+    pattern: '^[^0-9]*$',
     minLength: 1,
-    maxLength: 25,
+    maxLength: 30,
   },
-  last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
+  last: {
+    type: 'string',
+    pattern: '^[^0-9]*$',
+    minLength: 1,
+    maxLength: 30,
+  },
   suffix: selectSchema(suffixes),
 };
 
@@ -98,7 +108,10 @@ export const personalInformationAboutYourselfUiSchemas = {
     'ui:webComponentField': VaTextInputField,
     'ui:autocomplete': 'given-name',
     'ui:required': () => true,
-    'ui:errorMessages': { required: 'Please enter a first name' },
+    'ui:errorMessages': {
+      required: 'Please enter a first name',
+      pattern: 'This field accepts alphabetic characters only',
+    },
     'ui:options': {
       uswds: true,
     },
@@ -107,6 +120,9 @@ export const personalInformationAboutYourselfUiSchemas = {
     'ui:title': 'Middle name',
     'ui:webComponentField': VaTextInputField,
     'ui:autocomplete': 'additional-name',
+    'ui:errorMessages': {
+      pattern: 'This field accepts alphabetic characters only',
+    },
     'ui:options': {
       uswds: true,
     },
@@ -116,7 +132,10 @@ export const personalInformationAboutYourselfUiSchemas = {
     'ui:webComponentField': VaTextInputField,
     'ui:autocomplete': 'family-name',
     'ui:required': () => true,
-    'ui:errorMessages': { required: 'Please enter a last name' },
+    'ui:errorMessages': {
+      required: 'Please enter a last name',
+      pattern: 'This field accepts alphabetic characters only',
+    },
     'ui:options': {
       uswds: true,
     },
@@ -189,7 +208,10 @@ export const aboutYourselfGeneralUISchema = {
     'ui:webComponentField': VaTextInputField,
     'ui:autocomplete': 'given-name',
     'ui:required': () => true,
-    'ui:errorMessages': { required: 'Please enter a first name' },
+    'ui:errorMessages': {
+      required: 'Please enter a first name',
+      pattern: 'This field accepts alphabetic characters only',
+    },
     'ui:options': {
       uswds: true,
     },
@@ -198,6 +220,9 @@ export const aboutYourselfGeneralUISchema = {
     'ui:title': 'Middle name',
     'ui:webComponentField': VaTextInputField,
     'ui:autocomplete': 'additional-name',
+    'ui:errorMessages': {
+      pattern: 'This field accepts alphabetic characters only',
+    },
     'ui:options': {
       uswds: true,
     },
@@ -207,7 +232,10 @@ export const aboutYourselfGeneralUISchema = {
     'ui:webComponentField': VaTextInputField,
     'ui:autocomplete': 'family-name',
     'ui:required': () => true,
-    'ui:errorMessages': { required: 'Please enter a last name' },
+    'ui:errorMessages': {
+      required: 'Please enter a last name',
+      pattern: 'This field accepts alphabetic characters only',
+    },
     'ui:options': {
       uswds: true,
     },

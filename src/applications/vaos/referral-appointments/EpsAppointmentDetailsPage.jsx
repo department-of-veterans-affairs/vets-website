@@ -11,11 +11,9 @@ import { getReferralAppointmentInfo } from './redux/selectors';
 import PageLayout from '../appointment-list/components/PageLayout';
 import FullWidthLayout from '../components/FullWidthLayout';
 import Section from '../components/Section';
-import {
-  AppointmentTime,
-  // eslint-disable-next-line import/no-restricted-paths
-} from '../appointment-list/components/AppointmentDateTime';
-import FacilityPhone from '../components/FacilityPhone';
+// eslint-disable-next-line import/no-restricted-paths
+import { AppointmentTime } from '../appointment-list/components/AppointmentDateTime';
+import ProviderAddress from './components/ProviderAddress';
 
 export default function EpsAppointmentDetailsPage() {
   const { pathname } = useLocation();
@@ -131,40 +129,19 @@ export default function EpsAppointmentDetailsPage() {
           <br />
           <AppointmentTime appointment={appointment} />
         </Section>
-        <Section heading="What">
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            {appointment.typeOfCare}
-          </p>
-        </Section>
         <Section heading="Provider">
           <span>
-            {`${appointment.provider.name ||
+            {`${appointment.provider.location.name ||
               'Provider information not available'}`}
           </span>
           <br />
-          {appointment.provider.location && (
-            <>
-              <>
-                {/* removes falsy values from address array */}
-                <span>{appointment.provider.location.address}</span>
-              </>
-              <div className="vads-u-margin-top--1 vads-u-color--link-default">
-                <a
-                  href={`https://maps.google.com?saddr=Current+Location&daddr=${
-                    appointment.provider.location.address
-                  }`}
-                >
-                  <va-icon icon="directions" size="3" />
-                  Directions
-                </a>
-              </div>
-            </>
-          )}
-          {appointment.provider.phoneNumber && (
-            <>
-              <br />
-              <FacilityPhone contact={appointment.provider.phoneNumber} />
-            </>
+          {appointment.provider.location.address && (
+            <ProviderAddress
+              address={appointment.provider.location.address}
+              showDirections
+              directionsName={appointment.provider.location.name}
+              phone={appointment.provider.phone}
+            />
           )}
         </Section>
         <Section heading="Prepare for your appointment">

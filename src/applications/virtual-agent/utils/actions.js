@@ -52,7 +52,11 @@ function getEventName(action) {
 }
 
 function getEventValue(action) {
-  return action?.payload?.activity?.value?.value ?? '';
+  return (
+    action?.payload?.activity?.value?.value ||
+    action?.payload?.activity?.value ||
+    ''
+  );
 }
 
 function isEventRxSkill(eventValue) {

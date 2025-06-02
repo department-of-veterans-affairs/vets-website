@@ -8,8 +8,8 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { fillProviderFacility } from './helpers';
 import {
-  fillAddressWebComponentPattern,
   reviewAndSubmitPageFlow,
+  selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
@@ -30,12 +30,9 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.get('body').then(body => {
+            cy.checkWebComponent(hasWebComponent => {
               // if the environment is production
-              if (
-                !body.find(`va-text-input[name="root_veteran_address_street"]`)
-                  .length
-              ) {
+              if (!hasWebComponent) {
                 cy.fillPage();
                 // fillPage doesn't catch state select, so select state manually
                 cy.get('select#root_veteran_address_state').select(
@@ -54,7 +51,7 @@ const testConfig = createTestConfig(
                   }
                 }
               } else {
-                fillAddressWebComponentPattern(
+                cy.fillAddressWebComponentPattern(
                   'veteran_address',
                   data.veteran.address,
                 );
@@ -70,14 +67,24 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.get('.form-radio-buttons') // get the radio container
-              .find('input[type="radio"]')
-              .eq(
-                data.patientIdentification.isRequestingOwnMedicalRecords
-                  ? 0
-                  : 1,
-              ) // Select the first (0) for true and the second (1) for false
-              .check();
+            cy.checkWebComponent(hasWebComponent => {
+              // if the environment is production
+              if (!hasWebComponent) {
+                cy.get('.form-radio-buttons') // get the radio container
+                  .find('input[type="radio"]')
+                  .eq(
+                    data.patientIdentification.isRequestingOwnMedicalRecords
+                      ? 0
+                      : 1,
+                  ) // Select the first (0) for true and the second (1) for false
+                  .check();
+              } else {
+                selectYesNoWebComponent(
+                  'patientIdentification_isRequestingOwnMedicalRecords',
+                  data.patientIdentification.isRequestingOwnMedicalRecords,
+                );
+              }
+            });
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });

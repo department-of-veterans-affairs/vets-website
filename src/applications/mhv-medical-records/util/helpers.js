@@ -1,9 +1,9 @@
 import moment from 'moment-timezone';
-import * as Sentry from '@sentry/browser';
 import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+
 import {
   format as dateFnsFormat,
   formatISO,
@@ -25,7 +25,7 @@ import {
 
 /**
  * @param {*} timestamp
- * @param {*} format momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
+ * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
  * @returns {String} formatted timestamp
  */
 export const dateFormat = (timestamp, format = null) => {
@@ -40,44 +40,57 @@ export const dateFormatWithoutTime = str => {
 };
 
 /**
- * @param {*} datetime (2017-08-02T09:50:57-04:00 or 2000-08-09)
- * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
- * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
+ * Format a FHIR dateTime string as a "local datetime" string, by stripping off the time zone
+ * information and formatting what's left. FHIR allows only:
+ *   - YYYY
+ *   - YYYY-MM
+ *   - YYYY-MM-DD
+ *   - YYYY-MM-DDThh:mm:ss(.sss)(Z|±HH:MM)
+ *
+ * See: https://hl7.org/fhir/R4/datatypes.html#dateTime
+ *
+ * @param {String} datetime FHIR dateTime string, e.g. 2017-08-02T09:50:57-04:00, 2000-08-09
+ * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', ONLY applied to full dateTime strings
+ * @returns {String} a formatted datetime, e.g. August 2, 2017, 9:50 a.m., or null for bad inputs
  */
-export const dateFormatWithoutTimezone = (
-  datetime,
-  format = 'MMMM d, yyyy, h:mm a',
-) => {
-  let withoutTimezone = datetime;
-  if (typeof datetime === 'string' && datetime.includes('-')) {
-    // Check if datetime has a timezone and strip it off if present
-    if (datetime.includes('T')) {
-      withoutTimezone = datetime
-        .substring(datetime.indexOf('T'), datetime.length)
-        .includes('-')
-        ? datetime.substring(0, datetime.lastIndexOf('-'))
-        : datetime.replace('Z', '');
-    } else {
-      // Handle the case where the datetime is just a date (e.g., "2000-08-09")
-      const parsedDate = parseISO(datetime);
-      if (isValid(parsedDate)) {
-        return dateFnsFormat(parsedDate, 'MMMM d, yyyy', { in: 'UTC' });
-      }
-    }
-  } else {
-    withoutTimezone = new Date(datetime).toISOString().replace('Z', '');
+export function dateFormatWithoutTimezone(
+  isoString,
+  fmt = 'MMMM d, yyyy, h:mm a',
+) {
+  if (!isoString || typeof isoString !== 'string') return null;
+
+  // 1) Year-only: YYYY
+  if (/^\d{4}$/.test(isoString)) {
+    return isoString;
   }
 
-  const parsedDateTime = parseISO(withoutTimezone);
-  if (isValid(parsedDateTime)) {
-    const formattedDate = dateFnsFormat(parsedDateTime, format, { in: 'UTC' });
-    return formattedDate.replace(/AM|PM/, match =>
-      match.toLowerCase().replace('m', '.m.'),
-    );
+  // 2) Year+month: YYYY-MM
+  if (/^\d{4}-(0[1-9]|1[0-2])$/.test(isoString)) {
+    const d = parseISO(`${isoString}-01`);
+    if (!isValid(d)) return null;
+    return dateFnsFormat(d, 'MMMM yyyy');
   }
 
-  return null;
-};
+  // 3) Full date: YYYY-MM-DD
+  if (/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(isoString)) {
+    const d = parseISO(isoString);
+    if (!isValid(d)) return null;
+    return dateFnsFormat(d, 'MMMM d, yyyy');
+  }
+
+  // 4) Date-time (must include seconds + TZ): strip off exactly “Z” or “+HH:MM”
+  const stripped = isoString.replace(/(Z|[+-]\d{2}:\d{2})$/, '');
+
+  // 5) Handle leap-second (“:60” -> “:59”)
+  const fixedLeap = stripped.replace(/:60(\.\d+)?$/, ':59$1');
+
+  const dt = parseISO(fixedLeap);
+  if (!isValid(dt)) return null;
+
+  return dateFnsFormat(dt, fmt)
+    .replace(/\bAM\b/g, 'a.m.')
+    .replace(/\bPM\b/g, 'p.m.');
+}
 
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
@@ -158,18 +171,6 @@ export const processList = list => {
     if (list?.length === 1) return list.toString();
   }
   return EMPTY_FIELD;
-};
-
-/**
- * @param {Error} error javascript error
- * @param {String} page name of the page sending the error
- * @returns {undefined}
- */
-export const sendErrorToSentry = (error, page) => {
-  Sentry.captureException(error);
-  Sentry.captureMessage(
-    `MHV - Medical Records - ${page} - PDF generation error`,
-  );
 };
 
 /**
@@ -325,8 +326,14 @@ export const getActiveLinksStyle = (linkPath, currentPath) => {
 };
 
 /**
- * Formats the date and accounts for the lack of a 'dd' in a date
- * @param {String} str str
+ * Formats a date string to a human-readable representation, handling cases where only the year or
+ * year-month portion is provided.
+ *
+ * @param {String} str The input date string to format
+ * @returns {string} A human-readable date string (see examples)
+ * @example formatDate("2025"); // "2025"
+ * @example formatDate("2025-07"); // "July, 2025"
+ * @example formatDate("2025-07-15"); // "July 15, 2025" (any other ISO 8601 date returns this format)
  */
 export const formatDate = str => {
   const yearRegex = /^\d{4}$/;
@@ -622,14 +629,29 @@ export const handleDataDogAction = ({
 };
 
 /**
- * Format a iso8601 date in the local browser timezone.
+ * Format an ISO 8601 date in the local browser timezone.
  *
- * @param {string} date the date to format, in ISO8601 format
- * @returns {String} formatted timestamp
+ * @param {string|number} date the date to format, in ISO 8601 format or as a millisecond timestamp
+ * @param {boolean} hideTimeZone hide time zone in output if true, otherwise include it (default is false)
+ * @returns {String} a formatted date and time string in the local timezone
+ * @example formatDateInLocalTimezone(1712264626910, true); // "April 4, 2024 5:03 p.m."
+ * @example formatDateInLocalTimezone('1997-05-07T19:14:00Z', true); // "May 7, 1997 3:14 p.m."
+ * @example formatDateInLocalTimezone('1997-05-07T19:14:00Z'); // "May 7, 1997 3:14 p.m. EDT"
  */
-export const formatDateInLocalTimezone = date => {
-  const dateObj = parseISO(date);
+export const formatDateInLocalTimezone = (date, hideTimeZone = false) => {
+  let dateObj;
+
+  if (typeof date === 'number') {
+    dateObj = new Date(date); // Millisecond timestamp
+  } else {
+    dateObj = parseISO(date); // ISO 8601
+  }
+
   const formattedDate = dateFnsFormat(dateObj, 'MMMM d, yyyy h:mm aaaa');
+  if (hideTimeZone) {
+    return formattedDate;
+  }
+
   const localTimeZoneName = dateObj
     .toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'short' })
     .substring(4);

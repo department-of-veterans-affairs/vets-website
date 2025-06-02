@@ -7,7 +7,6 @@ import React from 'react';
 import CommunityCareProviderSelectionPage from '.';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import { CC_PROVIDERS_DATA } from '../../../tests/mocks/cc_providers_data';
-import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import {
   mockCCEligibilityApi,
   mockCCProviderApi,
@@ -24,6 +23,9 @@ import {
 } from '../../../tests/mocks/setup';
 import { calculateBoundingBox } from '../../../utils/address';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
 
 const initialState = {
   featureToggles: {
@@ -75,10 +77,14 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     mockSchedulingConfigurationsApi({
       isCCEnabled: true,
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });

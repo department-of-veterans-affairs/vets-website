@@ -92,7 +92,13 @@ const VaccineDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, details: generateVaccineItem(record) };
     const pdfName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Vaccine details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Vaccine details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateVaccineTxt = async () => {

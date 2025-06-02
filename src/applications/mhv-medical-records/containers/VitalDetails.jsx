@@ -238,7 +238,13 @@ const VitalDetails = props => {
       ...generateVitalContent(records, true),
     };
     const pdfName = `VA-vital-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Vital details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Vital details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateVitalsTxt = async () => {

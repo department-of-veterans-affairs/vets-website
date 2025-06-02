@@ -555,6 +555,40 @@ describe('<DocumentRequestPage>', () => {
           'Authorization to Disclose Information | Veterans Affairs',
         );
       });
+      it('should render Your {friendlyName} in breadcrumb for third party request', () => {
+        const item = {
+          closedDate: null,
+          description: 'reserve record',
+          displayName: 'RV1 - Reserve Records Request',
+          friendlyName: 'Reserve records',
+          activityDescription: 'good description',
+          canUploadFile: true,
+          supportAliases: ['RV1 - Reserve Records Request'],
+          id: 467558,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-07',
+          status: 'NEEDED_FROM_OTHERS',
+          suspenseDate: '2024-05-07',
+          uploadsAllowed: true,
+          documents: [],
+          date: '2024-03-07',
+        };
+
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <DocumentRequestPage {...defaultProps} trackedItem={item} />,
+          </Provider>,
+        );
+        const breadcrumbs = $('va-breadcrumbs', container);
+        expect(breadcrumbs.breadcrumbList[3].href).to.equal(
+          `../needed-from-others/${item.id}`,
+        );
+        expect(breadcrumbs.breadcrumbList[3].label).to.equal(
+          'Your reserve records',
+        );
+        expect(document.title).to.equal('Reserve records | Veterans Affairs');
+      });
     },
   );
 });

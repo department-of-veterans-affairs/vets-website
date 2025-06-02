@@ -1,15 +1,15 @@
 import { formatInTimeZone } from 'date-fns-tz';
 import guid from 'simple-guid';
-import { DATE_FORMAT_STRINGS } from './constants';
+import { DATE_FORMATS } from './constants';
 
 /*
  * ICS files have a 75 character line limit. Longer fields need to be broken
- * into 75 character chunks with a CRLF in between. They also apparenly need to have a tab
+ * into 75 character chunks with a CRLF in between. They also apparently need to have a tab
  * character at the start of each new line, which is why I set the limit to 74
  *
  * Additionally, any actual line breaks in the text need to be escaped
  */
-export const ICS_LINE_LIMIT = 74;
+const ICS_LINE_LIMIT = 74;
 
 /**
  * @summary Function that returns a collection of ICS key/value pairs.
@@ -118,7 +118,7 @@ export function getICSTokens(buffer) {
   return map;
 }
 
-export function formatDescription(description, location = '') {
+function formatDescription(description, location = '') {
   if (!description || !description.text) {
     return 'DESCRIPTION:';
   }
@@ -180,13 +180,9 @@ export function generateICS(summary, description, location, startUtc, endUtc) {
   const startDate = formatInTimeZone(
     startUtc,
     'UTC',
-    DATE_FORMAT_STRINGS.iCalDateTimeUTC,
+    DATE_FORMATS.iCalDateTimeUTC,
   );
-  const endDate = formatInTimeZone(
-    endUtc,
-    'UTC',
-    DATE_FORMAT_STRINGS.iCalDateTimeUTC,
-  );
+  const endDate = formatInTimeZone(endUtc, 'UTC', DATE_FORMATS.iCalDateTimeUTC);
 
   let loc = '';
   if (location) {

@@ -36,7 +36,7 @@ const epsAppointmentUtils = require('../../referral-appointments/utils/appointme
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
-const features = require('../../utils/featureFlags');
+const features = require('./featureFlags');
 
 const mockAppts = [];
 let currentMockId = 1;
@@ -120,6 +120,7 @@ const responses = {
         type,
         modality,
         localStartTime: req.body.slot?.id ? localTime : null,
+        start: req.body.slot?.id ? selectedTime[0] : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
         contact: {
           telecom: [
@@ -439,21 +440,21 @@ const responses = {
     });
   },
   'POST /vaos/v2/appointments/draft': (req, res) => {
-    const { referralId } = req.body;
-    // Provider 3 throws error
-    if (referralId === '') {
+    const { referral_number: referralNumber } = req.body;
+    // empty referral number throws error
+    if (referralNumber === '') {
       return res.status(500).json({ error: true });
     }
 
     let slots = 5;
-    // Provider 0 has no available slots
-    if (referralId === '0') {
+    // referral 0 has no available slots
+    if (referralNumber === '0') {
       slots = 0;
     }
 
     const draftAppointment = providerUtils.createDraftAppointmentInfo(
       slots,
-      referralId,
+      referralNumber,
     );
 
     draftAppointments[draftAppointment.id] = draftAppointment;
@@ -465,9 +466,10 @@ const responses = {
   'GET /vaos/v2/eps_appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
+    // create a mock appointment in draft state for polling simulation
     const mockAppointment = epsAppointmentUtils.createMockEpsAppointment(
       appointmentId,
-      null,
+      'draft',
       epsAppointmentUtils.appointmentData,
     );
 
@@ -512,16 +514,22 @@ const responses = {
     });
   },
   'POST /vaos/v2/appointments/submit': (req, res) => {
-    const { slotId, draftApppointmentId, referralId } = req.body;
+    const {
+      id,
+      referralNumber,
+      slotId,
+      networkId,
+      providerServiceId,
+    } = req.body;
 
-    if (!referralId || !slotId || !draftApppointmentId) {
+    if (!id || !referralNumber || !slotId || !networkId || !providerServiceId) {
       return res.status(400).json({ error: true });
     }
 
-    draftAppointmentPollCount[draftApppointmentId] = 1;
+    draftAppointmentPollCount[id] = 1;
 
     return res.status(201).json({
-      data: { id: draftApppointmentId },
+      data: { id },
     });
   },
   // Required v0 APIs
@@ -728,4 +736,4 @@ const responses = {
   // End of required v0 APIs
 };
 
-module.exports = delay(responses, 1000);
+module.exports = delay(responses, 100);

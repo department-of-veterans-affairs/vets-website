@@ -18,7 +18,7 @@ describe('MobileFooter', () => {
     assertData(0, 'Resources and support', 'https://www.va.gov/resources/');
     assertData(1, 'Contact us', 'https://www.va.gov/contact-us/');
     assertData(2, '800-698-2411', 'tel:18006982411');
-    assertData(3, 'TTY: 711', 'tel:+1711');
+    assertData(3, 'TTY: 711', 'tel:711');
     assertData(4, 'Find a VA location', 'https://www.va.gov/find-locations/');
     assertData(5, 'Homeless Veterans', 'https://www.va.gov/homeless/');
     assertData(6, 'Women Veterans', 'https://www.va.gov/womenvet/');

@@ -82,7 +82,7 @@ export default function RecentActivity({ claim }) {
       if (item.closedDate) {
         addItems(
           item.closedDate,
-          `We closed a request: "${displayName}"`,
+          `We closed a request: “${displayName}”`,
           item,
         );
       }
@@ -90,7 +90,7 @@ export default function RecentActivity({ claim }) {
       if (item.receivedDate) {
         addItems(
           item.receivedDate,
-          `We completed a review for the request: "${displayName}"`,
+          `We completed a review for the request: “${displayName}”`,
           item,
         );
       }
@@ -98,7 +98,7 @@ export default function RecentActivity({ claim }) {
       if (item.documents?.length > 0) {
         addItems(
           getOldestDocumentDate(item),
-          `We received your document(s) for the request: "${displayName}"`,
+          `We received your document(s) for the request: “${displayName}”`,
           item,
         );
       }
@@ -110,13 +110,13 @@ export default function RecentActivity({ claim }) {
         ) {
           addItems(
             item.requestedDate,
-            `We made a request for you: "${displayName}"`,
+            `We made a request outside the VA: “${displayName}.”`,
             item,
           );
         } else {
           addItems(
             item.requestedDate,
-            `We opened a request: "${displayName}"`,
+            `We opened a request: “${displayName}”`,
             item,
           );
         }
@@ -193,10 +193,11 @@ export default function RecentActivity({ claim }) {
     );
   };
   const requestType = itemStatus => {
-    if (itemStatus === 'NEEDED_FROM_OTHERS') {
+    if (itemStatus === 'NEEDED_FROM_OTHERS' && !cstFriendlyEvidenceRequests) {
       return 'Request for others';
     }
-    return 'Request for you';
+    if (itemStatus === 'NEEDED_FROM_YOU') return 'Request for you';
+    return undefined;
   };
 
   let currentPageItems = items;
@@ -213,6 +214,58 @@ export default function RecentActivity({ claim }) {
     },
     [setCurrentPage],
   );
+
+  const thirdPartyRequesAlertText = item => {
+    if (cstFriendlyEvidenceRequests) {
+      return (
+        <va-alert
+          data-testid={`item-from-others-${item.id}`}
+          class="optional-alert vads-u-padding-bottom--1"
+          status="info"
+          slim
+        >
+          {item.activityDescription ? (
+            <>
+              {item.activityDescription}
+              <br />
+            </>
+          ) : (
+            <>
+              <strong>You don’t have to do anything.</strong> We asked someone
+              outside VA for documents related to your claim.
+              <br />
+            </>
+          )}
+          <Link
+            aria-label={`About this notice for ${item.friendlyName ||
+              item.displayName}`}
+            className="add-your-claims-link"
+            to={`../needed-from-others/${item.id}`}
+          >
+            About this notice
+          </Link>
+        </va-alert>
+      );
+    }
+    return (
+      <va-alert
+        data-testid={`item-from-others-${item.id}`}
+        class="optional-alert vads-u-padding-bottom--1"
+        status="info"
+        slim
+      >
+        You don’t have to do anything, but if you have this information you can{' '}
+        <Link
+          aria-label={`Add it here for ${item.friendlyName ||
+            item.displayName}`}
+          className="add-your-claims-link"
+          to={`../document-request/${item.id}`}
+        >
+          add it here.
+        </Link>
+      </va-alert>
+    );
+  };
 
   return (
     <div className="recent-activity-container">
@@ -253,50 +306,8 @@ export default function RecentActivity({ claim }) {
                   </p>
                 </>
               )}
-
               {item.status === 'NEEDED_FROM_OTHERS' &&
-              cstFriendlyEvidenceRequests &&
-              item.activityDescription ? (
-                <va-alert
-                  class="optional-alert vads-u-padding-bottom--1"
-                  status="info"
-                  slim
-                >
-                  {item.activityDescription}
-                  <br />
-                  <Link
-                    aria-label={`About this notice for ${item.friendlyName ||
-                      item.displayName}`}
-                    className="add-your-claims-link"
-                    to={`../needed-from-others/${item.id}`}
-                  >
-                    About this notice
-                  </Link>
-                </va-alert>
-              ) : (
-                item.status === 'NEEDED_FROM_OTHERS' && (
-                  <va-alert
-                    class="optional-alert vads-u-padding-bottom--1"
-                    status="info"
-                    slim
-                  >
-                    You don’t have to do anything, but if you have this
-                    information you can{' '}
-                    <Link
-                      aria-label={`Add it here for ${item.friendlyName ||
-                        item.displayName}`}
-                      className="add-your-claims-link"
-                      to={
-                        cstFriendlyEvidenceRequests
-                          ? `../needed-from-others/${item.id}`
-                          : `../document-request/${item.id}`
-                      }
-                    >
-                      add it here.
-                    </Link>
-                  </va-alert>
-                )
-              )}
+                thirdPartyRequesAlertText(item)}
             </li>
           ))}
         </ol>

@@ -1,14 +1,13 @@
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import { FETCH_STATUS } from '../../utils/constants';
+import { FETCH_STATUS, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import {
   getTimezoneByFacilityId,
   getTimezoneDescByFacilityId,
 } from '../../utils/timezone';
 import { getSiteIdFromFacilityId } from '../../services/location';
 import { selectCanUseVaccineFlow } from '../../appointment-list/redux/selectors';
-import { TYPE_OF_CARE_ID } from '../utils';
 
-export function selectCovid19Vaccine(state) {
+function selectCovid19Vaccine(state) {
   return state.covid19Vaccine;
 }
 
@@ -33,20 +32,20 @@ export function getCovid19VaccineFormPageInfo(state, pageKey) {
   };
 }
 
-export function getSiteIdForChosenFacility(state) {
+function getSiteIdForChosenFacility(state) {
   return getSiteIdFromFacilityId(
     selectCovid19VaccineFormData(state).vaFacility,
   );
 }
 
 export function getChosenSlot(state) {
-  const availableSlots = selectCovid19VaccineNewBooking(state).availableSlots;
+  const { availableSlots } = selectCovid19VaccineNewBooking(state);
   const selectedTime = selectCovid19VaccineFormData(state).date1?.[0];
 
   return availableSlots?.find(slot => slot.start === selectedTime);
 }
 
-export function getChosenFacilityInfo(state) {
+function getChosenFacilityInfo(state) {
   return (
     selectCovid19VaccineNewBooking(state).facilities?.find(
       facility =>
@@ -57,10 +56,10 @@ export function getChosenFacilityInfo(state) {
 
 export function getDateTimeSelect(state, pageKey) {
   const newBooking = selectCovid19VaccineNewBooking(state);
-  const appointmentSlotsStatus = newBooking.appointmentSlotsStatus;
+  const { appointmentSlotsStatus } = newBooking;
   const data = selectCovid19VaccineFormData(state);
   const formInfo = getCovid19VaccineFormPageInfo(state, pageKey);
-  const availableSlots = newBooking.availableSlots;
+  const { availableSlots } = newBooking;
 
   const timezoneDescription = getTimezoneDescByFacilityId(data.vaFacility);
   const timezone = getTimezoneByFacilityId(data.vaFacility);
@@ -93,7 +92,9 @@ export function getFacilityPageInfo(state) {
   } = newBooking;
 
   const supportedFacilities = facilities?.filter(
-    facility => facility.legacyVAR.settings[TYPE_OF_CARE_ID]?.direct.enabled,
+    facility =>
+      facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]?.direct
+        .enabled,
   );
 
   return {
@@ -119,7 +120,7 @@ export function getFacilityPageInfo(state) {
 export function getClinicPageInfo(state, pageKey) {
   const formPageInfo = getCovid19VaccineFormPageInfo(state, pageKey);
   const newBooking = selectCovid19VaccineNewBooking(state);
-  const facilities = newBooking.facilities;
+  const { facilities } = newBooking;
 
   return {
     ...formPageInfo,
@@ -131,7 +132,7 @@ export function getClinicPageInfo(state, pageKey) {
 
 export function getChosenClinicInfo(state) {
   const data = selectCovid19VaccineFormData(state);
-  const clinics = selectCovid19VaccineNewBooking(state).clinics;
+  const { clinics } = selectCovid19VaccineNewBooking(state);
 
   return (
     clinics[data.vaFacility]?.find(clinic => clinic.id === data.clinicId) ||
@@ -148,16 +149,6 @@ export function getReviewPage(state) {
     submitStatus: selectCovid19Vaccine(state).submitStatus,
     submitStatusVaos400: selectCovid19Vaccine(state).submitStatusVaos400,
     systemId: getSiteIdForChosenFacility(state),
-  };
-}
-
-export function selectConfirmationPage(state) {
-  return {
-    clinic: getChosenClinicInfo(state),
-    data: selectCovid19VaccineFormData(state),
-    facilityDetails: getChosenFacilityInfo(state),
-    slot: getChosenSlot(state),
-    submitStatus: selectCovid19Vaccine(state).submitStatus,
   };
 }
 

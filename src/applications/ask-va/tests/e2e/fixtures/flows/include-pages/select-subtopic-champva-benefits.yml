@@ -1,9 +1,0 @@
-steps:
-  - action: exists
-    target: header
-    value:  Subtopic
-  - action: click
-    target: radio
-    value:  CHAMPVA benefits
-  - action: click
-    target: call-to-action

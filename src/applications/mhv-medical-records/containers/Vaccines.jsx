@@ -45,6 +45,7 @@ import {
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -121,7 +122,13 @@ const Vaccines = props => {
       ...generateVaccinesContent(vaccines),
     };
     const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Vaccines - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateVaccineListItemTxt = item => {
@@ -194,18 +201,24 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
           }}
         />
 
-        <PrintDownload
-          description="Vaccines - List"
-          list
-          downloadPdf={generateVaccinesPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generateVaccinesTxt}
-        />
-        <DownloadingRecordsInfo
-          allowTxtDownloads={allowTxtDownloads}
-          description="Vaccines"
-        />
-        <RecordList records={vaccines} type={recordType.VACCINES} />
+        {vaccines?.length ? (
+          <>
+            <PrintDownload
+              description="Vaccines - List"
+              list
+              downloadPdf={generateVaccinesPdf}
+              allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateVaccinesTxt}
+            />
+            <DownloadingRecordsInfo
+              allowTxtDownloads={allowTxtDownloads}
+              description="Vaccines"
+            />
+            <RecordList records={vaccines} type={recordType.VACCINES} />
+          </>
+        ) : (
+          <NoRecordsMessage type={recordType.VACCINES} />
+        )}
       </RecordListSection>
     </div>
   );

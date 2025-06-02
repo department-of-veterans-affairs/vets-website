@@ -16,8 +16,10 @@ import {
 
 import CommunityCareProviderSelectionPage from '.';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
 import { CC_PROVIDERS_DATA } from '../../../tests/mocks/cc_providers_data';
-import { getSchedulingConfigurationMock } from '../../../tests/mocks/mock';
 import {
   mockCCProviderApi,
   mockFacilitiesApi,
@@ -82,10 +84,14 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     mockSchedulingConfigurationsApi({
       isCCEnabled: true,
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });

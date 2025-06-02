@@ -64,7 +64,13 @@ const AdmissionAndDischargeDetails = props => {
       ...generateDischargeSummaryContent(record),
     };
     const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Admission/discharge details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Admission/discharge details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateCareNotesTxt = () => {

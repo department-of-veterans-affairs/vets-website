@@ -92,7 +92,19 @@ export const getFocusableElements = (
 export function focusOnChange(name, target, shadowTarget = undefined) {
   setTimeout(() => {
     const el = $(`[name="${fixSelector(name)}${SCROLL_ELEMENT_SUFFIX}"]`);
-    const focusTarget = el?.nextElementSibling?.querySelector(target);
+    let focusTarget;
+    /* 
+    Check if selector is an ID that begins with a digit - if so, try to
+    locate target via getElementById since it can handle that case.
+    nextElementSibling?.querySelector throws an error if passed
+    an ID that begins with a digit (like '#3-continueButton'):
+    `failed to execute 'querySelector' on 'Element': not a valid selector`
+    */
+    if (typeof target === 'string' && /^#\d.*$/.test(target)) {
+      focusTarget = document.getElementById(target.slice(1));
+    } else {
+      focusTarget = el?.nextElementSibling?.querySelector(target);
+    }
     if (focusTarget && shadowTarget) {
       focusElement(shadowTarget, {}, focusTarget);
     } else if (focusTarget) {

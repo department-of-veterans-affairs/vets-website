@@ -4,7 +4,7 @@ flow:
   steps:
     - action: include
       target: page
-      value:  start-your-question-auth
+      value: start-your-question-auth
 
     - action: include
       target: page
@@ -12,23 +12,23 @@ flow:
 
     - action: include
       target: page
-      value:  select-category-education-benefits-and-work-study
+      value: select-category-education-benefits-and-work-study
 
     - action: include
       target: page
-      value:  select-topic-work-study
+      value: select-topic-work-study
 
     - action: include
       target: page
-      value:  select-subtopic-application
+      value: select-subtopic-application
     
     - action: include
       target: page
-      value:  what-is-your-relationship-to-the-veteran-veteran
+      value: what-is-your-relationship-to-the-veteran-veteran
       
     - action: include
       target: page
-      value:  your-school-state-and-residency-state
+      value: your-school-state-and-residency-state
 
     - action: include
       target: page
@@ -45,4 +45,3 @@ flow:
     - action: include
       target: page
       value: your-confirmation-number
-      

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import React from 'react';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 /**
@@ -166,18 +167,19 @@ export function concatStreets(addr, newLines = false) {
 }
 
 /**
- * Retrieves an array of objects containing the property 'attachmentId'
+ * Retrieves an array of objects containing the property name specified
  * from the given object.
  *
- * @param {Object} obj - The input object to search for objects with 'attachmentId'.
+ * @param {Object} obj - The input object to search for objects with keyname.
+ * @param {String} [keyname="attachmentId"] - The keyname to search for within input obj
  * @returns {Array} - An array containing objects with the 'attachmentId' property.
  */
-export function getObjectsWithAttachmentId(obj) {
+export function getObjectsWithAttachmentId(obj, keyname = 'attachmentId') {
   const objectsWithAttachmentId = [];
   _.forEach(obj, value => {
     if (_.isArray(value)) {
       _.forEach(value, item => {
-        if (_.isObject(item) && _.has(item, 'attachmentId')) {
+        if (_.isObject(item) && _.has(item, keyname)) {
           objectsWithAttachmentId.push(item);
         }
       });
@@ -216,4 +218,13 @@ export function fmtDate(date) {
     month: '2-digit',
     day: '2-digit',
   }).format(dt);
+}
+
+/**
+ * Wraps input in a <span> with dd-privacy-hidden class applied
+ * @param {JSX|String} children JSX or string to wrap in a privacy class
+ * @returns JSX
+ */
+export function privWrapper(children) {
+  return <span className="dd-privacy-hidden">{children}</span>;
 }

@@ -61,7 +61,13 @@ const EkgDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, subtitles, ...generateEkgContent(record) };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Electrocardiogram details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Electrocardiogram details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateEkgTxt = async () => {

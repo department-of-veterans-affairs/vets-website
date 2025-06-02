@@ -65,7 +65,13 @@ const PathologyDetails = props => {
       ...generatePathologyContent(record),
     };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Pathology details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Pathology details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generatePathologyTxt = async () => {

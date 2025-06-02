@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
+import { setupServer } from 'platform/testing/unit/msw-adapter';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 

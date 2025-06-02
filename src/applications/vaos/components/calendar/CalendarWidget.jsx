@@ -47,7 +47,7 @@ function getFirstDayOfMonth(momentDate) {
  * @param {string} maxDate YYYY-DD-MM
  * @returns {string} YYYY-MM
  */
-export function getMaxMonth(maxDate, overrideMaxDays) {
+function getMaxMonth(maxDate, overrideMaxDays) {
   const defaultMaxMonth = moment()
     .add(DEFAULT_MAX_DAYS_AHEAD, 'days')
     .format('YYYY-MM');
@@ -148,7 +148,7 @@ function getCells(momentDate, showWeekend) {
  * @param {boolean} [showWeekend] Whether to show full weekend slots or not
  * @returns {Array} Array of weeks
  */
-export function getCalendarWeeks(momentDate, showWeekend) {
+function getCalendarWeeks(momentDate, showWeekend) {
   const dateCells = getCells(momentDate, showWeekend);
   const weeks = [];
   const daysToShow = showWeekend ? 7 : 5;
@@ -351,10 +351,7 @@ function CalendarWidget({
                             timezone={timezone}
                             currentlySelectedDate={currentlySelectedDate}
                             handleSelectDate={date => {
-                              if (
-                                maxSelections === 1 &&
-                                date === currentlySelectedDate
-                              ) {
+                              if (maxSelections === 1) {
                                 onChange([]);
                               }
 
@@ -378,7 +375,7 @@ function CalendarWidget({
                                   [date],
                                   maxSelections,
                                   upcomingAppointments,
-                                  timezone,
+                                  availableSlots,
                                 );
                               }
                             }}
