@@ -122,6 +122,16 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'monthly-housing-expenses': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-text-input')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1200');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       // ==============================================================
       // ================== resolutionOptionsChapter ==================
       // ==============================================================
