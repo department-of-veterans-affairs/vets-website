@@ -68,6 +68,11 @@ const HealthConditions = () => {
         Health conditions
       </h1>
 
+      <p className="page-description">
+        This list includes the same information as your "VA problem list" in the
+        previous My HealtheVet experience.
+      </p>
+
       <AcceleratedCernerFacilityAlert
         {...CernerAlertContent.HEALTH_CONDITIONS}
       />

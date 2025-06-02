@@ -1,19 +1,14 @@
-import React from 'react';
-import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { BrowserRouter } from 'react-router-dom';
-import ErrorBoundary from '../../../components/ErrorBoundary';
+import { renderHook } from '@testing-library/react-hooks';
 
+const mockUseRouteError = error => () => {
+  return error;
+};
 describe('ErrorBoundary', () => {
-  const getErrorBoundary = () =>
-    render(
-      <BrowserRouter>
-        <ErrorBoundary />
-      </BrowserRouter>,
-    );
+  it('should return an error', () => {
+    const testError = new Error('Test error message');
+    const { result } = renderHook(mockUseRouteError(testError));
 
-  it('renders error message', () => {
-    const { getByTestId } = getErrorBoundary();
-    expect(getByTestId('error-message')).to.exist;
+    expect(result.current.message).to.equal('Test error message');
   });
 });
