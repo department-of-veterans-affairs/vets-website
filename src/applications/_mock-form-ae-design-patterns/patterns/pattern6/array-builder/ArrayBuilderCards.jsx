@@ -16,7 +16,7 @@ import { focusElement } from 'platform/utilities/ui';
 import {
   arrayBuilderContextObject,
   createArrayBuilderItemEditPath,
-} from './helpers';
+} from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
 const EditLink = ({ to, srText }) => (
   <Link to={to} data-action="edit" aria-label={srText}>
@@ -168,6 +168,16 @@ const ArrayBuilderCards = ({
         {arrayData?.length && (
           <ul className="vads-u-margin-top--2 vads-u-padding--0">
             {arrayData.map((itemData, index) => {
+              const context = arrayBuilderContextObject({
+                edit: true,
+                review: isReview,
+              });
+              const rawEditPath = getEditItemPathUrl(formData, index, context);
+              console.log(
+                `🔍 getEditItemPathUrl for index ${index}:`,
+                rawEditPath,
+              );
+
               const itemName = getText(
                 'getItemName',
                 itemData,
@@ -205,14 +215,15 @@ const ArrayBuilderCards = ({
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
                       <EditLink
                         to={createArrayBuilderItemEditPath({
-                          path: getEditItemPathUrl(
-                            formData,
-                            index,
-                            arrayBuilderContextObject({
-                              edit: true,
-                              review: isReview,
-                            }),
-                          ),
+                          // path: getEditItemPathUrl(
+                          //   formData,
+                          //   index,
+                          //   arrayBuilderContextObject({
+                          //     edit: true,
+                          //     review: isReview,
+                          //   }),
+                          // ),
+                          path: rawEditPath,
                           index,
                           isReview,
                         })}
@@ -303,7 +314,4 @@ ArrayBuilderCards.propTypes = {
   titleHeaderLevel: PropTypes.string,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ArrayBuilderCards);
+export default connect(mapStateToProps, mapDispatchToProps)(ArrayBuilderCards);

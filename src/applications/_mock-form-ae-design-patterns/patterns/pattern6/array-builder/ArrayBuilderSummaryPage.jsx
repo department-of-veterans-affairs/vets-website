@@ -17,15 +17,15 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import { setData } from '~/platform/forms-system/src/js/actions';
 import { isMinimalHeaderPath } from '~/platform/forms-system/src/js/patterns/minimal-header';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import ArrayBuilderCards from './ArrayBuilderCards';
-import ArrayBuilderSummaryReviewPage from './ArrayBuilderSummaryReviewPage';
-import ArrayBuilderSummaryNoSchemaFormPage from './ArrayBuilderSummaryNoSchemaFormPage';
+import ArrayBuilderSummaryReviewPage from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderSummaryReviewPage';
+import ArrayBuilderSummaryNoSchemaFormPage from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderSummaryNoSchemaFormPage';
 import {
   arrayBuilderContextObject,
   createArrayBuilderItemAddPath,
   getUpdatedItemFromPath,
   isDeepEmpty,
-} from './helpers';
+} from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import ArrayBuilderCards from './ArrayBuilderCards';
 
 const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
   <div className="vads-u-margin-top--2">
@@ -546,7 +546,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           nounSingular={nounSingular}
           nounPlural={nounPlural}
           isIncomplete={isItemIncomplete}
-          getEditItemPathUrl={getFirstItemPagePath}
+          getEditItemPathUrl={(formData, index, context) => {
+            const basePath = getFirstItemPagePath(formData, index, context);
+            return `/6/marital-status/${basePath}`;
+          }}
           getText={getText}
           required={required}
           onRemoveAll={onRemoveAllItems}

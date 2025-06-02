@@ -85,8 +85,19 @@ class IntroductionPage extends React.Component {
               </Link>
             </li>
             <li>
-              <Link to={`${formConfig.urlPrefix}spouse-previous-marriages`}>
+              <Link
+                to={`${formConfig.urlPrefix}current-spouse-marriage-history`}
+              >
                 Spouse Previous Marriages
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={`${
+                  formConfig.urlPrefix
+                }current-spouse-marriage-history/0/former-spouse-information?add=true`}
+              >
+                Spouse Former Marriage Personal Info
               </Link>
             </li>
           </ul>

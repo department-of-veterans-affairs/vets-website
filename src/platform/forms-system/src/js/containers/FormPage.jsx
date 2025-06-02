@@ -363,8 +363,6 @@ class FormPage extends React.Component {
       );
     }
 
-    console.log('form pagedata', data);
-
     return (
       <div className={pageClasses}>
         {showNavLinks && (

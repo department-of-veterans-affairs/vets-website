@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { useEditOrAddForm } from './useEditOrAddForm';
-import ArrayBuilderCancelButton from './ArrayBuilderCancelButton';
-import { getArrayUrlSearchParams } from './helpers';
+import { useEditOrAddForm } from 'platform/forms-system/src/js/patterns/array-builder/useEditOrAddForm';
+import ArrayBuilderCancelButton from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderCancelButton';
+import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
 /**
  * @param {{
@@ -70,6 +70,9 @@ export default function ArrayBuilderItemPage({
     }
 
     const NavButtons = props.NavButtons || FormNavButtons;
+    console.log('data', data);
+    console.log('props.fullData', props.fullData);
+    console.log('props.getFormData', props.getFormData);
 
     return (
       <SchemaForm
@@ -80,7 +83,11 @@ export default function ArrayBuilderItemPage({
         schema={schema}
         uiSchema={uiSchema}
         pagePerItemIndex={props.pagePerItemIndex}
-        formContext={props.formContext}
+        // formContext={props.formContext}
+        formContext={{
+          ...props.formContext,
+          formData: props.fullData,
+        }}
         getFormData={props.getFormData}
         trackingPrefix={props.trackingPrefix}
         onChange={onChange}

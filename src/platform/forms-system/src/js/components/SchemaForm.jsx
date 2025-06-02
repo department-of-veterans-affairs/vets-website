@@ -201,10 +201,6 @@ class SchemaForm extends React.Component {
 
     const useReviewMode = reviewMode && !editModeOnReviewPage;
 
-    console.log('SchemaForm form context', this.props.formContext);
-    console.log('SchemaForm props.data', this.props.data);
-    console.log('SchemaForm state.formContext', this.state.formContext);
-
     return (
       <Form
         safeRenderCompletion={safeRenderCompletion}

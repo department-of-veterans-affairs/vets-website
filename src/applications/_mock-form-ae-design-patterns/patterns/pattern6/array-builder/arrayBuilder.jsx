@@ -386,10 +386,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         return false;
       }
     });
-    console.log(
-      '🔎 active itemPages:',
-      filteredPages.map(p => p.path),
-    );
+    console.log('🔎 active itemPages:', filteredPages.map(p => p.path));
 
     return filteredPages;
 
@@ -458,10 +455,26 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       ? formData[arrayPath].length - 1
       : 0;
 
-    const lastActivePath = `${FORM_URL_PREFIX}${getLastItemPagePath(
-      formData,
+    const lastItemPath = getLastItemPagePath(formData, lastIndex);
+
+    if (!lastItemPath) {
+      // No item pages — skip to next chapter
+      const nextPagePath = getNextPagePath(
+        pageList,
+        formData,
+        `${FORM_URL_PREFIX}${summaryPath}`,
+      );
+      return goPath(nextPagePath);
+    }
+
+    // const lastActivePath = `${FORM_URL_PREFIX}${getLastItemPagePath(
+    //   formData,
+    //   lastIndex,
+    // ).replace(':index', lastIndex)}`;
+    const lastActivePath = `${FORM_URL_PREFIX}${lastItemPath.replace(
+      ':index',
       lastIndex,
-    ).replace(':index', lastIndex)}`;
+    )}`;
 
     const nextPagePath = getNextPagePath(pageList, formData, lastActivePath);
     goPath(nextPagePath);

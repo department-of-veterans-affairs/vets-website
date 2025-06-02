@@ -49,27 +49,6 @@ export default {
       'ui:description': SpousePreviousMarriagesDescription,
     },
   },
-  // 'view:completedSpouseFormerMarriage': {
-  //   ...arrayBuilderYesNoUI(
-  //     spouseMarriageHistoryOptions,
-  //     {
-  //       title: 'Has your spouse been married before?',
-  //       labels: {
-  //         Y: 'Yes',
-  //         N: 'No',
-  //       },
-  //     },
-  //     {
-  //       title: 'Does your spouse have any other previous marriages?',
-  //       hint:
-  //         'You’ll need to include all of their past marriages, even ones that ended in divorce, annulment, or death.',
-  //       labels: {
-  //         Y: 'Yes',
-  //         N: 'No',
-  //       },
-  //     },
-  //   ),
-  // },
   schema: {
     type: 'object',
     properties: {

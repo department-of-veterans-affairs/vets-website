@@ -1,21 +1,5 @@
 import { capitalize } from 'lodash';
 
-// const formatDate = dateStr => {
-//   console.log('📅 Raw dateStr:', dateStr, '| Type:', typeof dateStr);
-//   if (!dateStr) return '';
-
-//   const date = new Date(dateStr);
-//   if (Number.isNaN(date)) {
-//     console.warn('⚠️ Invalid date detected:', dateStr);
-//     return '';
-//   }
-//   return new Intl.DateTimeFormat('en-US', {
-//     month: 'long',
-//     day: 'numeric',
-//     year: 'numeric',
-//   }).format(date);
-// };
-
 const formatDate = dateStr => {
   if (!dateStr) return '';
   const [year, month, day] = dateStr.split('-').map(Number);
@@ -41,11 +25,18 @@ export const veteranMarriageHistoryOptions = {
     !item?.marriageLocation ||
     !item?.marriageEndDate ||
     !item?.marriageEndReason,
-  maxItems: 10,
   text: {
-    summaryTitle: 'Review your marital history',
-    getItemName: () => 'Your former marriage',
-    cardDescription: item => item?.spouseName || 'Marriage details',
+    summaryTitle: 'Review your marriage',
+    getItemName: item =>
+      `${capitalize(item?.spouseFullName?.first) || ''} ${capitalize(
+        item?.spouseFullName?.last,
+      ) || ''} `,
+    cardDescription: item =>
+      `${formatDate(item?.dateOfMarriage)} - ${formatDate(
+        item?.dateOfTermination,
+      )}; ${item?.marriageLocation?.city || ''}, ${item?.marriageLocation
+        ?.state || ''}, ${item?.marriageLocation?.country ||
+        (item?.['view:marriedOutsideUS'] === false ? 'USA' : '')}`,
   },
 };
 
