@@ -98,9 +98,10 @@ const IntroductionPage = props => {
                 A Veterans Law Judge at the Board of Veterans’ Appeals will
                 review your case. The amount of time it takes the Board to
                 complete its review depends on which review option you choose.{' '}
-                <a href={NOD_OPTIONS_URL}>
-                  Read about the 3 Board Appeal options
-                </a>
+                <va-link
+                  href={NOD_OPTIONS_URL}
+                  text="Read about the 3 Board Appeal options"
+                />
               </p>
             </div>
           </va-additional-info>
@@ -120,14 +121,18 @@ const IntroductionPage = props => {
         If you need help requesting a Board Appeal, you can contact a VA
         regional office near you.
       </p>
-      <a href={FACILITY_LOCATOR_URL}>Find a VA regional office near you</a>
+      <va-link
+        href={FACILITY_LOCATOR_URL}
+        text="Find a VA regional office near you"
+      />
       <p className="vads-u-margin-top--2">
         A Veteran Service Organization or VA-accredited representative or agent
         can also help you request a Board Appeal.
       </p>
-      <a href={GET_HELP_REVIEW_REQUEST_URL}>
-        Get help requesting a Board Appeal
-      </a>
+      <va-link
+        href={GET_HELP_REVIEW_REQUEST_URL}
+        text="Get help requesting a Board Appeal"
+      />
       <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-top--4">
         <va-omb-info
           res-burden={30}

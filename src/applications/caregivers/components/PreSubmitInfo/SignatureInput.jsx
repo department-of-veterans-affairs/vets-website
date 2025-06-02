@@ -45,7 +45,10 @@ const SignatureInput = props => {
   const isSignatureComplete = signatureMatches && isChecked;
 
   const handleChange = value => {
-    setSignatures(prevState => ({ ...prevState, [label]: value }));
+    setSignatures(prev => ({
+      ...prev,
+      [label]: { ...prev[label], value },
+    }));
   };
 
   const handleBlur = useCallback(
