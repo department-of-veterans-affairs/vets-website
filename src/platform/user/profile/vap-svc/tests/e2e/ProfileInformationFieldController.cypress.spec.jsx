@@ -31,7 +31,7 @@ describe('Welcome VA Setup - Contact info', () => {
       },
     });
   });
-  context('API returns 200', () => {
+  context('Mobile phone - API returns 200', () => {
     beforeEach(() => {
       cy.intercept('/v0/profile/telephones', {
         statusCode: 200,
@@ -78,12 +78,12 @@ describe('Welcome VA Setup - Contact info', () => {
       cy.get('va-text-input[name="root_inputPhoneNumber"]')
         .shadow()
         .find('input')
-        .as('homePhoneInput');
+        .as('mobilePhoneInput');
 
       cy.injectAxeThenAxeCheck();
 
-      cy.get('@homePhoneInput').clear();
-      cy.get('@homePhoneInput').type('5558985555');
+      cy.get('@mobilePhoneInput').clear();
+      cy.get('@mobilePhoneInput').type('5558985555');
       cy.findByTestId('save-edit-button').click();
 
       // redirect to previous page and show save alert
@@ -94,7 +94,7 @@ describe('Welcome VA Setup - Contact info', () => {
     });
   });
 
-  context('API returns 500', () => {
+  context('Mobile phone - API returns 500', () => {
     beforeEach(() => {
       cy.intercept('/v0/profile/telephones', {
         statusCode: 500,
@@ -113,18 +113,121 @@ describe('Welcome VA Setup - Contact info', () => {
       cy.get('va-text-input[name="root_inputPhoneNumber"]')
         .shadow()
         .find('input')
-        .as('homePhoneInput');
+        .as('mobilePhoneInput');
 
       cy.injectAxeThenAxeCheck();
 
-      cy.get('@homePhoneInput').clear();
-      cy.get('@homePhoneInput').type('5558985555');
+      cy.get('@mobilePhoneInput').clear();
+      cy.get('@mobilePhoneInput').type('5558985555');
       cy.findByTestId('save-edit-button').click();
 
       // stay on current page and show error alert
       cy.url().should(
         'contain',
         '/welcome-va-setup/contact-information/edit-mobile-phone',
+      );
+      cy.findAllByRole('alert', { status: 'error' }).should('exist');
+    });
+  });
+
+  context('Email - API returns 200', () => {
+    beforeEach(() => {
+      cy.intercept('/v0/profile/email_addresses', {
+        statusCode: 200,
+        body: {
+          data: {
+            id: '',
+            type:
+              'async_transaction_va_profile_asynctransaction::vaprofile::emailtransaction_transactions',
+            attributes: {
+              transactionId: 'mock-update-email-success-transaction-id',
+              transactionStatus: 'RECEIVED',
+              type: 'AsyncTransaction::VAProfile::EmailTransaction',
+              metadata: [],
+            },
+          },
+        },
+      });
+
+      cy.intercept(
+        '/v0/profile/status/mock-update-email-success-transaction-id',
+        {
+          statusCode: 200,
+          body: {
+            data: {
+              id: '',
+              type: 'async_transaction_va_profile_mock_transactions',
+              attributes: {
+                transactionId: 'mock-update-email-success-transaction-id',
+                transactionStatus: 'COMPLETED_SUCCESS',
+                type: 'AsyncTransaction::VAProfile::MockTransaction',
+                metadata: [],
+              },
+            },
+          },
+        },
+      );
+    });
+
+    it('changing email succeeds', () => {
+      cy.visit('my-va/welcome-va-setup/contact-information');
+
+      cy.findByRole('link', {
+        name: /Edit email address/i,
+      }).click();
+
+      cy.injectAxeThenAxeCheck();
+
+      cy.get('va-text-input[name="root_emailAddress"]')
+        .shadow()
+        .find('input')
+        .as('emailInput');
+
+      cy.injectAxeThenAxeCheck();
+
+      cy.get('@emailInput').clear();
+      cy.get('@emailInput').type('test@va.gov');
+      cy.findByTestId('save-edit-button').click();
+
+      // redirect to previous page and show save alert
+      cy.url().should('not.contain', 'edit-email-address');
+      cy.findByText('Email address updated').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  context('Email - API returns 500', () => {
+    beforeEach(() => {
+      cy.intercept('/v0/profile/email_addresses', {
+        statusCode: 500,
+        body: { status: 500, error: 'Internal Server Error', exception: {} },
+      });
+    });
+    it('changing email fails', () => {
+      cy.visit('my-va/welcome-va-setup/contact-information');
+
+      cy.findByRole('link', {
+        name: /Edit email address/i,
+      }).click();
+
+      cy.injectAxeThenAxeCheck();
+
+      cy.get('va-text-input[name="root_emailAddress"]')
+        .shadow()
+        .find('input')
+        .as('emailInput');
+
+      cy.injectAxeThenAxeCheck();
+
+      cy.get('@emailInput').clear();
+      cy.get('@emailInput').type('test@va.gov');
+      cy.findByTestId('save-edit-button').click();
+
+      // stay on current page and show error alert
+      cy.url().should(
+        'contain',
+        '/welcome-va-setup/contact-information/edit-email-address',
       );
       cy.findAllByRole('alert', { status: 'error' }).should('exist');
     });
