@@ -1,15 +1,16 @@
+import { arrayBuilderItemFirstPageTitleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { inlineTitleUI } from '../../../components/FormPatterns/TitlePatterns';
+import content from '../locales/en/content.json';
+import { replaceStrValues } from '../utils/helpers/general';
+import { LAST_YEAR } from '../utils/constants';
+import { inlineTitleUI } from '../components/FormPatterns/TitlePatterns';
 import {
   GrossIncomeDescription,
   OtherIncomeDescription,
-} from '../../../components/FormDescriptions/IncomeDescriptions';
-import { replaceStrValues } from '../../../utils/helpers/general';
-import { validateCurrency } from '../../../utils/validation';
-import { LAST_YEAR } from '../../../utils/constants';
-import content from '../../../locales/en/content.json';
+  PreviousNetIncome,
+} from '../components/FormDescriptions/IncomeDescriptions';
+import { validateCurrency } from '../utils/validation';
 
 const {
   spouseGrossIncome,
@@ -17,11 +18,15 @@ const {
   spouseOtherIncome,
 } = ezrSchema.properties;
 
-export default {
+/**
+ * Declare schema attributes for spouse income page
+ * @returns {PageSchema}
+ */
+export const SpouseAnnualIncomePage = () => ({
   uiSchema: {
-    ...titleUI(
-      replaceStrValues(content['household-spouse-income-title'], LAST_YEAR),
-    ),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: `Spouse's annual income from ${LAST_YEAR}`,
+    }),
     'view:spouseGrossIncome': {
       ...inlineTitleUI(
         content['household-income-gross-title'],
@@ -43,6 +48,7 @@ export default {
         content['household-income-net-title'],
         content['household-income-net-description'],
       ),
+      'ui:description': () => PreviousNetIncome('spouse'),
       spouseNetIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -90,4 +96,4 @@ export default {
       },
     },
   },
-};
+});

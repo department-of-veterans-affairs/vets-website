@@ -6,6 +6,7 @@ import {
   parseVeteranGender,
   normalizeFullName,
   replaceStrValues,
+  formatCurrency,
 } from '../../../../utils/helpers/general';
 
 describe('ezr general helpers', () => {
@@ -188,6 +189,14 @@ describe('ezr general helpers', () => {
           'Insurance information for Mary Smith',
         );
       });
+    });
+  });
+  context('when `formatCurrency` executes', () => {
+    it('correctly formats numeric strings into USD currency format', () => {
+      expect(formatCurrency('1234.5')).to.equal('$1,234.50');
+      expect(formatCurrency('1234.56')).to.equal('$1,234.56');
+      expect(formatCurrency('0.99')).to.equal('$0.99');
+      expect(formatCurrency('123456789')).to.equal('$123,456,789.00');
     });
   });
 });
