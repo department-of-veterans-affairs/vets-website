@@ -41,20 +41,14 @@ jobs:
         run: |
           {
             echo 'VETS_API_ONLY<<VETS_API_EOF'
-            sdiff -ls <(echo "${{ steps.vets-api-features.outputs.FEATURES }}") <(echo "${{ steps.vets-website-features.outputs.FEATURES }}") | sed -En '/</ s/^(.*)\s*<$/    \1/ p'
+            comm -23 <(echo "${{ steps.vets-api-features.outputs.FEATURES }}") <(echo "${{ steps.vets-website-features.outputs.FEATURES }}")
             echo VETS_API_EOF
             echo
           } >> "$GITHUB_OUTPUT"
           {
             echo 'VETS_WEBSITE_ONLY<<VETS_WEBSITE_EOF'
-            sdiff -ls <(echo "${{ steps.vets-api-features.outputs.FEATURES }}") <(echo "${{ steps.vets-website-features.outputs.FEATURES }}") | sed -En '/>/ s/^\s*>\s*(.*)/    \1/ p'
+            comm -13 <(echo "${{ steps.vets-api-features.outputs.FEATURES }}") <(echo "${{ steps.vets-website-features.outputs.FEATURES }}")
             echo VETS_WEBSITE_EOF
-            echo
-          } >> "$GITHUB_OUTPUT"
-          {
-            echo 'CHANGED_LINES<<CHANGED_LINES_EOF'
-            sdiff -ls <(echo "${{ steps.vets-api-features.outputs.FEATURES }}") <(echo "${{ steps.vets-website-features.outputs.FEATURES }}") | sed -n '/|/ s/^/    / p'
-            echo CHANGED_LINES_EOF
             echo
           } >> "$GITHUB_OUTPUT"
       - name: Report findings
@@ -63,20 +57,19 @@ jobs:
           echo ""  >> $GITHUB_STEP_SUMMARY
           echo "Comparing vets-api's features.yml and vets-website's featureFlagNames.json" >> $GITHUB_STEP_SUMMARY
           echo ""  >> $GITHUB_STEP_SUMMARY
-          echo "Using 'sdiff' to compare sorted lists of feature toggles from vets-api and vets-website. Since its a diff, some differences are (mis)matched as 'changes'." >> $GITHUB_STEP_SUMMARY
+          echo "Using 'comm' to select lists of feature toggles unique to vets-api or to vets-website. Common lines are ignored." >> $GITHUB_STEP_SUMMARY
           echo ""  >> $GITHUB_STEP_SUMMARY
-          echo "## Feature Toggles only in vets-api features.yaml" >> $GITHUB_STEP_SUMMARY
+          echo "## Flags only in vets-website featureFlagNames.json" >> $GITHUB_STEP_SUMMARY
           echo ""  >> $GITHUB_STEP_SUMMARY
-          echo "${{ steps.compare-feature-lists.outputs.VETS_API_ONLY }}" >> $GITHUB_STEP_SUMMARY
-          echo ""  >> $GITHUB_STEP_SUMMARY
-          echo ""  >> $GITHUB_STEP_SUMMARY
-          echo "## Feature Toggles only in vets-website featureFlagNames.json" >> $GITHUB_STEP_SUMMARY
-          echo ""  >> $GITHUB_STEP_SUMMARY
+          echo "~~~"  >> $GITHUB_STEP_SUMMARY
           echo "${{ steps.compare-feature-lists.outputs.VETS_WEBSITE_ONLY }}" >> $GITHUB_STEP_SUMMARY
+          echo "~~~"  >> $GITHUB_STEP_SUMMARY
           echo ""  >> $GITHUB_STEP_SUMMARY
           echo ""  >> $GITHUB_STEP_SUMMARY
-          echo "## Feature Toggles that sdiff things are changed lines." >> $GITHUB_STEP_SUMMARY
+          echo "## Flags only in vets-api features.yaml" >> $GITHUB_STEP_SUMMARY
           echo ""  >> $GITHUB_STEP_SUMMARY
-          echo "${{ steps.compare-feature-lists.outputs.CHANGED_LINES }}" >> $GITHUB_STEP_SUMMARY
+          echo "~~~"  >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.compare-feature-lists.outputs.VETS_API_ONLY }}" >> $GITHUB_STEP_SUMMARY
+          echo "~~~"  >> $GITHUB_STEP_SUMMARY
           echo ""  >> $GITHUB_STEP_SUMMARY
           echo ""  >> $GITHUB_STEP_SUMMARY
