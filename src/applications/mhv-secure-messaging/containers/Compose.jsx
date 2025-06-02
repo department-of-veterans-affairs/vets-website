@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -235,6 +236,10 @@ const Compose = ({ skipInterstitial }) => {
       )}
     </>
   );
+};
+
+Compose.propTypes = {
+  skipInterstitial: PropTypes.bool,
 };
 
 export default Compose;
