@@ -2,6 +2,11 @@
 import { addHours, format, startOfDay } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import {
+  transformVAOSAppointment,
+  transformVAOSAppointments,
+} from '../../services/appointment/transformers';
+import { parseApiList, parseApiObject } from '../../services/utils';
+import {
   APPOINTMENT_STATUS,
   DATE_FORMATS,
   TYPE_OF_VISIT_ID,
@@ -59,6 +64,11 @@ export default class MockAppointmentResponse {
       cancellable: false,
       extension: {
         patientHasMobileGfe: false,
+        clinic: {
+          physicalLocation: null,
+          phoneNumber: null,
+          phoneNumberExtension: null,
+        },
       },
       kind: TYPE_OF_VISIT_ID.clinic,
       type: 'VA',
@@ -67,12 +77,14 @@ export default class MockAppointmentResponse {
           ? null
           : format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
       modality: 'vaInPerson',
+      patientComments: null,
       preferredDates: [
         format(
           startOfDay(new Date(), 'day'),
           "eeee, MMMM d, yyyy 'in the morning'",
         ),
       ],
+      reasonCode: {},
       requestedPeriods:
         requestedPeriods.length > 0 ? requestedPeriods : undefined,
       created: createdStamp,
@@ -88,6 +100,7 @@ export default class MockAppointmentResponse {
         vvsKind: null,
         displayLink: false,
       },
+      videoData: {},
       future,
       pending,
       past,
@@ -147,6 +160,7 @@ export default class MockAppointmentResponse {
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @param {String} [arguments.status] - Appointment status.
    * @returns Array of MockAppointmentResponse objects
    * @memberof MockAppointmentResponse
    */
@@ -307,6 +321,26 @@ export default class MockAppointmentResponse {
   }
 
   /**
+   * Method to generate mock Phone response object.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @returns MockAppointmentResponse object
+   * @memberof MockAppointmentResponse
+   */
+  static createPhoneResponse({ localStartTime, future = false } = {}) {
+    return MockAppointmentResponse.createPhoneResponses({
+      localStartTime,
+      future,
+      count: 1,
+    })[0];
+  }
+
+  /**
    * Method to generate mock Phone response objects.
    *
    * @static
@@ -388,7 +422,7 @@ export default class MockAppointmentResponse {
     past,
     pending,
     count = 1,
-    status,
+    status = APPOINTMENT_STATUS.booked,
   } = {}) {
     return Array(count)
       .fill(count)
@@ -408,6 +442,32 @@ export default class MockAppointmentResponse {
           pending || status === APPOINTMENT_STATUS.proposed ? 'REQUEST' : 'VA',
         );
       });
+  }
+
+  /**
+   * Method to generate transformed mock appointment object. This object respresents
+   * the stored Redux appointment object.
+   *
+   * @static
+   * @param {MockAppointmentResponse} response MockAppointmentResponse object.
+   * @returns transformed object
+   * @memberof MockAppointmentResponse
+   */
+  static getTransformedResponse(response) {
+    return transformVAOSAppointment(parseApiObject({ data: response }));
+  }
+
+  /**
+   * Method to generate a collection of transformed mock appointment objects. These
+   * objects represent the stored Redux appointments objects.
+   *
+   * @static
+   * @param {Array<MockAppointmentResponse>} response - A collection of MockAppointmentResponse objects.
+   * @returns Transformed object
+   * @memberof MockAppointmentResponse
+   */
+  static getTransformedResponses(responses) {
+    return transformVAOSAppointments(parseApiList({ data: responses }));
   }
 
   /**
@@ -490,6 +550,16 @@ export default class MockAppointmentResponse {
     return this;
   }
 
+  setClinicPhoneNumber(value) {
+    this.attributes.extension.clinic.phoneNumber = value;
+    return this;
+  }
+
+  setClinicPhoneNumberExtension(value) {
+    this.attributes.extension.clinic.phoneNumberExtension = value;
+    return this;
+  }
+
   setCreated(value) {
     this.attributes.created = value;
     return this;
@@ -544,7 +614,8 @@ export default class MockAppointmentResponse {
   }
 
   setLocationId(value) {
-    this.attributes.locationId = value.toString();
+    this.attributes.locationId = value;
+    this.setLocation(null);
     return this;
   }
 
@@ -565,6 +636,7 @@ export default class MockAppointmentResponse {
 
   setPatientComments(value) {
     this.attributes.patientComments = value;
+    this.attributes.reasonCode = {};
     return this;
   }
 
@@ -578,7 +650,7 @@ export default class MockAppointmentResponse {
     return this;
   }
 
-  setPractitioner({ id }) {
+  setPractitioner({ id, family, given }) {
     this.attributes.practitioners = [
       {
         identifier: [
@@ -593,6 +665,11 @@ export default class MockAppointmentResponse {
           state: 'State',
           postalCode: 'Postal code',
         },
+        name: {
+          family,
+          given: [given],
+        },
+        practiceName: null,
       },
     ];
 
@@ -635,6 +712,11 @@ export default class MockAppointmentResponse {
     return this;
   }
 
+  setReasonForAppointment(value) {
+    this.attributes.reasonForAppointment = value;
+    return this;
+  }
+
   getRequestedPeriods() {
     if (!this.attributes.requestedPeriods)
       throw new Error('Attribute not defined');
@@ -657,6 +739,11 @@ export default class MockAppointmentResponse {
       };
     });
 
+    return this;
+  }
+
+  setServiceName(value) {
+    this.attributes.serviceName = value;
     return this;
   }
 

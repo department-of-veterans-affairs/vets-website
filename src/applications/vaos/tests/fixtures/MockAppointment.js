@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 
 /**
  * Mock Appointment class.
@@ -24,6 +25,7 @@ export class MockAppointment {
     this.comment = null;
     this.communityCareProvider = null;
     this.description = null;
+    this.endUtc = new Date();
     this.id = id.toString();
     this.location = {};
     this.minutesDuration = 60;
@@ -35,15 +37,20 @@ export class MockAppointment {
     this.type = 'VA';
 
     this.start = format(start, "yyyy-MM-dd'T'HH:mm:ss");
+    this.startUtc = start;
 
     this.status = status;
     this.vaos = {
-      apiData: null,
-      isPastAppointment: false,
-      isUpcomingAppointment: false,
-      isPendingAppointment: false,
+      apiData: {},
+      isCOVIDVaccine: false,
+      isCancellable: true,
+      isCommunityCare: false,
       isCompAndPenAppointment: false,
       isInPersonVisit: false,
+      isPastAppointment: false,
+      isPendingAppointment: false,
+      isPhoneAppointment: false,
+      isUpcomingAppointment: status === APPOINTMENT_STATUS.booked,
     };
     this.version = 2;
     this.videoData = {};
@@ -111,6 +118,11 @@ export class MockAppointment {
 
   setIsPendingAppointment(value) {
     this.vaos.isPendingAppointment = value;
+    return this;
+  }
+
+  setIsPhoneAppointment(value) {
+    this.vaos.isPhoneAppointment = value;
     return this;
   }
 

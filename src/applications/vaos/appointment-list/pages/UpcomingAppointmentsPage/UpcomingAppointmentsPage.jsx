@@ -1,6 +1,6 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
-import moment from 'moment';
+import { format } from 'date-fns';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -73,7 +73,6 @@ export default function UpcomingAppointmentsPage() {
   }
 
   const keys = Object.keys(appointmentsByMonth);
-
   return (
     <>
       <BackendAppointmentServiceAlert />
@@ -82,7 +81,13 @@ export default function UpcomingAppointmentsPage() {
       </div>
 
       {keys.map((key, index) => {
-        const monthDate = moment(key, 'YYYY-MM');
+        // NOTE: Since the key is in this format 'yyyy-mm', the wrong date is created
+        // when created this way, 'new Date(key)'. This is due to the missing time
+        // information. Creating the date by passing in the date parts will default
+        // the missing date/time information. Also, the month information is 'zero'
+        // based.
+        const tokens = key.split('-');
+        const monthDate = new Date(tokens[0], tokens[1] - 1);
 
         let hashTable = appointmentsByMonth;
         hashTable = groupAppointmentByDay(hashTable[key]);
@@ -95,7 +100,7 @@ export default function UpcomingAppointmentsPage() {
               })}
               data-testid="appointment-list-header"
             >
-              {monthDate.format('MMMM YYYY')}
+              {format(monthDate, 'MMMM yyyy')}
             </h2>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
@@ -105,7 +110,7 @@ export default function UpcomingAppointmentsPage() {
                 'vads-u-border-bottom--1px',
                 'vads-u-border-color--gray-medium',
               )}
-              data-testid={`appointment-list-${monthDate.format('YYYY-MM')}`}
+              data-testid={`appointment-list-${format(monthDate, 'yyyy-MM')}`}
               role="list"
             >
               {UpcomingAppointmentLayout({

@@ -1,25 +1,25 @@
-import React from 'react';
+import { format as _format } from 'date-fns';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import React from 'react';
 import { getAppointmentTimezone } from '../../services/appointment';
 
-export function AppointmentDate({ date, format = 'dddd, MMMM D, YYYY' }) {
-  return <> {moment.parseZone(date).format(format)} </>;
+export function AppointmentDate({ date, format = 'EEEE, MMMM d, yyyy' }) {
+  return <> {_format(date, format)} </>;
 }
 AppointmentDate.propTypes = {
   date: PropTypes.object,
   format: PropTypes.string,
 };
 
-export function AppointmentTime({ appointment, format = 'h:mm a' }) {
+export function AppointmentTime({ appointment, format = 'h:mm aaa' }) {
   if (!appointment) return null;
 
-  const time = moment.parseZone(appointment.start);
+  const time = appointment.start ? new Date(appointment.start) : new Date();
   const { abbreviation, description } = getAppointmentTimezone(appointment);
 
   return (
     <>
-      {`${time.format(format)} `}
+      {`${_format(time, format)} `}
       <span aria-hidden="true">{abbreviation}</span>
       <span className="sr-only">{description}</span>
     </>
@@ -31,12 +31,12 @@ AppointmentTime.propTypes = {
 };
 
 export default function AppointmentDateTime({ appointment }) {
-  const appointmentDate = moment.parseZone(appointment.start);
+  const appointmentDate = new Date(appointment.start);
   const { abbreviation, description } = getAppointmentTimezone(appointment);
 
   return (
     <>
-      {appointmentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}{' '}
+      {_format(appointmentDate, "EEEE, MMMM d, yyyy 'at' h:mm aaa")}{' '}
       <span aria-hidden="true">{abbreviation}</span>
       <span className="sr-only"> {description}</span>
     </>

@@ -3,39 +3,49 @@
  * Functions related to fetching Apppointment data and pulling information from that data
  * @module services/Appointment
  */
-import moment from 'moment-timezone';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import {
+  addDays,
+  endOfDay,
+  format,
+  isAfter,
+  isBefore,
+  isValid,
+  startOfDay,
+  subYears,
+} from 'date-fns';
+import moment from 'moment-timezone';
+import { getProviderName } from '../../utils/appointment';
+import {
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+  GA_PREFIX,
+  VIDEO_TYPES,
+} from '../../utils/constants';
+import { captureError } from '../../utils/error';
+import { resetDataLayer } from '../../utils/events';
+import {
+  getTimezoneAbbrByFacilityId,
+  getTimezoneAbbrFromApi,
+  getTimezoneByFacilityId,
+  getTimezoneNameFromAbbr,
+  getUserTimezone,
+  getUserTimezoneAbbr,
+  stripDST,
+} from '../../utils/timezone';
+import { formatFacilityAddress, getFacilityPhone } from '../location';
+import { mapToFHIRErrors } from '../utils';
 import {
   getAppointment,
   getAppointments,
   postAppointment,
   putAppointment,
 } from '../vaos';
-import { mapToFHIRErrors } from '../utils';
 import {
-  APPOINTMENT_TYPES,
-  APPOINTMENT_STATUS,
-  VIDEO_TYPES,
-  GA_PREFIX,
-} from '../../utils/constants';
-import { formatFacilityAddress, getFacilityPhone } from '../location';
-import {
+  getAppointmentType,
   transformVAOSAppointment,
   transformVAOSAppointments,
-  getAppointmentType,
 } from './transformers';
-import { captureError } from '../../utils/error';
-import { resetDataLayer } from '../../utils/events';
-import {
-  getTimezoneAbbrByFacilityId,
-  getTimezoneByFacilityId,
-  getTimezoneAbbrFromApi,
-  getTimezoneNameFromAbbr,
-  getUserTimezone,
-  getUserTimezoneAbbr,
-  stripDST,
-} from '../../utils/timezone';
-import { getProviderName } from '../../utils/appointment';
 
 const CONFIRMED_APPOINTMENT_TYPES = new Set([
   APPOINTMENT_TYPES.ccAppointment,
@@ -394,45 +404,6 @@ export function isValidPastAppointment(appt) {
 }
 
 /**
- * Returns true if the given Appointment is a confirmed appointment
- * or a request that still needs processing
- *
- * @export
- * @param {Appointment} appt The FHIR Appointment to check
- * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
- * @returns {boolean} Whether or not the appointment is a valid upcoming
- *  appointment or request
- */
-export function isUpcomingAppointmentOrRequest(appt, useFeSourceOfTruth) {
-  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
-    const apptDateTime = moment(appt.start);
-
-    return useFeSourceOfTruth
-      ? !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
-          appt.vaos.isUpcomingAppointment
-      : !appt.vaos.isPastAppointment &&
-          !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
-          apptDateTime.isValid() &&
-          apptDateTime.isBefore(moment().add(395, 'days'));
-  }
-
-  const today = moment().startOf('day');
-  const hasValidDate = appt.requestedPeriod.some(period => {
-    const momentStart = moment(period.start);
-    const momentEnd = moment(period.end);
-    return (
-      momentStart.isValid() && momentStart.isAfter(today) && momentEnd.isValid()
-    );
-  });
-
-  return (
-    !appt.vaos.isExpressCare &&
-    (appt.status === APPOINTMENT_STATUS.proposed ||
-      appt.status === APPOINTMENT_STATUS.pending ||
-      (appt.status === APPOINTMENT_STATUS.cancelled && hasValidDate))
-  );
-}
-/**
  * Returns cancelled and pending requests, which should be visible to users
  *
  * @export
@@ -459,20 +430,16 @@ export function isPendingOrCancelledRequest(appt) {
  */
 export function isUpcomingAppointment(appt, useFeSourceOfTruth) {
   if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
-    const apptDateTime = moment(appt.start);
+    const apptDateTime = new Date(appt.start);
 
     return useFeSourceOfTruth
       ? !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
           appt.vaos.isUpcomingAppointment
       : !appt.vaos.isPastAppointment &&
           !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
-          apptDateTime.isValid() &&
-          apptDateTime.isAfter(moment().startOf('day')) &&
-          apptDateTime.isBefore(
-            moment()
-              .endOf('day')
-              .add(395, 'days'),
-          );
+          isValid(apptDateTime) &&
+          isAfter(apptDateTime, startOfDay(new Date(), 'day')) &&
+          isBefore(apptDateTime, addDays(endOfDay(new Date(), 'day'), 395));
   }
 
   return false;
@@ -484,7 +451,7 @@ export function isUpcomingAppointment(appt, useFeSourceOfTruth) {
  * @param {Appointment} b A FHIR appointment resource
  */
 export function sortByDateDescending(a, b) {
-  return moment(a.start).isAfter(moment(b.start)) ? -1 : 1;
+  return isAfter(new Date(a.start), new Date(b.start)) ? -1 : 1;
 }
 
 /**
@@ -493,7 +460,7 @@ export function sortByDateDescending(a, b) {
  * @param {Appointment} b A FHIR appointment resource
  */
 export function sortByDateAscending(a, b) {
-  return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
+  return isBefore(new Date(a.start), new Date(b.start)) ? -1 : 1;
 }
 
 /**
@@ -502,7 +469,7 @@ export function sortByDateAscending(a, b) {
  * @param {Appointment} b A FHIR appointment resource
  */
 export function sortByCreatedDateDescending(a, b) {
-  return moment(a.created).isAfter(moment(b.created)) ? -1 : 1;
+  return isAfter(new Date(a.created), new Date(b.created)) ? -1 : 1;
 }
 
 /**
@@ -510,42 +477,43 @@ export function sortByCreatedDateDescending(a, b) {
  * @param {Appointment} a A FHIR appointment resource
  * @param {Appointment} b A FHIR appointment resource
  */
-export function sortUpcoming(a, b) {
-  if (
-    CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType) !==
-    CONFIRMED_APPOINTMENT_TYPES.has(b.vaos.appointmentType)
-  ) {
-    return CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType) ? -1 : 1;
-  }
+// export function sortUpcoming(a, b) {
+//   if (
+//     CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType) !==
+//     CONFIRMED_APPOINTMENT_TYPES.has(b.vaos.appointmentType)
+//   ) {
+//     return CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType) ? -1 : 1;
+//   }
 
-  if (CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType)) {
-    return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
-  }
+//   if (CONFIRMED_APPOINTMENT_TYPES.has(a.vaos.appointmentType)) {
+//     return isBefore(new Date(a.start), new Date(b.start)) ? -1 : 1;
+//   }
 
-  const typeOfCareA = a.type?.coding?.[0]?.display;
-  const typeOfCareB = b.type?.coding?.[0]?.display;
+//   const typeOfCareA = a.type?.coding?.[0]?.display;
+//   const typeOfCareB = b.type?.coding?.[0]?.display;
 
-  // If type of care is the same, return the one with the sooner date
-  if (typeOfCareA === typeOfCareB) {
-    return moment(a.requestedPeriod[0].start).isBefore(
-      moment(b.requestedPeriod[0].start),
-    )
-      ? -1
-      : 1;
-  }
+//   // If type of care is the same, return the one with the sooner date
+//   if (typeOfCareA === typeOfCareB) {
+//     return isBefore(
+//       new Date(a.requestedPeriod[0].start),
+//       new Date(b.requestedPeriod[0].start),
+//     )
+//       ? -1
+//       : 1;
+//   }
 
-  // Otherwise, return sorted alphabetically by appointmentType
-  return typeOfCareA.toLowerCase() < typeOfCareB.toLowerCase() ? -1 : 1;
-}
+//   // Otherwise, return sorted alphabetically by appointmentType
+//   return typeOfCareA.toLowerCase() < typeOfCareB.toLowerCase() ? -1 : 1;
+// }
 
 /**
  * Sort method for appointment messages
  * @param {Object} a Message object
  * @param {Object} b Message object
  */
-export function sortMessages(a, b) {
-  return moment(a.attributes.date).isBefore(b.attributes.date) ? -1 : 1;
-}
+// export function sortMessages(a, b) {
+//   return isBefore(new Date(a.attributes.date), b.attributes.date) ? -1 : 1;
+// }
 
 /**
  * Method to check for home video appointment
@@ -590,7 +558,7 @@ export function groupAppointmentsByMonth(appointments) {
   }
 
   return appointments.reduce((previous, current) => {
-    const key = moment(current.start).format('YYYY-MM');
+    const key = format(new Date(current.start), 'yyyy-MM');
     // eslint-disable-next-line no-param-reassign
     previous[key] = previous[key] || [];
     previous[key].push(current);
@@ -721,9 +689,10 @@ export function getCalendarData({ appointment, facility }) {
       summary: 'Phone appointment',
       providerName: facility?.name,
       location: formatFacilityAddress(facility),
-      text: `A provider will call you at ${moment
-        .parseZone(appointment.start)
-        .format('h:mm a')}`,
+      text: `A provider will call you at ${format(
+        new Date(appointment.start),
+        'h:mm aaa',
+      )}`,
       phone: getFacilityPhone(facility),
       additionalText: [signinText],
     };
@@ -872,18 +841,14 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
     if (!promise || navigator.userAgent === 'node.js') {
       // Creating an array of start and end dates for each chunk
       const ranges = Array.from(Array(chunks).keys()).map(i => {
+        const now = startOfDay(new Date());
         return {
-          start: moment()
-            .startOf('day')
-            .subtract(i + 1, 'year')
-            .utc()
-            .format(),
-
-          end: moment()
-            .startOf('day')
-            .subtract(i, 'year')
-            .utc()
-            .format(),
+          start: subYears(now, i + 1, 'year')
+            .toISOString()
+            .split('.')[0],
+          end: subYears(now, i, 'year')
+            .toISOString()
+            .split('.')[0],
         };
       });
 
@@ -925,12 +890,18 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
  * @returns Appointment date
  */
 export function getAppointmentDate(appointment) {
-  return moment.parseZone(appointment.start);
+  return new Date(appointment.start);
 }
 
 export function groupAppointmentByDay(appointments) {
   return appointments.reduce((previous, current) => {
-    const key = moment(current.start).format('YYYY-MM-DD');
+    // const tokens = current.start.split('-');
+    // console.log(current.start, tokens)
+    // const key = format(
+    //   new Date(tokens[0], tokens[1] - 1, tokens[2]),
+    //   'yyyy-MM-dd',
+    // );
+    const key = format(new Date(current.start), 'yyyy-MM-dd');
     // eslint-disable-next-line no-param-reassign
     previous[key] = previous[key] || [];
     previous[key].push(current);
@@ -978,5 +949,5 @@ export function getLabelText(appointment) {
 
   return `Details for ${
     isCanceled(appointment) ? 'canceled ' : ''
-  }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`;
+  }appointment on ${format(appointmentDate, 'EEEE, MMMM d h:mm aaa')}`;
 }

@@ -1,9 +1,11 @@
-import React from 'react';
 import { expect } from 'chai';
+import { addDays } from 'date-fns';
+import React from 'react';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import DetailsVA from './DetailsVA';
-import { Facility } from '../../../tests/mocks/unit-test-helpers';
+import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
 import { createTestStore } from '../../../tests/mocks/setup';
+import { Facility } from '../../../tests/mocks/unit-test-helpers';
+import DetailsVA from './DetailsVA';
 
 const facilityData = new Facility();
 
@@ -54,25 +56,13 @@ describe('VAOS Component: DetailsVA', () => {
     it('should display phone appointment layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {},
-        minutesDuration: 60,
-        startUtc: new Date(),
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isPhoneAppointment: true,
-          isCancellable: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createPhoneResponse({
+        localStartTime: addDays(new Date(), 1),
+        future: true,
+      });
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const props = { appointment, facilityData };

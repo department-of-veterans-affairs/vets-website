@@ -1,8 +1,7 @@
 import { expect } from 'chai';
+import { addDays, subDays } from 'date-fns';
 import React from 'react';
-import { MockAppointment } from '../../tests/fixtures/MockAppointment';
 import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
-import MockFacility from '../../tests/fixtures/MockFacility';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -39,39 +38,18 @@ describe('VAOS Component: PhoneLayout', () => {
     it('should not display heading and text for empty data', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        type: 'VA',
-        modality: 'phone',
-        minutesDuration: 60,
-        startUtc: new Date(),
-        videoData: {},
-        practitioners: [
-          {
-            identifier: [
-              {
-                system: 'dfn-983',
-                value: '520647363',
-              },
-            ],
-            practiceName: 'Cheyenne VA Medical Center',
-          },
-        ],
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isPhoneAppointment: true,
-          isCancellable: true,
-          isCerner: false,
-          apiData: {},
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createPhoneResponse({
+        localStartTime: new Date(),
+        future: true,
+      })
+        .setLocationId(null)
+        .setTypeOfCare(null);
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
       const nullAttributes = {
         type: 'VA',
-        modality: 'phone',
+        modality: 'vaPhone',
         isCerner: false,
       };
 
@@ -162,25 +140,13 @@ describe('VAOS Component: PhoneLayout', () => {
     it('should display facility phone when clinic phone is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-        },
-        minutesDuration: 60,
-        startUtc: new Date(),
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isPhoneAppointment: true,
-          isCancellable: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createPhoneResponse({
+        localStartTime: new Date(),
+        future: true,
+      });
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -198,23 +164,13 @@ describe('VAOS Component: PhoneLayout', () => {
     it('should display VA main phone when facility id is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {},
-        minutesDuration: 60,
-        startUtc: new Date(),
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isPhoneAppointment: true,
-          isCancellable: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createPhoneResponse({
+        localStartTime: new Date(),
+        future: true,
+      }).setLocationId(null);
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -223,6 +179,7 @@ describe('VAOS Component: PhoneLayout', () => {
           store,
         },
       );
+
       // Assert
       expect(
         screen.container.querySelector('va-telephone[contact="800-698-2411"]'),
@@ -234,41 +191,21 @@ describe('VAOS Component: PhoneLayout', () => {
     it('should display phone layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        reasonForAppointment: 'This is a test',
-        patientComments: 'Additional information:colon',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        minutesDuration: 60,
-        startUtc: new Date(),
-        practitioners: [
-          {
-            name: {
-              family: 'User',
-              given: ['Test'],
-            },
-          },
-        ],
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isPhoneAppointment: true,
-          isCancellable: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createPhoneResponse({
+        localStartTime: addDays(new Date(), 1),
+        future: true,
+      })
+        .setCancellable(true)
+        .setClinicPhoneNumber('500-500-5000')
+        .setClinicPhoneNumberExtension('1234')
+        .setPatientComments('Additional information:colon')
+        .setPractitioner({ family: 'User', given: 'Test' })
+        .setReasonForAppointment('This is a test')
+        .setServiceName('Clinic 1');
+
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -398,31 +335,16 @@ describe('VAOS Component: PhoneLayout', () => {
     it('should display phone layout without cancel button', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        reasonForAppointment: 'This is a test',
-        patientComments: 'Additional information:colon',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-        },
-        minutesDuration: 60,
-        startUtc: new Date(),
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isPhoneAppointment: true,
-          isCancellable: false,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createPhoneResponse({
+        localStartTime: addDays(new Date(), 1),
+        future: true,
+      })
+        .setPatientComments('Additional information:colon')
+        .setReasonForAppointment('This is a test')
+        .setServiceName('Clinic 1');
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -508,11 +430,17 @@ describe('VAOS Component: PhoneLayout', () => {
     it('should display phone layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = new MockAppointment()
-        .setApiData(new MockAppointmentResponse())
-        .setIsPastAppointment(true)
-        .setLocation(new MockFacility())
-        .setPatientComments('Other details: Additional information:colon');
+      const response = MockAppointmentResponse.createPhoneResponse({
+        localStartTime: subDays(new Date(), 1),
+        past: true,
+      })
+        .setClinicPhoneNumber('500-500-5000')
+        .setPatientComments('Additional information:colon')
+        .setReasonForAppointment('This is a test')
+        .setServiceName('Clinic 1');
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -585,13 +513,18 @@ describe('VAOS Component: PhoneLayout', () => {
     it('should display phone when in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = new MockAppointment({
-        status: APPOINTMENT_STATUS.cancelled,
+      const response = MockAppointmentResponse.createPhoneResponse({
+        localStartTime: addDays(new Date(), 1),
+        future: true,
       })
-        .setApiData(new MockAppointmentResponse())
-        .setIsUpcomingAppointment(true)
-        .setLocation(new MockFacility())
-        .setPatientComments('Other details: Additional information:colon');
+        .setClinicPhoneNumber('500-500-5000')
+        .setPatientComments('Additional information:colon')
+        .setReasonForAppointment('This is a test')
+        .setServiceName('Clinic 1')
+        .setStatus(APPOINTMENT_STATUS.cancelled);
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -685,13 +618,18 @@ describe('VAOS Component: PhoneLayout', () => {
     it('should display phone when in the past', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = new MockAppointment({
-        status: APPOINTMENT_STATUS.cancelled,
+      const response = MockAppointmentResponse.createPhoneResponse({
+        localStartTime: addDays(new Date(), 1),
+        past: true,
       })
-        .setApiData(new MockAppointmentResponse())
-        .setIsPastAppointment(true)
-        .setLocation(new MockFacility())
-        .setPatientComments('Other details: Additional information:colon');
+        .setClinicPhoneNumber('500-500-5000')
+        .setPatientComments('Additional information:colon')
+        .setReasonForAppointment('This is a test')
+        .setServiceName('Clinic 1')
+        .setStatus(APPOINTMENT_STATUS.cancelled);
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(

@@ -161,6 +161,7 @@ describe('VAOS upcoming appointment flow', () => {
         MockAppointmentResponse.createCCResponses({
           localStartTime: addDays(new Date(), 1),
           future: true,
+          status: APPOINTMENT_STATUS.booked,
         }),
         MockAppointmentResponse.createPhoneResponses({
           localStartTime: addDays(new Date(), 1),
@@ -516,6 +517,7 @@ describe('VAOS upcoming appointment flow', () => {
       const responses = MockAppointmentResponse.createCCResponses({
         localStartTime: addDays(new Date(), 1),
         future: true,
+        status: APPOINTMENT_STATUS.booked,
       });
       responses[0].setTypeOfCare('audiology').setCCProvider();
 

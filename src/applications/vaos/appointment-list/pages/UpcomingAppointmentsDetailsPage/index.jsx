@@ -1,17 +1,17 @@
+import { format } from 'date-fns';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
-import InfoAlert from '../../../components/InfoAlert';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
+import InfoAlert from '../../../components/InfoAlert';
 import CCLayout from '../../../components/layouts/CCLayout';
 import VideoLayout from '../../../components/layouts/VideoLayout';
 import {
   isAtlasVideoAppointment,
   isClinicVideoAppointment,
-  isVAPhoneAppointment,
   isInPersonVisit,
+  isVAPhoneAppointment,
 } from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -42,7 +42,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   const isInPerson = isInPersonVisit(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
-  const appointmentDate = moment.parseZone(appointment?.start);
+  const appointmentDate = new Date(appointment?.start);
   const isVideo = appointment?.vaos?.isVideo;
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;
@@ -88,8 +88,9 @@ export default function UpcomingAppointmentsDetailsPage() {
       }
 
       if (appointment && appointmentDate) {
-        document.title = `${pageTitle} ${appointmentDate.format(
-          'dddd, MMMM D, YYYY',
+        document.title = `${pageTitle} ${format(
+          appointmentDate,
+          'EEEE, MMMM d, yyyy',
         )} | Veterans Affairs`;
         scrollAndFocus();
       }

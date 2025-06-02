@@ -99,12 +99,10 @@ export function mockAppointmentsApi({
     environment.API_URL
   }/vaos/v2/appointments?_include=${includes}&start=${
     useRFC3339
-      ? `${start.toISOString().slice(0, 19)}Z`
+      ? `${start.toISOString().slice(0, 19)}`
       : format(start, 'yyyy-MM-dd')
   }&end=${
-    useRFC3339
-      ? `${end.toISOString().slice(0, 19)}Z`
-      : format(end, 'yyyy-MM-dd')
+    useRFC3339 ? `${end.toISOString().slice(0, 19)}` : format(end, 'yyyy-MM-dd')
   }&${statuses.map(status => `statuses[]=${status}`).join('&')}`;
 
   const meta = backendServiceFailures ? metaWithFailures : metaWithoutFailures;
