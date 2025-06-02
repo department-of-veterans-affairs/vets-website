@@ -91,44 +91,44 @@ const formConfig = {
         },
       },
     },
-  },
-  additionalInformationChapter: {
-    title: 'Additional Information',
-    pages: {
-      contactInformation: {
-        path: 'contact-information',
-        title: 'Contact Information',
-        uiSchema: {
-          address: address.uiSchema('Mailing address'),
-          email: {
-            'ui:title': 'Primary email',
-          },
-          altEmail: {
-            'ui:title': 'Secondary email',
-          },
-          phoneNumber: phoneUI('Daytime phone'),
-        },
-        schema: {
-          type: 'object',
-          properties: {
-            address: address.schema(fullSchema, true),
+    additionalInformationChapter: {
+      title: 'Additional Information',
+      pages: {
+        contactInformation: {
+          path: 'contact-information',
+          title: 'Contact Information',
+          uiSchema: {
+            address: address.uiSchema('Mailing address'),
             email: {
-              type: 'string',
-              format: 'email',
+              'ui:title': 'Primary email',
             },
             altEmail: {
-              type: 'string',
-              format: 'email',
+              'ui:title': 'Secondary email',
             },
-            phoneNumber: usaPhone,
+            phoneNumber: phoneUI('Daytime phone'),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              address: address.schema(fullSchema, true),
+              email: {
+                type: 'string',
+                format: 'email',
+              },
+              altEmail: {
+                type: 'string',
+                format: 'email',
+              },
+              phoneNumber: usaPhone,
+            },
           },
         },
-      },
-      directDeposit: {
-        path: 'direct-deposit',
-        title: 'Direct Deposit',
-        uiSchema: directDeposit.uiSchema,
-        schema: directDeposit.schema,
+        directDeposit: {
+          path: 'direct-deposit',
+          title: 'Direct Deposit',
+          uiSchema: directDeposit.uiSchema,
+          schema: directDeposit.schema,
+        },
       },
     },
   },
