@@ -1,4 +1,5 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 // import path from 'path-browserify';
@@ -17,7 +18,11 @@ import {
   proprietaryProfit,
   potentialConflictOfInterest,
   affiliatedIndividuals,
+  allProprietarySchools,
+  allProprietarySchoolsEmployeeInfo,
+  allProprietarySchoolsSummary,
 } from '../pages';
+import { arrayBuilderOptions } from '../helpers';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -114,44 +119,58 @@ const formConfig = {
         },
       },
     },
-    additionalInformationChapter: {
-      title: 'Additional Information',
+    allProprietarySchoolsChapter: {
+      title: 'All proprietary schools',
       pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
+        ...arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
+          allProprietarySchoolsIntro: pageBuilder.introPage({
+            path: 'all-proprietary-schools',
+            title: 'All proprietary schools',
+            uiSchema: allProprietarySchools.uiSchema,
+            schema: allProprietarySchools.schema,
+            onNavForward: ({ formData, goPath }) => {
+              if (formData?.allProprietarySchools === false) {
+                goPath(
+                  formConfig.chapters.directDepositChapter.pages.directDeposit
+                    .path,
+                );
+              } else {
+                goPath('/all-proprietary-schools/0?add=true');
+              }
             },
-            altEmail: {
-              'ui:title': 'Secondary email',
+          }),
+          'view:allProprietarySchools': pageBuilder.summaryPage({
+            path: 'all-proprietary-schools-employee-info/summary',
+            title: 'All proprietary schools employee information',
+            uiSchema: allProprietarySchoolsSummary.uiSchema,
+            schema: allProprietarySchoolsSummary.schema,
+            onNavBack: ({ _, goPath }) => {
+              const allProprietarySchoolsEmployeeInfoIndex = localStorage.getItem(
+                'allProprietarySchoolsEmployeeInfoIndex',
+              );
+              goPath(
+                `/all-proprietary-schools/${allProprietarySchoolsEmployeeInfoIndex}?add=true`,
+              );
             },
-            phoneNumber: phoneUI('Daytime phone'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
+          }),
+          allProprietarySchoolsEmployeeInfo: pageBuilder.itemPage({
+            path: 'all-proprietary-schools/:index',
+            title: 'All proprietary schools employee information',
+            showPagePerItem: true,
+            uiSchema: allProprietarySchoolsEmployeeInfo.uiSchema,
+            schema: allProprietarySchoolsEmployeeInfo.schema,
+            onNavForward: ({ _, goPath }) => {
+              const url = new URL(window.location.href);
+              const pathSegments = url.pathname.split('/');
+              const index = pathSegments[pathSegments.length - 1];
+              localStorage.setItem(
+                'allProprietarySchoolsEmployeeInfoIndex',
+                index,
+              );
+              goPath('/all-proprietary-schools-employee-info/summary');
             },
-          },
-        },
-        directDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: directDeposit.uiSchema,
-          schema: directDeposit.schema,
-        },
+          }),
+        })),
       },
     },
   },
