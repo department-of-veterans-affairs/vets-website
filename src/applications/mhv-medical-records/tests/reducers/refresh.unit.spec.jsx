@@ -98,6 +98,7 @@ describe('getOverallPhase', () => {
     lastSuccessfulCompleted: now,
   };
   const staleStatus = {
+    extract: refreshExtractTypes.ALLERGY,
     lastRequested: pastTime,
     lastCompleted: pastTime,
     lastSuccessfulCompleted: pastTime,
@@ -110,10 +111,7 @@ describe('getOverallPhase', () => {
 
   it('should return IN_PROGRESS if any extract is IN_PROGRESS', () => {
     const refreshStatus = [
-      {
-        ...currStatus,
-        extract: refreshExtractTypes.ALLERGY,
-      },
+      { ...currStatus },
       {
         extract: refreshExtractTypes.VPR,
         lastRequested: now, // IN_PROGRESS
@@ -127,14 +125,8 @@ describe('getOverallPhase', () => {
 
   it('should return STALE if no extracts are IN_PROGRESS but at least one is STALE', () => {
     const refreshStatus = [
-      {
-        ...staleStatus,
-        extract: refreshExtractTypes.ALLERGY,
-      },
-      {
-        ...currStatus,
-        extract: refreshExtractTypes.VPR,
-      },
+      { ...staleStatus },
+      { ...currStatus, extract: refreshExtractTypes.VPR },
     ];
     const result = getOverallPhase(refreshStatus, Date.now());
     expect(result).to.equal(refreshPhases.STALE);
@@ -148,10 +140,7 @@ describe('getOverallPhase', () => {
         lastCompleted: now,
         lastSuccessfulCompleted: now - 1000,
       },
-      {
-        ...currStatus,
-        extract: refreshExtractTypes.VPR,
-      },
+      { ...currStatus, extract: refreshExtractTypes.VPR },
     ];
     const result = getOverallPhase(refreshStatus, Date.now());
     expect(result).to.equal(refreshPhases.CURRENT);
@@ -159,14 +148,8 @@ describe('getOverallPhase', () => {
 
   it('should return CURRENT if all extracts are CURRENT', () => {
     const refreshStatus = [
-      {
-        ...currStatus,
-        extract: refreshExtractTypes.ALLERGY,
-      },
-      {
-        ...currStatus,
-        extract: refreshExtractTypes.VPR,
-      },
+      { ...currStatus, extract: refreshExtractTypes.ALLERGY },
+      { ...currStatus, extract: refreshExtractTypes.VPR },
     ];
     const result = getOverallPhase(refreshStatus, Date.now());
     expect(result).to.equal(refreshPhases.CURRENT);
@@ -174,13 +157,12 @@ describe('getOverallPhase', () => {
 
   it('should return null if none of the extracts match the listed extracts', () => {
     const refreshStatus = [
+      { ...currStatus, extract: 'UnknownExtract1' },
       {
-        ...currStatus,
-        extract: 'UnknownExtract1',
-      },
-      {
-        ...staleStatus,
         extract: 'UnknownExtract2',
+        lastRequested: pastTime,
+        lastCompleted: pastTime,
+        lastSuccessfulCompleted: pastTime,
       },
     ];
     const result = getOverallPhase(refreshStatus, Date.now());
