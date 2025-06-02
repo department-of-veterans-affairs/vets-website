@@ -1,16 +1,10 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-// import path from 'path-browserify';
-import fullSchema from '../22-1919-schema.json';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
-import directDeposit from '../pages/directDeposit';
-
 import {
   certifyingOfficials,
   aboutYourInstitution,
