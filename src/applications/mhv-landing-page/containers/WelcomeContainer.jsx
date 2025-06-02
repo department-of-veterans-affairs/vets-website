@@ -9,9 +9,7 @@ const WelcomeContainer = () => {
   const loa3 = useSelector(isLOA3);
   const name = useSelector(selectGreetingName);
 
-  useEffect(() => {
-    return inMPI && loa3;
-  }, [dispatch, inMPI, loa3]);
+  useEffect(() => inMPI && loa3, [dispatch, inMPI, loa3]);
 
   return <Welcome name={name} />;
 };

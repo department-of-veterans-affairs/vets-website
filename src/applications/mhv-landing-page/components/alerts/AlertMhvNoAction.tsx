@@ -1,10 +1,21 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const AlertMhvNoAction = ({ errorCode, testId, recordEvent }) => {
+interface AlertMhvNoActionProps {
+  errorCode?: string;
+  headline?: string;
+  recordEvent?(...args: unknown[]): unknown;
+  testId?: string;
+  title?: string;
+}
+
+const AlertMhvNoAction = ({
+  errorCode,
+  testId,
+  recordEvent
+}: AlertMhvNoActionProps) => {
   const headline = `You can't access messages, medications, or medical records right now`;
   useEffect(() => {
     recordEvent({
@@ -56,14 +67,6 @@ AlertMhvNoAction.defaultProps = {
   errorCode: 'unknown',
   recordEvent: recordEventFn,
   testId: 'mhv-alert--mhv-registration',
-};
-
-AlertMhvNoAction.propTypes = {
-  errorCode: PropTypes.string,
-  headline: PropTypes.string,
-  recordEvent: PropTypes.func,
-  testId: PropTypes.string,
-  title: PropTypes.string,
 };
 
 export default AlertMhvNoAction;

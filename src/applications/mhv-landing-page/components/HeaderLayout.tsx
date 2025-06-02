@@ -1,17 +1,22 @@
 import React from 'react';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { datadogRum } from '@datadog/browser-rum';
 import WelcomeContainer from '../containers/WelcomeContainer';
 
 const goBackLinkText = 'Go back to the previous version of My HealtheVet';
 
+interface HeaderLayoutProps {
+  showMhvGoBack?: boolean;
+  showWelcomeMessage?: boolean;
+  ssoe?: boolean;
+}
+
 const HeaderLayout = ({
   showWelcomeMessage = false,
   showMhvGoBack = false,
-  ssoe = false,
-}) => {
+  ssoe = false
+}: HeaderLayoutProps) => {
   const mhvHomeUrl = mhvUrl(ssoe, 'home');
 
   return (
@@ -91,12 +96,6 @@ const HeaderLayout = ({
       )}
     </>
   );
-};
-
-HeaderLayout.propTypes = {
-  showMhvGoBack: PropTypes.bool,
-  showWelcomeMessage: PropTypes.bool,
-  ssoe: PropTypes.bool,
 };
 
 export default HeaderLayout;

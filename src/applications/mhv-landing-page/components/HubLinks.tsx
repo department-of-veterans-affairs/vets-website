@@ -1,8 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
-const HubSection = ({ title, links }) => {
+interface HubSectionProps {
+  links?: {
+    text?: string;
+    href?: string;
+  }[];
+  title?: string;
+}
+
+const HubSection = ({
+  title,
+  links
+}: HubSectionProps) => {
   const listItems = links.map(({ href, text }, index) => (
     <li key={`${href}--${index}`}>
       <a
@@ -29,7 +39,19 @@ const HubSection = ({ title, links }) => {
   );
 };
 
-const HubLinks = ({ hubs }) => {
+interface HubLinksProps {
+  hubs?: {
+    title?: string;
+    links?: {
+      text?: string;
+      href?: string;
+    }[];
+  }[];
+}
+
+const HubLinks = ({
+  hubs
+}: HubLinksProps) => {
   const hubLayout = hubs.map((h, index) => (
     <div
       key={h.title}
@@ -46,21 +68,4 @@ const HubLinks = ({ hubs }) => {
   );
 };
 
-HubSection.propTypes = {
-  links: PropTypes.arrayOf(
-    PropTypes.shape({ text: PropTypes.string, href: PropTypes.string }),
-  ),
-  title: PropTypes.string,
-};
-
-HubLinks.propTypes = {
-  hubs: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      links: PropTypes.arrayOf(
-        PropTypes.shape({ text: PropTypes.string, href: PropTypes.string }),
-      ),
-    }),
-  ),
-};
 export default HubLinks;
