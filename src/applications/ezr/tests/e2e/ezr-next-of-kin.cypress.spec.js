@@ -42,7 +42,7 @@ describe('EZR TERA flow', () => {
     );
 
     const contact = testData.nextOfKins[0];
-    // ec 1 basic info
+    // NoK 1 basic info
     cy.get(`[name="root_fullName_first"]`)
       .first()
       .type(contact.fullName.first);
