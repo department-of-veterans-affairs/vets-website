@@ -8,6 +8,7 @@ import {
   goToNextPage,
   selectDropdownWebComponent,
   selectYesNoWebComponent,
+  fillNameWithKeyboard,
 } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import { advanceToNextOfKin } from './helpers/next-of-kin';
@@ -43,12 +44,7 @@ describe('EZR TERA flow', () => {
 
     const contact = testData.nextOfKins[0];
     // NoK 1 basic info
-    cy.get(`[name="root_fullName_first"]`)
-      .first()
-      .type(contact.fullName.first);
-    cy.get(`[name="root_fullName_last"]`)
-      .first()
-      .type(contact.fullName.last);
+    fillNameWithKeyboard('fullName', contact.fullName);
     fillTextWebComponent('primaryPhone', contact.primaryPhone);
     selectDropdownWebComponent('relationship', contact.relationship);
     selectYesNoWebComponent('view:hasNextOfKinAddress', true);
