@@ -1,39 +1,62 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor, cleanup, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { waitFor, render, cleanup, fireEvent } from '@testing-library/react';
 import {
   setupServer,
   createPutHandler,
   createPostHandler,
   jsonResponse,
 } from 'platform/testing/unit/msw-adapter';
+import { datadogEvents, errorCodes } from '../constants';
+import { querySelector } from 'platform/forms-system/src/js/utilities/ui';
 
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import MyVAHealth from '../components/MyVAHealth';
 
 const oldLocation = global.window.location;
 
+// Mock datadogRum
+const mockDatadogRum = {
+  addAction: sinon.stub(),
+};
+
 describe('MyVAHealth', () => {
-  const ssoeTarget = `https://staging-patientportal.myhealth.va.gov`;
-  const altSsoeTarget = `https://sandbox-patientportal.myhealth.va.gov`;
+  const ssoeTarget = 'https://staging-patientportal.myhealth.va.gov';
+  const altSsoeTarget = 'https://sandbox-patientportal.myhealth.va.gov';
   const server = setupServer();
 
-  before(() => server.listen());
+  // Mock profile for Redux state
+  const mockProfile = {
+    facilities: [
+      { name: 'FACILITY 1', isCerner: true },
+      { name: 'FACILITY 2', isCerner: false },
+    ],
+  };
+
+  before(() => {
+    server.listen();
+    // Add datadogRum to global scope
+    global.datadogRum = mockDatadogRum;
+  });
 
   afterEach(() => {
     server.resetHandlers();
     cleanup();
     global.window.location = oldLocation;
+    mockDatadogRum.addAction.reset();
   });
 
-  after(() => server.close());
+  after(() => {
+    server.close();
+    delete global.datadogRum;
+  });
 
   it('should render', () => {
     const { container } = render(<MyVAHealth />);
 
-    const loadingIndicator = $('va-loading-indicator', container);
+    const loadingIndicator = querySelector('va-loading-indicator', container);
     expect(loadingIndicator).to.not.be.null;
   });
 
@@ -43,7 +66,7 @@ describe('MyVAHealth', () => {
 
       server.use(
         createPutHandler(
-          `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
           () => jsonResponse({ provisioned: true }),
         ),
       );
@@ -62,7 +85,7 @@ describe('MyVAHealth', () => {
 
     server.use(
       createPutHandler(
-        `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
+        'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
         () => jsonResponse({ provisioned: false }),
       ),
     );
@@ -80,12 +103,12 @@ describe('MyVAHealth', () => {
 
     server.use(
       createPutHandler(
-        `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
+        'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
         () =>
           jsonResponse({ error: 'Agreement not accepted' }, { status: 400 }),
       ),
       createPostHandler(
-        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept_and_provision`,
+        'https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept_and_provision',
         () => jsonResponse({}, { status: 503 }),
       ),
     );
@@ -114,7 +137,7 @@ describe('MyVAHealth', () => {
 
       server.use(
         createPutHandler(
-          `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
           () =>
             jsonResponse({ error: 'Agreement not accepted' }, { status: 500 }),
         ),
@@ -139,7 +162,7 @@ describe('MyVAHealth', () => {
 
       server.use(
         createPutHandler(
-          `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
           () =>
             jsonResponse({ error: 'Account not Provisioned' }, { status: 401 }),
         ),
@@ -148,7 +171,7 @@ describe('MyVAHealth', () => {
       render(<MyVAHealth />);
 
       await waitFor(() => {
-        expect(global.window.location.includes(`code=111`)).to.be.true;
+        expect(global.window.location.includes('code=111')).to.be.true;
         expect(global.window.location).to.not.eql(startingLocation);
       });
     });
@@ -159,7 +182,7 @@ describe('MyVAHealth', () => {
 
       server.use(
         createPutHandler(
-          `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
           () => jsonResponse({ error: 'Some other error' }, { status: 401 }),
         ),
       );
@@ -167,25 +190,25 @@ describe('MyVAHealth', () => {
       render(<MyVAHealth />);
 
       await waitFor(() => {
-        expect(global.window.location.includes(`code=110`)).to.be.true;
+        expect(global.window.location.includes('code=110')).to.be.true;
         expect(global.window.location).to.not.eql(startingLocation);
       });
     });
   });
 
-  context(`user actions`, () => {
+  context('user actions', () => {
     it('display terms + click `accept`', async () => {
       const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
       global.window.location = startingLocation;
 
       server.use(
         createPutHandler(
-          `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
           () =>
             jsonResponse({ error: 'Agreement not accepted' }, { status: 400 }),
         ),
         createPostHandler(
-          `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept_and_provision`,
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept_and_provision',
           () => jsonResponse({ good: 'togo' }),
         ),
       );
@@ -212,11 +235,11 @@ describe('MyVAHealth', () => {
 
       server.use(
         createPutHandler(
-          `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
           () => jsonResponse(400, { error: 'Agreement not accepted' }),
         ),
         createPostHandler(
-          `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline`,
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline',
           jsonResponse(200, { good: 'togo' }),
         ),
       );
@@ -227,7 +250,7 @@ describe('MyVAHealth', () => {
         },
       });
 
-      const modal = $('va-modal', container);
+      const modal = querySelector('va-modal', container);
       modal.__events.primaryButtonClick();
 
       await waitFor(() => {
@@ -241,11 +264,11 @@ describe('MyVAHealth', () => {
 
       server.use(
         createPutHandler(
-          `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
           () => jsonResponse({}, { status: 503 }),
         ),
         createPostHandler(
-          `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline`,
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline',
           () => jsonResponse({ good: 'togo' }),
         ),
       );
@@ -268,12 +291,12 @@ describe('MyVAHealth', () => {
 
       server.use(
         createPutHandler(
-          `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
           () =>
             jsonResponse({ error: 'Agreement not accepted' }, { status: 400 }),
         ),
         createPostHandler(
-          `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline`,
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline',
           () => jsonResponse({ good: 'togo' }),
         ),
       );
@@ -300,6 +323,195 @@ describe('MyVAHealth', () => {
       expect(modal.getAttribute('visible')).to.eql('true');
       modal.__events.secondaryButtonClick();
       expect(modal.getAttribute('visible')).to.eql('false');
+    });
+  });
+
+  context('Datadog eventing', () => {
+    it('should track error code 110 with Datadog when API returns an unexpected error', async () => {
+      const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
+      global.window.location = startingLocation;
+
+      server.use(
+        createPutHandler(
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
+          () => jsonResponse({ error: 'Some other error' }, { status: 401 }),
+        ),
+      );
+
+      renderInReduxProvider(<MyVAHealth />, {
+        initialState: {
+          user: {
+            profile: mockProfile,
+          },
+        },
+      });
+
+      await waitFor(() => {
+        expect(
+          global.window.location.includes(`code=${errorCodes.GENERAL_ERROR}`),
+        ).to.be.true;
+        expect(mockDatadogRum.addAction.called).to.be.true;
+
+        // Check that the error event was logged with the correct properties
+        const eventCall = mockDatadogRum.addAction.args.find(
+          args =>
+            args[0] === datadogEvents.NETWORK_ERROR ||
+            args[0] === datadogEvents.ERROR,
+        );
+
+        expect(eventCall).to.exist;
+        expect(eventCall[1]).to.have.property(
+          'errorCode',
+          errorCodes.GENERAL_ERROR,
+        );
+        expect(eventCall[1]).to.have.property('hasEHRM', true);
+        expect(eventCall[1]).to.have.property('hasVista', true);
+      });
+    });
+
+    it('should track error code 111 with Datadog when account provisioning fails', async () => {
+      const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
+      global.window.location = startingLocation;
+
+      server.use(
+        createPutHandler(
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
+          () => jsonResponse({ provisioned: false }),
+        ),
+      );
+
+      renderInReduxProvider(<MyVAHealth />, {
+        initialState: {
+          user: {
+            profile: mockProfile,
+          },
+        },
+      });
+
+      await waitFor(() => {
+        expect(
+          global.window.location.includes(
+            `code=${errorCodes.ACCOUNT_PROVISIONING_ERROR}`,
+          ),
+        ).to.be.true;
+        expect(mockDatadogRum.addAction.called).to.be.true;
+
+        // Check that the error event was logged with the correct properties
+        const eventCall = mockDatadogRum.addAction.args.find(
+          args =>
+            args[0] === datadogEvents.PROVISIONING_FAILED ||
+            args[0] === datadogEvents.ERROR,
+        );
+
+        expect(eventCall).to.exist;
+        expect(eventCall[1]).to.have.property(
+          'errorCode',
+          errorCodes.ACCOUNT_PROVISIONING_ERROR,
+        );
+        expect(eventCall[1]).to.have.property('hasEHRM', true);
+        expect(eventCall[1]).to.have.property('hasVista', true);
+      });
+    });
+
+    it('should track error code 111 with Datadog when API returns Account not Provisioned error', async () => {
+      const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
+      global.window.location = startingLocation;
+
+      server.use(
+        createPutHandler(
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
+          () =>
+            jsonResponse({ error: 'Account not Provisioned' }, { status: 401 }),
+        ),
+      );
+
+      renderInReduxProvider(<MyVAHealth />, {
+        initialState: {
+          user: {
+            profile: mockProfile,
+          },
+        },
+      });
+
+      await waitFor(() => {
+        expect(
+          global.window.location.includes(
+            `code=${errorCodes.ACCOUNT_PROVISIONING_ERROR}`,
+          ),
+        ).to.be.true;
+        expect(mockDatadogRum.addAction.called).to.be.true;
+
+        // Check that the error event was logged with the correct properties
+        const eventCall = mockDatadogRum.addAction.args.find(
+          args => args[0] === datadogEvents.ACCOUNT_NOT_PROVISIONED,
+        );
+
+        expect(eventCall).to.exist;
+        expect(eventCall[1]).to.have.property(
+          'errorCode',
+          errorCodes.ACCOUNT_PROVISIONING_ERROR,
+        );
+        expect(eventCall[1]).to.have.property(
+          'errorMessage',
+          'Account not Provisioned',
+        );
+        expect(eventCall[1]).to.have.property('hasEHRM', true);
+        expect(eventCall[1]).to.have.property('hasVista', true);
+      });
+    });
+
+    it('should track error code 110 with Datadog when handleTouClick fails', async () => {
+      const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
+      global.window.location = startingLocation;
+
+      server.use(
+        createPutHandler(
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
+          () =>
+            jsonResponse({ error: 'Agreement not accepted' }, { status: 400 }),
+        ),
+        createPostHandler(
+          'https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept_and_provision',
+          () => jsonResponse({}, { status: 503 }),
+        ),
+      );
+
+      const { findByTestId } = renderInReduxProvider(<MyVAHealth />, {
+        initialState: {
+          featureToggles: { terms_of_use: true },
+          user: {
+            profile: mockProfile,
+          },
+        },
+      });
+
+      mockDatadogRum.addAction.reset(); // Reset to focus on actions after clicking
+
+      const acceptButton = await findByTestId('accept');
+      expect(acceptButton).to.exist;
+
+      fireEvent.click(acceptButton);
+
+      await waitFor(() => {
+        expect(
+          global.window.location.includes(`code=${errorCodes.GENERAL_ERROR}`),
+        ).to.be.true;
+        expect(mockDatadogRum.addAction.called).to.be.true;
+
+        // Check that the error event was logged with the correct properties
+        const eventCall = mockDatadogRum.addAction.args.find(
+          args => args[0] === datadogEvents.API_ERROR_DURING_ACTION,
+        );
+
+        expect(eventCall).to.exist;
+        expect(eventCall[1]).to.have.property(
+          'errorCode',
+          errorCodes.GENERAL_ERROR,
+        );
+        expect(eventCall[1]).to.have.property('action', 'accept');
+        expect(eventCall[1]).to.have.property('hasEHRM', true);
+        expect(eventCall[1]).to.have.property('hasVista', true);
+      });
     });
   });
 });
