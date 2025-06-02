@@ -26,6 +26,18 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'personal-information-1': ({ afterHook }) => {
+        cy.injectAxe();
+        cy.axeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            cy.fillPage();
+            cy.findByText(/continue/i, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
       'contact-information-1': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
