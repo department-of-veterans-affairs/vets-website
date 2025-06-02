@@ -6,7 +6,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
-import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
 import {
   certifyingOfficials,
@@ -16,9 +15,9 @@ import {
   allProprietarySchoolsEmployeeInfo,
   allProprietarySchoolsSummary,
 } from '../pages';
+import { arrayBuilderOptions } from '../helpers';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -80,6 +79,60 @@ const formConfig = {
         },
       },
     },
+    allProprietarySchoolsChapter: {
+      title: 'All proprietary schools',
+      pages: {
+        ...arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
+          allProprietarySchoolsIntro: pageBuilder.introPage({
+            path: 'all-proprietary-schools',
+            title: 'All proprietary schools',
+            uiSchema: allProprietarySchools.uiSchema,
+            schema: allProprietarySchools.schema,
+            onNavForward: ({ formData, goPath }) => {
+              if (formData?.allProprietarySchools === false) {
+                goPath(
+                  formConfig.chapters.serviceHistoryChapter.pages.serviceHistory
+                    .path,
+                );
+              } else {
+                goPath('/all-proprietary-schools/0?add=true');
+              }
+            },
+          }),
+          'view:allProprietarySchools': pageBuilder.summaryPage({
+            path: 'all-proprietary-schools-employee-info/summary',
+            title: 'All proprietary schools employee information',
+            uiSchema: allProprietarySchoolsSummary.uiSchema,
+            schema: allProprietarySchoolsSummary.schema,
+            onNavBack: ({ _, goPath }) => {
+              const allProprietarySchoolsEmployeeInfoIndex = localStorage.getItem(
+                'allProprietarySchoolsEmployeeInfoIndex',
+              );
+              goPath(
+                `/all-proprietary-schools/${allProprietarySchoolsEmployeeInfoIndex}?add=true`,
+              );
+            },
+          }),
+          allProprietarySchoolsEmployeeInfo: pageBuilder.itemPage({
+            path: 'all-proprietary-schools/:index',
+            title: 'All proprietary schools employee information',
+            showPagePerItem: true,
+            uiSchema: allProprietarySchoolsEmployeeInfo.uiSchema,
+            schema: allProprietarySchoolsEmployeeInfo.schema,
+            onNavForward: ({ _, goPath }) => {
+              const url = new URL(window.location.href);
+              const pathSegments = url.pathname.split('/');
+              const index = pathSegments[pathSegments.length - 1];
+              localStorage.setItem(
+                'allProprietarySchoolsEmployeeInfoIndex',
+                index,
+              );
+              goPath('/all-proprietary-schools-employee-info/summary');
+            },
+          }),
+        })),
+      },
+    },
     serviceHistoryChapter: {
       title: 'Service History',
       pages: {
@@ -88,50 +141,17 @@ const formConfig = {
           title: 'Service History',
           uiSchema: serviceHistory.uiSchema,
           schema: serviceHistory.schema,
-        },
-      },
-    },
-    allProprietarySchoolsChapter: {
-      title: 'All proprietary schools',
-      pages: {
-        ...arrayBuilderPages(
-          {
-            arrayPath: 'all-proprietary-schools',
-            nounSingular: 'individual',
-            nounPlural: 'individuals',
-            required: true,
+          onNavBack: ({ formData, goPath }) => {
+            if (formData?.allProprietarySchools === false) {
+              goPath(
+                formConfig.chapters.allProprietarySchoolsChapter.pages
+                  .allProprietarySchoolsIntro.path,
+              );
+            } else {
+              goPath('/all-proprietary-schools-employee-info/summary');
+            }
           },
-          pageBuilder => ({
-            allProprietarySchoolsIntro: pageBuilder.introPage({
-              path: 'all-proprietary-schools',
-              title: 'All proprietary schools',
-              uiSchema: allProprietarySchools.uiSchema,
-              schema: allProprietarySchools.schema,
-            }),
-            'view:allProprietarySchools': pageBuilder.summaryPage({
-              path: 'all-proprietary-schools-employee-info/summary',
-              title: 'All proprietary schools employee information',
-              uiSchema: allProprietarySchoolsSummary.uiSchema,
-              schema: allProprietarySchoolsSummary.schema,
-            }),
-            allProprietarySchoolsEmployeeInfo: pageBuilder.itemPage({
-              path: 'all-proprietary-schools-employee-info/:index',
-              title: 'All proprietary schools employee information',
-              showPagePerItem: true,
-              uiSchema: allProprietarySchoolsEmployeeInfo.uiSchema,
-              schema: allProprietarySchoolsEmployeeInfo.schema,
-              depends: formData => {
-                return formData?.allProprietarySchools === true;
-              },
-            }),
-          }),
-        ),
-      },
-      directDeposit: {
-        path: 'direct-deposit',
-        title: 'Direct Deposit',
-        uiSchema: directDeposit.uiSchema,
-        schema: directDeposit.schema,
+        },
       },
     },
   },
