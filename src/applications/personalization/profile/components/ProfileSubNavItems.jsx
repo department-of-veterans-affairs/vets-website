@@ -14,7 +14,7 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
   // or having isBlocked state selector return true
   const filteredRoutes = routes.filter(route => {
     // loa3 check and isBlocked check
-    if ((route.requiresLOA3 && !isLOA3) || (route.requiresLOA3 && isBlocked)) {
+    if (route.requiresLOA3 && (!isLOA3 || isBlocked)) {
       return false;
     }
 
