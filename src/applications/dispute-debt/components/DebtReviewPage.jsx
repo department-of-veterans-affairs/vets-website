@@ -29,12 +29,12 @@ const DebtReviewPage = ({ data, editPage, pagePerItemIndex, name }) => {
 
   const amount = debt.currentAr || debt.originalAr || 0;
   const debtTitle =
-    deductionCodes[debt.deductionCode] || debt.benefitType || 'VA debt';
+    debt.label || deductionCodes[debt.deductionCode] || 'VA debt';
   const total = data?.selectedDebts?.length || 0;
   const debtNumber = parseInt(pagePerItemIndex, 10) + 1;
-  const dynamicTitle = `Debt ${debtNumber} of ${total}: ${currency(
-    amount,
-  )} for ${debtTitle}`;
+  const dynamicTitle =
+    debt.label ||
+    `Debt ${debtNumber} of ${total}: ${currency(amount)} for ${debtTitle}`;
 
   // Determine what fields to show based on the page name
   const isDisputeReason = name === 'disputeReason';

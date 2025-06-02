@@ -63,9 +63,16 @@ export const getDebtPageTitle = (formData, { pagePerItemIndex } = {}) => {
       ?.selectedDebts?.length || 0}`;
   }
 
+  // Use the existing label if available
+  if (debt.label) {
+    const total = formData?.selectedDebts?.length || 0;
+    const debtNumber = parseInt(pagePerItemIndex, 10) + 1;
+    return `Debt ${debtNumber} of ${total}: ${debt.label}`;
+  }
+
+  // Fallback to constructing the title
   const amount = debt.currentAr || debt.originalAr || 0;
-  const debtTitle =
-    deductionCodes[debt.deductionCode] || debt.benefitType || 'VA debt';
+  const debtTitle = deductionCodes[debt.deductionCode] || 'VA debt';
   const total = formData?.selectedDebts?.length || 0;
   const debtNumber = parseInt(pagePerItemIndex, 10) + 1;
 

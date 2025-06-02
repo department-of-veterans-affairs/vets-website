@@ -22,16 +22,15 @@ function DebtTitle({ formContext }) {
 
   const amount = currentDebt.currentAr || currentDebt.originalAr || 0;
   const debtTitle =
-    deductionCodes[currentDebt.deductionCode] ||
-    currentDebt.benefitType ||
-    'VA debt';
+    currentDebt.label || deductionCodes[currentDebt.deductionCode] || 'VA debt';
   const total = selectedDebts.length;
   const debtNumber = parseInt(formContext.pagePerItemIndex, 10) + 1;
 
   return (
     <legend className="schemaform-block-title">
       <h3 className="vads-u-margin--0 vads-u-font-size--h2">
-        Debt {debtNumber} of {total}: {currency(amount)} for {debtTitle}
+        Debt {debtNumber} of {total}:{' '}
+        {currentDebt.label || `${currency(amount)} for ${debtTitle}`}
       </h3>
     </legend>
   );
