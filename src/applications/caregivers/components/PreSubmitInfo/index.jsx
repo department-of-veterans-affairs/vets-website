@@ -103,13 +103,22 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   // keep signatures in sync with required data
   useEffect(
     () => {
-      const syncSignatureState = prev =>
-        requiredElements.reduce((acc, { label }) => {
-          acc[label] = prev[label] || DEFAULT_SIGNATURE_STATE;
-          return acc;
-        }, {});
-      setSignatures(prev => syncSignatureState(prev));
+      const requiredLabels = requiredElements.map(e => e.label);
+      const currentLabels = Object.keys(signatures);
+
+      const labelsChanged =
+        requiredLabels.length !== currentLabels.length ||
+        requiredLabels.some(label => !currentLabels.includes(label));
+
+      if (labelsChanged) {
+        const next = {};
+        requiredLabels.forEach(label => {
+          next[label] = signatures[label] || DEFAULT_SIGNATURE_STATE;
+        });
+        setSignatures(next);
+      }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [requiredElements],
   );
 
