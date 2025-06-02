@@ -4,7 +4,7 @@
       "checkForMailingAddress": true
     },
     "emailAddress": "john.veteran@example.com",
-    "movingYesNo": "N",
+    "isMoving": "N",
     "veteranFullName": {
       "first": "John",
       "middle": "",
