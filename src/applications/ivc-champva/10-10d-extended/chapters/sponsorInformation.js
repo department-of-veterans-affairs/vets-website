@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   addressUI,
   addressSchema,
@@ -16,6 +17,8 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import CustomPrefillMessage from '../components/CustomPrefillAlert';
+import { sponsorWording } from '../../10-10D/helpers/utilities';
 import { sponsorAddressCleanValidation } from '../../shared/validations';
 
 export const sponsorNameDobSchema = {
@@ -106,8 +109,17 @@ export const sponsorStatusDetails = {
 export const sponsorAddress = {
   uiSchema: {
     ...titleUI(
-      `Sponsor's mailing address`,
-      `We'll send any important information about this application to your address.`,
+      ({ formData }) => `${sponsorWording(formData)} mailing address`,
+      ({ formData }) => (
+        // Prefill message conditionally displays based on `certifierRole`
+        <>
+          <p>
+            We’ll send any important information about this application to this
+            address.
+          </p>
+          {CustomPrefillMessage(formData, 'sponsor')}
+        </>
+      ),
     ),
     sponsorAddress: {
       ...addressUI({
