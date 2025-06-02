@@ -17,7 +17,7 @@ export function axeCheck(component, state) {
   }
 
   return new Promise((resolve, reject) => {
-    axe.run(document.body, (err, result) => {
+    axe.run(document.body, { includeShadowDom: true }, (err, result) => {
       if (err) {
         // eslint-disable-next-line no-console
         console.error(err);

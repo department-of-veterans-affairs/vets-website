@@ -45,6 +45,7 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
    * for available rulesets.
    */
   let axeBuilder = {
+    includeShadowDom: true,
     runOnly: {
       type: 'tag',
       values: ['section508', 'wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'],
