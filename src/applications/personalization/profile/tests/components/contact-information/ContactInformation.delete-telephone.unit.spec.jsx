@@ -22,10 +22,19 @@ const ui = (
 let view;
 let server;
 
+// Removes the word "phone" from the field name so the text matches the UI
+// e.g., "Choose edit to add a work number."
+function getDisplayFieldName(numberName) {
+  return numberName.replace(/ phone/i, '');
+}
+
 function getEditButton(numberName) {
-  let editButton = view.queryByText(new RegExp(`add.*${numberName}`, 'i'), {
-    selector: 'button',
-  });
+  let editButton = view.queryByText(
+    new RegExp(`add.*${getDisplayFieldName(numberName)}`, 'i'),
+    {
+      selector: 'button',
+    },
+  );
   if (!editButton) {
     // Need to use `queryByRole` since the visible label is simply `Edit`, but
     // the aria-label is more descriptive
@@ -75,7 +84,7 @@ async function testSuccess(numberName) {
   // the edit phone number button should still exist
   view.getByRole('button', { name: new RegExp(`edit.*${numberName}`, 'i') });
   // and the add phone number text should exist
-  view.getByText(new RegExp(`add.*${numberName}`, 'i'));
+  view.getByText(new RegExp(`add.*${getDisplayFieldName(numberName)}`, 'i'));
 }
 
 // When the initial transaction creation request fails
