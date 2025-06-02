@@ -15,7 +15,10 @@ import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
@@ -153,7 +156,13 @@ const LOA1Content = ({
       <ClaimsAndAppeals isLOA1={isLOA1} />
 
       <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
-      <EducationAndTraining isLOA1={isLOA1} />
+
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
+          <EducationAndTraining isLOA1={isLOA1} />
+        </Toggler.Disabled>
+      </Toggler>
+
       <BenefitApplications />
 
       {showWelcomeToMyVaMessage &&
@@ -361,7 +370,13 @@ const Dashboard = ({
                     payments={payments}
                     showNotifications={showNotifications}
                   />
-                  <EducationAndTraining />
+                  <Toggler
+                    toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+                  >
+                    <Toggler.Disabled>
+                      <EducationAndTraining />
+                    </Toggler.Disabled>
+                  </Toggler>
                   <BenefitApplications />
                 </>
               )}
