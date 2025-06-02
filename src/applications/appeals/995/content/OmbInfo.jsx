@@ -1,5 +1,5 @@
 import React from 'react';
-import OmbInfo4142 from '../components/4142/OmbInfo4142';
+import { PrivacyActStatementContent } from '../components/4142/PrivacyActStatementContent';
 import {
   titleFormDetails,
   subTitle995,
@@ -64,7 +64,9 @@ const OmbInfo = () => (
     <h2 className="vads-u-margin-y--2">{titleFormDetails}</h2>
     <h3>{title4142Omb}</h3>
     <p>{subTitle4142Omb}</p>
-    <OmbInfo4142 />
+    <va-omb-info res-burden="10" omb-number="2900-0858" exp-date="7/31/2024">
+      <PrivacyActStatementContent />
+    </va-omb-info>
   </>
 );
 

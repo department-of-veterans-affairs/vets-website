@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaCheckbox,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { scrollTo } from 'platform/utilities/scroll';
@@ -9,10 +12,10 @@ import {
 } from 'platform/utilities/ui/focus';
 import recordEvent from 'platform/monitoring/record-event';
 import { authorizationLabel } from '../../content/evidencePrivateRecordsAuthorization';
-import OmbInfo4142 from './OmbInfo4142';
 import AuthorizationAlert from './AuthorizationAlert';
 import { title4142 } from '../../content/title';
 import { customPageProps995 } from '../../../shared/props';
+import { PrivacyActStatementContent } from './PrivacyActStatementContent';
 
 const Authorization = ({
   data = {},
@@ -23,6 +26,11 @@ const Authorization = ({
   contentAfterButtons,
 }) => {
   const [hasError, setHasError] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  const toggle4142PrivacyModal = () => {
+    setVisible(!visible);
+  };
 
   useEffect(
     () => {
@@ -87,6 +95,23 @@ const Authorization = ({
       focusedElement.setAttribute('open', 'true');
     }
   };
+
+  const privacyModal4142 = (
+    <>
+      <va-button
+        onClick={toggle4142PrivacyModal}
+        secondary
+        text="Privacy Act Statement"
+      />
+      <VaModal
+        modalTitle="Privacy Act Statement"
+        onCloseEvent={toggle4142PrivacyModal}
+        visible={visible}
+      >
+        <PrivacyActStatementContent />
+      </VaModal>
+    </>
+  );
 
   return (
     <>
@@ -272,7 +297,7 @@ const Authorization = ({
             Act, 5 USC 552a, and VA may disclose this information as authorized
             by law.
           </p>
-          <OmbInfo4142 />
+          {privacyModal4142}
           <p>
             I also understand that I may revoke this authorization in writing,
             at any time except to the extent a source of information has already
@@ -359,7 +384,7 @@ const Authorization = ({
             information may be disclosed by VA without your consent if
             authorized by Federal laws such as the Privacy Act.
           </p>
-          <OmbInfo4142 />
+          {privacyModal4142}
           <p>
             <strong>Expires</strong>: This authorization is good for 12 months
             from the date this form is submitted.

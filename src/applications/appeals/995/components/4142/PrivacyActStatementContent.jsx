@@ -1,7 +1,7 @@
 import React from 'react';
 
-const OmbInfo4142 = () => (
-  <va-omb-info res-burden="10" omb-number="2900-0858" exp-date="7/31/2024">
+export const PrivacyActStatementContent = () => (
+  <>
     <p>
       <strong>Respondent Burden:</strong> We need this information and your
       written authorization to obtain your treatment records to help us get the
@@ -51,7 +51,5 @@ const OmbInfo4142 = () => (
       unless the disclosure of the SSN is required by Federal Statute of law in
       effect prior to January 1, 1975 and still in effect.
     </p>
-  </va-omb-info>
+  </>
 );
-
-export default OmbInfo4142;
