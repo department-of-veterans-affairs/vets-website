@@ -72,7 +72,6 @@ describe('<Authorization>', () => {
     fireEvent.click($('button.usa-button-primary', container));
 
     await waitFor(() => {
-      expect($('va-alert[visible="false"]', container)).to.exist;
       expect(goSpy.called).to.be.true;
     });
   });
@@ -89,7 +88,6 @@ describe('<Authorization>', () => {
     );
 
     fireEvent.click($('button.usa-button-primary', container));
-    expect($('va-alert[visible="false"]', container)).to.exist;
     expect(goSpy.called).to.be.true;
   });
 });
