@@ -51,13 +51,13 @@ describe('<UpdateErrorAlert />', () => {
     ).to.exist;
   });
 
-  it('renders the payment restriction error', async () => {
+  it('renders the flagged account error', async () => {
     const { findByText } = render(
-      <UpdateErrorAlert saveError={errors.paymentRestrictionsPresent.errors} />,
+      <UpdateErrorAlert saveError={errors.accountNumberFlagged.errors} />,
     );
     expect(
       await findByText(
-        /We’re sorry. We couldn’t process your direct deposit update/i,
+        'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
       ),
     ).to.exist;
   });
