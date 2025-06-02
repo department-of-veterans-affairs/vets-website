@@ -33,6 +33,10 @@ const SignatureCheckbox = props => {
   const handleCheck = event => {
     const value = event.target.checked;
     setIsChecked(value);
+    setSignatures(prev => ({
+      ...prev,
+      [label]: { ...prev[label], checked: value },
+    }));
   };
 
   useEffect(

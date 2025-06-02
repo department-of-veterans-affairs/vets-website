@@ -1,5 +1,6 @@
 import { addDays, endOfMonth } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
+import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
 import MockSlotResponse from '../../../fixtures/MockSlotResponse';
@@ -40,7 +41,7 @@ describe('VAOS select appointment date', () => {
       });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: 'covid',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         isDirect: true,
         isRequest: true,
       });
