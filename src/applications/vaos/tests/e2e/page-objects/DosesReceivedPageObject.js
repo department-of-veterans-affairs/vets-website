@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class DosesReceivedPageObject extends PageObject {
+class DosesReceivedPageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', 'doses-received');
     cy.axeCheckBestPractice();

@@ -19,8 +19,6 @@ import {
 } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
-import { getLettersPdfLinksWrapper } from '../actions/letters';
-
 import {
   lettersUseLighthouse,
   lettersPageNewDesign,
@@ -32,37 +30,25 @@ export class LetterList extends React.Component {
     super(props);
     // eslint-disable-next-line -- LH_MIGRATION
     this.state = { LH_MIGRATION__options: LH_MIGRATION__getOptions(false) };
+    this.accordionRefs = {};
   }
 
   componentDidMount() {
-    const {
-      letters,
-      lettersNewDesign,
-      shouldUseLighthouse,
-      togglesLoaded,
-    } = this.props;
+    const { shouldUseLighthouse } = this.props;
     focusElement('h2#nav-form-header');
-    this.setState(
-      {
-        // eslint-disable-next-line -- LH_MIGRATION
-        LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
-      },
-      () => {
-        if (togglesLoaded && lettersNewDesign) {
-          this.props.getLettersPdfLinksWrapper(
-            // Need updated LH_MIGRATION__options for correct download URL
-            // eslint-disable-next-line -- LH_MIGRATION
-            this.state.LH_MIGRATION__options,
-            letters,
-          );
-        }
-      },
-    );
+    this.setState({
+      // eslint-disable-next-line -- LH_MIGRATION
+      LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
+    });
   }
 
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
+      if (!this.accordionRefs[index]) {
+        this.accordionRefs[index] = React.createRef();
+      }
+      const accordionRef = this.accordionRefs[index];
       let content;
       let letterTitle;
       let helpText;
@@ -125,12 +111,15 @@ export class LetterList extends React.Component {
           <DownloadLetterBlobLink
             letterTitle={letterTitle}
             letterType={letter.letterType}
+            // eslint-disable-next-line -- LH_MIGRATION
+            LH_MIGRATION__options={this.state.LH_MIGRATION__options}
+            accordionRef={accordionRef}
           />
         );
       }
 
       return (
-        <va-accordion-item key={`panel-${index}`}>
+        <va-accordion-item key={`panel-${index}`} ref={accordionRef}>
           <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
           <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
@@ -301,12 +290,7 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  getLettersPdfLinksWrapper,
-};
-
 LetterList.propTypes = {
-  getLettersPdfLinksWrapper: PropTypes.func,
   letterDownloadStatus: PropTypes.shape({}),
   letters: PropTypes.arrayOf(
     PropTypes.shape({
@@ -323,5 +307,5 @@ LetterList.propTypes = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  null,
 )(LetterList);

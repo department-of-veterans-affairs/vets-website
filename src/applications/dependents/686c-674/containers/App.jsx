@@ -67,7 +67,7 @@ function App({
       label: 'View or change dependents on your VA disability benefits',
     },
     {
-      href: '/view-change-dependents/add-remove-form-21-686c-v2/introduction',
+      href: '/view-change-dependents/add-remove-form-21-686c-674/introduction',
       label: 'Add or remove dependents on VA benefits',
     },
   ];

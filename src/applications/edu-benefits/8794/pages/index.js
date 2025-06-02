@@ -4,6 +4,7 @@ import * as institutionDetails from './institutionDetails';
 import * as institutionDetailsFacility from './institutionDetailsFacility';
 import * as primaryOfficialTraining from './primaryOfficialTraining';
 import * as primaryOfficialBenefitStatus from './primaryOfficialBenefitStatus';
+import { institutionDetailsNoFacilityDescription } from './institutionDetailsNoFacilityDescription';
 
 export {
   designatingOfficial,
@@ -12,4 +13,5 @@ export {
   institutionDetails,
   institutionDetailsFacility,
   primaryOfficialBenefitStatus,
+  institutionDetailsNoFacilityDescription,
 };

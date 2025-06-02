@@ -13,13 +13,16 @@ import {
   selectYesNoWebComponent,
   goToNextPage,
 } from './helpers';
+import {
+  fillEmergencyContactPersonalInfo,
+  fillEmergencyContactAddress,
+} from './helpers/emergency-contacts';
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataSets: ['maximal-test', 'minimal-test'],
     fixtures: { data: path.join(__dirname, 'fixtures/data') },
-
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
@@ -51,6 +54,58 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'veteran-information/emergency-contacts-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get('body').then($body => {
+              if (
+                $body.find(
+                  'va-radio-option[name="root_view:hasEmergencyContacts"]',
+                ).length
+              ) {
+                selectYesNoWebComponent(
+                  'view:hasEmergencyContacts',
+                  data['view:hasEmergencyContacts'],
+                );
+              }
+            });
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'veteran-information/emergency-contacts/0/contact': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillEmergencyContactPersonalInfo(data.emergencyContacts[0]);
+          });
+        });
+      },
+      'veteran-information/emergency-contacts/0/contact-address': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillEmergencyContactAddress(data.emergencyContacts[0]);
+          });
+        });
+      },
+      'veteran-information/emergency-contacts/1/contact': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillEmergencyContactPersonalInfo(data.emergencyContacts[1]);
+          });
+        });
+      },
+      'veteran-information/emergency-contacts/1/contact-address': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillEmergencyContactAddress(data.emergencyContacts[1]);
+          });
+        });
+      },
       'household-information/spouse-contact-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -65,11 +120,12 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-checkbox[name="privacyAgreementAccepted"]')
-            .scrollIntoView()
-            .shadow()
-            .find('label')
-            .click();
+          cy.get(
+            'va-checkbox[name="privacyAgreementAccepted"]',
+          ).scrollIntoView();
+          cy.get('va-checkbox[name="privacyAgreementAccepted"]').shadow();
+          cy.get('va-checkbox[name="privacyAgreementAccepted"]').find('label');
+          cy.get('va-checkbox[name="privacyAgreementAccepted"]').click();
           cy.findByText(/submit/i, { selector: 'button' }).click();
         });
       },
