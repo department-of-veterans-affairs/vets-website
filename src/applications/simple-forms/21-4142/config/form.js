@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import footerContent from 'platform/forms/components/FormFooter';
@@ -108,28 +109,6 @@ const formConfig = {
         },
       },
     },
-    contactInformation1Chapter: {
-      title: "Veteran's mailing address",
-      pages: {
-        contactInformation1: {
-          path: 'contact-information-1',
-          title: 'Contact Information',
-          uiSchema: contactInformation1.uiSchema,
-          schema: contactInformation1.schema,
-        },
-      },
-    },
-    contactInformation2Chapter: {
-      title: "Veteran's contact information",
-      pages: {
-        contactInformation2: {
-          path: 'contact-information-2',
-          title: 'Additional contact information',
-          uiSchema: contactInformation2.uiSchema,
-          schema: contactInformation2.schema,
-        },
-      },
-    },
     patientIdentificationChapter: {
       title: 'Patient identification',
       pages: {
@@ -162,28 +141,6 @@ const formConfig = {
         },
       },
     },
-    recordsRequested: {
-      title: 'Treatment records',
-      pages: {
-        recordsRequested: {
-          path: 'records-requested',
-          title: 'Records requested',
-          uiSchema: recordsRequested.uiSchema,
-          schema: recordsRequested.schema,
-        },
-      },
-    },
-    limitations: {
-      title: 'Limitations',
-      pages: {
-        limitations: {
-          path: 'limitations',
-          title: 'Do you want to limit the information we can request?',
-          uiSchema: limitations.uiSchema,
-          schema: limitations.schema,
-        },
-      },
-    },
     preparerIdentification: {
       title: 'Preparer identification',
       pages: {
@@ -207,41 +164,6 @@ const formConfig = {
             ] !== veteranIsSelfText,
           uiSchema: preparerPersonalInformation.uiSchema,
           schema: preparerPersonalInformation.schema,
-        },
-      },
-    },
-    preparerAddress: {
-      title: 'Preparer address',
-      pages: {
-        preparerAddress1: {
-          path: 'preparer-address-1',
-          title: 'Preparer address 1',
-          depends: formData =>
-            veteranDirectRelative.includes(
-              formData[preparerIdentificationFields.parentObject][
-                [preparerIdentificationFields.relationshipToVeteran]
-              ],
-            ),
-          uiSchema: preparerAddress1.uiSchema,
-          schema: preparerAddress1.schema,
-        },
-        preparerAddress2: {
-          path: 'preparer-address-2',
-          title: 'Preparer address 2',
-          depends: formData =>
-            (!formData[preparerIdentificationFields.parentObject][
-              [preparerIdentificationFields.preparerHasSameAddressAsVeteran]
-            ] ||
-              !veteranDirectRelative.includes(
-                formData[preparerIdentificationFields.parentObject][
-                  [preparerIdentificationFields.relationshipToVeteran]
-                ],
-              )) &&
-            formData[preparerIdentificationFields.parentObject][
-              [preparerIdentificationFields.relationshipToVeteran]
-            ] !== veteranIsSelfText,
-          uiSchema: preparerAddress2.uiSchema,
-          schema: preparerAddress2.schema,
         },
       },
     },
