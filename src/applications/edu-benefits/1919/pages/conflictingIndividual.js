@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   titleUI,
   textSchema,
@@ -16,11 +18,26 @@ const noSpaceOnlyPattern = '^(?!\\s*$).+';
 
 const uiSchema = {
   ...titleUI('Individuals affiliated with both your institution and VA or SAA'),
+  'ui:description': (
+    <>
+      <p className="vads-u-margin-top--0">
+        Enter information about any individual who is affiliated with your
+        institution and is employed by VA or an SAA. This may indicate a
+        potential conflict of interest.
+      </p>
+      <va-additional-info trigger="What is a proprietary profit school?">
+        <p>
+          A proprietary profit school is a privately owned, profit-driven
+          institution that offers educational programs and training.
+        </p>
+      </va-additional-info>
+    </>
+  ),
   first: {
     ...textUI({
       title: 'First name of individual',
       errorMessages: {
-        required: 'Please enter a first name',
+        required: 'You must provide a response',
         pattern: 'You must provide a response',
       },
     }),
@@ -29,7 +46,7 @@ const uiSchema = {
     ...textUI({
       title: 'Last name of individual',
       errorMessages: {
-        required: 'Please enter a last name',
+        required: 'You must provide a response',
         pattern: 'You must provide a response',
       },
     }),
@@ -38,7 +55,7 @@ const uiSchema = {
     ...textUI({
       title: 'Title of individual',
       errorMessages: {
-        required: 'Please enter a title',
+        required: 'You must provide a response',
         pattern: 'You must provide a response',
       },
     }),
