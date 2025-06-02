@@ -29,10 +29,8 @@ export default {
         },
       }
     : {
+        ...titleUI('Tell us about the Veteran connected to this authorization'),
         [veteranFields.parentObject]: {
-          ...titleUI(
-            'Tell us about the Veteran connected to this authorization',
-          ),
           [veteranFields.fullName]: fullNameUI(label =>
             getFullNameLabels(label, false),
           ),
