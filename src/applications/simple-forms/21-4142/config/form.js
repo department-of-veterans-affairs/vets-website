@@ -42,6 +42,7 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
   preSubmitInfo: {
     statementOfTruth: {
       body:
