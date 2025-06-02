@@ -226,13 +226,36 @@ export function makeTEConditionsUISchema(formData) {
  */
 export function validateTEConditions(errors, formData) {
   const { conditions = {} } = formData?.toxicExposure;
+  const newErrors = { ...errors };
 
+  // Check if at least one checkbox is selected (required field validation)
+  const hasSelection = Object.values(conditions).some(value => value === true);
+
+  if (!hasSelection) {
+    // Create the error structure if it doesn't exist
+    if (!newErrors.toxicExposure) {
+      newErrors.toxicExposure = {};
+    }
+    if (!newErrors.toxicExposure.conditions) {
+      newErrors.toxicExposure.conditions = {};
+    }
+    if (!newErrors.toxicExposure.conditions.__errors) {
+      newErrors.toxicExposure.conditions.__errors = [];
+    }
+    newErrors.toxicExposure.conditions.__errors.push(
+      'Please select at least one condition',
+    );
+  }
+
+  // Original validation for none + other conditions conflict
   validateConditions(
     conditions,
-    errors,
+    newErrors,
     'toxicExposure',
     noneAndConditionError,
   );
+
+  return newErrors;
 }
 
 /**

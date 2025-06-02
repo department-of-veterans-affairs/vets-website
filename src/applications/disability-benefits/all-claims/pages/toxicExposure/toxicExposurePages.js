@@ -37,6 +37,8 @@ export const toxicExposurePages = {
     depends: formData => showToxicExposurePages(formData),
     uiSchema: toxicExposureConditions.uiSchema,
     schema: toxicExposureConditions.schema,
+    CustomPage: toxicExposureConditions.CustomPage,
+    CustomPageReview: null,
   },
   gulfWar1990Locations: {
     title: gulfWar1990PageTitle,
