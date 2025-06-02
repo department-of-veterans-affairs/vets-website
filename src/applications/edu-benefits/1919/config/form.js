@@ -9,11 +9,14 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
 import directDeposit from '../pages/directDeposit';
-import serviceHistory from '../pages/serviceHistory';
+
 import {
   certifyingOfficials,
   aboutYourInstitution,
   institutionDetails,
+  proprietaryProfit,
+  potentialConflictOfInterest,
+  affiliatedIndividuals,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -79,55 +82,76 @@ const formConfig = {
         },
       },
     },
-  },
-  serviceHistoryChapter: {
-    title: 'Service History',
-    pages: {
-      serviceHistory: {
-        path: 'service-history',
-        title: 'Service History',
-        uiSchema: serviceHistory.uiSchema,
-        schema: serviceHistory.schema,
+    proprietaryProfitChapter: {
+      title: 'Proprietary profit schools only',
+      pages: {
+        proprietaryProfit: {
+          path: 'proprietary-profit',
+          title: "Confirm your institution's classification",
+          uiSchema: proprietaryProfit.uiSchema,
+          schema: proprietaryProfit.schema,
+        },
+        potentialConflictOfInterest: {
+          path: 'proprietary-profit-1',
+          title: 'Individuals with a potential conflict of interest',
+          uiSchema: potentialConflictOfInterest.uiSchema,
+          schema: potentialConflictOfInterest.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData?.hasConflictOfInterest) {
+              goPath('/proprietary-profit-2');
+            } else {
+              // TODO: To be replaced with 'Step 3' Conflict of Interest chapter
+              goPath('/contact-information');
+            }
+          },
+        },
+        affiliatedIndividuals: {
+          path: 'proprietary-profit-2',
+          title:
+            'Individuals affiliated with both your institution and VA or SAA',
+          uiSchema: affiliatedIndividuals.uiSchema,
+          schema: affiliatedIndividuals.schema,
+        },
       },
     },
-  },
-  additionalInformationChapter: {
-    title: 'Additional Information',
-    pages: {
-      contactInformation: {
-        path: 'contact-information',
-        title: 'Contact Information',
-        uiSchema: {
-          address: address.uiSchema('Mailing address'),
-          email: {
-            'ui:title': 'Primary email',
-          },
-          altEmail: {
-            'ui:title': 'Secondary email',
-          },
-          phoneNumber: phoneUI('Daytime phone'),
-        },
-        schema: {
-          type: 'object',
-          properties: {
-            address: address.schema(fullSchema, true),
+    additionalInformationChapter: {
+      title: 'Additional Information',
+      pages: {
+        contactInformation: {
+          path: 'contact-information',
+          title: 'Contact Information',
+          uiSchema: {
+            address: address.uiSchema('Mailing address'),
             email: {
-              type: 'string',
-              format: 'email',
+              'ui:title': 'Primary email',
             },
             altEmail: {
-              type: 'string',
-              format: 'email',
+              'ui:title': 'Secondary email',
             },
-            phoneNumber: usaPhone,
+            phoneNumber: phoneUI('Daytime phone'),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              address: address.schema(fullSchema, true),
+              email: {
+                type: 'string',
+                format: 'email',
+              },
+              altEmail: {
+                type: 'string',
+                format: 'email',
+              },
+              phoneNumber: usaPhone,
+            },
           },
         },
-      },
-      directDeposit: {
-        path: 'direct-deposit',
-        title: 'Direct Deposit',
-        uiSchema: directDeposit.uiSchema,
-        schema: directDeposit.schema,
+        directDeposit: {
+          path: 'direct-deposit',
+          title: 'Direct Deposit',
+          uiSchema: directDeposit.uiSchema,
+          schema: directDeposit.schema,
+        },
       },
     },
   },
