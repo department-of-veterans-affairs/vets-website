@@ -3,6 +3,7 @@ import * as aboutYourInstitution from './aboutYourInstitution';
 import * as institutionDetails from './institutionDetails';
 import * as proprietaryProfit from './proprietaryProfit';
 import * as conflictingInterests from './conflictingInterests';
+import * as conflictingIndividual from './conflictingIndividual';
 
 export {
   certifyingOfficials,
@@ -10,4 +11,5 @@ export {
   institutionDetails,
   proprietaryProfit,
   conflictingInterests,
+  conflictingIndividual,
 };

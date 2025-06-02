@@ -16,6 +16,7 @@ import {
   institutionDetails,
   proprietaryProfit,
   conflictingInterests,
+  conflictingIndividual,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -95,6 +96,13 @@ const formConfig = {
           title: 'Individuals with a potential conflict of interest',
           uiSchema: conflictingInterests.uiSchema,
           schema: conflictingInterests.schema,
+        },
+        conflictingIndividual: {
+          path: 'conflicting-individual',
+          title:
+            'Individuals affiliated with both your institution and VA or SAA',
+          uiSchema: conflictingIndividual.uiSchema,
+          schema: conflictingIndividual.schema,
         },
       },
     },
