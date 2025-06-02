@@ -14,6 +14,7 @@ export default {
     [veteranFields.parentObject]: {
       ...titleUI({
         title: 'Tell us about the Veteran connected to this authorization',
+        headerLevel: 2,
       }),
       [veteranFields.fullName]: fullNameUI(label =>
         getFullNameLabels(label, false),
