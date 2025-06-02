@@ -6,7 +6,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
-import serviceHistory from '../pages/serviceHistory';
+import directDeposit from '../pages/directDeposit';
+
 import {
   certifyingOfficials,
   aboutYourInstitution,
@@ -14,6 +15,7 @@ import {
   allProprietarySchools,
   allProprietarySchoolsEmployeeInfo,
   allProprietarySchoolsSummary,
+  proprietaryProfit,
 } from '../pages';
 import { arrayBuilderOptions } from '../helpers';
 
@@ -79,6 +81,51 @@ const formConfig = {
         },
       },
     },
+    proprietaryProfitChapter: {
+      title: 'Proprietary profit schools only',
+      pages: {
+        proprietaryProfit: {
+          path: 'proprietary-profit',
+          title: "Confirm your institution's classification",
+          uiSchema: proprietaryProfit.uiSchema,
+          schema: proprietaryProfit.schema,
+        },
+      },
+    },
+    // additionalInformationChapter: {
+    //   title: 'Additional Information',
+    //   pages: {
+    //     contactInformation: {
+    //       path: 'contact-information',
+    //       title: 'Contact Information',
+    //       uiSchema: {
+    //         address: address.uiSchema('Mailing address'),
+    //         email: {
+    //           'ui:title': 'Primary email',
+    //         },
+    //         altEmail: {
+    //           'ui:title': 'Secondary email',
+    //         },
+    //         phoneNumber: phoneUI('Daytime phone'),
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         properties: {
+    //           address: address.schema(fullSchema, true),
+    //           email: {
+    //             type: 'string',
+    //             format: 'email',
+    //           },
+    //           altEmail: {
+    //             type: 'string',
+    //             format: 'email',
+    //           },
+    //           phoneNumber: usaPhone,
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
     allProprietarySchoolsChapter: {
       title: 'All proprietary schools',
       pages: {
@@ -91,7 +138,7 @@ const formConfig = {
             onNavForward: ({ formData, goPath }) => {
               if (formData?.allProprietarySchools === false) {
                 goPath(
-                  formConfig.chapters.serviceHistoryChapter.pages.serviceHistory
+                  formConfig.chapters.directDepositChapter.pages.directDeposit
                     .path,
                 );
               } else {
@@ -133,14 +180,14 @@ const formConfig = {
         })),
       },
     },
-    serviceHistoryChapter: {
-      title: 'Service History',
+    directDepositChapter: {
+      title: 'Directt deposit',
       pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
+        directDeposit: {
+          path: 'direct-deposit',
+          title: 'Direct deposit',
+          uiSchema: directDeposit.uiSchema,
+          schema: directDeposit.schema,
           onNavBack: ({ formData, goPath }) => {
             if (formData?.allProprietarySchools === false) {
               goPath(

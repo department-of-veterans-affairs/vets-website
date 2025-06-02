@@ -4,6 +4,7 @@ import * as institutionDetails from './institutionDetails';
 import * as allProprietarySchools from './allProprietarySchools';
 import * as allProprietarySchoolsEmployeeInfo from './allProprietarySchoolsEmployeeInfo';
 import { allProprietarySchoolsSummary } from './allProprietarySchoolsSummary';
+import * as proprietaryProfit from './proprietaryProfit';
 
 export {
   certifyingOfficials,
@@ -12,4 +13,5 @@ export {
   allProprietarySchools,
   allProprietarySchoolsEmployeeInfo,
   allProprietarySchoolsSummary,
+  proprietaryProfit,
 };
