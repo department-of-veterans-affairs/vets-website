@@ -15,7 +15,7 @@ import { advanceToNextOfKin } from './helpers/next-of-kin';
 
 const { data: testData } = maxTestData;
 
-describe('EZR TERA flow', () => {
+describe('EZR Next Of Kin flow', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -53,7 +53,8 @@ describe('EZR TERA flow', () => {
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/veteran-information/next-of-kin/0/contact-address',
     );
-    selectDropdownWebComponent('address_country', contact.address.country);
+    cy.tabToElement(`[name="root_address_country"]`);
+    cy.chooseSelectOptionUsingValue(contact.address.country);
     fillTextWebComponent('address_street', contact.address.street);
     fillTextWebComponent('address_city', contact.address.city);
     selectDropdownWebComponent('address_state', contact.address.state);
