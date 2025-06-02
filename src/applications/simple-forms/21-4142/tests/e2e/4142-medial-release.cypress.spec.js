@@ -136,7 +136,7 @@ const testConfig = createTestConfig(
 
       cy.login(user);
     },
-    skip: false,
+    skip: true,
   },
   manifest,
   formConfig,

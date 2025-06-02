@@ -6,6 +6,7 @@ import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-sub
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
+
 import user from './fixtures/mocks/user.json';
 import sipPut from './fixtures/mocks/sip-put.json';
 import sipGet from './fixtures/mocks/sip-get.json';
