@@ -25,10 +25,7 @@ import {
   recipientNameRequired,
 } from '../../../helpers';
 import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
-import {
-  RequestPropertyOrBusinessIncomeFormAlert,
-  RequestFarmIncomeFormAlert,
-} from '../../../components/FormAlerts';
+import SupplementaryFormsAlert from '../../../components/FormAlerts/SupplementaryFormsAlert';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -84,46 +81,6 @@ export const options = {
     deleteDescription: props =>
       generateDeleteDescription(props, options.text.getItemName),
   },
-};
-
-const SupplementaryFormsAlert = props => {
-  const assets = props?.formData?.ownedAssets || [];
-  console.log(assets, props);
-  const assetTypes = ['farm'];
-
-  return (
-    <va-alert status="info">
-      <h2 slot="headline">Additional form needed</h2>
-      <p>
-        You’ve added a {assetTypes.join(' and ')}, so you need to fill out a
-        Report of Income from Property or Business (VA Form 21P-4185) and
-        Pension Claim Questionnaire for Farm Income (VA Form 21P-4165). You can
-        upload them at a later part of this process.
-      </p>
-      <p>
-        <va-link
-          download
-          filetype="PDF"
-          href="https://www.va.gov/find-forms/about-form-21p-4185/"
-          text="Download VA Form 21P-4185 (opens in new tab)"
-          rel="noopener noreferrer"
-          target="_blank"
-          aria-label="Download VA Form 21P-4185 (opens in new tab)"
-        />
-      </p>
-      <p>
-        <va-link
-          download
-          filetype="PDF"
-          href="https://www.va.gov/find-forms/about-form-21p-4165/"
-          text="Download VA Form 21P-4165 (opens in new tab)"
-          rel="noopener noreferrer"
-          target="_blank"
-          aria-label="Download VA Form 21P-4165 (opens in new tab)"
-        />
-      </p>
-    </va-alert>
-  );
 };
 
 /**
