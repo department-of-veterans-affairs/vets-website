@@ -1,12 +1,15 @@
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionError from '../../shared/components/SubmissionError';
 import GetFormHelp from '../../shared/components/GetFormHelp';
+import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
+import { sponsorWording } from '../../10-10D/helpers/utilities';
 
 import {
   certifierRoleSchema,
@@ -141,6 +144,35 @@ const formConfig = {
             get('certifierRole', formData) !== 'sponsor' &&
             get('sponsorIsDeceased', formData),
           ...sponsorStatusDetails,
+        },
+        page10b0: {
+          path: 'sponsor-mailing-same',
+          title: formData => `${sponsorWording(formData)} address selection`,
+          // Only show if we have addresses to pull from:
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('certifierRole', formData) !== 'sponsor' &&
+            get('street', formData?.certifierAddress),
+          CustomPage: props => {
+            const extraProps = {
+              ...props,
+              customAddressKey: 'sponsorAddress',
+              customTitle: `${sponsorWording(props.data)} address selection`,
+              customDescription:
+                'We’ll send any important information about this form to this address.',
+              customSelectText: `Does ${sponsorWording(
+                props.data,
+                false,
+                false,
+              )} live at a previously entered address?`,
+              positivePrefix: 'Yes, their address is',
+              negativePrefix: 'No, they have a different address',
+            };
+            return ApplicantAddressCopyPage(extraProps);
+          },
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
         },
         page10: {
           path: 'sponsor-mailing-address',
