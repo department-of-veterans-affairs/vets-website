@@ -16,6 +16,7 @@ import {
   allProprietarySchoolsEmployeeInfo,
   allProprietarySchoolsSummary,
 } from '../pages';
+import directDeposit from '../pages/directDeposit';
 import { arrayBuilderOptions } from '../helpers';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -165,6 +166,27 @@ const formConfig = {
             },
           }),
         })),
+      },
+    },
+    directDepositChapter: {
+      title: 'Directt deposit',
+      pages: {
+        directDeposit: {
+          path: 'direct-deposit',
+          title: 'Direct deposit',
+          uiSchema: directDeposit.uiSchema,
+          schema: directDeposit.schema,
+          onNavBack: ({ formData, goPath }) => {
+            if (formData?.allProprietarySchools === false) {
+              goPath(
+                formConfig.chapters.allProprietarySchoolsChapter.pages
+                  .allProprietarySchoolsIntro.path,
+              );
+            } else {
+              goPath('/all-proprietary-schools-employee-info/summary');
+            }
+          },
+        },
       },
     },
   },
