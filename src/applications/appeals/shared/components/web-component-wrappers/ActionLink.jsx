@@ -8,13 +8,16 @@ import { VaLinkAction } from '@department-of-veterans-affairs/component-library/
 // https://design.va.gov/storybook/?path=/docs/components-va-link-action--docs
 const ActionLink = ({ path, search, onClick, primary, router, ...props }) => {
   const ariaLabel = props?.['aria-label'] ?? {};
+  const href = path.charAt(0) === '/' ? path : `/${path}`;
 
   return (
     <VaLinkAction
       {...props}
-      href={path}
+      href={href}
       label={ariaLabel}
       onClick={event => {
+        event.preventDefault();
+
         if (onClick) {
           onClick(event);
         }
