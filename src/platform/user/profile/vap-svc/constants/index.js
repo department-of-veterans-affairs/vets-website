@@ -89,15 +89,17 @@ export const FIELD_NAMES = {
   RESIDENTIAL_ADDRESS: 'residentialAddress',
 };
 
+// TODO: Keep phone in titles (e.g., Work phone number)? If yes, then need to remove
+// for "Choose edit to add a work number" text in ProfileInformationView.jsx
 export const FIELD_TITLES = Object.freeze({
   [FIELD_NAMES.PREFERRED_NAME]: 'Preferred name',
   [FIELD_NAMES.PRONOUNS]: 'Pronouns',
   [FIELD_NAMES.GENDER_IDENTITY]: 'Gender identity',
   [FIELD_NAMES.SEXUAL_ORIENTATION]: 'Sexual orientation',
   [FIELD_NAMES.MESSAGING_SIGNATURE]: 'Messages signature',
-  [FIELD_NAMES.HOME_PHONE]: 'Home phone number',
-  [FIELD_NAMES.MOBILE_PHONE]: 'Mobile phone number',
-  [FIELD_NAMES.WORK_PHONE]: 'Work phone number',
+  [FIELD_NAMES.HOME_PHONE]: 'Home number',
+  [FIELD_NAMES.MOBILE_PHONE]: 'Mobile number',
+  [FIELD_NAMES.WORK_PHONE]: 'Work number',
   [FIELD_NAMES.EMAIL]: 'Contact email address',
   [FIELD_NAMES.MAILING_ADDRESS]: 'Mailing address',
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'Home address',
