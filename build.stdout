@@ -1,0 +1,599 @@
+yarn run v1.22.22
+$ node ./script/watch.js --env entry=mhv-landing-page
+Found local asset at ../content-build/src/site/assets/js/record-event.js.
+Found local asset at ../content-build/src/site/assets/js/static-page-widgets.js.
+Found local asset at ../content-build/src/applications/registry.json.
+ℹ Compiling Webpack
+✔ Webpack: Compiled with some errors in 17.09s
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/HubLinks.tsx
+./src/applications/mhv-landing-page/components/HubLinks.tsx 22:12-17
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/HubLinks.tsx(22,13)
+      TS2353: Object literal may only specify known properties, and 'event' does not exist in type '{ eventCallback: Function; }'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 59:33-54
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/HubLinks.tsx
+./src/applications/mhv-landing-page/components/HubLinks.tsx 55:20-24
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/HubLinks.tsx(55,21)
+      TS18048: 'hubs' is possibly 'undefined'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 59:33-54
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx
+./src/applications/mhv-landing-page/components/LandingPage.tsx 6:7-52
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx(6,8)
+      TS2307: Cannot find module '@department-of-veterans-affairs/mhv/exports' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx
+./src/applications/mhv-landing-page/components/LandingPage.tsx 10:7-51
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx(10,8)
+      TS2307: Cannot find module '~/platform/monitoring/DowntimeNotification' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx
+./src/applications/mhv-landing-page/components/LandingPage.tsx 33:10-15
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx(33,11)
+      TS2339: Property 'cards' does not exist on type '{}'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx
+./src/applications/mhv-landing-page/components/LandingPage.tsx 33:22-26
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx(33,23)
+      TS2339: Property 'hubs' does not exist on type '{}'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx
+./src/applications/mhv-landing-page/components/LandingPage.tsx 41:4-6
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx(41,5)
+      TS2322: Type '{ children: unknown[]; }' is not assignable to type '{ children?: ReactNode; }'.
+  Types of property 'children' are incompatible.
+    Type 'unknown[]' is not assignable to type 'ReactNode'.
+      Type 'unknown[]' is not assignable to type 'Iterable<ReactNode>'.
+        The types returned by '[Symbol.iterator]().next(...)' are incompatible between these types.
+          Type 'IteratorResult<unknown, any>' is not assignable to type 'IteratorResult<ReactNode, any>'.
+            Type 'IteratorYieldResult<unknown>' is not assignable to type 'IteratorResult<ReactNode, any>'.
+              Type 'IteratorYieldResult<unknown>' is not assignable to type 'IteratorYieldResult<ReactNode>'.
+                Type 'unknown' is not assignable to type 'ReactNode'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx
+./src/applications/mhv-landing-page/components/LandingPage.tsx 61:12-16
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx(61,13)
+      TS2322: Type 'unknown' is not assignable to type 'boolean | undefined'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx
+./src/applications/mhv-landing-page/components/LandingPage.tsx 62:12-25
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx(62,13)
+      TS2322: Type 'unknown' is not assignable to type 'boolean | undefined'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx
+./src/applications/mhv-landing-page/components/LandingPage.tsx 65:10-57
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx(65,11)
+      TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx
+./src/applications/mhv-landing-page/components/LandingPage.tsx 67:8-75:10
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx(67,9)
+      TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx
+./src/applications/mhv-landing-page/components/LandingPage.tsx 76:8-52
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx(76,9)
+      TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx
+./src/applications/mhv-landing-page/components/LandingPage.tsx 77:8-48
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/LandingPage.tsx(77,9)
+      TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/NavCard.tsx
+./src/applications/mhv-landing-page/components/NavCard.tsx 3:24-60
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/NavCard.tsx(3,25)
+      TS2307: Cannot find module '~/platform/monitoring/record-event' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/CardLayout.jsx 6:0-32 35:44-51
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 57:35-58
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/NavCard.tsx
+./src/applications/mhv-landing-page/components/NavCard.tsx 31:2-6
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/NavCard.tsx(31,3)
+      TS2322: Type 'null' is not assignable to type '"calendar_today" | "forum" | "pill" | "note_add" | "attach_money" | "medical_services"'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/CardLayout.jsx 6:0-32 35:44-51
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 57:35-58
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/NavCard.tsx
+./src/applications/mhv-landing-page/components/NavCard.tsx 39:7-16
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/NavCard.tsx(39,8)
+      TS2339: Property 'ariaLabel' does not exist on type '{ text?: string | ReactElement<any, string | JSXElementConstructor<any>> | undefined; href?: string | undefined; isExternal?: boolean | undefined; omitExternalLinkText?: boolean | undefined; }'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/CardLayout.jsx 6:0-32 35:44-51
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 57:35-58
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/NavCard.tsx
+./src/applications/mhv-landing-page/components/NavCard.tsx 60:26-67
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/NavCard.tsx(60,27)
+      TS2339: Property 'va-icon' does not exist on type 'JSX.IntrinsicElements'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/CardLayout.jsx 6:0-32 35:44-51
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 57:35-58
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/NavCard.tsx
+./src/applications/mhv-landing-page/components/NavCard.tsx 65:35-45
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/NavCard.tsx(65,36)
+      TS2550: Property 'replaceAll' does not exist on type 'string'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2021' or later.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/CardLayout.jsx 6:0-32 35:44-51
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 57:35-58
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/NavCard.tsx
+./src/applications/mhv-landing-page/components/NavCard.tsx 80:14-46
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/NavCard.tsx(80,15)
+      TS2339: Property 'va-icon' does not exist on type 'JSX.IntrinsicElements'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/CardLayout.jsx 6:0-32 35:44-51
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 57:35-58
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/Welcome.tsx
+./src/applications/mhv-landing-page/components/Welcome.tsx 3:24-60
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/Welcome.tsx(3,25)
+      TS2307: Cannot find module '~/platform/monitoring/record-event' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/containers/WelcomeContainer.jsx 4:0-44 13:42-49
+ @ ./src/applications/mhv-landing-page/components/HeaderLayout.tsx 15:41-82
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 58:37-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/Welcome.tsx
+./src/applications/mhv-landing-page/components/Welcome.tsx 43:8-50
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/Welcome.tsx(43,9)
+      TS2339: Property 'va-icon' does not exist on type 'JSX.IntrinsicElements'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/containers/WelcomeContainer.jsx 4:0-44 13:42-49
+ @ ./src/applications/mhv-landing-page/components/HeaderLayout.tsx 15:41-82
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 58:37-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx 3:41-77
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx(3,42)
+      TS2307: Cannot find module '~/platform/monitoring/record-event' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 7:0-58 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx 19:2-16
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx(19,3)
+      TS2339: Property 'userActionable' does not exist on type 'AlertAccountApiAlertProps'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 7:0-58 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx 25:4-15
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx(25,5)
+      TS2722: Cannot invoke an object which is possibly 'undefined'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 7:0-58 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx 53:12-49
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx(53,13)
+      TS2339: Property 'va-telephone' does not exist on type 'JSX.IntrinsicElements'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 7:0-58 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx 53:50-80
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx(53,51)
+      TS2339: Property 'va-telephone' does not exist on type 'JSX.IntrinsicElements'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 7:0-58 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx 75:11-20
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertAccountApiAlert.tsx(75,12)
+      TS18048: 'errorCode' is possibly 'undefined'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 7:0-58 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx 3:41-77
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx(3,42)
+      TS2307: Cannot find module '~/platform/monitoring/record-event' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 1:0-58 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx 4:24-66
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx(4,25)
+      TS2307: Cannot find module '~/platform/user/authentication/constants' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 1:0-58 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx 5:29-85
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx(5,30)
+      TS2307: Cannot find module '~/platform/user/authentication/components/VerifyButton' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 1:0-58 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx 21:4-15
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx(21,5)
+      TS2722: Cannot invoke an object which is possibly 'undefined'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 1:0-58 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx 35:6-22
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvBasicAccount.tsx(35,7)
+      TS2322: Type '{ children: Element[]; variant: string; "data-testid": string | undefined; visible: true; disableAnalytics: true; }' is not assignable to type 'IntrinsicAttributes & VaAlertSignIn & Omit<HTMLAttributes<HTMLVaAlertSignInElement>, "style"> & StyleReactProps & RefAttributes<...>'.
+  Property 'disableAnalytics' does not exist on type 'IntrinsicAttributes & VaAlertSignIn & Omit<HTMLAttributes<HTMLVaAlertSignInElement>, "style"> & StyleReactProps & RefAttributes<...>'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 1:0-58 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvNoAction.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertMhvNoAction.tsx 3:41-77
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvNoAction.tsx(3,42)
+      TS2307: Cannot find module '~/platform/monitoring/record-event' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 6:0-50 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvNoAction.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertMhvNoAction.tsx 21:4-15
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvNoAction.tsx(21,5)
+      TS2722: Cannot invoke an object which is possibly 'undefined'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 6:0-50 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvUserAction.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertMhvUserAction.tsx 3:41-77
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvUserAction.tsx(3,42)
+      TS2307: Cannot find module '~/platform/monitoring/record-event' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 5:0-54 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvUserAction.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertMhvUserAction.tsx 21:4-15
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertMhvUserAction.tsx(21,5)
+      TS2722: Cannot invoke an object which is possibly 'undefined'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 5:0-54 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertNotVerified.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertNotVerified.tsx 3:41-77
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertNotVerified.tsx(3,42)
+      TS2307: Cannot find module '~/platform/monitoring/record-event' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 2:0-50 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertNotVerified.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertNotVerified.tsx 4:24-78
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertNotVerified.tsx(4,25)
+      TS2307: Cannot find module '~/platform/user/authorization/components/VerifyAlert' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 2:0-50 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertNotVerified.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertNotVerified.tsx 8:7-49
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertNotVerified.tsx(8,8)
+      TS2307: Cannot find module '~/platform/user/authentication/constants' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 2:0-50 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertNotVerified.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertNotVerified.tsx 23:4-15
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertNotVerified.tsx(23,5)
+      TS2722: Cannot invoke an object which is possibly 'undefined'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 2:0-50 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertUnregistered.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertUnregistered.tsx 2:23-59
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertUnregistered.tsx(2,24)
+      TS2307: Cannot find module '~/platform/site-wide/mhv/utilities' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 3:0-52 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertUnregistered.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertUnregistered.tsx 4:41-77
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertUnregistered.tsx(4,42)
+      TS2307: Cannot find module '~/platform/monitoring/record-event' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 3:0-52 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertUnregistered.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertUnregistered.tsx 28:4-15
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertUnregistered.tsx(28,5)
+      TS2722: Cannot invoke an object which is possibly 'undefined'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 3:0-52 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertVerifyAndRegister.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertVerifyAndRegister.tsx 3:24-78
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertVerifyAndRegister.tsx(3,25)
+      TS2307: Cannot find module '~/platform/user/authorization/components/VerifyAlert' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 4:0-62 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertVerifyAndRegister.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertVerifyAndRegister.tsx 5:41-77
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertVerifyAndRegister.tsx(5,42)
+      TS2307: Cannot find module '~/platform/monitoring/record-event' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 4:0-62 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertVerifyAndRegister.tsx
+./src/applications/mhv-landing-page/components/alerts/AlertVerifyAndRegister.tsx 20:4-15
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/components/alerts/AlertVerifyAndRegister.tsx(20,5)
+      TS2722: Cannot invoke an object which is possibly 'undefined'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/components/alerts/index.js 4:0-62 8:0-153
+ @ ./src/applications/mhv-landing-page/containers/Alerts.jsx 3:0-125 16:44-64 19:44-66 24:44-61 29:44-64
+ @ ./src/applications/mhv-landing-page/components/LandingPage.tsx 62:31-62
+ @ ./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 68:36-72
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/AppConfig.tsx
+./src/applications/mhv-landing-page/containers/AppConfig.tsx 6:7-52
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/AppConfig.tsx(6,8)
+      TS2307: Cannot find module '@department-of-veterans-affairs/mhv/exports' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/routes.jsx 4:0-47 6:46-55
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/AppConfig.tsx
+./src/applications/mhv-landing-page/containers/AppConfig.tsx 44:24-35
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/AppConfig.tsx(44,25)
+      TS2339: Property 'accountUuid' does not exist on type '{}'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/routes.jsx 4:0-47 6:46-55
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/LandingPageContainer.tsx
+./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 3:28-99
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/LandingPageContainer.tsx(3,29)
+      TS2307: Cannot find module '@department-of-veterans-affairs/platform-user/profile/backendServices' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/LandingPageContainer.tsx
+./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 4:34-99
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/LandingPageContainer.tsx(4,35)
+      TS2307: Cannot find module '@department-of-veterans-affairs/platform-user/RequiredLoginView' or its corresponding type declarations.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/LandingPageContainer.tsx
+./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 26:10-24
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/LandingPageContainer.tsx(26,11)
+      TS2339: Property 'featureToggles' does not exist on type 'DefaultRootState'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/LandingPageContainer.tsx
+./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 26:26-30
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/LandingPageContainer.tsx(26,27)
+      TS2339: Property 'user' does not exist on type 'DefaultRootState'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/LandingPageContainer.tsx
+./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 39:6-10
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/LandingPageContainer.tsx(39,7)
+      TS2345: Argument of type 'unknown' is not assignable to parameter of type 'boolean | undefined'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/LandingPageContainer.tsx
+./src/applications/mhv-landing-page/containers/LandingPageContainer.tsx 47:30-37
+[tsl] ERROR in /home/rd/va/vets-website/src/applications/mhv-landing-page/containers/LandingPageContainer.tsx(47,31)
+      TS18046: 'profile' is of type 'unknown'.
+ts-loader-default_e3b0c44298fc1c14
+ @ ./src/applications/mhv-landing-page/routes.jsx 5:0-69 8:44-64
+ @ ./src/applications/mhv-landing-page/app-entry.jsx 5:0-30 11:10-16
+
+ERROR in /home/rd/va/vets-website/node_modules/@department-of-veterans-affairs/component-library/dist/react-bindings/react-component-lib/utils/index.tsx
+40:26-36
+[tsl] ERROR in /home/rd/va/vets-website/node_modules/@department-of-veterans-affairs/component-library/dist/react-bindings/react-component-lib/utils/index.tsx(40,27)
+      TS2345: Argument of type '{ (props: StencilReactExternalProps<PropType, ElementType>, ref: StencilReactForwardedRef<ElementType>): React.JSX.Element; displayName: string; }' is not assignable to parameter of type 'ForwardRefRenderFunction<ElementType, PropsWithoutRef<StencilReactExternalProps<PropType, ElementType>>>'.
+  Types of parameters 'props' and 'props' are incompatible.
+    Type 'PropsWithoutRef<StencilReactExternalProps<PropType, ElementType>>' is not assignable to type 'StencilReactExternalProps<PropType, ElementType>'.
+      Type 'Omit<HTMLAttributes<ElementType>, "style"> & StyleReactProps' is not assignable to type 'StencilReactExternalProps<PropType, ElementType>'.
+        Type 'Omit<HTMLAttributes<ElementType>, "style"> & StyleReactProps' is not assignable to type 'PropType'.
+          'PropType' could be instantiated with an arbitrary type which could be unrelated to 'Omit<HTMLAttributes<ElementType>, "style"> & StyleReactProps'.
+ts-loader-default_e

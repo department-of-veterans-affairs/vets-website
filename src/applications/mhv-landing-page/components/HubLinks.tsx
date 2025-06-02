@@ -1,5 +1,5 @@
 import React from 'react';
-import recordEvent from '~/platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 interface HubSectionProps {
   links?: {
@@ -11,7 +11,7 @@ interface HubSectionProps {
 
 const HubSection = ({
   title,
-  links
+  links = []
 }: HubSectionProps) => {
   const listItems = links.map(({ href, text }, index) => (
     <li key={`${href}--${index}`}>

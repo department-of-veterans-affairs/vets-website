@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/mhv/utilities';
 import { datadogRum } from '@datadog/browser-rum';
 import WelcomeContainer from '../containers/WelcomeContainer';
 
