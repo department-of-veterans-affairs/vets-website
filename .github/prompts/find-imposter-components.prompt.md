@@ -7,7 +7,7 @@ Identify and list any components in the codebase that may be considered "imposte
 
 ### Preferred scope
 
-Search within a single application [form-app](.github/instructions/form-app.instructions.md) for imposter components.
+Search within a single application [form-app](.github/instructions/form-app-info.instructions.md) for imposter components.
 
 ### Acceptable components
 - [web-component-patterns-catalog.md](src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.md) is a list of RJSF components that are acceptable to use in the form app.
