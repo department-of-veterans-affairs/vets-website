@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { useStore } from 'react-redux';
+import { connect, useStore } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useRepresentativeStatus } from 'platform/user/widgets/representative-status/hooks/useRepresentativeStatus';
 import {
@@ -10,8 +11,9 @@ import {
 } from 'platform/user/widgets/representative-status/components/cards';
 import { UnknownRep } from 'platform/user/widgets/representative-status/components/alerts';
 import repStatusLoader from 'platform/user/widgets/representative-status';
+import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
 
-const AccreditedRepresentative = () => {
+const AccreditedRepresentative = ({ isLOA3 }) => {
   const store = useStore();
 
   useEffect(() => {
@@ -90,7 +92,7 @@ const AccreditedRepresentative = () => {
       return renderHasRepresentative();
     }
 
-    if (!error && !id) {
+    if (isLOA3 || (!error && !id)) {
       return <NoRep />;
     }
 
@@ -111,4 +113,16 @@ const AccreditedRepresentative = () => {
   );
 };
 
-export default AccreditedRepresentative;
+AccreditedRepresentative.propTypes = {
+  isLOA3: PropTypes.bool.isRequired,
+};
+
+export const mapStateToProps = state => {
+  const isLOA3 = isLOA3Selector(state);
+
+  return {
+    isLOA3,
+  };
+};
+
+export default connect(mapStateToProps)(AccreditedRepresentative);

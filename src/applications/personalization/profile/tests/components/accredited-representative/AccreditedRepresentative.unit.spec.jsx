@@ -1,21 +1,15 @@
 import React from 'react';
 import sinon from 'sinon';
 
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import * as useRepresentativeStatus from 'platform/user/widgets/representative-status/hooks/useRepresentativeStatus';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 import mockRepresentativeData from '../../../mock-representative-data.json';
 import { formatContactInfo } from '../../../util/formatContactInfo';
 
 import AccreditedRepresentative from '../../../components/accredited-representative/AccreditedRepresentative';
-
-const store = createStore(() => ({
-  featureToggles: {},
-}));
 
 const repData = mockRepresentativeData.data[0];
 
@@ -32,6 +26,15 @@ const stubbedRepresentativeData = {
   extension,
   vcfUrl,
 };
+
+const getState = ({ isLOA3 = 1 } = {}) => ({
+  user: {
+    profile: {
+      signIn: { serviceName: CSP_IDS.DS_LOGON },
+      loa: { current: isLOA3 },
+    },
+  },
+});
 
 describe('AccreditedRepresentative', () => {
   context('when accredited representative is loading', () => {
@@ -51,10 +54,13 @@ describe('AccreditedRepresentative', () => {
       repStatus.restore();
     });
     it('should render loading', () => {
-      const { container } = render(
-        <Provider store={store}>
-          <AccreditedRepresentative />
-        </Provider>,
+      const { container } = renderWithStoreAndRouter(
+        <AccreditedRepresentative />,
+        {
+          initialState: {
+            ...getState(),
+          },
+        },
       );
       expect($('h1', container).textContent).to.eq(
         'Accredited Representative or VSO',
@@ -84,10 +90,13 @@ describe('AccreditedRepresentative', () => {
       repStatus.restore();
     });
     it('should render CurrentRep', async () => {
-      const { container, getByTestId } = render(
-        <Provider store={store}>
-          <AccreditedRepresentative />
-        </Provider>,
+      const { container, getByTestId } = renderWithStoreAndRouter(
+        <AccreditedRepresentative />,
+        {
+          initialState: {
+            ...getState(),
+          },
+        },
       );
       expect($('h1', container).textContent).to.eq(
         'Accredited Representative or VSO',
@@ -115,10 +124,46 @@ describe('AccreditedRepresentative', () => {
       repStatus.restore();
     });
     it('should render NoRep', async () => {
-      const { container, getByTestId, getByText } = render(
-        <Provider store={store}>
-          <AccreditedRepresentative />
-        </Provider>,
+      const { container, getByTestId, getByText } = renderWithStoreAndRouter(
+        <AccreditedRepresentative />,
+        {
+          initialState: {
+            ...getState(),
+          },
+        },
+      );
+      expect($('h1', container).textContent).to.eq(
+        'Accredited Representative or VSO',
+      );
+      getByTestId('no-rep');
+      getByText('You don’t have an accredited representative.');
+    });
+  });
+
+  context('when isLOA3 is true', () => {
+    let repStatus;
+
+    beforeEach(() => {
+      repStatus = sinon
+        .stub(useRepresentativeStatus, 'useRepresentativeStatus')
+        .returns({
+          representative: null,
+          isLoading: false,
+          error: null,
+        });
+    });
+
+    afterEach(() => {
+      repStatus.restore();
+    });
+    it('should render NoRep', async () => {
+      const { container, getByTestId, getByText } = renderWithStoreAndRouter(
+        <AccreditedRepresentative />,
+        {
+          initialState: {
+            ...getState({ isLOA3: 3 }),
+          },
+        },
       );
       expect($('h1', container).textContent).to.eq(
         'Accredited Representative or VSO',
@@ -147,10 +192,13 @@ describe('AccreditedRepresentative', () => {
         repStatus.restore();
       });
       it('should render UnknownRep', async () => {
-        const { container, getByTestId, getByText } = render(
-          <Provider store={store}>
-            <AccreditedRepresentative />
-          </Provider>,
+        const { container, getByTestId, getByText } = renderWithStoreAndRouter(
+          <AccreditedRepresentative />,
+          {
+            initialState: {
+              ...getState(),
+            },
+          },
         );
         expect($('h1', container).textContent).to.eq(
           'Accredited Representative or VSO',
