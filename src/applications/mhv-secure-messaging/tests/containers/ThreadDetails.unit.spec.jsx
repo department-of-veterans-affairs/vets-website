@@ -58,7 +58,6 @@ describe('Thread Details container', () => {
       triageGroupName,
     } = threadDetails.messages[0];
 
-    screen.debug(undefined, 10000);
     expect(
       await screen.findByText(`Messages: ${category} - ${subject}`, {
         exact: false,
@@ -111,7 +110,6 @@ describe('Thread Details container', () => {
     const screen = setup(state);
     const { category, subject } = threadDetails.messages[0];
 
-    screen.debug(undefined, 10000);
     expect(
       await screen.findByText(`Messages: ${category} - ${subject}`, {
         exact: false,
