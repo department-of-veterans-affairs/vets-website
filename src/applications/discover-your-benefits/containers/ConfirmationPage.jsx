@@ -41,12 +41,7 @@ export class ConfirmationPage extends React.Component {
     this.initializePage();
     this.handleResults();
     this.resetSubmissionStatus();
-    const sortedBenefitsList = this.state.benefitsList.sort((a, b) => {
-      if (a.name < b.name) return -1;
-      if (a.name > b.name) return 1;
-      return 0;
-    });
-    this.setState({ benefitsList: sortedBenefitsList });
+    this.sortBenefits();
   }
 
   componentDidUpdate(prevProps) {
@@ -252,18 +247,12 @@ export class ConfirmationPage extends React.Component {
         }, {})
       : {};
 
-    const benefitsState = this.props.results.data.sort((a, b) => {
-      if (a.name < b.name) return -1;
-      if (a.name > b.name) return 1;
-      return 0;
-    });
-
     this.setState(
       {
         hasResults,
         resultsCount,
         benefitIds,
-        benefits: benefitsState,
+        benefits: this.props.results.data,
       },
       () => this.setState(() => ({ filterText: this.createFilterText() })),
     );

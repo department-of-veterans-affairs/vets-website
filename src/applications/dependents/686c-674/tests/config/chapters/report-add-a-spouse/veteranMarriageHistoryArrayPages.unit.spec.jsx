@@ -237,17 +237,13 @@ describe('veteranMarriageHistoryOptions', () => {
     });
   });
 
-  describe('veteranMarriageHistoryOptions.text.getItemName + .cardDescription', () => {
+  describe('veteranMarriageHistoryOptions.text.getItemName', () => {
     it('should return the full name of the item', () => {
       const item = {
         fullName: { first: 'John', last: 'Doe' },
       };
-      expect(veteranMarriageHistoryOptions.text.getItemName()).to.equal(
-        'Your former marriage',
-      );
-
       const { container } = render(
-        veteranMarriageHistoryOptions.text.cardDescription(item),
+        veteranMarriageHistoryOptions.text.getItemName(item),
       );
       expect(container.textContent).to.equal('John Doe');
     });
@@ -255,19 +251,19 @@ describe('veteranMarriageHistoryOptions', () => {
     it('should return a trimmed name even if one part is missing', () => {
       const itemMissingLast = { fullName: { first: 'John' } };
       const { container: container1 } = render(
-        veteranMarriageHistoryOptions.text.cardDescription(itemMissingLast),
+        veteranMarriageHistoryOptions.text.getItemName(itemMissingLast),
       );
       expect(container1.textContent).to.equal('John');
 
       const itemMissingFirst = { fullName: { last: 'Doe' } };
       const { container: container2 } = render(
-        veteranMarriageHistoryOptions.text.cardDescription(itemMissingFirst),
+        veteranMarriageHistoryOptions.text.getItemName(itemMissingFirst),
       );
       expect(container2.textContent).to.equal('Doe');
 
       const itemMissingBoth = { fullName: {} };
       const { container: container3 } = render(
-        veteranMarriageHistoryOptions.text.cardDescription(itemMissingBoth),
+        veteranMarriageHistoryOptions.text.getItemName(itemMissingBoth),
       );
       expect(container3.textContent).to.equal('');
     });
