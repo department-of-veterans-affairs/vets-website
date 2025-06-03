@@ -175,7 +175,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
       );
 
       // Link text
-      getByText('Get VA Form 21P-4185');
+      getByText('Get VA Form 21P-4185 (opens in new tab)');
     });
 
     it('21P-4165 - when assets with assetType "FARM" are present', () => {
@@ -184,7 +184,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
       );
 
       // Link text
-      getByText('Get VA Form 21P-4165');
+      getByText('Get VA Form 21P-4165 (opens in new tab)');
     });
   });
 
@@ -200,8 +200,8 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
       );
 
       // Link text
-      getByText('Get VA Form 21P-4185');
-      getByText('Get VA Form 21P-4165');
+      getByText('Get VA Form 21P-4185 (opens in new tab)');
+      getByText('Get VA Form 21P-4165 (opens in new tab)');
     });
   });
 });

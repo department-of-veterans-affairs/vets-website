@@ -12,11 +12,11 @@ const bodyTextMap = {
 const downloadLinkMap = {
   business: {
     href: 'https://www.va.gov/find-forms/about-form-21p-4185/',
-    text: 'Get VA Form 21P-4185',
+    text: 'Get VA Form 21P-4185 (opens in new tab)',
   },
   farm: {
     href: 'https://www.va.gov/find-forms/about-form-21p-4165/',
-    text: 'Get VA Form 21P-4165',
+    text: 'Get VA Form 21P-4165 (opens in new tab)',
   },
 };
 
@@ -91,13 +91,12 @@ export const SupplementaryFormsAlert = ({ formData }) => {
   const bodyText = getBodyText(assets, assetTypes);
 
   return (
-    <va-alert status="info">
+    <va-alert status="info" visible>
       <h2 slot="headline">{headline}</h2>
       <p>{bodyText}</p>
       {assetTypes.map(type => (
         <p key={type}>
           <a
-            aria-label={downloadLinkMap[type].text}
             href={downloadLinkMap[type].href}
             rel="noopener noreferrer"
             target="_blank"
