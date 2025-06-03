@@ -84,6 +84,7 @@ const deleteToxicExposureData = (data, setFormData) => {
 };
 
 /**
+ * TODO: replace with lodash util
  * Deep check utility to determine if a value contains meaningful data
  * @param {*} value - The value to check
  * @returns {boolean} True if the value contains data, false otherwise
@@ -283,19 +284,13 @@ const ToxicExposureChoicePage = props => {
         [value]: checked,
       };
 
-      setConditions(updatedConditions);
-
-      // Immediately update form data to ensure it's persisted
-      const updatedFormData = {
-        ...data,
-        'view:selectedToxicExposureConditions': updatedConditions,
-        toxicExposure: {
-          ...data.toxicExposure,
-          conditions: updatedConditions,
-        },
-      };
-
-      setFormData(updatedFormData);
+      // Begin with a fresh copy, remove all existing data, and then reintroduce the "none" option
+      const updatedData = { ...data };
+      deleteToxicExposureData(updatedData, () => {});
+      updatedData.toxicExposure = { conditions: updatedConditions };
+      updatedData['view:previousToxicExposureConditions'] = updatedConditions;
+      updatedData['view:selectedToxicExposureConditions'] = updatedConditions;
+      setFormData(updatedData);
     },
 
     /**
@@ -379,16 +374,13 @@ const ToxicExposureChoicePage = props => {
       setConditions(updatedConditions);
       setPreviousConditions(updatedConditions);
 
-      const updatedData = {
-        ...data,
-        'view:previousToxicExposureConditions': updatedConditions,
-        'view:selectedToxicExposureConditions': updatedConditions,
-        toxicExposure: {
-          conditions: updatedConditions,
-        },
-      };
-
-      deleteToxicExposureData(updatedData, setFormData);
+      // Start from a clean copy, delete everything, *then* re-add "none"
+      const updatedData = { ...data };
+      deleteToxicExposureData(updatedData, () => {});
+      updatedData.toxicExposure = { conditions: updatedConditions };
+      updatedData['view:previousToxicExposureConditions'] = updatedConditions;
+      updatedData['view:selectedToxicExposureConditions'] = updatedConditions;
+      setFormData(updatedData);
       setShowModal(false);
       setShowAlert(true);
 
@@ -460,15 +452,17 @@ const ToxicExposureChoicePage = props => {
           {conditionsDescription}
 
           {/* Render checkbox for each condition including "none" option */}
-          {Object.keys(conditionsUI).map(key => (
-            <va-checkbox
-              key={key}
-              name={key}
-              value={key}
-              label={conditionsUI[key]['ui:title']}
-              checked={conditions[key] || false}
-            />
-          ))}
+          {Object.keys(conditionsUI)
+            .filter(k => conditionsUI[k] && conditionsUI[k]['ui:title'])
+            .map(key => (
+              <va-checkbox
+                key={key}
+                name={key}
+                value={key}
+                label={conditionsUI[key]['ui:title']}
+                checked={conditions[key] || false}
+              />
+            ))}
         </VaCheckboxGroup>
 
         {/* Destructive Modal - Confirms deletion of toxic exposure data */}
