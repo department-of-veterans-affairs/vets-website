@@ -11,7 +11,7 @@ const Disclaimer = () => {
           Note: Content on this web page is for informational purposes only. It
           is not intended to provide legal advice or to be a comprehensive
           statement or analysis of applicable statutes, regulations, and case
-          law governing this topic. Rather, it’s a plain language summary.
+          law governing this topic. Rather, it's a plain language summary.
         </p>
         <p>
           <span className="vads-u-font-weight--bold">
