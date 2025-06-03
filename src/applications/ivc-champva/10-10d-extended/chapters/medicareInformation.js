@@ -706,10 +706,31 @@ const medicarePartDCardUploadPage = {
   },
 };
 
+/**
+ * Returns true if any applicant has been set to "enrolled" in Medicare (per
+ * prompt in the applicant loop).
+ * @param {Object} formData Standard formdata object provided to depends functions
+ * @returns Boolean indicating whether or not any applicant is at least 65 y/o and has medicare.
+ */
+function anyAppEnrolledInMedicare(formData) {
+  return formData?.applicants?.some(
+    app =>
+      getAgeInYears(app?.applicantDob) >= 65 &&
+      app?.applicantMedicareStatus?.eligibility === 'enrolled',
+  );
+}
+
+/**
+ * Returns a list of applicants who are 65 or older, enrolled, and not claimed on
+ * a Medicare plan that has been entered in the form.
+ * @param {Object} formData Standard formdata object provided to depends functions
+ * @returns Array of applicant objects
+ */
 function getEligibleApplicantsWithoutMedicare(formData) {
   return formData?.applicants?.filter(
     applicant =>
       getAgeInYears(applicant?.applicantDob) >= 65 &&
+      applicant?.applicantMedicareStatus?.eligibility === 'enrolled' &&
       !formData?.medicare?.some(
         plan =>
           toHashMemoized(applicant.applicantSSN) === plan?.medicareParticipant,
@@ -823,19 +844,6 @@ export const proofOfIneligibilityUploadPage = {
   },
 };
 
-/**
- * Returns true if any applicant is enrolled in Medicare.
- * @param {Object} formData Standard formdata object provided to depends functions
- * @returns Boolean indicating whether or not any applicant is at least 65 y/o and has medicare.
- */
-function anyAppHasMedicare(formData) {
-  return formData?.applicants?.some(
-    app =>
-      getAgeInYears(app?.applicantDob) >= 65 &&
-      app?.applicantMedicareStatus?.eligibility === 'enrolled',
-  );
-}
-
 export const medicarePages = arrayBuilderPages(
   medicareOptions,
   pageBuilder => ({
@@ -843,7 +851,7 @@ export const medicarePages = arrayBuilderPages(
       path: 'medicare-summary',
       title: 'Review your Medicare plans',
       depends: formData => {
-        return anyAppHasMedicare(formData);
+        return anyAppEnrolledInMedicare(formData);
       },
       uiSchema: medicareSummaryPage.uiSchema,
       schema: medicareSummaryPage.schema,
@@ -852,7 +860,7 @@ export const medicarePages = arrayBuilderPages(
       path: 'select-participant/:index',
       title: 'Select Medicare participants',
       depends: formData => {
-        return anyAppHasMedicare(formData);
+        return anyAppEnrolledInMedicare(formData);
       },
       ...selectMedicareParticipantPage,
       CustomPage: props =>
