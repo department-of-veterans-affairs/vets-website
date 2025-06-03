@@ -60,6 +60,7 @@ const IntroductionPage = props => {
               You have a condition that we now consider presumptive (such as
               under the{' '}
               <va-link
+                disable-analytics
                 href="/resources/the-pact-act-and-your-va-benefits/"
                 text="PACT Act"
               />
@@ -80,6 +81,7 @@ const IntroductionPage = props => {
               </p>
               <p className="vads-u-margin-bottom--0">
                 <va-link
+                  disable-analytics
                   href="/resources/the-pact-act-and-your-va-benefits/"
                   text="Learn more about the PACT Act"
                 />
@@ -96,12 +98,14 @@ const IntroductionPage = props => {
           </p>
           <p>
             <va-link
+              disable-analytics
               href="/decision-reviews/fiduciary-claims"
               text="Learn more about fiduciary claims"
             />
           </p>
           <p>
             <va-link
+              disable-analytics
               href="/decision-reviews/contested-claims"
               text="Learn more about contested claims"
             />
@@ -112,6 +116,7 @@ const IntroductionPage = props => {
           </p>
           <p>
             <va-link
+              disable-analytics
               href={`${formConfig.rootUrl}/start`}
               text="Go back to the questions"
             />

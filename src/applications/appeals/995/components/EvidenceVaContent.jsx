@@ -121,6 +121,7 @@ export const EvidenceVaContent = ({
                 {!reviewMode && (
                   <div className="vads-u-margin-top--1p5">
                     <BasicLink
+                      disableAnalytics
                       key={`edit-va-${index}`}
                       id={`edit-va-${index}`}
                       className="edit-item"

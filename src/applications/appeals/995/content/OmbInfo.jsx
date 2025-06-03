@@ -22,6 +22,7 @@ const OmbInfo = () => (
         information if this number is not displayed. Valid OMB control numbers
         can be located on the{' '}
         <va-link
+          disable-analytics
           href="https://www.reginfo.gov/public/do/PRAMain"
           external
           text="OMB Internet Page"
@@ -83,6 +84,7 @@ const OmbInfo = () => (
         control number is displayed. Valid OMB control numbers can be located on
         the{' '}
         <va-link
+          disable-analytics
           href="https://www.reginfo.gov/public/do/PRAMain"
           external
           text="OMB Internet Page"

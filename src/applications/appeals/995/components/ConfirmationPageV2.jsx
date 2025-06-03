@@ -96,6 +96,7 @@ export const ConfirmationPageV2 = () => {
         When we’ve completed your review, we’ll mail you a decision packet with
         the details of our decision.{' '}
         <va-link
+          disable-analytics
           href="/decision-reviews/after-you-request-review/"
           text="Learn more about what happens after you request a decision review"
         />

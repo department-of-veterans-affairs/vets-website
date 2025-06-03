@@ -85,7 +85,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
         </li>
         <li>
           You would like VA to review your claim based on a new law (such as the{' '}
-          <va-link href="/pact" text="PACT Act" />
+          <va-link disable-analytics href="/pact" text="PACT Act" />
           ).
         </li>
       </ul>
@@ -95,6 +95,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
           other decision review options.
         </p>
         <va-link
+          disable-analytics
           href="/resources/choosing-a-decision-review-option/"
           text="Learn about choosing a decision review option"
         />

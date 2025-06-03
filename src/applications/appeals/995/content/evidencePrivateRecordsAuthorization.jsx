@@ -16,6 +16,7 @@ export const authorizationAlertContent = onAnchorClick => (
       you must authorize the release.
     </p>
     <va-link
+      disable-analytics
       href="#privacy-agreement"
       onClick={onAnchorClick}
       id="checkbox-anchor"
@@ -27,6 +28,7 @@ export const authorizationAlertContent = onAnchorClick => (
       21-4142 and 21-4142a after submitting this form.
     </p>
     <BasicLink
+      disableAnalytics
       path={`/${EVIDENCE_PRIVATE_REQUEST}`}
       text="Go back to upload records"
     />

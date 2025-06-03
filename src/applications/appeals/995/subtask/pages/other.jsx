@@ -61,6 +61,7 @@ const DecisionReviewPage = () => {
         decision review options.
       </p>
       <va-link
+        disable-analytics
         href="/resources/choosing-a-decision-review-option/"
         text="Learn about choosing a decision review option"
       />

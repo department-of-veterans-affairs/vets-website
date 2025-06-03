@@ -69,6 +69,7 @@ export const EvidenceUploadContent = ({
               {!reviewMode && (
                 <div className="vads-u-margin-top--1p5">
                   <BasicLink
+                    disableAnalytics
                     id={`edit-upload-${index}`}
                     className="edit-item"
                     path={`/${EVIDENCE_UPLOAD_PATH}#${index}`}

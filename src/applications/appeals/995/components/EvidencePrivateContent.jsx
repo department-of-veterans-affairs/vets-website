@@ -102,6 +102,7 @@ export const EvidencePrivateContent = ({
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
                 <BasicLink
+                  disableAnalytics
                   id="edit-private-authorization"
                   className="edit-item"
                   aria-label={`edit ${title4142WithId}`}
@@ -126,6 +127,7 @@ export const EvidencePrivateContent = ({
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
                 <BasicLink
+                  disableAnalytics
                   id="edit-limitation-y-n"
                   className="edit-item"
                   path={`/${EVIDENCE_LIMITATION_PATH1}`}
@@ -150,6 +152,7 @@ export const EvidencePrivateContent = ({
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
                 <BasicLink
+                  disableAnalytics
                   id="edit-limitation"
                   className="edit-item"
                   path={`/${EVIDENCE_LIMITATION_PATH2}`}
@@ -228,6 +231,7 @@ export const EvidencePrivateContent = ({
                 {!reviewMode && (
                   <div className="vads-u-margin-top--1p5">
                     <BasicLink
+                      disableAnalytics
                       id={`edit-private-${index}`}
                       className="edit-item"
                       path={path}
@@ -265,6 +269,7 @@ export const EvidencePrivateContent = ({
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
                 <BasicLink
+                  disableAnalytics
                   id="edit-limitation"
                   className="edit-item"
                   path={`/${EVIDENCE_LIMITATION_PATH}`}

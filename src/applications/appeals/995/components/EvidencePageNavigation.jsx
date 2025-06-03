@@ -7,6 +7,7 @@ export const EvidencePageNavigation = ({ path, content, handlers }) => (
   <>
     <div className="vads-u-margin-top--2">
       <ActionLink
+        disableAnalytics
         path={path}
         primary
         onClick={handlers.onAddAnother}
