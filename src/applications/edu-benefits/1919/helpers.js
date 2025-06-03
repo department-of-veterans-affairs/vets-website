@@ -47,3 +47,22 @@ export const arrayBuilderOptions = {
     cancelAddNo: 'No, continue adding information',
   },
 };
+export const alert = (
+  <va-alert
+    class="vads-u-margin-bottom--1"
+    data-testid="info-alert"
+    close-btn-aria-label="Close notification"
+    disable-analytics="false"
+    full-width="false"
+    slim
+    status="info"
+    visible
+  >
+    {' '}
+    <p className="vads-u-margin-y--0">
+      {' '}
+      <strong>Note:</strong> Each time the information on this form changes, a
+      new submission is required.{' '}
+    </p>{' '}
+  </va-alert>
+);

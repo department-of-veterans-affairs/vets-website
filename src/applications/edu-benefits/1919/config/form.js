@@ -101,7 +101,7 @@ const formConfig = {
               goPath('/proprietary-profit-2');
             } else {
               // TODO: To be replaced with 'Step 3' Conflict of Interest chapter
-              goPath('/contact-information');
+              goPath('/all-proprietary-schools');
             }
           },
         },
@@ -130,7 +130,13 @@ const formConfig = {
                     .path,
                 );
               } else {
-                goPath('/all-proprietary-schools/0?add=true');
+                const allProprietarySchoolsEmployeeInfoIndex =
+                  localStorage.getItem(
+                    'allProprietarySchoolsEmployeeInfoIndex',
+                  ) || '0';
+                goPath(
+                  `/all-proprietary-schools/${allProprietarySchoolsEmployeeInfoIndex}?add=true`,
+                );
               }
             },
           }),
@@ -164,12 +170,15 @@ const formConfig = {
               );
               goPath('/all-proprietary-schools-employee-info/summary');
             },
+            onNavBack: ({ _, goPath }) => {
+              goPath('/all-proprietary-schools');
+            },
           }),
         })),
       },
     },
     directDepositChapter: {
-      title: 'Directt deposit',
+      title: 'Direct deposit',
       pages: {
         directDeposit: {
           path: 'direct-deposit',

@@ -4,6 +4,7 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { alert } from '../helpers';
 
 const uiDescription = (
   <>
@@ -20,22 +21,7 @@ const uiDescription = (
       Security numbers) of any certifying officials, owners, or officers at your
       school who receive VA educational assistance based on their enrollment.
     </p>
-    <va-alert
-      class="vads-u-margin-bottom--1"
-      close-btn-aria-label="Close notification"
-      disable-analytics="false"
-      full-width="false"
-      slim
-      status="info"
-      visible
-    >
-      {' '}
-      <p className="vads-u-margin-y--0">
-        {' '}
-        <strong>Note:</strong> Each time the information on this form changes, a
-        new submission is required.{' '}
-      </p>{' '}
-    </va-alert>
+    {alert}
   </>
 );
 
