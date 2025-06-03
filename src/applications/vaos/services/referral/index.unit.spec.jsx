@@ -56,7 +56,7 @@ describe('Referral Services', () => {
       id: 'd1',
       referralNumber: 'r1',
       slotId: 's1',
-      networkId: 'n',
+      networkId: 'n1',
       providerServiceId: 'p1',
     });
 
