@@ -823,31 +823,37 @@ export const proofOfIneligibilityUploadPage = {
   },
 };
 
+/**
+ * Returns true if any applicant is enrolled in Medicare.
+ * @param {Object} formData Standard formdata object provided to depends functions
+ * @returns Boolean indicating whether or not any applicant is at least 65 y/o and has medicare.
+ */
+function anyAppHasMedicare(formData) {
+  return formData?.applicants?.some(
+    app =>
+      getAgeInYears(app?.applicantDob) >= 65 &&
+      app?.applicantMedicareStatus?.eligibility === 'enrolled',
+  );
+}
+
 export const medicarePages = arrayBuilderPages(
   medicareOptions,
   pageBuilder => ({
-    medicareIntro: pageBuilder.introPage({
-      path: 'medicare-intro',
-      title: '[noun plural]',
-      uiSchema: {
-        ...titleUI('Medicare intro page (delete?)', <>Medicare intro page.</>),
-      },
-      schema: {
-        type: 'object',
-        properties: {
-          titleSchema,
-        },
-      },
-    }),
     medicareSummary: pageBuilder.summaryPage({
       path: 'medicare-summary',
       title: 'Review your Medicare plans',
+      depends: formData => {
+        return anyAppHasMedicare(formData);
+      },
       uiSchema: medicareSummaryPage.uiSchema,
       schema: medicareSummaryPage.schema,
     }),
     participant: pageBuilder.itemPage({
       path: 'select-participant/:index',
       title: 'Select Medicare participants',
+      depends: formData => {
+        return anyAppHasMedicare(formData);
+      },
       ...selectMedicareParticipantPage,
       CustomPage: props =>
         SelectMedicareParticipantPage({
