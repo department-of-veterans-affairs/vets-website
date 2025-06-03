@@ -47,9 +47,21 @@ const schema = {
     certifyingOfficial: {
       type: 'object',
       properties: {
-        first: { ...textSchema, pattern: noSpaceOnlyPattern },
-        last: { ...textSchema, pattern: noSpaceOnlyPattern },
-        title: { ...textSchema, pattern: noSpaceOnlyPattern },
+        first: {
+          ...textSchema,
+          pattern: noSpaceOnlyPattern,
+          maxLength: 30,
+        },
+        last: {
+          ...textSchema,
+          pattern: noSpaceOnlyPattern,
+          maxLength: 30,
+        },
+        title: {
+          ...textSchema,
+          pattern: noSpaceOnlyPattern,
+          maxLength: 50,
+        },
       },
       required: ['first', 'last', 'title'],
     },
