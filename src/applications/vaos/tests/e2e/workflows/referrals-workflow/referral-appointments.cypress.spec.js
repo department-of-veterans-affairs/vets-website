@@ -151,7 +151,7 @@ describe('VAOS Referral Appointments', () => {
         id: appointmentId,
         firstResponse: proposedAppointmentResponse,
         secondResponse: bookedAppointmentResponse,
-        switchAfterRequests: 5,
+        switchAfterRequests: 2,
       });
     });
 
@@ -217,12 +217,10 @@ describe('VAOS Referral Appointments', () => {
       cy.injectAxeThenAxeCheck();
 
       // Wait for additional polling requests to eventually get booked status
-      // The app should poll multiple times, and after 5 requests it will get booked status
+      // The app should poll multiple times, then it will get a booked status
       cy.wait('@v2:get:appointmentDetails:polling', { timeout: 10000 });
       cy.wait('@v2:get:appointmentDetails:polling', { timeout: 10000 });
-      cy.wait('@v2:get:appointmentDetails:polling', { timeout: 10000 });
-      cy.wait('@v2:get:appointmentDetails:polling', { timeout: 10000 });
-      cy.wait('@v2:get:appointmentDetails:polling', { timeout: 10000 }); // 6th request should return booked
+      cy.wait('@v2:get:appointmentDetails:polling', { timeout: 10000 }); // should return booked
 
       // Verify we're redirected to the confirmation page
       completeReferral.validate();

@@ -422,8 +422,7 @@ describe('VAOS Referral API Error Handling', () => {
       // Wait for submit appointment response
       cy.wait('@v2:post:submitAppointment');
 
-      // Wait for a few requests
-      cy.wait('@v2:get:appointmentDetails', { timeout: 10000 });
+      // Wait for at least two requests to make sure we are polling
       cy.wait('@v2:get:appointmentDetails', { timeout: 10000 });
       cy.wait('@v2:get:appointmentDetails', { timeout: 10000 });
 
