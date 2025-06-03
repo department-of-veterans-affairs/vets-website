@@ -167,6 +167,7 @@ export const Locators = {
     CRUMBS_BACK: '.sm-breadcrumb-list-item',
     OLD_VERSION: `.welcome-message > p > a`,
     EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
+    REPLY: `reply-to-message-link`,
   },
   ALERTS: {
     HEADER: `[data-testid="error-folder-not-empty"]`,
