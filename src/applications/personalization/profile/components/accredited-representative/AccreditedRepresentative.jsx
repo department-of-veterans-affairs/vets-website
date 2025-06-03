@@ -92,7 +92,7 @@ const AccreditedRepresentative = ({ isLOA3 }) => {
       return renderHasRepresentative();
     }
 
-    if (isLOA3 || (!error && !id)) {
+    if ((isLOA3 && !id) || (!error && !id)) {
       return <NoRep />;
     }
 
