@@ -9,7 +9,6 @@ import { TABS } from '../../constants';
 
 export default function SearchTabs({ onChange, search, dispatchError }) {
   const { tab } = search;
-  const featureToggle = true;
 
   useEffect(
     () => {
@@ -68,7 +67,7 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
     <div className="search-form">
       <div role="tablist" className="vads-u-display--flex">
         {getTab(TABS.name, 'Search by name')}
-        {!featureToggle && getTab(TABS.location, 'Search by location')}
+        {getTab(TABS.location, 'Search by location')}
       </div>
       <div className="search-box">{tabbedSearch[tab]}</div>
     </div>

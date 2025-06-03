@@ -66,14 +66,6 @@ export function LocationSearchForm({
     { optionValue: '50', optionLabel: 'within 50 miles' },
     { optionValue: '75', optionLabel: 'within 75 miles' },
   ];
-  const mapboxToggle = true;
-
-  useEffect(() => {
-    if (mapboxToggle) {
-      history.push('/schools-and-employers/?search=name&excludeVettec=true');
-      return null;
-    }
-  },[],);
 
   useEffect(
     () => {
