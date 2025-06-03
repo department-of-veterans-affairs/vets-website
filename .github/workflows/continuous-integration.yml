@@ -1215,7 +1215,7 @@ jobs:
           merge-multiple: true
 
       # Dummy step to evaluate merged report JSON 
-        - name: Upload merged test results
+      - name: Upload merged test results
         uses: actions/upload-artifact@v3
         with:
          name: merged-unit-test-results
