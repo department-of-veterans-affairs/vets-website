@@ -3,7 +3,7 @@ import { Switch, Route, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import MhvPageNotFound from 'platform/mhv/components/MhvPageNotFound';
+import { MhvPageNotFoundContent } from 'platform/mhv/components/MhvPageNotFound';
 import pilotManifest from '../pilot/manifest.json';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
@@ -128,7 +128,7 @@ const AuthorizedRoutes = () => {
           </AppRoute>
         )}
         <Route>
-          <MhvPageNotFound />
+          <MhvPageNotFoundContent />
         </Route>
       </Switch>
     </div>
