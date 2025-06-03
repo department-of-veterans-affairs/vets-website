@@ -5,6 +5,21 @@ const actionPrefix = 'MHV Secondary Nav';
 
 /**
  * MHV secondary navigation items. Note the first item is the home link.
+ *
+ * Notes:
+ * - The title is the text displayed in the navigation.
+ * - The abbreviation is an optional short version of the title, used for smaller screens.
+ * - The ariaLabel is paired with the abbreviation and it is used for accessibility purposes.
+ * - The actionName is used for analytics tracking.
+ * - The icon is the name of the icon to be displayed in the navigation.
+ * - The href is the link to the page.
+ * - The appRootUrl is paired with the href it is used to determine the root of the app for the navigation.
+ *   - If the appRootUrl is not provided, it defaults to the href.
+ *   - If the appRootUrl is different from the href, it should be provided.
+ * - appRootUrl is required if it's different from href.
+ *   - Example:
+ *   - appRootUrl: '/my-health/secure-messages'      // root of the app
+ *   - href: '/my-health/secure-messages/inbox'      // specific sub-page (inbox)
  */
 export const mhvSecNavItems = [
   {
