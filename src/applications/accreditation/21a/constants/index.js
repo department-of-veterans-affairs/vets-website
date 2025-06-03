@@ -1,3 +1,4 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import * as SIS from './sis';
 import * as USIP from './usip';
 
@@ -16,3 +17,7 @@ export const SIGN_OUT_URL = (() => {
   );
   return url;
 })();
+
+export const isProduction = () => {
+  return window.Cypress || environment.isProduction();
+};
