@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   useLocation,
   useParams,
@@ -49,6 +50,7 @@ const Compose = ({ skipInterstitial }) => {
   const navigate = useNavigate();
   const isDraftPage = location.pathname.includes('/draft');
   const header = useRef();
+  const previousPathRef = useRef(location.pathname);
 
   useEffect(
     () => {
@@ -58,17 +60,25 @@ const Compose = ({ skipInterstitial }) => {
       } else {
         dispatch(retrieveMessageThread(draftId));
       }
-
-      const checkNextPath = navigate.listen(nextPath => {
-        if (nextPath.pathname !== Paths.CONTACT_LIST) {
-          dispatch(clearThread());
-        }
-      });
-      return () => {
-        checkNextPath();
-      };
     },
-    [dispatch, draftId, navigate, location.pathname],
+    [dispatch, draftId, location.pathname],
+  );
+
+  // React to location changes and clear thread if not navigating to contact list
+  useEffect(
+    () => {
+      const currentPath = location.pathname;
+
+      if (
+        previousPathRef.current !== currentPath &&
+        currentPath !== Paths.CONTACT_LIST
+      ) {
+        dispatch(clearThread());
+      }
+
+      previousPathRef.current = currentPath;
+    },
+    [location, dispatch],
   );
 
   useEffect(
@@ -237,6 +247,14 @@ const Compose = ({ skipInterstitial }) => {
       )}
     </>
   );
+};
+
+Compose.propTypes = {
+  skipInterstitial: PropTypes.bool,
+};
+
+Compose.defaultProps = {
+  skipInterstitial: false,
 };
 
 export default Compose;
