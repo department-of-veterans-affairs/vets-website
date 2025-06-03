@@ -54,7 +54,7 @@ const SignatureCheckbox = props => {
   return (
     <fieldset
       data-testid={label}
-      className="signature-box vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--5"
+      className="signature-box vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--3"
     >
       {children ? <>{children}</> : null}
 
