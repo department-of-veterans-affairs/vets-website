@@ -26,10 +26,10 @@ const Authorization = ({
   contentAfterButtons,
 }) => {
   const [hasError, setHasError] = useState(false);
-  const [activeModal, setActiveModal] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const toggle4142PrivacyModal = index => {
-    setActiveModal(index);
+  const toggle4142PrivacyModal = () => {
+    setModalVisible(!modalVisible);
   };
 
   useEffect(
@@ -96,21 +96,12 @@ const Authorization = ({
     }
   };
 
-  const showPrivacyModal = index => (
-    <>
-      <va-button
-        onClick={() => toggle4142PrivacyModal(index)}
-        secondary
-        text="Privacy Act Statement"
-      />
-      <VaModal
-        modalTitle="Privacy Act Statement"
-        onCloseEvent={() => setActiveModal(null)}
-        visible={activeModal === index}
-      >
-        <PrivacyActStatementContent />
-      </VaModal>
-    </>
+  const privacyModalButton = (
+    <va-button
+      onClick={toggle4142PrivacyModal}
+      secondary
+      text="Privacy Act Statement"
+    />
   );
 
   return (
@@ -297,7 +288,7 @@ const Authorization = ({
             Act, 5 USC 552a, and VA may disclose this information as authorized
             by law.
           </p>
-          {showPrivacyModal(0)}
+          {privacyModalButton}
           <p>
             I also understand that I may revoke this authorization in writing,
             at any time except to the extent a source of information has already
@@ -384,7 +375,7 @@ const Authorization = ({
             information may be disclosed by VA without your consent if
             authorized by Federal laws such as the Privacy Act.
           </p>
-          {showPrivacyModal(1)}
+          {privacyModalButton}
           <p>
             <strong>Expires</strong>: This authorization is good for 12 months
             from the date this form is submitted.
@@ -455,6 +446,13 @@ const Authorization = ({
           {contentAfterButtons}
         </div>
       </form>
+      <VaModal
+        modalTitle="Privacy Act Statement"
+        onCloseEvent={toggle4142PrivacyModal}
+        visible={modalVisible}
+      >
+        <PrivacyActStatementContent />
+      </VaModal>
     </>
   );
 };
