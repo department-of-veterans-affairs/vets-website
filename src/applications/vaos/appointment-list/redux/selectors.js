@@ -7,6 +7,7 @@ import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
+  TYPE_OF_CARE_IDS,
   COMP_AND_PEN,
 } from '../../utils/constants';
 import {
@@ -28,9 +29,7 @@ import {
   selectFeatureRequests,
   selectFeatureCancel,
   selectFeatureFeSourceOfTruth,
-  selectFeatureDisplayPastCancelledAppointments,
 } from '../../redux/selectors';
-import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
 import { getTimezoneNameFromAbbr } from '../../utils/timezone';
 
@@ -128,12 +127,19 @@ export const selectUpcomingAppointments = createSelector(
   },
 );
 
-export const selectPastAppointments = createSelector(
-  state => state.appointments.past,
-  past => {
-    return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
-  },
-);
+export const selectPastAppointments = state => {
+  const selector = createSelector(
+    () => state.appointments.past,
+    past => {
+      if (!past) {
+        return null;
+      }
+
+      return past.filter(isValidPastAppointment).sort(sortByDateDescending);
+    },
+  );
+  return selector(state);
+};
 
 /*
  * V2 Past appointments state selectors
@@ -147,16 +153,7 @@ export const selectPastAppointmentsV2 = state => {
         return null;
       }
 
-      const sortedAppointments = past
-        .filter(item =>
-          isValidPastAppointment(
-            item,
-            selectFeatureDisplayPastCancelledAppointments(state),
-          ),
-        )
-        .sort(sortByDateDescending);
-
-      return groupAppointmentsByMonth(sortedAppointments);
+      return groupAppointmentsByMonth(selectPastAppointments(state));
     },
   );
   return selector(state);
@@ -194,8 +191,9 @@ export function selectFacilitySettingsStatus(state) {
 export function selectCanUseVaccineFlow(state) {
   return state.appointments.facilitySettings?.some(
     facility =>
-      facility.services.find(service => service.id === VACCINE_TYPE_OF_CARE_ID)
-        ?.direct.enabled,
+      facility.services.find(
+        service => service.id === TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+      )?.direct.enabled,
   );
 }
 

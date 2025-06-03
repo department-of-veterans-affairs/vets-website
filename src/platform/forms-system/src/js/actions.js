@@ -15,6 +15,7 @@ export const SET_SUBMITTED = 'SET_SUBMITTED';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
 export const SET_FORM_ERRORS = 'SET_FORM_ERRORS';
+export const SET_ITF = 'SET_ITF';
 
 export function closeReviewChapter(closedChapter, pageKeys = []) {
   return {
@@ -87,6 +88,14 @@ export function setFormErrors(errors) {
   return {
     type: SET_FORM_ERRORS,
     data: errors,
+  };
+}
+
+// Intent to File data
+export function setItf(data) {
+  return {
+    type: SET_ITF,
+    data,
   };
 }
 
@@ -238,8 +247,16 @@ export function uploadFile(
       const changePayload = {
         name: file.name,
         errorMessage: fileTooBigErrorMessage,
-        ...(fileTooBigErrorAlert && { alert: fileTooBigErrorAlert }),
       };
+      if (file.size) {
+        changePayload.size = file.size;
+      }
+      if (file.lastModified) {
+        changePayload.lastModified = file.lastModified;
+      }
+      if (fileTooBigErrorAlert) {
+        changePayload.alert = fileTooBigErrorAlert;
+      }
       onChange(changePayload);
       onError();
       return null;

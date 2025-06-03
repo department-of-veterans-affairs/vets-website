@@ -3,7 +3,7 @@ import { addMonths } from 'date-fns';
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import {
   APPOINTMENT_STATUS,
-  OPHTHALMOLOGY_ID,
+  TYPE_OF_CARE_IDS,
 } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
@@ -37,8 +37,8 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 
-const typeOfCareId = getTypeOfCareById(OPHTHALMOLOGY_ID).idV2;
-const { cceType } = getTypeOfCareById(OPHTHALMOLOGY_ID);
+const typeOfCareId = getTypeOfCareById(TYPE_OF_CARE_IDS.OPHTHALMOLOGY_ID).idV2;
+const { cceType } = getTypeOfCareById(TYPE_OF_CARE_IDS.OPHTHALMOLOGY_ID);
 
 describe('VAOS request schedule flow - Audiology', () => {
   beforeEach(() => {
@@ -60,7 +60,6 @@ describe('VAOS request schedule flow - Audiology', () => {
         id: 'mock1',
         localStartTime: new Date(),
         status: APPOINTMENT_STATUS.booked,
-        serviceType: typeOfCareId,
         future: true,
       });
 

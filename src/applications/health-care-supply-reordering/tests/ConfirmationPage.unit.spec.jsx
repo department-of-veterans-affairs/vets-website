@@ -480,7 +480,7 @@ describe('ConfirmationPage', () => {
   it('should render the order summary alert', () => {
     const confirmationPage = mount(<ConfirmationPage store={fakeStore} />);
     const vaAlert = confirmationPage.find('va-alert').last();
-    expect(vaAlert.find('h4').text()).to.equal(
+    expect(vaAlert.find('h3').text()).to.equal(
       'Request for hearing aid or CPAP supplies',
     );
     expect(

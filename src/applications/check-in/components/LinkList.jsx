@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { makeSelectApp } from '../selectors';
 
@@ -22,7 +21,6 @@ const LinkList = ({ router }) => {
   const { jumpToPage, getCurrentPageFromRouter } = useFormRouting(router);
   const page = getCurrentPageFromRouter();
   const { t } = useTranslation();
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
@@ -39,12 +37,7 @@ const LinkList = ({ router }) => {
     jumpToPage(location);
   };
 
-  // appt link will be /my-health/appointments if toggle is on
-  const apptLink = useToggleValue(
-    TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
-  )
-    ? 'https://va.gov/my-health/appointments/'
-    : 'https://va.gov/health-care/schedule-view-va-appointments/appointments/';
+  const apptLink = 'https://va.gov/my-health/appointments/';
 
   const AppointmentsLink = () => {
     let linkText = t('review-todays-appointments');

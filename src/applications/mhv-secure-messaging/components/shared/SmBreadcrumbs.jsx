@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
@@ -19,12 +18,6 @@ const SmBreadcrumbs = () => {
   const activeDraftId = useSelector(
     state => state.sm.threadDetails?.drafts?.[0]?.messageId,
   );
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
 
   const previousPath = useRef(null);
 
@@ -39,59 +32,46 @@ const SmBreadcrumbs = () => {
 
   const newCrumbsList = useMemo(
     () => {
-      let updatedCrumbsList = crumbsList;
-
-      if (removeLandingPageFF) {
-        updatedCrumbsList = updatedCrumbsList?.filter(
-          item => item.label !== 'Messages',
-        );
-      }
-
-      return updatedCrumbsList?.map(item => ({
-        ...item,
-        ...(removeLandingPageFF
-          ? {
-              label: `${item?.href !== '/my-health' ? 'Messages: ' : ''}${
-                item?.label
-              }`,
-            }
-          : {}),
-      }));
+      return crumbsList
+        ?.filter(item => item.label !== 'Messages')
+        ?.map(item => ({
+          ...item,
+          label: `${item?.href !== '/my-health' ? 'Messages: ' : ''}${
+            item?.label
+          }`,
+        }));
     },
-    [crumbsList, removeLandingPageFF],
+    [crumbsList],
   );
 
   const pathsWithShortBreadcrumb = [
     Constants.Paths.MESSAGE_THREAD,
     Constants.Paths.REPLY,
     Constants.Paths.COMPOSE,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
     Constants.Paths.CONTACT_LIST,
     Constants.Paths.DRAFTS,
     Constants.Paths.DELETED,
-    ...(removeLandingPageFF
-      ? [
-          `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-          `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-          `${Constants.Paths.REPLY}${locationChildPath}/`,
-        ]
-      : []),
+    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
+    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
+    `${Constants.Paths.REPLY}${locationChildPath}/`,
   ];
+
   const pathsWithBackBreadcrumb = [
     Constants.Paths.COMPOSE,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
     Constants.Paths.CONTACT_LIST,
     Constants.Paths.DRAFTS,
     Constants.Paths.DELETED,
-    ...(removeLandingPageFF
-      ? [
-          `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-          `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-          `${Constants.Paths.REPLY}${locationChildPath}/`,
-        ]
-      : []),
+    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
+    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
+    `${Constants.Paths.REPLY}${locationChildPath}/`,
   ];
 
   const crumbPath = `/${locationBasePath}/${
-    removeLandingPageFF && locationChildPath ? `${locationChildPath}/` : ''
+    locationChildPath ? `${locationChildPath}/` : ''
   }`;
   const shortenBreadcrumb = pathsWithShortBreadcrumb.includes(crumbPath);
   const backBreadcrumb = pathsWithBackBreadcrumb.includes(crumbPath);
@@ -112,14 +92,11 @@ const SmBreadcrumbs = () => {
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
-      } else if (
-        removeLandingPageFF &&
-        crumb.href === Constants.Paths.FOLDERS
-      ) {
+      } else if (crumb.href === Constants.Paths.FOLDERS) {
         history.push(Constants.Paths.FOLDERS);
-      } else if (removeLandingPageFF && isSentFolder && !isReplyPath) {
+      } else if (isSentFolder && !isReplyPath) {
         history.push(Constants.Paths.SENT);
-      } else if (removeLandingPageFF && isInboxFolder && !isReplyPath) {
+      } else if (isInboxFolder && !isReplyPath) {
         history.push(Constants.Paths.INBOX);
       } else {
         history.push(
@@ -200,7 +177,7 @@ const SmBreadcrumbs = () => {
               href: `/${locationBasePath}/${locationChildPath}`,
               label: folderList.find(
                 item => item.id === parseInt(locationChildPath, 10),
-              ).name,
+              )?.name,
               isRouterLink: true,
             },
           ]),

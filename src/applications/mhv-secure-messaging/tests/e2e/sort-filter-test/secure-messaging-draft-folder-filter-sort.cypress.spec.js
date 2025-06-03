@@ -16,7 +16,7 @@ describe('SM DRAFT FOLDER FILTER-SORT CHECKS', () => {
 
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages(mockDraftMessages);
     FolderLoadPage.loadDraftMessages();
   });
 
@@ -44,6 +44,20 @@ describe('SM DRAFT FOLDER FILTER-SORT CHECKS', () => {
     );
 
     PatientFilterPage.verifySorting(sortedResponse);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify filter with no matches', () => {
+    const noMatchResponse = PatientFilterPage.filterMockResponse(
+      mockDraftMessages,
+      'no match',
+    );
+
+    PatientFilterPage.inputFilterData('no match');
+    PatientFilterPage.clickApplyFilterButton(noMatchResponse);
+
+    PatientFilterPage.verifyNoMatchFilterFocusAndText();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

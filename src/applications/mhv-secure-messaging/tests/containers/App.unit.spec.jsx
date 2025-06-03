@@ -8,16 +8,15 @@ import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
 import { waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
+import * as SmApi from '../../api/SmApi';
 import reducer from '../../reducers';
 import pilotRoutes from '../../pilot/routes';
-import { PageTitles } from '../../util/constants';
 
 describe('App', () => {
   let oldLocation;
 
   beforeEach(() => {
     oldLocation = global.window.location;
-    delete global.window.location;
     global.window.location = {
       replace: sinon.spy(),
     };
@@ -276,11 +275,8 @@ describe('App', () => {
     });
   });
 
-  it('redirects user to /my-health/secure-messages/inbox if feature flag is enabled', async () => {
+  it('redirects user to /my-health/secure-messages/inbox', async () => {
     const customState = { ...initialState, featureToggles: [] };
-    customState.featureToggles[
-      `${'mhv_secure_messaging_remove_landing_page'}`
-    ] = true;
 
     await renderWithStoreAndRouter(<App />, {
       initialState: customState,
@@ -296,7 +292,7 @@ describe('App', () => {
     );
   });
 
-  it('redirects user with pilot environment access to /my-health/secure-messages-pilot/inbox if feature flags are enabled', async () => {
+  it('redirects user with pilot environment access to /my-health/secure-messages-pilot/inbox', async () => {
     const customState = {
       ...initialState,
       featureToggles: [],
@@ -312,9 +308,6 @@ describe('App', () => {
     };
 
     customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
-    customState.featureToggles[
-      `${'mhv_secure_messaging_remove_landing_page'}`
-    ] = true;
 
     const { queryByText } = renderWithStoreAndRouter(<App isPilot />, {
       initialState: customState,
@@ -330,72 +323,13 @@ describe('App', () => {
     });
   });
 
-  it('should NOT redirect user to /my-health/secure-messages/inbox if feature flag is disabled', async () => {
-    const customState = { ...initialState, featureToggles: [] };
-    global.window.location = {
-      replace: sinon.spy(),
-      pathname: '/secure-messages/',
-      href: 'https://www.va.gov/my-health/secure-messages/inbox',
-    };
-
-    customState.featureToggles[
-      `${'mhv_secure_messaging_remove_landing_page'}`
-    ] = false;
-
-    const { getByText } = renderWithStoreAndRouter(<App />, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
-    await waitFor(() => {
-      expect(getByText('Messages', { selector: 'h1', exact: true })).to.exist;
-    });
-
-    expect(window.location.replace.called).to.be.false;
-    expect(window.location.pathname).to.equal('/secure-messages/');
-    expect(global.document.title).to.equal(
-      `${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
-    );
-  });
-
-  it('should NOT redirect user to /my-health/secure-messages-pilot/inbox if feature flag is disabled', async () => {
-    const customState = { ...initialState, featureToggles: [] };
-
-    global.window.location = {
-      replace: sinon.spy(),
-      pathname: '/secure-messages-pilot/',
-      href: 'https://www.va.gov/my-health/secure-messages-pilot/inbox',
-    };
-
-    customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
-    customState.featureToggles[
-      `${'mhv_secure_messaging_remove_landing_page'}`
-    ] = false;
-
-    const { getByText } = renderWithStoreAndRouter(pilotRoutes, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
-
-    await waitFor(() => {
-      expect(getByText('Messages', { selector: 'h1', exact: true })).to.exist;
-    });
-
-    expect(window.location.replace.called).to.be.false;
-    expect(window.location.pathname).to.equal('/secure-messages-pilot/');
-    expect(global.document.title).to.equal(
-      `${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
-    );
-  });
-
   it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {
     const customState = { ...initialState, featureToggles: [] };
     customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
     const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
       initialState: customState,
       reducers: reducer,
-      path: `/`,
+      path: `/inbox`,
     });
 
     expect(queryByText('Messages', { selector: 'h1', exact: true }));
@@ -431,5 +365,27 @@ describe('App', () => {
         }),
       ).to.exist;
     });
+  });
+
+  it('renders LaunchMessagingAal component', async () => {
+    const stubUseFeatureToggles = value => {
+      const useFeatureToggles = require('../../hooks/useFeatureToggles');
+      return sinon.stub(useFeatureToggles, 'default').returns(value);
+    };
+
+    const submitStub = sinon.stub(SmApi, 'submitLaunchMessagingAal');
+    submitStub.resolves();
+    const useFeatureTogglesStub = stubUseFeatureToggles({ isAalEnabled: true });
+    renderWithStoreAndRouter(<App />, {
+      initialState,
+      reducers: reducer,
+    });
+    await waitFor(() => {
+      expect(submitStub.calledOnce).to.be.true;
+    });
+    submitStub.restore();
+    if (useFeatureTogglesStub && useFeatureTogglesStub.restore) {
+      useFeatureTogglesStub.restore();
+    }
   });
 });

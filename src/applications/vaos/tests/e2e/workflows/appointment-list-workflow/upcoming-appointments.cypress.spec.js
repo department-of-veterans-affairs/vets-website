@@ -233,10 +233,9 @@ describe('VAOS upcoming appointment flow', () => {
     it('should alow veteran to cancel appointment', () => {
       // Arrange
       const response = new MockAppointmentResponse({
-        cancellable: true,
         localStartTime: new Date(),
         future: true,
-      });
+      }).setCancellable(true);
 
       const canceledAppt = {
         ...response,
@@ -343,7 +342,6 @@ describe('VAOS upcoming appointment flow', () => {
       for (let i = 1; i <= 4; i += 1) {
         const appt = new MockAppointmentResponse({
           id: i,
-          cancellable: false,
           localStartTime: i <= 2 ? today : tomorrow,
           status: APPOINTMENT_STATUS.booked,
           future: true,
@@ -387,7 +385,6 @@ describe('VAOS upcoming appointment flow', () => {
       for (let i = 1; i <= 2; i += 1) {
         const appt = new MockAppointmentResponse({
           id: i,
-          cancellable: false,
           localStartTime: today,
           status: APPOINTMENT_STATUS.booked,
           future: true,
@@ -423,7 +420,6 @@ describe('VAOS upcoming appointment flow', () => {
       for (let i = 1; i <= 2; i += 1) {
         const appt = new MockAppointmentResponse({
           id: i,
-          cancellable: false,
           localStartTime: today,
           status: APPOINTMENT_STATUS.booked,
           future: true,
@@ -434,7 +430,6 @@ describe('VAOS upcoming appointment flow', () => {
       const nextMonth = addMonths(new Date(), 1);
       const appt = new MockAppointmentResponse({
         id: '3',
-        cancellable: false,
         localStartTime: nextMonth,
         status: APPOINTMENT_STATUS.booked,
         future: true,
@@ -712,9 +707,8 @@ describe('VAOS upcoming appointment flow', () => {
       const response = MockAppointmentResponse.createMobileResponses({
         localStartTime: addMinutes(new Date(), 30),
         future: true,
-        displayLink: true,
       });
-      response[0].setUrl();
+      response[0].setDisplayLink(true).setUrl();
 
       mockAppointmentsGetApi({
         response,

@@ -39,17 +39,19 @@ export class ConfirmationPage extends React.Component {
         </va-alert>
 
         <div className="inset">
-          <h3 className="vads-u-margin-top--0">Your submission information</h3>
+          <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
+            Your submission information
+          </h2>
           {data.applicantName && (
             <>
-              <span className="veterans-full-name">
+              <span className="veterans-full-name dd-privacy-hidden">
                 <strong>Applicant’s name</strong>
                 <br />
                 {applicantWording(form.data, false, false, false)}
               </span>
               <br />
               <br />
-              <span className="signer-name">
+              <span className="signer-name dd-privacy-hidden">
                 <strong>Who submitted this form</strong>
                 <br />
                 {data.statementOfTruthSignature || data.signature}

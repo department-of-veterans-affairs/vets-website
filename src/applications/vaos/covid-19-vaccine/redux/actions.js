@@ -9,7 +9,6 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import {
   selectSystemIds,
-  selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthVA,
@@ -25,6 +24,7 @@ import {
   FACILITY_SORT_METHODS,
   GA_PREFIX,
   TYPES_OF_CARE,
+  TYPE_OF_CARE_IDS,
 } from '../../utils/constants';
 import { captureError, has400LevelError } from '../../utils/error';
 import {
@@ -32,7 +32,6 @@ import {
   recordItemsRetrieved,
   resetDataLayer,
 } from '../../utils/events';
-import { TYPE_OF_CARE_ID } from '../utils';
 import {
   selectCovid19VaccineNewBooking,
   selectCovid19VaccineFormData,
@@ -130,7 +129,7 @@ export function getClinics({ facilityId, showModal = false }) {
       clinics = await getAvailableHealthcareServices({
         facilityId,
         typeOfCare: TYPES_OF_CARE.find(
-          typeOfCare => typeOfCare.id === TYPE_OF_CARE_ID,
+          typeOfCare => typeOfCare.id === TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         ),
       });
       dispatch({
@@ -182,12 +181,16 @@ export function openFacilityPage() {
       // fetch eligbility data immediately
       const supportedFacilities = facilities?.filter(
         facility =>
-          facility.legacyVAR.settings[TYPE_OF_CARE_ID]?.direct.enabled,
+          facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]?.direct
+            .enabled,
       );
       const clinicsNeeded = !!facilityId || supportedFacilities?.length === 1;
 
       if (!facilities.length) {
-        recordEligibilityFailure('covid19-supported-facilities', 'covid');
+        recordEligibilityFailure(
+          'covid19-supported-facilities',
+          TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+        );
       }
 
       if (clinicsNeeded && !facilityId) {
@@ -383,7 +386,6 @@ export function prefillContactInfo() {
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
     const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
@@ -430,11 +432,7 @@ export function confirmAppointment(history) {
         ...facilityID,
       });
       resetDataLayer();
-      history.push(
-        featureBreadcrumbUrlUpdate
-          ? `/${appointment.id}?confirmMsg=true`
-          : '/new-covid-19-vaccine-appointment/confirmation',
-      );
+      history.push(`/${appointment.id}?confirmMsg=true`);
     } catch (error) {
       captureError(error, true, 'COVID-19 vaccine submission failure');
       dispatch({

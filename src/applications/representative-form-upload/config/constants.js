@@ -44,16 +44,6 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
   );
 };
 
-export const UPLOAD_TITLE = 'Your file';
-
-export const UPLOAD_DESCRIPTION = Object.freeze(
-  <>
-    <span className="vads-u-font-weight--bold">Note:</span> After you upload
-    your file, you’ll need to continue to the next screen to submit it. If you
-    leave before you submit it, you’ll need to upload it again.
-  </>,
-);
-
 export const FORM_UPLOAD_OCR_ALERT = (
   formNumber,
   pdfDownloadUrl,
@@ -62,7 +52,7 @@ export const FORM_UPLOAD_OCR_ALERT = (
 ) => (
   <VaAlert
     close-btn-aria-label="Close notification"
-    status="warning"
+    status="error"
     visible
     closeable
     onCloseEvent={onCloseEvent}

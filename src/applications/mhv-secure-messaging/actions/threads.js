@@ -69,17 +69,22 @@ export const getListOfThreads = (
       response,
     });
   } catch (e) {
-    dispatch({ type: Actions.Thread.IS_LOADING, payload: false });
     if (
       e.errors &&
       e.errors[0]?.detail === 'No messages in the requested folder'
     ) {
+      dispatch({ type: Actions.Thread.IS_LOADING, payload: false });
       const noThreads = [];
       dispatch({
         type: Actions.Thread.GET_EMPTY_LIST,
         response: noThreads,
       });
     } else if (e.errors) {
+      dispatch({
+        type: Actions.Thread.ERROR_LOADING_LIST,
+        response: { errors: e.errors },
+      });
+      dispatch({ type: Actions.Thread.IS_LOADING, payload: false });
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,
@@ -88,6 +93,7 @@ export const getListOfThreads = (
         ),
       );
     } else {
+      dispatch({ type: Actions.Thread.IS_LOADING, payload: false });
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,

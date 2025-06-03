@@ -1,7 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT, Paths } from '../utils/constants';
 import mockFeatureToggles from '../fixtures/toggles-response.json';
-import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 import PilotEnvPage from '../pages/PilotEnvPage';
 import mockMessages from '../fixtures/pilot-responses/inbox-threads-OH-response.json';
 import mhvMessages from '../fixtures/pilot-responses/inbox-threads-response.json';
@@ -20,8 +19,7 @@ describe('Secure Messaging Pilot feature flag', () => {
   };
 
   it('pilot OFF inbox page view', () => {
-    SecureMessagingSite.login();
-    SecureMessagingLandingPage.loadMainPage(mockFeatureToggles, Paths.UI_MAIN);
+    SecureMessagingSite.login(mockFeatureToggles);
 
     PilotEnvPage.loadInboxMessages(Paths.UI_MAIN, mhvMessages);
 
@@ -33,11 +31,7 @@ describe('Secure Messaging Pilot feature flag', () => {
   });
 
   it('pilot ON inbox page view', () => {
-    SecureMessagingSite.login();
-    SecureMessagingLandingPage.loadMainPage(
-      mockPilotFeatureToggles,
-      Paths.UI_PILOT,
-    );
+    SecureMessagingSite.login(mockPilotFeatureToggles);
 
     PilotEnvPage.loadInboxMessages();
 

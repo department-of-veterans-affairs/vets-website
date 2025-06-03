@@ -1,38 +1,32 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import { fetchAppointmentInfo, setFormCurrentPage } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
-import {
-  getAppointmentCreateStatus,
-  getReferralAppointmentInfo,
-} from './redux/selectors';
+import { getReferralAppointmentInfo } from './redux/selectors';
 
 // eslint-disable-next-line import/no-restricted-paths
 import PageLayout from '../appointment-list/components/PageLayout';
 import FullWidthLayout from '../components/FullWidthLayout';
 import Section from '../components/Section';
-import {
-  AppointmentTime,
-  // eslint-disable-next-line import/no-restricted-paths
-} from '../appointment-list/components/AppointmentDateTime';
-import FacilityPhone from '../components/FacilityPhone';
+// eslint-disable-next-line import/no-restricted-paths
+import { AppointmentTime } from '../appointment-list/components/AppointmentDateTime';
+import ProviderAddress from './components/ProviderAddress';
 
 export default function EpsAppointmentDetailsPage() {
   const { pathname } = useLocation();
-  const [, appointmentId] = pathname.split('/');
-  const dispatch = useDispatch();
   // get the id from the url my-health/appointments/1234
-  const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
+  const [, appointmentId] = pathname.split('/');
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const {
     appointmentInfoError,
-    appointmentInfoTimeout,
     appointmentInfoLoading,
     referralAppointmentInfo,
   } = useSelector(getReferralAppointmentInfo);
-
   useEffect(
     () => {
       dispatch(setFormCurrentPage('details'));
@@ -43,9 +37,8 @@ export default function EpsAppointmentDetailsPage() {
     () => {
       if (
         !appointmentInfoError &&
-        !appointmentInfoTimeout &&
         !appointmentInfoLoading &&
-        referralAppointmentInfo?.attributes?.status !== 'booked'
+        !referralAppointmentInfo?.attributes
       ) {
         dispatch(fetchAppointmentInfo(appointmentId));
       }
@@ -54,13 +47,11 @@ export default function EpsAppointmentDetailsPage() {
       dispatch,
       appointmentId,
       appointmentInfoError,
-      appointmentInfoTimeout,
-      appointmentCreateStatus,
       appointmentInfoLoading,
-      referralAppointmentInfo?.attributes?.status,
+      referralAppointmentInfo,
     ],
   );
-  if (appointmentInfoError || appointmentInfoTimeout) {
+  if (appointmentInfoError) {
     return (
       <PageLayout showNeedHelp>
         <br />
@@ -69,6 +60,7 @@ export default function EpsAppointmentDetailsPage() {
             status="error"
             level={1}
             headline="We’re sorry, we can’t find your appointment"
+            data-testid="error-alert"
           >
             Try searching this appointment on your appointment list or call your
             facility.
@@ -85,15 +77,13 @@ export default function EpsAppointmentDetailsPage() {
     );
   }
 
-  if (appointmentInfoLoading || !referralAppointmentInfo.attributes) {
+  if (appointmentInfoLoading || !referralAppointmentInfo?.attributes) {
     return (
       <FullWidthLayout>
         <va-loading-indicator set-focus message="Loading your appointment..." />
       </FullWidthLayout>
     );
   }
-
-  const appointmentLoaded = !!referralAppointmentInfo?.attributes?.id;
 
   const { attributes: appointment } = referralAppointmentInfo;
 
@@ -104,83 +94,75 @@ export default function EpsAppointmentDetailsPage() {
 
   return (
     <PageLayout>
-      {!!appointmentLoaded && (
-        <div
-          className="vaos-appts__appointment-details--container vads-u-margin-top--4 vads-u-border--2px vads-u-border-color--gray-medium vads-u-padding-x--2p5 vads-u-padding-top--5 vads-u-padding-bottom--3"
-          data-testid="appointment-card"
-        >
-          <div className="vaos-appts__appointment-details--icon">
-            <va-icon
-              icon="calendar_today"
-              aria-hidden="true"
-              data-testid="appointment-icon"
-              size={3}
-            />
-          </div>
-          <h1 className="vaos__dynamic-font-size--h2">
-            Community Care Appointment
-          </h1>
-          <Section heading="When">
-            {appointmentDate}
-            <br />
-            <AppointmentTime appointment={appointment} />
-          </Section>
-          <Section heading="What">
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              {appointment.typeOfCare}
-            </p>
-          </Section>
-          <Section heading="Provider">
-            <span>
-              {`${appointment.provider.name ||
-                'Provider information not available'}`}
-            </span>
-            <br />
-            {appointment.provider.location && (
-              <>
-                <>
-                  {/* removes falsy values from address array */}
-                  <span>{appointment.provider.location.address}</span>
-                </>
-                <div className="vads-u-margin-top--1 vads-u-color--link-default">
-                  <a
-                    href={`https://maps.google.com?saddr=Current+Location&daddr=${
-                      appointment.provider.location.address
-                    }`}
-                  >
-                    <va-icon icon="directions" size="3" />
-                    Directions
-                  </a>
-                </div>
-              </>
-            )}
-            {!!appointment.provider.phoneNumber && (
-              <>
-                <br />
-                <FacilityPhone contact={appointment.provider.phoneNumber} />
-              </>
-            )}
-          </Section>
-          <Section heading="Prepare for your appointment">
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              Bring your insurance cards. And bring a list of your medications
-              and other information to share with your provider.
-            </p>
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              <va-link
-                text="Find a full list of things to bring to your appointment"
-                href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
-              />
-            </p>
-          </Section>
-          <Section heading="Need to make changes?">
-            <span>
-              Contact this provider if you need to reschedule or cancel your
-              appointment.
-            </span>
-          </Section>
+      <div className="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
+        <nav aria-label="backlink" className="vads-u-padding-y--2 ">
+          <va-link
+            back
+            aria-label="Back link"
+            data-testid="back-link"
+            text="Back to appointments"
+            href="/my-health/appointments"
+            onClick={e => {
+              e.preventDefault();
+              history.push('/');
+            }}
+          />
+        </nav>
+      </div>
+      <div
+        className="vaos-appts__appointment-details--container vads-u-margin-top--4 vads-u-border--2px vads-u-border-color--gray-medium vads-u-padding-x--2p5 vads-u-padding-top--5 vads-u-padding-bottom--3"
+        data-testid="appointment-card"
+      >
+        <div className="vaos-appts__appointment-details--icon">
+          <va-icon
+            icon="calendar_today"
+            aria-hidden="true"
+            data-testid="appointment-icon"
+            size={3}
+          />
         </div>
-      )}
+        <h1 className="vaos__dynamic-font-size--h2">
+          Community Care Appointment
+        </h1>
+        <Section heading="When">
+          {appointmentDate}
+          <br />
+          <AppointmentTime appointment={appointment} />
+        </Section>
+        <Section heading="Provider">
+          <span>
+            {`${appointment.provider.location.name ||
+              'Provider information not available'}`}
+          </span>
+          <br />
+          {appointment.provider.location.address && (
+            <ProviderAddress
+              address={appointment.provider.location.address}
+              showDirections
+              directionsName={appointment.provider.location.name}
+              phone={appointment.provider.phone}
+            />
+          )}
+        </Section>
+        <Section heading="Prepare for your appointment">
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+            Bring your insurance cards. And bring a list of your medications
+            other information to share with your provider.
+          </p>
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+            <va-link
+              text="Find a full list of things to bring to your appointment"
+              href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+            />
+          </p>
+        </Section>
+        <Section heading="Need to make changes?">
+          <span>
+            Contact this provider if you need to reschedule or cancel your
+            appointment.
+          </span>
+        </Section>
+      </div>
     </PageLayout>
   );
 }

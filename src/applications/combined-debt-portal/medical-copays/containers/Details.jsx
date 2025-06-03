@@ -5,18 +5,15 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import DetailCopayPage from './DetailCopayPage';
 import DetailPage from './DetailPage';
 
-export const TOGGLE_NAMES = {
-  showVHAPaymentHistory: 'vha_show_payment_history',
-};
-
 const Details = ({ match, ...rest }) => {
-  const { useToggleValue } = useFeatureToggle();
-  const showNewDetailPage = useToggleValue(TOGGLE_NAMES.showVHAPaymentHistory);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showNewDetailPage = useToggleValue(TOGGLE_NAMES.showCDPOneThingPerPage);
 
   if (!match?.params?.id) {
     return null;
   }
-
+  // DetailCopayPage is the updated page for OTPP and VHA payment history
+  // DetailPage is the legacy page
   return showNewDetailPage ? (
     <DetailCopayPage match={match} {...rest} />
   ) : (

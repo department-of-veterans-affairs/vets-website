@@ -5,11 +5,12 @@ import {
   DowntimeNotification,
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { Toggler } from 'platform/utilities/feature-toggles';
+import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import formConfig from '../config/form';
 import WIP from '../../shared/components/WIP';
-import { useBrowserMonitoring } from '../helpers/useBrowserMonitoring';
 
 const breadcrumbList = [
   { href: '/', label: 'Home' },
@@ -25,7 +26,26 @@ const breadcrumbList = [
 
 export default function App({ location, children }) {
   // Add Datadog RUM to the app
-  useBrowserMonitoring();
+  useBrowserMonitoring({
+    loggedIn: undefined,
+    toggleName: 'form107959aBrowserMonitoringEnabled',
+    applicationId: '0f3d4991-c7b5-4a28-89c6-ea0e3f47b291',
+    clientToken: 'puba4a6137df6bf240ff5e86ec697348c71',
+    service: 'ivc-champva-claims-10-7959a',
+    version: '1.0.0',
+    // record 100% of staging sessions, but only 20% of production
+    sessionReplaySampleRate:
+      environment.vspEnvironment() === 'staging' ? 100 : 20,
+    sessionSampleRate: 50,
+    beforeSend: event => {
+      // Prevent PII from being sent to Datadog with click actions.
+      if (event.action?.type === 'click') {
+        // eslint-disable-next-line no-param-reassign
+        event.action.target.name = 'Clicked item';
+      }
+      return true;
+    },
+  });
 
   return (
     <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">

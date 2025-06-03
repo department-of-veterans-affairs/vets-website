@@ -191,7 +191,7 @@ describe('ArrayBuilderSummaryPage', () => {
       data,
     );
 
-    const { container, getByText } = render(
+    const renderResult = render(
       <Provider store={mockStore}>
         <CustomPage
           schema={processedSchema}
@@ -209,7 +209,37 @@ describe('ArrayBuilderSummaryPage', () => {
       </Provider>,
     );
 
-    return { setFormData, goToPath, getText, container, getByText };
+    const { container, getByText } = renderResult;
+
+    function rerenderWithNewData(newData) {
+      renderResult.rerender(
+        <Provider store={mockStore}>
+          <CustomPage
+            schema={processedSchema}
+            uiSchema={processedUiSchema}
+            data={newData}
+            setFormData={setFormData}
+            onChange={() => {}}
+            onSubmit={() => {}}
+            onReviewPage={false}
+            goToPath={goToPath}
+            name={title}
+            title={title}
+            appStateData={{}}
+            formContext={{}}
+          />
+        </Provider>,
+      );
+    }
+
+    return {
+      setFormData,
+      goToPath,
+      getText,
+      container,
+      getByText,
+      rerenderWithNewData,
+    };
   }
 
   it('should display appropriately with 0 items', () => {
@@ -466,7 +496,11 @@ describe('ArrayBuilderSummaryPage', () => {
   });
 
   it('should display a removed item alert from 1 -> 0 items', async () => {
-    const { container, setFormData } = setupArrayBuilderSummaryPage({
+    const {
+      container,
+      setFormData,
+      rerenderWithNewData,
+    } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }],
       urlParams: '',
       maxItems: 5,
@@ -480,6 +514,8 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(modal).to.have.attribute('visible');
     modal.__events.primaryButtonClick();
     await waitFor(() => {
+      sinon.assert.calledWith(setFormData, {});
+      rerenderWithNewData({});
       const alert = container.querySelector('va-alert');
       expect(alert).to.include.text('has been deleted');
       expect(setFormData.args[0][0]).to.eql({});
@@ -487,7 +523,11 @@ describe('ArrayBuilderSummaryPage', () => {
   });
 
   it('should display a removed item alert from 2 -> 1 items', async () => {
-    const { container, setFormData } = setupArrayBuilderSummaryPage({
+    const {
+      container,
+      setFormData,
+      rerenderWithNewData,
+    } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
       urlParams: '',
       maxItems: 5,
@@ -501,6 +541,12 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(modal).to.have.attribute('visible');
     modal.__events.primaryButtonClick();
     await waitFor(() => {
+      sinon.assert.calledWith(setFormData, {
+        employers: [{ name: 'Test 2' }],
+      });
+      rerenderWithNewData({
+        employers: [{ name: 'Test 2' }],
+      });
       const alert = container.querySelector('va-alert');
       expect(alert).to.include.text('has been deleted');
       expect(setFormData.args[0][0].employers).to.have.lengthOf(1);

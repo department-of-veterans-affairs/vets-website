@@ -2,8 +2,9 @@ import { parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
-  dateFormatWithoutTimezone,
   formatDate,
+  dateFormatWithoutTimezone,
+  formatDateInLocalTimezone,
   extractContainedByRecourceType,
   extractContainedResource,
   getObservationValueWithUnits,
@@ -236,12 +237,36 @@ export const convertMicrobiologyRecord = record => {
  * @param {Object} record - A FHIR DiagnosticReport pathology object
  * @returns the appropriate frontend object for display
  */
-const convertPathologyRecord = record => {
+export const convertPathologyRecord = record => {
+  const { code } = record.code.coding?.[0];
+
+  // Define mapping for new LOINC codes to names
+  const loincCodeMapping = {
+    [loincCodes.PATHOLOGY]: 'Pathology',
+    [loincCodes.SURGICAL_PATHOLOGY]: 'Surgical Pathology',
+    [loincCodes.ELECTRON_MICROSCOPY]: 'Electron Microscopy',
+    [loincCodes.CYTOPATHOLOGY]: 'Cytology',
+  };
+
+  // Determine pathology type based on LOINC code
+  let pathologyType;
+
+  if (code === loincCodes.PATHOLOGY) {
+    pathologyType = record.code.text;
+  } else if (
+    code === loincCodes.SURGICAL_PATHOLOGY ||
+    code === loincCodes.ELECTRON_MICROSCOPY ||
+    code === loincCodes.CYTOPATHOLOGY
+  ) {
+    pathologyType = loincCodeMapping[code];
+  } else {
+    pathologyType = 'Pathology'; // fallback
+  }
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
   return {
     id: record.id,
-    name: record.code?.text,
+    name: pathologyType,
     type: labTypes.PATHOLOGY,
     orderedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
@@ -335,7 +360,7 @@ export const convertMhvRadiologyRecord = record => {
     clinicalHistory: record?.clinicalHistory?.trim() || EMPTY_FIELD,
     imagingLocation: record.performingLocation,
     date: record.eventDate
-      ? dateFormatWithoutTimezone(record.eventDate)
+      ? formatDateInLocalTimezone(record.eventDate, true)
       : EMPTY_FIELD,
     sortDate: record.eventDate,
     imagingProvider: imagingProvider || EMPTY_FIELD,
@@ -354,7 +379,7 @@ export const convertCvixRadiologyRecord = record => {
     clinicalHistory: parsedReport['Clinical History'] || EMPTY_FIELD,
     imagingLocation: record.facilityInfo?.name || EMPTY_FIELD,
     date: record.performedDatePrecise
-      ? dateFormatWithoutTimezone(record.performedDatePrecise)
+      ? formatDateInLocalTimezone(record.performedDatePrecise, true)
       : EMPTY_FIELD,
     sortDate: record.performedDatePrecise
       ? `${new Date(record.performedDatePrecise).toISOString().split('.')[0]}Z`
@@ -421,18 +446,23 @@ export const mergeRadiologyLists = (
  */
 const getRecordType = record => {
   if (record.resourceType === fhirResourceTypes.DIAGNOSTIC_REPORT) {
+    const coding = record.code?.coding;
+    const loincMap = {
+      [loincCodes.MICROBIOLOGY]: labTypes.MICROBIOLOGY,
+      [loincCodes.PATHOLOGY]: labTypes.PATHOLOGY,
+      [loincCodes.SURGICAL_PATHOLOGY]: labTypes.PATHOLOGY,
+      [loincCodes.ELECTRON_MICROSCOPY]: labTypes.PATHOLOGY,
+      [loincCodes.CYTOPATHOLOGY]: labTypes.PATHOLOGY,
+    };
+
+    // Check if the code text is 'CH'
     if (record.code?.text === 'CH') return labTypes.CHEM_HEM;
-    if (
-      record.code?.coding?.some(
-        coding => coding.code === loincCodes.MICROBIOLOGY,
-      )
-    ) {
-      return labTypes.MICROBIOLOGY;
-    }
-    if (
-      record.code?.coding?.some(coding => coding.code === loincCodes.PATHOLOGY)
-    ) {
-      return labTypes.PATHOLOGY;
+
+    // Check if coding matches any LOINC code using Object.entries()
+    for (const [code, type] of Object.entries(loincMap)) {
+      if (coding?.some(c => c.code === code)) {
+        return type;
+      }
     }
   }
   if (record.resourceType === fhirResourceTypes.DOCUMENT_REFERENCE) {

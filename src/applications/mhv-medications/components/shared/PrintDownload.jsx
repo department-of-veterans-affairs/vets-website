@@ -1,16 +1,19 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { DOWNLOAD_FORMAT, PRINT_FORMAT } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const PrintDownload = props => {
-  const { onDownload, isSuccess, list, onPrint, onText, isLoading } = props;
+  const { onDownload, isSuccess, list, onPrint, isLoading } = props;
   const [isError, setIsError] = useState(false);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [printIndex, setPrintIndex] = useState(0);
   const containerEl = useRef(null);
   const toggleButton = useRef(null);
+  const successAlert = useRef(null);
+  const errorAlert = useRef(null);
   let toggleMenuButtonClasses =
     'toggle-menu-button vads-u-justify-content--space-between';
   let menuOptionsClasses = 'menu-options';
@@ -19,6 +22,20 @@ const PrintDownload = props => {
       ' toggle-menu-button-open vads-u-justify-content--space-between';
     menuOptionsClasses += ' menu-options-open';
   }
+
+  useEffect(
+    () => {
+      if (isError) {
+        focusElement(errorAlert.current);
+        return;
+      }
+
+      if (isSuccess) {
+        focusElement(successAlert.current);
+      }
+    },
+    [isSuccess, isError],
+  );
 
   const handleDownload = async format => {
     setMenuOpen(!menuOpen);
@@ -30,11 +47,7 @@ const PrintDownload = props => {
 
     try {
       setIsError(false);
-      if (format === DOWNLOAD_FORMAT.TXT && onText) {
-        onText();
-      } else {
-        await onDownload(format);
-      }
+      await onDownload(format);
     } catch {
       setIsError(true);
     }
@@ -86,21 +99,31 @@ const PrintDownload = props => {
   return (
     <>
       {isLoading && (
-        <va-loading-indicator
-          message="Loading..."
-          data-testid="print-download-loading-indicator"
-        />
+        <div className="vads-u-margin-y--3">
+          <va-loading-indicator
+            message="Loading..."
+            data-testid="print-download-loading-indicator"
+          />
+        </div>
       )}
       {isSuccess &&
         !isError && (
           <div
-            className="vads-u-margin-bottom--3"
+            className="vads-u-margin-y--3"
             data-testid="download-success-banner"
           >
-            <va-alert role="alert" status="success" background-only uswds>
+            <va-alert
+              role="alert"
+              status="success"
+              ref={successAlert}
+              background-only
+              uswds
+            >
               <h2 slot="headline">Download started</h2>
               <p className="vads-u-margin--0">
-                Check your device’s downloads location for your file.
+                Your file should download automatically. If it doesn’t, try
+                again. If you can’t find it, check your browser settings to find
+                where your browser saves downloaded files.
               </p>
             </va-alert>
           </div>
@@ -110,8 +133,8 @@ const PrintDownload = props => {
         <va-telephone />
       </va-alert>
       {isError && (
-        <div className="vads-u-margin-bottom--3">
-          <va-alert role="alert" status="error" uswds>
+        <div className="vads-u-margin-y--3">
+          <va-alert role="alert" status="error" ref={errorAlert} uswds>
             <h2 slot="headline">We can’t download your records right now</h2>
             <p>
               We’re sorry. There’s a problem with our system. Check back later.

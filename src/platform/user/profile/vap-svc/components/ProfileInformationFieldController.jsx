@@ -315,6 +315,50 @@ class ProfileInformationFieldController extends React.Component {
     return newFormSchema;
   };
 
+  getEditViewProps = () => {
+    const baseProps = {
+      getInitialFormValues: () =>
+        getInitialFormValues({
+          fieldName: this.props.fieldName,
+          data: this.props.data,
+          modalData: this.props.editViewData,
+        }),
+      onCancel: this.onCancel,
+      fieldName: this.props.fieldName,
+      apiRoute: this.props.apiRoute,
+      convertCleanDataToPayload: this.props.convertCleanDataToPayload,
+      uiSchema: this.props.uiSchema,
+      formSchema: this.requireFieldBasedOnInitialValue(this.props.formSchema),
+      title: this.props.title,
+      recordCustomProfileEvent,
+      forceEditView: this.props.forceEditView,
+      cancelButtonText: this.props?.cancelButtonText,
+      saveButtonText: this.props?.saveButtonText,
+      showMailingAddressUpdateProfileChoice:
+        this.props?.prefillPatternEnabled &&
+        this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS,
+      successCallback: this.props.successCallback,
+    };
+
+    // Add flag for email/phone fields to indicate they should use formOnlyUpdate
+    if (
+      [
+        FIELD_NAMES.EMAIL,
+        FIELD_NAMES.HOME_PHONE,
+        FIELD_NAMES.MOBILE_PHONE,
+      ].includes(this.props.fieldName) ||
+      (this.props?.prefillPatternEnabled &&
+        this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS)
+    ) {
+      return {
+        ...baseProps,
+        useFormOnlyUpdate: true, // Flag to indicate this field should use formOnlyUpdate
+      };
+    }
+
+    return baseProps;
+  };
+
   render() {
     const {
       activeEditView,
@@ -363,13 +407,6 @@ class ProfileInformationFieldController extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        <ProfileInformationView
-          data={data}
-          fieldName={fieldName}
-          title={title}
-          id={ariaDescribedBy}
-        />
-
         {this.props.showUpdateSuccessAlert ? (
           <div
             data-testid="update-success-alert"
@@ -378,6 +415,13 @@ class ProfileInformationFieldController extends React.Component {
             <UpdateSuccessAlert fieldName={fieldName} />
           </div>
         ) : null}
+
+        <ProfileInformationView
+          data={data}
+          fieldName={fieldName}
+          title={title}
+          id={ariaDescribedBy}
+        />
 
         <div className="vads-u-width--full">
           <div>
@@ -419,64 +463,9 @@ class ProfileInformationFieldController extends React.Component {
         this.props?.prefillPatternEnabled &&
         this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
       ) {
-        content = (
-          <ProfileInformationEditViewFc
-            getInitialFormValues={() =>
-              getInitialFormValues({
-                fieldName,
-                data: this.props.data,
-                modalData: this.props.editViewData,
-              })
-            }
-            onCancel={this.onCancel}
-            fieldName={this.props.fieldName}
-            apiRoute={this.props.apiRoute}
-            convertCleanDataToPayload={this.props.convertCleanDataToPayload}
-            uiSchema={this.props.uiSchema}
-            formSchema={this.requireFieldBasedOnInitialValue(
-              this.props.formSchema,
-            )}
-            title={title}
-            recordCustomProfileEvent={recordCustomProfileEvent}
-            forceEditView={forceEditView}
-            cancelButtonText={this.props?.cancelButtonText}
-            saveButtonText={this.props?.saveButtonText}
-            showMailingAddressUpdateProfileChoice={
-              this.props?.prefillPatternEnabled &&
-              this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
-            }
-            successCallback={this.props.successCallback}
-          />
-        );
+        content = <ProfileInformationEditViewFc {...this.getEditViewProps()} />;
       } else {
-        content = (
-          <ProfileInformationEditView
-            getInitialFormValues={() =>
-              getInitialFormValues({
-                fieldName,
-                data: this.props.data,
-                modalData: this.props.editViewData,
-              })
-            }
-            onCancel={this.onCancel}
-            fieldName={this.props.fieldName}
-            apiRoute={this.props.apiRoute}
-            convertCleanDataToPayload={this.props.convertCleanDataToPayload}
-            uiSchema={this.props.uiSchema}
-            formSchema={this.requireFieldBasedOnInitialValue(
-              this.props.formSchema,
-            )}
-            title={title}
-            recordCustomProfileEvent={recordCustomProfileEvent}
-            forceEditView={forceEditView}
-            cancelButtonText={this.props?.cancelButtonText}
-            saveButtonText={this.props?.saveButtonText}
-            showMailingAddressUpdateProfileChoice={
-              this.props?.prefillPatternEnabled &&
-              this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
-            }
-          />
-        );
+        content = <ProfileInformationEditView {...this.getEditViewProps()} />;
       }
     }
 
@@ -582,11 +571,13 @@ ProfileInformationFieldController.propTypes = {
   ariaDescribedBy: PropTypes.string,
   cancelButtonText: PropTypes.string,
   cancelCallback: PropTypes.func,
+  contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
   editViewData: PropTypes.object,
   forceEditView: PropTypes.bool,
   isDeleteDisabled: PropTypes.bool,
   prefillPatternEnabled: PropTypes.bool,
+  recordCustomProfileEvent: PropTypes.func,
   refreshTransaction: PropTypes.func,
   refreshTransactionRequest: PropTypes.func,
   saveButtonText: PropTypes.string,

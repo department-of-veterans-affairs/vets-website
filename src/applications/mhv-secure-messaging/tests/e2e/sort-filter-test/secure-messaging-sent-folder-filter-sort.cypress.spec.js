@@ -15,7 +15,7 @@ describe('SM SENT FOLDER FILTER-SORT CHECKS', () => {
 
   beforeEach(() => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages(mockSentMessages);
     PatientMessageSentPage.loadMessages();
   });
 
@@ -43,6 +43,20 @@ describe('SM SENT FOLDER FILTER-SORT CHECKS', () => {
     );
 
     PatientFilterPage.verifySorting(sortedResponse);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify filter with no matches', () => {
+    const noMatchResponse = PatientFilterPage.filterMockResponse(
+      mockSentMessages,
+      'no match',
+    );
+
+    PatientFilterPage.inputFilterData('no match');
+    PatientFilterPage.clickApplyFilterButton(noMatchResponse);
+
+    PatientFilterPage.verifyNoMatchFilterFocusAndText();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

@@ -18,11 +18,16 @@ import { formatAddress } from 'platform/forms/address/helpers';
 const ProfileInformationView = props => {
   const { data, fieldName, title, id } = props;
 
-  const titleLower = title.toLowerCase();
+  // Remove the word "phone" from the title for phone number fields only
+  // for display in profile info cards
+  const displayTitle = (phoneNumbers.includes(fieldName)
+    ? title.replace(/ phone/i, '')
+    : title
+  ).toLowerCase();
 
   // decide whether to use 'a', or nothing in title string
   const titleFormatted =
-    fieldName !== FIELD_NAMES.PRONOUNS ? `a ${titleLower}` : titleLower;
+    fieldName !== FIELD_NAMES.PRONOUNS ? `a ${displayTitle}` : displayTitle;
 
   const unsetFieldTitleSpan = <span>Choose edit to add {titleFormatted}.</span>;
 

@@ -1,6 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
+import { datadogRum } from '@datadog/browser-rum';
+import * as recordEventModule from 'platform/monitoring/record-event';
 import {
   resolveLandingPageLinks,
   resolveUnreadMessageAriaLabel,
@@ -82,6 +85,8 @@ describe('NavCard component', () => {
         <NavCard title="Card title" links={links} />,
       );
       const linkElement = getByRole('link');
+      expect(linkElement).to.have.attribute('href', 'https://www.va.gov');
+      expect(linkElement).to.not.have.attribute('target', '_blank');
       expect(linkElement.text).to.not.include(externalLinkText);
     });
 
@@ -93,7 +98,60 @@ describe('NavCard component', () => {
         <NavCard title="Card title" links={links} />,
       );
       const linkElement = getByRole('link');
+      expect(linkElement).to.have.attribute('href', 'https://www.google.com');
+      expect(linkElement).to.have.attribute('target', '_blank');
       expect(linkElement.text).to.include(externalLinkText);
+    });
+
+    it('external links with omitExternalLinkText', () => {
+      const links = [
+        {
+          text: 'some text',
+          href: 'https://www.google.com',
+          isExternal: true,
+          omitExternalLinkText: true,
+        },
+      ];
+      const { getByRole } = render(
+        <NavCard title="Card title" links={links} />,
+      );
+      const linkElement = getByRole('link');
+      expect(linkElement).to.have.attribute('href', 'https://www.google.com');
+      expect(linkElement).to.not.have.attribute('target', '_blank');
+      expect(linkElement.text).to.not.include(externalLinkText);
+    });
+
+    it('calls recordEvent and datadogRum when a link is clicked', async () => {
+      const recordEventSpy = sinon.stub(recordEventModule, 'default');
+      const datadogRumSpy = sinon.spy(datadogRum, 'addAction');
+      const title = 'Card title';
+      const text = 'some text';
+      const links = [
+        {
+          text,
+          href: 'https://www.google.com',
+          isExternal: true,
+          omitExternalLinkText: true,
+        },
+      ];
+      const { getByRole } = render(<NavCard title={title} links={links} />);
+      const linkElement = getByRole('link');
+
+      linkElement.click();
+      await waitFor(() => {
+        expect(recordEventSpy.calledOnce).to.be.true;
+        expect(datadogRumSpy.called).to.be.true;
+      });
+      expect(
+        recordEventSpy.calledWithMatch({
+          event: 'nav-linkslist',
+          'links-list-header': text,
+          'links-list-section-header': title,
+        }),
+      ).to.be.true;
+
+      recordEventSpy.restore();
+      datadogRumSpy.restore();
     });
   });
 

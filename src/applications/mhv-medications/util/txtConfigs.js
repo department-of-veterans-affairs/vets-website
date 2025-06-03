@@ -1,10 +1,10 @@
 import {
+  createNoDescriptionText,
+  createVAPharmacyText,
   dateFormat,
+  getRefillHistory,
   processList,
   validateField,
-  createVAPharmacyText,
-  createNoDescriptionText,
-  createOriginalFillRecord,
 } from './helpers';
 import {
   pdfStatusDefinitions,
@@ -118,7 +118,6 @@ ${
               return previousRx.prescriptionNumber;
             })
             .join(', ')}
-  
 `
         : ``
     }`;
@@ -176,10 +175,7 @@ Provider notes: ${validateField(item.notes)}
  * Return VA prescription TXT
  */
 export const buildVAPrescriptionTXT = prescription => {
-  const refillHistory = [...(prescription?.rxRfRecords || [])];
-  const originalFill = createOriginalFillRecord(prescription);
-  refillHistory.push(originalFill);
-
+  const refillHistory = getRefillHistory(prescription);
   let result = `
 ---------------------------------------------------------------------------------
 

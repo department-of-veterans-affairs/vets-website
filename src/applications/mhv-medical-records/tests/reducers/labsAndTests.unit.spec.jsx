@@ -17,6 +17,7 @@ import {
   extractSpecimen,
   labsAndTestsReducer,
   mergeRadiologyLists,
+  convertPathologyRecord,
 } from '../../reducers/labsAndTests';
 import { Actions } from '../../util/actionTypes';
 import {
@@ -88,6 +89,75 @@ describe('distillChemHemNotes', () => {
   it('should return null if there is no "note" field', () => {
     const record = { wrongField: [{ text: NOTES1 }] };
     expect(distillChemHemNotes(record.note, 'text')).to.be.null;
+  });
+});
+
+describe('convertPathologyRecord', () => {
+  const createMockRecord = (code, text = 'LR SURGICAL PATHOLOGY REPORT') => ({
+    id: 'mock-id',
+    code: {
+      coding: [
+        {
+          system: 'http://loinc.org',
+          code,
+        },
+      ],
+      text,
+    },
+    physician: 'Dr. John Doe',
+    effectiveDateTime: '2025-04-28T12:00:00Z',
+    specimen: {
+      collection: {
+        collectedDateTime: '2025-04-26T12:00:00Z',
+        bodySite: { text: 'Left Arm' },
+      },
+      type: { text: 'Blood' },
+    },
+    presentedForm: [{ data: 'mockedBase64ReportData' }],
+    labComments: 'Mocked comment.',
+  });
+
+  const testCases = [
+    {
+      code: loincCodes.PATHOLOGY, // '11526-1'
+      expectedName: 'LR SURGICAL PATHOLOGY REPORT',
+    },
+    {
+      code: loincCodes.SURGICAL_PATHOLOGY, // e.g. '27898-6'
+      expectedName: 'Surgical Pathology',
+    },
+    {
+      code: loincCodes.ELECTRON_MICROSCOPY, // e.g. '50668-3'
+      expectedName: 'Electron Microscopy',
+    },
+    {
+      code: loincCodes.CYTOPATHOLOGY, // e.g. '26438-2'
+      expectedName: 'Cytology',
+    },
+    {
+      code: 'invalid-code',
+      expectedName: 'Pathology',
+    },
+  ];
+
+  testCases.forEach(({ code, expectedName }) => {
+    it(`should correctly map pathology record for code ${code}`, () => {
+      const record = createMockRecord(code);
+      const result = convertPathologyRecord(record);
+
+      expect(result.id).to.equal('mock-id');
+      expect(result.name).to.equal(expectedName);
+      expect(result.type).to.equal(labTypes.PATHOLOGY);
+      expect(result.orderedBy).to.equal('Dr. John Doe');
+      expect(result.date).to.exist;
+      expect(result.dateCollected).to.exist;
+      expect(result.sampleFrom).to.exist;
+      expect(result.sampleTested).to.exist;
+      expect(result.labLocation).to.exist;
+      expect(result.collectingLocation).to.exist;
+      expect(result.results).to.be.an('array');
+      expect(result.labComments).to.equal('Mocked comment.');
+    });
   });
 });
 
