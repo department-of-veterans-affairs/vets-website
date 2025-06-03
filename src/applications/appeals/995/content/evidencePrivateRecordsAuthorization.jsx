@@ -4,7 +4,7 @@ import { title4142 } from './title';
 import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 
 export const authorizationLabel =
-  'I acknowledge and authorize this release of information';
+  'I acknowledge and authorize this release of information.';
 
 export const authorizationAlertContent = onAnchorClick => (
   <>

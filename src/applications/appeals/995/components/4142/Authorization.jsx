@@ -389,7 +389,7 @@ const Authorization = ({
             </li>
             <li>
               I understand that there are some circumstances in which this
-              information may be re-disclosed to other parties (Review{' '}
+              information may be re-disclosed to other parties (review{' '}
               <va-link
                 href="#acknowledgement"
                 onClick={e => focusSection(e, '#acknowledgement')}
@@ -399,12 +399,12 @@ const Authorization = ({
             </li>
             <li>
               I may write to VA and my source(s) to revoke this authorization at
-              any time (Review{' '}
+              any time (review{' '}
               <va-link
                 href="#section-one"
                 onClick={e => focusSection(e, '#section-one')}
-                text="Section 1. Expiration and
-              How to Cancel"
+                text="Section 1. Expiration &
+              how to cancel authorization"
               />
               ).
             </li>
