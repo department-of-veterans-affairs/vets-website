@@ -415,13 +415,16 @@ jobs:
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           IS_STRESS_TEST: true
           STEP: ${{ matrix.runs }}
+
+      - name: Rename results directory to avoid merge collisions
+        run: mv mocha/results mocha/results-${{ matrix.runs }}
     
       - name: Archive unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-stress-test-results-${{ matrix.runs }}
-          path: mocha/results/unit-tests-${{ matrix.runs }}
+          path: mocha/results-${{ matrix.runs }}
 
   update-unit-test-allow-list:
     name: Update Unit Test Stability Allow List
