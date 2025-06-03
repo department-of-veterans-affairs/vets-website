@@ -16,20 +16,6 @@ describe('Referral Services', () => {
     sandbox.restore();
   });
 
-  it('getPatientReferrals calls the correct endpoint and returns data', async () => {
-    requestStub.resolves({ data: [{ id: 1 }] });
-
-    const result = await services.getPatientReferrals();
-
-    expect(
-      await requestStub.calledWith('/vaos/v2/referrals', {
-        method: 'GET',
-      }),
-    ).to.be.true;
-
-    expect(result).to.deep.equal([{ id: 1 }]);
-  });
-
   it('getPatientReferralById calls the correct endpoint and returns data', async () => {
     requestStub.resolves({ data: { id: 'abc' } });
 
@@ -70,7 +56,7 @@ describe('Referral Services', () => {
       id: 'd1',
       referralNumber: 'r1',
       slotId: 's1',
-      networkId: 'n1',
+      networkId: 'n',
       providerServiceId: 'p1',
     });
 
@@ -93,7 +79,6 @@ describe('Referral Services', () => {
     requestStub.resolves({ data: { draft: true } });
 
     const result = await services.postDraftReferralAppointment('ref-id-123');
-
     expect(
       requestStub.calledWith('/vaos/v2/appointments/draft', {
         method: 'POST',
@@ -102,7 +87,6 @@ describe('Referral Services', () => {
         body: JSON.stringify({ referral_id: 'ref-id-123' }),
       }),
     ).to.be.true;
-
     expect(result).to.deep.equal({ draft: true });
   });
 
