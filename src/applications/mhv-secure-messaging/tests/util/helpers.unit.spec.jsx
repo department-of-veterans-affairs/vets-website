@@ -36,20 +36,16 @@ describe('MHV Secure Messaging helpers', () => {
   });
 
   it('navigateToFolderByFolderId should redirect to correct path', () => {
-    const mockHistory = {
-      push: sinon.spy(),
-    };
+    const mockNavigate = sinon.spy();
     const folderId = '123';
-    navigateToFolderByFolderId(folderId, mockHistory);
-    sinon.assert.calledWith(mockHistory.push, '/folders/123/');
+    navigateToFolderByFolderId(folderId, mockNavigate);
+    sinon.assert.calledWith(mockNavigate, '/folders/123/');
   });
 
   it('navigateToFoldersPage should redirect to correct path', () => {
-    const mockHistory = {
-      push: sinon.spy(),
-    };
-    navigateToFoldersPage(mockHistory);
-    sinon.assert.calledWith(mockHistory.push, '/folders/');
+    const mockNavigate = sinon.spy();
+    navigateToFoldersPage(mockNavigate);
+    sinon.assert.calledWith(mockNavigate, '/folders/');
   });
 
   it('titleCase should return correct title case', () => {

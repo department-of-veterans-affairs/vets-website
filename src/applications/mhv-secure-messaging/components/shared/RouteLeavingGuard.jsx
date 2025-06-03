@@ -1,7 +1,7 @@
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { datadogRum } from '@datadog/browser-rum';
-import { Prompt } from 'react-router-dom';
+import { useBlocker } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { ErrorMessages } from '../../util/constants';
 
@@ -26,24 +26,18 @@ export const RouteLeavingGuard = ({
   const [confirmedNavigation, updateConfirmedNavigation] = useState(false);
   const [modalVisible, updateModalVisible] = useState(false);
 
-  const showModal = location => {
-    setIsModalVisible(true);
-    updateModalVisible(true);
-    updateLastLocation(location);
-  };
+  const showModal = useCallback(
+    location => {
+      setIsModalVisible(true);
+      updateModalVisible(true);
+      updateLastLocation(location);
+    },
+    [setIsModalVisible],
+  );
 
   const closeModal = () => {
     updateModalVisible(false);
     setSetErrorModal(false);
-  };
-
-  const handleBlockedNavigation = nextLocation => {
-    if (!confirmedNavigation && shouldBlockNavigation(nextLocation)) {
-      showModal(nextLocation);
-      updateModalVisible(true);
-      return false;
-    }
-    return true;
   };
 
   const handleConfirmNavigationClick = () => {
@@ -74,16 +68,34 @@ export const RouteLeavingGuard = ({
     }
   };
 
+  // Create a blocker using the useBlocker hook
+  const blocker = useBlocker(when ? shouldBlockNavigation : () => false);
+
+  // Handle navigation confirmation
   useEffect(
     () => {
-      if (confirmedNavigation) {
+      if (confirmedNavigation && lastLocation) {
         navigate(lastLocation.pathname);
         updateConfirmedNavigation(false);
       }
     },
-    [confirmedNavigation],
+    [confirmedNavigation, lastLocation, navigate],
   );
 
+  // Handle blocked navigation
+  useEffect(
+    () => {
+      if (blocker.state === 'blocked' && !confirmedNavigation) {
+        showModal(blocker.location);
+      } else if (blocker.state === 'blocked' && confirmedNavigation) {
+        blocker.proceed();
+        updateConfirmedNavigation(false);
+      }
+    },
+    [blocker, confirmedNavigation, showModal],
+  );
+
+  // Handle draft save errors
   useEffect(
     () => {
       if (savedDraft && !!saveError) {
@@ -95,7 +107,6 @@ export const RouteLeavingGuard = ({
 
   return (
     <>
-      <Prompt when={when} message={handleBlockedNavigation} />
       <VaModal
         modalTitle={title}
         onCloseEvent={() => {
@@ -138,7 +149,6 @@ RouteLeavingGuard.propTypes = {
   cancelButtonText: PropTypes.string,
   confirmButtonDDActionName: PropTypes.string,
   confirmButtonText: PropTypes.string,
-  modalVisible: PropTypes.bool,
   navigate: PropTypes.func,
   p1: PropTypes.string,
   p2: PropTypes.any,
@@ -149,7 +159,6 @@ RouteLeavingGuard.propTypes = {
   setSetErrorModal: PropTypes.func,
   shouldBlockNavigation: PropTypes.func,
   title: PropTypes.string,
-  updateModalVisible: PropTypes.func,
   when: PropTypes.bool,
 };
 

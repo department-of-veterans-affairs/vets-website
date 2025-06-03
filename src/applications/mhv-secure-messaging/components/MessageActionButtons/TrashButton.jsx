@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import DeleteMessageModal from '../Modals/DeleteMessageModal';
 import { deleteMessage } from '../../actions/messages';
@@ -12,7 +12,7 @@ import { getListOfThreads } from '../../actions/threads';
 const TrashButton = props => {
   const { activeFolder, messageId, threadId, visible } = props;
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [isDeleteVisible, setIsDeleteVisible] = useState(false);
   const threadSort = useSelector(state => state.sm.threads.threadSort);
 
@@ -31,7 +31,7 @@ const TrashButton = props => {
           true,
         ),
       );
-      navigateToFolderByFolderId(redirectToFolderId, history);
+      navigateToFolderByFolderId(redirectToFolderId, navigate);
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_SUCCESS,

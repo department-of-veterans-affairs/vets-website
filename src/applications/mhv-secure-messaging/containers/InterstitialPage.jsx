@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -8,7 +8,7 @@ import { Paths } from '../util/constants';
 
 const InterstitialPage = props => {
   const { acknowledge, type } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
   const isPilot = useSelector(state => state.sm.app.isPilot);
 
   useEffect(() => {
@@ -32,12 +32,12 @@ const InterstitialPage = props => {
   const handleContinueButton = useCallback(
     () => {
       if (isPilot) {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`);
+        navigate(`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`);
       } else {
         acknowledge();
       }
     },
-    [history, acknowledge, isPilot],
+    [navigate, acknowledge, isPilot],
   );
 
   return (

@@ -1,20 +1,20 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { Paths } from '../util/constants';
 
 const ReplyButton = props => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const messageId = useSelector(
     state => state.sm.threadDetails.messages[0]?.messageId,
   );
 
   const handleReplyButton = useCallback(
     () => {
-      history.push(`${Paths.REPLY}${messageId}/`);
+      navigate(`${Paths.REPLY}${messageId}/`);
     },
-    [history, messageId],
+    [navigate, messageId],
   );
 
   return (

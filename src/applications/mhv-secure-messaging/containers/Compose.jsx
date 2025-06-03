@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams, useHistory } from 'react-router-dom';
+import {
+  useLocation,
+  useParams,
+  useNavigate,
+} from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
 
@@ -42,7 +46,7 @@ const Compose = ({ skipInterstitial }) => {
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState('Start a new message');
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const isDraftPage = location.pathname.includes('/draft');
   const header = useRef();
 
@@ -55,7 +59,7 @@ const Compose = ({ skipInterstitial }) => {
         dispatch(retrieveMessageThread(draftId));
       }
 
-      const checkNextPath = history.listen(nextPath => {
+      const checkNextPath = navigate.listen(nextPath => {
         if (nextPath.pathname !== Paths.CONTACT_LIST) {
           dispatch(clearThread());
         }
@@ -64,7 +68,7 @@ const Compose = ({ skipInterstitial }) => {
         checkNextPath();
       };
     },
-    [dispatch, draftId, history, location.pathname],
+    [dispatch, draftId, navigate, location.pathname],
   );
 
   useEffect(
@@ -79,7 +83,7 @@ const Compose = ({ skipInterstitial }) => {
   useEffect(
     () => {
       if (draftMessage?.messageId && draftMessage.draftDate === null) {
-        history.push(Paths.INBOX);
+        navigate(Paths.INBOX);
       }
       return () => {
         if (isDraftPage) {
@@ -87,7 +91,7 @@ const Compose = ({ skipInterstitial }) => {
         }
       };
     },
-    [isDraftPage, draftMessage, history, dispatch],
+    [isDraftPage, draftMessage, navigate, dispatch],
   );
 
   useEffect(

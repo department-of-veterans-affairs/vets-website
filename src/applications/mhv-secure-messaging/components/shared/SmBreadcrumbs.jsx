@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
@@ -9,7 +9,7 @@ import { navigateToFolderByFolderId } from '../../util/helpers';
 const SmBreadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const activeFolder = useSelector(state => state.sm.folders.folder);
   const folderList = useSelector(state => state.sm.folders.folderList);
   const crumb = useSelector(state => state.sm.breadcrumbs.list);
@@ -91,34 +91,33 @@ const SmBreadcrumbs = () => {
       const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
 
       if (isContactList && isCompose && activeDraftId) {
-        history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
+        navigate(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
       } else if (crumb.href === Constants.Paths.FOLDERS) {
-        history.push(Constants.Paths.FOLDERS);
+        navigate(Constants.Paths.FOLDERS);
       } else if (isSentFolder && !isReplyPath) {
-        history.push(Constants.Paths.SENT);
+        navigate(Constants.Paths.SENT);
       } else if (isInboxFolder && !isReplyPath) {
-        history.push(Constants.Paths.INBOX);
+        navigate(Constants.Paths.INBOX);
       } else {
-        history.push(
+        navigate(
           previousUrl !== Constants.Paths.CONTACT_LIST
             ? previousUrl
             : Constants.Paths.INBOX,
         );
       }
     },
-    [activeDraftId, crumb?.href, history, locationBasePath, previousUrl],
+    [activeDraftId, crumb?.href, navigate, locationBasePath, previousUrl],
   );
-
   useEffect(
     () => {
       if (
         `/${locationBasePath}/` === Constants.Paths.FOLDERS &&
         parseInt(locationChildPath, 10) < 1
       ) {
-        navigateToFolderByFolderId(locationChildPath, history);
+        navigateToFolderByFolderId(locationChildPath, navigate);
       }
     },
-    [locationBasePath, locationChildPath, history],
+    [locationBasePath, locationChildPath, navigate],
   );
 
   useEffect(
@@ -208,10 +207,9 @@ const SmBreadcrumbs = () => {
     },
     [activeFolder, dispatch, locationBasePath, locationChildPath, folderList],
   );
-
   const handleRouteChange = ({ detail }) => {
     const { href } = detail;
-    history.push(href);
+    navigate(href);
   };
 
   return (

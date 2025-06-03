@@ -3,7 +3,7 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useState, useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -16,7 +16,7 @@ import * as Constants from '../util/constants';
 const ManageFolderButtons = props => {
   const { ErrorMessages, Alerts } = Constants;
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { folder } = props;
   const folders = useSelector(state => state.sm.folders.folderList);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -71,11 +71,10 @@ const ManageFolderButtons = props => {
     setDeleteModal(false);
     datadogRum.addAction('Remove Folder Modal Closed');
   };
-
   const confirmDelFolder = () => {
     closeDelModal();
     dispatch(delFolder(folder.folderId)).then(
-      dispatch(getFolders()).then(navigateToFoldersPage(history)),
+      dispatch(getFolders()).then(navigateToFoldersPage(navigate)),
     );
   };
 

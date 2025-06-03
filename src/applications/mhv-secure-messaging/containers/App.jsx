@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Switch } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom-v5-compat';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -138,14 +138,16 @@ const App = ({ isPilot }) => {
   // redirect to the SM main experience landing page
   if (isPilot && !cernerPilotSmFeatureFlag) {
     const url = `${manifest.rootUrl}${Paths.INBOX}`;
-    window.location.replace(url);
-    return <></>;
+    return <Navigate to={url} replace />;
   }
 
   return (
     // SM Patient API has its own check for facilities that a user is connected to.
     // It will not start a session if a user has no associated facilities.
-    <RequiredLoginView user={user}>
+    <RequiredLoginView
+      user={user}
+      serviceRequired={[backendServices.MESSAGING]}
+    >
       <MhvServiceRequiredGuard
         user={user}
         serviceRequired={[backendServices.MESSAGING]}
@@ -174,9 +176,9 @@ const App = ({ isPilot }) => {
           medium-screen:vads-u-flex-direction--row"
             >
               <ScrollToTop />
-              <Switch>
-                <AuthorizedRoutes />
-              </Switch>
+              <Routes>
+                <Route path="/*" element={<AuthorizedRoutes />} />
+              </Routes>
             </div>
           )}
 
