@@ -47,6 +47,15 @@ const formConfig = {
   // TODO: when we have the submitUrl up and running, remove this dummy response:
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: _formData => 'certifierName',
+    },
+  },
   trackingPrefix: '10-10d-extended-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
