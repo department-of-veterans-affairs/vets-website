@@ -5,14 +5,6 @@ import {
   getDeleteTitle,
   getDeleteYes,
   getDeleteDescription,
-  getCancelAddDescription,
-  getCancelEditDescription,
-  getCancelEditTitle,
-  getCancelAddTitle,
-  getCancelAddYes,
-  getCancelAddNo,
-  getCancelEditYes,
-  getCancelEditNo,
 } from '../../../utils/helpers/emergencyContactUtils';
 import content from '../../../locales/en/content.json';
 import {
@@ -42,14 +34,16 @@ const arrayBuilderOptions = {
     deleteTitle: getDeleteTitle,
     deleteYes: getDeleteYes,
     deleteDescription: getDeleteDescription,
-    cancelAddDescription: getCancelAddDescription,
-    cancelEditDescription: getCancelEditDescription,
-    cancelEditTitle: getCancelEditTitle,
-    cancelAddTitle: getCancelAddTitle,
-    cancelAddYes: getCancelAddYes,
-    cancelAddNo: getCancelAddNo,
-    cancelEditYes: getCancelEditYes,
-    cancelEditNo: getCancelEditNo,
+    cancelAddDescription: () =>
+      content['emergency-contact-cancel-add-description-text'],
+    cancelEditDescription: () =>
+      content['emergency-contact-cancel-edit-description-text'],
+    cancelEditTitle: () => content['emergency-contact-cancel-edit-title-text'],
+    cancelAddTitle: () => content['emergency-contact-cancel-add-title-text'],
+    cancelAddYes: () => content['emergency-contact-cancel-add-yes'],
+    cancelAddNo: () => content['emergency-contact-cancel-add-no'],
+    cancelEditYes: () => content['emergency-contact-cancel-edit-yes'],
+    cancelEditNo: () => content['emergency-contact-cancel-edit-no'],
   },
   hideMaxItemsAlert: true,
 };
