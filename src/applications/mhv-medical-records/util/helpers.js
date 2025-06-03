@@ -456,6 +456,11 @@ export const getStatusExtractPhase = (
   const timeSinceLastCompleted = retrievedDate.getTime() - completed.getTime();
 
   // 8) Now do the “phase” logic in a fixed order:
+  //    **The order below is critical**:
+  //      1) STALE must be checked first
+  //      2) IN_PROGRESS must come before FAILED
+  //      3) FAILED must come before CURRENT
+  //    Reordering these checks will change the result in certain edge cases.
 
   //  8a) STALE (highest priority)
   if (timeSinceLastCompleted > VALID_REFRESH_DURATION) {
