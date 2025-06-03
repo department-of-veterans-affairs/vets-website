@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-// eslint-disable-next-line import/no-named-default
-import { default as recordEventFn } from '~/platform/monitoring/record-event';
+import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/mhv/utilities';
+import { recordEvent as recordEventFn } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   VaAlert,
   VaLink,
@@ -10,21 +8,23 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 
-const AlertUnregistered = ({ headline, recordEvent, ssoe, testId }) => {
+const AlertUnregistered: React.FC = ({
+  headline = 'Our records don’t show any VA health data for you right now',
+  recordEvent = recordEventFn,
+  ssoe = false,
+  testId = 'mhv-alert--unregistered',
+}: AlertUnregisteredProps) => {
   const mhvHomeUrl = mhvUrl(ssoe, 'home');
 
-  useEffect(
-    () => {
-      recordEvent({
-        event: 'nav-alert-box-load',
-        action: 'load',
-        'alert-box-headline': headline,
-        'alert-box-status': 'warning',
-      });
-      datadogRum.addAction('Showed Alert Box: Unregistered');
-    },
-    [headline, recordEvent],
-  );
+  useEffect(() => {
+    recordEvent({
+      event: 'nav-alert-box-load',
+      action: 'load',
+      'alert-box-headline': headline,
+      'alert-box-status': 'warning',
+    });
+    datadogRum.addAction('Showed Alert Box: Unregistered');
+  }, [headline, recordEvent]);
 
   return (
     <VaAlert status="warning" data-testid={testId} disableAnalytics>
@@ -65,20 +65,6 @@ const AlertUnregistered = ({ headline, recordEvent, ssoe, testId }) => {
       </div>
     </VaAlert>
   );
-};
-
-AlertUnregistered.defaultProps = {
-  headline: 'Our records don’t show any VA health data for you right now',
-  recordEvent: recordEventFn,
-  ssoe: false,
-  testId: 'mhv-alert--unregistered',
-};
-
-AlertUnregistered.propTypes = {
-  headline: PropTypes.string,
-  recordEvent: PropTypes.func,
-  ssoe: PropTypes.bool,
-  testId: PropTypes.string,
 };
 
 export default AlertUnregistered;

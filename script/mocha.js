@@ -6,7 +6,6 @@ const chalk = require('chalk');
 process.env.BABEL_ENV = process.env.BABEL_ENV || 'test';
 // use babel-register to compile files on the fly
 // require('babel-register');
-require("@babel/register");
 require('babel-polyfill');
 // require mocha setup files
 require('../src/platform/testing/unit/mocha-setup.js');

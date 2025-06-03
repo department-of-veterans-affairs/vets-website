@@ -9,7 +9,6 @@ const path = require('path');
 const includePolyfillsAndLoaders = () => {
   // Babel loaders
   process.env.BABEL_ENV = process.env.BABEL_ENV || 'test';
-  require('@babel/register');
   require('babel-polyfill');
 
   const ENVIRONMENTS = require('../src/site/constants/environments');

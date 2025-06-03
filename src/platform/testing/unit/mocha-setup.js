@@ -4,17 +4,17 @@
  * If you're looking to add polyfills for all unit tests, this is the place.
  */
 
-import os from 'os';
-import chai from 'chai';
-import chaiAsPromised from 'chai-as-promised';
-import chaiDOM from 'chai-dom';
-import { JSDOM } from 'jsdom';
-import '../../site-wide/moment-setup';
-import ENVIRONMENTS from 'site/constants/environments';
-import * as Sentry from '@sentry/browser';
-import { configure } from '@testing-library/dom';
-import chaiAxe from './axe-plugin';
-import { sentryTransport } from './sentry';
+const os = require('os');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const chaiDOM = require('chai-dom');
+const { JSDOM } = require('jsdom');
+require('../../site-wide/moment-setup');
+const ENVIRONMENTS = require('../../../site/constants/environments');
+const Sentry = require('@sentry/browser');
+const { configure } = require('@testing-library/dom');
+const chaiAxe = require('./axe-plugin');
+const { sentryTransport } = require('./sentry');
 
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
@@ -170,7 +170,7 @@ function flushPromises() {
   return new Promise(resolve => setImmediate(resolve));
 }
 
-export const mochaHooks = {
+const mochaHooks = {
   beforeEach() {
     setupJSDom();
     resetFetch();
@@ -190,3 +190,5 @@ export const mochaHooks = {
     flushPromises();
   },
 };
+
+module.exports = { mochaHooks };

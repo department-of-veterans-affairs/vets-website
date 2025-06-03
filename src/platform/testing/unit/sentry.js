@@ -1,3 +1,5 @@
-import sentryTestkit from 'sentry-testkit';
+const sentryTestkit = require('sentry-testkit');
 
-export const { testkit, sentryTransport } = sentryTestkit();
+const { testkit, sentryTransport } = sentryTestkit();
+
+module.exports = { testkit, sentryTransport };

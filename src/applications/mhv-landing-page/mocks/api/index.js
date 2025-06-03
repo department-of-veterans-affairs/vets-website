@@ -65,4 +65,4 @@ const responses = (userMock = USER_MOCKS.DEFAULT) => ({
   'GET /my_health/v1/medical_records/self_entered': seiAllDomains,
 });
 
-module.exports = responses(USER_MOCKS.DEFAULT);
+module.exports = responses(USER_MOCKS.UNREGISTERED);

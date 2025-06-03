@@ -1,6 +1,6 @@
 import AlertMhvBasicAccount from './AlertMhvBasicAccount';
 import AlertNotVerified from './AlertNotVerified';
-import AlertUnregistered from './AlertUnregistered';
+import AlertUnregistered from './AlertUnregistered.tsx';
 import AlertVerifyAndRegister from './AlertVerifyAndRegister';
 import AlertMhvUserAction from './AlertMhvUserAction';
 import AlertMhvNoAction from './AlertMhvNoAction';

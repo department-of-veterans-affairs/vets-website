@@ -1,7 +1,7 @@
 import { appName } from '../../../manifest.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
-import AlertUnregistered from '../../../components/alerts/AlertUnregistered';
+import AlertUnregistered from '../../../components/alerts/AlertUnregistered.jsx';
 
 const { headline } = AlertUnregistered.defaultProps;
 const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
