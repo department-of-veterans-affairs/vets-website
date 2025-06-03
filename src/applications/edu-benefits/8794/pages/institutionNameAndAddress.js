@@ -1,3 +1,5 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   addressSchema,
   addressUI,
@@ -6,15 +8,31 @@ import {
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+const DynamicMilitaryInfo = () => {
+  const formData = useSelector(state => state.form?.data);
+  const isMilitary = formData?.institutionDetails?.isMilitary;
+
+  const checkedText = `The United States is automatically chosen as your country if you live on a military base outside of the country.`;
+  const uncheckedText = `The United States is automatically chosen as your country if your institution is on a military base outside of the U.S.`;
+
+  return (
+    <va-additional-info trigger="Learn more about military base addresses">
+      <span>{isMilitary ? checkedText : uncheckedText}</span>
+    </va-additional-info>
+  );
+};
+
 const uiSchema = {
   institutionDetails: {
     ...titleUI('Please provide your institution’s name and address'),
+
     institutionName: textUI({
       title: 'Name of institution or training facility',
       errorMessages: {
         required: 'Enter the name of your institution or training facility',
       },
     }),
+
     ...addressUI({
       labels: {
         street: 'Street address',
@@ -24,6 +42,10 @@ const uiSchema = {
           'My institution is on a United States military base outside of the U.S.',
       },
     }),
+
+    'view:militaryBaseDescription': {
+      'ui:description': <DynamicMilitaryInfo />,
+    },
   },
 };
 
