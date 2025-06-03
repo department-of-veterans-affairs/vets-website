@@ -447,6 +447,7 @@ const Authorization = ({
         </div>
       </form>
       <VaModal
+        clickToClose
         modalTitle="Privacy Act Statement"
         onCloseEvent={toggle4142PrivacyModal}
         visible={modalVisible}
