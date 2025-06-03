@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { useSearchParams } from 'react-router-dom-v5-compat';
 import { getClaimLetters } from '../../actions';
 import ClaimsBreadcrumbs from '../../components/ClaimsBreadcrumbs';
 import ClaimLetterList from '../../components/claim-letters/ClaimLetterList';
@@ -21,10 +22,14 @@ const paginateItems = items => {
   return items?.length ? chunk(items, ITEMS_PER_PAGE) : [[]];
 };
 
+export const VA_MOBILE_DEEP_LINK = 'vamobile://claimLetters';
+
 export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const [currentItems, setCurrentItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lettersLoading, setLettersLoading] = useState(true);
+  const [params] = useSearchParams();
+  const mobile = useRef(params.has('mobile'));
   // Using `useRef` here to avoid triggering a rerender whenever these are
   // updated
   const totalItems = useRef(0);
@@ -42,6 +47,15 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const claimLetterSubText = iscstIncludeDdlBoaLettersEnabled
     ? 'You can download your claim letters and appeal decisions. We also mail these to you.'
     : 'You can download your claim letters. We also mail you these letters.';
+
+  useEffect(
+    () => {
+      if (mobile.current) {
+        window.location.replace(VA_MOBILE_DEEP_LINK);
+      }
+    },
+    [mobile],
+  );
 
   useEffect(() => {
     getClaimLetters()

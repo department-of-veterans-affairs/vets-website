@@ -6,9 +6,9 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 // hooks has to be wrapped in a <Router> component. This is a
 // helper to reduce the amount of code needed when calling the
 // render method on a component
-export const renderWithRouter = element => {
+export const renderWithRouter = (element, options) => {
   return render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={options?.initialEntries}>
       <Routes>
         <Route index element={element} />
       </Routes>
@@ -20,9 +20,9 @@ export const renderWithRouter = element => {
 // hooks has to be wrapped in a <Router> component. This is a
 // helper to reduce the amount of code needed when calling the
 // rerender method on a component
-export const rerenderWithRouter = (rerender, element) => {
+export const rerenderWithRouter = (rerender, element, options) => {
   return rerender(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={options?.initialEntries}>
       <Routes>
         <Route index element={element} />
       </Routes>

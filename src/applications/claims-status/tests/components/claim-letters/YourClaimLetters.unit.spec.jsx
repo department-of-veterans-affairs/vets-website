@@ -1,4 +1,5 @@
 import React from 'react';
+import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import sinon from 'sinon';
@@ -6,7 +7,9 @@ import sinon from 'sinon';
 import reducer from '../../../reducers/index';
 import * as selectors from '../../../selectors';
 
-import YourClaimLetters from '../../../containers/YourClaimLetters';
+import YourClaimLetters, {
+  VA_MOBILE_DEEP_LINK,
+} from '../../../containers/YourClaimLetters';
 import { renderWithRouter } from '../../utils';
 
 const actions = require('../../../actions/index');
@@ -35,6 +38,49 @@ describe('<YourClaimLetters>', () => {
     showLettersFeatureStub.restore();
     isLoadingFeaturesStub.restore();
     getClaimLettersStub.restore();
+  });
+
+  context('mobile redirect', () => {
+    let windowLocationOriginal;
+
+    beforeEach(() => {
+      windowLocationOriginal = { ...window.location };
+      window.location = {
+        ...windowLocationOriginal,
+        replace: sinon.stub(),
+      };
+    });
+
+    afterEach(() => {
+      window.location = { ...windowLocationOriginal };
+    });
+
+    it('should attempt to redirect to mobile page when mobile parameter is provided', () => {
+      getClaimLettersStub.resolves([]);
+      renderWithRouter(
+        <Provider store={store}>
+          <YourClaimLetters />
+        </Provider>,
+        { initialEntries: ['/?mobile'] },
+      );
+
+      expect(window.location.replace.callCount).to.equal(1);
+      expect(window.location.replace.lastCall.args[0]).to.equal(
+        VA_MOBILE_DEEP_LINK,
+      );
+    });
+
+    it('should not redirect to mobile page when mobile parameter is not provided', () => {
+      getClaimLettersStub.resolves([]);
+      renderWithRouter(
+        <Provider store={store}>
+          <YourClaimLetters />
+        </Provider>,
+        { initialEntries: ['/'] },
+      );
+
+      expect(window.location.replace.callCount).to.equal(0);
+    });
   });
 
   context('cannot show claims', () => {
