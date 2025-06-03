@@ -92,13 +92,11 @@ describe('getOverallPhase', () => {
   const pastTime = Date.now() - VALID_REFRESH_DURATION - 1;
 
   const currStatus = {
-    extract: refreshExtractTypes.ALLERGY,
     lastRequested: now - 1000,
     lastCompleted: now,
     lastSuccessfulCompleted: now,
   };
   const staleStatus = {
-    extract: refreshExtractTypes.ALLERGY,
     lastRequested: pastTime,
     lastCompleted: pastTime,
     lastSuccessfulCompleted: pastTime,
@@ -111,7 +109,7 @@ describe('getOverallPhase', () => {
 
   it('should return IN_PROGRESS if any extract is IN_PROGRESS', () => {
     const refreshStatus = [
-      { ...currStatus },
+      { ...currStatus, extract: refreshExtractTypes.ALLERGY },
       {
         extract: refreshExtractTypes.VPR,
         lastRequested: now, // IN_PROGRESS
@@ -125,7 +123,7 @@ describe('getOverallPhase', () => {
 
   it('should return STALE if no extracts are IN_PROGRESS but at least one is STALE', () => {
     const refreshStatus = [
-      { ...staleStatus },
+      { ...staleStatus, extract: refreshExtractTypes.ALLERGY },
       { ...currStatus, extract: refreshExtractTypes.VPR },
     ];
     const result = getOverallPhase(refreshStatus, Date.now());

@@ -397,6 +397,7 @@ export const getStatusExtractPhase = (
   phrStatus,
   extractType,
 ) => {
+  // 1) Basic sanity‐checks on the inputs
   if (
     !(retrievedDate instanceof Date) ||
     Number.isNaN(retrievedDate.getTime()) ||
@@ -406,6 +407,7 @@ export const getStatusExtractPhase = (
     return null;
   }
 
+  // 2) Find the extract status object
   const extractStatus = phrStatus.find(
     status => status.extract === extractType,
   );
@@ -420,9 +422,10 @@ export const getStatusExtractPhase = (
     lastSuccessfulCompleted,
   } = extractStatus;
 
+  // 3) Compute whether we have an “error” condition
   const errorConditions = upToDate && loadStatus === 'ERROR' && !!errorMessage;
 
-  // Defensive: ensure required dates are Date objects
+  // 4) If we don’t have all three timestamps AND there is no error-case to justify missing dates, bail out
   if (
     (!lastRequested || !lastCompleted || !lastSuccessfulCompleted) &&
     !errorConditions
@@ -430,7 +433,7 @@ export const getStatusExtractPhase = (
     return null;
   }
 
-  // If any date is not a Date object, try to convert it
+  // 5) Coerce each of those three fields into a Date (if already a Date, fine; otherwise new Date())
   const requested =
     lastRequested instanceof Date ? lastRequested : new Date(lastRequested);
   const completed =
@@ -440,6 +443,7 @@ export const getStatusExtractPhase = (
       ? lastSuccessfulCompleted
       : new Date(lastSuccessfulCompleted);
 
+  // 6) If any of those new Date() calls turned into an invalid date, bail out
   if (
     Number.isNaN(requested.getTime()) ||
     Number.isNaN(completed.getTime()) ||
@@ -448,18 +452,30 @@ export const getStatusExtractPhase = (
     return null;
   }
 
-  if (retrievedDate.getTime() - completed.getTime() > VALID_REFRESH_DURATION) {
+  // 7) Compute how long it’s been since the last completion
+  const timeSinceLastCompleted = retrievedDate.getTime() - completed.getTime();
+
+  // 8) Now do the “phase” logic in a fixed order:
+
+  //  8a) STALE (highest priority)
+  if (timeSinceLastCompleted > VALID_REFRESH_DURATION) {
     return refreshPhases.STALE;
   }
+
+  //  8b) IN_PROGRESS (only if the last “completed” timestamp is before the last “requested”)
   if (completed.getTime() < requested.getTime() && !errorConditions) {
     return refreshPhases.IN_PROGRESS;
   }
+
+  //  8c) FAILED (either a loadStatus=ERROR case or completed ≠ successfulCompleted)
   if (
     errorConditions ||
     completed.getTime() !== successfulCompleted.getTime()
   ) {
     return refreshPhases.FAILED;
   }
+
+  //  8d) If none of the above, it must be CURRENT
   return refreshPhases.CURRENT;
 };
 
