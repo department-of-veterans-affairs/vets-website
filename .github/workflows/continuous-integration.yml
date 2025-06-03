@@ -1012,7 +1012,7 @@ jobs:
 
   testing-reports-unit-tests:
     name: Testing Reports - Unit Tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     needs: [testing-reports-prep, unit-tests]
     if: needs.unit-tests.outputs.tests_ran == 'true'
     continue-on-error: true
