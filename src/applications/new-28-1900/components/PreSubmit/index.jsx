@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import StatementOfTruth from './StatementOfTruth';
 import SignatureCheckbox from './SignatureCheckbox';
 import SubmitLoadingIndicator from './SubmitLoadingIndicator';
@@ -133,22 +134,24 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
           Protection of Privacy Information Statement
         </legend>
         <p>
-          I HAVE BEEN INFORMED AND UNDERSTAND that the information requested in
-          this and any later interviews is requested under the authorization of
-          Title 38, United States Code of Federal Regulations 1.576, Veterans
-          Benefits. This information is needed to assist in vocational and
-          educational planning, to authorize my receipt of rehabilitation
-          services, to develop a record of my vocational progress, and to assure
-          I obtain the best results from my rehabilitation program. I understand
-          that the information I provide will not be used for any other purpose
-          and that my responses may be disclosed outside VA only if the
-          disclosure is authorized under the Privacy Act of 1974, including the
-          routine uses identified in the VA system of records, 58VA21/22/28,
-          Compensation, Pension, Education and Veteran Readiness and Employment
-          Records - VA, published in the Federal Register. Generally,
-          disclosures under the authority of a routine use will be made to
-          develop my claim for vocational rehabilitation benefits under Title
-          38, United States Code.
+          <strong className="privacy-statement-lede">
+            I have been informed and understand
+          </strong>{' '}
+          that the information requested in this and any later interviews is
+          requested under the authorization of Title 38, United States Code of
+          Federal Regulations 1.576, Veterans Benefits. This information is
+          needed to assist in vocational and educational planning, to authorize
+          my receipt of rehabilitation services, to develop a record of my
+          vocational progress, and to assure I obtain the best results from my
+          rehabilitation program. I understand that the information I provide
+          will not be used for any other purpose and that my responses may be
+          disclosed outside VA only if the disclosure is authorized under the
+          Privacy Act of 1974, including the routine uses identified in the VA
+          system of records, 58VA21/22/28, Compensation, Pension, Education and
+          Veteran Readiness and Employment Records - VA, published in the
+          Federal Register. Generally, disclosures under the authority of a
+          routine use will be made to develop my claim for vocational
+          rehabilitation benefits under Title 38, United States Code.
         </p>
         <p>
           My giving the requested information is voluntary. I understand that
@@ -172,6 +175,13 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
             which I may be entitled.
           </li>
         </ol>
+        <VaCheckbox
+          id="privacy-statement"
+          name="privacy-statement"
+          // checked={formData['view:autofill']}
+          label="I acknowledge I have read the Protection of Privacy Information Statement."
+          // onVaChange={handleCheck}
+        />
       </fieldset>
       {statementsOfTruth}
       <p className="vads-u-margin-bottom--3">
