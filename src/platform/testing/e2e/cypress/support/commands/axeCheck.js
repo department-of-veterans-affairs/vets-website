@@ -66,6 +66,7 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
     : axeBuilder;
 
   const tryCheck = (retries = 2) => {
+    Cypress.log();
     cy.checkA11y(context, axeConfig, violations => {
       const hasHeadingOrderIssue = violations.some(
         v => v.id === 'heading-order',
