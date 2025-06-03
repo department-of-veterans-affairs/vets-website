@@ -56,7 +56,7 @@ describe('NewFeatureProgramsYRTAlert', () => {
     );
 
     expect(getByText('Yellow Ribbon Program information')).to.exist;
-    expect(getByText('Programs')).to.exist;
+    expect(getByText('Approved programs of study')).to.exist;
   });
 
   it('does not render Yellow Ribbon link when institution.yr is false', () => {
