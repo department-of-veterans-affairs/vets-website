@@ -1143,7 +1143,7 @@ jobs:
 
   testing-reports-unit-tests-stress-test:
     name: Testing Reports - Unit Test Stability Review
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests-stress-test]
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure')}}
     continue-on-error: true
@@ -1213,6 +1213,13 @@ jobs:
           pattern: unit-test-stress-test-results-*
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
+
+      # Dummy step to evaluate merged report JSON 
+        - name: Upload merged test results
+        uses: actions/upload-artifact@v3
+        with:
+         name: merged-unit-test-results
+         path: qa-standards-dashboard-data/src/testing-reports/data/**
 
       - name: Create Unit Test report
         run: yarn unit-mochawesome-to-bigquery
