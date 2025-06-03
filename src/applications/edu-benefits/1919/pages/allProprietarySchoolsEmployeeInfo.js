@@ -2,8 +2,9 @@ import {
   arrayBuilderItemFirstPageTitleUI,
   textUI,
   textSchema,
+  descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { conlflictOfInterestPolicy } from '../helpers';
+import { conflictOfInterestPolicy } from '../helpers';
 
 const noSpaceOnlyPattern = '^(?!\\s*$).+';
 
@@ -13,7 +14,7 @@ const uiSchema = {
       title:
         'Information on an individual with a potential conflict of interest who receives VA educational benefits',
     }),
-    'ui:description': conlflictOfInterestPolicy,
+    ...descriptionUI(conflictOfInterestPolicy),
     first: textUI({
       title: 'First name of individual ',
       errorMessages: {

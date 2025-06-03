@@ -6,7 +6,7 @@ export const showConflictOfInterestText = () => {
     'help-text-label': 'Review the conflict of interest policy',
   });
 };
-export const conlflictOfInterestPolicy = (
+export const conflictOfInterestPolicy = (
   <va-additional-info
     trigger="Review the conflict of interest policy"
     onClick={showConflictOfInterestText}
@@ -58,11 +58,9 @@ export const alert = (
     status="info"
     visible
   >
-    {' '}
     <p className="vads-u-margin-y--0">
-      {' '}
       <strong>Note:</strong> Each time the information on this form changes, a
-      new submission is required.{' '}
-    </p>{' '}
+      new submission is required.
+    </p>
   </va-alert>
 );
