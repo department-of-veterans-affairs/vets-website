@@ -41,8 +41,8 @@ class IntroductionPage extends React.Component {
                   date of birth).
                 </li>
                 <li>
-                  Military history or the military history of the Veteran or
-                  service member you're connected to.
+                  Your military history or the military history of the Veteran
+                  or service member you're connected to.
                 </li>
                 <li>
                   The name of the VA national cemetery where you’d prefer to be
@@ -60,10 +60,17 @@ class IntroductionPage extends React.Component {
               <h4>
                 To help us process your application faster, you can upload:
               </h4>
+              <ul>
+                <li>A copy of your sponsor's DD214 or</li>
+                <li>Other separation files</li>
+              </ul>
               <p>
                 A copy of your or your sponsor's DD214 or other separation files
               </p>
-              <h4>Other information for certain applicants you can provide:</h4>
+              <h4>
+                You can also provide additional information in the following
+                situations:
+              </h4>
               <ul>
                 <li>
                   <strong>
@@ -90,7 +97,7 @@ class IntroductionPage extends React.Component {
                   adult child's disability.
                 </li>
               </ul>
-              <h4>What if I need help filling out my application?</h4>
+              <h4>What if you need help filling out your application?</h4>
               <p>
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your application.
