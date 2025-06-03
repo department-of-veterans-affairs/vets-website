@@ -1,16 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { isValid, format } from 'date-fns';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { selectProfile } from '~/platform/user/selectors';
 
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
-
-import { parseDateToDateObj } from '../config/utilities';
-import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from '../constants';
+import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
 
 // separate each number so the screen reader reads "number ending with 1 2 3 4"
 // instead of "number ending with 1,234"
@@ -24,9 +21,7 @@ export const VeteranInformation = ({ formData }) => {
   const { dob, userFullName = {} } = useSelector(selectProfile);
   const { first, middle, last, suffix } = userFullName;
 
-  // console.log(useSelector(selectProfile));
-
-  const dobDateObj = parseDateToDateObj(dob || null, FORMAT_YMD_DATE_FNS);
+  const dobDateObj = formatDateParsedZoneLong(dob);
 
   return (
     <>
@@ -43,7 +38,7 @@ export const VeteranInformation = ({ formData }) => {
         This is part of the information we’ll submit on your behalf for your
         verification of dependents (VA Form 21-0538)
       </p>
-      <div className="vads-u-border--1px vads-u-border-color--gray-medium vads-u-padding-x--2 vads-u-padding-y--1">
+      <va-card>
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--1">
           Personal information
         </h4>
@@ -68,16 +63,16 @@ export const VeteranInformation = ({ formData }) => {
         ) : null}
         <p>
           <strong>Date of birth:</strong>{' '}
-          {isValid(dobDateObj) ? (
+          {dobDateObj ? (
             <span
               className="dob dd-privacy-mask"
               data-dd-action-name="Veteran's date of birth"
             >
-              {format(dobDateObj, FORMAT_READABLE_DATE_FNS)}
+              {dobDateObj}
             </span>
           ) : null}
         </p>
-      </div>
+      </va-card>
 
       <br role="presentation" />
 
@@ -93,14 +88,11 @@ export const VeteranInformation = ({ formData }) => {
         </dfn>
         .
       </p>
-      <a
+      <va-link
         href="/resources/how-to-change-your-legal-name-on-file-with-va/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Find more detailed instructions for how to change your legal name (opens
-        in new tab)
-      </a>
+        external
+        text="Find more detailed instructions for how to change your legal name"
+      />
     </>
   );
 };

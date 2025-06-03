@@ -1,4 +1,4 @@
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
+// import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
@@ -32,11 +32,11 @@ const formConfig = {
   downtime: {
     requiredForPrefill: true,
     dependencies: [
-      externalServices.bgs,
-      externalServices.global,
-      externalServices.mvi,
-      externalServices.vaProfile,
-      externalServices.vbms,
+      // externalServices.bgs,
+      // externalServices.global,
+      // externalServices.mvi,
+      // externalServices.vaProfile,
+      // externalServices.vbms,
     ],
   },
   prefillEnabled: true,
