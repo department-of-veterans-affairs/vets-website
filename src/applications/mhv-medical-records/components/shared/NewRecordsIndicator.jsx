@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { useSelector } from 'react-redux';
 import {
   getStatusExtractListPhase,
   getLastSuccessfulUpdate,
@@ -9,11 +8,11 @@ import {
 import { refreshPhases } from '../../util/constants';
 
 const NewRecordsIndicator = ({
+  refreshState,
   extractType,
   newRecordsFound,
   reloadFunction,
 }) => {
-  const refreshState = useSelector(state => state.mr.refresh);
   const [refreshedOnThisPage, setRefreshedOnThisPage] = useState(false);
 
   /** Helper function to ensure `extractType` is treated as an array. */
@@ -28,6 +27,7 @@ const NewRecordsIndicator = ({
         refreshState.statusDate,
         refreshState.status,
         normalizeExtractType(extractType),
+        newRecordsFound,
       );
     },
     [
@@ -35,6 +35,7 @@ const NewRecordsIndicator = ({
       refreshState.status,
       refreshState.statusDate,
       refreshState.phase,
+      newRecordsFound,
     ],
   );
 
@@ -102,68 +103,30 @@ const NewRecordsIndicator = ({
     );
   };
 
-  const content = () => {
-    if (refreshedOnThisPage) {
-      if (refreshPhase === refreshPhases.FAILED) {
-        return failedMsg();
-      }
-      if (refreshPhase === refreshPhases.CURRENT) {
-        if (newRecordsFound) {
-          return (
-            <va-alert
-              visible
-              aria-live="polite"
-              data-testid="new-records-refreshed-stale"
-            >
-              <h2>Reload to get updates</h2>
-              <p>
-                We found updates to your records. Reload this page to update
-                your list.
-              </p>
-              <va-button
-                text="Reload page"
-                onClick={() => {
-                  reloadFunction();
-                }}
-                data-testid="new-records-reload-button"
-              />
-            </va-alert>
-          );
-        }
-        return (
-          <va-alert
-            status="success"
-            visible
-            aria-live="polite"
-            data-testid="new-records-refreshed-current"
-          >
-            Your list is up to date
-          </va-alert>
-        );
-      }
-      if (!refreshState.isTimedOut) {
-        return (
-          <va-loading-indicator
-            message="We're checking our system for new records."
-            data-testid="new-records-loading-indicator"
-          />
-        );
-      }
-      return failedMsg();
-    }
-    if (lastSuccessfulUpdate) {
-      return (
-        <va-card
-          background
-          aria-live="polite"
-          data-testid="new-records-last-updated"
-        >
-          {`Last updated at ${lastSuccessfulUpdate.time} ${
-            lastSuccessfulUpdate.timeZone
-          } on ${lastSuccessfulUpdate.date}`}
-        </va-card>
-      );
-    }
+  const newRecordsFoundMsg = () => {
+    return (
+      <va-alert
+        visible
+        aria-live="polite"
+        data-testid="new-records-refreshed-stale"
+      >
+        <h2>Reload to get updates</h2>
+        <p>
+          We found updates to your records. Reload this page to update your
+          list.
+        </p>
+        <va-button
+          text="Reload page"
+          onClick={() => {
+            reloadFunction();
+          }}
+          data-testid="new-records-reload-button"
+        />
+      </va-alert>
+    );
+  };
+
+  const notUpToDateMsg = () => {
     return (
       <va-alert
         status="warning"
@@ -187,6 +150,63 @@ const NewRecordsIndicator = ({
         </p>
       </va-alert>
     );
+  };
+
+  const lastUpdatedAtMsg = () => {
+    return (
+      <va-card
+        background
+        aria-live="polite"
+        data-testid="new-records-last-updated"
+      >
+        {`Last updated at ${lastSuccessfulUpdate.time} ${
+          lastSuccessfulUpdate.timeZone
+        } on ${lastSuccessfulUpdate.date}`}
+      </va-card>
+    );
+  };
+
+  const upToDateMsg = () => {
+    return (
+      <va-alert
+        status="success"
+        visible
+        aria-live="polite"
+        data-testid="new-records-refreshed-current"
+      >
+        Your list is up to date
+      </va-alert>
+    );
+  };
+
+  const content = () => {
+    if (refreshedOnThisPage) {
+      if (refreshPhase === refreshPhases.FAILED) {
+        return failedMsg();
+      }
+      if (refreshPhase === refreshPhases.SOME_FAILED) {
+        return notUpToDateMsg();
+      }
+      if (refreshPhase === refreshPhases.CURRENT) {
+        if (newRecordsFound) {
+          return newRecordsFoundMsg();
+        }
+        return upToDateMsg();
+      }
+      if (!refreshState.isTimedOut) {
+        return (
+          <va-loading-indicator
+            message="We're checking our system for new records."
+            data-testid="new-records-loading-indicator"
+          />
+        );
+      }
+      return failedMsg();
+    }
+    if (lastSuccessfulUpdate) {
+      return lastUpdatedAtMsg();
+    }
+    return notUpToDateMsg();
   };
 
   return (
@@ -225,5 +245,6 @@ export default NewRecordsIndicator;
 NewRecordsIndicator.propTypes = {
   extractType: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   newRecordsFound: PropTypes.bool,
+  refreshState: PropTypes.object,
   reloadFunction: PropTypes.func,
 };

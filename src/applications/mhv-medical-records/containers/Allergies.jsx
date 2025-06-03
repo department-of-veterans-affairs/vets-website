@@ -203,6 +203,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
       >
         {!isAcceleratingAllergies && (
           <NewRecordsIndicator
+            refreshState={refresh}
             extractType={refreshExtractTypes.ALLERGY}
             newRecordsFound={
               Array.isArray(allergies) &&

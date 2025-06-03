@@ -189,6 +189,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         initialFhirLoad={refresh.initialFhirLoad}
       >
         <NewRecordsIndicator
+          refreshState={refresh}
           extractType={refreshExtractTypes.VPR}
           newRecordsFound={
             Array.isArray(vaccines) &&

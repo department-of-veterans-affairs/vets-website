@@ -304,6 +304,7 @@ export const refreshPhases = {
   CURRENT: 'current',
   FAILED: 'failed',
   CALL_FAILED: 'call_failed',
+  SOME_FAILED: 'some_failed',
 };
 
 export const loadStates = {

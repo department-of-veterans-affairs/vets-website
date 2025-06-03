@@ -423,12 +423,13 @@ export const getStatusExtractPhase = (
   } = extractStatus;
 
   // 3) Compute whether we have an “error” condition
-  const errorConditions = upToDate && loadStatus === 'ERROR' && !!errorMessage;
+  const hasExplicitLoadError =
+    upToDate && loadStatus === 'ERROR' && !!errorMessage;
 
   // 4) If we don’t have all three timestamps AND there is no error-case to justify missing dates, bail out
   if (
     (!lastRequested || !lastCompleted || !lastSuccessfulCompleted) &&
-    !errorConditions
+    !hasExplicitLoadError
   ) {
     return null;
   }
@@ -468,13 +469,13 @@ export const getStatusExtractPhase = (
   }
 
   //  8b) IN_PROGRESS (only if the last “completed” timestamp is before the last “requested”)
-  if (completed.getTime() < requested.getTime() && !errorConditions) {
+  if (completed.getTime() < requested.getTime() && !hasExplicitLoadError) {
     return refreshPhases.IN_PROGRESS;
   }
 
   //  8c) FAILED (either a loadStatus=ERROR case or completed ≠ successfulCompleted)
   if (
-    errorConditions ||
+    hasExplicitLoadError ||
     completed.getTime() !== successfulCompleted.getTime()
   ) {
     return refreshPhases.FAILED;
@@ -496,6 +497,7 @@ export const getStatusExtractListPhase = (
   retrievedDate,
   phrStatus,
   extractTypeList,
+  newRecordsFound,
 ) => {
   if (!Array.isArray(extractTypeList) || extractTypeList.length === 0) {
     return null;
@@ -508,10 +510,19 @@ export const getStatusExtractListPhase = (
   const phasePriority = [
     refreshPhases.IN_PROGRESS,
     refreshPhases.STALE,
-    refreshPhases.CURRENT,
-    refreshPhases.FAILED,
+    ...(newRecordsFound
+      ? [refreshPhases.CURRENT, refreshPhases.FAILED]
+      : [refreshPhases.FAILED, refreshPhases.CURRENT]),
   ];
 
+  if (
+    !newRecordsFound &&
+    phaseList.every(
+      item => item === refreshPhases.CURRENT || item === refreshPhases.FAILED,
+    )
+  ) {
+    return refreshPhases.SOME_FAILED;
+  }
   for (const phase of phasePriority) {
     if (phaseList.includes(phase)) {
       return phase;
@@ -545,8 +556,10 @@ export const getLastSuccessfulUpdate = (
       return typeof date === 'string' ? new Date(date) : date;
     })
     ?.filter(Boolean);
-
-  if (matchingDates?.length) {
+  if (
+    matchingDates?.length &&
+    matchingDates.length === extractTypeList.length
+  ) {
     const minDate = new Date(
       Math.min(...matchingDates.map(date => date.getTime())),
     );

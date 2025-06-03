@@ -86,6 +86,7 @@ const HealthConditions = () => {
         initialFhirLoad={refresh.initialFhirLoad}
       >
         <NewRecordsIndicator
+          refreshState={refresh}
           extractType={refreshExtractTypes.VPR}
           newRecordsFound={
             Array.isArray(conditions) &&

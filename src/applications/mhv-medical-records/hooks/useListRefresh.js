@@ -33,13 +33,19 @@ function useListRefresh({
         : [extractType];
       return (
         refreshStatus &&
-        extractTypeList.every(type =>
-          refreshStatus.some(
-            extStatus =>
-              extStatus.extract === type &&
-              extStatus.phase === refreshPhases.CURRENT,
-          ),
-        )
+        extractTypeList.every(type => {
+          return refreshStatus.some(extStatus => {
+            const hasExplicitLoadError =
+              !extStatus.lastSuccessfulCompleted &&
+              extStatus.loadStatus === 'ERROR' &&
+              extStatus.upToDate;
+            return (
+              (extStatus.extract === type &&
+                extStatus.phase === refreshPhases.CURRENT) ||
+              hasExplicitLoadError
+            );
+          });
+        })
       );
     },
     [refreshStatus, extractType],
