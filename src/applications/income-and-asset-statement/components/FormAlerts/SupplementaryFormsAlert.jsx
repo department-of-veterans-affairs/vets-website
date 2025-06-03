@@ -1,40 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const assetTypeWhitelist = ['BUSINESS', 'FARM'];
-
-export const getAssetTypes = assets => {
-  if (assets.length === 0) return [];
-  const assetTypes = new Set();
-
-  assets.forEach(asset => {
-    const { assetType } = asset;
-
-    if (assetType && assetTypeWhitelist.includes(assetType)) {
-      assetTypes.add(assetType.toLowerCase());
-    }
-  });
-
-  return Array.from(assetTypes).sort();
-};
-
-const getJoiner = (assets, options) => {
-  if (assets.length === 1) return options[0];
-
-  let assetCount = 0;
-
-  for (const asset of assets) {
-    const { assetType } = asset;
-
-    if (assetType && assetTypeWhitelist.includes(assetType)) {
-      assetCount += 1;
-    }
-
-    if (assetCount > 1) break;
-  }
-
-  return assetCount > 1 ? options[1] : options[0];
-};
+const assetTypeAllowlist = ['BUSINESS', 'FARM'];
 
 const bodyTextMap = {
   business: 'Report of Income from Property or Business (VA Form 21P-4185)',
@@ -52,12 +20,43 @@ const downloadLinkMap = {
   },
 };
 
-export const SupplementaryFormsAlert = ({ formData }) => {
-  const assets = formData?.ownedAssets || [];
+// Get a unique list of asset types from the assets array
+export const getAssetTypes = assets => {
+  if (assets.length === 0) return [];
+  const assetTypes = new Set();
 
-  const assetTypes = getAssetTypes(assets);
-  if (assets.length === 0 || assetTypes.length === 0) return null;
+  assets.forEach(asset => {
+    const { assetType } = asset;
 
+    if (assetType && assetTypeAllowlist.includes(assetType)) {
+      assetTypes.add(assetType.toLowerCase());
+    }
+  });
+
+  return Array.from(assetTypes).sort();
+};
+
+// Get the appropriate joiner based on the number of allowlisted assets
+// Expects an array of assets and an array of options for singular/plural
+const getJoiner = (assets, options) => {
+  if (assets.length === 1) return options[0];
+
+  let assetCount = 0;
+
+  for (const asset of assets) {
+    const { assetType } = asset;
+
+    if (assetType && assetTypeAllowlist.includes(assetType)) {
+      assetCount += 1;
+    }
+
+    if (assetCount > 1) break;
+  }
+
+  return assetCount > 1 ? options[1] : options[0];
+};
+
+const getBodyText = (assets, assetTypes) => {
   const bodyTextParts = [
     `You’ve added a ${assetTypes.join(' and ')}, so you need to fill out a `,
   ];
@@ -78,8 +77,18 @@ export const SupplementaryFormsAlert = ({ formData }) => {
     ].join(' '),
   );
 
+  return bodyTextParts.join('');
+};
+
+// SupplementaryFormsAlert component
+export const SupplementaryFormsAlert = ({ formData }) => {
+  const assets = formData?.ownedAssets || [];
+
+  const assetTypes = getAssetTypes(assets);
+  if (assets.length === 0 || assetTypes.length === 0) return null;
+
   const headline = `Additional ${getJoiner(assets, ['form', 'forms'])} needed`;
-  const bodyText = bodyTextParts.join('');
+  const bodyText = getBodyText(assets, assetTypes);
 
   return (
     <va-alert status="info">
@@ -99,6 +108,12 @@ export const SupplementaryFormsAlert = ({ formData }) => {
       ))}
     </va-alert>
   );
+};
+
+SupplementaryFormsAlert.propTypes = {
+  formData: PropTypes.shape({
+    ownedAssets: PropTypes.array,
+  }),
 };
 
 const mapStateToProps = state => ({
