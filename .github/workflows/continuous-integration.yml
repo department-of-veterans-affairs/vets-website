@@ -1203,7 +1203,6 @@ jobs:
           role_duration: 900
           session_name: vsp-frontendteam-githubaction
 
-          
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
       # --------------------------------------------------
@@ -1217,7 +1216,7 @@ jobs:
 
       # Dummy step to evaluate merged report JSON 
       - name: Upload merged test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
          name: merged-unit-test-results
          path: qa-standards-dashboard-data/src/testing-reports/data/**
