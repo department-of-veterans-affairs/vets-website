@@ -21,7 +21,7 @@ export const VeteranInformation = ({ formData }) => {
   const { dob, userFullName = {} } = useSelector(selectProfile);
   const { first, middle, last, suffix } = userFullName;
 
-  const dobDateObj = formatDateParsedZoneLong(dob);
+  const dobDateObj = dob ? formatDateParsedZoneLong(dob) : null;
 
   return (
     <>
@@ -47,7 +47,7 @@ export const VeteranInformation = ({ formData }) => {
           data-dd-action-name="Veteran's name"
         >
           <strong>Name:</strong>{' '}
-          {`${first || ''} ${middle || ''} ${last || ''}`}
+          {[first, middle, last].filter(Boolean).join(' ')}
           {suffix ? `, ${suffix}` : null}
         </p>
         {ssnLastFour ? (

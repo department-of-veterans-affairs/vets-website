@@ -43,7 +43,7 @@ describe('Veteran Information Component', () => {
     const { queryByText } = renderComponent(
       { veteranInformation: { ssnLastFour: '1234' } },
       {
-        dob: '1975-11-06',
+        dob: '1975-11-06T22:21:04.417Z',
         gender: 'M',
         userFullName: {
           first: 'Bob',
@@ -60,7 +60,7 @@ describe('Veteran Information Component', () => {
     const { queryByText } = renderComponent(
       { veteranInformation: { ssnLastFour: '1234' } },
       {
-        dob: '1975-11-06',
+        dob: '1975-11-06T22:21:04.417Z',
         gender: 'M',
         userFullName: {
           first: 'Bob',
@@ -76,7 +76,7 @@ describe('Veteran Information Component', () => {
     const { queryByText } = renderComponent(
       { veteranInformation: { ssnLastFour: '1234' } },
       {
-        dob: '1975-11-06',
+        dob: '1975-11-06T22:21:04.417Z',
         gender: 'M',
         userFullName: { first: 'Bob', last: 'Hope' },
       },
@@ -89,7 +89,7 @@ describe('Veteran Information Component', () => {
     const { queryByText } = renderComponent(
       { veteranInformation: { ssnLastFour: '1234' } },
       {
-        dob: '1975-11-06',
+        dob: '1975-11-06T22:21:04.417Z',
         gender: 'M',
         userFullName: { first: 'Bob', last: 'Hope' },
       },

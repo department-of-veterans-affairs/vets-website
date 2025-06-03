@@ -3,97 +3,166 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
+import { veteranInformation } from '../../../../../config/chapters/veteran-information/veteranInformation';
 import VeteranInformation from '../../../../../components/VeteranInformationComponent';
 
-describe('Veteran Information Component', () => {
-  const generateStore = (userProfile = {}) => ({
-    dispatch: sinon.spy(),
-    subscribe: sinon.spy(),
-    getState: () => ({
-      user: { profile: userProfile },
-    }),
+const generateStore = (userProfile = {}) => ({
+  dispatch: sinon.spy(),
+  subscribe: sinon.spy(),
+  getState: () => ({
+    user: { profile: userProfile },
+  }),
+});
+
+const renderComponent = (formData = {}, userProfile = {}) => {
+  const mockStore = generateStore(userProfile);
+  return render(
+    <Provider store={mockStore}>
+      <VeteranInformation formData={formData} />
+    </Provider>,
+  );
+};
+
+describe('veteranInformation config', () => {
+  it('should export a schema object', () => {
+    expect(veteranInformation).to.have.property('schema');
+    expect(veteranInformation.schema.type).to.equal('object');
+    expect(veteranInformation.schema.properties).to.have.property(
+      'veteranInformation',
+    );
+    expect(
+      veteranInformation.schema.properties.veteranInformation.type,
+    ).to.equal('object');
   });
 
-  const renderComponent = (formData = {}, userProfile = {}) => {
-    const mockStore = generateStore(userProfile);
-    return render(
-      <Provider store={mockStore}>
-        <VeteranInformation formData={formData} />
+  it('should export a uiSchema object', () => {
+    expect(veteranInformation).to.have.property('uiSchema');
+    expect(veteranInformation.uiSchema).to.have.property('ui:description');
+    expect(veteranInformation.uiSchema).to.have.property('ui:options');
+  });
+
+  it('should set hideOnReview to true', () => {
+    expect(veteranInformation.uiSchema['ui:options'].hideOnReview).to.be.true;
+  });
+
+  it('should render the VeteranInformation component as description', () => {
+    const store = generateStore({
+      dob: '1990-01-01',
+      userFullName: {
+        first: 'John',
+        last: 'Doe',
+      },
+    });
+
+    const DescriptionComponent = veteranInformation.uiSchema['ui:description'];
+    const { container, getByText } = render(
+      <Provider store={store}>
+        <DescriptionComponent
+          formData={{ veteranInformation: { ssnLastFour: '1234' } }}
+        />
       </Provider>,
     );
-  };
 
-  it('Should render a div with the expected class names', () => {
-    const { container } = renderComponent();
-    const divElement = container.querySelector(
-      '.vads-u-border--1px.vads-u-border-color--gray-medium.vads-u-padding-x--2.vads-u-padding-y--1',
+    expect(container.querySelector('va-card')).to.not.be.null;
+    expect(getByText(/Name:/)).to.not.be.null;
+    expect(getByText(/John Doe/)).to.not.be.null;
+    expect(getByText(/Date of birth:/)).to.not.be.null;
+    expect(getByText(/January 1, 1990/)).to.not.be.null;
+  });
+});
+
+describe('VeteranInformation component', () => {
+  it('should render <va-card> with full veteran name and suffix', () => {
+    const { container } = renderComponent(
+      { veteranInformation: { ssnLastFour: '5555' } },
+      {
+        dob: '1990-01-01',
+        userFullName: {
+          first: 'John',
+          middle: '',
+          last: 'Doe',
+          suffix: 'Sr.',
+        },
+      },
     );
-    expect(divElement).to.not.be.null;
+
+    const card = container.querySelector('va-card');
+    const nameText = container.querySelector(
+      '[data-dd-action-name="Veteran\'s name"]',
+    );
+
+    expect(card).to.not.be.null;
+    expect(nameText?.textContent).to.include('John Doe, Sr.');
+    expect(container.textContent).to.include('January 1, 1990');
+    expect(container.textContent).to.include('5555');
   });
 
-  it('Should render an empty profile object', () => {
-    const { queryByText } = renderComponent(
+  it('should render name without suffix', () => {
+    const { container } = renderComponent(
       { veteranInformation: { ssnLastFour: '1234' } },
+      {
+        dob: '1980-06-15',
+        userFullName: {
+          first: 'Jane',
+          middle: '',
+          last: 'Smith',
+          suffix: undefined,
+        },
+      },
+    );
+
+    const nameText = container.querySelector(
+      '[data-dd-action-name="Veteran\'s name"]',
+    );
+    expect(nameText?.textContent).to.include('Jane Smith');
+    expect(nameText?.textContent).to.not.include(',');
+  });
+
+  it('should handle missing veteranInformation in formData', () => {
+    const { container } = renderComponent(
       {},
-    );
-    expect(queryByText(/Name/)).to.not.be.null;
-  });
-
-  it('Should render the veteran’s full name with suffix', () => {
-    const { queryByText } = renderComponent(
-      { veteranInformation: { ssnLastFour: '1234' } },
       {
-        dob: '1975-11-06T22:21:04.417Z',
-        gender: 'M',
-        userFullName: {
-          first: 'Bob',
-          middle: undefined,
-          last: 'Hope',
-          suffix: 'Senior',
-        },
+        dob: '1975-02-10',
+        userFullName: { first: 'No', last: 'Data' },
       },
     );
-    expect(queryByText(/Bob Hope, Senior/)).to.not.be.null;
+
+    const ssnField = container.querySelector('.ssn');
+    expect(ssnField).to.be.null;
   });
 
-  it('Should render the veteran’s name without suffix', () => {
-    const { queryByText } = renderComponent(
+  it('should handle missing userFullName in profile', () => {
+    const { container } = renderComponent(
       { veteranInformation: { ssnLastFour: '1234' } },
       {
-        dob: '1975-11-06T22:21:04.417Z',
-        gender: 'M',
-        userFullName: {
-          first: 'Bob',
-          middle: undefined,
-          last: 'Hope',
-        },
+        dob: '1985-04-12',
+        userFullName: undefined,
       },
     );
-    expect(queryByText(/Bob Hope/)).to.not.be.null;
+
+    const nameText = container.querySelector(
+      '[data-dd-action-name="Veteran\'s name"]',
+    );
+    expect(nameText).to.exist;
+    expect(nameText.textContent).to.include('Name:');
   });
 
-  it('Should render masked SSN when last four digits are available', () => {
-    const { queryByText } = renderComponent(
+  it('should skip DOB if not provided', () => {
+    const { container } = renderComponent(
       { veteranInformation: { ssnLastFour: '1234' } },
       {
-        dob: '1975-11-06T22:21:04.417Z',
-        gender: 'M',
-        userFullName: { first: 'Bob', last: 'Hope' },
+        userFullName: { first: 'Skip', last: 'DOB' },
       },
     );
-    expect(queryByText(/Last 4 digits of Social Security number/)).to.not.be
-      .null;
+
+    const dobField = container.querySelector(
+      '[data-dd-action-name="Veteran\'s date of birth"]',
+    );
+    expect(dobField).to.be.null;
   });
 
-  it('Should render date of birth', () => {
-    const { queryByText } = renderComponent(
-      { veteranInformation: { ssnLastFour: '1234' } },
-      {
-        dob: '1975-11-06T22:21:04.417Z',
-        gender: 'M',
-        userFullName: { first: 'Bob', last: 'Hope' },
-      },
-    );
-    expect(queryByText(/Date of birth/)).to.not.be.null;
+  it('should render alert message', () => {
+    const { getByText } = renderComponent();
+    expect(getByText(/We’ve prefilled some information for you/)).to.exist;
   });
 });

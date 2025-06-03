@@ -5,6 +5,8 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import user from './user.json';
 
+Cypress.config('waitForAnimations', true);
+
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
@@ -53,9 +55,6 @@ const testConfig = createTestConfig(
         });
       },
     },
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
