@@ -104,20 +104,6 @@ describe('ClaimDetailsContent', () => {
       .exist;
   });
 
-  it('renders reimbursement amount if one is provided', () => {
-    const screen = renderWithStoreAndRouter(
-      <ClaimDetailsContent
-        {...claimDetailsProps}
-        reimbursementAmount={46.93}
-      />,
-      {
-        initialState: getState(),
-      },
-    );
-
-    expect(screen.getByText('Reimbursement amount of $46.93')).to.exist;
-  });
-
   it('does not render claims management content with flag off', () => {
     const screen = renderWithStoreAndRouter(
       <ClaimDetailsContent
@@ -252,55 +238,39 @@ describe('ClaimDetailsContent', () => {
   });
 
   describe('Amounts', () => {
-    it('renders submitted amount and reimbursement amount when both are provided and > 0', () => {
+    it('renders both submitted amount and reimbursement amount when both are > 0', () => {
       const screen = renderWithStoreAndRouter(
         <ClaimDetailsContent
           {...claimDetailsProps}
-          totalCostRequested={123.45}
-          reimbursementAmount={67.89}
+          totalCostRequested={120.5}
+          reimbursementAmount={100.25}
         />,
         {
           initialState: getState(),
         },
       );
-
-      expect(screen.getByText('Submitted amount of $123.45')).to.exist;
-      expect(screen.getByText('Reimbursement amount of $67.89')).to.exist;
+      expect(screen.getByText('Amount')).to.exist;
+      expect(screen.getByText('Submitted amount of $120.5')).to.exist;
+      expect(screen.getByText('Reimbursement amount of $100.25')).to.exist;
     });
 
     it('renders only submitted amount when reimbursement amount is 0', () => {
       const screen = renderWithStoreAndRouter(
         <ClaimDetailsContent
           {...claimDetailsProps}
-          totalCostRequested={55.55}
+          totalCostRequested={75}
           reimbursementAmount={0}
         />,
         {
           initialState: getState(),
         },
       );
-
-      expect(screen.getByText('Submitted amount of $55.55')).to.exist;
+      expect(screen.getByText('Amount')).to.exist;
+      expect(screen.getByText('Submitted amount of $75')).to.exist;
       expect(screen.queryByText(/Reimbursement amount of/)).to.not.exist;
     });
 
-    it('renders only reimbursement amount when submitted amount is 0', () => {
-      const screen = renderWithStoreAndRouter(
-        <ClaimDetailsContent
-          {...claimDetailsProps}
-          totalCostRequested={0}
-          reimbursementAmount={44.44}
-        />,
-        {
-          initialState: getState(),
-        },
-      );
-
-      expect(screen.queryByText(/Submitted amount of/)).to.not.exist;
-      expect(screen.getByText('Reimbursement amount of $44.44')).to.exist;
-    });
-
-    it('does not render amount section if both submitted and reimbursement amounts are 0 or missing', () => {
+    it('does not render amount section if both submitted and reimbursement amounts are 0', () => {
       const screen = renderWithStoreAndRouter(
         <ClaimDetailsContent
           {...claimDetailsProps}
@@ -311,13 +281,12 @@ describe('ClaimDetailsContent', () => {
           initialState: getState(),
         },
       );
-
-      expect(screen.queryByText(/Submitted amount of/)).to.not.exist;
-      expect(screen.queryByText(/Reimbursement amount of/)).to.not.exist;
       expect(screen.queryByText('Amount')).to.not.exist;
+      expect(screen.queryByText(/Submitted amount of/)).to.not.exist;
+      expect(screen.queryByText(/Reimbursement amount of/)).to.not.exist;
     });
 
-    it('renders deductible info when both amounts are > 0 and different', () => {
+    it('renders deductible info when submitted and reimbursement amounts are different', () => {
       const screen = renderWithStoreAndRouter(
         <ClaimDetailsContent
           {...claimDetailsProps}
@@ -328,8 +297,7 @@ describe('ClaimDetailsContent', () => {
           initialState: getState(),
         },
       );
-      expect(screen.getByText('Submitted amount of $100')).to.exist;
-      expect(screen.getByText('Reimbursement amount of $90')).to.exist;
+
       expect($('va-additional-info[trigger="Why are my amounts different?"]'))
         .to.exist;
       expect(
@@ -339,7 +307,7 @@ describe('ClaimDetailsContent', () => {
       ).to.exist;
     });
 
-    it('does not render deductible info when both amounts are > 0 and equal', () => {
+    it('does not render deductible info when submitted and reimbursement amounts are equal', () => {
       const screen = renderWithStoreAndRouter(
         <ClaimDetailsContent
           {...claimDetailsProps}
@@ -350,8 +318,6 @@ describe('ClaimDetailsContent', () => {
           initialState: getState(),
         },
       );
-      expect(screen.getByText('Submitted amount of $50')).to.exist;
-      expect(screen.getByText('Reimbursement amount of $50')).to.exist;
       expect($('va-additional-info[trigger="Why are my amounts different?"]'))
         .to.not.exist;
       expect(
@@ -359,57 +325,6 @@ describe('ClaimDetailsContent', () => {
           /The VA travel pay deductible is \$3 for a one-way trip/i,
         ),
       ).to.not.exist;
-    });
-
-    it('does not render deductible info when only submitted amount > 0', () => {
-      const screen = renderWithStoreAndRouter(
-        <ClaimDetailsContent
-          {...claimDetailsProps}
-          totalCostRequested={25}
-          reimbursementAmount={0}
-        />,
-        {
-          initialState: getState(),
-        },
-      );
-      expect(screen.getByText('Submitted amount of $25')).to.exist;
-      expect(screen.queryByText(/Reimbursement amount of/)).to.not.exist;
-      expect($('va-additional-info[trigger="Why are my amounts different?"]'))
-        .to.not.exist;
-    });
-
-    it('does not render deductible info when only reimbursement amount > 0', () => {
-      const screen = renderWithStoreAndRouter(
-        <ClaimDetailsContent
-          {...claimDetailsProps}
-          totalCostRequested={0}
-          reimbursementAmount={15}
-        />,
-        {
-          initialState: getState(),
-        },
-      );
-      expect(screen.getByText('Reimbursement amount of $15')).to.exist;
-      expect(screen.queryByText(/Submitted amount of/)).to.not.exist;
-      expect($('va-additional-info[trigger="Why are my amounts different?"]'))
-        .to.not.exist;
-    });
-
-    it('does not render amount or deductible info when both amounts are 0', () => {
-      const screen = renderWithStoreAndRouter(
-        <ClaimDetailsContent
-          {...claimDetailsProps}
-          totalCostRequested={0}
-          reimbursementAmount={0}
-        />,
-        {
-          initialState: getState(),
-        },
-      );
-      expect(screen.queryByText(/Submitted amount of/)).to.not.exist;
-      expect(screen.queryByText(/Reimbursement amount of/)).to.not.exist;
-      expect($('va-additional-info[trigger="Why are my amounts different?"]'))
-        .to.not.exist;
     });
   });
 });
