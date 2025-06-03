@@ -267,7 +267,7 @@ class FormPage extends React.Component {
 
     if (
       route.pageConfig.showPagePerItem &&
-      (!route.pageConfig.CustomPage ||
+      (route.pageConfig.CustomPage ||
         route.pageConfig.customPageUsesPagePerItemData)
     ) {
       // Instead of passing through the schema/uiSchema to SchemaForm, the

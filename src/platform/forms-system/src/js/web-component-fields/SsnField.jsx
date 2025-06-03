@@ -1,23 +1,10 @@
-import React, { useRef, useState } from 'react';
-import { formatSSN } from 'platform/utilities/ui';
+import React, { useRef } from 'react';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaTextInputFieldMapping from './vaTextInputFieldMapping';
+import { useMaskedInput } from '../utilities/masking';
 
-/**
- * Mask a SSN, but leave the final sequence of digits visible (up to 4)
- */
-export function maskSSN(ssnString = '') {
-  try {
-    const strippedSSN = ssnString.replace(/[- ]/g, '');
-    const maskedSSN = strippedSSN.replace(/^\d{1,5}/, digit =>
-      digit.replace(/\d/g, '●'),
-    );
-
-    return formatSSN(maskedSSN);
-  } catch {
-    return ssnString;
-  }
-}
+// Re-export maskSSN for backward compatibility
+export { maskSSN } from '../utilities/masking';
 
 /**
  * Use a ssnPattern instead of this.
@@ -30,41 +17,27 @@ export function maskSSN(ssnString = '') {
  * @param {WebComponentFieldProps} props */
 export default function SsnField(fieldProps) {
   const props = vaTextInputFieldMapping(fieldProps);
-
-  const [val, setVal] = useState(props.value);
-  const [displayVal, setDisplayVal] = useState(maskSSN(props.value));
   const vaTextInput = useRef();
   const className = `${props.class || ''} masked-ssn`;
 
-  const handleChange = event => {
-    const { value } = event.target;
-    let strippedSSN;
-    if (value) {
-      strippedSSN = value.replace(/[- ]/g, '');
-    }
+  // Create custom handlers for VaTextInput that use onInput instead of onChange
+  const maskedInput = useMaskedInput({
+    ...props,
+    onChange: value => props.onInput({ target: { value } }, value),
+  });
 
-    setVal(value);
-    setDisplayVal(value);
-    props.onInput(event, strippedSSN);
-  };
-
-  const handleBlur = () => {
-    setDisplayVal(maskSSN(val));
-    props.onBlur(props.id);
-  };
-
-  const handleFocus = () => {
-    setDisplayVal(val);
+  const handleInput = event => {
+    maskedInput.handlers.onChange(event.target.value);
   };
 
   return (
     <VaTextInput
       {...props}
       class={className}
-      value={displayVal}
-      onInput={handleChange}
-      onBlur={handleBlur}
-      onFocus={handleFocus}
+      value={maskedInput.displayValue}
+      onInput={handleInput}
+      onBlur={maskedInput.handlers.onBlur}
+      onFocus={maskedInput.handlers.onFocus}
       ref={vaTextInput}
     />
   );

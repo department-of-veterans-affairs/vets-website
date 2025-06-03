@@ -1,19 +1,15 @@
 import commonFieldMapping from './commonFieldMapping';
+import { createBaseFieldMapping } from '../utilities/field-mapping';
 
 /** @param {WebComponentFieldProps} props */
 export default function vaSelectFieldMapping(props) {
-  const { childrenProps } = props;
+  const baseFieldMapping = createBaseFieldMapping(props, {
+    eventName: 'onVaSelect',
+    emptyAsUndefined: false, // Keep original behavior for selects
+  });
 
   return {
     ...commonFieldMapping(props),
-    value:
-      typeof childrenProps.formData === 'undefined'
-        ? ''
-        : childrenProps.formData,
-    onVaSelect: (event, value) => {
-      const newVal = value || event.target.value || undefined;
-      childrenProps.onChange(newVal);
-    },
-    onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
+    ...baseFieldMapping,
   };
 }

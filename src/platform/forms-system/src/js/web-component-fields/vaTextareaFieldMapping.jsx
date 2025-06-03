@@ -1,6 +1,9 @@
-import React from 'react';
 import commonFieldMapping from './commonFieldMapping';
 import formsPatternFieldMapping from './formsPatternFieldMapping';
+import {
+  generateFieldChildren,
+  createBaseFieldMapping,
+} from '../utilities/field-mapping';
 
 /** @param {WebComponentFieldProps} props */
 export default function vaTextareaFieldMapping(props) {
@@ -10,42 +13,28 @@ export default function vaTextareaFieldMapping(props) {
     DescriptionField,
     uiOptions,
     index,
-    childrenProps,
   } = props;
 
   const commonFieldProps = commonFieldMapping(props);
   const { formsPatternProps, formDescriptionSlot } = formsPatternFieldMapping(
     props,
   );
+  const baseFieldMapping = createBaseFieldMapping(props);
 
   return {
     ...commonFieldProps,
     ...formsPatternProps,
-    value:
-      typeof childrenProps.formData === 'undefined'
-        ? ''
-        : childrenProps.formData,
+    ...baseFieldMapping,
     messageAriaDescribedby:
       commonFieldProps.messageAriaDescribedby || textDescription || undefined,
     charcount: uiOptions?.charcount,
-    onInput: (event, value) => {
-      // redux value or input value
-      let newVal = value || event.target.value;
-      // pattern validation will trigger if you have '',
-      // so set as undefined instead.
-      newVal = newVal === '' ? undefined : newVal;
-      childrenProps.onChange(newVal);
-    },
-    onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
-    children: (
-      <>
-        {formDescriptionSlot}
-        {textDescription && <p>{textDescription}</p>}
-        {DescriptionField && (
-          <DescriptionField options={uiOptions} index={index} />
-        )}
-        {!textDescription && !DescriptionField && description}
-      </>
-    ),
+    children: generateFieldChildren({
+      formDescriptionSlot,
+      textDescription,
+      DescriptionField,
+      description,
+      uiOptions,
+      index,
+    }),
   };
 }

@@ -73,7 +73,7 @@ class RoutedSavablePage extends React.Component {
     return (
       <FormPage
         {...this.props}
-        blockScrollOnMount={saveErrors.has(form.savedStatus)}
+        blockScrollOnMount={!saveErrors.has(form.savedStatus)}
         setData={this.onChange}
         formContext={getFormContext({ user, form })}
         contentBeforeButtons={contentBeforeButtons}

@@ -1,59 +1,18 @@
-import React, { useState } from 'react';
-import { formatSSN } from 'platform/utilities/ui';
+import React from 'react';
 import TextWidget from './TextWidget';
-
-/**
- * Mask a SSN, but leave the final sequence of digits visible (up to 4)
- */
-function maskSSN(ssnString = '') {
-  const strippedSSN = ssnString.replace(/[- ]/g, '');
-  const maskedSSN = strippedSSN.replace(/^\d{1,5}/, digit =>
-    digit.replace(/\d/g, '●'),
-  );
-
-  return formatSSN(maskedSSN);
-}
+import { useMaskedInput, stripNonNumeric } from '../utilities/masking';
 
 /*
- * Handles removing dashes from SSNs by keeping the user input in local state
- * and saving the transformed version instead
+ * Handles removing dashes from VA file numbers by keeping the user input in local state
+ * and saving the transformed version instead. Only masks when length is exactly 9 digits.
  */
-export default function SSNWidget(props) {
-  const [val, setVal] = useState(props.value);
-  const [displayVal, setDisplayVal] = useState(props.value);
-
-  const handleChange = value => {
-    // If val is blank or undefined, pass undefined to onChange
-    let strippedVal;
-    if (value) {
-      strippedVal = value.replace(/[- ]/g, '');
-    }
-
-    setVal(value);
-    setDisplayVal(value);
-    props.onChange(strippedVal);
+export default function VAFileNumberWidget(props) {
+  const shouldMask = val => {
+    const stripped = stripNonNumeric(val);
+    return stripped && stripped.length === 9;
   };
 
-  const handleBlur = () => {
-    const strippedVal = val.replace(/[- ]/g, '');
+  const { displayValue, handlers } = useMaskedInput(props, { shouldMask });
 
-    if (strippedVal.length === 9) {
-      setDisplayVal(maskSSN(val));
-    }
-    props.onBlur(props.id);
-  };
-
-  const handleFocus = () => {
-    setDisplayVal(val);
-  };
-
-  return (
-    <TextWidget
-      {...props}
-      value={displayVal}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      onFocus={handleFocus}
-    />
-  );
+  return <TextWidget {...props} value={displayValue} {...handlers} />;
 }

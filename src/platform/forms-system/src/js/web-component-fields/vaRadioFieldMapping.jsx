@@ -1,6 +1,10 @@
-import React from 'react';
 import commonFieldMapping from './commonFieldMapping';
 import formsPatternFieldMapping from './formsPatternFieldMapping';
+import {
+  generateFieldChildren,
+  createBlurHandler,
+  getFieldValue,
+} from '../utilities/field-mapping';
 
 /** @param {WebComponentFieldProps} props */
 export default function vaRadioFieldMapping(props) {
@@ -21,22 +25,16 @@ export default function vaRadioFieldMapping(props) {
     ...commonFieldMapping(props),
     ...formsPatternProps,
     description: textDescription,
-    value:
-      typeof childrenProps.formData === 'undefined'
-        ? false
-        : childrenProps.formData,
+    value: getFieldValue(childrenProps.formData, false),
     headerAriaDescribedby: uiOptions?.headerAriaDescribedby,
-    onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
-    children: (
-      <>
-        {formDescriptionSlot}
-        {/* known a11y issue: this will not be read out */}
-        {textDescription && <p>{textDescription}</p>}
-        {DescriptionField && (
-          <DescriptionField options={uiOptions} index={index} />
-        )}
-        {!textDescription && !DescriptionField && description}
-      </>
-    ),
+    onBlur: createBlurHandler(childrenProps.onBlur, childrenProps.idSchema.$id),
+    children: generateFieldChildren({
+      formDescriptionSlot,
+      textDescription,
+      DescriptionField,
+      description,
+      uiOptions,
+      index,
+    }),
   };
 }
