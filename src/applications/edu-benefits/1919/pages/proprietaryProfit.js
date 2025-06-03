@@ -1,12 +1,13 @@
 import React from 'react';
 
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 const uiSchema = {
-  'ui:title': "Confirm your institution's classification",
+  ...titleUI("Confirm your institution's classification"),
   isProprietaryProfit: yesNoUI({
     title: 'Is your institution a proprietary profit school?',
     required: () => true,
