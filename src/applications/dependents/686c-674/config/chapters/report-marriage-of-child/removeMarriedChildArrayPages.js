@@ -1,5 +1,5 @@
 import React from 'react';
-import { capitalize } from 'lodash';
+
 import {
   titleUI,
   arrayBuilderItemFirstPageTitleUI,
@@ -15,7 +15,9 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
 import { CancelButton } from '../../helpers';
+import { getFullName } from '../../../../shared/utils';
 
 /** @type {ArrayBuilderOptions} */
 export const removeMarriedChildOptions = {
@@ -32,14 +34,7 @@ export const removeMarriedChildOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your children under 18 who got married',
-    getItemName: () => 'Child',
-    cardDescription: item => (
-      <span className="dd-privacy" data-dd-privacy="mask">
-        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
-          item?.fullName?.last,
-        ) || ''}`.trim()}
-      </span>
-    ),
+    getItemName: item => getFullName(item.fullName),
     cancelAddButtonText: 'Cancel removing this child',
   },
 };

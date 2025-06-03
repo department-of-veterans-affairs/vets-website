@@ -131,6 +131,8 @@
         "contactType": "Other emergency contact"
       }
     ],
+    "view:hasNextOfKin": true,
+    "view:hasNextOfKinAddress": true,
     "nextOfKins": [
       {
         "fullName": {
