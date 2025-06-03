@@ -58,19 +58,19 @@ export const SupplementaryFormsAlert = ({ formData }) => {
   const assetTypes = getAssetTypes(assets);
   if (assets.length === 0 || assetTypes.length === 0) return null;
 
-  const bodyText = [
+  const bodyTextParts = [
     `You’ve added a ${assetTypes.join(' and ')}, so you need to fill out a `,
   ];
 
   assetTypes.forEach((type, index) => {
     if (index > 0) {
-      bodyText.push(' and a ');
+      bodyTextParts.push(' and a ');
     }
 
-    bodyText.push(bodyTextMap[type]);
+    bodyTextParts.push(bodyTextMap[type]);
   });
 
-  bodyText.push(
+  bodyTextParts.push(
     [
       '. You can upload',
       getJoiner(assets, ['it', 'them']),
@@ -79,19 +79,22 @@ export const SupplementaryFormsAlert = ({ formData }) => {
   );
 
   const headline = `Additional ${getJoiner(assets, ['form', 'forms'])} needed`;
+  const bodyText = bodyTextParts.join('');
 
   return (
     <va-alert status="info">
       <h2 slot="headline">{headline}</h2>
-      <p>{bodyText.join('')}</p>
+      <p>{bodyText}</p>
       {assetTypes.map(type => (
         <p key={type}>
-          <va-link
-            external
-            href={downloadLinkMap[type].href}
-            text={downloadLinkMap[type].text}
+          <a
             aria-label={downloadLinkMap[type].text}
-          />
+            href={downloadLinkMap[type].href}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {downloadLinkMap[type].text}
+          </a>
         </p>
       ))}
     </va-alert>
