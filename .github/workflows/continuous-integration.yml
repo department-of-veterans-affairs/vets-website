@@ -415,6 +415,7 @@ jobs:
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           IS_STRESS_TEST: true
           STEP: ${{ matrix.runs }}
+          CI_NODE: ${{ needs.tests-prep.outputs.ci_node_index }}
     
       - name: Archive unit test results
         if: ${{ always() }}

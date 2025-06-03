@@ -1,4 +1,4 @@
-const matrix = process.env.STEP || '0';
+const matrix = process.env.CI_NODE || '0';
 
 module.exports = {
   reporterEnabled: 'mocha-junit-reporter, mochawesome',
