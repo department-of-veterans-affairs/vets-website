@@ -1143,7 +1143,7 @@ jobs:
 
   testing-reports-unit-tests-stress-test:
     name: Testing Reports - Unit Test Stability Review
-    runs-on: ubuntu-32-cores-22.04
+    runs-on: ubuntu-24.04
     needs: [testing-reports-prep, unit-tests-stress-test]
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure')}}
     continue-on-error: true
@@ -1202,13 +1202,6 @@ jobs:
           role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role_duration: 900
           session_name: vsp-frontendteam-githubaction
-      # Temporary step while testing changes to qa-standards-dashboard-data
-      - name: Checkout QA dashboard at test branch
-        uses: actions/checkout@v4
-        with:
-          repository: department-of-veterans-affairs/qa-standards-dashboard-data
-          ref: 529959d6c45a9f90b2ade350ba0eaf83632a4371
-          path: qa-standards-dashboard-data
 
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
