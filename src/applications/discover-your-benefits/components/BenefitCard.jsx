@@ -15,7 +15,7 @@ const BenefitCard = ({ benefit }) => {
   const handleClick = (url, text, label) => {
     return recordEvent({
       event: 'nav-link-click',
-      'custom-string-2': text,
+      'display-text': text,
       'link-destination': url,
       'link-origin': label,
     });
