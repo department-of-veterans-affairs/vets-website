@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
@@ -27,7 +27,7 @@ const BlockedTriageGroupAlert = props => {
     alertStyle,
     parentComponent,
     currentRecipient,
-    setShowBlockedTriageGroupAlert = () => {},
+    setShowBlockedTriageGroupAlert,
   } = props;
 
   const DATADOG_FIND_VA_FACILITY_LINK =
@@ -53,16 +53,12 @@ const BlockedTriageGroupAlert = props => {
     blockedFacilities,
   } = recipients;
 
-  const blockedFacilityNames =
-    blockedFacilities
-      ?.filter(facility => getVamcSystemNameFromVhaId(ehrDataByVhaId, facility))
-      .map(facility => {
-        return {
-          stationNumber: facility,
-          name: getVamcSystemNameFromVhaId(ehrDataByVhaId, facility),
-          type: Recipients.FACILITY,
-        };
-      }) || [];
+  const handleShowBlockedTriageGroupAlert = useCallback(
+    () => {
+      if (setShowBlockedTriageGroupAlert) setShowBlockedTriageGroupAlert(true);
+    },
+    [setShowBlockedTriageGroupAlert],
+  );
 
   const organizeBlockedList = (recipientList, facilityNames) => {
     return recipientList?.length > 1 && facilityNames.length > 0
@@ -83,6 +79,20 @@ const BlockedTriageGroupAlert = props => {
 
   useEffect(
     () => {
+      const blockedFacilityNames =
+        (blockedFacilities?.length > 0 &&
+          blockedFacilities
+            ?.filter(facility =>
+              getVamcSystemNameFromVhaId(ehrDataByVhaId, facility),
+            )
+            .map(facility => {
+              return {
+                stationNumber: facility,
+                name: getVamcSystemNameFromVhaId(ehrDataByVhaId, facility),
+                type: Recipients.FACILITY,
+              };
+            })) ||
+        [];
       if (associatedBlockedTriageGroupsQty !== undefined) {
         if (currentRecipient) {
           const { formattedRecipient } = updateTriageGroupRecipientStatus(
@@ -103,7 +113,7 @@ const BlockedTriageGroupAlert = props => {
               setBlockedTriageList([formattedRecipient]);
             }
             setShowAlert(true);
-            setShowBlockedTriageGroupAlert(true);
+            handleShowBlockedTriageGroupAlert();
           } else if (formattedRecipient.status === RecipientStatus.BLOCKED) {
             if (parentComponent === ParentComponent.COMPOSE_FORM) {
               const organizedList = organizeBlockedList(
@@ -114,17 +124,17 @@ const BlockedTriageGroupAlert = props => {
               if (organizedList.length > 0) {
                 setBlockedTriageList([...organizedList]);
                 setShowAlert(true);
-                setShowBlockedTriageGroupAlert(true);
+                handleShowBlockedTriageGroupAlert();
               }
             } else {
               setBlockedTriageList([formattedRecipient]);
               setShowAlert(true);
-              setShowBlockedTriageGroupAlert(true);
+              handleShowBlockedTriageGroupAlert();
             }
           }
         } else if (noAssociations || allTriageGroupsBlocked) {
           setShowAlert(true);
-          setShowBlockedTriageGroupAlert(true);
+          handleShowBlockedTriageGroupAlert();
         } else if (
           parentComponent === ParentComponent.COMPOSE_FORM ||
           parentComponent === ParentComponent.CONTACT_LIST
@@ -137,12 +147,23 @@ const BlockedTriageGroupAlert = props => {
           if (organizedList.length > 0) {
             setBlockedTriageList([...organizedList]);
             setShowAlert(true);
-            setShowBlockedTriageGroupAlert(true);
+            handleShowBlockedTriageGroupAlert();
           }
         }
       }
     },
-    [currentRecipient, recipients],
+    [
+      currentRecipient,
+      recipients,
+      allTriageGroupsBlocked,
+      associatedBlockedTriageGroupsQty,
+      blockedFacilities,
+      blockedRecipients,
+      ehrDataByVhaId,
+      noAssociations,
+      parentComponent,
+      handleShowBlockedTriageGroupAlert,
+    ],
   );
 
   useEffect(
@@ -195,7 +216,14 @@ const BlockedTriageGroupAlert = props => {
         }
       }
     },
-    [blockedTriageList, recipients, noAssociations],
+    [
+      allTriageGroupsBlocked,
+      associatedBlockedTriageGroupsQty,
+      blockedTriageList,
+      noAssociations,
+      parentComponent,
+      recipients,
+    ],
   );
 
   useEffect(
