@@ -2,12 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import {
-  hasPrimaryCaregiver,
-  hasSecondaryCaregiverOne,
-  hasSecondaryCaregiverTwo,
-  replaceStrValues,
-} from '../../utils/helpers';
 import StatementOfTruth from './StatementOfTruth';
 import SignatureCheckbox from './SignatureCheckbox';
 import SubmitLoadingIndicator from './SubmitLoadingIndicator';
@@ -16,26 +10,10 @@ import content from '../../locales/en/content.json';
 // organize text content for statement of truth components
 const LABELS = {
   veteran: content['vet-input-label'],
-  representative: content['representative-signature-label'],
-  primary: content['primary-signature-label'],
-  secondaryOne: content['secondary-one-signature-label'],
-  secondaryTwo: content['secondary-two-signature-label'],
 };
 
 export const STATEMENTS = {
   veteran: [content['certification-statement--vet']],
-  representative: [
-    content['certification-statement--rep-1'],
-    content['certification-statement--rep-2'],
-  ],
-  caregiver: role => [
-    content['certification-statement--caregiver-1'],
-    replaceStrValues(content['certification-statement--caregiver-2'], role),
-    content['certification-statement--caregiver-3'],
-    replaceStrValues(content['certification-statement--caregiver-4'], role),
-    replaceStrValues(content['certification-statement--caregiver-5'], role),
-    content['certification-statement--caregiver-6'],
-  ],
 };
 
 // declare default state structure(s)
@@ -54,35 +32,7 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
         label: LABELS.veteran,
         fullName: formData.veteranFullName,
         statementText: STATEMENTS.veteran,
-        shouldRender: !isRep,
-      },
-      representative: {
-        schemaKey: 'veteran',
-        label: LABELS.representative,
-        fullName: formData.veteranFullName,
-        statementText: STATEMENTS.representative,
-        shouldRender: isRep,
-      },
-      primary: {
-        schemaKey: 'primary',
-        label: LABELS.primary,
-        fullName: formData.primaryFullName,
-        statementText: STATEMENTS.caregiver('Primary'),
-        shouldRender: hasPrimaryCaregiver(formData),
-      },
-      secondaryOne: {
-        schemaKey: 'secondaryOne',
-        label: LABELS.secondaryOne,
-        fullName: formData.secondaryOneFullName,
-        statementText: STATEMENTS.caregiver('Secondary'),
-        shouldRender: hasSecondaryCaregiverOne(formData),
-      },
-      secondaryTwo: {
-        schemaKey: 'secondaryTwo',
-        label: LABELS.secondaryTwo,
-        fullName: formData.secondaryTwoFullName,
-        statementText: STATEMENTS.caregiver('Secondary'),
-        shouldRender: hasSecondaryCaregiverTwo(formData),
+        shouldRender: true,
       },
     }),
     [formData, isRep],
