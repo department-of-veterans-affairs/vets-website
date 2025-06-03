@@ -417,14 +417,15 @@ jobs:
           STEP: ${{ matrix.runs }}
 
       - name: Rename results directory to avoid merge collisions
-        run: mv mocha/results mocha/results-${{ matrix.runs }}
+        run: |
+          mv mocha/results/unit-tests.json mocha/results/unit-tests-${{ matrix.runs }}.json
     
       - name: Archive unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-stress-test-results-${{ matrix.runs }}
-          path: mocha/results-${{ matrix.runs }}
+          path: mocha/results/unit-tests-${{ matrix.runs }}.json
 
   update-unit-test-allow-list:
     name: Update Unit Test Stability Allow List
