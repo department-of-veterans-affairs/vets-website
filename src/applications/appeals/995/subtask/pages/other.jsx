@@ -48,6 +48,7 @@ const DecisionReviewPage = () => {
         type you select on the form.
       </p>
       <va-link
+        disable-analytics
         href={BENEFIT_OFFICES_URL}
         onClick={handlers.officeLinkClick}
         text="Find the address for mailing your form"
