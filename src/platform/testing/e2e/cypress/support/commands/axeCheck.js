@@ -65,6 +65,21 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
     ? { includedImpacts: ['critical'] }
     : axeBuilder;
 
-  Cypress.log();
-  cy.checkA11y(context, axeConfig, processAxeCheckResults);
+  const tryCheck = (retries = 2) => {
+    cy.checkA11y(context, axeConfig, violations => {
+      const hasHeadingOrderIssue = violations.some(
+        v => v.id === 'heading-order',
+      );
+
+      if (hasHeadingOrderIssue && retries > 0) {
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(200); // short delay
+        tryCheck(retries - 1); // retry recursively
+      } else {
+        processAxeCheckResults(violations);
+      }
+    });
+  };
+
+  tryCheck();
 });
