@@ -1203,6 +1203,7 @@ jobs:
           role_duration: 900
           session_name: vsp-frontendteam-githubaction
 
+          
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
       # --------------------------------------------------
