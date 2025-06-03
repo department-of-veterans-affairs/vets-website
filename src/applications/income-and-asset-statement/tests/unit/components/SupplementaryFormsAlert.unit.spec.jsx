@@ -4,6 +4,14 @@ import { expect } from 'chai';
 
 import { SupplementaryFormsAlert } from '../../../components/FormAlerts/SupplementaryFormsAlert';
 
+const genAssets = assetTypes => {
+  const types = assetTypes.map(assetType => ({
+    assetType,
+  }));
+
+  return { ownedAssets: types };
+};
+
 describe('income-and-assets <SupplementaryFormsAlert>', () => {
   // Handle cases where the component should return null
   // instead of rendering an alert
@@ -18,9 +26,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
 
     it('when no whitelisted asset types are present', () => {
       const { container } = render(
-        <SupplementaryFormsAlert
-          formData={{ ownedAssets: [{ assetType: 'RENTAL_PROPERTY' }] }}
-        />,
+        <SupplementaryFormsAlert formData={genAssets(['RENTAL_PROPERTY'])} />,
       );
 
       const selector = container.querySelector('va-alert');
@@ -34,9 +40,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
   context('should render', () => {
     it('when assets with assetType "BUSINESS" are present', () => {
       const { container } = render(
-        <SupplementaryFormsAlert
-          formData={{ ownedAssets: [{ assetType: 'BUSINESS' }] }}
-        />,
+        <SupplementaryFormsAlert formData={genAssets(['BUSINESS'])} />,
       );
 
       const selector = container.querySelector('va-alert');
@@ -46,9 +50,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
 
     it('when assets with assetType "FARM" are present', () => {
       const { container } = render(
-        <SupplementaryFormsAlert
-          formData={{ ownedAssets: [{ assetType: 'FARM' }] }}
-        />,
+        <SupplementaryFormsAlert formData={genAssets(['FARM'])} />,
       );
 
       const selector = container.querySelector('va-alert');
@@ -62,9 +64,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
   context('should use singular terms in the alert text', () => {
     it('when one whitelisted asset is present', () => {
       const { getByText } = render(
-        <SupplementaryFormsAlert
-          formData={{ ownedAssets: [{ assetType: 'BUSINESS' }] }}
-        />,
+        <SupplementaryFormsAlert formData={genAssets(['BUSINESS'])} />,
       );
 
       // Alert headline
@@ -76,12 +76,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
     it('when one whitelisted asset and one non-whitelisted asset are present', () => {
       const { getByText } = render(
         <SupplementaryFormsAlert
-          formData={{
-            ownedAssets: [
-              { assetType: 'BUSINESS' },
-              { assetType: 'RENTAL_PROPERTY' },
-            ],
-          }}
+          formData={genAssets(['BUSINESS', 'RENTAL_PROPERTY'])}
         />,
       );
 
@@ -97,15 +92,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
   context('should use plural terms in the alert text', () => {
     it('when multiple whitelisted assets are present', () => {
       const { getByText } = render(
-        <SupplementaryFormsAlert
-          formData={{
-            ownedAssets: [
-              { assetType: 'BUSINESS' },
-              { assetType: 'FARM' },
-              { assetType: 'BUSINESS' },
-            ],
-          }}
-        />,
+        <SupplementaryFormsAlert formData={genAssets(['BUSINESS', 'FARM'])} />,
       );
 
       // Alert headline
@@ -120,9 +107,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
   context('should render the correct opening text', () => {
     it('when assets with assetType "BUSINESS" are present', () => {
       const { getByText } = render(
-        <SupplementaryFormsAlert
-          formData={{ ownedAssets: [{ assetType: 'BUSINESS' }] }}
-        />,
+        <SupplementaryFormsAlert formData={genAssets(['BUSINESS'])} />,
       );
 
       getByText(/You’ve added a business,/);
@@ -130,9 +115,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
 
     it('when assets with assetType "FARM" are present', () => {
       const { getByText } = render(
-        <SupplementaryFormsAlert
-          formData={{ ownedAssets: [{ assetType: 'FARM' }] }}
-        />,
+        <SupplementaryFormsAlert formData={genAssets(['FARM'])} />,
       );
 
       getByText(/You’ve added a farm,/);
@@ -140,11 +123,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
 
     it('when assets with assetType "BUSINESS" and "FARM" are present', () => {
       const { getByText } = render(
-        <SupplementaryFormsAlert
-          formData={{
-            ownedAssets: [{ assetType: 'BUSINESS' }, { assetType: 'FARM' }],
-          }}
-        />,
+        <SupplementaryFormsAlert formData={genAssets(['BUSINESS', 'FARM'])} />,
       );
 
       getByText(/You’ve added a business and farm,/);
@@ -159,9 +138,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
 
     it('when assets with assetType "BUSINESS" are present', () => {
       const { getByText, queryByText } = render(
-        <SupplementaryFormsAlert
-          formData={{ ownedAssets: [{ assetType: 'BUSINESS' }] }}
-        />,
+        <SupplementaryFormsAlert formData={genAssets(['BUSINESS'])} />,
       );
 
       getByText(businessFormText);
@@ -170,9 +147,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
 
     it('when assets with assetType "FARM" are present', () => {
       const { getByText, queryByText } = render(
-        <SupplementaryFormsAlert
-          formData={{ ownedAssets: [{ assetType: 'FARM' }] }}
-        />,
+        <SupplementaryFormsAlert formData={genAssets(['FARM'])} />,
       );
 
       getByText(farmFormText);
@@ -181,11 +156,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
 
     it('when assets with assetType "BUSINESS" and "FARM" are present', () => {
       const { getByText } = render(
-        <SupplementaryFormsAlert
-          formData={{
-            ownedAssets: [{ assetType: 'BUSINESS' }, { assetType: 'FARM' }],
-          }}
-        />,
+        <SupplementaryFormsAlert formData={genAssets(['BUSINESS', 'FARM'])} />,
       );
 
       getByText(businessFormText);
@@ -199,9 +170,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
     it('21P-4185 - when assets with assetType "BUSINESS" are present', () => {
       const { getByText } = render(
         <SupplementaryFormsAlert
-          formData={{
-            ownedAssets: [{ assetType: 'BUSINESS' }, { assetType: 'BUSINESS' }],
-          }}
+          formData={genAssets(['BUSINESS', 'BUSINESS'])}
         />,
       );
 
@@ -211,11 +180,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
 
     it('21P-4165 - when assets with assetType "FARM" are present', () => {
       const { getByText } = render(
-        <SupplementaryFormsAlert
-          formData={{
-            ownedAssets: [{ assetType: 'FARM' }, { assetType: 'FARM' }],
-          }}
-        />,
+        <SupplementaryFormsAlert formData={genAssets(['FARM', 'FARM'])} />,
       );
 
       // Link text
@@ -230,14 +195,7 @@ describe('income-and-assets <SupplementaryFormsAlert>', () => {
     it('when assets with assetType "BUSINESS" and "FARM" are present', () => {
       const { getByText } = render(
         <SupplementaryFormsAlert
-          formData={{
-            ownedAssets: [
-              { assetType: 'BUSINESS' },
-              { assetType: 'FARM' },
-              { assetType: 'BUSINESS' },
-              { assetType: 'FARM' },
-            ],
-          }}
+          formData={genAssets(['BUSINESS', 'FARM', 'BUSINESS', 'FARM'])}
         />,
       );
 
