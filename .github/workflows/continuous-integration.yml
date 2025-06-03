@@ -1012,7 +1012,7 @@ jobs:
 
   testing-reports-unit-tests:
     name: Testing Reports - Unit Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [testing-reports-prep, unit-tests]
     if: needs.unit-tests.outputs.tests_ran == 'true'
     continue-on-error: true
@@ -1143,7 +1143,7 @@ jobs:
 
   testing-reports-unit-tests-stress-test:
     name: Testing Reports - Unit Test Stability Review
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [testing-reports-prep, unit-tests-stress-test]
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure')}}
     continue-on-error: true
