@@ -4,6 +4,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns/textPatterns';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
+const noSpaceOnlyPattern = '^(?!\\s*$).+';
 const uiSchema = {
   certifyingOfficial: {
     ...titleUI('Your name and title'),
@@ -13,6 +14,7 @@ const uiSchema = {
         hint: '',
         errorMessages: {
           required: 'First name is required',
+          pattern: 'You must provide a response',
         },
       }),
     },
@@ -22,6 +24,7 @@ const uiSchema = {
         hint: '',
         errorMessages: {
           required: 'Last name is required',
+          pattern: 'You must provide a response',
         },
       }),
     },
@@ -31,6 +34,7 @@ const uiSchema = {
         hint: '',
         errorMessages: {
           required: 'Please enter a title',
+          pattern: 'You must provide a response',
         },
       }),
     },
@@ -43,9 +47,9 @@ const schema = {
     certifyingOfficial: {
       type: 'object',
       properties: {
-        first: textSchema,
-        last: textSchema,
-        title: textSchema,
+        first: { ...textSchema, pattern: noSpaceOnlyPattern },
+        last: { ...textSchema, pattern: noSpaceOnlyPattern },
+        title: { ...textSchema, pattern: noSpaceOnlyPattern },
       },
       required: ['first', 'last', 'title'],
     },
