@@ -61,7 +61,7 @@ export default function NewFeatureProgramsYRTAlert({
           )}{' '}
           {programTypes.length > 0 && (
             <a href="#programs" onClick={e => handleLinkClick(e, 'programs')}>
-              Programs
+              Approved programs of study
             </a>
           )}
         </p>
