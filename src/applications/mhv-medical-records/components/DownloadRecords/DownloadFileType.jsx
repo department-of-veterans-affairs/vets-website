@@ -94,8 +94,10 @@ const DownloadFileType = props => {
   const { fromDate, toDate, option: dateFilterOption } = dateFilter;
 
   const progressBarRef = useRef(null);
+  const noRecordsFoundRef = useRef(null);
 
   useFocusOutline(progressBarRef);
+  useFocusOutline(noRecordsFoundRef);
 
   useEffect(
     () => {
@@ -109,14 +111,19 @@ const DownloadFileType = props => {
   useEffect(
     () => {
       setTimeout(() => {
+        const noRecords = noRecordsFoundRef.current;
         const heading = progressBarRef?.current?.shadowRoot?.querySelector(
           'h2',
         );
-        focusElement(heading);
+        if (noRecordsFoundRef.current) {
+          focusElement(noRecords);
+        } else {
+          focusElement(heading);
+        }
       }, 400);
       updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
     },
-    [progressBarRef],
+    [noRecordsFoundRef, progressBarRef],
   );
 
   useEffect(
@@ -482,7 +489,9 @@ const DownloadFileType = props => {
         recordCount === 0 && (
           <div className="vads-u-padding-bottom--2">
             <va-alert data-testid="no-records-alert" status="error">
-              <h2 slot="headline">No records found</h2>
+              <h2 slot="headline" id="no-records-found" ref={noRecordsFoundRef}>
+                No records found
+              </h2>
               <p>
                 We couldn’t find any records that match your selection. Go back
                 and update the date range or select more record types.
