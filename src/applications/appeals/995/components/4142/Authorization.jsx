@@ -452,7 +452,7 @@ const Authorization = ({
         onCloseEvent={toggle4142PrivacyModal}
         visible={modalVisible}
       >
-        <PrivacyActStatementContent />
+        <PrivacyActStatementContent noRespondentBurden />
       </VaModal>
     </>
   );
