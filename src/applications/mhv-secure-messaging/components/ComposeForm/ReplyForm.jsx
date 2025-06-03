@@ -24,6 +24,7 @@ import { getPageTitle } from '../../util/helpers';
 import { clearThread } from '../../actions/threadDetails';
 import { getPatientSignature } from '../../actions/preferences';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
+import ReplyButton from '../ReplyButton';
 
 const ReplyForm = props => {
   const {
@@ -171,12 +172,11 @@ const ReplyForm = props => {
           />
         )}
 
-        {customFoldersRedesignEnabled &&
-          showEditDraftButton && (
-            <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto">
-              <button
-                type="button"
-                className="usa-button
+        {customFoldersRedesignEnabled && showEditDraftButton ? (
+          <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto">
+            <button
+              type="button"
+              className="usa-button
                   vads-u-width--full
                   mobile-lg:vads-u-width--auto
                   reply-button-in-body
@@ -186,21 +186,26 @@ const ReplyForm = props => {
                   vads-u-align-items--center
                   vads-u-margin-right--0
                   mobile-lg:vads-u-padding-x--7"
-                data-testid="edit-draft-button-body"
-                onClick={handleEditDraftButton}
+              data-testid="edit-draft-button-body"
+              onClick={handleEditDraftButton}
+            >
+              <div className="vads-u-margin-right--0p5">
+                <va-icon icon="undo" aria-hidden="true" />
+              </div>
+              <span
+                className="message-action-button-text"
+                data-testid="edit-draft-button-body-text"
               >
-                <div className="vads-u-margin-right--0p5">
-                  <va-icon icon="undo" aria-hidden="true" />
-                </div>
-                <span
-                  className="message-action-button-text"
-                  data-testid="edit-draft-button-body-text"
-                >
-                  {`Edit draft repl${drafts?.length > 1 ? 'ies' : 'y'}`}
-                </span>
-              </button>
-            </div>
-          )}
+                {`Edit draft repl${drafts?.length > 1 ? 'ies' : 'y'}`}
+              </span>
+            </button>
+          </div>
+        ) : (
+          <ReplyButton
+            key="replyButton"
+            visible={!cannotReply && !showBlockedTriageGroupAlert}
+          />
+        )}
 
         {!customFoldersRedesignEnabled && (
           <MessageActionButtons

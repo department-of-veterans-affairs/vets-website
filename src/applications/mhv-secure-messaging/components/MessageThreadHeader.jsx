@@ -133,7 +133,10 @@ const MessageThreadHeader = props => {
       )}
 
       {customFoldersRedesignEnabled ? (
-        <ReplyButton key="replyButton" visible={!cannotReply} />
+        <ReplyButton
+          key="replyButton"
+          visible={!cannotReply && !showBlockedTriageGroupAlert}
+        />
       ) : (
         <MessageActionButtons
           threadId={threadId}
