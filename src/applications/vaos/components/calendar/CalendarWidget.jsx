@@ -367,7 +367,7 @@ function CalendarWidget({
                                       selectedDate => selectedDate !== date,
                                     ),
                                   );
-                                } else {
+                                } else if (value.length < maxSelections) {
                                   onChange(value.concat(date));
                                 }
                               } else {
