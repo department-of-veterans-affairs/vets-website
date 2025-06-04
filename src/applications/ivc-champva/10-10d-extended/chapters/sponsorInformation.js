@@ -23,11 +23,16 @@ import { sponsorAddressCleanValidation } from '../../shared/validations';
 
 export const sponsorNameDobSchema = {
   uiSchema: {
-    ...titleUI(
-      `Sponsor's name and date of birth`,
-      `Enter the personal information for the sponsor (the Veteran or service member that the applicant is connected to). 
-             We'll use the sponsor's information to confirm their eligibility for CHAMPVA benefits.`,
-    ),
+    ...titleUI(`Sponsor's name and date of birth`, ({ formData }) => (
+      <>
+        <p>
+          Enter the personal information for the sponsor (the Veteran or service
+          member that the applicant is connected to). We’ll use the sponsor’s
+          information to confirm their eligibility for CHAMPVA benefits.
+        </p>
+        {CustomPrefillMessage(formData, 'sponsor')}
+      </>
+    )),
     sponsorName: fullNameUI(),
     sponsorDob: dateOfBirthUI(),
   },
@@ -143,14 +148,18 @@ export const sponsorAddress = {
 
 export const sponsorContactInfo = {
   uiSchema: {
-    ...titleUI(`Sponsor's contact information`, ({ formData }) => {
-      return `We'll use this phone number to contact ${
-        formData.certifierRole === 'applicant' ? `you` : `the sponsor`
-      }
-             if we have any questions about ${
-               formData.certifierRole === 'applicant' ? 'your' : 'their'
-             } information.`;
-    }),
+    ...titleUI(`Sponsor's contact information`, ({ formData }) => (
+      <>
+        <p>
+          We’ll use this phone number to contact{' '}
+          {formData.certifierRole === 'applicant' ? 'you' : 'the sponsor'} if we
+          have any questions about{' '}
+          {formData.certifierRole === 'applicant' ? 'your' : 'their'}{' '}
+          information.
+        </p>
+        {CustomPrefillMessage(formData, 'sponsor')}
+      </>
+    )),
     sponsorPhone: {
       ...phoneUI(),
       'ui:required': () => true,

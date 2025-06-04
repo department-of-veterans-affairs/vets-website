@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
@@ -228,7 +229,7 @@ describe('App', () => {
     );
   });
 
-  it('does NOT render the downtime notification', () => {
+  it('does NOT render the downtime notification WHEN unrelated services are down', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
         scheduledDowntime: {
@@ -252,6 +253,37 @@ describe('App', () => {
     );
     expect(downtimeComponent).to.be.null;
   });
+
+  it('does NOT render the downtime notification WHEN downtime bypass is enabled', () => {
+    const customState = {
+      ...initialState,
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: downtime(['mhv_sm']),
+        dismissedDowntimeWarnings: [],
+      },
+      featureToggles: {},
+    };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification
+    ] = true;
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: `/`,
+    });
+    const downtimeComponent = screen.queryByText(
+      'Maintenance on My HealtheVet',
+      {
+        selector: 'h2',
+        exact: true,
+      },
+    );
+    expect(downtimeComponent).to.be.null;
+  });
+
   it('redirects Basic users to /health-care/secure-messaging', async () => {
     const customState = {
       featureToggles: {},

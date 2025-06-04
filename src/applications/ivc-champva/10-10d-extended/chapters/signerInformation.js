@@ -131,7 +131,7 @@ export function signerContactOnGoForward(props) {
   } else if (props?.data?.certifierRole === 'sponsor') {
     // Populate some sponsor fields with certifier info:
     formData.sponsorIsDeceased = false;
-    formData.veteransFullName = formData.certifierName;
+    formData.sponsorName = formData.certifierName;
     formData.sponsorAddress = formData.certifierAddress;
     formData.sponsorPhone = formData.certifierPhone;
   }
