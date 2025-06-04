@@ -15,7 +15,10 @@ import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
@@ -365,6 +368,70 @@ const Dashboard = ({
                   <BenefitApplications />
                 </>
               )}
+
+              <Toggler
+                toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+              >
+                <Toggler.Enabled>
+                  <div className="vads-u-margin-top--6 vads-u-padding-y--1 vads-u-padding-x--3">
+                    <h3 className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-padding-top--1 vads-u-padding-bottom--0p5 vads-u-border-bottom--2px vads-u-border-color--primary">
+                      Common tasks
+                    </h3>
+                    <ul className="usa-unstyled-list">
+                      <li className="vads-u-padding-y--1">
+                        <a href="/records/get-military-service-records">
+                          Request your military service records (including DD
+                          214)
+                        </a>
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <a href="/records/download-va-letters/letters">
+                          Download your VA letters and documents
+                        </a>
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <a href="/health-care/file-travel-pay-reimbursement">
+                          File for travel reimbursement
+                        </a>
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <a href="/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/rates">
+                          Get chapter 35 rates for survivors and dependents
+                        </a>
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <a href="/view-change-dependents/view">
+                          View or change VA dependents
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="vads-u-margin-top--6 vads-u-padding-y--1 vads-u-padding-x--3 vads-u-background-color--gray-lightest">
+                    <h3 className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-padding-top--1 vads-u-padding-bottom--0p5 vads-u-border-bottom--1px vads-u-border-color--gray-light">
+                      Get Help
+                    </h3>
+                    <ul className="usa-unstyled-list">
+                      <li className="vads-u-padding-y--1">
+                        <a href="/resources/helpful-va-phone-numbers">
+                          Find helpful VA phone numbers
+                        </a>
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <a href="/contact-us/ask-va/introduction">Ask VA</a>
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <a href="/get-help-from-accredited-representative">
+                          Get help from a VA accredited representative or VSO
+                        </a>
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <a href="/find-locations">Find a VA location</a>
+                      </li>
+                    </ul>
+                  </div>
+                </Toggler.Enabled>
+              </Toggler>
             </div>
           </div>
         )}
