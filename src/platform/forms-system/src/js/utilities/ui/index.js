@@ -1,9 +1,10 @@
-import { focusElement, focusByOrder } from '../../../../../utilities/ui/focus';
+import Scroll from 'react-scroll';
 import {
+  focusElement,
+  focusByOrder,
   scrollToFirstError,
   getScrollOptions,
-  scrollTo,
-} from '../../../../../utilities/scroll';
+} from '../../../../../utilities/ui';
 import { webComponentList } from '../../web-component-fields/webComponentList';
 import {
   SCROLL_ELEMENT_SUFFIX,
@@ -119,7 +120,7 @@ export const scrollToElement = name => {
       : name;
 
   if (name && el) {
-    scrollTo(
+    Scroll.scroller.scrollTo(
       el, // pass a string key + 'ScrollElement' or DOM element
       window.Forms.scroll || {
         duration: 500,

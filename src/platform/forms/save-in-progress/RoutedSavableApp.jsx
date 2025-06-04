@@ -3,18 +3,16 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
+import { Element } from 'platform/utilities/scroll';
 import FormApp from 'platform/forms-system/src/js/containers/FormApp';
 import {
   getNextPagePath,
   checkValidPagePath,
 } from 'platform/forms-system/src/js/routing';
 
-import {
-  Element,
-  scrollToTop,
-  getScrollOptions,
-} from 'platform/utilities/scroll';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import environment from 'platform/utilities/environment';
+import { getScrollOptions } from 'platform/utilities/ui';
 import { restartShouldRedirect } from 'platform/site-wide/wizard';
 import {
   LOAD_STATUSES,

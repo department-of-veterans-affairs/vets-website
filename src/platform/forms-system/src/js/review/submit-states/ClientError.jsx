@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { focusElement } from 'platform/utilities/ui/focus';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 
-import { Element, getScrollOptions, scrollTo } from 'platform/utilities/scroll';
+import { Element } from 'platform/utilities/scroll';
 import { Column, Row } from 'platform/forms/components/common/grid';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import ProgressButton from '../../components/ProgressButton';
 import Back from './Back';
 

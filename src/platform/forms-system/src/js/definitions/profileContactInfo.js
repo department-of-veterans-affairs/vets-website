@@ -1,5 +1,3 @@
-import { focusElement } from 'platform/utilities/ui/focus';
-import { scrollTo } from 'platform/utilities/scroll';
 import {
   EditAddress,
   EditEmail,
@@ -19,6 +17,7 @@ import {
   getReturnState,
   clearReturnState,
 } from '../utilities/data/profile';
+import { scrollTo, focusElement } from '../../../../utilities/ui';
 
 /**
  * Profile settings

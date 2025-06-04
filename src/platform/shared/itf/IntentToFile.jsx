@@ -6,8 +6,7 @@ import environment from 'platform/utilities/environment';
 import { isLoggedIn } from 'platform/user/selectors';
 import { formatDowntime } from 'platform/utilities/date';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
-import { focusElement } from 'platform/utilities/ui/focus';
-import { scrollTo } from 'platform/utilities/scroll';
+import { focusElement, scrollTo } from 'platform/utilities/ui';
 import { setItf } from 'platform/forms-system/src/js/actions';
 
 import {

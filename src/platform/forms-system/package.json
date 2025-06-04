@@ -68,6 +68,7 @@
     "react-redux": "*",
     "@sentry/browser": "*",
     "@department-of-veterans-affairs/react-jsonschema-form": "*",
+    "react-scroll": "*",
     "reselect": "*",
     "vets-json-schema": "*",
     "downshift": "*",

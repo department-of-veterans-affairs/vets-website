@@ -1,6 +1,5 @@
 import React from 'react';
-import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
-import { scrollTo } from 'platform/utilities/scroll';
+import { focusByOrder, focusElement, scrollTo } from 'platform/utilities/ui';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { createBreadcrumbListFromPath } from '../../routing';

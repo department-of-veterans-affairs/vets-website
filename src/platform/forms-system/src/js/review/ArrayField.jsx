@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Scroll from 'react-scroll';
 import {
   getDefaultFormState,
   toIdSchema,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import { Element, scrollTo } from 'platform/utilities/scroll';
+import { Element } from 'platform/utilities/scroll';
 
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
@@ -15,6 +16,7 @@ import { focusElement } from '../utilities/ui';
 
 import findDuplicateIndexes from '../utilities/data/findDuplicateIndexes';
 
+const { scroller } = Scroll;
 const scrollToTimeout = process.env.NODE_ENV === 'test' ? 0 : 100;
 
 /* Growable table (Array) field on the Review page
@@ -97,7 +99,7 @@ class ArrayField extends React.Component {
   scrollToAndFocus(scrollElementName, focusElementSelector = '') {
     if (scrollElementName) {
       setTimeout(() => {
-        scrollTo(
+        scroller.scrollTo(
           scrollElementName,
           window.Forms?.scroll || {
             duration: 500,
@@ -113,7 +115,7 @@ class ArrayField extends React.Component {
 
   scrollToRow(id) {
     setTimeout(() => {
-      scrollTo(
+      scroller.scrollTo(
         `table_${id}`,
         window.Forms?.scroll || {
           duration: 500,

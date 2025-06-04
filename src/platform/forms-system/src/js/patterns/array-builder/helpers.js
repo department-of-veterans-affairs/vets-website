@@ -2,8 +2,12 @@ import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
-import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
-import { scrollTo, scrollToTop } from 'platform/utilities/scroll';
+import {
+  focusByOrder,
+  focusElement,
+  scrollTo,
+  scrollToTop,
+} from 'platform/utilities/ui';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 /**

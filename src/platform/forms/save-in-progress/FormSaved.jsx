@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { fromUnixTime } from 'date-fns';
 import { format } from 'date-fns-tz';
 
-import { scrollToTop } from 'platform/utilities/scroll';
+import scrollToTop from '~/platform/utilities/ui/scrollToTop';
 import { waitForRenderThenFocus } from '~/platform/utilities/ui';
 import { savedMessage } from '~/platform/forms-system/src/js/utilities/save-in-progress-messages';
 
