@@ -146,12 +146,12 @@ export const generateTextFile = (content, fileName) => {
  * @param {Array} list
  * @returns {String} array of strings, separated by a comma
  */
-export const processList = list => {
+export const processList = (list, emptyMessage) => {
   if (Array.isArray(list)) {
     if (list?.length > 1) return list.join('. ');
     if (list?.length === 1) return list.toString();
   }
-  return EMPTY_FIELD;
+  return emptyMessage || EMPTY_FIELD;
 };
 
 /**
@@ -263,7 +263,7 @@ export const createNoDescriptionText = phone => {
   if (phone) {
     dialFragment = ` at ${phone}`;
   }
-  return `No description available. Call your pharmacy${dialFragment} if you need help identifying this medication.`;
+  return `No description available. If you need help identifying this medication, call your pharmacy${dialFragment}.`;
 };
 
 /**

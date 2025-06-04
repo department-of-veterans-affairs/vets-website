@@ -5,12 +5,12 @@ import {
   getRefillHistory,
   processList,
   validateField,
+  validateIfAvailable,
 } from './helpers';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
   nonVAMedicationTypes,
-  EMPTY_FIELD,
 } from './constants';
 
 /**
@@ -26,9 +26,12 @@ ${prescription.prescriptionName ||
       ? prescription.orderableItem
       : '')}
 
-Instructions: ${validateField(prescription.sig)}
+Instructions: ${validateIfAvailable('Instructions', prescription.sig)}
 
-Reason for use: ${validateField(prescription.indicationForUse)}
+Reason for use: ${validateIfAvailable(
+    'Reason for use',
+    prescription.indicationForUse,
+  )}
 
 Status: ${validateField(prescription.dispStatus?.toString())}
 A VA provider added this medication record in your VA medical records. But this isn't a prescription you filled through a VA pharmacy. You can't request refills or manage this medication through this online tool.
@@ -38,16 +41,20 @@ ${nonVAMedicationTypes}
 When you started taking this medication: ${dateFormat(
     prescription.dispensedDate,
     'MMMM D, YYYY',
+    'Date not available',
   )}
 
 Documented by: ${
     prescription.providerLastName
       ? `${prescription.providerLastName}, ${prescription.providerFirstName ||
           ''}`
-      : 'None noted'
+      : 'Provider name not available'
   }
 
-Documented at this facility: ${validateField(prescription.facilityName)}
+Documented at this facility: ${validateIfAvailable(
+    'Facility',
+    prescription.facilityName,
+  )}
 
 Provider notes: ${validateField(
     (prescription.remarks ?? '') +
@@ -80,7 +87,11 @@ ${rx.prescriptionName}
 
 About your prescription
 
-Last filled on: ${dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')}
+Last filled on: ${dateFormat(
+      rx.sortedDispensedDate,
+      'MMMM D, YYYY',
+      'Date not available',
+    )}
 
 Prescription number: ${rx.prescriptionNumber}
 
@@ -90,26 +101,38 @@ ${(pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition).reduce(
         fullStatus + item.value + (item.continued ? ' ' : '\n'),
       '',
     )}
-Refills left: ${validateField(rx.refillRemaining)}
+Refills left: ${validateIfAvailable(
+      'Number of refills left',
+      rx.refillRemaining,
+    )}
 
 Request refills by this prescription expiration date: ${dateFormat(
       rx.expirationDate,
       'MMMM D, YYYY',
+      'Date not available',
     )}
 
-Facility: ${validateField(rx.facilityName)}
+Facility: ${validateIfAvailable('Facility', rx.facilityName)}
 
-Pharmacy phone number: ${validateField(rx.phoneNumber)}
+Pharmacy phone number: ${validateIfAvailable(
+      'Pharmacy phone number',
+      rx.phoneNumber,
+    )}
 
-Instructions: ${validateField(rx.sig)}
+Instructions: ${validateIfAvailable('Instructions', rx.sig)}
 
-Reason for use: ${validateField(rx.indicationForUse)}
+Reason for use: ${validateIfAvailable('Reason for use', rx.indicationForUse)}
 
-Quantity: ${validateField(rx.quantity)}
+Quantity: ${validateIfAvailable('Quantity', rx.quantity)}
 
-Prescribed on: ${dateFormat(rx.orderedDate, 'MMMM D, YYYY')}
+Prescribed on: ${dateFormat(
+      rx.orderedDate,
+      'MMMM D, YYYY',
+      'Date not available',
+    )}
 
-Prescribed by: ${(rx.providerFirstName && rx.providerLastName) || 'None noted'}
+Prescribed by: ${(rx.providerFirstName && rx.providerLastName) ||
+      'Provider name not available'}
 
 ${
       rx.groupedMedications?.length > 0
@@ -153,15 +176,15 @@ Showing ${allergies.length} records from newest to oldest
     result += `
 ${item.name}
 
-Date entered: ${validateField(item.date)}
+Date entered: ${item.date || 'Not available'}
 
-Signs and symptoms: ${processList(item.reaction)}
+Signs and symptoms: ${processList(item.reaction, 'Not available')}
 
-Type of allergy: ${validateField(item.type)}
+Type of allergy: ${item.type || 'Not available'}
 
-Location: ${validateField(item.location)}
+Location: ${item.location || 'Not available'}
 
-Observed or historical: ${validateField(item.observedOrReported)}
+Observed or historical: ${item.observedOrReported || 'Not available'}
 
 Provider notes: ${validateField(item.notes)}
 
@@ -189,11 +212,11 @@ ${prescription?.prescriptionName ||
 Most recent prescription
 
 
-Last filled on: ${
-    prescription?.sortedDispensedDate
-      ? dateFormat(prescription.sortedDispensedDate, 'MMMM D, YYYY')
-      : 'Not filled yet'
-  }
+Last filled on: ${dateFormat(
+    prescription.sortedDispensedDate,
+    'MMMM D, YYYY',
+    'Date not available',
+  )}
 
 Prescription number: ${prescription.prescriptionNumber}
 
@@ -206,28 +229,42 @@ ${(
       fullStatus + item.value + (item.continued ? ' ' : '\n'),
     '',
   )}
-Refills left: ${validateField(prescription.refillRemaining)}
+Refills left: ${validateIfAvailable(
+    'Number of refills left',
+    prescription.refillRemaining,
+  )}
 
 Request refills by this prescription expiration date: ${dateFormat(
     prescription.expirationDate,
     'MMMM D, YYYY',
+    'Date not available',
   )}
 
-Facility: ${validateField(prescription.facilityName)}
+Facility: ${validateIfAvailable('Facility', prescription.facilityName)}
 
-Pharmacy phone number: ${validateField(prescription.phoneNumber)}
+Pharmacy phone number: ${validateIfAvailable(
+    'Pharmacy phone number',
+    prescription.phoneNumber,
+  )}
 
-Instructions: ${validateField(prescription.sig)}
+Instructions: ${validateIfAvailable('Instructions', prescription.sig)}
 
-Reason for use: ${validateField(prescription.indicationForUse)}
+Reason for use: ${validateIfAvailable(
+    'Reason for use',
+    prescription.indicationForUse,
+  )}
 
-Quantity: ${validateField(prescription.quantity)}
+Quantity: ${validateIfAvailable('Quantity', prescription.quantity)}
 
-Prescribed on: ${dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
+Prescribed on: ${dateFormat(
+    prescription.orderedDate,
+    'MMMM D, YYYY',
+    'Date not available',
+  )}
 
 Prescribed by: ${(prescription.providerFirstName &&
     prescription.providerLastName) ||
-    'None noted'}
+    'Provider name not available'}
 
 
 Refill history
@@ -255,11 +292,19 @@ Note: If the medication you’re taking doesn’t match this description, call $
 ${backImprint ? `* Back marking: ${backImprint}` : ''}`
       : createNoDescriptionText(phone);
     result += `
-${index === 0 ? 'Original fill' : `Refill`}: ${dateFormat(entry.dispensedDate)}
+${index === 0 ? 'Original fill' : `Refill`}: ${dateFormat(
+      entry.dispensedDate,
+      'MMMM D, YYYY',
+      'Date not available',
+    )}
 ${
       i === 0
         ? `
-Shipped on: ${dateFormat(prescription?.trackingList?.[0]?.completeDateTime)}
+Shipped on: ${dateFormat(
+            prescription?.trackingList?.[0]?.completeDateTime,
+            'MMMM D, YYYY',
+            'Date not available',
+          )}
 `
         : ``
     }
@@ -284,19 +329,23 @@ Showing ${prescription.groupedMedications.length} prescription${
 
 Prescription number: ${previousPrescription.prescriptionNumber}
 
-Last filled: ${
-        previousPrescription.sortedDispensedDate
-          ? dateFormat(previousPrescription.sortedDispensedDate, 'MMMM D, YYYY')
-          : 'Not filled yet'
-      }
+Last filled: ${dateFormat(
+        previousPrescription.sortedDispensedDate,
+        'MMMM D, YYYY',
+        'Date not available',
+      )}
 
-Quantity: ${validateField(previousPrescription.quantity)}
+Quantity: ${validateIfAvailable('Quantity', previousPrescription.quantity)}
 
-Prescribed on: ${dateFormat(previousPrescription.orderedDate, 'MMMM D, YYYY')}
+Prescribed on: ${dateFormat(
+        previousPrescription.orderedDate,
+        'MMMM D, YYYY',
+        'Date not available',
+      )}
 
 Prescribed by: ${(previousPrescription.providerFirstName &&
         previousPrescription.providerLastName) ||
-        EMPTY_FIELD}
+        'Provider name not available'}
       `;
     });
   }
