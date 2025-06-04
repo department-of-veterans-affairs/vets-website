@@ -1218,27 +1218,12 @@ jobs:
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
 
-      
-
       - name: Manual Mochawesome merge
         working-directory: qa-standards-dashboard-data
         run: |
           rm -f src/testing-reports.data/unit-tests.json
-          node -e "
-          const fs = require('fs');
-          const path = require('path');
-          const Mochawesome = require('./src/testing-reports/mochawesome.js');
-          const merge = new Mochawesome();
-          
-          merge.mergeOptions = { files: ['src/testing-reports/data/*.json'] };
-          merge.mergeResults().then(json => {
-            const outFile = path.resolve(__dirname, 'src/testing-reports/data/merged-unit-tests.json');
-            fs.writeFileSync(outFile, JSON.stringify(json, null, 2), 'utf8');
-            console.log('Merged JSON written to', outFile);
-          })
-          .catch(err => {console.error('mergeResults() failed:', err);
-            process.exit(1);
-          })"
+          node src/testing-reports/manual-merge.js
+
       # Dummy step to evaluate merged report JSON 
       - name: Upload merged test results
         uses: actions/upload-artifact@v4
