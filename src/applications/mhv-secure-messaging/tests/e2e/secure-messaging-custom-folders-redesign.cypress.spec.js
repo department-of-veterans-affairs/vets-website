@@ -34,6 +34,8 @@ describe('SM REPLY LINK', () => {
 
   it('verify inbox detailed thread', () => {
     PatientMessageDetailsPage.loadSingleThread();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify sent detailed thread', () => {
@@ -56,7 +58,5 @@ describe('SM REPLY LINK', () => {
     cy.url().should('include', '/reply');
     GeneralFunctionsPage.verifyPageHeader(Data.REPLY_HEADER);
     cy.contains(`Continue to reply`).should('be.visible');
-
-    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
