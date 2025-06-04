@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import environment from 'platform/utilities/environment';
 import { handleScrollOnInputFocus } from '../utils/helpers';
 
 const calculateGap = (row, padding) => {
@@ -54,7 +55,8 @@ const VACheckboxGroupGi = ({
             onVaChange={target => {
               onChange(target, name);
             }}
-            enable-analytics
+            // enable-analytics
+            enable-analytics={!environment.isLocalhost()}
             uswds
           />
           <label
