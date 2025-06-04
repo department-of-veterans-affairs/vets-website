@@ -40,7 +40,7 @@ export const deductionCodes = Object.freeze({
   '78': 'Education Ch 33-Ch1606/Ch30 Kickers',
   '79': 'Education Ch 33-Ch1606/Ch30 Kickers',
 });
-
+// config.headings[headingLevel].font,
 const defaultConfig = {
   margins: { top: 40, bottom: 40, left: 30, right: 30 },
   text: {
@@ -109,7 +109,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   await generateInitialHeaderContent(doc, wrapper, headerData, config);
 
   // =====================================
-  // * H1 Title Section *
+  // * Title Section *
   // =====================================
   const titleSection = doc.struct('Sect', {
     title: 'Title',
@@ -117,11 +117,66 @@ const generate = async (data = {}, config = defaultConfig) => {
   titleSection.add(
     createHeading(doc, 'H1', config, 'Debt dispute from VA.gov', {
       x: config.margins.left,
-      paragraphGap: 12,
+      y: doc.y,
     }),
   );
+
+  doc.moveDown(3);
+
+  const dmcRoutingTitle = 'DMC Routing: TBD';
+  titleSection.add(
+    createHeading(doc, 'H2', config, dmcRoutingTitle, {
+      x: config.margins.left,
+      y: doc.y,
+    }),
+  );
+
+  doc.moveDown(3);
+
   titleSection.end();
   wrapper.add(titleSection);
+
+  // =====================================
+  // * Submission Type Section *
+  // =====================================
+  const submissionTypeSection = doc.struct('Sect', {
+    title: 'Submission Type',
+  });
+  const submissionTypeTitle = 'Submission type:';
+  submissionTypeSection.add(
+    createHeading(doc, 'H3', config, submissionTypeTitle, {
+      x: config.margins.left,
+      y: doc.y,
+    }),
+  );
+
+  doc.moveDown(2);
+
+  // bulletIndent prop is just for nested lists
+  // regular indent for text will shit the bullet points over
+  const listOptions = {
+    baseline: 'hanging',
+    listType: 'bullet',
+    bulletRadius: 2,
+    indent: 10,
+    textIndent: 15,
+    // lineGap: 5,
+  };
+
+  submissionTypeSection.add(
+    doc.struct('List', { title: 'Submission type' }, () => {
+      doc
+        .fontSize(config.text.size)
+        .font(config.text.font)
+        .list(
+          selectedDebts.map(debt => `${debt.deductionCode} - ${debt.label}`),
+          listOptions,
+        );
+    }),
+  );
+
+  submissionTypeSection.end();
+  wrapper.add(submissionTypeSection);
   doc.moveDown();
 
   // =====================================
@@ -132,9 +187,9 @@ const generate = async (data = {}, config = defaultConfig) => {
   const base64Image = `data:image/png;base64,${Buffer.from(
     arrayBuffer,
   ).toString('base64')}`;
-  const logoWidth = 125;
 
   // right align logo
+  const logoWidth = 150;
   const logoX = config.margins.left;
   wrapper.add(
     doc.struct(
@@ -146,6 +201,21 @@ const generate = async (data = {}, config = defaultConfig) => {
     ),
   );
   doc.moveDown();
+  // =====================================
+  // * Submission details *
+  // =====================================
+
+  // TODO
+
+  // =====================================
+  // * Informational header *
+  // =====================================
+  wrapper.add(
+    createHeading(doc, 'H2', config, 'Information submitted on this dispute', {
+      x: config.margins.left,
+      paragraphGap: 12,
+    }),
+  );
 
   // =====================================
   // * Veteran Personal Information *
@@ -175,9 +245,10 @@ const generate = async (data = {}, config = defaultConfig) => {
           .font(config.text.boldFont)
           .fontSize(config.text.size)
           .text(nameLabel, config.margins.left, doc.y);
-        doc
-          .font(config.text.font)
-          .text(veteranFullName[key] || '', config.margins.left);
+        doc.font(config.text.font).text(veteranFullName[key] || '', {
+          x: config.margins.left,
+          lineGap: 8,
+        });
       }),
     );
     doc.moveDown();
@@ -193,7 +264,10 @@ const generate = async (data = {}, config = defaultConfig) => {
         .font(config.text.boldFont)
         .fontSize(config.text.size)
         .text('Date of birth', config.margins.left, doc.y);
-      doc.font(config.text.font).text(formattedDob, config.margins.left);
+      doc.font(config.text.font).text(formattedDob, {
+        x: config.margins.left,
+        lineGap: 8,
+      });
     }),
   );
 
