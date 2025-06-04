@@ -7,13 +7,18 @@ import LoginButton from './LoginButton';
 export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   const [useOAuth, setOAuth] = useState();
   const { OAuth, clientId, codeChallenge, state } = getQueryParams();
-  const {
-    OAuthEnabled,
-    allowedSignInProviders,
-    legacySignInProviders: { dslogon },
-  } =
+
+  const { OAuthEnabled, allowedSignInProviders, legacySignInProviders = {} } =
     externalApplicationsConfig[externalApplication] ??
     externalApplicationsConfig.default;
+
+  const { dslogon } = legacySignInProviders;
+
+  const isDslogonEnabled = () =>
+    !!window?.VetsGov?.featureToggles?.dslogonEnabled;
+
+  const showDslogon = !!dslogon && isDslogonEnabled();
+  const showRetiredDslogonContent = !!dslogon && !isDslogonEnabled();
 
   useEffect(
     () => {
@@ -23,40 +28,44 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   );
 
   const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
-  const isValid = dslogon;
 
   return (
     <div className="row">
       <div className="columns print-full-width sign-in-wrapper">
         {reduceAllowedProviders(allowedSignInProviders).map(csp => (
           <LoginButton
-            csp={csp}
             key={csp}
+            csp={csp}
             useOAuth={useOAuth}
             actionLocation={actionLocation}
             queryParams={{ clientId, codeChallenge, state }}
           />
         ))}
+
         <a href="https://www.va.gov/resources/creating-an-account-for-vagov">
           Learn about creating a Login.gov or ID.me account
         </a>
-        {isValid && (
-          <div>
-            {/* Remove this hardcoded message for MHV */}
-            <h2>Other sign-in options</h2>
-            <div>
-              <h3 id="mhvH3" className="vads-u-margin-top--3">
-                My HealtheVet sign-in option
-                <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                  This option is no longer available
-                </span>
-              </h3>
-              <va-link
-                text="Learn how to access your benefits and set up your new account"
-                href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
-              />
-            </div>
-            {dslogon && (
+
+        {(showDslogon || showRetiredDslogonContent) && (
+          <>
+            <h2>Other sign-in option</h2>
+
+            {showDslogon && (
+              <div>
+                <h3 id="mhvH3" className="vads-u-margin-top--3">
+                  My HealtheVet sign-in option
+                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
+                    This option is no longer available
+                  </span>
+                </h3>
+                <va-link
+                  text="Learn how to access your benefits and set up your new account"
+                  href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
+                />
+              </div>
+            )}
+
+            {showDslogon && (
               <>
                 <h3
                   id="dslogonH3"
@@ -79,7 +88,22 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 />
               </>
             )}
-          </div>
+
+            {showRetiredDslogonContent && (
+              <div>
+                <h3 id="dslogonH3" className="vads-u-margin-top--3">
+                  DS Logon sign-in option
+                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
+                    This option is no longer available
+                  </span>
+                </h3>
+                <va-link
+                  text="Learn how to access your benefits and set up your new account"
+                  href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
+                />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
