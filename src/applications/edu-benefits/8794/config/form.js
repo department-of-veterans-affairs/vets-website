@@ -30,6 +30,7 @@ import {
   institutionDetailsFacility,
   primaryOfficialTraining,
   institutionDetailsNoFacilityDescription,
+  institutionNameAndAddress,
 } from '../pages';
 import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
@@ -108,6 +109,12 @@ const formConfig = {
           title: 'Institution details',
           uiSchema: institutionDetailsNoFacilityDescription.uiSchema,
           schema: institutionDetailsNoFacilityDescription.schema,
+        },
+        institutionNameAndAddress: {
+          path: 'institution-details-2',
+          title: 'Institution details',
+          uiSchema: institutionNameAndAddress.uiSchema,
+          schema: institutionNameAndAddress.schema,
         },
       },
     },
