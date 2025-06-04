@@ -75,7 +75,7 @@ describe(`${appName} -- Status Page`, () => {
       'Claim number: TC0000000000001',
     );
 
-    cy.get('va-additional-info[trigger="What does this status mean?"]')
+    cy.get('va-additional-info[trigger="What does this status mean"]')
       .first()
       .click();
 

@@ -77,10 +77,7 @@ describe('ClaimDetailsContent', () => {
     );
 
     expect(screen.getByText('Claim status: Claim submitted')).to.exist;
-
-    fireEvent.click(
-      $(`va-additional-info[trigger="What does this status mean?"]`),
-    );
+    expect(screen.getByText('What does this status mean')).to.exist;
     expect(screen.getByText(/You submitted this claim for review/i)).to.exist;
   });
 
@@ -98,7 +95,7 @@ describe('ClaimDetailsContent', () => {
     expect(screen.getByText('Claim status: Unexpected status')).to.exist;
 
     fireEvent.click(
-      $(`va-additional-info[trigger="What does this status mean?"]`),
+      $(`va-additional-info[trigger="What does this status mean"]`),
     );
     expect(screen.getByText(/If you need help understanding your claim/i)).to
       .exist;

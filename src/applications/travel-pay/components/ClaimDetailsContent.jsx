@@ -87,15 +87,23 @@ export default function ClaimDetailsContent({
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
       {claimsMgmtToggle && (
         <>
-          <va-additional-info
-            class="vads-u-margin-y--2"
-            trigger="What does this status mean?"
-          >
-            {STATUSES[toPascalCase(claimStatus)] ? (
-              <p data-testid="status-definition-text">
+          {STATUSES[toPascalCase(claimStatus)] ? (
+            <>
+              <p className="vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0">
+                What does this status mean
+              </p>
+              <p
+                className="vads-u-margin-top--0"
+                data-testid="status-definition-text"
+              >
                 {STATUSES[toPascalCase(claimStatus)].definition}
               </p>
-            ) : (
+            </>
+          ) : (
+            <va-additional-info
+              class="vads-u-margin-y--2"
+              trigger="What does this status mean"
+            >
               <p className="vads-u-margin-top--2">
                 If you need help understanding your claim, call the BTSSS call
                 center at <va-telephone contact="8555747292" /> (
@@ -103,8 +111,8 @@ export default function ClaimDetailsContent({
                 a.m. to 8:00 p.m. ET. Have your claim number ready to share when
                 you call.
               </p>
-            )}
-          </va-additional-info>
+            </va-additional-info>
+          )}
           {documentCategories.clerk.length > 0 &&
             getDocLinkList(documentCategories.clerk)}
         </>
