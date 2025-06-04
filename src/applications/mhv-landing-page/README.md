@@ -2,7 +2,7 @@
 
 ## App
 
-This app serves as the landing page for My HealtheVet (MHV) on VA.gov, providing quick access for veterans to access their health-related tools and information.
+This app serves as the landing page for My HealtheVet (MHV) on VA.gov, providing veterans quick access to their health-related tools and information.
 
 ## Quick start to get running locally
 
@@ -24,7 +24,7 @@ Cypress tests can be run with the GUI using this command: `yarn cy:open`. From t
 Run Cypress from command line:
 
 - Run all `yarn cy:run --spec "src/applications/mhv-landing-page/**/**/*"`
-- Specify browser `-b electron`
+- Use the `-b electron` option to specify the Electron browser, which is lightweight, tightly integrated with Cypress, and comes pre-installed, removing the need for separate installation.
 
 ### Test coverage
 

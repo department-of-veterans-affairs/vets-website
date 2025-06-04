@@ -2,10 +2,6 @@
 
 This directory contains components and utilities related to the secondary navigation for the My HealtheVet (MHV) section of the VA.gov website.
 
-## Purpose
-
-The secondary navigation provides users with additional navigation of health tools available within My HealtheVet on VA.gov.
-
 ## Contents
 
 - **Components**: React components for rendering the secondary navigation UI.
@@ -14,10 +10,16 @@ The secondary navigation provides users with additional navigation of health too
 
 ## Usage
 
-Import and use the relevant components in your MHV-related pages or layouts:
+Import and use the relevant components in your MHV-related pages:
 
 ```js
-import {MhvSecondaryNav} from '@department-of-veterans-affairs/mhv/exports';
+import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 
 <MhvSecondaryNav />
+```
+
+Include the following SASS file in your application's entry point (e.g. in your `app-entry.jsx` file):
+
+```js
+import '~/platform/mhv/secondary-nav/sass/mhv-sec-nav.scss';
 ```

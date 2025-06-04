@@ -13,13 +13,13 @@ const actionPrefix = 'MHV Secondary Nav';
  * - The actionName is used for analytics tracking.
  * - The icon is the name of the icon to be displayed in the navigation.
  * - The href is the link to the page.
- * - The appRootUrl is paired with the href it is used to determine the root of the app for the navigation.
- *   - If the appRootUrl is not provided, it defaults to the href.
- *   - If the appRootUrl is different from the href, it should be provided.
- * - appRootUrl is required if it's different from href.
- *   - Example:
- *   - appRootUrl: '/my-health/secure-messages'      // root of the app
- *   - href: '/my-health/secure-messages/inbox'      // specific sub-page (inbox)
+ * - The `appRootUrl` is used to determine which secondary navigation item should be marked as
+ *   "current" when the navigation link points to a sub-page within the app rather than its root.
+ *   If `appRootUrl` differs from the `href`, it must be explicitly defined to ensure the correct
+ *   active state is applied (i.e. the appropriate tab is highlighted) in the secondary nav.
+ *   Example:
+ *     appRootUrl: '/my-health/secure-messages'      // root path of the app
+ *     href: '/my-health/secure-messages/inbox'      // specific sub-page (e.g., inbox)
  */
 export const mhvSecNavItems = [
   {
