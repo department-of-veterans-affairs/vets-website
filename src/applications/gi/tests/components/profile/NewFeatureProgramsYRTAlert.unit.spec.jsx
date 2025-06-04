@@ -3,7 +3,7 @@ import { render, fireEvent, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import * as scroll from 'platform/utilities/scroll';
+import * as scrollUtils from 'platform/utilities/ui/scrollTo';
 import * as uiUtils from 'platform/utilities/ui';
 import NewFeatureProgramsYRTAlert from '../../../components/profile/NewFeatureProgramsYRTAlert';
 
@@ -13,7 +13,7 @@ describe('NewFeatureProgramsYRTAlert', () => {
   let onCloseSpy;
 
   beforeEach(() => {
-    scrollToStub = sinon.stub(scroll, 'scrollTo').callsFake(() => {});
+    scrollToStub = sinon.stub(scrollUtils, 'default').callsFake(() => {});
     focusElementStub = sinon.stub(uiUtils, 'focusElement').callsFake(() => {});
     onCloseSpy = sinon.spy();
 

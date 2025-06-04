@@ -198,20 +198,29 @@ describe('Review Page Utils', () => {
 
     it('should return default scroll options if Forms.scroll is not defined', () => {
       const result = scrollToElement('testElement');
-      expect(result).to.deep.equal({ delay: 2 });
+      expect(result).to.deep.equal({
+        duration: 500,
+        delay: 2,
+        smooth: true,
+      });
     });
 
     it('should merge custom options with defaults', () => {
-      const customOptions = { offset: 100 };
+      const customOptions = {
+        duration: 300,
+        offset: 100,
+      };
       const result = scrollToElement('testElement', customOptions);
       expect(result).to.deep.equal({
+        duration: 300,
         delay: 2,
+        smooth: true,
         offset: 100,
       });
     });
 
     it('should return Forms.scroll if defined', () => {
-      const mockScroll = { delay: 0 };
+      const mockScroll = { duration: 300, delay: 0, smooth: false };
       global.window = { Forms: { scroll: mockScroll } };
 
       const result = scrollToElement('testElement');

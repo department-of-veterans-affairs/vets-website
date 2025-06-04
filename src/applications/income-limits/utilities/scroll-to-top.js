@@ -1,3 +1,7 @@
-import { scrollToTop as scrollToTopUtil } from 'platform/utilities/scroll';
+import Scroll from 'react-scroll';
 
-export const scrollToTop = () => scrollToTopUtil();
+const scroll = Scroll.animateScroll;
+
+export const scrollToTop = () => {
+  scroll.scrollToTop();
+};

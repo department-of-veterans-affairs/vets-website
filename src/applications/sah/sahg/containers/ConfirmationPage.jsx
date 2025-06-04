@@ -1,9 +1,18 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
-import { scrollToTop } from 'platform/utilities/scroll';
+
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {

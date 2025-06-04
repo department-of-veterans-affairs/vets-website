@@ -22,7 +22,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
-import { scrollTo, getScrollOptions } from 'platform/utilities/scroll';
+import Scroll from 'react-scroll';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   closeReviewChapter,
@@ -55,8 +55,11 @@ import {
   handleDataUpdate,
   handleFormSubmission,
   maskSocial,
+  scrollToElement,
 } from '../utils/reviewPageUtils';
 import { relationshipOptionsSomeoneElse } from '../constants';
+
+const { scroller } = Scroll;
 
 const ReviewPage = props => {
   const [showAlert, setShowAlert] = useState(true);
@@ -69,7 +72,10 @@ const ReviewPage = props => {
   const dispatch = useDispatch();
 
   const scrollToChapter = chapterKey => {
-    scrollTo(`chapter${chapterKey}ScrollElement`, getScrollOptions(chapterKey));
+    scroller.scrollTo(
+      `chapter${chapterKey}ScrollElement`,
+      scrollToElement(chapterKey),
+    );
   };
 
   const handleToggleChapter = ({ name, open, pageKeys }) => {
@@ -171,13 +177,21 @@ const ReviewPage = props => {
           // setIsDisabled(false);
           // TODO - need error modal instead of forwarding to confirmation per final design
           // Temporary alert dialog for testing
-          scrollTo('topScrollElement', { delay: 0 });
+          scroller.scrollTo('topScrollElement', {
+            duration: 500,
+            delay: 0,
+            smooth: true,
+          });
           setShow503Alert(true);
         },
       });
     } catch (_error) {
       setIsDisabled(false);
-      scrollTo('topScrollElement', { delay: 0 });
+      scroller.scrollTo('topScrollElement', {
+        duration: 500,
+        delay: 0,
+        smooth: true,
+      });
       setShow503Alert(true);
       // TODO - need error modal instead of forwarding to confirmation per final design
       // Temporary alert dialog for testing

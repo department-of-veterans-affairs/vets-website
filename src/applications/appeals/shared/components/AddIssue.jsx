@@ -5,8 +5,7 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { focusElement } from 'platform/utilities/ui/focus';
-import { scrollToFirstError } from 'platform/utilities/scroll';
+import { focusElement, scrollToFirstError } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 

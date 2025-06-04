@@ -6,7 +6,8 @@ import ADDRESS_DATA from 'platform/forms/address/data';
 import constants from 'vets-json-schema/dist/constants.json';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
-import { scrollTo, getScrollOptions } from 'platform/utilities/scroll';
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import mapboxClient from '../components/MapboxClient';
 
@@ -324,7 +325,7 @@ export const scrollToFocusedElement = () => {
     compareDrawerHeight &&
     activeElementBounding.bottom > window.innerHeight - compareDrawerHeight
   ) {
-    scrollTo(document.activeElement.id, getScrollOptions());
+    scroller.scrollTo(document.activeElement.id, getScrollOptions());
   }
 };
 

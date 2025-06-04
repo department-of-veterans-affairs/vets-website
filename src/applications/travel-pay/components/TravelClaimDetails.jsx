@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { scrollTo } from 'platform/utilities/ui/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
-import { Element, scrollTo } from 'platform/utilities/scroll';
+import { Element } from 'platform/utilities/scroll';
 
 import { HelpTextManage } from './HelpText';
 import Breadcrumbs from './Breadcrumbs';

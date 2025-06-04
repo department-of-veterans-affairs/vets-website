@@ -2,8 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { useSelector } from 'react-redux';
-import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
-import { scrollTo } from 'platform/utilities/scroll';
+import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
 
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);

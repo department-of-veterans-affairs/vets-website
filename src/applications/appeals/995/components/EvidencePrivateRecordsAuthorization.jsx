@@ -3,8 +3,7 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { scrollTo } from 'platform/utilities/scroll';
-import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
+import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {

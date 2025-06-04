@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { focusElement } from 'platform/utilities/ui/focus';
-import { scrollToTop } from 'platform/utilities/scroll';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { formatDateTime } from '../../../util/dates';

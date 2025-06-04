@@ -1,8 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { focusElement } from 'platform/utilities/ui/focus';
-import { scrollTo } from 'platform/utilities/scroll';
+import { scrollTo, focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 const SubmissionError = ({ form }) => {

@@ -3,11 +3,12 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 import * as recordEventModule from 'platform/monitoring/record-event';
-import * as scrollToTopModule from 'platform/utilities/scroll/scroll';
+import * as scrollToTopModule from 'platform/utilities/ui/scrollToTop';
 
 import BackToTop from '../../components/BackToTop';
 
 describe('<BackToTop>', () => {
+  let originalScrollToTop;
   let scrollToTopSpy;
   let orginalRecordEvent;
   let recordEvenetSpy;
@@ -81,8 +82,10 @@ describe('<BackToTop>', () => {
 
   // Test for onClick
   it('updates backToTopContainerStyle on resize when floating is true and parent element exists', () => {
+    originalScrollToTop = scrollToTopModule.default;
     orginalRecordEvent = recordEventModule.default;
-    scrollToTopSpy = sinon.stub(scrollToTopModule, 'scrollToTop');
+    scrollToTopSpy = sinon.spy();
+    scrollToTopModule.default = scrollToTopSpy;
     recordEvenetSpy = sinon.spy();
     recordEventModule.default = recordEvenetSpy;
 
@@ -97,7 +100,7 @@ describe('<BackToTop>', () => {
     wrapper.find('button').simulate('click');
     expect(scrollToTopSpy.calledOnce).to.be.true;
     expect(scrollToTopSpy.calledOnce).to.be.true;
-    scrollToTopSpy.restore();
+    scrollToTopModule.default = originalScrollToTop;
     recordEventModule.default = orginalRecordEvent;
     wrapper.unmount();
   });

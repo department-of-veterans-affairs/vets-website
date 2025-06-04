@@ -1,6 +1,5 @@
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
-import { focusByOrder } from 'platform/utilities/ui/focus';
-import { scrollTo } from 'platform/utilities/scroll';
+import { focusByOrder, scrollTo } from 'platform/utilities/ui';
 import {
   FORM_UPLOAD_FILE_UPLOADING_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,

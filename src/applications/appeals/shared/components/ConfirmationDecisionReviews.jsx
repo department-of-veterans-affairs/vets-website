@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { scrollTo } from 'platform/utilities/scroll';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { selectProfile } from '~/platform/user/selectors';

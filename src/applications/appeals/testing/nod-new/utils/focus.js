@@ -1,5 +1,8 @@
-import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
-import { scrollTo } from 'platform/utilities/scroll';
+import {
+  focusElement,
+  waitForRenderThenFocus,
+  scrollTo,
+} from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 export const scrollAndFocusTarget = () => {

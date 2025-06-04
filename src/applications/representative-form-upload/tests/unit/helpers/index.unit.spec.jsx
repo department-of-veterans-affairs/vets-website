@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import * as scrollModule from 'platform/utilities/scroll/scroll';
+import Scroll from 'react-scroll';
 import { shallow } from 'enzyme';
 import {
   getFileSize,
@@ -17,6 +17,8 @@ import {
   getAlert,
 } from '../../../helpers';
 import * as constants from '../../../config/constants';
+
+const { scroller } = Scroll;
 
 describe('Helpers', () => {
   describe('getFormNumber', () => {
@@ -95,16 +97,13 @@ describe('Helpers', () => {
     let scrollToSpy;
 
     beforeEach(() => {
-      scrollToSpy = sinon.stub(scrollModule, 'scrollTo');
+      scrollToSpy = sinon.stub(scroller, 'scrollTo');
     });
 
     it('calls scrollTo', () => {
       scrollAndFocusTarget();
-      expect(scrollToSpy.calledWith('topScrollElement')).to.be.true;
-    });
 
-    afterEach(() => {
-      scrollToSpy.restore();
+      expect(scrollToSpy.calledWith('topScrollElement')).to.be.true;
     });
   });
 

@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { waitForRenderThenFocus } from 'platform/utilities/ui/';
-import { scrollTo } from 'platform/utilities/scroll';
+import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui/';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 import { verifyVaFileNumber } from '../actions';

@@ -1,5 +1,8 @@
-import { focusElement } from 'platform/utilities/ui/focus';
-import { scrollTo, scrollToFirstError } from 'platform/utilities/scroll';
+import {
+  focusElement,
+  scrollTo,
+  scrollToFirstError,
+} from 'platform/utilities/ui';
 import { focusReview } from 'platform/forms-system/src/js/utilities/ui/focus-review';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
