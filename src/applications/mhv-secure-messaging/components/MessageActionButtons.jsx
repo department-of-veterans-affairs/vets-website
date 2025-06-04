@@ -32,12 +32,27 @@ const MessageActionButtons = props => {
   };
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column tablet:vads-u-flex-direction--row">
+    <div
+      className={`vads-u-display--flex vads-u-flex-direction--column tablet:vads-u-flex-direction--row ${customFoldersRedesignEnabled &&
+        'vads-u-margin-top--3 mobile-lg:vads-u-margin-top--4'}`}
+    >
       {showEditDraftButton ? (
         <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto">
           <button
             type="button"
-            className="usa-button vads-u-width--full reply-button-in-body vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center"
+            className="usa-button
+              vads-u-width--full
+              reply-button-in-body
+              vads-u-display--flex
+              vads-u-flex-direction--row
+              vads-u-justify-content--center
+              vads-u-align-items--center
+              vads-u-margin-bottom--1
+              vads-u-margin-top--0
+              vads-u-margin-x--0     
+              mobile-lg:vads-u-margin-right--1
+              mobile-lg:vads-u-margin-top--0
+              tablet:vads-u-margin-y--0"
             data-testid="edit-draft-button-body"
             onClick={handleEditDraftButton}
           >

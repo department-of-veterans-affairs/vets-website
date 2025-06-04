@@ -201,10 +201,12 @@ const ReplyForm = props => {
             </button>
           </div>
         ) : (
-          <ReplyButton
-            key="replyButton"
-            visible={!cannotReply && !showBlockedTriageGroupAlert}
-          />
+          !showEditDraftButton && (
+            <ReplyButton
+              key="replyButton"
+              visible={!cannotReply && !showBlockedTriageGroupAlert}
+            />
+          )
         )}
 
         {!customFoldersRedesignEnabled && (

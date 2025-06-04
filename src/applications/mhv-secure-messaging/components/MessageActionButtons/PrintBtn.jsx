@@ -19,7 +19,7 @@ const PrintBtn = props => {
         ref={printButtonRef}
         id="print-button"
         type="button"
-        className={`usa-button-secondary ${
+        className={`usa-button-secondary vads-u-margin--0 ${
           activeFolder?.folderId !== DefaultFolders.SENT.id
             ? 'mobile-lg:vads-u-flex--3'
             : 'vads-u-flex--1 tablet:vads-u-flex--auto vads-u-margin-left--0 vads-u-margin-right--0'
