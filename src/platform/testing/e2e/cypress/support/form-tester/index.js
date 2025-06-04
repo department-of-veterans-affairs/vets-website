@@ -159,7 +159,9 @@ const getFieldSelectors = () => {
 const performPageActions = (pathname, _13647Exception = false) => {
   cy.axeCheck('main', {
     _13647Exception,
-    // ignore this check because headers may be in shadow dom which is asyncronously loaded
+    // Ignore heading order from the first axe check because headers
+    // may be in the shadow dom which may not be loaded yet.
+    // There is another axe check below which DOES check heading order.
     headingOrder: false,
   });
 
