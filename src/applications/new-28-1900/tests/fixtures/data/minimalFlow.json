@@ -4,13 +4,13 @@
       "checkForMailingAddress": true
     },
     "emailAddress": "john.veteran@example.com",
-    "movingYesNo": "N",
+    "isMoving": "N",
     "veteranFullName": {
       "first": "John",
       "middle": "",
       "last": "Veteran"
     },
     "veteranDateOfBirth": "2000-01-01",
-    "yearsOfEducation": "firstGrade"
+    "yearsOfEducation": "12"
   }
 }

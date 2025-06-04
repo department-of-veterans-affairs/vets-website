@@ -273,7 +273,7 @@ const ReviewAndConfirm = props => {
                 createReferralAppointment({
                   draftApppointmentId: draftAppointmentInfo.id,
                   referralNumber: currentReferral.referralNumber,
-                  slotId: selectedSlot,
+                  slotId: slotDetails.id,
                   networkId:
                     draftAppointmentInfo.attributes.provider.networkIds[0],
                   providerServiceId:

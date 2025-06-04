@@ -1099,12 +1099,27 @@ export const formConfig = {
         },
         childAdditionalEvidence: {
           depends: formData => {
-            const pageCondition = formData?.childrenToAdd?.some(
-              child =>
-                child?.relationshipToChild?.stepchild ||
-                child?.relationshipToChild?.adopted ||
-                child?.doesChildHaveDisability,
+            const address =
+              formData?.veteranContactInformation?.veteranAddress || {};
+            const livesOutsideUSA =
+              address.country !== 'USA' || address.isMilitary;
+            const childrenToAdd = formData?.childrenToAdd || [];
+            const hasStepChild = childrenToAdd.some(
+              childFormData => childFormData?.relationshipToChild?.stepchild,
             );
+            const hasAdoptedChild = childrenToAdd.some(
+              childFormData => childFormData?.relationshipToChild?.adopted,
+            );
+            const hasDisabledChild = childrenToAdd.some(
+              childFormData =>
+                childFormData?.doesChildHaveDisability &&
+                childFormData?.doesChildHavePermanentDisability,
+            );
+
+            const showBirthCertificate = livesOutsideUSA || hasStepChild;
+
+            const pageCondition =
+              showBirthCertificate || hasAdoptedChild || hasDisabledChild;
 
             return (
               (isChapterFieldRequired(formData, TASK_KEYS.addChild) ||
