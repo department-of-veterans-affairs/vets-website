@@ -12,8 +12,6 @@ export const uiSchema = {
       title:
         'Who do you want to add as a dependent? Check everyone you want to add.',
       required: () => true,
-      tile: true,
-      labelHeaderLevel: '3',
       labels: {
         addSpouse: addDependentOptions.addSpouse,
         addChild: addDependentOptions.addChild,
@@ -27,6 +25,7 @@ export const uiSchema = {
     }),
     'ui:options': {
       tile: true,
+      labelHeaderLevel: '3',
       updateSchema: (formData, schema) => {
         // Check if new option is selected
         // update view:selectable686Options with the selection

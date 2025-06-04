@@ -124,7 +124,7 @@ const formConfig = {
       pages: {
         page6: {
           path: 'sponsor-info',
-          title: 'Sponsor`s name and date of birth',
+          title: 'Sponsor’s name and date of birth',
           ...sponsorNameDobSchema,
         },
         page7: {
