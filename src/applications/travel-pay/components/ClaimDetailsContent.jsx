@@ -131,7 +131,7 @@ export default function ClaimDetailsContent({
           {totalCostRequested !== reimbursementAmount && (
             <va-additional-info
               class="vads-u-margin-y--2"
-              trigger="Why are my amounts different?"
+              trigger="Why are my amounts different"
             >
               <p>
                 The VA travel pay deductible is $3 for a one-way trip and $6 for

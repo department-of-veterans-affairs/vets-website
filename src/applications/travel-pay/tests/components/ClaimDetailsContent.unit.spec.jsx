@@ -298,8 +298,8 @@ describe('ClaimDetailsContent', () => {
         },
       );
 
-      expect($('va-additional-info[trigger="Why are my amounts different?"]'))
-        .to.exist;
+      expect($('va-additional-info[trigger="Why are my amounts different"]')).to
+        .exist;
       expect(
         screen.getByText(
           /The VA travel pay deductible is \$3 for a one-way trip/i,
@@ -318,8 +318,8 @@ describe('ClaimDetailsContent', () => {
           initialState: getState(),
         },
       );
-      expect($('va-additional-info[trigger="Why are my amounts different?"]'))
-        .to.not.exist;
+      expect($('va-additional-info[trigger="Why are my amounts different"]')).to
+        .not.exist;
       expect(
         screen.queryByText(
           /The VA travel pay deductible is \$3 for a one-way trip/i,
