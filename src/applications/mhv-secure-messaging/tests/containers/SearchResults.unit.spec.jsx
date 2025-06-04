@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithDataRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import searchResults from '../fixtures/search-response.json';
 import folder from '../fixtures/folder-inbox-metadata.json';
@@ -24,10 +24,16 @@ describe('Search results', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<SearchResults />, {
+    const routes = [
+      {
+        path: '/search/results',
+        element: <SearchResults />,
+      },
+    ];
+    return renderWithDataRouter(routes, {
       initialState: state,
       reducers: reducer,
-      path: `/search/results`,
+      initialEntry: '/search/results',
     });
   };
 

@@ -1,7 +1,6 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithDataRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-// import categories from '../../fixtures/categories-response.json';
 import reducer from '../../../reducers';
 import inbox from '../../fixtures/folder-inbox-metadata.json';
 import searchResults from '../../fixtures/search-response.json';
@@ -34,31 +33,33 @@ describe('MessageListItem component', () => {
     keyword: 'test',
   };
 
-  it('renders without errors', () => {
-    const screen = renderWithStoreAndRouter(<MessageListItem {...props} />, {
+  const setup = (customProps = props, path = '/search/results') => {
+    const routes = [
+      {
+        path: '*',
+        element: <MessageListItem {...customProps} />,
+      },
+    ];
+    return renderWithDataRouter(routes, {
       initialState,
       reducers: reducer,
-      path: `/search/results`,
+      initialEntry: path,
     });
+  };
+
+  it('renders without errors', () => {
+    const screen = setup();
     expect(screen);
   });
 
   it('should have contents within main div', () => {
-    const screen = renderWithStoreAndRouter(<MessageListItem {...props} />, {
-      initialState,
-      reducers: reducer,
-      path: `/search/results`,
-    });
+    const screen = setup();
     const messageListItemMainDiv = screen.getByTestId('message-list-item');
     expect(messageListItemMainDiv).not.to.be.empty;
   });
 
   it('should highlight a keyword when one is passed', async () => {
-    const screen = renderWithStoreAndRouter(<MessageListItem {...props} />, {
-      initialState,
-      reducers: reducer,
-      path: `/search/results`,
-    });
+    const screen = setup();
 
     const highlightedText = await screen.getAllByTestId('highlighted-text');
     expect(highlightedText.length).to.equal(6);
@@ -90,12 +91,17 @@ describe('MessageListItem component', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(
-      <MessageListItem {...customProps} />,
+    const screen = renderWithDataRouter(
+      [
+        {
+          path: '*',
+          element: <MessageListItem {...customProps} />,
+        },
+      ],
       {
-        customState,
+        initialState: customState,
         reducers: reducer,
-        path: `/sent`,
+        initialEntry: `/sent`,
       },
     );
 

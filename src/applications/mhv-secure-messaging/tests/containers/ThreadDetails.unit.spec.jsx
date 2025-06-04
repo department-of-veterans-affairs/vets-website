@@ -6,7 +6,7 @@ import {
   mockApiRequest,
   mockMultipleApiRequests,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithDataRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import moment from 'moment';
 import ThreadDetails from '../../containers/ThreadDetails';
 import { PageTitles } from '../../util/constants';
@@ -29,10 +29,16 @@ import lostAssociation from '../fixtures/json-triage-mocks/triage-teams-lost-ass
 
 describe('Thread Details container', () => {
   const setup = state => {
-    return renderWithStoreAndRouter(<ThreadDetails testing />, {
+    const routes = [
+      {
+        path: '/thread/:id',
+        element: <ThreadDetails testing />,
+      },
+    ];
+    return renderWithDataRouter(routes, {
       initialState: state,
       reducers: reducer,
-      path: `/thread/2713217`,
+      initialEntry: '/thread/2713217',
     });
   };
   const { drafts, messages } = replyDraftThread.threadDetails;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithDataRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { waitFor, fireEvent } from '@testing-library/react';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
@@ -35,10 +35,16 @@ describe('Compose container', () => {
   };
 
   const setup = ({ state = initialState, path = Paths.COMPOSE }) => {
-    return renderWithStoreAndRouter(<Compose />, {
+    const routes = [
+      {
+        path: '*',
+        element: <Compose />,
+      },
+    ];
+    return renderWithDataRouter(routes, {
       initialState: state,
       reducers: reducer,
-      path,
+      initialEntry: path,
     });
   };
 
