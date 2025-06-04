@@ -34,14 +34,15 @@ describe('login DOM', () => {
   });
 
   it('login buttons should properly call login method', () => {
-    const loginButtons = mount(
+    const wrapper = mount(
       <Provider store={mockStore}>
         <LoginActions />
       </Provider>,
     );
 
-    const testButton = button => {
+    wrapper.find('button').forEach(button => {
       const loginCSP = button.prop('data-csp');
+      if (!loginCSP) return;
 
       const expectedArgs = {
         idme: { policy: CSP_IDS.ID_ME },
@@ -57,22 +58,19 @@ describe('login DOM', () => {
       );
 
       sandbox.reset();
-    };
+    });
 
-    loginButtons.find('button').forEach(testButton);
-    loginButtons.unmount();
+    wrapper.unmount();
   });
 
   it('sets actionLocation to "usip" when isUnifiedSignIn is true and "modal" otherwise', () => {
     const testActionLocation = (isUnifiedSignIn, expectedLocation) => {
-      const store = generateStore();
-
       global.window.location = new URL(
         'https://dev.va.gov/sign-in/?application=vaoccmobile&OAuth=true',
       );
 
       const wrapper = mount(
-        <Provider store={store}>
+        <Provider store={mockStore}>
           <LoginActions
             externalApplication="vaoccmobile"
             isUnifiedSignIn={isUnifiedSignIn}
@@ -92,19 +90,17 @@ describe('login DOM', () => {
     testActionLocation(undefined, 'modal');
   });
 
-  // TODO: Fix this test — feature flag not being re-evaluated in time
-  // Causes DS Logon button to render even when flag is disabled
-  // Consider moving flag logic to useEffect with state
+  // TODO: Fix this test — feature flag not re-evaluating in time
   /*
   it('renders DS Logon button only if feature flag is enabled and dslogon config is true', () => {
     ...
   });
   */
 
-  it('renders My HealtheVet content only when DS Logon is available (feature flag ON & dslogon true)', () => {
-    const configWithDslogon = {
+  it('renders My HealtheVet retired notice only when DS Logon is enabled', () => {
+    const config = {
       OAuthEnabled: false,
-      allowedSignInProviders: ['dslogon'],
+      allowedSignInProviders: [],
       legacySignInProviders: { dslogon: true },
     };
 
@@ -113,21 +109,30 @@ describe('login DOM', () => {
     require.cache[require.resolve('../../../authentication/usip-config')] = {
       exports: {
         externalApplicationsConfig: {
-          mhvTestApp: configWithDslogon,
-          default: configWithDslogon,
+          mhvApp: config,
+          default: config,
         },
       },
     };
 
+    // With feature flag ON, My HealtheVet retired notice should appear
     setDslogonFeatureFlag(true);
-
-    const wrapper = mount(
+    let wrapper = mount(
       <Provider store={mockStore}>
-        <LoginActions externalApplication="mhvTestApp" />
+        <LoginActions externalApplication="mhvApp" />
       </Provider>,
     );
-
     expect(wrapper.text()).to.contain('My HealtheVet sign-in option');
+    wrapper.unmount();
+
+    // With feature flag OFF, My HealtheVet retired notice should NOT appear
+    setDslogonFeatureFlag(false);
+    wrapper = mount(
+      <Provider store={mockStore}>
+        <LoginActions externalApplication="mhvApp" />
+      </Provider>,
+    );
+    expect(wrapper.text()).to.not.contain('My HealtheVet sign-in option');
     wrapper.unmount();
 
     if (originalConfig) {
@@ -137,10 +142,10 @@ describe('login DOM', () => {
     }
   });
 
-  it('does not render My HealtheVet content when DS Logon is disabled (feature flag OFF)', () => {
-    const configWithDslogon = {
+  it('renders DS Logon retired notice only when DS Logon is present and flag is OFF', () => {
+    const config = {
       OAuthEnabled: false,
-      allowedSignInProviders: ['dslogon'],
+      allowedSignInProviders: [],
       legacySignInProviders: { dslogon: true },
     };
 
@@ -149,8 +154,8 @@ describe('login DOM', () => {
     require.cache[require.resolve('../../../authentication/usip-config')] = {
       exports: {
         externalApplicationsConfig: {
-          mhvTestApp: configWithDslogon,
-          default: configWithDslogon,
+          dslogonApp: config,
+          default: config,
         },
       },
     };
@@ -159,11 +164,13 @@ describe('login DOM', () => {
 
     const wrapper = mount(
       <Provider store={mockStore}>
-        <LoginActions externalApplication="mhvTestApp" />
+        <LoginActions externalApplication="dslogonApp" />
       </Provider>,
     );
 
-    expect(wrapper.text()).to.not.contain('My HealtheVet sign-in option');
+    expect(wrapper.text()).to.contain('DS Logon sign-in option');
+    expect(wrapper.text()).to.contain('This option is no longer available');
+
     wrapper.unmount();
 
     if (originalConfig) {

@@ -17,8 +17,10 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   const isDslogonEnabled = () =>
     !!window?.VetsGov?.featureToggles?.dslogonEnabled;
 
-  const showDslogon = !!dslogon && isDslogonEnabled();
-  const showRetiredDslogonContent = !!dslogon && !isDslogonEnabled();
+  const dslogonEnabled = !!dslogon && isDslogonEnabled();
+  const dslogonRetired = !!dslogon && !isDslogonEnabled();
+
+  const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
 
   useEffect(
     () => {
@@ -27,7 +29,20 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
     [OAuth, OAuthEnabled],
   );
 
-  const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
+  const renderRetiredNotice = (id, label) => (
+    <div>
+      <h3 id={id} className="vads-u-margin-top--3">
+        {label}
+        <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
+          This option is no longer available
+        </span>
+      </h3>
+      <va-link
+        text="Learn how to access your benefits and set up your new account"
+        href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
+      />
+    </div>
+  );
 
   return (
     <div className="row">
@@ -46,26 +61,16 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
           Learn about creating a Login.gov or ID.me account
         </a>
 
-        {(showDslogon || showRetiredDslogonContent) && (
+        {(dslogonEnabled || dslogonRetired) && (
           <>
             <h2>Other sign-in option</h2>
 
-            {showDslogon && (
-              <div>
-                <h3 id="mhvH3" className="vads-u-margin-top--3">
-                  My HealtheVet sign-in option
-                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    This option is no longer available
-                  </span>
-                </h3>
-                <va-link
-                  text="Learn how to access your benefits and set up your new account"
-                  href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
-                />
-              </div>
-            )}
+            {/* MHV retired notice */}
+            {dslogonEnabled &&
+              renderRetiredNotice('mhvH3', 'My HealtheVet sign-in option')}
 
-            {showDslogon && (
+            {/* DS Logon (enabled) */}
+            {dslogonEnabled && (
               <>
                 <h3
                   id="dslogonH3"
@@ -89,20 +94,9 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
               </>
             )}
 
-            {showRetiredDslogonContent && (
-              <div>
-                <h3 id="dslogonH3" className="vads-u-margin-top--3">
-                  DS Logon sign-in option
-                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    This option is no longer available
-                  </span>
-                </h3>
-                <va-link
-                  text="Learn how to access your benefits and set up your new account"
-                  href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
-                />
-              </div>
-            )}
+            {/* DS Logon retired */}
+            {dslogonRetired &&
+              renderRetiredNotice('dslogonH3', 'DS Logon sign-in option')}
           </>
         )}
       </div>
