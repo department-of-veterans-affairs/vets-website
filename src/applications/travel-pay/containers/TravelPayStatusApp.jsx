@@ -10,9 +10,8 @@ import { intersection, difference } from 'lodash';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
-import { Element } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
-import { scrollTo } from 'platform/utilities/ui/scroll';
+import { Element, scrollTo } from 'platform/utilities/scroll';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
