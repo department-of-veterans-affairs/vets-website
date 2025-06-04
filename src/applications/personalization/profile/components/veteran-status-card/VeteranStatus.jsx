@@ -80,6 +80,10 @@ const VeteranStatus = ({
     formattedFullName
   );
 
+  useEffect(() => {
+    document.title = `Veteran Status Card | Veterans Affairs`;
+  }, []);
+
   useEffect(
     () => {
       let isMounted = true;
@@ -271,7 +275,6 @@ const VeteranStatus = ({
 };
 
 VeteranStatus.propTypes = {
-  edipi: PropTypes.number,
   militaryInformation: PropTypes.shape({
     serviceHistory: PropTypes.shape({
       error: PropTypes.shape({
@@ -296,6 +299,7 @@ VeteranStatus.propTypes = {
       }),
     }).isRequired,
   }).isRequired,
+  edipi: PropTypes.number,
   mockUserAgent: PropTypes.string,
   totalDisabilityRating: PropTypes.number,
   userFullName: PropTypes.object,
