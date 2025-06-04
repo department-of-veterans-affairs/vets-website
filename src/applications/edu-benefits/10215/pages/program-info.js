@@ -19,7 +19,7 @@ const getSupportedStudents = (formData, index) =>
     formData?.programs?.[index]?.supportedStudents ||
       formData?.supportedStudents,
   );
-
+const noSpaceOnlyPattern = '^(?!\\s*$).+';
 const programInfo = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
@@ -38,6 +38,7 @@ const programInfo = {
       title: 'Program name',
       errorMessages: {
         required: 'Please enter a program name',
+        pattern: 'You must provide a response',
       },
     }),
     studentsEnrolled: numberUI({
@@ -96,7 +97,7 @@ const programInfo = {
   schema: {
     type: 'object',
     properties: {
-      programName: textSchema,
+      programName: { ...textSchema, pattern: noSpaceOnlyPattern },
       studentsEnrolled: numberSchema,
       supportedStudents: numberSchema,
       fte: {

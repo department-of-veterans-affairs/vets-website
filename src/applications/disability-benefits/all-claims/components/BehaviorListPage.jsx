@@ -7,7 +7,7 @@ import {
   VaModal,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { scrollToFirstError, scrollAndFocus } from 'platform/utilities/ui';
+import { scrollToFirstError, scrollAndFocus } from 'platform/utilities/scroll';
 
 import {
   behaviorListDescription,
