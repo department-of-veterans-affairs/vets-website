@@ -123,7 +123,7 @@ const Authorization = ({
         </p>
         <va-accordion>
           <va-accordion-item
-            header="1. Expiration & how to cancel authorization"
+            header="1. Expiration and how to cancel authorization"
             id="section-one"
             level="4"
             open
@@ -151,9 +151,9 @@ const Authorization = ({
               you understand that VA may use information disclosed prior to
               revocation to decide your claim. If you don’t know which VA
               Regional Office is handling your claim, mail your written
-              revocation to the Evidence Intake Center address:
+              revocation to the Evidence Intake Center:
             </p>
-            <p className="va-address-block vads-u-margin-top--3">
+            <p className="va-address-block vads-u-margin-top--3 vads-u-margin-left--2">
               Department of Veterans Affairs
               <br />
               Evidence Intake Center
@@ -161,8 +161,6 @@ const Authorization = ({
               PO Box 4444
               <br />
               Janesville, WI 53547-4444
-              <br />
-              United States of America
             </p>
           </va-accordion-item>
           <va-accordion-item
@@ -251,8 +249,6 @@ const Authorization = ({
               PO Box 4444
               <br />
               Janesville, WI 53547-4444
-              <br />
-              United States of America
             </p>
             <p className="vads-u-margin-bottom--0">
               This address serves all United States and foreign locations.
@@ -261,7 +257,7 @@ const Authorization = ({
         </va-accordion>
         <div className="hipaa-privacy-agreement vads-u-padding-x--3 vads-u-padding-top--3 vads-u-padding-bottom--2 vads-u-margin-top--3">
           <h3 className="vads-u-margin-top--0" id="acknowledgement">
-            Acknowledgement & HIPAA compliance
+            Acknowledgement and HIPAA compliance
           </h3>
           <p>
             I hereby authorize the sources listed in{' '}
@@ -273,7 +269,7 @@ const Authorization = ({
             , to release any information that may have been obtained in
             connection with a physical, psychological or psychiatric examination
             or treatment, with the understanding that VA will use this
-            information in determining my eligibility to veterans benefits I
+            information in determining my eligibility to Veterans benefits I
             have claimed. I understand that the source being asked to provide
             the Veterans Benefits Administration with records under this
             authorization may not require me to execute this authorization
@@ -358,7 +354,7 @@ const Authorization = ({
             , to release any information that may have been obtained in
             connection with a physical, psychological or psychiatric examination
             or treatment, with the understanding that VA will use this
-            information in determining my eligibility to veterans benefits I
+            information in determining my eligibility to Veterans benefits I
             have claimed.
           </p>
           <h4>Authorization and consent</h4>
@@ -393,7 +389,7 @@ const Authorization = ({
               <va-link
                 href="#acknowledgement"
                 onClick={e => focusSection(e, '#acknowledgement')}
-                text="Acknowledgment & HIPAA compliance"
+                text="Acknowledgment and HIPAA compliance"
               />
               ).
             </li>
@@ -403,7 +399,7 @@ const Authorization = ({
               <va-link
                 href="#section-one"
                 onClick={e => focusSection(e, '#section-one')}
-                text="Section 1. Expiration &
+                text="Section 1. Expiration and
               how to cancel authorization"
               />
               ).
