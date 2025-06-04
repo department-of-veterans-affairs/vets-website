@@ -7,13 +7,13 @@ const actionPrefix = 'MHV Secondary Nav';
  * MHV secondary navigation items. Note the first item is the home link.
  *
  * Notes:
- * - The title is the text displayed in the navigation.
- * - The abbreviation is an optional short version of the title, used for smaller screens.
- * - The ariaLabel is paired with the abbreviation and it is used for accessibility purposes.
- * - The actionName is used for analytics tracking.
- * - The icon is the name of the icon to be displayed in the navigation.
- * - The href is the link to the page.
- * - The `appRootUrl` is used to determine which secondary navigation item should be marked as
+ * - `title` is the text displayed in the navigation.
+ * - `abbreviation` is an optional short version of the title, used for smaller screens.
+ * - `ariaLabel` is paired with the abbreviation and it is used for accessibility purposes.
+ * - `actionName` is used for analytics tracking.
+ * - `icon` is the name of the icon to be displayed in the navigation.
+ * - `href` is the link to the page.
+ * - `appRootUrl` is used to determine which secondary navigation item should be marked as
  *   "current" when the navigation link points to a sub-page within the app rather than its root.
  *   If `appRootUrl` differs from the `href`, it must be explicitly defined to ensure the correct
  *   active state is applied (i.e. the appropriate tab is highlighted) in the secondary nav.
