@@ -100,18 +100,13 @@ export default function ClaimDetailsContent({
               </p>
             </>
           ) : (
-            <va-additional-info
-              class="vads-u-margin-y--2"
-              trigger="What does this status mean"
-            >
-              <p className="vads-u-margin-top--2">
-                If you need help understanding your claim, call the BTSSS call
-                center at <va-telephone contact="8555747292" /> (
-                <va-telephone tty contact="711" />) Monday through Friday, 8:00
-                a.m. to 8:00 p.m. ET. Have your claim number ready to share when
-                you call.
-              </p>
-            </va-additional-info>
+            <p className="vads-u-margin-top--2">
+              If you need help understanding your claim, call the BTSSS call
+              center at <va-telephone contact="8555747292" /> (
+              <va-telephone tty contact="711" />) Monday through Friday, 8:00
+              a.m. to 8:00 p.m. ET. Have your claim number ready to share when
+              you call.
+            </p>
           )}
           {documentCategories.clerk.length > 0 &&
             getDocLinkList(documentCategories.clerk)}
