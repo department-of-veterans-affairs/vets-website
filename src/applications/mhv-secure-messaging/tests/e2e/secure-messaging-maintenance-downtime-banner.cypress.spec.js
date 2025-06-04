@@ -33,7 +33,8 @@ describe('SM Maintenance Banner', () => {
         Alerts.MAINTENANCE.ACTIVE,
       );
 
-      // axeCheck() verification could not be added due to page content absence
+      cy.injectAxe();
+      cy.axeCheck('.vads-l-grid-container');
     });
 
     it(`verify compose active maintenance`, () => {
@@ -51,8 +52,35 @@ describe('SM Maintenance Banner', () => {
         endDate,
         Alerts.MAINTENANCE.ACTIVE,
       );
+      cy.injectAxe();
+      cy.axeCheck('.vads-l-grid-container');
+    });
 
-      // axeCheck() verification could not be added due to page content absence
+    it('verify maintenance window is bypassed when a feature flag is enabled', () => {
+      cy.intercept(
+        `GET`,
+        Paths.INTERCEPT.MAINTENANCE_WINDOWS,
+        activeMaintenanceData,
+      ).as(`maintenance_windows`);
+
+      const customFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
+        {
+          name: 'mhv_bypass_downtime_notification',
+          value: true,
+        },
+      ]);
+
+      SecureMessagingSite.login(customFeatureToggles);
+      PatientInboxPage.loadInboxMessages();
+      GeneralFunctionsPage.verifyMaintenanceBanner(
+        currentDate,
+        endDate,
+        Alerts.MAINTENANCE.ACTIVE,
+      );
+      GeneralFunctionsPage.verifyPageHeader(`Messages: Inbox`);
+      PatientInboxPage.verifyFilterMessageHeadingText();
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT);
     });
   });
 

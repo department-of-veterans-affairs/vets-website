@@ -32,7 +32,8 @@ export const createCardUploadSchema = ({
   frontLabel = 'Upload front of card',
   backLabel = 'Upload back of card',
 }) => {
-  // Card sample display component
+  // Shows what the front and back of the specified card look like
+  // (e.g., medicare red, white, and blue card or something)
   const cardSampleDisplay = (
     <div
       key="sample-container"
@@ -68,7 +69,8 @@ export const createCardUploadSchema = ({
     </div>
   );
 
-  // Organize UI elements in the specified order
+  // Hold UI elements in a list so we can organize the order based
+  // on config options.
   const uiElements = [];
 
   // Add custom description first

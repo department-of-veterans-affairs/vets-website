@@ -1,5 +1,4 @@
-import { scrollAndFocus } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollAndFocus, scrollToTop } from 'platform/utilities/scroll';
 
 export function setFocus(selector) {
   const el =
