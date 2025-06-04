@@ -39,7 +39,7 @@ const Authorization = ({
           event: 'visible-alert-box',
           'alert-box-type': 'warning',
           'alert-box-heading':
-            'Authorize your doctor to release your records or upload them yourself',
+            'Authorize your providers to release your records or upload them yourself',
           'error-key': 'not_authorizing_records_release',
           'alert-box-full-width': false,
           'alert-box-background-only': false,
