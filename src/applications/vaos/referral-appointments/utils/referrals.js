@@ -4,47 +4,12 @@ const { addDays, addMonths, format, subMonths } = require('date-fns');
 const defaultUUIDBase = '6cg8T26YivnL68JzeTaV0w==';
 const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
 
-const errorReferralsList = [
-  {
-    attributes: {
-      expirationDate: '2025-11-14',
-      uuid: 'VA0000009880-create-error',
-      categoryOfCare: 'create error',
-      referralId: 'VA0000009880-create-error',
-    },
-  },
-  {
-    attributes: {
-      expirationDate: '2025-11-14',
-      uuid: 'VA0000009880-complete-retry-error',
-      categoryOfCare: 'complete retry error',
-      referralId: 'VA0000009880-complete-retry-error',
-    },
-  },
-  {
-    attributes: {
-      expirationDate: '2025-11-14',
-      uuid: 'VA0000009880-complete-error',
-      categoryOfCare: 'complete error',
-      referralId: 'VA0000009880-complete-error',
-    },
-  },
-  {
-    attributes: {
-      expirationDate: '2025-11-14',
-      uuid: 'VA0000009880-draft-no-active-slots-error',
-      categoryOfCare: 'draft no active slots error',
-      referralId: 'VA0000009880-draft-no-active-slots-error',
-    },
-  },
-  {
-    attributes: {
-      expirationDate: '2025-11-14',
-      uuid: 'VA0000009880-appointment-details-error',
-      categoryOfCare: 'appointment details error',
-      referralId: 'VA0000009880-appointment-details-error',
-    },
-  },
+const errorUUIDs = [
+  '6cg8T26YivnL68JzeTaV0w==create-error',
+  '6cg8T26YivnL68JzeTaV0w==complete-retry-error',
+  '6cg8T26YivnL68JzeTaV0w==complete-error',
+  '6cg8T26YivnL68JzeTaV0w==draft-no-active-slots-error',
+  '6cg8T26YivnL68JzeTaV0w==appointment-details-error',
 ];
 
 /**
@@ -52,7 +17,7 @@ const errorReferralsList = [
  *
  * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} uuid The UUID for the referral
- * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
+ * @param {String} categoryOfCare The category of care for the referral
  * @returns {Object} Referral object
  */
 
@@ -73,6 +38,13 @@ const createReferralListItem = (
     },
   };
 };
+
+/* Creates a list of error referrals with specific UUIDs.
+ * These are used to test error handling.
+ */
+const errorReferralsList = (errorUUIDs || []).map(uuid => {
+  return createReferralListItem('2025-11-14', uuid);
+});
 
 /**
  * Creates a referral object with specified uuid and expiration date.
