@@ -226,4 +226,5 @@ ClaimDetailsContent.propTypes = {
   modifiedOn: PropTypes.string.isRequired,
   documents: PropTypes.array,
   reimbursementAmount: PropTypes.number,
+  totalCostRequested: PropTypes.number,
 };
