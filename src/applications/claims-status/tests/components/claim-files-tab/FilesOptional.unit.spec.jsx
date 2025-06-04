@@ -85,7 +85,7 @@ describe('<FilesOptional>', () => {
 
     getByText('Requested from outside VA on April 21, 2025');
   });
-  it(`should not render Requested from examiner's office when cstFriendlyEvidenceRequests is true and track item is a DBQ`, () => {
+  it(`should render Requested from examiner's office when cstFriendlyEvidenceRequests is true and track item is a DBQ`, () => {
     const { getByText } = renderWithRouter(
       <Provider store={getStore(true)}>
         <FilesOptional item={DBQItem} />
