@@ -23,8 +23,6 @@ export default {
     socialSecurityDisability: yesNoUI({
       title:
         'Do you receive Social Security Disability Insurance or Supplemental Security Income?',
-      hint:
-        "Your answer to this question helps us determine if you're eligible for Veterans Pension benefits. We consider your age, income, and medical history in our determination.",
       classNames: 'vads-u-margin-bottom--2',
     }),
   },
