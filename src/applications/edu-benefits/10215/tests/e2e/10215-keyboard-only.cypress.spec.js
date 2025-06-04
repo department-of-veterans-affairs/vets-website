@@ -1,4 +1,3 @@
-import { fillStatementOfTruthSignature } from 'applications/simple-forms/shared/tests/e2e/helpers';
 import manifest from '../../manifest.json';
 import formConfig from '../../config/form';
 import testData from '../fixtures/data/test-data.json';
@@ -186,9 +185,10 @@ describe('22-10215 Edu Benefits Form', () => {
       .shadow()
       .find('p.font-sans-6')
       .should('have.css', 'display', 'none');
-    fillStatementOfTruthSignature(
-      `${institutionOfficial.first} ${institutionOfficial.last}`,
-    );
+    cy.get('#veteran-signature')
+      .shadow()
+      .get('#inputField')
+      .type(`${institutionOfficial.first} ${institutionOfficial.last}`);
     cy.tabToElementAndPressSpace('va-checkbox');
     // 'Submit' form
     cy.tabToElement('.usa-button-primary').click();

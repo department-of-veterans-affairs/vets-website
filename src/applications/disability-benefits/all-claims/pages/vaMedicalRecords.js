@@ -6,6 +6,7 @@ import { treatmentView } from '../content/vaMedicalRecords';
 import { hasVAEvidence } from '../utils';
 import { makeSchemaForAllDisabilities } from '../utils/schemas';
 import { isCompletingForm0781 } from '../utils/form0781';
+import { standardTitle } from '../content/form0781';
 
 import {
   validateMilitaryTreatmentCity,
@@ -19,7 +20,7 @@ const { vaTreatmentFacilities } = fullSchema.properties;
 
 export const uiSchema = {
   'view:vaMedicalRecordsIntro': {
-    'ui:title': 'VA medical records',
+    'ui:title': standardTitle('Request medical records from VA providers'),
     'ui:description':
       'Tell us where VA treated you for your condition. We’ll use the information you provide to help us locate your records and make decisions on your claim.',
   },

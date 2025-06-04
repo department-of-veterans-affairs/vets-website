@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
-// import { capitalize } from 'lodash';
+
 import formConfig from '../../../../config/form';
 import { addStudentsOptions } from '../../../../config/chapters/674/addStudentsArrayPages';
 
@@ -143,44 +143,34 @@ describe('addStudentsOptions', () => {
       );
     });
   });
-  describe('getItemName + cardDescription', () => {
+  describe('getItemName', () => {
     it('should return a full name when both first and last names are provided', () => {
       const item = { fullName: { first: 'John', last: 'Doe' } };
-      const { container } = render(
-        addStudentsOptions.text.cardDescription(item),
-      );
+      const { container } = render(addStudentsOptions.text.getItemName(item));
       expect(container.textContent).to.equal('John Doe');
     });
 
     it('should return only the first name when the last name is missing', () => {
       const item = { fullName: { first: 'John' } };
-      const { container } = render(
-        addStudentsOptions.text.cardDescription(item),
-      );
+      const { container } = render(addStudentsOptions.text.getItemName(item));
       expect(container.textContent).to.equal('John');
     });
 
     it('should return only the last name when the first name is missing', () => {
       const item = { fullName: { last: 'Doe' } };
-      const { container } = render(
-        addStudentsOptions.text.cardDescription(item),
-      );
+      const { container } = render(addStudentsOptions.text.getItemName(item));
       expect(container.textContent).to.equal('Doe');
     });
 
     it('should return an empty string when both first and last names are missing', () => {
       const item = { fullName: { first: '', last: '' } };
-      const { container } = render(
-        addStudentsOptions.text.cardDescription(item),
-      );
+      const { container } = render(addStudentsOptions.text.getItemName(item));
       expect(container.textContent).to.equal('');
     });
 
     it('should return an empty string when fullName is not provided', () => {
       const item = {};
-      const { container } = render(
-        addStudentsOptions.text.cardDescription(item),
-      );
+      const { container } = render(addStudentsOptions.text.getItemName(item));
       expect(container.textContent).to.equal('');
     });
   });

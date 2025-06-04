@@ -4,18 +4,18 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
-  privateRecordsPageTitle,
   privateRecordsChoiceHelp,
   patientAcknowledgmentTitle,
   patientAcknowledgmentText,
   patientAcknowledgmentError,
 } from '../content/privateMedicalRecords';
+import { standardTitle } from '../content/form0781';
 
 const isNotUploadingPrivateRecords = data =>
   data?.['view:hasPrivateRecordsToUpload'] === false;
 
 export const uiSchema = {
-  'ui:title': privateRecordsPageTitle,
+  'ui:title': standardTitle('Private medical records'),
   'ui:description':
     'Now we’ll ask you about your private medical records for your condition.',
   'view:uploadPrivateRecordsQualifier': {

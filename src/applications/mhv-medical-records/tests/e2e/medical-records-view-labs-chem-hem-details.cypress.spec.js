@@ -11,7 +11,9 @@ describe('Medical Records View Labs And Tests', () => {
     LabsAndTestsListPage.goToLabsAndTests();
     const record = labsAndTests.entry[1].resource;
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(3, labsAndTests.entry[1]);
-    ChemHemDetailsPage.verifyLabName(record.contained[4].code.text);
+    ChemHemDetailsPage.verifyLabName(
+      record.contained[4].code.coding[1].display,
+    );
     ChemHemDetailsPage.verifyLabDate(
       moment(record.contained[0].collection.collectedDateTime).format(
         'MMMM D, YYYY',

@@ -192,7 +192,7 @@ const benefitSummaryLetterLabels = {
   },
   hasAdaptedHousing: {
     veteran:
-      'Qualification for Specially Adapted Housing (SAH) and Special Home Adaption (SHA) grants',
+      'Housing grant eligibility for Special Adapted Housing (SAH) and Special Home Adaption (SHA)',
     dependent: undefined,
   },
   hasChapter35Eligibility: {
@@ -208,7 +208,7 @@ const benefitSummaryLetterLabels = {
     dependent: undefined,
   },
   hasNonServiceConnectedPension: {
-    veteran: 'Status of non-service connected pension',
+    veteran: 'Non-service-connected pension status',
     dependent: undefined,
   },
   hasServiceConnectedDisabilities: {
@@ -216,7 +216,7 @@ const benefitSummaryLetterLabels = {
     dependent: undefined,
   },
   hasSpecialMonthlyCompensation: {
-    veteran: 'Status of special monthly compensation',
+    veteran: 'Special monthly compensation status',
     dependent: undefined,
   },
   hasSurvivorsIndemnityCompensationAward: {

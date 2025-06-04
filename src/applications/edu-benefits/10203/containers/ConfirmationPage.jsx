@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
 class ConfirmationPage extends React.Component {
@@ -12,7 +12,7 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const form = this.props.form;
+    const { form } = this.props;
     const { submission, formId } = form;
 
     return (

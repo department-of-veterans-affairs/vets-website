@@ -1,4 +1,11 @@
 /* eslint-disable no-console */
+/*
+ * How to run:
+ *
+ * 1. node src/applications/vaos/scripts/gherkin.js [glob pattern (optional)]
+ *
+ */
+
 const fs = require('fs');
 const parser = require('@babel/parser');
 const traverse = require('@babel/traverse');
@@ -150,9 +157,3 @@ if (require.main === module) {
   console.log(`${gwtTests} scenarios in GWT format`);
   console.log(`${regularTests} other tests`);
 }
-
-module.exports = {
-  isTest,
-  isBlock,
-  getComments,
-};

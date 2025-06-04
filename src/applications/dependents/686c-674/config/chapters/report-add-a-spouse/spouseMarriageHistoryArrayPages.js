@@ -1,5 +1,4 @@
 import React from 'react';
-import { capitalize } from 'lodash';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
@@ -20,6 +19,7 @@ import {
   spouseFormerMarriageLabels,
   customLocationSchema,
 } from '../../helpers';
+import { getFullName } from '../../../../shared/utils';
 
 /** @type {ArrayBuilderOptions} */
 export const spouseMarriageHistoryOptions = {
@@ -48,14 +48,7 @@ export const spouseMarriageHistoryOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your spouse’s marital history',
-    getItemName: () => 'Spouse’s former marriage',
-    cardDescription: item => (
-      <span className="dd-privacy" data-dd-privacy="mask">
-        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
-          item?.fullName?.last,
-        ) || ''}`.trim()}
-      </span>
-    ),
+    getItemName: item => getFullName(item.fullName),
   },
 };
 

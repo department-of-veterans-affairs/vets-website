@@ -83,19 +83,19 @@ describe('686 Remove child no longer in household array options', () => {
     });
   });
 
-  describe('text.getItemName + cardDescription', () => {
-    it('should return a full name with capitalized first and last name', () => {
+  describe('text.getItemName', () => {
+    it('should return a full name with first and last name', () => {
       const item = { fullName: { first: 'john', last: 'doe' } };
       const { container } = render(
-        removeChildHouseholdOptions.text.cardDescription(item),
+        removeChildHouseholdOptions.text.getItemName(item),
       );
-      expect(container.textContent).to.equal('John Doe');
+      expect(container.textContent).to.equal('john doe');
     });
 
     it('should return only the first name if the last name is missing', () => {
       const item = { fullName: { first: 'John' } };
       const { container } = render(
-        removeChildHouseholdOptions.text.cardDescription(item),
+        removeChildHouseholdOptions.text.getItemName(item),
       );
       expect(container.textContent).to.equal('John');
     });
@@ -103,7 +103,7 @@ describe('686 Remove child no longer in household array options', () => {
     it('should return only the last name if the first name is missing', () => {
       const item = { fullName: { last: 'Doe' } };
       const { container } = render(
-        removeChildHouseholdOptions.text.cardDescription(item),
+        removeChildHouseholdOptions.text.getItemName(item),
       );
       expect(container.textContent).to.equal('Doe');
     });
@@ -111,7 +111,7 @@ describe('686 Remove child no longer in household array options', () => {
     it('should return an empty string if both first and last names are missing', () => {
       const item = { fullName: { first: '', last: '' } };
       const { container } = render(
-        removeChildHouseholdOptions.text.cardDescription(item),
+        removeChildHouseholdOptions.text.getItemName(item),
       );
       expect(container.textContent).to.equal('');
     });

@@ -94,7 +94,7 @@ describe('deceasedDependentOptions', () => {
         fullName: { first: 'John', last: 'Doe' },
       };
       const { container } = render(
-        deceasedDependentOptions.text.cardDescription(item),
+        deceasedDependentOptions.text.getItemName(item),
       );
       expect(container.textContent).to.equal('John Doe');
     });
@@ -105,36 +105,36 @@ describe('deceasedDependentOptions', () => {
         fullName: { first: 'John' },
       };
       const { container } = render(
-        deceasedDependentOptions.text.cardDescription(item),
+        deceasedDependentOptions.text.getItemName(item),
       );
       expect(container.textContent).to.equal('John');
     });
 
     it('should return "Dependent" if dependentType is missing', () => {
       const item = {};
-      expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
+      expect(deceasedDependentOptions.text.cardDescription(item)).to.equal(
         'Dependent',
       );
     });
 
     it('should return "Dependent" if dependentType is invalid', () => {
       const item = { dependentType: 'invalidType' };
-      expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
+      expect(deceasedDependentOptions.text.cardDescription(item)).to.equal(
         'Dependent',
       );
     });
   });
 
-  describe('text.cardDescription', () => {
-    it('should return a formatted full name with capitalized first and last names', () => {
+  describe('text.getItemName', () => {
+    it('should return a formatted full name', () => {
       const item = {
         dependentType: 'CHILD',
         fullName: { first: 'jOhN', last: 'dOe' },
       };
       const { container } = render(
-        deceasedDependentOptions.text.cardDescription(item),
+        deceasedDependentOptions.text.getItemName(item),
       );
-      expect(container.textContent).to.equal('John Doe');
+      expect(container.textContent).to.equal('jOhN dOe');
     });
 
     it('should handle missing first or last name gracefully', () => {
@@ -143,7 +143,7 @@ describe('deceasedDependentOptions', () => {
         fullName: { first: 'John', last: '' },
       };
       const { container } = render(
-        deceasedDependentOptions.text.cardDescription(item),
+        deceasedDependentOptions.text.getItemName(item),
       );
       expect(container.textContent).to.equal('John');
     });

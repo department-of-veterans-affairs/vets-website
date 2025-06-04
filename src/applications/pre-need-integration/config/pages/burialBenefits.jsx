@@ -1,7 +1,7 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 import React from 'react';
 
-import { isVeteran } from '../../utils/helpers';
+import { isVeteran, isAuthorizedAgent } from '../../utils/helpers';
 
 const {
   hasCurrentlyBuried,
@@ -27,10 +27,18 @@ export function uiSchema(ariaLabel) {
         'ui:options': {
           updateSchema: formData => {
             let title = '';
-            if (isVeteran(formData)) {
+            // Veteran Flow
+            if (isVeteran(formData) && !isAuthorizedAgent(formData)) {
+              title =
+                'Is there anyone currently buried in a VA national cemetery under your eligibility?';
+            }
+            // Preparer Flow
+            else if (isVeteran(formData) && isAuthorizedAgent(formData)) {
               title =
                 'Is there anyone currently buried in a VA national cemetery under the applicant’s eligibility?';
-            } else {
+            }
+            // Sponsor Flow
+            else {
               title =
                 'Is there anyone currently buried in a VA national cemetery under the sponsor’s eligibility?';
             }

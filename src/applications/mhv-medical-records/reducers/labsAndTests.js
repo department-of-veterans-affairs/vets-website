@@ -2,8 +2,9 @@ import { parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
-  dateFormatWithoutTimezone,
   formatDate,
+  dateFormatWithoutTimezone,
+  formatDateInLocalTimezone,
   extractContainedByRecourceType,
   extractContainedResource,
   getObservationValueWithUnits,
@@ -135,6 +136,18 @@ export const extractSpecimen = record => {
 
 export const extractOrderedTest = (record, id) => {
   const serviceReq = extractContainedResource(record, id);
+
+  // First try to find a display value in the coding array
+  if (isArrayAndHasItems(serviceReq?.code?.coding)) {
+    const codingWithDisplay = serviceReq.code.coding.find(
+      item => item.display && item.display.trim() !== '',
+    );
+    if (codingWithDisplay?.display) {
+      return codingWithDisplay.display;
+    }
+  }
+
+  // Fall back to code.text if no display found
   return serviceReq?.code?.text || null;
 };
 
@@ -359,7 +372,7 @@ export const convertMhvRadiologyRecord = record => {
     clinicalHistory: record?.clinicalHistory?.trim() || EMPTY_FIELD,
     imagingLocation: record.performingLocation,
     date: record.eventDate
-      ? dateFormatWithoutTimezone(record.eventDate)
+      ? formatDateInLocalTimezone(record.eventDate, true)
       : EMPTY_FIELD,
     sortDate: record.eventDate,
     imagingProvider: imagingProvider || EMPTY_FIELD,
@@ -378,7 +391,7 @@ export const convertCvixRadiologyRecord = record => {
     clinicalHistory: parsedReport['Clinical History'] || EMPTY_FIELD,
     imagingLocation: record.facilityInfo?.name || EMPTY_FIELD,
     date: record.performedDatePrecise
-      ? dateFormatWithoutTimezone(record.performedDatePrecise)
+      ? formatDateInLocalTimezone(record.performedDatePrecise, true)
       : EMPTY_FIELD,
     sortDate: record.performedDatePrecise
       ? `${new Date(record.performedDatePrecise).toISOString().split('.')[0]}Z`

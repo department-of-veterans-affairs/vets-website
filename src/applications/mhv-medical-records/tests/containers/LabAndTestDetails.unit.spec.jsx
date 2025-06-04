@@ -42,7 +42,7 @@ describe('LabsAndTests details container', () => {
   });
 
   it('displays the test name as an h1', () => {
-    const testName = screen.getByText('Potassium, Sodium', {
+    const testName = screen.getByText('POTASSIUM, SODIUM', {
       exact: true,
       selector: 'h1',
     });

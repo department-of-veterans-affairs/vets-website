@@ -232,26 +232,19 @@ describe('arrayBuilderOptions', () => {
   });
 
   describe('text methods', () => {
-    it('should return the correct item name from getItemName', () => {
-      const itemName = arrayBuilderOptions.text.getItemName();
-      expect(itemName).to.equal('Child');
-    });
-
-    it('should return the correct card description from cardDescription', () => {
+    it('should return the correct card title from getItemName', () => {
       const item = { fullName: { first: 'John', last: 'Doe' } };
-      const { getByText } = render(
-        arrayBuilderOptions.text.cardDescription(item),
-      );
+      const { getByText } = render(arrayBuilderOptions.text.getItemName(item));
       expect(getByText('John Doe')).to.exist;
     });
 
-    it('should return a space for cardDescription when fullName is incomplete', () => {
+    it('should return a space for getItemName when fullName is incomplete', () => {
       const incompleteItem = { fullName: {} };
       const { container } = render(
-        arrayBuilderOptions.text.cardDescription(incompleteItem),
+        arrayBuilderOptions.text.getItemName(incompleteItem),
       );
       const text = container.textContent;
-      expect(text).to.equal(' ');
+      expect(text).to.equal('');
     });
   });
 });

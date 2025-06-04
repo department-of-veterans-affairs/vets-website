@@ -14,8 +14,8 @@ import {
   goToNextPage,
 } from './helpers';
 import {
-  fillEmergencyContactPersonalInfo,
-  fillEmergencyContactAddress,
+  fillContactPersonalInfo,
+  fillContactAddress,
 } from './helpers/emergency-contacts';
 
 const testConfig = createTestConfig(
@@ -77,7 +77,10 @@ const testConfig = createTestConfig(
       'veteran-information/emergency-contacts/0/contact': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactPersonalInfo(data.emergencyContacts[0]);
+            fillContactPersonalInfo(
+              data.emergencyContacts[0],
+              'view:hasEmergencyContactAddress',
+            );
           });
         });
       },
@@ -86,14 +89,17 @@ const testConfig = createTestConfig(
       }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactAddress(data.emergencyContacts[0]);
+            fillContactAddress(data.emergencyContacts[0]);
           });
         });
       },
       'veteran-information/emergency-contacts/1/contact': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactPersonalInfo(data.emergencyContacts[1]);
+            fillContactPersonalInfo(
+              data.emergencyContacts[1],
+              'view:hasEmergencyContactAddress',
+            );
           });
         });
       },
@@ -102,7 +108,60 @@ const testConfig = createTestConfig(
       }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillEmergencyContactAddress(data.emergencyContacts[1]);
+            fillContactAddress(data.emergencyContacts[1]);
+          });
+        });
+      },
+      'veteran-information/next-of-kin-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get('body').then($body => {
+              if (
+                $body.find('va-radio-option[name="root_view:hasNextOfKin"]')
+                  .length
+              ) {
+                selectYesNoWebComponent(
+                  'view:hasNextOfKin',
+                  data['view:hasNextOfKin'],
+                );
+              }
+            });
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'veteran-information/next-of-kin/0/contact': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillContactPersonalInfo(
+              data.nextOfKins[0],
+              'view:hasNextOfKinAddress',
+            );
+          });
+        });
+      },
+      'veteran-information/next-of-kin/0/contact-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillContactAddress(data.nextOfKins[0]);
+          });
+        });
+      },
+      'veteran-information/next-of-kin/1/contact': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillContactPersonalInfo(
+              data.nextOfKins[1],
+              'view:hasNextOfKinAddress',
+            );
+          });
+        });
+      },
+      'veteran-information/next-of-kin/1/contact-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillContactAddress(data.nextOfKins[1]);
           });
         });
       },

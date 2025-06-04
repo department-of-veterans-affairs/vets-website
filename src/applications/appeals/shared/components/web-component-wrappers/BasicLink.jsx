@@ -8,12 +8,16 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 // https://design.va.gov/storybook/?path=/docs/components-va-link--docs
 const BasicLink = ({ path, search, router, ...props }) => {
   const ariaLabel = props?.['aria-label'] ?? {};
+  const href = path.charAt(0) === '/' ? path : `/${path}`;
 
   return (
     <VaLink
-      label={ariaLabel}
       {...props}
-      onClick={() => {
+      href={href}
+      label={ariaLabel}
+      onClick={event => {
+        event.preventDefault();
+
         if (search && path) {
           router.push(`${path}${search}`);
         } else if (path) {

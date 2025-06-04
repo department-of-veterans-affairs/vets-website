@@ -1,5 +1,5 @@
 import React from 'react';
-import { capitalize } from 'lodash';
+
 import {
   titleUI,
   textUI,
@@ -30,6 +30,7 @@ import {
 import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
+
 import {
   AccreditedSchool,
   AddStudentsIntro,
@@ -39,6 +40,7 @@ import {
   TermDateHint,
 } from './helpers';
 import { CancelButton, generateHelpText } from '../../helpers';
+import { getFullName } from '../../../../shared/utils';
 
 /** @type {ArrayBuilderOptions} */
 export const addStudentsOptions = {
@@ -80,14 +82,7 @@ export const addStudentsOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your students',
-    getItemName: () => 'Student',
-    cardDescription: item => (
-      <span className="dd-privacy" data-dd-privacy="mask">
-        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
-          item?.fullName?.last,
-        ) || ''}`.trim()}
-      </span>
-    ),
+    getItemName: item => getFullName(item.fullName),
   },
 };
 

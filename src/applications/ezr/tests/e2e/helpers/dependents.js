@@ -25,6 +25,10 @@ export const advanceToDependents = () => {
 
   selectYesNoWebComponent('view:hasEmergencyContacts', false);
 
+  // Skip Next of Kin Section
+  goToNextPage('/veteran-information/next-of-kin-summary');
+  selectYesNoWebComponent('view:hasNextOfKin', false);
+
   goToNextPage('/military-service/toxic-exposure');
   cy.get('[name="root_hasTeraResponse"]').check('N');
 

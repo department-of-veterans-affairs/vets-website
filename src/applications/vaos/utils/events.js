@@ -69,34 +69,27 @@ export const NULL_STATE_FIELD = {
  *   for Claim Exam) do not include an entry for the field in the dictionary.
  */
 export function recordAppointmentDetailsNullStates(attributes, nullStates) {
-  const nullStateEventPrefix = `${GA_PREFIX}-null-states`;
-  let anyNullState = false;
-
-  // Always increment total expected count
-  recordEvent({ event: `${nullStateEventPrefix}-expected-total` });
+  const missingFields = [];
+  const presentFields = [];
 
   // Examine each field type and determine which events should be logged
   Object.values(NULL_STATE_FIELD).forEach(key => {
     // Only log events if a field exists in the input dictionary, otherwise ignore it
     if (key in nullStates) {
-      // Record the expected event
-      recordEvent({ event: `${nullStateEventPrefix}-expected-${key}` });
-      // Record the missing event if needed and updated anyNullState
       if (nullStates[key]) {
-        recordEvent({
-          event: `${nullStateEventPrefix}-missing-${key}`,
-          ...attributes,
-        });
-        anyNullState = true;
+        // If the field is missing, record the missing event
+        missingFields.push(key);
+      } else {
+        // If the field is present, record the expected event
+        presentFields.push(key);
       }
     }
   });
 
-  //  Increment if any null states were present
-  if (anyNullState) {
-    recordEvent({
-      event: `${nullStateEventPrefix}-missing-any`,
-      ...attributes,
-    });
-  }
+  recordEvent({
+    event: `${GA_PREFIX}-null-states`,
+    ...attributes,
+    'fields-load-success': presentFields.join(','),
+    'fields-load-fail': missingFields.join(','),
+  });
 }

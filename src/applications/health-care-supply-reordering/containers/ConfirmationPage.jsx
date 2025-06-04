@@ -98,9 +98,9 @@ const ConfirmationPage = ({
               status="info"
             >
               <section>
-                <h4 className="vads-u-margin-top--0">
+                <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
                   Request for {supplyDescription}
-                </h4>
+                </h3>
                 <p className="vads-u-margin--0 dd-privacy-mask">
                   for {fullName?.first} {fullName?.last}
                 </p>

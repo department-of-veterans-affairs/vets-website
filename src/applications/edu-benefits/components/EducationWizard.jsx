@@ -9,7 +9,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+} from 'platform/site-wide/wizard';
 import { connect } from 'react-redux';
 import VARadioButton from '../utils/VaRadioButton';
 import {

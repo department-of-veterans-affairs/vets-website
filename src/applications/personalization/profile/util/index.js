@@ -3,6 +3,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 
 export const BASE_DIRECT_DEPOSIT_ERROR_KEYS = {
+  ACCOUNT_FLAGGED_FOR_FRAUD: '.account.number.fraud',
   PAYMENT_RESTRICTIONS_PRESENT: '.restriction.indicators.present',
   ROUTING_NUMBER_FLAGGED_FOR_FRAUD: '.routing.number.fraud',
   ROUTING_NUMBER_INVALID_CHECKSUM: '.routing.number.invalid.checksum',
@@ -75,6 +76,16 @@ export const hasErrorCombos = ({
       );
     }
     return hasErrorMessage(errors, errorKey);
+  });
+};
+
+export const hasAccountFlaggedError = errors => {
+  return hasErrorCombos({
+    errors,
+    errorKeys: [
+      LIGHTHOUSE_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD,
+      DIRECT_DEPOSIT_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD,
+    ],
   });
 };
 

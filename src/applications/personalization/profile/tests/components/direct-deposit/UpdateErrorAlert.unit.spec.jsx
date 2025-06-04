@@ -51,15 +51,21 @@ describe('<UpdateErrorAlert />', () => {
     ).to.exist;
   });
 
+  // The Payment Restriction error alert is shared with accountNumberFlagged and paymentRestrictionsPresent
+  const paymentRestrictionRegex = /We’re sorry. We couldn’t process your direct deposit update/i;
+
+  it('renders the flagged account error', async () => {
+    const { findByText } = render(
+      <UpdateErrorAlert saveError={errors.accountNumberFlagged.errors} />,
+    );
+    expect(await findByText(paymentRestrictionRegex)).to.exist;
+  });
+
   it('renders the payment restriction error', async () => {
     const { findByText } = render(
       <UpdateErrorAlert saveError={errors.paymentRestrictionsPresent.errors} />,
     );
-    expect(
-      await findByText(
-        /We’re sorry. We couldn’t process your direct deposit update/i,
-      ),
-    ).to.exist;
+    expect(await findByText(paymentRestrictionRegex)).to.exist;
   });
 
   it('renders the flagged routing number error', async () => {

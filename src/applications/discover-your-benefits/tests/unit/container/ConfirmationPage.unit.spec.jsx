@@ -7,6 +7,7 @@ import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 import formConfig from '../../../config/form';
+import { BENEFITS_LIST } from '../../../constants/benefits';
 
 describe('<ConfirmationPage>', () => {
   sinon.stub(Date, 'getTime');
@@ -163,6 +164,27 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
 
     expect(benefitNames[0]).to.contain('Careers');
     expect(benefitNames[1]).to.contain('Education');
+  });
+
+  it('should sort benefits alphabetically by default', () => {
+    wrapper = setup({
+      results: { data: BENEFITS_LIST },
+      location: {
+        basename: '/',
+        pathname: '/confirmation',
+        query: { allBenefits: true },
+      },
+    });
+    container = wrapper.container;
+
+    const benefits = wrapper.getAllByRole('listitem').map(li => li.textContent);
+
+    const sortedBenefits = BENEFITS_LIST.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+    benefits.forEach(benefit => {
+      expect(benefit.name).to.equal(sortedBenefits.name);
+    });
   });
 
   it('should filter benefits by category', () => {

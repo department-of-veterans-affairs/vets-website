@@ -10,6 +10,14 @@ export const flagsLoadedAndMhvEnabled = state => {
       state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsToVaGovRelease],
   };
 };
+
+/**
+ * Supports the smoke testing of MHV features by creating an allow-list of testers who can bypass
+ * the MHV downtime notification in production.
+ */
+export const selectBypassDowntime = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification];
+
 export const selectMhvMrEnabledFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsToVaGovRelease];
 export const selectSidenavFlag = state =>

@@ -49,7 +49,6 @@ import {
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
 import { isInRange } from '../../10-10D/helpers/utilities';
 import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
-import { depends18f3 } from '../../10-10D/pages/ApplicantSponsorMarriageDetailsPage';
 import { ApplicantMedicareStatusPage } from '../../10-10D/pages/ApplicantMedicareStatusPage';
 import { ApplicantMedicareStatusContinuedPage } from '../../10-10D/pages/ApplicantMedicareStatusContinuedPage';
 import ApplicantOhiStatusPage from '../../10-10D/pages/ApplicantOhiStatusPage';
@@ -677,147 +676,116 @@ export const applicantPages = arrayBuilderPages(
     page18c: pageBuilder.itemPage({
       path: 'applicant-relationship-child/:index',
       title: item => `${applicantWording(item)} dependent status`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          get(
-            'applicantRelationshipToSponsor.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'child'
-        );
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantRelationshipToSponsor.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'child',
       ...applicantRelationshipOriginPage,
       CustomPage: ApplicantRelOriginPage,
     }),
     page18a: pageBuilder.itemPage({
       path: 'applicant-relationship-child-upload/:index',
       title: item => `${applicantWording(item)} birth certificate`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          get(
-            'applicantRelationshipToSponsor.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'child'
-        );
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantRelationshipToSponsor.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'child',
       CustomPage: FileFieldCustom,
       ...applicantBirthCertUploadPage,
     }),
     page18d: pageBuilder.itemPage({
       path: 'applicant-child-adoption-file/:index',
       title: item => `${applicantWording(item)} adoption documents`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          get(
-            'applicantRelationshipToSponsor.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'child' &&
-          get(
-            'applicantRelationshipOrigin.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'adoption'
-        );
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantRelationshipToSponsor.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'child' &&
+        get(
+          'applicantRelationshipOrigin.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'adoption',
       CustomPage: FileFieldCustom,
       ...applicantAdoptionUploadPage,
     }),
     page18e: pageBuilder.itemPage({
       path: 'applicant-child-marriage-file/:index',
       title: item => `${applicantWording(item)} parental marriage documents`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          get(
-            'applicantRelationshipToSponsor.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'child' &&
-          get(
-            'applicantRelationshipOrigin.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'step'
-        );
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantRelationshipToSponsor.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'child' &&
+        get(
+          'applicantRelationshipOrigin.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'step',
       CustomPage: FileFieldCustom,
       ...applicantStepChildUploadPage,
     }),
     page18b1: pageBuilder.itemPage({
       path: 'applicant-dependent-status/:index',
       title: item => `${applicantWording(item)} dependent status`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          formData.applicants[index]?.applicantRelationshipToSponsor
-            ?.relationshipToVeteran === 'child' &&
-          isInRange(
-            getAgeInYears(formData.applicants[index]?.applicantDob),
-            18,
-            23,
-          )
-        );
-      },
+      depends: (formData, index) =>
+        formData.applicants[index]?.applicantRelationshipToSponsor
+          ?.relationshipToVeteran === 'child' &&
+        isInRange(
+          getAgeInYears(formData.applicants[index]?.applicantDob),
+          18,
+          23,
+        ),
       CustomPage: ApplicantDependentStatusPage,
       ...applicantDependentStatusPage,
     }),
     page18b: pageBuilder.itemPage({
       path: 'applicant-child-school-upload/:index',
       title: item => `${applicantWording(item)} school documents`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          formData.applicants[index]?.applicantRelationshipToSponsor
-            ?.relationshipToVeteran === 'child' &&
-          isInRange(
-            getAgeInYears(formData.applicants[index]?.applicantDob),
-            18,
-            23,
-          ) &&
-          ['enrolled', 'intendsToEnroll'].includes(
-            formData.applicants[index]?.applicantDependentStatus?.status,
-          )
-        );
-      },
+      depends: (formData, index) =>
+        formData.applicants[index]?.applicantRelationshipToSponsor
+          ?.relationshipToVeteran === 'child' &&
+        isInRange(
+          getAgeInYears(formData.applicants[index]?.applicantDob),
+          18,
+          23,
+        ) &&
+        ['enrolled', 'intendsToEnroll'].includes(
+          formData.applicants[index]?.applicantDependentStatus?.status,
+        ),
       CustomPage: FileFieldCustom,
       ...applicantSchoolCertUploadPage,
     }),
     page18b2: pageBuilder.itemPage({
       path: 'applicant-dependent-upload/:index',
       title: item => `${applicantWording(item)} helpless child documents`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          formData.applicants[index]?.applicantRelationshipToSponsor
-            ?.relationshipToVeteran === 'child' &&
-          getAgeInYears(formData.applicants[index]?.applicantDob) >= 18 &&
-          formData.applicants[index]?.applicantDependentStatus?.status ===
-            'over18HelplessChild'
-        );
-      },
+      depends: (formData, index) =>
+        formData.applicants[index]?.applicantRelationshipToSponsor
+          ?.relationshipToVeteran === 'child' &&
+        getAgeInYears(formData.applicants[index]?.applicantDob) >= 18 &&
+        formData.applicants[index]?.applicantDependentStatus?.status ===
+          'over18HelplessChild',
       CustomPage: FileFieldCustom,
       ...applicantHelplessChildUploadPage,
     }),
     page18f3: pageBuilder.itemPage({
       path: 'applicant-marriage-date/:index',
       title: item => `${applicantWording(item)} marriage dates`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return depends18f3(formData, index);
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantRelationshipToSponsor.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'spouse',
       ...applicantMarriageDatesPage,
     }),
     page18f: pageBuilder.itemPage({
       path: 'applicant-marriage-upload/:index',
       title: item => `${applicantWording(item)} marriage documents`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          get(
-            'applicantRelationshipToSponsor.relationshipToVeteran',
-            formData?.applicants?.[index],
-          ) === 'spouse' && get('sponsorIsDeceased', formData)
-        );
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantRelationshipToSponsor.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'spouse' && get('sponsorIsDeceased', formData),
       CustomPage: FileFieldCustom,
       ...applicantMarriageCertUploadPage,
     }),
@@ -830,15 +798,11 @@ export const applicantPages = arrayBuilderPages(
     page20: pageBuilder.itemPage({
       path: 'applicant-medicare-continued/:index',
       title: item => `${applicantWording(item)} Medicare Part D status`,
-      depends: (formData, index) => {
-        if (index === undefined) return true;
-        return (
-          get(
-            'applicantMedicareStatus.eligibility',
-            formData?.applicants?.[index],
-          ) === 'enrolled'
-        );
-      },
+      depends: (formData, index) =>
+        get(
+          'applicantMedicareStatus.eligibility',
+          formData?.applicants?.[index],
+        ) === 'enrolled',
       ...applicantMedicarePartDStatusPage,
       CustomPage: ApplicantMedicareStatusContinuedPage,
     }),

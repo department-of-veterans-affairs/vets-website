@@ -29,6 +29,8 @@ import {
   institutionDetails,
   institutionDetailsFacility,
   primaryOfficialTraining,
+  institutionDetailsNoFacilityDescription,
+  institutionNameAndAddress,
 } from '../pages';
 import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
@@ -101,6 +103,18 @@ const formConfig = {
           schema: institutionDetailsFacility.schema,
           depends: formData =>
             formData.institutionDetails.hasVaFacilityCode === true,
+        },
+        institutionDetailsNoFacilityDescription: {
+          path: 'institution-details-1',
+          title: 'Institution details',
+          uiSchema: institutionDetailsNoFacilityDescription.uiSchema,
+          schema: institutionDetailsNoFacilityDescription.schema,
+        },
+        institutionNameAndAddress: {
+          path: 'institution-details-2',
+          title: 'Institution details',
+          uiSchema: institutionNameAndAddress.uiSchema,
+          schema: institutionNameAndAddress.schema,
         },
       },
     },

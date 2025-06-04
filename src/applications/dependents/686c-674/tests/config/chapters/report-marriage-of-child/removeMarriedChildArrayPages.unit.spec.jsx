@@ -47,13 +47,13 @@ describe('removeMarriedChildOptions', () => {
     });
   });
 
-  describe('getItemName + cardDescription', () => {
+  describe('getItemName', () => {
     it('should return a correctly formatted name for a child', () => {
       const item = {
         fullName: { first: 'Jane', last: 'Doe' },
       };
       const { container } = render(
-        removeMarriedChildOptions.text.cardDescription(item),
+        removeMarriedChildOptions.text.getItemName(item),
       );
       expect(container.textContent).to.equal('Jane Doe');
     });
@@ -63,7 +63,7 @@ describe('removeMarriedChildOptions', () => {
         fullName: { last: 'Smith' },
       };
       const { container } = render(
-        removeMarriedChildOptions.text.cardDescription(item),
+        removeMarriedChildOptions.text.getItemName(item),
       );
       expect(container.textContent).to.equal('Smith');
     });
@@ -73,7 +73,7 @@ describe('removeMarriedChildOptions', () => {
         fullName: { first: 'John' },
       };
       const { container } = render(
-        removeMarriedChildOptions.text.cardDescription(item),
+        removeMarriedChildOptions.text.getItemName(item),
       );
       expect(container.textContent).to.equal('John');
     });

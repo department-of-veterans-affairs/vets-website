@@ -34,7 +34,7 @@ export default function SecondDosePage() {
       <div className="vads-u-margin-bottom--4">
         <p>
           If you get your first dose of a 2-dose vaccine on{' '}
-          <strong>{moment(date1[0]).format('dddd, MMMM DD, YYYY')}</strong>,
+          <strong>{moment(date1[0]).format('dddd, MMMM D, YYYY')}</strong>,
           here’s when to plan to come back for your second dose.
         </p>
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
@@ -48,7 +48,7 @@ export default function SecondDosePage() {
             after{' '}
             {moment(date1[0])
               .add(28, 'days')
-              .format('dddd, MMMM DD, YYYY')}
+              .format('dddd, MMMM D, YYYY')}
           </strong>
         </div>
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">Pfizer</h2>
@@ -60,7 +60,7 @@ export default function SecondDosePage() {
             after{' '}
             {moment(date1[0])
               .add(21, 'days')
-              .format('dddd, MMMM DD, YYYY')}
+              .format('dddd, MMMM D, YYYY')}
           </strong>
         </div>
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">

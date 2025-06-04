@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -98,7 +98,7 @@ const IntroductionPage = ({ route }) => {
             to the next step.
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Upload your PDF to the Education File Upload Portal or email it to your State Approving Agency (SAA) for approval">
+        <va-process-list-item header="Upload your PDF to the Education File Upload Portal or email it to your State Approving Agency (SAA)">
           <p>
             <strong> If your institution has a facility code: </strong> Please
             go to the Education File Upload Portal and upload the completed PDF
@@ -111,14 +111,23 @@ const IntroductionPage = ({ route }) => {
               ownership:
             </strong>{' '}
             Please email the PDF file to your SAA for their approval action. If
-            you need help finding their email address, search the SAA contact
-            directory (opens in a new tab)
+            you need help finding their email address,{' '}
+            <a
+              href="https://nasaa-vetseducation.com/nasaa-contacts/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              search the SAA contact directory (opens in a new tab)
+            </a>
           </p>
         </va-process-list-item>
       </va-process-list>
+      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
+        Start the form
+      </h2>
       <SaveInProgressIntro
-        prefillEnabled={route.formConfig.prefillEnabled}
-        messages={route.formConfig.savedFormMessages}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
         formConfig={formConfig}
         pageList={pageList}
         startText="Start your Conflicting interests certification for proprietary schools report"

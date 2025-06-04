@@ -2,6 +2,8 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { cleanup, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
+import { datadogRum } from '@datadog/browser-rum';
 import reducer from '../../../reducers';
 import BlockedTriageGroupAlert from '../../../components/shared/BlockedTriageGroupAlert';
 import {
@@ -241,6 +243,205 @@ describe('BlockedTriageGroupAlert component', () => {
           'If you need to contact your care team, call your VA health facility.',
         ),
       ).to.exist;
+    });
+  });
+
+  describe('analytics datadogRum.addAction type value scenarios', () => {
+    let spyDog;
+
+    const getState = ({
+      blockedRecipients = [],
+      associatedBlockedTriageGroupsQty = 1,
+      allTriageGroupsBlocked = false,
+    } = {}) => ({
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          associatedBlockedTriageGroupsQty,
+          blockedRecipients,
+          allRecipients: [{ id: 222333 }],
+          allTriageGroupsBlocked,
+        },
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: {
+              '662': {
+                facilityId: '662',
+                vamcSystemName: 'Test Facility 1',
+                isCerner: false,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    beforeEach(() => {
+      spyDog = sinon.spy(datadogRum, 'addAction');
+    });
+
+    afterEach(() => {
+      spyDog.restore();
+    });
+
+    it('sends MESSAGE_TO_CARE_TEAMS value', async () => {
+      const careTeamsState = getState({
+        blockedRecipients: [
+          {
+            id: 222333,
+            name: 'Test Facility 1',
+            type: Recipients.FACILITY,
+            status: RecipientStatus.BLOCKED,
+            suggestedNameDisplay: 'Test Facility 1',
+          },
+        ],
+      });
+      setup(careTeamsState, {
+        alertStyle: BlockedTriageAlertStyles.ALERT,
+        parentComponent: ParentComponent.COMPOSE_FORM,
+      });
+      await waitFor(() => {
+        expect(spyDog.called).to.be.true;
+        expect(spyDog.firstCall.args[1].type).to.include(
+          "You can't send messages to care teams at",
+        );
+      });
+    });
+
+    it('sends MULTIPLE_TEAMS_BLOCKED value', async () => {
+      const multiBlockedState = getState({
+        associatedBlockedTriageGroupsQty: 2,
+        blockedRecipients: [
+          {
+            id: 1,
+            name: 'Team 1',
+            type: Recipients.CARE_TEAM,
+            status: RecipientStatus.BLOCKED,
+          },
+          {
+            id: 2,
+            name: 'Team 2',
+            type: Recipients.CARE_TEAM,
+            status: RecipientStatus.BLOCKED,
+          },
+        ],
+      });
+      setup(multiBlockedState, {
+        alertStyle: BlockedTriageAlertStyles.ALERT,
+        parentComponent: ParentComponent.COMPOSE_FORM,
+      });
+      await waitFor(() => {
+        expect(spyDog.called).to.be.true;
+        expect(spyDog.firstCall.args[1].type).to.include(
+          'some of your care teams',
+        );
+      });
+    });
+
+    it('sends ALL_TEAMS_BLOCKED value', async () => {
+      const allBlockedState = getState({
+        allTriageGroupsBlocked: true,
+      });
+      setup(allBlockedState, {
+        alertStyle: BlockedTriageAlertStyles.ALERT,
+        parentComponent: ParentComponent.FOLDER_HEADER,
+      });
+      await waitFor(() => {
+        expect(spyDog.called).to.be.true;
+        expect(spyDog.firstCall.args[1].type).to.include(
+          "You can't send messages to your care teams right now",
+        );
+      });
+    });
+
+    it('sends MESSAGE_TO_CARE_TEAM value', async () => {
+      const careTeamState = getState({
+        blockedRecipients: [
+          {
+            id: 222333,
+            name: 'Test Team',
+            type: Recipients.CARE_TEAM,
+            status: RecipientStatus.BLOCKED,
+          },
+        ],
+      });
+      setup(careTeamState, {
+        alertStyle: BlockedTriageAlertStyles.ALERT,
+        currentRecipient: {
+          recipientId: 222333,
+          name: 'Test Team',
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.BLOCKED,
+        },
+        parentComponent: ParentComponent.COMPOSE_FORM,
+      });
+      await waitFor(() => {
+        expect(spyDog.called).to.be.true;
+        expect(spyDog.firstCall.args[1].type).to.include(
+          "You can't send messages to",
+        );
+      });
+    });
+
+    it('sends ACCOUNT_DISCONNECTED value', async () => {
+      const disconnectedState = getState({
+        blockedRecipients: [
+          {
+            id: 222333,
+            name: 'Test Team',
+            type: Recipients.CARE_TEAM,
+            status: RecipientStatus.NOT_ASSOCIATED,
+          },
+        ],
+      });
+      setup(disconnectedState, {
+        alertStyle: BlockedTriageAlertStyles.ALERT,
+        currentRecipient: {
+          recipientId: 222333,
+          name: 'Test Team',
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.NOT_ASSOCIATED,
+        },
+        parentComponent: ParentComponent.COMPOSE_FORM,
+      });
+      await waitFor(() => {
+        expect(spyDog.called).to.be.true;
+        expect(spyDog.firstCall.args[1].type).to.include(
+          'Your account is no longer connected to',
+        );
+      });
+    });
+
+    it('sends fallback/other alertTitleText value', async () => {
+      const fallbackState = getState({
+        blockedRecipients: [
+          {
+            id: 222333,
+            name: 'Other Team',
+            type: Recipients.CARE_TEAM,
+            status: RecipientStatus.BLOCKED,
+          },
+        ],
+      });
+      setup(fallbackState, {
+        alertStyle: BlockedTriageAlertStyles.ALERT,
+        currentRecipient: {
+          recipientId: 222333,
+          name: 'Other Team',
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.BLOCKED,
+        },
+        parentComponent: ParentComponent.COMPOSE_FORM,
+      });
+      await waitFor(() => {
+        expect(spyDog.called).to.be.true;
+        expect(spyDog.firstCall.args[1].type).to.include(
+          "You can't send messages to TG_NAME",
+        );
+      });
     });
   });
 });

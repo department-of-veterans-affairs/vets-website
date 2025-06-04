@@ -400,7 +400,7 @@
 
 /**
  * @typedef {{
- *   getItemName: (itemData: any, index: number) => string,
+ *   getItemName: (itemData: any, index: number, fullData: any) => string,
  *   itemData: any,
  *   nounPlural: string,
  *   nounSingular: string,
@@ -428,7 +428,7 @@
  *   cardDescription?: (props: ArrayBuilderTextProps) => string,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
- *   getItemName?: (itemData: any, index: number) => string,
+ *   getItemName?: (itemData: any, index: number, fullData: any) => string,
  *   deleteDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNo?: (props: ArrayBuilderTextProps) => string,

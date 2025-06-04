@@ -24,7 +24,10 @@ import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
 import { HeaderSectionProvider } from '../context/HeaderSectionContext';
 
-import { flagsLoadedAndMhvEnabled } from '../util/selectors';
+import {
+  flagsLoadedAndMhvEnabled,
+  selectBypassDowntime,
+} from '../util/selectors';
 import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
@@ -34,6 +37,8 @@ const App = ({ children }) => {
     flagsLoadedAndMhvEnabled,
     state => state.featureToggles,
   );
+
+  const bypassDowntime = useSelector(selectBypassDowntime);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -147,7 +152,7 @@ const App = ({ children }) => {
             ref={measuredRef}
             className="vads-l-grid-container vads-u-padding-left--2"
           >
-            {mhvMrDown === externalServiceStatus.down ? (
+            {mhvMrDown === externalServiceStatus.down && !bypassDowntime ? (
               <>
                 {atLandingPage && <MrBreadcrumbs />}
                 <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>

@@ -22,12 +22,12 @@ describe('My HealtheVet Access Page', () => {
     cy.get('[data-testid="accessMhvBtn"]').click();
   });
 
-  it('should display the "Having trouble signing in?" section', () => {
+  it('should display the "Help and support" section', () => {
     cy.injectAxeThenAxeCheck();
-    cy.contains('h2', 'Having trouble signing in?').should('exist');
+    cy.contains('h2', 'Help and support').should('exist');
     cy.contains(
       'p',
-      'Contact the administrator who gave you access to this page.',
+      'For all other questions, contact the administrator who gave you access to this page.',
     ).should('exist');
   });
 });

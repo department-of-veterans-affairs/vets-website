@@ -11,7 +11,6 @@ import {
 import {
   concatObservationInterpretations,
   dateFormat,
-  dateFormatWithoutTime,
   dateFormatWithoutTimezone,
   dispatchDetails,
   extractContainedByRecourceType,
@@ -54,23 +53,41 @@ describe('Date formatter', () => {
   });
 });
 
-describe('Date formatter with no timezone', () => {
-  it('removes the time from a dateTime', () => {
-    const dateTime = 'October 27, 2023, 10:00 a.m.';
-    const formattedDate = dateFormatWithoutTime(dateTime);
-    expect(formattedDate).to.eq('October 27, 2023');
+describe('dateFormatWithoutTimezone', () => {
+  const testFormat = (isoString, expected) => {
+    expect(dateFormatWithoutTimezone(isoString)).to.equal(expected);
+  };
+
+  it('should format a valid FHIR date string by stripping the time zone', () => {
+    testFormat('2018', '2018'); // Year only
+    testFormat('1973-06', 'June 1973'); // Year + month
+    testFormat('2000-08-09', 'August 9, 2000'); // Full date
+    testFormat('1990-06-30T23:59:60Z', 'June 30, 1990, 11:59 p.m.'); // Leap second
+    testFormat('2020-01-02T03:04:05Z', 'January 2, 2020, 3:04 a.m.'); // Zulu time
+    testFormat('2019-07-19T16:20:30.123Z', 'July 19, 2019, 4:20 p.m.'); // Fractional seconds
+    testFormat('2021-05-18T10:30:00+02:00', 'May 18, 2021, 10:30 a.m.'); // Positive offset
+    testFormat('2017-08-02T09:50:57-04:00', 'August 2, 2017, 9:50 a.m.'); // Negative offset
+    testFormat('2017-01-01T00:00:00.000Z', 'January 1, 2017, 12:00 a.m.'); // Millisecond precision
+    testFormat('2022-11-15T08:00:00+00:00', 'November 15, 2022, 8:00 a.m.'); // Zero offset required
+    testFormat('2020-12-31T23:59:59+05:30', 'December 31, 2020, 11:59 p.m.'); // Non-hour offset
   });
 
-  it('formats a date in the original time without a timezone', () => {
-    const timeStamp = '2023-09-29T11:04:31.316-04:00';
-    const formattedDate = dateFormatWithoutTimezone(timeStamp);
-    expect(formattedDate).to.eq('September 29, 2023, 11:04 a.m.');
+  it('should return null for invalid input', () => {
+    testFormat('', null); // empty string
+    testFormat('foo', null); // garbage
+    testFormat(12345, null); // non-string input
+    testFormat(undefined, null); // missing
+    testFormat('2021-13', null); // bad month in YYYY-MM
+    testFormat('2021-02-29', null); // non-leap Feb-29
+    testFormat('2021-00-01', null); // zero month
   });
 
-  it('formats an epoch date in the original time without a timezone', () => {
-    const timeStamp = 1605300748000;
-    const formattedDate = dateFormatWithoutTimezone(timeStamp);
-    expect(formattedDate).to.eq('November 13, 2020, 8:52 p.m.');
+  it('should handle different date formats', () => {
+    const isoString = '2021-05-18T10:30:00+02:00';
+    const customFormat = 'yyyy-MM-dd';
+    const expectedFormat = '2021-05-18';
+    const result = dateFormatWithoutTimezone(isoString, customFormat);
+    expect(result).to.equal(expectedFormat);
   });
 });
 
@@ -676,11 +693,48 @@ describe('handleDataDogAction', () => {
 });
 
 describe('formatDateInLocalTimezone', () => {
+  let originalTZ;
+
+  // Ensure these tests run in a predictable time zone
+  before(() => {
+    originalTZ = process.env.TZ;
+    process.env.TZ = 'UTC';
+  });
+
+  // Restore the original time zone value
+  after(() => {
+    if (originalTZ === undefined) {
+      delete process.env.TZ;
+    } else {
+      process.env.TZ = originalTZ;
+    }
+  });
+
   it('should format a valid ISO8601 date string to the local timezone', () => {
     const dateString = '2023-01-05T14:48:00.000-05:00';
     const formattedDate = formatDateInLocalTimezone(dateString);
     const expectedDate = 'January 5, 2023 7:48 p.m. UTC';
     expect(formattedDate).to.equal(expectedDate);
+  });
+
+  it('should format a date when providing a UNIX timestamp as a number', () => {
+    const timestamp = 1672941680000; // Jan 5, 2023, 19:48 UTC
+    const formattedDate = formatDateInLocalTimezone(timestamp);
+    const expectedDate = 'January 5, 2023 6:01 p.m. UTC';
+    expect(formattedDate).to.equal(expectedDate);
+  });
+
+  it('should hide time zone when hideTimeZone is true', () => {
+    const dateString = '2023-01-05T14:48:00.000-05:00';
+    const formattedDate = formatDateInLocalTimezone(dateString, true);
+    const expectedDate = 'January 5, 2023 7:48 p.m.';
+    expect(formattedDate).to.equal(expectedDate);
+  });
+
+  it('should show time zone by default', () => {
+    const dateString = '2023-01-05T14:48:00.000-05:00';
+    const formattedDate = formatDateInLocalTimezone(dateString);
+    expect(formattedDate).to.include('UTC');
   });
 
   it('should handle an invalid date string gracefully', () => {

@@ -5,10 +5,11 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
 import { showEduBenefits1995Wizard } from 'applications/edu-benefits/selectors/educationWizard';
+
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
-} from 'applications/static-pages/wizard';
+} from 'platform/site-wide/wizard';
 
 // export const introPageDescription = (automatedTest = false) => {
 //   return isProductionOfTestProdEnv(automatedTest)

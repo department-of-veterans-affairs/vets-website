@@ -1,11 +1,12 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT, Data } from './utils/constants';
+import { AXE_CONTEXT, Data, Locators, Paths } from './utils/constants';
 import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 import FolderLoadPage from './pages/FolderLoadPage';
+import mockMessages from './fixtures/threads-response.json';
 
-describe('Secure Messaging Inbox Message Sort', () => {
+describe('SM INBOX FOLDER VERIFICATION', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -38,6 +39,29 @@ describe('Secure Messaging Inbox Message Sort', () => {
     FolderLoadPage.verifyBreadCrumbText(0, 'VA.gov home');
     FolderLoadPage.verifyBreadCrumbText(1, 'My HealtheVet');
     FolderLoadPage.verifyBreadCrumbText(2, 'Messages: Inbox');
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+});
+
+describe('THREAD LIST RE-FETCHING VERIFICATION', () => {
+  it('verify data updates after each rendering', () => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/threads**`,
+      mockMessages,
+    ).as('reFetchResponse');
+
+    PatientInboxPage.loadSingleThread();
+    cy.get(Locators.LINKS.CRUMBS_BACK).click();
+    cy.wait('@reFetchResponse').then(interception => {
+      expect(interception.response.statusCode).to.equal(200);
+    });
+
+    cy.get(`@reFetchResponse.all`).should(`have.length.at.least`, 1);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

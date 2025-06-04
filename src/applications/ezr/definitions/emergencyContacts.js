@@ -108,7 +108,6 @@ export const emergencyContactsAddressPage = () => ({
         properties: address.properties,
       }),
     },
-    required: ['address'],
   },
 });
 

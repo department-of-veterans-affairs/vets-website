@@ -27,7 +27,7 @@ describe('CG <FacilitySearch>', () => {
     );
     const selectors = () => ({
       backBtn: getByText('Back'),
-      continueBtn: getByText('Continue'),
+      continueBtn: queryByRole('button', { name: /Continue/i }),
       searchInputError: queryByRole('alert'),
     });
     return { container, selectors, getByText };

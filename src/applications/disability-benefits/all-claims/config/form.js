@@ -17,6 +17,7 @@ import ErrorText from '../../components/ErrorText';
 import FormSavedPage from '../containers/FormSavedPage';
 
 import { hasMilitaryRetiredPay } from '../validations';
+import { standardTitle } from '../content/form0781';
 
 import {
   capitalizeEachWord,
@@ -624,6 +625,9 @@ const formConfig = {
           title: '',
           path: 'supporting-evidence/orientation',
           uiSchema: {
+            'ui:title': standardTitle(
+              'Supporting evidence for your disability claim',
+            ),
             'ui:description': formData =>
               supportingEvidenceOrientation(formData),
           },

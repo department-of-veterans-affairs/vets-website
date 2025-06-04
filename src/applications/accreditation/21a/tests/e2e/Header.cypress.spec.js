@@ -6,6 +6,7 @@ describe('Header on mobile', () => {
 
     setFeatureToggles({
       isAppEnabled: true,
+      isForm21Enabled: true,
       isInPilot: true,
     });
     cy.visit('/representative/accreditation/attorney-claims-agent-form-21a');
@@ -27,6 +28,7 @@ describe('Header on screens wider than mobile', () => {
   beforeEach(() => {
     setFeatureToggles({
       isAppEnabled: true,
+      isForm21Enabled: true,
       isInPilot: true,
     });
     cy.visit('/representative/accreditation/attorney-claims-agent-form-21a');

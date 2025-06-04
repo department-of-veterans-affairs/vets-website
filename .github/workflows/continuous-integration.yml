@@ -275,8 +275,6 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
     outputs:
-      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
-      changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
       tests_ran: ${{ steps.run-tests.outputs.tests_ran }}
 
     env:
@@ -333,13 +331,6 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          delimiter: ','
-          output-type: 'folder'
-
       - name: Run unit tests
         id: run-tests
         run: |
@@ -351,7 +342,7 @@ jobs:
           
         env:
           MOCHA_FILE: test-results/unit-tests.xml
-          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+          CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
           APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
           IS_STRESS_TEST: false
       
@@ -1749,7 +1740,7 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
-    needs: [build, cypress-tests, unit-tests, security-audit, linting]
+    needs: [build, tests-prep, cypress-tests, unit-tests, security-audit, linting]
 
     env:
       IS_SINGLE_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
@@ -1783,7 +1774,7 @@ jobs:
         run: ./script/github-actions/remove-global-assets.sh
         env:
           ENTRY_NAMES: ${{ needs.build.outputs.entry_names }}
-          APP_DIRS: ${{ needs.unit-tests.outputs.app_folders }}
+          APP_DIRS: ${{ needs.tests-prep.outputs.app_folders }}
           BUILD_DIR: build/${{ matrix.buildtype }}
 
       - name: Generate build details
