@@ -61,13 +61,6 @@ describe('medallions/utils/helpers', () => {
   });
 
   describe('createPayload', () => {
-    // it('should create FormData with form_id and file', () => {
-    //   const file = new Blob(['test'], { type: 'text/plain' });
-    //   const payload = helpers.createPayload(file, 'form123');
-    //   expect(payload.get('form_id')).to.equal('form123');
-    //   expect(payload.get('file')).to.equal(file);
-    // });
-
     it('should add password if provided', () => {
       const file = new Blob(['test'], { type: 'text/plain' });
       const payload = helpers.createPayload(file, 'form123', 'secret');
