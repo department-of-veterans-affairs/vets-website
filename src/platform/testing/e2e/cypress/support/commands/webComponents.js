@@ -375,3 +375,41 @@ Cypress.Commands.add('checkWebComponent', callback => {
     callback(hasWebComponents);
   });
 });
+
+Cypress.Commands.add(
+  'fillAddressWebComponentPattern',
+  (fieldName, addressObject) => {
+    if (!addressObject) {
+      return;
+    }
+    cy.selectVaCheckbox(
+      `root_${fieldName}_isMilitary`,
+      addressObject.isMilitary,
+    );
+
+    if (addressObject.city) {
+      if (addressObject.isMilitary) {
+        cy.selectVaSelect(`root_${fieldName}_city`, addressObject.city);
+      } else {
+        cy.fillVaTextInput(`root_${fieldName}_city`, addressObject.city);
+      }
+    }
+
+    cy.selectVaSelect(`root_${fieldName}_country`, addressObject.country);
+    cy.fillVaTextInput(`root_${fieldName}_street`, addressObject.street);
+    cy.fillVaTextInput(`root_${fieldName}_street2`, addressObject.street2);
+    cy.fillVaTextInput(`root_${fieldName}_street3`, addressObject.street3);
+
+    cy.get('body').then(body => {
+      if (body.find(`va-select[name="root_${fieldName}_state"]`).length > 0)
+        cy.selectVaSelect(`root_${fieldName}_state`, addressObject.state);
+      if (body.find(`va-text-input[name="root_${fieldName}_state"]`).length > 0)
+        cy.fillVaTextInput(`root_${fieldName}_state`, addressObject.state);
+    });
+
+    cy.fillVaTextInput(
+      `root_${fieldName}_postalCode`,
+      addressObject.postalCode,
+    );
+  },
+);

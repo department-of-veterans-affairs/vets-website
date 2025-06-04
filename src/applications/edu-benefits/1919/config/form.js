@@ -1,31 +1,23 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-1919-schema.json';
-
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../22-1919-schema.json';
-
-// import fullSchema from 'vets-json-schema/dist/22-1919-schema.json';
-
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import manifest from '../manifest.json';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
 // pages
+import {
+  certifyingOfficials,
+  aboutYourInstitution,
+  institutionDetails,
+  proprietaryProfit,
+  potentialConflictOfInterest,
+  affiliatedIndividuals,
+  allProprietarySchools,
+  allProprietarySchoolsEmployeeInfo,
+  allProprietarySchoolsSummary,
+} from '../pages';
 import directDeposit from '../pages/directDeposit';
-import serviceHistory from '../pages/serviceHistory';
+import { arrayBuilderOptions } from '../helpers';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -39,22 +31,13 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-1919',
+  useCustomScrollAndFocus: true,
   saveInProgress: {
-    messages: {
-      inProgress: 'Your form (22-1919) is in progress.',
-      expired:
-        'Your saved form (22-1919) has expired. Please start a new form.',
-      saved: 'Your form has been saved.',
-    },
-  },
-  customText: {
-    appSavedSuccessfullyMessage: 'We’ve saved your form.',
-    appType: 'form',
-    continueAppButtonText: 'Continue your form',
-    finishAppLaterMessage: 'Finish this form later',
-    reviewPageTitle: 'Review',
-    startNewAppButtonText: 'Start a new form',
-    submitButtonText: 'Continue',
+    // messages: {
+    //   inProgress: 'Your education benefits application (22-1919) is in progress.',
+    //   expired: 'Your saved education benefits application (22-1919) has expired. If you want to apply for education benefits, please start a new application.',
+    //   saved: 'Your education benefits application has been saved.',
+    // },
   },
   version: 0,
   prefillEnabled: true,
@@ -63,7 +46,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-  title: 'Complex Form',
+  title: 'Conflicting interests certification for proprietary schools',
+  subTitle: 'VA Form 22-1919',
   defaultDefinitions: {
     fullName,
     ssn,
@@ -72,75 +56,145 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    applicantInformationChapter: {
-      title: 'Applicant Information',
+    institutionDetailsChapter: {
+      title: 'Institution details',
       pages: {
-        applicantInformation: {
+        certifyingOfficial: {
           path: 'applicant-information',
-          title: 'Applicant Information',
-          uiSchema: {
-            fullName: fullNameUI,
-            ssn: ssnUI,
-          },
-          schema: {
-            type: 'object',
-            required: ['fullName'],
-            properties: {
-              fullName,
-              ssn,
-            },
+          title: 'Your name and role',
+          uiSchema: certifyingOfficials.uiSchema,
+          schema: certifyingOfficials.schema,
+        },
+        aboutYourInstitution: {
+          path: 'about-your-institution',
+          title: 'About your institution',
+          uiSchema: aboutYourInstitution.uiSchema,
+          schema: aboutYourInstitution.schema,
+        },
+        institutionDetails: {
+          path: 'institution-information',
+          title: 'Institution information',
+          uiSchema: institutionDetails.uiSchema,
+          schema: institutionDetails.schema,
+          depends: formData => {
+            return formData?.aboutYourInstitution === true;
           },
         },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Service History',
+    proprietaryProfitChapter: {
+      title: 'Proprietary profit schools only',
       pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
+        proprietaryProfit: {
+          path: 'proprietary-profit',
+          title: "Confirm your institution's classification",
+          uiSchema: proprietaryProfit.uiSchema,
+          schema: proprietaryProfit.schema,
+        },
+        potentialConflictOfInterest: {
+          path: 'proprietary-profit-1',
+          title: 'Individuals with a potential conflict of interest',
+          uiSchema: potentialConflictOfInterest.uiSchema,
+          schema: potentialConflictOfInterest.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData?.hasConflictOfInterest) {
+              goPath('/proprietary-profit-2');
+            } else {
+              // TODO: To be replaced with 'Step 3' Conflict of Interest chapter
+              goPath('/all-proprietary-schools');
+            }
+          },
+        },
+        affiliatedIndividuals: {
+          path: 'proprietary-profit-2',
+          title:
+            'Individuals affiliated with both your institution and VA or SAA',
+          uiSchema: affiliatedIndividuals.uiSchema,
+          schema: affiliatedIndividuals.schema,
         },
       },
     },
-    additionalInformationChapter: {
-      title: 'Additional Information',
+    allProprietarySchoolsChapter: {
+      title: 'All proprietary schools',
       pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
+        ...arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
+          allProprietarySchoolsIntro: pageBuilder.introPage({
+            path: 'all-proprietary-schools',
+            title: 'All proprietary schools',
+            uiSchema: allProprietarySchools.uiSchema,
+            schema: allProprietarySchools.schema,
+            onNavForward: ({ formData, goPath }) => {
+              if (formData?.allProprietarySchools === false) {
+                goPath(
+                  formConfig.chapters.directDepositChapter.pages.directDeposit
+                    .path,
+                );
+              } else {
+                const allProprietarySchoolsEmployeeInfoIndex =
+                  localStorage.getItem(
+                    'allProprietarySchoolsEmployeeInfoIndex',
+                  ) || '0';
+                goPath(
+                  `/all-proprietary-schools/${allProprietarySchoolsEmployeeInfoIndex}?add=true`,
+                );
+              }
             },
-            altEmail: {
-              'ui:title': 'Secondary email',
+          }),
+          'view:allProprietarySchools': pageBuilder.summaryPage({
+            path: 'all-proprietary-schools-employee-info/summary',
+            title: 'All proprietary schools employee information',
+            uiSchema: allProprietarySchoolsSummary.uiSchema,
+            schema: allProprietarySchoolsSummary.schema,
+            onNavBack: ({ _, goPath }) => {
+              const allProprietarySchoolsEmployeeInfoIndex = localStorage.getItem(
+                'allProprietarySchoolsEmployeeInfoIndex',
+              );
+              goPath(
+                `/all-proprietary-schools/${allProprietarySchoolsEmployeeInfoIndex}?add=true`,
+              );
             },
-            phoneNumber: phoneUI('Daytime phone'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
+          }),
+          allProprietarySchoolsEmployeeInfo: pageBuilder.itemPage({
+            path: 'all-proprietary-schools/:index',
+            title: 'All proprietary schools employee information',
+            showPagePerItem: true,
+            uiSchema: allProprietarySchoolsEmployeeInfo.uiSchema,
+            schema: allProprietarySchoolsEmployeeInfo.schema,
+            onNavForward: ({ _, goPath }) => {
+              const url = new URL(window.location.href);
+              const pathSegments = url.pathname.split('/');
+              const index = pathSegments[pathSegments.length - 1];
+              localStorage.setItem(
+                'allProprietarySchoolsEmployeeInfoIndex',
+                index,
+              );
+              goPath('/all-proprietary-schools-employee-info/summary');
             },
-          },
-        },
+            onNavBack: ({ _, goPath }) => {
+              goPath('/all-proprietary-schools');
+            },
+          }),
+        })),
+      },
+    },
+    directDepositChapter: {
+      title: 'Direct deposit',
+      pages: {
         directDeposit: {
           path: 'direct-deposit',
-          title: 'Direct Deposit',
+          title: 'Direct deposit',
           uiSchema: directDeposit.uiSchema,
           schema: directDeposit.schema,
+          onNavBack: ({ formData, goPath }) => {
+            if (formData?.allProprietarySchools === false) {
+              goPath(
+                formConfig.chapters.allProprietarySchoolsChapter.pages
+                  .allProprietarySchoolsIntro.path,
+              );
+            } else {
+              goPath('/all-proprietary-schools-employee-info/summary');
+            }
+          },
         },
       },
     },

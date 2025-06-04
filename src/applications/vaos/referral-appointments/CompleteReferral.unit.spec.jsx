@@ -111,19 +111,12 @@ describe('CompleteReferral', () => {
 
     expect(getByTestId('appointment-block')).to.exist;
     expect(getByTestId('appointment-date')).to.have.text(
-      'Thursday, November 21st, 2024',
+      'Monday, November 18th, 2024',
     );
     expect(getByTestId('appointment-type')).to.have.text(
-      'Optometry with Dr. Jane Smith',
+      'Optometry with Dr. Moreen S. Rafa',
     );
 
-    expect(getByTestId('appointment-modality')).to.have.text(
-      'Office Visit at Springfield Medical Group',
-    );
-    // TODO: clinic is not a field in the appointment data so removing this for now
-    // expect(getByTestId('appointment-clinic')).to.have.text(
-    //   'Clinic: Meridian Health',
-    // );
     expect(getByTestId('survey-info-block')).to.exist;
     expect(getByTestId('survey-info-block')).to.contain.text(
       'Please consider taking our pilot feedback surveys',

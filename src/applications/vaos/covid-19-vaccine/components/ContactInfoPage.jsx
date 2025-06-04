@@ -66,7 +66,7 @@ const uiSchema = {
 const pageKey = 'contactInfo';
 const pageTitle = 'Confirm your contact information';
 
-export function ContactInfoPage({
+function ContactInfoPage({
   data,
   openFormPage,
   pageChangeInProgress,

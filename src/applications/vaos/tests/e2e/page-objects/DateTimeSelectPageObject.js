@@ -3,7 +3,7 @@ import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
 import PageObject from './PageObject';
 
-export class DateTimeSelectPageObject extends PageObject {
+class DateTimeSelectPageObject extends PageObject {
   assertDateSelected(date, facilityId = 983) {
     const timezone = getTimezoneByFacilityId(facilityId);
     const d = zonedTimeToUtc(date, timezone);
