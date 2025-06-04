@@ -2,7 +2,7 @@ import formConfig from '../../../../config/form';
 import {
   associatedIncomePages,
   options,
-} from '../../../../config/chapters/04-associated-incomes/associatedIncomePages';
+} from '../../../../config/chapters/03-associated-incomes/associatedIncomePages';
 import { incomeTypeEarnedLabels } from '../../../../labels';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';

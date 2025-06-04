@@ -9,13 +9,13 @@
       "last": "Doe"
     },
     "veteranSocialSecurityNumber": "321654987",
-    "view:applicantIsVeteran": false,
     "claimantFullName": {
       "first": "Jane",
       "last": "Doe"
     },
     "claimantSocialSecurityNumber": "321654987",
     "claimantType": "SPOUSE",
+    "email": "test.user@example.com",
     "view:isAddingUnassociatedIncomes": true,
     "unassociatedIncomes": [
       {

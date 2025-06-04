@@ -22,7 +22,6 @@ import {
   getTestDate,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -93,8 +92,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     const pastDate = subMonths(new Date(), 4);
     const response = new MockAppointmentResponse({
       localStartTime: pastDate,
-      serviceType: null,
-    });
+    }).setTypeOfCare(null);
 
     mockAppointmentsApi({
       start,
@@ -135,9 +133,9 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     const appointment = new MockAppointmentResponse({
       past: true,
       localStartTime: pastDate,
-      serviceType: null,
-      status: APPOINTMENT_STATUS.booked,
-    }).setLocationId('983GC');
+    })
+      .setLocationId('983GC')
+      .setTypeOfCare(null);
 
     mockAppointmentsApi({
       start,
@@ -315,7 +313,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     ).to.exist;
 
     expect(within(firstCard).getByText(/MT/i)).to.exist;
-    expect(within(firstCard).getAllByLabelText(/Video appointment/i)).to.exist;
+    expect(within(firstCard).getByText(/Video/i)).to.exist;
   });
 
   it('should display past appointments using V2 api call', async () => {
@@ -351,7 +349,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     expect(screen.baseElement).to.contain.text('Details');
   });
 
-  it('should display past cancel appt, vaOnlineSchedulingDisplayPastCancelledAppointments = true', async () => {
+  it('should display past cancel appt', async () => {
     // Arrange
     const yesterday = subDays(new Date(), 1);
     const facility = new MockFacilityResponse();
@@ -368,17 +366,9 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       response: [appointment],
     });
 
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingDisplayPastCancelledAppointments: true,
-      },
-    };
-
     // Act
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState: myInitialState,
+      initialState,
     });
 
     // Assert

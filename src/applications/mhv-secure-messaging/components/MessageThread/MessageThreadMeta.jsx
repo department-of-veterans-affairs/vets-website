@@ -57,7 +57,9 @@ const MessageThreadMeta = props => {
           </span>
         </p>
         {readReceiptsEnabled ? (
-          isSent && <p>{readReceiptMessage}</p>
+          isSent && (
+            <p className="vads-u-font-weight--bold">{readReceiptMessage}</p>
+          )
         ) : (
           <p
             className="vads-u-margin-y--0p5"

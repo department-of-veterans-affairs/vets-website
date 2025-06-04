@@ -21,9 +21,11 @@ class LandingPage {
     verified = true,
     registered = true,
     mhvAccountState = 'OK',
+    serviceName = 'idme',
+    edipi = null,
     user,
   } = {}) => {
-    let props = { mhvAccountState };
+    let props = { mhvAccountState, serviceName, edipi };
     if (!verified) props = { ...props, loa: 1 };
     if (!registered) props = { ...props, vaPatient: false };
     const userMock = user || generateUser(props);

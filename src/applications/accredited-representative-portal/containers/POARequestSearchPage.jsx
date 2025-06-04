@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   useLoaderData,
   useSearchParams,
@@ -16,36 +17,15 @@ import {
   poaSearchBC,
   SEARCH_PARAMS,
   SORT_BY,
-  PENDING,
-  PROCESSED,
   STATUSES,
+  PENDING_SORT_DEFAULTS,
+  PROCESSED_SORT_DEFAULTS,
 } from '../utilities/poaRequests';
-import POARequestCard from '../components/POARequestCard';
+import { recordDatalayerEvent } from '../utilities/analytics';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
 import PaginationMeta from '../components/PaginationMeta';
-
-const SearchResults = ({ poaRequests }) => {
-  if (poaRequests.length === 0) {
-    return (
-      <p data-testid="poa-requests-table-fetcher-no-poa-requests">
-        No POA requests found
-      </p>
-    );
-  }
-
-  return (
-    <ul
-      data-testid="poa-requests-card"
-      className="poa-request__list"
-      sort-column={1}
-    >
-      {poaRequests.map((request, index) => {
-        return <POARequestCard poaRequest={request} key={index} />;
-      })}
-    </ul>
-  );
-};
+import POARequestSearchPageResults from '../components/POARequestSearchPageResults';
 
 const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
   const active = tabStatus === searchStatus;
@@ -53,18 +33,27 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
   if (active) classNames.push('active');
   return (
     <Link
-      to={`?status=${tabStatus}&sortOrder=${
+      to={`?status=${tabStatus}&sortBy=${
         tabStatus === 'pending' ? 'created_at' : 'resolved_at'
-      }&sortBy=${tabSort}&pageSize=20&pageNumber=1`}
+      }&sortOrder=${tabSort}&pageSize=20&pageNumber=1`}
       className={classNames.join(' ')}
       role="tab"
       id={`tab-${tabStatus}`}
       aria-controls={`tabpanel-${tabStatus}`}
       aria-selected={active ? 'true' : 'false'}
+      onClick={recordDatalayerEvent}
+      data-eventname="nav-tab-click"
     >
       {children}
     </Link>
   );
+};
+
+StatusTabLink.propTypes = {
+  children: PropTypes.node,
+  searchStatus: PropTypes.string,
+  tabSort: PropTypes.string,
+  tabStatus: PropTypes.string,
 };
 
 const POARequestSearchPage = title => {
@@ -90,15 +79,15 @@ const POARequestSearchPage = title => {
         data-testid="poa-requests-heading"
         className="poa-request__search-header"
       >
-        Power of attorney requests
+        Representation requests
       </h1>
       <p className="poa-request__copy">
-        You can accept or decline power of attorney (POA) requests in the
-        Accredited Representative Portal. Requests will expire and be removed
-        from the portal after 60 days.
+        You can accept or decline representation requests (power of attorney) in
+        the Accredited Representative Portal. Requests will expire and be
+        removed from the portal after 60 days.
       </p>
       <p className="poa-request__copy vads-u-margin--0">
-        <strong>Note:</strong> POA requests need to be submitted using the
+        <strong>Note:</strong> Claimants need to submit requests using the
         online{' '}
         <va-link
           href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
@@ -142,15 +131,29 @@ const POARequestSearchPage = title => {
                         data-testid="poa-requests-table-heading"
                         className="poa-request__tab-heading"
                       >
-                        Pending POA requests
+                        Pending representation requests
                       </h2>
                       <SortForm
-                        asc={SORT_BY.ASC}
-                        desc={SORT_BY.DESC}
-                        ascOption={PENDING.ASC_OPTION}
-                        descOption={PENDING.DESC_OPTION}
+                        options={[
+                          {
+                            sortBy: 'created_at',
+                            sortOrder: 'desc',
+                            label: 'Submitted date (newest)',
+                          },
+                          {
+                            sortBy: 'created_at',
+                            sortOrder: 'asc',
+                            label: 'Submitted date (oldest)',
+                          },
+                        ]}
+                        defaults={PENDING_SORT_DEFAULTS}
                       />
-                      <PaginationMeta meta={meta} poaRequests={poaRequests} />
+                      <PaginationMeta
+                        meta={meta}
+                        results={poaRequests}
+                        resultType="requests"
+                        defaults={PENDING_SORT_DEFAULTS}
+                      />
                     </>
                   );
                 case STATUSES.PROCESSED:
@@ -160,15 +163,29 @@ const POARequestSearchPage = title => {
                         data-testid="poa-requests-table-heading"
                         className="poa-request__tab-heading"
                       >
-                        Processed POA requests
+                        Processed representation requests
                       </h2>
                       <SortForm
-                        asc={SORT_BY.ASC}
-                        desc={SORT_BY.DESC}
-                        ascOption={PROCESSED.ASC_OPTION}
-                        descOption={PROCESSED.DESC_OPTION}
+                        options={[
+                          {
+                            sortBy: 'resolved_at',
+                            sortOrder: 'desc',
+                            label: 'Processed date (newest)',
+                          },
+                          {
+                            sortBy: 'resolved_at',
+                            sortOrder: 'asc',
+                            label: 'Processed date (oldest)',
+                          },
+                        ]}
+                        defaults={PROCESSED_SORT_DEFAULTS}
                       />
-                      <PaginationMeta meta={meta} poaRequests={poaRequests} />
+                      <PaginationMeta
+                        meta={meta}
+                        results={poaRequests}
+                        resultType="requests"
+                        defaults={PROCESSED_SORT_DEFAULTS}
+                      />
                     </>
                   );
                 default:
@@ -176,13 +193,17 @@ const POARequestSearchPage = title => {
               }
             })()}
 
-            <SearchResults poaRequests={poaRequests} />
+            <POARequestSearchPageResults poaRequests={poaRequests} />
             <Pagination meta={meta} />
           </div>
         )}
       </div>
     </section>
   );
+};
+
+POARequestSearchPage.propTypes = {
+  title: PropTypes.string,
 };
 
 POARequestSearchPage.loader = ({ request }) => {
@@ -197,10 +218,10 @@ POARequestSearchPage.loader = ({ request }) => {
     !Object.values(STATUSES).includes(sort)
   ) {
     searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
-    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.CREATED);
-    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.DESC);
-    searchParams.set(SEARCH_PARAMS.SIZE, STATUSES.SIZE);
-    searchParams.set(SEARCH_PARAMS.NUMBER, STATUSES.NUMBER);
+    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
+    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
+    searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
     throw redirect(`?${searchParams}`);
   }
 

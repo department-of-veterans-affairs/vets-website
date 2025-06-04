@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
@@ -8,6 +9,7 @@ import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
 import { waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
+import * as SmApi from '../../api/SmApi';
 import reducer from '../../reducers';
 import pilotRoutes from '../../pilot/routes';
 
@@ -16,7 +18,6 @@ describe('App', () => {
 
   beforeEach(() => {
     oldLocation = global.window.location;
-    delete global.window.location;
     global.window.location = {
       replace: sinon.spy(),
     };
@@ -228,7 +229,7 @@ describe('App', () => {
     );
   });
 
-  it('does NOT render the downtime notification', () => {
+  it('does NOT render the downtime notification WHEN unrelated services are down', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
         scheduledDowntime: {
@@ -252,6 +253,37 @@ describe('App', () => {
     );
     expect(downtimeComponent).to.be.null;
   });
+
+  it('does NOT render the downtime notification WHEN downtime bypass is enabled', () => {
+    const customState = {
+      ...initialState,
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: downtime(['mhv_sm']),
+        dismissedDowntimeWarnings: [],
+      },
+      featureToggles: {},
+    };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification
+    ] = true;
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: `/`,
+    });
+    const downtimeComponent = screen.queryByText(
+      'Maintenance on My HealtheVet',
+      {
+        selector: 'h2',
+        exact: true,
+      },
+    );
+    expect(downtimeComponent).to.be.null;
+  });
+
   it('redirects Basic users to /health-care/secure-messaging', async () => {
     const customState = {
       featureToggles: {},
@@ -365,5 +397,27 @@ describe('App', () => {
         }),
       ).to.exist;
     });
+  });
+
+  it('renders LaunchMessagingAal component', async () => {
+    const stubUseFeatureToggles = value => {
+      const useFeatureToggles = require('../../hooks/useFeatureToggles');
+      return sinon.stub(useFeatureToggles, 'default').returns(value);
+    };
+
+    const submitStub = sinon.stub(SmApi, 'submitLaunchMessagingAal');
+    submitStub.resolves();
+    const useFeatureTogglesStub = stubUseFeatureToggles({ isAalEnabled: true });
+    renderWithStoreAndRouter(<App />, {
+      initialState,
+      reducers: reducer,
+    });
+    await waitFor(() => {
+      expect(submitStub.calledOnce).to.be.true;
+    });
+    submitStub.restore();
+    if (useFeatureTogglesStub && useFeatureTogglesStub.restore) {
+      useFeatureTogglesStub.restore();
+    }
   });
 });

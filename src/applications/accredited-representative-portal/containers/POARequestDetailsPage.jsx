@@ -15,6 +15,7 @@ import {
   DETAILS_BC_LABEL,
   poaDetailsBreadcrumbs,
 } from '../utilities/poaRequests';
+import { recordDatalayerEvent } from '../utilities/analytics';
 import api from '../utilities/api';
 import ProcessingBanner from '../components/ProcessingBanner';
 
@@ -455,6 +456,8 @@ const POARequestDetailsPage = title => {
                   onVaValueChange={handleChange}
                   required
                   error={error}
+                  onRadioOptionSelected={recordDatalayerEvent}
+                  enable-analytics="false"
                 >
                   <p>
                     We’ll send the claimant an email letting them know your
@@ -464,6 +467,7 @@ const POARequestDetailsPage = title => {
                     label="Accept"
                     value="ACCEPTANCE"
                     name="decision"
+                    data-eventname="int-radio-button-option-click"
                   />
 
                   {Object.entries(DECLINATION_OPTIONS).map(
@@ -473,6 +477,7 @@ const POARequestDetailsPage = title => {
                         label={decision.reason}
                         value={value}
                         name="decision"
+                        data-eventname="int-radio-button-option-click"
                       />
                     ),
                   )}

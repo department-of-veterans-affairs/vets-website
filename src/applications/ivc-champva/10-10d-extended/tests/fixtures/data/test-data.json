@@ -1,5 +1,6 @@
 {
   "data": {
+    "view:hasApplicants": true,
     "applicants": [
       {
         "applicantRelationshipOrigin": { "relationshipToVeteran": "blood" },
@@ -33,10 +34,33 @@
         "applicantHasOhi": { "hasOhi": "yes" }
       }
     ],
-    "ssn": {
+    "healthInsurance": [
+      {
+        "insuranceType": "medigap",
+        "medigapPlan": "K",
+        "provider": "Blue Cross Blue Shield",
+        "effectiveDate": "2024-10-01",
+        "expirationDate": "2024-10-02",
+        "throughEmployer": true,
+        "healthcareParticipants": { "28e7f1064a74": true },
+        "insuranceCard": [
+          {
+            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
+            "name": "front.png",
+            "size": "12345"
+          },
+          {
+            "confirmationCode": "1b39d28c-5d38-4467-808b-9da252b6e95a",
+            "name": "back.png",
+            "size": "54321"
+          }
+        ]
+      }
+    ],
+    "sponsorSsn": {
       "ssn": "123123123"
     },
-    "veteransFullName": {
+    "sponsorName": {
       "first": "Joe",
       "last": "Johnson"
     },

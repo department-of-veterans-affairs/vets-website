@@ -1,7 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { edipiNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { findMatchingPhrAndCvixStudies } from '../util/radiologyUtil';
-import edipiNotFound from '../util/edipiNotFound';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -292,9 +292,10 @@ export const getDemographicInfo = async () => {
  */
 export const getMilitaryService = async () => {
   try {
-    return await apiRequest(`${apiBasePath}/medical_records/military_service`, {
-      textHeaders,
-    });
+    return await apiRequest(
+      `${apiBasePath}/medical_records/military_service?bb=true`,
+      { textHeaders },
+    );
   } catch (error) {
     // Handle special case of missing EDIPI
     if (error?.error === 'No EDIPI found for the current user') {
@@ -311,12 +312,6 @@ export const getMilitaryService = async () => {
  */
 export const getPatient = async () => {
   return apiRequest(`${apiBasePath}/medical_records/patient`, {
-    headers,
-  });
-};
-
-export const getSelfEnteredInformation = () => {
-  return apiRequest(`${apiBasePath}/medical_records/self_entered`, {
     headers,
   });
 };

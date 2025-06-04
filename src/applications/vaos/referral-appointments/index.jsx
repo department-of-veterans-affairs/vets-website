@@ -19,10 +19,9 @@ export default function ReferralAppointments() {
   useManualScrollRestoration();
   const basePath = useRouteMatch();
   const { isInCCPilot } = useIsInCCPilot();
-  const { search, pathname } = useLocation();
+  const { search } = useLocation();
   const params = new URLSearchParams(search);
   const id = params.get('id');
-  const [, appointmentId] = pathname.split('/schedule-referral/complete/');
   const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
     skip: !id,
   });
@@ -35,22 +34,21 @@ export default function ReferralAppointments() {
     return <Redirect from={basePath.url} to="/" />;
   }
 
-  if (!referral && error) {
-    // Referral Layout shows the error component is apiFailure is true
-    return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
+  if (isLoading) {
+    return <ReferralLayout loadingMessage="Loading your data..." />;
   }
 
-  if ((!referral || isLoading) && !appointmentId) {
-    return <ReferralLayout loadingMessage="Loading your data..." />;
+  if (error) {
+    // Referral Layout shows the error component is apiFailure is true
+    return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
   }
 
   return (
     <>
       <Switch>
-        <Route
-          path={`${basePath.url}/complete/:appointmentId`}
-          component={CompleteReferral}
-        />
+        <Route path={`${basePath.url}/complete/:appointmentId`} search={id}>
+          <CompleteReferral currentReferral={referral} />
+        </Route>
         <Route path={`${basePath.url}/review/`} search={id}>
           <ReviewAndConfirm currentReferral={referral} />
         </Route>

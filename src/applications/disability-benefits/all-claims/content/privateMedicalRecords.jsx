@@ -38,7 +38,13 @@ export const privateRecordsChoiceHelp = (
 );
 
 export const patientAcknowledgmentTitle = (
-  <h3 className="vads-u-margin-top--0">Request a disclosure</h3>
+  <h3 className="vads-u-margin-top--0">Authorize us to get your records</h3>
+);
+export const patientAcknowledgmentError = (
+  <p>
+    You must select I acknowledge and authorize this release of information for
+    us to get your records from your provider.
+  </p>
 );
 
 export const patientAcknowledgmentText = (

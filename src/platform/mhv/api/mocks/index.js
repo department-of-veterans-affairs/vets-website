@@ -57,6 +57,8 @@ const seiMilitaryHealthHistory = require('./medical-records/self-entered/seiMili
 const seiTreatmentFacilities = require('./medical-records/self-entered/seiTreatmentFacilities');
 const seiVaccines = require('./medical-records/self-entered/seiVaccines');
 const seiVitals = require('./medical-records/self-entered/seiVitals');
+const seiAllDomains = require('./medical-records/self-entered/allDomains');
+
 const imaging = require('./medical-records/mhv-radiology/imaging');
 const imagingStatus = require('./medical-records/mhv-radiology/imaging-status');
 const imagingRequest = require('./medical-records/mhv-radiology/imaging-request');
@@ -137,7 +139,17 @@ const responses = {
   'PATCH /my_health/v1/messaging/threads/:id/move': threads.moveThread,
   'POST /my_health/v1/messaging/folders/:index/search': messages.searchMessages,
   'POST /my_health/v1/messaging/preferences/recipients': { status: 200 },
-
+  'GET /my_health/v1/messaging/preferences/signature': {
+    data: {
+      id: '',
+      type: 'message_signature',
+      attributes: {
+        signatureName: null,
+        signatureTitle: null,
+        includeSignature: false,
+      },
+    },
+  },
   // medical records
   'GET /my_health/v1/medical_records/session/status':
     session.phrRefreshInProgressNoNewRecords,
@@ -205,6 +217,7 @@ const responses = {
   'GET /my_health/v1/medical_records/self_entered/treatment_facilities': seiTreatmentFacilities,
   'GET /my_health/v1/medical_records/self_entered/vaccines': seiVaccines,
   'GET /my_health/v1/medical_records/self_entered/vitals': seiVitals,
+  'GET /my_health/v1/medical_records/self_entered': seiAllDomains,
 
   'GET /my_health/v1/medical_records/imaging': imaging,
   'GET /my_health/v1/medical_records/imaging/status': imagingStatus,

@@ -48,7 +48,9 @@ export const ProfileTabContainer = ({
           concatAddress={concatAddress}
           vcfUrl={vcfUrl}
         />
-        <h3>How to replace your current representative</h3>
+        <h2 className="vads-u-font-size--h3">
+          How to replace your current accredited representative
+        </h2>{' '}
         <p>
           If you appoint a new accredited representative, they will replace your
           current one.
@@ -90,11 +92,11 @@ export const ProfileTabContainer = ({
   }
 
   if (id) {
-    renderHasRepresentative();
+    return renderHasRepresentative();
   }
 
   if (!error && !id) {
-    renderNoRepresentative();
+    return renderNoRepresentative();
   }
 
   return <UnknownRep DynamicHeader={DynamicHeader} />;

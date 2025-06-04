@@ -17,28 +17,28 @@ describe('isBot', () => {
 
 describe('canInitDatadog', () => {
   let undef;
-  const getProps = (prod, mocha = undef, cypress = undef, agent = undef) => ({
-    env: { isProduction: () => prod },
+  const getProps = (local, mocha = undef, cypress = undef, agent = undef) => ({
+    env: { isLocalhost: () => local },
     win: { Mocha: mocha, Cypress: cypress },
     agent,
   });
 
-  it('should return true for production environment', () => {
-    expect(canInitDatadog(getProps(true))).to.be.true;
+  it('should return true for production & dev environment', () => {
+    expect(canInitDatadog(getProps(false))).to.be.true;
   });
 
   context('should return false', () => {
-    it('should return false non-production environment', () => {
-      expect(canInitDatadog(getProps(false))).to.be.false;
+    it('should return false local environment', () => {
+      expect(canInitDatadog(getProps(true))).to.be.false;
     });
     it('should return false when running unit tests', () => {
-      expect(canInitDatadog(getProps(true, {}))).to.be.false;
+      expect(canInitDatadog(getProps(false, {}))).to.be.false;
     });
     it('should return false when running E2E tests', () => {
-      expect(canInitDatadog(getProps(true, undef, {}))).to.be.false;
+      expect(canInitDatadog(getProps(false, undef, {}))).to.be.false;
     });
     it('should return false when a bot is running the site', () => {
-      expect(canInitDatadog(getProps(true, undef, undef, 'Googlebot'))).to.be
+      expect(canInitDatadog(getProps(false, undef, undef, 'Googlebot'))).to.be
         .false;
     });
   });

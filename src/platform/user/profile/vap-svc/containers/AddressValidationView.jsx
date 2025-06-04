@@ -141,9 +141,8 @@ class AddressValidationView extends React.Component {
       });
     }
 
-    let result;
     if (suggestedAddressSelected) {
-      result = await this.props.updateValidationKeyAndSave(
+      this.props.updateValidationKeyAndSave(
         VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
         addressValidationType,
@@ -151,27 +150,13 @@ class AddressValidationView extends React.Component {
         analyticsSectionName,
       );
     } else {
-      result = await this.props.createTransaction(
+      await this.props.createTransaction(
         VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
         addressValidationType,
         payload,
         analyticsSectionName,
       );
-    }
-
-    // Check if we got back the special form-only update flag
-    if (result?.formOnlyUpdate && this.context?.prefillPatternEnabled) {
-      const { updateContactInfoForFormApp, fieldName } = this.context;
-
-      updateContactInfoForFormApp(
-        fieldName,
-        payload,
-        'no', // Force form-only update
-      );
-
-      this.props.successCallback();
-      this.props.openModal();
     }
   };
 

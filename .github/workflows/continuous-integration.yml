@@ -160,6 +160,7 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
+      tests_ran: ${{ steps.tests-ran.outputs.tests_ran }}
 
     steps:
       - name: Checkout
@@ -182,7 +183,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name, url'
+          output-type: 'entry_name, url, folder'
 
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
@@ -209,6 +210,11 @@ jobs:
         run: node script/github-actions/select-unit-tests.js
         env:
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Set output of TESTS_RAN
+        if: ${{ always() }}
+        id: tests-ran
+        run: echo "tests_ran=$TESTS_RAN" >> $GITHUB_OUTPUT
 
       - name: Set output of DISALLOWED_TESTS
         if: ${{ always() }}
@@ -264,12 +270,11 @@ jobs:
 
   unit-tests:
     name: Unit Tests
+    # if: ${{ needs.tests-prep.outputs.tests_ran == 'true' }}
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
     outputs:
-      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
-      changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
       tests_ran: ${{ steps.run-tests.outputs.tests_ran }}
 
     env:
@@ -326,27 +331,19 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          delimiter: ','
-          output-type: 'folder'
-
       - name: Run unit tests
         id: run-tests
         run: |
-          if [[ -n "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
-            yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
-            echo "tests_ran=true" >> $GITHUB_OUTPUT
+          if [[ -n "$APP_FOLDERS" ]]; then
+            yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
           else
-            echo "No tests to run"
-            echo "tests_ran=false" >> $GITHUB_OUTPUT
+            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
           fi
+          
         env:
           MOCHA_FILE: test-results/unit-tests.xml
-          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
-          APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
+          CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
+          APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
           IS_STRESS_TEST: false
       
       - name: Archive unit test results
@@ -418,13 +415,17 @@ jobs:
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           IS_STRESS_TEST: true
           STEP: ${{ matrix.runs }}
+
+      - name: Rename results directory to avoid merge collisions
+        run: |
+          mv mocha/results/unit-tests.json mocha/results/unit-tests-${{ matrix.runs }}.json
     
       - name: Archive unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-stress-test-results-${{ matrix.runs }}
-          path: mocha/results
+          path: mocha/results/unit-tests-${{ matrix.runs }}.json
 
   update-unit-test-allow-list:
     name: Update Unit Test Stability Allow List
@@ -481,7 +482,6 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           pattern: unit-test-stress-test-results-*
-          name: unit-test-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
           merge-multiple: true
 
@@ -696,6 +696,12 @@ jobs:
       - name: Checkout vets-website
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Checkout new-axe-checks branch
+        run: git fetch origin new-axe-checks --depth=1
+
+      - name: Checkout axeCheck.js from new-axe-checks branch
+        run: git checkout origin/new-axe-checks src/platform/testing/e2e/cypress/support/commands/axeCheck.js
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -1200,7 +1206,6 @@ jobs:
           role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role_duration: 900
           session_name: vsp-frontendteam-githubaction
-          
 
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
@@ -1213,6 +1218,12 @@ jobs:
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
 
+      - name: Manual Mochawesome merge
+        working-directory: qa-standards-dashboard-data
+        run: |
+          rm -f src/testing-reports/data/unit-tests.json
+          node src/testing-reports/manual-merge.js
+         
       - name: Create Unit Test report
         run: yarn unit-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
@@ -1738,7 +1749,7 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
-    needs: [build, cypress-tests, unit-tests, security-audit, linting]
+    needs: [build, tests-prep, cypress-tests, unit-tests, security-audit, linting]
 
     env:
       IS_SINGLE_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
@@ -1747,7 +1758,7 @@ jobs:
       always() &&
       (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'skipped') &&
       needs.build.result == 'success' &&
-      needs.unit-tests.result == 'success' &&
+      (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'skipped') &&
       needs.security-audit.result == 'success' &&
       (needs.linting.result == 'success' || needs.linting.result == 'skipped')
 
@@ -1772,7 +1783,7 @@ jobs:
         run: ./script/github-actions/remove-global-assets.sh
         env:
           ENTRY_NAMES: ${{ needs.build.outputs.entry_names }}
-          APP_DIRS: ${{ needs.unit-tests.outputs.app_folders }}
+          APP_DIRS: ${{ needs.tests-prep.outputs.app_folders }}
           BUILD_DIR: build/${{ matrix.buildtype }}
 
       - name: Generate build details

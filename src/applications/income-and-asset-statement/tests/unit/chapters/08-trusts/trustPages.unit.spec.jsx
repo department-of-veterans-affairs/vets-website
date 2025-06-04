@@ -3,7 +3,7 @@ import formConfig from '../../../../config/form';
 import {
   trustPages,
   options,
-} from '../../../../config/chapters/08-trusts/trustPages';
+} from '../../../../config/chapters/07-trusts/trustPages';
 import { trustTypeLabels } from '../../../../labels';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';

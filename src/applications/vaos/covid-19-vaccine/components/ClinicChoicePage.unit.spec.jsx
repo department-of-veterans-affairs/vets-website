@@ -9,10 +9,11 @@ import {
   renderWithStoreAndRouter,
   setVaccineFacility,
 } from '../../tests/mocks/setup';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 
 import MockClinicResponse from '../../tests/fixtures/MockClinicResponse';
 import { mockEligibilityFetches } from '../../tests/mocks/mockApis';
-import { TYPE_OF_CARE_ID } from '../utils';
+import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 import ClinicChoicePage from './ClinicChoicePage';
 
 const initialState = {
@@ -35,26 +36,13 @@ describe('VAOS vaccine flow: ClinicChoicePage', () => {
   it('should display multiple clinics and require one to be chosen', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983', {
-      name: 'Cheyenne VA Medical Center',
-      address: {
-        physical: {
-          zip: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          address1: '2360 East Pershing Boulevard',
-        },
-      },
-      phone: {
-        main: '307-778-7550',
-      },
-    });
+    await setVaccineFacility(store, new MockFacilityResponse());
 
     const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,
@@ -91,13 +79,13 @@ describe('VAOS vaccine flow: ClinicChoicePage', () => {
   it('should retain form data after page changes', async () => {
     mockEligibilityFetches({
       facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
+      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       clinics,
     });
 
     const store = createTestStore(initialState);
 
-    await setVaccineFacility(store, '983');
+    await setVaccineFacility(store, new MockFacilityResponse());
 
     let screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
       store,

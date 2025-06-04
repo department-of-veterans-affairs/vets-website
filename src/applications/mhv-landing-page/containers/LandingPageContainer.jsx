@@ -5,6 +5,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getFolderList } from '../utilities/api';
 import LandingPage from '../components/LandingPage';
+import NonPatientLandingPage from '../components/nonPatientPage/NonPatientLandingPage';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { useAccountCreationApi } from '../hooks';
 import {
@@ -14,6 +15,7 @@ import {
 } from '../utilities/data';
 import {
   isAuthenticatedWithSSOe,
+  isLOA3,
   isVAPatient,
   selectProfile,
   signInServiceEnabled,
@@ -33,6 +35,12 @@ const LandingPageContainer = () => {
     unreadMessageCount,
   );
   const userHasMessagingAccess = useSelector(hasMessagingAccess);
+  const userVerified = useSelector(isLOA3);
+  const vaPatient = useSelector(isVAPatient);
+  const verifiedNonVaPatient = userVerified && !vaPatient;
+  const { mhvMilestone2ChangesEnabled = false } = useSelector(
+    state => state.featureToggles,
+  );
 
   const data = useMemo(
     () => {
@@ -82,6 +90,7 @@ const LandingPageContainer = () => {
         />
       </div>
     );
+
   return (
     <RequiredLoginView
       useSiS={useSiS}
@@ -89,7 +98,11 @@ const LandingPageContainer = () => {
       serviceRequired={[backendServices.USER_PROFILE]}
     >
       <ErrorBoundary>
-        <LandingPage data={data} />
+        {mhvMilestone2ChangesEnabled && verifiedNonVaPatient ? (
+          <NonPatientLandingPage data={data} />
+        ) : (
+          <LandingPage data={data} />
+        )}
       </ErrorBoundary>
     </RequiredLoginView>
   );

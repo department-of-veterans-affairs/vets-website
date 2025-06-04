@@ -6,10 +6,11 @@ const none = {
       serviceHistory: [],
       vetStatusEligibility: {
         confirmed: false,
+        title: 'There’s a problem with your discharge status records',
         message: [
-          'We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now.',
-          'To fix the problem with your records, call the Defense Manpower Data Center at 800-538-9552 (TTY: 711). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
+          'We’re sorry. To fix the problem with your records, call the Defense Manpower Data Center at 800-538-9552 (TTY: 711). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
         ],
+        status: 'warning',
       },
     },
   },
@@ -56,6 +57,17 @@ const generateServiceHistory = ({
 
 const airForce = generateServiceHistory({ branchOfService: 'Air Force' });
 const spaceForce = generateServiceHistory({ branchOfService: 'Space Force' });
+const withServiceHistoryNotConfirmed = generateServiceHistory({
+  branchOfService: 'Space Force',
+  eligibility: {
+    confirmed: false,
+    title: 'There’s a problem with your discharge status records',
+    message: [
+      'We’re sorry. To fix the problem with your records, call the Defense Manpower Data Center at 800-538-9552 (TTY: 711). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
+    ],
+    status: 'warning',
+  },
+});
 const dishonorableDischarge = generateServiceHistory({
   branchOfService: 'Air Force',
   dischargeCode: 'F',
@@ -109,6 +121,7 @@ module.exports = {
   none,
   noServiceFound,
   error,
+  withServiceHistoryNotConfirmed,
   airForce,
   spaceForce,
   dishonorableDischarge,

@@ -218,24 +218,26 @@ const ReviewPage = props => {
     }
 
     return (
-      <div className="vads-u-display--flex vads-u-justify-content--space-between">
+      <dl className="vads-u-display--flex vads-u-justify-content--space-between">
         <dt className="vads-u-margin-right--2">Attachments</dt>
-        <div>
-          {displayData.map(file => (
-            <dd
-              className="vads-u-margin-bottom--2 vads-u-color--link-default"
-              key={`${file.id}-${file.name}`}
-            >
-              <va-icon icon="attach_file" size={3} />
-              <DownloadLink
-                fileUrl={file.base64}
-                fileName={file.name}
-                fileSize={file.size}
-              />
-            </dd>
-          ))}
-        </div>
-      </div>
+        <dd>
+          <ul className="vads-u-margin-top--0 attachments-list">
+            {displayData.map(file => (
+              <li
+                className="vads-u-margin-bottom--2 vads-u-color--link-default"
+                key={`${file.id}-${file.name}`}
+              >
+                <va-icon icon="attach_file" size={3} />
+                <DownloadLink
+                  fileUrl={file.base64}
+                  fileName={file.name}
+                  fileSize={file.size}
+                />
+              </li>
+            ))}
+          </ul>
+        </dd>
+      </dl>
     );
   };
 
@@ -1333,14 +1335,14 @@ const ReviewPage = props => {
                         <div name="questionScrollElement" />
                         <form className="rjsf">
                           <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
-                            <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
+                            <div className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
                               <div className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
                                 {!editAttachments ? (
                                   nonEditAttachmentsMode()
                                 ) : (
                                   <>
                                     {attachments.map(file => (
-                                      <div
+                                      <dl
                                         key={`${file.fileID}-${
                                           file.fileName
                                         }-edit`}
@@ -1359,7 +1361,7 @@ const ReviewPage = props => {
                                             }
                                           />
                                         </dd>
-                                      </div>
+                                      </dl>
                                     ))}
                                     <div className="vads-u-margin-y--2">
                                       <FileUpload />
@@ -1367,7 +1369,7 @@ const ReviewPage = props => {
                                   </>
                                 )}
                               </div>
-                            </dl>
+                            </div>
                           </div>
                         </form>
                       </div>

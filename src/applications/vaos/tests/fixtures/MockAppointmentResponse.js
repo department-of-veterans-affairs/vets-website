@@ -1,7 +1,9 @@
 // eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
 import { addHours, format, startOfDay } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import {
   APPOINTMENT_STATUS,
+  DATE_FORMATS,
   TYPE_OF_VISIT_ID,
   VIDEO_TYPES,
 } from '../../utils/constants';
@@ -17,42 +19,23 @@ export default class MockAppointmentResponse {
    * Creates an instance of MockAppointmentResponse.
    *
    * @param {Object} props - Properties used to determine what type of mock appointment to create.
-   * @param {Object=} props.atlas - Set this to create an atlas appointment.
-   * @param {Date} props.localStartTime - Set appointment start time.
-   * @param {Date} [props.created=null] - Set appointment created date to the value passed in otherwise set the date to today's date as the default.
-   * @param {string=} props.url - Set video appointment URL.
-   * @param {string=} props.vvsKind - Set type of video appointment.
-   * @param {string=} props.displayLink - Set displayLink of video appointment.
-   * @param {string|number} [props.id=1] - Set appointment id.
-   * @param {boolean} [props.cancellable=true] - Set if appointment is cancellable.
-   * @param {string|TYPE_OF_VISIT_ID} [props.kind=clinic] - Set if appointment is VA or CC appointment.
-   * @param {boolean} [props.patientHasMobileGfe=false] - Set if patient has mobile device for video appointments.
-   * @param {string} [props.serviceType=primaryCare] - Set appointment type of care.
-   * @param {string} [props.status=booked] - Set appointment status. If appointment status is 'APPOINTMENT_STATUS.proposed', localStart time is used for requested periods.
+   * @param {boolean} [props.future=false] - Flag to determine if appointment is a future appointment.
+   * @param {string|number} [props.id=1] - Appointment id. Default = 1
+   * @param {Date} props.localStartTime - Appointment start time.
+   * @param {string} [props.locationId] - Appointment location id.
    * @param {boolean} [props.past=false] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [props.pending=false] - Flag to determine if appointment is a pending appointment.
-   * @param {boolean} [props.future=false] - Flag to determine if appointment is a pending appointment.
+   * @param {string} [props.status=booked] - Appointment status. If appointment status is 'APPOINTMENT_STATUS.proposed', localStart time is used for requested periods. Default = APPOINTMENT_STATUS.booked.
    * @memberof MockAppointmentResponse
    */
   constructor({
-    atlas,
-    localStartTime,
-    url,
-    vvsKind,
-    displayLink = false,
-    cancellable = true,
-    created = null,
     future = false,
     id = '1',
-    kind = TYPE_OF_VISIT_ID.clinic,
+    localStartTime,
     locationId = '983',
-    modality = 'vaInPerson',
     past = false,
-    patientHasMobileGfe = false,
     pending = false,
-    serviceType = 'primaryCare',
     status = 'booked',
-    type = 'VA',
   } = {}) {
     const requestedPeriods = [];
     let timestamp = new Date();
@@ -66,41 +49,44 @@ export default class MockAppointmentResponse {
         start: format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
         end: format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
       });
-    }
-
-    if (created && created instanceof Date)
-      createdStamp = format(created, "yyyy-MM-dd'T'HH:mm:ss.000'Z'");
-    else createdStamp = format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'");
+    } else createdStamp = format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'");
 
     this.id = id.toString();
     this.type = 'MockAppointment';
     this.attributes = {
       id,
       locationId,
-      cancellable,
+      cancellable: false,
       extension: {
-        patientHasMobileGfe,
+        patientHasMobileGfe: false,
       },
-      kind,
-      type,
-      localStartTime: format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
-      modality,
+      kind: TYPE_OF_VISIT_ID.clinic,
+      type: 'VA',
+      localStartTime:
+        status === APPOINTMENT_STATUS.proposed
+          ? null
+          : format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'"),
+      modality: 'vaInPerson',
       preferredDates: [
         format(
           startOfDay(new Date(), 'day'),
-          "eeee, MMMM d, yyyy '[in the morning]'",
+          "eeee, MMMM d, yyyy 'in the morning'",
         ),
       ],
       requestedPeriods:
         requestedPeriods.length > 0 ? requestedPeriods : undefined,
       created: createdStamp,
-      serviceType,
+      serviceType: 'primaryCare',
+      start:
+        status === APPOINTMENT_STATUS.proposed
+          ? null
+          : formatInTimeZone(timestamp, 'UTC', DATE_FORMATS.ISODateTimeUTC),
       status,
       telehealth: {
-        atlas,
-        url,
-        vvsKind,
-        displayLink,
+        atlas: null,
+        url: null,
+        vvsKind: null,
+        displayLink: false,
       },
       future,
       pending,
@@ -108,197 +94,363 @@ export default class MockAppointmentResponse {
     };
   }
 
+  /**
+   * Method to generate mock Atlas response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
   static createAtlasResponses({
     localStartTime,
     future = false,
     past = false,
     count = 1,
-  }) {
+  } = {}) {
     return Array(count)
       .fill(count)
-      .map(
-        (_, index) =>
-          new MockAppointmentResponse({
-            id: index,
-            kind: TYPE_OF_VISIT_ID.telehealth,
-            type: 'VA',
-            modality: 'vaVideoCareAtAnAtlasLocation',
-            localStartTime,
-            atlas: {
-              confirmationCode: '7VBBCA',
-              address: {
-                streetAddress: '114 Dewey Ave',
-                city: 'Eureka',
-                state: 'MT',
-                zipCode: '59917',
-              },
+      .map((_, index) => {
+        return new MockAppointmentResponse({
+          id: index + 1,
+          localStartTime,
+          future,
+          past,
+        })
+          .setAtlas({
+            confirmationCode: '7VBBCA',
+            address: {
+              streetAddress: '114 Dewey Ave',
+              city: 'Eureka',
+              state: 'MT',
+              zipCode: '59917',
             },
-            vvsKind: VIDEO_TYPES.adhoc,
-            future,
-            past,
-          }),
-      );
+          })
+          .setKind(TYPE_OF_VISIT_ID.telehealth)
+          .setModality('vaVideoCareAtAnAtlasLocation')
+          .setVvsKind(VIDEO_TYPES.adhoc);
+      });
   }
 
-  static createCCResponses({ localStartTime, future = false, count = 1 }) {
+  /**
+   * Method to generate mock Community Care response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createCCResponses({
+    count = 1,
+    future,
+    localStartTime,
+    past,
+    pending,
+    status,
+  } = {}) {
     return Array(count)
       .fill(count)
-      .map(
-        (_, index) =>
-          new MockAppointmentResponse({
-            id: index,
-            kind: 'cc',
-            type: 'COMMUNITY_CARE_APPOINTMENT',
-            modality: 'communityCare',
-            localStartTime,
-            future,
-          }),
-      );
+      .map((_, index) => {
+        return new MockAppointmentResponse({
+          id: index + 1,
+          localStartTime,
+          future,
+          past,
+          pending,
+          status: status || APPOINTMENT_STATUS.proposed,
+        })
+          .setKind('cc')
+          .setModality('communityCare')
+          .setType(
+            pending || status === APPOINTMENT_STATUS.proposed
+              ? 'COMMUNITY_CARE_REQUEST'
+              : 'COMMUNITY_CARE_APPOINTMENT',
+          );
+      });
   }
 
+  /**
+   * Method to generate mock Community Care response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createCCResponse({
+    future,
+    localStartTime,
+    past,
+    pending,
+    status,
+  } = {}) {
+    return this.createCCResponses({
+      count: 1,
+      future,
+      localStartTime,
+      past,
+      pending,
+      status,
+    })[0];
+  }
+
+  /**
+   * Method to generate mock Clinic response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
   static createClinicResponses({
     localStartTime,
     future = false,
     past = false,
     count = 1,
-  }) {
+  } = {}) {
     return Array(count)
       .fill(count)
-      .map(
-        (_, index) =>
-          new MockAppointmentResponse({
-            id: index,
-            kind: TYPE_OF_VISIT_ID.telehealth,
-            type: 'VA',
-            modality: 'vaVideoCareAtAVaLocation',
-            localStartTime,
-            vvsKind: VIDEO_TYPES.clinic,
-            future,
-            past,
-          }),
+      .map((_, index) =>
+        new MockAppointmentResponse({
+          id: index + 1,
+          localStartTime,
+          future,
+          past,
+        })
+          .setKind(TYPE_OF_VISIT_ID.telehealth)
+          .setModality('vaVideoCareAtAVaLocation')
+          .setType('COMMUNITY_CARE_APPOINTMENT')
+          .setVvsKind(VIDEO_TYPES.clinic),
       );
   }
 
+  /**
+   * Method to generate mock GFE response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
   static createGfeResponses({
     localStartTime,
     future = false,
     past = false,
     count = 1,
-  }) {
+  } = {}) {
     return Array(count)
       .fill(count)
-      .map(
-        (_, index) =>
-          new MockAppointmentResponse({
-            id: index,
-            kind: TYPE_OF_VISIT_ID.telehealth,
-            type: 'VA',
-            modality: 'vaVideoCareAtHome',
-            localStartTime,
-            vvsKind: VIDEO_TYPES.mobile,
-            patientHasMobileGfe: true,
-            future,
-            past,
-          }),
+      .map((_, index) =>
+        new MockAppointmentResponse({
+          id: index + 1,
+          localStartTime,
+          future,
+          past,
+        })
+          .setKind(TYPE_OF_VISIT_ID.telehealth)
+          .setModality('vaVideoCareAtHome')
+          .setPatientHasMobileGfe(true)
+          .setVvsKind(VIDEO_TYPES.mobile),
       );
   }
 
-  static createMobileResponses({
+  /**
+   * Method to generate mock VA response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createMobileResponses({ localStartTime, future = false, count = 1 }) {
+    return Array(count)
+      .fill(count)
+      .map((_, index) =>
+        new MockAppointmentResponse({
+          id: index + 1,
+          localStartTime,
+          future,
+        })
+          .setKind(TYPE_OF_VISIT_ID.telehealth)
+          .setModality('vaVideoCareAtHome')
+          .setVvsKind(VIDEO_TYPES.mobile),
+      );
+  }
+
+  /**
+   * Method to generate mock Phone response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createPhoneResponses({
     localStartTime,
     future = false,
-    displayLink = false,
     count = 1,
-  }) {
+  } = {}) {
     return Array(count)
       .fill(count)
-      .map(
-        (_, index) =>
-          new MockAppointmentResponse({
-            id: index,
-            kind: TYPE_OF_VISIT_ID.telehealth,
-            type: 'VA',
-            modality: 'vaVideoCareAtHome',
-            localStartTime,
-            vvsKind: VIDEO_TYPES.mobile,
-            displayLink,
-            future,
-          }),
+      .map((_, index) =>
+        new MockAppointmentResponse({
+          id: index + 1,
+          localStartTime,
+          future,
+        })
+          .setKind(TYPE_OF_VISIT_ID.phone)
+          .setModality('vaPhone'),
       );
   }
 
-  static createPhoneResponses({ localStartTime, future = false, count = 1 }) {
-    return Array(count)
-      .fill(count)
-      .map(
-        (_, index) =>
-          new MockAppointmentResponse({
-            id: index,
-            kind: TYPE_OF_VISIT_ID.phone,
-            type: 'VA',
-            modality: 'vaPhone',
-            localStartTime,
-            future,
-          }),
-      );
-  }
-
+  /**
+   * Method to generate mock Store Forward response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
   static createStoreForwardResponses({
     localStartTime,
     future = false,
     count = 1,
-  }) {
+  } = {}) {
     return Array(count)
       .fill(count)
-      .map(
-        (_, index) =>
-          new MockAppointmentResponse({
-            id: index,
-            kind: TYPE_OF_VISIT_ID.telehealth,
-            type: 'VA',
-            modality: 'vaVideoCareAtHome',
-            localStartTime,
-            vvsKind: VIDEO_TYPES.storeForward,
-            future,
-          }),
+      .map((_, index) =>
+        new MockAppointmentResponse({
+          id: index + 1,
+          localStartTime,
+          future,
+        })
+          .setKind(TYPE_OF_VISIT_ID.telehealth)
+          .setModality('vaVideoCareAtHome')
+          .setVvsKind(VIDEO_TYPES.storeForward),
       );
   }
 
-  static createVAResponse({ id, localStartTime, future, past, pending } = {}) {
-    return new MockAppointmentResponse({
-      id,
-      future,
-      kind: 'clinic',
+  /**
+   * Method to generate mock VA response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createVAResponses({
+    localStartTime = new Date(),
+    future,
+    past,
+    pending,
+    count = 1,
+    status,
+  } = {}) {
+    return Array(count)
+      .fill(count)
+      .map((_, index) => {
+        return new MockAppointmentResponse({
+          id: index + 1,
+          future,
+          localStartTime,
+          past,
+          pending,
+          status: `${
+            pending === true && status !== APPOINTMENT_STATUS.cancelled
+              ? APPOINTMENT_STATUS.proposed
+              : status
+          }`,
+        }).setType(
+          pending || status === APPOINTMENT_STATUS.proposed ? 'REQUEST' : 'VA',
+        );
+      });
+  }
+
+  /**
+   * Method to generate mock VA response object.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
+  static createVAResponse({
+    localStartTime = new Date(),
+    future,
+    past,
+    pending,
+    status,
+  } = {}) {
+    return this.createVAResponses({
+      count: 1,
       localStartTime,
+      future,
       past,
       pending,
-      status: APPOINTMENT_STATUS.booked,
-    });
+      status,
+    })[0];
   }
 
-  static createVAResponses({ localStartTime, future = false, count = 1 }) {
-    return Array(count)
-      .fill(count)
-      .map(
-        (_, index) =>
-          new MockAppointmentResponse({
-            id: index,
-            localStartTime,
-            future,
-          }),
-      );
+  setAtlas(value) {
+    this.attributes.telehealth.atlas = value;
+    return this;
   }
 
-  static createCCResponse({ serviceType } = {}) {
-    return new MockAppointmentResponse({
-      kind: 'cc',
-      modality: 'communityCare',
-      status: APPOINTMENT_STATUS.proposed,
-      serviceType,
-    });
+  setCancellable(value) {
+    this.attributes.cancellable = value;
+    return this;
   }
 
-  setPatientComments(value) {
-    this.attributes.patientComments = value;
+  setCancelled(value) {
+    this.attributes.cancellable = value;
     return this;
   }
 
@@ -307,54 +459,6 @@ export default class MockAppointmentResponse {
       coding: [{ code: value }],
     };
 
-    return this;
-  }
-
-  setClinicId(id) {
-    this.attributes.clinic = id;
-    return this;
-  }
-
-  setPhysicalLocation(room) {
-    this.attributes.physicalLocation = room;
-    return this;
-  }
-
-  setContact({ phone, email }) {
-    this.attributes.contact = {
-      telecom: [
-        { type: 'phone', value: phone },
-        { type: 'email', value: email },
-      ],
-    };
-
-    return this;
-  }
-
-  setId(value) {
-    this.id = value.toString();
-    return this;
-  }
-
-  /**
-   *
-   *
-   * @param {MockFacilityResponse} value
-   * @returns
-   * @memberof MockAppointmentResponse
-   */
-  setLocation(value) {
-    this.attributes.location = value;
-    return this;
-  }
-
-  setPreferredDates(values) {
-    this.attributes.preferredDates = values;
-    return this;
-  }
-
-  setTypeOfCare(value) {
-    this.attributes.serviceType = value;
     return this;
   }
 
@@ -381,6 +485,64 @@ export default class MockAppointmentResponse {
     return this;
   }
 
+  setClinicId(id) {
+    this.attributes.clinic = id;
+    return this;
+  }
+
+  setCreated(value) {
+    this.attributes.created = value;
+    return this;
+  }
+
+  setFuture(value) {
+    this.attributes.future = value;
+    return this;
+  }
+
+  setDisplayLink(value) {
+    this.attributes.telehealth.displayLink = value;
+    return this;
+  }
+
+  setContact({ phone, email }) {
+    this.attributes.contact = {
+      telecom: [
+        { type: 'phone', value: phone },
+        { type: 'email', value: email },
+      ],
+    };
+
+    return this;
+  }
+
+  setId(value) {
+    this.id = value.toString();
+    return this;
+  }
+
+  setKind(value) {
+    this.attributes.kind = value;
+    return this;
+  }
+
+  setLocalStart(value) {
+    this.attributes.localStartTime = value;
+    return this;
+  }
+
+  /**
+   *
+   *
+   * @param {MockFacilityResponse} value
+   * @returns
+   * @memberof MockAppointmentResponse
+   */
+  setLocation(value) {
+    this.attributes.location = value;
+    return this;
+  }
+
   setLocationId(value) {
     this.attributes.locationId = value.toString();
     return this;
@@ -388,6 +550,32 @@ export default class MockAppointmentResponse {
 
   setModality(value) {
     this.attributes.modality = value;
+    return this;
+  }
+
+  setPast(value) {
+    this.attributes.past = value;
+    return this;
+  }
+
+  setPatientHasMobileGfe(value) {
+    this.attributes.extension.patientHasMobileGfe = value;
+    return this;
+  }
+
+  setPatientComments(value) {
+    this.attributes.patientComments = value;
+    return this;
+  }
+
+  setPending(value) {
+    this.attributes.pending = value;
+    return this;
+  }
+
+  setPhysicalLocation(room) {
+    this.attributes.physicalLocation = room;
+    return this;
   }
 
   setPractitioner({ id }) {
@@ -408,6 +596,16 @@ export default class MockAppointmentResponse {
       },
     ];
 
+    return this;
+  }
+
+  setPreferredDates(values) {
+    this.attributes.preferredDates = values;
+    return this;
+  }
+
+  setPreferredModlity(value) {
+    this.attributes.preferredModality = value;
     return this;
   }
 
@@ -444,9 +642,15 @@ export default class MockAppointmentResponse {
     return this.attributes.requestedPeriods;
   }
 
-  setRequestedPeriods(requestedPeriods) {
-    this.attributes.localStartTime = undefined;
-    this.attributes.requestedPeriods = requestedPeriods.map(date => {
+  /**
+   * Method to set requested periods
+   *
+   * @param {Array<Date>} values Array of requested period dates.
+   * @returns MockAppointmentResponse instance
+   * @memberof MockAppointmentResponse
+   */
+  setRequestedPeriods(values) {
+    this.attributes.requestedPeriods = values.map(date => {
       return {
         start: format(date, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
         end: format(addHours(date, 1), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
@@ -466,8 +670,25 @@ export default class MockAppointmentResponse {
     return this;
   }
 
-  setPreferredModlity(value) {
-    this.attributes.preferredModality = value;
+  /**
+   * Set travel pay claim attribute.
+   *
+   * @param {MockTravelPayClaim} value
+   * @returns
+   * @memberof MockAppointmentResponse
+   */
+  setTravelPayClaim(value) {
+    this.attributes.travelPayClaim = value;
+    return this;
+  }
+
+  setType(value) {
+    this.attributes.type = value;
+    return this;
+  }
+
+  setTypeOfCare(value) {
+    this.attributes.serviceType = value;
     return this;
   }
 
@@ -477,6 +698,11 @@ export default class MockAppointmentResponse {
       url: value,
     };
 
+    return this;
+  }
+
+  setVvsKind(value) {
+    this.attributes.telehealth.vvsKind = value;
     return this;
   }
 }

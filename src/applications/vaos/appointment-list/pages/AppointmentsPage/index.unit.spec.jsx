@@ -58,14 +58,14 @@ describe('VAOS Page: AppointmentsPage', () => {
       start: subDays(new Date(), 120),
       end: addDays(new Date(), 1),
       statuses: ['proposed', 'cancelled'],
-      response: [MockAppointmentResponse.createCCResponse()],
+      response: MockAppointmentResponse.createCCResponses(),
     });
     mockAppointmentsApi({
       start: subDays(new Date(), 120),
       end: addDays(new Date(), 1),
       includes: ['facilities', 'clinics', 'eps'],
       statuses: ['proposed', 'cancelled'],
-      response: [MockAppointmentResponse.createCCResponse()],
+      response: MockAppointmentResponse.createCCResponses(),
     });
   });
   afterEach(() => {
@@ -148,9 +148,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     });
 
     // and breadcrumbs should be updated
-    const navigation = screen.getByRole('navigation', {
-      name: 'Breadcrumbs',
-    });
+    const navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.be.ok;
     expect(
       within(navigation).queryByRole('link', {
@@ -165,9 +163,8 @@ describe('VAOS Page: AppointmentsPage', () => {
     expect(screen.getByRole('link', { name: 'Start scheduling' })).to.be.ok;
 
     // and appointment list navigation should be displayed
-    expect(
-      screen.getByRole('navigation', { name: 'Appointment list navigation' }),
-    ).to.be.ok;
+    expect(screen.getByRole('navigation', { name: 'Appointment list' })).to.be
+      .ok;
     expect(screen.getByRole('link', { name: 'Upcoming' })).to.be.ok;
     expect(screen.getByRole('link', { name: /Pending \(\d\)/ })).to.be.ok;
     expect(screen.getByRole('link', { name: 'Past' })).to.be.ok;
@@ -213,7 +210,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     });
 
     // and breadcrumbs should be updated
-    navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const crumb =
       navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
@@ -273,7 +270,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     });
 
     // and breadcrumbs should be updated
-    navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const crumb =
       navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
@@ -350,9 +347,7 @@ describe('VAOS Page: AppointmentsPage', () => {
       });
 
       // and breadcrumbs should be updated
-      const navigation = screen.getByRole('navigation', {
-        name: 'Breadcrumbs',
-      });
+      const navigation = screen.getByTestId('vaos-breadcrumbs');
       expect(navigation).to.be.ok;
       expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
         .exist;
@@ -363,9 +358,8 @@ describe('VAOS Page: AppointmentsPage', () => {
       expect(screen.getByRole('link', { name: 'Start scheduling' })).to.be.ok;
 
       // and appointment list navigation should be displayed
-      expect(
-        screen.getByRole('navigation', { name: 'Appointment list navigation' }),
-      ).to.be.ok;
+      expect(screen.getByRole('navigation', { name: 'Appointment list' })).to.be
+        .ok;
       expect(screen.getByRole('link', { name: 'Upcoming' })).to.be.ok;
       expect(screen.getByRole('link', { name: /Pending \(\d\)/ })).to.be.ok;
       expect(screen.getByRole('link', { name: 'Past' })).to.be.ok;

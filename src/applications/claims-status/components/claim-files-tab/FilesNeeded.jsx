@@ -7,10 +7,10 @@ import {
   truncateDescription,
   isAutomated5103Notice,
   buildDateFormatter,
+  getDisplayFriendlyName,
 } from '../../utils/helpers';
 import { standard5103Item } from '../../constants';
 import DueDate from '../DueDate';
-import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function FilesNeeded({ item, previousPage = null }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -37,13 +37,7 @@ export default function FilesNeeded({ item, previousPage = null }) {
     }
 
     if (cstFriendlyEvidenceRequests && item.friendlyName) {
-      let updatedFriendlyName = item.friendlyName;
-      if (!evidenceDictionary[item.displayName]?.isProperNoun) {
-        updatedFriendlyName =
-          updatedFriendlyName.charAt(0).toLowerCase() +
-          updatedFriendlyName.slice(1);
-      }
-      displayName = `Provide ${updatedFriendlyName}`;
+      displayName = `Provide ${getDisplayFriendlyName(item)}`;
     }
     return displayName;
   };
@@ -74,15 +68,17 @@ export default function FilesNeeded({ item, previousPage = null }) {
       </h4>
       {!isAutomated5103Notice(item.displayName) &&
         !cstFriendlyEvidenceRequests && <DueDate date={item.suspenseDate} />}
-      {cstFriendlyEvidenceRequests && (
-        <p className="vads-u-font-size--h3">Respond by {formattedDueDate}</p>
-      )}
+      {cstFriendlyEvidenceRequests && <p>Respond by {formattedDueDate}</p>}
 
       <span className="alert-description">{getItemDescription()}</span>
       <div className="link-action-container">
         <Link
-          aria-label={`Details for ${item.displayName}`}
-          title={`Details for ${item.displayName}`}
+          aria-label={
+            cstFriendlyEvidenceRequests
+              ? `About this request for ${item.friendlyName ||
+                  item.displayName}`
+              : `Details for ${item.displayName}`
+          }
           className="vads-c-action-link--blue"
           to={
             cstFriendlyEvidenceRequests

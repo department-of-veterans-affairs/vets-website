@@ -5,6 +5,8 @@ import AlertVerifyAndRegister from './AlertVerifyAndRegister';
 import AlertMhvUserAction from './AlertMhvUserAction';
 import AlertMhvNoAction from './AlertMhvNoAction';
 import AlertAccountApiAlert from './AlertAccountApiAlert';
+import AlertDownloadAccessTrouble from './AlertDownloadAccessTrouble';
+import AlertDownloadSuccess from './AlertDownloadSuccess';
 
 export {
   AlertMhvBasicAccount,
@@ -14,4 +16,6 @@ export {
   AlertMhvUserAction,
   AlertMhvNoAction,
   AlertAccountApiAlert,
+  AlertDownloadAccessTrouble,
+  AlertDownloadSuccess,
 };

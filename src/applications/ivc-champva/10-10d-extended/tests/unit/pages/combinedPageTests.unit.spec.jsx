@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { testComponentRender } from '../../../../shared/tests/pages/pageTests.spec';
 import { ApplicantRelOriginPage } from '../../../chapters/ApplicantRelOriginPage';
 import { ApplicantGenderPage } from '../../../chapters/ApplicantGenderPage';
+import { SelectHealthcareParticipantsPage } from '../../../chapters/SelectHealthcareParticipantsPage';
 import {
   SignerContactInfoPage,
   signerContactOnGoForward,
@@ -13,7 +14,19 @@ testComponentRender(
   'ApplicantRelOriginPage',
   <ApplicantRelOriginPage data={{ ...mockData.data }} />,
 );
-
+testComponentRender(
+  'ApplicantRelOriginPage',
+  <ApplicantRelOriginPage
+    data={{ ...mockData.data, sponsorIsDeceased: false }}
+  />,
+);
+testComponentRender(
+  'SelectHealthcareParticipantsPage',
+  <SelectHealthcareParticipantsPage
+    fullData={{ ...mockData.data }}
+    data={{ ...mockData.data.healthInsurance[0] }}
+  />,
+);
 testComponentRender(
   'ApplicantRelOriginPage',
   <ApplicantGenderPage data={{ ...mockData.data }} />,
@@ -35,9 +48,7 @@ describe('SignerContactOnGoForward', () => {
       },
     };
     signerContactOnGoForward(props); // operates directly on `props`
-    expect(props.data.veteransFullName.first).to.eq(
-      props.data.certifierName.first,
-    );
+    expect(props.data.sponsorName.first).to.eq(props.data.certifierName.first);
   });
   it("should copy certifier info to applicant array if certifierRole === 'applicant'", () => {
     const props = {
@@ -50,5 +61,16 @@ describe('SignerContactOnGoForward', () => {
     expect(props.data.applicants[0].applicantName.first).to.eq(
       props.data.certifierName.first,
     );
+  });
+  it("should not modify applicants array if certifierRole === 'other'", () => {
+    const props = {
+      data: {
+        certifierRole: 'other',
+        certifierName: { first: 'first', last: 'last' },
+        applicants: [],
+      },
+    };
+    signerContactOnGoForward(props); // operates directly on `props`
+    expect(props.data.applicants[0]).to.eq(undefined);
   });
 });

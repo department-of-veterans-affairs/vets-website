@@ -24,14 +24,14 @@ export default function validateParameters({
   apiSession,
   userFirstName,
   userUuid,
-  setParamLoadingStatusFn,
+  setParamLoadingStatus,
   isDatadogLoggingEnabled,
 }) {
   if (hasAllParams(csrfToken, apiSession, userFirstName, userUuid)) {
     return;
   }
 
-  setParamLoadingStatusFn(ERROR);
+  setParamLoadingStatus(ERROR);
 
   const sanitizedCsrfToken = getSanitizedVariable(csrfToken, 'csrfToken');
   const sanitizedApiSession = getSanitizedVariable(apiSession, 'apiSession');
