@@ -270,7 +270,7 @@ export const pageHooks = {
 
             // Add another
             if (index + 1 < locations.length) {
-              cy.get('.vads-c-action-link--green').click();
+              cy.get('va-link-action').click();
             }
           }
         });
@@ -369,7 +369,7 @@ export const pageHooks = {
 
             // Add another
             if (index + 1 < providerFacility.length) {
-              cy.get('.vads-c-action-link--green').click();
+              cy.get('va-link-action').click();
             }
           }
         });
