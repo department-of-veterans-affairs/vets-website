@@ -11,6 +11,11 @@ import {
   // titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
+import {
+  uiSchema as conflictingInterestsUiSchema,
+  schema as conflictingInterestsSchema,
+} from './conflictingInterests';
+
 const associationLabels = {
   vaEmployee:
     'They are a VA employee who works with, receives services from, or receives compensation from our institution',
@@ -38,14 +43,15 @@ const summaryPage = {
   uiSchema: {
     'view:hasConflictingIndividuals': arrayBuilderYesNoUI(
       options,
-      {
-        title:
-          'Do you need to report any VA or SAA employees at your institution who may have a potential conflict of interest under this law?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
-      },
+      // {
+      //   title:
+      //     'Do you ,need to report any VA or SAA employees at your institution who may have a potential conflict of interest under this law?',
+      //   labels: {
+      //     Y: 'Yes',
+      //     N: 'No',
+      //   },
+      // },
+      // null,
       {
         title:
           'Do you have another individual with a potential conflict of interest to add?',
@@ -115,15 +121,22 @@ const individualPage = {
 export const conflictingIndividualsPages = arrayBuilderPages(
   options,
   pageBuilder => ({
+    conflictingInterests: pageBuilder.introPage({
+      path: 'proprietary-profit-2', // TODO: verify path name
+      title: 'Individuals with a potential conflict of interest',
+      uiSchema: conflictingInterestsUiSchema,
+      schema: conflictingInterestsSchema,
+    }),
     conflictingIndividualsSummary: pageBuilder.summaryPage({
       title: 'Individuals with a potential conflict of interest',
-      path: 'conflicting-individuals',
+      path: 'proprietary-profit-2',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
+      depends: formData => formData?.hasConflictOfInterest === true,
     }),
     conflictingIndividualPage: pageBuilder.itemPage({
       title: 'Individuals affiliated with both your institution and VA or SAA',
-      path: 'conflicting-individuals/:index/details',
+      path: 'proprietary-profit-2/:index/details',
       uiSchema: individualPage.uiSchema,
       schema: individualPage.schema,
     }),

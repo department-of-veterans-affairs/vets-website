@@ -91,14 +91,17 @@ const formConfig = {
           uiSchema: proprietaryProfit.uiSchema,
           schema: proprietaryProfit.schema,
         },
-        // TODO: determine if conflictingInterests should be it's own page or if can add inside config for list and loop in confflictingIndividuals
+        // TODO: determine if conflictingInterests should be it's own page or if can add inside config for list and loop in conflictingIndividuals
 
         // conflictingInterests: {
-        //   path: 'conflicting-interests', // TODO: verify path name
+        //   path: 'proprietary-profit-2', // TODO: verify path name
         //   title: 'Individuals with a potential conflict of interest',
         //   uiSchema: conflictingInterests.uiSchema,
         //   schema: conflictingInterests.schema,
+        //   // pages: conflictingIndividualsPages,
         // },
+        // depends: formData => formData.hasConflictingInterest === true,
+
         ...conflictingIndividualsPages,
       },
     },
