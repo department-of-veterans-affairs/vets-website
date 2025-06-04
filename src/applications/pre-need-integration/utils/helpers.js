@@ -18,6 +18,8 @@ import { countries } from 'platform/forms/address';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 
+import { Link } from 'react-router';
+
 import {
   stringifyFormReplacer,
   filterViewFields,
@@ -1469,3 +1471,41 @@ export const addressConfirmationRenderLine = content => {
     </>
   ) : null;
 };
+
+export const ReviewDescription = (
+  <a
+    href="/profile"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="vads-u-margin-right--1"
+    aria-label="Edit contact information in your profile"
+  >
+    Edit Profile
+  </a>
+);
+
+export const ContactInfoDescription = (
+  <>
+    <h4 className="vads-u-font-size--h3">Mobile phone number</h4>
+    {/* <va-telephone contact={phoneNumber} extension={phoneExt} not-clickable /> */}
+    <p>
+      <Link to="/edit-mobile-phone" aria-label="Edit mobile phone number">
+        Edit
+      </Link>
+    </p>
+    <h4 className="vads-u-font-size--h3">Email address</h4>
+    {/* <span>{email?.emailAddress || ''}</span> */}
+    <p>
+      <Link to="/edit-email-address" aria-label="Edit email address">
+        Edit
+      </Link>
+    </p>
+    <h4 className="vads-u-font-size--h3">Mailing address</h4>
+    {/* <AddressView data={mailingAddress} /> */}
+    <p>
+      <Link to="/edit-mailing-address" aria-label="Edit mailing address">
+        Edit
+      </Link>
+    </p>
+  </>
+);
