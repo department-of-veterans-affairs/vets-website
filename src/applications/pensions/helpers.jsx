@@ -1,4 +1,5 @@
 import React from 'react';
+import Scroll from 'react-scroll';
 import { isBefore, isAfter, isEqual, parseISO } from 'date-fns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
@@ -8,6 +9,15 @@ export const isSameOrBefore = (date1, date2) => {
 
 export const isSameOrAfter = (date1, date2) => {
   return isAfter(date1, date2) || isEqual(date1, date2);
+};
+
+const { scroller } = Scroll;
+export const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
 };
 
 export const formatCurrency = num => `$${num.toLocaleString()}`;
