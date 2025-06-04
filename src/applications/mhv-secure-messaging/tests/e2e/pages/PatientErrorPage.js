@@ -1,4 +1,4 @@
-import { Paths, Alerts, Locators } from '../utils/constants';
+import { Paths, Alerts, Locators, Data } from '../utils/constants';
 import GeneralFunctionsPage from './GeneralFunctionsPage';
 
 class PatientErrorPage {
@@ -56,34 +56,28 @@ class PatientErrorPage {
     GeneralFunctionsPage.verifyPageHeader(`Page not found`);
     cy.get(`h2`)
       .should(`be.visible`)
-      .and(`include.text`, `Or try these other health resources`);
+      .and(`include.text`, Data.NOT_FOUND.H2);
 
-    cy.findByTestId(`mhv-page-not-found`)
+    cy.findByTestId(Locators.PAGE_NOT_FOUND)
       .find(`p`)
       .eq(0)
       .should(`be.visible`)
-      .and(
-        `include.text`,
-        `If you typed or copied the web address, check that it’s correct.`,
-      );
+      .and(`include.text`, Data.NOT_FOUND.P_O);
 
-    cy.findByTestId(`mhv-page-not-found`)
+    cy.findByTestId(Locators.PAGE_NOT_FOUND)
       .find(`p`)
       .eq(1)
       .should(`be.visible`)
-      .and(
-        `include.text`,
-        `If you still can’t find what you’re looking for, try visiting the My HealtheVet homepage.`,
-      );
+      .and(`include.text`, Data.NOT_FOUND.P_1);
 
-    cy.findByTestId(`mhv-page-not-found`)
+    cy.findByTestId(Locators.PAGE_NOT_FOUND)
       .find(`va-link`)
       .eq(0)
       .should(`be.visible`)
       .and(`have.attr`, `href`, `/my-health`)
-      .and(`have.attr`, `text`, `Go to our My HealtheVet on VA.gov homepage`);
+      .and(`have.attr`, `text`, Data.NOT_FOUND.LINK_0);
 
-    cy.findByTestId(`mhv-page-not-found`)
+    cy.findByTestId(Locators.PAGE_NOT_FOUND)
       .find(`va-link`)
       .eq(1)
       .should(`be.visible`)
@@ -92,18 +86,14 @@ class PatientErrorPage {
         `href`,
         `https://eauth.va.gov/MAP/users/v2/landing?redirect_uri=/cirrusmd/`,
       )
-      .and(
-        `have.attr`,
-        `text`,
-        `Chat live with a health professional on VA health chat`,
-      );
+      .and(`have.attr`, `text`, Data.NOT_FOUND.LINK_1);
 
-    cy.findByTestId(`mhv-page-not-found`)
+    cy.findByTestId(Locators.PAGE_NOT_FOUND)
       .find(`va-link`)
       .eq(2)
       .should(`be.visible`)
       .and(`have.attr`, `href`, `/find-locations`)
-      .and(`have.attr`, `text`, `Find a VA facility`);
+      .and(`have.attr`, `text`, Data.NOT_FOUND.LINK_2);
   };
 }
 
