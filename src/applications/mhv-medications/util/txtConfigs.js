@@ -131,8 +131,11 @@ Prescribed on: ${dateFormat(
       'Date not available',
     )}
 
-Prescribed by: ${(rx.providerFirstName && rx.providerLastName) ||
-      'Provider name not available'}
+Prescribed by: ${
+      rx.providerLastName
+        ? `${rx.providerLastName}, ${rx.providerFirstName || ''}`
+        : 'Provider name not available'
+    }
 
 ${
       rx.groupedMedications?.length > 0
@@ -262,9 +265,12 @@ Prescribed on: ${dateFormat(
     'Date not available',
   )}
 
-Prescribed by: ${(prescription.providerFirstName &&
-    prescription.providerLastName) ||
-    'Provider name not available'}
+Prescribed by: ${
+    prescription.providerLastName
+      ? `${prescription.providerLastName}, ${prescription.providerFirstName ||
+          ''}`
+      : 'Provider name not available'
+  }
 
 
 Refill history
@@ -343,9 +349,13 @@ Prescribed on: ${dateFormat(
         'Date not available',
       )}
 
-Prescribed by: ${(previousPrescription.providerFirstName &&
-        previousPrescription.providerLastName) ||
-        'Provider name not available'}
+Prescribed by: ${
+        previousPrescription.providerLastName
+          ? `${
+              previousPrescription.providerLastName
+            }, ${previousPrescription.providerFirstName || ''}`
+          : 'Provider name not available'
+      }
       `;
     });
   }

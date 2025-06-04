@@ -615,10 +615,11 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
               },
               {
                 title: 'Prescribed by',
-                value:
-                  (previousPrescription.providerFirstName &&
-                    previousPrescription.providerLastName) ||
-                  'Provider name not available',
+                value: previousPrescription.providerLastName
+                  ? `${
+                      previousPrescription.providerLastName
+                    }, ${previousPrescription.providerFirstName || ''}`
+                  : 'Provider name not available',
                 inline: true,
                 indent: 32,
               },
