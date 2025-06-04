@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { Element } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
-import { Element, scrollTo } from 'platform/utilities/scroll';
+import { scrollTo } from 'platform/utilities/ui/scroll';
 
 import { VaBackToTop } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 

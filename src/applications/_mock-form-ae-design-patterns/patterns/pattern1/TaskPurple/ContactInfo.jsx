@@ -3,8 +3,11 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { Element, scrollTo, scrollAndFocus } from 'platform/utilities/scroll';
+import {
+  focusElement,
+  scrollTo,
+  scrollAndFocus,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   selectProfile,
@@ -19,6 +22,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
+import { Element } from 'platform/utilities/scroll';
 
 import {
   setReturnState,

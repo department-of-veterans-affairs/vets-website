@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 
-import { scrollTo } from 'platform/utilities/scroll';
-import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 export const ConfirmationPageView = ({
   submitDate,

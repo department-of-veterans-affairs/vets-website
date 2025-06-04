@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { focusElement } from 'platform/utilities/ui/focus';
-import { scrollToTop } from 'platform/utilities/scroll';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextModalities } from '../../HelpText';

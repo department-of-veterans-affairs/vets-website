@@ -1,8 +1,5 @@
-import { scrollTo } from 'platform/utilities/scroll';
-import {
-  focusByOrder,
-  waitForRenderThenFocus,
-} from 'platform/utilities/ui/focus';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import { focusByOrder, waitForRenderThenFocus } from 'platform/utilities/ui';
 
 export const pageFocusScroll = () => {
   return () => {
