@@ -136,6 +136,18 @@ export const extractSpecimen = record => {
 
 export const extractOrderedTest = (record, id) => {
   const serviceReq = extractContainedResource(record, id);
+
+  // First try to find a display value in the coding array
+  if (isArrayAndHasItems(serviceReq?.code?.coding)) {
+    const codingWithDisplay = serviceReq.code.coding.find(
+      item => item.display && item.display.trim() !== '',
+    );
+    if (codingWithDisplay?.display) {
+      return codingWithDisplay.display;
+    }
+  }
+
+  // Fall back to code.text if no display found
   return serviceReq?.code?.text || null;
 };
 
