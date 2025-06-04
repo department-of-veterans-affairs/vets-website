@@ -1232,7 +1232,7 @@ jobs:
           node -e "
           const fs = require('fs');
           const path = require('path');
-          const Mochawesome = require('/src/testing-reports/mochawesome');
+          const Mochawesome = require('/src/testing-reports/mochawesome.js');
           const merge = new Mochawesome();
           
           merge.mergeResults().then(json => {
