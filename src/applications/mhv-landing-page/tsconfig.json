@@ -1,0 +1,9 @@
+{
+  "extends": "../../../config/base-tsconfig.json",
+  "compilerOptions": {
+    "checkJs": true,
+    "strictNullChecks": false,
+  },
+  "include": ["./**/*"],
+  "exclude": ["node_modules"]
+}
