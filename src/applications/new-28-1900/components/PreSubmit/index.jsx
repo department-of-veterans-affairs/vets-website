@@ -5,7 +5,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import StatementOfTruth from './StatementOfTruth';
 import SignatureCheckbox from './SignatureCheckbox';
-import SubmitLoadingIndicator from './SubmitLoadingIndicator';
+// import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 import content from '../../locales/en/content.json';
 
 // organize text content for statement of truth components
@@ -22,7 +22,10 @@ const DEFAULT_SIGNATURE_STATE = { value: '', checked: false };
 
 const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   const submission = useSelector(state => state.form.submission);
+  const hasSubmittedForm = !!submission.status;
   const dispatch = useDispatch();
+  // console.log('*****showError', showError);
+  // console.log('>>> submission', submission);
 
   const isRep = formData.signAsRepresentativeYesNo === 'yes';
 
@@ -129,13 +132,41 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
     [requiredElements, showError, signatures, submission],
   );
 
+  const [privacyAgreement, setPrivacyAgreement] = useState(null);
   const [privacyAgreementError, setPrivacyAgreementError] = useState(null);
+  const [isDirty, setIsDirty] = useState(false);
   const checkPrivacyStatement = event => {
+    setIsDirty(true);
     const isChecked = event.target.checked;
-    console.log('isChecked', isChecked);
-    setPrivacyAgreementError(isChecked ? null : 'You must agree to the privacy statement');
+    setPrivacyAgreement(isChecked);
+    //console.log('isChecked', isChecked);
     dispatch(setData({ ...formData, ...{ privacyAgreement: isChecked } }));
   }
+
+  //const form1 = useSelector(state => state.form.data);
+  useEffect(
+    () => {
+      console.log('Check!!' );
+      console.log('hasSubmittedForm', hasSubmittedForm);
+      console.log('isDirty', isDirty);
+      console.log('privacyAgreement', privacyAgreement);
+
+      //console.log('state', form1);
+      if (isDirty && !privacyAgreement || !privacyAgreement && hasSubmittedForm) {
+        setPrivacyAgreementError('You must agree to the privacy statement');
+      }
+      else {
+        setPrivacyAgreementError(null);
+      }
+    },
+    [
+      hasSubmittedForm,
+      isDirty,
+      privacyAgreement,
+      privacyAgreementError
+    ],
+  );
+
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -201,9 +232,9 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
         <strong>Note:</strong> {content['certification-signature-note']}
       </p>
 
-      <div aria-live="polite">
+      {/* <div aria-live="polite">
         <SubmitLoadingIndicator submission={submission} />
-      </div>
+      </div> */}
     </div>
   );
 };
