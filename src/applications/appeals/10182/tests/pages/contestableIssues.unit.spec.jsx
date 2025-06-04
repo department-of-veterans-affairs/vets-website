@@ -50,7 +50,7 @@ describe('add issue page', () => {
       </Provider>,
     );
 
-    expect(form.find('a.add-new-issue').length).to.equal(1);
+    expect(form.find('.add-new-issue').length).to.equal(1);
     form.unmount();
   });
 });
