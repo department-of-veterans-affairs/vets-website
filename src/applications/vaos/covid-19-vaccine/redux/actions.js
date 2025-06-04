@@ -5,7 +5,7 @@ import {
   selectVAPMobilePhoneString,
 } from '@department-of-veterans-affairs/platform-user/exports';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { startOfMonth, endOfMonth, parseISO, format, isAfter } from 'date-fns';
+import { startOfMonth, endOfMonth, format, isAfter } from 'date-fns';
 
 import {
   selectSystemIds,
@@ -269,8 +269,8 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
     const { data } = newBooking;
     const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
 
-    const startDateMonth = format(parseISO(startDate), 'yyyy-MM');
-    const endDateMonth = format(parseISO(endDate), 'yyyy-MM');
+    const startDateMonth = format(startDate, 'yyyy-MM');
+    const endDateMonth = format(endDate, 'yyyy-MM');
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -292,18 +292,16 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
       dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
       try {
-        const startDateString = !fetchedStartMonth
+        const startDateObj = !fetchedStartMonth
           ? startDate
-          : format(startOfMonth(parseISO(endDate)), 'yyyy-MM-dd');
-        const endDateString = !fetchedEndMonth
-          ? endDate
-          : format(endOfMonth(parseISO(startDate)), 'yyyy-MM-dd');
+          : startOfMonth(endDate);
+        const endDateObj = !fetchedEndMonth ? endDate : endOfMonth(startDate);
 
         const fetchedSlots = await getSlots({
           siteId,
           clinicId: data.clinicId,
-          startDate: startDateString,
-          endDate: endDateString,
+          startDate: startDateObj,
+          endDate: endDateObj,
           convertToUtc: featureConvertSlotsToUTC,
         });
 
@@ -312,9 +310,8 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
         }
 
         const now = new Date();
-
         mappedSlots = fetchedSlots.filter(slot =>
-          isAfter(parseISO(slot.start), now),
+          isAfter(new Date(slot.start), now),
         );
 
         // Keep track of which months we've fetched already so we don't

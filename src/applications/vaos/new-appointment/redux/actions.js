@@ -2,7 +2,6 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import * as Sentry from '@sentry/browser';
 import { format, utcToZonedTime } from 'date-fns-tz';
-import moment from 'moment-timezone';
 
 import {
   addMinutes,
@@ -13,6 +12,8 @@ import {
   startOfDay,
   addDays,
   isAfter,
+  differenceInDays,
+  parse,
 } from 'date-fns';
 import {
   selectFeatureCommunityCare,
@@ -721,8 +722,8 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const { data } = newAppointment;
     const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
 
-    const startDateMonth = format(parseISO(startDate), 'yyyy-MM');
-    const endDateMonth = format(parseISO(endDate), 'yyyy-MM');
+    const startDateMonth = format(startDate, 'yyyy-MM');
+    const endDateMonth = format(endDate, 'yyyy-MM');
     const timezone = getTimezoneByFacilityId(data.vaFacility);
 
     let fetchedAppointmentSlotMonths = [];
@@ -745,18 +746,18 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
       dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
       try {
-        const startDateString = !fetchedStartMonth
+        const startDateToFetch = !fetchedStartMonth
           ? startDate
-          : format(startOfMonth(parseISO(endDate)), 'yyyy-MM-dd');
-        const endDateString = !fetchedEndMonth
+          : startOfMonth(endDate);
+        const endDateToFetch = !fetchedEndMonth
           ? endDate
-          : format(endOfMonth(parseISO(startDate)), 'yyyy-MM-dd');
+          : endOfMonth(startDate);
 
         const fetchedSlots = await getSlots({
           siteId,
           clinicId: data.clinicId,
-          startDate: startDateString,
-          endDate: endDateString,
+          startDate: format(startDateToFetch, 'yyyy-MM-dd'),
+          endDate: format(endDateToFetch, 'yyyy-MM-dd'),
           convertToUtc: featureConvertSlotsToUTC,
         });
 
@@ -998,10 +999,14 @@ export function submitAppointmentOrRequest(history) {
         newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
       const eventType = isCommunityCare ? 'community-care' : 'request';
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
-      const today = moment().format('YYYYMMDD');
+      const today = format(new Date(), 'yyyyMMdd');
       const daysFromPreference = ['null', 'null', 'null'];
+
       const diffDays = Object.values(data.selectedDates).map(item =>
-        moment(item, 'YYYYMMDD').diff(today, 'days'),
+        differenceInDays(
+          parse(item, 'yyyyMMdd', new Date()),
+          parse(today, 'yyyyMMdd', new Date()),
+        ),
       );
       // takes daysFromPreference array then replace those values from diffDays array
       daysFromPreference.splice(0, diffDays.length, ...diffDays);
