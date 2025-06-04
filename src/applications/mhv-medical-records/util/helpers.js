@@ -515,14 +515,6 @@ export const getStatusExtractListPhase = (
       : [refreshPhases.FAILED, refreshPhases.CURRENT]),
   ];
 
-  if (
-    !newRecordsFound &&
-    phaseList.every(
-      item => item === refreshPhases.CURRENT || item === refreshPhases.FAILED,
-    )
-  ) {
-    return refreshPhases.SOME_FAILED;
-  }
   for (const phase of phasePriority) {
     if (phaseList.includes(phase)) {
       return phase;

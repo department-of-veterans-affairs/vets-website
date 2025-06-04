@@ -184,9 +184,6 @@ const NewRecordsIndicator = ({
       if (refreshPhase === refreshPhases.FAILED) {
         return failedMsg();
       }
-      if (refreshPhase === refreshPhases.SOME_FAILED) {
-        return notUpToDateMsg();
-      }
       if (refreshPhase === refreshPhases.CURRENT) {
         if (newRecordsFound) {
           return newRecordsFoundMsg();

@@ -36,13 +36,13 @@ function useListRefresh({
         extractTypeList.every(type => {
           return refreshStatus.some(extStatus => {
             const hasExplicitLoadError =
-              !extStatus.lastSuccessfulCompleted &&
+              extStatus.upToDate &&
               extStatus.loadStatus === 'ERROR' &&
-              extStatus.upToDate;
+              !!extStatus.errorMessage;
             return (
-              (extStatus.extract === type &&
-                extStatus.phase === refreshPhases.CURRENT) ||
-              hasExplicitLoadError
+              extStatus.extract === type &&
+              (extStatus.phase === refreshPhases.CURRENT ||
+                hasExplicitLoadError)
             );
           });
         })

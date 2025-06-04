@@ -490,7 +490,7 @@ describe('getStatusExtractPhase', () => {
     expect(getStatusExtractPhase(now, [], '')).to.be.null;
   });
 
-  it('handles errorConditions branch when upToDate, loadStatus, and errorMessage are set', () => {
+  it('handles hasExplicitLoadError branch when upToDate, loadStatus, and errorMessage are set', () => {
     // Use dates recent enough so that STALE check does not trigger
     const recent = minutesBefore(now, 1);
     const phrStatus = [
