@@ -81,7 +81,7 @@ const NotificationSettings = ({
       // issue: 48011
       // used via passed state from contact info - mobile update alert link
       if (location.state?.scrollToTop) {
-        scrollToTop();
+        scrollToTop({ behavior: 'instant' });
       }
 
       focusElement('[data-focus-target]');

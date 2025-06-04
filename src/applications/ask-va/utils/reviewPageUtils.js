@@ -72,11 +72,7 @@ export const deleteStoredFile = async fileID => {
 };
 
 export const scrollToElement = (elementKey, options = {}) => {
-  const defaultOptions = {
-    duration: 500,
-    delay: 2,
-    smooth: true,
-  };
+  const defaultOptions = { delay: 2 };
 
   if (typeof window !== 'undefined' && window.Forms?.scroll) {
     return window.Forms.scroll;

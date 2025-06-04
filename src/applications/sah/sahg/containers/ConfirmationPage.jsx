@@ -8,7 +8,7 @@ import { scrollToTop } from 'platform/utilities/scroll';
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.schemaform-title > h1');
-    scrollToTop({ smooth: true });
+    scrollToTop();
   }
 
   render() {

@@ -99,9 +99,7 @@ class ArrayField extends React.Component {
         scrollTo(
           scrollElementName,
           window.Forms?.scroll || {
-            duration: 500,
             delay: 0,
-            smooth: true,
             offset: -60,
           },
         );
@@ -115,10 +113,7 @@ class ArrayField extends React.Component {
       scrollTo(
         `table_${id}`,
         window.Forms?.scroll || {
-          duration: 500,
           delay: 0,
-          smooth: true,
-          offset: 0,
         },
       );
     }, scrollToTimeout);
