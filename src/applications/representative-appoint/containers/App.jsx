@@ -4,7 +4,7 @@ import { connect, useSelector } from 'react-redux';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
