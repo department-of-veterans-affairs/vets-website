@@ -85,6 +85,8 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
         },
         {},
       );
+      console.log('formData', formData);
+      console.log('transformedSignatures', transformedSignatures);
       dispatch(setData({ ...formData, ...transformedSignatures }));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,6 +128,14 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
       }),
     [requiredElements, showError, signatures, submission],
   );
+
+  const [privacyAgreementError, setPrivacyAgreementError] = useState(null);
+  const checkPrivacyStatement = event => {
+    const isChecked = event.target.checked;
+    console.log('isChecked', isChecked);
+    setPrivacyAgreementError(isChecked ? null : 'You must agree to the privacy statement');
+    dispatch(setData({ ...formData, ...{ privacyAgreement: isChecked } }));
+  }
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -181,6 +191,9 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
           // checked={formData['view:autofill']}
           label="I acknowledge I have read the Protection of Privacy Information Statement."
           // onVaChange={handleCheck}
+          required
+          error={privacyAgreementError}
+          onVaChange={checkPrivacyStatement}
         />
       </fieldset>
       {statementsOfTruth}
