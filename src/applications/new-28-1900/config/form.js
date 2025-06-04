@@ -18,8 +18,6 @@ import movingYesNoPage from '../pages/movingYesNo';
 import newMailingAddressPage from '../pages/newMailingAddress';
 import personalInformationPage from '../pages/personalInformation';
 import phoneAndEmailPage from '../pages/phoneAndEmail';
-import yearsOfCollegeStudiesPage from '../pages/yearsOfCollegeStudies';
-import yearsOfGraduateStudiesPage from '../pages/yearsOfGraduateStudies';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -71,24 +69,6 @@ const formConfig = {
           title: YOUR_INFORMATION_CHAPTER_CONSTANTS.educationPageTitle,
           uiSchema: educationPage.uiSchema,
           schema: educationPage.schema,
-        },
-        yearsOfCollegeStudiesPage: {
-          depends: formData =>
-            formData.yearsOfEducation === 'someOrAllOfCollege',
-          path: 'years-of-college-studies',
-          title:
-            YOUR_INFORMATION_CHAPTER_CONSTANTS.yearsOfCollegeOrGraduateStudiesPageTitle,
-          uiSchema: yearsOfCollegeStudiesPage.uiSchema,
-          schema: yearsOfCollegeStudiesPage.schema,
-        },
-        yearsOfGraduateStudiesPage: {
-          depends: formData =>
-            formData.yearsOfEducation === 'someOrAllOfGraduateSchool',
-          path: 'years-of-graduate-studies',
-          title:
-            YOUR_INFORMATION_CHAPTER_CONSTANTS.yearsOfCollegeOrGraduateStudiesPageTitle,
-          uiSchema: yearsOfGraduateStudiesPage.uiSchema,
-          schema: yearsOfGraduateStudiesPage.schema,
         },
       },
     },
