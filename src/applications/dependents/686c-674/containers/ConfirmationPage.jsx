@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import GetFormHelp from '../components/GetFormHelp';
 
 import manifest from '../manifest.json';
 
 export default function ConfirmationPage() {
   const form = useSelector(state => state?.form);
+  const alertRef = useRef(null);
 
   const { submission, data } = form;
   const response = submission?.response ?? {};
@@ -23,13 +24,13 @@ export default function ConfirmationPage() {
     : '';
 
   useEffect(() => {
-    focusElement('#thank-you-message');
     scrollToTop('topScrollElement');
+    waitForRenderThenFocus('va-alert h2', alertRef.current);
   }, []);
 
   return (
     <>
-      <va-alert status="success" class="vads-u-margin-bottom--4">
+      <va-alert ref={alertRef} status="success" class="vads-u-margin-bottom--4">
         <h2 className="vads-u-font-size--h3">
           Form submission started on {dateSubmitted}
         </h2>
