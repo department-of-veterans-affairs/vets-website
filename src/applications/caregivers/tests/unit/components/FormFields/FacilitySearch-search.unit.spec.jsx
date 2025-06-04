@@ -44,7 +44,7 @@ describe('CG <FacilitySearch>', () => {
       </Provider>,
     );
     const selectors = () => ({
-      continueBtn: getByText('Continue'),
+      continueBtn: queryByRole('button', { name: /Continue/i }),
       loadMoreBtn: container.vaButtonGetByText(
         content['form-facilities-load-more-button'],
       ),
