@@ -1218,12 +1218,7 @@ jobs:
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
 
-      # Dummy step to evaluate merged report JSON 
-      - name: Upload merged test results
-        uses: actions/upload-artifact@v4
-        with:
-         name: merged-unit-test-results
-         path: qa-standards-dashboard-data/src/testing-reports/data/**
+      
 
       - name: Manual Mochawesome merge
         working-directory: qa-standards-dashboard-data
@@ -1244,7 +1239,13 @@ jobs:
           .catch(err => {console.error('mergeResults() failed:', err);
             process.exit(1);
           })"
-
+      # Dummy step to evaluate merged report JSON 
+      - name: Upload merged test results
+        uses: actions/upload-artifact@v4
+        with:
+         name: merged-unit-test-results
+         path: qa-standards-dashboard-data/src/testing-reports/data/**
+         
       - name: Create Unit Test report
         run: yarn unit-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
