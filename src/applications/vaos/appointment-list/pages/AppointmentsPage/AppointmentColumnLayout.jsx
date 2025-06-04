@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { selectFeatureFeSourceOfTruth } from '../../../redux/selectors';
 import AppointmentRow from '../../../components/AppointmentRow';
 import {
@@ -37,7 +37,6 @@ export default function AppointmentColumnLayout({
   const startDate = useSelector(() =>
     selectStartDate(data, useFeSourceOfTruth),
   );
-  const parsedDate = moment.parseZone(startDate);
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
   const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
@@ -82,7 +81,7 @@ export default function AppointmentColumnLayout({
                 { 'vads-u-display--none': !first },
               )}
             >
-              <span aria-hidden="false">{parsedDate.format('D')}</span>
+              <span aria-hidden="false">{format(startDate, 'd')}</span>
             </h3>
           </AppointmentColumn>
           <AppointmentColumn
@@ -103,7 +102,7 @@ export default function AppointmentColumnLayout({
               aria-hidden="true"
               data-testid="day"
             >
-              {parsedDate.format('ddd')}
+              {format(startDate, 'EEE')}
             </span>
           </AppointmentColumn>
         </AppointmentRow>
@@ -137,8 +136,9 @@ export default function AppointmentColumnLayout({
             style={{ minWidth: '100px', maxWidth: '100px' }}
           >
             <span aria-hidden="true">
-              {`${parsedDate.format('h:mm')} ${parsedDate.format(
-                'a',
+              {`${format(startDate, 'h:mm')} ${format(
+                startDate,
+                'aaa',
               )} ${timezoneAbbr}`}{' '}
             </span>
           </AppointmentColumn>

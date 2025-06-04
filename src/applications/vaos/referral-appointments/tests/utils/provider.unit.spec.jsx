@@ -6,9 +6,6 @@ import { waitFor } from '@testing-library/react';
 const draftAppointmentUtil = require('../../utils/provider');
 
 describe('VAOS provider utils', () => {
-  afterEach(() => {
-    MockDate.reset();
-  });
   const tomorrow = addDays(startOfDay(new Date()), 1);
   describe('createDraftAppointmentInfo', () => {
     const providerObjectTwoSlots = draftAppointmentUtil.createDraftAppointmentInfo(
@@ -52,7 +49,14 @@ describe('VAOS provider utils', () => {
     });
   });
   describe('hasConflict', () => {
-    MockDate.set('2024-12-05T00:00:00Z');
+    beforeEach(() => {
+      MockDate.set('2024-12-05T00:00:00Z');
+    });
+
+    after(() => {
+      MockDate.reset();
+    });
+
     const tz = 'America/Los_Angeles';
     const appointmentsByMonth = {
       '2024-12': [

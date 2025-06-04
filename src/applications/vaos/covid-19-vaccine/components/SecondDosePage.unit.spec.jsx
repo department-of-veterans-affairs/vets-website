@@ -63,7 +63,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
     ).to.be.ok;
     expect(
       screen.getByText(
-        new RegExp(`${format(start, 'EEEE, MMMM d, yyyy')}`, 'i'),
+        new RegExp(`${format(start, 'EEEE, MMMM dd, yyyy')}`, 'i'),
       ),
     ).to.be.ok;
     expect(
