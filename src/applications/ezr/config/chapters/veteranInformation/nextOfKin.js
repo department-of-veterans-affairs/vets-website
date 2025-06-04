@@ -46,6 +46,9 @@ const arrayBuilderOptions = {
     cancelEditYes: () => content['next-of-kin-cancel-edit-yes'],
     cancelAddTitle: () => content['next-of-kin-cancel-add-title-text'],
     cancelEditTitle: () => content['next-of-kin-cancel-edit-title-text'],
+    yesNoBlankReviewQuestion: () =>
+      content['next-of-kin-summary-yes-no-blank-review-question'],
+    reviewAddButtonText: () => content['next-of-kin-summary-add-button-text'],
   },
 };
 

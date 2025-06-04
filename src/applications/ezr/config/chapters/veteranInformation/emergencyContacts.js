@@ -44,6 +44,10 @@ const arrayBuilderOptions = {
     cancelAddNo: () => content['emergency-contact-cancel-add-no'],
     cancelEditYes: () => content['emergency-contact-cancel-edit-yes'],
     cancelEditNo: () => content['emergency-contact-cancel-edit-no'],
+    yesNoBlankReviewQuestion: () =>
+      content['emergency-contact-summary-yes-no-blank-review-question'],
+    reviewAddButtonText: () =>
+      content['emergency-contact-summary-add-button-text'],
   },
   hideMaxItemsAlert: true,
 };
