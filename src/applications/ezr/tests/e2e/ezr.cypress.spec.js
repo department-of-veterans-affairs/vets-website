@@ -8,11 +8,7 @@ import mockUser from './fixtures/mocks/mock-user';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
-import {
-  fillAddressWebComponentPattern,
-  selectYesNoWebComponent,
-  goToNextPage,
-} from './helpers';
+import { selectYesNoWebComponent, goToNextPage } from './helpers';
 import {
   fillContactPersonalInfo,
   fillContactAddress,
@@ -48,7 +44,7 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             const fieldName = 'veteranHomeAddress';
             const fieldData = data.veteranHomeAddress;
-            fillAddressWebComponentPattern(fieldName, fieldData);
+            cy.fillAddressWebComponentPattern(fieldName, fieldData);
             cy.injectAxeThenAxeCheck();
             goToNextPage();
           });
@@ -171,7 +167,7 @@ const testConfig = createTestConfig(
             const fieldName = 'spouseAddress';
             const fieldData =
               data['view:spouseContactInformation'].spouseAddress;
-            fillAddressWebComponentPattern(fieldName, fieldData);
+            cy.fillAddressWebComponentPattern(fieldName, fieldData);
             cy.injectAxeThenAxeCheck();
             goToNextPage();
           });
