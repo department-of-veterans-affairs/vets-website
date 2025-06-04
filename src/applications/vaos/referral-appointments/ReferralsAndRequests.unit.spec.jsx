@@ -86,7 +86,7 @@ describe('VAOS Component: Referrals and Requests', () => {
 
     mswServer.use(
       createGetHandler(appointmentsAPIEndpoint, () =>
-        jsonResponse(null, { status: 401 }),
+        jsonResponse(null, { status: 500 }),
       ),
     );
     const initialState = {
