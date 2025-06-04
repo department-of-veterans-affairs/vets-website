@@ -111,6 +111,7 @@ export async function fetchPatientRelationships(facilityId, typeOfCare) {
       locationId: facilityId,
       typeOfCareId: typeOfCare.idV2,
     });
+
     return transformPatientRelationships(data || []);
   } catch (e) {
     return null;

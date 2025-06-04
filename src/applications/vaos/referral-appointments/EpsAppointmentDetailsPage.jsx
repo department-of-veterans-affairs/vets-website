@@ -11,10 +11,8 @@ import { getReferralAppointmentInfo } from './redux/selectors';
 import PageLayout from '../appointment-list/components/PageLayout';
 import FullWidthLayout from '../components/FullWidthLayout';
 import Section from '../components/Section';
-import {
-  AppointmentTime,
-  // eslint-disable-next-line import/no-restricted-paths
-} from '../appointment-list/components/AppointmentDateTime';
+// eslint-disable-next-line import/no-restricted-paths
+import { AppointmentTime } from '../appointment-list/components/AppointmentDateTime';
 import ProviderAddress from './components/ProviderAddress';
 
 export default function EpsAppointmentDetailsPage() {
