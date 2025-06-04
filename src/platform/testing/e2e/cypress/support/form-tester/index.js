@@ -157,7 +157,11 @@ const getFieldSelectors = () => {
  * @param {string} pathname - The pathname of the page to run the page hook on.
  */
 const performPageActions = (pathname, _13647Exception = false) => {
-  cy.axeCheck('main', { _13647Exception });
+  cy.axeCheck('main', {
+    _13647Exception,
+    // ignore this check because headers may be in shadow dom which is asyncronously loaded
+    headingOrder: false,
+  });
 
   cy.execHook(pathname).then(({ hookExecuted, postHook }) => {
     const shouldAutofill = !pathname.match(
