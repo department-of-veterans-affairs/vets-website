@@ -19,10 +19,6 @@ export const SummaryTitle = ({ formData }) => {
           disable-analytics
           path={CONTESTABLE_ISSUES_PATH}
           search="?redirect"
-          to={{
-            pathname: CONTESTABLE_ISSUES_PATH,
-            search: '?redirect',
-          }}
           text="Go back to add more issues"
         />
       </p>

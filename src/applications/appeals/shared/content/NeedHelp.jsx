@@ -42,7 +42,7 @@ export default function NeedHelp() {
       <p>
         <va-link
           disable-analytics
-          ref={MST_COORD_URL}
+          href={MST_COORD_URL}
           text="Find a VHA MST coordinator"
         />
       </p>
