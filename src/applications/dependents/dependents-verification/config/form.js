@@ -1,6 +1,7 @@
 // import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+// import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -9,6 +10,7 @@ import prefillTransformer from '../prefill-transformer';
 
 // Chapter imports
 import { veteranInformation } from './chapters/veteran-information/veteranInformation';
+import { veteranContactInformation } from './chapters/veteran-contact-information/veteranContactInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -70,6 +72,17 @@ const formConfig = {
           title: 'Veteran information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+        },
+      },
+    },
+    veteranContactInformation: {
+      title: "Veteran's contact information",
+      pages: {
+        veteranContactInformation: {
+          path: 'veteran-information/contact',
+          title: 'Veteran contact information',
+          uiSchema: veteranContactInformation.uiSchema,
+          schema: veteranContactInformation.schema,
         },
       },
     },
