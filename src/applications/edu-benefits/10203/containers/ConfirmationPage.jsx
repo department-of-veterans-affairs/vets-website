@@ -12,7 +12,7 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const form = this.props.form;
+    const { form } = this.props;
     const { submission, formId } = form;
 
     return (

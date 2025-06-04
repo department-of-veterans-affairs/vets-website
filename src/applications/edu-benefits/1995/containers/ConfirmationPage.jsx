@@ -18,14 +18,14 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const form = this.props.form;
+    const { form } = this.props;
     const { submission, formId } = form;
     const { benefit } = form.data;
 
     return (
       <ConfirmationPageContent
         claimInfoListItems={[
-          <li key={'benefit'}>
+          <li key="benefit">
             <strong>Benefit to be transferred</strong>
             <br />
             {benefitsLabels[benefit]}
