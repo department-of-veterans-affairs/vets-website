@@ -83,6 +83,9 @@ class IntroductionPage extends React.Component {
               <Link to="/date">Date</Link>
             </li>
             <li>
+              <Link to="/international-phone">International phone</Link>
+            </li>
+            <li>
               <Link to="/file-input">File input</Link>
             </li>
             <li>
