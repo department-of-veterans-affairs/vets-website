@@ -1226,7 +1226,7 @@ jobs:
          path: qa-standards-dashboard-data/src/testing-reports/data/**
 
       - name: Manual Mochawesome merge
-        working-directory: qa-standards.dashboard-data
+        working-directory: qa-standards-dashboard-data
         run: |
           rm -f src/testing-reports.data/unit-tests.json
           node -e "
