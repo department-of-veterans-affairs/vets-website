@@ -22,7 +22,10 @@ const minimalStore = mockStore({
 function callInnerApplicantTitleFunc(pages, pageName) {
   const { container } = render(
     <Provider store={minimalStore}>
-      {pages[pageName].uiSchema.applicants.items['ui:title']({})}
+      {pages[pageName].uiSchema.applicants.items['ui:title']({
+        formData: {},
+        formContext: {},
+      })}
     </Provider>,
   );
 
