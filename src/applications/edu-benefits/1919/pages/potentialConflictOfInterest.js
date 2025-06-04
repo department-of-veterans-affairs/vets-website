@@ -6,6 +6,7 @@ import {
   yesNoSchema,
   yesNoUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+import { alert } from '../helpers';
 
 const uiSchema = {
   ...titleUI('Individuals with a potential conflict of interest'),
@@ -27,12 +28,7 @@ const uiSchema = {
           employees who may have a conflict under this law.
         </p>
       </div>
-      <va-alert status="info" slim visible data-testid="info-alert">
-        <p>
-          <strong>Note:</strong> Each time the information on this form changes,
-          a new submission is required.
-        </p>
-      </va-alert>
+      {alert}
     </>,
   ),
   hasConflictOfInterest: yesNoUI({
