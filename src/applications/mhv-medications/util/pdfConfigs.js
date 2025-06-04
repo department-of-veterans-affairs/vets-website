@@ -597,7 +597,8 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
               {
                 title: 'Quantity',
                 value: validateIfAvailable(
-                  'Quantity'.previousPrescription.quantity,
+                  'Quantity',
+                  previousPrescription.quantity,
                 ),
                 inline: true,
                 indent: 32,
