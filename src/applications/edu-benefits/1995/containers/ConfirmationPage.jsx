@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { benefitsLabels } from '../../utils/labels';
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
@@ -18,14 +18,14 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const form = this.props.form;
+    const { form } = this.props;
     const { submission, formId } = form;
     const { benefit } = form.data;
 
     return (
       <ConfirmationPageContent
         claimInfoListItems={[
-          <li key={'benefit'}>
+          <li key="benefit">
             <strong>Benefit to be transferred</strong>
             <br />
             {benefitsLabels[benefit]}

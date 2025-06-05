@@ -79,27 +79,6 @@ export const fillFullNameWebComponentPattern = (
   }
 };
 
-export const fillAddressWebComponentPattern = (fieldName, addressObject) => {
-  selectCheckboxWebComponent(
-    `${fieldName}_isMilitary`,
-    addressObject.isMilitary,
-  );
-  if (addressObject.city) {
-    if (addressObject.isMilitary) {
-      // there is a select dropdown instead when military is checked
-      selectDropdownWebComponent(`${fieldName}_city`, addressObject.city);
-    } else {
-      fillTextWebComponent(`${fieldName}_city`, addressObject.city);
-    }
-  }
-  selectDropdownWebComponent(`${fieldName}_country`, addressObject.country);
-  fillTextWebComponent(`${fieldName}_street`, addressObject.street);
-  fillTextWebComponent(`${fieldName}_street2`, addressObject.street2);
-  fillTextWebComponent(`${fieldName}_street3`, addressObject.street3);
-  selectDropdownWebComponent(`${fieldName}_state`, addressObject.state);
-  fillTextWebComponent(`${fieldName}_postalCode`, addressObject.postalCode);
-};
-
 export const fillDateWebComponentPattern = (fieldName, value) => {
   if (typeof value !== 'undefined') {
     const [year, month, day] = value.split('-');
