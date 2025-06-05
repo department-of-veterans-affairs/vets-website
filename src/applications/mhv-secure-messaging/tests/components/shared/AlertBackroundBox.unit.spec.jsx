@@ -1,36 +1,101 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/dom';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducer from '../../../reducers';
 import AlertBackgroundBox from '../../../components/shared/AlertBackgroundBox';
-import { Alerts, Paths } from '../../../util/constants';
+import { Alerts, Errors, Paths } from '../../../util/constants';
 
-describe('Alert Backround Box component', () => {
-  it('ERROR alert should render without errors', async () => {
-    const activeAlertObj = {
-      datestamp: '2022-10-07T19:25:32.832Z',
-      isActive: true,
-      alertType: 'error',
-      header: 'Error',
-      content: 'Message was not successfully deleted.',
-    };
-    const initialState = {
-      sm: {
-        alerts: {
-          alertVisible: true,
-          alertList: [activeAlertObj],
-        },
+describe('Alert Background Box component', () => {
+  const { SERVER_ERROR_500_MESSAGES_HEADING } = Alerts.Message;
+  const { SERVER_ERROR_500_MESSAGES_CONTENT } = Alerts.Message;
+  const { SERVER_ERROR_503 } = Alerts.Message;
+  const { SERVICE_OUTAGE } = Errors.Code;
+
+  const baseAlert = {
+    datestamp: '2024-10-07T19:25:32.832Z',
+    isActive: true,
+    alertType: 'error',
+    header: 'Error',
+    content: 'Some error occurred.',
+  };
+
+  const getState = alertList => ({
+    sm: {
+      alerts: {
+        alertVisible: true,
+        alertList,
       },
+      folders: {},
+      threadDetails: {},
+    },
+  });
+
+  it('renders the alert with provided header and content without errors', async () => {
+    const initialState = getState([baseAlert]);
+    const screen = renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+      initialState,
+      reducers: reducer,
+      path: Paths.INBOX,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('alert-text')).to.exist;
+      expect(screen.getByText(SERVER_ERROR_503)).to.exist;
+    });
+  });
+
+  it('renders SERVER_ERROR_503 on non-thread, non-folder, non-contact-list path with service outage', async () => {
+    const outageAlert = {
+      ...baseAlert,
+      response: { code: SERVICE_OUTAGE },
     };
-    const setup = ({ state = initialState }) =>
-      renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
-        state,
-        reducers: reducer,
-        path: Paths.INBOX,
-      });
-    const { findByText } = setup({});
-    expect(findByText(Alerts.Message.DELETE_MESSAGE_ERROR));
+    const initialState = getState([outageAlert]);
+    const screen = renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+      initialState,
+      reducers: reducer,
+      path: '/some-other-path',
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(SERVER_ERROR_503)).to.exist;
+    });
+  });
+
+  it('renders SERVER_ERROR_500_MESSAGES_HEADING and BODY on /thread/ path with service outage', async () => {
+    const outageAlert = {
+      ...baseAlert,
+      alertType: 'error',
+      response: { code: SERVICE_OUTAGE },
+    };
+    const initialState = getState([outageAlert]);
+    const screen = renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+      initialState,
+      reducers: reducer,
+      path: Paths.MESSAGE_THREAD,
+    });
+
+    await waitFor(() => {
+      expect(document.querySelector('h1').textContent).to.equal(
+        SERVER_ERROR_500_MESSAGES_HEADING,
+      );
+      expect(screen.getByText(SERVER_ERROR_500_MESSAGES_CONTENT)).to.exist;
+    });
+  });
+
+  it('does not render alert if alertList is empty', async () => {
+    const initialState = getState([]);
+    const screen = renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+      initialState,
+      reducers: reducer,
+      path: Paths.INBOX,
+    });
+
+    await waitFor(() => {
+      screen;
+      const vaAlert = document.querySelector('va-alert');
+      expect(vaAlert).to.not.exist;
+    });
   });
 
   it('should announce current folder if path is folders/:folderId', async () => {
