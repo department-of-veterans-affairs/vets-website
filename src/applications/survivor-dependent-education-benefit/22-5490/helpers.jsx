@@ -163,7 +163,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     relativeSsn: formData?.relativeSocialSecurityNumber || formData?.ssn,
     highSchoolDiploma: formData?.highSchoolDiploma,
     graduationDate: formData?.graduationDate,
-    relativeDateOfBirth: profile?.dob || claimant?.dateOfBirth,
+    claimantDateOfBirth: profile?.dob || claimant?.dateOfBirth,
     marriageStatus: formData?.marriageStatus,
     marriageDate: formData?.marriageDate,
     remarriageStatus: formData?.remarriageStatus,
