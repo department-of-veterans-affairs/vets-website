@@ -38,7 +38,7 @@ export const arrayBuilderOptions = {
   arrayPath: 'programs',
   nounSingular: 'program',
   nounPlural: 'programs',
-  required: true,
+  required: false,
   text: {
     getItemName: item => item.programName,
     cardDescription: item => {
@@ -153,12 +153,12 @@ const formConfig = {
     programsChapter: {
       title: '85/15 calculations',
       pages: arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
-        programsIntro: pageBuilder.introPage({
-          path: '85/15-calculations',
-          title: '[noun plural]',
-          uiSchema: ProgramIntro.uiSchema,
-          schema: ProgramIntro.schema,
-        }),
+        // programsIntro: pageBuilder.introPage({
+        //   path: '85/15-calculations',
+        //   title: '[noun plural]',
+        //   uiSchema: ProgramIntro.uiSchema,
+        //   schema: ProgramIntro.schema,
+        // }),
         programsSummary: pageBuilder.summaryPage({
           title: 'Review your [noun plural]',
           path: '85-15-calculations/summary',
