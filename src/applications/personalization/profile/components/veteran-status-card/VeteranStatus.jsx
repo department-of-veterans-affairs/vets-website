@@ -62,10 +62,6 @@ const VeteranStatus = ({
     },
   } = militaryInformation;
 
-  const isServiceHistory403Error = !!serviceError?.errors?.some(
-    err => err.code === '403',
-  );
-
   const isServiceHistoryNon403Error = !!serviceError?.errors?.every(
     err => err.code !== '403',
   );
@@ -75,45 +71,44 @@ const VeteranStatus = ({
   const isCardDataValid = !!(
     !isLoading &&
     data?.attributes?.veteranStatus === 'confirmed' &&
-    vetStatusEligibility?.confirmed === true &&
     isServiceHistoryValid &&
     formattedFullName
   );
 
-  useEffect(
-    () => {
-      let isMounted = true;
-      if (formattedFullName && isServiceHistoryValid) {
-        const fetchVerificationStatus = async () => {
-          setIsLoading(true);
+  useEffect(() => {
+    document.title = `Veteran Status Card | Veterans Affairs`;
+  }, []);
 
-          try {
-            const path = '/profile/vet_verification_status';
-            const response = await apiRequest(path);
-            if (isMounted) {
-              setData(response.data);
-            }
-          } catch (error) {
-            if (isMounted) {
-              captureError(error, {
-                eventName: 'vet-status-fetch-verification',
-              });
-            }
-          } finally {
-            if (isMounted) {
-              setIsLoading(false);
-            }
-          }
-        };
-        fetchVerificationStatus();
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchVerificationStatus = async () => {
+      setIsLoading(true);
+
+      try {
+        const path = '/profile/vet_verification_status';
+        const response = await apiRequest(path);
+        if (isMounted) {
+          setData(response.data);
+        }
+      } catch (error) {
+        if (isMounted) {
+          captureError(error, {
+            eventName: 'vet-status-fetch-verification',
+          });
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
+    };
+    fetchVerificationStatus();
 
-      return () => {
-        isMounted = false;
-      };
-    },
-    [formattedFullName, isServiceHistoryValid],
-  );
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const getLatestService = () => {
     if (serviceHistory?.length) {
@@ -179,33 +174,26 @@ const VeteranStatus = ({
   };
 
   const renderAlert = () => {
-    if (isServiceHistoryNon403Error) {
-      // Service history non-403 error
-      return <LoadFail />;
+    if (
+      data?.attributes?.veteranStatus === 'not confirmed' &&
+      data?.message?.length > 0
+    ) {
+      // Vet verification status "not confirmed" alert
+      return (
+        <NotConfirmedAlert
+          headline={data.title}
+          message={data.message}
+          status={data.status}
+        />
+      );
     }
-    if (isServiceHistory403Error || !isServiceHistoryValid) {
-      // Service history 403 error or no service history
-      return <NoServiceHistoryAlert />;
-    }
-    if (formattedFullName) {
-      if (
-        data?.attributes?.veteranStatus === 'not confirmed' &&
-        data?.message?.length > 0
-      ) {
-        // Vet verification status warning
-        return (
-          <NotConfirmedAlert
-            headline={data.title}
-            message={data.message}
-            status={data.status}
-          />
-        );
-      }
-      if (
-        vetStatusEligibility?.confirmed === false &&
-        vetStatusEligibility?.message?.length > 0
-      ) {
-        // Vet status eligibility warning
+    if (
+      data?.attributes?.veteranStatus === 'confirmed' &&
+      !isServiceHistoryValid
+    ) {
+      // Vet verification status "confirmed" but no service history
+      if (vetStatusEligibility?.message?.length > 0) {
+        // Vet verification status eligibility alert
         return (
           <NotConfirmedAlert
             headline={vetStatusEligibility.title}
@@ -214,12 +202,15 @@ const VeteranStatus = ({
           />
         );
       }
+      if (isServiceHistoryNon403Error) {
+        // No service history non-403 error alert
+        return <LoadFail />;
+      }
+      // No service history or 403 error alert
+      return <NoServiceHistoryAlert />;
     }
-    if (!isCardDataValid) {
-      // System error
-      return <SystemErrorAlert />;
-    }
-    return null;
+    // System error alert for all other failures
+    return <SystemErrorAlert />;
   };
 
   const renderContent = () => {
@@ -271,7 +262,6 @@ const VeteranStatus = ({
 };
 
 VeteranStatus.propTypes = {
-  edipi: PropTypes.number,
   militaryInformation: PropTypes.shape({
     serviceHistory: PropTypes.shape({
       error: PropTypes.shape({
@@ -296,6 +286,7 @@ VeteranStatus.propTypes = {
       }),
     }).isRequired,
   }).isRequired,
+  edipi: PropTypes.number,
   mockUserAgent: PropTypes.string,
   totalDisabilityRating: PropTypes.number,
   userFullName: PropTypes.object,

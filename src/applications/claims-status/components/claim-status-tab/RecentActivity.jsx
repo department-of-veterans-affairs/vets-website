@@ -13,6 +13,7 @@ import {
   is5103Notice,
   isDisabilityCompensationClaim,
 } from '../../utils/helpers';
+import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function RecentActivity({ claim }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -110,7 +111,10 @@ export default function RecentActivity({ claim }) {
         ) {
           addItems(
             item.requestedDate,
-            `We made a request outside the VA: “${displayName}.”`,
+            evidenceDictionary[item.displayName] &&
+            evidenceDictionary[item.displayName].isDBQ
+              ? `We made a request: “${displayName}.”`
+              : `We made a request outside the VA: “${displayName}.”`,
             item,
           );
         } else {

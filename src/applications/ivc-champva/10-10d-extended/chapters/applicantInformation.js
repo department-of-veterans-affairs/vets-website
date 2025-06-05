@@ -15,7 +15,7 @@ import {
   titleSchema,
   ssnUI,
   ssnSchema,
-  arrayBuilderItemFirstPageTitleUI,
+  withEditTitle,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -53,10 +53,7 @@ import { ApplicantMedicareStatusPage } from '../../10-10D/pages/ApplicantMedicar
 import { ApplicantMedicareStatusContinuedPage } from '../../10-10D/pages/ApplicantMedicareStatusContinuedPage';
 import ApplicantOhiStatusPage from '../../10-10D/pages/ApplicantOhiStatusPage';
 
-/*
-// TODO: get the custom prefill stuff working with array builder
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-*/
 
 /*
 // TODO: re-add this custom validation + the same for normal text fields
@@ -67,6 +64,19 @@ import { applicantAddressCleanValidation } from '../../shared/validations';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
+
+/**
+ * Wraps array builder function withEditTitle and calls the result
+ * after passing in a custom title string. Result will be the string
+ * + a prefix of "edit" if we're on an array builder edit page.
+ * @param {string} title Title string to display on page
+ * @returns
+ */
+function editTitleWrapper(title) {
+  // Array builder helper `withEditTitle` returns a function, which we
+  // always want to call, so just do that:
+  return withEditTitle(title)(title);
+}
 
 const applicantOptions = {
   arrayPath: 'applicants',
@@ -116,16 +126,31 @@ const applicantOptions = {
 
 const applicantIntroPage = {
   uiSchema: {
-    ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Applicant information',
-      nounSingular: applicantOptions.nounSingular,
-    }),
+    // Using standard titleUI so we can update the content based on certifierRole
+    ...titleUI(
+      () => editTitleWrapper('Applicant information'),
+      ({ formData, formContext }) => {
+        // Prefill message conditionally displays based on `certifierRole`
+        return formContext.pagePerItemIndex === '0' ? (
+          <>
+            <p>
+              Enter your information and the information for any other
+              applicants you want to enroll in CHAMPVA benefits.
+            </p>
+            {CustomPrefillMessage(formData, 'applicant')}
+          </>
+        ) : (
+          <p>Enter the information for the applicant you’re applying for.</p>
+        );
+      },
+    ),
     applicantName: fullNameUI(),
     applicantDob: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
     properties: {
+      titleSchema,
       applicantName: fullNameSchema,
       applicantDob: dateOfBirthSchema,
     },
@@ -156,8 +181,26 @@ const applicantAddressSelectionPage = {
 
 const applicantMailingAddressPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `${applicantWording(formData)} mailing address`,
+    ...titleUI(
+      ({ formData }) => {
+        const txt = `${applicantWording(formData)} mailing address`;
+        return editTitleWrapper(txt);
+      },
+      ({ formData, formContext }) => {
+        const txt =
+          'We’ll send any important information about this application to this address.';
+        // Prefill message conditionally displays based on `certifierRole`
+        return formContext.pagePerItemIndex === '0' ? (
+          <>
+            {txt}
+            <br />
+            <br />
+            {CustomPrefillMessage(formData, 'applicant')}
+          </>
+        ) : (
+          txt
+        );
+      },
     ),
     applicantAddress: addressUI({
       labels: {
@@ -169,6 +212,7 @@ const applicantMailingAddressPage = {
   schema: {
     type: 'object',
     properties: {
+      titleSchema,
       applicantAddress: addressSchema(),
     },
     required: ['applicantAddress'],
@@ -177,15 +221,28 @@ const applicantMailingAddressPage = {
 
 const applicantContactInfoPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `${applicantWording(formData)} contact information`,
+    ...titleUI(
       ({ formData }) =>
-        `We’ll use this information to contact ${applicantWording(
+        editTitleWrapper(`${applicantWording(formData)} contact information`),
+      ({ formData, formContext }) => {
+        const txt = `We will use this information to contact ${applicantWording(
           formData,
           false,
           false,
           true,
-        )} if we have more questions`,
+        )} if we have more questions`;
+        // Prefill message conditionally displays based on `certifierRole`
+        return formContext.pagePerItemIndex === '0' ? (
+          <>
+            {txt}
+            <br />
+            <br />
+            {CustomPrefillMessage(formData, 'applicant')}
+          </>
+        ) : (
+          <>{txt}</>
+        );
+      },
     ),
     applicantPhone: phoneUI(),
     applicantEmailAddress: emailUI(),
@@ -193,6 +250,7 @@ const applicantContactInfoPage = {
   schema: {
     type: 'object',
     properties: {
+      titleSchema,
       applicantPhone: phoneSchema,
       applicantEmailAddress: emailSchema,
     },

@@ -258,3 +258,11 @@ fieldset.schemaform-field-template.schemaform-first-field {
 .suffixSpacing {
   padding-bottom: 1em;
 }
+
+h3, .schemaform-block-title {
+  color: var(--vads-color-base) !important;
+}
+
+article#form-4010007[data-location^="service-periods-"] .vads-u-color--gray-dark {
+  color: var(--vads-color-base) !important;
+}
