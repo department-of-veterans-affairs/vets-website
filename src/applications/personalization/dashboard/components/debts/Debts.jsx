@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
 import recordEvent from '~/platform/monitoring/record-event';
 import {
   fetchDebts,
@@ -127,9 +130,16 @@ const BenefitPaymentsAndDebt = ({
             <DashboardWidgetWrapper>
               <OutstandingDebtsError />
             </DashboardWidgetWrapper>
-            <DashboardWidgetWrapper>
-              {hasDebtError && copaysCount > 0 && <PopularActionsForDebts />}
-            </DashboardWidgetWrapper>
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Disabled>
+                <DashboardWidgetWrapper>
+                  {hasDebtError &&
+                    copaysCount > 0 && <PopularActionsForDebts />}
+                </DashboardWidgetWrapper>
+              </Toggler.Disabled>
+            </Toggler>
           </>
         )}
         {hasNoOutstandingDebts() && (
@@ -155,19 +165,30 @@ const BenefitPaymentsAndDebt = ({
             <DashboardWidgetWrapper>
               <CopaysCard copays={copays} />
             </DashboardWidgetWrapper>
-            <DashboardWidgetWrapper>
-              {!totalDebtsCount && !hasDebtError && <PopularActionsForDebts />}
-            </DashboardWidgetWrapper>
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Disabled>
+                <DashboardWidgetWrapper>
+                  {!totalDebtsCount &&
+                    !hasDebtError && <PopularActionsForDebts />}
+                </DashboardWidgetWrapper>
+              </Toggler.Disabled>
+            </Toggler>
           </>
         )}
       </div>
-      {((totalDebtsCount === 0 && copaysCount === 0) ||
-        (hasCopayError && totalDebtsCount === 0) ||
-        (hasDebtError && copaysCount === 0)) && (
-        <DashboardWidgetWrapper>
-          <PopularActionsForDebts />
-        </DashboardWidgetWrapper>
-      )}
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
+          {((totalDebtsCount === 0 && copaysCount === 0) ||
+            (hasCopayError && totalDebtsCount === 0) ||
+            (hasDebtError && copaysCount === 0)) && (
+            <DashboardWidgetWrapper>
+              <PopularActionsForDebts />
+            </DashboardWidgetWrapper>
+          )}
+        </Toggler.Disabled>
+      </Toggler>
     </div>
   );
 };

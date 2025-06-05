@@ -27,6 +27,7 @@ const NewRecordsIndicator = ({
         refreshState.statusDate,
         refreshState.status,
         normalizeExtractType(extractType),
+        newRecordsFound,
       );
     },
     [
@@ -34,6 +35,7 @@ const NewRecordsIndicator = ({
       refreshState.status,
       refreshState.statusDate,
       refreshState.phase,
+      newRecordsFound,
     ],
   );
 
@@ -101,69 +103,92 @@ const NewRecordsIndicator = ({
     );
   };
 
+  const newRecordsFoundMsg = () => {
+    return (
+      <va-alert
+        visible
+        aria-live="polite"
+        data-testid="new-records-refreshed-stale"
+      >
+        <h2>Reload to get updates</h2>
+        <p>
+          We found updates to your records. Reload this page to update your
+          list.
+        </p>
+        <va-button
+          text="Reload page"
+          onClick={() => {
+            reloadFunction();
+          }}
+          data-testid="new-records-reload-button"
+        />
+      </va-alert>
+    );
+  };
+
+  const notUpToDateMsg = () => {
+    return (
+      <va-alert
+        status="warning"
+        visible
+        aria-live="polite"
+        data-testid="new-records-refreshed-call_failed"
+      >
+        <h2>Your records may not be up to date.</h2>
+        <p>
+          There’s a problem with our system, and we can’t access the date your
+          records were last updated. We’re sorry.
+        </p>
+
+        <p> Please check back later for updates.</p>
+
+        <p>
+          If it still doesn’t work, call us at{' '}
+          <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
+          <va-telephone tty contact={CONTACTS['711']} />
+          ). We’re here Monday through Friday, 8:00 a.m to 8:00 p. ET.
+        </p>
+      </va-alert>
+    );
+  };
+
+  const lastUpdatedAtMsg = () => {
+    return (
+      <va-card
+        background
+        aria-live="polite"
+        data-testid="new-records-last-updated"
+      >
+        {`Last updated at ${lastSuccessfulUpdate.time} ${
+          lastSuccessfulUpdate.timeZone
+        } on ${lastSuccessfulUpdate.date}`}
+      </va-card>
+    );
+  };
+
+  const upToDateMsg = () => {
+    return (
+      <va-alert
+        status="success"
+        visible
+        aria-live="polite"
+        data-testid="new-records-refreshed-current"
+      >
+        Your list is up to date
+      </va-alert>
+    );
+  };
+
   const content = () => {
     if (refreshedOnThisPage) {
-      if (refreshPhase === refreshPhases.CALL_FAILED) {
-        return (
-          <va-alert
-            status="warning"
-            visible
-            aria-live="polite"
-            data-testid="new-records-refreshed-call_failed"
-          >
-            <h2>Your records may not be up to date.</h2>
-            <p>
-              There’s a problem with our system, and we can’t access the date
-              your records were last updated. We’re sorry.
-            </p>
-
-            <p> Please check back later for updates.</p>
-
-            <p>
-              If it still doesn’t work, call us at{' '}
-              <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
-              <va-telephone tty contact={CONTACTS['711']} />
-              ). We’re here Monday through Friday, 8:00 a.m to 8:00 p. ET.
-            </p>
-          </va-alert>
-        );
-      }
       if (refreshPhase === refreshPhases.FAILED) {
         return failedMsg();
       }
       if (refreshPhase === refreshPhases.CURRENT) {
         if (newRecordsFound) {
-          return (
-            <va-alert
-              visible
-              aria-live="polite"
-              data-testid="new-records-refreshed-stale"
-            >
-              <h2>Reload to get updates</h2>
-              <p>
-                We found updates to your records. Reload this page to update
-                your list.
-              </p>
-              <va-button
-                text="Reload page"
-                onClick={() => {
-                  reloadFunction();
-                }}
-                data-testid="new-records-reload-button"
-              />
-            </va-alert>
-          );
+          return newRecordsFoundMsg();
         }
-        return (
-          <va-alert
-            status="success"
-            visible
-            aria-live="polite"
-            data-testid="new-records-refreshed-current"
-          >
-            Your list is up to date
-          </va-alert>
-        );
+        return upToDateMsg();
       }
       if (!refreshState.isTimedOut) {
         return (
@@ -176,19 +201,9 @@ const NewRecordsIndicator = ({
       return failedMsg();
     }
     if (lastSuccessfulUpdate) {
-      return (
-        <va-card
-          background
-          aria-live="polite"
-          data-testid="new-records-last-updated"
-        >
-          {`Last updated at ${lastSuccessfulUpdate.time} ${
-            lastSuccessfulUpdate.timeZone
-          } on ${lastSuccessfulUpdate.date}`}
-        </va-card>
-      );
+      return lastUpdatedAtMsg();
     }
-    return <></>;
+    return notUpToDateMsg();
   };
 
   return (

@@ -95,6 +95,7 @@ export const Locators = {
   INBOX_FOOTER: `[data-testid="inbox-footer"]`,
   COMBO_BOX: '.usa-combo-box',
   SEARCH_RESULT: `[data-testid="search-messages"]`,
+  PAGE_NOT_FOUND: `mhv-page-not-found`,
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -440,7 +441,17 @@ export const Data = {
     LINK_1: `Learn more about messages`,
     LINK_2: `Find your VA health facility`,
   },
+
+  NOT_FOUND: {
+    H2: `Or try these other health resources`,
+    P_O: `If you typed or copied the web address, check that it’s correct.`,
+    P_1: `If you still can’t find what you’re looking for, try visiting the My HealtheVet homepage.`,
+    LINK_0: `Go to our My HealtheVet on VA.gov homepage`,
+    LINK_1: `Chat live with a health professional on VA health chat`,
+    LINK_2: `Find a VA facility`,
+  },
 };
+
 export const Assertions = {
   MESSAGES: 'Messages',
   FOLDER_RENAMED_SUCCESS: 'Folder was successfully renamed.',
