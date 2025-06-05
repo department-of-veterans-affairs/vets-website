@@ -70,7 +70,9 @@ const SubmissionsPage = title => {
             Start here to submit VA forms for your claimants.
           </p>
           <p className="submissions-21-686-c__form-name">Form 21-686c</p>
-          <h3>Application Request to Add and/or Remove Dependents</h3>
+          <h2 className="vads-u-font-size--h3">
+            Application Request to Add and/or Remove Dependents
+          </h2>
           <p className="submissions-21-686-c__subtext">
             The form will be processed by VA Centralized Mail after you submit
             it.

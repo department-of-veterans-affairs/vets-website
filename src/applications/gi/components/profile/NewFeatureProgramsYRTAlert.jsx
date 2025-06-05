@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import { getScrollOptions, focusElement } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { getScrollOptions, scrollTo } from 'platform/utilities/scroll';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function NewFeatureProgramsYRTAlert({
