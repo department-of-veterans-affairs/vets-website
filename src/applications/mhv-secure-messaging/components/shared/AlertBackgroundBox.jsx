@@ -178,7 +178,7 @@ const AlertBackgroundBox = props => {
       foldersViewPage,
       lastPathName,
       location.pathname,
-      props,
+      props.closeable,
       threadViewPage,
     ],
   );
