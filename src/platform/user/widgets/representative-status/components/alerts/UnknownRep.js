@@ -5,6 +5,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 export function UnknownRep({ DynamicHeader }) {
   return (
     <va-alert
+      data-testid="unknown-rep"
       close-btn-aria-label="Close notification"
       status="error"
       uswds
