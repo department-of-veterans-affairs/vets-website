@@ -2,25 +2,13 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import {
-  RequestPropertyOrBusinessIncomeFormAlert,
-  RequestFarmIncomeFormAlert,
-} from '../../../components/FormAlerts';
+import { TrustSupplementaryFormsAlert } from '../../../components/FormAlerts';
 
-describe('pension <RequestPropertyOrBusinessIncomeFormAlert>', () => {
+describe('pension <TrustSupplementaryFormsAlert>', () => {
   it('should render', () => {
-    const { container } = render(<RequestPropertyOrBusinessIncomeFormAlert />);
+    const { container } = render(<TrustSupplementaryFormsAlert />);
     const selector = container.querySelector('va-alert');
     expect(selector).to.exist;
-    expect(selector).to.contain.attr('status', 'warning');
-  });
-});
-
-describe('pension <RequestFarmIncomeFormAlert>', () => {
-  it('should render', () => {
-    const { container } = render(<RequestFarmIncomeFormAlert />);
-    const selector = container.querySelector('va-alert');
-    expect(selector).to.exist;
-    expect(selector).to.contain.attr('status', 'warning');
+    expect(selector).to.contain.attr('status', 'info');
   });
 });
