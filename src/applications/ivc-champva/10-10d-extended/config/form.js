@@ -1,13 +1,15 @@
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionError from '../../shared/components/SubmissionError';
 import GetFormHelp from '../../shared/components/GetFormHelp';
+import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
+import { sponsorWording } from '../../10-10D/helpers/utilities';
 
 import {
   certifierRoleSchema,
@@ -19,8 +21,6 @@ import {
 } from '../chapters/signerInformation';
 
 // import mockData from '../tests/fixtures/data/test-data.json';
-import { applicantPages } from '../chapters/applicantInformation';
-import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
 
 import {
   sponsorNameDobSchema,
@@ -30,15 +30,19 @@ import {
   sponsorAddress,
   sponsorContactInfo,
 } from '../chapters/sponsorInformation';
+import { applicantPages } from '../chapters/applicantInformation';
+import { medicarePages } from '../chapters/medicareInformation';
+import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   showReviewErrors: true, // May want to hide in prod later, but for now keeping in due to complexity of this form
-  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
-  // submit: () =>
-  // Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  // submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  // TODO: when we have the submitUrl up and running, remove this dummy response:
+  submit: () =>
+    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-10d-extended-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -120,7 +124,7 @@ const formConfig = {
       pages: {
         page6: {
           path: 'sponsor-info',
-          title: 'Sponsor`s name and date of birth',
+          title: 'Sponsor’s name and date of birth',
           ...sponsorNameDobSchema,
         },
         page7: {
@@ -142,6 +146,35 @@ const formConfig = {
             get('sponsorIsDeceased', formData),
           ...sponsorStatusDetails,
         },
+        page10b0: {
+          path: 'sponsor-mailing-same',
+          title: formData => `${sponsorWording(formData)} address selection`,
+          // Only show if we have addresses to pull from:
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('certifierRole', formData) !== 'sponsor' &&
+            get('street', formData?.certifierAddress),
+          CustomPage: props => {
+            const extraProps = {
+              ...props,
+              customAddressKey: 'sponsorAddress',
+              customTitle: `${sponsorWording(props.data)} address selection`,
+              customDescription:
+                'We’ll send any important information about this form to this address.',
+              customSelectText: `Does ${sponsorWording(
+                props.data,
+                false,
+                false,
+              )} live at a previously entered address?`,
+              positivePrefix: 'Yes, their address is',
+              negativePrefix: 'No, they have a different address',
+            };
+            return ApplicantAddressCopyPage(extraProps);
+          },
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
         page10: {
           path: 'sponsor-mailing-address',
           title: 'Sponsor`s mailing address',
@@ -159,6 +192,12 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: applicantPages,
+    },
+    medicareInformation: {
+      title: 'Medicare information',
+      pages: {
+        ...medicarePages,
+      },
     },
     healthInsuranceInformation: {
       title: 'Health insurance information',

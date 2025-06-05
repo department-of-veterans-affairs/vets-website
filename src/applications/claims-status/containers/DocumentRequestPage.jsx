@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
-import { Element } from 'platform/utilities/scroll';
+import { Element, scrollTo, scrollToTop } from 'platform/utilities/scroll';
 
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';

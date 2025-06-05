@@ -3,7 +3,7 @@ import moment from 'moment';
 import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
-  COVID_VACCINE_ID,
+  TYPE_OF_CARE_IDS,
   PURPOSE_TEXT_V2,
   TYPE_OF_VISIT,
 } from '../../utils/constants';
@@ -163,7 +163,7 @@ export function transformVAOSAppointment(
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
   let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
   let isPhone = appt.kind === 'phone';
-  let isCovid = appt.serviceType === COVID_VACCINE_ID;
+  let isCovid = appt.serviceType === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
   let isInPersonVisit = !isVideo && !isCC && !isPhone;
   if (useFeSourceOfTruthModality) {
     isCompAndPen = appt.modality === 'claimExamAppointment';

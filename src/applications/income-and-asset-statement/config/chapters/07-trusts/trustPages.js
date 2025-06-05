@@ -17,6 +17,7 @@ import {
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatDateLong } from 'platform/utilities/date';
 import { trustTypeLabels } from '../../../labels';
+import { TrustSupplementaryFormsAlert } from '../../../components/FormAlerts';
 
 import {
   annualReceivedIncomeFromTrustRequired,
@@ -41,6 +42,7 @@ export const options = {
     typeof item.trustEstablishedForVeteransChild !== 'boolean' ||
     typeof item.haveAuthorityOrControlOfTrust !== 'boolean', // include all required fields here
   text: {
+    summaryDescription: TrustSupplementaryFormsAlert,
     getItemName: item =>
       isDefined(item?.establishedDate) &&
       `Trust established on ${formatDateLong(item.establishedDate)}`,

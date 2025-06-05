@@ -23,17 +23,11 @@ let view;
 let server;
 
 function getEditButton(numberName) {
-  let editButton = view.queryByText(new RegExp(`add.*${numberName}`, 'i'), {
-    selector: 'button',
+  // Need to use `queryByRole` since the visible label is simply `Edit`, but
+  // the aria-label is more descriptive
+  return view.queryByRole('button', {
+    name: new RegExp(`edit.*${numberName}`, 'i'),
   });
-  if (!editButton) {
-    // Need to use `queryByRole` since the visible label is simply `Edit`, but
-    // the aria-label is more descriptive
-    editButton = view.queryByRole('button', {
-      name: new RegExp(`edit.*${numberName}`, 'i'),
-    });
-  }
-  return editButton;
 }
 
 function deletePhoneNumber(numberName) {
@@ -51,7 +45,7 @@ function deletePhoneNumber(numberName) {
   return { confirmDeleteButton };
 }
 
-async function testSuccess(numberName) {
+async function testSuccess(numberName, shortNumberName) {
   server.use(...mocks.transactionPending);
 
   deletePhoneNumber(numberName);
@@ -75,7 +69,7 @@ async function testSuccess(numberName) {
   // the edit phone number button should still exist
   view.getByRole('button', { name: new RegExp(`edit.*${numberName}`, 'i') });
   // and the add phone number text should exist
-  view.getByText(new RegExp(`add.*${numberName}`, 'i'));
+  view.getByText(new RegExp(`add.*${shortNumberName}`, 'i'));
 }
 
 // When the initial transaction creation request fails
@@ -157,10 +151,13 @@ describe('Deleting', () => {
   ];
 
   numbers.forEach(number => {
-    const numberName = FIELD_TITLES[number];
+    const numberName = FIELD_TITLES[number]; // e.g. 'Home phone number'
+    // The short name is used in the add phone number text,
+    // e.g. 'Click edit to add a home number.'
+    const shortNumberName = numberName.replace(/ phone/i, ''); // e.g. 'Home number'
     describe(numberName, () => {
       it('should handle a transaction that succeeds quickly', async () => {
-        await testSuccess(numberName);
+        await testSuccess(numberName, shortNumberName);
       });
       it('should show an error if the transaction cannot be created', async () => {
         await testTransactionCreationFails(numberName);
