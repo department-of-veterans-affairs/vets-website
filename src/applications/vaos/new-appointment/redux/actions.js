@@ -2,6 +2,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import * as Sentry from '@sentry/browser';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import moment from 'moment';
 
 import {
   addMinutes,
@@ -12,8 +13,6 @@ import {
   startOfDay,
   addDays,
   isAfter,
-  differenceInDays,
-  parse,
 } from 'date-fns';
 import {
   selectFeatureCommunityCare,
@@ -999,15 +998,13 @@ export function submitAppointmentOrRequest(history) {
         newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
       const eventType = isCommunityCare ? 'community-care' : 'request';
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
-      const today = format(new Date(), 'yyyyMMdd');
+      const today = moment().format('YYYYMMDD');
       const daysFromPreference = ['null', 'null', 'null'];
 
       const diffDays = Object.values(data.selectedDates).map(item =>
-        differenceInDays(
-          parse(item, 'yyyyMMdd', new Date()),
-          parse(today, 'yyyyMMdd', new Date()),
-        ),
+        moment(item, 'YYYYMMDD').diff(today, 'days'),
       );
+
       // takes daysFromPreference array then replace those values from diffDays array
       daysFromPreference.splice(0, diffDays.length, ...diffDays);
 
