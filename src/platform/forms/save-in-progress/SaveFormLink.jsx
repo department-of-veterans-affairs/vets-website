@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Element } from 'platform/utilities/scroll';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+import {
+  Element,
+  getScrollOptions,
+  scrollToTop,
+} from 'platform/utilities/scroll';
+import { focusElement } from 'platform/utilities/ui/focus';
 
 import { SAVE_STATUSES, saveErrors } from './actions';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
