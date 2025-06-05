@@ -269,8 +269,8 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
     const { data } = newBooking;
     const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
 
-    const startDateMonth = format(startDate, 'yyyy-MM');
-    const endDateMonth = format(endDate, 'yyyy-MM');
+    const startDateMonth = format(new Date(startDate), 'yyyy-MM');
+    const endDateMonth = format(new Date(endDate), 'yyyy-MM');
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -292,16 +292,18 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
       dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
       try {
-        const startDateObj = !fetchedStartMonth
-          ? startDate
-          : startOfMonth(endDate);
-        const endDateObj = !fetchedEndMonth ? endDate : endOfMonth(startDate);
+        const startDateString = !fetchedStartMonth
+          ? format(new Date(startDate), 'yyyy-MM-dd')
+          : format(startOfMonth(new Date(endDate)), 'yyyy-MM-dd');
+        const endDateString = !fetchedEndMonth
+          ? format(new Date(endDate), 'yyyy-MM-dd')
+          : format(endOfMonth(new Date(startDate)), 'yyyy-MM-dd');
 
         const fetchedSlots = await getSlots({
           siteId,
           clinicId: data.clinicId,
-          startDate: startDateObj,
-          endDate: endDateObj,
+          startDate: startDateString,
+          endDate: endDateString,
           convertToUtc: featureConvertSlotsToUTC,
         });
 

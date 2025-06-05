@@ -9,7 +9,6 @@ import {
   areIntervalsOverlapping,
   startOfMonth,
   endOfMonth,
-  parseISO,
   startOfDay,
   addDays,
   isAfter,
@@ -721,8 +720,9 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const { data } = newAppointment;
     const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
 
-    const startDateMonth = format(startDate, 'yyyy-MM');
-    const endDateMonth = format(endDate, 'yyyy-MM');
+    const startDateMonth = format(new Date(startDate), 'yyyy-MM');
+    const endDateMonth = format(new Date(endDate), 'yyyy-MM');
+
     const timezone = getTimezoneByFacilityId(data.vaFacility);
 
     let fetchedAppointmentSlotMonths = [];
@@ -745,25 +745,25 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
       dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
       try {
-        const startDateToFetch = !fetchedStartMonth
-          ? startDate
-          : startOfMonth(endDate);
-        const endDateToFetch = !fetchedEndMonth
-          ? endDate
-          : endOfMonth(startDate);
+        const startDateString = !fetchedStartMonth
+          ? format(new Date(startDate), 'yyyy-MM-dd')
+          : format(startOfMonth(new Date(endDate)), 'yyyy-MM-dd');
+        const endDateString = !fetchedEndMonth
+          ? format(new Date(endDate), 'yyyy-MM-dd')
+          : format(endOfMonth(new Date(startDate)), 'yyyy-MM-dd');
 
         const fetchedSlots = await getSlots({
           siteId,
           clinicId: data.clinicId,
-          startDate: format(startDateToFetch, 'yyyy-MM-dd'),
-          endDate: format(endDateToFetch, 'yyyy-MM-dd'),
+          startDate: startDateString,
+          endDate: endDateString,
           convertToUtc: featureConvertSlotsToUTC,
         });
 
         const tomorrow = startOfDay(addDays(new Date(), 1));
 
         mappedSlots = fetchedSlots.filter(slot =>
-          isAfter(parseISO(slot.start), tomorrow),
+          isAfter(new Date(slot.start), tomorrow),
         );
 
         // Keep track of which months we've fetched already so we don't
