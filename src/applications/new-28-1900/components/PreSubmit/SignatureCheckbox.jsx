@@ -14,21 +14,11 @@ const SignatureCheckbox = props => {
     setSignatures,
     showError,
     submission,
-    isRepresentative,
   } = props;
   const [error, setError] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
   const hasSubmittedForm = !!submission.status;
   const normalizedFullName = normalizeFullName(fullName, true);
-  const representativeLabelId = isRepresentative
-    ? `${label}-signature-label`
-    : undefined;
-  const ariaDescribedbyMessage = isRepresentative
-    ? replaceStrValues(
-        content['sign-as-rep-on-behalf-text'],
-        normalizedFullName,
-      )
-    : undefined;
 
   const handleCheck = event => {
     const value = event.target.checked;
@@ -59,23 +49,14 @@ const SignatureCheckbox = props => {
       {children ? <>{children}</> : null}
 
       <SignatureInput
-        ariaDescribedBy={ariaDescribedbyMessage}
         label={label}
         fullName={normalizedFullName}
         required={isRequired}
         showError={showError}
         hasSubmittedForm={hasSubmittedForm}
-        isRepresentative={isRepresentative}
         setSignatures={setSignatures}
         isChecked={isChecked}
       />
-
-      {isRepresentative && (
-        <p className="signature-box--representative" id={representativeLabelId}>
-          {content['signature-on-behalf-text']}
-          <strong className="vads-u-font-size--lg">{normalizedFullName}</strong>
-        </p>
-      )}
 
       <VaCheckbox
         required={isRequired}
@@ -98,7 +79,6 @@ SignatureCheckbox.propTypes = {
   setSignatures: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   submission: PropTypes.object.isRequired,
-  isRepresentative: PropTypes.bool,
   isRequired: PropTypes.bool,
 };
 

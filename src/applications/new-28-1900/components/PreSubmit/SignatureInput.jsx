@@ -11,7 +11,6 @@ const SignatureInput = props => {
     label,
     showError,
     hasSubmittedForm,
-    isRepresentative,
     setSignatures,
     isChecked,
     ariaDescribedBy,
@@ -24,13 +23,9 @@ const SignatureInput = props => {
   });
 
   // set label and error message strings
-  const textInputLabel = isRepresentative
-    ? content['sign-as-rep--signature-text-label']
-    : replaceStrValues(content['sign-as-rep--signature-vet-text-label'], label);
+  const textInputLabel = replaceStrValues(content['sign-as-rep--signature-vet-text-label'], label);
 
-  const errorMessage = isRepresentative
-    ? content['validation-sign-as-rep']
-    : replaceStrValues(content['validation-sign-as-rep--vet-name'], fullName);
+  const errorMessage = replaceStrValues(content['validation-sign-as-rep--vet-name'], fullName);
 
   /*
    * validate input string against the desired value
@@ -87,7 +82,7 @@ const SignatureInput = props => {
        */
       if (
         (isDirty && signatureMatches) ||
-        (isDirty && isRepresentative && !!normalizedSignature)
+        (isDirty && !!normalizedSignature)
       ) {
         handleChange(data.value);
         setError(null);
@@ -125,7 +120,6 @@ SignatureInput.propTypes = {
   showError: PropTypes.bool.isRequired,
   ariaDescribedBy: PropTypes.string,
   isChecked: PropTypes.bool,
-  isRepresentative: PropTypes.bool,
   required: PropTypes.bool,
 };
 

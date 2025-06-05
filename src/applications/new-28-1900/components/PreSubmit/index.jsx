@@ -5,7 +5,6 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import StatementOfTruth from './StatementOfTruth';
 import SignatureCheckbox from './SignatureCheckbox';
-// import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 import content from '../../locales/en/content.json';
 
 // organize text content for statement of truth components
@@ -26,8 +25,6 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   const dispatch = useDispatch();
   const [signatureComplete, setSignatureComplete] = useState(false);
 
-  const isRep = formData.signAsRepresentativeYesNo === 'yes';
-
   const signatureConfig = useMemo(
     () => ({
       veteran: {
@@ -38,7 +35,7 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
         shouldRender: true,
       },
     }),
-    [formData, isRep],
+    [formData],
   );
 
   const requiredElements = useMemo(
@@ -119,7 +116,6 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
             submission={submission}
             signatures={signatures}
             setSignatures={setSignatures}
-            isRepresentative={label === LABELS.representative}
             isRequired
           >
             <StatementOfTruth content={{ label, text: statementText }} />
@@ -135,14 +131,16 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
     const value = event.target.checked;
     setIsChecked(value);
     dispatch(setData({ ...formData, ...{ privacyAgreement: value } }));
-  };
+  }
 
   useEffect(
     () => {
       const hasError =
         isChecked === true || hasSubmittedForm ? false : showError;
       onSectionComplete(false);
-      const message = hasError ? 'My error message' : null;
+      const message = hasError
+        ? "My error message"
+        : null;
       setError(message);
     },
     [showError, isChecked, hasSubmittedForm],
@@ -219,10 +217,6 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
       <p className="vads-u-margin-bottom--3">
         <strong>Note:</strong> {content['certification-signature-note']}
       </p>
-
-      {/* <div aria-live="polite">
-        <SubmitLoadingIndicator submission={submission} />
-      </div> */}
     </div>
   );
 };
