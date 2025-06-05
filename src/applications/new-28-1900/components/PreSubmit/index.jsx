@@ -24,8 +24,7 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   const submission = useSelector(state => state.form.submission);
   const hasSubmittedForm = !!submission.status;
   const dispatch = useDispatch();
-  // console.log('*****showError', showError);
-  // console.log('>>> submission', submission);
+  const [signatureComplete, setSignatureComplete] = useState(false);
 
   const isRep = formData.signAsRepresentativeYesNo === 'yes';
 
@@ -88,8 +87,6 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
         },
         {},
       );
-      console.log('formData', formData);
-      console.log('transformedSignatures', transformedSignatures);
       dispatch(setData({ ...formData, ...transformedSignatures }));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -102,8 +99,7 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
       const allComplete = Object.values(signatures).every(
         ({ value, checked }) => Boolean(value) && checked,
       );
-      console.log('######## allComplete', allComplete);
-      onSectionComplete(allComplete);
+      setSignatureComplete(allComplete);
       return () => onSectionComplete(false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -139,20 +135,27 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
     const value = event.target.checked;
     setIsChecked(value);
     dispatch(setData({ ...formData, ...{ privacyAgreement: value } }));
-  }
+  };
 
   useEffect(
     () => {
-      console.log('showError', showError)
       const hasError =
         isChecked === true || hasSubmittedForm ? false : showError;
-      onSectionComplete(!hasError);
-      const message = hasError
-        ? "My error message"
-        : null;
+      onSectionComplete(false);
+      const message = hasError ? 'My error message' : null;
       setError(message);
     },
     [showError, isChecked, hasSubmittedForm],
+  );
+
+  // Mark the review page as complete when the Statement of Truth and Privacy Agreement are both complete
+  useEffect(
+    () => {
+      if (signatureComplete && isChecked) {
+        onSectionComplete(true);
+      }
+    },
+    [isChecked, signatureComplete],
   );
 
   return (
