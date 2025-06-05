@@ -4,12 +4,15 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import manifest from 'applications/personalization/dashboard/manifest.json';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
+import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
+import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import paymentHistory from '../fixtures/test-empty-payments-response.json';
 import formStatusesNoError from '../fixtures/form-statuses-no-errors.json';
 import formStatusesWithError from '../fixtures/form-statuses-with-errors.json';
 import { copaysSuccessEmpty } from '../fixtures/test-copays-response';
 import { notificationsSuccessEmpty } from '../fixtures/test-notifications-response';
 import { debtsSuccessEmpty } from '../fixtures/test-debts-response';
+import MOCK_CC_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
 
 describe('The My VA Dashboard', () => {
   const oneDayInSeconds = 24 * 60 * 60;
@@ -47,6 +50,12 @@ describe('The My VA Dashboard', () => {
       'notifications1',
     );
     cy.intercept('/v0/debts', debtsSuccessEmpty()).as('noDebts');
+    cy.intercept('/v0/debts?countOnly=true', debtsSuccessEmpty()).as(
+      'noDebtsCount',
+    );
+    cy.intercept('/v0/appeals', appealsSuccess());
+    cy.intercept('/v0/benefits_claims', claimsSuccess());
+    cy.intercept('/vaos/v2/appointments*', MOCK_CC_APPOINTMENTS);
   });
 
   describe('there are submitted forms', () => {
@@ -170,6 +179,9 @@ describe('The My VA Dashboard', () => {
 
     it('should show success message if download works', () => {
       cy.findAllByTestId('submitted-application').should('have.length', 4);
+      cy.window().then(windowMock => {
+        cy.stub(windowMock, 'open').as('windowOpen');
+      });
       cy.get('button')
         .contains('Download your completed form (PDF)')
         .should('be.visible')
@@ -177,11 +189,13 @@ describe('The My VA Dashboard', () => {
       cy.wait('@pdfEndpoint')
         .its('response.statusCode')
         .should('eq', 200);
-      cy.readFile(
-        `${Cypress.config(
-          'downloadsFolder',
-        )}/Form_21-0845_c4845944-87bf-444c-8e6e-5bfeed67fb12.pdf`,
-      ).should('exist');
+      // The file download moved to a window.open call in a
+      // new window so this is how we can check it fired
+      cy.get('@windowOpen').should(
+        'have.been.calledWith',
+        'https://example.com/form.pdf',
+        '_blank',
+      );
       cy.get('va-alert[status="success"]').should('be.visible');
       cy.injectAxe();
       cy.axeCheck();

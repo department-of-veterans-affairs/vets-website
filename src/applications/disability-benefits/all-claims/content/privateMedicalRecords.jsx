@@ -37,12 +37,6 @@ export const privateRecordsChoiceHelp = (
   </div>
 );
 
-export const privateRecordsPageTitle = (
-  <h3 className="vads-u-font-size--h3 vads-u-color--base vads-u-margin--0">
-    Private medical records
-  </h3>
-);
-
 export const patientAcknowledgmentTitle = (
   <h3 className="vads-u-margin-top--0">Authorize us to get your records</h3>
 );
