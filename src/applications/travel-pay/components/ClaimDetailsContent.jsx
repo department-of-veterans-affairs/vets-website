@@ -128,7 +128,7 @@ export default function ClaimDetailsContent({
               )}
             </div>
           )}
-          {!!reimbursementAmount &&
+          {reimbursementAmount > 0 &&
             totalCostRequested !== reimbursementAmount && (
               <va-additional-info
                 class="vads-u-margin-y--2"
