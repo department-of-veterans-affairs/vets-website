@@ -10,8 +10,8 @@ const ContactInformation = ({ formData, router, setFormData }) => {
   const { profile } = useSelector(selectUser);
   const {
     userFullName,
-    // email: profileEmail,
-    // phone: profilePhone,
+    email: profileEmail,
+    phone: profilePhone,
     // mailingAddress: profileMailing,
     // internationalPhone: profileIntlPhone,
   } = profile || {};
@@ -19,51 +19,51 @@ const ContactInformation = ({ formData, router, setFormData }) => {
     formData || {};
 
   // Prefill contact fields if not already in formData
-  // useEffect(
-  //   () => {
-  //     if (!profile) return;
+  useEffect(
+    () => {
+      if (!profile) return;
 
-  //     const updatedFormData = { ...formData };
-  //     let needsUpdate = false;
+      const updatedFormData = { ...formData };
+      let needsUpdate = false;
 
-  //     if (!email && profileEmail) {
-  //       updatedFormData.email = profileEmail;
-  //       needsUpdate = true;
-  //     }
+      if (!email && profileEmail) {
+        updatedFormData.email = profileEmail;
+        needsUpdate = true;
+      }
 
-  //     if (!phone && profilePhone) {
-  //       updatedFormData.phone = profilePhone;
-  //       needsUpdate = true;
-  //     }
+      if (!phone && profilePhone) {
+        updatedFormData.phone = profilePhone;
+        needsUpdate = true;
+      }
 
-  //     if (!mailingAddress && profileMailing) {
-  //       updatedFormData.mailingAddress = profileMailing;
-  //       needsUpdate = true;
-  //     }
+      // if (!mailingAddress && profileMailing) {
+      //   updatedFormData.mailingAddress = profileMailing;
+      //   needsUpdate = true;
+      // }
 
-  //     if (!internationalPhone && profileIntlPhone) {
-  //       updatedFormData.internationalPhone = profileIntlPhone;
-  //       needsUpdate = true;
-  //     }
+      // if (!internationalPhone && profileIntlPhone) {
+      //   updatedFormData.internationalPhone = profileIntlPhone;
+      //   needsUpdate = true;
+      // }
 
-  //     if (needsUpdate) {
-  //       setFormData(updatedFormData);
-  //     }
-  //   },
-  //   [
-  //     email,
-  //     phone,
-  //     mailingAddress,
-  //     internationalPhone,
-  //     profileEmail,
-  //     profilePhone,
-  //     profileMailing,
-  //     profileIntlPhone,
-  //     profile,
-  //     formData,
-  //     setFormData,
-  //   ],
-  // );
+      if (needsUpdate) {
+        setFormData(updatedFormData);
+      }
+    },
+    [
+      email,
+      phone,
+      mailingAddress,
+      internationalPhone,
+      profileEmail,
+      profilePhone,
+      // profileMailing,
+      // profileIntlPhone,
+      profile,
+      formData,
+      setFormData,
+    ],
+  );
 
   // Add veteranFullName from profile
   useEffect(

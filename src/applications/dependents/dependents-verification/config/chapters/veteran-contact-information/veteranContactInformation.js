@@ -11,9 +11,11 @@ export const veteranContactInformation = {
     },
   },
   uiSchema: {
-    'ui:description': ContactInformationPage,
-    'ui:options': {
-      hideOnReview: true,
+    veteranContactInformation: {
+      'ui:description': ContactInformationPage,
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
   },
 };
