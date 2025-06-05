@@ -83,13 +83,12 @@ export const itfError = (
         </li>
       </ul>
       <p>
-        <a
+        <va-link
+          disable-analytics
           href="/resources/your-intent-to-file-a-va-claim/"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          Learn more about the intent to file process (opens in a new tab)
-        </a>
+          external
+          text="Learn more about the intent to file process"
+        />
       </p>
     </div>
   </div>
