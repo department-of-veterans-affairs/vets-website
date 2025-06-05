@@ -399,14 +399,8 @@ const Dashboard = ({
                     <ul className="usa-unstyled-list">
                       <li className="vads-u-padding-y--1">
                         <va-link
-                          href="/records/get-military-service-records"
-                          text="Request your military service records (including DD 214)"
-                        />
-                      </li>
-                      <li className="vads-u-padding-y--1">
-                        <va-link
                           href="/records/download-va-letters/letters"
-                          text="Download your VA letters and documents"
+                          text="Download your VA letters and documents (including DD 214)"
                         />
                       </li>
                       <li className="vads-u-padding-y--1">
@@ -417,14 +411,20 @@ const Dashboard = ({
                       </li>
                       <li className="vads-u-padding-y--1">
                         <va-link
-                          href="/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/rates"
-                          text="Get chapter 35 rates for survivors and dependents"
+                          href="/education/gi-bill/post-9-11/ch-33-benefit/status"
+                          text="Check your Post-9/11 GI Bill benefits"
                         />
                       </li>
                       <li className="vads-u-padding-y--1">
                         <va-link
                           href="/view-change-dependents/view"
                           text="View or change VA dependents"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/rates"
+                          text="Get current Chapter 35 rates for survivors and dependents"
                         />
                       </li>
                     </ul>
