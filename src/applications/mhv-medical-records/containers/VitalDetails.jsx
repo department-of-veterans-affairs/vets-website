@@ -41,6 +41,7 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   loadStates as LOAD_STATES,
+  statsdFrontEndActions,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
@@ -49,14 +50,13 @@ import {
   generateVitalContent,
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
-
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useListRefresh from '../hooks/useListRefresh';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
-
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const VitalDetails = props => {
   const { runningUnitTest } = props;
@@ -98,6 +98,8 @@ const VitalDetails = props => {
   const dispatchAction = isCurrent => {
     return getVitals(isCurrent, isAcceleratingVitals, urlVitalsDate);
   };
+
+  useTrackAction(statsdFrontEndActions.VITALS_LIST);
 
   useListRefresh({
     listState,

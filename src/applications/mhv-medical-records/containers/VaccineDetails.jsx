@@ -25,6 +25,7 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   pageTitles,
+  statsdFrontEndActions,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
@@ -33,6 +34,7 @@ import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -49,6 +51,8 @@ const VaccineDetails = props => {
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  useTrackAction(statsdFrontEndActions.VACCINES_DETAILS);
 
   useEffect(
     () => {
