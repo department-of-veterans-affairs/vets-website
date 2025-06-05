@@ -98,7 +98,9 @@ const formConfig = {
           title: 'Claimant and representative information',
           uiSchema: claimantInformationPage.uiSchema,
           depends: formData => {
-            return formData.isVeteran === 'no';
+            return (
+              formData.isVeteran === undefined || formData.isVeteran === 'no'
+            );
           },
           schema: claimantInformationPage.schema,
           CustomPage: ClaimantInformationPage,

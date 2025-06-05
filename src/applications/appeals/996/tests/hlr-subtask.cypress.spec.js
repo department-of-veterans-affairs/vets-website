@@ -50,7 +50,9 @@ describe('996 subtask', () => {
 
     cy.location('pathname').should('eq', `${BASE_URL}/start`);
     cy.get('h2').contains('isn’t for a disability');
-    cy.findByText('Find the address for mailing your form', { selector: 'a' })
+    cy.get('[text="Find the address for mailing your form"]')
+      .shadow()
+      .find('a')
       .should('have.attr', 'href')
       .and(
         'contain',
