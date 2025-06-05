@@ -24,8 +24,8 @@ describe('Medications Details Page AAL API Call', () => {
       expect(requestBody).to.have.property('aal');
       expect(requestBody).to.deep.equal({
         aal: {
-          action: 'View',
-          activityType: 'View med detail page',
+          action: 'View Medication Detail Page',
+          activityType: 'RxRefill',
           detailValue: 'RX #: 2720554 RX Name: MELOXICAM 15MG TAB',
           performerType: 'Self',
           status: '1',
