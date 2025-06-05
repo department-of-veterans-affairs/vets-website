@@ -5,11 +5,10 @@ const defaultUUIDBase = '6cg8T26YivnL68JzeTaV0w==';
 const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
 
 const errorUUIDs = [
-  '6cg8T26YivnL68JzeTaV0w==create-error',
-  '6cg8T26YivnL68JzeTaV0w==complete-retry-error',
-  '6cg8T26YivnL68JzeTaV0w==complete-error',
-  '6cg8T26YivnL68JzeTaV0w==draft-no-active-slots-error',
-  '6cg8T26YivnL68JzeTaV0w==appointment-details-error',
+  'appointment-submit-error',
+  'details-retry-error',
+  'details-error',
+  'draft-no-slots-error',
 ];
 
 /**
@@ -58,20 +57,11 @@ const createReferralById = (
   uuid,
   expirationDate,
   categoryOfCare = 'OPTOMETRY',
-  noSlots,
 ) => {
   const [year, month, day] = startDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
 
   const mydFormat = 'yyyy-MM-dd';
-
-  const generateReferralNumber = () => {
-    if (noSlots) {
-      return 'no-slots';
-    }
-    return 'VA0000009880-default';
-  };
-  const referralNumber = generateReferralNumber();
 
   return {
     id: uuid,
@@ -82,7 +72,7 @@ const createReferralById = (
       stationId: '528A4',
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-      referralNumber,
+      referralNumber: uuid,
       categoryOfCare,
       referralConsultId: '984_646907',
       hasAppointments: false,

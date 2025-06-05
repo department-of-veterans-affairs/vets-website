@@ -437,10 +437,6 @@ const responses = {
       req.params.referralId,
     );
 
-    if (req.params.referralId.includes('error')) {
-      referral.attributes.referralId = req.params.referralId;
-    }
-
     return res.json({
       data: referral,
     });
@@ -452,16 +448,7 @@ const responses = {
       return res.status(500).json({ error: true });
     }
 
-    let slots = 5;
-    // referral 0 has no available slots
-    if (referralNumber === '0') {
-      slots = 0;
-    }
-
-    const draftAppointment = providerUtils.createDraftAppointmentInfo(
-      slots,
-      referralNumber,
-    );
+    const draftAppointment = providerUtils.createDraftAppointmentInfo(3);
 
     draftAppointments[draftAppointment.id] = draftAppointment;
 
@@ -540,7 +527,7 @@ const responses = {
       return res.status(400).json({ error: true });
     }
 
-    if (referralNumber === 'VA0000009880-create-error') {
+    if (referralNumber === 'appointment-submit-error') {
       return res.status(500).json({ error: true });
     }
 
