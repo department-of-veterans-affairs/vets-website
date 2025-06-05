@@ -20,8 +20,6 @@ export default {
     ...titleUI('Tell us your age'),
     isOver65: yesNoUI({
       title: 'Are you at least 65 years old?',
-      hint:
-        "Your answer to this question helps us determine if you're eligible for Veterans Pension benefits. We consider your age, income, and medical history in our determination. If you're under 65 years old, you may still be eligible.",
       classNames: 'vads-u-margin-bottom--2',
     }),
   },

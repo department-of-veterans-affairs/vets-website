@@ -923,7 +923,9 @@ class MedicationsListPage {
   };
 
   verifyNeedHelpSectionOnListPage = text => {
-    cy.get('[data-testid="rx-need-help-container"]').should('contain', text);
+    cy.get('[data-testid="rx-need-help-container"]')
+      .should('contain', text)
+      .and('be.visible');
   };
 
   verifyGoToUseMedicationLinkOnListPage = () => {
