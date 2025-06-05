@@ -439,83 +439,74 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         initialState,
       );
 
-      if (typeOfCareId) {
-        const siteIds = selectSystemIds(initialState);
-        const cernerSiteIds = selectRegisteredCernerFacilityIds(initialState);
-        let typeOfCareFacilities = getTypeOfCareFacilities(initialState);
-        let siteId = null;
-        let facilityId = newAppointment.data.vaFacility;
+      const siteIds = selectSystemIds(initialState);
+      const cernerSiteIds = selectRegisteredCernerFacilityIds(initialState);
+      let facilities = getTypeOfCareFacilities(initialState);
+      let siteId = null;
+      let facilityId = newAppointment.data.vaFacility;
 
-        dispatch({
-          type: FORM_PAGE_FACILITY_V2_OPEN,
+      dispatch({
+        type: FORM_PAGE_FACILITY_V2_OPEN,
+      });
+
+      if (featureRecentLocationsFilter && !isRecentLocationsFetched) {
+        facilities = await fetchRecentLocations(dispatch, siteIds);
+        recordItemsRetrieved('recent-locations', facilities?.length || 0);
+      }
+      // Fetch facilities that support this type of care
+      else if (!facilities) {
+        facilities = await getLocationsByTypeOfCareAndSiteIds({
+          siteIds,
         });
+        recordItemsRetrieved('available_facilities', facilities?.length);
+      }
 
-        if (featureRecentLocationsFilter && !isRecentLocationsFetched) {
-          typeOfCareFacilities = await fetchRecentLocations(dispatch, siteIds);
-          recordItemsRetrieved(
-            'recent-locations',
-            typeOfCareFacilities?.length || 0,
-          );
-        }
-        // Fetch facilities that support this type of care
-        else if (!typeOfCareFacilities) {
-          typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
-            siteIds,
-          });
-          recordItemsRetrieved(
-            'available_facilities',
-            typeOfCareFacilities?.length,
-          );
-        }
+      dispatch({
+        type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
+        facilities: facilities || [],
+        typeOfCareId,
+        schema,
+        uiSchema,
+        cernerSiteIds,
+        address: selectVAPResidentialAddress(initialState),
+        featureRecentLocationsFilter,
+      });
 
-        dispatch({
-          type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
-          facilities: typeOfCareFacilities || [],
-          sortedFacilities: typeOfCareFacilities || [],
-          typeOfCareId,
-          schema,
-          uiSchema,
+      // If we have an already selected location or only have a single location
+      // fetch eligibility data immediately
+      const supportedFacilities = facilities.filter(facility =>
+        isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
+      );
+      const eligibilityDataNeeded =
+        (!!facilityId || supportedFacilities?.length === 1) &&
+        !isCernerLocation(
+          facilityId || supportedFacilities[0].id,
           cernerSiteIds,
-          address: selectVAPResidentialAddress(initialState),
-          featureRecentLocationsFilter,
-        });
-
-        // If we have an already selected location or only have a single location
-        // fetch eligibility data immediately
-        const supportedFacilities = typeOfCareFacilities.filter(facility =>
-          isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
         );
-        const eligibilityDataNeeded =
-          (!!facilityId || supportedFacilities?.length === 1) &&
-          !isCernerLocation(
-            facilityId || supportedFacilities[0].id,
-            cernerSiteIds,
-          );
 
-        if (!typeOfCareFacilities.length) {
-          recordEligibilityFailure(
-            'supported-facilities',
-            typeOfCare.name,
-            siteIds[0],
-          );
+      if (!facilities.length) {
+        recordEligibilityFailure(
+          'supported-facilities',
+          typeOfCare.name,
+          siteIds[0],
+        );
+      }
+
+      if (eligibilityDataNeeded && !facilityId) {
+        facilityId = supportedFacilities[0].id;
+      }
+
+      const eligibilityChecks =
+        newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
+
+      if (eligibilityDataNeeded && !eligibilityChecks) {
+        const location = supportedFacilities.find(f => f.id === facilityId);
+
+        if (!siteId) {
+          siteId = getSiteIdFromFacilityId(location.id);
         }
 
-        if (eligibilityDataNeeded && !facilityId) {
-          facilityId = supportedFacilities[0].id;
-        }
-
-        const eligibilityChecks =
-          newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
-
-        if (eligibilityDataNeeded && !eligibilityChecks) {
-          const location = supportedFacilities.find(f => f.id === facilityId);
-
-          if (!siteId) {
-            siteId = getSiteIdFromFacilityId(location.id);
-          }
-
-          dispatch(checkEligibility({ location, siteId }));
-        }
+        dispatch(checkEligibility({ location, siteId }));
       }
     } catch (e) {
       captureError(e, false, 'facility page');
@@ -585,6 +576,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
       sortMethod,
       uiSchema,
       cernerSiteIds,
+      calculatedDistanceFromCurrentLocation,
     };
 
     if (
@@ -611,15 +603,8 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
           event: `${GA_PREFIX}-request-current-location-blocked`,
         });
         captureError(e, true, 'facility page');
-        dispatch({
-          type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
-          sortMethod,
-          uiSchema,
-          cernerSiteIds,
-        });
-        dispatch({
-          type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
-        });
+        dispatch(action);
+        dispatch({ type: FORM_REQUEST_CURRENT_LOCATION_FAILED });
       }
     } else {
       dispatch(action);
