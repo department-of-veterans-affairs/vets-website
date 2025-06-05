@@ -24,6 +24,8 @@ import {
   emailUI,
   emailSchema,
   radioSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 
@@ -552,6 +554,31 @@ const applicantMarriageDatesPage = {
   },
 };
 
+const applicantRemarriedPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) => `${applicantWording(formData)} marriage status`,
+    ),
+    applicantRemarried: {
+      ...yesNoUI({
+        updateUiSchema: formData => {
+          return {
+            'ui:title': `Has ${applicantWording(formData, false)} remarried?`,
+          };
+        },
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['applicantRemarried'],
+    properties: {
+      titleSchema,
+      applicantRemarried: yesNoSchema,
+    },
+  },
+};
+
 const applicantMarriageCertConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.spouseCert,
   'marriage certificates',
@@ -842,6 +869,16 @@ export const applicantPages = arrayBuilderPages(
           formData?.applicants?.[index],
         ) === 'spouse',
       ...applicantMarriageDatesPage,
+    }),
+    page18f4: pageBuilder.itemPage({
+      path: 'applicant-remarried/:index',
+      title: 'Marriage status',
+      depends: (formData, index) =>
+        get(
+          'applicantRelationshipToSponsor.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'spouse' && get('sponsorIsDeceased', formData),
+      ...applicantRemarriedPage,
     }),
     page18f: pageBuilder.itemPage({
       path: 'applicant-marriage-upload/:index',
