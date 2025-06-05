@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -16,6 +15,7 @@ describe('ClaimDetailsContent', () => {
     facilityName: 'Tomah VA Medical Center',
     createdOn: '2024-05-27T16:40:45.781Z',
     modifiedOn: '2024-05-31T16:40:45.781Z',
+    totalCostRequested: 50.99,
   };
 
   const getState = ({
@@ -77,10 +77,7 @@ describe('ClaimDetailsContent', () => {
     );
 
     expect(screen.getByText('Claim status: Claim submitted')).to.exist;
-
-    fireEvent.click(
-      $(`va-additional-info[trigger="What does this status mean?"]`),
-    );
+    expect(screen.getByText('What does this status mean')).to.exist;
     expect(screen.getByText(/You submitted this claim for review/i)).to.exist;
   });
 
@@ -96,10 +93,7 @@ describe('ClaimDetailsContent', () => {
     );
 
     expect(screen.getByText('Claim status: Unexpected status')).to.exist;
-
-    fireEvent.click(
-      $(`va-additional-info[trigger="What does this status mean?"]`),
-    );
+    expect(screen.queryByText('What does this status mean')).to.not.exist;
     expect(screen.getByText(/If you need help understanding your claim/i)).to
       .exist;
   });
@@ -109,7 +103,7 @@ describe('ClaimDetailsContent', () => {
       <ClaimDetailsContent
         {...claimDetailsProps}
         claimStatus="Denied"
-        reimbursementAmount={1.0}
+        reimbursementAmount={46.93}
         documents={[
           {
             filename: 'Decision Letter.docx',
@@ -129,9 +123,8 @@ describe('ClaimDetailsContent', () => {
     expect(
       $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
     ).to.not.exist;
-    expect($(`va-additional-info[trigger="What does this status mean?"]`)).to
-      .not.exist;
-    expect(screen.queryByText('Reimbursement amount of $1.00')).to.not.exist;
+    expect(screen.queryByText('What does this status mean')).to.not.exist;
+    expect(screen.queryByText('Reimbursement amount of $46.93')).to.not.exist;
     expect($('va-link[text="Download your decision letter"]')).to.not.exist;
     expect($('va-link[text="screenshot.png"]')).to.not.exist;
   });
