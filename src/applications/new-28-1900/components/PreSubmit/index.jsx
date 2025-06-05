@@ -209,8 +209,6 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
           onVaChange={handleCheck}
           label="I acknowledge I have read the Protection of Privacy Information Statement."
           error={error}
-          id="privacy-statement"
-          name="privacy-statement"
         />
       </fieldset>
       {statementsOfTruth}
