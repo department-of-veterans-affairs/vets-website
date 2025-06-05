@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   expiresSoon,
+  formatStatus,
   expiresSoonIcon,
   resolutionDate,
   formSubmissionStatus,
@@ -25,6 +26,14 @@ const POARequestCard = ({ poaRequest }) => {
   return (
     <li>
       <va-card class="poa-request__card">
+        <span
+          data-testid={`poa-request-card-${poaRequest.id}-status`}
+          className={`usa-label poa-request__card-field poa-request__card-field--status status status--processing ${hideStatus(
+            poaRequestSubmission,
+          )}`}
+        >
+          {formatStatus(poaStatus)}
+        </span>
         <h3
           data-testid={`poa-request-card-${poaRequest.id}-name`}
           className="poa-request__card-title vads-u-font-size--h4 vads-u-font-family--serif"
