@@ -20,13 +20,23 @@ const ProgramSummary = {
     'view:introduction': {
       'ui:description': Introduction,
     },
-    'view:programsSummary': arrayBuilderYesNoUI(arrayBuilderOptions, {
-      title: 'Do you have another program to add?',
-      labels: {
-        Y: 'Yes',
-        N: 'No',
+    'view:programsSummary': arrayBuilderYesNoUI(
+      arrayBuilderOptions,
+      {
+        title: 'Do you have any programs to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
       },
-    }),
+      {
+        title: 'Do you have another program to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
+    ),
   },
   schema: {
     type: 'object',
