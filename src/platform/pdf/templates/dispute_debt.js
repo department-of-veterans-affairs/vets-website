@@ -7,40 +7,6 @@ import {
   generateInitialHeaderContent,
 } from './utils';
 
-// GH docs source:
-// https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/benefits-memorials-2/engineering/front-end/architecture/static-codes.md
-// let's try and keep these values updated there so it's easier for stakeholders to check them
-export const deductionCodes = Object.freeze({
-  '11': 'Post-9/11 GI Bill debt for books and supplies',
-  '12': 'Post-9/11 GI Bill debt for books and supplies',
-  '13': 'Post-9/11 GI Bill debt for books and supplies',
-  '14': 'Post-9/11 GI Bill debt for books and supplies',
-  '15': 'Post-9/11 GI Bill debt for books and supplies',
-  '16': 'Post-9/11 GI Bill debt for housing',
-  '17': 'Post-9/11 GI Bill debt for housing',
-  '18': 'Post-9/11 GI Bill debt for housing',
-  '19': 'Post-9/11 GI Bill debt for housing',
-  '20': 'Post-9/11 GI Bill debt for housing',
-  '27': 'Post-9/11 GI Bill debt for books and supplies',
-  '28': 'Post-9/11 GI Bill debt for books and supplies',
-  '30': 'Disability compensation and pension debt',
-  '41': 'Chapter 34 education debt',
-  '44': 'Chapter 35 education debt',
-  '48': 'Post-9/11 GI Bill debt for housing',
-  '49': 'Post-9/11 GI Bill debt for housing',
-  '50': 'Post-9/11 GI Bill debt for housing',
-  '51': 'Post-9/11 GI Bill debt for housing',
-  '71': 'Post-9/11 GI Bill debt for books and supplies',
-  '72': 'Post-9/11 GI Bill debt for housing',
-  '73': 'Education Ch 33-Ch1606/Ch30 Kickers',
-  '74': 'Post-9/11 GI Bill debt for tuition',
-  '75': 'Post-9/11 GI Bill debt for tuition (school liable)',
-  '76': 'Education Ch 33-Ch1606/Ch30 Kickers',
-  '77': 'Education Ch 33-Ch1606/Ch30 Kickers',
-  '78': 'Education Ch 33-Ch1606/Ch30 Kickers',
-  '79': 'Education Ch 33-Ch1606/Ch30 Kickers',
-});
-// config.headings[headingLevel].font,
 const defaultConfig = {
   margins: { top: 40, bottom: 40, left: 30, right: 30 },
   text: {
@@ -74,13 +40,18 @@ const defaultConfig = {
 };
 
 // TODO:
-// validate data
-// Get confirmation number
-// handle page breaks with sections
+// Data validation
+// Submission information
+//   Get confirmation number
+// handle page breaks, so H3 sections don't break across pages
+
+// NOTES:
+// Header spacing - paragraphGap to set spacing after the header
+// Content spacing - lineGap to set spacing after the text before each label item in bold
+// bullets - indent is the prop used to move the bullet point over, bulletIndent is just for nested lists
 //
 
 const generate = async (data = {}, config = defaultConfig) => {
-  // const downloadDate = format(new Date(), 'MM/dd/yyyy');
   const doc = createAccessibleDoc(
     {
       author: 'U.S. Department of Veterans Affairs',
@@ -96,7 +67,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   const wrapper = doc.struct('Document');
   doc.addStructure(wrapper);
 
-  const { selectedDebts, veteran } = data;
+  const { selectedDebts, submissionDetails, veteran } = data;
 
   const headerData = {
     headerLeft: '',
@@ -128,6 +99,7 @@ const generate = async (data = {}, config = defaultConfig) => {
     createHeading(doc, 'H2', config, dmcRoutingTitle, {
       x: config.margins.left,
       y: doc.y,
+      paragraphGap: 12,
     }),
   );
 
@@ -147,6 +119,7 @@ const generate = async (data = {}, config = defaultConfig) => {
     createHeading(doc, 'H3', config, submissionTypeTitle, {
       x: config.margins.left,
       y: doc.y,
+      paragraphGap: 6,
     }),
   );
 
@@ -160,7 +133,6 @@ const generate = async (data = {}, config = defaultConfig) => {
     bulletRadius: 2,
     indent: 10,
     textIndent: 15,
-    // lineGap: 5,
   };
 
   submissionTypeSection.add(
@@ -204,8 +176,54 @@ const generate = async (data = {}, config = defaultConfig) => {
   // =====================================
   // * Submission details *
   // =====================================
+  const { confirmationNumber, submissionDateTime } = submissionDetails;
+  const submissionDate = format(submissionDateTime, 'MMMM d, yyyy');
+  const submissionTimeET = format(submissionDateTime, "h:mm a 'ET'");
 
-  // TODO
+  const submissionDetailsSection = doc.struct('Sect', {
+    title: 'Submission Type',
+  });
+  submissionDetailsSection.add(
+    createHeading(doc, 'H3', config, 'Submission Details', {
+      x: config.margins.left,
+      y: doc.y,
+      // paragraphGap: 12,
+    }),
+  );
+
+  submissionDetailsSection.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .text('Date: ', { continued: true });
+      doc.text(submissionDate || '');
+    }),
+  );
+
+  submissionDetailsSection.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .text('Time: ', { continued: true });
+      doc.text(submissionTimeET || '');
+    }),
+  );
+
+  submissionDetailsSection.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .text('Confirmation number is ', { continued: true });
+      doc.text(`${confirmationNumber || ''}.`);
+    }),
+  );
+
+  submissionDetailsSection.end();
+  wrapper.add(submissionDetailsSection);
+  doc.moveDown();
 
   // =====================================
   // * Informational header *
@@ -244,9 +262,8 @@ const generate = async (data = {}, config = defaultConfig) => {
         doc
           .font(config.text.boldFont)
           .fontSize(config.text.size)
-          .text(nameLabel, config.margins.left, doc.y);
+          .text(nameLabel);
         doc.font(config.text.font).text(veteranFullName[key] || '', {
-          x: config.margins.left,
           lineGap: 8,
         });
       }),
@@ -263,9 +280,8 @@ const generate = async (data = {}, config = defaultConfig) => {
       doc
         .font(config.text.boldFont)
         .fontSize(config.text.size)
-        .text('Date of birth', config.margins.left, doc.y);
+        .text('Date of birth');
       doc.font(config.text.font).text(formattedDob, {
-        x: config.margins.left,
         lineGap: 8,
       });
     }),
@@ -293,10 +309,8 @@ const generate = async (data = {}, config = defaultConfig) => {
       doc
         .font(config.text.boldFont)
         .fontSize(config.text.size)
-        .text('Social Security number', config.margins.left, doc.y);
-      doc
-        .font(config.text.font)
-        .text('add masking thingy', config.margins.left);
+        .text('Social Security number');
+      doc.font(config.text.font).text('add masking thingy');
     }),
   );
 
@@ -323,7 +337,6 @@ const generate = async (data = {}, config = defaultConfig) => {
   });
   veteranMailingAddress.add(
     createHeading(doc, 'H3', config, "Veteran's mailing address", {
-      x: config.margins.left,
       paragraphGap: 12,
     }),
   );
@@ -334,7 +347,9 @@ const generate = async (data = {}, config = defaultConfig) => {
         .font(config.text.boldFont)
         .fontSize(config.text.size)
         .text('Country', config.margins.left, doc.y);
-      doc.font(config.text.font).text(countryName || '', config.margins.left);
+      doc.font(config.text.font).text(countryName || '', {
+        lineGap: 8,
+      });
     }),
   );
 
@@ -344,9 +359,17 @@ const generate = async (data = {}, config = defaultConfig) => {
         .font(config.text.boldFont)
         .fontSize(config.text.size)
         .text('Street address', config.margins.left, doc.y);
-      doc.font(config.text.font).text(addressLine1, config.margins.left);
-      if (addressLine2) doc.text(addressLine2, config.margins.left);
-      if (addressLine3) doc.text(addressLine3, config.margins.left);
+      doc.font(config.text.font).text(addressLine1, {
+        lineGap: 8,
+      });
+      if (addressLine2)
+        doc.text(addressLine2, {
+          lineGap: 8,
+        });
+      if (addressLine3)
+        doc.text(addressLine3, {
+          lineGap: 8,
+        });
     }),
   );
 
@@ -355,8 +378,10 @@ const generate = async (data = {}, config = defaultConfig) => {
       doc
         .font(config.text.boldFont)
         .fontSize(config.text.size)
-        .text('City', config.margins.left, doc.y);
-      doc.font(config.text.font).text(city, config.margins.left);
+        .text('City');
+      doc.font(config.text.font).text(city, {
+        lineGap: 8,
+      });
     }),
   );
 
@@ -366,7 +391,9 @@ const generate = async (data = {}, config = defaultConfig) => {
         .font(config.text.boldFont)
         .fontSize(config.text.size)
         .text('State', config.margins.left, doc.y);
-      doc.font(config.text.font).text(stateCode, config.margins.left);
+      doc.font(config.text.font).text(stateCode, {
+        lineGap: 8,
+      });
     }),
   );
 
@@ -375,8 +402,10 @@ const generate = async (data = {}, config = defaultConfig) => {
       doc
         .font(config.text.boldFont)
         .fontSize(config.text.size)
-        .text('Postal code', config.margins.left, doc.y);
-      doc.font(config.text.font).text(zipCode, config.margins.left);
+        .text('Postal code');
+      doc.font(config.text.font).text(zipCode, {
+        lineGap: 8,
+      });
     }),
   );
 
@@ -399,7 +428,6 @@ const generate = async (data = {}, config = defaultConfig) => {
   });
   veteranContactInformation.add(
     createHeading(doc, 'H3', config, "Veteran's contact information", {
-      x: config.margins.left,
       paragraphGap: 12,
     }),
   );
@@ -409,10 +437,10 @@ const generate = async (data = {}, config = defaultConfig) => {
       doc
         .font(config.text.boldFont)
         .fontSize(config.text.size)
-        .text('Phone number', config.margins.left, doc.y);
-      doc
-        .font(config.text.font)
-        .text(formattedPhoneNumber, config.margins.left);
+        .text('Phone number');
+      doc.font(config.text.font).text(formattedPhoneNumber, {
+        lineGap: 8,
+      });
     }),
   );
 
@@ -421,8 +449,10 @@ const generate = async (data = {}, config = defaultConfig) => {
       doc
         .font(config.text.boldFont)
         .fontSize(config.text.size)
-        .text('Email', config.margins.left, doc.y);
-      doc.font(config.text.font).text(email, config.margins.left);
+        .text('Email');
+      doc.font(config.text.font).text(email, {
+        lineGap: 8,
+      });
     }),
   );
 
@@ -439,7 +469,6 @@ const generate = async (data = {}, config = defaultConfig) => {
     });
     selectedDebtsSection.add(
       createHeading(doc, 'H3', config, debt.label, {
-        x: config.margins.left,
         paragraphGap: 12,
       }),
     );
@@ -449,10 +478,10 @@ const generate = async (data = {}, config = defaultConfig) => {
         doc
           .font(config.text.boldFont)
           .fontSize(config.text.size)
-          .text('Dispute reason', config.margins.left, doc.y);
-        doc
-          .font(config.text.font)
-          .text(debt.disputeReason, config.margins.left);
+          .text('Dispute reason');
+        doc.font(config.text.font).text(debt.disputeReason, {
+          lineGap: 8,
+        });
       }),
     );
 
@@ -463,10 +492,10 @@ const generate = async (data = {}, config = defaultConfig) => {
         doc
           .font(config.text.boldFont)
           .fontSize(config.text.size)
-          .text('Dispute statement', config.margins.left, doc.y);
-        doc
-          .font(config.text.font)
-          .text(debt.supportStatement, config.margins.left);
+          .text('Dispute statement');
+        doc.font(config.text.font).text(debt.supportStatement, {
+          lineGap: 8,
+        });
       }),
     );
 
