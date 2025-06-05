@@ -121,7 +121,8 @@ export const landMedicationDetailsAal = prescription => {
     body: JSON.stringify({
       aal: {
         activityType: 'View med detail page',
-        action: `RX #: ${prescription.prescriptionNumber} RX Name: ${
+        action: 'View',
+        detailValue: `RX #: ${prescription.prescriptionNumber} RX Name: ${
           prescription.prescriptionName
         }`,
         performerType: 'Self',
