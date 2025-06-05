@@ -25,7 +25,7 @@ import { createSelector } from 'reselect';
 import fullSchema from '../22-5490-schema.json';
 
 import manifest from '../manifest.json';
-import PersonalInformation from '../components/PersonalInformation';
+// import PersonalInformation from '../components/PersonalInformation';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
@@ -54,7 +54,7 @@ import PhoneViewField from '../components/PhoneViewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
-import PersonalInformationReviewField from '../components/PersonalInformationReviewField';
+// import PersonalInformationReviewField from '../components/PersonalInformationReviewField';
 import DirectDepositCustomReview from '../components/DirectDepositCustomReview';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -387,90 +387,173 @@ const formConfig = {
     yourInformationChapter: {
       title: 'Your information',
       pages: {
-        reviewPersonalInformation: {
+        reviewPersonalInformatiom: {
           path: 'review-personal-information',
           title: 'Review your personal information',
-          CustomPageReview: PersonalInformationReviewField,
           uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Review your personal information</h3>
-                  <p>
-                    We have this personal information on file for you. Any
-                    updates you make will change the information for your
-                    education benefits only. If you want to update your personal
-                    information for other VA benefits, update your information
-                    on your{' '}
-                    <a target="_blank" href="/profile/personal-information">
-                      profile
-                    </a>
-                    .
-                  </p>
-                  <p>
-                    <strong>Note:</strong> If you want to request that we change
-                    your name or date of birth, you will need to send additional
-                    information. Learn more on how to change your legal name{' '}
-                    <a
-                      target="_blank"
-                      href="/resources/how-to-change-your-legal-name-on-file-with-va/?_ga=2.13947071.963379013.1690376239-159354255.1663160782"
-                    >
-                      on file with VA.
-                    </a>
-                  </p>
-                </>
-              ),
-            },
-            'view:personalInformation': {
-              'ui:description': <PersonalInformation />,
-            },
-            highSchoolDiploma: {
-              'ui:title':
-                'Did you earn a high school diploma or equivalency certificate?',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  yes: 'Yes',
-                  no: 'No',
-                },
+            claimantFullName: {
+              ...fullNameUI,
+              'ui:title': 'Your information',
+              first: {
+                ...fullNameUI.first,
+                'ui:title': 'Your First name',
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isValidName(field)) {
+                      if (field.length > 20) {
+                        errors.addError('Must be 20 characters or less');
+                      }
+                    } else {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
+                    }
+                  },
+                ],
+              },
+              middle: {
+                ...fullNameUI.middle,
+                'ui:title': 'Your Middle name',
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isValidName(field)) {
+                      if (field.length > 20) {
+                        errors.addError('Must be 20 characters or less');
+                      }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                      );
+                    }
+                  },
+                ],
+              },
+              last: {
+                ...fullNameUI.last,
+                'ui:title': 'Your Last name',
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isValidLastName(field)) {
+                      if (field.length < 2) {
+                        errors.addError('Must be 2 characters or more');
+                      } else if (field.length > 26) {
+                        errors.addError('Must be 26 characters or less');
+                      }
+                    } else if (!isValidName(field)) {
+                      errors.addError(
+                        'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
+                      );
+                    }
+                  },
+                ],
               },
             },
-            graduationDate: {
-              ...currentOrPastDateUI(
-                'When did you earn your high school diploma or equivalency certificate?',
-              ),
-              'ui:required': formData => {
-                return formData?.highSchoolDiploma === 'yes';
-              },
-              'ui:options': {
-                hideIf: formData => {
-                  return formData?.highSchoolDiploma !== 'yes';
-                },
-              },
+            claimantDateOfBirth: {
+              ...currentOrPastDateUI('Your date of birth'),
+              'ui:title': 'Your Date of birth',
             },
           },
           schema: {
             type: 'object',
-            required: ['highSchoolDiploma', 'graduationDate'],
+            required: ['claimantFullName', 'claimantDateOfBirth'],
             properties: {
-              'view:subHeadings': {
+              claimantFullName: {
                 type: 'object',
                 properties: {},
               },
-              'view:personalInformation': {
-                type: 'object',
-                properties: {},
-              },
-              highSchoolDiploma: {
-                type: 'string',
-                enum: ['yes', 'no'],
-              },
-              graduationDate: date,
+              claimantDateOfBirth: date,
             },
           },
         },
       },
     },
+    // yourInformationChapter: {
+    //   title: 'Your information',
+    //   pages: {
+    //     reviewPersonalInformation: {
+    //       path: 'review-personal-information',
+    //       title: 'Review your personal information',
+    //       CustomPageReview: PersonalInformationReviewField,
+    //       uiSchema: {
+    //         'view:subHeadings': {
+    //           'ui:description': (
+    //             <>
+    //               <h3>Review your personal information</h3>
+    //               <p>
+    //                 We have this personal information on file for you. Any
+    //                 updates you make will change the information for your
+    //                 education benefits only. If you want to update your personal
+    //                 information for other VA benefits, update your information
+    //                 on your{' '}
+    //                 <a target="_blank" href="/profile/personal-information">
+    //                   profile
+    //                 </a>
+    //                 .
+    //               </p>
+    //               <p>
+    //                 <strong>Note:</strong> If you want to request that we change
+    //                 your name or date of birth, you will need to send additional
+    //                 information. Learn more on how to change your legal name{' '}
+    //                 <a
+    //                   target="_blank"
+    //                   href="/resources/how-to-change-your-legal-name-on-file-with-va/?_ga=2.13947071.963379013.1690376239-159354255.1663160782"
+    //                 >
+    //                   on file with VA.
+    //                 </a>
+    //               </p>
+    //             </>
+    //           ),
+    //         },
+    //         'view:personalInformation': {
+    //           'ui:description': <PersonalInformation />,
+    //         },
+    //         highSchoolDiploma: {
+    //           'ui:title':
+    //             'Did you earn a high school diploma or equivalency certificate?',
+    //           'ui:widget': 'radio',
+    //           'ui:options': {
+    //             labels: {
+    //               yes: 'Yes',
+    //               no: 'No',
+    //             },
+    //           },
+    //         },
+    //         graduationDate: {
+    //           ...currentOrPastDateUI(
+    //             'When did you earn your high school diploma or equivalency certificate?',
+    //           ),
+    //           'ui:required': formData => {
+    //             return formData?.highSchoolDiploma === 'yes';
+    //           },
+    //           'ui:options': {
+    //             hideIf: formData => {
+    //               return formData?.highSchoolDiploma !== 'yes';
+    //             },
+    //           },
+    //         },
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         required: ['highSchoolDiploma', 'graduationDate'],
+    //         properties: {
+    //           'view:subHeadings': {
+    //             type: 'object',
+    //             properties: {},
+    //           },
+    //           'view:personalInformation': {
+    //             type: 'object',
+    //             properties: {},
+    //           },
+    //           highSchoolDiploma: {
+    //             type: 'string',
+    //             enum: ['yes', 'no'],
+    //           },
+    //           graduationDate: date,
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
     contactInformationChapter: {
       title: 'Contact information',
       pages: {
