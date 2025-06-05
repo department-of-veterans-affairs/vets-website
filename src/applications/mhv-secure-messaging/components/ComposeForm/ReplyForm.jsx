@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -60,18 +66,23 @@ const ReplyForm = props => {
   const [hideDraft, setHideDraft] = useState(false);
   const [currentRecipient, setCurrentRecipient] = useState(null);
 
-  const handleEditDraftButton = () => {
-    if (isEditing === false) {
-      setIsEditing(true);
-      scrollTo('draft-reply-header');
-      focusElement(document.getElementById('draft-reply-header'));
-    } else {
-      setIsEditing(false);
-    }
-  };
+  const handleEditDraftButton = useCallback(
+    () => {
+      if (isEditing === false) {
+        setIsEditing(true);
+        scrollTo('draft-reply-header');
+        focusElement(document.getElementById('draft-reply-header'));
+      } else {
+        setIsEditing(false);
+      }
+    },
+    [isEditing, setIsEditing],
+  );
 
-  const showEditDraftButton =
-    !cannotReply && !showBlockedTriageGroupAlert && !hideDraft;
+  const showEditDraftButton = useMemo(
+    () => !cannotReply && !showBlockedTriageGroupAlert && !hideDraft,
+    [cannotReply, showBlockedTriageGroupAlert, hideDraft],
+  );
 
   useEffect(
     () => {
