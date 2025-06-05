@@ -4,15 +4,29 @@ import PropTypes from 'prop-types';
 import { formatReadableDate } from '../helpers';
 
 function PersonalInformation({ claimant }) {
-  const fullName = () => {
-    const firstName = claimant?.userFullName?.first;
-    const middleName = claimant?.userFullName?.middle || '';
-    const lastName = claimant?.userFullName?.last;
+  if (
+    !claimant?.userFullName?.first ||
+    !claimant?.userFullName?.last ||
+    !claimant?.dob
+  ) {
+    return (
+      <va-alert status="info">
+        <h3 slot="headline">Personal Information Not Available</h3>
+        <p>
+          To complete this form, we need your name and date of birth. Please
+          update your <a href="/profile">VA.gov profile</a> with this
+          information.
+        </p>
+      </va-alert>
+    );
+  }
 
-    if (firstName && lastName) {
-      return `${firstName} ${middleName} ${lastName}`;
-    }
-    return 'Not available';
+  const fullName = () => {
+    const firstName = claimant.userFullName.first;
+    const middleName = claimant.userFullName.middle || '';
+    const lastName = claimant.userFullName.last;
+
+    return `${firstName} ${middleName} ${lastName}`;
   };
 
   return (
@@ -24,10 +38,7 @@ function PersonalInformation({ claimant }) {
         <div>
           <h6>{fullName()}</h6>
           <p>
-            <strong>Date of birth:</strong>{' '}
-            {claimant?.dob
-              ? formatReadableDate(claimant?.dob)
-              : 'Not available'}
+            <strong>Date of birth:</strong> {formatReadableDate(claimant.dob)}
           </p>
         </div>
       </div>
@@ -44,17 +55,6 @@ PersonalInformation.propTypes = {
       middle: PropTypes.string,
     }),
   }),
-};
-
-PersonalInformation.defaultProps = {
-  claimant: {
-    dob: '',
-    userFullName: {
-      first: '',
-      last: '',
-      middle: '',
-    },
-  },
 };
 
 const mapStateToProps = state => ({
