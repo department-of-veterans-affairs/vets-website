@@ -3,68 +3,82 @@ import PropTypes from 'prop-types';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { withRouter } from 'react-router';
 import { connect, useSelector } from 'react-redux';
-import { selectProfile } from '~/platform/user/selectors';
+import { selectUser } from '~/platform/user/selectors';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ContactInformation = ({ formData, router, setFormData }) => {
-  const profile = useSelector(selectProfile);
-  const { userFullName, email: profileEmail, phone: profilePhone } =
-    profile || {};
-  const { email, phone, mailingAddress, internationalPhone } = formData || {};
+  const { profile } = useSelector(selectUser);
+  const {
+    userFullName,
+    // email: profileEmail,
+    // phone: profilePhone,
+    // mailingAddress: profileMailing,
+    // internationalPhone: profileIntlPhone,
+  } = profile || {};
+  const { email, phone, mailingAddress, internationalPhone, veteranFullName } =
+    formData || {};
 
   // Prefill contact fields if not already in formData
-  useEffect(
-    () => {
-      const updatedFormData = { ...formData };
-      let needsUpdate = false;
+  // useEffect(
+  //   () => {
+  //     if (!profile) return;
 
-      if (!email && profileEmail) {
-        updatedFormData.email = profileEmail;
-        needsUpdate = true;
-      }
+  //     const updatedFormData = { ...formData };
+  //     let needsUpdate = false;
 
-      if (!phone && profilePhone) {
-        updatedFormData.phone = profilePhone;
-        needsUpdate = true;
-      }
+  //     if (!email && profileEmail) {
+  //       updatedFormData.email = profileEmail;
+  //       needsUpdate = true;
+  //     }
 
-      if (!mailingAddress && profile.mailingAddress) {
-        updatedFormData.mailingAddress = profile.mailingAddress;
-        needsUpdate = true;
-      }
+  //     if (!phone && profilePhone) {
+  //       updatedFormData.phone = profilePhone;
+  //       needsUpdate = true;
+  //     }
 
-      if (!internationalPhone && profile.internationalPhone) {
-        updatedFormData.internationalPhone = profile.internationalPhone;
-        needsUpdate = true;
-      }
+  //     if (!mailingAddress && profileMailing) {
+  //       updatedFormData.mailingAddress = profileMailing;
+  //       needsUpdate = true;
+  //     }
 
-      if (needsUpdate) {
-        setFormData(updatedFormData);
-      }
-    },
-    [
-      email,
-      phone,
-      mailingAddress,
-      internationalPhone,
-      profileEmail,
-      profilePhone,
-      profile.mailingAddress,
-      profile.internationalPhone,
-      formData,
-      setFormData,
-    ],
-  );
+  //     if (!internationalPhone && profileIntlPhone) {
+  //       updatedFormData.internationalPhone = profileIntlPhone;
+  //       needsUpdate = true;
+  //     }
+
+  //     if (needsUpdate) {
+  //       setFormData(updatedFormData);
+  //     }
+  //   },
+  //   [
+  //     email,
+  //     phone,
+  //     mailingAddress,
+  //     internationalPhone,
+  //     profileEmail,
+  //     profilePhone,
+  //     profileMailing,
+  //     profileIntlPhone,
+  //     profile,
+  //     formData,
+  //     setFormData,
+  //   ],
+  // );
 
   // Add veteranFullName from profile
   useEffect(
     () => {
-      setFormData({
-        ...formData,
-        veteranFullName: userFullName,
-      });
+      if (
+        userFullName &&
+        JSON.stringify(veteranFullName) !== JSON.stringify(userFullName)
+      ) {
+        setFormData({
+          ...formData,
+          veteranFullName: userFullName,
+        });
+      }
     },
-    [formData, setFormData, userFullName],
+    [userFullName, veteranFullName, formData, setFormData],
   );
 
   const handleRouteChange = (e, editHref) => {
@@ -96,8 +110,7 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         your address with VA, go to your profile to make any changes.
       </p>
       <va-link
-        text="Update your
-        contact information in your profile"
+        text="Update your contact information in your profile"
         external
         href="#"
       />
@@ -230,7 +243,6 @@ ContactInformation.propTypes = {
       postalCode: PropTypes.string,
       country: PropTypes.string,
     }),
-    claimantType: PropTypes.string.isRequired,
     veteranFullName: PropTypes.object,
   }),
   setFormData: PropTypes.func,
