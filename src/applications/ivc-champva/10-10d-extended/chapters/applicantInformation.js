@@ -473,6 +473,7 @@ const applicantSchoolCertUploadPage = {
             <br />
             <br />
             Fill out a School Enrollment Certification Form.
+            <br />
             <va-link
               href="https://www.va.gov/COMMUNITYCARE/docs/pubfiles/forms/School-Enrollment.pdf"
               text="Get school enrollment certification form to download"
