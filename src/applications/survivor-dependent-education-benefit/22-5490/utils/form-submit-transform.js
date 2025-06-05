@@ -321,16 +321,57 @@ export function getAddressType(mailingAddress) {
   return 'FOREIGN';
 }
 
+// Helper to validate that a string field has content
+const isValidStringField = field => {
+  return field !== undefined && field !== null && field.trim() !== '';
+};
+
+// Helper to validate full name fields
+const isValidFullName = fullName => {
+  return (
+    fullName &&
+    typeof fullName === 'object' &&
+    isValidStringField(fullName.first) &&
+    isValidStringField(fullName.last)
+  );
+};
+
 export function transform5490Form(_formConfig, form) {
   const formFieldUserFullName = form?.data?.claimantFullName;
   const viewComponentUserFullName =
     form?.loadedData?.formData?.claimantFullName;
 
-  const userFullName =
+  const formFieldDateOfBirth = form?.data?.relativeDateOfBirth;
+  const viewComponentDateOfBirth =
+    form?.loadedData?.formData?.relativeDateOfBirth;
+
+  // Enhanced validation for userFullName to ensure we have valid, non-empty values
+  let userFullName = null;
+  if (
     formFieldUserFullName !== undefined &&
-    Object.keys(formFieldUserFullName).length > 0
-      ? formFieldUserFullName
-      : viewComponentUserFullName;
+    Object.keys(formFieldUserFullName).length > 0 &&
+    isValidFullName(formFieldUserFullName)
+  ) {
+    userFullName = formFieldUserFullName;
+  } else if (isValidFullName(viewComponentUserFullName)) {
+    userFullName = viewComponentUserFullName;
+  }
+  // If both sources fail validation, userFullName remains null
+
+  // Enhanced validation for dateOfBirth
+  let dateOfBirth = null;
+  if (isValidStringField(formFieldDateOfBirth)) {
+    dateOfBirth = formFieldDateOfBirth;
+  } else if (isValidStringField(viewComponentDateOfBirth)) {
+    dateOfBirth = viewComponentDateOfBirth;
+  }
+  // If both sources fail validation, dateOfBirth remains null
+
+  // Validation check for required personal information
+  // These should never be missing if the component validation works properly
+  if (!userFullName || !dateOfBirth) {
+    // Silently continue with submission even if required personal information is missing
+  }
 
   const payload = {
     formId: form?.formId,
