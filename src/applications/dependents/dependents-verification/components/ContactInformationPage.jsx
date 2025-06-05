@@ -10,9 +10,9 @@ const ContactInformation = ({ formData, router, setFormData }) => {
   const profile = useSelector(selectProfile);
   const { userFullName, email: profileEmail, phone: profilePhone } =
     profile || {};
-  const { email, phone } = formData || {};
+  const { email, phone, mailingAddress, internationalPhone } = formData || {};
 
-  // Initialize email and phone with user profile if not already set in formData
+  // Prefill contact fields if not already in formData
   useEffect(
     () => {
       const updatedFormData = { ...formData };
@@ -28,38 +28,61 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         needsUpdate = true;
       }
 
+      if (!mailingAddress && profile.mailingAddress) {
+        updatedFormData.mailingAddress = profile.mailingAddress;
+        needsUpdate = true;
+      }
+
+      if (!internationalPhone && profile.internationalPhone) {
+        updatedFormData.internationalPhone = profile.internationalPhone;
+        needsUpdate = true;
+      }
+
       if (needsUpdate) {
         setFormData(updatedFormData);
       }
     },
-    [email, phone, profileEmail, profilePhone, formData, setFormData],
+    [
+      email,
+      phone,
+      mailingAddress,
+      internationalPhone,
+      profileEmail,
+      profilePhone,
+      profile.mailingAddress,
+      profile.internationalPhone,
+      formData,
+      setFormData,
+    ],
   );
 
-  // Since Contact Information always follows Personal Information, it’s a reliable
-  // checkpoint to add veteranFullName from user profile if it exists
+  // Add veteranFullName from profile
   useEffect(
     () => {
-      if (
-        formData?.claimantType === 'VETERAN' &&
-        userFullName &&
-        JSON.stringify(formData?.veteranFullName) !==
-          JSON.stringify(userFullName)
-      ) {
-        setFormData({
-          ...formData,
-          veteranFullName: userFullName,
-        });
-      }
+      setFormData({
+        ...formData,
+        veteranFullName: userFullName,
+      });
     },
     [formData, setFormData, userFullName],
   );
 
-  const editEmailHref = '/contact/information/email';
-  const editPhoneHref = '/contact/information/phone';
-
   const handleRouteChange = (e, editHref) => {
     e.preventDefault();
     router.push(editHref);
+  };
+
+  const editEmailHref = '/contact/information/email';
+  const editPhoneHref = '/contact/information/phone';
+  const editAddressHref = '/contact/information/mailing-address';
+  const editIntlPhoneHref = '/contact/information/international-phone';
+
+  const formatAddress = address => {
+    if (!address) return '';
+    const { street, city, state, postalCode, country } = address;
+    return [street, `${city}, ${state} ${postalCode}`, country]
+      .filter(Boolean)
+      .join(', ');
   };
 
   return (
@@ -67,17 +90,51 @@ const ContactInformation = ({ formData, router, setFormData }) => {
       <h3 className="vads-u-margin-y--2">
         Confirm the contact information we have on file for you
       </h3>
-      <va-card>
+
+      {/* Mailing Address */}
+      <va-card class="vads-u-margin-top--3">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          Current Email
+          Mailing address
+        </h4>
+        <p className="mailing-address">
+          {mailingAddress ? (
+            <span
+              className="dd-privacy-hidden"
+              data-dd-action-name="Veteran's address"
+            >
+              {formatAddress(mailingAddress)}
+            </span>
+          ) : (
+            <span>None provided</span>
+          )}
+        </p>
+        <VaLink
+          active
+          href={editAddressHref}
+          label={
+            mailingAddress ? 'Edit mailing address' : 'Add mailing address'
+          }
+          text={mailingAddress ? 'Edit' : 'Add'}
+          onClick={e => handleRouteChange(e, editAddressHref)}
+        />
+      </va-card>
+
+      {/* Email */}
+      <va-card class="vads-u-margin-top--3">
+        <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
+          Email address
         </h4>
         <p className="email">
-          <span
-            className="name dd-privacy-hidden"
-            data-dd-action-name="Veteran's email"
-          >
-            {email}
-          </span>
+          {email ? (
+            <span
+              className="dd-privacy-hidden"
+              data-dd-action-name="Veteran's email"
+            >
+              {email}
+            </span>
+          ) : (
+            <span>None provided</span>
+          )}
         </p>
         <VaLink
           active
@@ -87,9 +144,11 @@ const ContactInformation = ({ formData, router, setFormData }) => {
           onClick={e => handleRouteChange(e, editEmailHref)}
         />
       </va-card>
+
+      {/* Mobile Phone */}
       <va-card class="vads-u-margin-top--3">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          Current phone number (optional)
+          Mobile phone number
         </h4>
         <p className="phone">
           {phone ? (
@@ -111,6 +170,36 @@ const ContactInformation = ({ formData, router, setFormData }) => {
           onClick={e => handleRouteChange(e, editPhoneHref)}
         />
       </va-card>
+
+      {/* International Phone */}
+      <va-card class="vads-u-margin-top--3">
+        <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
+          International phone number
+        </h4>
+        <p className="intl-phone">
+          {internationalPhone ? (
+            <span
+              className="dd-privacy-hidden"
+              data-dd-action-name="Veteran's international phone"
+            >
+              {internationalPhone}
+            </span>
+          ) : (
+            <span>None provided</span>
+          )}
+        </p>
+        <VaLink
+          active
+          href={editIntlPhoneHref}
+          label={
+            internationalPhone
+              ? 'Edit international phone number'
+              : 'Add international phone number'
+          }
+          text={internationalPhone ? 'Edit' : 'Add'}
+          onClick={e => handleRouteChange(e, editIntlPhoneHref)}
+        />
+      </va-card>
     </>
   );
 };
@@ -122,6 +211,14 @@ ContactInformation.propTypes = {
   formData: PropTypes.shape({
     email: PropTypes.string,
     phone: PropTypes.string,
+    internationalPhone: PropTypes.string,
+    mailingAddress: PropTypes.shape({
+      street: PropTypes.string,
+      city: PropTypes.string,
+      state: PropTypes.string,
+      postalCode: PropTypes.string,
+      country: PropTypes.string,
+    }),
     claimantType: PropTypes.string.isRequired,
     veteranFullName: PropTypes.object,
   }),
