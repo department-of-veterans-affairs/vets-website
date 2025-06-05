@@ -3,18 +3,14 @@ import {
   arrayBuilderYesNoUI,
   arrayBuilderYesNoSchema,
   arrayBuilderItemFirstPageTitleUI,
-  // arrayBuilderItemSubsequentPageTitleUI,
   textSchema,
   textUI,
   radioUI,
   radioSchema,
-  // titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import {
-  uiSchema as conflictingInterestsUiSchema,
-  schema as conflictingInterestsSchema,
-} from './conflictingInterests';
+import { potentialConflictOfInterest } from '.';
+// import { conflictingInterests } from '../pages';
 
 const associationLabels = {
   vaEmployee:
@@ -28,7 +24,7 @@ const options = {
   arrayPath: 'conflictingIndividuals',
   nounSingular: 'individual',
   nounPlural: 'individuals',
-  required: false,
+  required: true,
   isItemIncomplete: item =>
     !item?.first || !item?.last || !item?.title || !item?.association,
   maxItems: 10,
@@ -39,25 +35,23 @@ const options = {
 };
 
 const summaryPage = {
-  // TODO figure how to make UI in conflictingInterests show up as first page in this list and loop
   uiSchema: {
     'view:hasConflictingIndividuals': arrayBuilderYesNoUI(
       options,
       // {
       //   title:
-      //     'Do you ,need to report any VA or SAA employees at your institution who may have a potential conflict of interest under this law?',
+      //     'Do you have any individuals with a potential conflict of interest to report?',
       //   labels: {
-      //     Y: 'Yes',
-      //     N: 'No',
+      //     Y: 'Yes, I have individuals to report',
+      //     N: "No, I don't have any individuals to report",
       //   },
       // },
-      // null,
       {
         title:
           'Do you have another individual with a potential conflict of interest to add?',
         labels: {
-          Y: 'Yes',
-          N: 'No',
+          Y: 'Yes, I have another individual to report',
+          N: "No, I don't have another individual to report",
         },
       },
     ),
@@ -121,24 +115,41 @@ const individualPage = {
 export const conflictingIndividualsPages = arrayBuilderPages(
   options,
   pageBuilder => ({
+    // (pageBuilder, helpers) => ({
     conflictingInterests: pageBuilder.introPage({
-      path: 'proprietary-profit-2', // TODO: verify path name
+      path: 'proprietary-profit-1',
       title: 'Individuals with a potential conflict of interest',
-      uiSchema: conflictingInterestsUiSchema,
-      schema: conflictingInterestsSchema,
+      uiSchema: potentialConflictOfInterest.uiSchema,
+      schema: potentialConflictOfInterest.schema,
+      onNavForward: ({ formData, goPath }) => {
+        // onNavForward: ({ formData, goPath, props }) => {
+        if (formData?.hasConflictOfInterest === false) {
+          goPath('/all-proprietary-schools');
+        } else {
+          // helpers.navForwardKeepUrlParams(props);
+          // goPath('proprietary-profit-2/0/details');
+        }
+
+        //   //
+        //   //   if (formData?.hasConflictOfInterest) {
+        //   //     goPath('/proprietary-profit-2');
+        //   //   } else {
+        //   //     goPath('/all-proprietary-schools');
+        //   //   }
+      },
     }),
     conflictingIndividualsSummary: pageBuilder.summaryPage({
       title: 'Individuals with a potential conflict of interest',
       path: 'proprietary-profit-2',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
-      depends: formData => formData?.hasConflictOfInterest === true,
     }),
     conflictingIndividualPage: pageBuilder.itemPage({
       title: 'Individuals affiliated with both your institution and VA or SAA',
       path: 'proprietary-profit-2/:index/details',
       uiSchema: individualPage.uiSchema,
       schema: individualPage.schema,
+      depends: formData => formData?.hasConflictOfInterest === true,
     }),
   }),
 );

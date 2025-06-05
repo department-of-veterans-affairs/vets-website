@@ -14,7 +14,6 @@ export {
   aboutYourInstitution,
   institutionDetails,
   proprietaryProfit,
-  // conflictingInterests,
   potentialConflictOfInterest,
   affiliatedIndividuals,
   allProprietarySchools,

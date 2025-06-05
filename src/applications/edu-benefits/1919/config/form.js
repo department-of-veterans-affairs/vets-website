@@ -10,15 +10,12 @@ import {
   aboutYourInstitution,
   institutionDetails,
   proprietaryProfit,
-  // conflictingInterests,
-  potentialConflictOfInterest,
-  affiliatedIndividuals,
   allProprietarySchools,
   allProprietarySchoolsEmployeeInfo,
   allProprietarySchoolsSummary,
 } from '../pages';
 
-// import { conflictingIndividualsPages } from '../pages/conflictingIndividuals';
+import { conflictingIndividualsPages } from '../pages/conflictingIndividuals';
 
 import directDeposit from '../pages/directDeposit';
 import { arrayBuilderOptions } from '../helpers';
@@ -95,41 +92,7 @@ const formConfig = {
           uiSchema: proprietaryProfit.uiSchema,
           schema: proprietaryProfit.schema,
         },
-        // TODO: determine if conflictingInterests should be it's own page or if can add inside config for list and loop in conflictingIndividuals
-
-        // conflictingInterests: {
-        //   path: 'proprietary-profit-2', // TODO: verify path name
-        //   title: 'Individuals with a potential conflict of interest',
-        //   uiSchema: conflictingInterests.uiSchema,
-        //   schema: conflictingInterests.schema,
-        //   // pages: conflictingIndividualsPages,
-        // },
-
-        // depends: formData => formData.hasConflictingInterest === true,
-
-        // ...conflictingIndividualsPages,
-
-        potentialConflictOfInterest: {
-          path: 'proprietary-profit-1',
-          title: 'Individuals with a potential conflict of interest',
-          uiSchema: potentialConflictOfInterest.uiSchema,
-          schema: potentialConflictOfInterest.schema,
-          onNavForward: ({ formData, goPath }) => {
-            if (formData?.hasConflictOfInterest) {
-              goPath('/proprietary-profit-2');
-            } else {
-              // TODO: To be replaced with 'Step 3' Conflict of Interest chapter
-              goPath('/all-proprietary-schools');
-            }
-          },
-        },
-        affiliatedIndividuals: {
-          path: 'proprietary-profit-2',
-          title:
-            'Individuals affiliated with both your institution and VA or SAA',
-          uiSchema: affiliatedIndividuals.uiSchema,
-          schema: affiliatedIndividuals.schema,
-        },
+        ...conflictingIndividualsPages,
       },
     },
     allProprietarySchoolsChapter: {
