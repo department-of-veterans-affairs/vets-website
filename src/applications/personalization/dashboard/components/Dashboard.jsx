@@ -156,7 +156,13 @@ const LOA1Content = ({
       <ClaimsAndAppeals isLOA1={isLOA1} />
 
       <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
-      <EducationAndTraining isLOA1={isLOA1} />
+
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
+          <EducationAndTraining isLOA1={isLOA1} />
+        </Toggler.Disabled>
+      </Toggler>
+
       <BenefitApplications />
 
       {showWelcomeToMyVaMessage &&
@@ -357,16 +363,29 @@ const Dashboard = ({
                 </DowntimeNotification>
               )}
               {isLOA3 && (
-                <>
-                  <HealthCare isVAPatient={isVAPatient} />
-                  <Debts />
-                  <BenefitPayments
-                    payments={payments}
-                    showNotifications={showNotifications}
-                  />
-                  <EducationAndTraining />
-                  <BenefitApplications />
-                </>
+                <Toggler
+                  toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+                >
+                  <Toggler.Disabled>
+                    <HealthCare isVAPatient={isVAPatient} />
+                    <Debts />
+                    <BenefitPayments
+                      payments={payments}
+                      showNotifications={showNotifications}
+                    />
+                    <EducationAndTraining />
+                    <BenefitApplications />
+                  </Toggler.Disabled>
+                  <Toggler.Enabled>
+                    <BenefitApplications />
+                    <HealthCare isVAPatient={isVAPatient} />
+                    <BenefitPayments
+                      payments={payments}
+                      showNotifications={showNotifications}
+                    />
+                    <Debts />
+                  </Toggler.Enabled>
+                </Toggler>
               )}
 
               <Toggler

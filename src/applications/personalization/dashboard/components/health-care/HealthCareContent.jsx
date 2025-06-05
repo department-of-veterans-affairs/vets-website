@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 
 import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
@@ -142,30 +145,38 @@ const HealthCareContent = ({
           !isLOA1 &&
           !isCernerPatient && <NoUpcomingAppointmentsText />}
         {shouldShowOnOneColumn && (
-          <HealthCareCTA
-            viewMhvLink={viewMhvLink}
-            hasInboxError={hasInboxError}
-            authenticatedWithSSOe={authenticatedWithSSOe}
-            hasUpcomingAppointment={hasUpcomingAppointment}
-            unreadMessagesCount={unreadMessagesCount}
-            isVAPatient={isVAPatient}
-            isLOA1={isLOA1}
-            hasAppointmentsError={hasAppointmentsError}
-          />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+            <Toggler.Disabled>
+              <HealthCareCTA
+                viewMhvLink={viewMhvLink}
+                hasInboxError={hasInboxError}
+                authenticatedWithSSOe={authenticatedWithSSOe}
+                hasUpcomingAppointment={hasUpcomingAppointment}
+                unreadMessagesCount={unreadMessagesCount}
+                isVAPatient={isVAPatient}
+                isLOA1={isLOA1}
+                hasAppointmentsError={hasAppointmentsError}
+              />
+            </Toggler.Disabled>
+          </Toggler>
         )}
       </DashboardWidgetWrapper>
       {!shouldShowOnOneColumn && (
-        <DashboardWidgetWrapper>
-          <HealthCareCTA
-            viewMhvLink={viewMhvLink}
-            hasInboxError={hasInboxError}
-            authenticatedWithSSOe={authenticatedWithSSOe}
-            hasUpcomingAppointment={hasUpcomingAppointment}
-            unreadMessagesCount={unreadMessagesCount}
-            isVAPatient={isVAPatient}
-            hasAppointmentsError={hasAppointmentsError}
-          />
-        </DashboardWidgetWrapper>
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+          <Toggler.Disabled>
+            <DashboardWidgetWrapper>
+              <HealthCareCTA
+                viewMhvLink={viewMhvLink}
+                hasInboxError={hasInboxError}
+                authenticatedWithSSOe={authenticatedWithSSOe}
+                hasUpcomingAppointment={hasUpcomingAppointment}
+                unreadMessagesCount={unreadMessagesCount}
+                isVAPatient={isVAPatient}
+                hasAppointmentsError={hasAppointmentsError}
+              />
+            </DashboardWidgetWrapper>
+          </Toggler.Disabled>
+        </Toggler>
       )}
     </div>
   );
