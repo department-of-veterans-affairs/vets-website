@@ -49,6 +49,7 @@ import { page15aDepends } from '../helpers/utilities';
 import { MAIL_OR_FAX_LATER_MSG, MAX_APPLICANTS } from '../constants';
 
 import {
+  // TODO: convert to standard file upload.
   uploadWithInfoComponent,
   acceptableFiles,
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
@@ -348,6 +349,7 @@ const applicantBirthCertUploadPage = {
   },
   schema: {
     type: 'object',
+    required: ['applicantBirthCertOrSocialSecCard'],
     properties: {
       titleSchema,
       ...applicantBirthCertConfig.schema,
@@ -358,39 +360,31 @@ const applicantBirthCertUploadPage = {
   },
 };
 
-const applicantAdoptedConfig = uploadWithInfoComponent(
-  undefined, // acceptableFiles.adoptionCert,
-  'adoption papers',
-);
-
 const applicantAdoptionUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Upload adoption documents',
       ({ formData }) => (
         <>
-          To help us process this application faster, submit a copy of{' '}
+          You’ll need to submit a document showing proof of{' '}
           <b className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
           </b>{' '}
-          adoption documents.
-          <br />
-          Submitting a copy can help us process this application faster.
-          <br />
-          {MAIL_OR_FAX_LATER_MSG}
+          adoption (like court ordered adoption papers).
         </>
       ),
     ),
-    ...applicantAdoptedConfig.uiSchema,
+    ...fileUploadBlurbCustom(),
     applicantAdoptionPapers: fileUploadUI({
       label: 'Upload a copy of adoption documents',
     }),
   },
   schema: {
     type: 'object',
+    required: ['applicantAdoptionPapers'],
     properties: {
       titleSchema,
-      ...applicantAdoptedConfig.schema,
+      'view:fileUploadBlurb': blankSchema,
       applicantAdoptionPapers: fileWithMetadataSchema(
         acceptableFiles.adoptionCert,
       ),
@@ -455,80 +449,70 @@ const applicantStepChildUploadPage = {
   },
 };
 
-const applicantSchoolCertConfig = uploadWithInfoComponent(
-  undefined, // acceptableFiles.schoolCert,
-  'school certifications',
-);
-
 const applicantSchoolCertUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      'Upload school documents',
-      ({ formData }) => (
-        <>
-          To help us process this application faster, submit a copy of{' '}
+      'Upload proof of school enrollment',
+      ({ formData }) => {
+        const posessiveName = (
           <b className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
-          </b>{' '}
-          school documents.
-          <br />
-          Submitting a copy can help us process this application faster.
-          <br />
-          {MAIL_OR_FAX_LATER_MSG}
-        </>
-      ),
+          </b>
+        );
+        const nonPosessiveName = (
+          <b className="dd-privacy-hidden">
+            {applicantWording(formData, false, false)}
+          </b>
+        );
+        return (
+          <>
+            You’ll need to submit a copy of a document showing proof of{' '}
+            {posessiveName} school enrollment. If {nonPosessiveName} is planning
+            to enroll, you’ll need to upload a document showing information
+            about {posessiveName} plan to enroll.
+            <br />
+            <br />
+            Fill out a School Enrollment Certification Form.
+            <va-link
+              href="https://www.va.gov/COMMUNITYCARE/docs/pubfiles/forms/School-Enrollment.pdf"
+              text="Get school enrollment certification form to download"
+            />
+            <br />
+            <br />
+            Or you can submit an enrollment letter on the school’s letterhead.
+            <br />
+            Here’s what the letter should include:
+            <ul>
+              <li>{posessiveName} first and last name</li>
+              <li>
+                The last 4 digits of {posessiveName} Social Security number
+              </li>
+              <li>
+                The start and end dates for each semester or enrollment term
+              </li>
+              <li>
+                Signature and title of a school official (like a director or
+                principal)
+              </li>
+            </ul>
+            If {nonPosessiveName} is not enrolled, upload a copy of{' '}
+            {posessiveName} acceptance letter from the school.
+          </>
+        );
+      },
     ),
-    ...applicantSchoolCertConfig.uiSchema,
+    ...fileUploadBlurbCustom(),
     applicantSchoolCert: fileUploadUI({
       label: 'Upload proof of school enrollment',
     }),
   },
   schema: {
     type: 'object',
+    required: ['applicantSchoolCert'],
     properties: {
       titleSchema,
-      ...applicantSchoolCertConfig.schema,
+      'view:fileUploadBlurb': blankSchema,
       applicantSchoolCert: fileWithMetadataSchema(acceptableFiles.schoolCert),
-    },
-  },
-};
-
-const applicantHelplessChildConfig = uploadWithInfoComponent(
-  undefined, // acceptableFiles.helplessCert,
-  'VBA decision rating',
-);
-
-const applicantHelplessChildUploadPage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Upload helpless child documents',
-      ({ formData }) => (
-        <>
-          To help us process this application faster, submit a copy of{' '}
-          <b className="dd-privacy-hidden">
-            {applicantWording(formData, true, false)}
-          </b>{' '}
-          helpless child documents.
-          <br />
-          Submitting a copy can help us process this application faster.
-          <br />
-          {MAIL_OR_FAX_LATER_MSG}
-        </>
-      ),
-    ),
-    ...applicantHelplessChildConfig.uiSchema,
-    applicantHelplessCert: fileUploadUI({
-      label: 'Upload proof of helpless child status',
-    }),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      titleSchema,
-      ...applicantHelplessChildConfig.schema,
-      applicantHelplessCert: fileWithMetadataSchema(
-        acceptableFiles.helplessCert,
-      ),
     },
   },
 };
@@ -826,7 +810,15 @@ export const applicantPages = arrayBuilderPages(
         get(
           'applicantRelationshipToSponsor.relationshipToVeteran',
           formData?.applicants?.[index],
-        ) === 'child',
+        ) === 'child' &&
+        (get(
+          'applicantRelationshipOrigin.relationshipToVeteran',
+          formData?.applicants?.[index],
+        ) === 'adoption' ||
+          get(
+            'applicantRelationshipOrigin.relationshipToVeteran',
+            formData?.applicants?.[index],
+          ) === 'step'),
       CustomPage: FileFieldCustom,
       ...applicantBirthCertUploadPage,
     }),
@@ -857,6 +849,7 @@ export const applicantPages = arrayBuilderPages(
           'applicantRelationshipOrigin.relationshipToVeteran',
           formData?.applicants?.[index],
         ) === 'step',
+      CustomPage: FileFieldCustom,
       ...applicantStepChildUploadPage,
     }),
     page18b1: pageBuilder.itemPage({
@@ -890,18 +883,6 @@ export const applicantPages = arrayBuilderPages(
       CustomPage: FileFieldCustom,
       ...applicantSchoolCertUploadPage,
     }),
-    page18b2: pageBuilder.itemPage({
-      path: 'applicant-dependent-upload/:index',
-      title: item => `${applicantWording(item)} helpless child documents`,
-      depends: (formData, index) =>
-        formData.applicants[index]?.applicantRelationshipToSponsor
-          ?.relationshipToVeteran === 'child' &&
-        getAgeInYears(formData.applicants[index]?.applicantDob) >= 18 &&
-        formData.applicants[index]?.applicantDependentStatus?.status ===
-          'over18HelplessChild',
-      CustomPage: FileFieldCustom,
-      ...applicantHelplessChildUploadPage,
-    }),
     page18f3: pageBuilder.itemPage({
       path: 'applicant-marriage-date/:index',
       title: item => `${applicantWording(item)} marriage dates`,
@@ -932,6 +913,7 @@ export const applicantPages = arrayBuilderPages(
         ) === 'spouse' &&
         get('sponsorIsDeceased', formData) &&
         get('applicantRemarried', formData?.applicants?.[index]),
+      CustomPage: FileFieldCustom,
       ...applicantReMarriageCertUploadPage,
     }),
     page19: pageBuilder.itemPage({
