@@ -121,7 +121,7 @@ export const landMedicationDetailsAal = prescription => {
     body: JSON.stringify({
       aal: {
         activityType: 'RxRefill',
-        action: 'View med detail page',
+        action: 'View Medication Detail Page',
         detailValue: `RX #: ${prescription.prescriptionNumber} RX Name: ${
           prescription.prescriptionName
         }`,
