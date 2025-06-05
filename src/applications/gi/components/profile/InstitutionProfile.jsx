@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { getScrollOptions } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { getScrollOptions, scrollTo } from 'platform/utilities/scroll';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
@@ -167,7 +166,8 @@ export default function InstitutionProfile({
         </div>
       </div>
       {((institution.yr === true && programTypes?.length > 0) ||
-        programTypes?.length > 0) && (
+        programTypes?.length > 0 ||
+        institution.yr === true) && (
         <NewFeatureProgramsYRTAlert
           institution={institution}
           programTypes={programTypes}
