@@ -69,7 +69,7 @@ function App({
         });
       }
     },
-    [user?.profile, formData, setFormData],
+    [user?.profile],
   );
 
   useEffect(
