@@ -21,7 +21,7 @@ import { MAX_NEXT_OF_KINS } from '../../../utils/constants';
 const arrayBuilderOptions = {
   arrayPath: 'nextOfKins',
   nounSingular: 'next of kin',
-  nounPlural: 'next of kins',
+  nounPlural: 'next of kin',
   required: false,
   maxItems: MAX_NEXT_OF_KINS,
   hideMaxItemsAlert: true,
@@ -36,6 +36,19 @@ const arrayBuilderOptions = {
     deleteTitle: getDeleteTitle,
     deleteYes: getDeleteYes,
     deleteDescription: getDeleteDescription,
+    cancelAddDescription: () =>
+      content['next-of-kin-cancel-add-description-text'],
+    cancelEditDescription: () =>
+      content['next-of-kin-cancel-edit-description-text'],
+    cancelAddYes: () => content['next-of-kin-cancel-add-yes'],
+    cancelAddNo: () => content['next-of-kin-cancel-add-no'],
+    cancelEditNo: () => content['next-of-kin-cancel-edit-no'],
+    cancelEditYes: () => content['next-of-kin-cancel-edit-yes'],
+    cancelAddTitle: () => content['next-of-kin-cancel-add-title-text'],
+    cancelEditTitle: () => content['next-of-kin-cancel-edit-title-text'],
+    yesNoBlankReviewQuestion: () =>
+      content['next-of-kin-summary-yes-no-blank-review-question'],
+    reviewAddButtonText: () => content['next-of-kin-summary-add-button-text'],
   },
 };
 

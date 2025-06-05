@@ -36,9 +36,7 @@ function AddressConfirmation({ subHeader, userAddress }) {
           </p>
         </React.Fragment>
       </va-alert>
-      <h3 className="vads-u-font-size--h5" style={{ paddingTop: '2em' }}>
-        {subHeader}
-      </h3>
+      <h3 style={{ paddingTop: '2em' }}>{subHeader}</h3>
       <p style={{ marginTop: '1em' }}>You entered:</p>
       <div className="blue-bar-block">
         <p>

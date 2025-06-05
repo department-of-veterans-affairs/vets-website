@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-import { scrollTo } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { scrollTo } from 'platform/utilities/scroll';
 
 const EditVeteranAddressBase = props => {
   const dispatch = useDispatch();

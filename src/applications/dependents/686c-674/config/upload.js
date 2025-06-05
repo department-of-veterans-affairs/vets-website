@@ -65,7 +65,6 @@ export const dependentsUploadUI = (content, options = {}) => {
 
 export const dependentsUploadSchema = {
   type: 'array',
-  minItems: 1,
   items: {
     type: 'object',
     properties: {
