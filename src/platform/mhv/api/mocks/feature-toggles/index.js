@@ -1,6 +1,7 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
     mhvLandingPagePersonalization = true,
+    mhvBypassDowntimeNotification = false,
 
     // medications
     mhvMedicationsToVaGovRelease = true,
@@ -45,6 +46,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv-mock-session',
           value: true,
+        },
+        {
+          name: 'mhv_bypass_downtime_notification',
+          value: mhvBypassDowntimeNotification,
         },
         {
           name: 'mhv_accelerated_delivery_enabled',

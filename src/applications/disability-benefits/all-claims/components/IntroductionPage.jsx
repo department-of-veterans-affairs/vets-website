@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
