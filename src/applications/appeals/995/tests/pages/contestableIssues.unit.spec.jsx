@@ -53,7 +53,7 @@ describe('contestable issues page', () => {
       </div>,
     );
 
-    expect($('a.add-new-issue', container)).to.exist;
+    expect($('.add-new-issue', container)).to.exist;
   });
   it('should continue with valid data', () => {
     const { container } = render(
