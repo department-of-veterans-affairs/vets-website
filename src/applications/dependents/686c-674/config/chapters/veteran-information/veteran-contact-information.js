@@ -41,7 +41,6 @@ export const uiSchema = {
         'I agree to receive electronic correspondence from the VA about my claim.',
       'ui:webComponentField': VaCheckboxField,
       'ui:options': {
-        messageAriaDescribedby: `I agree to receive electronic correspondence from the VA about my claim`,
         classNames: 'custom-width',
       },
     },
