@@ -243,7 +243,7 @@ const ReplyForm = props => {
             {/* {DELETE BUTTON IS PRESSED, DELETES SINGLE DRAFT} */}
             {!hideDraft && (
               <>
-                <h2 id="draft-reply-header">
+                <h2 id="draft-reply-header" data-testid="draft-reply-header">
                   {drafts && drafts.length > 1 ? 'Drafts' : 'Draft'}
                 </h2>
                 <ReplyDrafts

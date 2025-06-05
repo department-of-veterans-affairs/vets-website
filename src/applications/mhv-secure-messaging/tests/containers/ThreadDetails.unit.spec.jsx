@@ -416,6 +416,65 @@ describe('Thread Details container', () => {
         .to.equal('success');
     });
   });
+  it('with an active reply draft, focuses on draft section when clicking Edit reply draft button', async () => {
+    const draftMessageHistoryUpdated = [
+      {
+        ...replyMessage,
+        sentDate: moment()
+          .subtract(44, 'days')
+          .format(),
+      },
+      olderMessage,
+    ];
+
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        triageTeams: {
+          triageTeams: recipients,
+        },
+        threadDetails: {
+          replyToName: 'FREEMAN, GORDON',
+          cannotReply: isOlderThan(
+            getLastSentMessage(draftMessageHistoryUpdated).sentDate,
+            45,
+          ),
+          drafts: [
+            {
+              ...replyDraftMessage,
+              draftDate: new Date(),
+            },
+          ],
+          messages: [...draftMessageHistoryUpdated],
+        },
+        recipients: {
+          allRecipients: noBlockedRecipients.mockAllRecipients,
+          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            noBlockedRecipients.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            noBlockedRecipients.associatedBlockedTriageGroupsQty,
+          noAssociations: noBlockedRecipients.noAssociations,
+          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+        },
+      },
+    };
+    const screen = setup(state);
+
+    const editDraftReplyButton = screen.getByTestId('edit-draft-button-body');
+    expect(editDraftReplyButton).to.exist;
+    const draftReplyHeader = screen.getByTestId('draft-reply-header');
+    expect(draftReplyHeader).to.exist;
+    await waitFor(() => {
+      fireEvent.click(editDraftReplyButton);
+      expect(document.activeElement).to.equal(
+        screen.getByTestId('draft-reply-header'),
+      );
+    });
+  });
 
   it.skip('responds to sending a reply draft with attachments', async () => {
     const state = {
