@@ -19,6 +19,7 @@
       "react": "*",
       "react-redux": "*",
       "prop-types": "*",
+      "date-fns": "*",
       "@sentry/browser": "*",
       "chai": "*",
       "sinon": "*",
