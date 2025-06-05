@@ -74,7 +74,7 @@ const VeteranStatus = ({
     isServiceHistoryValid &&
     formattedFullName
   );
-  
+
   useEffect(() => {
     document.title = `Veteran Status Card | Veterans Affairs`;
   }, []);
