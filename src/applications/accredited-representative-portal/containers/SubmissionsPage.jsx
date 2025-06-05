@@ -77,7 +77,7 @@ const SubmissionsPage = title => {
             The form will be processed by VA Centralized Mail after you submit
             it.
             <va-link-action
-              href="/find-forms/about-form-21-686c/"
+              href="/representative/representative-form-upload/21-686c"
               text="Upload and submit VA Form 21-686c"
             />
           </p>
