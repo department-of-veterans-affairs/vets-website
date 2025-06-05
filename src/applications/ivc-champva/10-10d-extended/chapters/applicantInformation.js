@@ -539,9 +539,9 @@ const applicantMarriageDatesPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         `${applicantWording(formData)} date of marriage to the sponsor`,
-      'If you don’t know the exact date, enter your best guess',
+      'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system.',
     ),
-    dateOfMarriageToSponsor: currentOrPastDateUI(),
+    dateOfMarriageToSponsor: currentOrPastDateUI('Date of marriage'),
   },
   schema: {
     type: 'object',
