@@ -51,6 +51,14 @@ export const IntroductionPage = props => {
             If you think your VA debt is an error, use this form to dispute all
             or part of the debt.{' '}
           </h3>
+          <ShowAlertOrSip
+            user={user}
+            basename={location?.basename || ''}
+            sipOptions={sipOptions}
+            pageList={pageList}
+            formConfig={formConfig}
+            bottom
+          />
           <h2>What to know before you fill out this form</h2>
           <div>
             <ul>
@@ -74,6 +82,7 @@ export const IntroductionPage = props => {
             sipOptions={sipOptions}
             pageList={pageList}
             formConfig={formConfig}
+            bottom
           />
         </>
       ) : (
