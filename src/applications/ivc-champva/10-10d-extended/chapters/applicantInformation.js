@@ -33,7 +33,10 @@ import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import ApplicantRelationshipPage from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
-import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
+import {
+  fileUploadBlurbCustom,
+  fileWithMetadataSchema,
+} from '../../shared/components/fileUploads/attachments';
 import {
   applicantWording,
   getAgeInYears,
@@ -579,42 +582,65 @@ const applicantRemarriedPage = {
   },
 };
 
-const applicantMarriageCertConfig = uploadWithInfoComponent(
-  undefined, // acceptableFiles.spouseCert,
-  'marriage certificates',
-);
-
-const applicantMarriageCertUploadPage = {
+const applicantReMarriageCertUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      'Upload marriage documents',
+      'Upload proof of remarriage',
       ({ formData }) => (
         <>
-          To help us process this application faster, submit a copy of{' '}
-          <b className="dd-privacy-hidden">
-            {applicantWording(formData, true, false)}
-          </b>{' '}
-          marriage documents.
+          If {applicantWording(formData, false)} remarried after the death of
+          the sponsor, you can help us process your application faster by
+          submitting documents showing proof of that remarriage.
           <br />
-          Submitting a copy can help us process this application faster.
           <br />
-          {MAIL_OR_FAX_LATER_MSG}
+          Upload a copy of one of these documents:
+          <ul>
+            <li>
+              Marriage certificate, <b>or</b>
+            </li>
+            <li>
+              A document showing proof of a civil union, <b>or</b>
+            </li>
+            <li>Common-law marriage affidavit</li>
+          </ul>
+          <b>If the remarriage has ended,</b> upload a copy of one of these
+          documents:
+          <ul>
+            <li>
+              Divorce decree, <b>or</b>
+            </li>
+            <li>
+              Annulment decree, <b>or</b>
+            </li>
+            <li>Death certificate</li>
+          </ul>
         </>
       ),
     ),
-    ...applicantMarriageCertConfig.uiSchema,
+    ...fileUploadBlurbCustom(
+      <li key="final-bullet">You can upload more than one file here.</li>,
+    ),
     applicantRemarriageCert: fileUploadUI({
-      label: 'Upload proof of marriage or legal union',
+      label: 'Upload proof of remarriage',
     }),
   },
   schema: {
     type: 'object',
+    required: ['applicantRemarriageCert'],
     properties: {
       titleSchema,
-      ...applicantMarriageCertConfig.schema,
-      applicantRemarriageCert: fileWithMetadataSchema(
-        acceptableFiles.spouseCert,
-      ),
+      'view:fileUploadBlurb': blankSchema,
+      applicantRemarriageCert: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -880,16 +906,17 @@ export const applicantPages = arrayBuilderPages(
         ) === 'spouse' && get('sponsorIsDeceased', formData),
       ...applicantRemarriedPage,
     }),
-    page18f: pageBuilder.itemPage({
-      path: 'applicant-marriage-upload/:index',
-      title: item => `${applicantWording(item)} marriage documents`,
+    page18g: pageBuilder.itemPage({
+      path: 'applicant-remarriage-upload/:index',
+      title: 'Upload proof of remarriage',
       depends: (formData, index) =>
         get(
           'applicantRelationshipToSponsor.relationshipToVeteran',
           formData?.applicants?.[index],
-        ) === 'spouse' && get('sponsorIsDeceased', formData),
-      CustomPage: FileFieldCustom,
-      ...applicantMarriageCertUploadPage,
+        ) === 'spouse' &&
+        get('sponsorIsDeceased', formData) &&
+        get('applicantRemarried', formData?.applicants?.[index]),
+      ...applicantReMarriageCertUploadPage,
     }),
     page19: pageBuilder.itemPage({
       path: 'applicant-medicare/:index',
