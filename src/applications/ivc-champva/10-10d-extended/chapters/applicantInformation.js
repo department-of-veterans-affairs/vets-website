@@ -729,7 +729,14 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-relationship/:index',
       title: item => `${applicantWording(item)} relationship to the sponsor`,
       ...applicantRelationshipPage,
-      CustomPage: ApplicantRelationshipPage,
+      CustomPage: props =>
+        ApplicantRelationshipPage({
+          ...props,
+          customWording: {
+            customHint:
+              'Depending on your response, you may need to submit proof of marriage or dependent status with this application.',
+          },
+        }),
     }),
     page18c: pageBuilder.itemPage({
       path: 'applicant-relationship-child/:index',
