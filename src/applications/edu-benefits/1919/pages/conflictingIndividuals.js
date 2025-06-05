@@ -114,20 +114,20 @@ const individualPage = {
 
 export const conflictingIndividualsPages = arrayBuilderPages(
   options,
-  pageBuilder => ({
-    // (pageBuilder, helpers) => ({
+
+  (pageBuilder, helpers) => ({
     conflictingInterests: pageBuilder.introPage({
       path: 'proprietary-profit-1',
       title: 'Individuals with a potential conflict of interest',
       uiSchema: potentialConflictOfInterest.uiSchema,
       schema: potentialConflictOfInterest.schema,
-      onNavForward: ({ formData, goPath }) => {
-        // onNavForward: ({ formData, goPath, props }) => {
-        if (formData?.hasConflictOfInterest === false) {
-          goPath('/all-proprietary-schools');
+
+      onNavForward: ({ formData, goPath, props }) => {
+        if (formData?.hasConflictOfInterest === true) {
+          helpers.navForwardIntro(props);
         } else {
-          // helpers.navForwardKeepUrlParams(props);
-          // goPath('proprietary-profit-2/0/details');
+          goPath('/all-proprietary-schools');
+          // goPath('proprietary-profit-2/');
         }
 
         //   //
