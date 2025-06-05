@@ -22,9 +22,9 @@ function PersonalInformation({ claimant }) {
   }
 
   const fullName = () => {
-    const firstName = claimant.userFullName.first;
-    const middleName = claimant.userFullName.middle || '';
-    const lastName = claimant.userFullName.last;
+    const firstName = claimant?.userFullName?.first;
+    const middleName = claimant?.userFullName?.middle || '';
+    const lastName = claimant?.userFullName?.last;
 
     return `${firstName} ${middleName} ${lastName}`;
   };
