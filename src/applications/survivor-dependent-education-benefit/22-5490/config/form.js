@@ -448,20 +448,17 @@ const formConfig = {
                 ],
               },
             },
-            claimantDateOfBirth: {
+            relativeDateOfBirth: {
               ...currentOrPastDateUI('Your date of birth'),
               'ui:title': 'Your Date of birth',
             },
           },
           schema: {
             type: 'object',
-            required: ['claimantFullName', 'claimantDateOfBirth'],
+            required: ['claimantFullName', 'relativeDateOfBirth'],
             properties: {
-              claimantFullName: {
-                type: 'object',
-                properties: {},
-              },
-              claimantDateOfBirth: date,
+              claimantFullName: fullName,
+              relativeDateOfBirth: date,
             },
           },
         },
