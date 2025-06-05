@@ -59,6 +59,24 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'review-and-submit': () => {
+        cy.get('@testData').then(testData => {
+          cy.get('[data-testid="privacy-agreement-checkbox"]').then($el =>
+            cy.selectVaCheckbox($el, true),
+          );
+          cy.get('.signature-input').then($el =>
+            cy.fillVaTextInput(
+              $el,
+              `${testData.veteranFullName.first} ${
+                testData.veteranFullName.last
+              }`,
+            ),
+          );
+          cy.get('.signature-checkbox').then($el =>
+            cy.selectVaCheckbox($el, true),
+          );
+        });
+      },
     },
 
     setupPerTest: () => {
