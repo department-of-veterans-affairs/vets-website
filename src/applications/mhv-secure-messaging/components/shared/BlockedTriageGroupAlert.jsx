@@ -22,6 +22,7 @@ const BlockedTriageGroupAlert = props => {
     parentComponent,
     currentRecipient,
     setShowBlockedTriageGroupAlert = () => {},
+    isOhMessage = false,
   } = props;
 
   const { alertTitle, alertMessage } = BlockedTriageAlertText;
@@ -102,8 +103,10 @@ const BlockedTriageGroupAlert = props => {
             } else {
               setBlockedTriageList([formattedRecipient]);
             }
-            setShowAlert(true);
-            setShowBlockedTriageGroupAlert(true);
+            if (!isOhMessage) {
+              setShowAlert(true);
+              setShowBlockedTriageGroupAlert(true);
+            }
           } else if (formattedRecipient.status === RecipientStatus.BLOCKED) {
             if (parentComponent === ParentComponent.COMPOSE_FORM) {
               const organizedList = organizeBlockedList(
@@ -296,6 +299,7 @@ BlockedTriageGroupAlert.propTypes = {
   alertStyle: PropTypes.string,
   blockedTriageGroupList: PropTypes.arrayOf(PropTypes.object),
   currentRecipient: PropTypes.object,
+  isOhMessage: PropTypes.bool,
   parentComponent: PropTypes.string,
   setShowBlockedTriageGroupAlert: PropTypes.func,
 };

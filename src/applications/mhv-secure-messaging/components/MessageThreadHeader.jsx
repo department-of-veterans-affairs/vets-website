@@ -27,7 +27,14 @@ const MessageThreadHeader = props => {
     recipients,
   } = props;
 
-  const { threadId, category, subject, sentDate, recipientId } = message;
+  const {
+    threadId,
+    category,
+    subject,
+    sentDate,
+    recipientId,
+    isOhMessage,
+  } = message;
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -124,6 +131,7 @@ const MessageThreadHeader = props => {
             parentComponent={ParentComponent.MESSAGE_THREAD}
             currentRecipient={currentRecipient}
             setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+            isOhMessage={isOhMessage}
           />
         </div>
       )}
