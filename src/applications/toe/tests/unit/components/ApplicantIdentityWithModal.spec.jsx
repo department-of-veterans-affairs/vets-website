@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { ApplicantIdentityWithModal } from '../../../components/ApplicantIdentityWithModal';
 import NoSponsorModal from '../../../components/NoSponsorModal';
 import ApplicantIdentityView from '../../../components/ApplicantIdentityView';
@@ -21,9 +20,7 @@ describe('ApplicantIdentityWithModal Component', () => {
         dob: '1990-01-01',
       },
     },
-    featureToggles: {
-      [featureFlagNames.showMeb54901990eTextUpdate]: true,
-    },
+    featureToggles: {},
     data: {
       fetchedSponsorsComplete: true,
       sponsors: { sponsors: [] },
@@ -35,7 +32,6 @@ describe('ApplicantIdentityWithModal Component', () => {
       <Provider store={store}>
         <ApplicantIdentityWithModal
           fetchedSponsorsComplete
-          showTextUpdate
           sponsors={{ sponsors: [] }}
         />
       </Provider>,
@@ -51,7 +47,6 @@ describe('ApplicantIdentityWithModal Component', () => {
       <Provider store={store}>
         <ApplicantIdentityWithModal
           fetchedSponsorsComplete
-          showTextUpdate={false}
           sponsors={{ sponsors: [] }}
         />
       </Provider>,
@@ -67,7 +62,6 @@ describe('ApplicantIdentityWithModal Component', () => {
       <Provider store={store}>
         <ApplicantIdentityWithModal
           fetchedSponsorsComplete={false}
-          showTextUpdate
           sponsors={{ sponsors: [] }}
         />
       </Provider>,
