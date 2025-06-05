@@ -1,12 +1,12 @@
 const USER = {
-  FIRST_NAME: 'Mitchell',
+  FIRST_NAME: 'Chris',
   MIDDLE_INITIAL: 'G',
   MIDDLE_NAME: 'George',
   LAST_NAME: 'Jenkins',
   SSN_LAST_FOUR: '6789',
   BIRTH_DATE: '1956-07-10',
   GENDER: 'M',
-  EMAIL: 'Mitchell.Jenkins.Test@gmail.com',
+  EMAIL: 'Chris.Jenkins.Test@gmail.com',
   RESIDENTIAL_ADDRESS: {
     ADDRESS_LINE1: '345 Home Address St',
     ADDRESS_LINE2: null,
