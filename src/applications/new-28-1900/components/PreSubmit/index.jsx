@@ -141,15 +141,12 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
     dispatch(setData({ ...formData, ...{ privacyAgreement: value } }));
   }
 
-
   useEffect(
     () => {
-      onSectionComplete(false);
       console.log('showError', showError)
-      console.log('isChecked', isChecked)
       const hasError =
-        // isChecked === true || hasSubmittedForm ? false : showError;
-        console.log('hasError', hasError)
+        isChecked === true || hasSubmittedForm ? false : showError;
+      onSectionComplete(!hasError);
       const message = hasError
         ? "My error message"
         : null;
@@ -157,21 +154,6 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
     },
     [showError, isChecked, hasSubmittedForm],
   );
-
-  // useEffect(
-  //   () => {
-  //     console.log('showError', showError)
-  //     const hasError =
-  //       isChecked === true || hasSubmittedForm ? false : showError;
-  //     onSectionComplete(!hasError);
-  //     const message = hasError
-  //       ? "My error message"
-  //       : null;
-  //     setError(message);
-  //   },
-  //   [showError, isChecked, hasSubmittedForm],
-  // );
-
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
