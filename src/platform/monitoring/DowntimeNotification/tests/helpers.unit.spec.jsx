@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import moment from 'moment';
+import { subHours, subMinutes, addDays, addMinutes, formatISO } from 'date-fns';
 
 import {
   mockFetch,
@@ -14,72 +14,48 @@ import * as downtimeHelpers from '../util/helpers';
 const pastDowntime = {
   attributes: {
     externalService: 'dslogon',
-    startTime: moment()
-      .subtract(1, 'hour')
-      .toISOString(),
-    endTime: moment()
-      .subtract(1, 'minute')
-      .toISOString(),
+    startTime: formatISO(subHours(new Date(), 1)),
+    endTime: formatISO(subMinutes(new Date(), 1)),
   },
 };
 
 const futureDowntimeForSameService = {
   attributes: {
     externalService: 'evss',
-    startTime: moment()
-      .add(1, 'day')
-      .toISOString(),
-    endTime: moment()
-      .add(2, 'day')
-      .toISOString(),
+    startTime: formatISO(addDays(new Date(), 1)),
+    endTime: formatISO(addDays(new Date(), 2)),
   },
 };
 
 const activeDowntime = {
   attributes: {
     externalService: 'evss',
-    startTime: moment()
-      .subtract(1, 'day')
-      .toISOString(),
-    endTime: moment()
-      .add(1, 'day')
-      .toISOString(),
+    startTime: formatISO(subHours(new Date(), 24)),
+    endTime: formatISO(addDays(new Date(), 1)),
   },
 };
 
 const distantFutureDowntime = {
   attributes: {
     externalService: 'vic',
-    startTime: moment()
-      .add(1, 'day')
-      .toISOString(),
-    endTime: moment()
-      .add(2, 'day')
-      .toISOString(),
+    startTime: formatISO(addDays(new Date(), 1)),
+    endTime: formatISO(addDays(new Date(), 2)),
   },
 };
 
 const approachingDowntime = {
   attributes: {
     externalService: 'mvi',
-    startTime: moment()
-      .add(10, 'minute')
-      .toISOString(),
-    endTime: moment()
-      .add(1, 'day')
-      .toISOString(),
+    startTime: formatISO(addMinutes(new Date(), 10)),
+    endTime: formatISO(addDays(new Date(), 1)),
   },
 };
 
 const lessUrgentApproachingDowntime = {
   attributes: {
     externalService: 'appeals',
-    startTime: moment()
-      .add(15, 'minute')
-      .toISOString(),
-    endTime: moment()
-      .add(1, 'day')
-      .toISOString(),
+    startTime: formatISO(addMinutes(new Date(), 15)),
+    endTime: formatISO(addDays(new Date(), 1)),
   },
 };
 
