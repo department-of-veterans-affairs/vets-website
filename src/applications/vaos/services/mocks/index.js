@@ -41,7 +41,6 @@ const features = require('./featureFlags');
 const mockAppts = [];
 let currentMockId = 1;
 const draftAppointmentPollCount = {};
-const draftAppointments = {};
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -448,9 +447,10 @@ const responses = {
       return res.status(500).json({ error: true });
     }
 
-    const draftAppointment = providerUtils.createDraftAppointmentInfo(3);
-
-    draftAppointments[draftAppointment.id] = draftAppointment;
+    const draftAppointment = providerUtils.createDraftAppointmentInfo(
+      3,
+      referralNumber,
+    );
 
     return res.json({
       data: draftAppointment,
@@ -466,7 +466,7 @@ const responses = {
       epsAppointmentUtils.appointmentData,
     );
 
-    if (appointmentId === 'EEKoGzEf-complete-retry-error') {
+    if (appointmentId === 'details-retry-error') {
       // Set a very high poll count to simulate a timeout
       successPollCount = 1000;
     }
@@ -479,7 +479,7 @@ const responses = {
       return res.status(400).json({ error: true });
     }
 
-    if (appointmentId === 'EEKoGzEf-complete-error') {
+    if (appointmentId === 'details-error') {
       return res.status(500).json({ error: true });
     }
 

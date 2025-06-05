@@ -2,7 +2,7 @@
 const dateFns = require('date-fns');
 const dateFnsTz = require('date-fns-tz');
 
-const draftAppointment = {
+const createDefaultDraftAppointment = () => ({
   id: 'EEKoGzEf',
   type: 'draft_appointment',
   attributes: {
@@ -67,7 +67,7 @@ const draftAppointment = {
       },
     },
   },
-};
+});
 
 /**
  * Creates a draftAppointmentInfo object with a configurable number of slots an hour apart.
@@ -78,26 +78,26 @@ const draftAppointment = {
  */
 const createDraftAppointmentInfo = (
   numberOfSlots,
-  referralNumber = '6cg8T26YivnL68JzeTaV0w==default',
+  referralNumber = '6cg8T26YivnL68JzeTaV0w==',
 ) => {
-  const draftAppointmentInfo = draftAppointment;
   const tomorrow = dateFns.addDays(dateFns.startOfDay(new Date()), 1);
-  draftAppointment.attributes.slots = [];
+  const draftApppointmentInfo = createDefaultDraftAppointment();
+
   if (referralNumber === 'draft-no-slots-error') {
-    return { ...draftAppointment };
+    return draftApppointmentInfo;
   }
   if (referralNumber === 'details-error') {
-    draftAppointmentInfo.id = 'EEKoGzEf-complete-error';
+    draftApppointmentInfo.id = 'details-error';
   }
   if (referralNumber === 'details-retry-error') {
-    draftAppointmentInfo.id = 'EEKoGzEf-complete-retry-error';
+    draftApppointmentInfo.id = 'details-retry-error';
   }
 
   let hourFromNow = 12;
   for (let i = 0; i < numberOfSlots; i++) {
     const startTime = dateFns.addHours(tomorrow, hourFromNow);
     const endTime = dateFns.addMinutes(startTime, 30);
-    draftAppointment.attributes.slots.push({
+    draftApppointmentInfo.attributes.slots.push({
       id: `5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov${i.toString()}`,
       start: startTime.toISOString(),
       end: endTime.toISOString(),
@@ -108,7 +108,7 @@ const createDraftAppointmentInfo = (
     });
     hourFromNow++;
   }
-  return { ...draftAppointment };
+  return draftApppointmentInfo;
 };
 
 /**
