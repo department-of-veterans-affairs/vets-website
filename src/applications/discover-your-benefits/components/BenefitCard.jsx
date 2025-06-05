@@ -29,7 +29,7 @@ const BenefitCard = ({ benefit }) => {
           text={text}
           label={label}
           type="secondary"
-          disableAnalytics
+          disable-analytics
           onClick={handleClick(url, text, label)}
         />
       ) : (
@@ -38,7 +38,7 @@ const BenefitCard = ({ benefit }) => {
           href={url}
           text={text}
           label={label}
-          disableAnalytics
+          disable-analytics
           onClick={handleClick(url, text, label)}
         />
       );
