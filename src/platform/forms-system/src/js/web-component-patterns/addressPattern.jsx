@@ -27,9 +27,26 @@ const POSTAL_CODE_PATTERNS = {
 };
 
 const POSTAL_CODE_PATTERN_ERROR_MESSAGES = {
-  CAN: 'Enter a valid 6-character postal code',
-  MEX: 'Enter a valid 5-digit postal code',
-  USA: 'Enter a valid 5-digit ZIP code',
+  CAN: {
+    required: 'Enter a postal code',
+    pattern: 'Enter a valid 6-character postal code',
+  },
+  MEX: {
+    required: 'Enter a postal code',
+    pattern: 'Enter a valid 5-digit postal code',
+  },
+  USA: {
+    required: 'Enter a ZIP code',
+    pattern: 'Enter a valid 5-digit ZIP code',
+  },
+  NONE: {
+    required: 'Enter a postal code',
+    pattern: 'Enter a valid postal code',
+  },
+  OTHER: {
+    required:
+      'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
+  },
 };
 
 const CITY_ERROR_MESSAGES_DEFAULT = {
@@ -66,20 +83,50 @@ const STATE_ERROR_MESSAGES_MILITARY = {
   enum: 'Select an abbreviation: AA, AE, or AP',
 };
 
-const STATE_LABEL_DEFAULT = 'State/Province/Region';
+const STATE_LABEL_DEFAULT = 'State, province, or region';
 const STATE_ERROR_MESSAGES_DEFAULT = {
   required: 'Enter a valid state, province, or region',
   enum: 'Enter a valid state, province, or region',
 };
 
-const MILITARY_CITY_TITLE = 'Military post office';
-const MILITARY_CITY_VALUES = constants.militaryCities.map(city => city.value);
-const MILITARY_CITY_NAMES = constants.militaryCities.map(city => city.label);
+const MILITARY_CITIES = [
+  {
+    label: 'APO (Army post office)',
+    value: 'APO',
+  },
+  {
+    label: 'FPO (Fleet post office)',
+    value: 'FPO',
+  },
+  {
+    label: 'DPO (Diplomatic post office)',
+    value: 'DPO',
+  },
+];
 
-const MILITARY_STATE_VALUES = constants.militaryStates.map(
-  state => state.value,
-);
-const MILITARY_STATE_NAMES = constants.militaryStates.map(state => state.label);
+const MILITARY_STATES = [
+  {
+    label:
+      'AA (Armed Forces America) - North and South America, excluding Canada',
+    value: 'AA',
+  },
+  {
+    label:
+      'AE (Armed Forces Europe) - Africa, Canada, Europe, and the Middle East',
+    value: 'AE',
+  },
+  {
+    label: 'AP (Armed Forces Pacific) - Pacific',
+    value: 'AP',
+  },
+];
+
+const MILITARY_CITY_TITLE = 'Military post office';
+const MILITARY_CITY_VALUES = MILITARY_CITIES.map(city => city.value);
+const MILITARY_CITY_NAMES = MILITARY_CITIES.map(city => city.label);
+
+const MILITARY_STATE_VALUES = MILITARY_STATES.map(state => state.value);
+const MILITARY_STATE_NAMES = MILITARY_STATES.map(state => state.label);
 
 const COUNTRY_VALUES = constants.countries.map(country => country.value);
 const COUNTRY_NAMES = constants.countries.map(country => country.label);
@@ -229,6 +276,8 @@ export const updateFormDataAddress = (
  * @typedef {'country' | 'city' | 'isMilitary' | 'postalCode' | 'state' | 'street' | 'street2' | 'street3' } AddressSchemaKey
  */
 
+// TODO: state should be required on first load
+
 /**
  * Web component v3 uiSchema for address
  *
@@ -255,19 +304,22 @@ export const updateFormDataAddress = (
  * @param {string} [options.labels.militaryCheckbox]
  * @param {string} [options.labels.street]
  * @param {string} [options.labels.street2]
+ * @param {string} [options.labels.street2Military]
  * @param {string} [options.labels.street3]
+ * @param {string} [options.labels.street3Military]
  * @param {Array<AddressSchemaKey>} [options.omit] - If not omitting country but omitting street, city, or postalCode
  * you will need to include in your `submitTransformer` the `allowPartialAddress` option
  * @param {boolean | Record<AddressSchemaKey, (formData:any) => boolean>} [options.required]
+ * @param {number} [options.version] 2 (default) - uses Radio for military and new labels, 1 - uses Select for military
  * @returns {UISchemaOptions}
  */
-export function addressUI(options) {
+export function addressUI(options = {}) {
   let cityMaxLength = 100;
   let stateMaxLength = 100;
 
-  const omit = key => options?.omit?.includes(key);
-  let customRequired = key => options?.required?.[key];
-  if (options?.required === false) {
+  const omit = key => options.omit?.includes(key);
+  let customRequired = key => options.required?.[key];
+  if (options.required === false) {
     customRequired = () => () => false;
   }
 
@@ -307,7 +359,7 @@ export function addressUI(options) {
     uiSchema.isMilitary = {
       'ui:required': requiredFunc('isMilitary', false),
       'ui:title':
-        options?.labels?.militaryCheckbox ??
+        options.labels?.militaryCheckbox ??
         'I live on a U.S. military base outside of the United States.',
       'ui:webComponentField': VaCheckboxField,
       'ui:options': {
@@ -337,7 +389,7 @@ export function addressUI(options) {
         }
         return true;
       },
-      'ui:title': options?.labels?.country || 'Country',
+      'ui:title': options.labels?.country || 'Country',
       'ui:autocomplete': 'country',
       'ui:webComponentField': VaSelectField,
       'ui:errorMessages': {
@@ -381,7 +433,7 @@ export function addressUI(options) {
   if (!omit('street')) {
     uiSchema.street = {
       'ui:required': requiredFunc('street', true),
-      'ui:title': options?.labels?.street || 'Street address',
+      'ui:title': options.labels?.street || 'Street address',
       'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
         required: 'Enter a street address',
@@ -411,9 +463,10 @@ export function addressUI(options) {
           const addressFormData = get(addressPath, formData) ?? {};
           const { isMilitary } = addressFormData;
 
-          const titleIfMilitary = 'Apartment or unit number';
+          const titleIfMilitary =
+            options.labels?.street2Military || 'Apartment or unit number';
           const titleIfNotMilitary =
-            options?.labels?.street2 || 'Street address line 2';
+            options.labels?.street2 || 'Street address line 2';
 
           return {
             ...schema,
@@ -435,9 +488,10 @@ export function addressUI(options) {
           const addressFormData = get(addressPath, formData) ?? {};
           const { isMilitary } = addressFormData;
 
-          const titleIfMilitary = 'Additional address information';
+          const titleIfMilitary =
+            options.labels?.street3Military || 'Additional address information';
           const titleIfNotMilitary =
-            options?.labels?.street3 || 'Street address line 3';
+            options.labels?.street3 || 'Street address line 3';
 
           return {
             ...schema,
@@ -505,8 +559,10 @@ export function addressUI(options) {
 
         const addressPath = getAddressPath(path);
         if (addressPath) {
-          const { country } = get(addressPath, formData) ?? {};
-          return country && ['USA', 'CAN', 'MEX'].includes(country);
+          const { country, isMilitary } = get(addressPath, formData) ?? {};
+          return (
+            isMilitary || (country && ['USA', 'CAN', 'MEX'].includes(country))
+          );
         }
 
         return false;
@@ -598,7 +654,7 @@ export function addressUI(options) {
   if (!omit('postalCode')) {
     uiSchema.postalCode = {
       'ui:required': requiredFunc('postalCode', true),
-      'ui:title': options?.labels?.postalCode ?? 'Postal code',
+      'ui:title': options.labels?.postalCode ?? 'Postal code',
       'ui:autocomplete': 'postal-code',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
@@ -613,26 +669,17 @@ export function addressUI(options) {
 
           // country-specific error messages
           if (country === 'USA') {
-            addressUiSchema['ui:errorMessages'] = {
-              required: 'Enter a ZIP code',
-              pattern: POSTAL_CODE_PATTERN_ERROR_MESSAGES.USA,
-            };
+            addressUiSchema['ui:errorMessages'] =
+              POSTAL_CODE_PATTERN_ERROR_MESSAGES.USA;
           } else if (['CAN', 'MEX'].includes(country)) {
-            addressUiSchema['ui:errorMessages'] = {
-              required: 'Enter a postal code',
-              pattern: POSTAL_CODE_PATTERN_ERROR_MESSAGES[country],
-            };
+            addressUiSchema['ui:errorMessages'] =
+              POSTAL_CODE_PATTERN_ERROR_MESSAGES[country];
           } else if (!country) {
-            addressUiSchema['ui:errorMessages'] = {
-              required: 'Enter a postal code',
-              pattern: 'Enter a valid postal code',
-            };
+            addressUiSchema['ui:errorMessages'] =
+              POSTAL_CODE_PATTERN_ERROR_MESSAGES.NONE;
           } else {
-            // no pattern validation for other countries
-            addressUiSchema['ui:errorMessages'] = {
-              required:
-                'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
-            };
+            addressUiSchema['ui:errorMessages'] =
+              POSTAL_CODE_PATTERN_ERROR_MESSAGES.OTHER;
           }
 
           addressSchema.type = 'string';
