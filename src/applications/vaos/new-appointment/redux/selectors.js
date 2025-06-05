@@ -49,8 +49,6 @@ export function getFormPageInfo(state, pageKey) {
   };
 }
 
-const AUDIOLOGY = '203';
-
 export function getTypeOfCare(data) {
   if (data.typeOfCareId === TYPE_OF_CARE_IDS.SLEEP_MEDICINE_ID) {
     return TYPES_OF_SLEEP_CARE.find(care => care.id === data.typeOfSleepCareId);
@@ -61,7 +59,7 @@ export function getTypeOfCare(data) {
   }
 
   if (
-    data.typeOfCareId === AUDIOLOGY &&
+    data.typeOfCareId === TYPE_OF_CARE_IDS.AUDIOLOGY_ID &&
     data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
   ) {
     return AUDIOLOGY_TYPES_OF_CARE.find(
@@ -237,10 +235,6 @@ export function selectSingleSupportedVALocation(state) {
 
 export function selectRecentLocationsStatus(state) {
   return getNewAppointment(state).fetchRecentLocationStatus;
-}
-
-export function selectRecentLocations(state) {
-  return getNewAppointment(state).recentLocations;
 }
 
 export function getFacilityPageV2Info(state) {
