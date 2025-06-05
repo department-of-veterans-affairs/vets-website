@@ -35,7 +35,7 @@ describe('Interstitial Changes Page', () => {
       cy.get('#interstitialH1').should('be.visible');
       cy.get('#interstitialP').should('be.visible');
       cy.get('#interstitialH2').should('be.visible');
-      cy.get('#interstitialMhvP').should('be.visible');
+      cy.get('#interstitialDslP').should('be.visible');
       cy.get('#interstitialVaLink').should('be.visible');
       cy.injectAxeThenAxeCheck();
     });
@@ -99,7 +99,7 @@ describe('Interstitial Changes Page', () => {
     });
   });
 
-  context('when user clicks on continue with My HealtheVet link', () => {
+  context('when user clicks on continue with DS Logon link', () => {
     beforeEach(() => {
       sessionStorage.setItem('authReturnUrl', '/return-path');
       interceptResponse(200, {});
