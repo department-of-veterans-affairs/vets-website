@@ -41,11 +41,12 @@ import {
   ALERT_TYPE_BB_ERROR,
   pageTitles,
   refreshExtractTypes,
+  statsdFrontEndActions,
 } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 import useFocusOutline from '../../hooks/useFocusOutline';
 import { updateReportFileType } from '../../actions/downloads';
-import { postCreateAAL } from '../../api/MrApi';
+import { postCreateAAL, postRecordDatadogAction } from '../../api/MrApi';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -454,6 +455,7 @@ const DownloadFileType = props => {
     } else if (fileType === 'txt') {
       generateTxt().then(() => history.push('/download'));
     }
+    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_BLUE_BUTTON);
     sendDataDogAction('Download report');
   };
 

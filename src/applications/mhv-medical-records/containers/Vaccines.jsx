@@ -27,6 +27,7 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   CernerAlertContent,
+  statsdFrontEndActions,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -46,6 +47,7 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -66,6 +68,8 @@ const Vaccines = props => {
   );
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  useTrackAction(statsdFrontEndActions.VACCINES_LIST);
 
   useListRefresh({
     listState,

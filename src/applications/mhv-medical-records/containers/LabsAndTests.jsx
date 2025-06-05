@@ -11,6 +11,7 @@ import {
   pageTitles,
   recordType,
   refreshExtractTypes,
+  statsdFrontEndActions,
 } from '../util/constants';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
@@ -18,6 +19,7 @@ import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -33,6 +35,8 @@ const LabsAndTests = () => {
   const labsAndTestsCurrentAsOf = useSelector(
     state => state.mr.labsAndTests.listCurrentAsOf,
   );
+
+  useTrackAction(statsdFrontEndActions.LABS_AND_TESTS_LIST);
 
   useListRefresh({
     listState,

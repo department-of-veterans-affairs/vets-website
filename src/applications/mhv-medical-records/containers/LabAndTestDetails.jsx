@@ -16,9 +16,11 @@ import {
   accessAlertTypes,
   labTypes,
   pageTitles,
+  statsdFrontEndActions,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
@@ -31,6 +33,8 @@ const LabAndTestDetails = () => {
   const fullState = useSelector(state => state);
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
+
+  useTrackAction(statsdFrontEndActions.LABS_AND_TESTS_DETAILS);
 
   useEffect(
     () => {

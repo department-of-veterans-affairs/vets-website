@@ -16,9 +16,11 @@ import {
   accessAlertTypes,
   ALERT_TYPE_ERROR,
   pageTitles,
+  statsdFrontEndActions,
   studyJobStatus,
 } from '../util/constants';
 import { sendDataDogAction } from '../util/helpers';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const RadiologyImagesList = ({ isTesting }) => {
   const apiImagingPath = `${
@@ -54,6 +56,8 @@ const RadiologyImagesList = ({ isTesting }) => {
       null,
     [studyJobs, radiologyDetails?.studyId],
   );
+
+  useTrackAction(statsdFrontEndActions.RADIOLOGY_IMAGES_LIST);
 
   useEffect(
     () => {
