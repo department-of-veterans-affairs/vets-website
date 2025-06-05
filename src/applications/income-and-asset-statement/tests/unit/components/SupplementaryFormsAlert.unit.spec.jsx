@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import { SupplementaryFormsAlert } from '../../../components/FormAlerts/SupplementaryFormsAlert';
+import SupplementaryFormsAlert from '../../../components/FormAlerts/SupplementaryFormsAlert';
 
 const genAssets = assetTypes => {
   const types = assetTypes.map(assetType => ({
