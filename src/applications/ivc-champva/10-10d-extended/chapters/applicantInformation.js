@@ -398,42 +398,59 @@ const applicantAdoptionUploadPage = {
   },
 };
 
-const applicantStepChildConfig = uploadWithInfoComponent(
-  undefined, // acceptableFiles.stepCert,
-  'marriage certificates',
-);
-
 const applicantStepChildUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      'Upload parental marriage documents',
+      'Upload proof of parent’s marriage or legal union',
       ({ formData }) => (
         <>
-          To help us process this application faster, submit a copy of{' '}
+          You’ll need to submit a document showing proof of the marriage or
+          legal union between{' '}
           <b className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
           </b>{' '}
-          parental marriage documents.
+          sponsor and{' '}
+          <b className="dd-privacy-hidden">
+            {applicantWording(formData, true, false)}
+          </b>{' '}
+          parent.
           <br />
-          Submitting a copy can help us process this application faster.
           <br />
-          {MAIL_OR_FAX_LATER_MSG}
+          Upload a copy of one of these documents:
+          <ul>
+            <li>
+              Marriage certificate, <b>or</b>
+            </li>
+            <li>
+              A document showing proof of a civil union, <b>or</b>
+            </li>
+            <li>Common-law marriage affidavit</li>
+          </ul>
         </>
       ),
     ),
-    ...applicantStepChildConfig.uiSchema,
+    ...fileUploadBlurbCustom(),
     applicantStepMarriageCert: fileUploadUI({
-      label: 'Upload a copy of parental marriage documents',
+      label: 'Upload proof of marriage or legal union',
     }),
   },
   schema: {
     type: 'object',
+    required: ['applicantStepMarriageCert'],
     properties: {
       titleSchema,
-      ...applicantStepChildConfig.schema,
-      applicantStepMarriageCert: fileWithMetadataSchema(
-        acceptableFiles.stepCert,
-      ),
+      'view:fileUploadBlurb': blankSchema,
+      applicantStepMarriageCert: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -830,7 +847,7 @@ export const applicantPages = arrayBuilderPages(
     }),
     page18e: pageBuilder.itemPage({
       path: 'applicant-child-marriage-file/:index',
-      title: item => `${applicantWording(item)} parental marriage documents`,
+      title: 'Upload proof of parent’s marriage or legal union',
       depends: (formData, index) =>
         get(
           'applicantRelationshipToSponsor.relationshipToVeteran',
@@ -840,7 +857,6 @@ export const applicantPages = arrayBuilderPages(
           'applicantRelationshipOrigin.relationshipToVeteran',
           formData?.applicants?.[index],
         ) === 'step',
-      CustomPage: FileFieldCustom,
       ...applicantStepChildUploadPage,
     }),
     page18b1: pageBuilder.itemPage({
