@@ -71,7 +71,6 @@ import {
   getNewAppointment,
   getTypeOfCare,
   getTypeOfCareFacilities,
-  selectRecentLocations,
   selectRecentLocationsStatus,
 } from './selectors';
 
@@ -433,8 +432,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const { newAppointment } = initialState;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
-
-      let recentLocations = selectRecentLocations(initialState);
       const isRecentLocationsFetched =
         selectRecentLocationsStatus(initialState) === FETCH_STATUS.succeeded;
 
@@ -454,29 +451,27 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         });
 
         if (featureRecentLocationsFilter && !isRecentLocationsFetched) {
-          recentLocations = await fetchRecentLocations(dispatch, siteIds);
+          typeOfCareFacilities = await fetchRecentLocations(dispatch, siteIds);
           recordItemsRetrieved(
             'recent-locations',
-            recentLocations?.length || 0,
+            typeOfCareFacilities?.length || 0,
           );
         }
-
         // Fetch facilities that support this type of care
-        if (!typeOfCareFacilities) {
+        else if (!typeOfCareFacilities) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
             siteIds,
           });
+          recordItemsRetrieved(
+            'available_facilities',
+            typeOfCareFacilities?.length,
+          );
         }
-
-        recordItemsRetrieved(
-          'available_facilities',
-          typeOfCareFacilities?.length,
-        );
 
         dispatch({
           type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
           facilities: typeOfCareFacilities || [],
-          recentLocations: recentLocations || [],
+          sortedFacilities: typeOfCareFacilities || [],
           typeOfCareId,
           schema,
           uiSchema,
@@ -486,7 +481,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         });
 
         // If we have an already selected location or only have a single location
-        // fetch eligbility data immediately
+        // fetch eligibility data immediately
         const supportedFacilities = typeOfCareFacilities.filter(facility =>
           isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
         );
@@ -578,18 +573,8 @@ export function updateCCProviderSortMethod(sortMethod, selectedFacility = {}) {
 
 export function updateFacilitySortMethod(sortMethod, uiSchema) {
   return async (dispatch, getState) => {
-    const initialState = getState();
-    const siteIds = selectSystemIds(initialState);
-    let location = null;
     const facilities = getTypeOfCareFacilities(getState());
     const cernerSiteIds = selectRegisteredCernerFacilityIds(getState());
-
-    const featureRecentLocationsFilter = selectFeatureRecentLocationsFilter(
-      initialState,
-    );
-    let recentLocations = selectRecentLocations(initialState);
-    const isRecentLocationsFetched =
-      selectRecentLocationsStatus(initialState) === FETCH_STATUS.succeeded;
 
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distanceFromCurrentLocation,
@@ -600,7 +585,6 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
       sortMethod,
       uiSchema,
       cernerSiteIds,
-      recentLocations,
     };
 
     if (
@@ -614,7 +598,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
         event: `${GA_PREFIX}-request-current-location-clicked`,
       });
       try {
-        location = await getPreciseLocation();
+        const location = await getPreciseLocation();
         recordEvent({
           event: `${GA_PREFIX}-request-current-location-allowed`,
         });
@@ -632,41 +616,11 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
           sortMethod,
           uiSchema,
           cernerSiteIds,
-          recentLocations,
         });
         dispatch({
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
         });
       }
-    } else if (
-      sortMethod === FACILITY_SORT_METHODS.recentLocations &&
-      featureRecentLocationsFilter
-    ) {
-      if (!isRecentLocationsFetched) {
-        try {
-          dispatch({
-            type: FORM_FETCH_RECENT_LOCATIONS,
-          });
-          const getRecentLocations = await fetchRecentLocations(
-            dispatch,
-            siteIds,
-          );
-          recentLocations = getRecentLocations;
-          dispatch({
-            type: FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED,
-            recentLocations,
-          });
-        } catch (e) {
-          captureError(e, true, 'recent locations - facility page');
-          dispatch({
-            type: FORM_FETCH_RECENT_LOCATIONS_FAILED,
-          });
-        }
-      }
-      dispatch({
-        ...action,
-        recentLocations,
-      });
     } else {
       dispatch(action);
     }
