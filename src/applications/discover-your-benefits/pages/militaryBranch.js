@@ -46,6 +46,7 @@ const branchComponentsUIProps = branchesWithComponents.reduce(
       title: `Which component of ${
         militaryBranchTypeLabels[branchKey]
       } did you serve in?`,
+      hint: 'Select all that apply.',
       labels: militaryBranchComponentTypeLabels,
       required: () => false,
       hideIf: formData => {
@@ -63,7 +64,7 @@ export default {
     militaryBranch: checkboxGroupUI({
       enableAnalytics: true,
       title: 'What branch(es) of the military did you serve in?',
-      hint: 'Check all that apply.',
+      hint: 'Select all that apply.',
       required: () => false,
       labels: militaryBranchTypeLabels,
     }),
