@@ -102,6 +102,7 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
       const allComplete = Object.values(signatures).every(
         ({ value, checked }) => Boolean(value) && checked,
       );
+      console.log('######## allComplete', allComplete);
       onSectionComplete(allComplete);
       return () => onSectionComplete(false);
     },
@@ -132,40 +133,44 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
     [requiredElements, showError, signatures, submission],
   );
 
-  const [privacyAgreement, setPrivacyAgreement] = useState(null);
-  const [privacyAgreementError, setPrivacyAgreementError] = useState(null);
-  const [isDirty, setIsDirty] = useState(false);
-  const checkPrivacyStatement = event => {
-    setIsDirty(true);
-    const isChecked = event.target.checked;
-    setPrivacyAgreement(isChecked);
-    //console.log('isChecked', isChecked);
-    dispatch(setData({ ...formData, ...{ privacyAgreement: isChecked } }));
+  const [error, setError] = useState(null);
+  const [isChecked, setIsChecked] = useState(false);
+  const handleCheck = event => {
+    const value = event.target.checked;
+    setIsChecked(value);
+    dispatch(setData({ ...formData, ...{ privacyAgreement: value } }));
   }
 
-  //const form1 = useSelector(state => state.form.data);
+
   useEffect(
     () => {
-      console.log('Check!!' );
-      console.log('hasSubmittedForm', hasSubmittedForm);
-      console.log('isDirty', isDirty);
-      console.log('privacyAgreement', privacyAgreement);
-
-      //console.log('state', form1);
-      if (isDirty && !privacyAgreement || !privacyAgreement && hasSubmittedForm) {
-        setPrivacyAgreementError('You must agree to the privacy statement');
-      }
-      else {
-        setPrivacyAgreementError(null);
-      }
+      onSectionComplete(false);
+      console.log('showError', showError)
+      console.log('isChecked', isChecked)
+      const hasError =
+        // isChecked === true || hasSubmittedForm ? false : showError;
+        console.log('hasError', hasError)
+      const message = hasError
+        ? "My error message"
+        : null;
+      setError(message);
     },
-    [
-      hasSubmittedForm,
-      isDirty,
-      privacyAgreement,
-      privacyAgreementError
-    ],
+    [showError, isChecked, hasSubmittedForm],
   );
+
+  // useEffect(
+  //   () => {
+  //     console.log('showError', showError)
+  //     const hasError =
+  //       isChecked === true || hasSubmittedForm ? false : showError;
+  //     onSectionComplete(!hasError);
+  //     const message = hasError
+  //       ? "My error message"
+  //       : null;
+  //     setError(message);
+  //   },
+  //   [showError, isChecked, hasSubmittedForm],
+  // );
 
 
   return (
@@ -217,14 +222,12 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
           </li>
         </ol>
         <VaCheckbox
+          required
+          onVaChange={handleCheck}
+          label="I acknowledge I have read the Protection of Privacy Information Statement."
+          error={error}
           id="privacy-statement"
           name="privacy-statement"
-          // checked={formData['view:autofill']}
-          label="I acknowledge I have read the Protection of Privacy Information Statement."
-          // onVaChange={handleCheck}
-          required
-          error={privacyAgreementError}
-          onVaChange={checkPrivacyStatement}
         />
       </fieldset>
       {statementsOfTruth}
