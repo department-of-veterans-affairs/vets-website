@@ -4,16 +4,39 @@ import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollToTop } from 'platform/utilities/scroll';
 import environment from 'platform/utilities/environment';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { TITLE } from '../constants';
+import ShowAlertOrSip from '../components/ShowAlertOrSip';
 
 export const IntroductionPage = props => {
-  const { route } = props;
+  const { route, location, user } = props;
+
   const { formConfig, pageList } = route;
+
+  const {
+    formId = formConfig.formId,
+    prefillEnabled,
+    savedFormMessages,
+    downtime,
+  } = formConfig;
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const disputeDebtActive = useToggleValue(TOGGLE_NAMES.disputeDebt);
+
+  const sipOptions = {
+    formId,
+    startText: 'Start your dispute',
+    unauthStartText: 'Sign in or create an account',
+    messages: savedFormMessages,
+    gaStartEventName: 'digital-dispute-request',
+    pageList,
+    formConfig,
+    retentionPeriod: '60 days',
+    downtime,
+    prefillEnabled,
+    hideUnauthedStartLink: true,
+    useActionLinks: true,
+  };
 
   useEffect(() => {
     scrollToTop();
@@ -29,6 +52,13 @@ export const IntroductionPage = props => {
             If you think your VA debt is an error, use this form to dispute all
             or part of the debt.{' '}
           </h3>
+          <ShowAlertOrSip
+            user={user}
+            basename={location?.basename || ''}
+            sipOptions={sipOptions}
+            pageList={pageList}
+            formConfig={formConfig}
+          />
           <h2>What to know before you fill out this form</h2>
           <div>
             <ul>
@@ -46,16 +76,13 @@ export const IntroductionPage = props => {
           </div>
           <br />
 
-          <SaveInProgressIntro
-            headingLevel={2}
-            hideUnauthedStartLink
-            prefillEnabled={formConfig.prefillEnabled}
-            messages={formConfig.savedFormMessages}
+          <ShowAlertOrSip
+            user={user}
+            basename={location?.basename || ''}
+            sipOptions={sipOptions}
             pageList={pageList}
-            startText="Start your dispute"
-            devOnly={{
-              forceShowFormControls: true,
-            }}
+            formConfig={formConfig}
+            bottom
           />
         </>
       ) : (
@@ -81,11 +108,16 @@ IntroductionPage.propTypes = {
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool.isRequired,
       savedFormMessages: PropTypes.object.isRequired,
+      downtime: PropTypes.object,
+      formId: PropTypes.string,
     }).isRequired,
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
   location: PropTypes.shape({
     basename: PropTypes.string,
+  }),
+  user: PropTypes.shape({
+    profile: PropTypes.object,
   }),
 };
 

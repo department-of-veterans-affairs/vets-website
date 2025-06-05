@@ -387,39 +387,101 @@ export const formatDateAndTime = rawDate => {
 /**
  * Determine whether the PHR refresh for a particular extract is stale, in progress, current, or failed.
  *
- * @param {*} retrievedDate the timestamp (in ms) that the refresh status was retrieved
- * @param {*} phrStatus the list of PHR status extracts
- * @param {*} extractType the extract for which to return the phase (e.g. 'VPR')
- * @returns {string|null} the current refresh phase, or null if parameters are invalid.
+ * @param {Date} retrievedDate - The Date the refresh status was retrieved (MUST be a Date object).
+ * @param {Array<Object>} phrStatus - The list of PHR status extracts.
+ * @param {string} extractType - The extract for which to return the phase (e.g. 'VPR').
+ * @returns {string|null} The current refresh phase, or null if parameters are invalid.
  */
 export const getStatusExtractPhase = (
   retrievedDate,
   phrStatus,
   extractType,
 ) => {
-  if (!retrievedDate || !phrStatus || !extractType) return null;
-  const extractStatus = phrStatus.find(
-    status => status.extract === extractType,
-  );
+  // 1) Basic sanity‐checks on the inputs
   if (
-    !extractStatus?.lastRequested ||
-    !extractStatus?.lastCompleted ||
-    !extractStatus?.lastSuccessfulCompleted
+    !(retrievedDate instanceof Date) ||
+    Number.isNaN(retrievedDate.getTime()) ||
+    !Array.isArray(phrStatus) ||
+    !extractType
   ) {
     return null;
   }
-  if (retrievedDate - extractStatus.lastCompleted > VALID_REFRESH_DURATION) {
+
+  // 2) Find the extract status object
+  const extractStatus = phrStatus.find(
+    status => status.extract === extractType,
+  );
+  if (!extractStatus) return null;
+
+  const {
+    upToDate,
+    loadStatus,
+    errorMessage,
+    lastRequested,
+    lastCompleted,
+    lastSuccessfulCompleted,
+  } = extractStatus;
+
+  // 3) Compute whether we have an “error” condition
+  const hasExplicitLoadError =
+    upToDate && loadStatus === 'ERROR' && !!errorMessage;
+
+  // 4) If we don’t have all three timestamps AND there is no error-case to justify missing dates, bail out
+  if (
+    (!lastRequested || !lastCompleted || !lastSuccessfulCompleted) &&
+    !hasExplicitLoadError
+  ) {
+    return null;
+  }
+
+  // 5) Coerce each of those three fields into a Date (if already a Date, fine; otherwise new Date())
+  const requested =
+    lastRequested instanceof Date ? lastRequested : new Date(lastRequested);
+  const completed =
+    lastCompleted instanceof Date ? lastCompleted : new Date(lastCompleted);
+  const successfulCompleted =
+    lastSuccessfulCompleted instanceof Date
+      ? lastSuccessfulCompleted
+      : new Date(lastSuccessfulCompleted);
+
+  // 6) If any of those new Date() calls turned into an invalid date, bail out
+  if (
+    Number.isNaN(requested.getTime()) ||
+    Number.isNaN(completed.getTime()) ||
+    Number.isNaN(successfulCompleted.getTime())
+  ) {
+    return null;
+  }
+
+  // 7) Compute how long it’s been since the last completion
+  const timeSinceLastCompleted = retrievedDate.getTime() - completed.getTime();
+
+  // 8) Now do the “phase” logic in a fixed order:
+  //    **The order below is critical**:
+  //      1) STALE must be checked first
+  //      2) IN_PROGRESS must come before FAILED
+  //      3) FAILED must come before CURRENT
+  //    Reordering these checks will change the result in certain edge cases.
+
+  //  8a) STALE (highest priority)
+  if (timeSinceLastCompleted > VALID_REFRESH_DURATION) {
     return refreshPhases.STALE;
   }
-  if (extractStatus.lastCompleted < extractStatus.lastRequested) {
+
+  //  8b) IN_PROGRESS (only if the last “completed” timestamp is before the last “requested”)
+  if (completed.getTime() < requested.getTime() && !hasExplicitLoadError) {
     return refreshPhases.IN_PROGRESS;
   }
+
+  //  8c) FAILED (either a loadStatus=ERROR case or completed ≠ successfulCompleted)
   if (
-    extractStatus.lastCompleted.getTime() !==
-    extractStatus.lastSuccessfulCompleted.getTime()
+    hasExplicitLoadError ||
+    completed.getTime() !== successfulCompleted.getTime()
   ) {
     return refreshPhases.FAILED;
   }
+
+  //  8d) If none of the above, it must be CURRENT
   return refreshPhases.CURRENT;
 };
 
@@ -435,6 +497,7 @@ export const getStatusExtractListPhase = (
   retrievedDate,
   phrStatus,
   extractTypeList,
+  newRecordsFound,
 ) => {
   if (!Array.isArray(extractTypeList) || extractTypeList.length === 0) {
     return null;
@@ -447,8 +510,9 @@ export const getStatusExtractListPhase = (
   const phasePriority = [
     refreshPhases.IN_PROGRESS,
     refreshPhases.STALE,
-    refreshPhases.CURRENT,
-    refreshPhases.FAILED,
+    ...(newRecordsFound
+      ? [refreshPhases.CURRENT, refreshPhases.FAILED]
+      : [refreshPhases.FAILED, refreshPhases.CURRENT]),
   ];
 
   for (const phase of phasePriority) {
@@ -484,8 +548,10 @@ export const getLastSuccessfulUpdate = (
       return typeof date === 'string' ? new Date(date) : date;
     })
     ?.filter(Boolean);
-
-  if (matchingDates?.length) {
+  if (
+    matchingDates?.length &&
+    matchingDates.length === extractTypeList.length
+  ) {
     const minDate = new Date(
       Math.min(...matchingDates.map(date => date.getTime())),
     );

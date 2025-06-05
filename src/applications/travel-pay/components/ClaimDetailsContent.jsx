@@ -88,24 +88,27 @@ export default function ClaimDetailsContent({
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
       {claimsMgmtToggle && (
         <>
-          <va-additional-info
-            class="vads-u-margin-y--2"
-            trigger="What does this status mean?"
-          >
-            {STATUSES[toPascalCase(claimStatus)] ? (
-              <p data-testid="status-definition-text">
+          {STATUSES[toPascalCase(claimStatus)] ? (
+            <>
+              <p className="vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0">
+                What does this status mean
+              </p>
+              <p
+                className="vads-u-margin-top--0"
+                data-testid="status-definition-text"
+              >
                 {STATUSES[toPascalCase(claimStatus)].definition}
               </p>
-            ) : (
-              <p className="vads-u-margin-top--2">
-                If you need help understanding your claim, call the BTSSS call
-                center at <va-telephone contact="8555747292" /> (
-                <va-telephone tty contact="711" />) Monday through Friday, 8:00
-                a.m. to 8:00 p.m. ET. Have your claim number ready to share when
-                you call.
-              </p>
-            )}
-          </va-additional-info>
+            </>
+          ) : (
+            <p className="vads-u-margin-top--2">
+              If you need help understanding your claim, call the BTSSS call
+              center at <va-telephone contact="8555747292" /> (
+              <va-telephone tty contact="711" />) Monday through Friday, 8:00
+              a.m. to 8:00 p.m. ET. Have your claim number ready to share when
+              you call.
+            </p>
+          )}
           {documentCategories.clerk.length > 0 &&
             getDocLinkList(documentCategories.clerk)}
         </>
@@ -128,28 +131,30 @@ export default function ClaimDetailsContent({
               )}
             </div>
           )}
-          {totalCostRequested !== reimbursementAmount && (
-            <va-additional-info
-              class="vads-u-margin-y--2"
-              trigger="Why are my amounts different"
-            >
-              <p>
-                The VA travel pay deductible is $3 for a one-way trip and $6 for
-                a round trip, with a maximum of $18 per month. After a Veteran
-                reaches the $18 monthly deductible, the VA will pay the full
-                cost of their approved travel for the rest of that month.{' '}
-                <va-link
-                  href="/resources/reimbursed-va-travel-expenses-and-mileage-rate#monthlydeductible"
-                  text="Learn more about travel expenses monthly deductible"
-                />
-              </p>
-              <p>
-                If the difference is greater than the deductible, then the
-                Beneficiary Travel team may have issued a partial payment. You
-                can review the decision letter for more information.
-              </p>
-            </va-additional-info>
-          )}
+          {reimbursementAmount > 0 &&
+            totalCostRequested !== reimbursementAmount && (
+              <va-additional-info
+                class="vads-u-margin-y--2"
+                trigger="Why are my amounts different"
+              >
+                <p>
+                  The VA travel pay deductible is $3 for a one-way trip and $6
+                  for a round trip, with a maximum of $18 per month. After a
+                  Veteran reaches the $18 monthly deductible, the VA will pay
+                  the full cost of their approved travel for the rest of that
+                  month.{' '}
+                  <va-link
+                    href="/resources/reimbursed-va-travel-expenses-and-mileage-rate#monthlydeductible"
+                    text="Learn more about travel expenses monthly deductible"
+                  />
+                </p>
+                <p>
+                  If the difference is greater than the deductible, then the
+                  Beneficiary Travel team may have issued a partial payment. You
+                  can review the decision letter for more information.
+                </p>
+              </va-additional-info>
+            )}
         </>
       )}
       <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">When</p>
