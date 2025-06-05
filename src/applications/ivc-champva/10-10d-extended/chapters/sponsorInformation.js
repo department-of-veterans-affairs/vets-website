@@ -48,12 +48,11 @@ export const sponsorIntroSchema = {
 
 export const sponsorNameDobSchema = {
   uiSchema: {
-    ...titleUI(`Sponsor's name and date of birth`, ({ formData }) => (
+    ...titleUI(`Sponsor’s name and date of birth`, ({ formData }) => (
       <>
         <p>
-          Enter the personal information for the sponsor (the Veteran or service
-          member that the applicant is connected to). We’ll use the sponsor’s
-          information to confirm their eligibility for CHAMPVA benefits.
+          Enter the sponsor’s name and date of birth. We’ll use this information
+          to confirm their eligibility for CHAMPVA benefits.
         </p>
         {CustomPrefillMessage(formData, 'sponsor')}
       </>
