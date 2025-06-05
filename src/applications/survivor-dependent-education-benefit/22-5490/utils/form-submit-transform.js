@@ -341,7 +341,7 @@ export function transform5490Form(_formConfig, form) {
       middleName: userFullName?.middle,
       lastName: userFullName?.last,
       suffix: userFullName?.suffix,
-      dateOfBirth: form?.data?.relativeDateOfBirth,
+      dateOfBirth: form?.data?.relativeDateOfBirth, // This is the claimants dob name of value needs to be changed
       notificationMethod: getNotificationMethod(form?.data?.notificationMethod),
       contactInfo: {
         addressLine1: form?.data?.mailingAddressInput?.address?.street,
