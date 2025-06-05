@@ -57,7 +57,6 @@ export const IntroductionPage = props => {
             sipOptions={sipOptions}
             pageList={pageList}
             formConfig={formConfig}
-            bottom
           />
           <h2>What to know before you fill out this form</h2>
           <div>
