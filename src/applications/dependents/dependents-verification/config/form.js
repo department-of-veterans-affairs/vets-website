@@ -79,7 +79,7 @@ const formConfig = {
       title: "Veteran's contact information",
       pages: {
         veteranContactInformation: {
-          path: 'veteran-information/contact',
+          path: 'veteran-contact-information',
           title: 'Veteran contact information',
           uiSchema: veteranContactInformation.uiSchema,
           schema: veteranContactInformation.schema,

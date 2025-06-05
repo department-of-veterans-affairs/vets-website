@@ -28,7 +28,7 @@ const EditPhonePage = props => {
     return null;
   };
 
-  const returnPath = '/contact/information';
+  const returnPath = '/veteran-contact-information';
 
   const handlers = {
     onInput: event => {

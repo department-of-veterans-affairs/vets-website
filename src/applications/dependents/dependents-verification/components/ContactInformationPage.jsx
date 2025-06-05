@@ -72,10 +72,10 @@ const ContactInformation = ({ formData, router, setFormData }) => {
     router.push(editHref);
   };
 
-  const editEmailHref = '/contact/information/email';
-  const editPhoneHref = '/contact/information/phone';
-  const editAddressHref = '/contact/information/mailing-address';
-  const editIntlPhoneHref = '/contact/information/international-phone';
+  const editEmailHref = '/veteran-contact-information/email';
+  const editPhoneHref = '/veteran-contact-information/phone';
+  const editAddressHref = '/veteran-contact-information/mailing-address';
+  const editIntlPhoneHref = '/veteran-contact-information/international-phone';
 
   const formatAddress = address => {
     if (!address) return '';
@@ -90,6 +90,17 @@ const ContactInformation = ({ formData, router, setFormData }) => {
       <h3 className="vads-u-margin-y--2">
         Confirm the contact information we have on file for you
       </h3>
+      <p>
+        If you notice any errors, correct them now. Any updates you make will
+        change the information on this application only. If you need to update
+        your address with VA, go to your profile to make any changes.
+      </p>
+      <va-link
+        text="Update your
+        contact information in your profile"
+        external
+        href="#"
+      />
 
       {/* Mailing Address */}
       <va-card class="vads-u-margin-top--3">
