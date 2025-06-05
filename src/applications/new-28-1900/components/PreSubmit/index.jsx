@@ -131,18 +131,17 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
     const value = event.target.checked;
     setIsChecked(value);
     dispatch(setData({ ...formData, ...{ privacyAgreement: value } }));
-  }
+  };
 
   useEffect(
     () => {
       const hasError =
         isChecked === true || hasSubmittedForm ? false : showError;
       onSectionComplete(false);
-      const message = hasError
-        ? "My error message"
-        : null;
+      const message = hasError ? 'My error message' : null;
       setError(message);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [showError, isChecked, hasSubmittedForm],
   );
 
@@ -153,6 +152,7 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
         onSectionComplete(true);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isChecked, signatureComplete],
   );
 
