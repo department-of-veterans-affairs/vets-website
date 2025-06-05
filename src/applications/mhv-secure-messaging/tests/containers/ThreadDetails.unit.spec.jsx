@@ -713,6 +713,64 @@ describe('Thread Details container', () => {
     );
   });
 
+  it('allows reply if message is from unassociated OH sender', async () => {
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        threadDetails: {
+          ...threadDetails,
+          messages: threadDetails.messages.map(m => ({
+            ...m,
+            isOhMessage: true,
+          })),
+        },
+        recipients: {
+          allRecipients: lostAssociation.mockAllRecipients,
+          allowedRecipients: lostAssociation.mockAllowedRecipients,
+          blockedRecipients: lostAssociation.mockBlockedRecipients,
+          associatedTriageGroupsQty: lostAssociation.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            lostAssociation.associatedBlockedTriageGroupsQty,
+          noAssociations: lostAssociation.noAssociations,
+          allTriageGroupsBlocked: lostAssociation.allTriageGroupsBlocked,
+        },
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: [
+              {
+                facilityId: '662',
+                isCerner: false,
+              },
+              {
+                facilityId: '636',
+                isCerner: false,
+              },
+            ],
+          },
+        },
+      },
+      featureToggles: {},
+    };
+
+    const screen = setup(state);
+
+    screen.debug(undefined, 10000);
+
+    const blockedTriageGroupAlert = await screen.queryByTestId(
+      'blocked-triage-group-alert',
+    );
+
+    expect(blockedTriageGroupAlert).to.not.exist;
+    expect(screen.getByTestId('reply-button-body')).to.exist;
+    expect(screen.getByTestId('reply-button-body').textContent).to.contain(
+      'Reply',
+    );
+  });
+
   it('displays BlockedTriageGroupAlert if there are no associations at all', async () => {
     const state = {
       sm: {
