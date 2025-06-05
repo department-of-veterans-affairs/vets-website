@@ -387,7 +387,7 @@ const formConfig = {
     yourInformationChapter: {
       title: 'Your information',
       pages: {
-        reviewPersonalInformatiom: {
+        reviewPersonalInformation: {
           path: 'review-personal-information',
           title: 'Review your personal information',
           uiSchema: {
