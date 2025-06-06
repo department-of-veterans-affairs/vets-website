@@ -220,7 +220,7 @@ export function makeTEConditionsUISchema(formData) {
 }
 
 /**
- * Validates 'none' checkbox is not selected along with a new condition
+ * Validates 'none' checkbox is not selected along with another condition
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  */
