@@ -3,10 +3,7 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import sinon from 'sinon';
-import * as Scroll from 'react-scroll';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
-import { scrollToTop } from '../../../helpers';
 import formConfig from '../../../config/form';
 
 const getData = ({
@@ -61,28 +58,6 @@ const getData = ({
     subscribe: () => {},
     dispatch: () => {},
   },
-});
-
-describe('scrollToTop function', () => {
-  let scrollToSpy;
-  beforeEach(() => {
-    scrollToSpy = sinon.stub(Scroll.scroller, 'scrollTo');
-  });
-  afterEach(() => {
-    scrollToSpy.restore();
-  });
-
-  it('should call scroller.scrollTo with correct parameters', () => {
-    scrollToTop();
-    expect(scrollToSpy.calledOnce).to.be.true;
-    expect(
-      scrollToSpy.calledWith('topScrollElement', {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-      }),
-    ).to.be.true;
-  });
 });
 
 describe('Pension benefits confirmation page', () => {
