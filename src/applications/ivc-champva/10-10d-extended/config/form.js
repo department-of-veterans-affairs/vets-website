@@ -1,3 +1,4 @@
+/* eslint-disable import/named */
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -31,7 +32,11 @@ import {
   sponsorContactInfo,
 } from '../chapters/sponsorInformation';
 import { applicantPages } from '../chapters/applicantInformation';
-import { medicarePages } from '../chapters/medicareInformation';
+import {
+  medicarePages,
+  missingMedicarePage,
+  proofOfIneligibilityUploadPage,
+} from '../chapters/medicareInformation';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
 
 /** @type {FormConfig} */
@@ -43,6 +48,15 @@ const formConfig = {
   // TODO: when we have the submitUrl up and running, remove this dummy response:
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: _formData => 'certifierName',
+    },
+  },
   trackingPrefix: '10-10d-extended-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -197,6 +211,8 @@ const formConfig = {
       title: 'Medicare information',
       pages: {
         ...medicarePages,
+        page22: missingMedicarePage,
+        page23: proofOfIneligibilityUploadPage,
       },
     },
     healthInsuranceInformation: {
