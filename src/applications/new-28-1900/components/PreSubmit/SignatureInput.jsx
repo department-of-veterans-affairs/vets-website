@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { VaTextInput } from '../../utils/imports';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { replaceStrValues } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 
@@ -23,9 +23,15 @@ const SignatureInput = props => {
   });
 
   // set label and error message strings
-  const textInputLabel = replaceStrValues(content['sign-as-rep--signature-vet-text-label'], label);
+  const textInputLabel = replaceStrValues(
+    content['sign-as-rep--signature-vet-text-label'],
+    label,
+  );
 
-  const errorMessage = replaceStrValues(content['validation-sign-as-rep--vet-name'], fullName);
+  const errorMessage = replaceStrValues(
+    content['validation-sign-as-rep--vet-name'],
+    fullName,
+  );
 
   /*
    * validate input string against the desired value
@@ -80,10 +86,7 @@ const SignatureInput = props => {
        * desired string OR if the user is a filling out as a third party and no string 
        * validation is necessary
        */
-      if (
-        (isDirty && signatureMatches) ||
-        (isDirty && !!normalizedSignature)
-      ) {
+      if ((isDirty && signatureMatches) || (isDirty && !!normalizedSignature)) {
         handleChange(data.value);
         setError(null);
       }
