@@ -4,7 +4,6 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import maximalFixture from '../schema/maximal-test.json';
 import minimalFixture from '../schema/minimal-test.json';
 import overflowFixture from '../schema/overflow-test.json';
-
 import loggedInUser from '../fixtures/mocks/loggedInUser.json';
 import featuresEnabled from '../fixtures/mocks/featuresEnabled.json';
 import mockStatus from '../fixtures/mocks/profile-status.json';
