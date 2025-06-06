@@ -62,7 +62,7 @@ describe('EZR Next Of Kin flow', () => {
 
     cy.tabToElementAndPressSpace('.usa-button-primary');
 
-    cy.findByText(/Review your next of kins/i).should('exist');
+    cy.findByText(/Review your next of kin/i).should('exist');
     cy.findByText(`${contact.fullName.first} ${contact.fullName.last}`).should(
       'exist',
     );

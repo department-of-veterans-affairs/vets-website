@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { subDays } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  useFeatureToggle,
+  Toggler,
+} from '~/platform/utilities/feature-toggles';
 import PaymentsCard from './PaymentsCard';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
@@ -120,19 +123,31 @@ const BenefitPayments = ({
             <DashboardWidgetWrapper>
               <PaymentsCard lastPayment={lastPayment} />
             </DashboardWidgetWrapper>
-            <DashboardWidgetWrapper>
-              <PopularActionsForPayments />
-            </DashboardWidgetWrapper>
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Disabled>
+                <DashboardWidgetWrapper>
+                  <PopularActionsForPayments />
+                </DashboardWidgetWrapper>
+              </Toggler.Disabled>
+            </Toggler>
           </>
         )}
         {!lastPayment && (
           <DashboardWidgetWrapper>
             {paymentsError ? <PaymentsError /> : <NoRecentPaymentText />}
-            <PopularActionsForPayments
-              showPaymentHistoryLink={
-                (payments && !!payments.length) || paymentsError
-              }
-            />
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Disabled>
+                <PopularActionsForPayments
+                  showPaymentHistoryLink={
+                    (payments && !!payments.length) || paymentsError
+                  }
+                />
+              </Toggler.Disabled>
+            </Toggler>
           </DashboardWidgetWrapper>
         )}
       </div>

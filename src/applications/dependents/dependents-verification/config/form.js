@@ -13,6 +13,7 @@ import { veteranContactInformation } from './chapters/veteran-contact-informatio
 import editPhonePage from './chapters/veteran-contact-information/editPhonePage';
 import editEmailPage from './chapters/veteran-contact-information/editEmailPage';
 
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,

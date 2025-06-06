@@ -11,6 +11,7 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 import { WIZARD_STATUS, VRE_FORM_NUMBER } from '../constants';
 import IdentityNotVerified from '../components/IdentityNotVerified';
+import { CutoverAlert } from '../components/CutoverAlert';
 
 const CHAPTER_NAMES = [
   'veteran-information-review',
@@ -40,6 +41,7 @@ function FormApp(props) {
   const content = (
     <>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        <CutoverAlert location={location} />
         {children}
       </RoutedSavableApp>
       <FormFooter formConfig={formConfig} />
