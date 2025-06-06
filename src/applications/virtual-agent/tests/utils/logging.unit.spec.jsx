@@ -24,6 +24,15 @@ describe('logErrorToDatadog', () => {
     expect(datadogSpy.calledWith(message, context)).to.be.true;
   });
 
+  it('should log error with empty context when no context is given', () => {
+    const message = 'Test error message';
+
+    logErrorToDatadog(true, message);
+
+    expect(datadogSpy.calledOnce).to.be.true;
+    expect(datadogSpy.calledWith(message, {})).to.be.true;
+  });
+
   it('should not log error to Datadog when logging is disabled', () => {
     const message = 'Test error message';
     const context = { key: 'value' };
