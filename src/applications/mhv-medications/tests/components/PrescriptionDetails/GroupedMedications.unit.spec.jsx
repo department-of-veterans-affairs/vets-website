@@ -38,14 +38,12 @@ describe('Grouped medications component', () => {
   it('displays the prescription number of one of the meds on the list', async () => {
     const screen = setup();
     await waitFor(() => {
-      expect(screen);
-      expect(
-        screen.getByText(
-          `Prescription number: ${
-            groupedMedicationsList[0].prescriptionNumber
-          }`,
-        ),
-      ).to.exist;
+      // Look for the label text first
+      expect(screen.getByText('Prescription number:')).to.exist;
+      // Then check for the prescription number inside a span
+      const rxNumber = groupedMedicationsList[0].prescriptionNumber;
+      const rxSpan = screen.getByText(rxNumber, { selector: 'span' });
+      expect(rxSpan).to.exist;
     });
   });
 });
