@@ -76,7 +76,7 @@ const App = ({ formEnabled }) => {
     return <va-loading-indicator message="Loading..." />;
   }
 
-  if (!formEnabled) {
+  if (formEnabled) {
     return (
       <>
         <p>You can file a claim in any of these 4 ways.</p>
