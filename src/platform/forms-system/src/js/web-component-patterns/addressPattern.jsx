@@ -91,7 +91,7 @@ const STATE_ERROR_MESSAGES_DEFAULT = {
 
 const MILITARY_CITIES = [
   {
-    label: 'APO (Army post office)',
+    label: 'APO (Air or Army post office)',
     value: 'APO',
   },
   {
