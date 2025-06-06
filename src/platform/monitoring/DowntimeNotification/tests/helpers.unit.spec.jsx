@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { subHours, subMinutes, addDays, addMinutes, formatISO } from 'date-fns';
+import { subDays, subHours, subMinutes, addDays, addMinutes } from 'date-fns';
 
 import {
   mockFetch,
@@ -11,51 +11,53 @@ import externalServiceStatus from '../config/externalServiceStatus';
 import defaultExternalServices from '../config/externalServices';
 import * as downtimeHelpers from '../util/helpers';
 
+const now = new Date();
+
 const pastDowntime = {
   attributes: {
     externalService: 'dslogon',
-    startTime: formatISO(subHours(new Date(), 1)),
-    endTime: formatISO(subMinutes(new Date(), 1)),
+    startTime: subHours(now, 1)?.toISOString(),
+    endTime: subMinutes(now, 1)?.toISOString(),
   },
 };
 
 const futureDowntimeForSameService = {
   attributes: {
     externalService: 'evss',
-    startTime: formatISO(addDays(new Date(), 1)),
-    endTime: formatISO(addDays(new Date(), 2)),
+    startTime: addDays(now, 1)?.toISOString(),
+    endTime: addDays(now, 2)?.toISOString(),
   },
 };
 
 const activeDowntime = {
   attributes: {
     externalService: 'evss',
-    startTime: formatISO(subHours(new Date(), 24)),
-    endTime: formatISO(addDays(new Date(), 1)),
+    startTime: subDays(now, 1)?.toISOString(),
+    endTime: addDays(now, 1)?.toISOString(),
   },
 };
 
 const distantFutureDowntime = {
   attributes: {
     externalService: 'vic',
-    startTime: formatISO(addDays(new Date(), 1)),
-    endTime: formatISO(addDays(new Date(), 2)),
+    startTime: addDays(now, 1)?.toISOString(),
+    endTime: addDays(now, 2)?.toISOString(),
   },
 };
 
 const approachingDowntime = {
   attributes: {
     externalService: 'mvi',
-    startTime: formatISO(addMinutes(new Date(), 10)),
-    endTime: formatISO(addDays(new Date(), 1)),
+    startTime: addMinutes(now, 10)?.toISOString(),
+    endTime: addDays(now, 1)?.toISOString(),
   },
 };
 
 const lessUrgentApproachingDowntime = {
   attributes: {
     externalService: 'appeals',
-    startTime: formatISO(addMinutes(new Date(), 15)),
-    endTime: formatISO(addDays(new Date(), 1)),
+    startTime: addMinutes(now, 15)?.toISOString(),
+    endTime: addDays(now, 1)?.toISOString(),
   },
 };
 
