@@ -4,12 +4,19 @@ const { addDays, addMonths, format, subMonths } = require('date-fns');
 const defaultUUIDBase = '6cg8T26YivnL68JzeTaV0w==';
 const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
 
+const errorUUIDs = [
+  'appointment-submit-error',
+  'details-retry-error',
+  'details-error',
+  'draft-no-slots-error',
+];
+
 /**
  * Creates a referral list object relative to a start date.
  *
  * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} uuid The UUID for the referral
- * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
+ * @param {String} categoryOfCare The category of care for the referral
  * @returns {Object} Referral object
  */
 
@@ -31,6 +38,13 @@ const createReferralListItem = (
   };
 };
 
+/* Creates a list of error referrals with specific UUIDs.
+ * These are used to test error handling.
+ */
+const errorReferralsList = (errorUUIDs || []).map(uuid => {
+  return createReferralListItem('2025-11-14', uuid);
+});
+
 /**
  * Creates a referral object with specified uuid and expiration date.
  *
@@ -43,20 +57,11 @@ const createReferralById = (
   uuid,
   expirationDate,
   categoryOfCare = 'OPTOMETRY',
-  noSlots,
 ) => {
   const [year, month, day] = startDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
 
   const mydFormat = 'yyyy-MM-dd';
-
-  const generateReferralNumber = () => {
-    if (noSlots) {
-      return 'no-slots';
-    }
-    return 'VA0000009880-default';
-  };
-  const referralNumber = generateReferralNumber();
 
   return {
     id: uuid,
@@ -67,7 +72,7 @@ const createReferralById = (
       stationId: '528A4',
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-      referralNumber,
+      referralNumber: uuid,
       categoryOfCare,
       referralConsultId: '984_646907',
       hasAppointments: false,
@@ -119,6 +124,7 @@ const createReferrals = (
     dateOjbect.getUTCDate(),
   );
   const referrals = [];
+
   for (let i = 0; i < numberOfReferrals; i++) {
     const isExpired = i < numberOfExpiringReferrals;
     const uuidBase = isExpired ? expiredUUIDBase : defaultUUIDBase;
@@ -138,7 +144,8 @@ const createReferrals = (
       ),
     );
   }
-  return referrals;
+
+  return [...referrals, ...errorReferralsList];
 };
 
 /**
