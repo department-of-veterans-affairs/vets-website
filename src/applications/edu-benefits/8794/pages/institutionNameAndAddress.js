@@ -8,6 +8,8 @@ import {
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+const noSpaceOnlyPattern = '^(?!\\s*$).+';
+
 const DynamicMilitaryInfo = () => {
   const formData = useSelector(state => state.form?.data);
   const isMilitary = formData?.institutionDetails?.isMilitary;
@@ -30,6 +32,7 @@ const uiSchema = {
       title: 'Name of institution or training facility',
       errorMessages: {
         required: 'Enter the name of your institution or training facility',
+        pattern: 'You must provide a response',
       },
     }),
 
@@ -55,7 +58,7 @@ const schema = {
     institutionDetails: {
       type: 'object',
       properties: {
-        institutionName: textSchema,
+        institutionName: { ...textSchema, pattern: noSpaceOnlyPattern },
         isMilitary: addressSchema().properties.isMilitary,
         'view:militaryBaseDescription': {
           type: 'object',
