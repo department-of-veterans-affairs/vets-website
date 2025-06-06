@@ -21,6 +21,11 @@ class MedicationsListPage {
     cy.intercept('GET', `${Paths.MED_LIST}`).as('medicationsList');
     cy.intercept(
       'GET',
+      '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort=alphabetical-rx-name',
+      prescriptions,
+    ).as('medicationsSortByName');
+    cy.intercept(
+      'GET',
       '/my_health/v1/medical_records/allergies',
       allergies,
     ).as('allergies');
@@ -237,7 +242,7 @@ class MedicationsListPage {
   clickDownloadListAsPDFButtonOnListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      `/my_health/v1/prescriptions?&sort=alphabetical-status`,
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
@@ -251,7 +256,7 @@ class MedicationsListPage {
   verifyLoadingSpinnerForDownloadOnListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      `/my_health/v1/prescriptions?&sort=alphabetical-status`,
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
@@ -260,7 +265,7 @@ class MedicationsListPage {
   clickDownloadListAsTxtButtonOnListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      `/my_health/v1/prescriptions?&sort=alphabetical-status`,
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-txt-button"]').should(
@@ -820,6 +825,11 @@ class MedicationsListPage {
     ).as('allergies');
     cy.intercept('GET', '/my_health/v1/tooltips', tooltip).as('tooltips');
     cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('Medications');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort=alphabetical-rx-name',
+      prescriptions,
+    ).as('medicationsSortByName');
     cy.intercept('POST', '/my_health/v1/tooltips', tooltipVisible).as(
       'tooltipsVisible',
     );
