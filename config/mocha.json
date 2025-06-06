@@ -12,5 +12,9 @@
   ],
   "reporter": "progress",
   "timeout": 10000,
-  "slow": 0
+  "slow": 0,
+  "node-option": [
+    "experimental-specifier-resolution=node",
+    "loader=ts-node/esm"
+  ]
 }
