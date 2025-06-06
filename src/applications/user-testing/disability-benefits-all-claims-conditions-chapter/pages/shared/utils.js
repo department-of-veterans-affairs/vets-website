@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   getArrayIndexFromPathName,
   getArrayUrlSearchParams,
@@ -218,4 +219,45 @@ export const hasSideOfBody = (formData, index) => {
   );
 
   return conditionObject ? conditionObject.sideOfBody : false;
+};
+
+// Ensure every continue click blurs inputs,
+// which triggers internal VA form field update logic
+export const ForceFieldBlur = () => {
+  useEffect(() => {
+    const handleClick = () => {
+      document.activeElement?.blur?.();
+    };
+
+    const buttons = document.querySelectorAll('button[type="submit"]');
+    buttons.forEach(btn => btn.addEventListener('click', handleClick));
+
+    return () => {
+      buttons.forEach(btn => btn.removeEventListener('click', handleClick));
+    };
+  }, []);
+
+  return null;
+};
+
+// VA platform runs validation based on formData.dateString,
+// which is populated after all field blur events
+export const validateApproximateDate = (errors, dateString) => {
+  if (!dateString) return;
+
+  const [year, month, day] = dateString.split('-');
+  const isYearValid = year && year !== 'XXXX';
+  const isMonthValid = month && month !== 'XX';
+  const isDayValid = day && day !== 'XX';
+
+  const isValid =
+    (isYearValid && !isMonthValid && !isDayValid) || // Year only
+    (isYearValid && isMonthValid && !isDayValid) || // Year + Month
+    (isYearValid && isMonthValid && isDayValid); // Full date
+
+  if (!isValid) {
+    errors.addError(
+      'Enter a year only (e.g., 1988), a month and year (e.g., June 1988), or a full date (e.g., June 1 1988)',
+    );
+  }
 };
