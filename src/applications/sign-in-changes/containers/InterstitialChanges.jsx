@@ -66,7 +66,7 @@ export default function InterstitialChanges() {
         <CreateAccount />
       )}
       <h2 id="interstitialH2">Or continue using your old account</h2>
-      <p className="vads-u-font-size--base" id="interstitialMhvP">
+      <p className="vads-u-font-size--base" id="interstitialDslP">
         You can use your <strong>DS Logon</strong> account to sign in until
         September 30, 2025.
       </p>
