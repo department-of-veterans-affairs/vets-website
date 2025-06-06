@@ -11,8 +11,8 @@ import prefillTransformer from '../prefill-transformer';
 import { veteranInformation } from './chapters/veteran-information/veteranInformation';
 import { veteranContactInformation } from './chapters/veteran-contact-information/veteranContactInformation';
 import editPhonePage from './chapters/veteran-contact-information/editPhonePage';
+import editInternationalPhonePage from './chapters/veteran-contact-information/editInternationalPhonePage';
 import editEmailPage from './chapters/veteran-contact-information/editEmailPage';
-
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -88,6 +88,7 @@ const formConfig = {
         },
         editEmailPage,
         editPhonePage,
+        editInternationalPhonePage,
       },
     },
   },

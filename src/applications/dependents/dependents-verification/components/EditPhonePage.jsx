@@ -16,7 +16,7 @@ import ProgressButton from '@department-of-veterans-affairs/platform-forms-syste
 
 const EditPhonePage = props => {
   const { formData = {}, goToPath, setFormData } = props;
-  const { phone = '' } = formData;
+  const { phone = '' } = formData.veteranContactInformation || {};
   const [fieldData, setFieldData] = useState(phone);
   const [error, setError] = useState(null);
 
@@ -39,11 +39,16 @@ const EditPhonePage = props => {
     onUpdate: e => {
       e.preventDefault();
       const validationError = validatePhone(fieldData);
-      setError(validationError); // A11y To do: Move focus back to field when error is true
-
+      setError(validationError);
       if (validationError) return;
 
-      setFormData({ ...formData, phone: fieldData || '' });
+      setFormData({
+        ...formData,
+        veteranContactInformation: {
+          ...formData.veteranContactInformation,
+          phone: fieldData || '',
+        },
+      });
       goToPath(returnPath);
     },
     onCancel: () => {

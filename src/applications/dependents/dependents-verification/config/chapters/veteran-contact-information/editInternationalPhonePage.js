@@ -1,13 +1,12 @@
-import EditEmailPage from '../../../components/EditEmailPage';
+import EditInternationalPhonePage from '../../../components/EditInternationalPhonePage';
 
 /** @type {PageSchema} */
 export default {
-  title: 'Edit email address',
-  path: '/veteran-contact-information/email',
+  title: 'Edit phone number',
+  path: '/veteran-contact-information/international-phone',
   depends: () => false,
   hideNavButtons: true,
-  hideStepper: true,
-  CustomPage: EditEmailPage,
+  CustomPage: EditInternationalPhonePage,
   CustomPageReview: null,
   uiSchema: {
     veteranContactInformation: {

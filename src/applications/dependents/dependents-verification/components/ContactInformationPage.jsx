@@ -8,88 +8,35 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 
 const ContactInformation = ({ formData, router, setFormData }) => {
   const { profile } = useSelector(selectUser);
+  // console.log(profile);
+  const { email: profileEmail } = profile || {};
+  const { veteranContactInformation = {} } = formData || {};
   const {
-    userFullName,
-    email: profileEmail,
-    phone: profilePhone,
-    // mailingAddress: profileMailing,
-    // internationalPhone: profileIntlPhone,
-  } = profile || {};
-  const { email, phone, mailingAddress, internationalPhone, veteranFullName } =
-    formData || {};
+    email,
+    phone,
+    mailingAddress,
+    internationalPhone,
+  } = veteranContactInformation;
 
-  // Prefill contact fields if not already in formData
   useEffect(
     () => {
-      if (!profile) return;
-
-      const updatedFormData = { ...formData };
-      let needsUpdate = false;
-
-      if (!email && profileEmail) {
-        updatedFormData.email = profileEmail;
-        needsUpdate = true;
-      }
-
-      if (!phone && profilePhone) {
-        updatedFormData.phone = profilePhone;
-        needsUpdate = true;
-      }
-
-      // if (!mailingAddress && profileMailing) {
-      //   updatedFormData.mailingAddress = profileMailing;
-      //   needsUpdate = true;
-      // }
-
-      // if (!internationalPhone && profileIntlPhone) {
-      //   updatedFormData.internationalPhone = profileIntlPhone;
-      //   needsUpdate = true;
-      // }
-
-      if (needsUpdate) {
-        setFormData(updatedFormData);
-      }
-    },
-    [
-      email,
-      phone,
-      mailingAddress,
-      internationalPhone,
-      profileEmail,
-      profilePhone,
-      // profileMailing,
-      // profileIntlPhone,
-      profile,
-      formData,
-      setFormData,
-    ],
-  );
-
-  // Add veteranFullName from profile
-  useEffect(
-    () => {
-      if (
-        userFullName &&
-        JSON.stringify(veteranFullName) !== JSON.stringify(userFullName)
-      ) {
+      if (profileEmail && !email) {
         setFormData({
           ...formData,
-          veteranFullName: userFullName,
+          veteranContactInformation: {
+            ...veteranContactInformation,
+            email: profileEmail,
+          },
         });
       }
     },
-    [userFullName, veteranFullName, formData, setFormData],
+    [profileEmail, email, veteranContactInformation, formData, setFormData],
   );
 
   const handleRouteChange = (e, editHref) => {
     e.preventDefault();
     router.push(editHref);
   };
-
-  const editEmailHref = '/veteran-contact-information/email';
-  const editPhoneHref = '/veteran-contact-information/phone';
-  const editAddressHref = '/veteran-contact-information/mailing-address';
-  const editIntlPhoneHref = '/veteran-contact-information/international-phone';
 
   const formatAddress = address => {
     if (!address) return '';
@@ -115,7 +62,6 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         href="#"
       />
 
-      {/* Mailing Address */}
       <va-card class="vads-u-margin-top--3">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Mailing address
@@ -134,16 +80,17 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         </p>
         <VaLink
           active
-          href={editAddressHref}
+          href="/veteran-contact-information/mailing-address"
           label={
             mailingAddress ? 'Edit mailing address' : 'Add mailing address'
           }
           text={mailingAddress ? 'Edit' : 'Add'}
-          onClick={e => handleRouteChange(e, editAddressHref)}
+          onClick={e =>
+            handleRouteChange(e, '/veteran-contact-information/mailing-address')
+          }
         />
       </va-card>
 
-      {/* Email */}
       <va-card class="vads-u-margin-top--3">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Email address
@@ -162,14 +109,15 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         </p>
         <VaLink
           active
-          href={editEmailHref}
+          href="/veteran-contact-information/email"
           label={email ? 'Edit email address' : 'Add email address'}
           text={email ? 'Edit' : 'Add'}
-          onClick={e => handleRouteChange(e, editEmailHref)}
+          onClick={e =>
+            handleRouteChange(e, '/veteran-contact-information/email')
+          }
         />
       </va-card>
 
-      {/* Mobile Phone */}
       <va-card class="vads-u-margin-top--3">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Mobile phone number
@@ -188,14 +136,15 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         </p>
         <VaLink
           active
-          href={editPhoneHref}
+          href="/veteran-contact-information/phone"
           label={phone ? 'Edit phone number' : 'Add phone number'}
           text={phone ? 'Edit' : 'Add'}
-          onClick={e => handleRouteChange(e, editPhoneHref)}
+          onClick={e =>
+            handleRouteChange(e, '/veteran-contact-information/phone')
+          }
         />
       </va-card>
 
-      {/* International Phone */}
       <va-card class="vads-u-margin-top--3">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
           International phone number
@@ -214,14 +163,19 @@ const ContactInformation = ({ formData, router, setFormData }) => {
         </p>
         <VaLink
           active
-          href={editIntlPhoneHref}
+          href="/veteran-contact-information/international-phone"
           label={
             internationalPhone
               ? 'Edit international phone number'
               : 'Add international phone number'
           }
           text={internationalPhone ? 'Edit' : 'Add'}
-          onClick={e => handleRouteChange(e, editIntlPhoneHref)}
+          onClick={e =>
+            handleRouteChange(
+              e,
+              '/veteran-contact-information/international-phone',
+            )
+          }
         />
       </va-card>
     </>
@@ -230,22 +184,23 @@ const ContactInformation = ({ formData, router, setFormData }) => {
 
 ContactInformation.propTypes = {
   router: PropTypes.shape({
-    push: PropTypes.func,
+    push: PropTypes.func.isRequired,
   }).isRequired,
+  setFormData: PropTypes.func.isRequired,
   formData: PropTypes.shape({
-    email: PropTypes.string,
-    phone: PropTypes.string,
-    internationalPhone: PropTypes.string,
-    mailingAddress: PropTypes.shape({
-      street: PropTypes.string,
-      city: PropTypes.string,
-      state: PropTypes.string,
-      postalCode: PropTypes.string,
-      country: PropTypes.string,
+    veteranContactInformation: PropTypes.shape({
+      email: PropTypes.string,
+      phone: PropTypes.string,
+      mailingAddress: PropTypes.shape({
+        street: PropTypes.string,
+        city: PropTypes.string,
+        state: PropTypes.string,
+        postalCode: PropTypes.string,
+        country: PropTypes.string,
+      }),
+      internationalPhone: PropTypes.string,
     }),
-    veteranFullName: PropTypes.object,
   }),
-  setFormData: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

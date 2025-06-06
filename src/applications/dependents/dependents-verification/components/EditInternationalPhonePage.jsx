@@ -1,30 +1,22 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import { isValidEmail } from 'platform/forms/validations';
 import { Title } from '~/platform/forms-system/src/js/web-component-patterns/titlePattern';
 import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
 
-/**
- * This component allows the user to edit their email address.
- * Based on the value of the input (`email`), the component updates the `email`
- * field in the form data. Validation ensures the entered value is a properly formatted email address.
- * The user can choose to update the email or cancel and return to the contact information page.
- */
-
-const EditEmailPage = props => {
+const EditInternationalPhonePage = props => {
   const { formData = {}, goToPath, setFormData } = props;
   const { veteranContactInformation = {} } = formData;
-  const { email = '' } = veteranContactInformation;
+  const { internationalPhone = '' } = veteranContactInformation;
 
-  const [fieldData, setFieldData] = useState(email);
+  const [fieldData, setFieldData] = useState(internationalPhone);
   const [error, setError] = useState(null);
 
-  const validateEmail = value => {
-    if (!isValidEmail(value)) {
-      return 'Enter a valid email address without spaces using this format: email@domain.com';
+  const validateIntlPhone = value => {
+    if (!value?.trim()) {
+      return 'Enter a valid international phone number';
     }
     return null;
   };
@@ -35,11 +27,11 @@ const EditEmailPage = props => {
     onInput: event => {
       const { value } = event.target;
       setFieldData(value);
-      setError(validateEmail(value));
+      setError(validateIntlPhone(value));
     },
     onUpdate: e => {
       e.preventDefault();
-      const validationError = validateEmail(fieldData);
+      const validationError = validateIntlPhone(fieldData);
       setError(validationError);
       if (validationError) return;
 
@@ -47,7 +39,7 @@ const EditEmailPage = props => {
         ...formData,
         veteranContactInformation: {
           ...veteranContactInformation,
-          email: fieldData,
+          internationalPhone: fieldData,
         },
       });
 
@@ -62,18 +54,16 @@ const EditEmailPage = props => {
     <form onSubmit={handlers.onUpdate} noValidate>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          <Title title="Edit email" />
+          <Title title="Edit international phone number" />
         </legend>
         <va-text-input
-          label="Email address"
-          type="email"
-          inputmode="email"
-          id="root_email"
-          name="root_email"
-          hint="We may use your contact information so we can get in touch with you if we have questions about your application."
+          label="International phone number"
+          id="root_internationalPhone"
+          name="root_internationalPhone"
           value={fieldData}
           onInput={handlers.onInput}
           error={error}
+          hint="Enter a phone number including the country code (e.g., +44 20 1234 5678)"
           required
         />
         <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
@@ -89,7 +79,7 @@ const EditEmailPage = props => {
               buttonText="Update"
               onButtonClick={handlers.onUpdate}
               buttonClass="usa-button-primary"
-              ariaLabel="Update email address"
+              ariaLabel="Update international phone number"
             />
           </div>
         </div>
@@ -98,10 +88,10 @@ const EditEmailPage = props => {
   );
 };
 
-EditEmailPage.propTypes = {
+EditInternationalPhonePage.propTypes = {
   formData: PropTypes.shape({
     veteranContactInformation: PropTypes.shape({
-      email: PropTypes.string,
+      internationalPhone: PropTypes.string,
     }),
   }),
   goToPath: PropTypes.func,
@@ -119,4 +109,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withRouter(EditEmailPage));
+)(withRouter(EditInternationalPhonePage));
