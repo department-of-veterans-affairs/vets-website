@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import moment from 'moment';
+import { subDays, subHours, subMinutes, addDays, addMinutes } from 'date-fns';
 
 import {
   mockFetch,
@@ -11,75 +11,53 @@ import externalServiceStatus from '../config/externalServiceStatus';
 import defaultExternalServices from '../config/externalServices';
 import * as downtimeHelpers from '../util/helpers';
 
+const now = new Date();
+
 const pastDowntime = {
   attributes: {
     externalService: 'dslogon',
-    startTime: moment()
-      .subtract(1, 'hour')
-      .toISOString(),
-    endTime: moment()
-      .subtract(1, 'minute')
-      .toISOString(),
+    startTime: subHours(now, 1)?.toISOString(),
+    endTime: subMinutes(now, 1)?.toISOString(),
   },
 };
 
 const futureDowntimeForSameService = {
   attributes: {
     externalService: 'evss',
-    startTime: moment()
-      .add(1, 'day')
-      .toISOString(),
-    endTime: moment()
-      .add(2, 'day')
-      .toISOString(),
+    startTime: addDays(now, 1)?.toISOString(),
+    endTime: addDays(now, 2)?.toISOString(),
   },
 };
 
 const activeDowntime = {
   attributes: {
     externalService: 'evss',
-    startTime: moment()
-      .subtract(1, 'day')
-      .toISOString(),
-    endTime: moment()
-      .add(1, 'day')
-      .toISOString(),
+    startTime: subDays(now, 1)?.toISOString(),
+    endTime: addDays(now, 1)?.toISOString(),
   },
 };
 
 const distantFutureDowntime = {
   attributes: {
     externalService: 'vic',
-    startTime: moment()
-      .add(1, 'day')
-      .toISOString(),
-    endTime: moment()
-      .add(2, 'day')
-      .toISOString(),
+    startTime: addDays(now, 1)?.toISOString(),
+    endTime: addDays(now, 2)?.toISOString(),
   },
 };
 
 const approachingDowntime = {
   attributes: {
     externalService: 'mvi',
-    startTime: moment()
-      .add(10, 'minute')
-      .toISOString(),
-    endTime: moment()
-      .add(1, 'day')
-      .toISOString(),
+    startTime: addMinutes(now, 10)?.toISOString(),
+    endTime: addDays(now, 1)?.toISOString(),
   },
 };
 
 const lessUrgentApproachingDowntime = {
   attributes: {
     externalService: 'appeals',
-    startTime: moment()
-      .add(15, 'minute')
-      .toISOString(),
-    endTime: moment()
-      .add(1, 'day')
-      .toISOString(),
+    startTime: addMinutes(now, 15)?.toISOString(),
+    endTime: addDays(now, 1)?.toISOString(),
   },
 };
 

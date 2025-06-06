@@ -1,32 +1,51 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
-import moment from 'moment';
 import * as Sentry from '@sentry/browser';
+import {
+  addHours,
+  compareAsc,
+  isAfter,
+  isBefore,
+  isEqual,
+  parseISO,
+} from 'date-fns';
 
 import environment from 'platform/utilities/environment';
 import ENVIRONMENTS from 'site/constants/environments';
 
 import externalServiceStatus from '../config/externalServiceStatus';
 import defaultExternalServices from '../config/externalServices';
+
+const isSameOrAfter = (leftDate, rightDate) =>
+  isEqual(leftDate, rightDate) || isAfter(leftDate, rightDate);
+
 /**
  * Derives downtime status based on a time range
- * @param {string|Date|Moment} startTime
- * @param {string|Date|Moment} endTime
+ * @param {string|Date} startTime
+ * @param {string|Date} endTime
  * @returns {string} A service status
  */
 export function getStatusForTimeframe(startTime, endTime) {
-  const now = moment();
-  const hasStarted = now.isSameOrAfter(startTime);
+  const now = new Date();
+  const startDate = startTime instanceof Date ? startTime : parseISO(startTime);
+  const hasStarted = isSameOrAfter(now, startDate);
 
   if (hasStarted) {
     // Check for indefinite downtime (null endTime) or that the endTime is in the future
-    if (!endTime || now.isBefore(endTime)) {
+    let endDate;
+    if (endTime instanceof Date) {
+      endDate = endTime;
+    } else if (endTime) {
+      endDate = parseISO(endTime);
+    }
+    if (!endTime || isBefore(now, endDate)) {
       return externalServiceStatus.down;
     }
     // The downtime must be old and outdated. The API should filter these so this shouldn't happen.
     return externalServiceStatus.ok;
   }
 
-  const startsWithinHour = now.add(1, 'hour').isSameOrAfter(startTime);
+  const oneHourFromNow = addHours(now, 1);
+  const startsWithinHour = isSameOrAfter(oneHourFromNow, startDate);
   if (startsWithinHour) return externalServiceStatus.downtimeApproaching;
 
   return externalServiceStatus.ok;
@@ -86,8 +105,8 @@ export function createServiceMap(maintenanceWindows = []) {
       },
     } = maintenanceWindow;
 
-    const startTime = moment(startTimeRaw);
-    const endTime = endTimeRaw && moment(endTimeRaw);
+    const startTime = parseISO(startTimeRaw);
+    const endTime = endTimeRaw ? parseISO(endTimeRaw) : null;
     const status = getStatusForTimeframe(startTime, endTime);
 
     // For each externalService, we only care about the maintenance
@@ -121,7 +140,7 @@ export function getSoonestDowntime(serviceMap, serviceNames) {
     .filter(service => service.status !== externalServiceStatus.ok)
     .reduce((mostUrgentService, service) => {
       if (!mostUrgentService) return service;
-      return mostUrgentService.startTime.isBefore(service.startTime)
+      return compareAsc(mostUrgentService.startTime, service.startTime) < 0
         ? mostUrgentService
         : service;
     }, null);
@@ -154,8 +173,12 @@ export const getCurrentGlobalDowntime = (() => {
     ? `https://${subdomain}.${BUCKET_BASE_URL}/maintenance_windows.json`
     : null;
 
-  const includesCurrentTime = ({ startTime, endTime }) =>
-    moment().isAfter(startTime) && moment().isBefore(endTime);
+  const includesCurrentTime = ({ startTime, endTime }) => {
+    const now = new Date();
+    const startDate = parseISO(startTime);
+    const endDate = parseISO(endTime);
+    return isAfter(now, startDate) && isBefore(now, endDate);
+  };
 
   return async () => {
     try {

@@ -12,7 +12,7 @@
     "react": "*",
     "react-redux": "*",
     "prop-types": "*",
-    "moment": "*",
+    "date-fns": "*",
     "@sentry/browser": "*",
     "chai": "*",
     "sinon": "*",

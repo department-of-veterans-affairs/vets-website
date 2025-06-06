@@ -31,7 +31,7 @@ describe('<RenderClaimsWidgetDowntimeNotification />', () => {
       .exist;
     expect(view.queryByTestId('test-children')).to.not.exist;
     expect(
-      view.getByText(format(downtime.endTime.toDate(), 'PPPp'), {
+      view.getByText(format(downtime.endTime, 'PPPp'), {
         exact: false,
       }),
     ).to.exist;
