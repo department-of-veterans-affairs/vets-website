@@ -27,8 +27,8 @@ const BlockedTriageGroupAlert = props => {
     alertStyle,
     parentComponent,
     currentRecipient,
-    setShowBlockedTriageGroupAlert = () => {},
-    isOhMessage = false,
+    setShowBlockedTriageGroupAlert,
+    isOhMessage,
   } = props;
 
   const DATADOG_FIND_VA_FACILITY_LINK =
@@ -115,7 +115,7 @@ const BlockedTriageGroupAlert = props => {
             }
             if (!isOhMessage) {
               setShowAlert(true);
-              setShowBlockedTriageGroupAlert(true);
+              handleShowBlockedTriageGroupAlert();
             }
           } else if (formattedRecipient.status === RecipientStatus.BLOCKED) {
             if (parentComponent === ParentComponent.COMPOSE_FORM) {
