@@ -25,7 +25,7 @@ export function CustomApplicantSSNPage(props) {
   // Depending on if we're in the form flow or on review page this value
   // should be different:
   let pageData = props.data.applicants
-    ? props.data.applicants[props.pagePerItemIndex]
+    ? props.data.applicants?.[props?.pagePerItemIndex]
     : props.data;
 
   // Add some view values useful in the validator func (since full form
