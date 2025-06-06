@@ -1,8 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DebtSelectionReview = ({ data, editPage }) => {
+const DebtSelectionReview = ({ data, editPage, goToPath }) => {
   const { selectedDebts = [] } = data;
+
+  // Function to navigate to debt selection page
+  const editDebtSelection = () => {
+    if (goToPath) {
+      goToPath('/select-debt');
+    } else {
+      editPage();
+    }
+  };
 
   if (!selectedDebts.length) {
     return (
@@ -14,7 +23,7 @@ const DebtSelectionReview = ({ data, editPage }) => {
           <va-button
             secondary
             class="edit-page"
-            onClick={editPage}
+            onClick={editDebtSelection}
             label="Edit debt selection"
             text="Edit"
             uswds
@@ -44,7 +53,7 @@ const DebtSelectionReview = ({ data, editPage }) => {
         <va-button
           secondary
           class="edit-page"
-          onClick={editPage}
+          onClick={editDebtSelection}
           label="Edit debt selection"
           text="Edit"
           uswds
@@ -72,6 +81,7 @@ const DebtSelectionReview = ({ data, editPage }) => {
 DebtSelectionReview.propTypes = {
   data: PropTypes.object.isRequired,
   editPage: PropTypes.func.isRequired,
+  goToPath: PropTypes.func,
 };
 
 export default DebtSelectionReview;
