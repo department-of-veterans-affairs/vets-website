@@ -8,7 +8,6 @@ import {
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import scrollTo from 'platform/utilities/ui/scrollTo';
 import set from 'platform/utilities/data/set';
 import {
   scrollToFirstError,
@@ -17,8 +16,8 @@ import {
 } from 'platform/forms-system/src/js/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
-import { getScrollOptions, isReactComponent } from 'platform/utilities/ui';
-import { Element } from 'platform/utilities/scroll';
+import { isReactComponent } from 'platform/utilities/ui';
+import { getScrollOptions, Element, scrollTo } from 'platform/utilities/scroll';
 import {
   CurrentlyBurriedPersonsDescriptionWrapper,
   currentlyBuriedPersonsTitle,
