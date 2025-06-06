@@ -131,8 +131,10 @@ const MedicationsListCard = ({ rx }) => {
           className="vads-u-font-weight--bold"
           to={`prescription/${rx.prescriptionId}`}
         >
-          {rx.prescriptionName ||
-            (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
+          <span data-dd-privacy="mask">
+            {rx.prescriptionName ||
+              (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
+          </span>
         </Link>
         {rx.dispStatus !== 'Unknown' &&
           rx.dispStatus !== 'Active: Non-VA' && (
@@ -141,7 +143,8 @@ const MedicationsListCard = ({ rx }) => {
               data-dd-privacy="mask"
               id={`prescription-number-${rx.prescriptionId}`}
             >
-              Prescription number: {rx.prescriptionNumber}
+              Prescription number:{' '}
+              <span data-dd-privacy="mask">{rx.prescriptionNumber}</span>
             </p>
           )}
         {cardBodyContent()}
