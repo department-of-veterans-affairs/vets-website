@@ -49,7 +49,7 @@ export const sponsorNameDobSchema = {
 export const sponsorIdentificationSchema = {
   uiSchema: {
     ...titleUI(({ formData }) => {
-      return `${formData?.certifierRole === 'applicant' ? 'Your' : `Sponsor's`} 
+      return `${formData?.certifierRole === 'sponsor' ? 'Your' : `Sponsor's`} 
         identification information`;
     }, `You must enter either a Social Security number or VA File number`),
     sponsorSsn: ssnOrVaFileNumberNoHintUI(),
@@ -68,9 +68,7 @@ export const sponsorStatus = {
   uiSchema: {
     ...titleUI(
       ({ formData }) => {
-        return `${
-          formData.certifierRole === 'applicant' ? 'Your' : `Sponsor's`
-        } 
+        return `${formData.certifierRole === 'sponsor' ? 'Your' : `Sponsor's`} 
     status`;
       },
       `Now we'll ask you questions about the death of the sponsor (if they have died).
@@ -124,12 +122,12 @@ export const sponsorAddress = {
     ...titleUI(
       ({ formData }) => {
         return `${
-          formData.certifierRole === 'applicant' ? 'Your' : `Sponsor's`
+          formData.certifierRole === 'sponsor' ? 'Your' : `Sponsor's`
         } mailing address`;
       },
       ({ formData }) => {
         return `We'll send any important information about this application to ${
-          formData.certifierRole === 'applicant' ? 'your' : `the sponsor's`
+          formData.certifierRole === 'sponsor' ? 'your' : `the sponsor's`
         } address.`;
       },
     ),
@@ -158,15 +156,15 @@ export const sponsorContactInfo = {
     ...titleUI(
       ({ formData }) => {
         return `${
-          formData.certifierRole === 'applicant' ? 'Your' : `Sponsor's`
+          formData.certifierRole === 'sponsor' ? 'Your' : `Sponsor's`
         } contact information`;
       },
       ({ formData }) => {
         return `We'll use this phone number to contact ${
-          formData.certifierRole === 'applicant' ? `you` : `the sponsor`
+          formData.certifierRole === 'sponsor' ? `you` : `the sponsor`
         }
              if we have any questions about ${
-               formData.certifierRole === 'applicant' ? 'your' : 'their'
+               formData.certifierRole === 'sponsor' ? 'your' : 'their'
              } information.`;
       },
     ),
