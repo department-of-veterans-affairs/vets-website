@@ -86,11 +86,14 @@ describe('gulfWar1990Details', () => {
         }
       });
 
-      it(`should submit without dates for ${locationId}`, () => {
+      // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
+      // however we want Veterans to be able to submit with a completely blank date.
+      // Note to revisit after we land on a solution for accommodating partial dates.
+      it(`should not submit without dates for ${locationId}`, () => {
         pageSubmitTest(
           schemas[`gulf-war-1990-location-${locationId}`],
           formData,
-          true,
+          false,
         );
       });
 
@@ -115,9 +118,10 @@ describe('gulfWar1990Details', () => {
   cases here. all pages should test for submission with no dates and with both dates.
   */
 
-  // TODO: We currently validate against this on the frontend, but should revisit after
-  // we land on a solution for accommodating partial dates
-  it(`should submit with start date only`, () => {
+  // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
+  // however we want Veterans to be able to submit with a completely blank date.
+  // Note to revisit after we land on a solution for accommodating partial dates.
+  it(`should not submit with start date only`, () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
       bahrain: {
@@ -125,12 +129,13 @@ describe('gulfWar1990Details', () => {
       },
     };
 
-    pageSubmitTest(schemas['gulf-war-1990-location-bahrain'], data, true);
+    pageSubmitTest(schemas['gulf-war-1990-location-bahrain'], data, false);
   });
 
-  // TODO: We currently validate against this on the frontend, but should revisit after
-  // we land on a solution for accommodating partial dates
-  it(`should submit with end date only`, () => {
+  // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
+  // however we want Veterans to be able to submit with a completely blank date.
+  // Note to revisit after we land on a solution for accommodating partial dates.
+  it(`should not submit with end date only`, () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
       egypt: {
@@ -138,7 +143,7 @@ describe('gulfWar1990Details', () => {
       },
     };
 
-    pageSubmitTest(schemas['gulf-war-1990-location-egypt'], data, true);
+    pageSubmitTest(schemas['gulf-war-1990-location-egypt'], data, false);
   });
 
   it(`should submit with both dates and not sure`, () => {
@@ -225,6 +230,30 @@ describe('gulfWar1990Details', () => {
     data.toxicExposure.gulfWar1990Details = {
       turkey: {
         startDate: '1800-09-25',
+      },
+    };
+
+    pageSubmitTest(schemas['gulf-war-1990-location-turkey'], data, false);
+  });
+
+  it(`should not submit when start date is before end date`, () => {
+    const data = JSON.parse(JSON.stringify(formData));
+    data.toxicExposure.gulfWar1990Details = {
+      turkey: {
+        startDate: '1991-09-25',
+        endDate: '1990-09-25',
+      },
+    };
+
+    pageSubmitTest(schemas['gulf-war-1990-location-turkey'], data, false);
+  });
+
+  it(`should not submit when end date is before August 2, 1990`, () => {
+    const data = JSON.parse(JSON.stringify(formData));
+    data.toxicExposure.gulfWar1990Details = {
+      turkey: {
+        startDate: '1988-09-25',
+        endDate: '1989-09-25',
       },
     };
 

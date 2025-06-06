@@ -85,11 +85,14 @@ describe('herbicideDetails', () => {
         }
       });
 
-      it(`should submit without dates for ${locationId}`, () => {
+      // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
+      // however we want Veterans to be able to submit with a completely blank date.
+      // Note to revisit after we land on a solution for accommodating partial dates.
+      it(`should not submit without dates for ${locationId}`, () => {
         pageSubmitTest(
           schemas[`herbicide-location-${locationId}`],
           formData,
-          true,
+          false,
         );
       });
 
