@@ -30,7 +30,10 @@ export default function VAOSApp({ children }) {
     <>
       {loadingFeatureToggles && (
         <FullWidthLayout>
-          <va-loading-indicator />
+          <va-loading-indicator
+            set-focus
+            message="Checking your information..."
+          />
         </FullWidthLayout>
       )}
       {!loadingFeatureToggles &&
