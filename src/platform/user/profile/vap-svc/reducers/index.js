@@ -146,7 +146,7 @@ export default function vapService(state = initialState, action) {
           [action.fieldName]: {
             isPending: false,
             isFailed: false,
-            error: action.error,
+            error: null,
             formOnlyUpdate: true,
           },
         },

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-
+import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 import {
   focusElement,
   scrollTo,
@@ -83,6 +83,21 @@ const ContactInfo = ({
   const [submitted, setSubmitted] = useState(false);
   const [editState] = useState(getReturnState());
 
+  // Get the fieldTransactionMap from Redux store
+  const { fieldTransactionMap } = useSelector(state => state.vapService) || {};
+  // Map editState field names to actual field names
+  const fieldNameMap = {
+    address: FIELD_NAMES.MAILING_ADDRESS,
+    'home-phone': FIELD_NAMES.HOME_PHONE,
+    'mobile-phone': FIELD_NAMES.MOBILE_PHONE,
+    email: FIELD_NAMES.EMAIL,
+  };
+  const [editField] = editState?.split(',') || [];
+  const fieldName = fieldNameMap[editField];
+  const hasFormOnlyUpdate = fieldName
+    ? fieldTransactionMap?.[fieldName]?.formOnlyUpdate
+    : false;
+
   // vapContactInfo is an empty object locally, so mock it
   const profile = useSelector(selectProfile) || {};
   const loggedIn = useSelector(isLoggedIn) || false;
@@ -97,7 +112,8 @@ const ContactInfo = ({
   const homePhone = dataWrap[keys.homePhone] || {};
   const mobilePhone = dataWrap[keys.mobilePhone] || {};
   const address = dataWrap[keys.address] || {};
-
+  // leaving console log now for test
+  // console.log({dataWrap})
   const missingInfo = getMissingInfo({
     data: dataWrap,
     keys,
@@ -233,6 +249,30 @@ const ContactInfo = ({
     </va-alert>
   );
 
+  const showFormOnlyAlert = id => (
+    <va-alert
+      id="form-only-update-alert"
+      visible={
+        hasFormOnlyUpdate &&
+        editState?.includes(`${id}`) &&
+        editState?.includes('updated')
+      }
+      class="vads-u-margin-y--1"
+      status="error"
+      uswds
+      slim
+    >
+      <p>
+        <strong>
+          We couldn’t update your VA.gov profile, but your changes were saved to
+          this form.{' '}
+        </strong>
+        You can try again later to update your profile, or continue with the
+        form using the information you entered.
+      </p>
+    </va-alert>
+  );
+
   const editText = content.edit.toLowerCase();
 
   // Loop to separate pages when editing
@@ -246,7 +286,9 @@ const ContactInfo = ({
         >
           {content.homePhone}
         </Headers>
-        {showSuccessAlert('home-phone', content.homePhone)}
+        {hasFormOnlyUpdate
+          ? showFormOnlyAlert('home-phone')
+          : showSuccessAlert('home-phone', content.homePhone)}
         <span className="dd-privacy-hidden" data-dd-action-name="home phone">
           {renderTelephone(dataWrap[keys.homePhone])}
         </span>
@@ -269,7 +311,9 @@ const ContactInfo = ({
         <Headers name="header-mobile-phone" className={headerClassNames}>
           {content.mobilePhone}
         </Headers>
-        {showSuccessAlert('mobile-phone', content.mobilePhone)}
+        {hasFormOnlyUpdate
+          ? showFormOnlyAlert('mobile-phone')
+          : showSuccessAlert('mobile-phone', content.mobilePhone)}
         <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
           {renderTelephone(dataWrap[keys.mobilePhone])}
         </span>
@@ -292,7 +336,9 @@ const ContactInfo = ({
         <Headers name="header-email" className={headerClassNames}>
           {content.email}
         </Headers>
-        {showSuccessAlert('email', content.email)}
+        {hasFormOnlyUpdate
+          ? showFormOnlyAlert('email')
+          : showSuccessAlert('email', content.email)}
         <span className="dd-privacy-hidden" data-dd-action-name="email">
           {dataWrap[keys.email] || ''}
         </span>
@@ -315,7 +361,9 @@ const ContactInfo = ({
         <Headers name="header-address" className={headerClassNames}>
           {content.mailingAddress}
         </Headers>
-        {showSuccessAlert('address', content.mailingAddress)}
+        {hasFormOnlyUpdate
+          ? showFormOnlyAlert('address')
+          : showSuccessAlert('address', content.mailingAddress)}
         <AddressView data={dataWrap[keys.address]} />
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">

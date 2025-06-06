@@ -150,6 +150,7 @@ export class ProfileInformationEditView extends Component {
       analyticsSectionName,
       apiRoute,
       field,
+      successCallback,
     } = this.props;
 
     const isAddressField = fieldName.toLowerCase().includes('address');
@@ -231,6 +232,7 @@ export class ProfileInformationEditView extends Component {
           field.formSchema,
           field.uiSchema,
         );
+        successCallback();
       } else {
         // For profile updates, make sure we trigger a transaction refresh
         // so contact info displays reflect the new values without a page refresh
@@ -450,6 +452,7 @@ ProfileInformationEditView.propTypes = {
   }),
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
+  successCallback: PropTypes.func,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
