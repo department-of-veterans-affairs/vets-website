@@ -1,20 +1,33 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { memoize } from 'lodash';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
   titleUI,
   titleSchema,
+  textUI,
+  textSchema,
   radioUI,
+  yesNoUI,
+  yesNoSchema,
   radioSchema,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   arrayBuilderItemSubsequentPageTitleUI,
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
+import { createCardUploadSchema } from '../../shared/components/fileUploads/genericCardUpload';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import {
   toHash,
   applicantWording,
   getAgeInYears,
 } from '../../shared/utilities';
+import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 
 import {
   selectMedicareParticipantPage,
@@ -24,7 +37,7 @@ import {
 const MEDICARE_TYPE_LABELS = {
   ab: 'Original Medicare Parts A and B (hospital and medical coverage)',
   c:
-    'Medicare Part C Advantage Plan (this option includes being previously enrolled in Part A and B )',
+    'Medicare Part C Advantage Plan (this option includes being previously enrolled in Part A and B)',
   a: 'Medicare Part A only (hospital coverage)',
   b: 'Medicare Part B only (medical coverage)',
 };
@@ -32,7 +45,7 @@ const MEDICARE_TYPE_LABELS = {
 const medicareYesNoHint =
   'If any applicants have Medicare, you’re required to report it to process your application for CHAMPVA benefits. ';
 
-// Memoizing the `toHash` helper func since it'll be getting hammered
+// Memoizing the `toHash` helper func since it'll be getting called
 // a lot in the `depends` checks.
 const toHashMemoized = memoize(str => toHash(str));
 
@@ -44,7 +57,7 @@ export function generateParticipantName(item) {
       app => item?.medicareParticipant === toHashMemoized(app.applicantSSN),
     );
     const name = applicantWording(match, false, false, false);
-    return name.length > 0 ? name : 'No member specified';
+    return name.length > 0 ? name : 'applicant';
   }
   return 'No participant';
 }
@@ -155,6 +168,249 @@ const medicarePlanUnder65 = {
       medicarePlanType: radioSchema(['ab', 'c', 'a']),
     },
   },
+};
+
+// Medicare effective dates page definition
+// This is used for Parts A&B as well as Part C.
+const medicarePartAPartBEffectiveDatesPage = partC => {
+  const uiProperties = {};
+  const schemaProperties = {};
+  if (partC) {
+    uiProperties['view:partCExplanation'] = {
+      'ui:description': (
+        <va-additional-info
+          trigger="If I have a Part C plan why do you need Part A and B information?"
+          class="vads-u-margin-bottom--4"
+        >
+          <p className="vads-u-margin-y--0">
+            We need to confirm the dates you first became eligible for Part A
+            and B.
+          </p>
+        </va-additional-info>
+      ),
+    };
+
+    schemaProperties['view:partCExplanation'] = blankSchema;
+  }
+  return {
+    uiSchema: {
+      ...arrayBuilderItemSubsequentPageTitleUI(
+        ({ formData }) =>
+          `${generateParticipantName(formData)} Medicare effective dates`,
+      ),
+      'view:partATitle': {
+        'ui:description': <h3>Medicare Part A</h3>,
+      },
+      medicarePartAEffectiveDate: currentOrPastDateUI({
+        title: 'Effective date',
+        hint:
+          'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+        required: () => true,
+      }),
+      'view:partBTitle': {
+        'ui:description': <h3>Medicare Part B</h3>,
+      },
+      medicarePartBEffectiveDate: currentOrPastDateUI({
+        title: 'Effective date',
+        hint:
+          'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+        required: () => true,
+      }),
+      ...uiProperties,
+    },
+    schema: {
+      type: 'object',
+      properties: {
+        titleSchema,
+        'view:partATitle': blankSchema,
+        medicarePartAEffectiveDate: currentOrPastDateSchema,
+        'view:partBTitle': blankSchema,
+        medicarePartBEffectiveDate: currentOrPastDateSchema,
+        ...schemaProperties,
+      },
+    },
+  };
+};
+
+// IF USER SPECIFIES ONLY A/B:
+// Create custom description component for Medicare card
+const medicarePartAPartBDescription = (
+  <div>
+    <p>
+      You’ll need to submit a copy of your Original Medicare Health Card,
+      sometimes referred to as the "red, white, and blue" Medicare card.
+    </p>
+    <p>This card shows:</p>
+    <ul>
+      <li>
+        You have Medicare Part A (listed as HOSPITAL), <strong>and</strong>
+      </li>
+      <li>
+        You have Medicare Part B (listed as MEDICAL), <strong>and</strong>
+      </li>
+      <li>The date your coverage begins</li>
+    </ul>
+  </div>
+);
+
+// Use the generic card upload schema
+const {
+  uiSchema: medicareCardUiSchema,
+  schema: medicareCardSchema,
+} = createCardUploadSchema({
+  customDescription: medicarePartAPartBDescription,
+  frontProperty: 'medicarePartAPartBFrontCard',
+  backProperty: 'medicarePartAPartBBackCard',
+  frontImageSrc: '/img/ivc-champva/medicare_part_a_and_b_front.png',
+  backImageSrc: '/img/ivc-champva/medicare_back_of_card.png',
+  frontAltText:
+    'Red, white, and blue Medicare card. It states "Medicare Health Insurance" and lists the Medicare number and coverage dates for Part A hospital and Part B medical coverage.',
+  backAltText:
+    'Back of a red, white, and blue Medicare card. Includes card usage instructions and the Medicare phone number and website.',
+  cardTitle: 'Sample of Original Medicare card',
+  frontLabel: 'Upload front of original Medicare card',
+  backLabel: 'Upload back of original Medicare card',
+});
+
+// Define the Medicare A/B card upload page using the generic schema
+const medicareABCardUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload Medicare card for hospital and medical coverage',
+    ),
+    ...medicareCardUiSchema,
+  },
+  schema: medicareCardSchema,
+};
+
+// IF USER SPECIFIES ONLY A:
+// Medicare Part A effective date page definition
+const medicarePartAEffectiveDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(formData)} Medicare Part A effective date`,
+    ),
+    medicarePartAEffectiveDate: currentOrPastDateUI({
+      title: 'Medicare Part A effective date',
+      hint:
+        'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+      required: () => true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartAEffectiveDate'],
+    properties: {
+      titleSchema,
+      medicarePartAEffectiveDate: currentOrPastDateSchema,
+    },
+  },
+};
+
+// Create custom description component for Medicare Part A card
+const medicarePartADescription = (
+  <div>
+    <p>
+      You’ll need to submit a copy of your Original Medicare Health Part A Card,
+      sometimes referred to as the "red, white, and blue" Medicare card.
+    </p>
+    {fileUploadBlurb['view:fileUploadBlurb']['ui:description']}
+  </div>
+);
+
+// Use the generic card upload schema for Medicare Part A
+const {
+  uiSchema: medicarePartACardUiSchema,
+  schema: medicarePartACardSchema,
+} = createCardUploadSchema({
+  customDescription: medicarePartADescription,
+  showFilesBlurb: false,
+  frontProperty: 'medicarePartAFrontCard',
+  backProperty: 'medicarePartABackCard',
+  frontImageSrc: '/img/ivc-champva/medicare_part_a_front.png',
+  backImageSrc: '/img/ivc-champva/medicare_back_of_card.png',
+  frontAltText:
+    'Red, white, and blue Medicare card. It states "Medicare Health Insurance" and lists the Medicare number and coverage dates for Part A hospital coverage.',
+  backAltText:
+    'Back of a red, white, and blue Medicare card. Includes card usage instructions and the Medicare phone number and website.',
+  cardTitle: 'Sample of Medicare Part A card',
+  frontLabel: 'Upload front of Part A Medicare card',
+  backLabel: 'Upload back of Part A Medicare card',
+});
+
+// Define the Medicare Part A card upload page using the generic schema
+const medicarePartACardUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Upload Medicare Part A card'),
+    ...medicarePartACardUiSchema,
+  },
+  schema: medicarePartACardSchema,
+};
+
+// IF USER SPECIFIES ONLY B:
+// Medicare Part B effective date page definition
+const medicarePartBEffectiveDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(formData)} Medicare Part B effective date`,
+    ),
+    medicarePartBEffectiveDate: currentOrPastDateUI({
+      title: 'Medicare Part B effective date',
+      hint:
+        'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+      required: () => true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartBEffectiveDate'],
+    properties: {
+      titleSchema,
+      medicarePartBEffectiveDate: currentOrPastDateSchema,
+    },
+  },
+};
+
+// Create custom description component for Medicare Part B card
+const medicarePartBDescription = (
+  <div>
+    <p>
+      You’ll need to submit a copy of your Original Medicare Health Part B Card,
+      sometimes referred to as the "red, white, and blue" Medicare card.
+    </p>
+    {fileUploadBlurb['view:fileUploadBlurb']['ui:description']}
+  </div>
+);
+
+// Use the generic card upload schema for Medicare Part B
+const {
+  uiSchema: medicarePartBCardUiSchema,
+  schema: medicarePartBCardSchema,
+} = createCardUploadSchema({
+  customDescription: medicarePartBDescription,
+  showFilesBlurb: false,
+  frontProperty: 'medicarePartBFrontCard',
+  backProperty: 'medicarePartBBackCard',
+  frontImageSrc: '/img/ivc-champva/medicare_part_b_front.png',
+  backImageSrc: '/img/ivc-champva/medicare_back_of_card.png',
+  frontAltText:
+    'Red, white, and blue Medicare card. It states "Medicare Health Insurance" and lists the Medicare number and coverage dates for Part B medical coverage.',
+  backAltText:
+    'Back of a red, white, and blue Medicare card. Includes card usage instructions and the Medicare phone number and website.',
+  cardTitle: 'Sample of Medicare Part B card',
+  frontLabel: 'Upload front of Part B Medicare card',
+  backLabel: 'Upload back of Part B Medicare card',
+});
+
+// Define the Medicare Part B card upload page using the generic schema
+const medicarePartBCardUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Upload Medicare Part B card'),
+    ...medicarePartBCardUiSchema,
+  },
+  schema: medicarePartBCardSchema,
 };
 
 // PAGES NEEDED:

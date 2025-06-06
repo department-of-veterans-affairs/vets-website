@@ -48,12 +48,8 @@ class IntroductionPage extends React.Component {
                   The name of the VA national cemetery where you’d prefer to be
                   buried.
                   <br />
-                  <a
-                    href={getAppUrl('facilities')}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Find a VA national cemetery (opens in a new tab)
+                  <a href={getAppUrl('facilities')}>
+                    Find a VA national cemetery
                   </a>
                 </li>
               </ul>
@@ -102,13 +98,8 @@ class IntroductionPage extends React.Component {
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your application.
                 <br />
-                <a
-                  href="/disability/get-help-filing-claim/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Get help from an accredited representative (opens in a new
-                  tab)
+                <a href="/disability/get-help-filing-claim/">
+                  Get help from an accredited representative
                 </a>
               </p>
             </li>
