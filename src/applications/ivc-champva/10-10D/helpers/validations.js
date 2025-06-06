@@ -103,18 +103,16 @@ export function noDash(str) {
 }
 
 /**
- * Validates that an applicant's SSN does not match the sponsor's SSN*
+ * Validates the sponsor's SSN does not match any others in the form.
  * @param {Object} errors - The errors object for the current page
  * @param {Object} page - The current page data
- * @param {number} index - The index of the current applicant in the array
  */
-export const validateSponsorSsnIsUnique = (errors, page, _formData) => {
+export const validateSponsorSsnIsUnique = (errors, page) => {
   const sponsorSSN = page?.ssn;
   const match = page?.applicants?.find(
     el => noDash(el?.applicantSSN) === noDash(sponsorSSN),
   );
 
-  // Check if applicant SSN matches sponsor SSN
   if (match) {
     errors?.ssn?.addError(
       'This Social Security number is in use elsewhere in the form. SSNs must be unique.',
@@ -122,6 +120,11 @@ export const validateSponsorSsnIsUnique = (errors, page, _formData) => {
   }
 };
 
+/**
+ * Validates that an applicant's SSN does not match any others in the form.
+ * @param {Object} errors - The errors object for the current page
+ * @param {Object} page - The current page data
+ */
 export const validateApplicantSsnIsUnique = (errors, page) => {
   const idx = page?.['view:pagePerItemIndex'];
   const sponsorMatch =
@@ -133,7 +136,6 @@ export const validateApplicantSsnIsUnique = (errors, page) => {
     app => noDash(app) === noDash(page?.applicantSSN),
   );
 
-  // Check if applicant SSN matches sponsor SSN
   if (sponsorMatch || applicantMatch) {
     errors.applicantSSN.addError(
       'This Social Security number is in use elsewhere in the form. SSNs must be unique.',
