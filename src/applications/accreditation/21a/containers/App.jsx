@@ -6,7 +6,7 @@ import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-li
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import Footer from '../components/common/Footer/Footer';
-import Header from '../components/common/Header/Header';
+import Header from '../components/common/Header';
 import { SIGN_IN_URL, isProduction } from '../constants';
 import { fetchUser } from '../actions/user';
 import { selectIsUserLoading } from '../selectors/user';
@@ -67,6 +67,7 @@ const App = ({ children }) => {
   return (
     <div className="container">
       <Header />
+      helloooooojsadhfksadfhjaksdhfksdhkfjdshakjfhdjks
       {content}
       <Footer />
     </div>
