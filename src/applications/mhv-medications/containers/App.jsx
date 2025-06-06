@@ -52,7 +52,7 @@ const App = ({ children }) => {
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,
-    defaultPrivacyLevel: 'mask-user-input',
+    defaultPrivacyLevel: 'mask',
   };
   useDatadogRum(datadogRumConfig);
   useEffect(
