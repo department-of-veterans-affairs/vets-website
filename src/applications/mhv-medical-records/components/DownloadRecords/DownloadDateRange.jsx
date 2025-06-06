@@ -206,6 +206,7 @@ const DownloadDateRange = () => {
               required="true"
               error={customToError}
               data-testid="va-date-end-date"
+              aria-describedby="end-date"
               value={customToDate}
               onDateChange={e => {
                 const val = e.target.value;
