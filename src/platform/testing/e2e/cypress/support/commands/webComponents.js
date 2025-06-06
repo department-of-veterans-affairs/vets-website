@@ -389,7 +389,16 @@ Cypress.Commands.add(
 
     if (addressObject.city) {
       if (addressObject.isMilitary) {
-        cy.selectVaSelect(`root_${fieldName}_city`, addressObject.city);
+        cy.get('body').then(body => {
+          if (body.find(`va-radio[name="root_${fieldName}_city"]`).length > 0) {
+            cy.selectVaRadioOption(
+              `root_${fieldName}_city`,
+              addressObject.city,
+            );
+          } else {
+            cy.selectVaSelect(`root_${fieldName}_city`, addressObject.city);
+          }
+        });
       } else {
         cy.fillVaTextInput(`root_${fieldName}_city`, addressObject.city);
       }
