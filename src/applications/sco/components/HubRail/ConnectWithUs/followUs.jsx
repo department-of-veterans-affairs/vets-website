@@ -7,19 +7,22 @@ const FollowUs = () => {
       <h4>Follow us</h4>
       <ul className="va-nav-linkslist-list social">
         <LiVaIconAndVaLink
-          href="https://www.facebook.com/gibillEducation/"
-          text="Education Service on Facebook"
+          href="https://www.facebook.com/VeteransAffairs"
+          text="Facebook"
           iconName="facebook"
         />
         <LiVaIconAndVaLink
-          href="https://www.facebook.com/VeteransBenefits"
-          text="VBA on Facebook"
-          iconName="facebook"
-        />
-        <LiVaIconAndVaLink
-          href="https://www.instagram.com/vabenefits"
-          text="VBA on Instagram"
+          href="https://www.instagram.com/deptvetaffairs"
+          text="Instagram"
           iconName="instagram"
+        />
+        <li>
+          <va-link href="https://www.threads.net/@vabenefits" text="Threads" />
+        </li>
+        <LiVaIconAndVaLink
+          href="https://x.com/DeptVetAffairs"
+          text="X"
+          iconName="x"
         />
         <LiVaIconAndVaLink
           href="https://www.youtube.com/@VAVetBenefits"
