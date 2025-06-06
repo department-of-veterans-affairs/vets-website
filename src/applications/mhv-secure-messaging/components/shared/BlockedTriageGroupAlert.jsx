@@ -27,7 +27,7 @@ const BlockedTriageGroupAlert = props => {
     alertStyle,
     parentComponent,
     currentRecipient,
-    setShowBlockedTriageGroupAlert,
+    setShowBlockedTriageGroupAlert = () => {},
     isOhMessage = false,
   } = props;
 
