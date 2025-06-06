@@ -94,14 +94,20 @@ const DownloadFileType = props => {
 
   const radioRef = useRef(null);
 
+  const fileTypeFilter = useSelector(
+    state => state.mr.downloads?.fileTypeFilter,
+  );
+
   useFocusOutline(progressBarRef);
   useFocusOutline(noRecordsFoundRef);
 
   useEffect(
     () => {
-      if (!fileTypeError) {
-        return;
-      }
+      if (!fileTypeFilter) return;
+
+      setFileType(fileTypeFilter);
+
+      if (!fileTypeError) return;
 
       // give the browser a moment to render the error message into the shadowDOM
       setTimeout(() => {
@@ -121,7 +127,7 @@ const DownloadFileType = props => {
         }
       }, 400);
     },
-    [fileTypeError],
+    [fileTypeError, fileTypeFilter],
   );
 
   useEffect(
