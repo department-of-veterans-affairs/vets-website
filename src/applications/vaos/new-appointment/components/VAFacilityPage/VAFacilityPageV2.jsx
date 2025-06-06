@@ -74,17 +74,15 @@ export default function VAFacilityPageV2() {
     () => {
       const options = [
         {
+          value: 'distanceFromResidentialAddress',
+          label: 'Closest to your home',
+        },
+        {
           value: 'distanceFromCurrentLocation',
           label: 'Closest to your current location',
         },
         { value: 'alphabetical', label: 'Alphabetically' },
       ];
-      if (!!address?.latitude && !!address?.longitude) {
-        options.push({
-          value: 'distanceFromResidentialAddress',
-          label: 'Closest to your home',
-        });
-      }
       if (featureRecentLocationsFilter && facilities?.length) {
         options.push({
           value: 'recentLocations',
@@ -93,7 +91,7 @@ export default function VAFacilityPageV2() {
       }
       return options;
     },
-    [address, facilities?.length, featureRecentLocationsFilter],
+    [facilities?.length, featureRecentLocationsFilter],
   );
 
   const uiSchema = {

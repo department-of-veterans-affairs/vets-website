@@ -428,36 +428,29 @@ async function fetchRecentLocations(dispatch, siteIds) {
 export function openFacilityPageV2(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     try {
-      const initialState = getState();
-      const { newAppointment } = initialState;
+      const state = getState();
+      const { newAppointment } = state;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
       const isRecentLocationsFetched =
-        selectRecentLocationsStatus(initialState) === FETCH_STATUS.succeeded;
-
-      const featureRecentLocationsFilter = selectFeatureRecentLocationsFilter(
-        initialState,
-      );
-
-      const siteIds = selectSystemIds(initialState);
-      const cernerSiteIds = selectRegisteredCernerFacilityIds(initialState);
-      let facilities = getTypeOfCareFacilities(initialState);
-      let siteId = null;
+        selectRecentLocationsStatus(state) === FETCH_STATUS.succeeded;
+      const useRecentLocations = selectFeatureRecentLocationsFilter(state);
+      const siteIds = selectSystemIds(state);
+      const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
+      let facilities = getTypeOfCareFacilities(state);
       let facilityId = newAppointment.data.vaFacility;
 
-      dispatch({
-        type: FORM_PAGE_FACILITY_V2_OPEN,
-      });
+      dispatch({ type: FORM_PAGE_FACILITY_V2_OPEN });
 
-      if (featureRecentLocationsFilter && !isRecentLocationsFetched) {
-        facilities = await fetchRecentLocations(dispatch, siteIds);
-        recordItemsRetrieved('recent-locations', facilities?.length || 0);
+      if (useRecentLocations) {
+        if (!isRecentLocationsFetched) {
+          facilities = await fetchRecentLocations(dispatch, siteIds);
+          recordItemsRetrieved('recent-locations', facilities?.length || 0);
+        }
       }
       // Fetch facilities that support this type of care
       else if (!facilities) {
-        facilities = await getLocationsByTypeOfCareAndSiteIds({
-          siteIds,
-        });
+        facilities = await getLocationsByTypeOfCareAndSiteIds({ siteIds });
         recordItemsRetrieved('available_facilities', facilities?.length);
       }
 
@@ -468,8 +461,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         schema,
         uiSchema,
         cernerSiteIds,
-        address: selectVAPResidentialAddress(initialState),
-        featureRecentLocationsFilter,
+        address: selectVAPResidentialAddress(state),
+        featureRecentLocationsFilter: useRecentLocations,
       });
 
       // If we have an already selected location or only have a single location
@@ -501,18 +494,12 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 
       if (eligibilityDataNeeded && !eligibilityChecks) {
         const location = supportedFacilities.find(f => f.id === facilityId);
-
-        if (!siteId) {
-          siteId = getSiteIdFromFacilityId(location.id);
-        }
-
+        const siteId = getSiteIdFromFacilityId(location.id);
         dispatch(checkEligibility({ location, siteId }));
       }
     } catch (e) {
       captureError(e, false, 'facility page');
-      dispatch({
-        type: FORM_PAGE_FACILITY_V2_OPEN_FAILED,
-      });
+      dispatch({ type: FORM_PAGE_FACILITY_V2_OPEN_FAILED });
     }
   };
 }
@@ -567,7 +554,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
     const facilities = getTypeOfCareFacilities(getState());
     const cernerSiteIds = selectRegisteredCernerFacilityIds(getState());
 
-    const calculatedDistanceFromCurrentLocation = facilities.some(
+    const calculatedDistance = facilities.some(
       f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
 
@@ -576,12 +563,12 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
       sortMethod,
       uiSchema,
       cernerSiteIds,
-      calculatedDistanceFromCurrentLocation,
+      calculatedDistance,
     };
 
     if (
       sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation &&
-      !calculatedDistanceFromCurrentLocation
+      !calculatedDistance
     ) {
       dispatch({
         type: FORM_REQUEST_CURRENT_LOCATION,
