@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import * as Sentry from '@sentry/browser';
 import retryOnce from '../utils/retryOnce';
 import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
 import {
@@ -25,7 +24,6 @@ async function getToken(setToken, setCode, setLoadingStatus) {
     setLoadingStatus(COMPLETE);
   } catch (ex) {
     const error = new Error('Could not retrieve chatbot token');
-    Sentry.captureException(error);
     logger.error(error.message, error);
     setLoadingStatus(ERROR);
   }
