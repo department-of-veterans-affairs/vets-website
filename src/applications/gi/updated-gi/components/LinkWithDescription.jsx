@@ -22,6 +22,7 @@ const LinkWithDescription = ({ text, href, routerHref, description }) => {
       </p>
       <VaLinkAction
         className="vads-u-font-family--serif"
+        data-testid="comparison-tool-link-action"
         href={href}
         text={`Go to ${text?.toLowerCase()}`}
         type="secondary"
