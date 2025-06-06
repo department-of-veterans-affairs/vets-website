@@ -1,5 +1,7 @@
 import React from 'react';
 import { lowercase } from 'lodash';
+
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -13,7 +15,6 @@ import {
   radioSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
   formatFullNameNoSuffix,
@@ -24,10 +25,7 @@ import {
   recipientNameRequired,
 } from '../../../helpers';
 import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
-import {
-  RequestPropertyOrBusinessIncomeFormAlert,
-  RequestFarmIncomeFormAlert,
-} from '../../../components/FormAlerts';
+import SupplementaryFormsAlert from '../../../components/FormAlerts/SupplementaryFormsAlert';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -41,6 +39,7 @@ export const options = {
     !isDefined(item.ownedPortionValue) ||
     !isDefined(item.assetType), // include all required fields here
   text: {
+    summaryDescription: SupplementaryFormsAlert,
     getItemName: (item, index, formData) =>
       isDefined(item?.recipientRelationship) &&
       isDefined(item?.assetType) &&
@@ -115,6 +114,10 @@ const summaryPage = {
   schema: {
     type: 'object',
     properties: {
+      'view:supplementaryFormsAlert': {
+        type: 'object',
+        properties: {},
+      },
       'view:isAddingOwnedAssets': arrayBuilderYesNoSchema,
     },
     required: ['view:isAddingOwnedAssets'],
@@ -184,21 +187,6 @@ const ownedAssetTypePage = {
       title: 'What is the type of the owned asset?',
       labels: ownedAssetTypeLabels,
     }),
-    'view:propertyOrBusinessFormRequestAlert': {
-      'ui:description': RequestPropertyOrBusinessIncomeFormAlert,
-      'ui:options': {
-        expandUnder: 'assetType',
-        expandUnderCondition: assetType =>
-          assetType === 'RENTAL_PROPERTY' || assetType === 'BUSINESS',
-      },
-    },
-    'view:farmFormRequestAlert': {
-      'ui:description': RequestFarmIncomeFormAlert,
-      'ui:options': {
-        expandUnder: 'assetType',
-        expandUnderCondition: 'FARM',
-      },
-    },
     grossMonthlyIncome: currencyUI('Gross monthly income'),
     ownedPortionValue: currencyUI('Value of your portion of the property'),
   },
@@ -206,11 +194,6 @@ const ownedAssetTypePage = {
     type: 'object',
     properties: {
       assetType: radioSchema(Object.keys(ownedAssetTypeLabels)),
-      'view:propertyOrBusinessFormRequestAlert': {
-        type: 'object',
-        properties: {},
-      },
-      'view:farmFormRequestAlert': { type: 'object', properties: {} },
       grossMonthlyIncome: currencySchema,
       ownedPortionValue: currencySchema,
     },
