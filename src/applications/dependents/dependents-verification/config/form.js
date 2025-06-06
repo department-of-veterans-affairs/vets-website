@@ -9,6 +9,10 @@ import prefillTransformer from '../prefill-transformer';
 
 // Chapter imports
 import { veteranInformation } from './chapters/veteran-information/veteranInformation';
+import { veteranContactInformation } from './chapters/veteran-contact-information/veteranContactInformation';
+import editPhonePage from './chapters/veteran-contact-information/editPhonePage';
+import editInternationalPhonePage from './chapters/veteran-contact-information/editInternationalPhonePage';
+import editEmailPage from './chapters/veteran-contact-information/editEmailPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -71,6 +75,20 @@ const formConfig = {
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
+      },
+    },
+    veteranContactInformation: {
+      title: "Veteran's contact information",
+      pages: {
+        veteranContactInformation: {
+          path: 'veteran-contact-information',
+          title: 'Veteran contact information',
+          uiSchema: veteranContactInformation.uiSchema,
+          schema: veteranContactInformation.schema,
+        },
+        editEmailPage,
+        editPhonePage,
+        editInternationalPhonePage,
       },
     },
   },
