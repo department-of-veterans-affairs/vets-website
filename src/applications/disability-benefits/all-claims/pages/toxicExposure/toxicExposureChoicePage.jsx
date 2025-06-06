@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import {
@@ -6,22 +6,31 @@ import {
   VaModal,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { scrollToFirstError, scrollTo } from 'platform/utilities/ui';
+import { scrollAndFocus, scrollToFirstError } from 'platform/utilities/ui';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import {
   conditionsDescription,
   conditionsPageTitle,
   conditionsQuestion,
   makeTEConditionsUISchema,
-  validateTEConditions,
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
+import {
+  deletedToxicExposureAlertConfirmationContent,
+  deleteToxicExposureModalContent,
+  deleteToxicExposureModalDescription,
+  deleteToxicExposureModalTitle,
+} from '../../content/toxicExposureChoiceContent';
+
+export const toxicExposureChoicePageTitle =
+  'Option to claim conditions related to toxic exposure';
 
 /**
  * List of all toxic exposure related keys that need to be deleted
  * when user opts out of toxic exposure claims.
  * @constant {string[]}
  */
-const toxicExposureKeys = [
+export const toxicExposureKeys = [
   'conditions',
   'gulfWar1990',
   'gulfWar1990Details',
@@ -35,474 +44,305 @@ const toxicExposureKeys = [
   'specifyOtherExposures',
 ];
 
-/** @constant {string} Modal title for the destructive action confirmation */
-const modalTitle = 'Delete toxic exposure information?';
+export const sectionsOfToxicExposure = [
+  'Toxic exposure conditions',
+  'Gulf War service locations and dates (1990 and 2001)',
+  'Agent Orange exposure locations and dates',
+  'Other toxic exposure details and dates',
+];
 
-/** @constant {JSX.Element} Modal description content explaining what data will be deleted */
-const modalDescription = (
-  <>
-    <p>
-      If you choose to not claim any conditions related to toxic exposure, we’ll
-      delete this information from your claim:
-    </p>
-    <ul>
-      <li>Toxic exposure conditions</li>
-      <li>Gulf War service locations and dates (1990 and 2001)</li>
-      <li>Agent Orange exposure locations and dates</li>
-      <li>Other toxic exposure details and dates</li>
-    </ul>
-  </>
-);
+const ToxicExposureChoicePage = ({
+  goBack,
+  goForward,
+  data,
+  setFormData,
+  contentBeforeButtons,
+  contentAfterButtons,
+  onReviewPage,
+  updatePage,
+}) => {
+  const [
+    showDeleteToxicExposureModal,
+    setShowDeleteToxicExposureModal,
+  ] = useState(false);
+  const [
+    showDeletedToxicExposureConfirmation,
+    setShowDeletedToxicExposureConfirmation,
+  ] = useState(false);
 
-/** @constant {string} Success alert message shown after data deletion */
-const alertDescription =
-  'We deleted your toxic exposure information. You can still add this information anytime before you submit your claim.';
+  const deletedToxicExposureConfirmationRef = useRef(null);
 
-/** @constant {Object} Confirmation button labels */
-const confirmationData = {
-  yes: 'Yes, delete toxic exposure information',
-  no: 'No, return to claim',
-};
+  useEffect(
+    () => {
+      if (
+        showDeletedToxicExposureConfirmation &&
+        deletedToxicExposureConfirmationRef.current
+      ) {
+        deletedToxicExposureConfirmationRef.current.focus();
+      }
+    },
+    [showDeletedToxicExposureConfirmation],
+  );
 
-/**
- * Deletes all toxic exposure data from the form data.
- * This is a destructive action that removes all toxic exposure related fields.
- *
- * @param {Object} data - The complete form data
- * @param {Function} setFormData - Function to update the form data in parent state
- */
-const deleteToxicExposureData = (data, setFormData) => {
-  const updatedData = { ...data };
+  const modalRef = useRef(null);
+  useEffect(
+    () => {
+      if (showDeleteToxicExposureModal && modalRef.current) {
+        const modalHeading = document.querySelector('h4');
+        scrollAndFocus(modalHeading);
+      }
+    },
+    [showDeleteToxicExposureModal],
+  );
 
-  if (updatedData.toxicExposure) {
-    toxicExposureKeys.forEach(key => {
-      delete updatedData.toxicExposure[key];
+  const hasToxicExposureData = () => {
+    return toxicExposureKeys.some(key => {
+      if (key === 'conditions') return false; // Skip conditions as it's the trigger
+      if (!(key in (data?.toxicExposure || {}))) return false;
+
+      const value = data.toxicExposure[key];
+      switch (typeof value) {
+        case 'boolean':
+          return value === true;
+        case 'string':
+          return value.trim() !== '';
+        case 'number':
+          return true;
+        case 'object':
+          if (value === null) return false;
+          if (Array.isArray(value)) return value.length > 0;
+          return Object.values(value).some(nestedValue => {
+            if (typeof nestedValue === 'boolean') return nestedValue === true;
+            if (typeof nestedValue === 'string')
+              return nestedValue.trim() !== '';
+            return !!nestedValue;
+          });
+        default:
+          return false;
+      }
     });
-  }
+  };
 
-  setFormData(updatedData);
-};
+  const deleteToxicExposureData = () => {
+    const deepClone = cloneDeep(data);
 
-/**
- * TODO: replace with lodash util
- * Deep check utility to determine if a value contains meaningful data
- * @param {*} value - The value to check
- * @returns {boolean} True if the value contains data, false otherwise
- */
-const deepCheck = value => {
-  switch (typeof value) {
-    case 'boolean':
-      return value === true;
-    case 'string':
-      return value.trim() !== '';
-    case 'number':
-      return true;
-    case 'object':
-      if (value === null) return false;
-      if (Array.isArray(value)) return value.length > 0;
-      return Object.values(value).some(nestedValue => deepCheck(nestedValue));
-    default:
-      return false;
-  }
-};
+    if (deepClone.toxicExposure) {
+      toxicExposureKeys.forEach(key => {
+        if (key !== 'conditions') {
+          delete deepClone.toxicExposure[key];
+        }
+      });
+      // Keep only the 'none' condition selected
+      deepClone.toxicExposure.conditions = { none: true };
+    }
 
-/**
- * Checks if there's any meaningful toxic exposure data beyond conditions
- * @param {Object} formData - The form data to check
- * @returns {boolean} True if toxic exposure data exists, false otherwise
- */
-const checkToxicExposureData = formData => {
-  return toxicExposureKeys.filter(key => key !== 'conditions').some(key => {
-    const value = formData?.toxicExposure?.[key];
-    return value && deepCheck(value);
-  });
-};
+    setFormData(deepClone);
+  };
 
-/**
- * ToxicExposureChoicePage Component
- *
- * This is a custom page component that replaces the default JSON Schema rendering
- * to provide a destructive modal confirmation when users opt out of toxic exposure claims.
- *
- * Core functionality:
- * 1. Renders checkboxes for toxic exposure conditions
- * 2. Tracks changes between previous and current selections
- * 3. Shows a destructive modal when user selects "none" after having data
- * 4. Deletes all toxic exposure data upon confirmation
- *
- * @component
- * @param {Object} props - Component props
- * @param {Object} props.data - Form data object containing all user inputs
- * @param {Function} props.goBack - Navigation function to go to previous page
- * @param {Function} props.goForward - Navigation function to proceed to next page
- * @param {Function} props.setFormData - Function to update form data
- * @param {React.Element} props.contentBeforeButtons - Content to render before nav buttons
- * @param {React.Element} props.contentAfterButtons - Content to render after nav buttons
- * @param {boolean} props.onReviewPage - Whether this is rendered on the review page
- * @param {Function} props.updatePage - Function to update the page (used on review page)
- */
-const ToxicExposureChoicePage = props => {
-  const {
-    data,
-    goBack,
-    goForward,
-    setFormData,
-    contentBeforeButtons,
-    contentAfterButtons,
-    onReviewPage,
-    updatePage,
-  } = props;
+  // If the user opts to deselect "none" and they are asked in the modal to delete their toxic exposure data,
+  // they can close the modal or click the Cancel button. Doing so should revert the "none" checkbox back to unchecked
+  const revertNoneConditionSelection = () => {
+    const deepClone = cloneDeep(data);
 
-  // State management - following the mental health pattern
-  const [hasError, setHasError] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-  const [shouldGoForward, setShouldGoForward] = useState(false);
+    const toxicExposureSelections = deepClone.toxicExposure?.conditions || {};
+    // Deselect "none" checkbox
+    toxicExposureSelections.none = false;
 
-  // Track previous conditions using view field pattern like mental health
-  const [previousConditions, setPreviousConditions] = useState(
-    data?.['view:previousToxicExposureConditions'] || {},
-  );
+    if (!deepClone.toxicExposure) {
+      deepClone.toxicExposure = {};
+    }
+    deepClone.toxicExposure.conditions = toxicExposureSelections;
 
-  // Current conditions state - using view field for consistency
-  const [conditions, setConditions] = useState(
-    data?.['view:selectedToxicExposureConditions'] ||
-      data?.toxicExposure?.conditions ||
-      {},
-  );
+    setFormData(deepClone);
+  };
+
+  const shouldShowDeleteToxicExposureModal = () => {
+    return (
+      data.toxicExposure?.conditions?.none === true && hasToxicExposureData()
+    );
+  };
+
+  const handlers = {
+    onSelectionChange: event => {
+      const { target } = event;
+      const selection = event.target?.getAttribute('value');
+
+      const formData = {
+        ...data,
+        toxicExposure: {
+          ...data.toxicExposure,
+          conditions: {
+            ...data.toxicExposure?.conditions,
+            [selection]: target.checked,
+          },
+        },
+      };
+      setFormData(formData);
+    },
+    onSubmit: event => {
+      event.preventDefault();
+
+      // Check if at least one condition is selected
+      const conditions = data.toxicExposure?.conditions || {};
+      const hasSelection = Object.values(conditions).some(
+        value => value === true,
+      );
+
+      if (!hasSelection) {
+        scrollToFirstError({ focusOnAlertRole: true });
+        return;
+      }
+
+      if (shouldShowDeleteToxicExposureModal()) {
+        setShowDeleteToxicExposureModal(true);
+      } else {
+        goForward(data);
+      }
+    },
+    onCloseModal: () => {
+      revertNoneConditionSelection();
+      setShowDeleteToxicExposureModal(false);
+    },
+    onConfirmDeleteToxicExposureData: () => {
+      deleteToxicExposureData();
+      setShowDeleteToxicExposureModal(false);
+      setShowDeletedToxicExposureConfirmation(true);
+    },
+    onCancelDeleteToxicExposureData: () => {
+      handlers.onCloseModal();
+    },
+    onCloseDeletedToxicExposureAlert: () => {
+      setShowDeletedToxicExposureConfirmation(false);
+    },
+    onClickConfirmationLink: () => {
+      goForward(data);
+    },
+    onUpdatePage: event => {
+      event.preventDefault();
+
+      // Check if at least one condition is selected
+      const conditions = data.toxicExposure?.conditions || {};
+      const hasSelection = Object.values(conditions).some(
+        value => value === true,
+      );
+
+      if (!hasSelection) {
+        scrollToFirstError({ focusOnAlertRole: true });
+        return;
+      }
+
+      if (shouldShowDeleteToxicExposureModal()) {
+        setShowDeleteToxicExposureModal(true);
+      } else {
+        updatePage(event);
+      }
+    },
+  };
 
   // Get the UI schema for conditions based on formData
   const conditionsUI = makeTEConditionsUISchema(data);
 
-  /**
-   * Effect to scroll to success alert when it's shown
-   */
-  useEffect(
-    () => {
-      if (showAlert) {
-        scrollTo('toxic-exposure-success-alert');
-      }
-    },
-    [showAlert],
-  );
-
-  /**
-   * Effect to handle navigation after form data is updated
-   */
-  useEffect(
-    () => {
-      if (shouldGoForward && data?.toxicExposure?.conditions) {
-        setShouldGoForward(false);
-        goForward(data);
-      }
-    },
-    [data, data?.toxicExposure?.conditions, goForward, shouldGoForward],
-  );
-
-  /**
-   * Validates the form data and sets error state
-   * @returns {boolean} True if there are errors, false otherwise
-   */
-  const checkErrors = () => {
-    const errors = { toxicExposure: { conditions: {} } };
-
-    // Validate using the current conditions state
-    const formDataToValidate = {
-      toxicExposure: {
-        conditions,
-      },
-    };
-
-    validateTEConditions(errors, formDataToValidate);
-
-    const hasErrors = errors.toxicExposure.conditions?.__errors?.length > 0;
-    setHasError(hasErrors ? errors.toxicExposure.conditions.__errors[0] : null);
-
-    return hasErrors;
-  };
-
-  /**
-   * CORE FUNCTIONALITY: Determines if the destructive modal should be shown
-   *
-   * The modal appears when ALL of these conditions are met:
-   * 1. User is selecting "none" (opting out) NOW
-   * 2. User didn't have "none" selected BEFORE (it's a change)
-   * 3. There's existing data that would be deleted:
-   *    - Either other conditions were previously selected
-   *    - OR there's other toxic exposure data (Gulf War, herbicide, etc.)
-   *
-   * @returns {boolean} True if modal should be shown, false otherwise
-   */
-  const isChangingToNone = () => {
-    // Check if "none" is being selected NOW but wasn't selected BEFORE
-    if (!conditions.none || previousConditions.none === true) return false;
-
-    // Check if any other conditions were previously selected (excluding "none")
-    const hadOtherConditions = Object.keys(previousConditions).some(
-      key => key !== 'none' && previousConditions[key] === true,
-    );
-
-    // Also check if there's any existing toxic exposure data beyond just conditions
-    const hasOtherToxicExposureData = checkToxicExposureData(data);
-
-    return hadOtherConditions || hasOtherToxicExposureData;
-  };
-
-  /**
-   * Saves the current conditions and updates form data with view fields
-   */
-  const setPreviousData = () => {
-    const formData = {
-      ...data,
-      'view:previousToxicExposureConditions': conditions,
-      'view:selectedToxicExposureConditions': conditions,
-      toxicExposure: {
-        ...data.toxicExposure,
-        conditions,
-      },
-    };
-    setPreviousConditions(conditions);
-    setFormData(formData);
-    // Small delay to ensure state is updated before navigation
-    setTimeout(() => {
-      setShouldGoForward(true);
-    }, 50);
-  };
-
-  /**
-   * Event handlers object containing all form interaction handlers
-   */
-  const handlers = {
-    /**
-     * Handles checkbox value changes
-     * Updates both local state and form data
-     */
-    onValueChange: event => {
-      const { value, checked } = event.detail;
-      const updatedConditions = {
-        ...conditions,
-        [value]: checked,
-      };
-
-      // Begin with a fresh copy, remove all existing data, and then reintroduce the "none" option
-      const updatedData = { ...data };
-      deleteToxicExposureData(updatedData, () => {});
-      updatedData.toxicExposure = { conditions: updatedConditions };
-      updatedData['view:previousToxicExposureConditions'] = updatedConditions;
-      updatedData['view:selectedToxicExposureConditions'] = updatedConditions;
-      setFormData(updatedData);
-    },
-
-    /**
-     * CORE FUNCTIONALITY: Form submission handler
-     * 1. Validates the form
-     * 2. Checks if destructive modal should be shown
-     * 3. Either shows modal or proceeds with navigation
-     */
-    onSubmit: event => {
-      event.preventDefault();
-
-      // Ensure form data is up to date before validation
-      const currentFormData = {
-        ...data,
-        toxicExposure: {
-          ...data.toxicExposure,
-          conditions,
-        },
-      };
-
-      setFormData(currentFormData);
-
-      if (checkErrors()) {
-        scrollToFirstError({ focusOnAlertRole: true });
-      } else if (isChangingToNone()) {
-        // If selecting "none" and there's existing toxic exposure data, show modal
-        setShowModal(true);
-      } else {
-        setShowAlert(false);
-        setPreviousData();
-      }
-    },
-
-    /**
-     * Handles page update on review page
-     * Similar to onSubmit but for review page context
-     */
-    onUpdatePage: event => {
-      event.preventDefault();
-
-      if (checkErrors()) {
-        scrollToFirstError({ focusOnAlertRole: true });
-      } else if (isChangingToNone()) {
-        setShowModal(true);
-      } else {
-        setShowAlert(false);
-        const formData = {
-          ...data,
-          'view:previousToxicExposureConditions': conditions,
-          'view:selectedToxicExposureConditions': conditions,
-          toxicExposure: {
-            ...data.toxicExposure,
-            conditions,
-          },
-        };
-        setPreviousConditions(conditions);
-        setFormData(formData);
-        setTimeout(() => {
-          updatePage(event);
-        }, 100);
-      }
-    },
-
-    /**
-     * Closes the modal without taking action
-     */
-    onCloseModal: () => {
-      setShowModal(false);
-    },
-
-    /**
-     * CORE FUNCTIONALITY: Confirms deletion of toxic exposure data
-     * 1. Updates conditions to only have "none" selected
-     * 2. Calls deleteToxicExposureData to remove all related data
-     * 3. Shows success alert
-     * 4. Automatically navigates forward after a delay
-     */
-    onConfirmDelete: () => {
-      // Delete toxic exposure data but keep the "none" selection
-      const updatedConditions = { none: true };
-      setConditions(updatedConditions);
-      setPreviousConditions(updatedConditions);
-
-      // Start from a clean copy, delete everything, *then* re-add "none"
-      const updatedData = { ...data };
-      deleteToxicExposureData(updatedData, () => {});
-      updatedData.toxicExposure = { conditions: updatedConditions };
-      updatedData['view:previousToxicExposureConditions'] = updatedConditions;
-      updatedData['view:selectedToxicExposureConditions'] = updatedConditions;
-      setFormData(updatedData);
-      setShowModal(false);
-      setShowAlert(true);
-
-      // Automatically navigate forward after showing the alert
-      setTimeout(() => {
-        setShouldGoForward(true);
-      }, 100);
-    },
-
-    /**
-     * Navigates back to previous page
-     */
-    onGoBack: () => {
-      goBack(data);
-    },
-
-    /**
-     * Closes the success alert
-     */
-    onCloseAlert: () => {
-      setShowAlert(false);
-    },
-  };
-
-  /**
-   * Component Render
-   *
-   * Structure:
-   * 1. Success Alert - Shows after data deletion
-   * 2. Form with checkboxes - Lists all conditions from newDisabilities
-   * 3. Destructive Modal - Confirms data deletion
-   * 4. Navigation buttons - Either form nav or review page update button
-   */
   return (
-    <form onSubmit={handlers.onSubmit}>
-      {/* Success Alert - Shown after toxic exposure data is deleted */}
-      <VaAlert
-        id="toxic-exposure-success-alert"
-        status="success"
-        closeable
-        visible={showAlert}
-        onCloseEvent={handlers.onCloseAlert}
-        class="vads-u-margin-bottom--4"
-        uswds
-      >
-        {alertDescription}
-        <p>
-          {!onReviewPage ? (
-            <va-link
-              text="Continue with your claim"
-              onClick={handlers.onSubmit}
-            />
-          ) : null}
-        </p>
-      </VaAlert>
+    <div className="vads-u-margin-y--2">
+      <div className="vads-u-margin-bottom--1">
+        <VaAlert
+          ref={deletedToxicExposureConfirmationRef}
+          closeBtnAriaLabel="Deleted toxic exposure confirmation"
+          closeable
+          onCloseEvent={handlers.onCloseDeletedToxicExposureAlert}
+          fullWidth="false"
+          slim
+          status="warning"
+          visible={showDeletedToxicExposureConfirmation}
+          uswds
+          tabIndex="-1"
+        >
+          {deletedToxicExposureAlertConfirmationContent}
+
+          {!onReviewPage && (
+            <p>
+              <va-link
+                text="Continue with your claim"
+                onClick={() => goForward(data)}
+              />
+            </p>
+          )}
+        </VaAlert>
+      </div>
 
       <fieldset className="vads-u-margin-bottom--2">
         <legend id="root__title" className="schemaform-block-title">
-          {formTitle(conditionsPageTitle)}
+          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--3">
+            {formTitle(conditionsPageTitle)}
+          </h3>
         </legend>
 
-        {/* Checkbox Group - Dynamically generated based on newDisabilities */}
-        <VaCheckboxGroup
-          label={conditionsQuestion}
-          required
-          error={hasError}
-          onVaValueChange={handlers.onValueChange}
-        >
-          {conditionsDescription}
-
-          {/* Render checkbox for each condition including "none" option */}
-          {Object.keys(conditionsUI)
-            .filter(k => conditionsUI[k] && conditionsUI[k]['ui:title'])
-            .map(key => (
-              <va-checkbox
-                key={key}
-                name={key}
-                value={key}
-                label={conditionsUI[key]['ui:title']}
-                checked={conditions[key] || false}
-              />
-            ))}
-        </VaCheckboxGroup>
-
-        {/* Destructive Modal - Confirms deletion of toxic exposure data */}
         <VaModal
-          clickToClose
+          visible={showDeleteToxicExposureModal}
+          onPrimaryButtonClick={handlers.onConfirmDeleteToxicExposureData}
+          onSecondaryButtonClick={handlers.onCancelDeleteToxicExposureData}
+          onCloseEvent={handlers.onCancelDeleteToxicExposureData}
+          primaryButtonText="Yes, remove toxic exposure information"
+          secondaryButtonText="No, return to claim"
           status="warning"
-          modalTitle={modalTitle}
-          primaryButtonText={confirmationData.yes}
-          secondaryButtonText={confirmationData.no}
-          onPrimaryButtonClick={handlers.onConfirmDelete}
-          onSecondaryButtonClick={handlers.onCloseModal}
-          onCloseEvent={handlers.onCloseModal}
-          visible={showModal}
-          uswds
         >
-          {modalDescription}
+          <>
+            <h4
+              ref={modalRef}
+              className="vads-u-font-size--h4 vads-u-color--base vads-u-margin--0"
+            >
+              {deleteToxicExposureModalTitle}
+            </h4>
+            <p>{deleteToxicExposureModalDescription}</p>
+            {deleteToxicExposureModalContent}
+          </>
         </VaModal>
-      </fieldset>
 
-      {/* Navigation - Different rendering for review page vs regular form flow */}
-      {onReviewPage ? (
-        <button
-          className="usa-button-primary"
-          type="button"
-          onClick={handlers.onUpdatePage}
-        >
-          Update page
-        </button>
-      ) : (
-        <>
-          {contentBeforeButtons}
-          <FormNavButtons
-            goBack={handlers.onGoBack}
-            goForward={handlers.onSubmit}
-            submitToContinue
-          />
-          {contentAfterButtons}
-        </>
-      )}
-    </form>
+        <form onSubmit={handlers.onSubmit}>
+          <VaCheckboxGroup
+            label={conditionsQuestion}
+            label-header-level={4}
+            onVaChange={handlers.onSelectionChange}
+            required
+            uswds
+          >
+            {conditionsDescription}
+
+            {Object.keys(conditionsUI)
+              .filter(k => conditionsUI[k] && conditionsUI[k]['ui:title'])
+              .map(key => (
+                <va-checkbox
+                  key={key}
+                  label={conditionsUI[key]['ui:title']}
+                  value={key}
+                  checked={data?.toxicExposure?.conditions?.[key] === true}
+                  uswds
+                />
+              ))}
+          </VaCheckboxGroup>
+
+          {onReviewPage && (
+            <va-button
+              onClick={handlers.onUpdatePage}
+              label="Update toxic exposure choice"
+              text="Update page"
+            />
+          )}
+
+          {!onReviewPage && (
+            <>
+              {contentBeforeButtons}
+              <FormNavButtons
+                goBack={goBack}
+                goForward={handlers.onSubmit}
+                submitToContinue
+              />
+              {contentAfterButtons}
+            </>
+          )}
+        </form>
+      </fieldset>
+    </div>
   );
 };
 

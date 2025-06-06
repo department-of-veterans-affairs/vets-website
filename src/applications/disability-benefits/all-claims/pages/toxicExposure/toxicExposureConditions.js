@@ -1,16 +1,13 @@
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 import {
-  conditionsDescription,
   conditionsPageTitle,
   conditionsQuestion,
+  conditionsDescription,
   makeTEConditionsSchema,
   makeTEConditionsUISchema,
-  validateTEConditions,
 } from '../../content/toxicExposure';
 import { formTitle, makeConditionsUI } from '../../utils';
 import ToxicExposureChoicePage from './toxicExposureChoicePage';
-
-// TODO: Add destructive modal for toxic exposure
 
 export const uiSchema = {
   'ui:title': formTitle(conditionsPageTitle),
@@ -18,19 +15,12 @@ export const uiSchema = {
     forceDivWrapper: true,
   },
   toxicExposure: {
-    conditions: {
-      ...makeConditionsUI({
-        title: conditionsQuestion,
-        description: conditionsDescription,
-        replaceSchema: makeTEConditionsSchema,
-        updateUiSchema: makeTEConditionsUISchema,
-      }),
-      'ui:required': () => true,
-      'ui:validations': [validateTEConditions],
-      'ui:errorMessages': {
-        required: 'Please select at least one condition',
-      },
-    },
+    conditions: makeConditionsUI({
+      title: conditionsQuestion,
+      description: conditionsDescription,
+      replaceSchema: makeTEConditionsSchema,
+      updateUiSchema: makeTEConditionsUISchema,
+    }),
   },
   // View fields for tracking state changes - hidden from user
   'view:previousToxicExposureConditions': {
@@ -43,11 +33,9 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['toxicExposure'],
   properties: {
     toxicExposure: {
       type: 'object',
-      required: ['conditions'],
       properties: {
         conditions: checkboxGroupSchema([]),
       },

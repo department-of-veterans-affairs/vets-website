@@ -220,47 +220,19 @@ export function makeTEConditionsUISchema(formData) {
 }
 
 /**
- * Validates toxic exposure conditions selection and returns updated errors object.
- * Checks for:
- * 1. At least one condition is selected (required field validation)
- * 2. No conflict between 'none' checkbox and other condition selections
- *
- * @param {Object} errors - The current errors object from the form
- * @param {Object} formData - The form data containing toxic exposure conditions
- * @returns {Object} A new errors object with validation results
+ * Validates 'none' checkbox is not selected along with another condition
+ * @param {object} errors - Errors object from rjsf
+ * @param {object} formData
  */
 export function validateTEConditions(errors, formData) {
   const { conditions = {} } = formData?.toxicExposure;
-  const newErrors = { ...errors };
 
-  // Check if at least one checkbox is selected (required field validation)
-  const hasSelection = Object.values(conditions).some(value => value === true);
-
-  if (!hasSelection) {
-    // Create the error structure if it doesn't exist
-    if (!newErrors.toxicExposure) {
-      newErrors.toxicExposure = {};
-    }
-    if (!newErrors.toxicExposure.conditions) {
-      newErrors.toxicExposure.conditions = {};
-    }
-    if (!newErrors.toxicExposure.conditions.__errors) {
-      newErrors.toxicExposure.conditions.__errors = [];
-    }
-    newErrors.toxicExposure.conditions.__errors.push(
-      'Please select at least one condition',
-    );
-  }
-
-  // Original validation for none + other conditions conflict
   validateConditions(
     conditions,
-    newErrors,
+    errors,
     'toxicExposure',
     noneAndConditionError,
   );
-
-  return newErrors;
 }
 
 /**
