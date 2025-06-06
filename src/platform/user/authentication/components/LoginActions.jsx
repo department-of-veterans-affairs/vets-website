@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { dslogonButtonDisabled } from 'platform/user/selectors';
 import { externalApplicationsConfig } from '../usip-config';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
@@ -14,11 +16,9 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 
   const { dslogon } = legacySignInProviders;
 
-  const isDslogonEnabled = () =>
-    !!window?.VetsGov?.featureToggles?.dslogonEnabled;
-
-  const dslogonEnabled = !!dslogon && isDslogonEnabled();
-  const dslogonRetired = !!dslogon && !isDslogonEnabled();
+  const dslogonIsDisabled = useSelector(dslogonButtonDisabled);
+  const dslogonEnabled = !!dslogon && !dslogonIsDisabled;
+  const dslogonRetired = !!dslogon && dslogonIsDisabled;
 
   const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
 
@@ -63,13 +63,11 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 
         {(dslogonEnabled || dslogonRetired) && (
           <>
-            <h2>Other sign-in option</h2>
+            <h2>Other sign-in options</h2>
 
-            {/* MHV retired notice */}
             {dslogonEnabled &&
               renderRetiredNotice('mhvH3', 'My HealtheVet sign-in option')}
 
-            {/* DS Logon (enabled) */}
             {dslogonEnabled && (
               <>
                 <h3
@@ -78,7 +76,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 >
                   DS Logon sign-in option
                   <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    Available through September 30, 2025
+                    We’ll remove this option after September 30, 2025
                   </span>
                 </h3>
                 <p>
@@ -94,7 +92,6 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
               </>
             )}
 
-            {/* DS Logon retired */}
             {dslogonRetired &&
               renderRetiredNotice('dslogonH3', 'DS Logon sign-in option')}
           </>

@@ -1,41 +1,32 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import sinon from 'sinon';
+import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import sinon from 'sinon';
 
 import * as authUtilities from '../../../authentication/utilities';
 import LoginActions from '../../../authentication/components/LoginActions';
 import { CSP_IDS } from '../../../authentication/constants';
 
-function setDslogonFeatureFlag(value) {
-  if (!window.VetsGov) window.VetsGov = {};
-  if (!window.VetsGov.featureToggles) window.VetsGov.featureToggles = {};
-  window.VetsGov.featureToggles.dslogonEnabled = value;
-}
-
-describe('login DOM', () => {
-  const sandbox = sinon.createSandbox();
-  const generateStore = () => ({
-    dispatch: sinon.spy(),
-    subscribe: sinon.spy(),
-    getState: () => ({}),
-  });
-  const mockStore = generateStore();
+describe('LoginActions component', () => {
+  const mockStore = configureStore([]);
+  let store;
+  let sandbox;
 
   beforeEach(() => {
+    sandbox = sinon.createSandbox();
     sandbox.spy(authUtilities, 'login');
-    setDslogonFeatureFlag(true);
   });
 
   afterEach(() => {
     sandbox.restore();
-    setDslogonFeatureFlag(undefined);
   });
 
   it('login buttons should properly call login method', () => {
+    store = mockStore({});
     const wrapper = mount(
-      <Provider store={mockStore}>
+      <Provider store={store}>
         <LoginActions />
       </Provider>,
     );
@@ -63,41 +54,34 @@ describe('login DOM', () => {
     wrapper.unmount();
   });
 
-  it('sets actionLocation to "usip" when isUnifiedSignIn is true and "modal" otherwise', () => {
-    const testActionLocation = (isUnifiedSignIn, expectedLocation) => {
-      global.window.location = new URL(
-        'https://dev.va.gov/sign-in/?application=vaoccmobile&OAuth=true',
-      );
-
+  it('sets actionLocation correctly based on isUnifiedSignIn prop', () => {
+    const testLocation = (isUnifiedSignIn, expected) => {
+      store = mockStore({});
       const wrapper = mount(
-        <Provider store={mockStore}>
+        <Provider store={store}>
           <LoginActions
             externalApplication="vaoccmobile"
             isUnifiedSignIn={isUnifiedSignIn}
           />
         </Provider>,
       );
-
       wrapper.find('LoginButton').forEach(button => {
-        expect(button.prop('actionLocation')).to.equal(expectedLocation);
+        expect(button.prop('actionLocation')).to.equal(expected);
       });
-
       wrapper.unmount();
     };
 
-    testActionLocation(true, 'usip');
-    testActionLocation(false, 'modal');
-    testActionLocation(undefined, 'modal');
+    testLocation(true, 'usip');
+    testLocation(false, 'modal');
+    testLocation(undefined, 'modal');
   });
 
-  // TODO: Fix this test — feature flag not re-evaluating in time
-  /*
-  it('renders DS Logon button only if feature flag is enabled and dslogon config is true', () => {
-    ...
-  });
-  */
-
-  it('renders My HealtheVet retired notice only when DS Logon is enabled', () => {
+  it('renders MHV retired notice when DS Logon is enabled', () => {
+    const state = {
+      featureToggles: {
+        dslogonButtonDisabled: false,
+      },
+    };
     const config = {
       OAuthEnabled: false,
       allowedSignInProviders: [],
@@ -115,26 +99,16 @@ describe('login DOM', () => {
       },
     };
 
-    // With feature flag ON, My HealtheVet retired notice should appear
-    setDslogonFeatureFlag(true);
-    let wrapper = mount(
-      <Provider store={mockStore}>
+    store = mockStore(state);
+    const wrapper = mount(
+      <Provider store={store}>
         <LoginActions externalApplication="mhvApp" />
       </Provider>,
     );
+
     expect(wrapper.text()).to.contain('My HealtheVet sign-in option');
-    wrapper.unmount();
 
-    // With feature flag OFF, My HealtheVet retired notice should NOT appear
-    setDslogonFeatureFlag(false);
-    wrapper = mount(
-      <Provider store={mockStore}>
-        <LoginActions externalApplication="mhvApp" />
-      </Provider>,
-    );
-    expect(wrapper.text()).to.not.contain('My HealtheVet sign-in option');
     wrapper.unmount();
-
     if (originalConfig) {
       require.cache[
         require.resolve('../../../authentication/usip-config')
@@ -142,7 +116,12 @@ describe('login DOM', () => {
     }
   });
 
-  it('renders DS Logon retired notice only when DS Logon is present and flag is OFF', () => {
+  it('renders DS Logon retired notice when feature flag disables it', () => {
+    const state = {
+      featureToggles: {
+        dslogonButtonDisabled: true,
+      },
+    };
     const config = {
       OAuthEnabled: false,
       allowedSignInProviders: [],
@@ -160,10 +139,9 @@ describe('login DOM', () => {
       },
     };
 
-    setDslogonFeatureFlag(false);
-
+    store = mockStore(state);
     const wrapper = mount(
-      <Provider store={mockStore}>
+      <Provider store={store}>
         <LoginActions externalApplication="dslogonApp" />
       </Provider>,
     );
@@ -172,7 +150,6 @@ describe('login DOM', () => {
     expect(wrapper.text()).to.contain('This option is no longer available');
 
     wrapper.unmount();
-
     if (originalConfig) {
       require.cache[
         require.resolve('../../../authentication/usip-config')
