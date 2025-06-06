@@ -20,14 +20,38 @@ import {
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 import { sponsorAddressCleanValidation } from '../../shared/validations';
 
-export const sponsorNameDobSchema = {
+export const sponsorIntroSchema = {
   uiSchema: {
-    ...titleUI(`Sponsor's name and date of birth`, ({ formData }) => (
+    ...titleUI(
+      'Sponsor information',
       <>
         <p>
-          Enter the personal information for the sponsor (the Veteran or service
-          member that the applicant is connected to). We’ll use the sponsor’s
-          information to confirm their eligibility for CHAMPVA benefits.
+          Now we’ll ask you to enter information about the Veteran or service
+          member that the applicant is connected to, also called the sponsor.
+        </p>
+        <p>
+          We’ll use the sponsor’s name, social security number, and status to
+          confirm their eligibility for CHAMPVA benefits. We will not need you
+          to upload their DD-214.
+        </p>
+      </>,
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      titleSchema,
+    },
+  },
+};
+
+export const sponsorNameDobSchema = {
+  uiSchema: {
+    ...titleUI(`Sponsor’s name and date of birth`, ({ formData }) => (
+      <>
+        <p>
+          Enter the sponsor’s name and date of birth. We’ll use this information
+          to confirm their eligibility for CHAMPVA benefits.
         </p>
         {CustomPrefillMessage(formData, 'sponsor')}
       </>
