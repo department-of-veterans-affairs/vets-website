@@ -81,7 +81,8 @@ const GroupedMedications = props => {
                     className="vads-u-font-size--md vads-u-font-family--sans"
                     data-dd-privacy="mask"
                   >
-                    Prescription number: {rx.prescriptionNumber}
+                    Prescription number:{' '}
+                    <span data-dd-privacy="mask">{rx.prescriptionNumber}</span>
                   </h3>
                 </dt>
                 <dd className="last-filled-info-grouped-rx">
