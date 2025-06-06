@@ -39,6 +39,8 @@ const options = {
         </div>
       </>
     ),
+    summaryTitle:
+      'Review the individuals with a potential conflict of interest',
   },
 };
 
@@ -111,6 +113,26 @@ const individualPage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Individuals affiliated with both your institution and VA or SAA',
       nounSingular: options.nounSingular,
+      description: (
+        <>
+          <p>
+            Enter information about any individual who is affiliated with your
+            institution and is employed by VA or an SAA. This may indicate a
+            potential conflict of interest.
+          </p>
+          <va-additional-info
+            trigger="Review guidelines on for-profit school restrictions"
+            data-testid="for-profit-guidelines"
+          >
+            <p>
+              VA and SAA employees are prohibited from owning any interest in
+              for-profit schools or receiving wages, profits, or services from
+              them, unless granted a waiver by the VA confirming no harm to the
+              government, Veterans, or eligible individuals.
+            </p>
+          </va-additional-info>
+        </>
+      ),
     }),
     first: textUI({
       title: 'First name of individual',
