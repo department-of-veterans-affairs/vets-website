@@ -1,6 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import {
+  ContactInfoFormAppConfigProvider,
+  useContactInfoFormAppConfig,
+} from '@@vap-svc/components/ContactInfoFormAppConfigContext';
 
 // import {
 //   ProfileInformationFieldController,
@@ -28,12 +32,14 @@ export const BuildPage = ({
   goToPath,
   contactPath,
   editContactInfoHeadingLevel,
+  ...rest
 }) => {
   const Heading = editContactInfoHeadingLevel || 'h3';
   const headerRef = useRef(null);
 
   const modalState = useSelector(state => state?.vapService.modal);
   const prevModalState = usePrevious(modalState);
+  const contactInfoFormAppConfig = useContactInfoFormAppConfig();
 
   useEffect(
     () => {
@@ -80,21 +86,33 @@ export const BuildPage = ({
   };
 
   return (
-    <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
-      <InitializeVAPServiceID>
-        <Heading ref={headerRef} className="vads-u-font-size--h3">
-          {title}
-        </Heading>
-        <ProfileInformationFieldController
-          forceEditView
-          fieldName={FIELD_NAMES[field]}
-          isDeleteDisabled
-          cancelCallback={handlers.cancel}
-          successCallback={handlers.success}
-          saveButtonText="Update"
-        />
-      </InitializeVAPServiceID>
-    </div>
+    <ContactInfoFormAppConfigProvider
+      value={{
+        ...rest,
+        goToPath,
+        returnPath,
+        fieldName: FIELD_NAMES[field],
+        formKey: id,
+        keys: { wrapper: 'veteran' },
+      }}
+    >
+      <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
+        <InitializeVAPServiceID>
+          <Heading ref={headerRef} className="vads-u-font-size--h3">
+            {title}
+          </Heading>
+          <ProfileInformationFieldController
+            forceEditView
+            fieldName={FIELD_NAMES[field]}
+            isDeleteDisabled
+            cancelCallback={handlers.cancel}
+            successCallback={handlers.success}
+            saveButtonText="Update"
+            contactInfoFormAppConfig={contactInfoFormAppConfig}
+          />
+        </InitializeVAPServiceID>
+      </div>
+    </ContactInfoFormAppConfigProvider>
   );
 };
 

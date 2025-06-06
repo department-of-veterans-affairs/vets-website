@@ -1,0 +1,61 @@
+const USER = {
+  FIRST_NAME: 'Mitchell',
+  MIDDLE_INITIAL: 'G',
+  MIDDLE_NAME: 'George',
+  LAST_NAME: 'Jenkins',
+  SSN_LAST_FOUR: '6789',
+  BIRTH_DATE: '1956-07-10',
+  GENDER: 'M',
+  EMAIL: 'Mitchell.Jenkins.Test@gmail.com',
+  RESIDENTIAL_ADDRESS: {
+    ADDRESS_LINE1: '345 Home Address St',
+    ADDRESS_LINE2: null,
+    ADDRESS_LINE3: null,
+    CITY: 'San Francisco',
+    STATE_CODE: 'CA',
+    ZIP_CODE: '94118',
+    ADDRESS_POU: 'RESIDENCE/CHOICE',
+    ADDRESS_TYPE: 'DOMESTIC',
+    COUNTRY_NAME: 'United States',
+    COUNTRY_CODE_ISO2: 'US',
+    COUNTRY_CODE_ISO3: 'USA',
+  },
+  MAILING_ADDRESS: {
+    ADDRESS_LINE1: '125 Main St.',
+    ADDRESS_LINE2: null,
+    ADDRESS_LINE3: null,
+    CITY: 'Fulton',
+    STATE_CODE: 'NY',
+    ZIP_CODE: '97063',
+    ADDRESS_POU: 'CORRESPONDENCE',
+    ADDRESS_TYPE: 'DOMESTIC',
+    COUNTRY_NAME: 'United States',
+    COUNTRY_CODE_ISO2: 'US',
+    COUNTRY_CODE_ISO3: 'USA',
+  },
+  MOBILE_PHONE: {
+    AREA_CODE: '555',
+    PHONE_NUMBER: '4044567',
+    PHONE_TYPE: 'MOBILE',
+  },
+  HOME_PHONE: {
+    AREA_CODE: '555',
+    PHONE_NUMBER: '8081234',
+    PHONE_TYPE: 'HOME',
+  },
+};
+
+const HOME_PHONE_FULL = `${USER.HOME_PHONE.AREA_CODE}${
+  USER.HOME_PHONE.PHONE_NUMBER
+}`;
+const MOBILE_PHONE_FULL = `${USER.MOBILE_PHONE.AREA_CODE}${
+  USER.MOBILE_PHONE.PHONE_NUMBER
+}`;
+
+const FULL_NAME = {
+  first: USER.FIRST_NAME,
+  middle: USER.MIDDLE_NAME,
+  last: USER.LAST_NAME,
+};
+
+module.exports = { USER, FULL_NAME, HOME_PHONE_FULL, MOBILE_PHONE_FULL };

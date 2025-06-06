@@ -57,21 +57,26 @@ export const ContactInfoFormAppConfigProvider = ({ children, value }) => {
             },
           },
         };
-      } else if (
-        [
-          FIELD_NAMES.HOME_PHONE,
-          FIELD_NAMES.MOBILE_PHONE,
-          FIELD_NAMES.EMAIL,
-        ].includes(fieldName)
-      ) {
-        // Handle phone and email updates
+      } else if (fieldName === FIELD_NAMES.EMAIL) {
+        // Handle email updates
         updatedFormAppData = {
           ...formData,
           [wrapperKey]: {
             ...formData[wrapperKey],
-            [fieldName]: {
+            email: payload.emailAddress,
+          },
+        };
+      } else if (
+        [FIELD_NAMES.HOME_PHONE, FIELD_NAMES.MOBILE_PHONE].includes(fieldName)
+      ) {
+        // Handle phone
+        updatedFormAppData = {
+          ...formData,
+          [wrapperKey]: {
+            ...formData[wrapperKey],
+            phone: {
               ...payload,
-              // For email/phone, use formOnlyUpdate rather than updateProfileChoice since there's no save to profile question
+              // For phone, use formOnlyUpdate rather than updateProfileChoice since there's no save to profile question
               formOnlyUpdate: isFormOnly,
               updatedAt,
             },
