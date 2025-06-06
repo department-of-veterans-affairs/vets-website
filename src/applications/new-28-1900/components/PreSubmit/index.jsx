@@ -5,15 +5,15 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import StatementOfTruth from './StatementOfTruth';
 import SignatureCheckbox from './SignatureCheckbox';
-import content from '../../locales/en/content.json';
 
 // organize text content for statement of truth components
 const LABELS = {
-  veteran: content['vet-input-label'],
+  veteran: 'Veteran\u2019s',
 };
 
 export const STATEMENTS = {
-  veteran: [content['certification-statement--vet']],
+  veteran:
+    'I certify that the individual(s) named in this application are involved in my care and I consent to sharing information necessary to their involvement in my health care, payment related to such health care or as needed for notification purposes.',
 };
 
 // declare default state structure(s)
@@ -138,7 +138,7 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
       const hasError =
         isChecked === true || hasSubmittedForm ? false : showError;
       onSectionComplete(false);
-      const message = hasError ? 'My error message' : null;
+      const message = hasError ? 'Must certify by checking box' : null;
       setError(message);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -214,7 +214,10 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
       </fieldset>
       {statementsOfTruth}
       <p className="vads-u-margin-bottom--3">
-        <strong>Note:</strong> {content['certification-signature-note']}
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or providing incorrect information. (See 18
+        U.S.C. 1001)
       </p>
     </div>
   );

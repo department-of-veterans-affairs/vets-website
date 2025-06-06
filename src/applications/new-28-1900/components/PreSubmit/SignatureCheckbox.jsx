@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { normalizeFullName } from '../../utils/helpers';
 import SignatureInput from './SignatureInput';
-import content from '../../locales/en/content.json';
 
 const SignatureCheckbox = props => {
   const {
@@ -33,9 +32,7 @@ const SignatureCheckbox = props => {
     () => {
       const hasError =
         isChecked === true || hasSubmittedForm ? false : showError;
-      const message = hasError
-        ? content['validation-signature-required']
-        : null;
+      const message = hasError ? 'Must certify by checking box' : null;
       setError(message);
     },
     [showError, isChecked, hasSubmittedForm],
@@ -63,7 +60,7 @@ const SignatureCheckbox = props => {
         onVaChange={handleCheck}
         class="signature-checkbox"
         error={error}
-        label={content['signature-checkbox-label']}
+        label="I certify the information above is correct and true to the best of my knowledge and belief."
       />
     </fieldset>
   );

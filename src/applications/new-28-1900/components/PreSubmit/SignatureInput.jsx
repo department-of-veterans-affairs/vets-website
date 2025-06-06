@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { replaceStrValues } from '../../utils/helpers';
-import content from '../../locales/en/content.json';
 
 const SignatureInput = props => {
   const {
@@ -23,13 +22,10 @@ const SignatureInput = props => {
   });
 
   // set label and error message strings
-  const textInputLabel = replaceStrValues(
-    content['sign-as-rep--signature-vet-text-label'],
-    label,
-  );
+  const textInputLabel = replaceStrValues('Your full name', label);
 
   const errorMessage = replaceStrValues(
-    content['validation-sign-as-rep--vet-name'],
+    'Your signature must match previously entered name: %s',
     fullName,
   );
 
