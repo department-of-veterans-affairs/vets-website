@@ -1,7 +1,7 @@
 /**
  * @module services/Slot
  */
-import { parseISO, formatISO } from 'date-fns';
+import { parseISO, format } from 'date-fns';
 
 import { getAvailableV2Slots } from '../vaos';
 import { mapToFHIRErrors } from '../utils';
@@ -45,10 +45,10 @@ export async function getSlots({
 
     const start = convertToUtc
       ? ParseStartDate.toISOString()
-      : formatISO(ParseStartDate);
+      : format(ParseStartDate, "yyyy-MM-dd'T'HH:mm:ssxxx");
     const end = convertToUtc
       ? ParseEndDate.toISOString()
-      : formatISO(ParseEndDate);
+      : format(ParseEndDate, "yyyy-MM-dd'T'HH:mm:ssxxx");
 
     const data = await getAvailableV2Slots(
       siteId,
