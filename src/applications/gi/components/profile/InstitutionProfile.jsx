@@ -166,7 +166,8 @@ export default function InstitutionProfile({
         </div>
       </div>
       {((institution.yr === true && programTypes?.length > 0) ||
-        programTypes?.length > 0) && (
+        programTypes?.length > 0 ||
+        institution.yr === true) && (
         <NewFeatureProgramsYRTAlert
           institution={institution}
           programTypes={programTypes}

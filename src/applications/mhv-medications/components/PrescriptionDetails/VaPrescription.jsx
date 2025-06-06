@@ -186,6 +186,7 @@ const VaPrescription = prescription => {
                 : ''
             }medication-details-div vads-u-margin-bottom--3`}
             data-testid="va-prescription-container"
+            data-dd-privacy="mask"
           >
             {/* TODO: clean after grouping flag is gone */}
             {!showGroupingContent && (
@@ -234,6 +235,7 @@ const VaPrescription = prescription => {
                   <h2
                     className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
                     data-testid="check-status-text"
+                    data-dd-privacy="mask"
                   >
                     {getPrescriptionStatusHeading()}
                   </h2>
