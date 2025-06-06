@@ -11,7 +11,7 @@ import { CONTACT_INFORMATION_CHAPTER_CONSTANTS } from '../constants';
 export default {
   uiSchema: {
     ...titleUI(
-      CONTACT_INFORMATION_CHAPTER_CONSTANTS.mainMailingAddressPageTitle,
+      CONTACT_INFORMATION_CHAPTER_CONSTANTS.veteranAddressPageTitle,
       "If you don't have a mailing address, you can skip the questions on this screen. You'll need to provide a phone number or email address later in this application, so we can set up your initial evaluation for VR&E benefits.",
     ),
     checkBoxGroup: checkboxGroupUI({
@@ -23,7 +23,7 @@ export default {
       },
       required: false,
     }),
-    mainMailingAddress: addressUI({
+    veteranAddress: addressUI({
       required: {
         country: formData => !formData?.checkBoxGroup?.checkForMailingAddress,
         street: formData => !formData?.checkBoxGroup?.checkForMailingAddress,
@@ -37,7 +37,7 @@ export default {
     type: 'object',
     properties: {
       checkBoxGroup: checkboxGroupSchema(['checkForMailingAddress']),
-      mainMailingAddress: addressSchema(),
+      veteranAddress: addressSchema(),
     },
   },
 };

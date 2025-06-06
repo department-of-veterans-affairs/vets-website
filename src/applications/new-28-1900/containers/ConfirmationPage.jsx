@@ -18,8 +18,8 @@ export const ConfirmationPage = () => {
   const { submission, formId, data = {} } = form;
 
   // Get the submitted name and format it for display
-  const { veteranFullName } = data;
-  const veteranFullNameDisplay = getFullName(veteranFullName);
+  const { fullName } = data;
+  const veteranFullNameDisplay = getFullName(fullName);
 
   // If there's a submit date, format it for display
   const submitDate = submission?.timestamp;
