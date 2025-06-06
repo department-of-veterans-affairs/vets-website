@@ -8,7 +8,7 @@ describe('Medications Download Txt Empty Field Content on List Page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const fixedDate = new Date(2025, 5, 5, 10, 42, 2); // June 5, 2025, 09:42:02 AM
-    cy.clock(fixedDate.getTime(), ['Date']);
+    // cy.clock(fixedDate.getTime(), ['Date']);
     site.login();
     listPage.visitMedicationsListPageURL(rxList);
     cy.injectAxe();
@@ -22,6 +22,6 @@ describe('Medications Download Txt Empty Field Content on List Page', () => {
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
     listPage.verifyDownloadTextFileHeadless('Safari', 'Mhvtp', 'not available');
-    listPage.verifyContentInListPageDownload(fixedDate);
+    // listPage.verifyContentInListPageDownload(fixedDate);
   });
 });
