@@ -264,7 +264,7 @@ const Authorization = ({
             <va-link
               href="#section-two"
               onClick={e => focusSection(e, '#section-two')}
-              text="Section 2"
+              text="Section 2. Sources of records"
             />
             , to release any information that may have been obtained in
             connection with a physical, psychological or psychiatric examination
@@ -349,7 +349,7 @@ const Authorization = ({
             <va-link
               href="#section-two"
               onClick={e => focusSection(e, '#section-two')}
-              text="Section 2"
+              text="Section 2. Sources of records"
             />
             , to release any information that may have been obtained in
             connection with a physical, psychological or psychiatric examination
