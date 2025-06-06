@@ -7,7 +7,7 @@ export default {
   fullName: formChapters.textInput.pages.fullName.path,
   address: formChapters.textInput.pages.address.path,
   ssn: formChapters.textInput.pages.ssn.path,
-  checkboxAndTextInput: formChapters.checkbox.pages.checkboxAndTextInput.path,
+  checkbox: formChapters.checkbox.pages.checkbox.path,
   checkboxGroup: formChapters.checkbox.pages.checkboxGroup.path,
   numberInput: formChapters.numberInput.pages.numberInput.path,
   select: formChapters.select.pages.select.path,
