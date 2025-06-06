@@ -3,7 +3,6 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import * as Sentry from '@sentry/browser';
 import retryOnce from '../utils/retryOnce';
 import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
-import { useWaitForCsrfToken } from './useWaitForCsrfToken';
 import {
   clearBotSessionStorage,
   setConversationIdKey,
@@ -15,7 +14,6 @@ import { useDatadogLogging } from './useDatadogLogging';
 async function getToken(
   setToken,
   setCode,
-  setApiSession,
   setLoadingStatus,
   isDatadogLoggingEnabled,
 ) {
@@ -35,7 +33,6 @@ async function getToken(
     setTokenKey(response.token);
     setToken(response.token);
     setCode(response.code);
-    setApiSession(response.apiSession);
     setLoadingStatus(COMPLETE);
   } catch (ex) {
     const error = new Error('Could not retrieve chatbot token');
@@ -48,30 +45,16 @@ async function getToken(
 export default function useChatbotToken(props) {
   const [token, setToken] = useState('');
   const [code, setCode] = useState('');
-  const [apiSession, setApiSession] = useState('');
-  const [csrfTokenLoading, csrfTokenLoadingError] = useWaitForCsrfToken(props);
   const [loadingStatus, setLoadingStatus] = useState(LOADING);
   const isDatadogLoggingEnabled = useDatadogLogging();
 
   useEffect(
     () => {
-      if (csrfTokenLoadingError) {
-        setLoadingStatus(ERROR);
-      }
-      if (csrfTokenLoading) return;
-
       clearBotSessionStorage();
-
-      getToken(
-        setToken,
-        setCode,
-        setApiSession,
-        setLoadingStatus,
-        isDatadogLoggingEnabled,
-      );
+      getToken(setToken, setCode, setLoadingStatus, isDatadogLoggingEnabled);
     },
-    [csrfTokenLoading, csrfTokenLoadingError, props, isDatadogLoggingEnabled],
+    [props, isDatadogLoggingEnabled],
   );
 
-  return { token, code, loadingStatus, apiSession };
+  return { token, code, loadingStatus };
 }
