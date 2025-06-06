@@ -86,9 +86,11 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
           If you don’t think this is the right form for you, there other
           decision review options.
         </p>
-        <a href="/resources/choosing-a-decision-review-option/">
-          Learn about choosing a decision review option
-        </a>
+        <va-link
+          disable-analytics
+          href="/resources/choosing-a-decision-review-option/"
+          text="Learn about choosing a decision review option"
+        />
       </va-additional-info>
 
       <VaRadio

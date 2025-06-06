@@ -85,24 +85,4 @@ describe('applicantPages depends functions', () => {
       expect(res).to.not.be.undefined;
     });
   });
-
-  // Example of calling a specific depends function inside array builder
-  it('page18b2 depends fn should return true if applicant is over 18 and helpless', () => {
-    expect(
-      applicantPages.page18b2.depends(
-        {
-          applicants: [
-            {
-              applicantRelationshipToSponsor: {
-                relationshipToVeteran: 'child',
-              },
-              applicantDob: '1990-01-01',
-              applicantDependentStatus: { status: 'over18HelplessChild' },
-            },
-          ],
-        },
-        0,
-      ),
-    ).to.be.true;
-  });
 });

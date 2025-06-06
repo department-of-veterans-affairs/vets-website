@@ -300,6 +300,27 @@ describe('ClaimDetailsContent', () => {
       ).to.exist;
     });
 
+    it('does not render deductible info when submitted amount is present but reimbursement amount is not', () => {
+      const screen = renderWithStoreAndRouter(
+        <ClaimDetailsContent
+          {...claimDetailsProps}
+          totalCostRequested={100}
+          reimbursementAmount={0}
+        />,
+        {
+          initialState: getState(),
+        },
+      );
+
+      expect($('va-additional-info[trigger="Why are my amounts different"]')).to
+        .not.exist;
+      expect(
+        screen.queryByText(
+          /The VA travel pay deductible is \$3 for a one-way trip/i,
+        ),
+      ).to.not.exist;
+    });
+
     it('does not render deductible info when submitted and reimbursement amounts are equal', () => {
       const screen = renderWithStoreAndRouter(
         <ClaimDetailsContent
