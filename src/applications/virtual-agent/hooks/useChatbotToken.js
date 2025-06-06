@@ -8,21 +8,10 @@ import {
   setConversationIdKey,
   setTokenKey,
 } from '../utils/sessionStorage';
-import { logErrorToDatadog } from '../utils/logging';
-import { useDatadogLogging } from './useDatadogLogging';
+import logger from '../utils/logger';
 
-async function getToken(
-  setToken,
-  setCode,
-  setLoadingStatus,
-  isDatadogLoggingEnabled,
-) {
+async function getToken(setToken, setCode, setLoadingStatus) {
   try {
-    logErrorToDatadog(
-      isDatadogLoggingEnabled,
-      'vets-website - useChatbotToken',
-      new Error('test'),
-    );
     const response = await retryOnce(() => {
       return apiRequest('/chatbot/token', {
         method: 'POST',
@@ -37,7 +26,7 @@ async function getToken(
   } catch (ex) {
     const error = new Error('Could not retrieve chatbot token');
     Sentry.captureException(error);
-    logErrorToDatadog(isDatadogLoggingEnabled, error.message, error);
+    logger.error(error.message, error);
     setLoadingStatus(ERROR);
   }
 }
@@ -46,14 +35,13 @@ export default function useChatbotToken(props) {
   const [token, setToken] = useState('');
   const [code, setCode] = useState('');
   const [loadingStatus, setLoadingStatus] = useState(LOADING);
-  const isDatadogLoggingEnabled = useDatadogLogging();
 
   useEffect(
     () => {
       clearBotSessionStorage();
-      getToken(setToken, setCode, setLoadingStatus, isDatadogLoggingEnabled);
+      getToken(setToken, setCode, setLoadingStatus);
     },
-    [props, isDatadogLoggingEnabled],
+    [props],
   );
 
   return { token, code, loadingStatus };

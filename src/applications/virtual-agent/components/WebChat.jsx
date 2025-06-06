@@ -24,7 +24,6 @@ import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedI
 // Utils and Helpers
 import MarkdownRenderer from '../utils/markdownRenderer';
 import handleTelemetry from '../utils/telemetry';
-import logger from '../utils/logger';
 
 const styleOptions = {
   hideUploadButton: true,
@@ -69,15 +68,9 @@ const WebChat = ({ token, code, webChatFramework }) => {
     TOGGLE_NAMES.virtualAgentComponentTesting,
   );
 
-  const isDatadogLoggingEnabled = useToggleValue(
-    TOGGLE_NAMES.virtualAgentEnableDatadogLogging,
-  );
-
   const isStsAuthEnabled = useToggleValue(
     TOGGLE_NAMES.virtualAgentUseStsAuthentication,
   );
-
-  logger.info('Winston logger: Ding! Testing, 1, 2, 3!');
 
   const store = useWebChatStore({
     createStore,
@@ -89,7 +82,7 @@ const WebChat = ({ token, code, webChatFramework }) => {
   });
 
   clearBotSessionStorageEventListener(isLoggedIn);
-  signOutEventListener(isDatadogLoggingEnabled);
+  signOutEventListener();
 
   const directLine = useDirectLine(createDirectLine, token, isLoggedIn);
 
