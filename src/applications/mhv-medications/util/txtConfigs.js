@@ -11,6 +11,7 @@ import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
   nonVAMedicationTypes,
+  FIELD_NOT_AVAILABLE,
 } from './constants';
 
 /**
@@ -95,7 +96,7 @@ Last filled on: ${dateFormat(
 
 Prescription number: ${rx.prescriptionNumber}
 
-Status: ${validateField(rx.dispStatus)}
+Status: ${rx.dispStatus || 'Unknown'}
 ${(pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition).reduce(
       (fullStatus, item) =>
         fullStatus + item.value + (item.continued ? ' ' : '\n'),
@@ -179,15 +180,15 @@ Showing ${allergies.length} records from newest to oldest
     result += `
 ${item.name}
 
-Date entered: ${item.date || 'Not available'}
+Date entered: ${item.date}
 
-Signs and symptoms: ${processList(item.reaction, 'Not available')}
+Signs and symptoms: ${processList(item.reaction, FIELD_NOT_AVAILABLE)}
 
-Type of allergy: ${item.type || 'Not available'}
+Type of allergy: ${item.type}
 
-Location: ${item.location || 'Not available'}
+Location: ${item.location}
 
-Observed or historical: ${item.observedOrReported || 'Not available'}
+Observed or historical: ${item.observedOrReported}
 
 Provider notes: ${validateField(item.notes)}
 
@@ -223,7 +224,7 @@ Last filled on: ${dateFormat(
 
 Prescription number: ${prescription.prescriptionNumber}
 
-Status: ${validateField(prescription.dispStatus)}
+Status: ${prescription.dispStatus || 'Unknown'}
 ${(
     pdfStatusDefinitions[prescription.refillStatus] ||
     pdfDefaultStatusDefinition

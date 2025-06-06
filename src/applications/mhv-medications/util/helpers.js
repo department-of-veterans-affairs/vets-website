@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import {
-  EMPTY_FIELD,
+  FIELD_NONE_NOTED,
   imageRootUri,
   medicationsUrls,
   PRINT_FORMAT,
@@ -44,7 +44,7 @@ export const dateFormat = (
   dateWithMessage = null,
 ) => {
   if (!timestamp) {
-    return noDateMessage || EMPTY_FIELD;
+    return noDateMessage || FIELD_NONE_NOTED;
   }
 
   const isoTimestamp = convertToISO(timestamp);
@@ -95,7 +95,7 @@ export const validateField = fieldValue => {
   if (fieldValue || fieldValue === 0) {
     return fieldValue;
   }
-  return EMPTY_FIELD;
+  return FIELD_NONE_NOTED;
 };
 
 /**
@@ -151,7 +151,7 @@ export const processList = (list, emptyMessage) => {
     if (list?.length > 1) return list.join('. ');
     if (list?.length === 1) return list.toString();
   }
-  return emptyMessage || EMPTY_FIELD;
+  return emptyMessage || FIELD_NONE_NOTED;
 };
 
 /**

@@ -11,6 +11,7 @@ import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
   nonVAMedicationTypes,
+  FIELD_NOT_AVAILABLE,
 } from './constants';
 
 /**
@@ -330,27 +331,27 @@ export const buildAllergiesPDFList = allergies => {
           items: [
             {
               title: 'Date entered',
-              value: item.date || 'Not available',
+              value: item.date,
               inline: true,
             },
             {
               title: 'Signs and symptoms',
-              value: processList(item.reaction, 'Not available'),
+              value: processList(item.reaction, FIELD_NOT_AVAILABLE),
               inline: true,
             },
             {
               title: 'Type of allergy',
-              value: item.type || 'Not available',
+              value: item.type,
               inline: true,
             },
             {
               title: 'Location',
-              value: item.location || 'Not available',
+              value: item.location,
               inline: true,
             },
             {
               title: 'Observed or historical',
-              value: item.observedOrReported || 'Not available',
+              value: item.observedOrReported,
               inline: true,
             },
             {
@@ -394,7 +395,7 @@ export const buildVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'Status',
-              value: validateField(prescription.dispStatus),
+              value: prescription.dispStatus || 'Unknown',
               inline: true,
             },
             {
