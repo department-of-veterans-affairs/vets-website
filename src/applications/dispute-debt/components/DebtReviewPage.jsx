@@ -3,28 +3,15 @@ import PropTypes from 'prop-types';
 import { currency } from '../utils';
 import { deductionCodes } from '../constants';
 
-const DebtReviewPage = ({ data, editPage, pagePerItemIndex, name }) => {
+const DebtReviewPage = ({ data, pagePerItemIndex, name, goToPath }) => {
   const debt = data?.selectedDebts?.[pagePerItemIndex];
 
+  if (name && name.includes('disputeReason')) {
+    return null;
+  }
+
   if (!debt) {
-    return (
-      <div className="form-review-panel-page">
-        <div className="form-review-panel-page-header-row">
-          <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-            Debt {parseInt(pagePerItemIndex, 10) + 1} of{' '}
-            {data?.selectedDebts?.length || 0}
-          </h4>
-          <va-button
-            secondary
-            class="edit-page"
-            onClick={editPage}
-            label="Edit"
-            text="Edit"
-            uswds
-          />
-        </div>
-      </div>
-    );
+    return null;
   }
 
   const amount = debt.currentAr || debt.originalAr || 0;
@@ -36,9 +23,15 @@ const DebtReviewPage = ({ data, editPage, pagePerItemIndex, name }) => {
     debt.label ||
     `Debt ${debtNumber} of ${total}: ${currency(amount)} for ${debtTitle}`;
 
-  // Determine what fields to show based on the page name
-  const isDisputeReason = name === 'disputeReason';
-  const isSupportStatement = name === 'supportStatement';
+  // Function to navigate to specific page for editing
+  const editSpecificPage = () => {
+    // Navigate to the beginning of the dispute reason flow for this debt
+    // This takes users to the first page (dispute reason selection) even if they want to edit their comment
+    // The pagePerItemIndex should be 0-based for the first debt, 1 for second debt, etc.
+    if (goToPath) {
+      goToPath(`/existence-or-amount/${pagePerItemIndex}`);
+    }
+  };
 
   return (
     <div className="form-review-panel-page">
@@ -49,37 +42,35 @@ const DebtReviewPage = ({ data, editPage, pagePerItemIndex, name }) => {
         <va-button
           secondary
           class="edit-page"
-          onClick={editPage}
+          onClick={editSpecificPage}
           label={`Edit ${dynamicTitle}`}
           text="Edit"
           uswds
         />
       </div>
       <dl className="review">
-        {isDisputeReason &&
-          debt.disputeReason && (
-            <div className="review-row">
-              <dt>Reason for dispute</dt>
-              <dd
-                className="dd-privacy-hidden"
-                data-dd-action-name="dispute reason"
-              >
-                {debt.disputeReason}
-              </dd>
-            </div>
-          )}
-        {isSupportStatement &&
-          debt.supportStatement && (
-            <div className="review-row">
-              <dt>Why you’re disputing this debt</dt>
-              <dd
-                className="dd-privacy-hidden"
-                data-dd-action-name="support statement"
-              >
-                {debt.supportStatement}
-              </dd>
-            </div>
-          )}
+        {debt.disputeReason && (
+          <div className="review-row">
+            <dt>Reason for dispute</dt>
+            <dd
+              className="dd-privacy-hidden"
+              data-dd-action-name="dispute reason"
+            >
+              {debt.disputeReason}
+            </dd>
+          </div>
+        )}
+        {debt.supportStatement && (
+          <div className="review-row">
+            <dt>Why you’re disputing this debt</dt>
+            <dd
+              className="dd-privacy-hidden"
+              data-dd-action-name="support statement"
+            >
+              {debt.supportStatement}
+            </dd>
+          </div>
+        )}
       </dl>
     </div>
   );
@@ -91,6 +82,7 @@ DebtReviewPage.propTypes = {
   pagePerItemIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
   name: PropTypes.string,
+  goToPath: PropTypes.func,
 };
 
 export default DebtReviewPage;
