@@ -82,6 +82,7 @@ const ArrayBuilderCards = ({
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const arrayData = get(arrayPath, formData);
+
   const currentItem = arrayData?.[currentIndex];
   const isMounted = useRef(true);
 
@@ -153,6 +154,7 @@ const ArrayBuilderCards = ({
   );
 
   Card.propTypes = {
+    children: PropTypes.node.isRequired,
     index: PropTypes.number.isRequired,
   };
 
@@ -173,11 +175,6 @@ const ArrayBuilderCards = ({
                 review: isReview,
               });
               const rawEditPath = getEditItemPathUrl(formData, index, context);
-              console.log(
-                `🔍 getEditItemPathUrl for index ${index}:`,
-                rawEditPath,
-              );
-
               const itemName = getText(
                 'getItemName',
                 itemData,
@@ -215,14 +212,6 @@ const ArrayBuilderCards = ({
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
                       <EditLink
                         to={createArrayBuilderItemEditPath({
-                          // path: getEditItemPathUrl(
-                          //   formData,
-                          //   index,
-                          //   arrayBuilderContextObject({
-                          //     edit: true,
-                          //     review: isReview,
-                          //   }),
-                          // ),
                           path: rawEditPath,
                           index,
                           isReview,
@@ -284,8 +273,8 @@ const ArrayBuilderCards = ({
   );
 };
 
-const mapStateToProps = state => ({
-  formData: state.form.data,
+const mapStateToProps = (state, ownProps) => ({
+  formData: ownProps.formData || state.form.data,
   pageList: state.form.pages,
 });
 
@@ -314,4 +303,21 @@ ArrayBuilderCards.propTypes = {
   titleHeaderLevel: PropTypes.string,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArrayBuilderCards);
+EditLink.propTypes = {
+  srText: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+};
+
+RemoveButton.propTypes = {
+  srText: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
+MissingInformationAlert.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ArrayBuilderCards);

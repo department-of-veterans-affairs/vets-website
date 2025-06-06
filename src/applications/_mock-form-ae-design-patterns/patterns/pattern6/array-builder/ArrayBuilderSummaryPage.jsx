@@ -1,3 +1,5 @@
+/* eslint-disable sonarjs/cognitive-complexity */
+/* eslint-disable no-useless-computed-key */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
 import React, {
@@ -163,6 +165,40 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
+
+    // const formData = useSelector(state => state.form.data);
+
+    // useEffect(
+    //   () => {
+    //     if (
+    //       arrayData &&
+    //       formData?.spouseFullName &&
+    //       formData?.maritalStatus === 'DIVORCED'
+    //     ) {
+    //       const currentMarriage = {
+    //         spouseFullName: formData?.spouseFullName,
+    //         previousDateOfMarriage: formData?.dateOfMarriage,
+    //         previousMarriageLocation: formData?.marriageLocation,
+    //         ['view:marriedOutsideUS']: formData?.['view:marriedOutsideUS'],
+    //         ['view:marriageEndedOutsideUS']:
+    //           formData?.['view:marriageEndedOutsideUS'],
+    //         reasonMarriageEnded: 'DIVORCE',
+    //         dateOfTermination: formData?.dateOfTermination,
+    //         previousMarriageEndLocation: formData?.marriageEndLocation,
+    //       };
+
+    //       // Only add if not already present
+    //       const hasCurrentMarriage = arrayData.some(
+    //         item => item.spouseFullName === currentMarriage.spouseFullName,
+    //       );
+
+    //       if (!hasCurrentMarriage) {
+    //         arrayData.unshift(currentMarriage);
+    //       }
+    //     }
+    //   },
+    //   [formData?.spouseFullName, formData?.maritalStatus],
+    // );
 
     useEffect(() => {
       const cleanupEmptyItems = () => {
@@ -443,6 +479,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       );
     };
 
+    UpdatedAlert.propTypes = {
+      show: PropTypes.bool,
+    };
+
     const RemovedAlert = ({ show }) => {
       return (
         <div ref={removedAlertRef}>
@@ -456,6 +496,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ) : null}
         </div>
       );
+    };
+
+    RemovedAlert.propTypes = {
+      show: PropTypes.bool,
     };
 
     const ReviewErrorAlert = ({ show }) => {
@@ -476,6 +520,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ) : null}
         </div>
       );
+    };
+
+    ReviewErrorAlert.propTypes = {
+      show: PropTypes.bool,
     };
 
     const Alerts = useCallback(
@@ -546,6 +594,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           nounSingular={nounSingular}
           nounPlural={nounPlural}
           isIncomplete={isItemIncomplete}
+          // eslint-disable-next-line no-shadow
           getEditItemPathUrl={(formData, index, context) => {
             const basePath = getFirstItemPagePath(formData, index, context);
             return `/6/marital-status/${basePath}`;

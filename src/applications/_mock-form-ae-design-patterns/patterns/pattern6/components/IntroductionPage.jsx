@@ -36,7 +36,12 @@ class IntroductionPage extends React.Component {
           <ul>
             <li>
               <Link to={`${formConfig.urlPrefix}current-marital-status`}>
-                Current marital status
+                Current marital status (standard)
+              </Link>
+            </li>
+            <li>
+              <Link to={`${formConfig.urlPrefix}current-marital-status-simple`}>
+                Current marital status (simple)
               </Link>
             </li>
             <li>
@@ -107,7 +112,11 @@ class IntroductionPage extends React.Component {
           <h2>Divorced flow specific pages</h2>
           <ul>
             <li>
-              <Link to={`${formConfig.urlPrefix}marriage-end-date-location`}>
+              <Link
+                to={`${
+                  formConfig.urlPrefix
+                }veteran-marriage-history/0/former-marriage-end-date-location?add=true`}
+              >
                 Place and date of marriage termination
               </Link>
             </li>
@@ -119,7 +128,7 @@ class IntroductionPage extends React.Component {
           </ul>
         </div>
 
-        <div className="vads-u-margin-top--2">
+        <div className="vads-u-margin-top--2 vads-u-margin-bottom--6">
           <h2>Widowed flow specific pages</h2>
           <ul>
             <li>

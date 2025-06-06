@@ -98,7 +98,7 @@ padding-left: 0;
 }
 
 
-// pattern 6 Marital Status
+// PATTERN 6 MARITAL STATUS
 [data-location="6/marital-status/current-marital-status"] {
   va-radio::part(legend) {
     font-size: 1.25rem;
@@ -106,10 +106,15 @@ padding-left: 0;
   }
 }
 
-[data-location="6/marital-status/spouse-identity"] {
-  fieldset.schemaform-field-template {
-    margin-top: 1.875rem;
+[data-location="6/marital-status/current-marital-status-simple"] {
+  va-radio::part(legend) {
+    font-size: 1.25rem;
+    font-weight: 700;
   }
+}
+
+.masked-ssn {
+  margin-bottom: 1.875rem;
 }
 
 [data-location="6/marital-status/spouse-personal-information"] {
@@ -124,6 +129,13 @@ padding-left: 0;
   }
 }
 
+[data-location="6/marital-status/additional-living-situation"] {
+legend.schemaform-label {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+}
+
 .end-title-span {
   color: rgb(181, 9, 9) !important;
 }
@@ -131,3 +143,20 @@ padding-left: 0;
 #react-root > div.vads-u-margin-top--4 > div:nth-child(1) > div.form-app > div > div > div.progress-box.progress-box-schemaform > div > form > div.vads-u-margin-y--2.rjsf-object-field > div > fieldset > p {
 color: var(--vads-label-hint-text-color-on-light);
 }
+
+// .divorced-user-hidden-radio {
+//   .form-radio-buttons,
+//   va-radio,
+//   .rjsf-radio-widget {
+//     display: none !important;
+//   }
+
+//   // Keep the title and description visible
+//   .field-title,
+//   .field-description,
+//   legend,
+//   h1, h2, h3, h4, h5, h6,
+//   p {
+//     display: block !important;
+//   }
+// }

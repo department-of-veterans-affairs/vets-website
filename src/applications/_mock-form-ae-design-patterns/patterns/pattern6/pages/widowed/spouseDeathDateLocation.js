@@ -48,11 +48,11 @@ export default {
   title: "Place and date of spouse's death",
   path: 'spouse-death-information',
   uiSchema: {
-    ...titleUI("Place and date of spouse's death"),
+    ...titleUI('When and where did your spouse die?'),
     'view:additionalInformation': {
       'ui:description': AdditionalInformation,
     },
-    dateOfDeath: currentOrPastDateUI('Date of death'),
+    dateOfDeath: currentOrPastDateUI('Date'),
     'view:diedOutsideUS': {
       'ui:title': 'My spouse died outside the U.S.',
       'ui:webComponentField': VaCheckboxField,
@@ -100,6 +100,10 @@ export default {
     type: 'object',
     required: ['dateOfDeath', 'city', 'state'],
     properties: {
+      'view:additionalInformation': {
+        type: 'object',
+        properties: {},
+      },
       dateOfDeath: currentOrPastDateSchema,
       'view:diedOutsideUS': {
         type: 'boolean',

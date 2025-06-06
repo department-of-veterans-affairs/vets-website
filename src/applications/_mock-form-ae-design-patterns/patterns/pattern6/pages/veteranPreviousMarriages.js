@@ -1,13 +1,9 @@
-import {
-  titleUI,
-  arrayBuilderYesNoSchema,
-  arrayBuilderYesNoUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { arrayBuilderYesNoSchema } from 'platform/forms-system/src/js/web-component-patterns';
+import { arrayBuilderYesNoUI } from '../array-builder/arrayBuilderPatterns';
 import { veteranMarriageHistoryOptions } from './marriageHistoryConfig';
 
 export default {
   uiSchema: {
-    ...titleUI('Review Marriages'),
     'view:completedVeteranFormerMarriage': arrayBuilderYesNoUI(
       veteranMarriageHistoryOptions,
       {

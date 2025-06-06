@@ -2,7 +2,6 @@ import React from 'react';
 import {
   radioUI,
   radioSchema,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 // export default {
@@ -54,7 +53,8 @@ const MaritalStatusDescription = (
   >
     <div>
       <p className="vads-u-margin-top--0">
-        We want to make sure we understand your household’s financial
+        [Language should be specific to the form. As an example, Form 10-10EZ
+        says:] We want to make sure we understand your household’s financial
         information to better determine what health care benefits you can get.
         If you’re married, we also need to understand your spouse’s financial
         information.
@@ -71,17 +71,11 @@ export default {
     maritalStatus: radioUI({
       title: 'What is your marital status?',
       labels: maritalStatusOptions,
-      // hint: 'If you’re in a civil union or common law marriage that’s recognized by the state you were married in, select Married (including state-recognized unions).',
       description: (
         <span className="vads-u-color--gray-medium">
           If you're in a civil union or common law marriage that's recognized by
           the state you were married in, select Married (including
           state-recognized unions).
-          <va-link
-            text="Please view abc link"
-            href="https://www.va.gov/resources/state-recognized-unions/"
-          />
-          .
         </span>
       ),
     }),

@@ -20,22 +20,71 @@ export const veteranMarriageHistoryOptions = {
   nounPlural: 'former marriages',
   required: false,
   isItemIncomplete: item =>
-    !item?.spouseName ||
-    !item?.marriageDate ||
-    !item?.marriageLocation ||
-    !item?.marriageEndDate ||
-    !item?.marriageEndReason,
+    !item?.spouseFullName ||
+    !item?.previousDateOfMarriage ||
+    !item?.previousMarriageLocation?.city ||
+    (item?.['view:marriedOutsideUS'] === false &&
+      !item?.previousMarriageLocation?.state) ||
+    (item?.['view:marriedOutsideUS'] === true &&
+      !item?.previousMarriageLocation?.country) ||
+    !item?.reasonMarriageEnded ||
+    !item?.dateOfTermination ||
+    !item?.previousMarriageEndLocation?.city ||
+    (item?.['view:marriageEndedOutsideUS'] === false &&
+      !item?.previousMarriageEndLocation?.state) ||
+    (item?.['view:marriageEndedOutsideUS'] === true &&
+      !item?.previousMarriageEndLocation?.country),
   text: {
-    summaryTitle: 'Review your marriage',
+    summaryTitle: 'Review your marriages',
     getItemName: item =>
       `${capitalize(item?.spouseFullName?.first) || ''} ${capitalize(
         item?.spouseFullName?.last,
       ) || ''} `,
     cardDescription: item =>
-      `${formatDate(item?.dateOfMarriage)} - ${formatDate(
+      `${formatDate(item?.previousDateOfMarriage)} - ${formatDate(
         item?.dateOfTermination,
-      )}; ${item?.marriageLocation?.city || ''}, ${item?.marriageLocation
-        ?.state || ''}, ${item?.marriageLocation?.country ||
+      )}; ${capitalize(item?.previousMarriageLocation?.city) || ''}, ${item
+        ?.previousMarriageLocation?.state || ''}, ${item
+        ?.previousMarriageLocation?.country ||
+        (item?.['view:marriedOutsideUS'] === false ? 'USA' : '')}`,
+  },
+};
+
+/**
+ * Configuration for the veteran's previous marriage history (for married users)
+ */
+export const veteranMarriageHistoryOptionsForMarried = {
+  arrayPath: 'veteranMarriageHistoryForMarried',
+  nounSingular: 'former marriage',
+  nounPlural: 'former marriages',
+  required: false,
+  isItemIncomplete: item =>
+    !item?.spouseFullName ||
+    !item?.previousDateOfMarriage ||
+    !item?.previousMarriageLocation?.city ||
+    (item?.['view:marriedOutsideUS'] === false &&
+      !item?.previousMarriageLocation?.state) ||
+    (item?.['view:marriedOutsideUS'] === true &&
+      !item?.previousMarriageLocation?.country) ||
+    !item?.reasonMarriageEnded ||
+    !item?.dateOfTermination ||
+    !item?.previousMarriageEndLocation?.city ||
+    (item?.['view:marriageEndedOutsideUS'] === false &&
+      !item?.previousMarriageEndLocation?.state) ||
+    (item?.['view:marriageEndedOutsideUS'] === true &&
+      !item?.previousMarriageEndLocation?.country),
+  text: {
+    summaryTitle: 'Review your marriages',
+    getItemName: item =>
+      `${capitalize(item?.spouseFullName?.first) || ''} ${capitalize(
+        item?.spouseFullName?.last,
+      ) || ''} `,
+    cardDescription: item =>
+      `${formatDate(item?.previousDateOfMarriage)} - ${formatDate(
+        item?.dateOfTermination,
+      )}; ${capitalize(item?.previousMarriageLocation?.city) || ''}, ${item
+        ?.previousMarriageLocation?.state || ''}, ${item
+        ?.previousMarriageLocation?.country ||
         (item?.['view:marriedOutsideUS'] === false ? 'USA' : '')}`,
   },
 };
@@ -73,8 +122,8 @@ export const spouseMarriageHistoryOptions = {
     cardDescription: item =>
       `${formatDate(item?.dateOfMarriage)} - ${formatDate(
         item?.dateOfTermination,
-      )}; ${item?.marriageLocation?.city || ''}, ${item?.marriageLocation
-        ?.state || ''}, ${item?.marriageLocation?.country ||
+      )}; ${capitalize(item?.marriageLocation?.city) || ''}, ${item
+        ?.marriageLocation?.state || ''}, ${item?.marriageLocation?.country ||
         (item?.['view:marriedOutsideUS'] === false ? 'USA' : '')}`,
   },
 };

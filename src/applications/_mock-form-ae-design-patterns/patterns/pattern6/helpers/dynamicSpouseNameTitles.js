@@ -32,5 +32,3 @@ DynamicSpouseNameTitle.propTypes = {
 MarriageEndReasonTitle.propTypes = {
   formContext: PropTypes.object,
 };
-
-// export default DynamicSpouseNameTitle;

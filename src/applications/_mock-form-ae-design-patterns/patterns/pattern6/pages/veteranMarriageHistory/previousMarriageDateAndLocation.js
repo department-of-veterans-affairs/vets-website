@@ -29,17 +29,14 @@ const COUNTRY_NAMES = constants.countries
   .map(country => country.label);
 
 export default {
-  title: 'Place and date of marriage',
-  path: 'marriage-date-location',
-  // depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
   uiSchema: {
     ...titleUI('When and where did you get married?'),
-    dateOfMarriage: currentOrPastDateUI('Date'),
+    previousDateOfMarriage: currentOrPastDateUI('Date'),
     'view:marriedOutsideUS': {
       'ui:title': 'I got married outside the U.S.',
       'ui:webComponentField': VaCheckboxField,
     },
-    marriageLocation: {
+    previousMarriageLocation: {
       city: {
         'ui:title': 'City',
         'ui:webComponentField': VaTextInputField,
@@ -82,14 +79,14 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['dateOfMarriage', 'marriageLocation'],
+    required: ['previousDateOfMarriage', 'previousMarriageLocation'],
     properties: {
-      dateOfMarriage: currentOrPastDateSchema,
+      previousDateOfMarriage: currentOrPastDateSchema,
       'view:marriedOutsideUS': {
         type: 'boolean',
         default: false,
       },
-      marriageLocation: {
+      previousMarriageLocation: {
         type: 'object',
         required: ['city'],
         properties: {

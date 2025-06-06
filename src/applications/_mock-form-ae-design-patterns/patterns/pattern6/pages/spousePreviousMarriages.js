@@ -23,8 +23,7 @@ const SpousePreviousMarriagesDescription = (
 
 export default {
   uiSchema: {
-    // ...titleUI('Has your spouse been married before?'),
-    'ui:title': 'Has your spouse been married before?',
+    ...titleUI('Has your spouse been married before?'),
     'view:completedSpouseFormerMarriage': arrayBuilderYesNoUI(
       spouseMarriageHistoryOptions,
       {

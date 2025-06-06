@@ -5,25 +5,16 @@ import {
   ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import vaFileNumberUI from 'platform/forms-system/src/js/definitions/vaFileNumber';
-// import { capitalize } from 'lodash';
-// import { SpouseIdentificationTitle } from '../helpers/dynamicSpouseNameTitles';
-
-const titles = {
-  married: "Spouse's identification information",
-  separated: "Spouse's identification information",
-  divorced: "Previous spouse's identification information",
-  widowed: "Deceased spouse's identifcation information",
-};
+import { capitalize } from 'lodash';
 
 export default {
-  title: "Spouse's identification information",
-  path: 'spouse-identity',
-  // depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
   uiSchema: {
-    // 'ui:title': SpouseIdentificationTitle,
     ...titleUI(({ formData }) => {
-      const statusKey = formData?.maritalStatus?.toLowerCase();
-      const title = titles[statusKey] || "Spouse's identification information";
+      const name = formData?.spouseFullName?.first;
+      const readableName = `${capitalize(name)}`.trim();
+      const title =
+        `${readableName}’s identification information` ||
+        "Previous Spouse's identification information";
 
       return (
         <>
@@ -31,11 +22,9 @@ export default {
         </>
       );
     }),
-    // ...titleUI('Spouse’s identification information'),
     spouseSsn: ssnUI('Social Security Number'),
     isSpouseVeteran: {
-      'ui:title':
-        'Is your spouse also a Veteran? (If divorced: Is your previous spouse also a Veteran? If widowed: Was your spouse also a Veteran?)',
+      'ui:title': 'Is your previous spouse also a Veteran?',
       'ui:widget': 'yesNo',
     },
     vaFileNumber: {

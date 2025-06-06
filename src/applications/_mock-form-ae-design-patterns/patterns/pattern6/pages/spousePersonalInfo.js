@@ -18,7 +18,7 @@ const titles = {
 export default {
   title: "Spouse's Personal Information",
   path: 'spouse-personal-information',
-  depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
+  // depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
   uiSchema: {
     ...titleUI(({ formData }) => {
       const statusKey = formData?.maritalStatus?.toLowerCase();
@@ -30,6 +30,7 @@ export default {
         </>
       );
     }),
+    // ...titleUI('Spouse’s name and date of birth'),
     spouseFullName: {
       ...fullNameUI,
       first: {
@@ -57,9 +58,9 @@ export default {
     'view:previousSpouseIsDeceased': {
       'ui:title': 'My previous spouse is deceased.',
       'ui:webComponentField': VaCheckboxField,
-      'ui:options': {
-        hideIf: formData => formData?.maritalStatus !== 'DIVORCED',
-      },
+      // 'ui:options': {
+      //   hideIf: formData => formData?.maritalStatus !== 'DIVORCED',
+      // },
     },
   },
   schema: {

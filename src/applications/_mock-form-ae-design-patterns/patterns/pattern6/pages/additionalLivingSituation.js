@@ -1,24 +1,21 @@
-import React from 'react';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-
-const FinancialSupportDescription = (
-  <va-additional-info
-    trigger="Why we consider financial support for a spouse (used by 10-10EZ)"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
-    uswds
-  >
-    <div>
-      <p className="vads-u-margin-top--0" />
-    </div>
-  </va-additional-info>
-);
+// const FinancialSupportDescription = (
+//   <va-additional-info
+//     trigger="Why we consider financial support for a spouse (used by 10-10EZ)"
+//     class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+//     uswds
+//   >
+//     <div>
+//       <p className="vads-u-margin-top--0" />
+//     </div>
+//   </va-additional-info>
+// );
 
 export default {
   title: 'Additional Living Situation Information',
   path: 'additional-living-situation',
-  depends: formData => !formData?.currentlyLiveWithSpouse,
+  // depends: formData => !formData?.currentlyLiveWithSpouse,
   uiSchema: {
-    ...titleUI('Additional living situation information'),
+    // ...titleUI('Additional living situation information'),
     reasonNotLivingWithSpouse: {
       'ui:title': 'Why do you live separately from your spouse?',
       'ui:widget': 'radio',
@@ -42,17 +39,17 @@ export default {
         expandUnderCondition: 'Not listed here',
       },
     },
-    form527MonthlySpouseSupport: {
-      'ui:title':
-        '(Form 527 and 527EZ (if separated):) How much do you contribute to your spouse’s monthly support?',
-    },
-    form1010EZSpouseFinancialSupport: {
-      'ui:title':
-        '(Form 10-10EZ only:) Did you provide financial support for your spouse in the previous year even though you didn’t live together?',
-    },
-    'view:financialSupportInfo': {
-      'ui:description': FinancialSupportDescription,
-    },
+    // form527MonthlySpouseSupport: {
+    //   'ui:title':
+    //     '(Form 527 and 527EZ (if separated):) How much do you contribute to your spouse’s monthly support?',
+    // },
+    // form1010EZSpouseFinancialSupport: {
+    //   'ui:title':
+    //     '(Form 10-10EZ only:) Did you provide financial support for your spouse in the previous year even though you didn’t live together?',
+    // },
+    // 'view:financialSupportInfo': {
+    //   'ui:description': FinancialSupportDescription,
+    // },
   },
   schema: {
     type: 'object',
@@ -68,12 +65,12 @@ export default {
         ],
       },
       otherReasonDescription: { type: 'string' },
-      form527MonthlySpouseSupport: { type: 'string' },
-      form1010EZSpouseFinancialSupport: { type: 'string' },
-      'view:financialSupportInfo': {
-        type: 'object',
-        properties: {},
-      },
+      // form527MonthlySpouseSupport: { type: 'string' },
+      // form1010EZSpouseFinancialSupport: { type: 'string' },
+      // 'view:financialSupportInfo': {
+      //   type: 'object',
+      //   properties: {},
+      // },
     },
   },
 };

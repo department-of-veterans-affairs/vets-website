@@ -70,9 +70,6 @@ export default function ArrayBuilderItemPage({
     }
 
     const NavButtons = props.NavButtons || FormNavButtons;
-    console.log('data', data);
-    console.log('props.fullData', props.fullData);
-    console.log('props.getFormData', props.getFormData);
 
     return (
       <SchemaForm

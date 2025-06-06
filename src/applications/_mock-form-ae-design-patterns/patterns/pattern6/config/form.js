@@ -1,42 +1,37 @@
-import React from 'react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
 import ConfirmationPage from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
 import IntroductionPage from 'applications/_mock-form-ae-design-patterns/patterns/pattern6/components/IntroductionPage';
 import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
-// import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { arrayBuilderPages } from 'applications/_mock-form-ae-design-patterns/patterns/pattern6/array-builder/arrayBuilder';
-import {
-  titleUI,
-  arrayBuilderItemFirstPageTitleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
 // Import marital status chapter pages
 import currentMaritalStatus from '../pages/currentMaritalStatus';
+import currentMaritalStatusSimple from '../pages/currentMaritalStatusSimple';
 import marriageType from '../pages/marriageType';
 import marriageDateAndLocation from '../pages/marriageDateAndLocation';
 import marriageCertificate from '../pages/marriageCertificate';
-import marriageTermination from '../pages/divorced/marriageEndDateLocation';
 import spouseDeathInfo from '../pages/widowed/spouseDeathDateLocation';
 import divorceDocuments from '../pages/divorced/divorceDocuments';
 
 // Import spouse information chapter pages
 import spousePersonalInfo from '../pages/spousePersonalInfo';
 import previousSpousePersonalInfo from '../pages/divorced/previousSpousePersonalInfo';
-import deceasedSpousePersonalInfo from '../pages/widowed/deceasedSpousePersonalInfo';
 import spouseIdentity from '../pages/spouseIdentity';
 import spouseMilitaryHistory from '../pages/spouseMilitaryHistory';
 import spouseContactInfo from '../pages/spouseContactInfo';
 import livingSituation from '../pages/livingSituation';
 import additionalLivingSituation from '../pages/additionalLivingSituation';
-import financialSupport from '../pages/financialSupport';
 
 import veteranPreviousMarriages from '../pages/veteranPreviousMarriages';
-import veteranPreviousMarriageEndReason from '../pages/divorced/marriageEndReason';
-import veteranPreviousMarriageEndDateLocation from '../pages/divorced/marriageEndDateLocation';
+import veteranPreviousMarriageEndReason from '../pages/veteranMarriageHistory/previousMarriageEndReason';
+import veteranPreviousMarriageEndDateLocation from '../pages/veteranMarriageHistory/previousMarriageEndDateLocation';
+import veteranPreviousSpouseIdentity from '../pages/veteranMarriageHistory/previousSpouseIdentity';
+import veteranPreviousSpouseContactInfo from '../pages/veteranMarriageHistory/previousSpouseContactInfo';
+import veteranPreviousMarriageDateAndLocation from '../pages/veteranMarriageHistory/previousMarriageDateAndLocation';
+import veteranPreviousMarriageType from '../pages/veteranMarriageHistory/previousMarriageType';
+
 import spousePreviousMarriages from '../pages/spousePreviousMarriages';
-import previousMarriageDetails from '../pages/previousMarriageDetails';
 import {
-  spouseFormerMarriagePersonalInfo,
   buildSpouseFormerMarriageUiSchema,
   spouseFormerMarriageSchema,
 } from '../pages/spouseMarriageHistory/spouseFormerMarriagePersonalInfo';
@@ -47,7 +42,6 @@ import {
   spouseMarriageHistoryOptions,
   veteranMarriageHistoryOptions,
 } from '../pages/marriageHistoryConfig';
-import { description } from 'platform';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -85,26 +79,53 @@ const formConfig = {
     'previousMarriages',
   ],
   chapters: {
-    // First chapter - Marital Status
     maritalStatusChapter: {
       title: 'Marital Status',
       pages: {
         currentMaritalStatus: {
-          title: "What's your current marital status?",
+          title: "What's your marital status?",
           path: 'current-marital-status',
           depends: () => true,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData?.maritalStatus === 'DIVORCED') {
+              // Divorced users go directly to veteran marriage history list & loop
+              goPath(
+                '/6/marital-status/veteran-marriage-history/0/former-spouse-information?add=true',
+              );
+            } else if (
+              formData?.maritalStatus === 'MARRIED' ||
+              formData?.maritalStatus === 'SEPARATED' ||
+              formData?.maritalStatus === 'WIDOWED'
+            ) {
+              // Users with current/former spouses go to spouse info first
+              goPath('/6/marital-status/spouse-personal-information');
+            } else if (formData?.maritalStatus === 'NEVER_MARRIED') {
+              // Never married users skip everything and go to review
+              goPath('/6/marital-status/review-and-submit');
+            }
+          },
           ...currentMaritalStatus,
+        },
+        currentMaritalStatusSimple: {
+          title: "What's your marital status?",
+          path: 'current-marital-status-simple',
+          depends: () => false,
+          ...currentMaritalStatusSimple,
         },
         spousePersonalInfo: {
           title: "Spouse's Personal Information",
-          path: '/spouse-personal-information',
+          path: 'spouse-personal-information',
           depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
+          // formData?.maritalStatus === 'MARRIED' ||
+          // formData?.maritalStatus === 'SEPARATED',
           ...spousePersonalInfo,
         },
         spouseIdentity: {
           title: "Spouse's identification information",
-          path: '/spouse-identity',
-          depends: formData => formData?.maritalStatus === 'MARRIED',
+          path: 'spouse-identity',
+          depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
+          // formData?.maritalStatus === 'MARRIED' ||
+          // formData?.maritalStatus === 'SEPARATED',
           ...spouseIdentity,
         },
         spouseMilitaryHistory: {
@@ -122,34 +143,36 @@ const formConfig = {
         additionalLivingSituation: {
           title: 'Additional Living Situation Information',
           path: 'additional-living-situation',
-          depends: formData => !formData?.currentlyLiveWithSpouse,
+          depends: formData => formData?.currentlyLiveWithSpouse === false,
           ...additionalLivingSituation,
         },
         spouseContactInfo: {
           title: "Spouse's address and phone number",
           path: 'spouse-contact-information',
           depends: formData =>
-            formData?.maritalStatus !== 'NEVER_MARRIED' &&
+            (formData?.maritalStatus === 'MARRIED' ||
+              formData?.maritalStatus === 'SEPARATED') &&
+            // formData?.maritalStatus !== 'NEVER_MARRIED' &&
             !formData?.currentlyLiveWithSpouse,
           ...spouseContactInfo,
         },
         marriageDateAndLocation: {
           title: 'Place and date of marriage',
           path: 'marriage-date-location',
-          depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
+          depends: formData =>
+            formData?.maritalStatus === 'MARRIED' ||
+            formData?.maritalStatus === 'SEPARATED' ||
+            formData?.maritalStatus === 'WIDOWED',
           ...marriageDateAndLocation,
         },
         marriageType: {
-          title: 'What type of marriage do you have?',
-          path: '/marriage-type',
-          depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
+          title: 'Type of marriage',
+          path: 'marriage-type',
+          depends: formData =>
+            formData?.maritalStatus === 'MARRIED' ||
+            formData?.maritalStatus === 'SEPARATED' ||
+            formData?.maritalStatus === 'WIDOWED',
           ...marriageType,
-        },
-        marriageTermination: {
-          title: 'Place and date of marriage termination',
-          path: 'marriage-end-date-location',
-          depends: formData => formData?.maritalStatus === 'DIVORCED',
-          ...marriageTermination,
         },
         spouseDeathInfo: {
           title: "Place and date of spouse's death",
@@ -160,14 +183,10 @@ const formConfig = {
         marriageCertificate: {
           title: 'Marriage certificate',
           path: 'marriage-certificate',
-          depends: formData => formData?.maritalStatus === 'MARRIED',
+          depends: formData =>
+            formData?.maritalStatus === 'MARRIED' ||
+            formData?.maritalStatus === 'SEPARATED',
           ...marriageCertificate,
-        },
-        divorceDocuments: {
-          title: 'Divorce documents',
-          path: 'divorce-documents',
-          depends: formData => formData?.maritalStatus === 'DIVORCED',
-          ...divorceDocuments,
         },
         ...arrayBuilderPages(spouseMarriageHistoryOptions, pageBuilder => ({
           spousePreviousMarriages: pageBuilder.summaryPage({
@@ -177,7 +196,24 @@ const formConfig = {
             schema: spousePreviousMarriages.schema,
             depends: formData =>
               formData?.maritalStatus !== 'NEVER_MARRIED' &&
-              formData?.maritalStatus !== 'WIDOWED',
+              formData?.maritalStatus !== 'WIDOWED' &&
+              formData?.maritalStatus !== 'DIVORCED',
+            onNavForward: ({ formData, goPath }) => {
+              // Check the yes/no answer for spouse previous marriages
+              const hasSpousePreviousMarriages =
+                formData?.['view:completedSpouseFormerMarriage'];
+
+              if (hasSpousePreviousMarriages === false) {
+                // User said "no" - go to veteran marriage history
+                goPath('/6/marital-status/veteran-marriage-history');
+              } else {
+                // User said "yes" - continue with spouse marriage history flow
+                // This will use default navigation to the first spouse marriage item page
+                goPath(
+                  '/6/marital-status/current-spouse-marriage-history/0/former-spouse-information?add=true',
+                );
+              }
+            },
           }),
           spouseMarriageHistoryPartOne: pageBuilder.itemPage({
             title: 'Previous spouse’s name and date of birth',
@@ -236,13 +272,13 @@ const formConfig = {
         ...arrayBuilderPages(veteranMarriageHistoryOptions, pageBuilder => ({
           veteranPreviousMarriages: pageBuilder.summaryPage({
             title: 'Marital history',
-            path: 'marriage-history',
+            path: 'veteran-marriage-history',
             uiSchema: veteranPreviousMarriages.uiSchema,
             schema: veteranPreviousMarriages.schema,
             depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
           }),
           veteranMarriageHistoryPartOne: pageBuilder.itemPage({
-            title: 'Previous spouse’s name and date of birth',
+            title: "Previous spouse's name and date of birth",
             path: 'veteran-marriage-history/:index/former-spouse-information',
             uiSchema: previousSpousePersonalInfo.uiSchema,
             schema: previousSpousePersonalInfo.schema,
@@ -255,10 +291,10 @@ const formConfig = {
             },
           }),
           veteranMarriageHistoryPartTwo: pageBuilder.itemPage({
-            title: 'Previous spouse’s identification information',
-            path: 'veteran-marriage-history/:index/former-spouse-identity',
-            uiSchema: spouseIdentity.uiSchema,
-            schema: spouseIdentity.schema,
+            title: "Previous spouse's identification information",
+            path: 'veteran-marriage-history/:index/previous-spouse-identity',
+            uiSchema: veteranPreviousSpouseIdentity.uiSchema,
+            schema: veteranPreviousSpouseIdentity.schema,
             depends: (formData, index, context) => {
               return (
                 formData['view:completedVeteranFormerMarriage'] ||
@@ -268,11 +304,11 @@ const formConfig = {
             },
           }),
           veteranMarriageHistoryPartThree: pageBuilder.itemPage({
-            title: 'Previous spouse’s address and phone number',
+            title: "Previous spouse's address and phone number",
             path:
-              'veteran-marriage-history/:index/former-spouse-contact-information',
-            uiSchema: spouseContactInfo.schema,
-            schema: spouseContactInfo.schema,
+              'veteran-marriage-history/:index/previous-spouse-contact-information',
+            uiSchema: veteranPreviousSpouseContactInfo.uiSchema,
+            schema: veteranPreviousSpouseContactInfo.schema,
             depends: (formData, index, context) => {
               return (
                 formData['view:completedVeteranFormerMarriage'] ||
@@ -282,11 +318,11 @@ const formConfig = {
             },
           }),
           veteranMarriageHistoryPartFour: pageBuilder.itemPage({
-            title: 'Place and date of marriage',
+            title: 'Place and date of previous marriage',
             path:
               'veteran-marriage-history/:index/previous-marriage-date-location',
-            uiSchema: marriageDateAndLocation.schema,
-            schema: marriageDateAndLocation.schema,
+            uiSchema: veteranPreviousMarriageDateAndLocation.uiSchema,
+            schema: veteranPreviousMarriageDateAndLocation.schema,
             depends: (formData, index, context) => {
               return (
                 formData['view:completedVeteranFormerMarriage'] ||
@@ -298,8 +334,8 @@ const formConfig = {
           veteranMarriageHistoryPartFive: pageBuilder.itemPage({
             title: 'Type of marriage',
             path: 'veteran-marriage-history/:index/previous-marriage-type',
-            uiSchema: marriageType.schema,
-            schema: marriageType.schema,
+            uiSchema: veteranPreviousMarriageType.uiSchema,
+            schema: veteranPreviousMarriageType.schema,
             depends: (formData, index, context) => {
               return (
                 formData['view:completedVeteranFormerMarriage'] ||
@@ -309,10 +345,10 @@ const formConfig = {
             },
           }),
           veteranMarriageHistoryPartSix: pageBuilder.itemPage({
-            title: 'Reason former marriage ended',
+            title: 'Reason previous marriage ended',
             path:
-              'veteran-marriage-history/:index/reason-former-marriage-ended',
-            uiSchema: veteranPreviousMarriageEndReason.schema,
+              'veteran-marriage-history/:index/reason-previous-marriage-ended',
+            uiSchema: veteranPreviousMarriageEndReason.uiSchema,
             schema: veteranPreviousMarriageEndReason.schema,
             depends: (formData, index, context) => {
               return (
@@ -326,7 +362,7 @@ const formConfig = {
             title: 'Place and date of previous marriage termination',
             path:
               'veteran-marriage-history/:index/former-marriage-end-date-location',
-            uiSchema: veteranPreviousMarriageEndDateLocation.schema,
+            uiSchema: veteranPreviousMarriageEndDateLocation.uiSchema,
             schema: veteranPreviousMarriageEndDateLocation.schema,
             depends: (formData, index, context) => {
               return (
@@ -340,13 +376,14 @@ const formConfig = {
             title: 'Divorce documents',
             path:
               'veteran-marriage-history/:index/former-marriage-divorce-documents',
-            uiSchema: divorceDocuments.schema,
+            uiSchema: divorceDocuments.uiSchema,
             schema: divorceDocuments.schema,
             depends: (formData, index, context) => {
               return (
-                formData['view:completedVeteranFormerMarriage'] ||
+                (formData['view:completedVeteranFormerMarriage'] &&
+                  formData?.maritalStatus === 'DIVORCED') ||
                 context?.edit === true ||
-                context?.add === true
+                (context?.add === true && formData?.maritalStatus !== 'MARRIED')
               );
             },
           }),

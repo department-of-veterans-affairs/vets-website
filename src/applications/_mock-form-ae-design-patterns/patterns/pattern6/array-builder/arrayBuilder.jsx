@@ -15,9 +15,9 @@ import {
   arrayBuilderContextObject,
   getArrayUrlSearchParams,
 } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
-import ArrayBuilderItemPage from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderItemPage';
-import ArrayBuilderSummaryPage from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderSummaryPage';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from 'platform/forms-system/src/js/patterns/array-builder/arrayBuilderText';
+import ArrayBuilderItemPage from './ArrayBuilderItemPage';
+import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
 
 /**
  * @typedef {Object} ArrayBuilderPages
@@ -266,6 +266,7 @@ export function assignGetItemName(options) {
 
 const FORM_URL_PREFIX = '/6/marital-status/';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export function arrayBuilderPages(options, pageBuilderCallback) {
   let introPath;
   let summaryPath;
@@ -372,11 +373,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     typeof userRequired === 'function' ? userRequired : () => userRequired;
 
   const getActiveItemPages = (formData, index, context = null) => {
-    console.log('🔎 getActiveItemPages — formData:', formData);
-    console.log('🔎 getActiveItemPages — index:', index);
-    console.log('🔎 getActiveItemPages — context:', context);
-
-    const filteredPages = itemPages.filter(page => {
+    return itemPages.filter(page => {
       try {
         if (page.depends) {
           return safeDependsItem(page.depends)(formData, index, context);
@@ -386,9 +383,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         return false;
       }
     });
-    console.log('🔎 active itemPages:', filteredPages.map(p => p.path));
-
-    return filteredPages;
 
     // return itemPages.filter(page => {
     //   try {
@@ -477,7 +471,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     )}`;
 
     const nextPagePath = getNextPagePath(pageList, formData, lastActivePath);
-    goPath(nextPagePath);
+    // goPath(nextPagePath);
+    return goPath(nextPagePath);
   };
 
   /** @type {FormConfigPage['onNavBack']} */
@@ -490,11 +485,22 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
 
   /** @type {FormConfigPage['onNavForward']} */
   const navForwardSummary = ({ formData, goPath, pageList, urlParams }) => {
+    // Special handling for divorced users - skip yes/no and go straight to first item
+    // if (
+    //   formData?.maritalStatus === 'DIVORCED' &&
+    //   arrayPath === 'veteranMarriageHistory'
+    // ) {
+    //   navForwardSummaryAddItem({ formData, goPath, urlParams });
+    //   return undefined;
+    // }
+
+    // Normal logic for other users
     if (formData?.[hasItemsKey]) {
       navForwardSummaryAddItem({ formData, goPath, urlParams });
     } else {
       navForwardSummaryGoNextChapter({ formData, goPath, pageList });
     }
+    // return undefined;
   };
 
   /** @type {FormConfigPage['onNavForward']} */
@@ -634,54 +640,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       required,
       getText,
     };
-
-    // If the user defines their own CustomPage to override ArrayBuilderItemPage,
-    // then we should at least give them all the same props that we use for parity.
-    // In the future, it would be nice to extract component features as a whole
-    // to pass to a consumer's CustomPage as well, e.g. NavButtons, rerouting feature
-    // const CustomPage = pageConfig.CustomPage
-    //   ? props => {
-    //       console.log('🔎 CustomPage wrapper — props.formData', props.formData);
-    //       console.log('🔎 CustomPage wrapper — props.data', props.data);
-    //       return (
-    //         <pageConfig.CustomPage
-    //           {...props}
-    //           data={props.data}
-    //           fullData={props.formData}
-    //           arrayBuilder={itemPageProps}
-    //         />
-    //       );
-    //     }
-    //   : (() => {
-    //       const ItemComponent = ArrayBuilderItemPage(itemPageProps);
-    //       return props => {
-    //         console.log('🔎 array wrapper — props.formData', props.formData);
-    //         console.log('🔎 array wrapper — props.data', props.data);
-    //         return (
-    //           <ItemComponent
-    //             {...props}
-    //             data={props.data}
-    //             fullData={props.formData}
-    //           />
-    //         );
-    //       };
-    //     })();
-    // : ArrayBuilderItemPage(itemPageProps);
-
-    // const CustomPage = (() => {
-    //   const ItemComponent = ArrayBuilderItemPage(itemPageProps);
-    //   return props => {
-    //     const fullFormData = props.formContext?.formData;
-    //     console.log(
-    //       '✅ CustomPage wrapper — fullFormData',
-    //       fullFormData,
-    //       props.formContext,
-    //     );
-    //     return (
-    //       <ItemComponent {...props} data={props.data} fullData={fullFormData} />
-    //     );
-    //   };
-    // })();
 
     const CustomPage = (() => {
       const ItemComponent = ArrayBuilderItemPage(itemPageProps);
