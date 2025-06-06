@@ -167,6 +167,9 @@ const responses = {
     // to simulate different responses based on the transactionId param
     return generateStatusResponse(req, res);
   },
+  'POST /simple_forms_api/v1/simple_forms': {
+    confirmationNumber: '48fac28c-b332-4549-a45b-3423297111f4',
+  },
 };
 
 // here we can run anything that needs to happen before the mock server starts up
