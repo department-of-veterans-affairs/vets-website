@@ -1,4 +1,10 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+# Regenerate web component catalog if web component pattern changes are detected
+if git diff --cached --name-only | grep -q '^src/platform/forms-system/src/js/web-component-patterns/'; then
+  echo "Changes detected in web-component-patterns. Regenerating web component documentation..."
+  NODE_VERSION=18 ./script/with-node.sh node ./script/generate-web-component-patterns-catalog.js
+fi
+
 ./node_modules/.bin/lint-staged
