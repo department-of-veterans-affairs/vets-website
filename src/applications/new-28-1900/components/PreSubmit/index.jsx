@@ -6,16 +6,6 @@ import StatementOfTruth from './StatementOfTruth';
 import SignatureCheckbox from './SignatureCheckbox';
 import ProtectionOfPrivacyStatement from './ProtectionOfPrivacyStatement';
 
-// organize text content for statement of truth components
-const LABELS = {
-  veteran: 'Veteran\u2019s',
-};
-
-export const STATEMENTS = {
-  veteran:
-    'I certify that the individual(s) named in this application are involved in my care and I consent to sharing information necessary to their involvement in my health care, payment related to such health care or as needed for notification purposes.',
-};
-
 // declare default state structure(s)
 const DEFAULT_SIGNATURE_STATE = { value: '', checked: false };
 
@@ -29,9 +19,10 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
     () => ({
       veteran: {
         schemaKey: 'veteran',
-        label: LABELS.veteran,
+        label: 'Veteran\u2019s',
         fullName: formData.veteranFullName,
-        statementText: STATEMENTS.veteran,
+        statementText:
+          'I certify that the individual(s) named in this application are involved in my care and I consent to sharing information necessary to their involvement in my health care, payment related to such health care or as needed for notification purposes.',
         shouldRender: true,
       },
     }),
