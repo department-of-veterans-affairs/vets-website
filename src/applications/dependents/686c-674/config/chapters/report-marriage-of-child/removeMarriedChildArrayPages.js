@@ -1,5 +1,5 @@
 import React from 'react';
-import { capitalize } from 'lodash';
+
 import {
   titleUI,
   arrayBuilderItemFirstPageTitleUI,
@@ -15,7 +15,9 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
 import { CancelButton } from '../../helpers';
+import { getFullName } from '../../../../shared/utils';
 
 /** @type {ArrayBuilderOptions} */
 export const removeMarriedChildOptions = {
@@ -32,37 +34,26 @@ export const removeMarriedChildOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your children under 18 who got married',
-    getItemName: () => 'Child',
-    cardDescription: item => (
-      <span className="dd-privacy" data-dd-privacy="mask">
-        {`${capitalize(item?.fullName?.first) || ''} ${capitalize(
-          item?.fullName?.last,
-        ) || ''}`.trim()}
-      </span>
-    ),
+    getItemName: item => getFullName(item.fullName),
     cancelAddButtonText: 'Cancel removing this child',
   },
 };
 
 export const removeMarriedChildIntroPage = {
   uiSchema: {
-    ...titleUI({
-      title: 'Your children under 18 who got married',
-      description: () => {
-        return (
-          <>
-            <p>
-              In the next few questions, we’ll ask you about your children who
-              have gotten married. You must add at least one child.
-            </p>
-            <CancelButton
-              dependentType="children who got married"
-              isAddChapter={false}
-            />
-          </>
-        );
-      },
-    }),
+    ...titleUI('Your children under 18 who got married'),
+    'ui:description': () => (
+      <>
+        <p>
+          In the next few questions, we’ll ask you about your children who have
+          gotten married. You must add at least one child.
+        </p>
+        <CancelButton
+          dependentType="children who got married"
+          isAddChapter={false}
+        />
+      </>
+    ),
   },
   schema: {
     type: 'object',

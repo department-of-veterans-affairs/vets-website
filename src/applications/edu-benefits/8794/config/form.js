@@ -29,10 +29,11 @@ import {
   institutionDetails,
   institutionDetailsFacility,
   primaryOfficialTraining,
+  primaryOfficialBenefitStatus,
   institutionDetailsNoFacilityDescription,
+  institutionNameAndAddress,
 } from '../pages';
 import directDeposit from '../pages/directDeposit';
-import serviceHistory from '../pages/serviceHistory';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -109,16 +110,11 @@ const formConfig = {
           uiSchema: institutionDetailsNoFacilityDescription.uiSchema,
           schema: institutionDetailsNoFacilityDescription.schema,
         },
-      },
-    },
-    serviceHistoryChapter: {
-      title: 'Service History',
-      pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
+        institutionNameAndAddress: {
+          path: 'institution-details-2',
+          title: 'Institution details',
+          uiSchema: institutionNameAndAddress.uiSchema,
+          schema: institutionNameAndAddress.schema,
         },
       },
     },
@@ -136,6 +132,12 @@ const formConfig = {
           title: 'Section 305 training',
           uiSchema: primaryOfficialTraining.uiSchema,
           schema: primaryOfficialTraining.schema,
+        },
+        primaryOfficialBenefitStatus: {
+          path: 'primary-certifying-official-2',
+          title: 'Benefit status',
+          uiSchema: primaryOfficialBenefitStatus.uiSchema,
+          schema: primaryOfficialBenefitStatus.schema,
         },
       },
     },

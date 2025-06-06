@@ -9,10 +9,7 @@ import featureToggles from '../fixtures/mocks/featureToggles.json';
 import minimalFlow from '../fixtures/data/minimalFlow.json';
 import maximalFlow from '../fixtures/data/maximalFlow.json';
 import militaryAddressFlow from '../fixtures/data/militaryAddressFlow.json';
-import {
-  fillAddressWebComponentPattern,
-  selectCheckboxWebComponent,
-} from './utilities';
+import { selectCheckboxWebComponent } from './utilities';
 
 const testConfig = createTestConfig(
   {
@@ -39,7 +36,7 @@ const testConfig = createTestConfig(
                 data.checkBoxGroup.checkForMailingAddress,
               );
             } else {
-              fillAddressWebComponentPattern(
+              cy.fillAddressWebComponentPattern(
                 'mainMailingAddress',
                 data.mainMailingAddress,
               );
@@ -51,7 +48,7 @@ const testConfig = createTestConfig(
       'new-mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'newMailingAddress',
               data.newMailingAddress,
             );
