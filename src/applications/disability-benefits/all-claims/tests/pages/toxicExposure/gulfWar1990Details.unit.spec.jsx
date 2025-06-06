@@ -114,6 +114,9 @@ describe('gulfWar1990Details', () => {
   location/hazard. since all the TE pages are similarly setup, we'll test edge 
   cases here. all pages should test for submission with no dates and with both dates.
   */
+
+  // TODO: We currently validate against this on the frontend, but should revisit after
+  // we land on a solution for accommodating partial dates
   it(`should submit with start date only`, () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
@@ -125,6 +128,8 @@ describe('gulfWar1990Details', () => {
     pageSubmitTest(schemas['gulf-war-1990-location-bahrain'], data, true);
   });
 
+  // TODO: We currently validate against this on the frontend, but should revisit after
+  // we land on a solution for accommodating partial dates
   it(`should submit with end date only`, () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
