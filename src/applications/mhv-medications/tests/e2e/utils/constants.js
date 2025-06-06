@@ -117,8 +117,7 @@ export const Paths = {
     '/my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active,Active:%20Refill%20in%20Process,Active:%20Non-VA,Active:%20On%20Hold,Active:%20Parked,Active:%20Submitted&sort=alphabetical-status',
   INTERCEPT: {
     PAGINATION_NEXT:
-      '/my_health/v1/prescriptions?page=2&per_page=10&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-
+      '/my_health/v1/prescriptions?page=2&per_page=10&sort=alphabetical-status',
     RECENTLY_REQUESTED_FILTER_LIST:
       'my_health/v1/prescriptions?page=1&per_page=10&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort=alphabetical-status',
     RENEW_FILTER_LIST:

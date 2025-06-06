@@ -242,7 +242,7 @@ class MedicationsListPage {
   clickDownloadListAsPDFButtonOnListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      `/my_health/v1/prescriptions?&sort=alphabetical-status`,
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
@@ -256,7 +256,7 @@ class MedicationsListPage {
   verifyLoadingSpinnerForDownloadOnListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      `/my_health/v1/prescriptions?&sort=alphabetical-status`,
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
@@ -265,7 +265,7 @@ class MedicationsListPage {
   clickDownloadListAsTxtButtonOnListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      `/my_health/v1/prescriptions?&sort=alphabetical-status`,
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-txt-button"]').should(
