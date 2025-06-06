@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "skipLibCheck": true,
-    "jsx": "preserve"
+    "noEmit": true,
+    "jsx": "preserve",
+    "esModuleInterop": true
   },
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
