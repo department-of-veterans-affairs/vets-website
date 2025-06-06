@@ -6,19 +6,36 @@ import { externalApplicationsConfig } from '../usip-config';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
 
+const renderRetiredNotice = (id, label) => (
+  <div>
+    <h3 id={id} className="vads-u-margin-top--3">
+      {label}
+      <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
+        This option is no longer available
+      </span>
+    </h3>
+    <va-link
+      text="Learn how to access your benefits and set up your new account"
+      href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
+    />
+  </div>
+);
+
 export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   const [useOAuth, setOAuth] = useState();
   const { OAuth, clientId, codeChallenge, state } = getQueryParams();
 
-  const { OAuthEnabled, allowedSignInProviders, legacySignInProviders = {} } =
+  const {
+    OAuthEnabled,
+    allowedSignInProviders,
+    legacySignInProviders: { dslogon },
+  } =
     externalApplicationsConfig[externalApplication] ??
     externalApplicationsConfig.default;
 
-  const { dslogon } = legacySignInProviders;
-
   const dslogonIsDisabled = useSelector(dslogonButtonDisabled);
-  const dslogonEnabled = !!dslogon && !dslogonIsDisabled;
-  const dslogonRetired = !!dslogon && dslogonIsDisabled;
+  const dslogonEnabled = dslogon && !dslogonIsDisabled;
+  const dslogonRetired = dslogon && dslogonIsDisabled;
 
   const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
 
@@ -27,21 +44,6 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
       setOAuth(OAuthEnabled && OAuth === 'true');
     },
     [OAuth, OAuthEnabled],
-  );
-
-  const renderRetiredNotice = (id, label) => (
-    <div>
-      <h3 id={id} className="vads-u-margin-top--3">
-        {label}
-        <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-          This option is no longer available
-        </span>
-      </h3>
-      <va-link
-        text="Learn how to access your benefits and set up your new account"
-        href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
-      />
-    </div>
   );
 
   return (
