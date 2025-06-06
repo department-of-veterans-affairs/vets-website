@@ -272,9 +272,7 @@ const ToxicExposureChoicePage = ({
 
       <fieldset className="vads-u-margin-bottom--2">
         <legend id="root__title" className="schemaform-block-title">
-          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--3">
-            {formTitle(conditionsPageTitle)}
-          </h3>
+          {formTitle(conditionsPageTitle)}
         </legend>
 
         <VaModal
