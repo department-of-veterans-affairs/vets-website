@@ -186,7 +186,8 @@ const ArrayBuilderCards = ({
                     <div>
                       {isIncomplete(itemData) && <IncompleteLabel />}
                       <CardTitle
-                        className={`vads-u-margin-top--0${cardHeadingStyling}`}
+                        className={`vads-u-margin-top--0${cardHeadingStyling} dd-privacy-mask`}
+                        data-dd-action-name="Card title"
                       >
                         {itemName}
                       </CardTitle>

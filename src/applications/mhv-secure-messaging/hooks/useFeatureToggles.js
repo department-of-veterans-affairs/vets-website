@@ -7,6 +7,9 @@ const useFeatureToggles = () => {
     isComboBoxEnabled,
     isAalEnabled,
     readReceiptsEnabled,
+    isDowntimeBypassEnabled,
+    cernerPilotSmFeatureFlag,
+    mhvMockSessionFlag,
   } = useSelector(
     state => {
       return {
@@ -23,6 +26,15 @@ const useFeatureToggles = () => {
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingReadReceipts
           ],
+        isDowntimeBypassEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification
+          ],
+        cernerPilotSmFeatureFlag:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+          ],
+        mhvMockSessionFlag: state.featureToggles['mhv-mock-session'],
       };
     },
     state => state.featureToggles,
@@ -33,6 +45,9 @@ const useFeatureToggles = () => {
     isComboBoxEnabled,
     readReceiptsEnabled,
     isAalEnabled,
+    isDowntimeBypassEnabled,
+    cernerPilotSmFeatureFlag,
+    mhvMockSessionFlag,
   };
 };
 

@@ -16,8 +16,11 @@ export const advanceToHouseholdSection = () => {
 
   // Skip Emergency Contacts Section
   goToNextPage('/veteran-information/emergency-contacts-summary');
-
   selectYesNoWebComponent('view:hasEmergencyContacts', false);
+
+  // Skip Next of Kin Section
+  goToNextPage('/veteran-information/next-of-kin-summary');
+  selectYesNoWebComponent('view:hasNextOfKin', false);
 };
 
 export const advanceFromHouseholdToReview = () => {
