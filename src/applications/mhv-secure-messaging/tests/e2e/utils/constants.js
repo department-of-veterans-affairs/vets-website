@@ -168,6 +168,7 @@ export const Locators = {
     CRUMBS_BACK: '.sm-breadcrumb-list-item',
     OLD_VERSION: `.welcome-message > p > a`,
     EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
+    REPLY: `reply-to-message-link`,
   },
   ALERTS: {
     HEADER: `[data-testid="error-folder-not-empty"]`,
@@ -380,6 +381,7 @@ export const Data = {
   REMOVE_FOLDER: 'Remove folder',
   CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
   HCS_SELECT: `Which VA health care system do you want to send a message to?`,
+  REPLY_HEADER: `Only use messages for non-urgent needs`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',

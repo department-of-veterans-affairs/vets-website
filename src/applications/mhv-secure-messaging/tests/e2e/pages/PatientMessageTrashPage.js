@@ -1,7 +1,7 @@
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 import mockTrashFolderMetaResponse from '../fixtures/trashResponse/folder-deleted-metadata.json';
 import mockThreadResponse from '../fixtures/trashResponse/trash-thread-response.json';
-import mockSingleMessageResponse from '../fixtures/trashResponse/trash-single-message-response.json';
+// import mockSingleMessageResponse from '../fixtures/trashResponse/trash-single-message-response.json';
 import { Locators, Paths } from '../utils/constants';
 import FolderLoadPage from './FolderLoadPage';
 
@@ -23,26 +23,21 @@ class PatientMessageTrashPage {
     cy.wait('@trashFolderMessages');
   };
 
-  loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
+  loadSingleThread = (
+    singleThreadResponse = mockThreadResponse,
+    multiThreadsResponse = mockTrashMessages,
+  ) => {
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGES}/${
-        detailedMessage.data.attributes.messageId
-      }/thread`,
-      mockThreadResponse,
-    ).as('threadResponse');
+        multiThreadsResponse.data[0].attributes.messageId
+      }/thread*`,
+      singleThreadResponse,
+    ).as('singleThreadResponse');
 
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        detailedMessage.data.attributes.messageId
-      }`,
-      mockSingleMessageResponse,
-    ).as('detailedMessage');
-
-    cy.get(Locators.THREADS)
-      .first()
-      .click();
+    cy.get(
+      `#message-link-${multiThreadsResponse.data[0].attributes.messageId}`,
+    ).click();
   };
 
   verifyFolderHeaderText = text => {
