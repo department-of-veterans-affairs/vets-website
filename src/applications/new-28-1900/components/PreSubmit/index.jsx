@@ -106,7 +106,7 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   const statementsOfTruth = useMemo(
     () =>
       requiredElements.map(config => {
-        const { label, fullName, statementText } = config;
+        const { label, fullName } = config;
         return (
           <SignatureCheckbox
             key={label}
@@ -118,7 +118,7 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
             setSignatures={setSignatures}
             isRequired
           >
-            <StatementOfTruth content={{ label, text: statementText }} />
+            <StatementOfTruth />
           </SignatureCheckbox>
         );
       }),

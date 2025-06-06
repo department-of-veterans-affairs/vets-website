@@ -1,12 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const StatementOfTruth = ({ content }) => {
-  const { label = '' } = content;
+const StatementOfTruth = () => {
   return (
     <>
       <legend className="signature-box--legend vads-u-display--block vads-u-width--full vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
-        {`${label} statement of truth`}
+        Statement of truth
       </legend>
       <p>
         I confirm that the identifying information in this form is accurate and
@@ -18,10 +16,6 @@ const StatementOfTruth = ({ content }) => {
       </p>
     </>
   );
-};
-
-StatementOfTruth.propTypes = {
-  content: PropTypes.object,
 };
 
 export default StatementOfTruth;
