@@ -29,7 +29,7 @@ import {
   selectRefillProgressFlag,
 } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
-import { EMPTY_FIELD } from '../../util/constants';
+import { FIELD_NONE_NOTED } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import GroupedMedications from './GroupedMedications';
 import CallPharmacyPhone from '../shared/CallPharmacyPhone';
@@ -65,7 +65,7 @@ const VaPrescription = prescription => {
     Date.parse(latestTrackingStatus?.completeDateTime) > fourteenDaysAgoDate;
   const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
 
-  useEffect(async () => {
+  useEffect(() => {
     const userLanded = async () => {
       if (prescription) {
         try {
@@ -384,7 +384,7 @@ const VaPrescription = prescription => {
                           prescription.providerFirstName
                         }`,
                       )
-                    : EMPTY_FIELD}
+                    : FIELD_NONE_NOTED}
                 </p>
               </>
             )}

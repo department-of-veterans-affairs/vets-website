@@ -5,12 +5,13 @@ import {
   getRefillHistory,
   processList,
   validateField,
+  validateIfAvailable,
 } from './helpers';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
   nonVAMedicationTypes,
-  EMPTY_FIELD,
+  FIELD_NOT_AVAILABLE,
 } from './constants';
 
 /**
@@ -59,12 +60,15 @@ export const buildNonVAPrescriptionPDFList = prescription => {
           items: [
             {
               title: 'Instructions',
-              value: validateField(prescription.sig),
+              value: validateIfAvailable('Instructions', prescription.sig),
               inline: true,
             },
             {
               title: 'Reason for use',
-              value: validateField(prescription.indicationForUse),
+              value: validateIfAvailable(
+                'Reason for use',
+                prescription.indicationForUse,
+              ),
               inline: true,
             },
             {
@@ -83,7 +87,11 @@ export const buildNonVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'When you started taking this medication',
-              value: dateFormat(prescription.dispensedDate, 'MMMM D, YYYY'),
+              value: dateFormat(
+                prescription.dispensedDate,
+                'MMMM D, YYYY',
+                'Date not available',
+              ),
               inline: true,
             },
             {
@@ -92,12 +100,12 @@ export const buildNonVAPrescriptionPDFList = prescription => {
                 ? `${
                     prescription.providerLastName
                   }, ${prescription.providerFirstName || ''}`
-                : 'None noted',
+                : 'Provider name not available',
               inline: true,
             },
             {
               title: 'Documented at this facility',
-              value: validateField(prescription.facilityName),
+              value: validateIfAvailable('Facility', prescription.facilityName),
               inline: true,
             },
             {
@@ -142,9 +150,11 @@ export const buildPrescriptionsPDFList = prescriptions => {
           items: [
             {
               title: 'Last filled on',
-              value: rx.sortedDispensedDate
-                ? dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')
-                : 'Not filled yet',
+              value: dateFormat(
+                rx.sortedDispensedDate,
+                'MMMM D, YYYY',
+                'Date not available',
+              ),
               inline: true,
               indent: 32,
             },
@@ -169,49 +179,63 @@ export const buildPrescriptionsPDFList = prescriptions => {
             },
             {
               title: 'Refills left',
-              value: validateField(rx.refillRemaining),
+              value: validateIfAvailable(
+                'Number of refills left',
+                rx.refillRemaining,
+              ),
               inline: true,
               indent: 32,
             },
             {
               title: 'Request refills by this prescription expiration date',
-              value: dateFormat(rx.expirationDate, 'MMMM D, YYYY'),
+              value: dateFormat(
+                rx.expirationDate,
+                'MMMM D, YYYY',
+                'Date not available',
+              ),
               inline: true,
               indent: 32,
             },
             {
               title: 'Facility',
-              value: validateField(rx.facilityName),
+              value: validateIfAvailable('Facility', rx.facilityName),
               inline: true,
               indent: 32,
             },
             {
               title: 'Pharmacy phone number',
-              value: validateField(rx.phoneNumber),
+              value: validateIfAvailable(
+                'Pharmacy phone number',
+                rx.phoneNumber,
+              ),
               inline: true,
               indent: 32,
             },
             {
               title: 'Instructions',
-              value: validateField(rx.sig),
+              value: validateIfAvailable('Instructions', rx.sig),
               inline: true,
               indent: 32,
             },
             {
               title: 'Reason for use',
-              value: validateField(rx.indicationForUse),
+              value: validateIfAvailable('Reason for use', rx.indicationForUse),
               inline: true,
               indent: 32,
             },
             {
               title: 'Quantity',
-              value: validateField(rx.quantity),
+              value: validateIfAvailable('Quantity', rx.quantity),
               inline: true,
               indent: 32,
             },
             {
               title: 'Prescribed on',
-              value: dateFormat(rx.orderedDate, 'MMMM D, YYYY'),
+              value: dateFormat(
+                rx.orderedDate,
+                'MMMM D, YYYY',
+                'Date not available',
+              ),
               inline: true,
               indent: 32,
             },
@@ -219,7 +243,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
               title: 'Prescribed by',
               value: rx.providerLastName
                 ? `${rx.providerLastName}, ${rx.providerFirstName || ''}`
-                : 'None noted',
+                : 'Provider name not available',
               inline: true,
               indent: 32,
             },
@@ -307,27 +331,27 @@ export const buildAllergiesPDFList = allergies => {
           items: [
             {
               title: 'Date entered',
-              value: validateField(item.date),
+              value: item.date,
               inline: true,
             },
             {
               title: 'Signs and symptoms',
-              value: processList(item.reaction),
+              value: processList(item.reaction, FIELD_NOT_AVAILABLE),
               inline: true,
             },
             {
               title: 'Type of allergy',
-              value: validateField(item.type),
+              value: item.type,
               inline: true,
             },
             {
               title: 'Location',
-              value: validateField(item.location),
+              value: item.location,
               inline: true,
             },
             {
               title: 'Observed or historical',
-              value: validateField(item.observedOrReported),
+              value: item.observedOrReported,
               inline: true,
             },
             {
@@ -357,9 +381,11 @@ export const buildVAPrescriptionPDFList = prescription => {
           items: [
             {
               title: 'Last filled on',
-              value: prescription.sortedDispensedDate
-                ? dateFormat(prescription.sortedDispensedDate, 'MMMM D, YYYY')
-                : 'Not filled yet',
+              value: dateFormat(
+                prescription.sortedDispensedDate,
+                'MMMM D, YYYY',
+                'Date not available',
+              ),
               inline: true,
             },
             {
@@ -369,7 +395,7 @@ export const buildVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'Status',
-              value: validateField(prescription.dispStatus),
+              value: prescription.dispStatus || 'Unknown',
               inline: true,
             },
             {
@@ -380,42 +406,59 @@ export const buildVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'Refills left',
-              value: validateField(prescription.refillRemaining),
+              value: validateIfAvailable(
+                'Number of refills left',
+                prescription.refillRemaining,
+              ),
               inline: true,
             },
             {
               title: 'Request refills by this prescription expiration date',
-              value: dateFormat(prescription.expirationDate, 'MMMM D, YYYY'),
+              value: dateFormat(
+                prescription.expirationDate,
+                'MMMM D, YYYY',
+                'Date not available',
+              ),
               inline: true,
             },
             {
               title: 'Facility',
-              value: validateField(prescription.facilityName),
+              value: validateIfAvailable('Facility', prescription.facilityName),
               inline: true,
             },
             {
               title: 'Pharmacy phone number',
-              value: validateField(prescription.phoneNumber),
+              value: validateIfAvailable(
+                'Pharmacy phone number',
+                prescription.phoneNumber,
+              ),
               inline: true,
             },
             {
               title: 'Instructions',
-              value: validateField(prescription.sig),
+              value: validateIfAvailable('Instructions', prescription.sig),
               inline: true,
             },
             {
               title: 'Reason for use',
-              value: validateField(prescription.indicationForUse),
+              value: validateIfAvailable(
+                'Reason for use',
+                prescription.indicationForUse,
+              ),
               inline: true,
             },
             {
               title: 'Quantity',
-              value: validateField(prescription.quantity),
+              value: validateIfAvailable('Quantity', prescription.quantity),
               inline: true,
             },
             {
               title: 'Prescribed on',
-              value: dateFormat(prescription.orderedDate, 'MMMM D, YYYY'),
+              value: dateFormat(
+                prescription.orderedDate,
+                'MMMM D, YYYY',
+                'Date not available',
+              ),
               inline: true,
             },
             {
@@ -424,7 +467,7 @@ export const buildVAPrescriptionPDFList = prescription => {
                 ? `${
                     prescription.providerLastName
                   }, ${prescription.providerFirstName || ''}`
-                : EMPTY_FIELD,
+                : 'Provider name not available',
               inline: true,
             },
           ],
@@ -465,7 +508,11 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
             return {
               header: `${
                 index === 0 ? 'Original fill' : `Refill`
-              }: ${dateFormat(entry.dispensedDate)}`,
+              }: ${dateFormat(
+                entry.dispensedDate,
+                'MMMM D, YYYY',
+                'Date not available',
+              )}`,
               indent: 32,
               headerSize: 'H5',
               items: [
@@ -475,6 +522,8 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                         title: `Shipped on`,
                         value: dateFormat(
                           prescription?.trackingList?.[0]?.completeDateTime,
+                          'MMMM D, YYYY',
+                          'Date not available',
                         ),
                         inline: true,
                         indent: 32,
@@ -538,18 +587,20 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
             items: [
               {
                 title: 'Last filled',
-                value: previousPrescription.sortedDispensedDate
-                  ? dateFormat(
-                      previousPrescription.sortedDispensedDate,
-                      'MMMM D, YYYY',
-                    )
-                  : 'Not filled yet',
+                value: dateFormat(
+                  previousPrescription.sortedDispensedDate,
+                  'MMMM D, YYYY',
+                  'Date not available',
+                ),
                 inline: true,
                 indent: 32,
               },
               {
                 title: 'Quantity',
-                value: validateField(previousPrescription.quantity),
+                value: validateIfAvailable(
+                  'Quantity',
+                  previousPrescription.quantity,
+                ),
                 inline: true,
                 indent: 32,
               },
@@ -558,16 +609,18 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                 value: dateFormat(
                   previousPrescription.orderedDate,
                   'MMMM D, YYYY',
+                  'Date not available',
                 ),
                 inline: true,
                 indent: 32,
               },
               {
                 title: 'Prescribed by',
-                value:
-                  (previousPrescription.providerFirstName &&
-                    previousPrescription.providerLastName) ||
-                  EMPTY_FIELD,
+                value: previousPrescription.providerLastName
+                  ? `${
+                      previousPrescription.providerLastName
+                    }, ${previousPrescription.providerFirstName || ''}`
+                  : 'Provider name not available',
                 inline: true,
                 indent: 32,
               },
