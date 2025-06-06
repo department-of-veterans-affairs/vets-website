@@ -151,7 +151,7 @@ export default function InstitutionProfile({
           )}
           {!isOJT && <JumpLink label="Academics" jumpToId="academics" />}
           {programTypes?.length > 0 && (
-            <JumpLink label="Programs" jumpToId="programs" />
+            <JumpLink label="Approved programs of study" jumpToId="programs" />
           )}
           {!isOJT && (
             <JumpLink
@@ -281,7 +281,7 @@ export default function InstitutionProfile({
         </ProfileSection>
       )}
       {programTypes.length > 0 && (
-        <ProfileSection label="Programs" id="programs">
+        <ProfileSection label="Approved programs of study" id="programs">
           <Programs programTypes={programTypes} facilityCode={facilityCode} />
         </ProfileSection>
       )}
