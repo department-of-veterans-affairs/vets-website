@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   arrayBuilderYesNoUI,
@@ -7,11 +9,10 @@ import {
   textUI,
   radioUI,
   radioSchema,
+  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns/titlePattern';
-import { ConflictOfInterestIntro } from '../components/ConflictOfInterestIntro';
-// import { conflictingInterests } from '../pages';
+import { alert } from '../helpers';
 
 const associationLabels = {
   vaEmployee:
@@ -28,10 +29,16 @@ const options = {
   required: false,
   isItemIncomplete: item =>
     !item?.first || !item?.last || !item?.title || !item?.association,
-  maxItems: 10,
   text: {
     getItemName: item => `${item?.first || ''} ${item?.last || ''}`.trim(),
-    cardDescription: item => item?.title || '',
+    cardDescription: item => (
+      <>
+        {item?.title}
+        <div className=" vads-u-margin-y--2">
+          {item?.association === 'vaEmployee' ? 'VA employee' : 'SAA employee'}
+        </div>
+      </>
+    ),
   },
 };
 
@@ -39,7 +46,30 @@ const summaryPage = {
   uiSchema: {
     'view:introduction': {
       ...titleUI('Individuals with a potential conflict of interest'),
-      'ui:description': ConflictOfInterestIntro,
+      'ui:description': (
+        <>
+          <div data-testid="instructions">
+            <p>
+              Title 38 U.S.C. 3638 prohibits employees of the Department of
+              Veterans Affairs (VA) and the State Approving Agency (SAA) from
+              owning any interest in a for-profit educational institution. These
+              employees cannot receive wages, salary, dividends, profits, or
+              gifts from for-profit schools. The law also prohibits VA employees
+              from receiving any services from these schools. The VA may waive
+              these restrictions if it determines that no harm will result to
+              the government, Veterans, or eligible persons.
+            </p>
+            <p>
+              In the next step, you’ll provide information about any VA or SAA
+              employees who may have a conflict under this law.
+            </p>
+          </div>
+          {alert}
+        </>
+      ),
+      'ui:options': {
+        hideIf: formData => formData?.conflictingIndividuals?.length > 0,
+      },
     },
     'view:hasConflictingIndividuals': arrayBuilderYesNoUI(
       options,
@@ -50,6 +80,7 @@ const summaryPage = {
           Y: 'Yes',
           N: 'No',
         },
+        hint: () => '',
       },
       {
         title:
@@ -58,6 +89,7 @@ const summaryPage = {
           Y: 'Yes, I have another individual to report',
           N: "No, I don't have another individual to report",
         },
+        hint: () => '',
       },
     ),
   },
