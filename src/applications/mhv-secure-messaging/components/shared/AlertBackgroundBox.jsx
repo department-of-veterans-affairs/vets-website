@@ -23,7 +23,7 @@ import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import useInterval from '../../hooks/use-interval';
-import { Alerts, Categories, Errors } from '../../util/constants';
+import { Alerts, Categories, Errors, Paths } from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
 import { retrieveFolder } from '../../actions/folders';
 import { formatPathName } from '../../util/helpers';
@@ -142,24 +142,30 @@ const AlertBackgroundBox = props => {
     () => {
       const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
       const isErrorAlert = activeAlert?.alertType === 'error';
+      const { INBOX, SENT, MESSAGE_THREAD } = Paths;
       let content = activeAlert?.content;
       let header = activeAlert?.header;
       let { closeable } = props;
 
-      if (
-        location.pathname.includes('thread') &&
-        (isServiceOutage || isErrorAlert)
-      ) {
-        header = SERVER_ERROR_500_MESSAGES_HEADING;
-        content = SERVER_ERROR_500_MESSAGES_CONTENT;
-        closeable = false; // removes closing alert option on thread-list view pages
-      } else if (
+      const isGeneralAlert =
         lastPathName !== 'Messages' &&
         !foldersViewPage &&
         !threadViewPage &&
         !contactListPage &&
-        (isServiceOutage || isErrorAlert)
-      ) {
+        (isServiceOutage || isErrorAlert);
+
+      const isMessagesAlertWithHeader =
+        (isServiceOutage || isErrorAlert) &&
+        (location.pathname === INBOX ||
+          location.pathname === SENT ||
+          location.pathname === MESSAGE_THREAD ||
+          foldersViewPage);
+
+      if (isMessagesAlertWithHeader) {
+        header = SERVER_ERROR_500_MESSAGES_HEADING;
+        content = SERVER_ERROR_500_MESSAGES_CONTENT;
+        closeable = false; // removes closing alert option on thread-list view pages
+      } else if (isGeneralAlert) {
         header = null;
         content = SERVER_ERROR_503;
         closeable = true; // always allow closing the alert on folder view pages
@@ -179,6 +185,7 @@ const AlertBackgroundBox = props => {
       lastPathName,
       location.pathname,
       props,
+      props.closeable,
       threadViewPage,
     ],
   );
@@ -227,7 +234,9 @@ const AlertBackgroundBox = props => {
             }
             onVa-component-did-load={handleAlertFocus}
           >
-            {closeableAlert ? null : <h1>{alertHeader}</h1>}
+            {closeableAlert ? null : (
+              <h1 data-testid="alert-heading">{alertHeader}</h1>
+            )}
             <div>
               <p className="vads-u-margin-y--0" data-testid="alert-text">
                 {alertContent}

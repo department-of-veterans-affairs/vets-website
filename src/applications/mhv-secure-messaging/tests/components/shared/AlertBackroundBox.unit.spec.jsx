@@ -40,8 +40,11 @@ describe('Alert Background Box component', () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByTestId('alert-text')).to.exist;
-      expect(screen.getByText(SERVER_ERROR_503)).to.exist;
+      expect(screen.getByTestId('alert-heading')).to.exist;
+      expect(document.querySelector('h1').textContent).to.equal(
+        SERVER_ERROR_500_MESSAGES_HEADING,
+      );
+      expect(screen.getByText(SERVER_ERROR_500_MESSAGES_CONTENT)).to.exist;
     });
   });
 
