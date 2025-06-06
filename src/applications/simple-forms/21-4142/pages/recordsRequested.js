@@ -188,9 +188,9 @@ const originalImplementation = {
 const getWebComponentImplementation = () => {
   /** @type {ArrayBuilderOptions} */
   const options = {
-    arrayPath: 'recordsRequested',
-    nounSingular: 'record requested',
-    nounPlural: 'records requested',
+    arrayPath: providerFacilityFields.parentObject,
+    nounSingular: 'treatment record',
+    nounPlural: 'treatment records',
     required: true,
     isItemIncomplete: item =>
       !item?.[providerFacilityFields.providerFacilityName] ||
@@ -213,10 +213,10 @@ const getWebComponentImplementation = () => {
   const introPage = {
     uiSchema: {
       ...titleUI(
-        'Treatment Records', // May need to fix this title
-        `Let us know where the person you're requesting medical records for received treatment. You may add up to ${
+        'Treatment Records',
+        `In the next few questions, we'll ask you about the treatment records you're requesting. You must add at least one treatment request. You may add up to ${
           options.maxItems
-        } medical record or information requests.`,
+        }.`,
       ),
     },
     schema: {
@@ -230,14 +230,14 @@ const getWebComponentImplementation = () => {
    */
   const summaryPage = {
     uiSchema: {
-      'view:hasFacilities': arrayBuilderYesNoUI(options),
+      'view:hasTreatmentRecords': arrayBuilderYesNoUI(options),
     },
     schema: {
       type: 'object',
       properties: {
-        'view:hasFacilities': arrayBuilderYesNoSchema,
+        'view:hasTreatmentRecords': arrayBuilderYesNoSchema,
       },
-      required: ['view:hasFacilities'],
+      required: ['view:hasTreatmentRecords'],
     },
   };
 
@@ -245,7 +245,7 @@ const getWebComponentImplementation = () => {
   const nameAndAddressPage = {
     uiSchema: {
       ...arrayBuilderItemFirstPageTitleUI({
-        title: 'Provider Information',
+        title: 'Tell us where the patient received treatment',
         nounSingular: options.nounSingular,
       }),
       [providerFacilityFields.providerFacilityName]: textUI(
@@ -275,14 +275,12 @@ const getWebComponentImplementation = () => {
     uiSchema: {
       ...arrayBuilderItemSubsequentPageTitleUI(
         ({ formData }) =>
-          formData?.[providerFacilityFields.providerFacilityName]
-            ? `Conditions treated at ${
-                formData[providerFacilityFields.providerFacilityName]
-              }`
-            : 'Conditions Treated',
+          `Conditions treated at ${
+            formData[providerFacilityFields.providerFacilityName]
+          }`,
       ),
       [providerFacilityFields.conditionsTreated]: textareaUI(
-        'List the conditions the person received treatment for at this facility',
+        'List the conditions the person received treatment for at this facility.',
       ),
     },
     schema: {
@@ -299,32 +297,14 @@ const getWebComponentImplementation = () => {
     uiSchema: {
       ...arrayBuilderItemSubsequentPageTitleUI(
         ({ formData }) =>
-          formData?.[providerFacilityFields.providerFacilityName]
-            ? `Treatment dates at ${
-                formData[providerFacilityFields.providerFacilityName]
-              }`
-            : 'Treatment Dates',
+          `Treatment dates at ${
+            formData[providerFacilityFields.providerFacilityName]
+          }`,
       ),
       [providerFacilityFields.treatmentDateRange]: currentOrPastDateRangeUI(
         'First treatment date (you can estimate)',
         'Last treatment date (you can estimate)',
       ),
-      // 'ui:validations': [
-      //   (errors, field) => {
-      //     const treatmentDateFrom =
-      //       field[providerFacilityFields.treatmentDateRange].from;
-      //     const treatmentDateTo =
-      //       field[providerFacilityFields.treatmentDateRange].to;
-      //     const fromDate = convertToDateField(treatmentDateFrom);
-      //     const toDate = convertToDateField(treatmentDateTo);
-      //
-      //     if (!isValidDateRange(fromDate, toDate, true)) {
-      //       errors[providerFacilityFields.treatmentDateRange].to.addError(
-      //         'The end date must be after the start date',
-      //       );
-      //     }
-      //   },
-      // ],
     },
     schema: {
       type: 'object',
