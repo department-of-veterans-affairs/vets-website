@@ -22,13 +22,4 @@ export default {
     },
     required: ['employmentStatus'],
   },
-  // schema: {
-  //   type: 'object',
-  //   properties: {
-  //     employmentStatus: checkboxGroupSchema(
-  //       Object.keys(employmentStatusOptions),
-  //     ),
-  //   },
-  //   required: ['employmentStatus'],
-  // },
 };
