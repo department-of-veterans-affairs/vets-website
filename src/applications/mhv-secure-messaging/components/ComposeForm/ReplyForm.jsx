@@ -153,6 +153,7 @@ const ReplyForm = props => {
             parentComponent={ParentComponent.REPLY_FORM}
             currentRecipient={currentRecipient}
             setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
+            isOhMessage={replyMessage.isOhMessage}
           />
         )}
 
