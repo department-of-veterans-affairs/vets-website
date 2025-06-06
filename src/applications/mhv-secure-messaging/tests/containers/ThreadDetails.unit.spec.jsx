@@ -758,8 +758,6 @@ describe('Thread Details container', () => {
 
     const screen = setup(state);
 
-    screen.debug(undefined, 10000);
-
     const blockedTriageGroupAlert = await screen.queryByTestId(
       'blocked-triage-group-alert',
     );
