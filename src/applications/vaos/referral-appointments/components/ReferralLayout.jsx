@@ -41,7 +41,7 @@ export default function ReferralLayout({
         <ReferralBreadcrumbs categoryOfCare={categoryOfCare} />
         {location.pathname.endsWith('type-of-care') && (
           <DowntimeNotification
-            appTitle="VA online scheduling tool"
+            appTitle="appointments tool"
             dependencies={[externalServices.vaosWarning]}
             render={(props, childContent) => (
               <WarningNotification {...props}>

@@ -21,7 +21,7 @@ export default function FormLayout({ children, pageTitle }) {
         </Breadcrumbs>
         {location.pathname.endsWith(match.url) && (
           <DowntimeNotification
-            appTitle="VA online scheduling tool"
+            appTitle="appointments tool"
             isReady
             dependencies={[externalServices.vaosWarning]}
             render={(props, childContent) => (

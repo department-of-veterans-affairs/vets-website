@@ -44,7 +44,7 @@ export default function AppointmentsPage() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
-  let [pageTitle] = useState('VA online scheduling');
+  let [pageTitle] = useState('VA appointments');
   const { isInCCPilot } = useIsInCCPilot();
 
   const pendingAppointments = useSelector(state =>
@@ -141,7 +141,7 @@ export default function AppointmentsPage() {
         />
       )} */}
       <DowntimeNotification
-        appTitle="VA online scheduling tool"
+        appTitle="appointments tool"
         isReady
         dependencies={[externalServices.vaosWarning]}
         render={renderWarningNotification()}
