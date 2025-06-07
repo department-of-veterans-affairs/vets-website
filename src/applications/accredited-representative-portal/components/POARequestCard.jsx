@@ -36,7 +36,7 @@ const POARequestCard = ({ poaRequest }) => {
         </span>
         <h3
           data-testid={`poa-request-card-${poaRequest.id}-name`}
-          className="poa-request__card-title vads-u-font-size--h4 vads-u-font-family--serif"
+          className="poa-request__card-title vads-u-font-family--serif"
         >
           {`${lastName}, ${firstName}`}
         </h3>
