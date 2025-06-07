@@ -34,3 +34,10 @@ $ cd ./coverage
 $ npx http-server
 $ open http://localhost:8080
 ```
+
+## Migration to TypeScript
+
+1. Rename a component to .tsx, `import * as React from 'react';`, create `interface YourComponentProps`. Add input and return types to your component. Remove prop-types.
+2. Run `yarn tsc`, address errors, repeat until you have a clean build.
+3. Run `yarn test:unit --app-folder [application-name]` or one file `run yarn test:unit ./src/applications/[application-name]/path/to/Component.unit.spec.jsx` to verify tests are passing. Add `--log-level trace` and/or `node --trace-warnings` for more detail.
+4. Add .jsx file to `./src/applications/[application-name]/.gitignore`, delete the .jsx and commit your changes!
