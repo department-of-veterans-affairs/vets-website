@@ -1,6 +1,6 @@
 {
   "data": {
-    "role": "attorney",
+    "role": "ATTORNEY",
     "lawLicense": true,
     "fullName": {
       "first": "First",
@@ -15,7 +15,7 @@
       "state": "CA"
     },
     "phone": "34-51-3451-3455",
-    "typeOfPhone": "home",
+    "typeOfPhone": "HOME",
     "canReceiveTexts": true,
     "email": "person.name@testmail.com",
     "homeAddress": {
@@ -27,7 +27,7 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "primaryMailingAddress": "other",
+    "primaryMailingAddress": "OTHER",
     "otherAddress": {
       "view:militaryBaseDescription": {},
       "country": "USA",
@@ -48,7 +48,7 @@
         "explanationOfDischarge": "My discharge was dishonorable"
       }
     ],
-    "employmentStatus": ["employed", "selfEmployed"],
+    "employmentStatus": "EMPLOYED",
     "describeEmployment": "I have a W2 at a law firm, and I have a consulting company.",
     "employers": [
       {
@@ -64,16 +64,26 @@
           "state": "CA",
           "postalCode": "12345"
         },
-        "primaryWorkAddress": ["selected"],
+        "primaryWorkAddress": { "selected": true },
         "phone": "345-345-3455",
         "extension": "1234",
         "dateRange": {
-          "from": "2000-01"
+          "from": "2000-01",
+          "to": ""
         },
         "currentlyEmployed": true
       }
     ],
-    "employmentActivities": ["financial", "homeOrNursing"],
+    "employmentActivities": {
+      "BUSINESS": false,
+      "CONSULTING": false,
+      "FINANCIAL": true,
+      "HOME_OR_NURSING": true,
+      "MEDICAL": false,
+      "NONE": false,
+      "SOCIAL_WORK": false,
+      "VOCATIONAL_REHABILITATION": false
+    },
     "view:hasEmployers": false,
     "educationalInstitutions": [
       {
@@ -105,6 +115,7 @@
         "membershipOrRegistrationNumber": "12345"
       }
     ],
+    "view:hasJurisdictions": false,
     "agenciesOrCourts": [
       {
         "agencyOrCourt": "Other",
@@ -113,9 +124,13 @@
         "membershipOrRegistrationNumber": "54321"
       }
     ],
+    "view:hasAgenciesOrCourts": false,
     "conviction": true,
     "convictionDetailsExplanation": "Conviction explanation",
-    "convictionDetailsCertification": ["certified"],
+    "convictionDetailsCertification": {
+      "certified": true
+    },
+    "convictionDetailsDocuments": {},
     "courtMartialed": false,
     "underCharges": false,
     "resignedFromEducation": false,
@@ -189,7 +204,10 @@
         "relationship": "Long time colleague"
       }
     ],
+    "view:hasCharacterReferences": false,
     "supplementalStatement": "",
-    "personalStatement": "I want to help veterans."
+    "personalStatement": "I want to help veterans.",
+    "statementOfTruthCertified": true,
+    "statementOfTruthSignature": "First Middle Last"
   }
 }

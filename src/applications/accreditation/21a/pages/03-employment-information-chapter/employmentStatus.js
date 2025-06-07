@@ -1,6 +1,6 @@
 import {
-  checkboxGroupSchema,
-  checkboxGroupUI,
+  radioSchema,
+  radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { employmentStatusOptions } from '../../constants/options';
@@ -10,18 +10,15 @@ export default {
   title: 'Employment status',
   path: 'employment-status',
   uiSchema: {
-    employmentStatus: checkboxGroupUI({
+    employmentStatus: radioUI({
       title: 'Select the status of your employment.',
-      required: true,
       labels: employmentStatusOptions,
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      employmentStatus: checkboxGroupSchema(
-        Object.keys(employmentStatusOptions),
-      ),
+      employmentStatus: radioSchema(Object.keys(employmentStatusOptions)),
     },
     required: ['employmentStatus'],
   },
