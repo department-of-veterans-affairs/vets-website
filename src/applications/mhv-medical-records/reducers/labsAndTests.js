@@ -300,25 +300,6 @@ export const convertPathologyRecord = record => {
 };
 
 /**
- * @param {Object} record - A FHIR DocumentReference EKG object
- * @returns the appropriate frontend object for display
- */
-const convertEkgRecord = record => {
-  return {
-    id: record.id,
-    name: 'Electrocardiogram (EKG)',
-    type: labTypes.EKG,
-    category: '',
-    orderedBy: 'DOE, JANE A',
-    requestedBy: 'John J. Lydon',
-    signedBy: 'Beth M. Smith',
-    date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
-    facility: 'Washington DC VAMC',
-    sortDate: record.date,
-  };
-};
-
-/**
  * @param {Object} record - A FHIR DocumentReference radiology object
  * @returns the appropriate frontend object for display
  */
@@ -478,14 +459,7 @@ const getRecordType = record => {
     }
   }
   if (record.resourceType === fhirResourceTypes.DOCUMENT_REFERENCE) {
-    if (record.type?.coding?.some(coding => coding.code === loincCodes.EKG)) {
-      return labTypes.EKG;
-    }
-    if (
-      record.type?.coding?.some(coding => coding.code === loincCodes.RADIOLOGY)
-    ) {
-      return labTypes.OTHER;
-    }
+    return labTypes.OTHER;
   }
   if (Object.prototype.hasOwnProperty.call(record, 'radiologist')) {
     return labTypes.RADIOLOGY;
@@ -504,7 +478,6 @@ const labsAndTestsConverterMap = {
   [labTypes.CHEM_HEM]: convertChemHemRecord,
   [labTypes.MICROBIOLOGY]: convertMicrobiologyRecord,
   [labTypes.PATHOLOGY]: convertPathologyRecord,
-  [labTypes.EKG]: convertEkgRecord,
   [labTypes.RADIOLOGY]: convertMhvRadiologyRecord,
   [labTypes.CVIX_RADIOLOGY]: convertCvixRadiologyRecord,
 };
