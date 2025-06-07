@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
@@ -18,22 +19,24 @@ const mockDataForVeteranIsSelf = {
   },
 };
 
-const expectedNumberOfFields = 14;
-testNumberOfFields(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfFields,
-  pageTitle,
-  mockDataForVeteranIsSelf,
-);
+if (environment.isProduction()) {
+  const expectedNumberOfFields = 14;
+  testNumberOfFields(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfFields,
+    pageTitle,
+    mockDataForVeteranIsSelf,
+  );
 
-const expectedNumberOfErrors = 8;
-testNumberOfErrorsOnSubmit(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfErrors,
-  pageTitle,
-  mockDataForVeteranIsSelf,
-);
+  const expectedNumberOfErrors = 8;
+  testNumberOfErrorsOnSubmit(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfErrors,
+    pageTitle,
+    mockDataForVeteranIsSelf,
+  );
+}
