@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-// eslint-disable-next-line import/no-named-default
-import { default as recordEventFn } from '~/platform/monitoring/record-event';
+import * as React from 'react';
+const { useEffect } = React
+import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/mhv/utilities';
+import recordEventFn from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import {
   VaAlert,
   VaLink,
@@ -10,7 +9,26 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 
-const AlertUnregistered = ({ headline, recordEvent, ssoe, testId }) => {
+export const defaultProps = {
+  headline: 'Our records don’t show any VA health data for you right now',
+  recordEvent: recordEventFn,
+  ssoe: false,
+  testId: 'mhv-alert--unregistered',
+};
+
+interface AlertUnregisteredProps {
+  headline: string;
+  recordEvent?: (event) => void;
+  ssoe: boolean;
+  testId?: string;
+}
+
+const AlertUnregistered = ({
+  headline = defaultProps.headline,
+  recordEvent = defaultProps.recordEvent,
+  ssoe = defaultProps.ssoe,
+  testId = defaultProps.testId
+}: AlertUnregisteredProps): JSX.Element => {
   const mhvHomeUrl = mhvUrl(ssoe, 'home');
 
   useEffect(
@@ -65,20 +83,6 @@ const AlertUnregistered = ({ headline, recordEvent, ssoe, testId }) => {
       </div>
     </VaAlert>
   );
-};
-
-AlertUnregistered.defaultProps = {
-  headline: 'Our records don’t show any VA health data for you right now',
-  recordEvent: recordEventFn,
-  ssoe: false,
-  testId: 'mhv-alert--unregistered',
-};
-
-AlertUnregistered.propTypes = {
-  headline: PropTypes.string,
-  recordEvent: PropTypes.func,
-  ssoe: PropTypes.bool,
-  testId: PropTypes.string,
 };
 
 export default AlertUnregistered;

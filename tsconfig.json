@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "noEmit": false,
+    "jsx": "preserve",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "moduleResolution": "node"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
