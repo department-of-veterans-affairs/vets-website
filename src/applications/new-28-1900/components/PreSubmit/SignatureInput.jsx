@@ -7,10 +7,9 @@ const SignatureInput = props => {
   const {
     fullName,
     required,
-    label,
     showError,
     hasSubmittedForm,
-    setSignatures,
+    setSignature1,
     isChecked,
     ariaDescribedBy,
   } = props;
@@ -20,9 +19,6 @@ const SignatureInput = props => {
     value: '',
     dirty: false,
   });
-
-  // set label and error message strings
-  const textInputLabel = replaceStrValues('Your full name', label);
 
   const errorMessage = replaceStrValues(
     'Your signature must match previously entered name: %s',
@@ -41,11 +37,8 @@ const SignatureInput = props => {
     normalizedSignature.toLocaleLowerCase() === fullName.toLocaleLowerCase();
   const isSignatureComplete = signatureMatches && isChecked;
 
-  const handleChange = value => {
-    setSignatures(prev => ({
-      ...prev,
-      [label]: { ...prev[label], value },
-    }));
+  const handleChange = () => {
+    setSignature1(isSignatureComplete);
   };
 
   const handleBlur = useCallback(
@@ -102,7 +95,7 @@ const SignatureInput = props => {
     <VaTextInput
       messageAriaDescribedby={ariaDescribedBy}
       class="signature-input"
-      label={textInputLabel}
+      label="Your full name"
       required={required}
       value={data.value}
       error={error}
@@ -114,8 +107,7 @@ const SignatureInput = props => {
 SignatureInput.propTypes = {
   fullName: PropTypes.string.isRequired,
   hasSubmittedForm: PropTypes.bool.isRequired,
-  label: PropTypes.string.isRequired,
-  setSignatures: PropTypes.func.isRequired,
+  setSignature1: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   ariaDescribedBy: PropTypes.string,
   isChecked: PropTypes.bool,

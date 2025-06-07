@@ -6,114 +6,55 @@ import StatementOfTruth from './StatementOfTruth';
 import SignatureCheckbox from './SignatureCheckbox';
 import ProtectionOfPrivacyStatement from './ProtectionOfPrivacyStatement';
 
-// declare default state structure(s)
-const DEFAULT_SIGNATURE_STATE = { value: '', checked: false };
 
 const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   const submission = useSelector(state => state.form.submission);
   const hasSubmittedForm = !!submission.status;
   const dispatch = useDispatch();
   const [signatureComplete, setSignatureComplete] = useState(false);
+  const [signature1, setSignature1] = useState(null);
+  const [signature1Checked, setSignature1Checked] = useState(false);
 
-  const signatureConfig = useMemo(
-    () => ({
-      veteran: {
-        schemaKey: 'veteran',
-        label: 'Veteran\u2019s',
-        fullName: formData.veteranFullName,
-        statementText:
-          'I certify that the individual(s) named in this application are involved in my care and I consent to sharing information necessary to their involvement in my health care, payment related to such health care or as needed for notification purposes.',
-        shouldRender: true,
-      },
-    }),
-    [formData],
-  );
 
-  const requiredElements = useMemo(
-    () => Object.values(signatureConfig).filter(config => config.shouldRender),
-    [signatureConfig],
-  );
-
-  const [signatures, setSignatures] = useState(() =>
-    requiredElements.reduce(
-      (acc, { label }) => ({ ...acc, [label]: DEFAULT_SIGNATURE_STATE }),
-      {},
-    ),
-  );
-
-  // keep signatures in sync with required data
-  useEffect(
-    () => {
-      const requiredLabels = requiredElements.map(e => e.label);
-      const currentLabels = Object.keys(signatures);
-
-      const labelsChanged =
-        requiredLabels.length !== currentLabels.length ||
-        requiredLabels.some(label => !currentLabels.includes(label));
-
-      if (labelsChanged) {
-        const next = {};
-        requiredLabels.forEach(label => {
-          next[label] = signatures[label] || DEFAULT_SIGNATURE_STATE;
-        });
-        setSignatures(next);
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [requiredElements],
-  );
-
-  // set form data with signature values, if submission has not occurred
+  // set form data with signature value, if submission has not occurred
   useEffect(
     () => {
       if (submission.status) return;
-
-      const transformedSignatures = requiredElements.reduce(
-        (acc, { label, schemaKey }) => {
-          acc[`${schemaKey}Signature`] = signatures[label]?.value || '';
-          return acc;
-        },
-        {},
-      );
-      dispatch(setData({ ...formData, ...transformedSignatures }));
+      dispatch(setData({ ...formData, ...{ signature1: signature1 } }));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, signatures],
+    [dispatch, signature1],
   );
 
-  // validate that all signature text is valid and all checkboxes have been checked
+  // validate that the signature text is valid and its checkbox has been checked
   useEffect(
     () => {
-      const allComplete = Object.values(signatures).every(
-        ({ value, checked }) => Boolean(value) && checked,
-      );
-      setSignatureComplete(allComplete);
+      console.log('signature1:', signature1);
+      console.log('formData.veteranFullName:', formData.veteranFullName);
+      console.log('signature1Checked:', signature1Checked);
+      const isComplete = signature1 && signature1Checked;
+      console.log('isComplete:', isComplete);
+      setSignatureComplete(isComplete);
       return () => onSectionComplete(false);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [signatures],
+    [signature1, signature1Checked],
   );
 
-  const statementsOfTruth = useMemo(
-    () =>
-      requiredElements.map(config => {
-        const { label, fullName } = config;
-        return (
-          <SignatureCheckbox
-            key={label}
-            label={label}
-            fullName={fullName}
-            showError={showError}
-            submission={submission}
-            signatures={signatures}
-            setSignatures={setSignatures}
-            isRequired
-          >
-            <StatementOfTruth />
-          </SignatureCheckbox>
-        );
-      }),
-    [requiredElements, showError, signatures, submission],
+  const statementsOfTruth = useMemo(() => {
+      return (
+        <SignatureCheckbox
+          fullName={formData.veteranFullName}
+          showError={showError}
+          submission={submission}
+          signature1={signature1}
+          setSignature1={setSignature1}
+          setSignature1Checked={setSignature1Checked}
+          isRequired
+        >
+          <StatementOfTruth />
+        </SignatureCheckbox>
+      );
+    }, [showError, setSignature1],
   );
 
   const [isChecked, setIsChecked] = useState(false);

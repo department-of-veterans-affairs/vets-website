@@ -9,8 +9,8 @@ const SignatureCheckbox = props => {
     children,
     fullName,
     isRequired,
-    label,
-    setSignatures,
+    setSignature1,
+    setSignature1Checked,
     showError,
     submission,
   } = props;
@@ -22,10 +22,7 @@ const SignatureCheckbox = props => {
   const handleCheck = event => {
     const value = event.target.checked;
     setIsChecked(value);
-    setSignatures(prev => ({
-      ...prev,
-      [label]: { ...prev[label], checked: value },
-    }));
+    setSignature1Checked(value);
   };
 
   useEffect(
@@ -40,18 +37,17 @@ const SignatureCheckbox = props => {
 
   return (
     <fieldset
-      data-testid={label}
+      data-testid="signature-fieldset"
       className="signature-box vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--3"
     >
       {children ? <>{children}</> : null}
 
       <SignatureInput
-        label={label}
         fullName={normalizedFullName}
         required={isRequired}
         showError={showError}
         hasSubmittedForm={hasSubmittedForm}
-        setSignatures={setSignatures}
+        setSignature1={setSignature1}
         isChecked={isChecked}
       />
 
@@ -72,8 +68,8 @@ SignatureCheckbox.propTypes = {
     PropTypes.node,
   ]).isRequired,
   fullName: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
-  setSignatures: PropTypes.func.isRequired,
+  setSignature1: PropTypes.func.isRequired,
+  setSignature1Checked: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   submission: PropTypes.object.isRequired,
   isRequired: PropTypes.bool,
