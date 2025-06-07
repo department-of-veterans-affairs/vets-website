@@ -2,9 +2,17 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import * as Sentry from '@sentry/browser';
 import { format, utcToZonedTime } from 'date-fns-tz';
-import moment from 'moment-timezone';
+import moment from 'moment';
 
-import { addMinutes, areIntervalsOverlapping } from 'date-fns';
+import {
+  addMinutes,
+  areIntervalsOverlapping,
+  startOfMonth,
+  endOfMonth,
+  startOfDay,
+  addDays,
+  isAfter,
+} from 'date-fns';
 import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
@@ -15,6 +23,7 @@ import {
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
+  selectFeatureConvertSlotsToUTC,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -709,9 +718,11 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
+    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
 
-    const startDateMonth = moment(startDate).format('YYYY-MM');
-    const endDateMonth = moment(endDate).format('YYYY-MM');
+    const startDateMonth = format(new Date(startDate), 'yyyy-MM');
+    const endDateMonth = format(new Date(endDate), 'yyyy-MM');
+
     const timezone = getTimezoneByFacilityId(data.vaFacility);
 
     let fetchedAppointmentSlotMonths = [];
@@ -735,28 +746,24 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
       try {
         const startDateString = !fetchedStartMonth
-          ? startDate
-          : moment(endDate)
-              .startOf('month')
-              .format('YYYY-MM-DD');
+          ? format(new Date(startDate), 'yyyy-MM-dd')
+          : format(startOfMonth(new Date(endDate)), 'yyyy-MM-dd');
         const endDateString = !fetchedEndMonth
-          ? endDate
-          : moment(startDate)
-              .endOf('month')
-              .format('YYYY-MM-DD');
+          ? format(new Date(endDate), 'yyyy-MM-dd')
+          : format(endOfMonth(new Date(startDate)), 'yyyy-MM-dd');
 
         const fetchedSlots = await getSlots({
           siteId,
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          convertToUtc: featureConvertSlotsToUTC,
         });
-        const tomorrow = moment()
-          .add(1, 'day')
-          .startOf('day');
+
+        const tomorrow = startOfDay(addDays(new Date(), 1));
 
         mappedSlots = fetchedSlots.filter(slot =>
-          moment(slot.start).isAfter(tomorrow),
+          isAfter(new Date(slot.start), tomorrow),
         );
 
         // Keep track of which months we've fetched already so we don't
@@ -993,9 +1000,11 @@ export function submitAppointmentOrRequest(history) {
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
       const today = moment().format('YYYYMMDD');
       const daysFromPreference = ['null', 'null', 'null'];
+
       const diffDays = Object.values(data.selectedDates).map(item =>
         moment(item, 'YYYYMMDD').diff(today, 'days'),
       );
+
       // takes daysFromPreference array then replace those values from diffDays array
       daysFromPreference.splice(0, diffDays.length, ...diffDays);
 
