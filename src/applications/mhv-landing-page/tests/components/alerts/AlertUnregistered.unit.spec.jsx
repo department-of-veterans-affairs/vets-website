@@ -12,7 +12,7 @@ describe('<AlertUnregistered />', () => {
     const recordEvent = sinon.spy();
     const props = { ...defaultProps, recordEvent };
     const { getByTestId } = render(<AlertUnregistered {...props} />);
-    getByTestId('mhv-alert--unregistered');
+    getByTestId(defaultProps.testId);
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
       expect(recordEvent.calledTwice).to.be.false;
