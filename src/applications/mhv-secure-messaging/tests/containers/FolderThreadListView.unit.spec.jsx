@@ -178,16 +178,14 @@ describe('Folder Thread List View container', () => {
 
     await waitFor(() => {
       const alert = document.querySelector('va-alert');
-      const ariaLabel = document.querySelector('h1');
+      const ariaLabel = document.querySelector('span');
       expect(alert)
         .to.have.attribute('status')
         .to.equal('error');
-      expect(screen.getByText(Alerts.Message.SERVER_ERROR_503)).to.exist;
+      expect(screen.getByText(Alerts.Message.SERVER_ERROR_500_MESSAGES_HEADING))
+        .to.exist;
       expect(ariaLabel.textContent).to.contain(`You are in Inbox.`);
-      expect(alert).to.have.attribute(
-        'close-btn-aria-label',
-        'Close notification',
-      );
+      expect(alert).to.have.attribute('closeable', 'false');
     });
   });
 
