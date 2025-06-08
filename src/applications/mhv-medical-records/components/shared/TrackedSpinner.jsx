@@ -25,9 +25,10 @@ const TrackedSpinner = ({ id, ...rest }) => {
     () => {
       const addDatadogAction = reason => {
         const elapsedTime = Date.now() - startRef.current;
+        const duration = Math.max(0, elapsedTime / 1000); // Ensure non-negative duration, convert to seconds
         datadogRum.addAction(rumActions.SPINNER_DURATION, {
           id,
-          duration: Math.max(0, elapsedTime), // Ensure non-negative duration
+          duration,
           reason,
         });
       };
