@@ -6,13 +6,10 @@ import environment from 'platform/utilities/environment';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import {
   titleUI,
-  // addressUI,
   textUI,
   textSchema,
   textareaUI,
   textareaSchema,
-  // dateSchema,
-  // dateUI as webComponentDateUI,
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
   arrayBuilderItemFirstPageTitleUI,
