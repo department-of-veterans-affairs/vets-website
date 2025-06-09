@@ -42,7 +42,6 @@ import {
   APPOINTMENT_STATUS,
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
-  FETCH_STATUS,
   FLOW_TYPES,
   GA_PREFIX,
   DATE_FORMATS,
@@ -71,7 +70,6 @@ import {
   getNewAppointment,
   getTypeOfCare,
   getTypeOfCareFacilities,
-  selectRecentLocationsStatus,
 } from './selectors';
 
 export const GA_FLOWS = {
@@ -432,8 +430,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const { newAppointment } = state;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
-      const isRecentLocationsFetched =
-        selectRecentLocationsStatus(state) === FETCH_STATUS.succeeded;
       const useRecentLocations = selectFeatureRecentLocationsFilter(state);
       const siteIds = selectSystemIds(state);
       const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
@@ -442,16 +438,15 @@ export function openFacilityPageV2(page, uiSchema, schema) {
 
       dispatch({ type: FORM_PAGE_FACILITY_V2_OPEN });
 
-      if (useRecentLocations) {
-        if (!isRecentLocationsFetched) {
+      // Fetch facilities that support this type of care
+      if (!facilities) {
+        if (useRecentLocations) {
           facilities = await fetchRecentLocations(dispatch, siteIds);
           recordItemsRetrieved('recent-locations', facilities?.length || 0);
+        } else {
+          facilities = await getLocationsByTypeOfCareAndSiteIds({ siteIds });
+          recordItemsRetrieved('available_facilities', facilities?.length);
         }
-      }
-      // Fetch facilities that support this type of care
-      else if (!facilities) {
-        facilities = await getLocationsByTypeOfCareAndSiteIds({ siteIds });
-        recordItemsRetrieved('available_facilities', facilities?.length);
       }
 
       dispatch({

@@ -400,10 +400,6 @@ export default function formReducer(state = initialState, action) {
           ...state.facilities,
           [typeOfCareId]: facilities,
         },
-        sortedFacilities: {
-          ...state.sortedFacilities,
-          [typeOfCareId]: sortedFacilities,
-        },
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
         showEligibilityModal: false,
@@ -521,8 +517,8 @@ export default function formReducer(state = initialState, action) {
         'properties.vaFacility',
         {
           type: 'string',
-          enum: typeOfCareFacilities?.map(facility => facility.id),
-          enumNames: typeOfCareFacilities,
+          enum: sortedFacilities?.map(facility => facility.id),
+          enumNames: sortedFacilities,
         },
         newSchema,
       );
@@ -534,10 +530,6 @@ export default function formReducer(state = initialState, action) {
         pages: {
           ...state.pages,
           vaFacilityV2: schema,
-        },
-        sortedFacilities: {
-          ...state.sortedFacilities,
-          [typeOfCareId]: sortedFacilities,
         },
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,

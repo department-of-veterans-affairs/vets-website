@@ -83,7 +83,7 @@ export default function VAFacilityPageV2() {
         },
         { value: 'alphabetical', label: 'Alphabetically' },
       ];
-      if (featureRecentLocationsFilter && facilities?.length) {
+      if (featureRecentLocationsFilter) {
         options.push({
           value: 'recentLocations',
           label: 'By recent locations',
@@ -91,7 +91,7 @@ export default function VAFacilityPageV2() {
       }
       return options;
     },
-    [facilities?.length, featureRecentLocationsFilter],
+    [featureRecentLocationsFilter],
   );
 
   const uiSchema = {
