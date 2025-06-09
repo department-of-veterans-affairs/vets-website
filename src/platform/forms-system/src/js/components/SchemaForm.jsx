@@ -129,7 +129,6 @@ class SchemaForm extends React.Component {
       hideHeaderRow,
       formContext,
       trackingPrefix,
-      data,
     } = props;
     return {
       formContext: {
@@ -147,7 +146,6 @@ class SchemaForm extends React.Component {
         onError: this.onError,
         trackingPrefix,
         ...formContext,
-        formData: formContext?.formData || data,
       },
     };
   }
