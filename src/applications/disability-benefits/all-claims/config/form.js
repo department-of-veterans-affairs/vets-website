@@ -33,6 +33,7 @@ import {
   isAnswering781aQuestions,
   isAnswering781Questions,
   isBDD,
+  isDisabilityPtsd,
   isNotUploadingPrivateMedical,
   isUploading781aForm,
   isUploading781Form,
@@ -341,7 +342,10 @@ const formConfig = {
         },
         followUpDesc: {
           title: 'Follow-up questions',
-          depends: formData => claimingNew(formData) && !isBDD(formData),
+          depends: (item, formData) =>
+            claimingNew(formData) &&
+            !isBDD(formData) &&
+            !isDisabilityPtsd(item.condition),
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
@@ -357,7 +361,10 @@ const formConfig = {
           depends: claimingNew,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
-          itemFilter: item => item.condition,
+          itemFilter: (item, formData) =>
+            formData?.syncModern0781Flow
+              ? item.condition
+              : !isDisabilityPtsd(item.condition),
           arrayPath: 'newDisabilities',
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema,
