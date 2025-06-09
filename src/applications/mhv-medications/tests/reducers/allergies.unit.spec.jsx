@@ -5,7 +5,11 @@ import {
   extractObservedReported,
 } from '../../api/allergiesApi';
 import allergy from '../fixtures/allergy.json';
-import { allergyTypes, FIELD_NOT_AVAILABLE } from '../../util/constants';
+import {
+  allergyTypes,
+  FIELD_NONE_NOTED,
+  FIELD_NOT_AVAILABLE,
+} from '../../util/constants';
 
 describe('extractLocation function', () => {
   it('should return the name when all properties exist and conditions are met', () => {
@@ -143,9 +147,9 @@ describe('convertAllergy function', () => {
     };
     const convertedAllergy = convertAllergy(emptyFieldsAllergy);
     expect(convertedAllergy.type).to.equal(FIELD_NOT_AVAILABLE);
-    expect(convertedAllergy.name).to.equal(FIELD_NOT_AVAILABLE);
+    expect(convertedAllergy.name).to.equal(FIELD_NONE_NOTED);
     expect(convertedAllergy.date).to.equal(FIELD_NOT_AVAILABLE);
-    expect(convertedAllergy.notes).to.equal(FIELD_NOT_AVAILABLE);
+    expect(convertedAllergy.notes).to.equal(FIELD_NONE_NOTED);
   });
 
   it('should contain allergy name and id', () => {
