@@ -48,7 +48,7 @@ describe('MhvTemporaryAccess', () => {
     const loginStub = sinon.stub(authUtilities, 'login');
     const screen = renderInReduxProvider(<MhvTemporaryAccess />);
     const updateHeading = screen.getByRole('heading', {
-      name: /View or update account information/i,
+      name: /Account information and password/i,
     });
     expect(updateHeading).to.exist;
     const accessButton = await screen.findByTestId('updateMhvBtn');
