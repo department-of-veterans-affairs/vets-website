@@ -65,3 +65,10 @@ You can learn more about this service [here.](https://github.com/department-of-v
 5. Select a profile from the drop down (EX: `vets.gov.user+228@gmail.com`) and click the ‘Continue signing in’ button.
 6. You’ll be logged into localhost and the page will spin since we are only running certain services. Change the url to <http://localhost:3001/get-help-from-accredited-representative/appoint-rep> and you will be directed to the Appoint a Representative service.
 7. You should now see the Appoint a Representative page for that staging user. A widget will be displayed either saying you dont have a representative or showing you your representative/VSO.
+
+### How to add representatives and organizations to your local db so that you can appoint a representaive
+
+1. Go to `vets-api`
+2. Open a rails console `rails c`
+3. Run the following command `Veteran::VSOReloader.perform_async`
+4. This will add representatives and organizations to your local db.
