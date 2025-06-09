@@ -334,5 +334,6 @@
   "accreditedRepresentativePortalHelp": "accredited_representative_portal_help",
   "accreditedRepresentativePortalProfile": "accredited_representative_portal_profile",
   "myVaAuthExpRedesignEnabled": "my_va_auth_exp_redesign_enabled",
-  "accreditedRepresentativePortalSelfServiceAuth": "accredited_representative_portal_self_service_auth"
+  "accreditedRepresentativePortalSelfServiceAuth": "accredited_representative_portal_self_service_auth",
+  "accreditedRepresentativePortalForm": "accredited_representative_portal_form"
 }
