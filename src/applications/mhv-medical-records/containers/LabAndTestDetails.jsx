@@ -6,7 +6,6 @@ import {
   clearLabsAndTestDetails,
   getlabsAndTestsDetails,
 } from '../actions/labsAndTests';
-import EkgDetails from '../components/LabsAndTests/EkgDetails';
 import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
 import MicroDetails from '../components/LabsAndTests/MicroDetails';
 import PathologyDetails from '../components/LabsAndTests/PathologyDetails';
@@ -71,9 +70,6 @@ const LabAndTestDetails = () => {
     return (
       <PathologyDetails record={labAndTestDetails} fullState={fullState} />
     );
-  }
-  if (labAndTestDetails?.type === labTypes.EKG) {
-    return <EkgDetails record={labAndTestDetails} />;
   }
   if (
     labAndTestDetails?.type === labTypes.RADIOLOGY ||
