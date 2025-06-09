@@ -9,7 +9,11 @@ import {
   getReactions,
   isArrayAndHasItems,
 } from '../util/helpers';
-import { allergyTypes, EMPTY_FIELD } from '../util/constants';
+import {
+  allergyTypes,
+  FIELD_NONE_NOTED,
+  FIELD_NOT_AVAILABLE,
+} from '../util/constants';
 
 /**
  * TODO: implement retry logic
@@ -25,7 +29,7 @@ export const extractLocation = allergy => {
       return org.name;
     }
   }
-  return EMPTY_FIELD;
+  return FIELD_NOT_AVAILABLE;
 };
 
 export const extractObservedReported = allergy => {
@@ -38,7 +42,7 @@ export const extractObservedReported = allergy => {
       if (extItem.valueCode === 'h') return allergyTypes.REPORTED;
     }
   }
-  return EMPTY_FIELD;
+  return FIELD_NOT_AVAILABLE;
 };
 
 export const convertAllergy = allergy => {
@@ -48,16 +52,17 @@ export const convertAllergy = allergy => {
       (isArrayAndHasItems(allergy.category) &&
         allergy.category[0].charAt(0).toUpperCase() +
           allergy.category[0].slice(1)) ||
-      EMPTY_FIELD,
-    name: allergy?.code?.text || EMPTY_FIELD,
+      FIELD_NOT_AVAILABLE,
+    name: allergy?.code?.text || FIELD_NONE_NOTED,
     date: allergy?.recordedDate
       ? formatDateLong(allergy.recordedDate)
-      : EMPTY_FIELD,
+      : FIELD_NOT_AVAILABLE,
     reaction: getReactions(allergy),
     location: extractLocation(allergy),
     observedOrReported: extractObservedReported(allergy),
     notes:
-      (isArrayAndHasItems(allergy.note) && allergy.note[0].text) || EMPTY_FIELD,
+      (isArrayAndHasItems(allergy.note) && allergy.note[0].text) ||
+      FIELD_NONE_NOTED,
   };
 };
 
