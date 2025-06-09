@@ -3,9 +3,17 @@ import GeneralFunctionsPage from './GeneralFunctionsPage';
 import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
+import mockSentFolderMetaResponse from '../fixtures/sentResponse/folder-sent-metadata.json';
+import FolderLoadPage from './FolderLoadPage';
 
 class PatientErrorPage {
   loadParticularFolderError = () => {
+    cy.intercept(
+      'GET',
+      Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS,
+      mockRecipients,
+    ).as('recipients');
+
     cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/*`, {
       errors: [
         {
@@ -41,7 +49,7 @@ class PatientErrorPage {
     });
   };
 
-  loadInbox500Error = () => {
+  loadInboxFolder500Error = () => {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
@@ -67,6 +75,50 @@ class PatientErrorPage {
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
     cy.wait('@inboxMessages', { requestTimeout: 10000 });
+  };
+
+  loadSentFolder500Error = () => {
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1*`,
+      mockSentFolderMetaResponse,
+    ).as('sentFolder');
+
+    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/threads**`, {
+      statusCode: 500,
+    }).as('sentFolderMessages');
+
+    cy.get('[data-testid="sent-inner-nav"]>a').click({ force: true });
+  };
+
+  loadCustomFolder500Error = () => {
+    const folder = mockFolders.data[mockFolders.data.length - 1];
+    const { folderId } = mockFolders.data[
+      mockFolders.data.length - 1
+    ].attributes;
+    const folderName =
+      mockFolders.data[mockFolders.data.length - 1].attributes.name;
+
+    cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}*`, {
+      data: folder,
+    }).as('customFolder');
+
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads*`,
+      { statusCode: 500 },
+    ).as('customFolderThread');
+    FolderLoadPage.loadFolders();
+
+    cy.get(`[data-testid=${folderName}]`).click({ force: true });
+
+    cy.visit(`${Paths.UI_MAIN + Paths.FOLDERS}/${folderId}`, {
+      onBeforeLoad: win => {
+        cy.stub(win, 'print');
+      },
+    });
+
+    cy.wait(`@customFolderThread`);
   };
 
   verifyAlertMessageText = () => {
@@ -128,9 +180,12 @@ class PatientErrorPage {
   };
 
   verifyError500Content = () => {
+    cy.get(`va-alert`).should('be.focused');
+
     cy.findByTestId(`alert-heading`)
       .should(`be.visible`)
       .and(`have.text`, Data.ERROR_500.HEADER);
+
     cy.findByTestId(`alert-text`)
       .should(`be.visible`)
       .and(`have.text`, Data.ERROR_500.TEXT);

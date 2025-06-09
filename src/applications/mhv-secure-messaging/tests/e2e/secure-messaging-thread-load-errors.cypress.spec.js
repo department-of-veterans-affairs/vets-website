@@ -1,6 +1,9 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientErrorPage from './pages/PatientErrorPage';
 import { AXE_CONTEXT, Paths } from './utils/constants';
+import PatientInboxPage from './pages/PatientInboxPage';
+import mockSentMessages from './fixtures/sentResponse/sent-messages-response.json';
+import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Thread list load error', () => {
   it('verify error on particular folder', () => {
@@ -31,7 +34,29 @@ describe('Thread list load error', () => {
   it('verify 500 error on inbox thread call', () => {
     SecureMessagingSite.login();
 
-    PatientErrorPage.loadInbox500Error();
+    PatientErrorPage.loadInboxFolder500Error();
+    PatientErrorPage.verifyError500Content();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify 500 error on sent thread call', () => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(mockSentMessages);
+    FolderLoadPage.loadFolders();
+
+    PatientErrorPage.loadSentFolder500Error();
+    PatientErrorPage.verifyError500Content();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify 500 error on custom folder thread call', () => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    FolderLoadPage.loadFolders();
+
+    PatientErrorPage.loadCustomFolder500Error();
     PatientErrorPage.verifyError500Content();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
