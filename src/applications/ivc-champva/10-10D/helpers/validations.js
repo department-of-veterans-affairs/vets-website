@@ -97,3 +97,48 @@ export const certifierEmailValidation = (errors, page, formData) => {
     '_undefined', // Sponsor has no email field
   );
 };
+
+export function noDash(str) {
+  return str?.replace(/-/g, '');
+}
+
+/**
+ * Validates the sponsor's SSN does not match any others in the form.
+ * @param {Object} errors - The errors object for the current page
+ * @param {Object} page - The current page data
+ */
+export const validateSponsorSsnIsUnique = (errors, page) => {
+  const sponsorSSN = page?.ssn;
+  const match = page?.applicants?.find(
+    el => noDash(el?.applicantSSN) === noDash(sponsorSSN),
+  );
+
+  if (match) {
+    errors?.ssn?.addError(
+      'This Social Security number is in use elsewhere in the form. SSNs must be unique.',
+    );
+  }
+};
+
+/**
+ * Validates that an applicant's SSN does not match any others in the form.
+ * @param {Object} errors - The errors object for the current page
+ * @param {Object} page - The current page data
+ */
+export const validateApplicantSsnIsUnique = (errors, page) => {
+  const idx = page?.['view:pagePerItemIndex'];
+  const sponsorMatch =
+    noDash(page?.applicantSSN) === noDash(page?.['view:sponsorSSN']);
+
+  let applicants = page?.['view:applicantSSNArray'];
+  applicants = [...applicants.slice(0, idx), ...applicants.slice(idx + 1)];
+  const applicantMatch = applicants?.some(
+    app => noDash(app) === noDash(page?.applicantSSN),
+  );
+
+  if (sponsorMatch || applicantMatch) {
+    errors.applicantSSN.addError(
+      'This Social Security number is in use elsewhere in the form. SSNs must be unique.',
+    );
+  }
+};

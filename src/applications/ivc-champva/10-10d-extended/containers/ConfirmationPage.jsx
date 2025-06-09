@@ -65,7 +65,6 @@ export function ConfirmationPage(props) {
         <br />
         <br />
         <va-button
-          uswds
           className="usa-button screen-only"
           onClick={window.print}
           text="Print this page"

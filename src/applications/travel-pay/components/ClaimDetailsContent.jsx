@@ -131,28 +131,30 @@ export default function ClaimDetailsContent({
               )}
             </div>
           )}
-          {totalCostRequested !== reimbursementAmount && (
-            <va-additional-info
-              class="vads-u-margin-y--2"
-              trigger="Why are my amounts different"
-            >
-              <p>
-                The VA travel pay deductible is $3 for a one-way trip and $6 for
-                a round trip, with a maximum of $18 per month. After a Veteran
-                reaches the $18 monthly deductible, the VA will pay the full
-                cost of their approved travel for the rest of that month.{' '}
-                <va-link
-                  href="/resources/reimbursed-va-travel-expenses-and-mileage-rate#monthlydeductible"
-                  text="Learn more about travel expenses monthly deductible"
-                />
-              </p>
-              <p>
-                If the difference is greater than the deductible, then the
-                Beneficiary Travel team may have issued a partial payment. You
-                can review the decision letter for more information.
-              </p>
-            </va-additional-info>
-          )}
+          {reimbursementAmount > 0 &&
+            totalCostRequested !== reimbursementAmount && (
+              <va-additional-info
+                class="vads-u-margin-y--2"
+                trigger="Why are my amounts different"
+              >
+                <p>
+                  The VA travel pay deductible is $3 for a one-way trip and $6
+                  for a round trip, with a maximum of $18 per month. After a
+                  Veteran reaches the $18 monthly deductible, the VA will pay
+                  the full cost of their approved travel for the rest of that
+                  month.{' '}
+                  <va-link
+                    href="/resources/reimbursed-va-travel-expenses-and-mileage-rate#monthlydeductible"
+                    text="Learn more about travel expenses monthly deductible"
+                  />
+                </p>
+                <p>
+                  If the difference is greater than the deductible, then the
+                  Beneficiary Travel team may have issued a partial payment. You
+                  can review the decision letter for more information.
+                </p>
+              </va-additional-info>
+            )}
         </>
       )}
       <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">When</p>

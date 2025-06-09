@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import GetFormHelp from '../components/GetFormHelp';
 

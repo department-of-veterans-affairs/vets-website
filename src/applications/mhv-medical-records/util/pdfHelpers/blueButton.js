@@ -6,7 +6,6 @@ import {
 } from '../constants';
 import {
   generateChemHemContent,
-  generateEkgContent,
   generateMicrobioContent,
   generatePathologyContent,
   generateRadiologyContent,
@@ -68,9 +67,6 @@ export const generateBlueButtonData = (
             }
             if (record.type === labTypes.PATHOLOGY) {
               content = generatePathologyContent(record);
-            }
-            if (record.type === labTypes.EKG) {
-              content = generateEkgContent(record);
             }
             if (record.type === labTypes.RADIOLOGY) {
               content = generateRadiologyContent(record);

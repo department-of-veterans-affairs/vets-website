@@ -141,7 +141,7 @@ describe('the HLR Sub-task', () => {
     fireEvent.click($('va-button[continue]', container));
     expect($('va-button[back]', container)).to.exist;
 
-    fireEvent.click($('a[href*="file-by-mail-in-person"]', container));
+    fireEvent.click($('[href*="file-by-mail-in-person"]', container));
 
     const event = global.window.dataLayer.slice(-1)[0];
     expect(event).to.deep.equal({
