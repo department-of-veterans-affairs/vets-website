@@ -20,7 +20,7 @@ import {
 const arrayBuilderOptions = {
   arrayPath: 'emergencyContacts',
   nounSingular: 'emergency contact',
-  nounPlural: 'emergency contacts',
+  nounPlural: 'emergency contact',
   required: false,
   maxItems: 1,
   isItemIncomplete: item =>
@@ -34,6 +34,20 @@ const arrayBuilderOptions = {
     deleteTitle: getDeleteTitle,
     deleteYes: getDeleteYes,
     deleteDescription: getDeleteDescription,
+    cancelAddDescription: () =>
+      content['emergency-contact-cancel-add-description-text'],
+    cancelEditDescription: () =>
+      content['emergency-contact-cancel-edit-description-text'],
+    cancelEditTitle: () => content['emergency-contact-cancel-edit-title-text'],
+    cancelAddTitle: () => content['emergency-contact-cancel-add-title-text'],
+    cancelAddYes: () => content['emergency-contact-cancel-add-yes'],
+    cancelAddNo: () => content['emergency-contact-cancel-add-no'],
+    cancelEditYes: () => content['emergency-contact-cancel-edit-yes'],
+    cancelEditNo: () => content['emergency-contact-cancel-edit-no'],
+    yesNoBlankReviewQuestion: () =>
+      content['emergency-contact-summary-yes-no-blank-review-question'],
+    reviewAddButtonText: () =>
+      content['emergency-contact-summary-add-button-text'],
   },
   hideMaxItemsAlert: true,
 };

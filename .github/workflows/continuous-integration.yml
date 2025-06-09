@@ -415,13 +415,17 @@ jobs:
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           IS_STRESS_TEST: true
           STEP: ${{ matrix.runs }}
+
+      - name: Rename results directory to avoid merge collisions
+        run: |
+          mv mocha/results/unit-tests.json mocha/results/unit-tests-${{ matrix.runs }}.json
     
       - name: Archive unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-stress-test-results-${{ matrix.runs }}
-          path: mocha/results
+          path: mocha/results/unit-tests-${{ matrix.runs }}.json
 
   update-unit-test-allow-list:
     name: Update Unit Test Stability Allow List
@@ -692,12 +696,6 @@ jobs:
       - name: Checkout vets-website
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-
-      - name: Checkout new-axe-checks branch
-        run: git fetch origin new-axe-checks --depth=1
-
-      - name: Checkout axeCheck.js from new-axe-checks branch
-        run: git checkout origin/new-axe-checks src/platform/testing/e2e/cypress/support/commands/axeCheck.js
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -1202,7 +1200,6 @@ jobs:
           role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role_duration: 900
           session_name: vsp-frontendteam-githubaction
-          
 
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
@@ -1215,6 +1212,12 @@ jobs:
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
 
+      - name: Manual Mochawesome merge
+        working-directory: qa-standards-dashboard-data
+        run: |
+          rm -f src/testing-reports/data/unit-tests.json
+          node src/testing-reports/manual-merge.js
+         
       - name: Create Unit Test report
         run: yarn unit-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data

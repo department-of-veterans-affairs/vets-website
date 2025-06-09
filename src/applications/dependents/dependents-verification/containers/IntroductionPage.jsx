@@ -75,14 +75,12 @@ export const IntroductionPage = props => {
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
         <SaveInProgressIntro
+          hideUnauthedStartLink
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
         />
       )}
       <p />

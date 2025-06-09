@@ -43,10 +43,10 @@ describe('ConfirmationSummary', () => {
 describe('ConfirmationReturnLink', () => {
   it('should render page title', () => {
     const { container } = render(<ConfirmationReturnLink />);
-
     const screenContent = $('.screen-only', container);
-    const link = $('a', screenContent);
-    expect(link.textContent).to.contain('Go back to VA.gov');
+    const link = $('va-link-action', screenContent);
+
     expect(link.getAttribute('href')).to.eq('/');
+    expect(link.getAttribute('text')).to.contain('Go back to VA.gov');
   });
 });
