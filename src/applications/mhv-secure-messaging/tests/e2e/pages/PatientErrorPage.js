@@ -22,7 +22,7 @@ class PatientErrorPage {
           status: '503',
         },
       ],
-    }).as('inboxFolderMetaData');
+    }).as('folderMetaData');
 
     cy.visit(Paths.UI_MAIN + Paths.INBOX, {
       onBeforeLoad: win => {

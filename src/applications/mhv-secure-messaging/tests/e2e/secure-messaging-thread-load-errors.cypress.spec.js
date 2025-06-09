@@ -5,7 +5,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import mockSentMessages from './fixtures/sentResponse/sent-messages-response.json';
 import FolderLoadPage from './pages/FolderLoadPage';
 
-describe('Thread list load error', () => {
+describe('THREAD LIST LOAD ERRORS', () => {
   it('verify error on particular folder', () => {
     SecureMessagingSite.login();
     PatientErrorPage.loadParticularFolderError();
