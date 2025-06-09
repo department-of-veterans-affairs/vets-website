@@ -65,7 +65,7 @@ describe('MhvTemporaryAccess', () => {
 
     fireEvent.click(accessButton);
     expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
-      'https://eauth.va.gov/mhv-portal-web/eauth',
+      'https://eauth.va.gov/mhv-portal-web/eauth?deeplinking=account-information',
     );
     expect(accessButton.getAttribute('href')).to.contain(
       `https://dev-api.va.gov/v1/sessions/mhv/new?operation=mhv_exception`,
