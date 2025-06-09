@@ -1,10 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { login } from 'platform/user/authentication/utilities';
 import { AUTHN_SETTINGS } from 'platform/user/authentication/constants';
 
 export default function MhvTemporaryAccess() {
+  const [manageAcctUrl, setAcctUrl] = useState();
   useEffect(() => {
     document.title = 'Access the My HealtheVet sign-in option';
+
+    async function createHref() {
+      const url = await login({
+        policy: 'mhv',
+        queryParams: { operation: 'mhv_exception' },
+        isLink: true,
+      });
+      setAcctUrl(url);
+    }
+    createHref();
   }, []);
   return (
     <section className="container row login vads-u-padding--3">
@@ -47,16 +58,12 @@ export default function MhvTemporaryAccess() {
         <va-link-action
           text="Manage your account"
           type="secondary"
-          onClick={e => {
-            e.preventDefault();
+          href={manageAcctUrl}
+          onClick={() => {
             sessionStorage.setItem(
               AUTHN_SETTINGS.RETURN_URL,
               'https://eauth.va.gov/mhv-portal-web/eauth',
             );
-            login({
-              policy: 'mhv',
-              queryParams: { operation: 'mhv_exception' },
-            });
           }}
           data-testid="updateMhvBtn"
         />
