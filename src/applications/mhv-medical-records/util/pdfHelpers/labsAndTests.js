@@ -206,33 +206,6 @@ export const generatePathologyContent = record => ({
   },
 });
 
-export const generateEkgContent = record => ({
-  results: {
-    sectionSeparators: false,
-    items: [
-      {
-        items: [
-          {
-            title: 'Date',
-            value: record.date,
-            inline: true,
-          },
-          {
-            title: 'Location',
-            value: record.facility,
-            inline: true,
-          },
-          {
-            title: 'Provider',
-            value: record.orderedBy,
-            inline: true,
-          },
-        ],
-      },
-    ],
-  },
-});
-
 export const generateRadiologyContent = record => ({
   details: {
     header: 'Details about this test',
