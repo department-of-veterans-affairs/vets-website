@@ -95,9 +95,7 @@ const testConfig = createTestConfig(
       },
       // if the environment is production
       'records-requested': ({ afterHook }) => {
-        const isProduction = Cypress.env('IS_PRODUCTION') || Cypress.env('CI');
-
-        if (isProduction) {
+        if (Cypress.env('CI')) {
           cy.injectAxeThenAxeCheck();
           afterHook(() => {
             cy.get('@testData').then(data => {
