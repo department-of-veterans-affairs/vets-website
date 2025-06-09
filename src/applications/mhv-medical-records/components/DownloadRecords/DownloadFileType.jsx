@@ -103,10 +103,15 @@ const DownloadFileType = props => {
 
   useEffect(
     () => {
-      if (!fileTypeFilter) return;
+      if (fileTypeFilter) {
+        setFileType(fileTypeFilter);
+      }
+    },
+    [fileTypeFilter],
+  );
 
-      setFileType(fileTypeFilter);
-
+  useEffect(
+    () => {
       if (!fileTypeError) return;
 
       // give the browser a moment to render the error message into the shadowDOM
@@ -127,7 +132,7 @@ const DownloadFileType = props => {
         }
       }, 400);
     },
-    [fileTypeError, fileTypeFilter],
+    [fileTypeError],
   );
 
   useEffect(
