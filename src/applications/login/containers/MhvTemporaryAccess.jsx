@@ -62,7 +62,7 @@ export default function MhvTemporaryAccess() {
           onClick={() => {
             sessionStorage.setItem(
               AUTHN_SETTINGS.RETURN_URL,
-              'https://eauth.va.gov/mhv-portal-web/eauth',
+              'https://eauth.va.gov/mhv-portal-web/eauth?deeplinking=account-information',
             );
           }}
           data-testid="updateMhvBtn"
