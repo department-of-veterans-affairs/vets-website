@@ -387,6 +387,82 @@ const Dashboard = ({
                   </Toggler.Enabled>
                 </Toggler>
               )}
+
+              <Toggler
+                toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+              >
+                <Toggler.Enabled>
+                  <div className="vads-u-margin-top--6 vads-u-padding-y--1 vads-u-padding-x--3">
+                    <h3 className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-padding-top--1 vads-u-padding-bottom--0p5 vads-u-border-bottom--2px vads-u-border-color--primary">
+                      Common tasks
+                    </h3>
+                    <ul className="usa-unstyled-list">
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/records/download-va-letters/letters"
+                          text="Download your VA letters and documents (including DD 214)"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/health-care/file-travel-pay-reimbursement"
+                          text="File for travel reimbursement"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/education/gi-bill/post-9-11/ch-33-benefit/status"
+                          text="Check your Post-9/11 GI Bill benefits"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/view-change-dependents/view"
+                          text="View or change VA dependents"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/rates"
+                          text="Get current Chapter 35 rates for survivors and dependents"
+                        />
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="vads-u-margin-top--6 vads-u-padding-y--1 vads-u-padding-x--3 vads-u-background-color--gray-lightest">
+                    <h3 className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-padding-top--1 vads-u-padding-bottom--0p5 vads-u-border-bottom--1px vads-u-border-color--gray-light">
+                      Get Help
+                    </h3>
+                    <ul className="usa-unstyled-list">
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/resources/helpful-va-phone-numbers"
+                          text="Find helpful VA phone numbers"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/contact-us/ask-va/introduction"
+                          text="Ask VA"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/get-help-from-accredited-representative"
+                          text="Get help from a VA accredited representative or VSO"
+                        />
+                      </li>
+                      <li className="vads-u-padding-y--1">
+                        <va-link
+                          href="/find-locations"
+                          text="Find a VA location"
+                        />
+                      </li>
+                    </ul>
+                  </div>
+                </Toggler.Enabled>
+              </Toggler>
             </div>
           </div>
         )}
