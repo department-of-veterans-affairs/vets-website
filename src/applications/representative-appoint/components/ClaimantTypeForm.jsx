@@ -7,7 +7,7 @@ import { schema, uiSchema } from '../pages/claimant/claimantType';
 import GetFormHelp from './GetFormHelp';
 
 const ClaimantTypeForm = props => {
-  const { data, onGoBack, onChange, onSubmit } = props;
+  const { data, onChange, onGoBack, onSubmit } = props;
 
   return (
     <div className="vads-u-margin-top--2p5">
@@ -38,6 +38,7 @@ const ClaimantTypeForm = props => {
 ClaimantTypeForm.propTypes = {
   data: PropTypes.object,
   onChange: PropTypes.func,
+  onGoBack: PropTypes.func,
   onLogin: PropTypes.func,
   onSubmit: PropTypes.func,
 };
