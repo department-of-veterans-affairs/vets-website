@@ -64,11 +64,10 @@ const wrapperClasses = prefixUtilityClasses([
   'align-items--flex-start',
 ]);
 
-const editButtonClasses = [...prefixUtilityClasses(['margin-top--1p5'])];
-
 const classes = {
   wrapper: wrapperClasses.join(' '),
-  editButton: editButtonClasses.join(' '),
+  buttons:
+    'vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto',
 };
 
 class ProfileInformationFieldController extends React.Component {
@@ -426,32 +425,29 @@ class ProfileInformationFieldController extends React.Component {
         <div className="vads-u-width--full">
           <div>
             {this.isEditLinkVisible() && (
-              <button
-                aria-label={`Edit ${title}`}
-                type="button"
-                data-action="edit"
-                aria-describedby={ariaDescribedBy}
+              <va-button
+                text="Edit"
+                label={`Edit ${title}`}
+                message-aria-describedby={ariaDescribedBy}
                 onClick={() => {
                   this.onEdit(isEmpty ? 'add-link' : 'edit-link');
                 }}
                 id={getEditButtonId(fieldName)}
-                className={classes.editButton}
-              >
-                Edit
-              </button>
+                class={`vads-u-margin-top--1p5 ${classes.buttons}`}
+                primary
+              />
             )}
             {data &&
               !isDeleteDisabled &&
               fieldName !== FIELD_NAMES.MAILING_ADDRESS && (
-                <button
-                  aria-label={`Remove ${title}`}
-                  type="button"
+                <va-button
+                  text="Remove"
+                  label={`Remove ${title}`}
                   id={getRemoveButtonId(fieldName)}
-                  className="mobile-lg:vads-u-margin--0 usa-button-secondary"
+                  class={`vads-u-margin-top--1 ${classes.buttons}`}
                   onClick={this.handleDeleteInitiated}
-                >
-                  Remove
-                </button>
+                  secondary
+                />
               )}
           </div>
         </div>
