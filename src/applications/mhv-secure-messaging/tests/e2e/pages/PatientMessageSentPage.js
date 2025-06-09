@@ -39,6 +39,7 @@ class PatientMessageSentPage {
       }`,
       singleMessageResponse,
     ).as(`threadFirstMessageResponse`);
+
     cy.get(
       `#message-link-${multiThreadsResponse.data[0].attributes.messageId}`,
     ).click();
