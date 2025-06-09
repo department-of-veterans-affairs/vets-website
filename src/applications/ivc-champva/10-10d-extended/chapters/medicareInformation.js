@@ -424,7 +424,7 @@ const medicarePartADenialPage = {
         uswds
         background-color="true"
       >
-        <p>
+        <p className="vads-u-margin-y--0">
           Applicants that don’t have Medicare Part A and B or proof of
           ineligibility may not be eligible for CHAMPVA.
         </p>
