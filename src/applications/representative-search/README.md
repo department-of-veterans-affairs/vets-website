@@ -3,7 +3,7 @@
 This tool allows va users to search for an accredited attorney, claims agent, or Veterans Service Organization (VSO) representative to appoint, that can help them file a claim or request a decision review.
 They can use this search tool to find one of these types of accredited representatives to help them.
 
-You can learn more about this service [here.](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/accredited-representation-management/product-documentation/find-a-representative/product-outline-find-a-representative.md)
+You can learn more about this service [here](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/accredited-representation-management/product-documentation/find-a-representative/product-outline-find-a-representative.md).
 
 ## How to run locally
 

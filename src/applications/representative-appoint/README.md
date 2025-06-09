@@ -48,11 +48,10 @@ You can learn more about this service [here.](https://github.com/department-of-v
 
 ### How to login into localhost with mocked-auth and view Appoint a Representative
 
-1. If you dont already have a setting.local.yml file in `vets-api` then follow these instructions to add one and create a certificate for benefits-claims so that you can login with localhost
-2. Go to <http://localhost:3001/sign-in/mocked-auth>
-3. Select ID.me from the drop down list and click the ‘Sign in with mocked authentication’ button.
-4. Select a profile from the drop down (EX: `vets.gov.user+228@gmail.com`) and click the ‘Continue signing in’ button.
-5. You’ll be logged into localhost and the page will spin since we are only running certain services. Change the url to <http://localhost:3001/get-help-from-accredited-representative/appoint-rep> and you will be directed to the Appoint a Rep service.
+1. Go to <http://localhost:3001/sign-in/mocked-auth>
+2. Select ID.me from the drop down list and click the ‘Sign in with mocked authentication’ button.
+3. Select a profile from the drop down (EX: `vets.gov.user+228@gmail.com`) and click the ‘Continue signing in’ button.
+4. You’ll be logged into localhost and the page will spin since we are only running certain services. Change the url to <http://localhost:3001/get-help-from-accredited-representative/appoint-rep> and you will be directed to the Appoint a Rep service.
 
 ### How to login into localhost with mocked-auth and view Appoint a Representative with a staging user
 
