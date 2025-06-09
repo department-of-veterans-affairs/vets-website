@@ -1,3 +1,4 @@
+export * from './addressDeprecatedPattern';
 export * from './addressPattern';
 export * from './arnPattern';
 export * from './arrayBuilderPatterns';
