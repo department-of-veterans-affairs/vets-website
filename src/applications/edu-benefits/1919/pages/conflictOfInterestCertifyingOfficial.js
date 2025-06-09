@@ -38,6 +38,7 @@ const uiSchema = {
     }),
   },
 };
+
 const schema = {
   type: 'object',
   properties: {
@@ -64,4 +65,5 @@ const schema = {
     },
   },
 };
+
 export { uiSchema, schema };

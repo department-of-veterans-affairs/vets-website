@@ -41,13 +41,13 @@ export const getCardTitle = item => {
 export const getCardDescription = item => {
   return item ? (
     <>
-      <p className="vads-u-margin-top--0">
+      <p className="vads-u-margin-top--0" data-testid="card-title">
         {item.certifyingOfficial?.title || 'Title'}
       </p>
-      <p>{item.fileNumber || 'File number'}</p>
+      <p data-testid="card-file-number">{item.fileNumber || 'File number'}</p>
       {item.enrollmentPeriod?.from && (
-        <p>
-          <span>{formatReviewDate(item.enrollmentPeriod.from)}</span>
+        <p data-testid="card-enrollment-period">
+          {formatReviewDate(item.enrollmentPeriod.from)}
           {item.enrollmentPeriod?.to &&
             ` - ${formatReviewDate(item.enrollmentPeriod.to)}`}
         </p>
