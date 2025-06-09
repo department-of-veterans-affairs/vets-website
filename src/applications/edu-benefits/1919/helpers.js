@@ -23,25 +23,20 @@ export const conflictOfInterestPolicy = (
   </va-additional-info>
 );
 export const cardDescription = item => {
-  if (
-    !item?.allProprietarySchoolsEmployeeInfo.first ||
-    !item?.allProprietarySchoolsEmployeeInfo.last
-  ) {
+  if (!item?.first || !item?.last) {
     return 'this individual';
   }
-  return `${item?.allProprietarySchoolsEmployeeInfo.first} ${
-    item?.allProprietarySchoolsEmployeeInfo.last
-  }`;
+  return `${item?.first} ${item?.last}`;
 };
 export const arrayBuilderOptions = {
-  arrayPath: 'all-proprietary-schools',
-  nounSingular: 'individual',
-  nounPlural: 'individuals',
+  arrayPath: 'allProprietarySchoolsEmployeeInfo',
+  nounSingular: 'allProprietarySchoolsEmployeeInfo',
+  nounPlural: 'allProprietarySchoolsEmployeesInfo',
   required: true,
   text: {
     getItemName: item => cardDescription(item),
     cardDescription: item => {
-      return `${item?.allProprietarySchoolsEmployeeInfo?.title}`;
+      return `${item?.title}`;
     },
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',

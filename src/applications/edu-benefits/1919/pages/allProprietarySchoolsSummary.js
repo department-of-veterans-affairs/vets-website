@@ -4,7 +4,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 export const arrayBuilderOptions = {
-  arrayPath: 'all-proprietary-schools',
+  arrayPath: 'allProprietarySchoolsEmployeeInfo',
   nounSingular: 'individual with a potential conflict of interest',
   nounPlural: 'all Proprietary Schools',
   required: true,
