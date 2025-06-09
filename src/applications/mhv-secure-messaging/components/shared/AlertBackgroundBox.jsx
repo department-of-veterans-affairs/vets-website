@@ -161,6 +161,13 @@ const AlertBackgroundBox = props => {
           location.pathname === MESSAGE_THREAD ||
           foldersViewPage);
 
+      const filteredSortedAlerts = alertList
+        .filter(alert => alert?.isActive)
+        .sort((a, b) => {
+          // Sort chronologically descending.
+          return b.datestamp - a.datestamp;
+        });
+
       if (isMessagesAlertWithHeader) {
         header = SERVER_ERROR_500_MESSAGES_HEADING;
         content = SERVER_ERROR_500_MESSAGES_CONTENT;
@@ -173,6 +180,7 @@ const AlertBackgroundBox = props => {
       setAlertHeader(header);
       setAlertContent(content);
       setCloseableAlert(closeable);
+      setActiveAlert(filteredSortedAlerts[0] || null);
     },
     [
       SERVER_ERROR_500_MESSAGES_CONTENT,
@@ -180,6 +188,7 @@ const AlertBackgroundBox = props => {
       SERVER_ERROR_503,
       SERVICE_OUTAGE,
       activeAlert,
+      alertList,
       contactListPage,
       foldersViewPage,
       lastPathName,
