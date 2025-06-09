@@ -3,7 +3,7 @@
 This tool allows a va user to go to home page, select `Profile` from the drop down under their name.
 The Profile page then directs the user to various cards with information that pertains to them. By selecting the link in the card `Accredited representative or VSO` a veteran will learn if they have a representative or VSO.
 
-You can learn more about this service [here](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/accredited-representation-management/product-documentation/representative-status-widget/product-outline-representative-status.md).
+You can learn more about this service <https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/accredited-representation-management/product-documentation/representative-status-widget/product-outline-representative-status.md>.
 
 ## How to run locally
 

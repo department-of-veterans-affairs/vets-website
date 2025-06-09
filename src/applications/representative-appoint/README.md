@@ -3,7 +3,7 @@
 This tool allows va users to pre-fill their VA Form 21-22 to appoint a Veteran Service Organization (VSO).
 They can also user this online tool to pre-fill their VA Form 21-22a to appoint a VA accredited attorney or claims agent.
 
-You can learn more about this service [here.](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/accredited-representation-management/product-documentation/appoint-a-representative/product-outline-appoint-a-representative.md)
+You can learn more about this service by going to <https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/accredited-representation-management/product-documentation/appoint-a-representative/product-outline-appoint-a-representative.md>.
 
 ## How to run locally
 
