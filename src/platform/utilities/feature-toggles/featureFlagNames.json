@@ -148,6 +148,8 @@
   "mhvMedicalRecordsDisplayVaccines": "mhv_medical_records_display_vaccines",
   "mhvMedicalRecordsDisplayVitals": "mhv_medical_records_display_vitals",
   "mhvMedicalRecordsMilestoneTwo": "mhv_medical_records_milestone_two",
+  "mhvMedicalRecordsSupportNewModelHealthCondition": "mhv_medical_records_support_new_model_health_condition",
+  "mhvMedicalRecordsSupportNewModelVaccine": "mhv_medical_records_support_new_model_vaccine",
   "mhvMedicalRecordsToVaGovRelease": "mhv_medical_records_to_va_gov_release",
   "mhvMedicalRecordsUpdateLandingPage": "mhv_medical_records_update_landing_page",
   "mhvMedicalRecordsFilterAndSort": "mhv_medical_records_filter_and_sort",

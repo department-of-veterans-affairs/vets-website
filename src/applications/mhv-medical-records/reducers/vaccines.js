@@ -22,6 +22,12 @@ const initialState = {
    * @type {Array}
    */
   vaccinesList: undefined,
+
+  /** Information about list pagination, sorting, filtering, etc. */
+  listMetadata: undefined,
+
+  updateNeeded: false,
+
   /**
    * New list of records retrieved. This list is NOT displayed. It must manually be copied into the display list.
    * @type {Array}
@@ -155,8 +161,10 @@ export const vaccineReducer = (state = initialState, action) => {
       };
     }
     case Actions.Vaccines.GET_LIST: {
+      const { useBackendPagination } = action;
       const oldList = state.vaccinesList;
       let newList;
+      let metadata;
       if (action.response.resourceType) {
         newList =
           action.response.entry
@@ -169,14 +177,34 @@ export const vaccineReducer = (state = initialState, action) => {
         newList = action.response.data?.map(record =>
           convertNewVaccine(record.attributes),
         );
+        metadata = action.response.meta;
+      }
+
+      let vaccinesList = typeof oldList === 'undefined' ? newList : oldList;
+      let updatedList = typeof oldList !== 'undefined' ? newList : undefined;
+      if (useBackendPagination) {
+        vaccinesList = newList;
+        updatedList = undefined;
       }
 
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        vaccinesList: typeof oldList === 'undefined' ? newList : oldList,
-        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+        vaccinesList,
+        updatedList,
+        listMetadata: metadata,
+        updateNeeded: false,
+      };
+    }
+    case Actions.Vaccines.CHECK_FOR_UPDATE: {
+      const metadata = action.response.meta;
+      return {
+        ...state,
+        updateNeeded:
+          metadata?.pagination?.totalEntries &&
+          metadata?.pagination?.totalEntries !==
+            state.listMetadata?.pagination?.totalEntries,
       };
     }
     case Actions.Vaccines.COPY_UPDATED_LIST: {
