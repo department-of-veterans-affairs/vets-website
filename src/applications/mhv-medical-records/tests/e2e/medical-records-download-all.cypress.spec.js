@@ -78,7 +78,6 @@ describe('Test download all page', () => {
     DownloadAllPage.clickBackOnDownloadAllPage3();
     DownloadAllPage.clickContinueOnDownloadAllPage();
     DownloadAllPage.verifyPDFRadioButtonChecked();
-    // test comment
 
     DownloadAllPage.clickDownloadReport();
     DownloadAllPage.verifyDownloadStartedAlert();
