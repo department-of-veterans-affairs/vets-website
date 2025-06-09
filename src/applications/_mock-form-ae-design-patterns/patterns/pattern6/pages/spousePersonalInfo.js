@@ -6,7 +6,7 @@ import {
   fullNameSchema,
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+// import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 
 const titles = {
   married: "Spouse's name and date of birth",
@@ -26,7 +26,7 @@ export default {
 
       return (
         <>
-          <h3>{title}</h3>
+          <h3 className="vads-u-color--black">{title}</h3>
         </>
       );
     }),
@@ -55,13 +55,13 @@ export default {
       },
     },
     spouseDateOfBirth: dateOfBirthUI('Date of birth'),
-    'view:previousSpouseIsDeceased': {
-      'ui:title': 'My previous spouse is deceased.',
-      'ui:webComponentField': VaCheckboxField,
-      // 'ui:options': {
-      //   hideIf: formData => formData?.maritalStatus !== 'DIVORCED',
-      // },
-    },
+    // 'view:previousSpouseIsDeceased': {
+    //   'ui:title': 'My previous spouse is deceased.',
+    //   'ui:webComponentField': VaCheckboxField,
+    //   // 'ui:options': {
+    //   //   hideIf: formData => formData?.maritalStatus !== 'DIVORCED',
+    //   // },
+    // },
   },
   schema: {
     type: 'object',
@@ -69,9 +69,10 @@ export default {
     properties: {
       spouseFullName: fullNameSchema,
       spouseDateOfBirth: dateOfBirthSchema,
-      'view:previousSpouseIsDeceased': {
-        type: 'boolean',
-      },
+      // 'view:previousSpouseIsDeceased': {
+      //   type: 'boolean',
+      //   default: false,
+      // },
     },
   },
 };

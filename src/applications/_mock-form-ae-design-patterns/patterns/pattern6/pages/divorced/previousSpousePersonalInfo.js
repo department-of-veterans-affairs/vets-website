@@ -53,6 +53,7 @@ export default {
       spouseDateOfBirth: dateOfBirthSchema,
       'view:previousSpouseIsDeceased': {
         type: 'boolean',
+        default: false,
       },
     },
   },

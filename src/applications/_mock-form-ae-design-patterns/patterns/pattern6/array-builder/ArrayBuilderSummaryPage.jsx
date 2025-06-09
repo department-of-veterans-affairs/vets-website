@@ -597,7 +597,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           // eslint-disable-next-line no-shadow
           getEditItemPathUrl={(formData, index, context) => {
             const basePath = getFirstItemPagePath(formData, index, context);
-            return `/6/marital-status/${basePath}`;
+            return `/6/marital-information/${basePath}`;
           }}
           getText={getText}
           required={required}

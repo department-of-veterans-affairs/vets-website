@@ -12,13 +12,13 @@ export default {
     ...titleUI(({ formData }) => {
       const name = formData?.spouseFullName?.first;
       const readableName = `${capitalize(name)}`.trim();
-      const title =
-        `${readableName}’s address and phone number` ||
-        'Spouse’s address and phone number';
+      const title = name
+        ? `${readableName}’s address and phone number`
+        : 'Previous spouse’s address and phone number';
 
       return (
         <>
-          <h3>{title}</h3>
+          <h3 className="vads-u-color--black">{title}</h3>
         </>
       );
     }),

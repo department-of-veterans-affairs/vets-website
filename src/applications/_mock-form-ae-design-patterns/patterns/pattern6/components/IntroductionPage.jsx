@@ -18,8 +18,8 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="Marital Status Pattern Library"
-          subTitle="Pattern standards and examples for the Marital Status pattern"
+          title="Marital Information Pattern Library"
+          subTitle="Pattern standards and examples for the Marital Information pattern"
         />
         <SaveInProgressIntro
           headingLevel={2}
@@ -28,8 +28,8 @@ class IntroductionPage extends React.Component {
           pageList={pageList}
           startText="Start application"
         >
-          Please complete the Marital Status Patterns form to apply for Marital
-          Status Pattern.
+          Please complete the Marital Information Patterns form to apply for
+          Marital Information Pattern.
         </SaveInProgressIntro>
         <div className="vads-u-margin-bottom--3">
           <h2 className="vads-u-font-size--h3">Pages</h2>
@@ -85,8 +85,8 @@ class IntroductionPage extends React.Component {
               </Link>
             </li>
             <li>
-              <Link to={`${formConfig.urlPrefix}marriage-certificate`}>
-                Marriage certificate
+              <Link to={`${formConfig.urlPrefix}marriage-documents`}>
+                Marriage documents
               </Link>
             </li>
             <li>
@@ -97,6 +97,19 @@ class IntroductionPage extends React.Component {
               </Link>
             </li>
             <li>
+              <Link to={`${formConfig.urlPrefix}veteran-marriage-history`}>
+                Veteran Previous Marriages
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="vads-u-margin-top--2">
+          <h2 className="vads-u-font-size--h3">
+            Spouse previous marriages pages
+          </h2>
+          <ul>
+            <li>
               <Link
                 to={`${
                   formConfig.urlPrefix
@@ -105,11 +118,109 @@ class IntroductionPage extends React.Component {
                 Spouse Former Marriage Personal Info
               </Link>
             </li>
+            <li>
+              <Link
+                to={`${
+                  formConfig.urlPrefix
+                }current-spouse-marriage-history/0/former-marriage-date-location?add=true`}
+              >
+                Spouse Former Marriage Place and Date
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={`${
+                  formConfig.urlPrefix
+                }current-spouse-marriage-history/0/reason-former-marriage-ended?add=true`}
+              >
+                Reason former marriage ended
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={`${
+                  formConfig.urlPrefix
+                }current-spouse-marriage-history/0/former-marriage-end-date-location?add=true`}
+              >
+                Place and date the former marriage ended
+              </Link>
+            </li>
           </ul>
         </div>
 
         <div className="vads-u-margin-top--2">
-          <h2>Divorced flow specific pages</h2>
+          <h2 className="vads-u-font-size--h3">
+            Veteran previous marriages pages
+          </h2>
+          <ul>
+            <li>
+              <Link
+                to={`${
+                  formConfig.urlPrefix
+                }veteran-marriage-history/:index/former-spouse-information?add=true`}
+              >
+                Previous Spouse Personal Info
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={`${
+                  formConfig.urlPrefix
+                }veteran-marriage-history/:index/previous-spouse-identity?add=true`}
+              >
+                Previous spouse's identification information
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={`${
+                  formConfig.urlPrefix
+                }veteran-marriage-history/:index/previous-spouse-contact-information?add=true`}
+              >
+                Previous spouse's address and phone number
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={`${
+                  formConfig.urlPrefix
+                }veteran-marriage-history/:index/previous-marriage-date-location?add=true`}
+              >
+                Place and date of previous marriage
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={`${
+                  formConfig.urlPrefix
+                }veteran-marriage-history/:index/previous-marriage-type?add=true`}
+              >
+                Type of marriage-How did you get married?
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={`${
+                  formConfig.urlPrefix
+                }veteran-marriage-history/:index/reason-previous-marriage-ended?add=true`}
+              >
+                Reason previous marriage ended
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={`${
+                  formConfig.urlPrefix
+                }veteran-marriage-history/:index/former-marriage-end-date-location?add=true`}
+              >
+                Place and date the previous marriage ended
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="vads-u-margin-top--2">
+          <h2 className="vads-u-font-size--h3">Divorced flow specific pages</h2>
           <ul>
             <li>
               <Link
@@ -121,7 +232,11 @@ class IntroductionPage extends React.Component {
               </Link>
             </li>
             <li>
-              <Link to={`${formConfig.urlPrefix}divorce-documents`}>
+              <Link
+                to={`${
+                  formConfig.urlPrefix
+                }veteran-marriage-history/0/divorce-documents?add=true`}
+              >
                 Divorce documents
               </Link>
             </li>
@@ -129,7 +244,7 @@ class IntroductionPage extends React.Component {
         </div>
 
         <div className="vads-u-margin-top--2 vads-u-margin-bottom--6">
-          <h2>Widowed flow specific pages</h2>
+          <h2 className="vads-u-font-size--h3">Widowed flow specific pages</h2>
           <ul>
             <li>
               <Link to={`${formConfig.urlPrefix}spouse-death-information`}>
@@ -138,11 +253,11 @@ class IntroductionPage extends React.Component {
             </li>
           </ul>
         </div>
-        <va-omb-info
+        {/* <va-omb-info
           res-burden="10"
-          omb-number="MARITAL_STATUS_PATTERNS"
+          omb-number="MARITAL_INFORMATION_PATTERNS"
           exp-date="6/20/2025"
-        />
+        /> */}
       </article>
     );
   }

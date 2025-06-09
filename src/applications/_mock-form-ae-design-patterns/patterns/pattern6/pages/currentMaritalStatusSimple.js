@@ -31,9 +31,8 @@ export default {
       title: 'Are you married?',
       description: (
         <span className="vads-u-color--gray-medium">
-          If you're in a civil union or common law marriage that's recognized by
-          the state you were married in, select Married (including
-          state-recognized unions).
+          If you’re in a civil union or common law marriage that’s recognized by
+          the state the union took place in, select Yes.
         </span>
       ),
       labels: {

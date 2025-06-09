@@ -62,10 +62,10 @@ export const tabsConfig = {
   ],
   pattern6: [
     {
-      name: 'Marital Status',
-      path: '/6/marital-status',
+      name: 'Marital Information',
+      path: '/6/marital-information',
 
-      description: 'Pattern 6 - Marital Status',
+      description: 'Pattern 6 - Marital Information',
       bgColor: '--vads-color-green-light',
       textColor: '--vads-color-black',
     },

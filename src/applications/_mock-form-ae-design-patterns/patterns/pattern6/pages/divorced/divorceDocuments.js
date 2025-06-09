@@ -10,7 +10,7 @@ const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
 export default {
   title: 'Divorce documents',
-  path: 'divorce-documents',
+  // path: 'divorce-documents',
   depends: formData => formData?.maritalStatus === 'DIVORCED',
   uiSchema: {
     ...titleUI('Divorce documents'),

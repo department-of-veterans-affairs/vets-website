@@ -9,7 +9,7 @@ import currentMaritalStatus from '../pages/currentMaritalStatus';
 import currentMaritalStatusSimple from '../pages/currentMaritalStatusSimple';
 import marriageType from '../pages/marriageType';
 import marriageDateAndLocation from '../pages/marriageDateAndLocation';
-import marriageCertificate from '../pages/marriageCertificate';
+import marriageCertificate from '../pages/marriageDocuments';
 import spouseDeathInfo from '../pages/widowed/spouseDeathDateLocation';
 import divorceDocuments from '../pages/divorced/divorceDocuments';
 
@@ -45,10 +45,10 @@ import {
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
-  urlPrefix: '/6/marital-status/',
+  urlPrefix: '/6/marital-information/',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'marital-status',
+  trackingPrefix: 'marital-information',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
@@ -80,7 +80,7 @@ const formConfig = {
   ],
   chapters: {
     maritalStatusChapter: {
-      title: 'Marital Status',
+      title: 'Marital information',
       pages: {
         currentMaritalStatus: {
           title: "What's your marital status?",
@@ -90,7 +90,7 @@ const formConfig = {
             if (formData?.maritalStatus === 'DIVORCED') {
               // Divorced users go directly to veteran marriage history list & loop
               goPath(
-                '/6/marital-status/veteran-marriage-history/0/former-spouse-information?add=true',
+                '/6/marital-information/veteran-marriage-history/0/former-spouse-information?add=true',
               );
             } else if (
               formData?.maritalStatus === 'MARRIED' ||
@@ -98,10 +98,10 @@ const formConfig = {
               formData?.maritalStatus === 'WIDOWED'
             ) {
               // Users with current/former spouses go to spouse info first
-              goPath('/6/marital-status/spouse-personal-information');
+              goPath('/6/marital-information/spouse-personal-information');
             } else if (formData?.maritalStatus === 'NEVER_MARRIED') {
               // Never married users skip everything and go to review
-              goPath('/6/marital-status/review-and-submit');
+              goPath('/6/marital-information/review-and-submit');
             }
           },
           ...currentMaritalStatus,
@@ -205,12 +205,12 @@ const formConfig = {
 
               if (hasSpousePreviousMarriages === false) {
                 // User said "no" - go to veteran marriage history
-                goPath('/6/marital-status/veteran-marriage-history');
+                goPath('/6/marital-information/veteran-marriage-history');
               } else {
                 // User said "yes" - continue with spouse marriage history flow
                 // This will use default navigation to the first spouse marriage item page
                 goPath(
-                  '/6/marital-status/current-spouse-marriage-history/0/former-spouse-information?add=true',
+                  '/6/marital-information/current-spouse-marriage-history/0/former-spouse-information?add=true',
                 );
               }
             },
@@ -310,10 +310,13 @@ const formConfig = {
             uiSchema: veteranPreviousSpouseContactInfo.uiSchema,
             schema: veteranPreviousSpouseContactInfo.schema,
             depends: (formData, index, context) => {
+              const marriageItem = formData?.veteranMarriageHistory?.[index];
+
               return (
-                formData['view:completedVeteranFormerMarriage'] ||
-                context?.edit === true ||
-                context?.add === true
+                (formData.maritalStatus !== 'DIVORCED' &&
+                  marriageItem?.['view:previousSpouseIsDeceased'] === false) ||
+                context?.edit === true
+                // context?.add === true
               );
             },
           }),
@@ -374,8 +377,7 @@ const formConfig = {
           }),
           veteranMarriageHistoryPartEight: pageBuilder.itemPage({
             title: 'Divorce documents',
-            path:
-              'veteran-marriage-history/:index/former-marriage-divorce-documents',
+            path: 'veteran-marriage-history/:index/divorce-documents',
             uiSchema: divorceDocuments.uiSchema,
             schema: divorceDocuments.schema,
             depends: (formData, index, context) => {

@@ -4,41 +4,8 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-// export default {
-//   title: 'Current marital status',
-//   path: 'marital-status/current',
-//   uiSchema: {
-//     // ...titleUI("What's your current marital status?"),
-//     maritalStatus: {
-//       'ui:title': 'What is your current marital status?',
-//       'ui:widget': 'radio',
-//       'ui:description':
-//         'If you’re in a civil union or common law marriage that’s recognized by the state you were married in, select Married (including state-recognized unions).',
-//       'ui:options': {
-//         labels: {
-//           MARRIED: 'Married',
-//           DIVORCED: 'Divorced',
-//           WIDOWED: 'Widowed',
-//           SEPARATED: 'Separated',
-//           NEVER_MARRIED: 'Never married',
-//         },
-//       },
-//     },
-//   },
-//   schema: {
-//     type: 'object',
-//     required: ['maritalStatus'],
-//     properties: {
-//       maritalStatus: {
-//         type: 'string',
-//         enum: ['MARRIED', 'DIVORCED', 'WIDOWED', 'SEPARATED', 'NEVER_MARRIED'],
-//       },
-//     },
-//   },
-// };
-
 const maritalStatusOptions = {
-  MARRIED: 'Married (including state-recognized unions)',
+  MARRIED: 'Married',
   DIVORCED: 'Divorced or annulled',
   WIDOWED: 'Widowed',
   SEPARATED: 'Separated',
@@ -74,8 +41,12 @@ export default {
       description: (
         <span className="vads-u-color--gray-medium">
           If you're in a civil union or common law marriage that's recognized by
-          the state you were married in, select Married (including
-          state-recognized unions).
+          the state the union took place in, select Married.{' '}
+          {/* <va-link
+            text="Learn more about how VA defines marriage"
+            href="https://www.va.gov/resources/state-recognized-unions/"
+          />
+          . */}
         </span>
       ),
     }),

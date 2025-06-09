@@ -9,17 +9,18 @@ const MAX_FILE_SIZE_MB = 20;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
 export default {
-  title: 'Marriage certificate',
-  path: 'marriage-certificate',
+  title: 'Marriage documents',
+  path: 'marriage-documents',
   uiSchema: {
-    ...titleUI('Marriage certificate'),
+    ...titleUI('Marriage documents'),
     marriageCertificate: fileInputUI({
-      title: 'Upload a copy of your marriage certificate',
+      title:
+        'Upload a copy of your marriage documents. This could include your marriage certificate, license, or other official document.',
       required: false,
       fileUploadUrl: `${environment.API_URL}/v0/evidence_documents`,
       maxFileSize: MAX_FILE_SIZE_BYTES,
-      hint:
-        'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',
+      // hint:
+      //   'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',
     }),
     // marriageCertificate: fileUploadUI('', {
     //   fileUploadUrl: `${environment.API_URL}/v0/evidence_documents`,

@@ -264,7 +264,7 @@ export function assignGetItemName(options) {
  * @returns {FormConfigChapter}
  */
 
-const FORM_URL_PREFIX = '/6/marital-status/';
+const FORM_URL_PREFIX = '/6/marital-information/';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export function arrayBuilderPages(options, pageBuilderCallback) {

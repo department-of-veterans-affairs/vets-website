@@ -130,11 +130,11 @@ const pattern2Routes = [
 
 const pattern6Routes = [
   {
-    path: '/6/marital-status',
+    path: '/6/marital-information',
     component: routeHoc(App),
     indexRoute: {
       onEnter: (nextState, replace) =>
-        replace('/6/marital-status/introduction?loggedIn=true'),
+        replace('/6/marital-information/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(maritalStatusConfig),
   },

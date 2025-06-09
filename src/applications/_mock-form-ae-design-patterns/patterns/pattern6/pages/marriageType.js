@@ -1,5 +1,5 @@
 import React from 'react';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+// import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 const DocumentUploadInfo = (
   <>
@@ -16,9 +16,9 @@ export default {
   path: 'marriage-type',
   // depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
   uiSchema: {
-    ...titleUI('How did you get married?'),
+    // ...titleUI('How did you get married?'),
     marriageType: {
-      'ui:title': ' ',
+      'ui:title': 'How did you get married?',
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
@@ -48,7 +48,7 @@ export default {
   },
   schema: {
     type: 'object',
-    // required: ['marriageType'],
+    required: ['marriageType'],
     properties: {
       marriageType: {
         type: 'string',
