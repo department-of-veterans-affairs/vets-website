@@ -1,6 +1,6 @@
 import * as React from 'react';
 const { useEffect } = React
-import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/mhv/utilities';
+import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide';
 import recordEventFn from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import {
   VaAlert,
