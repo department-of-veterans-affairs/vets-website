@@ -183,10 +183,7 @@ export const pdfStatusDefinitions = {
 
 export const pdfDefaultStatusDefinition = [
   {
-    value: `There’s a problem with our system. You can’t manage this prescription online right now.`,
-  },
-  {
-    value: `If you need this prescription now, call your VA pharmacy.`,
+    value: `We can’t access information about this prescription right now.`,
   },
 ];
 
@@ -243,7 +240,8 @@ export const allergyTypes = {
     'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
 };
 
-export const EMPTY_FIELD = 'None noted';
+export const FIELD_NONE_NOTED = 'None noted';
+export const FIELD_NOT_AVAILABLE = 'Not available';
 
 export const trackingConfig = {
   dhl: {
