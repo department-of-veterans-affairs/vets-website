@@ -20,7 +20,7 @@ import {
 const arrayBuilderOptions = {
   arrayPath: 'emergencyContacts',
   nounSingular: 'emergency contact',
-  nounPlural: 'emergency contacts',
+  nounPlural: 'emergency contact',
   required: false,
   maxItems: 1,
   isItemIncomplete: item =>

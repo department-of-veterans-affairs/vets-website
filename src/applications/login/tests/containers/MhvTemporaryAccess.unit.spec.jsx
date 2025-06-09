@@ -48,7 +48,7 @@ describe('MhvTemporaryAccess', () => {
     const loginStub = sinon.stub(authUtilities, 'login');
     const screen = renderInReduxProvider(<MhvTemporaryAccess />);
     const updateHeading = screen.getByRole('heading', {
-      name: /change your password/i,
+      name: /Account information and password/i,
     });
     expect(updateHeading).to.exist;
     const accessButton = await screen.findByTestId('updateMhvBtn');
@@ -56,7 +56,7 @@ describe('MhvTemporaryAccess', () => {
 
     fireEvent.click(accessButton);
     expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
-      'https://eauth.va.gov/mhv-portal-web/change-password',
+      'https://eauth.va.gov/mhv-portal-web/eauth',
     );
 
     await waitFor(() => {
@@ -72,7 +72,7 @@ describe('MhvTemporaryAccess', () => {
   it('renders recover password link', () => {
     const screen = renderInReduxProvider(<MhvTemporaryAccess />);
     const recoverHeading = screen.getByRole('heading', {
-      name: /forgot your password/i,
+      name: /Recover forgotten password/i,
     });
     expect(recoverHeading).to.exist;
     const recoverLink = screen.getByTestId('recoverMhvBtn');

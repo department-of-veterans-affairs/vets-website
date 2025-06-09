@@ -29,7 +29,7 @@ import {
   selectRefillProgressFlag,
 } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
-import { EMPTY_FIELD } from '../../util/constants';
+import { FIELD_NONE_NOTED } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import GroupedMedications from './GroupedMedications';
 import CallPharmacyPhone from '../shared/CallPharmacyPhone';
@@ -65,7 +65,7 @@ const VaPrescription = prescription => {
     Date.parse(latestTrackingStatus?.completeDateTime) > fourteenDaysAgoDate;
   const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
 
-  useEffect(async () => {
+  useEffect(() => {
     const userLanded = async () => {
       if (prescription) {
         try {
@@ -186,6 +186,7 @@ const VaPrescription = prescription => {
                 : ''
             }medication-details-div vads-u-margin-bottom--3`}
             data-testid="va-prescription-container"
+            data-dd-privacy="mask"
           >
             {/* TODO: clean after grouping flag is gone */}
             {!showGroupingContent && (
@@ -234,6 +235,7 @@ const VaPrescription = prescription => {
                   <h2
                     className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
                     data-testid="check-status-text"
+                    data-dd-privacy="mask"
                   >
                     {getPrescriptionStatusHeading()}
                   </h2>
@@ -382,7 +384,7 @@ const VaPrescription = prescription => {
                           prescription.providerFirstName
                         }`,
                       )
-                    : EMPTY_FIELD}
+                    : FIELD_NONE_NOTED}
                 </p>
               </>
             )}
