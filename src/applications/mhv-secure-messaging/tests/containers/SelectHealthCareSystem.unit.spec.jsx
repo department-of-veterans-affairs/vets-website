@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithDataRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import configureStore from 'redux-mock-store';
@@ -40,13 +40,26 @@ const initialState = {
   },
 };
 describe('SelectHealthCareSystem', () => {
-  it('renders the heading and radio options', () => {
-    const screen = renderWithStoreAndRouter(<SelectHealthCareSystem />, {
-      initialState,
+  const setup = (
+    state = initialState,
+    path = `/${Paths.SELECT_HEALTH_CARE_SYSTEM}`,
+  ) => {
+    const routes = [
+      {
+        path: '*',
+        element: <SelectHealthCareSystem />,
+      },
+    ];
+    return renderWithDataRouter(routes, {
+      initialState: state,
       reducers: reducer,
-      path: Paths.SELECT_HEALTH_CARE_SYSTEM,
+      initialEntry: path,
       store,
     });
+  };
+
+  it('renders the heading and radio options', () => {
+    const screen = setup();
 
     expect(
       screen.getByRole('heading', {
@@ -67,12 +80,7 @@ describe('SelectHealthCareSystem', () => {
   });
 
   it('sets error attribute on va-radio after clicking Continue with no selection', () => {
-    renderWithStoreAndRouter(<SelectHealthCareSystem />, {
-      initialState,
-      reducers: reducer,
-      path: Paths.SELECT_HEALTH_CARE_SYSTEM,
-      store,
-    });
+    setup();
     $('va-button-pair').__events.primaryClick(); // continue
     expect($('va-radio')).to.have.attribute(
       'error',
@@ -81,12 +89,7 @@ describe('SelectHealthCareSystem', () => {
   });
 
   it('removes error when a facility is selected after error', () => {
-    renderWithStoreAndRouter(<SelectHealthCareSystem />, {
-      initialState,
-      reducers: reducer,
-      path: Paths.SELECT_HEALTH_CARE_SYSTEM,
-      store,
-    });
+    setup();
     $('va-button-pair').__events.primaryClick(); // continue
     expect($('va-radio')).to.have.attribute(
       'error',
@@ -107,12 +110,7 @@ describe('SelectHealthCareSystem', () => {
   });
 
   it('displays health care system facilities as radio button options', async () => {
-    const screen = renderWithStoreAndRouter(<SelectHealthCareSystem />, {
-      initialState,
-      reducers: reducer,
-      path: Paths.SELECT_HEALTH_CARE_SYSTEM,
-      store,
-    });
+    const screen = setup();
     expect(screen.getByTestId('facility-123')).to.exist; // VA Boston
     expect(screen.getByTestId('facility-456')).to.exist; // VA Seattle
     // Check the number of radio options
