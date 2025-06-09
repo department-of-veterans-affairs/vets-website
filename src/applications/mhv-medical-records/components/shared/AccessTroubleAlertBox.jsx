@@ -6,21 +6,37 @@
  * @notes :
  */
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { ALERT_TYPE_ERROR, accessAlertTypes } from '../../util/constants';
+import { focusOnErrorField } from '../../util/helpers';
 
 const AccessTroubleAlertBox = props => {
   const { className, alertType, documentType } = props;
+  const alertRef = useRef(null);
+
+  useEffect(() => {
+    if (alertRef.current?.shadowRoot) {
+      const focusTarget = alertRef.current.shadowRoot.querySelector(
+        '[tabindex], [role="alert"], h2, p',
+      );
+
+      if (focusTarget) {
+        focusOnErrorField(focusTarget);
+      }
+    }
+  }, []);
 
   return (
     <VaAlert
       status={ALERT_TYPE_ERROR}
       visible
       class={`vads-u-margin-top--4 ${className}`}
-      aria-live="polite"
+      aria-live="assertive"
+      tabIndex={-1} // Make it focusable
+      ref={alertRef}
     >
       <h2 slot="headline" data-testid="expired-alert-message">
         {alertType === accessAlertTypes.DOCUMENT
@@ -37,7 +53,6 @@ const AccessTroubleAlertBox = props => {
     </VaAlert>
   );
 };
-
 export default AccessTroubleAlertBox;
 
 AccessTroubleAlertBox.propTypes = {
