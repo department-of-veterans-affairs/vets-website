@@ -26,30 +26,43 @@ class MockReferralAppointmentDetailsResponse {
   static createSuccessResponse({
     appointmentId = 'EEKoGzEf',
     organizationName = 'Meridian Health',
+    status = 'booked',
   } = {}) {
+    const baseAttributes = {
+      id: appointmentId,
+      status,
+      start: new Date(
+        new Date().setDate(new Date().getDate() + 30),
+      ).toISOString(), // 30 days in future
+      isLatest: true,
+      lastRetrieved: new Date().toISOString(),
+    };
+
+    // Only include modality and provider when status is 'booked'
+    const bookedAttributes =
+      status === 'booked'
+        ? {
+            modality: 'In Person',
+            provider: {
+              id: 'test-provider-id',
+              location: {
+                name: 'FHA South Melbourne Medical Complex',
+                address: organizationName,
+                latitude: 28.08061,
+                longitude: -80.60322,
+                timezone: 'America/New_York',
+              },
+            },
+          }
+        : {};
+
     return {
       data: {
         id: appointmentId,
         type: 'epsAppointment',
         attributes: {
-          id: appointmentId,
-          status: 'booked',
-          start: new Date(
-            new Date().setDate(new Date().getDate() + 30),
-          ).toISOString(), // 30 days in future
-          isLatest: true,
-          lastRetrieved: new Date().toISOString(),
-          modality: 'In Person',
-          provider: {
-            id: 'test-provider-id',
-            location: {
-              name: 'FHA South Melbourne Medical Complex',
-              address: organizationName,
-              latitude: 28.08061,
-              longitude: -80.60322,
-              timezone: 'America/New_York',
-            },
-          },
+          ...baseAttributes,
+          ...bookedAttributes,
         },
       },
     };
@@ -106,6 +119,7 @@ class MockReferralAppointmentDetailsResponse {
       success,
       notFound,
       serverError,
+      status = 'booked',
     } = this.options;
 
     // Return 404 error if notFound is true
@@ -131,6 +145,7 @@ class MockReferralAppointmentDetailsResponse {
       typeOfCare,
       providerName,
       organizationName,
+      status,
     });
   }
 }

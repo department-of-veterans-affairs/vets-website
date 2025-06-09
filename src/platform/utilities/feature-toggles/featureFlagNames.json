@@ -312,8 +312,6 @@
   "virtualAgentComponentTesting": "virtual_agent_component_testing",
   "virtualAgentEnableParamErrorDetection": "virtual_agent_enable_param_error_detection",
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
-  "virtualAgentVoice": "virtual_agent_voice",
-  "virtualAgentEnableDatadogLogging": "virtual_agent_enable_datadog_logging",
   "virtualAgentUseStsAuthentication": "virtual_agent_use_sts_authentication",
   "vreModularApi": "vre_modular_api",
   "vreCutoverNotice": "vre_cutover_notice",
