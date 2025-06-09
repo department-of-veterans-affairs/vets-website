@@ -243,9 +243,7 @@ const AlertBackgroundBox = props => {
             }
             onVa-component-did-load={handleAlertFocus}
           >
-            {closeableAlert ? null : (
-              <h1 data-testid="alert-heading">{alertHeader}</h1>
-            )}
+            {alertHeader && <h1 data-testid="alert-heading">{alertHeader}</h1>}
             <div>
               <p className="vads-u-margin-y--0" data-testid="alert-text">
                 {alertContent}
