@@ -5,7 +5,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { recordEligibilityFailure, recordVaosError } from '../../utils/events';
 import { captureError } from '../../utils/error';
-import { ELIGIBILITY_REASONS } from '../../utils/constants';
+import { ELIGIBILITY_REASONS, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
 import { getPatientEligibility, getPatientRelationships } from '../vaos';
@@ -19,9 +19,6 @@ function createErrorHandler(errorKey) {
     return new Error('Eligibility error');
   };
 }
-
-const PRIMARY_CARE = '323';
-const MENTAL_HEALTH = '502';
 
 function checkEligibilityReason(ineligibilityReasons, ineligibilityType) {
   return !Array.isArray(ineligibilityReasons)
@@ -114,6 +111,7 @@ export async function fetchPatientRelationships(facilityId, typeOfCare) {
       locationId: facilityId,
       typeOfCareId: typeOfCare.idV2,
     });
+
     return transformPatientRelationships(data || []);
   } catch (e) {
     return null;
@@ -268,8 +266,8 @@ export async function fetchFlowEligibilityAndClinics({
     }).catch(createErrorHandler('direct-available-clinics-error'));
     // Primary care and mental health is exempt from past appt history requirement
     const isDirectAppointmentHistoryRequired =
-      typeOfCare.id !== PRIMARY_CARE &&
-      typeOfCare.id !== MENTAL_HEALTH &&
+      typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
+      typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH &&
       directTypeOfCareSettings.patientHistoryRequired === true;
 
     if (isDirectAppointmentHistoryRequired) {
@@ -363,8 +361,8 @@ export async function fetchFlowEligibilityAndClinics({
 
     if (
       !isCerner &&
-      typeOfCare.id !== PRIMARY_CARE &&
-      typeOfCare.id !== MENTAL_HEALTH &&
+      typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
+      typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH &&
       directTypeOfCareSettings.patientHistoryRequired &&
       !hasMatchingClinics(results.clinics, results.pastAppointments)
     ) {

@@ -409,22 +409,14 @@ export default class DeceasedPersons extends React.Component {
                   <Element name={`table_${itemIdPrefix}`} />
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
-                      {onReviewPage && (
-                        <h3 className="vads-u-font-size--h5">
-                          Name of deceased
-                        </h3>
-                      )}
+                      {onReviewPage && <h3>Name of deceased</h3>}
                       {!onReviewPage && isLast && multipleRows ? (
-                        <h3 className="vads-u-font-size--h5">
-                          New {uiItemName}
-                        </h3>
+                        <h3>New {uiItemName}</h3>
                       ) : null}
                       {!isLast &&
                       multipleRows &&
                       generateIndividualItemHeaders ? (
-                        <h3 className="vads-u-font-size--h5">
-                          {uiItemNameOriginal}
-                        </h3>
+                        <h3>{uiItemNameOriginal}</h3>
                       ) : null}
                       <div className="input-section">
                         <SchemaField
@@ -546,7 +538,7 @@ export default class DeceasedPersons extends React.Component {
                       Edit
                     </button>
                     <dl className="review">
-                      <h3 className="vads-u-font-size--h5">Name of deceased</h3>
+                      <h3>Name of deceased</h3>
                       <div className="review-row">
                         <dt>Deceased's first name</dt>
                         <dd>{item?.name?.first}</dd>

@@ -35,7 +35,6 @@ const VeteranStatusAlert = ({ headline, messages, status = 'error' }) => {
       class="vads-u-margin-bottom--4"
       close-btn-aria-label="Close notification"
       status={status}
-      uswds
       visible
     >
       {headline && <h2 slot="headline">{headline}</h2>}
@@ -61,7 +60,7 @@ VeteranStatusAlert.propTypes = {
 
 export const NoServiceHistoryAlert = () => {
   return (
-    <va-alert status="warning" uswds class="vads-u-margin-bottom--4">
+    <va-alert status="warning" class="vads-u-margin-bottom--4">
       <h2 slot="headline">
         We can’t match your information to any military service records
       </h2>

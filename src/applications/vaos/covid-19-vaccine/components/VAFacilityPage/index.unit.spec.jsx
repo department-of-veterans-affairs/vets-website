@@ -9,6 +9,7 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import VAFacilityPage from '.';
 import MockClinicResponse from '../../../tests/fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
@@ -26,7 +27,6 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import { TYPE_OF_CARE_ID } from '../../utils';
 
 const facilityIds = ['983', '983GB', '983GC', '983HK', '983QA', '984'];
 
@@ -78,7 +78,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: facility.id,
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: true,
               }),
             ],
@@ -160,7 +160,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: facility.id,
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: true,
               }),
             ],
@@ -250,7 +250,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
 
       mockEligibilityFetches({
         facilityId: '983',
-        typeOfCareId: TYPE_OF_CARE_ID,
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
       });
       mockFacilitiesApi({
         children: true,
@@ -263,7 +263,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: id,
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: true,
               }),
             ],
@@ -354,7 +354,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: facility.id,
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: true,
               }),
             ],
@@ -470,7 +470,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: '983',
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: true,
               }),
             ],
@@ -479,7 +479,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: '984',
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: true,
               }),
             ],
@@ -562,7 +562,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: '983',
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: false,
               }),
             ],
@@ -571,7 +571,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: '984',
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: false,
               }),
             ],
@@ -595,7 +595,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
 
       mockClinicsApi({
         locationId: '983',
-        typeOfCareId: 'covid',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         responseCode: 404,
       });
       mockFacilitiesApi({
@@ -638,7 +638,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       const clinic = new MockClinicResponse({ id: '1' });
       mockEligibilityFetches({
         facilityId: '983',
-        typeOfCareId: TYPE_OF_CARE_ID,
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         clinics: [clinic, clinic],
       });
       mockSchedulingConfigurationsApi({
@@ -647,7 +647,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: '983',
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: true,
               }),
             ],
@@ -691,7 +691,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       });
       mockEligibilityFetches({
         facilityId: '983',
-        typeOfCareId: TYPE_OF_CARE_ID,
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         clinics: [],
       });
       mockSchedulingConfigurationsApi({
@@ -700,7 +700,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: '983',
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: true,
               }),
             ],
@@ -709,7 +709,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: '984',
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: false,
               }),
             ],
@@ -745,7 +745,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       });
       mockClinicsApi({
         locationId: '983',
-        typeOfCareId: 'covid',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         responseCode: 500,
       });
       mockSchedulingConfigurationsApi({
@@ -754,7 +754,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: '983',
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: true,
               }),
             ],
@@ -763,7 +763,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: '984',
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: false,
               }),
             ],
@@ -787,7 +787,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       });
       mockClinicsApi({
         locationId: '983',
-        typeOfCareId: 'covid',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         responseCode: 500,
       });
       mockSchedulingConfigurationsApi({
@@ -796,7 +796,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: '983',
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: true,
               }),
             ],
@@ -805,7 +805,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
             facilityId: '984',
             services: [
               new MockServiceConfiguration({
-                typeOfCareId: TYPE_OF_CARE_ID,
+                typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
                 directEnabled: true,
               }),
             ],
@@ -816,7 +816,9 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       setFetchJSONFailure(
         global.fetch.withArgs(
           `${environment.API_URL}
-        /vaos/v2/locations/983/clinics?clinical_service=covid`,
+        /vaos/v2/locations/983/clinics?clinical_service=${
+          TYPE_OF_CARE_IDS.COVID_VACCINE_ID
+        }`,
         ),
         {
           errors: [],

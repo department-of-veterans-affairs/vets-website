@@ -14,7 +14,7 @@
       "state": "KS",
       "postalCode": "66099"
     },
-    "movingYesNo": true,
+    "isMoving": true,
     "checkBoxGroup": {},
     "mainMailingAddress": {
       "view:militaryBaseDescription": {},
@@ -26,8 +26,7 @@
       "state": "NE",
       "postalCode": "11023"
     },
-    "yearsOfCollegeOrGraduateStudies": "4",
-    "yearsOfEducation": "someOrAllOfGraduateSchool",
+    "yearsOfEducation": "19",
     "veteranFullName": {
       "first": "John",
       "middle": "S.",
