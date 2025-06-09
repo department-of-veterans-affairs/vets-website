@@ -49,26 +49,28 @@ const DocumentDownload = ({ claimId, documentId, filename, text }) => {
   };
 
   return (
-    <>
+    <div aria-live="polite">
       {isLoading && (
         <va-icon
           class="travel-pay-download-loading-icon"
           icon="autorenew"
-          aria-hidden="true"
+          role="status"
+          aria-label="Loading..."
         />
       )}
       <va-link
         download={!isLoading}
         text={text}
         onClick={e => downloadLinkHandler(e, documentId)}
+        href=""
       />
       {error && (
-        <div className="travel-pay-download-error">
-          <va-icon icon="error" aria-hidden="true" />
+        <div tabIndex="-1" className="travel-pay-download-error">
+          <va-icon icon="error" />
           {error}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
