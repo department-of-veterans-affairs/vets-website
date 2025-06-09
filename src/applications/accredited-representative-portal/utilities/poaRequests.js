@@ -15,7 +15,7 @@ export const expiresSoon = expDate => {
   const expiresAt = new Date(expDate);
   const daysLeft = timeFromNow(expiresAt, now);
   if (differenceInDays(expiresAt, now) > 0) {
-    return `(in ${daysLeft})`;
+    return `(expires in ${daysLeft})`;
   }
   return null;
 };

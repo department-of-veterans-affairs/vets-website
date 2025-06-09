@@ -42,7 +42,7 @@ describe('generateBlueButtonData', () => {
       },
       {
         name: 'Test 4',
-        type: labTypes.EKG,
+        type: labTypes.CHEM_HEM,
         results: [{ name: 'Test result 4', result: 'Test result 4' }],
       },
       {

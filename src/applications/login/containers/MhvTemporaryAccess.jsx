@@ -36,20 +36,22 @@ export default function MhvTemporaryAccess() {
         />
       </div>
       <div className="columns small-12 vads-u-padding--0">
-        <h2>Help and support</h2>
-        <h3>Change your password</h3>
-        <p className="vads-u-margin-bottom--0">
-          If you want to change your My HealtheVet password, sign in here
-          instead.
+        <h2>Manage your My HealtheVet account</h2>
+        <h3 className="vads-u-margin-top--0">
+          View or update account information
+        </h3>
+        <p className="vads-u-measure--4 vads-u-margin-bottom--0">
+          To view your account activity or change your password, sign in here
+          and navigate to <strong>Account Information</strong>.
         </p>
         <va-link-action
-          text="Update your password"
+          text="Manage your account"
           type="secondary"
           onClick={e => {
             e.preventDefault();
             sessionStorage.setItem(
               AUTHN_SETTINGS.RETURN_URL,
-              'https://eauth.va.gov/mhv-portal-web/change-password',
+              'https://eauth.va.gov/mhv-portal-web/eauth',
             );
             login({
               policy: 'mhv',
@@ -58,7 +60,8 @@ export default function MhvTemporaryAccess() {
           }}
           data-testid="updateMhvBtn"
         />
-        <h3>Forgot your password</h3>
+        <h2>Help and support</h2>
+        <h3 className="vads-u-margin-top--0">Recover forgotten password</h3>
         <p className="vads-u-measure--4 vads-u-margin-bottom--0">
           If you forgot your My HealtheVet password, you can submit personal
           information to recover it.
@@ -69,7 +72,7 @@ export default function MhvTemporaryAccess() {
           href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/forgot-password?action=new"
           data-testid="recoverMhvBtn"
         />
-        <h3>Get more support</h3>
+        <h3>Get support</h3>
         <p>
           For all other questions, contact the administrator who gave you access
           to this page.
