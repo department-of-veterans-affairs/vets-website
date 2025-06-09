@@ -36,13 +36,13 @@ export default function MhvTemporaryAccess() {
         />
       </div>
       <div className="columns small-12 vads-u-padding--0">
-        <h2>Manage your My HealtheVet account</h2>
+        <h2>Manage your account</h2>
         <h3 className="vads-u-margin-top--0">
-          View or update account information
+          Account information and password
         </h3>
         <p className="vads-u-measure--4 vads-u-margin-bottom--0">
-          To view your account activity or change your password, sign in here
-          and navigate to <strong>Account Information</strong>.
+          Sign in here and navigate to <strong>Account Information</strong> to
+          view your My HealtheVet account activity or change your password.
         </p>
         <va-link-action
           text="Manage your account"
