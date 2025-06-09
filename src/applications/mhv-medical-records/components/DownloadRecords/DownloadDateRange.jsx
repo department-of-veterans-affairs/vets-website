@@ -12,7 +12,7 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import NeedHelpSection from './NeedHelpSection';
 import { updateReportDateRange } from '../../actions/downloads';
 import { pageTitles } from '../../util/constants';
-import { sendDataDogAction } from '../../util/helpers';
+import { sendDataDogAction, focusOnErrorField } from '../../util/helpers';
 import useFocusOutline from '../../hooks/useFocusOutline';
 
 const DownloadDateRange = () => {
@@ -96,8 +96,8 @@ const DownloadDateRange = () => {
     const checkTo = new Date(customToDate);
 
     if (selectedDate === '') {
+      focusElement('#input-error-message', {}, focusOnErrorField());
       setSelectionError(ERROR_VALID_DATE_RANGE);
-      focusElement('#input-error-message', {}, dateInputRef.current.shadowRoot);
       return;
     }
     let fromDate;

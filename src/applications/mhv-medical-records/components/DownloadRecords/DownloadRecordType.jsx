@@ -10,7 +10,11 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import NeedHelpSection from './NeedHelpSection';
 import { updateReportRecordType } from '../../actions/downloads';
 import { pageTitles } from '../../util/constants';
-import { sendDataDogAction, formatDate } from '../../util/helpers';
+import {
+  sendDataDogAction,
+  formatDate,
+  focusOnErrorField,
+} from '../../util/helpers';
 import useFocusOutline from '../../hooks/useFocusOutline';
 
 const DownloadRecordType = () => {
@@ -166,11 +170,7 @@ const DownloadRecordType = () => {
   const handleSubmit = () => {
     if (selectedRecords.length === 0) {
       setSelectionError('Please select at least one record type to download.');
-      focusElement(
-        '#checkbox-error-message',
-        {},
-        checkboxGroupRef.current.shadowRoot,
-      );
+      focusElement('#checkbox-error-message', {}, focusOnErrorField());
       return;
     }
     dispatch(updateReportRecordType(selectedRecords)).then(
