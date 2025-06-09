@@ -9,6 +9,7 @@ import {
 import SsnField from 'platform/forms-system/src/js/web-component-fields/SsnField';
 import { useSearchParams, useNavigation } from 'react-router-dom';
 import { Toggler, useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { focusElement } from 'platform/utilities/ui';
 import api from '../utilities/api';
 import {
   SEARCH_BC_LABEL,
@@ -37,8 +38,8 @@ const poaStatusCta = claimant => {
   ) {
     return (
       <span>
-        To change POA, have the claimant submit a new POA request online using{' '}
-        {poaFormLink()}.
+        To change POA, have the claimant submit a new representation request
+        online using {poaFormLink()}.
       </span>
     );
   }
@@ -51,8 +52,8 @@ const poaStatusCta = claimant => {
   if (requestsContainStatus('declined', claimant.poaRequests)) {
     return (
       <span>
-        To establish POA, have the claimant submit a new POA request online
-        using {poaFormLink()}.
+        To establish POA, have the claimant submit a new representation request
+        online using {poaFormLink()}.
       </span>
     );
   }
@@ -111,7 +112,7 @@ const SearchResults = ({ claimant, searchData }) => {
           {lastFour(searchData.ssn)}”
         </strong>
       </p>
-      <h2>
+      <h2 className="claimant-name">
         {claimant.lastName}, {claimant.firstName}
       </h2>
       {claimant.city}
@@ -136,8 +137,8 @@ const SearchResults = ({ claimant, searchData }) => {
       {claimant.poaRequests?.length ? (
         <>
           <hr className="divider claimant-search" />
-          <h3>Recent power of attorney requests</h3>
-          {poaStatusCta(claimant)}
+          <h3>Recent representation requests</h3>
+          <div className="poa-status-cta">{poaStatusCta(claimant)}</div>
           <ul
             data-testid="poa-requests-card"
             className="poa-request__list"
@@ -182,6 +183,7 @@ const ClaimantSearchPage = () => {
   const [lastSearchData, setLastSearchData] = useState(false);
   const [resetFormKey, setResetFormKey] = useState(0);
   const [validationPerformed, setValidationPerformed] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
@@ -196,18 +198,22 @@ const ClaimantSearchPage = () => {
     e.preventDefault();
     setValidationPerformed(true);
     if (allFieldsPresent()) {
+      setLoading(true);
       api
         .claimantSearch({ ...searchData })
         .then(response => {
           response.json().then(json => {
-            setSearchPerformed(true);
-            setLastSearchData({ ...searchData });
             setClaimant(json.data);
           });
         })
         .catch(() => {
-          setSearchPerformed(true);
           setClaimant(null);
+        })
+        .finally(() => {
+          setLastSearchData({ ...searchData });
+          setSearchPerformed(true);
+          setLoading(false);
+          focusElement('div.poa-requests-page-table-container');
         });
     }
     return null;
@@ -216,7 +222,7 @@ const ClaimantSearchPage = () => {
   const searchStatusText = () =>
     validationPerformed && !allFieldsPresent()
       ? 'Complete the required search fields and try the search again.'
-      : 'Find claimants who have designated you as their representative or have submitted a power of attorney request recently.';
+      : '';
 
   const handleReset = e => {
     e.preventDefault();
@@ -250,6 +256,22 @@ const ClaimantSearchPage = () => {
     return null;
   }
 
+  const searchResult = () =>
+    searchPerformed ? (
+      <div className="poa-requests-page-table-container">
+        <div
+          className={searchStatus}
+          id={`tabpanel-${searchStatus}`}
+          role="tabpanel"
+          aria-labelledby={`tab-${searchStatus}`}
+        >
+          <SearchResults claimant={claimant} searchData={lastSearchData} />
+        </div>
+      </div>
+    ) : (
+      searchStatusText()
+    );
+
   return (
     <section className="poa-search">
       <VaBreadcrumbs
@@ -263,6 +285,10 @@ const ClaimantSearchPage = () => {
       >
         Find claimant
       </h1>
+      <div className="instructional-text va-introtext">
+        Find a claimant you represent, or who has submitted a recent request for
+        representation.
+      </div>
       <form
         role="search"
         method="post"
@@ -316,8 +342,8 @@ const ClaimantSearchPage = () => {
           required="required"
           uiOptions={{ width: 'xl' }}
           error={
-            validationPerformed && (searchData.ssn || '').length < 9
-              ? 'Enter a Social Security number'
+            validationPerformed && (searchData.ssn || '').length !== 9
+              ? 'Please enter a valid 9 digit Social Security number (dashes allowed)'
               : ''
           }
           childrenProps={{
@@ -343,23 +369,10 @@ const ClaimantSearchPage = () => {
           />
         </div>
       </form>
-      {searchPerformed ? (
-        <div className="poa-requests-page-table-container">
-          {navigation.state === 'loading' ? (
-            <VaLoadingIndicator message="Loading..." />
-          ) : (
-            <div
-              className={searchStatus}
-              id={`tabpanel-${searchStatus}`}
-              role="tabpanel"
-              aria-labelledby={`tab-${searchStatus}`}
-            >
-              <SearchResults claimant={claimant} searchData={lastSearchData} />
-            </div>
-          )}
-        </div>
+      {navigation.state === 'loading' || loading ? (
+        <VaLoadingIndicator message="Loading..." />
       ) : (
-        searchStatusText()
+        searchResult()
       )}
     </section>
   );
