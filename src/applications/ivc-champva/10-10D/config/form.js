@@ -6,7 +6,6 @@ import {
   checkboxGroupUI,
   fullNameSchema,
   fullNameUI,
-  ssnOrVaFileNumberSchema,
   addressSchema,
   addressUI,
   phoneSchema,
@@ -33,13 +32,11 @@ import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 import {
   flattenApplicantSSN,
+  flattenSponsorSSN,
   migrateCardUploadKeys,
   removeOtherRelationshipSpecification,
 } from './migrations';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
-
-import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
-
 import transformForSubmit from './submitTransformer';
 import prefillTransformer from './prefillTransformer';
 import manifest from '../manifest.json';
@@ -188,11 +185,12 @@ const formConfig = {
       saved: 'Your CHAMPVA benefits application has been saved.',
     },
   },
-  version: 3,
+  version: 4,
   migrations: [
     flattenApplicantSSN,
     migrateCardUploadKeys,
     removeOtherRelationshipSpecification,
+    flattenSponsorSSN,
   ],
   prefillEnabled: true,
   prefillTransformer,
@@ -412,14 +410,14 @@ const formConfig = {
                 identification information
               </>
             )),
-            ssn: ssnOrVaFileNumberCustomUI(),
+            ssn: ssnUI(),
           },
           schema: {
             type: 'object',
             required: ['ssn'],
             properties: {
               titleSchema,
-              ssn: ssnOrVaFileNumberSchema,
+              ssn: ssnSchema,
             },
           },
         },
