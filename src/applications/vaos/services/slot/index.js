@@ -40,15 +40,15 @@ export async function getSlots({
   convertToUtc = false,
 }) {
   try {
-    const ParseStartDate = parseISO(startDate);
-    const ParseEndDate = parseISO(endDate);
+    const parseStartDate = parseISO(startDate);
+    const parseEndDate = parseISO(endDate);
 
     const start = convertToUtc
-      ? ParseStartDate.toISOString()
-      : format(ParseStartDate, "yyyy-MM-dd'T'HH:mm:ssxxx");
+      ? parseStartDate.toISOString()
+      : format(parseStartDate, "yyyy-MM-dd'T'HH:mm:ssxxx");
     const end = convertToUtc
-      ? ParseEndDate.toISOString()
-      : format(ParseEndDate, "yyyy-MM-dd'T'HH:mm:ssxxx");
+      ? parseEndDate.toISOString()
+      : format(parseEndDate, "yyyy-MM-dd'T'HH:mm:ssxxx");
 
     const data = await getAvailableV2Slots(
       siteId,
