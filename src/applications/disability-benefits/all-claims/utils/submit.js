@@ -720,32 +720,6 @@ export const addForm8940 = formData => {
   return clonedData;
 };
 
-/**
- * Handles toxic exposure data transformation
- * If user selected "none" for toxic exposure conditions, removes all toxic exposure data
- * @param {object} formData - The form data to transform
- * @returns {object} - Transformed form data
- */
-export const addToxicExposure = formData => {
-  const clonedData = _.cloneDeep(formData);
-
-  // If user has toxic exposure data
-  if (clonedData.toxicExposure) {
-    const conditions = clonedData.toxicExposure.conditions || {};
-
-    // If user selected only "none", remove all toxic exposure data except the "none" selection
-    if (conditions.none === true && Object.keys(conditions).length === 1) {
-      // Keep the conditions object with just "none" selected
-      clonedData.toxicExposure = {
-        conditions: { none: true },
-      };
-    }
-    // Otherwise, keep all toxic exposure data as-is for submission
-  }
-
-  return clonedData;
-};
-
 // Flatten all attachment pages into attachments ARRAY
 export const addFileAttachments = formData => {
   const clonedData = _.cloneDeep(formData);
