@@ -3,9 +3,9 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import AlertUnregistered from '../../../components/alerts/AlertUnregistered';
-
-const { defaultProps } = AlertUnregistered;
+import AlertUnregistered, {
+  defaultProps,
+} from '../../../components/alerts/AlertUnregistered';
 
 describe('<AlertUnregistered />', () => {
   it('renders', async () => {
