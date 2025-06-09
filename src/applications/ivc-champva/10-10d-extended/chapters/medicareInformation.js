@@ -421,7 +421,6 @@ const medicarePartADenialPage = {
       <va-alert
         status="info"
         class="vads-u-margin-bottom--3"
-        uswds
         background-color="true"
       >
         <p className="vads-u-margin-y--0">
