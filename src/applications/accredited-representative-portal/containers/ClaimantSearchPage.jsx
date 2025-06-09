@@ -176,9 +176,10 @@ SearchResults.propTypes = {
   /* eslint-able camelcase */
 };
 
-const POARequestIndividualSearchPage = () => {
+const ClaimantSearchPage = () => {
   const [claimant, setClaimant] = useState({});
   const [searchData, setSearchData] = useState(false);
+  const [lastSearchData, setLastSearchData] = useState(false);
   const [resetFormKey, setResetFormKey] = useState(0);
   const [validationPerformed, setValidationPerformed] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
@@ -200,6 +201,7 @@ const POARequestIndividualSearchPage = () => {
         .then(response => {
           response.json().then(json => {
             setSearchPerformed(true);
+            setLastSearchData({ ...searchData });
             setClaimant(json.data);
           });
         })
@@ -352,7 +354,7 @@ const POARequestIndividualSearchPage = () => {
               role="tabpanel"
               aria-labelledby={`tab-${searchStatus}`}
             >
-              <SearchResults claimant={claimant} searchData={searchData} />
+              <SearchResults claimant={claimant} searchData={lastSearchData} />
             </div>
           )}
         </div>
@@ -363,4 +365,4 @@ const POARequestIndividualSearchPage = () => {
   );
 };
 
-export default POARequestIndividualSearchPage;
+export default ClaimantSearchPage;
