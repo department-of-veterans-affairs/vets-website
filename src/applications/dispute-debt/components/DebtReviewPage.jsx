@@ -5,23 +5,20 @@ import { deductionCodes } from '../constants';
 
 const DebtReviewPage = ({ data, pagePerItemIndex, name, goToPath }) => {
   const debt = data?.selectedDebts?.[pagePerItemIndex];
-
-  if (name && name.includes('disputeReason')) {
-    return null;
-  }
-
-  if (!debt) {
-    return null;
-  }
-
-  const amount = debt.currentAr || debt.originalAr || 0;
-  const debtTitle =
-    debt.label || deductionCodes[debt.deductionCode] || 'VA debt';
   const total = data?.selectedDebts?.length || 0;
   const debtNumber = parseInt(pagePerItemIndex, 10) + 1;
-  const dynamicTitle =
-    debt.label ||
-    `Debt ${debtNumber} of ${total}: ${currency(amount)} for ${debtTitle}`;
+
+  // Generate title - handle case when debt is not provided
+  let dynamicTitle;
+  if (!debt) {
+    dynamicTitle = `Debt ${debtNumber} of ${total}`;
+  } else {
+    const amount = debt.currentAr || debt.originalAr || 0;
+    const debtTitle = deductionCodes[debt.deductionCode] || 'VA debt';
+    dynamicTitle =
+      debt.label ||
+      `Debt ${debtNumber} of ${total}: ${currency(amount)} for ${debtTitle}`;
+  }
 
   // Function to navigate to specific page for editing
   const editSpecificPage = () => {
@@ -32,6 +29,10 @@ const DebtReviewPage = ({ data, pagePerItemIndex, name, goToPath }) => {
       goToPath(`/existence-or-amount/${pagePerItemIndex}`);
     }
   };
+
+  // Determine what fields to show based on the page name
+  const showDisputeReason = name === 'disputeReason';
+  const showSupportStatement = name === 'supportStatement';
 
   return (
     <div className="form-review-panel-page">
@@ -49,28 +50,32 @@ const DebtReviewPage = ({ data, pagePerItemIndex, name, goToPath }) => {
         />
       </div>
       <dl className="review">
-        {debt.disputeReason && (
-          <div className="review-row">
-            <dt>Reason for dispute</dt>
-            <dd
-              className="dd-privacy-hidden"
-              data-dd-action-name="dispute reason"
-            >
-              {debt.disputeReason}
-            </dd>
-          </div>
-        )}
-        {debt.supportStatement && (
-          <div className="review-row">
-            <dt>Why you’re disputing this debt</dt>
-            <dd
-              className="dd-privacy-hidden"
-              data-dd-action-name="support statement"
-            >
-              {debt.supportStatement}
-            </dd>
-          </div>
-        )}
+        {debt &&
+          showDisputeReason &&
+          debt.disputeReason && (
+            <div className="review-row">
+              <dt>Reason for dispute</dt>
+              <dd
+                className="dd-privacy-hidden"
+                data-dd-action-name="dispute reason"
+              >
+                {debt.disputeReason}
+              </dd>
+            </div>
+          )}
+        {debt &&
+          showSupportStatement &&
+          debt.supportStatement && (
+            <div className="review-row">
+              <dt>Why you’re disputing this debt</dt>
+              <dd
+                className="dd-privacy-hidden"
+                data-dd-action-name="support statement"
+              >
+                {debt.supportStatement}
+              </dd>
+            </div>
+          )}
       </dl>
     </div>
   );
