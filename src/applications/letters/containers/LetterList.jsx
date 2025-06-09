@@ -195,7 +195,9 @@ export class LetterList extends React.Component {
         </Toggler.Hoc>
 
         {letterItems.length !== 0 && (
-          <va-accordion bordered>{letterItems}</va-accordion>
+          <va-accordion data-test-id="letters-accordion" bordered>
+            {letterItems}
+          </va-accordion>
         )}
         {eligibilityMessage}
 
