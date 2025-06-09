@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import TrackedSpinner from './TrackedSpinner';
 
 const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
   const apiImagingPath = `${
@@ -72,7 +73,8 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
     }
     return (
       <div className="vads-u-margin-y--8">
-        <va-loading-indicator
+        <TrackedSpinner
+          id="radiology-image-gallery-spinner"
           message="Loading..."
           setFocus
           data-testid="loading-indicator"
