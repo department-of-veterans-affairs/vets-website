@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui/';
+import PropTypes from 'prop-types';
+
+import { waitForRenderThenFocus } from 'platform/utilities/ui/';
+import { scrollTo } from 'platform/utilities/scroll';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 import { verifyVaFileNumber } from '../actions';
@@ -198,6 +201,17 @@ const IntroductionPage = props => {
       </div>
     </div>
   );
+};
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.object,
+      downtime: PropTypes.object,
+    }),
+    pageList: PropTypes.array,
+  }).isRequired,
 };
 
 export default IntroductionPage;
