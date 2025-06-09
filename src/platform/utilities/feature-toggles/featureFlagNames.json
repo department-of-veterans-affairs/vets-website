@@ -201,6 +201,7 @@
   "pensionItfShowAlert": "pension_itf_show_alert",
   "preEntryCovid19Screener": "pre_entry_covid19_screener",
   "profileDoNotRequireInternationalZipCode": "profile_do_not_require_international_zip_code",
+  "profileContactInfoPageUIRefresh": "profile_contact_info_page_ui_refresh",
   "profileHideDirectDeposit": "profile_hide_direct_deposit",
   "profileInternationalPhoneNumbers": "profile_international_phone_numbers",
   "profileLimitDirectDepositForNonBeneficiaries": "profile_limit_direct_deposit_for_non_beneficiaries",
