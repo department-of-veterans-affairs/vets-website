@@ -36,7 +36,7 @@ const epsAppointmentUtils = require('../../referral-appointments/utils/appointme
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
-const features = require('../../utils/featureFlags');
+const features = require('./featureFlags');
 
 const mockAppts = [];
 let currentMockId = 1;
@@ -120,6 +120,7 @@ const responses = {
         type,
         modality,
         localStartTime: req.body.slot?.id ? localTime : null,
+        start: req.body.slot?.id ? selectedTime[0] : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
         contact: {
           telecom: [
@@ -439,14 +440,14 @@ const responses = {
     });
   },
   'POST /vaos/v2/appointments/draft': (req, res) => {
-    const { referral_id: referralNumber } = req.body;
-    // Provider 3 throws error
+    const { referral_number: referralNumber } = req.body;
+    // empty referral number throws error
     if (referralNumber === '') {
       return res.status(500).json({ error: true });
     }
 
     let slots = 5;
-    // Provider 0 has no available slots
+    // referral 0 has no available slots
     if (referralNumber === '0') {
       slots = 0;
     }
@@ -607,8 +608,8 @@ const responses = {
           },
           residentialAddress: {
             addressLine1: '345 Home Address St.',
-            addressLine2: null,
-            addressLine3: null,
+            addressLine2: 'line 2',
+            addressLine3: 'line 3',
             addressPou: 'RESIDENCE/CHOICE',
             addressType: 'DOMESTIC',
             city: 'San Francisco',
@@ -735,4 +736,4 @@ const responses = {
   // End of required v0 APIs
 };
 
-module.exports = delay(responses, 1000);
+module.exports = delay(responses, 100);

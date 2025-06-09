@@ -11,15 +11,24 @@ export const BANNER_TYPES = {
 };
 
 export const expiresSoon = expDate => {
-  const EXPIRES_SOON_THRESHOLD_DURATION = 7;
   const now = new Date();
   const expiresAt = new Date(expDate);
   const daysLeft = timeFromNow(expiresAt, now);
+  if (differenceInDays(expiresAt, now) > 0) {
+    return `(expires in ${daysLeft})`;
+  }
+  return null;
+};
+
+export const expiresSoonIcon = expDate => {
+  const EXPIRES_SOON_THRESHOLD_DURATION = 7;
+  const now = new Date();
+  const expiresAt = new Date(expDate);
   if (
     differenceInDays(expiresAt, now) > 0 &&
     differenceInDays(expiresAt, now) < EXPIRES_SOON_THRESHOLD_DURATION
   ) {
-    return `(in ${daysLeft})`;
+    return true;
   }
   return null;
 };
@@ -107,7 +116,7 @@ export const poaSearchBC = [
   },
   {
     href: window.location.href,
-    label: 'Power of attorney requests',
+    label: 'Representation requests',
   },
 ];
 export const findClaimantBC = [
@@ -127,7 +136,7 @@ export const poaDetailsBreadcrumbs = [
   },
   {
     href: '/representative/poa-requests',
-    label: 'Power of attorney requests',
+    label: 'Representation requests',
   },
   {
     href: window.location.href,
@@ -148,19 +157,23 @@ export const SORT_BY = {
   DESC: 'desc',
 };
 
-export const PENDING = {
-  DESC_OPTION: 'Submitted date (newest)',
-  ASC_OPTION: 'Submitted date (oldest)',
-};
-
-export const PROCESSED = {
-  DESC_OPTION: 'Processed date (newest)',
-  ASC_OPTION: 'Processed date (oldest)',
-};
-
 export const STATUSES = {
   PENDING: 'pending',
   PROCESSED: 'processed',
+};
+
+export const PROCESSED_SORT_DEFAULTS = {
+  SORT_BY: 'resolved_at',
+  SORT_ORDER: 'desc',
+  // default is 20 per page
+  SIZE: '20',
+  // default is page 1
+  NUMBER: '1',
+};
+
+export const PENDING_SORT_DEFAULTS = {
+  SORT_BY: 'created_at',
+  SORT_ORDER: 'desc',
   // default is 20 per page
   SIZE: '20',
   // default is page 1

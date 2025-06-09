@@ -4,14 +4,12 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import user from '../fixtures/mocks/user.json';
+import submit from '../fixtures/mocks/submit.json';
 import featureToggles from '../fixtures/mocks/featureToggles.json';
 import minimalFlow from '../fixtures/data/minimalFlow.json';
 import maximalFlow from '../fixtures/data/maximalFlow.json';
 import militaryAddressFlow from '../fixtures/data/militaryAddressFlow.json';
-import {
-  fillAddressWebComponentPattern,
-  selectCheckboxWebComponent,
-} from './utilities';
+import { selectCheckboxWebComponent } from './utilities';
 
 const testConfig = createTestConfig(
   {
@@ -38,7 +36,7 @@ const testConfig = createTestConfig(
                 data.checkBoxGroup.checkForMailingAddress,
               );
             } else {
-              fillAddressWebComponentPattern(
+              cy.fillAddressWebComponentPattern(
                 'mainMailingAddress',
                 data.mainMailingAddress,
               );
@@ -50,7 +48,7 @@ const testConfig = createTestConfig(
       'new-mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'newMailingAddress',
               data.newMailingAddress,
             );
@@ -66,6 +64,7 @@ const testConfig = createTestConfig(
       cy.intercept('PUT', '/v0/in_progress_forms/28-1900', {
         statusCode: 200,
       });
+      cy.intercept('POST', '/v0/veteran_readiness_employment_claims', submit);
       cy.login(user);
     },
   },

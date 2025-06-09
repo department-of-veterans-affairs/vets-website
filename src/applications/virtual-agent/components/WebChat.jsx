@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
@@ -7,10 +7,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 // Hooks
-import useBotPonyFill from '../hooks/useBotPonyfill';
 import useDirectLine from '../hooks/useDirectline';
-import useRxSkillEventListener from '../hooks/useRxSkillEventListener';
-import useSetSendBoxMessage from '../hooks/useSetSendBoxMessage';
 import useWebChatStore from '../hooks/useWebChatStore';
 
 // Event Listeners
@@ -22,15 +19,11 @@ import { activityMiddleware } from '../middleware/activityMiddleware';
 import { cardActionMiddleware } from '../middleware/cardActionMiddleware';
 
 // Selectors
-import selectUserFirstName from '../selectors/selectUserFirstName';
-import selectAccountUuid from '../selectors/selectAccountUuid';
 import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedIn';
 
 // Utils and Helpers
 import MarkdownRenderer from '../utils/markdownRenderer';
 import handleTelemetry from '../utils/telemetry';
-import validateParameters from '../utils/validateParameters';
-import logger from '../utils/logger';
 
 const styleOptions = {
   hideUploadButton: true,
@@ -50,37 +43,23 @@ const styleOptions = {
   timestampColor: '#000000',
   suggestedActionLayout: 'stacked',
   suggestedActionsStackedHeight: 49.2 * 5,
-  suggestedActionActiveBackground: 'rgb(17,46,81)',
+  suggestedActionBackgroundColorOnActive: 'rgb(17,46,81)',
   suggestedActionBackgroundColorOnHover: 'rgb(0,62,115)',
   suggestedActionBackgroundColor: 'rgb(0, 113, 187)',
   suggestedActionTextColor: 'white',
   suggestedActionBorderRadius: 5,
   suggestedActionBorderWidth: 0,
-  microphoneButtonColorOnDictate: 'rgb(255, 255, 255)',
-}; // color-primary-darker // color-primary-darker
+};
 
 export const renderMarkdown = text => MarkdownRenderer.render(text);
 
-const WebChat = ({
-  token,
-  code,
-  webChatFramework,
-  apiSession,
-  setParamLoadingStatus,
-}) => {
+const WebChat = ({ token, code, webChatFramework }) => {
   const {
     createDirectLine,
     createStore,
     Components: { BasicWebChat, Composer },
   } = webChatFramework;
-  const csrfToken = localStorage.getItem('csrfToken');
-
-  const userFirstName = useSelector(selectUserFirstName);
-  const userUuid = useSelector(selectAccountUuid);
   const isLoggedIn = useSelector(selectUserCurrentlyLoggedIn);
-
-  const [speechPonyfill, setBotPonyfill] = useState();
-  const [isRXSkill, setIsRXSkill] = useState();
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
@@ -89,32 +68,13 @@ const WebChat = ({
     TOGGLE_NAMES.virtualAgentComponentTesting,
   );
 
-  const isDatadogLoggingEnabled = useToggleValue(
-    TOGGLE_NAMES.virtualAgentEnableDatadogLogging,
-  );
-
   const isStsAuthEnabled = useToggleValue(
     TOGGLE_NAMES.virtualAgentUseStsAuthentication,
   );
 
-  logger.info('Winston logger: Ding! Testing, 1, 2, 3!');
-
-  validateParameters({
-    csrfToken,
-    apiSession,
-    userFirstName,
-    userUuid,
-    setParamLoadingStatus,
-    isDatadogLoggingEnabled,
-  });
-
   const store = useWebChatStore({
     createStore,
-    csrfToken,
-    apiSession,
     code,
-    userFirstName,
-    userUuid,
     isMobile,
     environment,
     isComponentToggleOn,
@@ -122,11 +82,7 @@ const WebChat = ({
   });
 
   clearBotSessionStorageEventListener(isLoggedIn);
-  signOutEventListener(isDatadogLoggingEnabled);
-
-  useBotPonyFill(setBotPonyfill, environment);
-  useRxSkillEventListener(setIsRXSkill);
-  useSetSendBoxMessage(isRXSkill);
+  signOutEventListener();
 
   const directLine = useDirectLine(createDirectLine, token, isLoggedIn);
 
@@ -140,9 +96,6 @@ const WebChat = ({
         store={store}
         renderMarkdown={renderMarkdown}
         onTelemetry={handleTelemetry}
-        {...isRXSkill === 'true' && {
-          webSpeechPonyfillFactory: speechPonyfill,
-        }}
       >
         <BasicWebChat />
       </Composer>
@@ -151,7 +104,6 @@ const WebChat = ({
 };
 
 WebChat.propTypes = {
-  apiSession: PropTypes.string.isRequired,
   setParamLoadingStatus: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
   webChatFramework: PropTypes.shape({

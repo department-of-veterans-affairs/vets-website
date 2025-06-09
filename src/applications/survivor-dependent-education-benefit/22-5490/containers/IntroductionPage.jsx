@@ -119,9 +119,9 @@ export const IntroductionPage = ({
                 90 days, <strong>or</strong>
               </li>
               <li>
-                The service member is in the hospital or getting outpatient
-                treatment for a service-connected permanent and total disability
-                and is likely to be discharged for the disability,{' '}
+                The Veteran or service member is in the hospital or getting
+                outpatient treatment for a service-connected permanent and total
+                disability and is likely to be discharged for the disability,{' '}
                 <strong>and</strong>
               </li>
               <li>You meet other requirements</li>

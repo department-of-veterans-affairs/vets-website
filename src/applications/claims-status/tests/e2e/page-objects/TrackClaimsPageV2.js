@@ -412,15 +412,15 @@ class TrackClaimsPageV2 {
         // Verify some tracked items on page 1
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We completed a review for the request: "Automated 5103 Notice Response"',
+          'We completed a review for the request: “Automated 5103 Notice Response”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We opened a request: "Automated 5103 Notice Response"',
+          'We opened a request: “Automated 5103 Notice Response”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We closed a request: "Closed Tracked Item"',
+          'We closed a request: “Closed Tracked Item”',
         );
         // click the next page
         cy.get('.recent-activity-container va-pagination')
@@ -436,7 +436,7 @@ class TrackClaimsPageV2 {
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We opened a request: "Closed Tracked Item"',
+          'We opened a request: “Closed Tracked Item”',
         );
         // click the next page
         cy.get('.recent-activity-container va-pagination')
@@ -464,15 +464,15 @@ class TrackClaimsPageV2 {
       // Verify some tracked items on page 1
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We completed a review for the request: "Automated 5103 Notice Response"',
+        'We completed a review for the request: “Automated 5103 Notice Response”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We opened a request: "Automated 5103 Notice Response"',
+        'We opened a request: “Automated 5103 Notice Response”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We closed a request: "Closed Tracked Item"',
+        'We closed a request: “Closed Tracked Item”',
       );
       // click the next page
       cy.get('.recent-activity-container va-pagination')
@@ -488,7 +488,7 @@ class TrackClaimsPageV2 {
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We opened a request: "Closed Tracked Item"',
+        'We opened a request: “Closed Tracked Item”',
       );
       // click the next page
       cy.get('.recent-activity-container va-pagination')

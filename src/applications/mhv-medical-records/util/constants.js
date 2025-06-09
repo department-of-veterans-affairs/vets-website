@@ -1,5 +1,5 @@
 export const recordType = {
-  ALLERGIES: 'allergies',
+  ALLERGIES: 'allergies or reactions',
   VACCINES: 'vaccines',
   CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
   LABS_AND_TESTS: 'lab and test results',
@@ -41,7 +41,6 @@ export const labTypes = {
   CHEM_HEM: 'chemistry_hematology',
   MICROBIOLOGY: 'microbiology',
   PATHOLOGY: 'pathology',
-  EKG: 'electrocardiogram',
   RADIOLOGY: 'radiology',
   CVIX_RADIOLOGY: 'cvix_radiology',
   OTHER: 'other',
@@ -61,7 +60,6 @@ export const loincCodes = {
   SURGICAL_PATHOLOGY: '27898-6',
   ELECTRON_MICROSCOPY: '50668-3',
   CYTOPATHOLOGY: '26438-2',
-  EKG: '11524-6',
   RADIOLOGY: '18748-4',
   // care summaries and notes
   PHYSICIAN_PROCEDURE_NOTE: '11506-3',

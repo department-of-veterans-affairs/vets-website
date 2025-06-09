@@ -16,10 +16,7 @@ import {
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
-import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
-
-import { Element } from 'platform/utilities/scroll';
+import { getScrollOptions, Element, scrollTo } from 'platform/utilities/scroll';
 
 import { displayFileSize, DOC_TYPES } from '../../utils/helpers';
 import { setFocus } from '../../utils/page';

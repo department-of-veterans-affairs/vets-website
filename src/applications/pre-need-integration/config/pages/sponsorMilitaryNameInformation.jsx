@@ -16,9 +16,7 @@ const nonRequiredFullName = omit('required', fullName);
 export const uiSchema = {
   application: {
     veteran: {
-      'ui:description': (
-        <h3 className="vads-u-font-size--h5">Sponsor’s previous name</h3>
-      ),
+      'ui:description': <h3>Sponsor’s previous name</h3>,
       serviceName: merge({}, nonRequiredFullNameUI, {
         first: {
           'ui:title': 'Sponsor’s previous first name',

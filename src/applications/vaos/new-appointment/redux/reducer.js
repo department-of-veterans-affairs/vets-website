@@ -68,21 +68,17 @@ import {
   FACILITY_TYPES,
   FLOW_TYPES,
   FETCH_STATUS,
+  REASON_MAX_CHARS,
 } from '../../utils/constants';
 
 import { getTypeOfCare } from './selectors';
 import { distanceBetween } from '../../utils/address';
 import { isTypeOfCareSupported } from '../../services/location';
 
-export const REASON_ADDITIONAL_INFO_TITLES = {
+const REASON_ADDITIONAL_INFO_TITLES = {
   va: 'Add any details you’d like to share with your provider.',
   ccRequest:
     'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
-};
-
-export const REASON_MAX_CHARS = {
-  request: 250,
-  direct: 150,
 };
 
 const initialState = {
@@ -792,7 +788,6 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
       const formData = state.data;
-      const reasonMaxChars = 250;
       let additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.ccRequest;
 
       if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
@@ -803,7 +798,7 @@ export default function formReducer(state = initialState, action) {
 
       let reasonSchema = set(
         'properties.reasonAdditionalInfo.maxLength',
-        reasonMaxChars,
+        REASON_MAX_CHARS,
         action.schema,
       );
 
