@@ -65,7 +65,7 @@ describe('EZR TERA flow', () => {
 
     cy.tabToElementAndPressSpace('.usa-button-primary');
 
-    cy.findByText(/Review your emergency contacts/i).should('exist');
+    cy.findByText(/Review your emergency contact/i).should('exist');
     cy.findByText(`${contact.fullName.first} ${contact.fullName.last}`).should(
       'exist',
     );

@@ -42,8 +42,8 @@ export const patientAcknowledgmentTitle = (
 );
 export const patientAcknowledgmentError = (
   <p>
-    You must select I acknowledge and authorize this release of information for
-    us to get your records from your provider.
+    You must select “I acknowledge and authorize this release of information”
+    for us to get your records from your provider.
   </p>
 );
 
