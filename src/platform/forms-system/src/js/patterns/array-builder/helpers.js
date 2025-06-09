@@ -147,7 +147,6 @@ export function createArrayBuilderItemAddPath({
   isReview,
   removedAllWarn,
 }) {
-  console.log('createArrayBuilderItemAddPath', path, index);
   return `${path.replace(':index', index)}?add=true${
     isReview ? '&review=true' : ''
   }${removedAllWarn ? '&removedAllWarn=true' : ''}`;
@@ -162,7 +161,6 @@ export function createArrayBuilderItemAddPath({
  * @returns {string} e.g. `/path-item/0?edit=true`
  */
 export function createArrayBuilderItemEditPath({ path, index, isReview }) {
-  console.log('createArrayBuilderItemEditPath', path, index);
   return `${path.replace(':index', index)}?edit=true${
     isReview ? '&review=true' : ''
   }`;

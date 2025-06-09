@@ -73,11 +73,6 @@ const CopyAddressModal = props => {
     onYes() {
       const payload = convertCleanDataToPayload(homeAddress, mailingFieldName);
 
-      // Include the validation key if present in the home address
-      if (homeAddress.validationKey) {
-        payload.validationKey = homeAddress.validationKey;
-      }
-
       // make sure we are sending correct id in payload, or empty string if no mailing address for user
       const payloadWithUpdatedId = set(payload, 'id', mailingAddress?.id || '');
 
