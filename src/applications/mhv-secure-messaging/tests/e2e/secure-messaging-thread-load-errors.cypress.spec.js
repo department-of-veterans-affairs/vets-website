@@ -27,4 +27,13 @@ describe('Thread list load error', () => {
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
+
+  it('verify 500 error on inbox thread call', () => {
+    SecureMessagingSite.login();
+
+    PatientErrorPage.loadInbox500Error();
+    PatientErrorPage.verifyError500Content();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
 });

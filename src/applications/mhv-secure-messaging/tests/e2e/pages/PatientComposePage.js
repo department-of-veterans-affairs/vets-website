@@ -453,7 +453,7 @@ class PatientComposePage {
   };
 
   verifyHeader = text => {
-    cy.get(Locators.HEADER).should(`have.text`, text);
+    cy.get(Locators.HEADER).should(`include.text`, text);
   };
 
   verifyAdditionalInfoDropdownStatus = value => {

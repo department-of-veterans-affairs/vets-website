@@ -1,5 +1,8 @@
 import { Paths, Alerts, Locators, Data } from '../utils/constants';
 import GeneralFunctionsPage from './GeneralFunctionsPage';
+import mockFolders from '../fixtures/folder-response.json';
+import mockInboxFolder from '../fixtures/folder-inbox-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 
 class PatientErrorPage {
   loadParticularFolderError = () => {
@@ -36,6 +39,34 @@ class PatientErrorPage {
         cy.stub(win, 'print');
       },
     });
+  };
+
+  loadInbox500Error = () => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+      mockFolders,
+    ).as('folders');
+
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, {
+      statusCode: 500,
+    }).as(`inboxMessages`);
+
+    cy.intercept('GET', Paths.INTERCEPT.INBOX_FOLDER, mockInboxFolder).as(
+      'inboxFolderMetaData',
+    );
+
+    cy.intercept(
+      'GET',
+      Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS,
+      mockRecipients,
+    ).as('recipients');
+
+    cy.visit(Paths.UI_MAIN + Paths.INBOX);
+
+    cy.wait('@featureToggle');
+    cy.wait('@mockUser');
+    cy.wait('@inboxMessages', { requestTimeout: 10000 });
   };
 
   verifyAlertMessageText = () => {
@@ -94,6 +125,15 @@ class PatientErrorPage {
       .should(`be.visible`)
       .and(`have.attr`, `href`, `/find-locations`)
       .and(`have.attr`, `text`, Data.NOT_FOUND.LINK_2);
+  };
+
+  verifyError500Content = () => {
+    cy.findByTestId(`alert-heading`)
+      .should(`be.visible`)
+      .and(`have.text`, Data.ERROR_500.HEADER);
+    cy.findByTestId(`alert-text`)
+      .should(`be.visible`)
+      .and(`have.text`, Data.ERROR_500.TEXT);
   };
 }
 

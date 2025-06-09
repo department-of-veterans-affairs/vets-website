@@ -38,14 +38,14 @@ export const Paths = {
     MESSAGE_FOLDER: '/my_health/v1/messaging/folders*',
     MESSAGE_FOLDERS: '/my_health/v1/messaging/folders',
     MESSAGE_FOLDER_THREAD: '/my_health/v1/messaging/folders/0/threads?*',
-    MESSAGE_FOLDER_MESS: '/my_health/v1/messaging//folders/0/messages*',
+    INBOX_FOLDER: '/my_health/v1/messaging/folders/0*',
     MESSAGE_DRAFTS: '/my_health/v1/messaging/message_drafts',
     MESSAGE_FOLDERS_SEARCH: '/my_health/v1/messaging/folders/*/search',
     MESSAGE_FOLDERS_2: '/my_health/v1/messaging/folders/-2*',
     FEATURE_TOGGLES: '/v0/feature_toggles?*',
     MESSAGE_THREADS: '/my_health/v1/messaging/threads/',
     MESSAGE_SIGNATURE: '/my_health/v1/messaging/preferences/signature',
-    MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
+    MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients*',
     MESSAGES: '/my_health/v1/messaging/messages',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
@@ -449,6 +449,11 @@ export const Data = {
     LINK_0: `Go to our My HealtheVet on VA.gov homepage`,
     LINK_1: `Chat live with a health professional on VA health chat`,
     LINK_2: `Find a VA facility`,
+  },
+
+  ERROR_500: {
+    HEADER: `We can't access your messages right now`,
+    TEXT: `We’re sorry. There's a problem with our system. Refresh this page or try again later.`,
   },
 };
 

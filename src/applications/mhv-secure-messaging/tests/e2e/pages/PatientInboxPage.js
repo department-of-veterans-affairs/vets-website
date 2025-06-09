@@ -68,19 +68,20 @@ class PatientInboxPage {
         },
       }).as('folders');
     }
+
     cy.intercept(
       'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/threads*`,
+      Paths.INTERCEPT.MESSAGE_FOLDER_THREAD,
       this.mockInboxMessages,
     ).as('inboxMessages');
+
+    cy.intercept('GET', Paths.INTERCEPT.INBOX_FOLDER, mockInboxFolder).as(
+      'inboxFolderMetaData',
+    );
+
     cy.intercept(
       'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/0*`,
-      mockInboxFolder,
-    ).as('inboxFolderMetaData');
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`,
+      Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS,
       this.mockRecipients,
     ).as('recipients');
 
