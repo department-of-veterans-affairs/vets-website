@@ -194,7 +194,7 @@ const isItemIncomplete = item => {
 
 const cardDescription = (item, _index, formData) =>
   isNewCondition(item)
-    ? NewConditionCardDescription(item)
+    ? NewConditionCardDescription(item, formData)
     : RatedDisabilityCardDescription(item, formData);
 
 /** @type {ArrayBuilderOptions} */

@@ -39,15 +39,20 @@ export const fileUploadBlurbCustom = (items, afterContent) => {
     'view:fileUploadBlurb': {
       'ui:description': (
         <>
-          <div className="vads-u-margin-bottom--4">
-            <b>How to upload files:</b>
-            <ul>
-              <li>
+          <div
+            key="upload-instructions-container"
+            className="vads-u-margin-bottom--4"
+          >
+            <b key="upload-instructions-heading">How to upload files:</b>
+            <ul key="upload-instructions-list">
+              <li key="upload-file-types">
                 Use a .{fileTypes.slice(0, -1).join(', .')}, or .
                 {fileTypes.slice(-1)} file
               </li>
-              <li>Make sure that file size is {maxSize} or less</li>
-              <li>
+              <li key="upload-file-size">
+                Make sure that file size is {maxSize} or less
+              </li>
+              <li key="upload-paper-copy">
                 If you only have a paper copy, scan or take a photo and upload
                 the image
               </li>

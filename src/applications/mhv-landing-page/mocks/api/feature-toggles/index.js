@@ -5,7 +5,7 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvVaHealthChatEnabled: true,
   mhvLandingPagePersonalization: true,
   mhvLandingPageShowShareMyHealthDataLink: true,
-  mhvMilestone2ChangesEnabled: false,
+  mhvMilestone2ChangesEnabled: true,
   travelPayPowerSwitch: true,
 });
 
