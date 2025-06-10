@@ -22,7 +22,7 @@ const PreSubmit = ({ formData, showError, onSectionComplete }) => {
     () => {
       return (
         <SignatureCheckbox
-          fullName={formData.veteranFullName}
+          fullName={formData.fullName}
           showError={showError}
           submission={submission}
           isStatementOfTruthSigned={isStatementOfTruthSigned}
