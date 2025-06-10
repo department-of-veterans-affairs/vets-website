@@ -24,8 +24,8 @@ const stateFn = ({
   },
 });
 
-const setup = ({ initialState = stateFn() } = {}) =>
-  renderWithStoreAndRouter(<NonPatientLandingPage />, {
+const setup = ({ initialState = stateFn(), props = {} } = {}) =>
+  renderWithStoreAndRouter(<NonPatientLandingPage {...props} />, {
     initialState,
     reducers,
   });

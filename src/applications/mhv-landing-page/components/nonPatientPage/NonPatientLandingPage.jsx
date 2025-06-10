@@ -20,7 +20,7 @@ import manifest from '../../manifest.json';
 const NON_PATIENT_PAGE = 'non-patient';
 
 const NonPatientLandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
-  const { nonPatientHubs, healthResourcesLinks = {} } = data;
+  const { nonPatientHubs = [], healthResourcesLinks = [] } = data;
 
   useEffect(
     () => {
