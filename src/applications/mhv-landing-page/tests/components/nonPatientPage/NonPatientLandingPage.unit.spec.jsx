@@ -2,19 +2,21 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-// import sinon from 'sinon';
-// import { datadogRum } from '@datadog/browser-rum';
-
+import sinon from 'sinon';
+import { datadogRum } from '@datadog/browser-rum';
+import * as recordEventModule from 'platform/monitoring/record-event';
 import NonPatientLandingPage from '../../../components/nonPatientPage/NonPatientLandingPage';
 import reducers from '../../../reducers';
 
-const stateFn = ({ mhvAccountState = 'OK' } = {}) => ({
+const stateFn = ({
+  mhv_milestone_2_changes_enabled = true,
+  mhvAccountState = 'OK',
+} = {}) => ({
+  featureToggles: {
+    mhv_milestone_2_changes_enabled,
+  },
   user: {
     profile: {
-      userFullName: {
-        first: 'Sam',
-      },
-      loa: { current: 3 },
       vaPatient: false,
       edipi: '1234567890',
       mhvAccountState,
@@ -28,24 +30,16 @@ const setup = ({ initialState = stateFn() } = {}) =>
     reducers,
   });
 
-// let originalReplaceState;
-// let originalDatadogAction;
-// let recordEvent;
+let originalReplaceState;
 
-// beforeEach(() => {
-//   originalReplaceState = window.history.replaceState;
-//   window.history.replaceState = sinon.spy();
+beforeEach(() => {
+  originalReplaceState = window.history.replaceState;
+  window.history.replaceState = sinon.spy();
+});
 
-//   originalDatadogAction = datadogRum.addAction;
-//   datadogRum.addAction = sinon.spy();
-
-//   recordEvent = sinon.spy();
-// });
-
-// afterEach(() => {
-//   window.history.replaceState = originalReplaceState;
-//   datadogRum.addAction = originalDatadogAction;
-// });
+afterEach(() => {
+  window.history.replaceState = originalReplaceState;
+});
 
 describe('NonPatientLandingPage component', () => {
   it('renders', () => {
@@ -83,23 +77,24 @@ describe('NonPatientLandingPage component', () => {
     ).to.not.exist;
   });
 
-  // it('sets the correct search param', () => {
-  //   setup();
-  //   expect(window.history.replaceState.calledOnce).to.be.true;
-  //   const { args } = window.history.replaceState.getCall(0);
-  //   const url = new URL(args[2], 'http://localhost');
-  //   expect(url.searchParams.get('page')).to.equal('non-patient');
-  // });
+  it('sets the correct search param', () => {
+    setup();
+    expect(window.history.replaceState.calledOnce).to.be.true;
+    const { args } = window.history.replaceState.getCall(0);
+    const url = new URL(args[2], 'http://localhost');
+    expect(url.searchParams.get('page')).to.equal('non-patient');
+  });
 
-  // it('calls datadogRum.addAction', () => {
-  //   setup();
-  //   expect(datadogRum.addAction.calledOnce).to.be.true;
-  // });
+  it('calls recordEvent and datadogRum', async () => {
+    const recordEventSpy = sinon.stub(recordEventModule, 'default');
+    const datadogRumSpy = sinon.spy(datadogRum, 'addAction');
+    setup();
+    expect(recordEventSpy.calledOnce).to.be.true;
+    expect(recordEventSpy.calledWith({ event: 'nav-non-patient-landing-page' }))
+      .to.be.true;
+    expect(datadogRumSpy.calledOnce).to.be.true;
 
-  // it('calls recordEvent', () => {
-  //   setup({ props: { recordEvent } });
-  //   expect(recordEvent.calledOnce).to.be.true;
-  //   expect(recordEvent.calledWith({ event: 'nav-non-patient-landing-page' })).to
-  //     .be.true;
-  // });
+    recordEventSpy.restore();
+    datadogRumSpy.restore();
+  });
 });
