@@ -14,7 +14,7 @@ const UserHelpLinks = () => {
             <a
               data-testid="user-nav-poa-search-link"
               className="vads-u-color--white"
-              href="/poa-search"
+              href="/representative/poa-search"
             >
               <va-icon icon="search" size={2} className="people-search-icon" />
               Search People
@@ -26,11 +26,28 @@ const UserHelpLinks = () => {
         <a
           data-testid="user-nav-poa-requests-link"
           className="vads-u-color--white"
-          href="/poa-requests"
+          href="/representative/poa-requests"
         >
           Power of Attorney Requests
         </a>
       </li>
+      <Toggler
+        toggleName={
+          Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
+        }
+      >
+        <li>
+          <Toggler.Enabled>
+            <a
+              data-testid="submissions-link"
+              className="vads-u-color--white"
+              href="/representative/submissions"
+            >
+              Submissions
+            </a>
+          </Toggler.Enabled>
+        </li>
+      </Toggler>
       <li className="vads-u-display--none">
         <a
           data-testid="user-nav-profile-link"
@@ -47,15 +64,21 @@ const UserHelpLinks = () => {
 const UserNavLinks = () => {
   return (
     <>
-      <li className="vads-u-display--none">
-        <a
-          data-testid="user-nav-profile-link"
-          className="vads-u-color--black"
-          href="/profile"
-        >
-          Profile
-        </a>
-      </li>
+      <Toggler
+        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalProfile}
+      >
+        <Toggler.Enabled>
+          <li>
+            <a
+              data-testid="user-nav-profile-link"
+              className="vads-u-color--black"
+              href="/profile"
+            >
+              Profile
+            </a>
+          </li>
+        </Toggler.Enabled>
+      </Toggler>
       <li>
         <a
           data-testid="user-nav-sign-out-link"
