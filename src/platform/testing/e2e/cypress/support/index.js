@@ -5,6 +5,34 @@ import 'cypress-real-events/support';
 import '@cypress/code-coverage/support';
 import addContext from 'mochawesome/addContext';
 import './commands';
+// import { setupWorker, rest } from 'msw';
+
+// if (typeof window !== 'undefined') {
+//   const worker = setupWorker(
+//     rest.get('/feature_toggles', (req, res, ctx) => {
+//       return res(ctx.status(200), ctx.body(''));
+//     }),
+//   );
+
+//   before(() => {
+//     return worker.start({ onUnhandledRequest: 'bypass' });
+//   });
+
+//   beforeEach(() => {
+//     worker.resetHandlers();
+//   });
+
+//   after(() => {
+//     worker.stop();
+//   });
+// }
+
+beforeEach(() => {
+  cy.intercept('GET', '/feature_toggles', {
+    statusCode: 200,
+    body: '',
+  }).as('getFeatureToggles');
+});
 
 // workaround for 'AssertionError: Timed out retrying after 4000ms: Invalid string length'
 // https://github.com/testing-library/cypress-testing-library/issues/241
