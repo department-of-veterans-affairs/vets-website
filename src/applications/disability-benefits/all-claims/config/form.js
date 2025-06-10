@@ -24,7 +24,7 @@ import {
   DISABILITY_SHARED_CONFIG,
   getPageTitle,
   hasGuardOrReservePeriod,
-  hasNewPtsdDisability,
+  hasNewPtsdDisabilityOldFlow,
   hasOtherEvidence,
   hasPrivateEvidence,
   hasRatedDisabilities,
@@ -40,6 +40,7 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
+  oldFlowNonPTSD,
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
@@ -341,11 +342,13 @@ const formConfig = {
           }),
         },
         followUpDesc: {
+          // we want this to show only for any new non-BDD condition that is either: old 0781 flow and non-PTSD, or any new 0781 flow condition
           title: 'Follow-up questions',
-          depends: (item, formData) =>
-            claimingNew(formData) &&
-            !isBDD(formData) &&
-            !isDisabilityPtsd(item.condition),
+          depends: formData =>
+            oldFlowNonPTSD(formData) ||
+            (formData?.syncModern0781Flow &&
+              claimingNew(formData) &&
+              !isBDD(formData)),
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
@@ -354,6 +357,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
         },
         newDisabilityFollowUp: {
+          // show for: old flow non-PTSD and new flow any condition
           title: formData =>
             typeof formData.condition === 'string'
               ? capitalizeEachWord(formData.condition)
@@ -361,10 +365,17 @@ const formConfig = {
           depends: claimingNew,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
-          itemFilter: (item, formData) =>
-            formData?.syncModern0781Flow
-              ? item.condition
-              : !isDisabilityPtsd(item.condition),
+          itemFilter: (item, formData) => {
+            if (
+              oldFlowNonPTSD(formData) ||
+              (formData?.syncModern0781Flow &&
+                claimingNew(formData) &&
+                !isBDD(formData))
+            ) {
+              return item.condition;
+            }
+            return !isDisabilityPtsd(item.condition);
+          },
           arrayPath: 'newDisabilities',
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema,
@@ -390,7 +401,7 @@ const formConfig = {
               ? capitalizeEachWord(formData.condition)
               : NULL_CONDITION_STRING,
           path: 'new-disabilities/ptsd-intro',
-          depends: hasNewPtsdDisability,
+          depends: hasNewPtsdDisabilityOldFlow,
           uiSchema: newPTSDFollowUp.uiSchema,
           schema: newPTSDFollowUp.schema,
         },
@@ -398,7 +409,7 @@ const formConfig = {
         choosePtsdType: {
           title: 'Factors that contributed to PTSD',
           path: 'new-disabilities/ptsd-type',
-          depends: hasNewPtsdDisability,
+          depends: hasNewPtsdDisabilityOldFlow,
           uiSchema: choosePtsdType.uiSchema,
           schema: choosePtsdType.schema,
         },
@@ -422,7 +433,7 @@ const formConfig = {
           title: 'Answer online questions or upload paper 21-0781',
           path: 'new-disabilities/walkthrough-781-choice',
           depends: formData =>
-            hasNewPtsdDisability(formData) && needsToEnter781(formData),
+            hasNewPtsdDisabilityOldFlow(formData) && needsToEnter781(formData),
           uiSchema: ptsdWalkthroughChoice781.uiSchema,
           schema: ptsdWalkthroughChoice781.schema,
         },

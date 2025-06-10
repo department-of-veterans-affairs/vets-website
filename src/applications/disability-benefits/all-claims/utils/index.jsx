@@ -385,7 +385,7 @@ export const isBDD = formData => {
   return Boolean(result);
 };
 
-export const hasNewPtsdDisability = formData =>
+export const hasNewPtsdDisabilityOldFlow = formData =>
   !isBDD(formData) &&
   isClaimingNew(formData) &&
   _.get('newDisabilities', formData, []).some(disability =>
@@ -396,12 +396,29 @@ export const hasNewPtsdDisability = formData =>
   // When the new version is visible, hasNewPtsdDisability should always return false so the legacy flow is hidden.
   formData?.syncModern0781Flow !== true;
 
+export const hasNewPtsdDisabilitiesNewFlow = formData =>
+  !isBDD(formData) &&
+  isClaimingNew(formData) &&
+  _.get('newDisabilities', formData, []).some(disability =>
+    isDisabilityPtsd(disability.condition),
+  ) &&
+  formData?.syncModern0781Flow === true;
+
+//  old 0781 flow non-PTSD disabilities
+export const oldFlowNonPTSD = formData =>
+  !isBDD(formData) &&
+  isClaimingNew(formData) &&
+  _.get('newDisabilities', formData, []).some(
+    disability => !isDisabilityPtsd(disability.condition),
+  ) &&
+  formData?.syncModern0781Flow !== true;
+
 export const showPtsdCombat = formData =>
-  hasNewPtsdDisability(formData) &&
+  hasNewPtsdDisabilityOldFlow(formData) &&
   _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false);
 
 export const showPtsdNonCombat = formData =>
-  hasNewPtsdDisability(formData) &&
+  hasNewPtsdDisabilityOldFlow(formData) &&
   _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false) &&
   // skip non-combat question if Veteran says yes to combat question
   !_.get('skip781ForCombatReason', formData, false);
@@ -411,12 +428,12 @@ export const skip781 = formData =>
   _.get('skip781ForNonCombatReason', formData) === true;
 
 export const needsToEnter781 = formData =>
-  hasNewPtsdDisability(formData) &&
+  hasNewPtsdDisabilityOldFlow(formData) &&
   (showPtsdCombat(formData) || showPtsdNonCombat(formData)) &&
   !skip781(formData);
 
 export const needsToEnter781a = formData =>
-  hasNewPtsdDisability(formData) &&
+  hasNewPtsdDisabilityOldFlow(formData) &&
   (_.get('view:selectablePtsdTypes.view:mstPtsdType', formData, false) ||
     _.get('view:selectablePtsdTypes.view:assaultPtsdType', formData, false));
 
