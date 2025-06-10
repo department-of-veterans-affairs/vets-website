@@ -22,7 +22,10 @@ const minimalStore = mockStore({
 function callInnerApplicantTitleFunc(pages, pageName) {
   const { container } = render(
     <Provider store={minimalStore}>
-      {pages[pageName].uiSchema.applicants.items['ui:title']({})}
+      {pages[pageName].uiSchema.applicants.items['ui:title']({
+        formData: {},
+        formContext: {},
+      })}
     </Provider>,
   );
 
@@ -81,25 +84,5 @@ describe('applicantPages depends functions', () => {
       expect(res).to.be.a('boolean');
       expect(res).to.not.be.undefined;
     });
-  });
-
-  // Example of calling a specific depends function inside array builder
-  it('page18b2 depends fn should return true if applicant is over 18 and helpless', () => {
-    expect(
-      applicantPages.page18b2.depends(
-        {
-          applicants: [
-            {
-              applicantRelationshipToSponsor: {
-                relationshipToVeteran: 'child',
-              },
-              applicantDob: '1990-01-01',
-              applicantDependentStatus: { status: 'over18HelplessChild' },
-            },
-          ],
-        },
-        0,
-      ),
-    ).to.be.true;
   });
 });

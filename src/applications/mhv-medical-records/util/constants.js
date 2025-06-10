@@ -7,6 +7,16 @@ export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
 };
 
+/** for use in Datadog RUM IDs, e.g. 'allergies-list-spinner' */
+export const recordTypeKeyNames = {
+  [recordType.ALLERGIES]: 'allergies',
+  [recordType.VACCINES]: 'vaccines',
+  [recordType.CARE_SUMMARIES_AND_NOTES]: 'care-summaries',
+  [recordType.LABS_AND_TESTS]: 'labs-and-tests',
+  [recordType.VITALS]: 'vitals',
+  [recordType.HEALTH_CONDITIONS]: 'health-conditions',
+};
+
 export const blueButtonRecordTypes = {
   MEDICATIONS: 'medications',
   APPOINTMENTS: 'appointments',
@@ -41,7 +51,6 @@ export const labTypes = {
   CHEM_HEM: 'chemistry_hematology',
   MICROBIOLOGY: 'microbiology',
   PATHOLOGY: 'pathology',
-  EKG: 'electrocardiogram',
   RADIOLOGY: 'radiology',
   CVIX_RADIOLOGY: 'cvix_radiology',
   OTHER: 'other',
@@ -61,7 +70,6 @@ export const loincCodes = {
   SURGICAL_PATHOLOGY: '27898-6',
   ELECTRON_MICROSCOPY: '50668-3',
   CYTOPATHOLOGY: '26438-2',
-  EKG: '11524-6',
   RADIOLOGY: '18748-4',
   // care summaries and notes
   PHYSICIAN_PROCEDURE_NOTE: '11506-3',
