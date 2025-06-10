@@ -1,13 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import CTALink from './CTALink';
+import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 
-const CombinedDisabilityRatingWidget = () => {
-  const totalDisabilityRating = 0;
+const CombinedDisabilityRatingWidget = ({
+  totalDisabilityRating,
+  totalDisabilityRatingServerError,
+}) => {
   return (
     <va-card>
-      <h4 className="vads-u-margin-top--0">
-        Your combined disability rating is {totalDisabilityRating}%
-      </h4>
+      {!totalDisabilityRatingServerError && (
+        <h4 className="vads-u-margin-top--0">
+          Your combined disability rating is {totalDisabilityRating}%
+        </h4>
+      )}
       <p>
         <CTALink
           href="/disability/view-disability-rating"
@@ -26,4 +33,14 @@ const CombinedDisabilityRatingWidget = () => {
   );
 };
 
-export default CombinedDisabilityRatingWidget;
+CombinedDisabilityRatingWidget.propTypes = {
+  totalDisabilityRating: PropTypes.number,
+  totalDisabilityRatingServerError: PropTypes.bool,
+};
+
+const mapStateToProps = state => ({
+  totalDisabilityRating: state.totalRating?.totalDisabilityRating,
+  totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
+});
+
+export default connect(mapStateToProps)(CombinedDisabilityRatingWidget);
