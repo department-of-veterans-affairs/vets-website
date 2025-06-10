@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(npm run lint:*)",
-      "Bash(npx eslint:*)"
+      "Bash(npx eslint:*)",
+      "Bash(find:*)"
     ],
     "deny": []
   }

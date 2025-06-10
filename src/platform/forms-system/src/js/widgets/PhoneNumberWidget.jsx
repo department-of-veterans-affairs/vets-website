@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TextWidget from './TextWidget';
 
 /*
@@ -6,35 +6,37 @@ import TextWidget from './TextWidget';
  * by keeping the user input in local state and saving the transformed version
  * instead
  */
-export default class PhoneNumberWidget extends React.Component {
-  state = { val: this.props.value, firstUpdate: true };
+export default function PhoneNumberWidget(props) {
+  const [val, setVal] = useState(props.value);
+  const [firstUpdate, setFirstUpdate] = useState(true);
 
-  componentDidUpdate(prevProps) {
-    if (this.state.firstUpdate && this.props.value !== prevProps.value) {
-      this.handleChange(this.props.value);
-    }
-  }
-
-  handleChange = val => {
+  const handleChange = newVal => {
     let stripped;
-    if (val) {
-      stripped = val.replace(/[^0-9]/g, '');
+    if (newVal) {
+      stripped = newVal.replace(/[^0-9]/g, '');
     }
 
-    this.setState({ val, firstUpdate: false }, () => {
-      this.props.onChange(stripped);
-    });
+    setVal(newVal);
+    setFirstUpdate(false);
+    props.onChange(stripped);
   };
 
-  render() {
-    return (
-      <TextWidget
-        {...this.props}
-        type="tel"
-        autocomplete="tel"
-        value={this.state.val}
-        onChange={this.handleChange}
-      />
-    );
-  }
+  useEffect(
+    () => {
+      if (firstUpdate && props.value !== val) {
+        handleChange(props.value);
+      }
+    },
+    [props.value, val, firstUpdate, handleChange],
+  );
+
+  return (
+    <TextWidget
+      {...props}
+      type="tel"
+      autocomplete="tel"
+      value={val}
+      onChange={handleChange}
+    />
+  );
 }
