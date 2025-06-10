@@ -332,12 +332,10 @@ export const downloadCCD = timestamp => {
 /**
  * Send Datadog actions to the backend to be recorded in StatsD metrics
  */
-export const postRecordDatadogAction = async action => {
-  return apiRequest(
-    `${apiBasePath}/medical_records/datadog_actions?action=${action}`,
-    {
-      method: 'POST',
-      headers,
-    },
-  );
+export const postRecordDatadogAction = async metric => {
+  return apiRequest(`${environment.API_URL}/v0/datadog_actions`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ metric }),
+  });
 };
