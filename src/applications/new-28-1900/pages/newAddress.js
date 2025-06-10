@@ -9,17 +9,17 @@ import { CONTACT_INFORMATION_CHAPTER_CONSTANTS } from '../constants';
 export default {
   uiSchema: {
     ...titleUI(
-      CONTACT_INFORMATION_CHAPTER_CONSTANTS.newMailingAddressPageTitle,
+      CONTACT_INFORMATION_CHAPTER_CONSTANTS.newAddressPageTitle,
       "You told us you're moving in the next 30 days. Enter your new mailing address.",
     ),
-    newMailingAddress: addressUI({
+    newAddress: addressUI({
       required: true,
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      newMailingAddress: addressSchema(),
+      newAddress: addressSchema(),
     },
   },
 };
