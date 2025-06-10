@@ -48,7 +48,7 @@ const distantFutureDowntime = {
 const approachingDowntime = {
   attributes: {
     externalService: 'mvi',
-    startTime: addMinutes(now, 10)?.toISOString(),
+    startTime: addMinutes(now, 20)?.toISOString(),
     endTime: addDays(now, 1)?.toISOString(),
   },
 };
@@ -56,7 +56,7 @@ const approachingDowntime = {
 const lessUrgentApproachingDowntime = {
   attributes: {
     externalService: 'appeals',
-    startTime: addMinutes(now, 15)?.toISOString(),
+    startTime: addMinutes(now, 45)?.toISOString(),
     endTime: addDays(now, 1)?.toISOString(),
   },
 };

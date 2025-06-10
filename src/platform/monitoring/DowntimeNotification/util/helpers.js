@@ -6,7 +6,6 @@ import {
   isAfter,
   isBefore,
   isEqual,
-  isWithinInterval,
   parseISO,
 } from 'date-fns';
 
@@ -41,7 +40,7 @@ export function getStatusForTimeframe(startTime, endTime) {
   }
 
   const oneHourFromNow = addHours(now, 1);
-  const startsWithinHour = isWithinInterval(oneHourFromNow, { start, end });
+  const startsWithinHour = isSameOrAfter(oneHourFromNow, start);
   if (startsWithinHour) return externalServiceStatus.downtimeApproaching;
 
   return externalServiceStatus.ok;
