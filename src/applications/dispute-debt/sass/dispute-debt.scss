@@ -32,8 +32,9 @@
   padding-left: 0;
 }
 
-// Fix spacing between debt review buttons
-[data-chapter="reasonForDisputeChapter"] {
+// Fix spacing between debt review buttons in form pages only
+// Excludes review page accordion items
+[data-chapter="reasonForDisputeChapter"]:not(va-accordion-item) {
   .form-review-panel-page:first-child {
     margin-bottom: 2rem;
     margin-top: 0;
