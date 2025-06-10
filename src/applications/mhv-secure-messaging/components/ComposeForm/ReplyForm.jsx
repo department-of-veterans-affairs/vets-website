@@ -172,6 +172,7 @@ const ReplyForm = props => {
 
         <CannotReplyAlert
           visible={cannotReply && !showBlockedTriageGroupAlert}
+          isOhMessage={replyMessage.isOhMessage}
         />
 
         {currentRecipient && (

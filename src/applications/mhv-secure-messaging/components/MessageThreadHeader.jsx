@@ -29,7 +29,14 @@ const MessageThreadHeader = props => {
     recipients,
   } = props;
 
-  const { threadId, category, subject, sentDate, recipientId } = message;
+  const {
+    threadId,
+    category,
+    subject,
+    sentDate,
+    recipientId,
+    isOhMessage,
+  } = message;
 
   const { customFoldersRedesignEnabled } = useFeatureToggles();
 
@@ -118,6 +125,7 @@ const MessageThreadHeader = props => {
 
         <CannotReplyAlert
           visible={cannotReply && !showBlockedTriageGroupAlert}
+          isOhMessage={isOhMessage}
         />
       </header>
 
