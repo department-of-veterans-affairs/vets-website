@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { SIGN_OUT_URL } from '../../../utilities/constants';
 import NavDropdown from './NavDropdown';
@@ -12,27 +11,27 @@ const UserHelpLinks = () => {
       >
         <Toggler.Enabled>
           <li>
-            <Link
+            <a
               data-testid="user-nav-poa-search-link"
               className="vads-u-color--white"
-              to="/poa-search"
+              href="/poa-search"
               data-eventname="nav-link-click"
             >
               <va-icon icon="search" size={2} className="people-search-icon" />
               Find Claimant
-            </Link>
+            </a>
           </li>
         </Toggler.Enabled>
       </Toggler>
       <li>
-        <Link
+        <a
           data-testid="user-nav-poa-requests-link"
           className="vads-u-color--white"
-          to="/poa-requests"
+          href="/poa-requests"
           data-eventname="nav-link-click"
         >
           Representation Requests
-        </Link>
+        </a>
       </li>
       <Toggler
         toggleName={
@@ -41,13 +40,13 @@ const UserHelpLinks = () => {
       >
         <li>
           <Toggler.Enabled>
-            <Link
+            <a
               data-testid="submissions-link"
               className="vads-u-color--white"
-              to="/submissions"
+              href="/submissions"
             >
               Submissions
-            </Link>
+            </a>
           </Toggler.Enabled>
         </li>
       </Toggler>
@@ -56,14 +55,14 @@ const UserHelpLinks = () => {
       >
         <Toggler.Enabled>
           <li>
-            <Link
+            <a
               data-testid="user-nav-profile-link"
               className="vads-u-color--white"
-              to="/get-help"
+              href="/get-help"
               data-eventname="nav-link-click"
             >
               Get Help
-            </Link>
+            </a>
           </li>
         </Toggler.Enabled>
       </Toggler>
@@ -79,14 +78,14 @@ const UserNavLinks = () => {
       >
         <Toggler.Enabled>
           <li>
-            <Link
+            <a
               data-testid="user-nav-profile-link"
               className="vads-u-color--black"
-              to="/profile"
+              href="/profile"
               data-eventname="nav-link-click"
             >
               Profile
-            </Link>
+            </a>
           </li>
         </Toggler.Enabled>
       </Toggler>

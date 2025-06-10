@@ -27,7 +27,7 @@ export const Nav = () => {
           data-testid="nav-home-link"
           aria-label="VA Accredited Representative Portal"
           className="nav__link vads-u-display--flex"
-          to="/"
+          href="/"
           data-eventname="nav-link-click"
         >
           <img
@@ -62,7 +62,7 @@ export const Nav = () => {
               <Toggler.Enabled>
                 <a
                   className="nav__btn desktop"
-                  to="/poa-search"
+                  href="/poa-search"
                   data-testid="desktop-search-link"
                   data-eventname="nav-link-click"
                 >
@@ -77,7 +77,7 @@ export const Nav = () => {
             </Toggler>
             <a
               className="nav__btn desktop"
-              to="/poa-requests"
+              href="/poa-requests"
               data-testid="desktop-poa-link"
               data-eventname="nav-link-click"
             >
@@ -91,7 +91,7 @@ export const Nav = () => {
               <Toggler.Enabled>
                 <a
                   className="nav__btn desktop"
-                  to="/submissions"
+                  href="/submissions"
                   data-testid="desktop-search-link"
                 >
                   Submissions
@@ -105,7 +105,7 @@ export const Nav = () => {
             >
               <Toggler.Enabled>
                 <a
-                  to="/get-help"
+                  href="/get-help"
                   className="nav__btn desktop"
                   data-testid="desktop-help-link"
                   data-eventname="nav-link-click"
