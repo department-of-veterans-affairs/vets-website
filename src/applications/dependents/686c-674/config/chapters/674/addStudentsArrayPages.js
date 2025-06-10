@@ -88,17 +88,13 @@ export const addStudentsOptions = {
 
 export const addStudentsIntroPage = {
   uiSchema: {
-    ...titleUI({
-      title: 'Your students',
-      description: () => {
-        return (
-          <>
-            {AddStudentsIntro}
-            <CancelButton dependentType="students" isAddChapter />
-          </>
-        );
-      },
-    }),
+    ...titleUI('Your students'),
+    'ui:description': () => (
+      <>
+        {AddStudentsIntro}
+        <CancelButton dependentType="students" isAddChapter />
+      </>
+    ),
   },
   schema: {
     type: 'object',

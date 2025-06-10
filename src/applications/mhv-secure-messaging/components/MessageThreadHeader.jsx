@@ -17,6 +17,8 @@ import { getPageTitle, scrollIfFocusedAndNotInView } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
+import useFeatureToggles from '../hooks/useFeatureToggles';
+import ReplyButton from './ReplyButton';
 
 const MessageThreadHeader = props => {
   const {
@@ -35,6 +37,8 @@ const MessageThreadHeader = props => {
     recipientId,
     isOhMessage,
   } = message;
+
+  const { customFoldersRedesignEnabled } = useFeatureToggles();
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -136,12 +140,19 @@ const MessageThreadHeader = props => {
         </div>
       )}
 
-      <MessageActionButtons
-        threadId={threadId}
-        hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
-        isCreateNewModalVisible={isCreateNewModalVisible}
-        setIsCreateNewModalVisible={setIsCreateNewModalVisible}
-      />
+      {customFoldersRedesignEnabled ? (
+        <ReplyButton
+          key="replyButton"
+          visible={!cannotReply && !showBlockedTriageGroupAlert}
+        />
+      ) : (
+        <MessageActionButtons
+          threadId={threadId}
+          hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
+          isCreateNewModalVisible={isCreateNewModalVisible}
+          setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+        />
+      )}
     </div>
   );
 };
