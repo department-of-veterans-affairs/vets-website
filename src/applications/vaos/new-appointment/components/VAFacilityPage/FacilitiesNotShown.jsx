@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
-
-// eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { GA_PREFIX } from '../../../utils/constants';
+import React, { useEffect, useState } from 'react';
 import NewTabAnchor from '../../../components/NewTabAnchor';
+import { GA_PREFIX } from '../../../utils/constants';
 
 export default function FacilitiesNotShown() {
   const [isOpen, setIsOpen] = useState(false);
