@@ -44,6 +44,7 @@ import {
 import useAlerts from '../../hooks/use-alerts';
 import HeaderSection from '../shared/HeaderSection';
 import LabelValue from '../shared/LabelValue';
+import TrackedSpinner from '../shared/TrackedSpinner';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -424,7 +425,8 @@ ${record.results}`;
     if (radiologyDetails.studyId) {
       if (processingRequest) {
         return (
-          <va-loading-indicator
+          <TrackedSpinner
+            id="radiology-images-requested-spinner"
             message="Loading..."
             setFocus
             data-testid="loading-indicator"

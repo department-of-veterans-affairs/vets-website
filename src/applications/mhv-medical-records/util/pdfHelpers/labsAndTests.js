@@ -167,11 +167,6 @@ export const generatePathologyContent = record => ({
       },
       {
         title: 'Site or sample tested',
-        value: record.sampleTested,
-        inline: true,
-      },
-      {
-        title: 'Collection sample',
         value: record.sampleFrom,
         inline: true,
       },
@@ -204,33 +199,6 @@ export const generatePathologyContent = record => ({
           {
             value: record.results,
             monospace: true,
-          },
-        ],
-      },
-    ],
-  },
-});
-
-export const generateEkgContent = record => ({
-  results: {
-    sectionSeparators: false,
-    items: [
-      {
-        items: [
-          {
-            title: 'Date',
-            value: record.date,
-            inline: true,
-          },
-          {
-            title: 'Location',
-            value: record.facility,
-            inline: true,
-          },
-          {
-            title: 'Provider',
-            value: record.orderedBy,
-            inline: true,
           },
         ],
       },

@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import FullWidthLayout from '../FullWidthLayout';
 import InfoAlert from '../InfoAlert';
 
-const appTitle = 'VA online scheduling tool';
+const appTitle = 'VA appointments tool';
 
 export default function DowntimeMessage({
   startTime,
@@ -70,8 +70,7 @@ export default function DowntimeMessage({
           status="warning"
           role="alertdialog"
           modalTitle={
-            notificationTitle ||
-            'VA online scheduling will be down for maintenance'
+            notificationTitle || 'VA appointments will be down for maintenance'
           }
           data-testid="downtime-approaching-modal"
           secondaryButtonText="Dismiss"

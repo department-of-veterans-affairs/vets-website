@@ -109,12 +109,16 @@ const formConfig = {
           title: 'Institution details',
           uiSchema: institutionDetailsNoFacilityDescription.uiSchema,
           schema: institutionDetailsNoFacilityDescription.schema,
+          depends: formData =>
+            formData.institutionDetails.hasVaFacilityCode === false,
         },
         institutionNameAndAddress: {
           path: 'institution-details-2',
           title: 'Institution details',
           uiSchema: institutionNameAndAddress.uiSchema,
           schema: institutionNameAndAddress.schema,
+          depends: formData =>
+            formData.institutionDetails.hasVaFacilityCode === false,
         },
       },
     },

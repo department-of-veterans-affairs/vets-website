@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { format, isValid } from 'date-fns';
 
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { scrollTo } from 'platform/utilities/scroll';
+import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
 
 import GetFormHelp from './GetFormHelp';
 
