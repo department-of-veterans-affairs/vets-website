@@ -413,56 +413,455 @@ const medicarePartBCardUploadPage = {
   schema: medicarePartBCardSchema,
 };
 
-// PAGES NEEDED:
-// IF USER SPECIFIES ONLY A/B:
-//   - medicare parts a/b effective dates
-//   - medicare parts a/b card upload
-// IF USER SPECIFIES ONLY A:
-//   - medicare parts a effective date
-//   - medicare parts a card upload
-// IF USER SPECIFIES ONLY B:
-//   - medicare parts b effective date
-//   - medicare parts b card upload
-//   - Medicare status (ask if denied 'A')
-//     - Disallowance of A upload
-// IF USER SPECIFIES PART C:
-//   - medicare parts a/b effective dates (includes part C explanatory dropdown)
-//   - medicare parts a/b card upload
-//   - medicare part C carrier and effective date
-//   - pharmacy benefits yes/no
-//   - medicare parts c card upload
-// IF USER SELECTED (A & B) OR D
-//   - Do you have medicare part D info to add? yes/no
-//   - medicare part D carrier and effective date
-//   - medicare parts D card upload
-// - Summary page
-// - generic disallowance yes/no + upload screen (TBD, need Jamie's design)
+// Define the Medicare Part A denial page
+const medicarePartADenialPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) => `${generateParticipantName(formData)} Medicare status`,
+      <va-alert
+        status="info"
+        class="vads-u-margin-bottom--3"
+        background-color="true"
+      >
+        <p className="vads-u-margin-y--0">
+          Applicants that don’t have Medicare Part A and B or proof of
+          ineligibility may not be eligible for CHAMPVA.
+        </p>
+      </va-alert>,
+    ),
+    hasPartADenial: {
+      ...yesNoUI({
+        title:
+          'Do you have a notice of disallowance, denial, or other proof of ineligibility for Medicare Part A?',
+        hint: ADDITIONAL_FILES_HINT,
+        required: () => true,
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['hasPartADenial'],
+    properties: {
+      titleSchema,
+      hasPartADenial: yesNoSchema,
+    },
+  },
+};
+
+const medicarePartADenialProofUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload proof of Medicare ineligibility',
+      ({ formData }) => {
+        return (
+          <>
+            {generateParticipantName(formData)} is 65 years or older and you
+            selected that they do not have Medicare Part A.
+            <br />
+            <br />
+            You’ll need to submit a copy of a letter from the Social Security
+            Administration that confirms that they don’t qualify for Medicare
+            benefits under anyone’s Social Security number.
+          </>
+        );
+      },
+    ),
+    ...fileUploadBlurb,
+    medicarePartADenialProof: fileUploadUI({
+      label: 'Upload proof of Medicare ineligibility',
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartADenialProof'],
+    properties: {
+      titleSchema,
+      'view:fileUploadBlurb': blankSchema,
+      medicarePartADenialProof: {
+        type: 'array',
+        maxItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+// Medicare Part C carrier and effective date page definition
+const medicarePartCCarrierEffectiveDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(
+          formData,
+        )} Medicare Part C carrier and effective date`,
+    ),
+    medicarePartCCarrier: textUI({
+      title: 'Name of insurance carrier',
+      hint: 'Your insurance carrier is your insurance company.',
+    }),
+    medicarePartCEffectiveDate: currentOrPastDateUI({
+      title: 'Medicare Part C effective date',
+      hint:
+        'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+      required: () => true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartCCarrier', 'medicarePartCEffectiveDate'],
+    properties: {
+      titleSchema,
+      medicarePartCCarrier: textSchema,
+      medicarePartCEffectiveDate: currentOrPastDateSchema,
+    },
+  },
+};
+
+// Medicare Part C pharmacy benefits page definition
+const medicarePartCPharmacyBenefitsPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(formData)} Medicare pharmacy benefits`,
+    ),
+    hasPharmacyBenefits: {
+      ...yesNoUI({
+        title:
+          'Does this Medicare Part C (Advantage Plan) provide pharmacy benefits?',
+        hint:
+          'This information can be found on your Medicare Part C (Advantage Plan) card.',
+        required: () => true,
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['hasPharmacyBenefits'],
+    properties: {
+      titleSchema,
+      hasPharmacyBenefits: yesNoSchema,
+    },
+  },
+};
+
+// Define the Medicare Part C card upload page using the generic schema
+const medicarePartCCardUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload Medicare Part C card',
+      'You’ll need to submit a copy of the front and back of the applicant’s Medicare Part C (Medicare Advantage Plan) card.',
+    ),
+    ...fileUploadBlurb,
+    medicarePartCFrontCard: fileUploadUI({
+      label: 'Upload front of Part C Medicare card',
+    }),
+    medicarePartCBackCard: fileUploadUI({
+      label: 'Upload back of Part C Medicare card',
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartCFrontCard', 'medicarePartCBackCard'],
+    properties: {
+      titleSchema,
+      'view:fileUploadBlurb': blankSchema,
+      medicarePartCFrontCard: {
+        type: 'array',
+        maxItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+      medicarePartCBackCard: {
+        type: 'array',
+        maxItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+// Medicare Part D status page definition
+const medicarePartDStatusPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(formData)} Medicare Part D status`,
+    ),
+    hasMedicarePartD: {
+      ...yesNoUI({
+        title:
+          'Do you have Medicare Part D (prescription drug coverage) information to provide or update at this time?',
+        hint: ADDITIONAL_FILES_HINT,
+        required: () => true,
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['hasMedicarePartD'],
+    properties: {
+      titleSchema,
+      hasMedicarePartD: yesNoSchema,
+    },
+  },
+};
+
+// Medicare Part D carrier and effective date page definition
+const medicarePartDCarrierEffectiveDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(
+          formData,
+        )} Medicare Part D carrier and effective date`,
+    ),
+    medicarePartDCarrier: textUI({
+      title: 'Name of insurance carrier',
+      hint: 'Your insurance carrier is your insurance company.',
+    }),
+    medicarePartDEffectiveDate: currentOrPastDateUI({
+      title: 'Medicare Part D effective date',
+      hint:
+        'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+      required: () => true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartDCarrier', 'medicarePartDEffectiveDate'],
+    properties: {
+      titleSchema,
+      medicarePartDCarrier: textSchema,
+      medicarePartDEffectiveDate: currentOrPastDateSchema,
+    },
+  },
+};
+
+// Define the Medicare Part D card upload page
+const medicarePartDCardUploadPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Upload Medicare Part D card',
+      'You’ll need to submit a copy of the front and back of your Medicare Part D prescription drug coverage card.',
+    ),
+    ...fileUploadBlurb,
+    medicarePartDFrontCard: fileUploadUI({
+      label: 'Upload front of Part D Medicare card',
+    }),
+    medicarePartDBackCard: fileUploadUI({
+      label: 'Upload back of Part D Medicare card',
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['medicarePartDFrontCard', 'medicarePartDBackCard'],
+    properties: {
+      titleSchema,
+      'view:fileUploadBlurb': blankSchema,
+      medicarePartDFrontCard: {
+        type: 'array',
+        maxItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+      medicarePartDBackCard: {
+        type: 'array',
+        maxItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+/**
+ * Returns true if any applicant has been set to "enrolled" in Medicare (per
+ * prompt in the applicant loop).
+ * @param {Object} formData Standard formdata object provided to depends functions
+ * @returns Boolean indicating whether or not any applicant is at least 65 y/o and has medicare.
+ */
+function anyAppEnrolledInMedicare(formData) {
+  return formData?.applicants?.some(
+    app =>
+      getAgeInYears(app?.applicantDob) >= 65 &&
+      app?.applicantMedicareStatus?.eligibility === 'enrolled',
+  );
+}
+
+/**
+ * Returns a list of applicants who are 65 or older, enrolled, and not claimed on
+ * a Medicare plan that has been entered in the form.
+ * @param {Object} formData Standard formdata object provided to depends functions
+ * @returns Array of applicant objects
+ */
+function getEligibleApplicantsWithoutMedicare(formData) {
+  return formData?.applicants?.filter(
+    applicant =>
+      getAgeInYears(applicant?.applicantDob) >= 65 &&
+      applicant?.applicantMedicareStatus?.eligibility === 'enrolled' &&
+      !formData?.medicare?.some(
+        plan =>
+          toHashMemoized(applicant.applicantSSN) === plan?.medicareParticipant,
+      ),
+  );
+}
+
+export const missingMedicarePage = {
+  path: 'missing-medicare-applicants',
+  title: 'Medicare status',
+  depends: formData => {
+    const excluded = getEligibleApplicantsWithoutMedicare(formData);
+    return excluded && excluded.length > 0;
+  },
+  // Something to do with array builder/topBackLink was causing us to
+  // always attempt to navigate back inside the medicare array rather
+  // than to the summary page, so manually overriding it here.
+  onNavBack: ({ goPath }) => {
+    goPath('/medicare-summary');
+  },
+  uiSchema: {
+    ...titleUI('Medicare status'),
+    'view:missingList': {
+      'ui:description': <></>,
+    },
+    hasProofMultipleApplicants: yesNoUI({
+      title:
+        'Do you have a notice of disallowance, denial, or other proof of ineligibility for Medicare Part A for the applicant or applicants listed?',
+      hint: ADDITIONAL_FILES_HINT,
+    }),
+    'ui:options': {
+      updateUiSchema: formData => {
+        const excluded = getEligibleApplicantsWithoutMedicare(formData);
+
+        // Show all applicants with no Medicare plan associated
+        const content = (
+          <>
+            <p>
+              Based on your responses, the following applicant or applicants
+              were not listed as having Medicare.
+            </p>
+            <ul>
+              {excluded?.map(a => (
+                <li key={toHashMemoized(a.applicantSSN)}>
+                  {`${a?.applicantName?.first} ${a?.applicantName?.last}`}
+                </li>
+              ))}
+            </ul>
+            <p>
+              If any applicant or applicants listed do have Medicare please
+              select "Back" to add a Medicare plan for them.
+            </p>
+          </>
+        );
+
+        return {
+          'view:missingList': { 'ui:description': content },
+        };
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['hasProofMultipleApplicants'],
+    properties: {
+      titleSchema,
+      'view:missingList': blankSchema,
+      hasProofMultipleApplicants: yesNoSchema,
+    },
+  },
+};
+
+export const proofOfIneligibilityUploadPage = {
+  path: 'proof-of-ineligibility-upload',
+  title: 'Proof of Medicare ineligibility',
+  depends: formData => formData?.hasProofMultipleApplicants,
+  uiSchema: {
+    ...titleUI(
+      'Upload proof of Medicare ineligibility',
+      <>
+        You’ll need to submit a copy of a letter from the Social Security
+        Administration that confirms that any applicants don’t qualify for
+        Medicare benefits under anyone’s Social Security number. <br /> <br />
+        If more than one applicant has a proof of Medicare ineligibility, you
+        can submit them all at once.
+      </>,
+    ),
+    ...fileUploadBlurb,
+    proofOfIneligibilityUpload: fileUploadUI({
+      label: 'Upload proof of Medicare ineligibility',
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['proofOfIneligibilityUpload'],
+    properties: {
+      titleSchema,
+      'view:fileUploadBlurb': blankSchema,
+      proofOfIneligibilityUpload: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  },
+};
 
 export const medicarePages = arrayBuilderPages(
   medicareOptions,
   pageBuilder => ({
-    medicareIntro: pageBuilder.introPage({
-      path: 'medicare-intro',
-      title: '[noun plural]',
-      uiSchema: {
-        ...titleUI('Medicare intro page (delete?)', <>Medicare intro page.</>),
-      },
-      schema: {
-        type: 'object',
-        properties: {
-          titleSchema,
-        },
-      },
-    }),
     medicareSummary: pageBuilder.summaryPage({
       path: 'medicare-summary',
       title: 'Review your Medicare plans',
+      depends: formData => {
+        return anyAppEnrolledInMedicare(formData);
+      },
       uiSchema: medicareSummaryPage.uiSchema,
       schema: medicareSummaryPage.schema,
     }),
     participant: pageBuilder.itemPage({
       path: 'select-participant/:index',
       title: 'Select Medicare participants',
+      depends: formData => {
+        return anyAppEnrolledInMedicare(formData);
+      },
       ...selectMedicareParticipantPage,
       CustomPage: props =>
         SelectMedicareParticipantPage({
@@ -497,6 +896,157 @@ export const medicarePages = arrayBuilderPages(
         return age < 65;
       },
       ...medicarePlanUnder65,
+    }),
+    medicarePartAEffectiveDate: pageBuilder.itemPage({
+      path: 'medicare-part-a-effective-date/:index',
+      title: 'Medicare Part A effective date',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'a';
+      },
+      ...medicarePartAEffectiveDatePage,
+    }),
+    medicarePartACardUpload: pageBuilder.itemPage({
+      path: 'medicare-part-a-card-upload/:index',
+      title: 'Upload Medicare Part A card',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'a';
+      },
+      CustomPage: FileFieldCustom,
+      ...medicarePartACardUploadPage,
+    }),
+    medicarePartBEffectiveDate: pageBuilder.itemPage({
+      path: 'medicare-part-b-effective-date/:index',
+      title: 'Medicare Part B effective date',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'b';
+      },
+      ...medicarePartBEffectiveDatePage,
+    }),
+    medicarePartBCardUpload: pageBuilder.itemPage({
+      path: 'medicare-part-b-card-upload/:index',
+      title: 'Upload Medicare Part B card',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'b';
+      },
+      CustomPage: FileFieldCustom,
+      ...medicarePartBCardUploadPage,
+    }),
+    medicarePartADenial: pageBuilder.itemPage({
+      path: 'medicare-part-a-denial/:index',
+      title: 'Medicare Part A denial',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'b';
+      },
+      ...medicarePartADenialPage,
+    }),
+    medicarePartADenialProofUpload: pageBuilder.itemPage({
+      path: 'medicare-part-a-denial-upload/:index',
+      title: 'Upload proof of Medicare ineligibility',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        const hasProof = formData?.medicare?.[index]?.hasPartADenial;
+        const curAppHash = formData?.medicare?.[index]?.medicareParticipant;
+
+        const curApp = formData?.applicants?.find(
+          a => toHashMemoized(a.applicantSSN) === curAppHash,
+        );
+        const over65 = getAgeInYears(curApp?.applicantDob) >= 65;
+
+        return planType === 'b' && hasProof && over65;
+      },
+      CustomPage: FileFieldCustom,
+      ...medicarePartADenialProofUploadPage,
+    }),
+    medicarePartAPartBEffectiveDates: pageBuilder.itemPage({
+      path: 'medicare-effective-dates/:index',
+      title: 'Medicare effective dates',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'ab';
+      },
+      ...medicarePartAPartBEffectiveDatesPage(false),
+    }),
+    medicarePartCABEffectiveDates: pageBuilder.itemPage({
+      path: 'medicare-effective-dates-part-c-ab/:index',
+      title: 'Medicare effective dates',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'c';
+      },
+      ...medicarePartAPartBEffectiveDatesPage(true),
+    }),
+    medicareABCardUpload: pageBuilder.itemPage({
+      path: 'medicare-ab-card-upload/:index',
+      title: 'Upload Medicare card (A/B)',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'ab' || planType === 'c';
+      },
+      CustomPage: FileFieldCustom,
+      ...medicareABCardUploadPage,
+    }),
+    medicarePartCCarrierEffectiveDate: pageBuilder.itemPage({
+      path: 'medicare-part-c-carrier-effective-date/:index',
+      title: 'Medicare Part C carrier and effective date',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'c';
+      },
+      ...medicarePartCCarrierEffectiveDatePage,
+    }),
+    medicarePartCPharmacyBenefits: pageBuilder.itemPage({
+      path: 'medicare-part-c-pharmacy-benefits/:index',
+      title: 'Medicare Part C pharmacy benefits',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'c';
+      },
+      ...medicarePartCPharmacyBenefitsPage,
+    }),
+    medicarePartCCardUpload: pageBuilder.itemPage({
+      path: 'medicare-part-c-card-upload/:index',
+      title: 'Upload Medicare Part C card',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'c';
+      },
+      CustomPage: FileFieldCustom,
+      ...medicarePartCCardUploadPage,
+    }),
+    medicarePartDStatus: pageBuilder.itemPage({
+      path: 'medicare-part-d-status/:index',
+      title: 'Medicare Part D status',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        return planType === 'ab' || planType === 'c';
+      },
+      ...medicarePartDStatusPage,
+    }),
+    medicarePartDCarrierEffectiveDate: pageBuilder.itemPage({
+      path: 'medicare-part-d-carrier-effective-date/:index',
+      title: 'Medicare Part D carrier and effective date',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        const hasPartD = formData?.medicare?.[index]?.hasMedicarePartD;
+        return (planType === 'ab' || planType === 'c') && hasPartD;
+      },
+      ...medicarePartDCarrierEffectiveDatePage,
+    }),
+    medicarePartDCardUpload: pageBuilder.itemPage({
+      path: 'medicare-part-d-card-upload/:index',
+      title: 'Upload Medicare Part D card',
+      depends: (formData, index) => {
+        const planType = formData?.medicare?.[index]?.medicarePlanType;
+        const hasPartD = formData?.medicare?.[index]?.hasMedicarePartD;
+        return (planType === 'ab' || planType === 'c') && hasPartD;
+      },
+      CustomPage: FileFieldCustom,
+      ...medicarePartDCardUploadPage,
     }),
   }),
 );

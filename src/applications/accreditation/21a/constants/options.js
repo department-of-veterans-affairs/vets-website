@@ -1,40 +1,40 @@
 // Chapter 1
 
 export const roleOptions = Object.freeze({
-  attorney: 'Attorney',
-  claimsAgent: 'Claims agent (non-attorney representative)',
+  ATTORNEY: 'Attorney',
+  CLAIMS_AGENT: 'Claims agent (non-attorney representative)',
 });
 
 export const typeOfPhoneOptions = Object.freeze({
-  cell: 'Cell',
-  home: 'Home',
-  work: 'Work',
+  CELL: 'Cell',
+  HOME: 'Home',
+  WORK: 'Work',
 });
 
 export const employmentStatusOptions = Object.freeze({
-  employed: 'Employed',
-  unemployed: 'Unemployed',
-  selfEmployed: 'Self-employed',
-  student: 'Student',
-  retired: 'Retired',
-  other: 'Other',
+  EMPLOYED: 'Employed',
+  UNEMPLOYED: 'Unemployed',
+  SELF_EMPLOYED: 'Self-employed',
+  STUDENT: 'Student',
+  RETIRED: 'Retired',
+  OTHER: 'Other',
 });
 
 export const descriptionRequired = Object.freeze([
-  'unemployed',
-  'selfEmployed',
-  'other',
+  'UNEMPLOYED',
+  'SELF_EMPLOYED',
+  'OTHER',
 ]);
 
 export const primaryMailingAddressOptions = Object.freeze({
-  home: 'Home',
-  work: 'Work',
-  other: 'Other',
+  HOME: 'Home',
+  WORK: 'Work',
+  OTHER: 'Other',
 });
 
 export const primaryMailingAddressOptionsNoWork = Object.freeze({
-  home: 'Home',
-  other: 'Other',
+  HOME: 'Home',
+  OTHER: 'Other',
 });
 
 // Chapter 2
@@ -69,14 +69,14 @@ export const explanationRequired = Object.freeze([
 // Chapter 3
 
 export const employmentActivitiesOptions = Object.freeze({
-  business: 'Business or service that advertises predominately to Veterans',
-  consulting: 'Consulting or referral services for Veterans',
-  financial: 'Financial planning',
-  homeOrNursing: 'Home care or nursing care',
-  medical: 'Medical services',
-  socialWork: 'Social work',
-  vocationalRehabilitation: 'Vocational rehabilitation',
-  none: 'None of these apply',
+  BUSINESS: 'Business or service that advertises predominately to Veterans',
+  CONSULTING: 'Consulting or referral services for Veterans',
+  FINANCIAL: 'Financial planning',
+  HOME_OR_NURSING: 'Home care or nursing care',
+  MEDICAL: 'Medical services',
+  SOCIAL_WORK: 'Social work',
+  VOCATIONAL_REHABILITATION: 'Vocational rehabilitation',
+  NONE: 'None of these apply',
 });
 
 // Chapter 4
