@@ -64,21 +64,15 @@ const UserHelpLinks = () => {
 const UserNavLinks = () => {
   return (
     <>
-      <Toggler
-        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalProfile}
-      >
-        <Toggler.Enabled>
-          <li>
-            <a
-              data-testid="user-nav-profile-link"
-              className="vads-u-color--black"
-              href="/profile"
-            >
-              Profile
-            </a>
-          </li>
-        </Toggler.Enabled>
-      </Toggler>
+      <li className="vads-u-display--none">
+        <a
+          data-testid="user-nav-profile-link"
+          className="vads-u-color--black"
+          href="/profile"
+        >
+          Profile
+        </a>
+      </li>
       <li>
         <a
           data-testid="user-nav-sign-out-link"
