@@ -9,9 +9,7 @@ describe(`${appName} -- non Patient landing page -- milestone-2`, () => {
   beforeEach(() => {
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeMessageData.withNoUnreadMessages();
-    LandingPage.visit({
-      registered: false,
-      verified: true,
+    LandingPage.visitNonPatientPage({
       mhvAccountState: 'OK',
       edipi: '1234567890',
     });

@@ -4,8 +4,10 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { serviceTreatmentRecordsSubmitLater } from '../content/serviceTreatmentRecords';
+import { standardTitle } from '../content/form0781';
 
 export const uiSchema = {
+  'ui:title': standardTitle('Types of supporting evidence'),
   'view:uploadServiceTreatmentRecordsQualifier': {
     'view:hasServiceTreatmentRecordsToUpload': yesNoUI({
       title: `Do you want to upload your service treatment records? (You’ll

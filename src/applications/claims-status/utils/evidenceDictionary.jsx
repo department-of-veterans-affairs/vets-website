@@ -134,6 +134,7 @@ export const evidenceDictionary = {
       </>
     ),
     noActionNeeded: true,
+    isDBQ: true,
   },
   'DBQ PSYCH Mental Disorders': {
     longDescription: (
@@ -145,6 +146,7 @@ export const evidenceDictionary = {
       </>
     ),
     noActionNeeded: true,
+    isDBQ: true,
   },
   'Proof of service (DD214, etc.)': {
     longDescription: (

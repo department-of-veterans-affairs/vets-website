@@ -1,20 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
-
-import recordEvent from 'platform/monitoring/record-event';
-
 import { EVIDENCE_VA_REQUEST } from '../constants';
-
 import { isOnReviewPage } from '../../shared/utils/helpers';
-
-const recordActionLinkClick = () => {
-  recordEvent({
-    event: 'cta-action-link-click',
-    'action-link-type': 'primary',
-    'action-link-click-label': 'Add more evidence',
-    'action-link-icon-color': 'green',
-  });
-};
+import ActionLink from '../../shared/components/web-component-wrappers/ActionLink';
 
 const wrapError = (message, block) => (
   <span
@@ -49,13 +36,11 @@ export const content = {
       <>
         <Header className="sr-only">Are you missing evidence?</Header>
         <p>
-          <Link
-            to={`/${EVIDENCE_VA_REQUEST}`}
-            className="vads-c-action-link--green"
-            onClick={recordActionLinkClick}
-          >
-            Add more evidence
-          </Link>
+          <ActionLink
+            path={`/${EVIDENCE_VA_REQUEST}`}
+            primary
+            text="Add more evidence"
+          />
         </p>
       </>
     );

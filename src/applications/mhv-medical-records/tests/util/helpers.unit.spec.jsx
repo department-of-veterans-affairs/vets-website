@@ -30,7 +30,7 @@ import {
   processList,
   removeTrailingSlash,
 } from '../../util/helpers';
-import { refreshPhases } from '../../util/constants';
+import { refreshPhases, VALID_REFRESH_DURATION } from '../../util/constants';
 
 describe('Name formatter', () => {
   it('formats a name with a first, middle, last, and suffix', () => {
@@ -421,19 +421,20 @@ describe('formats', () => {
 });
 
 describe('getStatusExtractPhase', () => {
-  const minutesBefore = (date, minutes) => {
-    return new Date(date.getTime() - minutes * 60 * 1000);
-  };
-
+  const minutesBefore = (date, minutes) =>
+    new Date(date.getTime() - minutes * 60000);
   const now = new Date();
 
-  it('returns STALE', () => {
+  it('returns STALE when lastCompleted is older than VALID_REFRESH_DURATION', () => {
     const phrStatus = [
       {
         extract: 'VPR',
-        lastRequested: minutesBefore(now, 80),
-        lastCompleted: minutesBefore(now, 70),
-        lastSuccessfulCompleted: minutesBefore(now, 70),
+        lastRequested: minutesBefore(now, VALID_REFRESH_DURATION / 60000 + 10),
+        lastCompleted: minutesBefore(now, VALID_REFRESH_DURATION / 60000 + 10),
+        lastSuccessfulCompleted: minutesBefore(
+          now,
+          VALID_REFRESH_DURATION / 60000 + 10,
+        ),
       },
     ];
     expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
@@ -441,7 +442,7 @@ describe('getStatusExtractPhase', () => {
     );
   });
 
-  it('returns IN_PROGRESS', () => {
+  it('returns IN_PROGRESS when lastCompleted < lastRequested', () => {
     const phrStatus = [
       {
         extract: 'VPR',
@@ -455,7 +456,7 @@ describe('getStatusExtractPhase', () => {
     );
   });
 
-  it('returns FAILED', () => {
+  it('returns FAILED when lastCompleted ≠ lastSuccessfulCompleted', () => {
     const phrStatus = [
       {
         extract: 'VPR',
@@ -469,7 +470,7 @@ describe('getStatusExtractPhase', () => {
     );
   });
 
-  it('returns CURRENT', () => {
+  it('returns CURRENT when lastCompleted === lastSuccessfulCompleted and within duration', () => {
     const phrStatus = [
       {
         extract: 'VPR',
@@ -480,6 +481,31 @@ describe('getStatusExtractPhase', () => {
     ];
     expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
       refreshPhases.CURRENT,
+    );
+  });
+
+  it('returns null if inputs are invalid', () => {
+    expect(getStatusExtractPhase(null, [], 'VPR')).to.be.null;
+    expect(getStatusExtractPhase(now, null, 'VPR')).to.be.null;
+    expect(getStatusExtractPhase(now, [], '')).to.be.null;
+  });
+
+  it('handles hasExplicitLoadError branch when upToDate, loadStatus, and errorMessage are set', () => {
+    // Use dates recent enough so that STALE check does not trigger
+    const recent = minutesBefore(now, 1);
+    const phrStatus = [
+      {
+        extract: 'VPR',
+        upToDate: true,
+        loadStatus: 'ERROR',
+        errorMessage: 'Something went wrong',
+        lastRequested: recent,
+        lastCompleted: recent,
+        lastSuccessfulCompleted: recent,
+      },
+    ];
+    expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
+      refreshPhases.FAILED,
     );
   });
 });
