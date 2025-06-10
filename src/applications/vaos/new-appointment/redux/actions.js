@@ -19,6 +19,7 @@ import {
   selectFeatureFeSourceOfTruth,
   selectFeatureFeSourceOfTruthCC,
   selectFeatureFeSourceOfTruthModality,
+  selectFeatureFeSourceOfTruthTelehealth,
   selectFeatureFeSourceOfTruthVA,
   selectFeatureRecentLocationsFilter,
   selectRegisteredCernerFacilityIds,
@@ -327,6 +328,9 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
+    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+      state,
+    );
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -347,6 +351,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
             useFeSourceOfTruthCC,
             useFeSourceOfTruthVA,
             useFeSourceOfTruthModality,
+            useFeSourceOfTruthTelehealth,
             isCerner: true,
           });
 
@@ -384,6 +389,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
+          useFeSourceOfTruthTelehealth,
         });
 
         if (showModal) {
@@ -930,6 +936,9 @@ export function submitAppointmentOrRequest(history) {
     const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
       state,
     );
+    const useFeSourceOfTruthTelehealth = selectFeatureFeSourceOfTruthTelehealth(
+      state,
+    );
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -959,6 +968,7 @@ export function submitAppointmentOrRequest(history) {
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
+          useFeSourceOfTruthTelehealth,
         });
 
         dispatch({
@@ -1050,6 +1060,7 @@ export function submitAppointmentOrRequest(history) {
           useFeSourceOfTruthCC,
           useFeSourceOfTruthVA,
           useFeSourceOfTruthModality,
+          useFeSourceOfTruthTelehealth,
         });
 
         dispatch({

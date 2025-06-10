@@ -137,6 +137,7 @@ export function transformVAOSAppointment(
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
+  useFeSourceOfTruthTelehealth,
 ) {
   const appointmentType = getAppointmentType(
     appt,
@@ -145,7 +146,7 @@ export function transformVAOSAppointment(
   );
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
-  const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
+  let isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   const isAtlas = !!appt.telehealth?.atlas;
   const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
   const isRequest = useFeSourceOfTruth
@@ -170,6 +171,12 @@ export function transformVAOSAppointment(
     isPhone = appt.modality === 'vaPhone';
     isCovid = appt.modality === 'vaInPersonVaccine';
     isInPersonVisit = isCompAndPen || isCovid || appt.modality === 'vaInPerson';
+  }
+  if (useFeSourceOfTruthTelehealth) {
+    isVideo =
+      appt.modality === 'vaVideoCareAtHome' ||
+      appt.modality === 'vaVideoCareAtAnAtlasLocation' ||
+      appt.modality === 'vaVideoCareAtAVaLocation';
   }
 
   const isCancellable = appt.cancellable;
@@ -358,6 +365,7 @@ export function transformVAOSAppointments(
   useFeSourceOfTruthCC,
   useFeSourceOfTruthVA,
   useFeSourceOfTruthModality,
+  useFeSourceOfTruthTelehealth,
 ) {
   return appts.map(appt =>
     transformVAOSAppointment(
@@ -366,6 +374,7 @@ export function transformVAOSAppointments(
       useFeSourceOfTruthCC,
       useFeSourceOfTruthVA,
       useFeSourceOfTruthModality,
+      useFeSourceOfTruthTelehealth,
     ),
   );
 }
