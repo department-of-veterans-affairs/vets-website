@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import mainMailingAddress from '../../../pages/mainMailingAddress';
+import veteranAddress from '../../../pages/veteranAddress';
 
 const FIELDS = ['country', 'street', 'city', 'postalCode'];
-const addrUI = mainMailingAddress.uiSchema.mainMailingAddress;
+const addrUI = veteranAddress.uiSchema.veteranAddress;
 
-describe('28-1900 mainMailingAddress page', () => {
+describe('28-1900 veteranAddress page', () => {
   it('adds a ui:required function for every required address field by default', () => {
     FIELDS.forEach(field => {
       expect(addrUI).to.have.property(field);
