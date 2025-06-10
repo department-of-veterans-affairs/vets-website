@@ -72,10 +72,17 @@ export const Nav = () => {
             </Toggler>
             <a
               className="nav__btn desktop"
-              to="/poa-requests"
+              href="/representative/poa-requests"
               data-testid="desktop-poa-link"
             >
               Power of Attorney Requests
+            </a>
+            <a
+              className="nav__btn desktop"
+              href="/representative/submissions"
+              data-testid="desktop-poa-link"
+            >
+              Submissions
             </a>
             <a
               to="/get-help"
