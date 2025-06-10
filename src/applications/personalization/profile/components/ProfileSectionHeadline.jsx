@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// TODO: ensure correct heading levels
+// Also check breadcrumbs, sidenav on all screen sizes
 const ProfileSectionHeadline = ({ children, dataTestId }) => {
   return (
     <h1
       tabIndex="-1"
-      className="vads-u-font-size--h2 vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
+      className="vads-u-margin-bottom--2"
       data-focus-target
       data-testid={dataTestId}
     >
