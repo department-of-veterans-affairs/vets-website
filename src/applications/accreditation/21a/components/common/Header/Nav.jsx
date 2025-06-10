@@ -1,16 +1,16 @@
 import React from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Toggler } from 'platform/utilities/feature-toggles';
-import { recordDatalayerEvent } from '../../../utilities/analytics';
-import { getSignInUrl } from '../../../utilities/constants';
+import { SIGN_IN_URL } from '../../../constants';
 import UserNav from './UserNav';
+import { selectUserProfile } from '../../../selectors/user';
 
 function SignInButton() {
   return (
     <a
       data-testid="user-nav-sign-in-link"
       className="nav__btn is--sign-in"
-      href={getSignInUrl()}
+      href={SIGN_IN_URL}
     >
       Sign in
     </a>
@@ -18,17 +18,16 @@ function SignInButton() {
 }
 
 export const Nav = () => {
-  const profile = useLoaderData()?.profile;
+  const profile = useSelector(selectUserProfile);
 
   return (
     <nav className="nav">
       <div className="nav__container nav__container-primary vads-u-display--flex">
-        <Link
+        <a
           data-testid="nav-home-link"
           aria-label="VA Accredited Representative Portal"
           className="nav__link vads-u-display--flex"
           to="/"
-          onClick={recordDatalayerEvent}
           data-eventname="nav-link-click"
         >
           <img
@@ -48,7 +47,7 @@ export const Nav = () => {
             src="/img/arp-header-logo-dark.svg"
             alt="VA Accredited Representative Portal, U.S. Department of Veterans Affairs"
           />
-        </Link>
+        </a>
         {profile ? <UserNav profile={profile} /> : <SignInButton />}
       </div>
 
@@ -61,11 +60,10 @@ export const Nav = () => {
               }
             >
               <Toggler.Enabled>
-                <Link
+                <a
                   className="nav__btn desktop"
                   to="/poa-search"
                   data-testid="desktop-search-link"
-                  onClick={recordDatalayerEvent}
                   data-eventname="nav-link-click"
                 >
                   <va-icon
@@ -74,31 +72,30 @@ export const Nav = () => {
                     className="people-search-icon"
                   />
                   Find Claimant
-                </Link>
+                </a>
               </Toggler.Enabled>
             </Toggler>
-            <Link
+            <a
               className="nav__btn desktop"
               to="/poa-requests"
               data-testid="desktop-poa-link"
-              onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
             >
               Representation Requests
-            </Link>
+            </a>
             <Toggler
               toggleName={
                 Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
               }
             >
               <Toggler.Enabled>
-                <Link
+                <a
                   className="nav__btn desktop"
                   to="/submissions"
                   data-testid="desktop-search-link"
                 >
                   Submissions
-                </Link>
+                </a>
               </Toggler.Enabled>
             </Toggler>
             <Toggler
@@ -107,15 +104,14 @@ export const Nav = () => {
               }
             >
               <Toggler.Enabled>
-                <Link
+                <a
                   to="/get-help"
                   className="nav__btn desktop"
                   data-testid="desktop-help-link"
-                  onClick={recordDatalayerEvent}
                   data-eventname="nav-link-click"
                 >
                   Get Help
-                </Link>
+                </a>
               </Toggler.Enabled>
             </Toggler>
           </div>

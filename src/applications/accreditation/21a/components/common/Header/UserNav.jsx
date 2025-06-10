@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Toggler } from 'platform/utilities/feature-toggles';
-import { recordDatalayerEvent } from '../../../utilities/analytics';
 import { SIGN_OUT_URL } from '../../../utilities/constants';
 import NavDropdown from './NavDropdown';
 
@@ -17,7 +16,6 @@ const UserHelpLinks = () => {
               data-testid="user-nav-poa-search-link"
               className="vads-u-color--white"
               to="/poa-search"
-              onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
             >
               <va-icon icon="search" size={2} className="people-search-icon" />
@@ -31,7 +29,6 @@ const UserHelpLinks = () => {
           data-testid="user-nav-poa-requests-link"
           className="vads-u-color--white"
           to="/poa-requests"
-          onClick={recordDatalayerEvent}
           data-eventname="nav-link-click"
         >
           Representation Requests
@@ -63,7 +60,6 @@ const UserHelpLinks = () => {
               data-testid="user-nav-profile-link"
               className="vads-u-color--white"
               to="/get-help"
-              onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
             >
               Get Help
@@ -87,7 +83,6 @@ const UserNavLinks = () => {
               data-testid="user-nav-profile-link"
               className="vads-u-color--black"
               to="/profile"
-              onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
             >
               Profile
@@ -100,7 +95,6 @@ const UserNavLinks = () => {
           data-testid="user-nav-sign-out-link"
           className="vads-u-color--black"
           href={SIGN_OUT_URL}
-          onClick={recordDatalayerEvent}
           data-eventname="nav-header-sign-out"
         >
           Sign Out
