@@ -7,21 +7,7 @@ import {
   numberBetween,
 } from '../../common/proptypeValidators';
 
-const sectionTitle = classNames([
-  'heading',
-  'vads-u-background-color--gray-lightest',
-  'vads-u-border-color--gray-lighter',
-  'vads-u-color--gray-darkest',
-  'vads-u-border-top--1px',
-  'vads-u-border-left--1px',
-  'vads-u-border-right--1px',
-  'vads-u-margin--0',
-  'vads-u-padding-x--2',
-  'vads-u-padding-y--1p5',
-  'vads-u-font-size--h3',
-  'medium-screen:vads-u-padding-x--4',
-  'medium-screen:vads-u-padding-y--2',
-]);
+const sectionTitle = classNames(['vads-u-margin--0']);
 
 const row = classNames([
   'row',
@@ -45,12 +31,9 @@ const secondaryRow = classNames([
 ]);
 
 const rowTitle = classNames([
-  'vads-u-font-family--sans',
-  'vads-u-font-size--base',
-  'vads-u-font-weight--bold',
-  'vads-u-line-height--4',
-  'vads-u-margin--0',
-  'vads-u-width--auto',
+  'vads-u-font-size--h4',
+  'vads-u-margin-top--0',
+  'vads-u-margin-bottom--1',
 ]);
 
 const rowTitleDescription = classNames([
@@ -60,6 +43,8 @@ const rowTitleDescription = classNames([
   'vads-u-margin--0',
   'vads-u-width--full',
   'vads-u-margin-bottom--1',
+  'vads-u-line-height--4',
+  'vads-u-font-size--md',
 ]);
 
 const rowValue = classNames(['vads-u-margin--0', 'vads-u-width--full']);
@@ -141,13 +126,6 @@ const Sections = ({ data, level }) => {
   return (
     <>
       {data.map((rowData, index) => {
-        // heading should only have bottom margin when there is no description
-        const rowHeadingClasses = classNames([
-          classes.rowTitle,
-          {
-            'vads-u-margin-bottom--1': !rowData?.description,
-          },
-        ]);
         return (
           <div
             key={index}
@@ -156,7 +134,10 @@ const Sections = ({ data, level }) => {
           >
             {rowData.title && (
               <>
-                <HeadingLevel className={rowHeadingClasses} level={level}>
+                <HeadingLevel
+                  className={classNames([classes.rowTitle])}
+                  level={level}
+                >
                   {rowData.title}
                 </HeadingLevel>
                 {rowData.description && (
@@ -213,11 +194,13 @@ export const ProfileInfoCard = ({
         {title}
       </HeadingLevel>
 
-      {Array.isArray(data) ? (
-        <ListOrSections data={data} asList={asList} level={secondaryLevel} />
-      ) : (
-        <div className={classes.firstRow}>{data}</div>
-      )}
+      <div className="vads-u-margin-top--1">
+        {Array.isArray(data) ? (
+          <ListOrSections data={data} asList={asList} level={secondaryLevel} />
+        ) : (
+          <div className={classes.firstRow}>{data}</div>
+        )}
+      </div>
     </section>
   );
 };

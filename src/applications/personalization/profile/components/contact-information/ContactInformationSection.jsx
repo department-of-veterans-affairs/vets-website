@@ -7,7 +7,7 @@ import PhoneNumbersTable from './phone-numbers/PhoneNumbersTable';
 const ContactInformationSection = ({ className, showBadAddress }) => {
   return (
     <div className={className}>
-      <div className="vads-u-margin-bottom--2">
+      <div className="vads-u-margin-bottom--4">
         <va-additional-info
           trigger="Which benefits and services does VA use this contact information for?"
           uswds
@@ -50,7 +50,7 @@ const ContactInformationSection = ({ className, showBadAddress }) => {
         showBadAddress={showBadAddress}
       />
 
-      <PhoneNumbersTable className="vads-u-margin-bottom--3" />
+      <PhoneNumbersTable className="vads-u-margin-bottom--6" />
     </div>
   );
 };
