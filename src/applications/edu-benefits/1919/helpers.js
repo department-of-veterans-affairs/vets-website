@@ -71,6 +71,28 @@ export const conflictOfInterestArrayOptions = {
   },
 };
 
+export const affiliatedIndividualsArrayOptions = {
+  arrayPath: 'affiliatedIndividuals',
+  nounSingular: 'individual',
+  nounPlural: 'individuals',
+  required: false,
+  isItemIncomplete: item =>
+    !item?.first || !item?.last || !item?.title || !item?.association,
+  text: {
+    getItemName: item => `${item?.first || ''} ${item?.last || ''}`.trim(),
+    cardDescription: item => (
+      <>
+        {item?.title}
+        <div className=" vads-u-margin-y--2">
+          {item?.association === 'vaEmployee' ? 'VA employee' : 'SAA employee'}
+        </div>
+      </>
+    ),
+    summaryTitle:
+      'Review the individuals with a potential conflict of interest',
+  },
+};
+
 export const alert = (
   <va-alert
     class="vads-u-margin-bottom--1"

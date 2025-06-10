@@ -4,7 +4,10 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { conflictOfInterestArrayOptions } from '../helpers';
+import {
+  conflictOfInterestArrayOptions,
+  affiliatedIndividualsArrayOptions,
+} from '../helpers';
 
 // pages
 import {
@@ -12,12 +15,14 @@ import {
   aboutYourInstitution,
   institutionDetails,
   proprietaryProfit,
-  potentialConflictOfInterest,
-  affiliatedIndividuals,
+  // potentialConflictOfInterest,
+  // affiliatedIndividuals,
   conflictOfInterestCertifyingOfficial,
   conflictOfInterestSummary,
   conflictOfInterestFileNumber,
   conflictOfInterestEnrollmentPeriod,
+  affiliatedIndividualsSummary,
+  affiliatedIndividualsAssociation,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -92,25 +97,48 @@ const formConfig = {
           uiSchema: proprietaryProfit.uiSchema,
           schema: proprietaryProfit.schema,
         },
-        potentialConflictOfInterest: {
-          path: 'proprietary-profit-1',
-          title: 'Individuals with a potential conflict of interest',
-          uiSchema: potentialConflictOfInterest.uiSchema,
-          schema: potentialConflictOfInterest.schema,
-          onNavForward: ({ formData, goPath }) => {
-            if (formData?.hasConflictOfInterest) {
-              goPath('/proprietary-profit-2');
-            } else {
-              goPath('/conflict-of-interest-summary');
-            }
-          },
-        },
+        // potentialConflictOfInterest: {
+        //   path: 'proprietary-profit-1',
+        //   title: 'Individuals with a potential conflict of interest',
+        //   uiSchema: potentialConflictOfInterest.uiSchema,
+        //   schema: potentialConflictOfInterest.schema,
+        //   onNavForward: ({ formData, goPath }) => {
+        //     if (formData?.hasConflictOfInterest) {
+        //       goPath('/proprietary-profit-2');
+        //     } else {
+        //       goPath('/conflict-of-interest-summary');
+        //     }
+        //   },
+        // },
+        // affiliatedIndividuals: {
+        //   path: 'proprietary-profit-2',
+        //   title:
+        //     'Individuals affiliated with both your institution and VA or SAA',
+        //   uiSchema: affiliatedIndividuals.uiSchema,
+        //   schema: affiliatedIndividuals.schema,
+        // },
         affiliatedIndividuals: {
-          path: 'proprietary-profit-2',
-          title:
-            'Individuals affiliated with both your institution and VA or SAA',
-          uiSchema: affiliatedIndividuals.uiSchema,
-          schema: affiliatedIndividuals.schema,
+          pages: {
+            ...arrayBuilderPages(
+              affiliatedIndividualsArrayOptions,
+
+              pageBuilder => ({
+                affiliatedIndividualsSummary: pageBuilder.summaryPage({
+                  title: 'Individuals with a potential conflict of interest',
+                  path: 'proprietary-profit-1',
+                  uiSchema: affiliatedIndividualsSummary.uiSchema,
+                  schema: affiliatedIndividualsSummary.schema,
+                }),
+                affiliatedIndividualsAssociation: pageBuilder.itemPage({
+                  title:
+                    'Individuals affiliated with both your institution and VA or SAA',
+                  path: 'proprietary-profit-1/:index/details',
+                  uiSchema: affiliatedIndividualsAssociation.uiSchema,
+                  schema: affiliatedIndividualsAssociation.schema,
+                }),
+              }),
+            ),
+          },
         },
       },
     },

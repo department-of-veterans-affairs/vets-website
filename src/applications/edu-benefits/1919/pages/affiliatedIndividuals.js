@@ -14,12 +14,6 @@ import {
 
 import { alert } from '../helpers';
 
-const associationLabels = {
-  vaEmployee:
-    'They are a VA employee who works with, receives services from, or receives compensation from our institution',
-  saaEmployee:
-    'They are a SAA employee who works with or receives compensation from our institution',
-};
 const noSpaceOnlyPattern = '^(?!\\s*$).+';
 
 const options = {
@@ -73,7 +67,7 @@ const summaryPage = {
         hideIf: formData => formData?.affiliatedIndividuals?.length > 0,
       },
     },
-    'view:hasConflictingIndividuals': arrayBuilderYesNoUI(
+    potentialConflictOfInterest: arrayBuilderYesNoUI(
       options,
       {
         title:
@@ -102,9 +96,25 @@ const summaryPage = {
         type: 'object',
         properties: {},
       },
-      'view:hasConflictingIndividuals': arrayBuilderYesNoSchema,
+      potentialConflictOfInterest: arrayBuilderYesNoSchema,
+      affiliatedIndividuals: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            first: { type: 'string', pattern: noSpaceOnlyPattern },
+            last: { type: 'string', pattern: noSpaceOnlyPattern },
+            title: { type: 'string', pattern: noSpaceOnlyPattern },
+            individualAssociationType: {
+              type: 'string',
+              enum: ['vaEmployee', 'saaEmployee'],
+            },
+          },
+          required: ['first', 'last', 'title', 'individualAssociationType'],
+        },
+      },
     },
-    required: ['view:hasConflictingIndividuals'],
+    required: ['potentialConflictOfInterest'],
   },
 };
 
@@ -155,20 +165,20 @@ const individualPage = {
         pattern: 'You must provide a response',
       },
     }),
-    association: radioUI({
+    individualAssociationType: radioUI({
       title: 'How is this individual associated with your institution?',
       errorMessages: { required: 'Please make a selection' },
-      labels: associationLabels,
+      // labels: associationLabels,
     }),
   },
   schema: {
     type: 'object',
-    required: ['first', 'last', 'title', 'association'],
+    required: ['first', 'last', 'title', 'individualAssociationType'],
     properties: {
       first: { ...textSchema, pattern: noSpaceOnlyPattern },
       last: { ...textSchema, pattern: noSpaceOnlyPattern },
       title: { ...textSchema, pattern: noSpaceOnlyPattern },
-      association: {
+      individualAssociationType: {
         ...radioSchema(['vaEmployee', 'saaEmployee']),
       },
     },
