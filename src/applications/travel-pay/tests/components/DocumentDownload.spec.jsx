@@ -58,4 +58,16 @@ describe('DocumentDownload', () => {
       ).to.exist;
     });
   });
+
+  it('does not call apiRequest if isLoading is true', async () => {
+    render(<DocumentDownload {...defaultProps} />);
+    const link = $('va-link[text="Download file.pdf"]');
+
+    fireEvent.click(link);
+    fireEvent.click(link);
+
+    await waitFor(() => {
+      expect(apiStub.calledOnce).to.be.true;
+    });
+  });
 });
