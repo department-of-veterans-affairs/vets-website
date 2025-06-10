@@ -83,8 +83,6 @@
           "@department-of-veterans-affairs/platform-utilities/asyncLoader": "./src/platform/utilities/ui/asyncLoader.jsx",
           "@department-of-veterans-affairs/platform-utilities/DelayedRender": "./src/platform/utilities/ui/DelayedRender.jsx",
           "@department-of-veterans-affairs/platform-utilities/ui": "./src/platform/utilities/ui/index.js",
-          "@department-of-veterans-affairs/platform-utilities/scrollTo": "./src/platform/utilities/ui/scrollTo.js",
-          "@department-of-veterans-affairs/platform-utilities/scrollToTop": "./src/platform/utilities/ui/scrollToTop.js",
           "@department-of-veterans-affairs/platform-utilities/titleCase": "./src/platform/utilities/data/titleCase.js",
           "@department-of-veterans-affairs/platform-utilities/unset": "./src/platform/utilities/data/unset.js",
           "@department-of-veterans-affairs/platform-utilities/api": "./src/platform/utilities/api/index.js",

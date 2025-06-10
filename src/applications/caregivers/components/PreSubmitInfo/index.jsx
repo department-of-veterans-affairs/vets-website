@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { cloneDeep } from 'lodash';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
   hasPrimaryCaregiver,
@@ -39,66 +38,125 @@ export const STATEMENTS = {
   ],
 };
 
-// declare helpers for element rendering and validation
-const getCheckboxProps = ({ label, formData }) => {
-  const map = {
-    [LABELS.veteran]: {
-      fullName: formData.veteranFullName,
-      statementText: STATEMENTS.veteran,
-    },
-    [LABELS.representative]: {
-      fullName: formData.veteranFullName,
-      statementText: STATEMENTS.representative,
-    },
-    [LABELS.primary]: {
-      fullName: formData.primaryFullName,
-      statementText: STATEMENTS.caregiver('Primary'),
-    },
-    [LABELS.secondaryOne]: {
-      fullName: formData.secondaryOneFullName,
-      statementText: STATEMENTS.caregiver('Secondary'),
-    },
-    [LABELS.secondaryTwo]: {
-      fullName: formData.secondaryTwoFullName,
-      statementText: STATEMENTS.caregiver('Secondary'),
-    },
-  };
-  return map[label];
-};
+// declare default state structure(s)
+const DEFAULT_SIGNATURE_STATE = { value: '', checked: false };
 
 const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   const submission = useSelector(state => state.form.submission);
   const dispatch = useDispatch();
 
-  const hasPrimary = hasPrimaryCaregiver(formData);
-  const hasSecondaryOne = hasSecondaryCaregiverOne(formData);
-  const hasSecondaryTwo = hasSecondaryCaregiverTwo(formData);
-  const hasSubmittedForm = !!submission.status;
   const isRep = formData.signAsRepresentativeYesNo === 'yes';
-  const defaultSignatureKey = isRep ? LABELS.representative : LABELS.veteran;
 
-  const [signatures, setSignatures] = useState({
-    [defaultSignatureKey]: '',
-  });
-
-  const requiredLabels = useMemo(
-    () => {
-      const base = [defaultSignatureKey];
-      if (hasPrimary) base.push(LABELS.primary);
-      if (hasSecondaryOne) base.push(LABELS.secondaryOne);
-      if (hasSecondaryTwo) base.push(LABELS.secondaryTwo);
-      return base;
-    },
-    [defaultSignatureKey, hasPrimary, hasSecondaryOne, hasSecondaryTwo],
+  const signatureConfig = useMemo(
+    () => ({
+      veteran: {
+        schemaKey: 'veteran',
+        label: LABELS.veteran,
+        fullName: formData.veteranFullName,
+        statementText: STATEMENTS.veteran,
+        shouldRender: !isRep,
+      },
+      representative: {
+        schemaKey: 'veteran',
+        label: LABELS.representative,
+        fullName: formData.veteranFullName,
+        statementText: STATEMENTS.representative,
+        shouldRender: isRep,
+      },
+      primary: {
+        schemaKey: 'primary',
+        label: LABELS.primary,
+        fullName: formData.primaryFullName,
+        statementText: STATEMENTS.caregiver('Primary'),
+        shouldRender: hasPrimaryCaregiver(formData),
+      },
+      secondaryOne: {
+        schemaKey: 'secondaryOne',
+        label: LABELS.secondaryOne,
+        fullName: formData.secondaryOneFullName,
+        statementText: STATEMENTS.caregiver('Secondary'),
+        shouldRender: hasSecondaryCaregiverOne(formData),
+      },
+      secondaryTwo: {
+        schemaKey: 'secondaryTwo',
+        label: LABELS.secondaryTwo,
+        fullName: formData.secondaryTwoFullName,
+        statementText: STATEMENTS.caregiver('Secondary'),
+        shouldRender: hasSecondaryCaregiverTwo(formData),
+      },
+    }),
+    [formData, isRep],
   );
 
-  const checkboxElements = useMemo(
-    () =>
-      requiredLabels.map(label => {
-        const { fullName, statementText } = getCheckboxProps({
-          label,
-          formData,
+  const requiredElements = useMemo(
+    () => Object.values(signatureConfig).filter(config => config.shouldRender),
+    [signatureConfig],
+  );
+
+  const [signatures, setSignatures] = useState(() =>
+    requiredElements.reduce(
+      (acc, { label }) => ({ ...acc, [label]: DEFAULT_SIGNATURE_STATE }),
+      {},
+    ),
+  );
+
+  // keep signatures in sync with required data
+  useEffect(
+    () => {
+      const requiredLabels = requiredElements.map(e => e.label);
+      const currentLabels = Object.keys(signatures);
+
+      const labelsChanged =
+        requiredLabels.length !== currentLabels.length ||
+        requiredLabels.some(label => !currentLabels.includes(label));
+
+      if (labelsChanged) {
+        const next = {};
+        requiredLabels.forEach(label => {
+          next[label] = signatures[label] || DEFAULT_SIGNATURE_STATE;
         });
+        setSignatures(next);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [requiredElements],
+  );
+
+  // set form data with signature values, if submission has not occurred
+  useEffect(
+    () => {
+      if (submission.status) return;
+
+      const transformedSignatures = requiredElements.reduce(
+        (acc, { label, schemaKey }) => {
+          acc[`${schemaKey}Signature`] = signatures[label]?.value || '';
+          return acc;
+        },
+        {},
+      );
+      dispatch(setData({ ...formData, ...transformedSignatures }));
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dispatch, signatures],
+  );
+
+  // validate that all signature text is valid and all checkboxes have been checked
+  useEffect(
+    () => {
+      const allComplete = Object.values(signatures).every(
+        ({ value, checked }) => Boolean(value) && checked,
+      );
+      onSectionComplete(allComplete);
+      return () => onSectionComplete(false);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [signatures],
+  );
+
+  const statementsOfTruth = useMemo(
+    () =>
+      requiredElements.map(config => {
+        const { label, fullName, statementText } = config;
         return (
           <SignatureCheckbox
             key={label}
@@ -115,104 +173,8 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
           </SignatureCheckbox>
         );
       }),
-    [formData, requiredLabels, showError, signatures, submission],
+    [requiredElements, showError, signatures, submission],
   );
-
-  const unSignedLength = Object.values(signatures).filter(
-    signature => Boolean(signature) === false,
-  ).length;
-  // Get the count of unchecked signature checkboxes
-  const signatureCheckboxes = document.querySelectorAll('.signature-checkbox');
-  const uncheckedSignatureCheckboxesLength = [...signatureCheckboxes].filter(
-    checkbox =>
-      !checkbox.shadowRoot?.querySelector('#checkbox-element')?.checked,
-  )?.length;
-
-  const transformSignatures = signature => {
-    const keys = Object.keys(signature);
-
-    // takes in labels and renames to what schema expects
-    const getKeyName = key => {
-      const keyMap = {
-        [LABELS.veteran]: 'veteran',
-        [LABELS.representative]: 'veteran',
-        [LABELS.primary]: 'primary',
-        [LABELS.secondaryOne]: 'secondaryOne',
-        [LABELS.secondaryTwo]: 'secondaryTwo',
-      };
-      return keyMap[key];
-    };
-
-    // iterates through all keys and normalizes them using getKeyName
-    const renameObjectKeys = (keysMap, obj) =>
-      Object.keys(obj).reduce((acc, key) => {
-        const cleanKey = `${getKeyName(key)}Signature`;
-        return {
-          ...acc,
-          ...{ [keysMap[cleanKey] || cleanKey]: obj[key] },
-        };
-      }, {});
-
-    return renameObjectKeys(keys, signatures);
-  };
-
-  const removePartyIfFalsy = (predicate, label) => {
-    if (!predicate) {
-      setSignatures(prevState => {
-        const newState = cloneDeep(prevState);
-        delete newState[label];
-        return newState;
-      });
-    }
-  };
-
-  useEffect(
-    () => {
-      // do not clear signatures once form has been submitted
-      if (hasSubmittedForm) return;
-
-      dispatch(
-        setData({
-          ...formData,
-          ...transformSignatures(signatures),
-        }),
-      );
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, signatures],
-  );
-
-  // when no empty signature inputs or unchecked signature checkboxes exist set AGREED (onSectionComplete) to true
-  // if user goes to another page (unmount), set AGREED (onSectionComplete) to false
-  useEffect(
-    () => {
-      onSectionComplete(!unSignedLength && !uncheckedSignatureCheckboxesLength);
-      return () => {
-        onSectionComplete(false);
-      };
-    },
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [unSignedLength, uncheckedSignatureCheckboxesLength],
-  );
-
-  // remove party signature box if yes/no question is answered falsy
-  useEffect(
-    () => {
-      removePartyIfFalsy(hasPrimary, LABELS.primary);
-      removePartyIfFalsy(hasSecondaryOne, LABELS.secondaryOne);
-      removePartyIfFalsy(hasSecondaryTwo, LABELS.secondaryTwo);
-      removePartyIfFalsy(isRep, LABELS.representative);
-      removePartyIfFalsy(!isRep, LABELS.veteran);
-    },
-    [hasPrimary, hasSecondaryOne, hasSecondaryTwo, isRep],
-  );
-
-  /*
-    - Vet first && last name must match, and be checked
-    - if hasPrimaryCaregiver first && last name must match, and be checked
-    - if hasSecondary one || two, first & last name must match, and be checked to submit
-   */
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -222,7 +184,7 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
         applicant must sign the appropriate section.
       </p>
 
-      {checkboxElements}
+      {statementsOfTruth}
 
       <p className="vads-u-margin-bottom--6">
         <strong>Note:</strong> {content['certification-signature-note']}
