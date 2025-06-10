@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import newMailingAddress from '../../../pages/newMailingAddress';
+import newAddress from '../../../pages/newAddress';
 
-const addrUI = newMailingAddress.uiSchema.newMailingAddress;
+const addrUI = newAddress.uiSchema.newAddress;
 const FIELDS = ['country', 'street', 'city', 'postalCode'];
 
-describe('28-1900 newMailingAddress page', () => {
+describe('28-1900 newAddress page', () => {
   it('adds ui:required functions to every required address field', () => {
     FIELDS.forEach(field => {
       expect(addrUI).to.have.property(field);
@@ -20,9 +20,7 @@ describe('28-1900 newMailingAddress page', () => {
     });
   });
 
-  it('defines newMailingAddress in the schema', () => {
-    expect(newMailingAddress.schema.properties).to.have.property(
-      'newMailingAddress',
-    );
+  it('defines newAddress in the schema', () => {
+    expect(newAddress.schema.properties).to.have.property('newAddress');
   });
 });

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import format from 'date-fns/format';
 import { useSelector } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { isLoggedIn as isSignedIn } from 'platform/user/selectors';

@@ -4,14 +4,14 @@ import phoneAndEmail from '../../../pages/phoneAndEmail';
 describe('28‑1900 phoneAndEmail page', () => {
   it('contains four distinct contact information fields', () => {
     expect(phoneAndEmail.uiSchema).to.include.all.keys(
-      'phone',
+      'mainPhone',
       'cellPhone',
       'internationalPhone',
-      'emailAddress',
+      'email',
     );
   });
 
-  it('requires emailAddress but not the phone numbers', () => {
-    expect(phoneAndEmail.schema.required).to.deep.equal(['emailAddress']);
+  it('requires email but not the phone numbers', () => {
+    expect(phoneAndEmail.schema.required).to.deep.equal(['email']);
   });
 });
