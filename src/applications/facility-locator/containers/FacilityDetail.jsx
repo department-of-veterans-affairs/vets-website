@@ -3,7 +3,7 @@ import MetaTags from 'react-meta-tags';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import { fetchVAFacility } from '../actions/locations';
 import AccessToCare from '../components/AccessToCare';
 import FacilityInfo from '../components/facility-details/FacilityInfo';

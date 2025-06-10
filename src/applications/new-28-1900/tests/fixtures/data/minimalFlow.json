@@ -3,14 +3,14 @@
     "checkBoxGroup": {
       "checkForMailingAddress": true
     },
-    "emailAddress": "john.veteran@example.com",
+    "email": "john.veteran@example.com",
     "isMoving": "N",
-    "veteranFullName": {
+    "fullName": {
       "first": "John",
       "middle": "",
       "last": "Veteran"
     },
-    "veteranDateOfBirth": "2000-01-01",
-    "yearsOfEducation": "firstGrade"
+    "dob": "2000-01-01",
+    "yearsOfEducation": "12"
   }
 }

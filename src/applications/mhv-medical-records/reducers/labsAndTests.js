@@ -136,6 +136,18 @@ export const extractSpecimen = record => {
 
 export const extractOrderedTest = (record, id) => {
   const serviceReq = extractContainedResource(record, id);
+
+  // First try to find a display value in the coding array
+  if (isArrayAndHasItems(serviceReq?.code?.coding)) {
+    const codingWithDisplay = serviceReq.code.coding.find(
+      item => item.display && item.display.trim() !== '',
+    );
+    if (codingWithDisplay?.display) {
+      return codingWithDisplay.display;
+    }
+  }
+
+  // Fall back to code.text if no display found
   return serviceReq?.code?.text || null;
 };
 
@@ -284,25 +296,6 @@ export const convertPathologyRecord = record => {
       EMPTY_FIELD,
     sortDate: record.effectiveDateTime,
     labComments: record.labComments || EMPTY_FIELD,
-  };
-};
-
-/**
- * @param {Object} record - A FHIR DocumentReference EKG object
- * @returns the appropriate frontend object for display
- */
-const convertEkgRecord = record => {
-  return {
-    id: record.id,
-    name: 'Electrocardiogram (EKG)',
-    type: labTypes.EKG,
-    category: '',
-    orderedBy: 'DOE, JANE A',
-    requestedBy: 'John J. Lydon',
-    signedBy: 'Beth M. Smith',
-    date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
-    facility: 'Washington DC VAMC',
-    sortDate: record.date,
   };
 };
 
@@ -466,14 +459,7 @@ const getRecordType = record => {
     }
   }
   if (record.resourceType === fhirResourceTypes.DOCUMENT_REFERENCE) {
-    if (record.type?.coding?.some(coding => coding.code === loincCodes.EKG)) {
-      return labTypes.EKG;
-    }
-    if (
-      record.type?.coding?.some(coding => coding.code === loincCodes.RADIOLOGY)
-    ) {
-      return labTypes.OTHER;
-    }
+    return labTypes.OTHER;
   }
   if (Object.prototype.hasOwnProperty.call(record, 'radiologist')) {
     return labTypes.RADIOLOGY;
@@ -492,7 +478,6 @@ const labsAndTestsConverterMap = {
   [labTypes.CHEM_HEM]: convertChemHemRecord,
   [labTypes.MICROBIOLOGY]: convertMicrobiologyRecord,
   [labTypes.PATHOLOGY]: convertPathologyRecord,
-  [labTypes.EKG]: convertEkgRecord,
   [labTypes.RADIOLOGY]: convertMhvRadiologyRecord,
   [labTypes.CVIX_RADIOLOGY]: convertCvixRadiologyRecord,
 };

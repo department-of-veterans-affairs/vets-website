@@ -89,6 +89,43 @@ describe('ezr prefill transformer', () => {
       isMedicaidEligible: false,
       isEnrolledMedicarePartA: false,
       maritalStatus: 'never married',
+      emergencyContacts: [
+        {
+          fullName: {
+            first: 'MARYEDITED',
+            middle: 'SIL',
+            last: 'MARMSEDITED',
+          },
+          relationship: 'WIFE',
+          contactType: 'Emergency Contact',
+          primaryPhone: '6123526123',
+          address: {
+            street: '8990 RALSTON RD',
+            city: 'ARVADA',
+            country: 'USA',
+            state: 'CO',
+            postalCode: '80002',
+          },
+        },
+      ],
+      nextOfKins: [
+        {
+          fullName: {
+            first: 'Dave',
+            last: 'Guy',
+          },
+          relationship: 'BROTHER',
+          contactType: 'Primary Next of Kin',
+          primaryPhone: '7038888888',
+          address: {
+            street: '25434 ELM TERR',
+            city: 'ALDIE',
+            country: 'USA',
+            state: 'VA',
+            postalCode: '20105',
+          },
+        },
+      ],
     };
 
     context('when profile data omits all addresses', () => {
@@ -107,12 +144,63 @@ describe('ezr prefill transformer', () => {
           null,
           state,
         );
-        expect(Object.keys(prefillData)).to.have.lengthOf(9);
+        expect(Object.keys(prefillData)).to.have.lengthOf(11);
         expect(Object.keys(prefillData).veteranAddress).to.not.exist;
         expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
         expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(
           undefined,
         );
+      });
+    });
+
+    context('when contacts have an address', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {},
+          },
+        },
+      };
+
+      it('should auto-fill correct formData from user state', () => {
+        const { formData: prefillData } = prefillTransformer(
+          null,
+          formData,
+          null,
+          state,
+        );
+        expect(
+          prefillData.emergencyContacts[0]['view:hasEmergencyContactAddress'],
+        ).to.be.true;
+        expect(prefillData.nextOfKins[0]['view:hasNextOfKinAddress']).to.be
+          .true;
+      });
+    });
+
+    context('when contacts does not have an address', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {},
+          },
+        },
+      };
+
+      it('should auto-fill correct formData from user state', () => {
+        const newFormData = { ...formData };
+        delete newFormData.emergencyContacts[0].address;
+        delete newFormData.nextOfKins[0].address;
+        const { formData: prefillData } = prefillTransformer(
+          null,
+          newFormData,
+          null,
+          state,
+        );
+        expect(
+          prefillData.emergencyContacts[0]['view:hasEmergencyContactAddress'],
+        ).to.be.false;
+        expect(prefillData.nextOfKins[0]['view:hasNextOfKinAddress']).to.be
+          .false;
       });
     });
 
@@ -158,7 +246,7 @@ describe('ezr prefill transformer', () => {
           null,
           state,
         );
-        expect(Object.keys(prefillData)).to.have.lengthOf(10);
+        expect(Object.keys(prefillData)).to.have.lengthOf(12);
         expect(prefillData.veteranAddress).to.equal(undefined);
         expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(8);
         expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(
@@ -234,7 +322,7 @@ describe('ezr prefill transformer', () => {
             null,
             state,
           );
-          expect(Object.keys(prefillData)).to.have.lengthOf(11);
+          expect(Object.keys(prefillData)).to.have.lengthOf(13);
           expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(8);
           expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(
             8,
@@ -311,7 +399,7 @@ describe('ezr prefill transformer', () => {
             null,
             state,
           );
-          expect(Object.keys(prefillData)).to.have.lengthOf(10);
+          expect(Object.keys(prefillData)).to.have.lengthOf(12);
           expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
           expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(8);
           expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.true;
@@ -345,7 +433,7 @@ describe('ezr prefill transformer', () => {
           null,
           state,
         );
-        expect(Object.keys(prefillData)).to.have.lengthOf(9);
+        expect(Object.keys(prefillData)).to.have.lengthOf(11);
       });
     });
   });

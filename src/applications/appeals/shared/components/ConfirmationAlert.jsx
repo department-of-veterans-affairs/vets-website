@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 export const ConfirmationAlert = ({ alertTitle, children }) => {

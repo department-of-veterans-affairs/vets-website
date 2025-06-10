@@ -31,7 +31,7 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
       <FullWidthLayout>
         <va-loading-indicator
           set-focus
-          message="Checking the VA online scheduling tool status..."
+          message="Checking your information..."
         />
       </FullWidthLayout>
     );

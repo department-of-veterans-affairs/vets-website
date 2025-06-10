@@ -319,7 +319,7 @@ const resolveLandingPageLinks = (
     },
     {
       href: '/health-care/how-to-apply/',
-      text: 'How to apply for VA health benefits care',
+      text: 'How to apply for VA health care',
     },
     {
       href: '/family-and-caregiver-benefits/health-and-disability/',
