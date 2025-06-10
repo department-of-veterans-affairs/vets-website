@@ -7,6 +7,16 @@ export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
 };
 
+/** for use in Datadog RUM IDs, e.g. 'allergies-list-spinner' */
+export const recordTypeKeyNames = {
+  [recordType.ALLERGIES]: 'allergies',
+  [recordType.VACCINES]: 'vaccines',
+  [recordType.CARE_SUMMARIES_AND_NOTES]: 'care-summaries',
+  [recordType.LABS_AND_TESTS]: 'labs-and-tests',
+  [recordType.VITALS]: 'vitals',
+  [recordType.HEALTH_CONDITIONS]: 'health-conditions',
+};
+
 export const blueButtonRecordTypes = {
   MEDICATIONS: 'medications',
   APPOINTMENTS: 'appointments',
