@@ -16,6 +16,9 @@ const DocumentDownload = ({ claimId, documentId, filename, text }) => {
     setIsLoading(true);
     e.preventDefault();
 
+    // Focus text for screenreader
+    document.getElementById('travel-pay-doc-download-loading')?.focus();
+
     try {
       const response = await apiRequest(
         `${
@@ -44,6 +47,9 @@ const DocumentDownload = ({ claimId, documentId, filename, text }) => {
       setError(
         'We were unable to get your file to download. Please try again later.',
       );
+
+      // Focus text for screenreader
+      document.getElementById('travel-pay-doc-download-error')?.focus();
     }
     setIsLoading(false);
   };
@@ -51,12 +57,12 @@ const DocumentDownload = ({ claimId, documentId, filename, text }) => {
   return (
     <div aria-live="polite">
       {isLoading && (
-        <va-icon
-          class="travel-pay-download-loading-icon"
-          icon="autorenew"
-          role="status"
-          aria-label="Loading..."
-        />
+        <>
+          <va-icon class="travel-pay-download-loading-icon" icon="autorenew" />
+          <span id="travel-pay-doc-download-loading" className="sr-only">
+            Downloading {filename}
+          </span>
+        </>
       )}
       <va-link
         download={!isLoading}
@@ -65,7 +71,10 @@ const DocumentDownload = ({ claimId, documentId, filename, text }) => {
         href=""
       />
       {error && (
-        <div tabIndex="-1" className="travel-pay-download-error">
+        <div
+          id="travel-pay-doc-download-error"
+          className="travel-pay-download-error"
+        >
           <va-icon icon="error" />
           {error}
         </div>
