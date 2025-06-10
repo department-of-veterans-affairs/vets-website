@@ -1004,6 +1004,24 @@ class MedicationsListPage {
     cy.intercept('GET', '/my_health/v1/tooltips', hidden).as('tooltips');
     cy.visit(medicationsUrls.MEDICATIONS_URL);
   };
+
+  verifyContentInListPageDownload = text => {
+    const downloadsFolder = Cypress.config('downloadsFolder');
+    const pad = n => n.toString().padStart(2, '0');
+    let hours = text.getHours();
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12 || 12;
+    const formattedTime = `${hours}${pad(text.getMinutes())}${pad(
+      text.getSeconds(),
+    )}${ampm}`;
+    const date = `${text.getMonth() +
+      1}-${text.getDate()}-${text.getFullYear()}_${formattedTime}`;
+    const fileName = `${downloadsFolder}/VA-medications-list-Safari-Mhvtp-${date}.txt`;
+    cy.readFile(fileName).then(fileContent => {
+      expect(fileContent).to.contain('not available');
+      expect(fileContent).to.not.contain('None noted');
+    });
+  };
 }
 
 export default MedicationsListPage;

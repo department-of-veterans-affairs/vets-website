@@ -167,11 +167,6 @@ export const generatePathologyContent = record => ({
       },
       {
         title: 'Site or sample tested',
-        value: record.sampleTested,
-        inline: true,
-      },
-      {
-        title: 'Collection sample',
         value: record.sampleFrom,
         inline: true,
       },

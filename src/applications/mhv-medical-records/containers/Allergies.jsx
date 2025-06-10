@@ -197,7 +197,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.ALLERGY}
         recordCount={allergies?.length}
-        recordType="allergies or reactions"
+        recordType={recordType.ALLERGIES}
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
