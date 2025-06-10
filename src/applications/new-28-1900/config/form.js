@@ -19,8 +19,6 @@ import newAddressPage from '../pages/newAddress';
 import personalInformationPage from '../pages/personalInformation';
 import phoneAndEmailPage from '../pages/phoneAndEmail';
 
-import yearsOfCollegeStudiesPage from '../pages/yearsOfCollegeStudies';
-import yearsOfGraduateStudiesPage from '../pages/yearsOfGraduateStudies';
 import PreSubmit from '../components/PreSubmit';
 
 import veteranAddressPage from '../pages/veteranAddress';

@@ -9,10 +9,7 @@ import featureToggles from '../fixtures/mocks/featureToggles.json';
 import minimalFlow from '../fixtures/data/minimalFlow.json';
 import maximalFlow from '../fixtures/data/maximalFlow.json';
 import militaryAddressFlow from '../fixtures/data/militaryAddressFlow.json';
-import {
-  fillAddressWebComponentPattern,
-  selectCheckboxWebComponent,
-} from './utilities';
+import { selectCheckboxWebComponent } from './utilities';
 import { normalizeFullName } from '../../utils';
 
 const testConfig = createTestConfig(
