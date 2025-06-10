@@ -18,7 +18,7 @@ sinon.stub(ui, 'waitForRenderThenFocus').callsFake(() => {});
 const makeState = submission => ({
   form: {
     data: {
-      veteranFullName: {
+      fullName: {
         first: 'Jane',
         middle: 'Q',
         last: 'Doe',
