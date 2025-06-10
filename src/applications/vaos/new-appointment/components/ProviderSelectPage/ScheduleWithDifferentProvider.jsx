@@ -15,19 +15,6 @@ function handleClick(history, dispatch, requestDateTime) {
   };
 }
 
-// const pageKey = 'selectProvider';
-// // function handleClick(history, dispatch, requestDateTime, selectProvider) {
-// function handleClick(history, dispatch, requestDateTime) {
-//   return e => {
-//     // Stop default behavior for anchor tag since we are using React routing.
-//     e.preventDefault();
-
-//     dispatch(routeToNextAppointmentPage(history, pageKey));
-//     // history.push(selectProvider.url);
-//     history.push(requestDateTime.url);
-//   };
-// }
-
 export default function ScheduleWithDifferentProvider({
   eligibility,
   selectedFacility,
@@ -77,7 +64,6 @@ export default function ScheduleWithDifferentProvider({
       <va-link
         active
         text="Request an appointment"
-        // href={`${root.url}/${requestDateTime.url}`}
         onClick={handleClick(history, dispatch, requestDateTime)}
       />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
