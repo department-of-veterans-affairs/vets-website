@@ -36,8 +36,8 @@ const UserHelpLinks = () => {
           Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
         }
       >
-        <li>
-          <Toggler.Enabled>
+        <Toggler.Enabled>
+          <li>
             <a
               data-testid="submissions-link"
               className="vads-u-color--white"
@@ -45,8 +45,8 @@ const UserHelpLinks = () => {
             >
               Submissions
             </a>
-          </Toggler.Enabled>
-        </li>
+          </li>
+        </Toggler.Enabled>
       </Toggler>
       <li className="vads-u-display--none">
         <a
