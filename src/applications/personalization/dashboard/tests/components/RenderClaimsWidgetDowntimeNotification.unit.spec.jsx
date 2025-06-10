@@ -17,7 +17,7 @@ describe('<RenderClaimsWidgetDowntimeNotification />', () => {
   it('should render the downtime message when external service status is down', () => {
     const downtime = {
       status: externalServiceStatus.down,
-      endTime: { toDate: () => addHours(new Date(), 30) },
+      endTime: addHours(new Date(), 30),
     };
 
     const view = render(
