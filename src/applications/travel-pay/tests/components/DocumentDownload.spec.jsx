@@ -19,7 +19,9 @@ const defaultProps = {
 describe('DocumentDownload', () => {
   let apiStub;
   beforeEach(() => {
-    apiStub = sinon.stub(api, 'apiRequest');
+    apiStub = sinon
+      .stub(api, 'apiRequest')
+      .callsFake(() => new Promise(resolve => setTimeout(resolve, 100)));
   });
   afterEach(() => {
     apiStub.restore();
@@ -64,6 +66,11 @@ describe('DocumentDownload', () => {
     const link = $('va-link[text="Download file.pdf"]');
 
     fireEvent.click(link);
+
+    await waitFor(() => {
+      expect($('va-icon[icon="autorenew"]')).to.exist;
+    });
+
     fireEvent.click(link);
 
     await waitFor(() => {
