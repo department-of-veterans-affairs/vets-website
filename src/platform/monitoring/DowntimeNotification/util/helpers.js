@@ -6,6 +6,7 @@ import {
   isAfter,
   isBefore,
   isEqual,
+  isWithinInterval,
   parseISO,
 } from 'date-fns';
 
@@ -26,18 +27,13 @@ const isSameOrAfter = (leftDate, rightDate) =>
  */
 export function getStatusForTimeframe(startTime, endTime) {
   const now = new Date();
-  const startDate = startTime instanceof Date ? startTime : parseISO(startTime);
-  const hasStarted = isSameOrAfter(now, startDate);
+  const start = startTime instanceof Date ? startTime : parseISO(startTime);
+  const end = endTime instanceof Date ? endTime : parseISO(endTime);
+  const hasStarted = isSameOrAfter(now, start);
 
   if (hasStarted) {
     // Check for indefinite downtime (null endTime) or that the endTime is in the future
-    let endDate;
-    if (endTime instanceof Date) {
-      endDate = endTime;
-    } else if (endTime) {
-      endDate = parseISO(endTime);
-    }
-    if (!endTime || isBefore(now, endDate)) {
+    if (!endTime || isBefore(now, end)) {
       return externalServiceStatus.down;
     }
     // The downtime must be old and outdated. The API should filter these so this shouldn't happen.
@@ -45,7 +41,7 @@ export function getStatusForTimeframe(startTime, endTime) {
   }
 
   const oneHourFromNow = addHours(now, 1);
-  const startsWithinHour = isSameOrAfter(oneHourFromNow, startDate);
+  const startsWithinHour = isWithinInterval(oneHourFromNow, { start, end });
   if (startsWithinHour) return externalServiceStatus.downtimeApproaching;
 
   return externalServiceStatus.ok;
