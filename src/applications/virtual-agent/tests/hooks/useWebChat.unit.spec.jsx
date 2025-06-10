@@ -18,7 +18,7 @@ describe('useWebChat', () => {
   });
 
   describe('useWebChat', () => {
-    it('should return the correct token, webChatFramework, loadingStatus, apiSession', () => {
+    it('should return the correct token, webChatFramework and loadingStatus', () => {
       const webChatFramework = {
         webChatFramework: 'framework',
         loadingStatus: 'frameworkStatus',
@@ -27,7 +27,7 @@ describe('useWebChat', () => {
         .stub(UseWebChatFrameworkModule, 'default')
         .returns(webChatFramework);
 
-      const token = { token: 'token', apiSession: 'apiSession', code: 'code' };
+      const token = { token: 'token', code: 'code' };
       sandbox.stub(useChatbotTokenModule, 'default').returns(token);
 
       sandbox
@@ -54,7 +54,7 @@ describe('useWebChat', () => {
         .stub(UseWebChatFrameworkModule, 'default')
         .returns(webChatFramework);
 
-      const token = { token: 'token', apiSession: 'apiSession' };
+      const token = { token: 'token' };
       sandbox.stub(useChatbotTokenModule, 'default').returns(token);
 
       const combineLoadingStatusStub = sandbox
@@ -77,7 +77,7 @@ describe('useWebChat', () => {
         .stub(UseWebChatFrameworkModule, 'default')
         .returns(webChatFramework);
 
-      const token = { token: 'token', apiSession: 'apiSession' };
+      const token = { token: 'token' };
       sandbox.stub(useChatbotTokenModule, 'default').returns(token);
 
       const combineLoadingStatusStub = sandbox

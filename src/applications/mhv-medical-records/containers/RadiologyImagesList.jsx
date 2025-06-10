@@ -19,6 +19,7 @@ import {
   studyJobStatus,
 } from '../util/constants';
 import { sendDataDogAction } from '../util/helpers';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 
 const RadiologyImagesList = ({ isTesting }) => {
   const apiImagingPath = `${
@@ -216,7 +217,8 @@ const RadiologyImagesList = ({ isTesting }) => {
         renderImageContent()
       ) : (
         <div className="vads-u-margin-y--8">
-          <va-loading-indicator
+          <TrackedSpinner
+            id="radiology-image-page-spinner"
             message="Loading..."
             setFocus
             data-testid="loading-indicator"

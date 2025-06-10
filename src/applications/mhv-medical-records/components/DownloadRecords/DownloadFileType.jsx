@@ -17,10 +17,7 @@ import {
   formatUserDob,
   formatNameFirstLast,
 } from '@department-of-veterans-affairs/mhv/exports';
-import {
-  VaLoadingIndicator,
-  VaRadio,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isBefore, isAfter } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelpSection from './NeedHelpSection';
@@ -46,6 +43,7 @@ import { Actions } from '../../util/actionTypes';
 import useFocusOutline from '../../hooks/useFocusOutline';
 import { updateReportFileType } from '../../actions/downloads';
 import { postCreateAAL } from '../../api/MrApi';
+import TrackedSpinner from '../shared/TrackedSpinner';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -482,7 +480,10 @@ const DownloadFileType = props => {
       <h2>Select file type</h2>
       {!isDataFetched && (
         <div className="vads-u-padding-bottom--2">
-          <VaLoadingIndicator message="Loading your records..." />
+          <TrackedSpinner
+            id="download-records-spinner"
+            message="Loading your records..."
+          />
         </div>
       )}
       {isDataFetched &&

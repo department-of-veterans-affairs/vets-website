@@ -29,6 +29,7 @@ import {
   sponsorStatusDetails,
   sponsorAddress,
   sponsorContactInfo,
+  sponsorIntroSchema,
 } from '../chapters/sponsorInformation';
 import { applicantPages } from '../chapters/applicantInformation';
 import {
@@ -135,6 +136,11 @@ const formConfig = {
     sponsorInformation: {
       title: 'Sponsor information',
       pages: {
+        page5a: {
+          path: 'sponsor-intro',
+          title: 'Sponsor information',
+          ...sponsorIntroSchema,
+        },
         page6: {
           path: 'sponsor-info',
           title: 'Sponsor’s name and date of birth',

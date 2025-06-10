@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { memoize } from 'lodash';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
@@ -420,10 +421,9 @@ const medicarePartADenialPage = {
       <va-alert
         status="info"
         class="vads-u-margin-bottom--3"
-        uswds
         background-color="true"
       >
-        <p>
+        <p className="vads-u-margin-y--0">
           Applicants that don’t have Medicare Part A and B or proof of
           ineligibility may not be eligible for CHAMPVA.
         </p>

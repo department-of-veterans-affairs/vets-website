@@ -239,36 +239,41 @@ const additionalComments = {
   },
 };
 
-const applicantStepChildUploadPage = {
+const healthInsuranceCardUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `Upload ${formData.provider} health insurance card`,
       'You’ll need to submit a copy of the front and back of this health insurance card.',
     ),
     ...fileUploadBlurb,
-    insuranceCard: fileUploadUI({
-      label: (
-        <>
-          Upload health insurance card
-          <br />
-          <span className="usa-hint">
-            Upload front and back as separate files
-          </span>
-        </>
-      ),
+    insuranceCardFront: fileUploadUI({
+      label: 'Upload front of the health insurance card',
+    }),
+    insuranceCardBack: fileUploadUI({
+      label: 'Upload back of the health insurance card',
     }),
   },
   schema: {
     type: 'object',
-    required: ['insuranceCard'],
+    required: ['insuranceCardFront', 'insuranceCardBack'],
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      insuranceCard: {
+      insuranceCardFront: {
         type: 'array',
-        // TODO: when we switch to V3 file upload,
-        // fix the error messaging around minItems
-        minItems: 2,
+        maxItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
+      insuranceCardBack: {
+        type: 'array',
+        maxItems: 1,
         items: {
           type: 'object',
           properties: {
@@ -357,7 +362,7 @@ export const healthInsurancePages = arrayBuilderPages(
       path: 'health-insurance-card/:index',
       title: 'Upload health insurance card',
       CustomPage: FileFieldCustom,
-      ...applicantStepChildUploadPage,
+      ...healthInsuranceCardUploadPage,
     }),
   }),
 );
