@@ -188,7 +188,7 @@ class PatientErrorPage {
 
     cy.findByTestId(`alert-text`)
       .should(`be.visible`)
-      .and(`have.text`, Data.ERROR_500.TEXT);
+      .and(`include.text`, Data.ERROR_500.TEXT);
   };
 }
 

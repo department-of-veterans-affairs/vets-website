@@ -9,12 +9,12 @@ describe('THREAD LIST LOAD ERRORS', () => {
   it('verify error on particular folder', () => {
     SecureMessagingSite.login();
     PatientErrorPage.loadParticularFolderError();
-    PatientErrorPage.verifyAlertMessageText();
+    PatientErrorPage.verifyError500Content();
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
-  it('verify error in My folders', () => {
+  it('verify error in my folders', () => {
     SecureMessagingSite.login();
     PatientErrorPage.loadMyFoldersError();
     PatientErrorPage.verifyAlertMessageText();
