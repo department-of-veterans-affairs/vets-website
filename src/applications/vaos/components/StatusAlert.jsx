@@ -105,6 +105,7 @@ export default function StatusAlert({ appointment, facility }) {
   if (canceled) {
     const who = canceler.get(appointment?.cancelationReason) || 'Facility';
     let message;
+    let linkText;
     let displayScheduleLink = false;
     if (appointment.type === 'COMMUNITY_CARE_APPOINTMENT') {
       message = `${who} canceled this appointment. If you still want this appointment, call your community care provider to schedule.`;
@@ -113,8 +114,11 @@ export default function StatusAlert({ appointment, facility }) {
     } else if (appointment.vaos.isPendingAppointment) {
       message = `${who} canceled this request. If you still want this appointment, call your VA health facility or submit another request online.`;
       displayScheduleLink = true;
+      linkText = 'Request a new appointment';
     } else {
       message = `${who} canceled this appointment. If you still want this appointment, call your VA health facility to schedule.`;
+      displayScheduleLink = appointment.showScheduleLink;
+      linkText = 'Schedule a new appointment';
     }
     return (
       <>
@@ -125,7 +129,7 @@ export default function StatusAlert({ appointment, facility }) {
               <br />
               <br />
               <va-link
-                text="Request a new appointment"
+                text={linkText}
                 data-testid="schedule-appointment-link"
                 onClick={handleClick(dispatch)}
                 href={`${root.url}${typeOfCare.url}`}
@@ -173,6 +177,7 @@ StatusAlert.propTypes = {
     status: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     cancelationReason: PropTypes.string,
+    showScheduleLink: PropTypes.bool,
     created: PropTypes.string,
     avsPath: PropTypes.string,
     vaos: PropTypes.shape({

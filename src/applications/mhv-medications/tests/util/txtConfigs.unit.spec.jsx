@@ -20,7 +20,7 @@ describe('Prescriptions List Txt Config', () => {
   });
   it('Should show None noted if provider name is not provided', () => {
     const txt = buildPrescriptionsTXT(prescriptions);
-    expect(txt).to.include('Prescribed by: None noted');
+    expect(txt).to.include('Prescribed by: Provider name not available');
   });
 });
 
@@ -120,7 +120,7 @@ describe('Non VA prescription Config', () => {
     };
 
     const txt = buildNonVAPrescriptionTXT(nonVaRxWithoutProviderName);
-    expect(txt).to.include('Documented by: None noted');
+    expect(txt).to.include('Documented by: Provider name not available');
   });
 });
 

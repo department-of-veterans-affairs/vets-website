@@ -1,84 +1,138 @@
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
-  arrayBuilderOptions,
-  cardDescription,
+  conflictOfInterestArrayOptions,
+  getCardTitle,
+  getCardDescription,
   showConflictOfInterestText,
 } from '../helpers';
 
 describe('helpers ', () => {
-  describe('cardDescription', () => {
-    it('should return firth and last name from full name', () => {
+  describe('showConflictOfInterestText', () => {
+    it('should push event to dataLayer', () => {
+      const dataLayerPushSpy = sinon.spy();
+
+      global.window = { dataLayer: { push: dataLayerPushSpy } };
+      showConflictOfInterestText();
+
+      expect(dataLayerPushSpy.calledOnce).to.be.true;
+      expect(dataLayerPushSpy.firstCall.args[0]).to.deep.equal({
+        event: 'edu-1919--form-help-text-clicked',
+        'help-text-label': 'Review the conflict of interest policy',
+      });
+    });
+  });
+
+  describe('getCardTitle', () => {
+    it('should return first and last name from full name', () => {
       expect(
-        cardDescription({
-          allProprietarySchoolsEmployeeInfo: {
+        getCardTitle({
+          certifyingOfficial: {
             first: 'John',
             last: 'Doe',
           },
         }),
       ).to.equal('John Doe');
     });
-    it('should return "this individual" when first or last name is missing', () => {
+
+    it('should handle when the first or last name is missing', () => {
       expect(
-        cardDescription({
-          allProprietarySchoolsEmployeeInfo: {
+        getCardTitle({
+          certifyingOfficial: {
             first: '',
             last: 'Doe',
           },
         }),
-      ).to.equal('this individual');
+      ).to.equal('Certifying Doe');
 
       expect(
-        cardDescription({
-          allProprietarySchoolsEmployeeInfo: {
+        getCardTitle({
+          certifyingOfficial: {
             first: 'John',
             last: '',
           },
         }),
-      ).to.equal('this individual');
+      ).to.equal('John Official');
 
       expect(
-        cardDescription({
-          allProprietarySchoolsEmployeeInfo: {},
+        getCardTitle({
+          certifyingOfficial: {},
         }),
-      ).to.equal('this individual');
-    });
-  });
-  describe('arrayBuilderOptions', () => {
-    it('should return correct card description using getItemName', () => {
-      const item = {
-        allProprietarySchoolsEmployeeInfo: {
-          first: 'Jane',
-          last: 'Smith',
-          title: 'Director',
-        },
-      };
-      expect(arrayBuilderOptions.text.getItemName(item)).to.equal('Jane Smith');
+      ).to.equal('Certifying Official');
     });
 
-    it('should return correct card description using cardDescription', () => {
+    it('should handle when the given item is null', () => {
+      expect(getCardTitle(null)).to.equal(null);
+    });
+  });
+
+  describe('getCardDescription', () => {
+    it('should return a full description of details from the given card details', () => {
+      const card = {
+        certifyingOfficial: { title: 'Official' },
+        fileNumber: '123456AB',
+        enrollmentPeriod: {
+          from: '2024-03-10',
+          to: '2025-04-27',
+        },
+      };
+
+      const description = getCardDescription(card);
+      const { getByTestId } = render(description);
+
+      expect(getByTestId('card-title').innerHTML).to.include('Official');
+      expect(getByTestId('card-file-number').innerHTML).to.include('123456AB');
+      expect(getByTestId('card-enrollment-period').innerHTML).to.include(
+        '03/10/2024 - 04/27/2025',
+      );
+    });
+
+    it('should handle when each card field is empty', () => {
+      const card = {
+        certifyingOfficial: { title: '' },
+        fileNumber: '',
+        enrollmentPeriod: {
+          from: '',
+          to: '',
+        },
+      };
+
+      const description = getCardDescription(card);
+      const { getByTestId, queryByTestId } = render(description);
+
+      expect(getByTestId('card-title').innerHTML).to.include('Title');
+      expect(getByTestId('card-file-number').innerHTML).to.include(
+        'File number',
+      );
+      expect(queryByTestId('card-enrollment-period')).to.equal(null);
+    });
+  });
+
+  describe('conflictOfInterestArrayOptions', () => {
+    it('should return correct card description using getItemName', () => {
       const item = {
-        allProprietarySchoolsEmployeeInfo: {
+        certifyingOfficial: {
           first: 'Jane',
           last: 'Smith',
           title: 'Director',
         },
       };
-      expect(arrayBuilderOptions.text.cardDescription(item)).to.equal(
-        'Director',
+      expect(conflictOfInterestArrayOptions.text.getItemName(item)).to.equal(
+        'Jane Smith',
       );
     });
-  });
-  describe('showConflictOfInterestText', () => {
-    it('should push event to dataLayer', () => {
-      const dataLayerPushSpy = sinon.spy();
-      global.window = { dataLayer: { push: dataLayerPushSpy } };
-      showConflictOfInterestText();
-      expect(dataLayerPushSpy.calledOnce).to.be.true;
-      expect(dataLayerPushSpy.firstCall.args[0]).to.deep.equal({
-        event: 'edu-1919--form-help-text-clicked',
-        'help-text-label': 'Review the conflict of interest policy',
-      });
+
+    it('should have text fields set for custom messages', () => {
+      expect(conflictOfInterestArrayOptions.text.cancelAddYes).to.equal(
+        'Yes, cancel',
+      );
+      expect(conflictOfInterestArrayOptions.text.cancelAddNo).to.equal(
+        'No, continue adding information',
+      );
+      expect(conflictOfInterestArrayOptions.text.summaryTitle).to.equal(
+        'Review the individuals with a potential conflict of interest that receive VA educational benefits',
+      );
     });
   });
 });

@@ -192,10 +192,11 @@ export function getObjectsWithAttachmentId(obj, keyname = 'attachmentId') {
 /**
  * Produces a simple (non secure) hash of the passed in string.
  * See https://stackoverflow.com/a/8831937
- * @param {string} str string to be hashed
+ * @param {string} val string to be hashed
  * @returns hash of input string
  */
-export function toHash(str) {
+export function toHash(val) {
+  const str = val ?? '';
   let hash = 0;
   Object.keys(str).forEach(i => {
     const chr = str.charCodeAt(i);
