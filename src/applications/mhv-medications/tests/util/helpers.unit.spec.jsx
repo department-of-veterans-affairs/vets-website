@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import {
-  EMPTY_FIELD,
+  FIELD_NONE_NOTED,
   imageRootUri,
   medicationsUrls,
 } from '../../util/constants';
@@ -25,7 +25,7 @@ import {
 
 describe('Date Format function', () => {
   it("should return 'None noted' when no values are passed", () => {
-    expect(dateFormat()).to.equal(EMPTY_FIELD);
+    expect(dateFormat()).to.equal(FIELD_NONE_NOTED);
   });
   it('should return a formatted date', () => {
     expect(dateFormat('2023-10-26T20:18:00.000Z', 'MMMM D, YYYY')).to.equal(
@@ -47,7 +47,7 @@ describe('Validate Field function', () => {
   });
 
   it("should return 'None noted' when no values are passed", () => {
-    expect(validateField()).to.equal(EMPTY_FIELD);
+    expect(validateField()).to.equal(FIELD_NONE_NOTED);
   });
 
   it('should return 0', () => {
@@ -92,10 +92,10 @@ describe('processList function', () => {
     const result = processList(list);
     expect(result).to.eq('a');
   });
-  it('returns EMPTY_FIELD value if there are no items in the list', () => {
+  it('returns FIELD_NONE_NOTED value if there are no items in the list', () => {
     const list = [];
     const result = processList(list);
-    expect(result).to.eq(EMPTY_FIELD);
+    expect(result).to.eq(FIELD_NONE_NOTED);
   });
 });
 
@@ -155,13 +155,13 @@ describe('extractContainedResource', () => {
 describe('createNoDescriptionText', () => {
   it('should include a phone number if provided', () => {
     expect(createNoDescriptionText('555-111-5555')).to.eq(
-      'No description available. Call your pharmacy at 555-111-5555 if you need help identifying this medication.',
+      'No description available. If you need help identifying this medication, call your pharmacy at 555-111-5555.',
     );
   });
 
   it('should create a string even if no phone number provided', () => {
     expect(createNoDescriptionText()).to.eq(
-      'No description available. Call your pharmacy if you need help identifying this medication.',
+      'No description available. If you need help identifying this medication, call your pharmacy.',
     );
   });
 
