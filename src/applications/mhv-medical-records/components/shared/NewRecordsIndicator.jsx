@@ -6,6 +6,7 @@ import {
   getLastSuccessfulUpdate,
 } from '../../util/helpers';
 import { refreshPhases } from '../../util/constants';
+import TrackedSpinner from './TrackedSpinner';
 
 const NewRecordsIndicator = ({
   refreshState,
@@ -192,7 +193,8 @@ const NewRecordsIndicator = ({
       }
       if (!refreshState.isTimedOut) {
         return (
-          <va-loading-indicator
+          <TrackedSpinner
+            id="new-records-indicator-spinner"
             message="We're checking our system for new records."
             data-testid="new-records-loading-indicator"
           />

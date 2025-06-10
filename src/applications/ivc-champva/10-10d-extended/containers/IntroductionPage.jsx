@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollToTop } from 'platform/utilities/scroll';
@@ -101,4 +102,10 @@ IntroductionPage.propTypes = {
   }),
 };
 
-export default IntroductionPage;
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.user.login.currentlyLoggedIn,
+  };
+};
+
+export default connect(mapStateToProps)(IntroductionPage);
