@@ -1,4 +1,3 @@
-/* eslint-disable import/named */
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
