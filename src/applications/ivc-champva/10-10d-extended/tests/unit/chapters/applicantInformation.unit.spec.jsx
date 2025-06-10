@@ -4,6 +4,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { applicantPages } from '../../../chapters/applicantInformation';
+import { generateParticipantName } from '../../../chapters/medicareInformation';
 
 const mockStore = state => createStore(() => state);
 const minimalStore = mockStore({
@@ -84,5 +85,41 @@ describe('applicantPages depends functions', () => {
       expect(res).to.be.a('boolean');
       expect(res).to.not.be.undefined;
     });
+  });
+});
+
+describe('generateParticipantName', () => {
+  it('should return name of matching participant if SSN hash matches', () => {
+    expect(
+      generateParticipantName({
+        medicareParticipant: '274d8b67cb72', // result derived from `toHash(123123123)`
+        'view:applicantObjects': [
+          {
+            applicantSSN: '123123123',
+            applicantName: { first: 'App1', last: 'Jones' },
+          },
+          {
+            applicantSSN: '234234234',
+            applicantName: { first: 'App2', last: 'Jones' },
+          },
+        ],
+      }),
+    ).to.eq('App1 Jones');
+  });
+  it('should return "applicant" if no participant SSN hash matches', () => {
+    expect(
+      generateParticipantName({
+        medicareParticipant: '000000000000',
+        'view:applicantObjects': [
+          {
+            applicantSSN: '123123123',
+            applicantName: { first: 'App1', last: 'Jones' },
+          },
+        ],
+      }),
+    ).to.eq('applicant');
+  });
+  it('should return "No participant" if no participant selected', () => {
+    expect(generateParticipantName(undefined)).to.eq('No participant');
   });
 });
