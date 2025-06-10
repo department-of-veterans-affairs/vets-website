@@ -77,7 +77,7 @@ export default function FormLayout({ children, isReviewPage, pageTitle }) {
         <Nav pageTitle={pageTitle} />
         {location.pathname.endsWith('type-of-care') && (
           <DowntimeNotification
-            appTitle="VA online scheduling tool"
+            appTitle="appointments tool"
             dependencies={[externalServices.vaosWarning]}
             render={(props, childContent) => (
               <WarningNotification {...props}>

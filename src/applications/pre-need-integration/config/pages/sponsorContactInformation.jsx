@@ -11,6 +11,7 @@ import {
   sponsorContactInfoDescription,
   bottomPadding,
 } from '../../utils/helpers';
+import { SponsorContactDetailsTitle } from '../../components/PreparerHelpers';
 
 // Import veteran properties from schema
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
@@ -38,7 +39,7 @@ export const uiSchema = {
       address: merge(
         {},
         address.uiSchema(
-          'Sponsor mailing address',
+          SponsorContactDetailsTitle,
           'You can choose to enter your sponsor’s mailing address. This is optional. We’ll confirm this address with the U.S. Postal Service.',
           false,
           isRequired,
