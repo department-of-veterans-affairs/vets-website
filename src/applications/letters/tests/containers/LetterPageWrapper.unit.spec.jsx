@@ -16,7 +16,7 @@ describe('<LetterPageWrapper>', () => {
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
   });
-  it('should render an empty address warning on the view screen and disable the View letters button', () => {
+  it('should render header and description text', () => {
     const { getByText } = render(
       <MemoryRouter initialEntries={[`/confirm-address`]}>
         <LetterPageWrapper />
@@ -24,5 +24,10 @@ describe('<LetterPageWrapper>', () => {
     );
 
     expect(getByText('Your VA letters and documents').exist);
+    expect(
+      getByText(
+        `When you request a VA benefit, you may be asked to provide one of the following benefit letters or other documentation to prove you're eligible.`,
+      ).exist,
+    );
   });
 });

@@ -116,7 +116,7 @@ describe('<DownloadLetterBlobLink />', () => {
     expect(div).to.have.text('Refresh the browser to download your letter.');
   });
   it('dispatches getSingleLetterPDFLinkAction when accordion is open on mount', () => {
-    const dispatchSpy = sinon.spy(); // track calls to dispatch
+    const dispatchSpy = sinon.spy();
     const fakeRef = {
       current: document.createElement('details'),
     };
@@ -148,6 +148,6 @@ describe('<DownloadLetterBlobLink />', () => {
     const dispatchedAction = dispatchSpy.firstCall.args[0];
     expect(dispatchedAction).to.be.a('function');
 
-    unmount(); // cleanup
+    unmount();
   });
 });
