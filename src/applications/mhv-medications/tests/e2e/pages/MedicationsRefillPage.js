@@ -13,6 +13,11 @@ class MedicationsRefillPage {
       'my_health/v1/prescriptions/list_refillable_prescriptions',
       prescriptions,
     ).as('refillList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort=alphabetical-rx-name',
+      prescriptions,
+    );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
     cy.visit(medicationsUrls.MEDICATIONS_REFILL);
   };

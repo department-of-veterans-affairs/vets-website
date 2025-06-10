@@ -828,7 +828,7 @@ class MedicationsListPage {
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort=alphabetical-rx-name',
-      prescriptions,
+      medication,
     ).as('medicationsSortByName');
     cy.intercept('POST', '/my_health/v1/tooltips', tooltipVisible).as(
       'tooltipsVisible',
