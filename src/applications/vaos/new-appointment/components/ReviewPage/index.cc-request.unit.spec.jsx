@@ -15,7 +15,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import { FACILITY_TYPES } from '../../../utils/constants';
+import { FACILITY_TYPES, TYPE_OF_CARE_IDS } from '../../../utils/constants';
 
 import ReviewPage from '.';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
@@ -50,7 +50,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
       pages: {},
       data: {
         facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-        typeOfCareId: '323',
+        typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
         phoneNumber: '1234567890',
         email: 'joeblow@gmail.com',
         reasonAdditionalInfo: 'I need an appt',

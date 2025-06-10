@@ -1,11 +1,7 @@
 {
   "apps": [
     {
-      "rootFolder": "686c-674",
-      "slackGroup": "<@U022GNYPJ1L>"
-    },
-    {
-      "rootFolder": "686c-674-v2",
+      "rootFolder": "dependents",
       "slackGroup": "<@U022GNYPJ1L>"
     },
     {

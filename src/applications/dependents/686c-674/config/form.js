@@ -4,7 +4,7 @@ import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-b
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
+import { TASK_KEYS } from './constants';
 import { isChapterFieldRequired } from './helpers';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -127,6 +127,7 @@ import prefillTransformer from './prefill-transformer';
 import { chapter as addChild } from './chapters/report-add-child';
 import { spouseAdditionalEvidence } from './chapters/additional-information/spouseAdditionalEvidence';
 import { childAdditionalEvidence as finalChildAdditionalEvidence } from './chapters/additional-information/childAdditionalEvidence';
+import { spouseEvidence, childEvidence } from './utilities';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
@@ -1076,20 +1077,11 @@ export const formConfig = {
       pages: {
         marriageAdditionalEvidence: {
           depends: formData => {
-            const { veteranAddress: address } =
-              formData.veteranContactInformation || {};
-            const isOutsideUSA =
-              address?.country !== 'USA' || Boolean(address?.isMilitary);
-            const { typeOfMarriage } =
-              formData?.currentMarriageInformation || {};
-            const isValidNonCeremonialMarriage =
-              typeof typeOfMarriage === 'string' &&
-              typeOfMarriage !== MARRIAGE_TYPES.ceremonial;
-
+            const { needsSpouseUpload } = spouseEvidence(formData);
             return (
-              (isOutsideUSA || isValidNonCeremonialMarriage) &&
               isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-              formData?.['view:addOrRemoveDependents']?.add
+              formData?.['view:addOrRemoveDependents']?.add &&
+              needsSpouseUpload
             );
           },
           title: 'Submit supporting evidence to add your spouse',
@@ -1099,33 +1091,12 @@ export const formConfig = {
         },
         childAdditionalEvidence: {
           depends: formData => {
-            const address =
-              formData?.veteranContactInformation?.veteranAddress || {};
-            const livesOutsideUSA =
-              address.country !== 'USA' || address.isMilitary;
-            const childrenToAdd = formData?.childrenToAdd || [];
-            const hasStepChild = childrenToAdd.some(
-              childFormData => childFormData?.relationshipToChild?.stepchild,
-            );
-            const hasAdoptedChild = childrenToAdd.some(
-              childFormData => childFormData?.relationshipToChild?.adopted,
-            );
-            const hasDisabledChild = childrenToAdd.some(
-              childFormData =>
-                childFormData?.doesChildHaveDisability &&
-                childFormData?.doesChildHavePermanentDisability,
-            );
-
-            const showBirthCertificate = livesOutsideUSA || hasStepChild;
-
-            const pageCondition =
-              showBirthCertificate || hasAdoptedChild || hasDisabledChild;
-
+            const { needsChildUpload } = childEvidence(formData);
             return (
               (isChapterFieldRequired(formData, TASK_KEYS.addChild) ||
                 isChapterFieldRequired(formData, TASK_KEYS.addDisabledChild)) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              pageCondition
+              needsChildUpload
             );
           },
           title: 'Upload your supporting evidence to add your child',

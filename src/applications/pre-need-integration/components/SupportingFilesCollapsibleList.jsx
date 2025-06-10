@@ -149,9 +149,7 @@ const CollapsibleList = () => {
           data-chapter="applicantInformation"
         >
           <div name="chapterapplicantInformationScrollElement" />
-          <h3 className="vads-u-font-size--h5">
-            What kinds of files can I upload?
-          </h3>
+          <h3>What kinds of files can I upload?</h3>
           <va-accordion bordered>
             <va-accordion-item header="If you're applying for yourself">
               <p>

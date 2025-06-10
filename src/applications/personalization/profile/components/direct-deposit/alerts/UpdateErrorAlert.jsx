@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import {
+  hasAccountFlaggedError,
   hasRoutingNumberFlaggedError,
   hasInvalidAddressError,
   hasInvalidHomePhoneNumberError,
@@ -162,7 +163,10 @@ export const UpdateErrorAlert = ({ className, saveError }) => {
   let title = 'We couldn’t update your bank information';
 
   if (Array.isArray(saveError) && saveError?.length > 0) {
-    if (hasPaymentRestrictionIndicatorsError(saveError)) {
+    if (
+      hasAccountFlaggedError(saveError) ||
+      hasPaymentRestrictionIndicatorsError(saveError)
+    ) {
       title = "We couldn't update your direct deposit information";
       content = <PaymentRestrictionError />;
     } else if (hasRoutingNumberFlaggedError(saveError)) {

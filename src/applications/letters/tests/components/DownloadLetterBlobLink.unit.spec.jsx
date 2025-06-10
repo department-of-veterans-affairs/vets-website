@@ -18,7 +18,9 @@ describe('<DownloadLetterBlobLink />', () => {
     const store = mockStore({
       letters: {
         enhancedLetters: [],
-        enhancedLettersAvailability: DOWNLOAD_STATUSES.downloading,
+        enhancedLetterStatus: {
+          [defaultProps.letterType]: DOWNLOAD_STATUSES.downloading,
+        },
       },
     });
 
@@ -44,7 +46,9 @@ describe('<DownloadLetterBlobLink />', () => {
             downloadUrl: 'http://example.com/test_letter.pdf',
           },
         ],
-        enhancedLettersAvailability: DOWNLOAD_STATUSES.success,
+        enhancedLetterStatus: {
+          [defaultProps.letterType]: DOWNLOAD_STATUSES.success,
+        },
       },
     });
 
@@ -67,7 +71,9 @@ describe('<DownloadLetterBlobLink />', () => {
     const store = mockStore({
       letters: {
         enhancedLetters: [],
-        enhancedLettersAvailability: DOWNLOAD_STATUSES.failure,
+        enhancedLetterStatus: {
+          [defaultProps.letterType]: DOWNLOAD_STATUSES.failure,
+        },
       },
     });
 
@@ -92,7 +98,9 @@ describe('<DownloadLetterBlobLink />', () => {
     const store = mockStore({
       letters: {
         enhancedLetters: [],
-        enhancedLettersAvailability: 'unknown_status',
+        enhancedLetterStatus: {
+          [defaultProps.letterType]: 'unknown_status',
+        },
       },
     });
 

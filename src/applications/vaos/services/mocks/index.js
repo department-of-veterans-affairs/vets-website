@@ -36,7 +36,7 @@ const epsAppointmentUtils = require('../../referral-appointments/utils/appointme
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
-const features = require('../../utils/featureFlags');
+const features = require('./featureFlags');
 
 const mockAppts = [];
 let currentMockId = 1;
@@ -608,8 +608,8 @@ const responses = {
           },
           residentialAddress: {
             addressLine1: '345 Home Address St.',
-            addressLine2: null,
-            addressLine3: null,
+            addressLine2: 'line 2',
+            addressLine3: 'line 3',
             addressPou: 'RESIDENCE/CHOICE',
             addressType: 'DOMESTIC',
             city: 'San Francisco',

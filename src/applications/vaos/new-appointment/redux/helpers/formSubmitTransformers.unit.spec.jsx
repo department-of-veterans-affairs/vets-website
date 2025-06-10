@@ -4,7 +4,11 @@ import {
   transformFormToVAOSAppointment,
   transformFormToVAOSVARequest,
 } from './formSubmitTransformers';
-import { FLOW_TYPES, VHA_FHIR_ID } from '../../../utils/constants';
+import {
+  FLOW_TYPES,
+  VHA_FHIR_ID,
+  TYPE_OF_CARE_IDS,
+} from '../../../utils/constants';
 import { getReasonCode } from './getReasonCode';
 
 describe('VAOS V2 data transformation', () => {
@@ -31,7 +35,7 @@ describe('VAOS V2 data transformation', () => {
             vaParent: '983',
             vaFacility: '983',
             facilityType: 'vamc',
-            typeOfCareId: '323',
+            typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
           },
           availableSlots: [
             {
@@ -145,8 +149,8 @@ describe('VAOS V2 data transformation', () => {
             vaParent: '983',
             vaFacility: '983GB',
             facilityType: 'vamc',
-            typeOfCareId: 'SLEEP',
-            typeOfSleepCareId: '349',
+            typeOfCareId: TYPE_OF_CARE_IDS.SLEEP_MEDICINE_ID,
+            typeOfSleepCareId: TYPE_OF_CARE_IDS.CPAP_ID,
           },
           parentFacilities: [
             {
