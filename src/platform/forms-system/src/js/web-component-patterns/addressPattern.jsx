@@ -276,8 +276,6 @@ export const updateFormDataAddress = (
  * @typedef {'country' | 'city' | 'isMilitary' | 'postalCode' | 'state' | 'street' | 'street2' | 'street3' } AddressSchemaKey
  */
 
-// TODO: state should be required on first load
-
 /**
  * Web component v3 uiSchema for address
  *
@@ -310,7 +308,6 @@ export const updateFormDataAddress = (
  * @param {Array<AddressSchemaKey>} [options.omit] - If not omitting country but omitting street, city, or postalCode
  * you will need to include in your `submitTransformer` the `allowPartialAddress` option
  * @param {boolean | Record<AddressSchemaKey, (formData:any) => boolean>} [options.required]
- * @param {number} [options.version] 2 (default) - uses Radio for military and new labels, 1 - uses Select for military
  * @returns {UISchemaOptions}
  */
 export function addressUI(options = {}) {
