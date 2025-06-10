@@ -124,19 +124,15 @@ function runTestsForApp(appName) {
   try {
     const outputFile = path.join(OUTPUT_DIR, `${appName}-test-results.json`);
     const command = `BABEL_ENV=test NODE_ENV=test npx mocha --config config/mocha.json --reporter json --reporter-option output=${outputFile} "src/applications/${appName}/**/*.unit.spec.@(js|jsx)"`;
-    let testOutput;
 
     try {
-      testOutput = execSync(command, {
+      execSync(command, {
         encoding: 'utf8',
         stdio: ['pipe', 'pipe', 'pipe'],
         timeout: 300000, // 5 minute timeout
       });
     } catch (error) {
-      // Tests can "fail" but still have JSON output to process
-      testOutput =
-        error.stdout ||
-        '{"stats":{"suites":0,"tests":0,"passes":0,"pending":0,"failures":1,"start":"","end":"","duration":0},"failures":[]}';
+      console.error(chalk.red(`Error running tests for ${appName}:`), error);
     }
 
     // Read and parse the JSON output
@@ -503,7 +499,9 @@ async function main() {
         } else {
           console.log(
             chalk.green(
-              `✅ ${appName} passed all tests (${appResult.stats.passes} tests)`,
+              `✅ ${appName} passed all tests (${
+                appResult.stats.passes
+              } tests)`,
             ),
           );
         }
