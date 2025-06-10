@@ -21,7 +21,8 @@ export const wrapWithBreadcrumb = component => (
     <div className="row">
       <VaBreadcrumbs
         uswds
-        label="Breadcrumb"
+        label="Breadcrumbs"
+        data-testid="breadcrumbs"
         breadcrumbList={BCList}
         home-veterans-affairs={false}
       />
