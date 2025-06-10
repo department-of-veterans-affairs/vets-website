@@ -30,6 +30,7 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
+import { CustomApplicantSSNPage } from '../pages/CustomApplicantSSNPage';
 import {
   flattenApplicantSSN,
   flattenSponsorSSN,
@@ -53,6 +54,8 @@ import {
 import {
   certifierNameValidation,
   certifierAddressValidation,
+  validateSponsorSsnIsUnique,
+  validateApplicantSsnIsUnique,
 } from '../helpers/validations';
 import {
   sponsorAddressCleanValidation,
@@ -411,6 +414,7 @@ const formConfig = {
               </>
             )),
             ssn: ssnUI(),
+            'ui:validations': [validateSponsorSsnIsUnique],
           },
           schema: {
             type: 'object',
@@ -705,6 +709,9 @@ const formConfig = {
               identification information
             </>
           ),
+          CustomPage: CustomApplicantSSNPage,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
           showPagePerItem: true,
           uiSchema: {
             applicants: {
@@ -726,6 +733,7 @@ const formConfig = {
                   </>
                 )),
                 applicantSSN: ssnUI(),
+                'ui:validations': [validateApplicantSsnIsUnique],
               },
             },
           },
