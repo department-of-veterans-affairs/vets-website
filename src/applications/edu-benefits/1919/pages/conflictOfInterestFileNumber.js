@@ -8,6 +8,8 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { conflictOfInterestPolicy } from '../helpers';
 
+const noSpaceOnlyPattern = '^(?!\\s*$).+';
+
 const uiSchema = {
   ...arrayBuilderItemSubsequentPageTitleUI(
     'Information on an individual with a potential conflict of interest who receives VA educational benefits',
@@ -20,6 +22,7 @@ const uiSchema = {
     required: () => true,
     errorMessages: {
       required: 'Please enter a VA file number',
+      pattern: 'You must provide a response',
     },
   }),
 };
@@ -27,7 +30,10 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    fileNumber: textSchema,
+    fileNumber: {
+      ...textSchema,
+      pattern: noSpaceOnlyPattern,
+    },
   },
   required: ['fileNumber'],
 };
