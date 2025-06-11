@@ -217,23 +217,6 @@ const formConfig = {
                 `/6/marital-information/current-spouse-marriage-history/${nextIndex}/former-spouse-information?add=true`,
               );
             },
-
-            // onNavForward: ({ formData, goPath }) => {
-            //   // Check the yes/no answer for spouse previous marriages
-            //   const hasSpousePreviousMarriages =
-            //     formData?.['view:completedSpouseFormerMarriage'];
-
-            //   if (hasSpousePreviousMarriages === false) {
-            //     // User said "no" - go to veteran marriage history
-            //     goPath('/6/marital-information/veteran-marriage-history');
-            //   } else {
-            //     // User said "yes" - continue with spouse marriage history flow
-            //     // This will use default navigation to the first spouse marriage item page
-            //     goPath(
-            //       '/6/marital-information/current-spouse-marriage-history/0/former-spouse-information?add=true',
-            //     );
-            //   }
-            // },
           }),
           spouseMarriageHistoryPartOne: pageBuilder.itemPage({
             title: 'Previous spouse’s name and date of birth',
@@ -329,24 +312,13 @@ const formConfig = {
               'veteran-marriage-history/:index/previous-spouse-contact-information',
             uiSchema: veteranPreviousSpouseContactInfo.uiSchema,
             schema: veteranPreviousSpouseContactInfo.schema,
-            depends: (formData, index, context) => {
+            depends: (formData, index) => {
               const marriageItem = formData?.veteranMarriageHistory?.[index];
-              const isDeceasedButNotDivorced =
-                formData.maritalStatus !== 'DIVORCED' &&
-                marriageItem?.['view:previousSpouseIsDeceased'] === false;
-
               return (
-                isDeceasedButNotDivorced ||
-                (isDeceasedButNotDivorced && context?.add === true) ||
-                (isDeceasedButNotDivorced && context?.edit === true)
+                !marriageItem?.['view:previousSpouseIsDeceased'] ||
+                context?.edit === true ||
+                context?.add === true
               );
-
-              // return (
-              //   (formData.maritalStatus !== 'DIVORCED' &&
-              //     marriageItem?.['view:previousSpouseIsDeceased'] === false) ||
-              //   context?.edit === true ||
-              //   context?.add === true
-              // );
             },
           }),
           veteranMarriageHistoryPartFour: pageBuilder.itemPage({

@@ -95,6 +95,7 @@ export default {
       dateOfTermination: currentOrPastDateSchema,
       'view:marriageEndedOutsideUS': {
         type: 'boolean',
+        default: false,
       },
       previousMarriageEndLocation: {
         type: 'object',

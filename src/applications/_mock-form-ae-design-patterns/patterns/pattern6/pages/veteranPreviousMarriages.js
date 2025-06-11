@@ -21,6 +21,7 @@ export default {
           Y: 'Yes',
           N: 'No',
         },
+        labelHeaderLevel: 'p',
       },
     ),
   },

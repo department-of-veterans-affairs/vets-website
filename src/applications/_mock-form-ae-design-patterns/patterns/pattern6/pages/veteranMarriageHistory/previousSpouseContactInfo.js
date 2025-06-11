@@ -7,6 +7,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { capitalize } from 'lodash';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI(({ formData }) => {
@@ -18,7 +19,7 @@ export default {
 
       return (
         <>
-          <h3 className="vads-u-color--black">{title}</h3>
+          <h3 className="vads-u-color--black vads-u-margin-top--0">{title}</h3>
         </>
       );
     }),

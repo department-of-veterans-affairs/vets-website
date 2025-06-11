@@ -95,6 +95,7 @@ export default {
       previousDateOfMarriage: currentOrPastDateSchema,
       'view:marriedOutsideUS': {
         type: 'boolean',
+        default: false,
       },
       previousMarriageLocation: {
         type: 'object',
