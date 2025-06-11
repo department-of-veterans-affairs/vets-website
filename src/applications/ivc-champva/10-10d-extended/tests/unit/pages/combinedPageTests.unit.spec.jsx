@@ -53,6 +53,14 @@ testNumberOfWebComponentFields(
   'Sponsor Information - Identification info',
   {},
 );
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.sponsorInformation.pages.page7.schema,
+  formConfig.chapters.sponsorInformation.pages.page7.uiSchema,
+  2,
+  'Sponsor Information - Identification info (role: sponsor)',
+  { certifierRole: 'sponsor' },
+);
 describe('sponsor information title function', () => {
   it('should compute title text for the page', () => {
     expect(
@@ -80,11 +88,27 @@ testNumberOfWebComponentFields(
 );
 testNumberOfWebComponentFields(
   formConfig,
+  formConfig.chapters.sponsorInformation.pages.page10.schema,
+  formConfig.chapters.sponsorInformation.pages.page10.uiSchema,
+  8,
+  'Sponsor Information - Address (role: sponsor)',
+  { certifierRole: 'sponsor' },
+);
+testNumberOfWebComponentFields(
+  formConfig,
   formConfig.chapters.sponsorInformation.pages.page11.schema,
   formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
   1,
   'Sponsor Information - Contact info',
   {},
+);
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.sponsorInformation.pages.page11.schema,
+  formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
+  1,
+  'Sponsor Information - Contact info (role: sponsor)',
+  { certifierRole: 'sponsor' },
 );
 testComponentRender(
   'ApplicantRelOriginPage',
