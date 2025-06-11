@@ -5,6 +5,7 @@ import orderBy from 'lodash/orderBy';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { SERVICE_BADGE_IMAGE_PATHS } from '../profile/constants';
 import { getServiceBranchDisplayName } from '../profile/helpers';
 import { formatFullName } from '../common/helpers';
@@ -217,10 +218,16 @@ const NameTag = ({
                 </dd>
               </>
             )}
-            <DisabilityRating
-              rating={totalDisabilityRating}
-              showFallbackLink={totalDisabilityRatingServerError}
-            />
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Disabled>
+                <DisabilityRating
+                  rating={totalDisabilityRating}
+                  showFallbackLink={totalDisabilityRatingServerError}
+                />
+              </Toggler.Disabled>
+            </Toggler>
           </dl>
         </div>
       </div>
