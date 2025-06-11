@@ -30,30 +30,49 @@ const getPdfBlob = async (templateId, data) => {
   });
 };
 
+const pdfDataSplitter = pdfData => {
+  const educationDebts = pdfData.selectedDebts.filter(
+    debt => debt.deductionCode !== '30',
+  );
+  const compAndPenDebts = pdfData.selectedDebts.filter(
+    debt => debt.deductionCode === '30',
+  );
+
+  return {
+    education: educationDebts.length
+      ? { ...pdfData, selectedDebts: educationDebts }
+      : null,
+    compAndPen: compAndPenDebts.length
+      ? { ...pdfData, selectedDebts: compAndPenDebts }
+      : null,
+  };
+};
+
 export const handlePdfGeneration = async pdfData => {
   try {
+    const splitPdfData = pdfDataSplitter(pdfData);
     const formData = new FormData();
 
     // Generate the PDF for education debts if present
-    if (pdfData.education) {
+    if (splitPdfData.education) {
       const educationPdfData = await getPdfBlob(
         'disputeDebt',
-        pdfData.education,
+        splitPdfData.education,
       );
       formData.append('files[]', educationPdfData);
     }
 
     // Generate the PDF for comp and pen debts if present
-    if (pdfData.compAndPen) {
+    if (splitPdfData.compAndPen) {
       const compAndPenPdfData = await getPdfBlob(
         'disputeDebt',
-        pdfData.compAndPen,
+        splitPdfData.compAndPen,
       );
       formData.append('files[]', compAndPenPdfData);
     }
 
     // shouldn't happen, but just in case
-    if (!pdfData.compAndPen && !pdfData.education) {
+    if (!splitPdfData.compAndPen && !splitPdfData.education) {
       throw new Error(
         '`Dispute Debt pdf generation failed: No debts to generate PDF for.',
       );
