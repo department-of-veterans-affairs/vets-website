@@ -213,6 +213,11 @@ va-radio[label="Do you have any other previous marriages?"]::part(required) {
   font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }
 
+va-radio[label="Does your spouse have any other previous marriages?"]::part(required) {
+  font-size: 1.06rem !important;
+  font-weight: normal !important;
+  font-family: "Source Sans Pro Web", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
 
 
 #react-root > div.vads-u-margin-top--4 > div:nth-child(1) > div.form-app > div > div > div.progress-box.progress-box-schemaform > div > form > div.vads-u-margin-y--2.rjsf-object-field > div > fieldset > p {
