@@ -6,7 +6,7 @@ import mockSingleMessage from '../fixtures/inboxResponse/single-message-response
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockOHThread from '../fixtures/thread-OH-response.json';
 
-describe('SM NO ASSOCIATION WITH PARTICULAR TG', () => {
+describe('SM OH USER NO ASSOCIATION WITH PARTICULAR TG', () => {
   const updatedData = mockRecipients.data.slice(1);
   const updatedMeta = { ...mockRecipients.meta, associatedTriageGroups: 6 };
   const removedFirstRecipientsList = {
