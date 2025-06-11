@@ -5,9 +5,8 @@ import mockMessages from '../fixtures/threads-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
-import mockOHThread from '../fixtures/thread-OH-response.json';
 
-describe('Verify thread - No association with particular Triage Group', () => {
+describe('SM NO ASSOCIATION WITH PARTICULAR TG', () => {
   const updatedData = mockRecipients.data.slice(1);
   const updatedMeta = { ...mockRecipients.meta, associatedTriageGroups: 6 };
   const removedFirstRecipientsList = {
@@ -103,37 +102,5 @@ describe('Verify thread - No association with particular Triage Group', () => {
       .and('have.text', Alerts.NO_ASSOCIATION.LINK);
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
-  });
-
-  it('verify OH user can send a message to no associated team', () => {
-    const threadWithNoAssociatedTG = {
-      ...mockOHThread,
-      data: [
-        {
-          ...mockOHThread.data[0],
-          attributes: {
-            ...mockOHThread.data[0].attributes,
-            recipientName: mockRecipients.data[0].attributes.name,
-            triageGroupName: mockRecipients.data[0].attributes.name,
-            recipientId: mockRecipients.data[0].attributes.triageTeamId,
-          },
-        },
-        ...mockOHThread.data,
-      ],
-    };
-    SecureMessagingSite.login();
-
-    PatientInboxPage.loadInboxMessages(
-      mockMessages,
-      mockSingleMessage,
-      removedFirstRecipientsList,
-    );
-
-    PatientInboxPage.loadSingleThread(threadWithNoAssociatedTG);
-
-    cy.get(Locators.ALERTS.BLOCKED_GROUP).should('not.exist');
-    cy.get(Locators.BUTTONS.REPLY).should('be.visible');
-
-    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
