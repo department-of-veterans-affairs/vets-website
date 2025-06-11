@@ -13,7 +13,7 @@ const NeedHelp = () => {
             <a
               href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/elr.asp"
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
             >
               contact your Education Liaison Representative.
             </a>
