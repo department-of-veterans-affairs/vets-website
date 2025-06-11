@@ -7,7 +7,7 @@ const useFeatureToggles = () => {
     isComboBoxEnabled,
     isAalEnabled,
     readReceiptsEnabled,
-    ohPilotSMEnabled,
+    cernerPilotSmFeatureFlag,
   } = useSelector(
     state => {
       return {
@@ -24,7 +24,7 @@ const useFeatureToggles = () => {
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingReadReceipts
           ],
-        ohPilotSMEnabled:
+        cernerPilotSmFeatureFlag:
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
           ],
@@ -38,7 +38,7 @@ const useFeatureToggles = () => {
     isComboBoxEnabled,
     readReceiptsEnabled,
     isAalEnabled,
-    ohPilotSMEnabled,
+    cernerPilotSmFeatureFlag,
   };
 };
 

@@ -31,7 +31,10 @@ const App = ({ isPilot }) => {
   useTrackPreviousUrl();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const { featureTogglesLoading, ohPilotSMEnabled } = useFeatureToggles();
+  const {
+    featureTogglesLoading,
+    cernerPilotSmFeatureFlag,
+  } = useFeatureToggles();
 
   const mhvMockSessionFlag = useSelector(
     state => state.featureToggles['mhv-mock-session'],
@@ -124,7 +127,7 @@ const App = ({ isPilot }) => {
   // Feature flag maintains whitelist for cerner integration pilot environment.
   // If the user lands on /my-health/secure-messages-pilot and is not whitelisted,
   // redirect to the SM main experience landing page
-  if (isPilot && !ohPilotSMEnabled) {
+  if (isPilot && !cernerPilotSmFeatureFlag) {
     const url = `${manifest.rootUrl}${Paths.INBOX}`;
     window.location.replace(url);
     return <></>;
