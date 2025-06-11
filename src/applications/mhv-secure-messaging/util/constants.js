@@ -17,6 +17,7 @@ export const Paths = {
   REPLY: '/reply/',
   CONTACT_LIST: '/contact-list/',
   SELECT_HEALTH_CARE_SYSTEM: 'select-health-care-system',
+  SELECT_CARE_TEAM: 'select-care-team',
   START_MESSAGE: 'start-message',
 };
 

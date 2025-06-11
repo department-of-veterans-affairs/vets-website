@@ -17,7 +17,7 @@ import manifest from '../manifest.json';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
-import SelectHealthCareSystem from './SelectHealthCareSystem';
+import SelectCareTeam from './SelectCareTeam';
 
 // Prepend SmBreadcrumbs to each route, except for PageNotFound
 const AppRoute = ({ children, ...rest }) => {
@@ -111,10 +111,10 @@ const AuthorizedRoutes = () => {
         {isPilot && (
           <AppRoute
             exact
-            path={`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`}
-            key="SelectHealthCareSystem"
+            path={`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`}
+            key="SelectCareTeam"
           >
-            <SelectHealthCareSystem />
+            <SelectCareTeam />
           </AppRoute>
         )}
         {isPilot && (

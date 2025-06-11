@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-// import {
-//   selectCernerFacilities,
-//   selectVistaFacilities,
-// } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import {
+  selectCernerFacilities,
+  selectVistaFacilities,
+} from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
 
 import { clearThread } from '../actions/threadDetails';
@@ -28,7 +28,7 @@ import {
 } from '../util/constants';
 import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
-// import { setActiveFacility } from '../actions/recipients';
+import { setActiveFacility } from '../actions/recipients';
 
 const Compose = ({ skipInterstitial }) => {
   const isPilot = useSelector(state => state.sm.app.isPilot);
@@ -46,8 +46,8 @@ const Compose = ({ skipInterstitial }) => {
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
   const { allTriageGroupsBlocked } = recipients;
-  // const cernerFacilities = useSelector(selectCernerFacilities);
-  // const vistaFacilities = useSelector(selectVistaFacilities);
+  const cernerFacilities = useSelector(selectCernerFacilities);
+  const vistaFacilities = useSelector(selectVistaFacilities);
 
   const [acknowledged, setAcknowledged] = useState(skipInterstitial);
   const [draftType, setDraftType] = useState('');
@@ -116,21 +116,21 @@ const Compose = ({ skipInterstitial }) => {
   // The useEffect here should be removed and the dispatch added to the ChooseVAHealthcareSystem
   // component with the actual selected Facility passed into setActiveFacility
   //
-  // useEffect(
-  //   () => {
-  //     if (
-  //       isPilot &&
-  //       recipients.allRecipients.length > 0 &&
-  //       !recipients?.activeFacility
-  //     ) {
-  //       dispatch(
-  //         // setActiveFacility(recipients?.allRecipients, cernerFacilities[0]),
-  //         setActiveFacility(recipients?.allRecipients, vistaFacilities[0]),
-  //       );
-  //     }
-  //   },
-  //   [cernerFacilities, dispatch, isPilot, recipients, vistaFacilities],
-  // );
+  useEffect(
+    () => {
+      if (
+        isPilot &&
+        recipients.allRecipients.length > 0 &&
+        !recipients?.activeFacility
+      ) {
+        dispatch(
+          // setActiveFacility(recipients?.allRecipients, cernerFacilities[0]),
+          setActiveFacility(recipients?.allRecipients, vistaFacilities[0]),
+        );
+      }
+    },
+    [cernerFacilities, dispatch, isPilot, recipients, vistaFacilities],
+  );
 
   useEffect(
     () => {

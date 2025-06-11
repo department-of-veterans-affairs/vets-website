@@ -12,7 +12,7 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { Paths } from '../util/constants';
 
-const SelectHealthCareSystem = () => {
+const SelectCareTeam = () => {
   const history = useHistory();
   const allFacilities = useSelector(state => state.sm.recipients.allFacilities);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
@@ -108,9 +108,9 @@ const SelectHealthCareSystem = () => {
   );
 };
 
-SelectHealthCareSystem.propTypes = {
+SelectCareTeam.propTypes = {
   acknowledge: PropType.func,
   type: PropType.string,
 };
 
-export default SelectHealthCareSystem;
+export default SelectCareTeam;

@@ -28,7 +28,11 @@ const CategoryInput = props => {
   return (
     <>
       {isPilot && (
-        <h3 className="vads-u-margin-top--4 vads-u-margin-bottom--neg1">
+        <h3
+          className={`${
+            isPilot ? 'vads-u-margin-top--3' : 'vads-u-margin-top--4'
+          } vads-u-margin-bottom--neg1`}
+        >
           Choose a topic for your message
         </h3>
       )}

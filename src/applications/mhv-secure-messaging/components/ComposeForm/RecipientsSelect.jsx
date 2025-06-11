@@ -44,16 +44,10 @@ import PropTypes from 'prop-types';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
-import { Link } from 'react-router-dom';
 import { sortRecipients } from '../../util/helpers';
-import {
-  BlockedTriageAlertStyles,
-  ParentComponent,
-  Prompts,
-} from '../../util/constants';
+import { Prompts } from '../../util/constants';
 import CantFindYourTeam from './CantFindYourTeam';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
-import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 
 const RecipientsSelect = ({
   recipientsList,
@@ -64,7 +58,6 @@ const RecipientsSelect = ({
   setCheckboxMarked,
   setElectronicSignature,
   setComboBoxInputValue,
-  currentRecipient,
 }) => {
   const alertRef = useRef(null);
   const isSignatureRequiredRef = useRef();
@@ -78,7 +71,6 @@ const RecipientsSelect = ({
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
   const isPilot = useSelector(state => state.sm.app.isPilot);
-  const { activeFacility } = useSelector(state => state.sm.recipients);
 
   const optGroupEnabled = useSelector(
     state =>
@@ -232,33 +224,6 @@ const RecipientsSelect = ({
 
   return (
     <>
-      {!featureTogglesLoading &&
-        isPilot && (
-          <>
-            <h2 className="recipientSelectHeading vads-u-margin-top--3">
-              {`You’re sending a message to ${
-                activeFacility?.vamcSystemName
-              } teams.`}
-            </h2>
-            <Link
-              to="select-health-care-system"
-              data-dd-action-name="Select a different VA health care system link"
-            >
-              Select a different VA health care system
-            </Link>
-            <h3 className="vads-u-margin-top--3 vads-u-margin-bottom--0">
-              Choose a care team
-            </h3>
-            <div className="vads-u-margin-top--2">
-              <BlockedTriageGroupAlert
-                alertStyle={BlockedTriageAlertStyles.ALERT}
-                parentComponent={ParentComponent.COMPOSE_FORM}
-                currentRecipient={currentRecipient}
-              />
-            </div>
-            {isPilot && <CantFindYourTeam />}
-          </>
-        )}
       {!featureTogglesLoading && (isComboBoxEnabled || isPilot) ? (
         <VaComboBox
           required

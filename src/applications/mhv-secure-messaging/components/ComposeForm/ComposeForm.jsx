@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DowntimeNotification,
@@ -110,6 +110,7 @@ const ComposeForm = props => {
   const categories = useSelector(state => state.sm.categories?.categories);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
+  const { activeFacility } = useSelector(state => state.sm.recipients);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const debouncedCategory = useDebounce(category, draftAutoSaveTimeout);
@@ -853,7 +854,8 @@ const ComposeForm = props => {
                 />
               </div>
             )}
-          {recipientsList &&
+          {!isPilot &&
+            recipientsList &&
             !noAssociations &&
             !allTriageGroupsBlocked && (
               <RecipientsSelect
@@ -868,6 +870,20 @@ const ComposeForm = props => {
                 currentRecipient={currentRecipient}
               />
             )}
+          {isPilot && (
+            <div className="vads-u-margin-top--3">
+              <p className="vads-u-margin-bottom--0">To</p>
+              <p className="vads-u-font-weight--bold vads-u-margin-y--0">
+                {activeFacility?.vamcSystemName}
+              </p>
+              <Link
+                to="select-care-team"
+                data-dd-action-name="Select a different care team link"
+              >
+                Select a different care team
+              </Link>
+            </div>
+          )}
           <div className="compose-form-div">
             {noAssociations || allTriageGroupsBlocked ? (
               <ViewOnlyDraftSection
