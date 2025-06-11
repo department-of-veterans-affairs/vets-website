@@ -28,7 +28,7 @@ import {
   fetchRequestById,
   getAppointmentRequests,
   getVAAppointmentLocationId,
-  isVideoHome,
+  isVideoAtHome,
 } from '../../services/appointment';
 
 import {
@@ -202,7 +202,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       recordItemsRetrieved('upcoming', data?.length);
       recordItemsRetrieved(
         'video_home',
-        data?.filter(appt => isVideoHome(appt)).length,
+        data?.filter(appt => isVideoAtHome(appt)).length,
       );
 
       recordItemsRetrieved(

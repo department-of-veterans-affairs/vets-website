@@ -329,6 +329,15 @@ export function isAtlasVideoAppointment(appointment) {
 }
 
 /**
+ * Method to check for home video appointment
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @return {boolean} Returns whether or not the appointment is a home video appointment.
+ */
+export function isVideoAtHome(appointment) {
+  return appointment?.vaos?.isVideoAtHome;
+}
+
+/**
  * Returns the location ID of a VA appointment (in person or video)
  *
  * @export
@@ -560,18 +569,6 @@ export function sortMessages(a, b) {
 }
 
 /**
- * Method to check for home video appointment
- * @param {Appointment} appointment A FHIR appointment resource
- * @return {boolean} Returns whether or not the appointment is a home video appointment.
- */
-export function isVideoHome(appointment) {
-  const { isAtlas, kind } = appointment?.videoData || {};
-  return (
-    !isAtlas && (kind === VIDEO_TYPES.mobile || kind === VIDEO_TYPES.adhoc)
-  );
-}
-
-/**
  * Get the name of the first preferred community care provider, or generic text
  *
  * @param {Appointment} appointment An appointment object
@@ -727,7 +724,7 @@ export function isInPersonVisit(appointment) {
 export function getCalendarData({ appointment, facility }) {
   let data = {};
   const isAtlas = appointment?.videoData.isAtlas;
-  const isHome = isVideoHome(appointment);
+  const isHome = isVideoAtHome(appointment);
   const isVideo = appointment?.vaos.isVideo;
   const isCommunityCare = appointment?.vaos.isCommunityCare;
   const isPhone = isVAPhoneAppointment(appointment);
