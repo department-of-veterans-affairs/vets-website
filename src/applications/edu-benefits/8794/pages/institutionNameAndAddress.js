@@ -83,7 +83,7 @@ const schema = {
           required: ['street', 'city', 'state', 'postalCode', 'country'],
         },
       },
-      required: ['institutionName'],
+      required: ['institutionName', 'institutionAddress'],
     },
   },
 };
