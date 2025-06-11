@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import CTALink from '../CTALink';
 import { hasTotalDisabilityServerError } from '../../../common/selectors/ratedDisabilities';
 
-const CombinedDisabilityRatingCard = ({
+const DisabilityRatingCard = ({
   totalDisabilityRating,
   totalDisabilityRatingServerError,
 }) => {
@@ -31,7 +31,7 @@ const CombinedDisabilityRatingCard = ({
   );
 };
 
-CombinedDisabilityRatingCard.propTypes = {
+DisabilityRatingCard.propTypes = {
   totalDisabilityRating: PropTypes.number,
   totalDisabilityRatingServerError: PropTypes.bool,
 };
@@ -41,4 +41,4 @@ const mapStateToProps = state => ({
   totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
 });
 
-export default connect(mapStateToProps)(CombinedDisabilityRatingCard);
+export default connect(mapStateToProps)(DisabilityRatingCard);
