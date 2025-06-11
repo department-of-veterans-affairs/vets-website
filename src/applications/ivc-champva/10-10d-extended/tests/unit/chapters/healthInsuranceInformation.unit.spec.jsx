@@ -48,8 +48,7 @@ describe('healthInsurancePages title functions', () => {
   it('should compute title text for each page title function in uiSchema', () => {
     const funcTitles = Object.keys(healthInsurancePages).filter(
       page =>
-        page.includes('page') &&
-        typeof healthInsurancePages[page].uiSchema.healthInsurance.items[
+        typeof healthInsurancePages[page]?.uiSchema?.healthInsurance?.items[
           'ui:title'
         ] === 'function',
     );
