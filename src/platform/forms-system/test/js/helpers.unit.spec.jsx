@@ -644,6 +644,28 @@ describe('Schemaform helpers:', () => {
 
       expect(output.testArray).to.be.undefined;
     });
+    it('should handle null data properties', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {},
+            },
+          },
+        },
+      };
+      const formData = {
+        data: {
+          address: {
+            country: null,
+            city: 'some city',
+          },
+        },
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+      expect(output.address).to.deep.equal({ city: 'some city' });
+    });
   });
   describe('setArrayRecordTouched', () => {
     /* eslint-disable camelcase */
