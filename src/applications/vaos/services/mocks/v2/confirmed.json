@@ -5197,6 +5197,7 @@
         "pending": false,
         "past": true,
         "future": false,
+        "showScheduleLink": true,
         "travelPayClaim": {
           "metadata": {
             "status": 200,

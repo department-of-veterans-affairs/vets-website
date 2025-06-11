@@ -274,6 +274,7 @@ export function transformVAOSAppointment(
     modality: appt.modality,
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
+    showScheduleLink: appt.showScheduleLink,
     avsPath: isPast ? appt.avsPath : null,
     // NOTE: Timezone will be converted to the local timezone when using 'format()'.
     // So use format without the timezone information.

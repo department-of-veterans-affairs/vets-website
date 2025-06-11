@@ -148,6 +148,8 @@
   "mhvMedicalRecordsDisplayVaccines": "mhv_medical_records_display_vaccines",
   "mhvMedicalRecordsDisplayVitals": "mhv_medical_records_display_vitals",
   "mhvMedicalRecordsMilestoneTwo": "mhv_medical_records_milestone_two",
+  "mhvMedicalRecordsSupportNewModelHealthCondition": "mhv_medical_records_support_new_model_health_condition",
+  "mhvMedicalRecordsSupportNewModelVaccine": "mhv_medical_records_support_new_model_vaccine",
   "mhvMedicalRecordsToVaGovRelease": "mhv_medical_records_to_va_gov_release",
   "mhvMedicalRecordsUpdateLandingPage": "mhv_medical_records_update_landing_page",
   "mhvMedicalRecordsFilterAndSort": "mhv_medical_records_filter_and_sort",
@@ -201,6 +203,7 @@
   "pensionItfShowAlert": "pension_itf_show_alert",
   "preEntryCovid19Screener": "pre_entry_covid19_screener",
   "profileDoNotRequireInternationalZipCode": "profile_do_not_require_international_zip_code",
+  "profileContactInfoPageUIRefresh": "profile_contact_info_page_ui_refresh",
   "profileHideDirectDeposit": "profile_hide_direct_deposit",
   "profileInternationalPhoneNumbers": "profile_international_phone_numbers",
   "profileLimitDirectDepositForNonBeneficiaries": "profile_limit_direct_deposit_for_non_beneficiaries",
@@ -332,5 +335,6 @@
   "accreditedRepresentativePortalHelp": "accredited_representative_portal_help",
   "accreditedRepresentativePortalProfile": "accredited_representative_portal_profile",
   "myVaAuthExpRedesignEnabled": "my_va_auth_exp_redesign_enabled",
-  "accreditedRepresentativePortalSelfServiceAuth": "accredited_representative_portal_self_service_auth"
+  "accreditedRepresentativePortalSelfServiceAuth": "accredited_representative_portal_self_service_auth",
+  "accreditedRepresentativePortalForm": "accredited_representative_portal_form"
 }

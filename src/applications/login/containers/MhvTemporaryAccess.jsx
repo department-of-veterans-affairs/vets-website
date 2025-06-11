@@ -1,10 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { login } from 'platform/user/authentication/utilities';
 import { AUTHN_SETTINGS } from 'platform/user/authentication/constants';
 
 export default function MhvTemporaryAccess() {
+  const [manageAcctUrl, setAcctUrl] = useState();
   useEffect(() => {
     document.title = 'Access the My HealtheVet sign-in option';
+
+    async function createHref() {
+      const url = await login({
+        policy: 'mhv',
+        queryParams: { operation: 'mhv_exception' },
+        isLink: true,
+      });
+      setAcctUrl(url);
+    }
+    createHref();
   }, []);
   return (
     <section className="container row login vads-u-padding--3">
@@ -36,27 +47,23 @@ export default function MhvTemporaryAccess() {
         />
       </div>
       <div className="columns small-12 vads-u-padding--0">
-        <h2>Manage your My HealtheVet account</h2>
+        <h2>Manage your account</h2>
         <h3 className="vads-u-margin-top--0">
-          View or update account information
+          Account information and password
         </h3>
         <p className="vads-u-measure--4 vads-u-margin-bottom--0">
-          To view your account activity or change your password, sign in here
-          and navigate to <strong>Account Information</strong>.
+          Sign in here and navigate to <strong>Account Information</strong> to
+          view your My HealtheVet account activity or change your password.
         </p>
         <va-link-action
           text="Manage your account"
           type="secondary"
-          onClick={e => {
-            e.preventDefault();
+          href={manageAcctUrl}
+          onClick={() => {
             sessionStorage.setItem(
               AUTHN_SETTINGS.RETURN_URL,
-              'https://eauth.va.gov/mhv-portal-web/eauth',
+              'https://eauth.va.gov/mhv-portal-web/eauth?deeplinking=account-information',
             );
-            login({
-              policy: 'mhv',
-              queryParams: { operation: 'mhv_exception' },
-            });
           }}
           data-testid="updateMhvBtn"
         />
