@@ -47,7 +47,6 @@ describe('EZR Next Of Kin flow', () => {
     fillNameWithKeyboard('fullName', contact.fullName);
     fillTextWebComponent('primaryPhone', contact.primaryPhone);
     selectDropdownWebComponent('relationship', contact.relationship);
-    selectYesNoWebComponent('view:hasNextOfKinAddress', true);
 
     // NoK 1 address
     goToNextPage(

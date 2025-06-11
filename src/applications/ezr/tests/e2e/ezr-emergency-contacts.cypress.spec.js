@@ -50,7 +50,6 @@ describe('EZR TERA flow', () => {
     fillNameWithKeyboard('fullName', contact.fullName);
     fillTextWebComponent('primaryPhone', contact.primaryPhone);
     selectDropdownWebComponent('relationship', contact.relationship);
-    selectYesNoWebComponent('view:hasEmergencyContactAddress', true);
 
     // ec 1 address
     goToNextPage(

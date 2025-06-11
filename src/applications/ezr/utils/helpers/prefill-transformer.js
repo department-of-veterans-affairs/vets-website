@@ -92,15 +92,13 @@ export function prefillTransformer(pages, formData, metadata, state) {
 
   if (newData.emergencyContacts && newData.emergencyContacts.length > 0) {
     newData.emergencyContacts = newData.emergencyContacts.map(contact => {
-      const hasAddress = !!contact.address;
-      return { ...contact, 'view:hasEmergencyContactAddress': hasAddress };
+      return contact;
     });
   }
 
   if (newData.nextOfKins && newData.nextOfKins.length > 0) {
     newData.nextOfKins = newData.nextOfKins.map(contact => {
-      const hasAddress = !!contact.address;
-      return { ...contact, 'view:hasNextOfKinAddress': hasAddress };
+      return contact;
     });
   }
 
