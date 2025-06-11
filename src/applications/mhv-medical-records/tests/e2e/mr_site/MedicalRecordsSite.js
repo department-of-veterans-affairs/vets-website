@@ -101,11 +101,29 @@ class MedicalRecordsSite {
             value: true,
           },
           {
-            name: 'mhv_medical_records_support_new_model_health_condition',
+            name: 'mhv_medical_records_support_backend_pagination_allergy',
             value: false,
           },
           {
-            name: 'mhv_medical_records_support_new_model_vaccine',
+            name:
+              'mhv_medical_records_support_backend_pagination_care_summary_note',
+            value: false,
+          },
+          {
+            name:
+              'mhv_medical_records_support_backend_pagination_health_condition',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_lab_test',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_vaccine',
+            value: false,
+          },
+          {
+            name: 'mhv_medical_records_support_backend_pagination_vital',
             value: false,
           },
         ],
