@@ -17,7 +17,7 @@ import {
   MhvSecondaryNav,
   useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { useLocation } from 'react-router-dom-v5-compat';
 import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import { medicationsUrls } from '../util/constants';
 import { selectRemoveLandingPageFlag } from '../util/selectors';
@@ -52,7 +52,7 @@ const App = ({ children }) => {
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,
-    defaultPrivacyLevel: 'mask-user-input',
+    defaultPrivacyLevel: 'mask',
   };
   useDatadogRum(datadogRumConfig);
   useEffect(
@@ -85,7 +85,7 @@ const App = ({ children }) => {
   }
 
   return (
-    <RequiredLoginView user={user}>
+    <RequiredLoginView user={user} serviceRequired={[backendServices.RX]}>
       <MhvServiceRequiredGuard
         user={user}
         serviceRequired={[backendServices.RX]}

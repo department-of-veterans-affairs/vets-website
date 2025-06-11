@@ -13,12 +13,15 @@ import {
 } from '../../tests/mocks/setup';
 
 import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
 } from '../../tests/mocks/mockApis';
+import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 import TypeOfEyeCarePage from './TypeOfEyeCarePage';
 
 const initialState = {
@@ -38,10 +41,14 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     mockSchedulingConfigurationsApi({
       isCCEnabled: true,
       response: [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
     });
@@ -81,11 +88,14 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     expect(screen.history.push.called).to.not.be.true;
 
     const changeEvent = new CustomEvent('selected', {
-      detail: { value: '407' }, // Ophthalmology
+      detail: { value: TYPE_OF_CARE_IDS.OPHTHALMOLOGY_ID },
     });
     radioSelector.__events.vaValueChange(changeEvent);
     await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', '407');
+      expect(radioSelector).to.have.attribute(
+        'value',
+        TYPE_OF_CARE_IDS.OPHTHALMOLOGY_ID,
+      );
     });
 
     fireEvent.click(screen.getByText(/Continue/));
@@ -104,7 +114,7 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
 
     const radioSelector = screen.container.querySelector('va-radio');
     const changeEvent = new CustomEvent('selected', {
-      detail: { value: '408' }, // Optometry
+      detail: { value: TYPE_OF_CARE_IDS.OPTOMETRY_ID },
     });
     radioSelector.__events.vaValueChange(changeEvent);
     await cleanup();
@@ -114,7 +124,10 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     });
 
     await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', '408');
+      expect(radioSelector).to.have.attribute(
+        'value',
+        TYPE_OF_CARE_IDS.OPTOMETRY_ID,
+      );
     });
   });
 
@@ -143,7 +156,7 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
 
     const radioSelector = screen.container.querySelector('va-radio');
     const changeEvent = new CustomEvent('selected', {
-      detail: { value: '408' }, // Optometry
+      detail: { value: TYPE_OF_CARE_IDS.OPTOMETRY_ID },
     });
     radioSelector.__events.vaValueChange(changeEvent);
     fireEvent.click(screen.getByText(/Continue/));

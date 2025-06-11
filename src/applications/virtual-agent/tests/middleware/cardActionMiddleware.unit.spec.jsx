@@ -93,7 +93,6 @@ describe('cardAction', () => {
           classList: ['webchat__suggested-action'],
         };
 
-        sandbox.stub(SessionStorageModule, 'getIsRxSkill').returns('true');
         sandbox
           .stub(SessionStorageModule, 'getEventSkillValue')
           .returns('va_vha_healthassistant_bot');

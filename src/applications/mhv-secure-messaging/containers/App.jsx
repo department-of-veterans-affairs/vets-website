@@ -23,9 +23,10 @@ import ScrollToTop from '../components/shared/ScrollToTop';
 import manifest from '../manifest.json';
 import { Actions } from '../util/actionTypes';
 import { downtimeNotificationParams, Paths } from '../util/constants';
+import featureToggles from '../hooks/useFeatureToggles';
 import useTrackPreviousUrl from '../hooks/use-previous-url';
 import FetchRecipients from '../components/FetchRecipients';
-import useFeatureToggles from '../hooks/useFeatureToggles';
+import LaunchMessagingAal from '../components/util/LaunchMessagingAal';
 
 const App = ({ isPilot }) => {
   useTrackPreviousUrl();
@@ -33,12 +34,10 @@ const App = ({ isPilot }) => {
   const user = useSelector(selectUser);
   const {
     featureTogglesLoading,
+    isDowntimeBypassEnabled,
     cernerPilotSmFeatureFlag,
-  } = useFeatureToggles();
-
-  const mhvMockSessionFlag = useSelector(
-    state => state.featureToggles['mhv-mock-session'],
-  );
+    mhvMockSessionFlag,
+  } = featureToggles();
 
   useEffect(
     () => {
@@ -141,10 +140,12 @@ const App = ({ isPilot }) => {
         user={user}
         serviceRequired={[backendServices.MESSAGING]}
       >
+        <LaunchMessagingAal />
         <FetchRecipients />
         <MhvSecondaryNav />
         <div className="vads-l-grid-container">
-          {mhvSMDown === externalServiceStatus.down ? (
+          {mhvSMDown === externalServiceStatus.down &&
+          !isDowntimeBypassEnabled ? (
             <>
               <h1>Messages</h1>
               <DowntimeNotification

@@ -3,7 +3,7 @@ import moment from 'moment';
 import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
-  COVID_VACCINE_ID,
+  TYPE_OF_CARE_IDS,
   PURPOSE_TEXT_V2,
   TYPE_OF_VISIT,
 } from '../../utils/constants';
@@ -85,7 +85,7 @@ function getMomentConfirmedDate(appt) {
  *  +60 min or +240 min in the case of video
  * @param {*} appt VAOS Service appointment object
  */
-export function isPastAppointment(appt) {
+function isPastAppointment(appt) {
   const isVideo = appt.kind === 'telehealth';
   const threshold = isVideo ? 240 : 60;
   const apptDateTime = moment(getMomentConfirmedDate(appt));
@@ -97,7 +97,7 @@ export function isPastAppointment(appt) {
  * @param {*} appt VAOS Service appointment object
  * @param {*} isRequest is appointment a request
  */
-export function isFutureAppointment(appt, isRequest) {
+function isFutureAppointment(appt, isRequest) {
   const apptDateTime = moment(appt.start);
   return (
     !isRequest &&
@@ -163,7 +163,7 @@ export function transformVAOSAppointment(
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
   let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
   let isPhone = appt.kind === 'phone';
-  let isCovid = appt.serviceType === COVID_VACCINE_ID;
+  let isCovid = appt.serviceType === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
   let isInPersonVisit = !isVideo && !isCC && !isPhone;
   if (useFeSourceOfTruthModality) {
     isCompAndPen = appt.modality === 'claimExamAppointment';
@@ -274,6 +274,7 @@ export function transformVAOSAppointment(
     modality: appt.modality,
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
+    showScheduleLink: appt.showScheduleLink,
     avsPath: isPast ? appt.avsPath : null,
     // NOTE: Timezone will be converted to the local timezone when using 'format()'.
     // So use format without the timezone information.

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
@@ -92,11 +93,13 @@ export const IntroductionPage = props => {
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
         <SaveInProgressIntro
+          formConfig={formConfig}
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Apply for veteran readiness and employment"
+          hideUnauthedStartLink
           devOnly={{
             forceShowFormControls: true,
           }}

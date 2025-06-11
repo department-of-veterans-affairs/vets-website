@@ -22,6 +22,12 @@ const initialState = {
    * @type {Array}
    */
   vaccinesList: undefined,
+
+  /** Information about list pagination, sorting, filtering, etc. */
+  listMetadata: undefined,
+
+  updateNeeded: false,
+
   /**
    * New list of records retrieved. This list is NOT displayed. It must manually be copied into the display list.
    * @type {Array}
@@ -116,13 +122,36 @@ export const convertVaccine = vaccine => {
   };
 };
 
+export const convertNewVaccine = vaccine => {
+  if (vaccine) {
+    return {
+      ...vaccine,
+      date: vaccine.dateReceived
+        ? formatDate(vaccine.dateReceived)
+        : EMPTY_FIELD,
+      location: vaccine.location || EMPTY_FIELD,
+      manufacturer: vaccine.manufacturer || EMPTY_FIELD,
+      reactions: vaccine.reactions || EMPTY_FIELD,
+    };
+  }
+  return null;
+};
+
 export const vaccineReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Vaccines.GET: {
       const vaccine = action.response;
+
+      let vaccineDetails = null;
+      if (vaccine) {
+        vaccineDetails = vaccine.resourceType
+          ? convertVaccine(vaccine)
+          : convertNewVaccine(vaccine.data?.attributes);
+      }
+
       return {
         ...state,
-        vaccineDetails: convertVaccine(vaccine),
+        vaccineDetails,
       };
     }
     case Actions.Vaccines.GET_FROM_LIST: {
@@ -132,21 +161,50 @@ export const vaccineReducer = (state = initialState, action) => {
       };
     }
     case Actions.Vaccines.GET_LIST: {
+      const { useBackendPagination } = action;
       const oldList = state.vaccinesList;
-      const newList =
-        action.response.entry
-          ?.map(record => {
-            const vaccine = record.resource;
-            return convertVaccine(vaccine);
-          })
-          .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
+      let newList;
+      let metadata;
+      if (action.response.resourceType) {
+        newList =
+          action.response.entry
+            ?.map(record => {
+              const vaccine = record.resource;
+              return convertVaccine(vaccine);
+            })
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
+      } else {
+        newList = action.response.data?.map(record =>
+          convertNewVaccine(record.attributes),
+        );
+        metadata = action.response.meta;
+      }
+
+      let vaccinesList = typeof oldList === 'undefined' ? newList : oldList;
+      let updatedList = typeof oldList !== 'undefined' ? newList : undefined;
+      if (useBackendPagination) {
+        vaccinesList = newList;
+        updatedList = undefined;
+      }
 
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        vaccinesList: typeof oldList === 'undefined' ? newList : oldList,
-        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+        vaccinesList,
+        updatedList,
+        listMetadata: metadata,
+        updateNeeded: false,
+      };
+    }
+    case Actions.Vaccines.CHECK_FOR_UPDATE: {
+      const metadata = action.response.meta;
+      return {
+        ...state,
+        updateNeeded:
+          metadata?.pagination?.totalEntries &&
+          metadata?.pagination?.totalEntries !==
+            state.listMetadata?.pagination?.totalEntries,
       };
     }
     case Actions.Vaccines.COPY_UPDATED_LIST: {

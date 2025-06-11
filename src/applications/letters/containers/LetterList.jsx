@@ -9,6 +9,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
+import VeteranBenefitSummaryOptions from './VeteranBenefitSummaryOptions';
 
 import {
   letterContent,
@@ -18,45 +19,52 @@ import {
 } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
-import { getLettersPdfLinksWrapper } from '../actions/letters';
-
-import { lettersUseLighthouse } from '../selectors';
+import {
+  lettersUseLighthouse,
+  lettersPageNewDesign,
+  togglesAreLoaded,
+} from '../selectors';
 
 export class LetterList extends React.Component {
   constructor(props) {
     super(props);
     // eslint-disable-next-line -- LH_MIGRATION
     this.state = { LH_MIGRATION__options: LH_MIGRATION__getOptions(false) };
+    this.accordionRefs = {};
   }
 
   componentDidMount() {
-    const { letters, shouldUseLighthouse } = this.props;
+    const { shouldUseLighthouse } = this.props;
     focusElement('h2#nav-form-header');
-    this.setState(
-      {
-        // eslint-disable-next-line -- LH_MIGRATION
-        LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
-      },
-      () => {
-        // Need updated LH_MIGRATION__options for correct download URL
-        this.props.getLettersPdfLinksWrapper(
-          // eslint-disable-next-line -- LH_MIGRATION
-          this.state.LH_MIGRATION__options,
-          letters,
-        );
-      },
-    );
+    this.setState({
+      // eslint-disable-next-line -- LH_MIGRATION
+      LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
+    });
   }
 
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
+      if (!this.accordionRefs[index]) {
+        this.accordionRefs[index] = React.createRef();
+      }
+      const accordionRef = this.accordionRefs[index];
       let content;
       let letterTitle;
       let helpText;
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
         letterTitle = 'Benefit Summary and Service Verification Letter';
-        content = <VeteranBenefitSummaryLetter />;
+        content = (
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue ? (
+                <VeteranBenefitSummaryOptions />
+              ) : (
+                <VeteranBenefitSummaryLetter />
+              )
+            }
+          </Toggler.Hoc>
+        );
         helpText = bslHelpInstructions;
       } else if (letter.letterType === LETTER_TYPES.proofOfService) {
         letterTitle = 'Proof of Service Card';
@@ -91,7 +99,7 @@ export class LetterList extends React.Component {
         conditionalDownloadElem = (
           <DownloadLetterLink
             letterType={letter.letterType}
-            letterTitle={letterTitle}
+            letterTitle={`Download ${letterTitle}`}
             downloadStatus={downloadStatus[letter.letterType]}
             // eslint-disable-next-line -- LH_MIGRATION
             LH_MIGRATION__options={this.state.LH_MIGRATION__options}
@@ -103,12 +111,15 @@ export class LetterList extends React.Component {
           <DownloadLetterBlobLink
             letterTitle={letterTitle}
             letterType={letter.letterType}
+            // eslint-disable-next-line -- LH_MIGRATION
+            LH_MIGRATION__options={this.state.LH_MIGRATION__options}
+            accordionRef={accordionRef}
           />
         );
       }
 
       return (
-        <va-accordion-item key={`panel-${index}`}>
+        <va-accordion-item key={`panel-${index}`} ref={accordionRef}>
           <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
           <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
@@ -265,21 +276,21 @@ export class LetterList extends React.Component {
 
 function mapStateToProps(state) {
   const letterState = state.letters;
+  const togglesLoaded = togglesAreLoaded(state);
+  const lettersNewDesign = lettersPageNewDesign(state);
+
   return {
     letters: letterState.letters,
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
     shouldUseLighthouse: lettersUseLighthouse(state),
+    togglesLoaded,
+    lettersNewDesign,
   };
 }
 
-const mapDispatchToProps = {
-  getLettersPdfLinksWrapper,
-};
-
 LetterList.propTypes = {
-  getLettersPdfLinksWrapper: PropTypes.func,
   letterDownloadStatus: PropTypes.shape({}),
   letters: PropTypes.arrayOf(
     PropTypes.shape({
@@ -288,11 +299,13 @@ LetterList.propTypes = {
     }),
   ),
   lettersAvailability: PropTypes.string,
+  lettersNewDesign: PropTypes.bool,
   optionsAvailable: PropTypes.bool,
   shouldUseLighthouse: PropTypes.bool,
+  togglesLoaded: PropTypes.bool,
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  null,
 )(LetterList);

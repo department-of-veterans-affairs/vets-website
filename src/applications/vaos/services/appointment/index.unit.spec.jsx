@@ -44,7 +44,7 @@ describe('VAOS Services: Appointment ', () => {
     it('should return data for an in person VA appointment', async () => {
       mockAppointmentApi({
         includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
-        response: MockAppointmentResponse.createVAResponses()[0],
+        response: MockAppointmentResponse.createVAResponse(),
       });
 
       const v2Result = await fetchBookedAppointment({
@@ -203,9 +203,9 @@ describe('VAOS Services: Appointment ', () => {
     it('should return data for a community care appointment', async () => {
       mockAppointmentApi({
         includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
-        response: MockAppointmentResponse.createCCResponses({
+        response: MockAppointmentResponse.createCCResponse({
           localStartTime: addDays(new Date(), 3),
-        })[0],
+        }),
       });
 
       const v2Result = await fetchBookedAppointment({

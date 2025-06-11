@@ -34,8 +34,11 @@ export const IntroductionPage = ({ featureTogglesLoaded, route }) => {
 };
 
 IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+    pageList: PropTypes.array,
+  }).isRequired,
   featureTogglesLoaded: PropTypes.bool,
-  route: PropTypes.object,
 };
 
 const mapStateToProps = state => getAppData(state);

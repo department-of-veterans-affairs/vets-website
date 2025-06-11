@@ -1,31 +1,24 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-1919-schema.json';
-
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../22-1919-schema.json';
-
-// import fullSchema from 'vets-json-schema/dist/22-1919-schema.json';
-
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import manifest from '../manifest.json';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
+import { conflictOfInterestArrayOptions } from '../helpers';
 
 // pages
-import directDeposit from '../pages/directDeposit';
-import serviceHistory from '../pages/serviceHistory';
+import {
+  certifyingOfficials,
+  aboutYourInstitution,
+  institutionDetails,
+  proprietaryProfit,
+  potentialConflictOfInterest,
+  affiliatedIndividuals,
+  conflictOfInterestCertifyingOfficial,
+  conflictOfInterestSummary,
+  conflictOfInterestFileNumber,
+  conflictOfInterestEnrollmentPeriod,
+} from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -39,6 +32,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-1919',
+  useCustomScrollAndFocus: true,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your education benefits application (22-1919) is in progress.',
@@ -53,7 +47,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-  title: 'Complex Form',
+  title: 'Conflicting interests certification for proprietary schools',
+  subTitle: 'VA Form 22-1919',
   defaultDefinitions: {
     fullName,
     ssn,
@@ -62,76 +57,99 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    applicantInformationChapter: {
-      title: 'Applicant Information',
+    institutionDetailsChapter: {
+      title: 'Institution details',
       pages: {
-        applicantInformation: {
+        certifyingOfficial: {
           path: 'applicant-information',
-          title: 'Applicant Information',
-          uiSchema: {
-            fullName: fullNameUI,
-            ssn: ssnUI,
-          },
-          schema: {
-            type: 'object',
-            required: ['fullName'],
-            properties: {
-              fullName,
-              ssn,
-            },
+          title: 'Your name and role',
+          uiSchema: certifyingOfficials.uiSchema,
+          schema: certifyingOfficials.schema,
+        },
+        aboutYourInstitution: {
+          path: 'about-your-institution',
+          title: 'About your institution',
+          uiSchema: aboutYourInstitution.uiSchema,
+          schema: aboutYourInstitution.schema,
+        },
+        institutionDetails: {
+          path: 'institution-information',
+          title: 'Institution information',
+          uiSchema: institutionDetails.uiSchema,
+          schema: institutionDetails.schema,
+          depends: formData => {
+            return formData?.aboutYourInstitution === true;
           },
         },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Service History',
+    proprietaryProfitChapter: {
+      title: 'Proprietary profit schools only',
       pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
+        proprietaryProfit: {
+          path: 'proprietary-profit',
+          title: "Confirm your institution's classification",
+          uiSchema: proprietaryProfit.uiSchema,
+          schema: proprietaryProfit.schema,
+        },
+        potentialConflictOfInterest: {
+          path: 'proprietary-profit-1',
+          title: 'Individuals with a potential conflict of interest',
+          uiSchema: potentialConflictOfInterest.uiSchema,
+          schema: potentialConflictOfInterest.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData?.hasConflictOfInterest) {
+              goPath('/proprietary-profit-2');
+            } else {
+              goPath('/conflict-of-interest-summary');
+            }
+          },
+        },
+        affiliatedIndividuals: {
+          path: 'proprietary-profit-2',
+          title:
+            'Individuals affiliated with both your institution and VA or SAA',
+          uiSchema: affiliatedIndividuals.uiSchema,
+          schema: affiliatedIndividuals.schema,
         },
       },
     },
-    additionalInformationChapter: {
-      title: 'Additional Information',
+    conflictOfInterestChapter: {
+      title: 'All proprietary schools',
       pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI('Daytime phone'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
-            },
-          },
-        },
-        directDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: directDeposit.uiSchema,
-          schema: directDeposit.schema,
-        },
+        ...arrayBuilderPages(conflictOfInterestArrayOptions, pageBuilder => ({
+          conflictOfInterestSummary: pageBuilder.summaryPage({
+            path: 'conflict-of-interest-summary',
+            title:
+              'Review the individuals with a potential conflict of interest that receive VA educational benefits',
+            uiSchema: conflictOfInterestSummary.uiSchema,
+            schema: conflictOfInterestSummary.schema,
+          }),
+          conflictOfInterestCertifyingOfficial: pageBuilder.itemPage({
+            path: 'conflict-of-interest/:index/certifying-official',
+            title:
+              'Individuals with a potential conflict of interest who receive VA educational benefits',
+            showPagePerItem: true,
+            uiSchema: conflictOfInterestCertifyingOfficial.uiSchema,
+            schema: conflictOfInterestCertifyingOfficial.schema,
+          }),
+          conflictOfInterestFileNumber: pageBuilder.itemPage({
+            path: 'conflict-of-interest/:index/file-number',
+            title:
+              'Information on an individual with a potential conflict of interest who receives VA educational benefits',
+            showPagePerItem: true,
+            uiSchema: conflictOfInterestFileNumber.uiSchema,
+            schema: conflictOfInterestFileNumber.schema,
+          }),
+          conflictOfInterestEnrollmentPeriod: pageBuilder.itemPage({
+            path: 'conflict-of-interest/:index/enrollment-period',
+            title:
+              'Information on an individual with a potential conflict of interest who receives VA educational benefits',
+            showPagePerItem: true,
+            uiSchema: conflictOfInterestEnrollmentPeriod.uiSchema,
+            schema: conflictOfInterestEnrollmentPeriod.schema,
+          }),
+        })),
       },
     },
   },

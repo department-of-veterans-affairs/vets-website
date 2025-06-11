@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import {
   emailSchema,
   phoneSchema,
-  internationalPhoneSchema,
+  internationalPhoneDeprecatedSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -101,15 +101,15 @@ describe('yourContactInformationPage', () => {
 
       expect(updatedSchema.properties).to.deep.include({
         businessPhone: {
-          ...internationalPhoneSchema,
+          ...internationalPhoneDeprecatedSchema,
           pattern: '^\\+?[0-9](?:-?[0-9]){0,15}$',
         },
         businessEmail: emailSchema,
         preferredName: {
           type: 'string',
-          pattern: '^[A-Za-z]+$',
+          pattern: '^[^0-9]*$',
           minLength: 1,
-          maxLength: 25,
+          maxLength: 30,
         },
       });
     });
@@ -135,9 +135,9 @@ describe('yourContactInformationPage', () => {
         emailAddress: emailSchema,
         preferredName: {
           type: 'string',
-          pattern: '^[A-Za-z]+$',
+          pattern: '^[^0-9]*$',
           minLength: 1,
-          maxLength: 25,
+          maxLength: 30,
         },
       });
     });
@@ -164,9 +164,9 @@ describe('yourContactInformationPage', () => {
         emailAddress: emailSchema,
         preferredName: {
           type: 'string',
-          pattern: '^[A-Za-z]+$',
+          pattern: '^[^0-9]*$',
           minLength: 1,
-          maxLength: 25,
+          maxLength: 30,
         },
       });
     });

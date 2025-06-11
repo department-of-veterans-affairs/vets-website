@@ -25,8 +25,11 @@ import {
 } from '../util/helpers';
 import MessageThreadForPrint from '../components/MessageThread/MessageThreadForPrint';
 import { setActiveFacility } from '../actions/recipients';
+import useFeatureToggles from '../hooks/useFeatureToggles';
+import MessageActionButtons from '../components/MessageActionButtons';
 
 const ThreadDetails = props => {
+  const { customFoldersRedesignEnabled } = useFeatureToggles();
   const { threadId } = useParams();
   const { testing } = props;
   const dispatch = useDispatch();
@@ -184,6 +187,15 @@ const ThreadDetails = props => {
             <MessageThreadForPrint messageHistory={messages} />
 
             <MessageThread isDraftThread messageHistory={messages} />
+
+            {customFoldersRedesignEnabled && (
+              <MessageActionButtons
+                message={messages[0]}
+                cannotReply={cannotReply}
+                isCreateNewModalVisible={isCreateNewModalVisible}
+                setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+              />
+            )}
           </div>
         </>
       );
@@ -214,6 +226,15 @@ const ThreadDetails = props => {
           <MessageThreadForPrint messageHistory={messages} />
 
           <MessageThread messageHistory={messages} />
+
+          {customFoldersRedesignEnabled && (
+            <MessageActionButtons
+              message={messages[0]}
+              cannotReply={cannotReply}
+              isCreateNewModalVisible={isCreateNewModalVisible}
+              setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+            />
+          )}
         </>
       );
     }

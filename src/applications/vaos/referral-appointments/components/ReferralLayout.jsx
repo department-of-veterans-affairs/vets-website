@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import NeedHelp from '../../components/NeedHelp';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
@@ -39,9 +39,9 @@ export default function ReferralLayout({
     <>
       <div className="vads-l-grid-container vads-u-padding-x--2p5 desktop-lg:vads-u-padding-x--0 vads-u-padding-bottom--2">
         <ReferralBreadcrumbs categoryOfCare={categoryOfCare} />
-        {location.pathname.endsWith('new-appointment') && (
+        {location.pathname.endsWith('type-of-care') && (
           <DowntimeNotification
-            appTitle="VA online scheduling tool"
+            appTitle="appointments tool"
             dependencies={[externalServices.vaosWarning]}
             render={(props, childContent) => (
               <WarningNotification {...props}>

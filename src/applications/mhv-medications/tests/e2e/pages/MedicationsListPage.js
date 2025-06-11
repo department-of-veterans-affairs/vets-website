@@ -229,7 +229,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
       );
     });
   };
@@ -508,7 +508,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
       );
     });
     cy.intercept(
@@ -553,7 +553,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by name`,
       );
     });
   };
@@ -587,7 +587,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, last filled first`,
       );
     });
   };
@@ -836,6 +836,10 @@ class MedicationsListPage {
       .and('be.focused');
   };
 
+  verifyNoMedicationsInListMessageNotShown = () => {
+    cy.get('[data-testid="alert-message"]').should('not.exist');
+  };
+
   clickResetFilterButtonOnFilterAccordionDropDown = () => {
     cy.get('[data-testid="filter-reset-button"]').should('exist');
     cy.get('[data-testid="filter-reset-button"]').click({
@@ -919,7 +923,9 @@ class MedicationsListPage {
   };
 
   verifyNeedHelpSectionOnListPage = text => {
-    cy.get('[data-testid="rx-need-help-container"]').should('contain', text);
+    cy.get('[data-testid="rx-need-help-container"]')
+      .should('contain', text)
+      .and('be.visible');
   };
 
   verifyGoToUseMedicationLinkOnListPage = () => {
@@ -997,6 +1003,24 @@ class MedicationsListPage {
   loadListPageWithoutToolTip = () => {
     cy.intercept('GET', '/my_health/v1/tooltips', hidden).as('tooltips');
     cy.visit(medicationsUrls.MEDICATIONS_URL);
+  };
+
+  verifyContentInListPageDownload = text => {
+    const downloadsFolder = Cypress.config('downloadsFolder');
+    const pad = n => n.toString().padStart(2, '0');
+    let hours = text.getHours();
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12 || 12;
+    const formattedTime = `${hours}${pad(text.getMinutes())}${pad(
+      text.getSeconds(),
+    )}${ampm}`;
+    const date = `${text.getMonth() +
+      1}-${text.getDate()}-${text.getFullYear()}_${formattedTime}`;
+    const fileName = `${downloadsFolder}/VA-medications-list-Safari-Mhvtp-${date}.txt`;
+    cy.readFile(fileName).then(fileContent => {
+      expect(fileContent).to.contain('not available');
+      expect(fileContent).to.not.contain('None noted');
+    });
   };
 }
 

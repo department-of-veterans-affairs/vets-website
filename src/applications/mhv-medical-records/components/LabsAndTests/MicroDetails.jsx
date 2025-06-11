@@ -67,7 +67,13 @@ const MicroDetails = props => {
       ...generateMicrobioContent(record),
     };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Microbiology details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Microbiology details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateMicroTxt = async () => {

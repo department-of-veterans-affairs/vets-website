@@ -64,7 +64,13 @@ const ProgressNoteDetails = props => {
       ...generateProgressNoteContent(record),
     };
     const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Progress note details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Progress note details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateCareNotesTxt = () => {

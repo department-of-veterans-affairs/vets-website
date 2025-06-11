@@ -48,9 +48,7 @@ describe('SignerContactOnGoForward', () => {
       },
     };
     signerContactOnGoForward(props); // operates directly on `props`
-    expect(props.data.veteransFullName.first).to.eq(
-      props.data.certifierName.first,
-    );
+    expect(props.data.sponsorName.first).to.eq(props.data.certifierName.first);
   });
   it("should copy certifier info to applicant array if certifierRole === 'applicant'", () => {
     const props = {

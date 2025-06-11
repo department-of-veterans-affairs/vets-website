@@ -313,7 +313,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
     ).to.exist;
 
     expect(within(firstCard).getByText(/MT/i)).to.exist;
-    expect(within(firstCard).getAllByLabelText(/Video appointment/i)).to.exist;
+    expect(within(firstCard).getByText(/Video/i)).to.exist;
   });
 
   it('should display past appointments using V2 api call', async () => {

@@ -45,13 +45,11 @@ export default function DefaultPage({
                   ? `Your ${getDisplayFriendlyName(item)}`
                   : item.displayName}
                 <span className="vads-u-font-family--sans vads-u-margin-top--1">
-                  {item.friendlyName
-                    ? `Requested for you on ${dateFormatter(
-                        item.requestedDate,
-                      )}`
-                    : `Requested to others on ${dateFormatter(
-                        item.requestedDate,
-                      )}`}
+                  {evidenceDictionary[item.displayName] &&
+                  evidenceDictionary[item.displayName].isDBQ
+                    ? `Requested from examiner's office on`
+                    : 'Requested from outside VA on'}{' '}
+                  {dateFormatter(item.requestedDate)}
                 </span>
               </>
             )}
@@ -93,9 +91,9 @@ export default function DefaultPage({
               <h3>Learn about this request in your claim letter</h3>
               <p>
                 On {dateFormatter(item.requestedDate)}, we mailed you a letter
-                titled, “Request for Specific Evidence or Information,” which
-                may include more details about this request. You can access this
-                and all your claim letters online.
+                titled “Request for Specific Evidence or Information,” which may
+                include more details about this request. You can access this and
+                all your claim letters online.
                 <br />
                 <va-link
                   text="Your claim letters"
@@ -108,7 +106,7 @@ export default function DefaultPage({
           {evidenceDictionary[item.displayName] &&
             evidenceDictionary[item.displayName].nextSteps && (
               <>
-                <h2>Next Steps</h2>
+                <h2>Next steps</h2>
                 {evidenceDictionary[item.displayName].nextSteps}
               </>
             )}

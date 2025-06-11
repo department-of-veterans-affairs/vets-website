@@ -1,9 +1,0 @@
-steps:
-  - action: exists
-    target: header
-    value:  Your contact information
-  - action: click
-    target: radio
-    value:  Email
-  - action: click
-    target: call-to-action

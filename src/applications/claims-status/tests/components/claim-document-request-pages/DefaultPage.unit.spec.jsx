@@ -111,7 +111,7 @@ describe('<DefaultPage>', () => {
       getByText(`Respond by ${formatDate(item.suspenseDate)}`);
       getByText('What we need from you');
       getByText('Learn about this request in your claim letter');
-      getByText('Next Steps');
+      getByText('Next steps');
       expect($('va-link', container)).to.exist;
       expect($('.optional-upload', container)).to.not.exist;
       expect($('va-additional-info', container)).to.exist;
@@ -143,7 +143,7 @@ describe('<DefaultPage>', () => {
       expect($('.due-date-header', container)).to.not.exist;
       getByText(
         new RegExp(
-          `Requested to others on\\s+${formatDate(item.requestedDate)}`,
+          `Requested from outside VA on\\s+${formatDate(item.requestedDate)}`,
           'i',
         ),
       );
@@ -186,10 +186,33 @@ describe('<DefaultPage>', () => {
       );
       getByText(
         new RegExp(
-          `Requested for you on\\s+${formatDate(item.requestedDate)}`,
+          `Requested from outside VA on\\s+${formatDate(item.requestedDate)}`,
           'i',
         ),
       );
+    });
+    it(`should render Requested from examiner's office on when the track item is a DBQ`, () => {
+      const item = {
+        closedDate: null,
+        description: 'old description',
+        friendlyName: 'Friendly DBQ name',
+        displayName: 'DBQ AUDIO Hearing Loss and Tinnitus',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-25',
+        status: 'NEEDED_FROM_OTHERS',
+        suspenseDate: nineMonthsAgoSuspenseDate,
+        canUploadFile: false,
+        documents: [],
+        date: '2024-03-21',
+      };
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />
+        </Provider>,
+      );
+      getByText(`Requested from examiner's office on March 25, 2024`);
     });
   });
 
