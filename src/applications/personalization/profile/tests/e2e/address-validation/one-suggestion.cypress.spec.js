@@ -19,6 +19,7 @@ describe('Personal and contact information', () => {
         address: '400 NW 65th St',
         zipCode: 12345,
       });
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

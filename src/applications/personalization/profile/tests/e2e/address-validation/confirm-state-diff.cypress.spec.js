@@ -20,6 +20,7 @@ describe('Personal and contact information', () => {
       addressPage.saveForm();
       // ...and expect to be asked to confirm our address
       addressPage.confirmAddress(formFields);
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
