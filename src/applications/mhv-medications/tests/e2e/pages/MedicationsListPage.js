@@ -484,12 +484,10 @@ class MedicationsListPage {
     );
   };
 
-  selectSortDropDownOption = (text, intercept) => {
-    cy.intercept('GET', `${intercept}`, prescriptions).as('medicationList');
+  selectSortDropDownOption = text => {
     cy.get('[data-testid="sort-dropdown"]')
       .find('#options')
       .select(text, { force: true });
-    cy.intercept('GET', `${intercept}`, prescriptions);
   };
 
   loadRxDefaultSortAlphabeticallyByStatus = () => {
@@ -591,6 +589,36 @@ class MedicationsListPage {
     // cy.get('[data-testid="loading-indicator"]').should('exist');
   };
 
+  sortPrescriptionsByNameAndLastFillDate = data => {
+    return {
+      ...data,
+      data: data.data.slice().sort((a, b) => {
+        const nameA = a.attributes.prescriptionName?.toLowerCase() || '';
+        const nameB = b.attributes.prescriptionName?.toLowerCase() || '';
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
+        // If names are the same, sort by fill date in descending order
+        const fillDateA = new Date(a.attributes.dispensedDate || 0);
+        const fillDateB = new Date(b.attributes.dispensedDate || 0);
+        return fillDateB - fillDateA;
+      }),
+    };
+  };
+
+  validateMedicationsListSortedAlphabeticallyByName = sortedData => {
+    cy.get('[data-testid="medications-history-details-link"]').then(
+      $nameEls => {
+        const actualNames = [...$nameEls]
+          .map(el => el.textContent.trim())
+          .slice(0, 20);
+        const expectedNames = sortedData.data
+          .map(rx => rx.attributes.prescriptionName)
+          .slice(0, 20);
+        expect(actualNames).to.deep.equal(expectedNames);
+      },
+    );
+  };
+
   verifyPaginationDisplayedforSortAlphabeticallyByName = (
     displayedStartNumber,
     displayedEndNumber,
@@ -607,6 +635,7 @@ class MedicationsListPage {
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by name`,
       );
     });
+    cy.get('[data-testid="page-total-info"]').should('be.focused');
   };
 
   loadRxAfterSortLastFilledFirst = () => {
