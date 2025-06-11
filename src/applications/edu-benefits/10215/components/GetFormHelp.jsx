@@ -5,10 +5,13 @@ const GetFormHelp = () => (
     <strong>
       If you need help gathering your information or filling out your form,{' '}
     </strong>
-    <va-link
-      text="contact your Education Liaison Representative."
+    <a
       href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/elr.asp"
-    />
+      target="_blank"
+      rel="noreferrer"
+    >
+      contact your Education Liaison Representative.
+    </a>
   </p>
 );
 
