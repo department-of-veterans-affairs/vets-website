@@ -23,11 +23,18 @@ const ui = (
 let view;
 let server;
 
+function getEditVaButton() {
+  // RTL doesn't support getByRole/getByText queries for web components
+  return view.container.querySelector(
+    `va-button[label="Edit Contact email address"]`,
+  );
+}
+
 // helper function that enters the `Edit contact email address` view and clicks on the `Remove` and `Confirm` buttons
 function deleteEmailAddress() {
   // delete
-  view
-    .getByLabelText(/remove contact email address/i, { selector: 'button' })
+  view.container
+    .querySelector(`va-button[label="Remove Contact email address"]`)
     .click();
 
   const confirmDeleteButton = $(
@@ -86,11 +93,11 @@ describe('Deleting email address', () => {
     await waitForElementToBeRemoved(deletingMessage);
 
     // the edit email button should still exist
-    view.getByRole('button', { name: /edit.*email address/i });
+    expect(getEditVaButton()).to.exist;
     // and the email address should not exist
     expect(view.queryByText(userNameRegex)).not.to.exist;
     // and the add email text should exist
-    view.getByText(/add.*email address/i);
+    expect(view.getByText(/add.*email address/i)).to.exist;
   });
   it('should handle a deletion succeeds after some time', async () => {
     server.use(...mocks.transactionPending);
@@ -110,11 +117,11 @@ describe('Deleting email address', () => {
     await view.findByText('Update saved.');
 
     // the edit email button should still exist
-    view.getByRole('button', { name: /edit.*email address/i });
+    expect(getEditVaButton()).to.exist;
     // and the email address should not exist
     expect(view.queryByText(userNameRegex)).not.to.exist;
     // and the add email text should exist
-    view.getByText(/add.*email address/i);
+    expect(view.getByText(/add.*email address/i)).to.exist;
   });
   it('should show an error if the transaction cannot be created', async () => {
     server.use(...mocks.createTransactionFailure);
