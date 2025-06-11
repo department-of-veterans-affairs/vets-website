@@ -505,6 +505,52 @@ class MedicationsListPage {
     );
   };
 
+  sortPrescriptionsByStatusNameAndFillDate = data => {
+    return {
+      ...data,
+      data: data.data
+        .slice() // Create a shallow copy to avoid mutating the original array
+        .sort((a, b) => {
+          // Sort by status alphabetically
+          const statusA = a.attributes.dispStatus?.toLowerCase() || '';
+          const statusB = b.attributes.dispStatus?.toLowerCase() || '';
+          if (statusA < statusB) return -1;
+          if (statusA > statusB) return 1;
+          // If statuses are the same, sort by medication name alphabetically
+          const nameA = a.attributes.prescriptionName?.toLowerCase() || '';
+          const nameB = b.attributes.prescriptionName?.toLowerCase() || '';
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+          // If names are the same, sort by fill date in descending order
+          const fillDateA = new Date(a.attributes.dispensedDate || 0);
+          const fillDateB = new Date(b.attributes.dispensedDate || 0);
+          return fillDateB - fillDateA;
+        }),
+    };
+  };
+
+  validateMedicationsListSortedAlphabeticallyByStatus = sortedData => {
+    cy.get('[data-testid="medications-history-details-link"]').then(
+      $nameEls => {
+        const seen = new Set();
+        const actualUniqueNames = [...$nameEls]
+          .map(el => el.textContent.trim())
+          .filter(name => {
+            if (seen.has(name)) return false;
+            seen.add(name);
+            return true;
+          });
+
+        const expectedUniqueNames = sortedData.data.map(
+          rx => rx.attributes.prescriptionName,
+        );
+        expect(actualUniqueNames).to.deep.equal(
+          expectedUniqueNames.slice(0, actualUniqueNames.length),
+        );
+      },
+    );
+  };
+
   verifyPaginationDisplayedforSortAlphabeticallyByStatus = (
     displayedStartNumber,
     displayedEndNumber,
@@ -825,11 +871,6 @@ class MedicationsListPage {
     ).as('allergies');
     cy.intercept('GET', '/my_health/v1/tooltips', tooltip).as('tooltips');
     cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('Medications');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort=alphabetical-rx-name',
-      medication,
-    ).as('medicationsSortByName');
     cy.intercept('POST', '/my_health/v1/tooltips', tooltipVisible).as(
       'tooltipsVisible',
     );
