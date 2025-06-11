@@ -7,7 +7,6 @@ import {
   fillTextWebComponent,
   goToNextPage,
   selectDropdownWebComponent,
-  selectYesNoWebComponent,
   fillNameWithKeyboard,
 } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
@@ -40,7 +39,6 @@ describe('EZR TERA flow', () => {
     // Accessibility check after navigation to emergency contacts section
     cy.injectAxeThenAxeCheck();
 
-    selectYesNoWebComponent('view:hasEmergencyContacts', true);
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/veteran-information/emergency-contacts/0/contact',
     );

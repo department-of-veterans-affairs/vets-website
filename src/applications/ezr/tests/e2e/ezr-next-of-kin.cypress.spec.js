@@ -7,7 +7,6 @@ import {
   fillTextWebComponent,
   goToNextPage,
   selectDropdownWebComponent,
-  selectYesNoWebComponent,
   fillNameWithKeyboard,
 } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
@@ -37,7 +36,6 @@ describe('EZR Next Of Kin flow', () => {
 
     advanceToNextOfKin();
 
-    selectYesNoWebComponent('view:hasNextOfKin', true);
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/veteran-information/next-of-kin/0/contact',
     );
