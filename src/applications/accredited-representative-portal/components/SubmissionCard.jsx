@@ -42,19 +42,19 @@ const SubmissionCard = ({ submission }) => {
     <li>
       <va-card class="submission__card">
         <p>Submitted {formatDateParsedZoneLong(submission.submittedDate)}</p>
-        <h3 className="submission__card-name">
+        <h1 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
           {submission.url ? (
             <Link
               to={`/submissions/${submission.id}`}
               data-testid={`submission-card-${submission.id}-name`}
-              className="submission__card-title vads-u-font-size--h4 vads-u-font-family--serif"
+              className="submission__card-title"
             >
               {`${submission.lastName}, ${submission.firstName}`}
             </Link>
           ) : (
             `${submission.lastName}, ${submission.firstName}`
           )}
-        </h3>
+        </h1>
         <p>
           <strong>
             {submission.formType}
