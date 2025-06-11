@@ -122,8 +122,7 @@ describe('Ask VA submit transformer', () => {
       phoneNumber: '987-654-3210',
       school: null,
       stateOfTheFacility: 'NY',
-      relationshipToVeteran:
-        "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
+      relationshipToVeteran: "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
     };
     const result = submitTransformer(formData);
     expect(result.emailAddress).to.equal('business@test.com');
