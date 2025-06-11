@@ -68,7 +68,7 @@ export function generateParticipantNames(item) {
   return 'No participants';
 }
 
-const healthInsuranceOptions = {
+export const healthInsuranceOptions = {
   arrayPath: 'healthInsurance',
   nounSingular: 'plan',
   nounPlural: 'plans',

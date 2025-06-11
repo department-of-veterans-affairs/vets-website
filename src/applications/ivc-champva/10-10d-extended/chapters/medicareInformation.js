@@ -62,7 +62,7 @@ export function generateParticipantName(item) {
   return 'No participant';
 }
 
-const medicareOptions = {
+export const medicareOptions = {
   arrayPath: 'medicare',
   nounSingular: 'plan',
   nounPlural: 'plans',
@@ -712,7 +712,7 @@ const medicarePartDCardUploadPage = {
  * @param {Object} formData Standard formdata object provided to depends functions
  * @returns Boolean indicating whether or not any applicant is at least 65 y/o and has medicare.
  */
-function anyAppEnrolledInMedicare(formData) {
+export function anyAppEnrolledInMedicare(formData) {
   return formData?.applicants?.some(
     app =>
       getAgeInYears(app?.applicantDob) >= 65 &&
@@ -726,7 +726,7 @@ function anyAppEnrolledInMedicare(formData) {
  * @param {Object} formData Standard formdata object provided to depends functions
  * @returns Array of applicant objects
  */
-function getEligibleApplicantsWithoutMedicare(formData) {
+export function getEligibleApplicantsWithoutMedicare(formData) {
   return formData?.applicants?.filter(
     applicant =>
       getAgeInYears(applicant?.applicantDob) >= 65 &&
