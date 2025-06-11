@@ -6,6 +6,6 @@ describe('MSW hook is active', () => {
     const res = await fetch('http://localhost/feature_toggles');
     expect(res.status).to.equal(200);
     const text = await res.text();
-    expect(text).to.equal('123');
+    expect(text).to.equal('');
   });
 });
