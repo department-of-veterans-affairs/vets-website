@@ -102,9 +102,9 @@ NavDropdown.propTypes = {
   iconClassName: PropTypes.string,
   lastName: PropTypes.string,
   secondaryIcon: PropTypes.string,
+  size: PropTypes.number,
   srText: PropTypes.string,
   view: PropTypes.string,
-  size: PropTypes.number,
 };
 
 export default NavDropdown;
