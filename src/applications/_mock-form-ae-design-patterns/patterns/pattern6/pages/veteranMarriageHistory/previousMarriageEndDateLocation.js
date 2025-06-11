@@ -47,9 +47,19 @@ export default {
       state: {
         'ui:title': 'State',
         'ui:webComponentField': VaSelectField,
-        'ui:required': formData => !formData['view:marriageEndedOutsideUS'],
+        'ui:required': (formData, index) => {
+          const item = formData?.veteranMarriageHistory?.[index];
+          return !item?.['view:marriageEndedOutsideUS'];
+        },
         'ui:options': {
-          hideIf: formData => formData['view:marriageEndedOutsideUS'],
+          hideIf: (formData, index) => {
+            const item = formData?.veteranMarriageHistory?.[index];
+            return item?.['view:marriageEndedOutsideUS'];
+          },
+          labels: STATE_VALUES.reduce((acc, value, idx) => {
+            acc[value] = STATE_NAMES[idx];
+            return acc;
+          }, {}),
         },
         'ui:errorMessages': {
           required: 'Please select a state',
@@ -58,21 +68,22 @@ export default {
       country: {
         'ui:title': 'Country',
         'ui:webComponentField': VaSelectField,
-        'ui:required': formData => formData['view:marriageEndedOutsideUS'],
+        'ui:required': (formData, index) => {
+          const item = formData?.veteranMarriageHistory?.[index];
+          return item?.['view:marriageEndedOutsideUS'];
+        },
         'ui:errorMessages': {
           required: 'Please select a country',
         },
         'ui:options': {
-          updateSchema: formData => {
-            if (formData['view:marriageEndedOutsideUS']) {
-              return {
-                'ui:hidden': false,
-              };
-            }
-            return {
-              'ui:hidden': true,
-            };
+          hideIf: (formData, index) => {
+            const item = formData?.veteranMarriageHistory?.[index];
+            return !item?.['view:marriageEndedOutsideUS'];
           },
+          labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
+            acc[value] = COUNTRY_NAMES[idx];
+            return acc;
+          }, {}),
         },
       },
     },

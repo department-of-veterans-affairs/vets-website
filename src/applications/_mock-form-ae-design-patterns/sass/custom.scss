@@ -123,10 +123,54 @@ padding-left: 0;
   }
 }
 
+[data-location="6/marital-information/current-spouse-marriage-history"] {
+  va-radio::part(legend) {
+    margin-top: 0 !important;
+  }
+  va-radio::part(required) {
+    font-family: "Bitter", serif !important;
+}
+}
+
+[data-location="6/marital-information/veteran-marriage-history"] {
+  va-radio::part(legend) {
+    margin-top: 0 !important;
+  }
+  va-radio::part(required) {
+    font-family: "Bitter", serif !important;
+}
+}
+
 [data-location="6/marital-information/current-spouse-marriage-history/0/reason-former-marriage-ended"] {
   va-radio::part(legend) {
     display: none;
   }
+
+  .schemaform-field-template.schemaform-first-field {
+    margin-top: 1.25rem !important;
+  }
+
+  .rjsf-web-component-field {
+    margin-top: 0 !important;
+  }
+
+.form-expanding-group {
+  .vads-u-padding-left--4 {
+    padding-left: 0 !important;
+  }
+}
+}
+
+[name="root_view:previousSpouseIsDeceased"]{
+margin-top: 1.5rem;
+}
+
+[name="root_view:marriedOutsideUS"] {
+  margin-top: 1.5rem;
+}
+
+[name="root_view:marriageEndedOutsideUS"] {
+  margin-top: 1.5rem;
 }
 
 [data-location="6/marital-information/additional-living-situation"] {

@@ -35,7 +35,7 @@ export const veteranMarriageHistoryOptions = {
     (item?.['view:marriageEndedOutsideUS'] === true &&
       !item?.previousMarriageEndLocation?.country),
   text: {
-    summaryTitle: 'Review your marriages',
+    summaryTitle: 'Review your past marriage information',
     getItemName: item =>
       `${capitalize(item?.spouseFullName?.first) || ''} ${capitalize(
         item?.spouseFullName?.last,

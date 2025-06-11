@@ -23,9 +23,12 @@ export const savedFormMessages = {
 
 export const saveInProgress = {
   messages: {
-    inProgress: 'Your Marital Status form is in progress',
+    inProgress:
+      "We'll save your application on every change. Your in-progress ID number is 34920.",
     expired:
       'Your saved Marital Status form has expired. If you want to fill out the Marital Status form, start a new request.',
     saved: 'Your Marital Status form has been saved',
   },
+  showSaveInProgressMessage: true,
+  pageMessageOnly: true,
 };

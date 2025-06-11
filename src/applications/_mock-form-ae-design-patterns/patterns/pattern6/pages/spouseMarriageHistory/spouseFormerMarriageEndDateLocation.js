@@ -35,7 +35,7 @@ export default {
         formContext?.formData?.spouseFullName?.first ?? 'your current spouse';
       return `When and where did ${first}'s previous marriage end?`;
     }),
-    dateOfTermination: currentOrPastDateUI('Date of termination'),
+    dateOfTermination: currentOrPastDateUI('Date'),
     'view:marriageEndedOutsideUS': {
       'ui:title': 'The marriage ended outside the U.S.',
       'ui:webComponentField': VaCheckboxField,
@@ -51,9 +51,19 @@ export default {
       state: {
         'ui:title': 'State',
         'ui:webComponentField': VaSelectField,
-        'ui:required': formData => !formData['view:marriageEndedOutsideUS'],
         'ui:options': {
-          hideIf: formData => formData['view:marriageEndedOutsideUS'],
+          hideIf: (formData, index) => {
+            const item = formData?.spouseMarriageHistory?.[index];
+            return item?.['view:marriageEndedOutsideUS'];
+          },
+          labels: STATE_VALUES.reduce((acc, value, idx) => {
+            acc[value] = STATE_NAMES[idx];
+            return acc;
+          }, {}),
+        },
+        'ui:required': (formData, index) => {
+          const item = formData?.spouseMarriageHistory?.[index];
+          return !item?.['view:marriageEndedOutsideUS'];
         },
         'ui:errorMessages': {
           required: 'Please select a state',
@@ -62,21 +72,22 @@ export default {
       country: {
         'ui:title': 'Country',
         'ui:webComponentField': VaSelectField,
-        'ui:required': formData => formData['view:marriageEndedOutsideUS'],
+        'ui:options': {
+          hideIf: (formData, index) => {
+            const item = formData?.spouseMarriageHistory?.[index];
+            return !item?.['view:marriageEndedOutsideUS'];
+          },
+          labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
+            acc[value] = COUNTRY_NAMES[idx];
+            return acc;
+          }, {}),
+        },
+        'ui:required': (formData, index) => {
+          const item = formData?.spouseMarriageHistory?.[index];
+          return item?.['view:marriageEndedOutsideUS'];
+        },
         'ui:errorMessages': {
           required: 'Please select a country',
-        },
-        'ui:options': {
-          updateSchema: formData => {
-            if (formData['view:marriageEndedOutsideUS']) {
-              return {
-                'ui:hidden': false,
-              };
-            }
-            return {
-              'ui:hidden': true,
-            };
-          },
         },
       },
     },
@@ -88,7 +99,6 @@ export default {
       dateOfTermination: currentOrPastDateSchema,
       'view:marriageEndedOutsideUS': {
         type: 'boolean',
-        default: false,
       },
       marriageEndLocation: {
         type: 'object',

@@ -7,7 +7,7 @@ export const DynamicSpouseNameTitle = ({ formContext }) => {
 
   return (
     <legend className="schemaform-block-title">
-      <h3 className="vads-u-color--black">
+      <h3 className="vads-u-color--black vads-u-margin-top--0">
         Enter the name of {currentSpouseFirstName}
         's previous spouse
       </h3>
@@ -21,7 +21,7 @@ export const MarriageEndReasonTitle = ({ formContext }) => {
 
   return (
     <legend className="schemaform-block-title">
-      <h3 className="vads-u-color--black">
+      <h3 className="vads-u-color--black vads-u-margin-top--0">
         How did {currentSpouseFirstName}
         's previous marriage end?{' '}
         <span className="end-title-span">(*Required)</span>

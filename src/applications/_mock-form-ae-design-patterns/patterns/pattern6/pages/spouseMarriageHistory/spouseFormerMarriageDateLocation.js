@@ -35,7 +35,7 @@ export default {
         formContext?.formData?.spouseFullName?.first ?? 'your current spouse';
       return `When and where was ${first} previously married?`;
     }),
-    dateOfMarriage: currentOrPastDateUI('Date of marriage'),
+    dateOfMarriage: currentOrPastDateUI('Date'),
     'view:marriedOutsideUS': {
       'ui:title': 'They got married outside the U.S.',
       'ui:webComponentField': VaCheckboxField,
@@ -51,9 +51,19 @@ export default {
       state: {
         'ui:title': 'State',
         'ui:webComponentField': VaSelectField,
-        'ui:required': formData => !formData['view:marriedOutsideUS'],
+        'ui:required': (formData, index) => {
+          const item = formData?.spouseMarriageHistory?.[index];
+          return !item?.['view:marriedOutsideUS'];
+        },
         'ui:options': {
-          hideIf: formData => formData['view:marriedOutsideUS'],
+          hideIf: (formData, index) => {
+            const item = formData?.spouseMarriageHistory?.[index];
+            return item?.['view:marriedOutsideUS'];
+          },
+          labels: STATE_VALUES.reduce((acc, value, idx) => {
+            acc[value] = STATE_NAMES[idx];
+            return acc;
+          }, {}),
         },
         'ui:errorMessages': {
           required: 'Please select a state',
@@ -62,21 +72,22 @@ export default {
       country: {
         'ui:title': 'Country',
         'ui:webComponentField': VaSelectField,
-        'ui:required': formData => formData['view:marriedOutsideUS'],
+        'ui:required': (formData, index) => {
+          const item = formData?.spouseMarriageHistory?.[index];
+          return item?.['view:marriedOutsideUS'];
+        },
         'ui:errorMessages': {
           required: 'Please select a country',
         },
         'ui:options': {
-          updateSchema: formData => {
-            if (formData['view:marriedOutsideUS']) {
-              return {
-                'ui:hidden': false,
-              };
-            }
-            return {
-              'ui:hidden': true,
-            };
+          hideIf: (formData, index) => {
+            const item = formData?.spouseMarriageHistory?.[index];
+            return !item?.['view:marriedOutsideUS'];
           },
+          labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
+            acc[value] = COUNTRY_NAMES[idx];
+            return acc;
+          }, {}),
         },
       },
     },
@@ -88,7 +99,6 @@ export default {
       dateOfMarriage: currentOrPastDateSchema,
       'view:marriedOutsideUS': {
         type: 'boolean',
-        default: false,
       },
       marriageLocation: {
         type: 'object',
@@ -109,19 +119,6 @@ export default {
           },
         },
       },
-      // city: {
-      //   type: 'string',
-      // },
-      // state: {
-      //   type: 'string',
-      //   enum: STATE_VALUES,
-      //   enumNames: STATE_NAMES,
-      // },
-      // country: {
-      //   type: 'string',
-      //   enum: COUNTRY_VALUES,
-      //   enumNames: COUNTRY_NAMES,
-      // },
     },
   },
 };

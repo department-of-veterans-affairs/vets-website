@@ -39,6 +39,10 @@ export default {
     },
     'view:documentUploadInfo': {
       'ui:description': DocumentUploadInfo,
+      'ui:options': {
+        expandUnder: 'marriageType',
+        expandUnderCondition: 'OTHER',
+      },
     },
   },
   schema: {

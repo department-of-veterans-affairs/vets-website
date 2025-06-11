@@ -17,7 +17,7 @@ import divorceDocuments from '../pages/divorced/divorceDocuments';
 import spousePersonalInfo from '../pages/spousePersonalInfo';
 import previousSpousePersonalInfo from '../pages/divorced/previousSpousePersonalInfo';
 import spouseIdentity from '../pages/spouseIdentity';
-import spouseMilitaryHistory from '../pages/spouseMilitaryHistory';
+import spouseMilitaryIdentification from '../pages/spouseMilitaryIdentification';
 import spouseContactInfo from '../pages/spouseContactInfo';
 import livingSituation from '../pages/livingSituation';
 import additionalLivingSituation from '../pages/additionalLivingSituation';
@@ -42,6 +42,7 @@ import {
   spouseMarriageHistoryOptions,
   veteranMarriageHistoryOptions,
 } from '../pages/marriageHistoryConfig';
+import { saveInProgress, savedFormMessages } from '../content/saveInProgress';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -53,7 +54,8 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   getHelp: GetFormHelp,
-  saveInProgress: {},
+  saveInProgress,
+  savedFormMessages,
   version: 0,
   prefillTransformer(pages, formData, metadata) {
     const transformedData = {
@@ -128,11 +130,11 @@ const formConfig = {
           // formData?.maritalStatus === 'SEPARATED',
           ...spouseIdentity,
         },
-        spouseMilitaryHistory: {
-          title: 'Spouse’s military history',
-          path: 'spouse-military-history',
+        spouseMilitaryIdentification: {
+          title: 'Spouse’s military identification information',
+          path: 'spouse-military-identification',
           depends: formData => formData?.isSpouseVeteran,
-          ...spouseMilitaryHistory,
+          ...spouseMilitaryIdentification,
         },
         livingSituation: {
           title: 'Living Situation',
@@ -199,21 +201,39 @@ const formConfig = {
               formData?.maritalStatus !== 'WIDOWED' &&
               formData?.maritalStatus !== 'DIVORCED',
             onNavForward: ({ formData, goPath }) => {
-              // Check the yes/no answer for spouse previous marriages
               const hasSpousePreviousMarriages =
                 formData?.['view:completedSpouseFormerMarriage'];
 
               if (hasSpousePreviousMarriages === false) {
-                // User said "no" - go to veteran marriage history
                 goPath('/6/marital-information/veteran-marriage-history');
-              } else {
-                // User said "yes" - continue with spouse marriage history flow
-                // This will use default navigation to the first spouse marriage item page
-                goPath(
-                  '/6/marital-information/current-spouse-marriage-history/0/former-spouse-information?add=true',
-                );
+                return;
               }
+
+              // If user said "yes" to previous marriages
+              const spouseHistory = formData?.spouseMarriageHistory || [];
+              const nextIndex = spouseHistory.length; // e.g. 0 if none yet, 1 if one exists
+
+              goPath(
+                `/6/marital-information/current-spouse-marriage-history/${nextIndex}/former-spouse-information?add=true`,
+              );
             },
+
+            // onNavForward: ({ formData, goPath }) => {
+            //   // Check the yes/no answer for spouse previous marriages
+            //   const hasSpousePreviousMarriages =
+            //     formData?.['view:completedSpouseFormerMarriage'];
+
+            //   if (hasSpousePreviousMarriages === false) {
+            //     // User said "no" - go to veteran marriage history
+            //     goPath('/6/marital-information/veteran-marriage-history');
+            //   } else {
+            //     // User said "yes" - continue with spouse marriage history flow
+            //     // This will use default navigation to the first spouse marriage item page
+            //     goPath(
+            //       '/6/marital-information/current-spouse-marriage-history/0/former-spouse-information?add=true',
+            //     );
+            //   }
+            // },
           }),
           spouseMarriageHistoryPartOne: pageBuilder.itemPage({
             title: 'Previous spouse’s name and date of birth',
@@ -311,13 +331,22 @@ const formConfig = {
             schema: veteranPreviousSpouseContactInfo.schema,
             depends: (formData, index, context) => {
               const marriageItem = formData?.veteranMarriageHistory?.[index];
+              const isDeceasedButNotDivorced =
+                formData.maritalStatus !== 'DIVORCED' &&
+                marriageItem?.['view:previousSpouseIsDeceased'] === false;
 
               return (
-                (formData.maritalStatus !== 'DIVORCED' &&
-                  marriageItem?.['view:previousSpouseIsDeceased'] === false) ||
-                context?.edit === true
-                // context?.add === true
+                isDeceasedButNotDivorced ||
+                (isDeceasedButNotDivorced && context?.add === true) ||
+                (isDeceasedButNotDivorced && context?.edit === true)
               );
+
+              // return (
+              //   (formData.maritalStatus !== 'DIVORCED' &&
+              //     marriageItem?.['view:previousSpouseIsDeceased'] === false) ||
+              //   context?.edit === true ||
+              //   context?.add === true
+              // );
             },
           }),
           veteranMarriageHistoryPartFour: pageBuilder.itemPage({

@@ -34,8 +34,7 @@ export default {
     // ...titleUI('Spouse’s identification information'),
     spouseSsn: ssnUI('Social Security Number'),
     isSpouseVeteran: {
-      'ui:title':
-        'Is your spouse also a Veteran? (If divorced: Is your previous spouse also a Veteran? If widowed: Was your spouse also a Veteran?)',
+      'ui:title': 'Is your spouse also a Veteran?',
       'ui:widget': 'yesNo',
     },
     vaFileNumber: {

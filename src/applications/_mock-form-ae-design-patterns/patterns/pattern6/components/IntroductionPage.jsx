@@ -55,8 +55,10 @@ class IntroductionPage extends React.Component {
               </Link>
             </li>
             <li>
-              <Link to={`${formConfig.urlPrefix}spouse-military-history`}>
-                Spouse's military history
+              <Link
+                to={`${formConfig.urlPrefix}spouse-military-identification`}
+              >
+                Spouse's military identification information
               </Link>
             </li>
             <li>

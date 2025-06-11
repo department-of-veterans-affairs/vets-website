@@ -36,7 +36,18 @@ export default {
       'ui:options': {
         rows: 5,
         expandUnder: 'reasonNotLivingWithSpouse',
-        expandUnderCondition: 'Not listed here',
+        expandUnderCondition: 'NOT_LISTED_HERE',
+      },
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (formSchema.properties.otherReasonDescription['ui:collapsed']) {
+          return { ...formSchema, required: ['reasonNotLivingWithSpouse'] };
+        }
+        return {
+          ...formSchema,
+          required: ['reasonNotLivingWithSpouse', 'otherReasonDescription'],
+        };
       },
     },
     // form527MonthlySpouseSupport: {
