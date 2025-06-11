@@ -11,7 +11,9 @@ const CombinedDisabilityRatingCard = ({
   return (
     <va-card>
       {totalDisabilityRatingServerError ? (
-        <span>We can’t currently display your disability rating.</span>
+        <va-alert status="warning" slim>
+          We can’t currently display your disability rating.
+        </va-alert>
       ) : (
         <h4 className="vads-u-margin-y--0 vads-u-padding-bottom--1">
           Your combined disability rating is {totalDisabilityRating}%
