@@ -342,6 +342,47 @@ describe('Schemaform helpers:', () => {
         field: 'testing',
       });
     });
+    it('should flatten view objects and remove null, undefined, or empty fields', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {},
+            },
+          },
+        },
+      };
+      const formData = {
+        data: {
+          'view:Test': {
+            field: 'testing',
+            fieldObject: {
+              field: 'testing',
+              nullField: null,
+              undefinedField: undefined,
+            },
+            nullField: null,
+            undefinedField: undefined,
+            nullObject: {
+              nullField: null,
+            },
+            undefinedObject: {
+              undefinedField: undefined,
+            },
+            empty: {},
+          },
+        },
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+      expect(output['view:Test']).to.be.undefined;
+      expect(output).to.eql({
+        field: 'testing',
+        fieldObject: {
+          field: 'testing',
+        },
+      });
+    });
     it('should remove inactive pages', () => {
       const formConfig = {
         chapters: {
