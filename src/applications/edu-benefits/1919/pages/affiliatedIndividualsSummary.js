@@ -37,7 +37,7 @@ const summaryPage = {
         hideIf: formData => formData?.affiliatedIndividuals?.length > 0,
       },
     },
-    potentialConflictOfInterest: arrayBuilderYesNoUI(
+    isProfitConflictOfInterest: arrayBuilderYesNoUI(
       affiliatedIndividualsArrayOptions,
       {
         title:
@@ -66,9 +66,9 @@ const summaryPage = {
         type: 'object',
         properties: {},
       },
-      potentialConflictOfInterest: arrayBuilderYesNoSchema,
+      isProfitConflictOfInterest: arrayBuilderYesNoSchema,
     },
-    required: ['potentialConflictOfInterest'],
+    required: ['isProfitConflictOfInterest'],
   },
 };
 

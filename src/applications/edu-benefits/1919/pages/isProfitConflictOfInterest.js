@@ -31,7 +31,7 @@ const uiSchema = {
       {alert}
     </>,
   ),
-  potentialConflictOfInterest: yesNoUI({
+  isProfitConflictOfInterest: yesNoUI({
     title:
       'Do you need to report any VA or SAA employees at your institution who may have a potential conflict of interest under this law?',
     required: () => true,
@@ -44,9 +44,9 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    potentialConflictOfInterest: yesNoSchema,
+    isProfitConflictOfInterest: yesNoSchema,
   },
-  required: ['potentialConflictOfInterest'],
+  required: ['isProfitConflictOfInterest'],
 };
 
 export { schema, uiSchema };

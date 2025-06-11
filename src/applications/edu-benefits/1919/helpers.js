@@ -57,7 +57,7 @@ export const getCardDescription = item => {
 };
 
 export const conflictOfInterestArrayOptions = {
-  arrayPath: 'conflict-of-interest',
+  arrayPath: 'allProprietaryProfitConflicts',
   nounSingular: 'individual',
   nounPlural: 'individuals',
   required: false,

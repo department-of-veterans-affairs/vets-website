@@ -66,7 +66,7 @@ const individualPage = {
         pattern: 'You must provide a response',
       },
     }),
-    association: radioUI({
+    individualAssociationType: radioUI({
       title: 'How is this individual associated with your institution?',
       errorMessages: { required: 'Please make a selection' },
       labels: associationLabels,

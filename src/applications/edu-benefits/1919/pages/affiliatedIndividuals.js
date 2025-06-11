@@ -67,7 +67,7 @@ const summaryPage = {
         hideIf: formData => formData?.affiliatedIndividuals?.length > 0,
       },
     },
-    potentialConflictOfInterest: arrayBuilderYesNoUI(
+    isProfitConflictOfInterest: arrayBuilderYesNoUI(
       options,
       {
         title:
@@ -96,7 +96,7 @@ const summaryPage = {
         type: 'object',
         properties: {},
       },
-      potentialConflictOfInterest: arrayBuilderYesNoSchema,
+      isProfitConflictOfInterest: arrayBuilderYesNoSchema,
       affiliatedIndividuals: {
         type: 'array',
         items: {
@@ -114,8 +114,15 @@ const summaryPage = {
         },
       },
     },
-    required: ['potentialConflictOfInterest'],
+    required: ['isProfitConflictOfInterest'],
   },
+};
+
+const associationLabels = {
+  vaEmployee:
+    'They are a VA employee who works with, receives services from, or receives compensation from our institution',
+  saaEmployee:
+    'They are a SAA employee who works with or receives compensation from our institution',
 };
 
 const individualPage = {
@@ -168,7 +175,7 @@ const individualPage = {
     individualAssociationType: radioUI({
       title: 'How is this individual associated with your institution?',
       errorMessages: { required: 'Please make a selection' },
-      // labels: associationLabels,
+      labels: associationLabels,
     }),
   },
   schema: {
