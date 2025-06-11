@@ -18,11 +18,13 @@ describe('Medications List Page Sort Alphabetically By Name', () => {
     listPage.visitMedicationsListPageURL(sortedData);
     listPage.selectSortDropDownOption('Alphabetically by name');
 
-    listPage.validateMedicationsListSortedAlphabeticallyByName(sortedData);
+    listPage.validateMedicationsListSorted(sortedData);
     listPage.verifyPaginationDisplayedforSortAlphabeticallyByName(
       1,
       10,
       listLength,
     );
+    cy.injectAxe();
+    cy.axeCheck('main');
   });
 });

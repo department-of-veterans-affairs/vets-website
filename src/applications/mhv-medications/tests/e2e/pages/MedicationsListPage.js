@@ -605,7 +605,7 @@ class MedicationsListPage {
     };
   };
 
-  validateMedicationsListSortedAlphabeticallyByName = sortedData => {
+  validateMedicationsListSorted = sortedData => {
     cy.get('[data-testid="medications-history-details-link"]').then(
       $nameEls => {
         const actualNames = [...$nameEls]
@@ -638,25 +638,48 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should('be.focused');
   };
 
-  loadRxAfterSortLastFilledFirst = () => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
-      prescriptions,
-    );
-    // cy.intercept(
-    //   '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
-    //   req => {
-    //     return Cypress.Promise.delay(500).then(() => req.continue());
-    //   },
-    // ).as('prescriptions');
+  sortPrescriptionsByLastFilledCustom = data => {
+    const filled = [];
+    const notYetFilled = [];
+    const nonVA = [];
 
-    // cy.get('[data-testid="loading-indicator"]').should('exist');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20null&sort[]=-dispensed_date&sort[]=prescription_name',
-      prescriptions,
-    );
+    data.data.forEach(item => {
+      const { dispensedDate, prescriptionSource } = item.attributes;
+      if (prescriptionSource === 'NV') {
+        nonVA.push(item);
+      } else if (dispensedDate) {
+        filled.push(item);
+      } else {
+        notYetFilled.push(item);
+      }
+    });
+
+    filled.sort((a, b) => {
+      const dateA = new Date(a.attributes.dispensedDate).getTime();
+      const dateB = new Date(b.attributes.dispensedDate).getTime();
+      return dateB - dateA; // newest to oldest
+    });
+
+    notYetFilled.sort((a, b) => {
+      const nameA = a.attributes.prescriptionName?.toLowerCase() || '';
+      const nameB = b.attributes.prescriptionName?.toLowerCase() || '';
+      if (nameA < nameB) return -1;
+      if (nameA > nameB) return 1;
+      return 0;
+    });
+
+    nonVA.sort((a, b) => {
+      const nameA = a.attributes.prescriptionName?.toLowerCase() || '';
+      const nameB = b.attributes.prescriptionName?.toLowerCase() || '';
+      if (nameA < nameB) return -1;
+      if (nameA > nameB) return 1;
+      return 0;
+    });
+
+    return {
+      ...data,
+      data: [...filled, ...notYetFilled, ...nonVA],
+    };
   };
 
   verifyPaginationDisplayedforSortLastFilledFirst = (
@@ -670,6 +693,7 @@ class MedicationsListPage {
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, last filled first`,
       );
     });
+    cy.get('[data-testid="page-total-info"]').should('be.focused');
   };
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
