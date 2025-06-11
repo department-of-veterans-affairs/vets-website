@@ -217,7 +217,9 @@ const ClaimsAndAppeals = ({
       </div>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
-          <h3>Combined disability rating</h3>
+          <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+            Combined disability rating
+          </h3>
           <DashboardWidgetWrapper>
             <CombinedDisabilityRatingWidget />
           </DashboardWidgetWrapper>

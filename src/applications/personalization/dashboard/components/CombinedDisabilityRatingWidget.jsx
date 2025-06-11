@@ -11,11 +11,11 @@ const CombinedDisabilityRatingWidget = ({
   return (
     <va-card>
       {!totalDisabilityRatingServerError && (
-        <h4 className="vads-u-margin-top--0">
+        <h4 className="vads-u-margin-y--0 vads-u-padding-bottom--1">
           Your combined disability rating is {totalDisabilityRating}%
         </h4>
       )}
-      <p>
+      <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
         <CTALink
           href="/disability/view-disability-rating"
           text="Review your VA disability rating"
