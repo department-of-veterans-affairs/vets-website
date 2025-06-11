@@ -3,7 +3,12 @@ import { expect } from 'chai';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
-import { medicarePages } from '../../../chapters/medicareInformation';
+import {
+  medicarePages,
+  medicareOptions,
+  anyAppEnrolledInMedicare,
+  getEligibleApplicantsWithoutMedicare,
+} from '../../../chapters/medicareInformation';
 
 const mockStore = state => createStore(() => state);
 const minimalStore = mockStore({
@@ -77,5 +82,78 @@ describe('medicarePages depends functions', () => {
       expect(res).to.be.a('boolean');
       expect(res).to.not.be.undefined;
     });
+  });
+});
+
+describe('medicareOptions', () => {
+  describe('text.getItemName', () => {
+    it('should provide fallback title when no data present', () => {
+      const res = medicareOptions.text.getItemName();
+      expect(res).to.equal('No participant');
+    });
+  });
+  describe('text.cardDescription', () => {
+    it('should return JSX containing an unordered list', () => {
+      const res = medicareOptions.text.cardDescription({});
+      const { container } = render(
+        <Provider store={minimalStore}>{res}</Provider>,
+      );
+      expect(container.querySelector('ul')).to.not.be.undefined;
+    });
+  });
+});
+
+describe('getEligibleApplicantsWithoutMedicare', () => {
+  it('should return array including eligible applicants', () => {
+    const res = getEligibleApplicantsWithoutMedicare({
+      medicare: [{}],
+      applicants: [
+        {
+          applicantDob: '1955-01-01',
+          applicantMedicareStatus: { eligibility: 'enrolled' },
+        },
+        {
+          applicantDob: '2001-01-01', // ineligible due to age
+        },
+      ],
+    });
+    // Only one item should be returned
+    expect(res).to.have.length(1);
+    // Verify it's the one we wanted
+    expect(res[0].applicantDob).to.equal('1955-01-01');
+  });
+});
+
+describe('anyAppEnrolledInMedicare', () => {
+  it('should return true if any applicant is enrolled in medicare', () => {
+    const res = anyAppEnrolledInMedicare({
+      medicare: [{}],
+      applicants: [
+        {
+          applicantDob: '1955-01-01',
+          applicantMedicareStatus: { eligibility: 'enrolled' },
+        },
+        {
+          applicantDob: '2001-01-01', // ineligible due to age/not enrolled
+        },
+      ],
+    });
+    // Only one item should be returned
+    expect(res).to.be.true;
+  });
+  it('should return false when no applicants are enrolled in medicare', () => {
+    const res = anyAppEnrolledInMedicare({
+      medicare: [{}],
+      // two apps, neither enrolled
+      applicants: [
+        {
+          applicantDob: '2009-01-01',
+        },
+        {
+          applicantDob: '2001-01-01',
+        },
+      ],
+    });
+    expect(res).to.be.false;
   });
 });
