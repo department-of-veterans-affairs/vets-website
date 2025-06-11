@@ -82,10 +82,10 @@
     },
     {
       "supportStatement": "Supporting statement for debt number 2. . . ",
-      "deductionCode": "13",
+      "deductionCode": "30",
       "disputeReason": "I don’t think the amount is correct on this debt",
       "compositeDebtId": "71166",
-      "label": "$120.40 overpayment for Post-9/11 GI Bill debt for books and supplies",
+      "label": "$120.40 overpayment for Disability compensation and pension debt",
       "description": "Pay or request help by November 17, 2020",
       "debtType": "DEBT",
       "selectedDebtId": "71166"

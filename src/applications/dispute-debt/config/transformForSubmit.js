@@ -2,8 +2,6 @@ const transformForSubmit = (formConfig, form) => {
   const { data } = form;
   const { veteran } = data;
   const { fullName } = veteran;
-
-  // TODO: localization?
   const submissionTime = new Date();
 
   // return formatted data to generate the PDFs
