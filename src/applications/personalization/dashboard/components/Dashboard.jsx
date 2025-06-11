@@ -393,9 +393,9 @@ const Dashboard = ({
               >
                 <Toggler.Enabled>
                   <div className="vads-u-margin-top--6 vads-u-padding-y--1 vads-u-padding-x--3">
-                    <h3 className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-padding-top--1 vads-u-padding-bottom--0p5 vads-u-border-bottom--2px vads-u-border-color--primary">
+                    <h2 className="vads-u-font-size--h3 vads-u-margin--0 vads-u-margin-bottom--1 vads-u-padding-top--1 vads-u-padding-bottom--0p5 vads-u-border-bottom--2px vads-u-border-color--primary">
                       Common tasks
-                    </h3>
+                    </h2>
                     <ul className="usa-unstyled-list">
                       <li className="vads-u-padding-y--1">
                         <va-link
@@ -431,9 +431,9 @@ const Dashboard = ({
                   </div>
 
                   <div className="vads-u-margin-top--6 vads-u-padding-y--1 vads-u-padding-x--3 vads-u-background-color--gray-lightest">
-                    <h3 className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-padding-top--1 vads-u-padding-bottom--0p5 vads-u-border-bottom--1px vads-u-border-color--gray-light">
+                    <h2 className="vads-u-font-size--h3 vads-u-margin--0 vads-u-margin-bottom--1 vads-u-padding-top--1 vads-u-padding-bottom--0p5 vads-u-border-bottom--1px vads-u-border-color--gray-light">
                       Get Help
-                    </h3>
+                    </h2>
                     <ul className="usa-unstyled-list">
                       <li className="vads-u-padding-y--1">
                         <va-link

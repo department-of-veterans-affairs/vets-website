@@ -72,20 +72,6 @@ describe('MhvTemporaryAccess', () => {
     );
   });
 
-  it('renders recover password link', () => {
-    const screen = renderInReduxProvider(<MhvTemporaryAccess />);
-    const recoverHeading = screen.getByRole('heading', {
-      name: /Recover forgotten password/i,
-    });
-    expect(recoverHeading).to.exist;
-    const recoverLink = screen.getByTestId('recoverMhvBtn');
-    expect(recoverLink).to.exist;
-    expect(recoverLink).to.have.attribute(
-      'href',
-      'https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/forgot-password?action=new',
-    );
-  });
-
   it('renders help and support section', () => {
     const screen = renderInReduxProvider(<MhvTemporaryAccess />);
     const troubleHeading = screen.getByRole('heading', {

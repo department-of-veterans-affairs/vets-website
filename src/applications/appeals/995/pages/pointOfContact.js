@@ -3,8 +3,8 @@ import {
   textSchema,
   phoneUI,
   phoneSchema,
-  internationalPhoneUI,
-  internationalPhoneSchema,
+  internationalPhoneDeprecatedUI,
+  internationalPhoneDeprecatedSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 
@@ -19,7 +19,7 @@ import { POINT_OF_CONTACT_MAX } from '../constants';
 
 export const baseUiSchemaErrors = {
   phone: phoneUI()['ui:errorMessages'],
-  international: internationalPhoneUI()['ui:errorMessages'],
+  international: internationalPhoneDeprecatedUI()['ui:errorMessages'],
 };
 
 export default {
@@ -55,7 +55,7 @@ export default {
         fullData = {},
       ) =>
         fullData.pointOfContactHasInternationalPhone
-          ? internationalPhoneSchema
+          ? internationalPhoneDeprecatedSchema
           : phoneSchema,
     }),
   },

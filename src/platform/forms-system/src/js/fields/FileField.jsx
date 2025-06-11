@@ -232,7 +232,7 @@ const FileField = props => {
 
   const maxItems = schema.maxItems || Infinity;
   const { SchemaField } = registry.fields;
-  const attachmentIdRequired = schema.additionalItems.required
+  const attachmentIdRequired = schema.additionalItems?.required
     ? schema.additionalItems.required.includes('attachmentId')
     : false;
 
