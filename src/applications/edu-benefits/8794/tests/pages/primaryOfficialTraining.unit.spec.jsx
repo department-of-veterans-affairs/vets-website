@@ -10,7 +10,7 @@ import formConfig from '../../config/form';
 const mockStore = configureStore();
 
 const mockData = {
-  primaryOfficial: {
+  primaryOfficialDetails: {
     fullName: {
       first: 'John',
       last: 'Doe',
