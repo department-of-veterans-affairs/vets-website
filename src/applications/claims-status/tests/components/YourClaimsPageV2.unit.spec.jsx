@@ -126,7 +126,7 @@ describe('<YourClaimsPageV2>', () => {
     props.claimsLoading = true;
     props.stemClaimsLoading = true;
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('va-loading-indicator').length).to.equal(1);
+    expect(wrapper.find('ClaimCardLoadingSkeleton').length).to.equal(1);
     wrapper.unmount();
   });
 
@@ -135,7 +135,7 @@ describe('<YourClaimsPageV2>', () => {
     props.stemClaimsLoading = true;
     props.list = [];
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('va-loading-indicator').length).to.equal(1);
+    expect(wrapper.find('ClaimCardLoadingSkeleton').length).to.equal(1);
     wrapper.unmount();
   });
 
