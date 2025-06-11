@@ -4,14 +4,14 @@ import NewTabAnchor from '../../../components/NewTabAnchor';
 import { GA_PREFIX } from '../../../utils/constants';
 
 export default function FacilitiesNotShown() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [infoClicked, setInfoClicked] = useState(false);
   useEffect(
     () => {
-      if (isOpen) {
+      if (infoClicked) {
         recordEvent({ event: `${GA_PREFIX}-facilities-not-listed-click` });
       }
     },
-    [isOpen],
+    [infoClicked],
   );
 
   return (
@@ -20,7 +20,7 @@ export default function FacilitiesNotShown() {
         <va-additional-info
           data-testid="facility-not-listed"
           trigger="If you can't find your facility on the list"
-          onClick={() => setIsOpen(true)}
+          onClick={() => setInfoClicked(true)}
           uswds
         >
           <p className="vads-u-margin-top--0">
