@@ -124,12 +124,20 @@ class ProfileInformationFieldController extends React.Component {
         if (forceEditView && typeof successCallback === 'function') {
           successCallback();
         }
+        // Focus on the edit button after the update success alert is shown
+        waitForRenderThenFocus(
+          `#${getEditButtonId(fieldName)}`,
+          document,
+          50,
+          'button',
+        );
       } else if (!forceEditView) {
         if (prevProps.showRemoveModal && !this.props.showRemoveModal) {
           waitForRenderThenFocus(
             `#${getRemoveButtonId(fieldName)}`,
             document,
             50,
+            'button',
           );
         } else {
           // forcesEditView will result in now standard edit button being rendered, so we don't want to focus on it
@@ -138,6 +146,7 @@ class ProfileInformationFieldController extends React.Component {
             `#${getEditButtonId(fieldName)}`,
             document,
             50,
+            'button',
           );
         }
       }
@@ -421,7 +430,6 @@ class ProfileInformationFieldController extends React.Component {
           title={title}
           id={ariaDescribedBy}
         />
-
         <div className="vads-u-width--full">
           <div>
             {this.isEditLinkVisible() && (

@@ -17,6 +17,7 @@ describe('Personal and contact information', () => {
         'Fremont, CA 94536',
       ]);
       addressPage.confirmAddress(formFields);
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
