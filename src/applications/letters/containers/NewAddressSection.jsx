@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { selectVAPMailingAddress } from 'platform/user/selectors';
 import { TRANSACTION_CATEGORY_TYPES } from '@@vap-svc/constants';
@@ -10,6 +10,16 @@ import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 export function NewAddressSection({ success }) {
   const mailingAddress = useSelector(selectVAPMailingAddress);
+  const successHeadingRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (success && successHeadingRef?.current) {
+        successHeadingRef.current.focus();
+      }
+    },
+    [success],
+  );
 
   return (
     <div className="va-profile-wrapper">
@@ -27,7 +37,9 @@ export function NewAddressSection({ success }) {
               status="success"
               class="vads-u-margin-top--3 vads-u-margin-bottom--3"
             >
-              <h3 slot="headline">We've updated your mailing address</h3>
+              <h3 slot="headline" ref={successHeadingRef} tabindex="-1">
+                We've updated your mailing address
+              </h3>
               <p>
                 We've made these changes to the letters you download now and to
                 your VA.gov profile.
