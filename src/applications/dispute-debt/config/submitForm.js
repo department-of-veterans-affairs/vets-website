@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { handlePdfGeneration } from '../utils/pdfHelpers';
@@ -17,7 +18,6 @@ const submitForm = (form, formConfig) => {
   return handlePdfGeneration(body)
     .then(response => {
       // response should be a FormData object with the generated PDFs
-      // Now submit the FormData to the API
       return apiRequest(submitUrl, {
         method: 'POST',
         body: response,
@@ -36,7 +36,12 @@ const submitForm = (form, formConfig) => {
       });
     })
     .catch(error => {
-      throw new Error('PDF generation failed', error);
+      Sentry.withScope(scope => {
+        scope.setExtra('error', error);
+        Sentry.captureMessage(
+          `Dispute Debt pdf generation failed in submitForm: ${error.detail}`,
+        );
+      });
     });
 };
 
