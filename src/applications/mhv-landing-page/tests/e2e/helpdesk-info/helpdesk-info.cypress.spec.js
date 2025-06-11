@@ -26,11 +26,8 @@ describe(`${appName} - helpdesk information component`, () => {
       cy.findByTestId('mhv-helpdesk-info').should('not.exist');
     });
 
-    it(`does not render for unregistered users with verified login`, () => {
-      LandingPage.visit({
-        registered: false,
-        verified: true,
-      });
+    it(`does not render for unregistered users with verified login (non-patient page)`, () => {
+      LandingPage.visitNonPatientPage();
       cy.injectAxeThenAxeCheck();
 
       cy.findByTestId('mhv-helpdesk-info').should('not.exist');

@@ -9,14 +9,14 @@ import { conflictOfInterestPolicy } from '../helpers';
 const noSpaceOnlyPattern = '^(?!\\s*$).+';
 
 const uiSchema = {
-  allProprietarySchoolsEmployeeInfo: {
+  certifyingOfficial: {
     ...arrayBuilderItemFirstPageTitleUI({
       title:
         'Information on an individual with a potential conflict of interest who receives VA educational benefits',
     }),
     ...descriptionUI(conflictOfInterestPolicy),
     first: textUI({
-      title: 'First name of individual ',
+      title: 'First name of individual',
       errorMessages: {
         required: 'Please enter a first name',
         pattern: 'You must provide a response',
@@ -38,10 +38,11 @@ const uiSchema = {
     }),
   },
 };
+
 const schema = {
   type: 'object',
   properties: {
-    allProprietarySchoolsEmployeeInfo: {
+    certifyingOfficial: {
       type: 'object',
       required: ['first', 'last', 'title'],
       properties: {
@@ -64,4 +65,5 @@ const schema = {
     },
   },
 };
+
 export { uiSchema, schema };
