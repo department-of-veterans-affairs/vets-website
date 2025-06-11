@@ -78,7 +78,9 @@ const Vaccines = props => {
       allowTxtDownloads:
         toggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads],
       useBackendPagination:
-        toggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsSupportNewModelVaccine],
+        toggles[
+          FEATURE_FLAG_NAMES.mhvMedicalRecordsSupportBackendPaginationVaccine
+        ],
     };
   });
 
