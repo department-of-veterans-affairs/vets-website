@@ -92,7 +92,6 @@
     }
   ],
   "submissionDetails": {
-    "submissionDateTime": "submissionTime",
-    "confirmationNumber": "1234567890"
+    "submissionDateTime": "submissionTime"
   }
 }

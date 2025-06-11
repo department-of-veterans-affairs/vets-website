@@ -41,8 +41,6 @@ const defaultConfig = {
 
 // TODO:
 // Data validation
-// Submission information
-//   Get confirmation number
 // handle page breaks, so H3 sections don't break across pages
 
 // NOTES:
@@ -179,10 +177,11 @@ const generate = async (data = {}, config = defaultConfig) => {
     ),
   );
   doc.moveDown();
+
   // =====================================
   // * Submission details *
   // =====================================
-  const { confirmationNumber, submissionDateTime } = submissionDetails;
+  const { submissionDateTime } = submissionDetails;
   const submissionDate = format(submissionDateTime, 'MMMM d, yyyy');
   const submissionTimeET = format(submissionDateTime, "h:mm a 'ET'");
 
@@ -214,16 +213,6 @@ const generate = async (data = {}, config = defaultConfig) => {
         .fontSize(config.text.size)
         .text('Time: ', { continued: true });
       doc.text(submissionTimeET || '');
-    }),
-  );
-
-  submissionDetailsSection.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .text('Confirmation number is ', { continued: true });
-      doc.text(`${confirmationNumber || ''}.`);
     }),
   );
 
