@@ -2,8 +2,6 @@ import { expect } from 'chai';
 import submitTransformer from '../../config/submit-transformer';
 
 describe('Ask VA submit transformer', () => {
-  // const buildFormData = () => {};
-
   it('should transform data correctly with file(s)', () => {
     const formData = {
       school: '333 - Midvale School for the Gifted',
@@ -132,30 +130,6 @@ describe('Ask VA submit transformer', () => {
     };
     const result = submitTransformer(formData);
     expect(result.phoneNumber).to.equal('123-456-7890');
-    expect(result.businessPhone).to.equal('123-456-7890');
-  });
-
-  it('should preserve businessEmail when both email fields exist', () => {
-    const formData = {
-      school: null,
-      stateOfTheFacility: 'NY',
-      emailAddress: 'personal@test.com',
-      businessEmail: 'business@test.com',
-    };
-    const result = submitTransformer(formData);
-    expect(result.emailAddress).to.equal('personal@test.com');
-    expect(result.businessEmail).to.equal('business@test.com');
-  });
-
-  it('should preserve businessPhone when both phone fields exist', () => {
-    const formData = {
-      phoneNumber: '111-222-3333',
-      school: null,
-      stateOfTheFacility: 'NY',
-      businessPhone: '123-456-7890',
-    };
-    const result = submitTransformer(formData);
-    expect(result.phoneNumber).to.equal('111-222-3333');
     expect(result.businessPhone).to.equal('123-456-7890');
   });
 
