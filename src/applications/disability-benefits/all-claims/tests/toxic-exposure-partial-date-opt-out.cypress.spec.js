@@ -97,16 +97,10 @@ describe('Toxic exposure date handling when reverting condition association', ()
     // ===========================================
     idRoot = '#root_mailingAddress_';
     cy.get('[type="checkbox"]').uncheck({ force: true });
-    cy.get(`${idRoot}addressLine1`)
-      .clear()
-      .type('123 Main St');
-    cy.get(`${idRoot}city`)
-      .clear()
-      .type('Tucson');
+    cy.get(`${idRoot}addressLine1`).type('123 Main St');
+    cy.get(`${idRoot}city`).type('Tucson');
     cy.get(`${idRoot}state`).select('Arizona');
-    cy.get(`${idRoot}zipCode`)
-      .clear()
-      .type('11111');
+    cy.get(`${idRoot}zipCode`).type('11111');
     cy.findByText(/continue/i, { selector: 'button' }).click();
 
     // I. Veteran Details > C. Housing situation
@@ -128,14 +122,10 @@ describe('Toxic exposure date handling when reverting condition association', ()
     cy.get(`${idRoot}0_serviceBranch`).select('Marine Corps');
     cy.get(`${idRoot}0_dateRange_fromMonth`).select('May');
     cy.get(`${idRoot}0_dateRange_fromDay`).select('20');
-    cy.get(`${idRoot}0_dateRange_fromYear`)
-      .clear()
-      .type('1984');
+    cy.get(`${idRoot}0_dateRange_fromYear`).type('1984');
     cy.get(`${idRoot}0_dateRange_toMonth`).select('May');
     cy.get(`${idRoot}0_dateRange_toDay`).select('20');
-    cy.get(`${idRoot}0_dateRange_toYear`)
-      .clear()
-      .type('2011');
+    cy.get(`${idRoot}0_dateRange_toYear`).type('2011');
     cy.findByText(/continue/i, { selector: 'button' }).click();
 
     // I. Veteran Information > G. Separation pay
@@ -164,17 +154,8 @@ describe('Toxic exposure date handling when reverting condition association', ()
 
     // II. Conditions > C. Description
     // ===============================
-    cy.get('[type="radio"]')
-      .first()
-      .check({ force: true });
-    idRoot = '#root_primaryDescription';
-    cy.get('body').then($body => {
-      if ($body.find(idRoot).length > 0) {
-        cy.get(idRoot)
-          .clear()
-          .type('Description');
-      }
-    });
+    cy.get('[type="radio"][id="root_cause_0"]').check({ force: true });
+    cy.get('#root_primaryDescription').type('Description');
     cy.findByText(/continue/i, { selector: 'button' }).click();
 
     // II. Conditions > D. Toxic exposure (conditions)
@@ -209,7 +190,6 @@ describe('Toxic exposure date handling when reverting condition association', ()
     cy.get(
       'input[name="root_toxicExposure_gulfWar1990Details_iraq_endDateYear"]',
     )
-      .clear()
       .type('1992')
       .blur();
     cy.get(
@@ -324,6 +304,7 @@ describe('Toxic exposure date handling when reverting condition association', ()
   });
 
   it('submits a partial date for a toxic exposure location', () => {
+    cy.injectAxeThenAxeCheck();
     cy.wait('@submitClaim').then(({ request }) => {
       const gulfDetails = request.body.form526.toxicExposure.gulfWar1990Details;
       const iraqStart = gulfDetails.iraq.startDate;
@@ -336,6 +317,7 @@ describe('Toxic exposure date handling when reverting condition association', ()
 
   it('submits complete dates for a toxic exposure location', () => {
     cy.wait('@submitClaim').then(({ request }) => {
+      cy.injectAxeThenAxeCheck();
       const gulfDetails = request.body.form526.toxicExposure.gulfWar1990Details;
       const omanStart = gulfDetails.oman.startDate;
       const omanEnd = gulfDetails.oman.endDate;
