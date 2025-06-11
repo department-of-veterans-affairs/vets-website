@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { addDays, addMonths, startOfMonth, endOfMonth, format } from 'date-fns';
+
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
@@ -99,21 +100,16 @@ export default function SelectDate1Page() {
     appointmentSlotsStatus === FETCH_STATUS.notStarted;
   const isInitialLoad = useIsInitialLoad(loadingSlots);
 
-  useEffect(() => {
-    dispatch(
-      getAppointmentSlots(
-        moment()
-          .startOf('month')
-          .format('YYYY-MM-DD'),
-        moment()
-          .add(1, 'months')
-          .endOf('month')
-          .format('YYYY-MM-DD'),
-        true,
-      ),
-    );
-    document.title = `${pageTitle} | Veterans Affairs`;
-  }, []);
+  useEffect(
+    () => {
+      const now = new Date();
+      const startDateObj = startOfMonth(now);
+      const endDateObj = endOfMonth(addMonths(now, 1));
+      dispatch(getAppointmentSlots(startDateObj, endDateObj, true));
+      document.title = `${pageTitle} | Veterans Affairs`;
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -132,7 +128,7 @@ export default function SelectDate1Page() {
     },
     // Intentionally leaving isInitialLoad off, because it should trigger updates, it just
     // determines which update is made
-    [loadingSlots, appointmentSlotsStatus],
+    [loadingSlots, appointmentSlotsStatus, isInitialLoad],
   );
 
   useEffect(
@@ -179,6 +175,7 @@ export default function SelectDate1Page() {
             timezone={timezone}
             disabled={loadingSlots}
             disabledMessage={
+              // eslint-disable-next-line react/jsx-wrap-multilines
               <va-loading-indicator
                 data-testid="loadingIndicator"
                 set-focus
@@ -193,12 +190,8 @@ export default function SelectDate1Page() {
             onPreviousMonth={(...args) =>
               dispatch(getAppointmentSlots(...args))
             }
-            minDate={moment()
-              .add(1, 'days')
-              .format('YYYY-MM-DD')}
-            maxDate={moment()
-              .add(395, 'days')
-              .format('YYYY-MM-DD')}
+            minDate={format(addDays(new Date(), 1), 'yyyy-MM-dd')}
+            maxDate={format(addDays(new Date(), 395), 'yyyy-MM-dd')}
             validationError={submitted ? validationError : null}
             required
             requiredMessage="Please choose your preferred date and time for your appointment"
